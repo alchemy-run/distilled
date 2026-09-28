@@ -1,133 +1,129 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { awsJson1_1Protocol } from "../protocols/aws-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const ns = T.XmlNamespace("http://hawksnest.amazonaws.com/doc/2019-11-15");
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "FraudDetector",
-  serviceShapeName: "AWSHawksNestServiceFacade",
-});
-const auth = T.AwsAuthSigv4({ name: "frauddetector" });
-const ver = T.ServiceVersion("2019-11-15");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://frauddetector-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://frauddetector-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://frauddetector.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://frauddetector.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AWSHawksNestServiceFacade",
+  version: "2019-11-15",
+  sigv4: "frauddetector",
+  protocol: awsJson1_1Protocol,
+  xmlns: "http://hawksnest.amazonaws.com/doc/2019-11-15",
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://frauddetector-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://frauddetector-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://frauddetector.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://frauddetector.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message: string }> {}
 export class ResourceUnavailableException
-  extends /*@__PURE__*/ S.TaggedError<ResourceUnavailableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceUnavailableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message: string }> {}
 export interface VariableEntry {
   name?: string;
   dataType?: string;
@@ -136,98 +132,32 @@ export interface VariableEntry {
   description?: string;
   variableType?: string;
 }
-export const VariableEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    dataType: S.optional(S.String),
-    dataSource: S.optional(S.String),
-    defaultValue: S.optional(S.String),
-    description: S.optional(S.String),
-    variableType: S.optional(S.String),
-  }),
-).annotate({ identifier: "VariableEntry" }) as any as S.Schema<VariableEntry>;
 export type VariableEntryList = VariableEntry[];
-export const VariableEntryList = /*@__PURE__*/ S.Array(VariableEntry);
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   key: string;
   value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface BatchCreateVariableRequest {
   variableEntries: VariableEntry[];
   tags?: Tag[];
 }
-export const BatchCreateVariableRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    variableEntries: VariableEntryList,
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchCreateVariableRequest",
-}) as any as S.Schema<BatchCreateVariableRequest>;
 export type Integer2 = number;
 export interface BatchCreateVariableError_ {
   name?: string;
   code?: number;
   message?: string;
 }
-export const BatchCreateVariableError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    code: S.optional(S.Number),
-    message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BatchCreateVariableError",
-}) as any as S.Schema<BatchCreateVariableError_>;
 export type BatchCreateVariableErrorList = BatchCreateVariableError_[];
-export const BatchCreateVariableErrorList = /*@__PURE__*/ S.Array(
-  BatchCreateVariableError_,
-);
 export interface BatchCreateVariableResult {
   errors?: BatchCreateVariableError_[];
 }
-export const BatchCreateVariableResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ errors: S.optional(BatchCreateVariableErrorList) }).pipe(ns),
-).annotate({
-  identifier: "BatchCreateVariableResult",
-}) as any as S.Schema<BatchCreateVariableResult>;
 export type NameList = string[];
-export const NameList = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetVariableRequest {
   names: string[];
 }
-export const BatchGetVariableRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ names: NameList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetVariableRequest",
-}) as any as S.Schema<BatchGetVariableRequest>;
 export type DataType =
   | "STRING"
   | "INTEGER"
@@ -235,15 +165,11 @@ export type DataType =
   | "BOOLEAN"
   | "DATETIME"
   | (string & {});
-export const DataType = S.String;
-
 export type DataSource =
   | "EVENT"
   | "MODEL_SCORE"
   | "EXTERNAL_MODEL_SCORE"
   | (string & {});
-export const DataSource = S.String;
-
 export type FraudDetectorArn = string;
 export interface Variable {
   name?: string;
@@ -256,100 +182,26 @@ export interface Variable {
   createdTime?: string;
   arn?: string;
 }
-export const Variable = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    dataType: S.optional(DataType),
-    dataSource: S.optional(DataSource),
-    defaultValue: S.optional(S.String),
-    description: S.optional(S.String),
-    variableType: S.optional(S.String),
-    lastUpdatedTime: S.optional(S.String),
-    createdTime: S.optional(S.String),
-    arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Variable" }) as any as S.Schema<Variable>;
 export type VariableList = Variable[];
-export const VariableList = /*@__PURE__*/ S.Array(Variable);
 export interface BatchGetVariableError_ {
   name?: string;
   code?: number;
   message?: string;
 }
-export const BatchGetVariableError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    code: S.optional(S.Number),
-    message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BatchGetVariableError",
-}) as any as S.Schema<BatchGetVariableError_>;
 export type BatchGetVariableErrorList = BatchGetVariableError_[];
-export const BatchGetVariableErrorList = /*@__PURE__*/ S.Array(
-  BatchGetVariableError_,
-);
 export interface BatchGetVariableResult {
   variables?: Variable[];
   errors?: BatchGetVariableError_[];
 }
-export const BatchGetVariableResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    variables: S.optional(VariableList),
-    errors: S.optional(BatchGetVariableErrorList),
-  }).pipe(ns),
-).annotate({
-  identifier: "BatchGetVariableResult",
-}) as any as S.Schema<BatchGetVariableResult>;
 export type Identifier = string;
 export interface CancelBatchImportJobRequest {
   jobId: string;
 }
-export const CancelBatchImportJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CancelBatchImportJobRequest",
-}) as any as S.Schema<CancelBatchImportJobRequest>;
 export interface CancelBatchImportJobResult {}
-export const CancelBatchImportJobResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CancelBatchImportJobResult",
-}) as any as S.Schema<CancelBatchImportJobResult>;
 export interface CancelBatchPredictionJobRequest {
   jobId: string;
 }
-export const CancelBatchPredictionJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CancelBatchPredictionJobRequest",
-}) as any as S.Schema<CancelBatchPredictionJobRequest>;
 export interface CancelBatchPredictionJobResult {}
-export const CancelBatchPredictionJobResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CancelBatchPredictionJobResult",
-}) as any as S.Schema<CancelBatchPredictionJobResult>;
 export type S3BucketLocation = string;
 export type IamRoleArn = string;
 export interface CreateBatchImportJobRequest {
@@ -360,34 +212,7 @@ export interface CreateBatchImportJobRequest {
   iamRoleArn: string;
   tags?: Tag[];
 }
-export const CreateBatchImportJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.String,
-    inputPath: S.String,
-    outputPath: S.String,
-    eventTypeName: S.String,
-    iamRoleArn: S.String,
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateBatchImportJobRequest",
-}) as any as S.Schema<CreateBatchImportJobRequest>;
 export interface CreateBatchImportJobResult {}
-export const CreateBatchImportJobResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateBatchImportJobResult",
-}) as any as S.Schema<CreateBatchImportJobResult>;
 export type WholeNumberVersionString = string;
 export interface CreateBatchPredictionJobRequest {
   jobId: string;
@@ -399,57 +224,21 @@ export interface CreateBatchPredictionJobRequest {
   iamRoleArn: string;
   tags?: Tag[];
 }
-export const CreateBatchPredictionJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.String,
-    inputPath: S.String,
-    outputPath: S.String,
-    eventTypeName: S.String,
-    detectorName: S.String,
-    detectorVersion: S.optional(S.String),
-    iamRoleArn: S.String,
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateBatchPredictionJobRequest",
-}) as any as S.Schema<CreateBatchPredictionJobRequest>;
 export interface CreateBatchPredictionJobResult {}
-export const CreateBatchPredictionJobResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateBatchPredictionJobResult",
-}) as any as S.Schema<CreateBatchPredictionJobResult>;
 export type Description = string;
 export type ListOfStrings = string[];
-export const ListOfStrings = /*@__PURE__*/ S.Array(S.String);
 export interface Rule {
   detectorId: string;
   ruleId: string;
   ruleVersion: string;
 }
-export const Rule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ detectorId: S.String, ruleId: S.String, ruleVersion: S.String }),
-).annotate({ identifier: "Rule" }) as any as S.Schema<Rule>;
 export type RuleList = Rule[];
-export const RuleList = /*@__PURE__*/ S.Array(Rule);
 export type ModelIdentifier = string;
 export type ModelTypeEnum =
   | "ONLINE_FRAUD_INSIGHTS"
   | "TRANSACTION_FRAUD_INSIGHTS"
   | "ACCOUNT_TAKEOVER_INSIGHTS"
   | (string & {});
-export const ModelTypeEnum = S.String;
-
 export type FloatVersionString = string;
 export interface ModelVersion {
   modelId: string;
@@ -457,19 +246,8 @@ export interface ModelVersion {
   modelVersionNumber: string;
   arn?: string;
 }
-export const ModelVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.String,
-    modelType: ModelTypeEnum,
-    modelVersionNumber: S.String,
-    arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "ModelVersion" }) as any as S.Schema<ModelVersion>;
 export type ListOfModelVersions = ModelVersion[];
-export const ListOfModelVersions = /*@__PURE__*/ S.Array(ModelVersion);
 export type RuleExecutionMode = "ALL_MATCHED" | "FIRST_MATCHED" | (string & {});
-export const RuleExecutionMode = S.String;
-
 export interface CreateDetectorVersionRequest {
   detectorId: string;
   description?: string;
@@ -479,54 +257,19 @@ export interface CreateDetectorVersionRequest {
   ruleExecutionMode?: RuleExecutionMode;
   tags?: Tag[];
 }
-export const CreateDetectorVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    detectorId: S.String,
-    description: S.optional(S.String),
-    externalModelEndpoints: S.optional(ListOfStrings),
-    rules: RuleList,
-    modelVersions: S.optional(ListOfModelVersions),
-    ruleExecutionMode: S.optional(RuleExecutionMode),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDetectorVersionRequest",
-}) as any as S.Schema<CreateDetectorVersionRequest>;
 export type DetectorVersionStatus =
   | "DRAFT"
   | "ACTIVE"
   | "INACTIVE"
   | (string & {});
-export const DetectorVersionStatus = S.String;
-
 export interface CreateDetectorVersionResult {
   detectorId?: string;
   detectorVersionId?: string;
   status?: DetectorVersionStatus;
 }
-export const CreateDetectorVersionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    detectorId: S.optional(S.String),
-    detectorVersionId: S.optional(S.String),
-    status: S.optional(DetectorVersionStatus),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateDetectorVersionResult",
-}) as any as S.Schema<CreateDetectorVersionResult>;
 export type NoDashIdentifier = string;
 export type Elements = string | redacted.Redacted<string>;
 export type ElementsList = (string | redacted.Redacted<string>)[];
-export const ElementsList = /*@__PURE__*/ S.Array(SensitiveString);
 export type VariableType = string;
 export interface CreateListRequest {
   name: string;
@@ -535,33 +278,7 @@ export interface CreateListRequest {
   description?: string;
   tags?: Tag[];
 }
-export const CreateListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    elements: S.optional(ElementsList),
-    variableType: S.optional(S.String),
-    description: S.optional(S.String),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateListRequest",
-}) as any as S.Schema<CreateListRequest>;
 export interface CreateListResult {}
-export const CreateListResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateListResult",
-}) as any as S.Schema<CreateListResult>;
 export interface CreateModelRequest {
   modelId: string;
   modelType: ModelTypeEnum;
@@ -569,100 +286,37 @@ export interface CreateModelRequest {
   eventTypeName: string;
   tags?: Tag[];
 }
-export const CreateModelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.String,
-    modelType: ModelTypeEnum,
-    description: S.optional(S.String),
-    eventTypeName: S.String,
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateModelRequest",
-}) as any as S.Schema<CreateModelRequest>;
 export interface CreateModelResult {}
-export const CreateModelResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateModelResult",
-}) as any as S.Schema<CreateModelResult>;
 export type TrainingDataSourceEnum =
   | "EXTERNAL_EVENTS"
   | "INGESTED_EVENTS"
   | (string & {});
-export const TrainingDataSourceEnum = S.String;
-
 export type LabelMapper = { [key: string]: string[] | undefined };
-export const LabelMapper = /*@__PURE__*/ S.Record(
-  S.String,
-  ListOfStrings.pipe(S.optional),
-);
 export type UnlabeledEventsTreatment =
   | "IGNORE"
   | "FRAUD"
   | "LEGIT"
   | "AUTO"
   | (string & {});
-export const UnlabeledEventsTreatment = S.String;
-
 export interface LabelSchema {
   labelMapper?: { [key: string]: string[] | undefined };
   unlabeledEventsTreatment?: UnlabeledEventsTreatment;
 }
-export const LabelSchema = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    labelMapper: S.optional(LabelMapper),
-    unlabeledEventsTreatment: S.optional(UnlabeledEventsTreatment),
-  }),
-).annotate({ identifier: "LabelSchema" }) as any as S.Schema<LabelSchema>;
 export interface TrainingDataSchema {
   modelVariables: string[];
   labelSchema?: LabelSchema;
 }
-export const TrainingDataSchema = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelVariables: ListOfStrings,
-    labelSchema: S.optional(LabelSchema),
-  }),
-).annotate({
-  identifier: "TrainingDataSchema",
-}) as any as S.Schema<TrainingDataSchema>;
 export interface ExternalEventsDetail {
   dataLocation: string;
   dataAccessRoleArn: string;
 }
-export const ExternalEventsDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ dataLocation: S.String, dataAccessRoleArn: S.String }),
-).annotate({
-  identifier: "ExternalEventsDetail",
-}) as any as S.Schema<ExternalEventsDetail>;
 export interface IngestedEventsTimeWindow {
   startTime: string;
   endTime: string;
 }
-export const IngestedEventsTimeWindow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ startTime: S.String, endTime: S.String }),
-).annotate({
-  identifier: "IngestedEventsTimeWindow",
-}) as any as S.Schema<IngestedEventsTimeWindow>;
 export interface IngestedEventsDetail {
   ingestedEventsTimeWindow: IngestedEventsTimeWindow;
 }
-export const IngestedEventsDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ingestedEventsTimeWindow: IngestedEventsTimeWindow }),
-).annotate({
-  identifier: "IngestedEventsDetail",
-}) as any as S.Schema<IngestedEventsDetail>;
 export interface CreateModelVersionRequest {
   modelId: string;
   modelType: ModelTypeEnum;
@@ -672,51 +326,15 @@ export interface CreateModelVersionRequest {
   ingestedEventsDetail?: IngestedEventsDetail;
   tags?: Tag[];
 }
-export const CreateModelVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.String,
-    modelType: ModelTypeEnum,
-    trainingDataSource: TrainingDataSourceEnum,
-    trainingDataSchema: TrainingDataSchema,
-    externalEventsDetail: S.optional(ExternalEventsDetail),
-    ingestedEventsDetail: S.optional(IngestedEventsDetail),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateModelVersionRequest",
-}) as any as S.Schema<CreateModelVersionRequest>;
 export interface CreateModelVersionResult {
   modelId?: string;
   modelType?: ModelTypeEnum;
   modelVersionNumber?: string;
   status?: string;
 }
-export const CreateModelVersionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.optional(S.String),
-    modelType: S.optional(ModelTypeEnum),
-    modelVersionNumber: S.optional(S.String),
-    status: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateModelVersionResult",
-}) as any as S.Schema<CreateModelVersionResult>;
 export type RuleExpression = string | redacted.Redacted<string>;
 export type Language = "DETECTORPL" | (string & {});
-export const Language = S.String;
-
 export type NonEmptyListOfStrings = string[];
-export const NonEmptyListOfStrings = /*@__PURE__*/ S.Array(S.String);
 export interface CreateRuleRequest {
   ruleId: string;
   detectorId: string;
@@ -726,37 +344,9 @@ export interface CreateRuleRequest {
   outcomes: string[];
   tags?: Tag[];
 }
-export const CreateRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleId: S.String,
-    detectorId: S.String,
-    description: S.optional(S.String),
-    expression: SensitiveString,
-    language: Language,
-    outcomes: NonEmptyListOfStrings,
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateRuleRequest",
-}) as any as S.Schema<CreateRuleRequest>;
 export interface CreateRuleResult {
   rule?: Rule;
 }
-export const CreateRuleResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ rule: S.optional(Rule) }).pipe(ns),
-).annotate({
-  identifier: "CreateRuleResult",
-}) as any as S.Schema<CreateRuleResult>;
 export interface CreateVariableRequest {
   name: string;
   dataType: DataType;
@@ -766,502 +356,101 @@ export interface CreateVariableRequest {
   variableType?: string;
   tags?: Tag[];
 }
-export const CreateVariableRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    dataType: DataType,
-    dataSource: DataSource,
-    defaultValue: S.String,
-    description: S.optional(S.String),
-    variableType: S.optional(S.String),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateVariableRequest",
-}) as any as S.Schema<CreateVariableRequest>;
 export interface CreateVariableResult {}
-export const CreateVariableResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateVariableResult",
-}) as any as S.Schema<CreateVariableResult>;
 export interface DeleteBatchImportJobRequest {
   jobId: string;
 }
-export const DeleteBatchImportJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBatchImportJobRequest",
-}) as any as S.Schema<DeleteBatchImportJobRequest>;
 export interface DeleteBatchImportJobResult {}
-export const DeleteBatchImportJobResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteBatchImportJobResult",
-}) as any as S.Schema<DeleteBatchImportJobResult>;
 export interface DeleteBatchPredictionJobRequest {
   jobId: string;
 }
-export const DeleteBatchPredictionJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBatchPredictionJobRequest",
-}) as any as S.Schema<DeleteBatchPredictionJobRequest>;
 export interface DeleteBatchPredictionJobResult {}
-export const DeleteBatchPredictionJobResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteBatchPredictionJobResult",
-}) as any as S.Schema<DeleteBatchPredictionJobResult>;
 export interface DeleteDetectorRequest {
   detectorId: string;
 }
-export const DeleteDetectorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ detectorId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDetectorRequest",
-}) as any as S.Schema<DeleteDetectorRequest>;
 export interface DeleteDetectorResult {}
-export const DeleteDetectorResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteDetectorResult",
-}) as any as S.Schema<DeleteDetectorResult>;
 export interface DeleteDetectorVersionRequest {
   detectorId: string;
   detectorVersionId: string;
 }
-export const DeleteDetectorVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ detectorId: S.String, detectorVersionId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDetectorVersionRequest",
-}) as any as S.Schema<DeleteDetectorVersionRequest>;
 export interface DeleteDetectorVersionResult {}
-export const DeleteDetectorVersionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteDetectorVersionResult",
-}) as any as S.Schema<DeleteDetectorVersionResult>;
 export interface DeleteEntityTypeRequest {
   name: string;
 }
-export const DeleteEntityTypeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteEntityTypeRequest",
-}) as any as S.Schema<DeleteEntityTypeRequest>;
 export interface DeleteEntityTypeResult {}
-export const DeleteEntityTypeResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteEntityTypeResult",
-}) as any as S.Schema<DeleteEntityTypeResult>;
 export type DeleteAuditHistory = boolean;
 export interface DeleteEventRequest {
   eventId: string;
   eventTypeName: string;
   deleteAuditHistory?: boolean;
 }
-export const DeleteEventRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.String,
-    eventTypeName: S.String,
-    deleteAuditHistory: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteEventRequest",
-}) as any as S.Schema<DeleteEventRequest>;
 export interface DeleteEventResult {}
-export const DeleteEventResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteEventResult",
-}) as any as S.Schema<DeleteEventResult>;
 export interface DeleteEventsByEventTypeRequest {
   eventTypeName: string;
 }
-export const DeleteEventsByEventTypeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ eventTypeName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteEventsByEventTypeRequest",
-}) as any as S.Schema<DeleteEventsByEventTypeRequest>;
 export interface DeleteEventsByEventTypeResult {
   eventTypeName?: string;
   eventsDeletionStatus?: string;
 }
-export const DeleteEventsByEventTypeResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventTypeName: S.optional(S.String),
-    eventsDeletionStatus: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DeleteEventsByEventTypeResult",
-}) as any as S.Schema<DeleteEventsByEventTypeResult>;
 export interface DeleteEventTypeRequest {
   name: string;
 }
-export const DeleteEventTypeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteEventTypeRequest",
-}) as any as S.Schema<DeleteEventTypeRequest>;
 export interface DeleteEventTypeResult {}
-export const DeleteEventTypeResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteEventTypeResult",
-}) as any as S.Schema<DeleteEventTypeResult>;
 export type SageMakerEndpointIdentifier = string;
 export interface DeleteExternalModelRequest {
   modelEndpoint: string;
 }
-export const DeleteExternalModelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ modelEndpoint: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteExternalModelRequest",
-}) as any as S.Schema<DeleteExternalModelRequest>;
 export interface DeleteExternalModelResult {}
-export const DeleteExternalModelResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteExternalModelResult",
-}) as any as S.Schema<DeleteExternalModelResult>;
 export interface DeleteLabelRequest {
   name: string;
 }
-export const DeleteLabelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteLabelRequest",
-}) as any as S.Schema<DeleteLabelRequest>;
 export interface DeleteLabelResult {}
-export const DeleteLabelResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteLabelResult",
-}) as any as S.Schema<DeleteLabelResult>;
 export interface DeleteListRequest {
   name: string;
 }
-export const DeleteListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteListRequest",
-}) as any as S.Schema<DeleteListRequest>;
 export interface DeleteListResult {}
-export const DeleteListResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteListResult",
-}) as any as S.Schema<DeleteListResult>;
 export interface DeleteModelRequest {
   modelId: string;
   modelType: ModelTypeEnum;
 }
-export const DeleteModelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ modelId: S.String, modelType: ModelTypeEnum }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteModelRequest",
-}) as any as S.Schema<DeleteModelRequest>;
 export interface DeleteModelResult {}
-export const DeleteModelResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteModelResult",
-}) as any as S.Schema<DeleteModelResult>;
 export interface DeleteModelVersionRequest {
   modelId: string;
   modelType: ModelTypeEnum;
   modelVersionNumber: string;
 }
-export const DeleteModelVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.String,
-    modelType: ModelTypeEnum,
-    modelVersionNumber: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteModelVersionRequest",
-}) as any as S.Schema<DeleteModelVersionRequest>;
 export interface DeleteModelVersionResult {}
-export const DeleteModelVersionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteModelVersionResult",
-}) as any as S.Schema<DeleteModelVersionResult>;
 export interface DeleteOutcomeRequest {
   name: string;
 }
-export const DeleteOutcomeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteOutcomeRequest",
-}) as any as S.Schema<DeleteOutcomeRequest>;
 export interface DeleteOutcomeResult {}
-export const DeleteOutcomeResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteOutcomeResult",
-}) as any as S.Schema<DeleteOutcomeResult>;
 export interface DeleteRuleRequest {
   rule: Rule;
 }
-export const DeleteRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ rule: Rule }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRuleRequest",
-}) as any as S.Schema<DeleteRuleRequest>;
 export interface DeleteRuleResult {}
-export const DeleteRuleResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteRuleResult",
-}) as any as S.Schema<DeleteRuleResult>;
 export interface DeleteVariableRequest {
   name: string;
 }
-export const DeleteVariableRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteVariableRequest",
-}) as any as S.Schema<DeleteVariableRequest>;
 export interface DeleteVariableResult {}
-export const DeleteVariableResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteVariableResult",
-}) as any as S.Schema<DeleteVariableResult>;
 export type DetectorVersionMaxResults = number;
 export interface DescribeDetectorRequest {
   detectorId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const DescribeDetectorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    detectorId: S.String,
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeDetectorRequest",
-}) as any as S.Schema<DescribeDetectorRequest>;
 export interface DetectorVersionSummary {
   detectorVersionId?: string;
   status?: DetectorVersionStatus;
   description?: string;
   lastUpdatedTime?: string;
 }
-export const DetectorVersionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    detectorVersionId: S.optional(S.String),
-    status: S.optional(DetectorVersionStatus),
-    description: S.optional(S.String),
-    lastUpdatedTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DetectorVersionSummary",
-}) as any as S.Schema<DetectorVersionSummary>;
 export type DetectorVersionSummaryList = DetectorVersionSummary[];
-export const DetectorVersionSummaryList = /*@__PURE__*/ S.Array(
-  DetectorVersionSummary,
-);
 export interface DescribeDetectorResult {
   detectorId?: string;
   detectorVersionSummaries?: DetectorVersionSummary[];
   nextToken?: string;
   arn?: string;
 }
-export const DescribeDetectorResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    detectorId: S.optional(S.String),
-    detectorVersionSummaries: S.optional(DetectorVersionSummaryList),
-    nextToken: S.optional(S.String),
-    arn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeDetectorResult",
-}) as any as S.Schema<DescribeDetectorResult>;
 export type ModelsMaxPageSize = number;
 export interface DescribeModelVersionsRequest {
   modelId?: string;
@@ -1270,45 +459,12 @@ export interface DescribeModelVersionsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const DescribeModelVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.optional(S.String),
-    modelVersionNumber: S.optional(S.String),
-    modelType: S.optional(ModelTypeEnum),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeModelVersionsRequest",
-}) as any as S.Schema<DescribeModelVersionsRequest>;
 export interface FileValidationMessage {
   title?: string;
   content?: string;
   type?: string;
 }
-export const FileValidationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    title: S.optional(S.String),
-    content: S.optional(S.String),
-    type: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FileValidationMessage",
-}) as any as S.Schema<FileValidationMessage>;
 export type FileValidationMessageList = FileValidationMessage[];
-export const FileValidationMessageList = /*@__PURE__*/ S.Array(
-  FileValidationMessage,
-);
 export interface FieldValidationMessage {
   fieldName?: string;
   identifier?: string;
@@ -1316,288 +472,103 @@ export interface FieldValidationMessage {
   content?: string;
   type?: string;
 }
-export const FieldValidationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fieldName: S.optional(S.String),
-    identifier: S.optional(S.String),
-    title: S.optional(S.String),
-    content: S.optional(S.String),
-    type: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FieldValidationMessage",
-}) as any as S.Schema<FieldValidationMessage>;
 export type FieldValidationMessageList = FieldValidationMessage[];
-export const FieldValidationMessageList = /*@__PURE__*/ S.Array(
-  FieldValidationMessage,
-);
 export interface DataValidationMetrics {
   fileLevelMessages?: FileValidationMessage[];
   fieldLevelMessages?: FieldValidationMessage[];
 }
-export const DataValidationMetrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fileLevelMessages: S.optional(FileValidationMessageList),
-    fieldLevelMessages: S.optional(FieldValidationMessageList),
-  }),
-).annotate({
-  identifier: "DataValidationMetrics",
-}) as any as S.Schema<DataValidationMetrics>;
 export interface MetricDataPoint {
   fpr?: number;
   precision?: number;
   tpr?: number;
   threshold?: number;
 }
-export const MetricDataPoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fpr: S.optional(S.Number),
-    precision: S.optional(S.Number),
-    tpr: S.optional(S.Number),
-    threshold: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "MetricDataPoint",
-}) as any as S.Schema<MetricDataPoint>;
 export type MetricDataPointsList = MetricDataPoint[];
-export const MetricDataPointsList = /*@__PURE__*/ S.Array(MetricDataPoint);
 export interface TrainingMetrics {
   auc?: number;
   metricDataPoints?: MetricDataPoint[];
 }
-export const TrainingMetrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    auc: S.optional(S.Number),
-    metricDataPoints: S.optional(MetricDataPointsList),
-  }),
-).annotate({
-  identifier: "TrainingMetrics",
-}) as any as S.Schema<TrainingMetrics>;
 export interface LogOddsMetric {
   variableName: string;
   variableType: string;
   variableImportance: number;
 }
-export const LogOddsMetric = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    variableName: S.String,
-    variableType: S.String,
-    variableImportance: S.Number,
-  }),
-).annotate({ identifier: "LogOddsMetric" }) as any as S.Schema<LogOddsMetric>;
 export type ListOfLogOddsMetrics = LogOddsMetric[];
-export const ListOfLogOddsMetrics = /*@__PURE__*/ S.Array(LogOddsMetric);
 export interface VariableImportanceMetrics {
   logOddsMetrics?: LogOddsMetric[];
 }
-export const VariableImportanceMetrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ logOddsMetrics: S.optional(ListOfLogOddsMetrics) }),
-).annotate({
-  identifier: "VariableImportanceMetrics",
-}) as any as S.Schema<VariableImportanceMetrics>;
 export interface TrainingResult {
   dataValidationMetrics?: DataValidationMetrics;
   trainingMetrics?: TrainingMetrics;
   variableImportanceMetrics?: VariableImportanceMetrics;
 }
-export const TrainingResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataValidationMetrics: S.optional(DataValidationMetrics),
-    trainingMetrics: S.optional(TrainingMetrics),
-    variableImportanceMetrics: S.optional(VariableImportanceMetrics),
-  }),
-).annotate({ identifier: "TrainingResult" }) as any as S.Schema<TrainingResult>;
 export interface OFIMetricDataPoint {
   fpr?: number;
   precision?: number;
   tpr?: number;
   threshold?: number;
 }
-export const OFIMetricDataPoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fpr: S.optional(S.Number),
-    precision: S.optional(S.Number),
-    tpr: S.optional(S.Number),
-    threshold: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "OFIMetricDataPoint",
-}) as any as S.Schema<OFIMetricDataPoint>;
 export type OFIMetricDataPointsList = OFIMetricDataPoint[];
-export const OFIMetricDataPointsList =
-  /*@__PURE__*/ S.Array(OFIMetricDataPoint);
 export interface UncertaintyRange {
   lowerBoundValue: number;
   upperBoundValue: number;
 }
-export const UncertaintyRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ lowerBoundValue: S.Number, upperBoundValue: S.Number }),
-).annotate({
-  identifier: "UncertaintyRange",
-}) as any as S.Schema<UncertaintyRange>;
 export interface OFIModelPerformance {
   auc?: number;
   uncertaintyRange?: UncertaintyRange;
 }
-export const OFIModelPerformance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    auc: S.optional(S.Number),
-    uncertaintyRange: S.optional(UncertaintyRange),
-  }),
-).annotate({
-  identifier: "OFIModelPerformance",
-}) as any as S.Schema<OFIModelPerformance>;
 export interface OFITrainingMetricsValue {
   metricDataPoints?: OFIMetricDataPoint[];
   modelPerformance?: OFIModelPerformance;
 }
-export const OFITrainingMetricsValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    metricDataPoints: S.optional(OFIMetricDataPointsList),
-    modelPerformance: S.optional(OFIModelPerformance),
-  }),
-).annotate({
-  identifier: "OFITrainingMetricsValue",
-}) as any as S.Schema<OFITrainingMetricsValue>;
 export interface TFIMetricDataPoint {
   fpr?: number;
   precision?: number;
   tpr?: number;
   threshold?: number;
 }
-export const TFIMetricDataPoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fpr: S.optional(S.Number),
-    precision: S.optional(S.Number),
-    tpr: S.optional(S.Number),
-    threshold: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "TFIMetricDataPoint",
-}) as any as S.Schema<TFIMetricDataPoint>;
 export type TFIMetricDataPointsList = TFIMetricDataPoint[];
-export const TFIMetricDataPointsList =
-  /*@__PURE__*/ S.Array(TFIMetricDataPoint);
 export interface TFIModelPerformance {
   auc?: number;
   uncertaintyRange?: UncertaintyRange;
 }
-export const TFIModelPerformance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    auc: S.optional(S.Number),
-    uncertaintyRange: S.optional(UncertaintyRange),
-  }),
-).annotate({
-  identifier: "TFIModelPerformance",
-}) as any as S.Schema<TFIModelPerformance>;
 export interface TFITrainingMetricsValue {
   metricDataPoints?: TFIMetricDataPoint[];
   modelPerformance?: TFIModelPerformance;
 }
-export const TFITrainingMetricsValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    metricDataPoints: S.optional(TFIMetricDataPointsList),
-    modelPerformance: S.optional(TFIModelPerformance),
-  }),
-).annotate({
-  identifier: "TFITrainingMetricsValue",
-}) as any as S.Schema<TFITrainingMetricsValue>;
 export interface ATIMetricDataPoint {
   cr?: number;
   adr?: number;
   threshold?: number;
   atodr?: number;
 }
-export const ATIMetricDataPoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cr: S.optional(S.Number),
-    adr: S.optional(S.Number),
-    threshold: S.optional(S.Number),
-    atodr: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ATIMetricDataPoint",
-}) as any as S.Schema<ATIMetricDataPoint>;
 export type ATIMetricDataPointsList = ATIMetricDataPoint[];
-export const ATIMetricDataPointsList =
-  /*@__PURE__*/ S.Array(ATIMetricDataPoint);
 export interface ATIModelPerformance {
   asi?: number;
 }
-export const ATIModelPerformance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ asi: S.optional(S.Number) }),
-).annotate({
-  identifier: "ATIModelPerformance",
-}) as any as S.Schema<ATIModelPerformance>;
 export interface ATITrainingMetricsValue {
   metricDataPoints?: ATIMetricDataPoint[];
   modelPerformance?: ATIModelPerformance;
 }
-export const ATITrainingMetricsValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    metricDataPoints: S.optional(ATIMetricDataPointsList),
-    modelPerformance: S.optional(ATIModelPerformance),
-  }),
-).annotate({
-  identifier: "ATITrainingMetricsValue",
-}) as any as S.Schema<ATITrainingMetricsValue>;
 export interface TrainingMetricsV2 {
   ofi?: OFITrainingMetricsValue;
   tfi?: TFITrainingMetricsValue;
   ati?: ATITrainingMetricsValue;
 }
-export const TrainingMetricsV2 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ofi: S.optional(OFITrainingMetricsValue),
-    tfi: S.optional(TFITrainingMetricsValue),
-    ati: S.optional(ATITrainingMetricsValue),
-  }),
-).annotate({
-  identifier: "TrainingMetricsV2",
-}) as any as S.Schema<TrainingMetricsV2>;
 export interface AggregatedLogOddsMetric {
   variableNames: string[];
   aggregatedVariablesImportance: number;
 }
-export const AggregatedLogOddsMetric = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    variableNames: ListOfStrings,
-    aggregatedVariablesImportance: S.Number,
-  }),
-).annotate({
-  identifier: "AggregatedLogOddsMetric",
-}) as any as S.Schema<AggregatedLogOddsMetric>;
 export type ListOfAggregatedLogOddsMetrics = AggregatedLogOddsMetric[];
-export const ListOfAggregatedLogOddsMetrics = /*@__PURE__*/ S.Array(
-  AggregatedLogOddsMetric,
-);
 export interface AggregatedVariablesImportanceMetrics {
   logOddsMetrics?: AggregatedLogOddsMetric[];
 }
-export const AggregatedVariablesImportanceMetrics = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ logOddsMetrics: S.optional(ListOfAggregatedLogOddsMetrics) }),
-).annotate({
-  identifier: "AggregatedVariablesImportanceMetrics",
-}) as any as S.Schema<AggregatedVariablesImportanceMetrics>;
 export interface TrainingResultV2 {
   dataValidationMetrics?: DataValidationMetrics;
   trainingMetricsV2?: TrainingMetricsV2;
   variableImportanceMetrics?: VariableImportanceMetrics;
   aggregatedVariablesImportanceMetrics?: AggregatedVariablesImportanceMetrics;
 }
-export const TrainingResultV2 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataValidationMetrics: S.optional(DataValidationMetrics),
-    trainingMetricsV2: S.optional(TrainingMetricsV2),
-    variableImportanceMetrics: S.optional(VariableImportanceMetrics),
-    aggregatedVariablesImportanceMetrics: S.optional(
-      AggregatedVariablesImportanceMetrics,
-    ),
-  }),
-).annotate({
-  identifier: "TrainingResultV2",
-}) as any as S.Schema<TrainingResultV2>;
 export interface ModelVersionDetail {
   modelId?: string;
   modelType?: ModelTypeEnum;
@@ -1613,64 +584,17 @@ export interface ModelVersionDetail {
   arn?: string;
   trainingResultV2?: TrainingResultV2;
 }
-export const ModelVersionDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.optional(S.String),
-    modelType: S.optional(ModelTypeEnum),
-    modelVersionNumber: S.optional(S.String),
-    status: S.optional(S.String),
-    trainingDataSource: S.optional(TrainingDataSourceEnum),
-    trainingDataSchema: S.optional(TrainingDataSchema),
-    externalEventsDetail: S.optional(ExternalEventsDetail),
-    ingestedEventsDetail: S.optional(IngestedEventsDetail),
-    trainingResult: S.optional(TrainingResult),
-    lastUpdatedTime: S.optional(S.String),
-    createdTime: S.optional(S.String),
-    arn: S.optional(S.String),
-    trainingResultV2: S.optional(TrainingResultV2),
-  }),
-).annotate({
-  identifier: "ModelVersionDetail",
-}) as any as S.Schema<ModelVersionDetail>;
 export type ModelVersionDetailList = ModelVersionDetail[];
-export const ModelVersionDetailList = /*@__PURE__*/ S.Array(ModelVersionDetail);
 export interface DescribeModelVersionsResult {
   modelVersionDetails?: ModelVersionDetail[];
   nextToken?: string;
 }
-export const DescribeModelVersionsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelVersionDetails: S.optional(ModelVersionDetailList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeModelVersionsResult",
-}) as any as S.Schema<DescribeModelVersionsResult>;
 export type BatchImportsMaxPageSize = number;
 export interface GetBatchImportJobsRequest {
   jobId?: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const GetBatchImportJobsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBatchImportJobsRequest",
-}) as any as S.Schema<GetBatchImportJobsRequest>;
 export type AsyncJobStatus =
   | "IN_PROGRESS_INITIALIZING"
   | "IN_PROGRESS"
@@ -1679,8 +603,6 @@ export type AsyncJobStatus =
   | "COMPLETE"
   | "FAILED"
   | (string & {});
-export const AsyncJobStatus = S.String;
-
 export interface BatchImport {
   jobId?: string;
   status?: AsyncJobStatus;
@@ -1696,62 +618,17 @@ export interface BatchImport {
   failedRecordsCount?: number;
   totalRecordsCount?: number;
 }
-export const BatchImport = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.optional(S.String),
-    status: S.optional(AsyncJobStatus),
-    failureReason: S.optional(S.String),
-    startTime: S.optional(S.String),
-    completionTime: S.optional(S.String),
-    inputPath: S.optional(S.String),
-    outputPath: S.optional(S.String),
-    eventTypeName: S.optional(S.String),
-    iamRoleArn: S.optional(S.String),
-    arn: S.optional(S.String),
-    processedRecordsCount: S.optional(S.Number),
-    failedRecordsCount: S.optional(S.Number),
-    totalRecordsCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "BatchImport" }) as any as S.Schema<BatchImport>;
 export type BatchImportList = BatchImport[];
-export const BatchImportList = /*@__PURE__*/ S.Array(BatchImport);
 export interface GetBatchImportJobsResult {
   batchImports?: BatchImport[];
   nextToken?: string;
 }
-export const GetBatchImportJobsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    batchImports: S.optional(BatchImportList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetBatchImportJobsResult",
-}) as any as S.Schema<GetBatchImportJobsResult>;
 export type BatchPredictionsMaxPageSize = number;
 export interface GetBatchPredictionJobsRequest {
   jobId?: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const GetBatchPredictionJobsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBatchPredictionJobsRequest",
-}) as any as S.Schema<GetBatchPredictionJobsRequest>;
 export interface BatchPrediction {
   jobId?: string;
   status?: AsyncJobStatus;
@@ -1769,98 +646,24 @@ export interface BatchPrediction {
   processedRecordsCount?: number;
   totalRecordsCount?: number;
 }
-export const BatchPrediction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.optional(S.String),
-    status: S.optional(AsyncJobStatus),
-    failureReason: S.optional(S.String),
-    startTime: S.optional(S.String),
-    completionTime: S.optional(S.String),
-    lastHeartbeatTime: S.optional(S.String),
-    inputPath: S.optional(S.String),
-    outputPath: S.optional(S.String),
-    eventTypeName: S.optional(S.String),
-    detectorName: S.optional(S.String),
-    detectorVersion: S.optional(S.String),
-    iamRoleArn: S.optional(S.String),
-    arn: S.optional(S.String),
-    processedRecordsCount: S.optional(S.Number),
-    totalRecordsCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "BatchPrediction",
-}) as any as S.Schema<BatchPrediction>;
 export type BatchPredictionList = BatchPrediction[];
-export const BatchPredictionList = /*@__PURE__*/ S.Array(BatchPrediction);
 export interface GetBatchPredictionJobsResult {
   batchPredictions?: BatchPrediction[];
   nextToken?: string;
 }
-export const GetBatchPredictionJobsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    batchPredictions: S.optional(BatchPredictionList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetBatchPredictionJobsResult",
-}) as any as S.Schema<GetBatchPredictionJobsResult>;
 export interface GetDeleteEventsByEventTypeStatusRequest {
   eventTypeName: string;
 }
-export const GetDeleteEventsByEventTypeStatusRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ eventTypeName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetDeleteEventsByEventTypeStatusRequest",
-}) as any as S.Schema<GetDeleteEventsByEventTypeStatusRequest>;
 export interface GetDeleteEventsByEventTypeStatusResult {
   eventTypeName?: string;
   eventsDeletionStatus?: AsyncJobStatus;
 }
-export const GetDeleteEventsByEventTypeStatusResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      eventTypeName: S.optional(S.String),
-      eventsDeletionStatus: S.optional(AsyncJobStatus),
-    }).pipe(ns),
-).annotate({
-  identifier: "GetDeleteEventsByEventTypeStatusResult",
-}) as any as S.Schema<GetDeleteEventsByEventTypeStatusResult>;
 export type DetectorsMaxResults = number;
 export interface GetDetectorsRequest {
   detectorId?: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const GetDetectorsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    detectorId: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDetectorsRequest",
-}) as any as S.Schema<GetDetectorsRequest>;
 export interface Detector {
   detectorId?: string;
   description?: string;
@@ -1869,49 +672,15 @@ export interface Detector {
   createdTime?: string;
   arn?: string;
 }
-export const Detector = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    detectorId: S.optional(S.String),
-    description: S.optional(S.String),
-    eventTypeName: S.optional(S.String),
-    lastUpdatedTime: S.optional(S.String),
-    createdTime: S.optional(S.String),
-    arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Detector" }) as any as S.Schema<Detector>;
 export type DetectorList = Detector[];
-export const DetectorList = /*@__PURE__*/ S.Array(Detector);
 export interface GetDetectorsResult {
   detectors?: Detector[];
   nextToken?: string;
 }
-export const GetDetectorsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    detectors: S.optional(DetectorList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetDetectorsResult",
-}) as any as S.Schema<GetDetectorsResult>;
 export interface GetDetectorVersionRequest {
   detectorId: string;
   detectorVersionId: string;
 }
-export const GetDetectorVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ detectorId: S.String, detectorVersionId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDetectorVersionRequest",
-}) as any as S.Schema<GetDetectorVersionRequest>;
 export interface GetDetectorVersionResult {
   detectorId?: string;
   detectorVersionId?: string;
@@ -1925,48 +694,12 @@ export interface GetDetectorVersionResult {
   ruleExecutionMode?: RuleExecutionMode;
   arn?: string;
 }
-export const GetDetectorVersionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    detectorId: S.optional(S.String),
-    detectorVersionId: S.optional(S.String),
-    description: S.optional(S.String),
-    externalModelEndpoints: S.optional(ListOfStrings),
-    modelVersions: S.optional(ListOfModelVersions),
-    rules: S.optional(RuleList),
-    status: S.optional(DetectorVersionStatus),
-    lastUpdatedTime: S.optional(S.String),
-    createdTime: S.optional(S.String),
-    ruleExecutionMode: S.optional(RuleExecutionMode),
-    arn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetDetectorVersionResult",
-}) as any as S.Schema<GetDetectorVersionResult>;
 export type EntityTypesMaxResults = number;
 export interface GetEntityTypesRequest {
   name?: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const GetEntityTypesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEntityTypesRequest",
-}) as any as S.Schema<GetEntityTypesRequest>;
 export interface EntityType {
   name?: string;
   description?: string;
@@ -1974,67 +707,26 @@ export interface EntityType {
   createdTime?: string;
   arn?: string;
 }
-export const EntityType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    lastUpdatedTime: S.optional(S.String),
-    createdTime: S.optional(S.String),
-    arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "EntityType" }) as any as S.Schema<EntityType>;
 export type EntityTypeList = EntityType[];
-export const EntityTypeList = /*@__PURE__*/ S.Array(EntityType);
 export interface GetEntityTypesResult {
   entityTypes?: EntityType[];
   nextToken?: string;
 }
-export const GetEntityTypesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entityTypes: S.optional(EntityTypeList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetEntityTypesResult",
-}) as any as S.Schema<GetEntityTypesResult>;
 export interface GetEventRequest {
   eventId: string;
   eventTypeName: string;
 }
-export const GetEventRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ eventId: S.String, eventTypeName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEventRequest",
-}) as any as S.Schema<GetEventRequest>;
 export type AttributeKey = string;
 export type AttributeValue = string | redacted.Redacted<string>;
 export type EventAttributeMap = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
-export const EventAttributeMap = /*@__PURE__*/ S.Record(
-  S.String,
-  SensitiveString.pipe(S.optional),
-);
 export type EntityRestrictedString = string;
 export interface Entity {
   entityType: string;
   entityId: string;
 }
-export const Entity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ entityType: S.String, entityId: S.String }),
-).annotate({ identifier: "Entity" }) as any as S.Schema<Entity>;
 export type ListOfEntities = Entity[];
-export const ListOfEntities = /*@__PURE__*/ S.Array(Entity);
 export interface Event {
   eventId?: string;
   eventTypeName?: string;
@@ -2046,53 +738,23 @@ export interface Event {
   labelTimestamp?: string;
   entities?: Entity[];
 }
-export const Event = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.optional(S.String),
-    eventTypeName: S.optional(S.String),
-    eventTimestamp: S.optional(S.String),
-    eventVariables: S.optional(EventAttributeMap),
-    currentLabel: S.optional(S.String),
-    labelTimestamp: S.optional(S.String),
-    entities: S.optional(ListOfEntities),
-  }),
-).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
 export interface GetEventResult {
   event?: Event;
 }
-export const GetEventResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ event: S.optional(Event) }).pipe(ns),
-).annotate({ identifier: "GetEventResult" }) as any as S.Schema<GetEventResult>;
 export type UtcTimestampISO8601 = string;
 export type VariableName = string;
 export type VariableValue = string | redacted.Redacted<string>;
 export type EventVariableMap = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
-export const EventVariableMap = /*@__PURE__*/ S.Record(
-  S.String,
-  SensitiveString.pipe(S.optional),
-);
 export type ContentType = string;
 export interface ModelEndpointDataBlob {
   byteBuffer?: Uint8Array;
   contentType?: string;
 }
-export const ModelEndpointDataBlob = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    byteBuffer: S.optional(T.Blob),
-    contentType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ModelEndpointDataBlob",
-}) as any as S.Schema<ModelEndpointDataBlob>;
 export type ExternalModelEndpointDataBlobMap = {
   [key: string]: ModelEndpointDataBlob | undefined;
 };
-export const ExternalModelEndpointDataBlobMap = /*@__PURE__*/ S.Record(
-  S.String,
-  ModelEndpointDataBlob.pipe(S.optional),
-);
 export interface GetEventPredictionRequest {
   detectorId: string;
   detectorVersionId?: string;
@@ -2107,110 +769,33 @@ export interface GetEventPredictionRequest {
     [key: string]: ModelEndpointDataBlob | undefined;
   };
 }
-export const GetEventPredictionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    detectorId: S.String,
-    detectorVersionId: S.optional(S.String),
-    eventId: S.String,
-    eventTypeName: S.String,
-    entities: ListOfEntities,
-    eventTimestamp: S.String,
-    eventVariables: EventVariableMap,
-    externalModelEndpointDataBlobs: S.optional(
-      ExternalModelEndpointDataBlobMap,
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEventPredictionRequest",
-}) as any as S.Schema<GetEventPredictionRequest>;
 export type ModelPredictionMap = { [key: string]: number | undefined };
-export const ModelPredictionMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Number.pipe(S.optional),
-);
 export interface ModelScores {
   modelVersion?: ModelVersion;
   scores?: { [key: string]: number | undefined };
 }
-export const ModelScores = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelVersion: S.optional(ModelVersion),
-    scores: S.optional(ModelPredictionMap),
-  }),
-).annotate({ identifier: "ModelScores" }) as any as S.Schema<ModelScores>;
 export type ListOfModelScores = ModelScores[];
-export const ListOfModelScores = /*@__PURE__*/ S.Array(ModelScores);
 export interface RuleResult {
   ruleId?: string;
   outcomes?: string[];
 }
-export const RuleResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleId: S.optional(S.String),
-    outcomes: S.optional(ListOfStrings),
-  }),
-).annotate({ identifier: "RuleResult" }) as any as S.Schema<RuleResult>;
 export type ListOfRuleResults = RuleResult[];
-export const ListOfRuleResults = /*@__PURE__*/ S.Array(RuleResult);
 export type ModelSource = "SAGEMAKER" | (string & {});
-export const ModelSource = S.String;
-
 export interface ExternalModelSummary {
   modelEndpoint?: string;
   modelSource?: ModelSource;
 }
-export const ExternalModelSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelEndpoint: S.optional(S.String),
-    modelSource: S.optional(ModelSource),
-  }),
-).annotate({
-  identifier: "ExternalModelSummary",
-}) as any as S.Schema<ExternalModelSummary>;
 export type ExternalModelPredictionMap = { [key: string]: string | undefined };
-export const ExternalModelPredictionMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface ExternalModelOutputs {
   externalModel?: ExternalModelSummary;
   outputs?: { [key: string]: string | undefined };
 }
-export const ExternalModelOutputs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    externalModel: S.optional(ExternalModelSummary),
-    outputs: S.optional(ExternalModelPredictionMap),
-  }),
-).annotate({
-  identifier: "ExternalModelOutputs",
-}) as any as S.Schema<ExternalModelOutputs>;
 export type ListOfExternalModelOutputs = ExternalModelOutputs[];
-export const ListOfExternalModelOutputs =
-  /*@__PURE__*/ S.Array(ExternalModelOutputs);
 export interface GetEventPredictionResult {
   modelScores?: ModelScores[];
   ruleResults?: RuleResult[];
   externalModelOutputs?: ExternalModelOutputs[];
 }
-export const GetEventPredictionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelScores: S.optional(ListOfModelScores),
-    ruleResults: S.optional(ListOfRuleResults),
-    externalModelOutputs: S.optional(ListOfExternalModelOutputs),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetEventPredictionResult",
-}) as any as S.Schema<GetEventPredictionResult>;
 export interface GetEventPredictionMetadataRequest {
   eventId: string;
   eventTypeName: string;
@@ -2218,45 +803,13 @@ export interface GetEventPredictionMetadataRequest {
   detectorVersionId: string;
   predictionTimestamp: string;
 }
-export const GetEventPredictionMetadataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.String,
-    eventTypeName: S.String,
-    detectorId: S.String,
-    detectorVersionId: S.String,
-    predictionTimestamp: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEventPredictionMetadataRequest",
-}) as any as S.Schema<GetEventPredictionMetadataRequest>;
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface EventVariableSummary {
   name?: string | redacted.Redacted<string>;
   value?: string | redacted.Redacted<string>;
   source?: string | redacted.Redacted<string>;
 }
-export const EventVariableSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(SensitiveString),
-    value: S.optional(SensitiveString),
-    source: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "EventVariableSummary",
-}) as any as S.Schema<EventVariableSummary>;
 export type ListOfEventVariableSummaries = EventVariableSummary[];
-export const ListOfEventVariableSummaries =
-  /*@__PURE__*/ S.Array(EventVariableSummary);
 export interface EvaluatedRule {
   ruleId?: string;
   ruleVersion?: string;
@@ -2266,133 +819,45 @@ export interface EvaluatedRule {
   evaluated?: boolean;
   matched?: boolean;
 }
-export const EvaluatedRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleId: S.optional(S.String),
-    ruleVersion: S.optional(S.String),
-    expression: S.optional(SensitiveString),
-    expressionWithValues: S.optional(SensitiveString),
-    outcomes: S.optional(ListOfStrings),
-    evaluated: S.optional(S.Boolean),
-    matched: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "EvaluatedRule" }) as any as S.Schema<EvaluatedRule>;
 export type EvaluatedRuleList = EvaluatedRule[];
-export const EvaluatedRuleList = /*@__PURE__*/ S.Array(EvaluatedRule);
 export interface VariableImpactExplanation {
   eventVariableName?: string;
   relativeImpact?: string;
   logOddsImpact?: number;
 }
-export const VariableImpactExplanation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventVariableName: S.optional(S.String),
-    relativeImpact: S.optional(S.String),
-    logOddsImpact: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "VariableImpactExplanation",
-}) as any as S.Schema<VariableImpactExplanation>;
 export type ListOfVariableImpactExplanations = VariableImpactExplanation[];
-export const ListOfVariableImpactExplanations = /*@__PURE__*/ S.Array(
-  VariableImpactExplanation,
-);
 export interface AggregatedVariablesImpactExplanation {
   eventVariableNames?: string[];
   relativeImpact?: string;
   logOddsImpact?: number;
 }
-export const AggregatedVariablesImpactExplanation = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      eventVariableNames: S.optional(ListOfStrings),
-      relativeImpact: S.optional(S.String),
-      logOddsImpact: S.optional(S.Number),
-    }),
-).annotate({
-  identifier: "AggregatedVariablesImpactExplanation",
-}) as any as S.Schema<AggregatedVariablesImpactExplanation>;
 export type ListOfAggregatedVariablesImpactExplanations =
   AggregatedVariablesImpactExplanation[];
-export const ListOfAggregatedVariablesImpactExplanations =
-  /*@__PURE__*/ S.Array(AggregatedVariablesImpactExplanation);
 export interface PredictionExplanations {
   variableImpactExplanations?: VariableImpactExplanation[];
   aggregatedVariablesImpactExplanations?: AggregatedVariablesImpactExplanation[];
 }
-export const PredictionExplanations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    variableImpactExplanations: S.optional(ListOfVariableImpactExplanations),
-    aggregatedVariablesImpactExplanations: S.optional(
-      ListOfAggregatedVariablesImpactExplanations,
-    ),
-  }),
-).annotate({
-  identifier: "PredictionExplanations",
-}) as any as S.Schema<PredictionExplanations>;
 export interface ModelVersionEvaluation {
   outputVariableName?: string;
   evaluationScore?: string;
   predictionExplanations?: PredictionExplanations;
 }
-export const ModelVersionEvaluation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    outputVariableName: S.optional(S.String),
-    evaluationScore: S.optional(S.String),
-    predictionExplanations: S.optional(PredictionExplanations),
-  }),
-).annotate({
-  identifier: "ModelVersionEvaluation",
-}) as any as S.Schema<ModelVersionEvaluation>;
 export type ListOfModelVersionEvaluations = ModelVersionEvaluation[];
-export const ListOfModelVersionEvaluations = /*@__PURE__*/ S.Array(
-  ModelVersionEvaluation,
-);
 export interface EvaluatedModelVersion {
   modelId?: string;
   modelVersion?: string;
   modelType?: string;
   evaluations?: ModelVersionEvaluation[];
 }
-export const EvaluatedModelVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.optional(S.String),
-    modelVersion: S.optional(S.String),
-    modelType: S.optional(S.String),
-    evaluations: S.optional(ListOfModelVersionEvaluations),
-  }),
-).annotate({
-  identifier: "EvaluatedModelVersion",
-}) as any as S.Schema<EvaluatedModelVersion>;
 export type ListOfEvaluatedModelVersions = EvaluatedModelVersion[];
-export const ListOfEvaluatedModelVersions = /*@__PURE__*/ S.Array(
-  EvaluatedModelVersion,
-);
 export type MapOfStrings = { [key: string]: string | undefined };
-export const MapOfStrings = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface EvaluatedExternalModel {
   modelEndpoint?: string;
   useEventVariables?: boolean;
   inputVariables?: { [key: string]: string | undefined };
   outputVariables?: { [key: string]: string | undefined };
 }
-export const EvaluatedExternalModel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelEndpoint: S.optional(S.String),
-    useEventVariables: S.optional(S.Boolean),
-    inputVariables: S.optional(MapOfStrings),
-    outputVariables: S.optional(MapOfStrings),
-  }),
-).annotate({
-  identifier: "EvaluatedExternalModel",
-}) as any as S.Schema<EvaluatedExternalModel>;
 export type ListOfEvaluatedExternalModels = EvaluatedExternalModel[];
-export const ListOfEvaluatedExternalModels = /*@__PURE__*/ S.Array(
-  EvaluatedExternalModel,
-);
 export interface GetEventPredictionMetadataResult {
   eventId?: string;
   eventTypeName?: string;
@@ -2410,55 +875,13 @@ export interface GetEventPredictionMetadataResult {
   evaluatedExternalModels?: EvaluatedExternalModel[];
   predictionTimestamp?: string;
 }
-export const GetEventPredictionMetadataResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.optional(S.String),
-    eventTypeName: S.optional(S.String),
-    entityId: S.optional(S.String),
-    entityType: S.optional(S.String),
-    eventTimestamp: S.optional(S.String),
-    detectorId: S.optional(S.String),
-    detectorVersionId: S.optional(S.String),
-    detectorVersionStatus: S.optional(S.String),
-    eventVariables: S.optional(ListOfEventVariableSummaries),
-    rules: S.optional(EvaluatedRuleList),
-    ruleExecutionMode: S.optional(RuleExecutionMode),
-    outcomes: S.optional(ListOfStrings),
-    evaluatedModelVersions: S.optional(ListOfEvaluatedModelVersions),
-    evaluatedExternalModels: S.optional(ListOfEvaluatedExternalModels),
-    predictionTimestamp: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetEventPredictionMetadataResult",
-}) as any as S.Schema<GetEventPredictionMetadataResult>;
 export type EventTypesMaxResults = number;
 export interface GetEventTypesRequest {
   name?: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const GetEventTypesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEventTypesRequest",
-}) as any as S.Schema<GetEventTypesRequest>;
 export type EventIngestion = "ENABLED" | "DISABLED" | (string & {});
-export const EventIngestion = S.String;
-
 export interface IngestedEventStatistics {
   numberOfEvents?: number;
   eventDataSizeInBytes?: number;
@@ -2466,25 +889,9 @@ export interface IngestedEventStatistics {
   mostRecentEvent?: string;
   lastUpdatedTime?: string;
 }
-export const IngestedEventStatistics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    numberOfEvents: S.optional(S.Number),
-    eventDataSizeInBytes: S.optional(S.Number),
-    leastRecentEvent: S.optional(S.String),
-    mostRecentEvent: S.optional(S.String),
-    lastUpdatedTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IngestedEventStatistics",
-}) as any as S.Schema<IngestedEventStatistics>;
 export interface EventOrchestration {
   eventBridgeEnabled: boolean;
 }
-export const EventOrchestration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ eventBridgeEnabled: S.Boolean }),
-).annotate({
-  identifier: "EventOrchestration",
-}) as any as S.Schema<EventOrchestration>;
 export interface EventType {
   name?: string;
   description?: string;
@@ -2498,66 +905,21 @@ export interface EventType {
   arn?: string;
   eventOrchestration?: EventOrchestration;
 }
-export const EventType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    eventVariables: S.optional(ListOfStrings),
-    labels: S.optional(ListOfStrings),
-    entityTypes: S.optional(NonEmptyListOfStrings),
-    eventIngestion: S.optional(EventIngestion),
-    ingestedEventStatistics: S.optional(IngestedEventStatistics),
-    lastUpdatedTime: S.optional(S.String),
-    createdTime: S.optional(S.String),
-    arn: S.optional(S.String),
-    eventOrchestration: S.optional(EventOrchestration),
-  }),
-).annotate({ identifier: "EventType" }) as any as S.Schema<EventType>;
 export type EventTypeList = EventType[];
-export const EventTypeList = /*@__PURE__*/ S.Array(EventType);
 export interface GetEventTypesResult {
   eventTypes?: EventType[];
   nextToken?: string;
 }
-export const GetEventTypesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventTypes: S.optional(EventTypeList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetEventTypesResult",
-}) as any as S.Schema<GetEventTypesResult>;
 export type ExternalModelsMaxResults = number;
 export interface GetExternalModelsRequest {
   modelEndpoint?: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const GetExternalModelsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelEndpoint: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetExternalModelsRequest",
-}) as any as S.Schema<GetExternalModelsRequest>;
 export type ModelInputDataFormat =
   | "TEXT_CSV"
   | "APPLICATION_JSON"
   | (string & {});
-export const ModelInputDataFormat = S.String;
-
 export type UseEventVariables = boolean;
 export type ModelInputTemplate = string;
 export interface ModelInputConfiguration {
@@ -2567,50 +929,18 @@ export interface ModelInputConfiguration {
   jsonInputTemplate?: string;
   csvInputTemplate?: string;
 }
-export const ModelInputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventTypeName: S.optional(S.String),
-    format: S.optional(ModelInputDataFormat),
-    useEventVariables: S.Boolean,
-    jsonInputTemplate: S.optional(S.String),
-    csvInputTemplate: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ModelInputConfiguration",
-}) as any as S.Schema<ModelInputConfiguration>;
 export type ModelOutputDataFormat =
   | "TEXT_CSV"
   | "APPLICATION_JSONLINES"
   | (string & {});
-export const ModelOutputDataFormat = S.String;
-
 export type JsonKeyToVariableMap = { [key: string]: string | undefined };
-export const JsonKeyToVariableMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type CsvIndexToVariableMap = { [key: string]: string | undefined };
-export const CsvIndexToVariableMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface ModelOutputConfiguration {
   format: ModelOutputDataFormat;
   jsonKeyToVariableMap?: { [key: string]: string | undefined };
   csvIndexToVariableMap?: { [key: string]: string | undefined };
 }
-export const ModelOutputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    format: ModelOutputDataFormat,
-    jsonKeyToVariableMap: S.optional(JsonKeyToVariableMap),
-    csvIndexToVariableMap: S.optional(CsvIndexToVariableMap),
-  }),
-).annotate({
-  identifier: "ModelOutputConfiguration",
-}) as any as S.Schema<ModelOutputConfiguration>;
 export type ModelEndpointStatus = "ASSOCIATED" | "DISSOCIATED" | (string & {});
-export const ModelEndpointStatus = S.String;
-
 export interface ExternalModel {
   modelEndpoint?: string;
   modelSource?: ModelSource;
@@ -2622,89 +952,25 @@ export interface ExternalModel {
   createdTime?: string;
   arn?: string;
 }
-export const ExternalModel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelEndpoint: S.optional(S.String),
-    modelSource: S.optional(ModelSource),
-    invokeModelEndpointRoleArn: S.optional(S.String),
-    inputConfiguration: S.optional(ModelInputConfiguration),
-    outputConfiguration: S.optional(ModelOutputConfiguration),
-    modelEndpointStatus: S.optional(ModelEndpointStatus),
-    lastUpdatedTime: S.optional(S.String),
-    createdTime: S.optional(S.String),
-    arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "ExternalModel" }) as any as S.Schema<ExternalModel>;
 export type ExternalModelList = ExternalModel[];
-export const ExternalModelList = /*@__PURE__*/ S.Array(ExternalModel);
 export interface GetExternalModelsResult {
   externalModels?: ExternalModel[];
   nextToken?: string;
 }
-export const GetExternalModelsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    externalModels: S.optional(ExternalModelList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetExternalModelsResult",
-}) as any as S.Schema<GetExternalModelsResult>;
 export interface GetKMSEncryptionKeyRequest {}
-export const GetKMSEncryptionKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetKMSEncryptionKeyRequest",
-}) as any as S.Schema<GetKMSEncryptionKeyRequest>;
 export type KmsEncryptionKeyArn = string;
 export interface KMSKey {
   kmsEncryptionKeyArn?: string;
 }
-export const KMSKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ kmsEncryptionKeyArn: S.optional(S.String) }),
-).annotate({ identifier: "KMSKey" }) as any as S.Schema<KMSKey>;
 export interface GetKMSEncryptionKeyResult {
   kmsKey?: KMSKey;
 }
-export const GetKMSEncryptionKeyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ kmsKey: S.optional(KMSKey) }).pipe(ns),
-).annotate({
-  identifier: "GetKMSEncryptionKeyResult",
-}) as any as S.Schema<GetKMSEncryptionKeyResult>;
 export type LabelsMaxResults = number;
 export interface GetLabelsRequest {
   name?: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const GetLabelsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLabelsRequest",
-}) as any as S.Schema<GetLabelsRequest>;
 export interface Label {
   name?: string;
   description?: string;
@@ -2712,29 +978,11 @@ export interface Label {
   createdTime?: string;
   arn?: string;
 }
-export const Label = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    lastUpdatedTime: S.optional(S.String),
-    createdTime: S.optional(S.String),
-    arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Label" }) as any as S.Schema<Label>;
 export type LabelList = Label[];
-export const LabelList = /*@__PURE__*/ S.Array(Label);
 export interface GetLabelsResult {
   labels?: Label[];
   nextToken?: string;
 }
-export const GetLabelsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    labels: S.optional(LabelList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetLabelsResult",
-}) as any as S.Schema<GetLabelsResult>;
 export type NextToken = string;
 export type ListsElementsMaxResults = number;
 export interface GetListElementsRequest {
@@ -2742,62 +990,16 @@ export interface GetListElementsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const GetListElementsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetListElementsRequest",
-}) as any as S.Schema<GetListElementsRequest>;
 export interface GetListElementsResult {
   elements?: (string | redacted.Redacted<string>)[];
   nextToken?: string;
 }
-export const GetListElementsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    elements: S.optional(ElementsList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetListElementsResult",
-}) as any as S.Schema<GetListElementsResult>;
 export type ListsMetadataMaxResults = number;
 export interface GetListsMetadataRequest {
   name?: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const GetListsMetadataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetListsMetadataRequest",
-}) as any as S.Schema<GetListsMetadataRequest>;
 export interface AllowDenyList {
   name: string;
   description?: string;
@@ -2806,56 +1008,17 @@ export interface AllowDenyList {
   updatedTime?: string;
   arn?: string;
 }
-export const AllowDenyList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    variableType: S.optional(S.String),
-    createdTime: S.optional(S.String),
-    updatedTime: S.optional(S.String),
-    arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "AllowDenyList" }) as any as S.Schema<AllowDenyList>;
 export type AllowDenyLists = AllowDenyList[];
-export const AllowDenyLists = /*@__PURE__*/ S.Array(AllowDenyList);
 export interface GetListsMetadataResult {
   lists?: AllowDenyList[];
   nextToken?: string;
 }
-export const GetListsMetadataResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lists: S.optional(AllowDenyLists),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetListsMetadataResult",
-}) as any as S.Schema<GetListsMetadataResult>;
 export interface GetModelsRequest {
   modelId?: string;
   modelType?: ModelTypeEnum;
   nextToken?: string;
   maxResults?: number;
 }
-export const GetModelsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.optional(S.String),
-    modelType: S.optional(ModelTypeEnum),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetModelsRequest",
-}) as any as S.Schema<GetModelsRequest>;
 export interface Model {
   modelId?: string;
   modelType?: ModelTypeEnum;
@@ -2865,55 +1028,16 @@ export interface Model {
   lastUpdatedTime?: string;
   arn?: string;
 }
-export const Model = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.optional(S.String),
-    modelType: S.optional(ModelTypeEnum),
-    description: S.optional(S.String),
-    eventTypeName: S.optional(S.String),
-    createdTime: S.optional(S.String),
-    lastUpdatedTime: S.optional(S.String),
-    arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Model" }) as any as S.Schema<Model>;
 export type ModelList = Model[];
-export const ModelList = /*@__PURE__*/ S.Array(Model);
 export interface GetModelsResult {
   nextToken?: string;
   models?: Model[];
 }
-export const GetModelsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    models: S.optional(ModelList),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetModelsResult",
-}) as any as S.Schema<GetModelsResult>;
 export interface GetModelVersionRequest {
   modelId: string;
   modelType: ModelTypeEnum;
   modelVersionNumber: string;
 }
-export const GetModelVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.String,
-    modelType: ModelTypeEnum,
-    modelVersionNumber: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetModelVersionRequest",
-}) as any as S.Schema<GetModelVersionRequest>;
 export interface GetModelVersionResult {
   modelId?: string;
   modelType?: ModelTypeEnum;
@@ -2925,46 +1049,12 @@ export interface GetModelVersionResult {
   status?: string;
   arn?: string;
 }
-export const GetModelVersionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.optional(S.String),
-    modelType: S.optional(ModelTypeEnum),
-    modelVersionNumber: S.optional(S.String),
-    trainingDataSource: S.optional(TrainingDataSourceEnum),
-    trainingDataSchema: S.optional(TrainingDataSchema),
-    externalEventsDetail: S.optional(ExternalEventsDetail),
-    ingestedEventsDetail: S.optional(IngestedEventsDetail),
-    status: S.optional(S.String),
-    arn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetModelVersionResult",
-}) as any as S.Schema<GetModelVersionResult>;
 export type OutcomesMaxResults = number;
 export interface GetOutcomesRequest {
   name?: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const GetOutcomesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetOutcomesRequest",
-}) as any as S.Schema<GetOutcomesRequest>;
 export interface Outcome {
   name?: string;
   description?: string;
@@ -2972,29 +1062,11 @@ export interface Outcome {
   createdTime?: string;
   arn?: string;
 }
-export const Outcome = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    lastUpdatedTime: S.optional(S.String),
-    createdTime: S.optional(S.String),
-    arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Outcome" }) as any as S.Schema<Outcome>;
 export type OutcomeList = Outcome[];
-export const OutcomeList = /*@__PURE__*/ S.Array(Outcome);
 export interface GetOutcomesResult {
   outcomes?: Outcome[];
   nextToken?: string;
 }
-export const GetOutcomesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    outcomes: S.optional(OutcomeList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetOutcomesResult",
-}) as any as S.Schema<GetOutcomesResult>;
 export type RulesMaxResults = number;
 export interface GetRulesRequest {
   ruleId?: string;
@@ -3003,27 +1075,6 @@ export interface GetRulesRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const GetRulesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleId: S.optional(S.String),
-    detectorId: S.String,
-    ruleVersion: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRulesRequest",
-}) as any as S.Schema<GetRulesRequest>;
 export interface RuleDetail {
   ruleId?: string;
   description?: string;
@@ -3036,87 +1087,29 @@ export interface RuleDetail {
   createdTime?: string;
   arn?: string;
 }
-export const RuleDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleId: S.optional(S.String),
-    description: S.optional(S.String),
-    detectorId: S.optional(S.String),
-    ruleVersion: S.optional(S.String),
-    expression: S.optional(SensitiveString),
-    language: S.optional(Language),
-    outcomes: S.optional(NonEmptyListOfStrings),
-    lastUpdatedTime: S.optional(S.String),
-    createdTime: S.optional(S.String),
-    arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "RuleDetail" }) as any as S.Schema<RuleDetail>;
 export type RuleDetailList = RuleDetail[];
-export const RuleDetailList = /*@__PURE__*/ S.Array(RuleDetail);
 export interface GetRulesResult {
   ruleDetails?: RuleDetail[];
   nextToken?: string;
 }
-export const GetRulesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleDetails: S.optional(RuleDetailList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({ identifier: "GetRulesResult" }) as any as S.Schema<GetRulesResult>;
 export type VariablesMaxResults = number;
 export interface GetVariablesRequest {
   name?: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const GetVariablesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetVariablesRequest",
-}) as any as S.Schema<GetVariablesRequest>;
 export interface GetVariablesResult {
   variables?: Variable[];
   nextToken?: string;
 }
-export const GetVariablesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    variables: S.optional(VariableList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetVariablesResult",
-}) as any as S.Schema<GetVariablesResult>;
 export type FilterString = string;
 export interface FilterCondition {
   value?: string;
 }
-export const FilterCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ value: S.optional(S.String) }),
-).annotate({
-  identifier: "FilterCondition",
-}) as any as S.Schema<FilterCondition>;
 export interface PredictionTimeRange {
   startTime: string;
   endTime: string;
 }
-export const PredictionTimeRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ startTime: S.String, endTime: S.String }),
-).annotate({
-  identifier: "PredictionTimeRange",
-}) as any as S.Schema<PredictionTimeRange>;
 export type EventPredictionsMaxResults = number;
 export interface ListEventPredictionsRequest {
   eventId?: FilterCondition;
@@ -3127,29 +1120,6 @@ export interface ListEventPredictionsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListEventPredictionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.optional(FilterCondition),
-    eventType: S.optional(FilterCondition),
-    detectorId: S.optional(FilterCondition),
-    detectorVersionId: S.optional(FilterCondition),
-    predictionTimeRange: S.optional(PredictionTimeRange),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListEventPredictionsRequest",
-}) as any as S.Schema<ListEventPredictionsRequest>;
 export interface EventPredictionSummary {
   eventId?: string;
   eventTypeName?: string;
@@ -3158,132 +1128,34 @@ export interface EventPredictionSummary {
   detectorId?: string;
   detectorVersionId?: string;
 }
-export const EventPredictionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.optional(S.String),
-    eventTypeName: S.optional(S.String),
-    eventTimestamp: S.optional(S.String),
-    predictionTimestamp: S.optional(S.String),
-    detectorId: S.optional(S.String),
-    detectorVersionId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EventPredictionSummary",
-}) as any as S.Schema<EventPredictionSummary>;
 export type ListOfEventPredictionSummaries = EventPredictionSummary[];
-export const ListOfEventPredictionSummaries = /*@__PURE__*/ S.Array(
-  EventPredictionSummary,
-);
 export interface ListEventPredictionsResult {
   eventPredictionSummaries?: EventPredictionSummary[];
   nextToken?: string;
 }
-export const ListEventPredictionsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventPredictionSummaries: S.optional(ListOfEventPredictionSummaries),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListEventPredictionsResult",
-}) as any as S.Schema<ListEventPredictionsResult>;
 export type TagsMaxResults = number;
 export interface ListTagsForResourceRequest {
   resourceARN: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceARN: S.String,
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResult {
   tags?: Tag[];
   nextToken?: string;
 }
-export const ListTagsForResourceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(TagList), nextToken: S.optional(S.String) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "ListTagsForResourceResult",
-}) as any as S.Schema<ListTagsForResourceResult>;
 export interface PutDetectorRequest {
   detectorId: string;
   description?: string;
   eventTypeName: string;
   tags?: Tag[];
 }
-export const PutDetectorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    detectorId: S.String,
-    description: S.optional(S.String),
-    eventTypeName: S.String,
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutDetectorRequest",
-}) as any as S.Schema<PutDetectorRequest>;
 export interface PutDetectorResult {}
-export const PutDetectorResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutDetectorResult",
-}) as any as S.Schema<PutDetectorResult>;
 export interface PutEntityTypeRequest {
   name: string;
   description?: string;
   tags?: Tag[];
 }
-export const PutEntityTypeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutEntityTypeRequest",
-}) as any as S.Schema<PutEntityTypeRequest>;
 export interface PutEntityTypeResult {}
-export const PutEntityTypeResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutEntityTypeResult",
-}) as any as S.Schema<PutEntityTypeResult>;
 export interface PutEventTypeRequest {
   name: string;
   description?: string;
@@ -3294,36 +1166,7 @@ export interface PutEventTypeRequest {
   tags?: Tag[];
   eventOrchestration?: EventOrchestration;
 }
-export const PutEventTypeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    eventVariables: NonEmptyListOfStrings,
-    labels: S.optional(ListOfStrings),
-    entityTypes: NonEmptyListOfStrings,
-    eventIngestion: S.optional(EventIngestion),
-    tags: S.optional(TagList),
-    eventOrchestration: S.optional(EventOrchestration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutEventTypeRequest",
-}) as any as S.Schema<PutEventTypeRequest>;
 export interface PutEventTypeResult {}
-export const PutEventTypeResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutEventTypeResult",
-}) as any as S.Schema<PutEventTypeResult>;
 export interface PutExternalModelRequest {
   modelEndpoint: string;
   modelSource: ModelSource;
@@ -3333,117 +1176,23 @@ export interface PutExternalModelRequest {
   modelEndpointStatus: ModelEndpointStatus;
   tags?: Tag[];
 }
-export const PutExternalModelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelEndpoint: S.String,
-    modelSource: ModelSource,
-    invokeModelEndpointRoleArn: S.String,
-    inputConfiguration: ModelInputConfiguration,
-    outputConfiguration: ModelOutputConfiguration,
-    modelEndpointStatus: ModelEndpointStatus,
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutExternalModelRequest",
-}) as any as S.Schema<PutExternalModelRequest>;
 export interface PutExternalModelResult {}
-export const PutExternalModelResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutExternalModelResult",
-}) as any as S.Schema<PutExternalModelResult>;
 export interface PutKMSEncryptionKeyRequest {
   kmsEncryptionKeyArn: string;
 }
-export const PutKMSEncryptionKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ kmsEncryptionKeyArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutKMSEncryptionKeyRequest",
-}) as any as S.Schema<PutKMSEncryptionKeyRequest>;
 export interface PutKMSEncryptionKeyResult {}
-export const PutKMSEncryptionKeyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutKMSEncryptionKeyResult",
-}) as any as S.Schema<PutKMSEncryptionKeyResult>;
 export interface PutLabelRequest {
   name: string;
   description?: string;
   tags?: Tag[];
 }
-export const PutLabelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutLabelRequest",
-}) as any as S.Schema<PutLabelRequest>;
 export interface PutLabelResult {}
-export const PutLabelResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({ identifier: "PutLabelResult" }) as any as S.Schema<PutLabelResult>;
 export interface PutOutcomeRequest {
   name: string;
   description?: string;
   tags?: Tag[];
 }
-export const PutOutcomeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutOutcomeRequest",
-}) as any as S.Schema<PutOutcomeRequest>;
 export interface PutOutcomeResult {}
-export const PutOutcomeResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutOutcomeResult",
-}) as any as S.Schema<PutOutcomeResult>;
 export interface SendEventRequest {
   eventId: string;
   eventTypeName: string;
@@ -3455,87 +1204,18 @@ export interface SendEventRequest {
   labelTimestamp?: string;
   entities: Entity[];
 }
-export const SendEventRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.String,
-    eventTypeName: S.String,
-    eventTimestamp: S.String,
-    eventVariables: EventVariableMap,
-    assignedLabel: S.optional(S.String),
-    labelTimestamp: S.optional(S.String),
-    entities: ListOfEntities,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SendEventRequest",
-}) as any as S.Schema<SendEventRequest>;
 export interface SendEventResult {}
-export const SendEventResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SendEventResult",
-}) as any as S.Schema<SendEventResult>;
 export interface TagResourceRequest {
   resourceARN: string;
   tags: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceARN: S.String, tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResult {}
-export const TagResourceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagResourceResult",
-}) as any as S.Schema<TagResourceResult>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceARN: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceARN: S.String, tagKeys: TagKeyList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResult {}
-export const UntagResourceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagResourceResult",
-}) as any as S.Schema<UntagResourceResult>;
 export interface UpdateDetectorVersionRequest {
   detectorId: string;
   detectorVersionId: string;
@@ -3545,131 +1225,27 @@ export interface UpdateDetectorVersionRequest {
   modelVersions?: ModelVersion[];
   ruleExecutionMode?: RuleExecutionMode;
 }
-export const UpdateDetectorVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    detectorId: S.String,
-    detectorVersionId: S.String,
-    externalModelEndpoints: ListOfStrings,
-    rules: RuleList,
-    description: S.optional(S.String),
-    modelVersions: S.optional(ListOfModelVersions),
-    ruleExecutionMode: S.optional(RuleExecutionMode),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDetectorVersionRequest",
-}) as any as S.Schema<UpdateDetectorVersionRequest>;
 export interface UpdateDetectorVersionResult {}
-export const UpdateDetectorVersionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateDetectorVersionResult",
-}) as any as S.Schema<UpdateDetectorVersionResult>;
 export interface UpdateDetectorVersionMetadataRequest {
   detectorId: string;
   detectorVersionId: string;
   description: string;
 }
-export const UpdateDetectorVersionMetadataRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      detectorId: S.String,
-      detectorVersionId: S.String,
-      description: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateDetectorVersionMetadataRequest",
-}) as any as S.Schema<UpdateDetectorVersionMetadataRequest>;
 export interface UpdateDetectorVersionMetadataResult {}
-export const UpdateDetectorVersionMetadataResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateDetectorVersionMetadataResult",
-}) as any as S.Schema<UpdateDetectorVersionMetadataResult>;
 export interface UpdateDetectorVersionStatusRequest {
   detectorId: string;
   detectorVersionId: string;
   status: DetectorVersionStatus;
 }
-export const UpdateDetectorVersionStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    detectorId: S.String,
-    detectorVersionId: S.String,
-    status: DetectorVersionStatus,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDetectorVersionStatusRequest",
-}) as any as S.Schema<UpdateDetectorVersionStatusRequest>;
 export interface UpdateDetectorVersionStatusResult {}
-export const UpdateDetectorVersionStatusResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateDetectorVersionStatusResult",
-}) as any as S.Schema<UpdateDetectorVersionStatusResult>;
 export interface UpdateEventLabelRequest {
   eventId: string;
   eventTypeName: string;
   assignedLabel: string;
   labelTimestamp: string;
 }
-export const UpdateEventLabelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.String,
-    eventTypeName: S.String,
-    assignedLabel: S.String,
-    labelTimestamp: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateEventLabelRequest",
-}) as any as S.Schema<UpdateEventLabelRequest>;
 export interface UpdateEventLabelResult {}
-export const UpdateEventLabelResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateEventLabelResult",
-}) as any as S.Schema<UpdateEventLabelResult>;
 export type ListUpdateMode = "REPLACE" | "APPEND" | "REMOVE" | (string & {});
-export const ListUpdateMode = S.String;
-
 export interface UpdateListRequest {
   name: string;
   elements?: (string | redacted.Redacted<string>)[];
@@ -3677,63 +1253,13 @@ export interface UpdateListRequest {
   updateMode?: ListUpdateMode;
   variableType?: string;
 }
-export const UpdateListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    elements: S.optional(ElementsList),
-    description: S.optional(S.String),
-    updateMode: S.optional(ListUpdateMode),
-    variableType: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateListRequest",
-}) as any as S.Schema<UpdateListRequest>;
 export interface UpdateListResult {}
-export const UpdateListResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateListResult",
-}) as any as S.Schema<UpdateListResult>;
 export interface UpdateModelRequest {
   modelId: string;
   modelType: ModelTypeEnum;
   description?: string;
 }
-export const UpdateModelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.String,
-    modelType: ModelTypeEnum,
-    description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateModelRequest",
-}) as any as S.Schema<UpdateModelRequest>;
 export interface UpdateModelResult {}
-export const UpdateModelResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateModelResult",
-}) as any as S.Schema<UpdateModelResult>;
 export interface UpdateModelVersionRequest {
   modelId: string;
   modelType: ModelTypeEnum;
@@ -3742,108 +1268,29 @@ export interface UpdateModelVersionRequest {
   ingestedEventsDetail?: IngestedEventsDetail;
   tags?: Tag[];
 }
-export const UpdateModelVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.String,
-    modelType: ModelTypeEnum,
-    majorVersionNumber: S.String,
-    externalEventsDetail: S.optional(ExternalEventsDetail),
-    ingestedEventsDetail: S.optional(IngestedEventsDetail),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateModelVersionRequest",
-}) as any as S.Schema<UpdateModelVersionRequest>;
 export interface UpdateModelVersionResult {
   modelId?: string;
   modelType?: ModelTypeEnum;
   modelVersionNumber?: string;
   status?: string;
 }
-export const UpdateModelVersionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.optional(S.String),
-    modelType: S.optional(ModelTypeEnum),
-    modelVersionNumber: S.optional(S.String),
-    status: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateModelVersionResult",
-}) as any as S.Schema<UpdateModelVersionResult>;
 export type ModelVersionStatus =
   | "ACTIVE"
   | "INACTIVE"
   | "TRAINING_CANCELLED"
   | (string & {});
-export const ModelVersionStatus = S.String;
-
 export interface UpdateModelVersionStatusRequest {
   modelId: string;
   modelType: ModelTypeEnum;
   modelVersionNumber: string;
   status: ModelVersionStatus;
 }
-export const UpdateModelVersionStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.String,
-    modelType: ModelTypeEnum,
-    modelVersionNumber: S.String,
-    status: ModelVersionStatus,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateModelVersionStatusRequest",
-}) as any as S.Schema<UpdateModelVersionStatusRequest>;
 export interface UpdateModelVersionStatusResult {}
-export const UpdateModelVersionStatusResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateModelVersionStatusResult",
-}) as any as S.Schema<UpdateModelVersionStatusResult>;
 export interface UpdateRuleMetadataRequest {
   rule: Rule;
   description: string;
 }
-export const UpdateRuleMetadataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ rule: Rule, description: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRuleMetadataRequest",
-}) as any as S.Schema<UpdateRuleMetadataRequest>;
 export interface UpdateRuleMetadataResult {}
-export const UpdateRuleMetadataResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateRuleMetadataResult",
-}) as any as S.Schema<UpdateRuleMetadataResult>;
 export interface UpdateRuleVersionRequest {
   rule: Rule;
   description?: string;
@@ -3852,68 +1299,16 @@ export interface UpdateRuleVersionRequest {
   outcomes: string[];
   tags?: Tag[];
 }
-export const UpdateRuleVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    rule: Rule,
-    description: S.optional(S.String),
-    expression: SensitiveString,
-    language: Language,
-    outcomes: NonEmptyListOfStrings,
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRuleVersionRequest",
-}) as any as S.Schema<UpdateRuleVersionRequest>;
 export interface UpdateRuleVersionResult {
   rule?: Rule;
 }
-export const UpdateRuleVersionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ rule: S.optional(Rule) }).pipe(ns),
-).annotate({
-  identifier: "UpdateRuleVersionResult",
-}) as any as S.Schema<UpdateRuleVersionResult>;
 export interface UpdateVariableRequest {
   name: string;
   defaultValue?: string;
   description?: string;
   variableType?: string;
 }
-export const UpdateVariableRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    defaultValue: S.optional(S.String),
-    description: S.optional(S.String),
-    variableType: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateVariableRequest",
-}) as any as S.Schema<UpdateVariableRequest>;
 export interface UpdateVariableResult {}
-export const UpdateVariableResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateVariableResult",
-}) as any as S.Schema<UpdateVariableResult>;
 export type BatchCreateVariableError =
   | AccessDeniedException
   | InternalServerException
@@ -3929,8 +1324,20 @@ export const batchCreateVariable: API.OperationMethod<
   BatchCreateVariableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchCreateVariableRequest,
-  output: BatchCreateVariableResult,
+  descriptor: {
+    service: svc,
+    input: {
+      variableEntries: D.list({
+        name: 0,
+        dataType: 0,
+        dataSource: 0,
+        defaultValue: 0,
+        description: 0,
+        variableType: 0,
+      }),
+      tags: D.list(i_Tag),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3940,7 +1347,7 @@ export const batchCreateVariable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateVariable",
-}));
+})) as any;
 
 export type BatchGetVariableError =
   | AccessDeniedException
@@ -3957,8 +1364,7 @@ export const batchGetVariable: API.OperationMethod<
   BatchGetVariableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetVariableRequest,
-  output: BatchGetVariableResult,
+  descriptor: { service: svc, input: { names: 0 } },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3968,7 +1374,7 @@ export const batchGetVariable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetVariable",
-}));
+})) as any;
 
 export type CancelBatchImportJobError =
   | AccessDeniedException
@@ -3986,8 +1392,7 @@ export const cancelBatchImportJob: API.OperationMethod<
   CancelBatchImportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelBatchImportJobRequest,
-  output: CancelBatchImportJobResult,
+  descriptor: { service: svc, input: { jobId: 0 } },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3998,7 +1403,7 @@ export const cancelBatchImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelBatchImportJob",
-}));
+})) as any;
 
 export type CancelBatchPredictionJobError =
   | AccessDeniedException
@@ -4016,8 +1421,7 @@ export const cancelBatchPredictionJob: API.OperationMethod<
   CancelBatchPredictionJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelBatchPredictionJobRequest,
-  output: CancelBatchPredictionJobResult,
+  descriptor: { service: svc, input: { jobId: 0 } },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4028,7 +1432,7 @@ export const cancelBatchPredictionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelBatchPredictionJob",
-}));
+})) as any;
 
 export type CreateBatchImportJobError =
   | AccessDeniedException
@@ -4046,8 +1450,17 @@ export const createBatchImportJob: API.OperationMethod<
   CreateBatchImportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBatchImportJobRequest,
-  output: CreateBatchImportJobResult,
+  descriptor: {
+    service: svc,
+    input: {
+      jobId: 0,
+      inputPath: 0,
+      outputPath: 0,
+      eventTypeName: 0,
+      iamRoleArn: 0,
+      tags: D.list(i_Tag),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4058,7 +1471,7 @@ export const createBatchImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchImportJob",
-}));
+})) as any;
 
 export type CreateBatchPredictionJobError =
   | AccessDeniedException
@@ -4076,8 +1489,19 @@ export const createBatchPredictionJob: API.OperationMethod<
   CreateBatchPredictionJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBatchPredictionJobRequest,
-  output: CreateBatchPredictionJobResult,
+  descriptor: {
+    service: svc,
+    input: {
+      jobId: 0,
+      inputPath: 0,
+      outputPath: 0,
+      eventTypeName: 0,
+      detectorName: 0,
+      detectorVersion: 0,
+      iamRoleArn: 0,
+      tags: D.list(i_Tag),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4088,7 +1512,7 @@ export const createBatchPredictionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchPredictionJob",
-}));
+})) as any;
 
 export type CreateDetectorVersionError =
   | AccessDeniedException
@@ -4106,8 +1530,18 @@ export const createDetectorVersion: API.OperationMethod<
   CreateDetectorVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDetectorVersionRequest,
-  output: CreateDetectorVersionResult,
+  descriptor: {
+    service: svc,
+    input: {
+      detectorId: 0,
+      description: 0,
+      externalModelEndpoints: 0,
+      rules: D.list(i_Rule),
+      modelVersions: D.list(i_ModelVersion),
+      ruleExecutionMode: 0,
+      tags: D.list(i_Tag),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4118,7 +1552,7 @@ export const createDetectorVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDetectorVersion",
-}));
+})) as any;
 
 export type CreateListError =
   | AccessDeniedException
@@ -4138,8 +1572,16 @@ export const createList: API.OperationMethod<
   CreateListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateListRequest,
-  output: CreateListResult,
+  descriptor: {
+    service: svc,
+    input: {
+      name: 0,
+      elements: 0,
+      variableType: 0,
+      description: 0,
+      tags: D.list(i_Tag),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4149,7 +1591,7 @@ export const createList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateList",
-}));
+})) as any;
 
 export type CreateModelError =
   | AccessDeniedException
@@ -4166,8 +1608,16 @@ export const createModel: API.OperationMethod<
   CreateModelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateModelRequest,
-  output: CreateModelResult,
+  descriptor: {
+    service: svc,
+    input: {
+      modelId: 0,
+      modelType: 0,
+      description: 0,
+      eventTypeName: 0,
+      tags: D.list(i_Tag),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4177,7 +1627,7 @@ export const createModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModel",
-}));
+})) as any;
 
 export type CreateModelVersionError =
   | AccessDeniedException
@@ -4195,8 +1645,21 @@ export const createModelVersion: API.OperationMethod<
   CreateModelVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateModelVersionRequest,
-  output: CreateModelVersionResult,
+  descriptor: {
+    service: svc,
+    input: {
+      modelId: 0,
+      modelType: 0,
+      trainingDataSource: 0,
+      trainingDataSchema: {
+        modelVariables: 0,
+        labelSchema: { labelMapper: 0, unlabeledEventsTreatment: 0 },
+      },
+      externalEventsDetail: i_ExternalEventsDetail,
+      ingestedEventsDetail: i_IngestedEventsDetail,
+      tags: D.list(i_Tag),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4207,7 +1670,7 @@ export const createModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelVersion",
-}));
+})) as any;
 
 export type CreateRuleError =
   | AccessDeniedException
@@ -4224,8 +1687,18 @@ export const createRule: API.OperationMethod<
   CreateRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRuleRequest,
-  output: CreateRuleResult,
+  descriptor: {
+    service: svc,
+    input: {
+      ruleId: 0,
+      detectorId: 0,
+      description: 0,
+      expression: 0,
+      language: 0,
+      outcomes: 0,
+      tags: D.list(i_Tag),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4235,7 +1708,7 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
-}));
+})) as any;
 
 export type CreateVariableError =
   | AccessDeniedException
@@ -4252,8 +1725,18 @@ export const createVariable: API.OperationMethod<
   CreateVariableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateVariableRequest,
-  output: CreateVariableResult,
+  descriptor: {
+    service: svc,
+    input: {
+      name: 0,
+      dataType: 0,
+      dataSource: 0,
+      defaultValue: 0,
+      description: 0,
+      variableType: 0,
+      tags: D.list(i_Tag),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4263,7 +1746,7 @@ export const createVariable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVariable",
-}));
+})) as any;
 
 export type DeleteBatchImportJobError =
   | AccessDeniedException
@@ -4280,8 +1763,7 @@ export const deleteBatchImportJob: API.OperationMethod<
   DeleteBatchImportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBatchImportJobRequest,
-  output: DeleteBatchImportJobResult,
+  descriptor: { service: svc, input: { jobId: 0 } },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4291,7 +1773,7 @@ export const deleteBatchImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBatchImportJob",
-}));
+})) as any;
 
 export type DeleteBatchPredictionJobError =
   | AccessDeniedException
@@ -4308,8 +1790,7 @@ export const deleteBatchPredictionJob: API.OperationMethod<
   DeleteBatchPredictionJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBatchPredictionJobRequest,
-  output: DeleteBatchPredictionJobResult,
+  descriptor: { service: svc, input: { jobId: 0 } },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4319,7 +1800,7 @@ export const deleteBatchPredictionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBatchPredictionJob",
-}));
+})) as any;
 
 export type DeleteDetectorError =
   | AccessDeniedException
@@ -4339,8 +1820,7 @@ export const deleteDetector: API.OperationMethod<
   DeleteDetectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDetectorRequest,
-  output: DeleteDetectorResult,
+  descriptor: { service: svc, input: { detectorId: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4351,7 +1831,7 @@ export const deleteDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDetector",
-}));
+})) as any;
 
 export type DeleteDetectorVersionError =
   | AccessDeniedException
@@ -4372,8 +1852,7 @@ export const deleteDetectorVersion: API.OperationMethod<
   DeleteDetectorVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDetectorVersionRequest,
-  output: DeleteDetectorVersionResult,
+  descriptor: { service: svc, input: { detectorId: 0, detectorVersionId: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4385,7 +1864,7 @@ export const deleteDetectorVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDetectorVersion",
-}));
+})) as any;
 
 export type DeleteEntityTypeError =
   | AccessDeniedException
@@ -4407,8 +1886,7 @@ export const deleteEntityType: API.OperationMethod<
   DeleteEntityTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEntityTypeRequest,
-  output: DeleteEntityTypeResult,
+  descriptor: { service: svc, input: { name: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4419,7 +1897,7 @@ export const deleteEntityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEntityType",
-}));
+})) as any;
 
 export type DeleteEventError =
   | AccessDeniedException
@@ -4439,8 +1917,10 @@ export const deleteEvent: API.OperationMethod<
   DeleteEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEventRequest,
-  output: DeleteEventResult,
+  descriptor: {
+    service: svc,
+    input: { eventId: 0, eventTypeName: 0, deleteAuditHistory: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4450,7 +1930,7 @@ export const deleteEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvent",
-}));
+})) as any;
 
 export type DeleteEventsByEventTypeError =
   | AccessDeniedException
@@ -4469,8 +1949,7 @@ export const deleteEventsByEventType: API.OperationMethod<
   DeleteEventsByEventTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEventsByEventTypeRequest,
-  output: DeleteEventsByEventTypeResult,
+  descriptor: { service: svc, input: { eventTypeName: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4482,7 +1961,7 @@ export const deleteEventsByEventType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventsByEventType",
-}));
+})) as any;
 
 export type DeleteEventTypeError =
   | AccessDeniedException
@@ -4504,8 +1983,7 @@ export const deleteEventType: API.OperationMethod<
   DeleteEventTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEventTypeRequest,
-  output: DeleteEventTypeResult,
+  descriptor: { service: svc, input: { name: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4516,7 +1994,7 @@ export const deleteEventType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventType",
-}));
+})) as any;
 
 export type DeleteExternalModelError =
   | AccessDeniedException
@@ -4536,8 +2014,7 @@ export const deleteExternalModel: API.OperationMethod<
   DeleteExternalModelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteExternalModelRequest,
-  output: DeleteExternalModelResult,
+  descriptor: { service: svc, input: { modelEndpoint: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4548,7 +2025,7 @@ export const deleteExternalModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExternalModel",
-}));
+})) as any;
 
 export type DeleteLabelError =
   | ConflictException
@@ -4571,8 +2048,7 @@ export const deleteLabel: API.OperationMethod<
   DeleteLabelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLabelRequest,
-  output: DeleteLabelResult,
+  descriptor: { service: svc, input: { name: 0 } },
   errors: [
     ConflictException,
     InternalServerException,
@@ -4582,7 +2058,7 @@ export const deleteLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLabel",
-}));
+})) as any;
 
 export type DeleteListError =
   | AccessDeniedException
@@ -4602,8 +2078,7 @@ export const deleteList: API.OperationMethod<
   DeleteListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteListRequest,
-  output: DeleteListResult,
+  descriptor: { service: svc, input: { name: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4614,7 +2089,7 @@ export const deleteList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteList",
-}));
+})) as any;
 
 export type DeleteModelError =
   | AccessDeniedException
@@ -4636,8 +2111,7 @@ export const deleteModel: API.OperationMethod<
   DeleteModelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteModelRequest,
-  output: DeleteModelResult,
+  descriptor: { service: svc, input: { modelId: 0, modelType: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4648,7 +2122,7 @@ export const deleteModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModel",
-}));
+})) as any;
 
 export type DeleteModelVersionError =
   | AccessDeniedException
@@ -4670,8 +2144,10 @@ export const deleteModelVersion: API.OperationMethod<
   DeleteModelVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteModelVersionRequest,
-  output: DeleteModelVersionResult,
+  descriptor: {
+    service: svc,
+    input: { modelId: 0, modelType: 0, modelVersionNumber: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4682,7 +2158,7 @@ export const deleteModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelVersion",
-}));
+})) as any;
 
 export type DeleteOutcomeError =
   | AccessDeniedException
@@ -4704,8 +2180,7 @@ export const deleteOutcome: API.OperationMethod<
   DeleteOutcomeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteOutcomeRequest,
-  output: DeleteOutcomeResult,
+  descriptor: { service: svc, input: { name: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4716,7 +2191,7 @@ export const deleteOutcome: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutcome",
-}));
+})) as any;
 
 export type DeleteRuleError =
   | AccessDeniedException
@@ -4736,8 +2211,7 @@ export const deleteRule: API.OperationMethod<
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRuleRequest,
-  output: DeleteRuleResult,
+  descriptor: { service: svc, input: { rule: i_Rule } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4748,7 +2222,7 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
-}));
+})) as any;
 
 export type DeleteVariableError =
   | AccessDeniedException
@@ -4772,8 +2246,7 @@ export const deleteVariable: API.OperationMethod<
   DeleteVariableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteVariableRequest,
-  output: DeleteVariableResult,
+  descriptor: { service: svc, input: { name: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4784,7 +2257,7 @@ export const deleteVariable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVariable",
-}));
+})) as any;
 
 export type DescribeDetectorError =
   | AccessDeniedException
@@ -4802,8 +2275,10 @@ export const describeDetector: API.OperationMethod<
   DescribeDetectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeDetectorRequest,
-  output: DescribeDetectorResult,
+  descriptor: {
+    service: svc,
+    input: { detectorId: 0, nextToken: 0, maxResults: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4814,7 +2289,7 @@ export const describeDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDetector",
-}));
+})) as any;
 
 export type DescribeModelVersionsError =
   | AccessDeniedException
@@ -4833,8 +2308,16 @@ export const describeModelVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeModelVersionsRequest,
-  output: DescribeModelVersionsResult,
+  descriptor: {
+    service: svc,
+    input: {
+      modelId: 0,
+      modelVersionNumber: 0,
+      modelType: 0,
+      nextToken: 0,
+      maxResults: 0,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4872,8 +2355,10 @@ export const getBatchImportJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetBatchImportJobsRequest,
-  output: GetBatchImportJobsResult,
+  descriptor: {
+    service: svc,
+    input: { jobId: 0, maxResults: 0, nextToken: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4908,8 +2393,10 @@ export const getBatchPredictionJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetBatchPredictionJobsRequest,
-  output: GetBatchPredictionJobsResult,
+  descriptor: {
+    service: svc,
+    input: { jobId: 0, maxResults: 0, nextToken: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4943,8 +2430,7 @@ export const getDeleteEventsByEventTypeStatus: API.OperationMethod<
   GetDeleteEventsByEventTypeStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDeleteEventsByEventTypeStatusRequest,
-  output: GetDeleteEventsByEventTypeStatusResult,
+  descriptor: { service: svc, input: { eventTypeName: 0 } },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4955,7 +2441,7 @@ export const getDeleteEventsByEventTypeStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeleteEventsByEventTypeStatus",
-}));
+})) as any;
 
 export type GetDetectorsError =
   | AccessDeniedException
@@ -4979,8 +2465,10 @@ export const getDetectors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetDetectorsRequest,
-  output: GetDetectorsResult,
+  descriptor: {
+    service: svc,
+    input: { detectorId: 0, nextToken: 0, maxResults: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5014,8 +2502,7 @@ export const getDetectorVersion: API.OperationMethod<
   GetDetectorVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDetectorVersionRequest,
-  output: GetDetectorVersionResult,
+  descriptor: { service: svc, input: { detectorId: 0, detectorVersionId: 0 } },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5026,7 +2513,7 @@ export const getDetectorVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDetectorVersion",
-}));
+})) as any;
 
 export type GetEntityTypesError =
   | AccessDeniedException
@@ -5050,8 +2537,7 @@ export const getEntityTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetEntityTypesRequest,
-  output: GetEntityTypesResult,
+  descriptor: { service: svc, input: { name: 0, nextToken: 0, maxResults: 0 } },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5085,8 +2571,11 @@ export const getEvent: API.OperationMethod<
   GetEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEventRequest,
-  output: GetEventResult,
+  descriptor: {
+    service: svc,
+    input: { eventId: 0, eventTypeName: 0 },
+    output: { event: { eventVariables: D.map(D.secret) } },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5097,7 +2586,7 @@ export const getEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvent",
-}));
+})) as any;
 
 export type GetEventPredictionError =
   | AccessDeniedException
@@ -5117,8 +2606,19 @@ export const getEventPrediction: API.OperationMethod<
   GetEventPredictionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEventPredictionRequest,
-  output: GetEventPredictionResult,
+  descriptor: {
+    service: svc,
+    input: {
+      detectorId: 0,
+      detectorVersionId: 0,
+      eventId: 0,
+      eventTypeName: 0,
+      entities: D.list(i_Entity),
+      eventTimestamp: 0,
+      eventVariables: 0,
+      externalModelEndpointDataBlobs: D.map({ byteBuffer: 0, contentType: 0 }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5131,7 +2631,7 @@ export const getEventPrediction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventPrediction",
-}));
+})) as any;
 
 export type GetEventPredictionMetadataError =
   | AccessDeniedException
@@ -5149,8 +2649,24 @@ export const getEventPredictionMetadata: API.OperationMethod<
   GetEventPredictionMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEventPredictionMetadataRequest,
-  output: GetEventPredictionMetadataResult,
+  descriptor: {
+    service: svc,
+    input: {
+      eventId: 0,
+      eventTypeName: 0,
+      detectorId: 0,
+      detectorVersionId: 0,
+      predictionTimestamp: 0,
+    },
+    output: {
+      eventVariables: D.list({
+        name: D.secret,
+        value: D.secret,
+        source: D.secret,
+      }),
+      rules: D.list({ expression: D.secret, expressionWithValues: D.secret }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5161,7 +2677,7 @@ export const getEventPredictionMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventPredictionMetadata",
-}));
+})) as any;
 
 export type GetEventTypesError =
   | AccessDeniedException
@@ -5185,8 +2701,7 @@ export const getEventTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetEventTypesRequest,
-  output: GetEventTypesResult,
+  descriptor: { service: svc, input: { name: 0, nextToken: 0, maxResults: 0 } },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5226,8 +2741,10 @@ export const getExternalModels: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetExternalModelsRequest,
-  output: GetExternalModelsResult,
+  descriptor: {
+    service: svc,
+    input: { modelEndpoint: 0, nextToken: 0, maxResults: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5260,8 +2777,7 @@ export const getKMSEncryptionKey: API.OperationMethod<
   GetKMSEncryptionKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetKMSEncryptionKeyRequest,
-  output: GetKMSEncryptionKeyResult,
+  descriptor: { service: svc },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5271,7 +2787,7 @@ export const getKMSEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKMSEncryptionKey",
-}));
+})) as any;
 
 export type GetLabelsError =
   | AccessDeniedException
@@ -5295,8 +2811,7 @@ export const getLabels: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetLabelsRequest,
-  output: GetLabelsResult,
+  descriptor: { service: svc, input: { name: 0, nextToken: 0, maxResults: 0 } },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5331,8 +2846,11 @@ export const getListElements: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetListElementsRequest,
-  output: GetListElementsResult,
+  descriptor: {
+    service: svc,
+    input: { name: 0, nextToken: 0, maxResults: 0 },
+    output: { elements: D.list(D.secret) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5367,8 +2885,7 @@ export const getListsMetadata: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetListsMetadataRequest,
-  output: GetListsMetadataResult,
+  descriptor: { service: svc, input: { name: 0, nextToken: 0, maxResults: 0 } },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5410,8 +2927,10 @@ export const getModels: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetModelsRequest,
-  output: GetModelsResult,
+  descriptor: {
+    service: svc,
+    input: { modelId: 0, modelType: 0, nextToken: 0, maxResults: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5445,8 +2964,10 @@ export const getModelVersion: API.OperationMethod<
   GetModelVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetModelVersionRequest,
-  output: GetModelVersionResult,
+  descriptor: {
+    service: svc,
+    input: { modelId: 0, modelType: 0, modelVersionNumber: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5457,7 +2978,7 @@ export const getModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelVersion",
-}));
+})) as any;
 
 export type GetOutcomesError =
   | AccessDeniedException
@@ -5481,8 +3002,7 @@ export const getOutcomes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetOutcomesRequest,
-  output: GetOutcomesResult,
+  descriptor: { service: svc, input: { name: 0, nextToken: 0, maxResults: 0 } },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5519,8 +3039,17 @@ export const getRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetRulesRequest,
-  output: GetRulesResult,
+  descriptor: {
+    service: svc,
+    input: {
+      ruleId: 0,
+      detectorId: 0,
+      ruleVersion: 0,
+      nextToken: 0,
+      maxResults: 0,
+    },
+    output: { ruleDetails: D.list({ expression: D.secret }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5560,8 +3089,7 @@ export const getVariables: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetVariablesRequest,
-  output: GetVariablesResult,
+  descriptor: { service: svc, input: { name: 0, nextToken: 0, maxResults: 0 } },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5606,8 +3134,18 @@ export const listEventPredictions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListEventPredictionsRequest,
-  output: ListEventPredictionsResult,
+  descriptor: {
+    service: svc,
+    input: {
+      eventId: i_FilterCondition,
+      eventType: i_FilterCondition,
+      detectorId: i_FilterCondition,
+      detectorVersionId: i_FilterCondition,
+      predictionTimeRange: { startTime: 0, endTime: 0 },
+      nextToken: 0,
+      maxResults: 0,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5642,8 +3180,10 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResult,
+  descriptor: {
+    service: svc,
+    input: { resourceARN: 0, nextToken: 0, maxResults: 0 },
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -5676,8 +3216,15 @@ export const putDetector: API.OperationMethod<
   PutDetectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutDetectorRequest,
-  output: PutDetectorResult,
+  descriptor: {
+    service: svc,
+    input: {
+      detectorId: 0,
+      description: 0,
+      eventTypeName: 0,
+      tags: D.list(i_Tag),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5688,7 +3235,7 @@ export const putDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDetector",
-}));
+})) as any;
 
 export type PutEntityTypeError =
   | AccessDeniedException
@@ -5706,8 +3253,10 @@ export const putEntityType: API.OperationMethod<
   PutEntityTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutEntityTypeRequest,
-  output: PutEntityTypeResult,
+  descriptor: {
+    service: svc,
+    input: { name: 0, description: 0, tags: D.list(i_Tag) },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5718,7 +3267,7 @@ export const putEntityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEntityType",
-}));
+})) as any;
 
 export type PutEventTypeError =
   | AccessDeniedException
@@ -5736,8 +3285,19 @@ export const putEventType: API.OperationMethod<
   PutEventTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutEventTypeRequest,
-  output: PutEventTypeResult,
+  descriptor: {
+    service: svc,
+    input: {
+      name: 0,
+      description: 0,
+      eventVariables: 0,
+      labels: 0,
+      entityTypes: 0,
+      eventIngestion: 0,
+      tags: D.list(i_Tag),
+      eventOrchestration: { eventBridgeEnabled: 0 },
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5748,7 +3308,7 @@ export const putEventType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEventType",
-}));
+})) as any;
 
 export type PutExternalModelError =
   | AccessDeniedException
@@ -5766,8 +3326,28 @@ export const putExternalModel: API.OperationMethod<
   PutExternalModelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutExternalModelRequest,
-  output: PutExternalModelResult,
+  descriptor: {
+    service: svc,
+    input: {
+      modelEndpoint: 0,
+      modelSource: 0,
+      invokeModelEndpointRoleArn: 0,
+      inputConfiguration: {
+        eventTypeName: 0,
+        format: 0,
+        useEventVariables: 0,
+        jsonInputTemplate: 0,
+        csvInputTemplate: 0,
+      },
+      outputConfiguration: {
+        format: 0,
+        jsonKeyToVariableMap: 0,
+        csvIndexToVariableMap: 0,
+      },
+      modelEndpointStatus: 0,
+      tags: D.list(i_Tag),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5778,7 +3358,7 @@ export const putExternalModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutExternalModel",
-}));
+})) as any;
 
 export type PutKMSEncryptionKeyError =
   | AccessDeniedException
@@ -5797,8 +3377,7 @@ export const putKMSEncryptionKey: API.OperationMethod<
   PutKMSEncryptionKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutKMSEncryptionKeyRequest,
-  output: PutKMSEncryptionKeyResult,
+  descriptor: { service: svc, input: { kmsEncryptionKeyArn: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5810,7 +3389,7 @@ export const putKMSEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutKMSEncryptionKey",
-}));
+})) as any;
 
 export type PutLabelError =
   | AccessDeniedException
@@ -5828,8 +3407,10 @@ export const putLabel: API.OperationMethod<
   PutLabelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutLabelRequest,
-  output: PutLabelResult,
+  descriptor: {
+    service: svc,
+    input: { name: 0, description: 0, tags: D.list(i_Tag) },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5840,7 +3421,7 @@ export const putLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLabel",
-}));
+})) as any;
 
 export type PutOutcomeError =
   | AccessDeniedException
@@ -5858,8 +3439,10 @@ export const putOutcome: API.OperationMethod<
   PutOutcomeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutOutcomeRequest,
-  output: PutOutcomeResult,
+  descriptor: {
+    service: svc,
+    input: { name: 0, description: 0, tags: D.list(i_Tag) },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5870,7 +3453,7 @@ export const putOutcome: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOutcome",
-}));
+})) as any;
 
 export type SendEventError =
   | AccessDeniedException
@@ -5889,8 +3472,18 @@ export const sendEvent: API.OperationMethod<
   SendEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SendEventRequest,
-  output: SendEventResult,
+  descriptor: {
+    service: svc,
+    input: {
+      eventId: 0,
+      eventTypeName: 0,
+      eventTimestamp: 0,
+      eventVariables: 0,
+      assignedLabel: 0,
+      labelTimestamp: 0,
+      entities: D.list(i_Entity),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5902,7 +3495,7 @@ export const sendEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendEvent",
-}));
+})) as any;
 
 export type TagResourceError =
   | AccessDeniedException
@@ -5919,8 +3512,7 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResult,
+  descriptor: { service: svc, input: { resourceARN: 0, tags: D.list(i_Tag) } },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -5930,7 +3522,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | AccessDeniedException
@@ -5947,8 +3539,7 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResult,
+  descriptor: { service: svc, input: { resourceARN: 0, tagKeys: 0 } },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -5958,7 +3549,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateDetectorVersionError =
   | AccessDeniedException
@@ -5977,8 +3568,18 @@ export const updateDetectorVersion: API.OperationMethod<
   UpdateDetectorVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDetectorVersionRequest,
-  output: UpdateDetectorVersionResult,
+  descriptor: {
+    service: svc,
+    input: {
+      detectorId: 0,
+      detectorVersionId: 0,
+      externalModelEndpoints: 0,
+      rules: D.list(i_Rule),
+      description: 0,
+      modelVersions: D.list(i_ModelVersion),
+      ruleExecutionMode: 0,
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5990,7 +3591,7 @@ export const updateDetectorVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDetectorVersion",
-}));
+})) as any;
 
 export type UpdateDetectorVersionMetadataError =
   | AccessDeniedException
@@ -6009,8 +3610,10 @@ export const updateDetectorVersionMetadata: API.OperationMethod<
   UpdateDetectorVersionMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDetectorVersionMetadataRequest,
-  output: UpdateDetectorVersionMetadataResult,
+  descriptor: {
+    service: svc,
+    input: { detectorId: 0, detectorVersionId: 0, description: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6021,7 +3624,7 @@ export const updateDetectorVersionMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDetectorVersionMetadata",
-}));
+})) as any;
 
 export type UpdateDetectorVersionStatusError =
   | AccessDeniedException
@@ -6041,8 +3644,10 @@ export const updateDetectorVersionStatus: API.OperationMethod<
   UpdateDetectorVersionStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDetectorVersionStatusRequest,
-  output: UpdateDetectorVersionStatusResult,
+  descriptor: {
+    service: svc,
+    input: { detectorId: 0, detectorVersionId: 0, status: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6054,7 +3659,7 @@ export const updateDetectorVersionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDetectorVersionStatus",
-}));
+})) as any;
 
 export type UpdateEventLabelError =
   | AccessDeniedException
@@ -6073,8 +3678,15 @@ export const updateEventLabel: API.OperationMethod<
   UpdateEventLabelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateEventLabelRequest,
-  output: UpdateEventLabelResult,
+  descriptor: {
+    service: svc,
+    input: {
+      eventId: 0,
+      eventTypeName: 0,
+      assignedLabel: 0,
+      labelTimestamp: 0,
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6086,7 +3698,7 @@ export const updateEventLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventLabel",
-}));
+})) as any;
 
 export type UpdateListError =
   | AccessDeniedException
@@ -6105,8 +3717,16 @@ export const updateList: API.OperationMethod<
   UpdateListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateListRequest,
-  output: UpdateListResult,
+  descriptor: {
+    service: svc,
+    input: {
+      name: 0,
+      elements: 0,
+      description: 0,
+      updateMode: 0,
+      variableType: 0,
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6118,7 +3738,7 @@ export const updateList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateList",
-}));
+})) as any;
 
 export type UpdateModelError =
   | AccessDeniedException
@@ -6137,8 +3757,10 @@ export const updateModel: API.OperationMethod<
   UpdateModelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateModelRequest,
-  output: UpdateModelResult,
+  descriptor: {
+    service: svc,
+    input: { modelId: 0, modelType: 0, description: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6150,7 +3772,7 @@ export const updateModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModel",
-}));
+})) as any;
 
 export type UpdateModelVersionError =
   | AccessDeniedException
@@ -6169,8 +3791,17 @@ export const updateModelVersion: API.OperationMethod<
   UpdateModelVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateModelVersionRequest,
-  output: UpdateModelVersionResult,
+  descriptor: {
+    service: svc,
+    input: {
+      modelId: 0,
+      modelType: 0,
+      majorVersionNumber: 0,
+      externalEventsDetail: i_ExternalEventsDetail,
+      ingestedEventsDetail: i_IngestedEventsDetail,
+      tags: D.list(i_Tag),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6182,7 +3813,7 @@ export const updateModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModelVersion",
-}));
+})) as any;
 
 export type UpdateModelVersionStatusError =
   | AccessDeniedException
@@ -6209,8 +3840,10 @@ export const updateModelVersionStatus: API.OperationMethod<
   UpdateModelVersionStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateModelVersionStatusRequest,
-  output: UpdateModelVersionStatusResult,
+  descriptor: {
+    service: svc,
+    input: { modelId: 0, modelType: 0, modelVersionNumber: 0, status: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6222,7 +3855,7 @@ export const updateModelVersionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModelVersionStatus",
-}));
+})) as any;
 
 export type UpdateRuleMetadataError =
   | AccessDeniedException
@@ -6241,8 +3874,7 @@ export const updateRuleMetadata: API.OperationMethod<
   UpdateRuleMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRuleMetadataRequest,
-  output: UpdateRuleMetadataResult,
+  descriptor: { service: svc, input: { rule: i_Rule, description: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6254,7 +3886,7 @@ export const updateRuleMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleMetadata",
-}));
+})) as any;
 
 export type UpdateRuleVersionError =
   | AccessDeniedException
@@ -6273,8 +3905,17 @@ export const updateRuleVersion: API.OperationMethod<
   UpdateRuleVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRuleVersionRequest,
-  output: UpdateRuleVersionResult,
+  descriptor: {
+    service: svc,
+    input: {
+      rule: i_Rule,
+      description: 0,
+      expression: 0,
+      language: 0,
+      outcomes: 0,
+      tags: D.list(i_Tag),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6286,7 +3927,7 @@ export const updateRuleVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleVersion",
-}));
+})) as any;
 
 export type UpdateVariableError =
   | AccessDeniedException
@@ -6305,8 +3946,10 @@ export const updateVariable: API.OperationMethod<
   UpdateVariableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateVariableRequest,
-  output: UpdateVariableResult,
+  descriptor: {
+    service: svc,
+    input: { name: 0, defaultValue: 0, description: 0, variableType: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6318,4 +3961,26 @@ export const updateVariable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVariable",
-}));
+})) as any;
+
+const i_Entity: D.LazyStruct = () => ({ entityType: 0, entityId: 0 });
+const i_ExternalEventsDetail: D.LazyStruct = () => ({
+  dataLocation: 0,
+  dataAccessRoleArn: 0,
+});
+const i_FilterCondition: D.LazyStruct = () => ({ value: 0 });
+const i_IngestedEventsDetail: D.LazyStruct = () => ({
+  ingestedEventsTimeWindow: { startTime: 0, endTime: 0 },
+});
+const i_ModelVersion: D.LazyStruct = () => ({
+  modelId: 0,
+  modelType: 0,
+  modelVersionNumber: 0,
+  arn: 0,
+});
+const i_Rule: D.LazyStruct = () => ({
+  detectorId: 0,
+  ruleId: 0,
+  ruleVersion: 0,
+});
+const i_Tag: D.LazyStruct = () => ({ key: 0, value: 0 });

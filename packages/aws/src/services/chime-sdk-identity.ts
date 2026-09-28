@@ -1,189 +1,140 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Chime SDK Identity",
-  serviceShapeName: "ChimeIdentityService",
-});
-const auth = T.AwsAuthSigv4({ name: "chime" });
-const ver = T.ServiceVersion("2021-04-20");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://identity-chime-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://identity-chime-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://identity-chime.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://identity-chime.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "ChimeIdentityService",
+  version: "2021-04-20",
+  sigv4: "chime",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://identity-chime-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://identity-chime-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://identity-chime.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://identity-chime.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class BadRequestException
-  extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "BadRequestException",
-    {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly Code?: ErrorCode; readonly message?: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly Code?: ErrorCode; readonly message?: string }> {}
 export class ForbiddenException
-  extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
-    "ForbiddenException",
-    {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ForbiddenException", ["AuthError"], {
+    status: 403,
+  })<{ readonly Code?: ErrorCode; readonly message?: string }> {}
 export class NotFoundException
-  extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NotFoundException",
-    {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly Code?: ErrorCode; readonly message?: string }> {}
 export class ResourceLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<ResourceLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceLimitExceededException",
-    {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly Code?: ErrorCode; readonly message?: string }> {}
 export class ServiceFailureException
-  extends /*@__PURE__*/ S.TaggedError<ServiceFailureException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceFailureException",
-    {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly Code?: ErrorCode; readonly message?: string }> {}
 export class ServiceUnavailableException
-  extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceUnavailableException",
-    {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(503),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 503 },
+  )<{ readonly Code?: ErrorCode; readonly message?: string }> {}
 export class ThrottledClientException
-  extends /*@__PURE__*/ S.TaggedError<ThrottledClientException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottledClientException",
-    {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly Code?: ErrorCode; readonly message?: string }> {}
 export class UnauthorizedClientException
-  extends /*@__PURE__*/ S.TaggedError<UnauthorizedClientException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "UnauthorizedClientException",
-    {
-      Code: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(401),
-  ).pipe(C.withAuthError) {}
+    ["AuthError"],
+    { status: 401 },
+  )<{ readonly Code?: ErrorCode; readonly message?: string }> {}
 export type NonEmptyResourceName = string | redacted.Redacted<string>;
 export type Metadata = string | redacted.Redacted<string>;
 export type ClientRequestToken = string;
@@ -193,110 +144,42 @@ export interface Tag {
   Key: string | redacted.Redacted<string>;
   Value: string | redacted.Redacted<string>;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: SensitiveString, Value: SensitiveString }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface CreateAppInstanceRequest {
   Name: string | redacted.Redacted<string>;
   Metadata?: string | redacted.Redacted<string>;
   ClientRequestToken: string;
   Tags?: Tag[];
 }
-export const CreateAppInstanceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: SensitiveString,
-    Metadata: S.optional(SensitiveString),
-    ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/app-instances" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAppInstanceRequest",
-}) as any as S.Schema<CreateAppInstanceRequest>;
 export type ChimeArn = string;
 export interface CreateAppInstanceResponse {
   AppInstanceArn?: string;
 }
-export const CreateAppInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AppInstanceArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateAppInstanceResponse",
-}) as any as S.Schema<CreateAppInstanceResponse>;
 export interface CreateAppInstanceAdminRequest {
   AppInstanceAdminArn: string;
   AppInstanceArn: string;
 }
-export const CreateAppInstanceAdminRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceAdminArn: S.String,
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/app-instances/{AppInstanceArn}/admins" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAppInstanceAdminRequest",
-}) as any as S.Schema<CreateAppInstanceAdminRequest>;
 export type ResourceName = string | redacted.Redacted<string>;
 export interface Identity {
   Arn?: string;
   Name?: string | redacted.Redacted<string>;
 }
-export const Identity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String), Name: S.optional(SensitiveString) }),
-).annotate({ identifier: "Identity" }) as any as S.Schema<Identity>;
 export interface CreateAppInstanceAdminResponse {
   AppInstanceAdmin?: Identity;
   AppInstanceArn?: string;
 }
-export const CreateAppInstanceAdminResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceAdmin: S.optional(Identity),
-    AppInstanceArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateAppInstanceAdminResponse",
-}) as any as S.Schema<CreateAppInstanceAdminResponse>;
 export type RespondsTo = "STANDARD_MESSAGES" | (string & {});
-export const RespondsTo = S.String;
-
 export type StandardMessages =
   | "AUTO"
   | "ALL"
   | "MENTIONS"
   | "NONE"
   | (string & {});
-export const StandardMessages = S.String;
-
 export type TargetedMessages = "ALL" | "NONE" | (string & {});
-export const TargetedMessages = S.String;
-
 export interface InvokedBy {
   StandardMessages: StandardMessages;
   TargetedMessages: TargetedMessages;
 }
-export const InvokedBy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StandardMessages: StandardMessages,
-    TargetedMessages: TargetedMessages,
-  }),
-).annotate({ identifier: "InvokedBy" }) as any as S.Schema<InvokedBy>;
 export type LexBotAliasArn = string;
 export type LexIntentName = string;
 export interface LexConfiguration {
@@ -306,23 +189,9 @@ export interface LexConfiguration {
   LocaleId: string;
   WelcomeIntent?: string;
 }
-export const LexConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RespondsTo: S.optional(RespondsTo),
-    InvokedBy: S.optional(InvokedBy),
-    LexBotAliasArn: S.String,
-    LocaleId: S.String,
-    WelcomeIntent: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LexConfiguration",
-}) as any as S.Schema<LexConfiguration>;
 export interface Configuration {
   Lex: LexConfiguration;
 }
-export const Configuration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Lex: LexConfiguration }),
-).annotate({ identifier: "Configuration" }) as any as S.Schema<Configuration>;
 export interface CreateAppInstanceBotRequest {
   AppInstanceArn: string;
   Name?: string | redacted.Redacted<string>;
@@ -331,53 +200,17 @@ export interface CreateAppInstanceBotRequest {
   Tags?: Tag[];
   Configuration: Configuration;
 }
-export const CreateAppInstanceBotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String,
-    Name: S.optional(SensitiveString),
-    Metadata: S.optional(SensitiveString),
-    ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
-    Tags: S.optional(TagList),
-    Configuration: Configuration,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/app-instance-bots" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAppInstanceBotRequest",
-}) as any as S.Schema<CreateAppInstanceBotRequest>;
 export interface CreateAppInstanceBotResponse {
   AppInstanceBotArn?: string;
 }
-export const CreateAppInstanceBotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AppInstanceBotArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateAppInstanceBotResponse",
-}) as any as S.Schema<CreateAppInstanceBotResponse>;
 export type UserId = string | redacted.Redacted<string>;
 export type UserName = string | redacted.Redacted<string>;
 export type ExpirationDays = number;
 export type ExpirationCriterion = "CREATED_TIMESTAMP" | (string & {});
-export const ExpirationCriterion = S.String;
-
 export interface ExpirationSettings {
   ExpirationDays: number;
   ExpirationCriterion: ExpirationCriterion;
 }
-export const ExpirationSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExpirationDays: S.Number,
-    ExpirationCriterion: ExpirationCriterion,
-  }),
-).annotate({
-  identifier: "ExpirationSettings",
-}) as any as S.Schema<ExpirationSettings>;
 export interface CreateAppInstanceUserRequest {
   AppInstanceArn: string;
   AppInstanceUserId: string | redacted.Redacted<string>;
@@ -387,197 +220,35 @@ export interface CreateAppInstanceUserRequest {
   Tags?: Tag[];
   ExpirationSettings?: ExpirationSettings;
 }
-export const CreateAppInstanceUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String,
-    AppInstanceUserId: SensitiveString,
-    Name: SensitiveString,
-    Metadata: S.optional(SensitiveString),
-    ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
-    Tags: S.optional(TagList),
-    ExpirationSettings: S.optional(ExpirationSettings),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/app-instance-users" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAppInstanceUserRequest",
-}) as any as S.Schema<CreateAppInstanceUserRequest>;
 export interface CreateAppInstanceUserResponse {
   AppInstanceUserArn?: string;
 }
-export const CreateAppInstanceUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AppInstanceUserArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateAppInstanceUserResponse",
-}) as any as S.Schema<CreateAppInstanceUserResponse>;
 export interface DeleteAppInstanceRequest {
   AppInstanceArn: string;
 }
-export const DeleteAppInstanceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/app-instances/{AppInstanceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAppInstanceRequest",
-}) as any as S.Schema<DeleteAppInstanceRequest>;
 export interface DeleteAppInstanceResponse {}
-export const DeleteAppInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAppInstanceResponse",
-}) as any as S.Schema<DeleteAppInstanceResponse>;
 export interface DeleteAppInstanceAdminRequest {
   AppInstanceAdminArn: string;
   AppInstanceArn: string;
 }
-export const DeleteAppInstanceAdminRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceAdminArn: S.String.pipe(T.HttpLabel("AppInstanceAdminArn")),
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/app-instances/{AppInstanceArn}/admins/{AppInstanceAdminArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAppInstanceAdminRequest",
-}) as any as S.Schema<DeleteAppInstanceAdminRequest>;
 export interface DeleteAppInstanceAdminResponse {}
-export const DeleteAppInstanceAdminResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAppInstanceAdminResponse",
-}) as any as S.Schema<DeleteAppInstanceAdminResponse>;
 export interface DeleteAppInstanceBotRequest {
   AppInstanceBotArn: string;
 }
-export const DeleteAppInstanceBotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceBotArn: S.String.pipe(T.HttpLabel("AppInstanceBotArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/app-instance-bots/{AppInstanceBotArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAppInstanceBotRequest",
-}) as any as S.Schema<DeleteAppInstanceBotRequest>;
 export interface DeleteAppInstanceBotResponse {}
-export const DeleteAppInstanceBotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAppInstanceBotResponse",
-}) as any as S.Schema<DeleteAppInstanceBotResponse>;
 export interface DeleteAppInstanceUserRequest {
   AppInstanceUserArn: string;
 }
-export const DeleteAppInstanceUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/app-instance-users/{AppInstanceUserArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAppInstanceUserRequest",
-}) as any as S.Schema<DeleteAppInstanceUserRequest>;
 export interface DeleteAppInstanceUserResponse {}
-export const DeleteAppInstanceUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAppInstanceUserResponse",
-}) as any as S.Schema<DeleteAppInstanceUserResponse>;
 export type String64 = string;
 export interface DeregisterAppInstanceUserEndpointRequest {
   AppInstanceUserArn: string;
   EndpointId: string;
 }
-export const DeregisterAppInstanceUserEndpointRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
-      EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeregisterAppInstanceUserEndpointRequest",
-}) as any as S.Schema<DeregisterAppInstanceUserEndpointRequest>;
 export interface DeregisterAppInstanceUserEndpointResponse {}
-export const DeregisterAppInstanceUserEndpointResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DeregisterAppInstanceUserEndpointResponse",
-  }) as any as S.Schema<DeregisterAppInstanceUserEndpointResponse>;
 export interface DescribeAppInstanceRequest {
   AppInstanceArn: string;
 }
-export const DescribeAppInstanceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/app-instances/{AppInstanceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeAppInstanceRequest",
-}) as any as S.Schema<DescribeAppInstanceRequest>;
 export interface AppInstance {
   AppInstanceArn?: string;
   Name?: string | redacted.Redacted<string>;
@@ -585,94 +256,24 @@ export interface AppInstance {
   LastUpdatedTimestamp?: Date;
   Metadata?: string | redacted.Redacted<string>;
 }
-export const AppInstance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Metadata: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "AppInstance" }) as any as S.Schema<AppInstance>;
 export interface DescribeAppInstanceResponse {
   AppInstance?: AppInstance;
 }
-export const DescribeAppInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AppInstance: S.optional(AppInstance) }),
-).annotate({
-  identifier: "DescribeAppInstanceResponse",
-}) as any as S.Schema<DescribeAppInstanceResponse>;
 export interface DescribeAppInstanceAdminRequest {
   AppInstanceAdminArn: string;
   AppInstanceArn: string;
 }
-export const DescribeAppInstanceAdminRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceAdminArn: S.String.pipe(T.HttpLabel("AppInstanceAdminArn")),
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app-instances/{AppInstanceArn}/admins/{AppInstanceAdminArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeAppInstanceAdminRequest",
-}) as any as S.Schema<DescribeAppInstanceAdminRequest>;
 export interface AppInstanceAdmin {
   Admin?: Identity;
   AppInstanceArn?: string;
   CreatedTimestamp?: Date;
 }
-export const AppInstanceAdmin = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Admin: S.optional(Identity),
-    AppInstanceArn: S.optional(S.String),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "AppInstanceAdmin",
-}) as any as S.Schema<AppInstanceAdmin>;
 export interface DescribeAppInstanceAdminResponse {
   AppInstanceAdmin?: AppInstanceAdmin;
 }
-export const DescribeAppInstanceAdminResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AppInstanceAdmin: S.optional(AppInstanceAdmin) }),
-).annotate({
-  identifier: "DescribeAppInstanceAdminResponse",
-}) as any as S.Schema<DescribeAppInstanceAdminResponse>;
 export interface DescribeAppInstanceBotRequest {
   AppInstanceBotArn: string;
 }
-export const DescribeAppInstanceBotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceBotArn: S.String.pipe(T.HttpLabel("AppInstanceBotArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/app-instance-bots/{AppInstanceBotArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeAppInstanceBotRequest",
-}) as any as S.Schema<DescribeAppInstanceBotRequest>;
 export interface AppInstanceBot {
   AppInstanceBotArn?: string;
   Name?: string | redacted.Redacted<string>;
@@ -681,50 +282,12 @@ export interface AppInstanceBot {
   LastUpdatedTimestamp?: Date;
   Metadata?: string | redacted.Redacted<string>;
 }
-export const AppInstanceBot = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceBotArn: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    Configuration: S.optional(Configuration),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Metadata: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "AppInstanceBot" }) as any as S.Schema<AppInstanceBot>;
 export interface DescribeAppInstanceBotResponse {
   AppInstanceBot?: AppInstanceBot;
 }
-export const DescribeAppInstanceBotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AppInstanceBot: S.optional(AppInstanceBot) }),
-).annotate({
-  identifier: "DescribeAppInstanceBotResponse",
-}) as any as S.Schema<DescribeAppInstanceBotResponse>;
 export interface DescribeAppInstanceUserRequest {
   AppInstanceUserArn: string;
 }
-export const DescribeAppInstanceUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app-instance-users/{AppInstanceUserArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeAppInstanceUserRequest",
-}) as any as S.Schema<DescribeAppInstanceUserRequest>;
 export interface AppInstanceUser {
   AppInstanceUserArn?: string;
   Name?: string | redacted.Redacted<string>;
@@ -733,99 +296,35 @@ export interface AppInstanceUser {
   LastUpdatedTimestamp?: Date;
   ExpirationSettings?: ExpirationSettings;
 }
-export const AppInstanceUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    Metadata: S.optional(SensitiveString),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ExpirationSettings: S.optional(ExpirationSettings),
-  }),
-).annotate({
-  identifier: "AppInstanceUser",
-}) as any as S.Schema<AppInstanceUser>;
 export interface DescribeAppInstanceUserResponse {
   AppInstanceUser?: AppInstanceUser;
 }
-export const DescribeAppInstanceUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AppInstanceUser: S.optional(AppInstanceUser) }),
-).annotate({
-  identifier: "DescribeAppInstanceUserResponse",
-}) as any as S.Schema<DescribeAppInstanceUserResponse>;
 export type String1600 = string;
 export interface DescribeAppInstanceUserEndpointRequest {
   AppInstanceUserArn: string;
   EndpointId: string;
 }
-export const DescribeAppInstanceUserEndpointRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
-      EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DescribeAppInstanceUserEndpointRequest",
-}) as any as S.Schema<DescribeAppInstanceUserEndpointRequest>;
 export type SensitiveString1600 = string | redacted.Redacted<string>;
 export type AppInstanceUserEndpointType =
   | "APNS"
   | "APNS_SANDBOX"
   | "GCM"
   | (string & {});
-export const AppInstanceUserEndpointType = S.String;
-
 export type NonEmptySensitiveString1600 = string | redacted.Redacted<string>;
 export interface EndpointAttributes {
   DeviceToken: string | redacted.Redacted<string>;
   VoipDeviceToken?: string | redacted.Redacted<string>;
 }
-export const EndpointAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeviceToken: SensitiveString,
-    VoipDeviceToken: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "EndpointAttributes",
-}) as any as S.Schema<EndpointAttributes>;
 export type AllowMessages = "ALL" | "NONE" | (string & {});
-export const AllowMessages = S.String;
-
 export type EndpointStatus = "ACTIVE" | "INACTIVE" | (string & {});
-export const EndpointStatus = S.String;
-
 export type EndpointStatusReason =
   | "INVALID_DEVICE_TOKEN"
   | "INVALID_PINPOINT_ARN"
   | (string & {});
-export const EndpointStatusReason = S.String;
-
 export interface EndpointState {
   Status: EndpointStatus;
   StatusReason?: EndpointStatusReason;
 }
-export const EndpointState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: EndpointStatus,
-    StatusReason: S.optional(EndpointStatusReason),
-  }),
-).annotate({ identifier: "EndpointState" }) as any as S.Schema<EndpointState>;
 export interface AppInstanceUserEndpoint {
   AppInstanceUserArn?: string;
   EndpointId?: string;
@@ -838,90 +337,23 @@ export interface AppInstanceUserEndpoint {
   AllowMessages?: AllowMessages;
   EndpointState?: EndpointState;
 }
-export const AppInstanceUserEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.optional(S.String),
-    EndpointId: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    Type: S.optional(AppInstanceUserEndpointType),
-    ResourceArn: S.optional(S.String),
-    EndpointAttributes: S.optional(EndpointAttributes),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    AllowMessages: S.optional(AllowMessages),
-    EndpointState: S.optional(EndpointState),
-  }),
-).annotate({
-  identifier: "AppInstanceUserEndpoint",
-}) as any as S.Schema<AppInstanceUserEndpoint>;
 export interface DescribeAppInstanceUserEndpointResponse {
   AppInstanceUserEndpoint?: AppInstanceUserEndpoint;
 }
-export const DescribeAppInstanceUserEndpointResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ AppInstanceUserEndpoint: S.optional(AppInstanceUserEndpoint) }),
-).annotate({
-  identifier: "DescribeAppInstanceUserEndpointResponse",
-}) as any as S.Schema<DescribeAppInstanceUserEndpointResponse>;
 export interface GetAppInstanceRetentionSettingsRequest {
   AppInstanceArn: string;
 }
-export const GetAppInstanceRetentionSettingsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/app-instances/{AppInstanceArn}/retention-settings",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetAppInstanceRetentionSettingsRequest",
-}) as any as S.Schema<GetAppInstanceRetentionSettingsRequest>;
 export type RetentionDays = number;
 export interface ChannelRetentionSettings {
   RetentionDays?: number;
 }
-export const ChannelRetentionSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RetentionDays: S.optional(S.Number) }),
-).annotate({
-  identifier: "ChannelRetentionSettings",
-}) as any as S.Schema<ChannelRetentionSettings>;
 export interface AppInstanceRetentionSettings {
   ChannelRetentionSettings?: ChannelRetentionSettings;
 }
-export const AppInstanceRetentionSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ChannelRetentionSettings: S.optional(ChannelRetentionSettings) }),
-).annotate({
-  identifier: "AppInstanceRetentionSettings",
-}) as any as S.Schema<AppInstanceRetentionSettings>;
 export interface GetAppInstanceRetentionSettingsResponse {
   AppInstanceRetentionSettings?: AppInstanceRetentionSettings;
   InitiateDeletionTimestamp?: Date;
 }
-export const GetAppInstanceRetentionSettingsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AppInstanceRetentionSettings: S.optional(AppInstanceRetentionSettings),
-      InitiateDeletionTimestamp: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-    }),
-).annotate({
-  identifier: "GetAppInstanceRetentionSettingsResponse",
-}) as any as S.Schema<GetAppInstanceRetentionSettingsResponse>;
 export type MaxResults = number;
 export type NextToken = string | redacted.Redacted<string>;
 export interface ListAppInstanceAdminsRequest {
@@ -929,179 +361,51 @@ export interface ListAppInstanceAdminsRequest {
   MaxResults?: number;
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstanceAdminsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/app-instances/{AppInstanceArn}/admins" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAppInstanceAdminsRequest",
-}) as any as S.Schema<ListAppInstanceAdminsRequest>;
 export interface AppInstanceAdminSummary {
   Admin?: Identity;
 }
-export const AppInstanceAdminSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Admin: S.optional(Identity) }),
-).annotate({
-  identifier: "AppInstanceAdminSummary",
-}) as any as S.Schema<AppInstanceAdminSummary>;
 export type AppInstanceAdminList = AppInstanceAdminSummary[];
-export const AppInstanceAdminList = /*@__PURE__*/ S.Array(
-  AppInstanceAdminSummary,
-);
 export interface ListAppInstanceAdminsResponse {
   AppInstanceArn?: string;
   AppInstanceAdmins?: AppInstanceAdminSummary[];
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstanceAdminsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.optional(S.String),
-    AppInstanceAdmins: S.optional(AppInstanceAdminList),
-    NextToken: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "ListAppInstanceAdminsResponse",
-}) as any as S.Schema<ListAppInstanceAdminsResponse>;
 export interface ListAppInstanceBotsRequest {
   AppInstanceArn: string;
   MaxResults?: number;
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstanceBotsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String.pipe(T.HttpQuery("app-instance-arn")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/app-instance-bots" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAppInstanceBotsRequest",
-}) as any as S.Schema<ListAppInstanceBotsRequest>;
 export interface AppInstanceBotSummary {
   AppInstanceBotArn?: string;
   Name?: string | redacted.Redacted<string>;
   Metadata?: string | redacted.Redacted<string>;
 }
-export const AppInstanceBotSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceBotArn: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    Metadata: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "AppInstanceBotSummary",
-}) as any as S.Schema<AppInstanceBotSummary>;
 export type AppInstanceBotList = AppInstanceBotSummary[];
-export const AppInstanceBotList = /*@__PURE__*/ S.Array(AppInstanceBotSummary);
 export interface ListAppInstanceBotsResponse {
   AppInstanceArn?: string;
   AppInstanceBots?: AppInstanceBotSummary[];
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstanceBotsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.optional(S.String),
-    AppInstanceBots: S.optional(AppInstanceBotList),
-    NextToken: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "ListAppInstanceBotsResponse",
-}) as any as S.Schema<ListAppInstanceBotsResponse>;
 export interface ListAppInstancesRequest {
   MaxResults?: number;
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstancesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/app-instances" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAppInstancesRequest",
-}) as any as S.Schema<ListAppInstancesRequest>;
 export interface AppInstanceSummary {
   AppInstanceArn?: string;
   Name?: string | redacted.Redacted<string>;
   Metadata?: string | redacted.Redacted<string>;
 }
-export const AppInstanceSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    Metadata: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "AppInstanceSummary",
-}) as any as S.Schema<AppInstanceSummary>;
 export type AppInstanceList = AppInstanceSummary[];
-export const AppInstanceList = /*@__PURE__*/ S.Array(AppInstanceSummary);
 export interface ListAppInstancesResponse {
   AppInstances?: AppInstanceSummary[];
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstancesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstances: S.optional(AppInstanceList),
-    NextToken: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "ListAppInstancesResponse",
-}) as any as S.Schema<ListAppInstancesResponse>;
 export type SensitiveChimeArn = string | redacted.Redacted<string>;
 export interface ListAppInstanceUserEndpointsRequest {
   AppInstanceUserArn: string | redacted.Redacted<string>;
   MaxResults?: number;
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstanceUserEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: SensitiveString.pipe(T.HttpLabel("AppInstanceUserArn")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app-instance-users/{AppInstanceUserArn}/endpoints",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAppInstanceUserEndpointsRequest",
-}) as any as S.Schema<ListAppInstanceUserEndpointsRequest>;
 export interface AppInstanceUserEndpointSummary {
   AppInstanceUserArn?: string;
   EndpointId?: string;
@@ -1110,194 +414,50 @@ export interface AppInstanceUserEndpointSummary {
   AllowMessages?: AllowMessages;
   EndpointState?: EndpointState;
 }
-export const AppInstanceUserEndpointSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.optional(S.String),
-    EndpointId: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    Type: S.optional(AppInstanceUserEndpointType),
-    AllowMessages: S.optional(AllowMessages),
-    EndpointState: S.optional(EndpointState),
-  }),
-).annotate({
-  identifier: "AppInstanceUserEndpointSummary",
-}) as any as S.Schema<AppInstanceUserEndpointSummary>;
 export type AppInstanceUserEndpointSummaryList =
   AppInstanceUserEndpointSummary[];
-export const AppInstanceUserEndpointSummaryList = /*@__PURE__*/ S.Array(
-  AppInstanceUserEndpointSummary,
-);
 export interface ListAppInstanceUserEndpointsResponse {
   AppInstanceUserEndpoints?: AppInstanceUserEndpointSummary[];
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstanceUserEndpointsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AppInstanceUserEndpoints: S.optional(AppInstanceUserEndpointSummaryList),
-      NextToken: S.optional(SensitiveString),
-    }),
-).annotate({
-  identifier: "ListAppInstanceUserEndpointsResponse",
-}) as any as S.Schema<ListAppInstanceUserEndpointsResponse>;
 export interface ListAppInstanceUsersRequest {
   AppInstanceArn: string;
   MaxResults?: number;
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstanceUsersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String.pipe(T.HttpQuery("app-instance-arn")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/app-instance-users" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAppInstanceUsersRequest",
-}) as any as S.Schema<ListAppInstanceUsersRequest>;
 export interface AppInstanceUserSummary {
   AppInstanceUserArn?: string;
   Name?: string | redacted.Redacted<string>;
   Metadata?: string | redacted.Redacted<string>;
 }
-export const AppInstanceUserSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    Metadata: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "AppInstanceUserSummary",
-}) as any as S.Schema<AppInstanceUserSummary>;
 export type AppInstanceUserList = AppInstanceUserSummary[];
-export const AppInstanceUserList = /*@__PURE__*/ S.Array(
-  AppInstanceUserSummary,
-);
 export interface ListAppInstanceUsersResponse {
   AppInstanceArn?: string;
   AppInstanceUsers?: AppInstanceUserSummary[];
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstanceUsersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.optional(S.String),
-    AppInstanceUsers: S.optional(AppInstanceUserList),
-    NextToken: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "ListAppInstanceUsersResponse",
-}) as any as S.Schema<ListAppInstanceUsersResponse>;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String.pipe(T.HttpQuery("arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   Tags?: Tag[];
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutAppInstanceRetentionSettingsRequest {
   AppInstanceArn: string;
   AppInstanceRetentionSettings: AppInstanceRetentionSettings;
 }
-export const PutAppInstanceRetentionSettingsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-      AppInstanceRetentionSettings: AppInstanceRetentionSettings,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/app-instances/{AppInstanceArn}/retention-settings",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "PutAppInstanceRetentionSettingsRequest",
-}) as any as S.Schema<PutAppInstanceRetentionSettingsRequest>;
 export interface PutAppInstanceRetentionSettingsResponse {
   AppInstanceRetentionSettings?: AppInstanceRetentionSettings;
   InitiateDeletionTimestamp?: Date;
 }
-export const PutAppInstanceRetentionSettingsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AppInstanceRetentionSettings: S.optional(AppInstanceRetentionSettings),
-      InitiateDeletionTimestamp: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-    }),
-).annotate({
-  identifier: "PutAppInstanceRetentionSettingsResponse",
-}) as any as S.Schema<PutAppInstanceRetentionSettingsResponse>;
 export interface PutAppInstanceUserExpirationSettingsRequest {
   AppInstanceUserArn: string;
   ExpirationSettings?: ExpirationSettings;
 }
-export const PutAppInstanceUserExpirationSettingsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
-      ExpirationSettings: S.optional(ExpirationSettings),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/app-instance-users/{AppInstanceUserArn}/expiration-settings",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "PutAppInstanceUserExpirationSettingsRequest",
-  }) as any as S.Schema<PutAppInstanceUserExpirationSettingsRequest>;
 export interface PutAppInstanceUserExpirationSettingsResponse {
   AppInstanceUserArn?: string;
   ExpirationSettings?: ExpirationSettings;
 }
-export const PutAppInstanceUserExpirationSettingsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AppInstanceUserArn: S.optional(S.String),
-      ExpirationSettings: S.optional(ExpirationSettings),
-    }),
-  ).annotate({
-    identifier: "PutAppInstanceUserExpirationSettingsResponse",
-  }) as any as S.Schema<PutAppInstanceUserExpirationSettingsResponse>;
 export interface RegisterAppInstanceUserEndpointRequest {
   AppInstanceUserArn: string | redacted.Redacted<string>;
   Name?: string | redacted.Redacted<string>;
@@ -1307,237 +467,56 @@ export interface RegisterAppInstanceUserEndpointRequest {
   ClientRequestToken: string;
   AllowMessages?: AllowMessages;
 }
-export const RegisterAppInstanceUserEndpointRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AppInstanceUserArn: SensitiveString.pipe(
-        T.HttpLabel("AppInstanceUserArn"),
-      ),
-      Name: S.optional(SensitiveString),
-      Type: AppInstanceUserEndpointType,
-      ResourceArn: S.String,
-      EndpointAttributes: EndpointAttributes,
-      ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
-      AllowMessages: S.optional(AllowMessages),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/app-instance-users/{AppInstanceUserArn}/endpoints",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "RegisterAppInstanceUserEndpointRequest",
-}) as any as S.Schema<RegisterAppInstanceUserEndpointRequest>;
 export interface RegisterAppInstanceUserEndpointResponse {
   AppInstanceUserArn?: string;
   EndpointId?: string;
 }
-export const RegisterAppInstanceUserEndpointResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AppInstanceUserArn: S.optional(S.String),
-      EndpointId: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "RegisterAppInstanceUserEndpointResponse",
-}) as any as S.Schema<RegisterAppInstanceUserEndpointResponse>;
 export interface TagResourceRequest {
   ResourceARN: string;
   Tags: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags?operation=tag-resource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = (string | redacted.Redacted<string>)[];
-export const TagKeyList = /*@__PURE__*/ S.Array(SensitiveString);
 export interface UntagResourceRequest {
   ResourceARN: string;
   TagKeys: (string | redacted.Redacted<string>)[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags?operation=untag-resource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAppInstanceRequest {
   AppInstanceArn: string;
   Name: string | redacted.Redacted<string>;
   Metadata: string | redacted.Redacted<string>;
 }
-export const UpdateAppInstanceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-    Name: SensitiveString,
-    Metadata: SensitiveString,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/app-instances/{AppInstanceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAppInstanceRequest",
-}) as any as S.Schema<UpdateAppInstanceRequest>;
 export interface UpdateAppInstanceResponse {
   AppInstanceArn?: string;
 }
-export const UpdateAppInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AppInstanceArn: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateAppInstanceResponse",
-}) as any as S.Schema<UpdateAppInstanceResponse>;
 export interface UpdateAppInstanceBotRequest {
   AppInstanceBotArn: string;
   Name: string | redacted.Redacted<string>;
   Metadata: string | redacted.Redacted<string>;
   Configuration?: Configuration;
 }
-export const UpdateAppInstanceBotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceBotArn: S.String.pipe(T.HttpLabel("AppInstanceBotArn")),
-    Name: SensitiveString,
-    Metadata: SensitiveString,
-    Configuration: S.optional(Configuration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/app-instance-bots/{AppInstanceBotArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAppInstanceBotRequest",
-}) as any as S.Schema<UpdateAppInstanceBotRequest>;
 export interface UpdateAppInstanceBotResponse {
   AppInstanceBotArn?: string;
 }
-export const UpdateAppInstanceBotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AppInstanceBotArn: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateAppInstanceBotResponse",
-}) as any as S.Schema<UpdateAppInstanceBotResponse>;
 export interface UpdateAppInstanceUserRequest {
   AppInstanceUserArn: string;
   Name: string | redacted.Redacted<string>;
   Metadata: string | redacted.Redacted<string>;
 }
-export const UpdateAppInstanceUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
-    Name: SensitiveString,
-    Metadata: SensitiveString,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/app-instance-users/{AppInstanceUserArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAppInstanceUserRequest",
-}) as any as S.Schema<UpdateAppInstanceUserRequest>;
 export interface UpdateAppInstanceUserResponse {
   AppInstanceUserArn?: string;
 }
-export const UpdateAppInstanceUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AppInstanceUserArn: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateAppInstanceUserResponse",
-}) as any as S.Schema<UpdateAppInstanceUserResponse>;
 export interface UpdateAppInstanceUserEndpointRequest {
   AppInstanceUserArn: string;
   EndpointId: string;
   Name?: string | redacted.Redacted<string>;
   AllowMessages?: AllowMessages;
 }
-export const UpdateAppInstanceUserEndpointRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
-      EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
-      Name: S.optional(SensitiveString),
-      AllowMessages: S.optional(AllowMessages),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateAppInstanceUserEndpointRequest",
-}) as any as S.Schema<UpdateAppInstanceUserEndpointRequest>;
 export interface UpdateAppInstanceUserEndpointResponse {
   AppInstanceUserArn?: string;
   EndpointId?: string;
 }
-export const UpdateAppInstanceUserEndpointResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AppInstanceUserArn: S.optional(S.String),
-      EndpointId: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "UpdateAppInstanceUserEndpointResponse",
-}) as any as S.Schema<UpdateAppInstanceUserEndpointResponse>;
 export type ErrorCode =
   | "BadRequest"
   | "Conflict"
@@ -1555,8 +534,6 @@ export type ErrorCode =
   | "VoiceConnectorGroupAssociationsExist"
   | "PhoneNumberAssociationsExist"
   | (string & {});
-export const ErrorCode = S.String;
-
 export type CreateAppInstanceError =
   | BadRequestException
   | ConflictException
@@ -1580,8 +557,17 @@ export const createAppInstance: API.OperationMethod<
   CreateAppInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAppInstanceRequest,
-  output: CreateAppInstanceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /app-instances",
+    input: {
+      Name: 0,
+      Metadata: 0,
+      ClientRequestToken: D.m({ idempotency: true }),
+      Tags: D.list(i_Tag),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -1595,7 +581,7 @@ export const createAppInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppInstance",
-}));
+})) as any;
 
 export type CreateAppInstanceAdminError =
   | BadRequestException
@@ -1626,8 +612,13 @@ export const createAppInstanceAdmin: API.OperationMethod<
   CreateAppInstanceAdminError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAppInstanceAdminRequest,
-  output: CreateAppInstanceAdminResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /app-instances/{AppInstanceArn}/admins",
+    input: { AppInstanceAdminArn: 0, AppInstanceArn: 0 },
+    output: { AppInstanceAdmin: o_Identity },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -1641,7 +632,7 @@ export const createAppInstanceAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppInstanceAdmin",
-}));
+})) as any;
 
 export type CreateAppInstanceBotError =
   | BadRequestException
@@ -1663,8 +654,19 @@ export const createAppInstanceBot: API.OperationMethod<
   CreateAppInstanceBotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAppInstanceBotRequest,
-  output: CreateAppInstanceBotResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /app-instance-bots",
+    input: {
+      AppInstanceArn: 0,
+      Name: 0,
+      Metadata: 0,
+      ClientRequestToken: D.m({ idempotency: true }),
+      Tags: D.list(i_Tag),
+      Configuration: i_Configuration,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -1678,7 +680,7 @@ export const createAppInstanceBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppInstanceBot",
-}));
+})) as any;
 
 export type CreateAppInstanceUserError =
   | BadRequestException
@@ -1700,8 +702,20 @@ export const createAppInstanceUser: API.OperationMethod<
   CreateAppInstanceUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAppInstanceUserRequest,
-  output: CreateAppInstanceUserResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /app-instance-users",
+    input: {
+      AppInstanceArn: 0,
+      AppInstanceUserId: 0,
+      Name: 0,
+      Metadata: 0,
+      ClientRequestToken: D.m({ idempotency: true }),
+      Tags: D.list(i_Tag),
+      ExpirationSettings: i_ExpirationSettings,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -1715,7 +729,7 @@ export const createAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppInstanceUser",
-}));
+})) as any;
 
 export type DeleteAppInstanceError =
   | BadRequestException
@@ -1735,8 +749,11 @@ export const deleteAppInstance: API.OperationMethod<
   DeleteAppInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAppInstanceRequest,
-  output: DeleteAppInstanceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /app-instances/{AppInstanceArn}",
+    input: { AppInstanceArn: 0 },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1749,7 +766,7 @@ export const deleteAppInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInstance",
-}));
+})) as any;
 
 export type DeleteAppInstanceAdminError =
   | BadRequestException
@@ -1772,8 +789,11 @@ export const deleteAppInstanceAdmin: API.OperationMethod<
   DeleteAppInstanceAdminError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAppInstanceAdminRequest,
-  output: DeleteAppInstanceAdminResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /app-instances/{AppInstanceArn}/admins/{AppInstanceAdminArn}",
+    input: { AppInstanceAdminArn: 0, AppInstanceArn: 0 },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -1787,7 +807,7 @@ export const deleteAppInstanceAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInstanceAdmin",
-}));
+})) as any;
 
 export type DeleteAppInstanceBotError =
   | BadRequestException
@@ -1808,8 +828,11 @@ export const deleteAppInstanceBot: API.OperationMethod<
   DeleteAppInstanceBotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAppInstanceBotRequest,
-  output: DeleteAppInstanceBotResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /app-instance-bots/{AppInstanceBotArn}",
+    input: { AppInstanceBotArn: 0 },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -1823,7 +846,7 @@ export const deleteAppInstanceBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInstanceBot",
-}));
+})) as any;
 
 export type DeleteAppInstanceUserError =
   | BadRequestException
@@ -1844,8 +867,11 @@ export const deleteAppInstanceUser: API.OperationMethod<
   DeleteAppInstanceUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAppInstanceUserRequest,
-  output: DeleteAppInstanceUserResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /app-instance-users/{AppInstanceUserArn}",
+    input: { AppInstanceUserArn: 0 },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -1859,7 +885,7 @@ export const deleteAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInstanceUser",
-}));
+})) as any;
 
 export type DeregisterAppInstanceUserEndpointError =
   | BadRequestException
@@ -1878,8 +904,11 @@ export const deregisterAppInstanceUserEndpoint: API.OperationMethod<
   DeregisterAppInstanceUserEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeregisterAppInstanceUserEndpointRequest,
-  output: DeregisterAppInstanceUserEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}",
+    input: { AppInstanceUserArn: 0, EndpointId: 0 },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1891,7 +920,7 @@ export const deregisterAppInstanceUserEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterAppInstanceUserEndpoint",
-}));
+})) as any;
 
 export type DescribeAppInstanceError =
   | BadRequestException
@@ -1910,8 +939,19 @@ export const describeAppInstance: API.OperationMethod<
   DescribeAppInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeAppInstanceRequest,
-  output: DescribeAppInstanceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /app-instances/{AppInstanceArn}",
+    input: { AppInstanceArn: 0 },
+    output: {
+      AppInstance: {
+        Name: D.secret,
+        CreatedTimestamp: D.ts,
+        LastUpdatedTimestamp: D.ts,
+        Metadata: D.secret,
+      },
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1923,7 +963,7 @@ export const describeAppInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstance",
-}));
+})) as any;
 
 export type DescribeAppInstanceAdminError =
   | BadRequestException
@@ -1942,8 +982,12 @@ export const describeAppInstanceAdmin: API.OperationMethod<
   DescribeAppInstanceAdminError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeAppInstanceAdminRequest,
-  output: DescribeAppInstanceAdminResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /app-instances/{AppInstanceArn}/admins/{AppInstanceAdminArn}",
+    input: { AppInstanceAdminArn: 0, AppInstanceArn: 0 },
+    output: { AppInstanceAdmin: { Admin: o_Identity, CreatedTimestamp: D.ts } },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1955,7 +999,7 @@ export const describeAppInstanceAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstanceAdmin",
-}));
+})) as any;
 
 export type DescribeAppInstanceBotError =
   | BadRequestException
@@ -1975,8 +1019,19 @@ export const describeAppInstanceBot: API.OperationMethod<
   DescribeAppInstanceBotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeAppInstanceBotRequest,
-  output: DescribeAppInstanceBotResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /app-instance-bots/{AppInstanceBotArn}",
+    input: { AppInstanceBotArn: 0 },
+    output: {
+      AppInstanceBot: {
+        Name: D.secret,
+        CreatedTimestamp: D.ts,
+        LastUpdatedTimestamp: D.ts,
+        Metadata: D.secret,
+      },
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1989,7 +1044,7 @@ export const describeAppInstanceBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstanceBot",
-}));
+})) as any;
 
 export type DescribeAppInstanceUserError =
   | BadRequestException
@@ -2008,8 +1063,19 @@ export const describeAppInstanceUser: API.OperationMethod<
   DescribeAppInstanceUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeAppInstanceUserRequest,
-  output: DescribeAppInstanceUserResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /app-instance-users/{AppInstanceUserArn}",
+    input: { AppInstanceUserArn: 0 },
+    output: {
+      AppInstanceUser: {
+        Name: D.secret,
+        Metadata: D.secret,
+        CreatedTimestamp: D.ts,
+        LastUpdatedTimestamp: D.ts,
+      },
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2021,7 +1087,7 @@ export const describeAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstanceUser",
-}));
+})) as any;
 
 export type DescribeAppInstanceUserEndpointError =
   | BadRequestException
@@ -2040,8 +1106,22 @@ export const describeAppInstanceUserEndpoint: API.OperationMethod<
   DescribeAppInstanceUserEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeAppInstanceUserEndpointRequest,
-  output: DescribeAppInstanceUserEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}",
+    input: { AppInstanceUserArn: 0, EndpointId: 0 },
+    output: {
+      AppInstanceUserEndpoint: {
+        Name: D.secret,
+        EndpointAttributes: {
+          DeviceToken: D.secret,
+          VoipDeviceToken: D.secret,
+        },
+        CreatedTimestamp: D.ts,
+        LastUpdatedTimestamp: D.ts,
+      },
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2053,7 +1133,7 @@ export const describeAppInstanceUserEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstanceUserEndpoint",
-}));
+})) as any;
 
 export type GetAppInstanceRetentionSettingsError =
   | BadRequestException
@@ -2072,8 +1152,12 @@ export const getAppInstanceRetentionSettings: API.OperationMethod<
   GetAppInstanceRetentionSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAppInstanceRetentionSettingsRequest,
-  output: GetAppInstanceRetentionSettingsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /app-instances/{AppInstanceArn}/retention-settings",
+    input: { AppInstanceArn: 0 },
+    output: { InitiateDeletionTimestamp: D.ts },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2085,7 +1169,7 @@ export const getAppInstanceRetentionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppInstanceRetentionSettings",
-}));
+})) as any;
 
 export type ListAppInstanceAdminsError =
   | BadRequestException
@@ -2106,8 +1190,19 @@ export const listAppInstanceAdmins: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAppInstanceAdminsRequest,
-  output: ListAppInstanceAdminsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /app-instances/{AppInstanceArn}/admins",
+    input: {
+      AppInstanceArn: 0,
+      MaxResults: D.m({ query: "max-results" }),
+      NextToken: D.m({ query: "next-token" }),
+    },
+    output: {
+      AppInstanceAdmins: D.list({ Admin: o_Identity }),
+      NextToken: D.secret,
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2146,8 +1241,19 @@ export const listAppInstanceBots: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAppInstanceBotsRequest,
-  output: ListAppInstanceBotsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /app-instance-bots",
+    input: {
+      AppInstanceArn: D.m({ query: "app-instance-arn" }),
+      MaxResults: D.m({ query: "max-results" }),
+      NextToken: D.m({ query: "next-token" }),
+    },
+    output: {
+      AppInstanceBots: D.list({ Name: D.secret, Metadata: D.secret }),
+      NextToken: D.secret,
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2186,8 +1292,18 @@ export const listAppInstances: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAppInstancesRequest,
-  output: ListAppInstancesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /app-instances",
+    input: {
+      MaxResults: D.m({ query: "max-results" }),
+      NextToken: D.m({ query: "next-token" }),
+    },
+    output: {
+      AppInstances: D.list({ Name: D.secret, Metadata: D.secret }),
+      NextToken: D.secret,
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2224,8 +1340,19 @@ export const listAppInstanceUserEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAppInstanceUserEndpointsRequest,
-  output: ListAppInstanceUserEndpointsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /app-instance-users/{AppInstanceUserArn}/endpoints",
+    input: {
+      AppInstanceUserArn: 0,
+      MaxResults: D.m({ query: "max-results" }),
+      NextToken: D.m({ query: "next-token" }),
+    },
+    output: {
+      AppInstanceUserEndpoints: D.list({ Name: D.secret }),
+      NextToken: D.secret,
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2263,8 +1390,19 @@ export const listAppInstanceUsers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAppInstanceUsersRequest,
-  output: ListAppInstanceUsersResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /app-instance-users",
+    input: {
+      AppInstanceArn: D.m({ query: "app-instance-arn" }),
+      MaxResults: D.m({ query: "max-results" }),
+      NextToken: D.m({ query: "next-token" }),
+    },
+    output: {
+      AppInstanceUsers: D.list({ Name: D.secret, Metadata: D.secret }),
+      NextToken: D.secret,
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2300,8 +1438,12 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /tags",
+    input: { ResourceARN: D.m({ query: "arn" }) },
+    output: { Tags: D.list({ Key: D.secret, Value: D.secret }) },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2313,7 +1455,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type PutAppInstanceRetentionSettingsError =
   | BadRequestException
@@ -2333,8 +1475,18 @@ export const putAppInstanceRetentionSettings: API.OperationMethod<
   PutAppInstanceRetentionSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutAppInstanceRetentionSettingsRequest,
-  output: PutAppInstanceRetentionSettingsResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /app-instances/{AppInstanceArn}/retention-settings",
+    input: {
+      AppInstanceArn: 0,
+      AppInstanceRetentionSettings: {
+        ChannelRetentionSettings: { RetentionDays: 0 },
+      },
+    },
+    output: { InitiateDeletionTimestamp: D.ts },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2346,7 +1498,7 @@ export const putAppInstanceRetentionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAppInstanceRetentionSettings",
-}));
+})) as any;
 
 export type PutAppInstanceUserExpirationSettingsError =
   | BadRequestException
@@ -2372,8 +1524,12 @@ export const putAppInstanceUserExpirationSettings: API.OperationMethod<
   PutAppInstanceUserExpirationSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutAppInstanceUserExpirationSettingsRequest,
-  output: PutAppInstanceUserExpirationSettingsResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /app-instance-users/{AppInstanceUserArn}/expiration-settings",
+    input: { AppInstanceUserArn: 0, ExpirationSettings: i_ExpirationSettings },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -2386,7 +1542,7 @@ export const putAppInstanceUserExpirationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAppInstanceUserExpirationSettings",
-}));
+})) as any;
 
 export type RegisterAppInstanceUserEndpointError =
   | BadRequestException
@@ -2407,8 +1563,20 @@ export const registerAppInstanceUserEndpoint: API.OperationMethod<
   RegisterAppInstanceUserEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RegisterAppInstanceUserEndpointRequest,
-  output: RegisterAppInstanceUserEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /app-instance-users/{AppInstanceUserArn}/endpoints",
+    input: {
+      AppInstanceUserArn: 0,
+      Name: 0,
+      Type: 0,
+      ResourceArn: 0,
+      EndpointAttributes: { DeviceToken: 0, VoipDeviceToken: 0 },
+      ClientRequestToken: D.m({ idempotency: true }),
+      AllowMessages: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -2422,7 +1590,7 @@ export const registerAppInstanceUserEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAppInstanceUserEndpoint",
-}));
+})) as any;
 
 export type TagResourceError =
   | BadRequestException
@@ -2442,8 +1610,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags?operation=tag-resource",
+    input: { ResourceARN: 0, Tags: D.list(i_Tag) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2456,7 +1628,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | BadRequestException
@@ -2475,8 +1647,12 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags?operation=untag-resource",
+    input: { ResourceARN: 0, TagKeys: 0 },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2488,7 +1664,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateAppInstanceError =
   | BadRequestException
@@ -2508,8 +1684,12 @@ export const updateAppInstance: API.OperationMethod<
   UpdateAppInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAppInstanceRequest,
-  output: UpdateAppInstanceResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /app-instances/{AppInstanceArn}",
+    input: { AppInstanceArn: 0, Name: 0, Metadata: 0 },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -2522,7 +1702,7 @@ export const updateAppInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppInstance",
-}));
+})) as any;
 
 export type UpdateAppInstanceBotError =
   | BadRequestException
@@ -2543,8 +1723,17 @@ export const updateAppInstanceBot: API.OperationMethod<
   UpdateAppInstanceBotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAppInstanceBotRequest,
-  output: UpdateAppInstanceBotResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /app-instance-bots/{AppInstanceBotArn}",
+    input: {
+      AppInstanceBotArn: 0,
+      Name: 0,
+      Metadata: 0,
+      Configuration: i_Configuration,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -2558,7 +1747,7 @@ export const updateAppInstanceBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppInstanceBot",
-}));
+})) as any;
 
 export type UpdateAppInstanceUserError =
   | BadRequestException
@@ -2580,8 +1769,12 @@ export const updateAppInstanceUser: API.OperationMethod<
   UpdateAppInstanceUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAppInstanceUserRequest,
-  output: UpdateAppInstanceUserResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /app-instance-users/{AppInstanceUserArn}",
+    input: { AppInstanceUserArn: 0, Name: 0, Metadata: 0 },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -2595,7 +1788,7 @@ export const updateAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppInstanceUser",
-}));
+})) as any;
 
 export type UpdateAppInstanceUserEndpointError =
   | BadRequestException
@@ -2615,8 +1808,12 @@ export const updateAppInstanceUserEndpoint: API.OperationMethod<
   UpdateAppInstanceUserEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAppInstanceUserEndpointRequest,
-  output: UpdateAppInstanceUserEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}",
+    input: { AppInstanceUserArn: 0, EndpointId: 0, Name: 0, AllowMessages: 0 },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -2629,4 +1826,20 @@ export const updateAppInstanceUserEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppInstanceUserEndpoint",
-}));
+})) as any;
+
+const i_Configuration: D.LazyStruct = () => ({
+  Lex: {
+    RespondsTo: 0,
+    InvokedBy: { StandardMessages: 0, TargetedMessages: 0 },
+    LexBotAliasArn: 0,
+    LocaleId: 0,
+    WelcomeIntent: 0,
+  },
+});
+const i_ExpirationSettings: D.LazyStruct = () => ({
+  ExpirationDays: 0,
+  ExpirationCriterion: 0,
+});
+const i_Tag: D.LazyStruct = () => ({ Key: 0, Value: 0 });
+const o_Identity: D.LazyStruct = () => ({ Name: D.secret });

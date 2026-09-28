@@ -1,39 +1,61 @@
-import * as S from "effect/Schema";
-import type { PaginatedTrait } from "../traits.ts";
+import type { AnyErrorClass } from "@distilled.cloud/core/error-class";
+import type { PaginatedTrait } from "@distilled.cloud/core/pagination";
+import type { Struct } from "@distilled.cloud/core/shape";
+import type { EndpointResolverFn } from "../rules-engine/resolver-types.ts";
+import type { Protocol } from "./protocol.ts";
 
-export declare namespace Operation {
-  export type Input<Op extends Operation> = S.Schema.Type<Op["input"]>;
-  export type Output<Op extends Operation> = S.Schema.Type<Op["output"]>;
-  export type Error<Op extends Operation> = Instance<Op["errors"][number]>;
+/** aws.protocols#httpChecksum */
+export interface HttpChecksumTrait {
+  readonly requestAlgorithmMember?: string;
+  readonly requestChecksumRequired?: boolean;
+  readonly responseAlgorithms?: readonly string[];
 }
 
-export type Instance<T> = T extends new (...args: any) => infer U ? U : T;
+/** Service-wide facts, emitted once per generated service module. */
+export interface ServiceInfo {
+  readonly sdkId: string;
+  /** The Smithy service shape name (awsJson `X-Amz-Target` prefix). */
+  readonly target: string;
+  readonly version: string;
+  /** SigV4 signing name. */
+  readonly sigv4?: string;
+  /** Legacy SigV2 signing name (SimpleDB). */
+  readonly sigv2?: string;
+  /** The wire protocol implementation. */
+  readonly protocol: Protocol;
+  /** Service XML namespace (restXml / awsQuery). */
+  readonly xmlns?: string;
+  /** Compiled Smithy endpoint rules. */
+  readonly rules?: EndpointResolverFn;
+}
 
-export interface Operation<
-  Input extends S.Top = S.Any,
-  Output extends S.Top = S.Top,
-  Error = any,
-> {
-  input: Input;
-  output: Output;
-  errors: Error[];
+/**
+ * What an operation's protocol needs at runtime. Built lazily on the first
+ * call; see `@distilled.cloud/core/shape` for the member vocabulary.
+ */
+export interface OperationDescriptor {
+  readonly service: ServiceInfo;
+  /** `METHOD /uri` for REST protocols. */
+  readonly http?: string;
+  readonly input?: Struct;
+  readonly output?: Struct;
+  readonly checksum?: HttpChecksumTrait;
+  readonly staticContext?: Readonly<
+    Record<string, { readonly value: unknown }>
+  >;
+  /** aws.customizations#s3UnwrappedXmlOutput: the member holding the root text. */
+  readonly unwrapped?: string;
   /**
-   * The Smithy operation name (e.g. "DescribeAutoScalingGroups"). Used as the
-   * wire `Action` / `X-Amz-Target` operation. When absent, protocols fall back
-   * to deriving it from the input schema identifier by stripping a
-   * Request/Input/Message suffix — which is wrong for services whose input
-   * shapes are not named after the operation (e.g. AutoScaling's
-   * `AutoScalingGroupNamesType`).
+   * restJson: the input has members bound to the body (an empty `{}` is sent
+   * when none are set). restXml: the body's root element name.
    */
-  operationName?: string;
-  /**
-   * The Smithy `smithy.api#endpoint` trait's `hostPrefix` (e.g. `"sync-"` on
-   * Step Functions' `StartSyncExecution`, which must target
-   * `sync-states.{region}` instead of `states.{region}`). Applied to the
-   * resolved endpoint's host unless a custom `Endpoint` service is provided.
-   * May contain `{memberName}` labels substituted from the operation input.
-   */
-  endpointHostPrefix?: string;
-  /** Pagination metadata for paginated operations */
-  pagination?: PaginatedTrait;
+  readonly body?: true | string;
+}
+
+export interface Operation {
+  readonly descriptor: OperationDescriptor;
+  readonly errors: readonly AnyErrorClass[];
+  readonly operationName: string;
+  readonly endpointHostPrefix?: string;
+  readonly pagination?: PaginatedTrait;
 }

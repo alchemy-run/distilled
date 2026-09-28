@@ -1,150 +1,128 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { awsJson1_1Protocol } from "../protocols/aws-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "MigrationHub Config",
-  serviceShapeName: "AWSMigrationHubMultiAccountService",
-});
-const auth = T.AwsAuthSigv4({ name: "mgh" });
-const ver = T.ServiceVersion("2019-06-30");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://migrationhub-config-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://migrationhub-config-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://migrationhub-config.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://migrationhub-config.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AWSMigrationHubMultiAccountService",
+  version: "2019-06-30",
+  sigv4: "mgh",
+  protocol: awsJson1_1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://migrationhub-config-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://migrationhub-config-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://migrationhub-config.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://migrationhub-config.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"])<{
+    readonly message?: string;
+  }> {}
 export class DryRunOperation
-  extends /*@__PURE__*/ S.TaggedError<DryRunOperation>()("DryRunOperation", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }) {}
+  extends /*@__PURE__*/ TE.TaggedError("DryRunOperation")<{
+    readonly message?: string;
+  }> {}
 export class InternalServerError
-  extends /*@__PURE__*/ S.TaggedError<InternalServerError>()(
-    "InternalServerError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InternalServerError")<{
+    readonly message?: string;
+  }> {}
 export class InvalidInputException
-  extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
-    "InvalidInputException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidInputException")<{
+    readonly message?: string;
+  }> {}
 export class ServiceUnavailableException
-  extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
-    "ServiceUnavailableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withServerError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ServiceUnavailableException", [
+    "ServerError",
+  ])<{ readonly message?: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
-    },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429, headers: { RetryAfterSeconds: ["Retry-After", "num"] } },
+  )<{ readonly message: string; readonly RetryAfterSeconds?: number }> {}
 export type HomeRegion = string;
 export type TargetType = "ACCOUNT" | (string & {});
-export const TargetType = S.String;
-
 export type TargetId = string;
 export interface Target {
   Type: TargetType;
   Id?: string;
 }
-export const Target = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Type: TargetType, Id: S.optional(S.String) }),
-).annotate({ identifier: "Target" }) as any as S.Schema<Target>;
 export type DryRun = boolean;
 export interface CreateHomeRegionControlRequest {
   HomeRegion: string;
   Target: Target;
   DryRun?: boolean;
 }
-export const CreateHomeRegionControlRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HomeRegion: S.String,
-    Target: Target,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateHomeRegionControlRequest",
-}) as any as S.Schema<CreateHomeRegionControlRequest>;
 export type ControlId = string;
 export type RequestedTime = Date;
 export interface HomeRegionControl {
@@ -153,40 +131,13 @@ export interface HomeRegionControl {
   Target?: Target;
   RequestedTime?: Date;
 }
-export const HomeRegionControl = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ControlId: S.optional(S.String),
-    HomeRegion: S.optional(S.String),
-    Target: S.optional(Target),
-    RequestedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "HomeRegionControl",
-}) as any as S.Schema<HomeRegionControl>;
 export interface CreateHomeRegionControlResult {
   HomeRegionControl?: HomeRegionControl;
 }
-export const CreateHomeRegionControlResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ HomeRegionControl: S.optional(HomeRegionControl) }),
-).annotate({
-  identifier: "CreateHomeRegionControlResult",
-}) as any as S.Schema<CreateHomeRegionControlResult>;
 export interface DeleteHomeRegionControlRequest {
   ControlId: string;
 }
-export const DeleteHomeRegionControlRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ControlId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteHomeRegionControlRequest",
-}) as any as S.Schema<DeleteHomeRegionControlRequest>;
 export interface DeleteHomeRegionControlResult {}
-export const DeleteHomeRegionControlResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteHomeRegionControlResult",
-}) as any as S.Schema<DeleteHomeRegionControlResult>;
 export type DescribeHomeRegionControlsMaxResults = number;
 export type Token = string;
 export interface DescribeHomeRegionControlsRequest {
@@ -196,49 +147,15 @@ export interface DescribeHomeRegionControlsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeHomeRegionControlsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ControlId: S.optional(S.String),
-    HomeRegion: S.optional(S.String),
-    Target: S.optional(Target),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeHomeRegionControlsRequest",
-}) as any as S.Schema<DescribeHomeRegionControlsRequest>;
 export type HomeRegionControls = HomeRegionControl[];
-export const HomeRegionControls = /*@__PURE__*/ S.Array(HomeRegionControl);
 export interface DescribeHomeRegionControlsResult {
   HomeRegionControls?: HomeRegionControl[];
   NextToken?: string;
 }
-export const DescribeHomeRegionControlsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HomeRegionControls: S.optional(HomeRegionControls),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeHomeRegionControlsResult",
-}) as any as S.Schema<DescribeHomeRegionControlsResult>;
 export interface GetHomeRegionRequest {}
-export const GetHomeRegionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetHomeRegionRequest",
-}) as any as S.Schema<GetHomeRegionRequest>;
 export interface GetHomeRegionResult {
   HomeRegion?: string;
 }
-export const GetHomeRegionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ HomeRegion: S.optional(S.String) }),
-).annotate({
-  identifier: "GetHomeRegionResult",
-}) as any as S.Schema<GetHomeRegionResult>;
 export type ErrorMessage = string;
 export type RetryAfterSeconds = number;
 export type CreateHomeRegionControlError =
@@ -258,8 +175,11 @@ export const createHomeRegionControl: API.OperationMethod<
   CreateHomeRegionControlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateHomeRegionControlRequest,
-  output: CreateHomeRegionControlResult,
+  descriptor: {
+    service: svc,
+    input: { HomeRegion: 0, Target: i_Target, DryRun: 0 },
+    output: { HomeRegionControl: o_HomeRegionControl },
+  },
   errors: [
     AccessDeniedException,
     DryRunOperation,
@@ -271,7 +191,7 @@ export const createHomeRegionControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHomeRegionControl",
-}));
+})) as any;
 
 export type DeleteHomeRegionControlError =
   | AccessDeniedException
@@ -289,8 +209,7 @@ export const deleteHomeRegionControl: API.OperationMethod<
   DeleteHomeRegionControlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteHomeRegionControlRequest,
-  output: DeleteHomeRegionControlResult,
+  descriptor: { service: svc, input: { ControlId: 0 } },
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -301,7 +220,7 @@ export const deleteHomeRegionControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHomeRegionControl",
-}));
+})) as any;
 
 export type DescribeHomeRegionControlsError =
   | AccessDeniedException
@@ -321,8 +240,17 @@ export const describeHomeRegionControls: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeHomeRegionControlsRequest,
-  output: DescribeHomeRegionControlsResult,
+  descriptor: {
+    service: svc,
+    input: {
+      ControlId: 0,
+      HomeRegion: 0,
+      Target: i_Target,
+      MaxResults: 0,
+      NextToken: 0,
+    },
+    output: { HomeRegionControls: D.list(o_HomeRegionControl) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -360,8 +288,7 @@ export const getHomeRegion: API.OperationMethod<
   GetHomeRegionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetHomeRegionRequest,
-  output: GetHomeRegionResult,
+  descriptor: { service: svc, input: {} },
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -372,4 +299,7 @@ export const getHomeRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHomeRegion",
-}));
+})) as any;
+
+const i_Target: D.LazyStruct = () => ({ Type: 0, Id: 0 });
+const o_HomeRegionControl: D.LazyStruct = () => ({ RequestedTime: D.ts });

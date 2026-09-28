@@ -1,552 +1,314 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { awsJson1_0Protocol } from "../protocols/aws-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({ sdkId: "SQS", serviceShapeName: "AmazonSQS" });
-const auth = T.AwsAuthSigv4({ name: "sqs" });
-const ver = T.ServiceVersion("2012-11-05");
-const proto = T.AwsProtocolsAwsJson1_0();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://sqs-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
-              return e(`https://sqs.${Region}.amazonaws.com`);
-            }
-            return e(
-              `https://sqs-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://sqs.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://sqs.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+const svc: T.ServiceInfo = {
+  sdkId: "SQS",
+  target: "AmazonSQS",
+  version: "2012-11-05",
+  sigv4: "sqs",
+  protocol: awsJson1_0Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://sqs-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
+                return e(`https://sqs.${Region}.amazonaws.com`);
+              }
+              return e(
+                `https://sqs-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://sqs.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://sqs.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class BatchEntryIdsNotDistinct
-  extends /*@__PURE__*/ S.TaggedError<BatchEntryIdsNotDistinct>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "BatchEntryIdsNotDistinct",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "AWS.SimpleQueueService.BatchEntryIdsNotDistinct",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "AWS.SimpleQueueService.BatchEntryIdsNotDistinct", status: 400 },
+  )<{ readonly message?: string }> {}
 export class BatchRequestTooLong
-  extends /*@__PURE__*/ S.TaggedError<BatchRequestTooLong>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "BatchRequestTooLong",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "AWS.SimpleQueueService.BatchRequestTooLong",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "AWS.SimpleQueueService.BatchRequestTooLong", status: 400 },
+  )<{ readonly message?: string }> {}
 export class CommonServiceException
-  extends /*@__PURE__*/ S.TaggedError<CommonServiceException>()(
-    "CommonServiceException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withServerError) {}
+  extends /*@__PURE__*/ TE.TaggedError("CommonServiceException", [
+    "ServerError",
+  ])<{ readonly message?: string }> {}
 export class EmptyBatchRequest
-  extends /*@__PURE__*/ S.TaggedError<EmptyBatchRequest>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EmptyBatchRequest",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "AWS.SimpleQueueService.EmptyBatchRequest",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "AWS.SimpleQueueService.EmptyBatchRequest", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidAddress
-  extends /*@__PURE__*/ S.TaggedError<InvalidAddress>()(
-    "InvalidAddress",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidAddress", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidAddress", ["BadRequestError"], {
+    status: 404,
+  })<{ readonly message?: string }> {}
 export class InvalidAttributeName
-  extends /*@__PURE__*/ S.TaggedError<InvalidAttributeName>()(
-    "InvalidAttributeName",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidAttributeName", [
+    "BadRequestError",
+  ])<{ readonly message?: string }> {}
 export class InvalidAttributeValue
-  extends /*@__PURE__*/ S.TaggedError<InvalidAttributeValue>()(
-    "InvalidAttributeValue",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidAttributeValue", [
+    "BadRequestError",
+  ])<{ readonly message?: string }> {}
 export class InvalidBatchEntryId
-  extends /*@__PURE__*/ S.TaggedError<InvalidBatchEntryId>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidBatchEntryId",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "AWS.SimpleQueueService.InvalidBatchEntryId",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "AWS.SimpleQueueService.InvalidBatchEntryId", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidIdFormat
-  extends /*@__PURE__*/ S.TaggedError<InvalidIdFormat>()("InvalidIdFormat", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidIdFormat", ["BadRequestError"])<{
+    readonly message?: string;
+  }> {}
 export class InvalidMessageContents
-  extends /*@__PURE__*/ S.TaggedError<InvalidMessageContents>()(
-    "InvalidMessageContents",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidMessageContents", [
+    "BadRequestError",
+  ])<{ readonly message?: string }> {}
 export class InvalidParameterValueException
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterValueException>()(
-    "InvalidParameterValueException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidParameterValueException", [
+    "BadRequestError",
+  ])<{ readonly message?: string }> {}
 export class InvalidSecurity
-  extends /*@__PURE__*/ S.TaggedError<InvalidSecurity>()(
-    "InvalidSecurity",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidSecurity", httpResponseCode: 403 }),
-      T.HttpError(403),
-    ),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidSecurity", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class KmsAccessDenied
-  extends /*@__PURE__*/ S.TaggedError<KmsAccessDenied>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "KmsAccessDenied",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "KMS.AccessDeniedException",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError, C.withAuthError) {}
+    ["BadRequestError", "AuthError"],
+    { code: "KMS.AccessDeniedException", status: 400 },
+  )<{ readonly message?: string }> {}
 export class KmsDisabled
-  extends /*@__PURE__*/ S.TaggedError<KmsDisabled>()(
-    "KmsDisabled",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "KMS.DisabledException", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("KmsDisabled", ["BadRequestError"], {
+    code: "KMS.DisabledException",
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class KmsInvalidKeyUsage
-  extends /*@__PURE__*/ S.TaggedError<KmsInvalidKeyUsage>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "KmsInvalidKeyUsage",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "KMS.InvalidKeyUsageException",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "KMS.InvalidKeyUsageException", status: 400 },
+  )<{ readonly message?: string }> {}
 export class KmsInvalidState
-  extends /*@__PURE__*/ S.TaggedError<KmsInvalidState>()(
-    "KmsInvalidState",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "KMS.InvalidStateException",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("KmsInvalidState", ["BadRequestError"], {
+    code: "KMS.InvalidStateException",
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class KmsNotFound
-  extends /*@__PURE__*/ S.TaggedError<KmsNotFound>()(
-    "KmsNotFound",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "KMS.NotFoundException", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("KmsNotFound", ["BadRequestError"], {
+    code: "KMS.NotFoundException",
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class KmsOptInRequired
-  extends /*@__PURE__*/ S.TaggedError<KmsOptInRequired>()(
-    "KmsOptInRequired",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "KMS.OptInRequired", httpResponseCode: 403 }),
-      T.HttpError(403),
-    ),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("KmsOptInRequired", ["AuthError"], {
+    code: "KMS.OptInRequired",
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class KmsThrottled
-  extends /*@__PURE__*/ S.TaggedError<KmsThrottled>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "KmsThrottled",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "KMS.ThrottlingException",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError, C.withThrottlingError, C.withRetryableError) {}
+    ["BadRequestError", "ThrottlingError", "RetryableError"],
+    { code: "KMS.ThrottlingException", status: 400 },
+  )<{ readonly message?: string }> {}
 export class MessageNotInflight
-  extends /*@__PURE__*/ S.TaggedError<MessageNotInflight>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MessageNotInflight",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "AWS.SimpleQueueService.MessageNotInflight",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "AWS.SimpleQueueService.MessageNotInflight", status: 400 },
+  )<{ readonly message?: string }> {}
 export class MissingRequiredParameterException
-  extends /*@__PURE__*/ S.TaggedError<MissingRequiredParameterException>()(
-    "MissingRequiredParameterException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("MissingRequiredParameterException", [
+    "BadRequestError",
+  ])<{ readonly message?: string }> {}
 export class OverLimit
-  extends /*@__PURE__*/ S.TaggedError<OverLimit>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "OverLimit",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "OverLimit", httpResponseCode: 403 }),
-      T.HttpError(403),
-    ),
-  ).pipe(C.withAuthError, C.withQuotaError) {}
+    ["AuthError", "QuotaError"],
+    { status: 403 },
+  )<{ readonly message?: string }> {}
 export class ParseError
-  extends /*@__PURE__*/ S.TaggedError<ParseError>()("ParseError", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }) {}
+  extends /*@__PURE__*/ TE.TaggedError("ParseError")<{
+    readonly message?: string;
+  }> {}
 export class PurgeQueueInProgress
-  extends /*@__PURE__*/ S.TaggedError<PurgeQueueInProgress>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "PurgeQueueInProgress",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "AWS.SimpleQueueService.PurgeQueueInProgress",
-        httpResponseCode: 403,
-      }),
-      T.HttpError(403),
-    ),
-  ).pipe(C.withAuthError, C.withConflictError, C.withRetryableError) {}
+    ["AuthError", "ConflictError", "RetryableError"],
+    { code: "AWS.SimpleQueueService.PurgeQueueInProgress", status: 403 },
+  )<{ readonly message?: string }> {}
 export class QueueDeletedRecently
-  extends /*@__PURE__*/ S.TaggedError<QueueDeletedRecently>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "QueueDeletedRecently",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "AWS.SimpleQueueService.QueueDeletedRecently",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "AWS.SimpleQueueService.QueueDeletedRecently", status: 400 },
+  )<{ readonly message?: string }> {}
 export class QueueDoesNotExist
-  extends /*@__PURE__*/ S.TaggedError<QueueDoesNotExist>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "QueueDoesNotExist",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "AWS.SimpleQueueService.NonExistentQueue",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "AWS.SimpleQueueService.NonExistentQueue", status: 400 },
+  )<{ readonly message?: string }> {}
 export class QueueNameExists
-  extends /*@__PURE__*/ S.TaggedError<QueueNameExists>()(
-    "QueueNameExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "QueueAlreadyExists", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("QueueNameExists", ["BadRequestError"], {
+    code: "QueueAlreadyExists",
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class ReceiptHandleIsInvalid
-  extends /*@__PURE__*/ S.TaggedError<ReceiptHandleIsInvalid>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ReceiptHandleIsInvalid",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ReceiptHandleIsInvalid",
-        httpResponseCode: 404,
-      }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class RequestLimitExceeded
-  extends /*@__PURE__*/ S.TaggedError<RequestLimitExceeded>()(
-    "RequestLimitExceeded",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withThrottlingError) {}
+  extends /*@__PURE__*/ TE.TaggedError("RequestLimitExceeded", [
+    "ThrottlingError",
+  ])<{ readonly message?: string }> {}
 export class RequestThrottled
-  extends /*@__PURE__*/ S.TaggedError<RequestThrottled>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RequestThrottled",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "RequestThrottled", httpResponseCode: 403 }),
-      T.HttpError(403),
-    ),
-  ).pipe(C.withAuthError, C.withThrottlingError, C.withRetryableError) {}
+    ["AuthError", "ThrottlingError", "RetryableError"],
+    { status: 403 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ResourceNotFoundException",
-        httpResponseCode: 404,
-      }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class TooManyEntriesInBatchRequest
-  extends /*@__PURE__*/ S.TaggedError<TooManyEntriesInBatchRequest>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyEntriesInBatchRequest",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "AWS.SimpleQueueService.TooManyEntriesInBatchRequest",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    {
+      code: "AWS.SimpleQueueService.TooManyEntriesInBatchRequest",
+      status: 400,
+    },
+  )<{ readonly message?: string }> {}
 export class UnsupportedOperation
-  extends /*@__PURE__*/ S.TaggedError<UnsupportedOperation>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "UnsupportedOperation",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "AWS.SimpleQueueService.UnsupportedOperation",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "AWS.SimpleQueueService.UnsupportedOperation", status: 400 },
+  )<{ readonly message?: string }> {}
 export type AWSAccountIdList = string[];
-export const AWSAccountIdList = /*@__PURE__*/ S.Array(S.String);
 export type ActionNameList = string[];
-export const ActionNameList = /*@__PURE__*/ S.Array(S.String);
 export interface AddPermissionRequest {
   QueueUrl: string;
   Label: string;
   AWSAccountIds: string[];
   Actions: string[];
 }
-export const AddPermissionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueueUrl: S.String,
-    Label: S.String,
-    AWSAccountIds: AWSAccountIdList.pipe(
-      T.XmlName("AWSAccountId"),
-      T.XmlFlattened(),
-    ),
-    Actions: ActionNameList.pipe(T.XmlName("ActionName"), T.XmlFlattened()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AddPermissionRequest",
-}) as any as S.Schema<AddPermissionRequest>;
 export interface AddPermissionResponse {}
-export const AddPermissionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AddPermissionResponse",
-}) as any as S.Schema<AddPermissionResponse>;
 export interface CancelMessageMoveTaskRequest {
   TaskHandle: string;
 }
-export const CancelMessageMoveTaskRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TaskHandle: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CancelMessageMoveTaskRequest",
-}) as any as S.Schema<CancelMessageMoveTaskRequest>;
 export interface CancelMessageMoveTaskResult {
   ApproximateNumberOfMessagesMoved?: number;
 }
-export const CancelMessageMoveTaskResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ApproximateNumberOfMessagesMoved: S.optional(S.Number) }),
-).annotate({
-  identifier: "CancelMessageMoveTaskResult",
-}) as any as S.Schema<CancelMessageMoveTaskResult>;
 export interface ChangeMessageVisibilityRequest {
   QueueUrl: string;
   ReceiptHandle: string;
   VisibilityTimeout: number;
 }
-export const ChangeMessageVisibilityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueueUrl: S.String,
-    ReceiptHandle: S.String,
-    VisibilityTimeout: S.Number,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ChangeMessageVisibilityRequest",
-}) as any as S.Schema<ChangeMessageVisibilityRequest>;
 export interface ChangeMessageVisibilityResponse {}
-export const ChangeMessageVisibilityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ChangeMessageVisibilityResponse",
-}) as any as S.Schema<ChangeMessageVisibilityResponse>;
 export interface ChangeMessageVisibilityBatchRequestEntry {
   Id: string;
   ReceiptHandle: string;
   VisibilityTimeout?: number;
 }
-export const ChangeMessageVisibilityBatchRequestEntry = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Id: S.String,
-      ReceiptHandle: S.String,
-      VisibilityTimeout: S.optional(S.Number),
-    }),
-).annotate({
-  identifier: "ChangeMessageVisibilityBatchRequestEntry",
-}) as any as S.Schema<ChangeMessageVisibilityBatchRequestEntry>;
 export type ChangeMessageVisibilityBatchRequestEntryList =
   ChangeMessageVisibilityBatchRequestEntry[];
-export const ChangeMessageVisibilityBatchRequestEntryList =
-  /*@__PURE__*/ S.Array(ChangeMessageVisibilityBatchRequestEntry);
 export interface ChangeMessageVisibilityBatchRequest {
   QueueUrl: string;
   Entries: ChangeMessageVisibilityBatchRequestEntry[];
 }
-export const ChangeMessageVisibilityBatchRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueueUrl: S.String,
-    Entries: ChangeMessageVisibilityBatchRequestEntryList.pipe(
-      T.XmlName("ChangeMessageVisibilityBatchRequestEntry"),
-      T.XmlFlattened(),
-    ),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ChangeMessageVisibilityBatchRequest",
-}) as any as S.Schema<ChangeMessageVisibilityBatchRequest>;
 export interface ChangeMessageVisibilityBatchResultEntry {
   Id: string;
 }
-export const ChangeMessageVisibilityBatchResultEntry = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Id: S.String }),
-).annotate({
-  identifier: "ChangeMessageVisibilityBatchResultEntry",
-}) as any as S.Schema<ChangeMessageVisibilityBatchResultEntry>;
 export type ChangeMessageVisibilityBatchResultEntryList =
   ChangeMessageVisibilityBatchResultEntry[];
-export const ChangeMessageVisibilityBatchResultEntryList =
-  /*@__PURE__*/ S.Array(ChangeMessageVisibilityBatchResultEntry);
 export interface BatchResultErrorEntry {
   Id: string;
   SenderFault: boolean;
   Code: string;
   Message?: string;
 }
-export const BatchResultErrorEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    SenderFault: S.Boolean,
-    Code: S.String,
-    Message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BatchResultErrorEntry",
-}) as any as S.Schema<BatchResultErrorEntry>;
 export type BatchResultErrorEntryList = BatchResultErrorEntry[];
-export const BatchResultErrorEntryList = /*@__PURE__*/ S.Array(
-  BatchResultErrorEntry,
-);
 export interface ChangeMessageVisibilityBatchResult {
   Successful?: ChangeMessageVisibilityBatchResultEntry[];
   Failed?: BatchResultErrorEntry[];
 }
-export const ChangeMessageVisibilityBatchResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Successful: S.optional(ChangeMessageVisibilityBatchResultEntryList).pipe(
-      T.XmlName("ChangeMessageVisibilityBatchResultEntry"),
-      T.XmlFlattened(),
-    ),
-    Failed: S.optional(BatchResultErrorEntryList).pipe(
-      T.XmlName("BatchResultErrorEntry"),
-      T.XmlFlattened(),
-    ),
-  }),
-).annotate({
-  identifier: "ChangeMessageVisibilityBatchResult",
-}) as any as S.Schema<ChangeMessageVisibilityBatchResult>;
 export type QueueAttributeName =
   | "All"
   | "Policy"
@@ -571,195 +333,60 @@ export type QueueAttributeName =
   | "RedriveAllowPolicy"
   | "SqsManagedSseEnabled"
   | (string & {});
-export const QueueAttributeName = S.String;
-
 export type QueueAttributeMap = { [key in QueueAttributeName]?: string };
-export const QueueAttributeMap = /*@__PURE__*/ S.Record(
-  QueueAttributeName.pipe(T.XmlName("Name")),
-  S.String.pipe(T.XmlName("Value")).pipe(S.optional),
-);
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String.pipe(T.XmlName("Key")),
-  S.String.pipe(T.XmlName("Value")).pipe(S.optional),
-);
 export interface CreateQueueRequest {
   QueueName: string;
   Attributes?: { [key: string]: string | undefined };
   tags?: { [key: string]: string | undefined };
 }
-export const CreateQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueueName: S.String,
-    Attributes: S.optional(QueueAttributeMap).pipe(
-      T.XmlName("Attribute"),
-      T.XmlFlattened(),
-    ),
-    tags: S.optional(TagMap).pipe(T.XmlName("Tag"), T.XmlFlattened()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateQueueRequest",
-}) as any as S.Schema<CreateQueueRequest>;
 export interface CreateQueueResult {
   QueueUrl?: string;
 }
-export const CreateQueueResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ QueueUrl: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateQueueResult",
-}) as any as S.Schema<CreateQueueResult>;
 export interface DeleteMessageRequest {
   QueueUrl: string;
   ReceiptHandle: string;
 }
-export const DeleteMessageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ QueueUrl: S.String, ReceiptHandle: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteMessageRequest",
-}) as any as S.Schema<DeleteMessageRequest>;
 export interface DeleteMessageResponse {}
-export const DeleteMessageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteMessageResponse",
-}) as any as S.Schema<DeleteMessageResponse>;
 export interface DeleteMessageBatchRequestEntry {
   Id: string;
   ReceiptHandle: string;
 }
-export const DeleteMessageBatchRequestEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String, ReceiptHandle: S.String }),
-).annotate({
-  identifier: "DeleteMessageBatchRequestEntry",
-}) as any as S.Schema<DeleteMessageBatchRequestEntry>;
 export type DeleteMessageBatchRequestEntryList =
   DeleteMessageBatchRequestEntry[];
-export const DeleteMessageBatchRequestEntryList = /*@__PURE__*/ S.Array(
-  DeleteMessageBatchRequestEntry,
-);
 export interface DeleteMessageBatchRequest {
   QueueUrl: string;
   Entries: DeleteMessageBatchRequestEntry[];
 }
-export const DeleteMessageBatchRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueueUrl: S.String,
-    Entries: DeleteMessageBatchRequestEntryList.pipe(
-      T.XmlName("DeleteMessageBatchRequestEntry"),
-      T.XmlFlattened(),
-    ),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteMessageBatchRequest",
-}) as any as S.Schema<DeleteMessageBatchRequest>;
 export interface DeleteMessageBatchResultEntry {
   Id: string;
 }
-export const DeleteMessageBatchResultEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String }),
-).annotate({
-  identifier: "DeleteMessageBatchResultEntry",
-}) as any as S.Schema<DeleteMessageBatchResultEntry>;
 export type DeleteMessageBatchResultEntryList = DeleteMessageBatchResultEntry[];
-export const DeleteMessageBatchResultEntryList = /*@__PURE__*/ S.Array(
-  DeleteMessageBatchResultEntry,
-);
 export interface DeleteMessageBatchResult {
   Successful?: DeleteMessageBatchResultEntry[];
   Failed?: BatchResultErrorEntry[];
 }
-export const DeleteMessageBatchResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Successful: S.optional(DeleteMessageBatchResultEntryList).pipe(
-      T.XmlName("DeleteMessageBatchResultEntry"),
-      T.XmlFlattened(),
-    ),
-    Failed: S.optional(BatchResultErrorEntryList).pipe(
-      T.XmlName("BatchResultErrorEntry"),
-      T.XmlFlattened(),
-    ),
-  }),
-).annotate({
-  identifier: "DeleteMessageBatchResult",
-}) as any as S.Schema<DeleteMessageBatchResult>;
 export interface DeleteQueueRequest {
   QueueUrl: string;
 }
-export const DeleteQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ QueueUrl: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteQueueRequest",
-}) as any as S.Schema<DeleteQueueRequest>;
 export interface DeleteQueueResponse {}
-export const DeleteQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteQueueResponse",
-}) as any as S.Schema<DeleteQueueResponse>;
 export type AttributeNameList = QueueAttributeName[];
-export const AttributeNameList = /*@__PURE__*/ S.Array(QueueAttributeName);
 export interface GetQueueAttributesRequest {
   QueueUrl: string;
   AttributeNames?: QueueAttributeName[];
 }
-export const GetQueueAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueueUrl: S.String,
-    AttributeNames: S.optional(AttributeNameList).pipe(
-      T.XmlName("AttributeName"),
-      T.XmlFlattened(),
-    ),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetQueueAttributesRequest",
-}) as any as S.Schema<GetQueueAttributesRequest>;
 export interface GetQueueAttributesResult {
   Attributes?: { [key: string]: string | undefined };
 }
-export const GetQueueAttributesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Attributes: S.optional(QueueAttributeMap).pipe(
-      T.XmlName("Attribute"),
-      T.XmlFlattened(),
-    ),
-  }),
-).annotate({
-  identifier: "GetQueueAttributesResult",
-}) as any as S.Schema<GetQueueAttributesResult>;
 export interface GetQueueUrlRequest {
   QueueName: string;
   QueueOwnerAWSAccountId?: string;
 }
-export const GetQueueUrlRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueueName: S.String,
-    QueueOwnerAWSAccountId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetQueueUrlRequest",
-}) as any as S.Schema<GetQueueUrlRequest>;
 export interface GetQueueUrlResult {
   QueueUrl?: string;
 }
-export const GetQueueUrlResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ QueueUrl: S.optional(S.String) }),
-).annotate({
-  identifier: "GetQueueUrlResult",
-}) as any as S.Schema<GetQueueUrlResult>;
 export type Token = string;
 export type BoxedInteger = number;
 export interface ListDeadLetterSourceQueuesRequest {
@@ -767,42 +394,15 @@ export interface ListDeadLetterSourceQueuesRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListDeadLetterSourceQueuesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueueUrl: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListDeadLetterSourceQueuesRequest",
-}) as any as S.Schema<ListDeadLetterSourceQueuesRequest>;
 export type QueueUrlList = string[];
-export const QueueUrlList = /*@__PURE__*/ S.Array(S.String);
 export interface ListDeadLetterSourceQueuesResult {
   queueUrls: string[];
   NextToken?: string;
 }
-export const ListDeadLetterSourceQueuesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queueUrls: QueueUrlList.pipe(T.XmlName("QueueUrl"), T.XmlFlattened()),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListDeadLetterSourceQueuesResult",
-}) as any as S.Schema<ListDeadLetterSourceQueuesResult>;
 export interface ListMessageMoveTasksRequest {
   SourceArn: string;
   MaxResults?: number;
 }
-export const ListMessageMoveTasksRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SourceArn: S.String, MaxResults: S.optional(S.Number) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListMessageMoveTasksRequest",
-}) as any as S.Schema<ListMessageMoveTasksRequest>;
 export interface ListMessageMoveTasksResultEntry {
   TaskHandle?: string;
   Status?: string;
@@ -814,106 +414,30 @@ export interface ListMessageMoveTasksResultEntry {
   FailureReason?: string;
   StartedTimestamp?: number;
 }
-export const ListMessageMoveTasksResultEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TaskHandle: S.optional(S.String),
-    Status: S.optional(S.String),
-    SourceArn: S.optional(S.String),
-    DestinationArn: S.optional(S.String),
-    MaxNumberOfMessagesPerSecond: S.optional(S.Number),
-    ApproximateNumberOfMessagesMoved: S.optional(S.Number),
-    ApproximateNumberOfMessagesToMove: S.optional(S.Number),
-    FailureReason: S.optional(S.String),
-    StartedTimestamp: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ListMessageMoveTasksResultEntry",
-}) as any as S.Schema<ListMessageMoveTasksResultEntry>;
 export type ListMessageMoveTasksResultEntryList =
   ListMessageMoveTasksResultEntry[];
-export const ListMessageMoveTasksResultEntryList = /*@__PURE__*/ S.Array(
-  ListMessageMoveTasksResultEntry,
-);
 export interface ListMessageMoveTasksResult {
   Results?: ListMessageMoveTasksResultEntry[];
 }
-export const ListMessageMoveTasksResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Results: S.optional(ListMessageMoveTasksResultEntryList).pipe(
-      T.XmlName("ListMessageMoveTasksResultEntry"),
-      T.XmlFlattened(),
-    ),
-  }).pipe(T.XmlName("ListMessageMoveTasksResult")),
-).annotate({
-  identifier: "ListMessageMoveTasksResult",
-}) as any as S.Schema<ListMessageMoveTasksResult>;
 export interface ListQueuesRequest {
   QueueNamePrefix?: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListQueuesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueueNamePrefix: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListQueuesRequest",
-}) as any as S.Schema<ListQueuesRequest>;
 export interface ListQueuesResult {
   QueueUrls?: string[];
   NextToken?: string;
 }
-export const ListQueuesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueueUrls: S.optional(QueueUrlList).pipe(
-      T.XmlName("QueueUrl"),
-      T.XmlFlattened(),
-    ),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListQueuesResult",
-}) as any as S.Schema<ListQueuesResult>;
 export interface ListQueueTagsRequest {
   QueueUrl: string;
 }
-export const ListQueueTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ QueueUrl: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListQueueTagsRequest",
-}) as any as S.Schema<ListQueueTagsRequest>;
 export interface ListQueueTagsResult {
   Tags?: { [key: string]: string | undefined };
 }
-export const ListQueueTagsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Tags: S.optional(TagMap).pipe(T.XmlName("Tag"), T.XmlFlattened()),
-  }),
-).annotate({
-  identifier: "ListQueueTagsResult",
-}) as any as S.Schema<ListQueueTagsResult>;
 export interface PurgeQueueRequest {
   QueueUrl: string;
 }
-export const PurgeQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ QueueUrl: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "PurgeQueueRequest",
-}) as any as S.Schema<PurgeQueueRequest>;
 export interface PurgeQueueResponse {}
-export const PurgeQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PurgeQueueResponse",
-}) as any as S.Schema<PurgeQueueResponse>;
 export type MessageSystemAttributeName =
   | "All"
   | "SenderId"
@@ -926,15 +450,9 @@ export type MessageSystemAttributeName =
   | "AWSTraceHeader"
   | "DeadLetterQueueSourceArn"
   | (string & {});
-export const MessageSystemAttributeName = S.String;
-
 export type MessageSystemAttributeList = MessageSystemAttributeName[];
-export const MessageSystemAttributeList = /*@__PURE__*/ S.Array(
-  MessageSystemAttributeName,
-);
 export type MessageAttributeName = string;
 export type MessageAttributeNameList = string[];
-export const MessageAttributeNameList = /*@__PURE__*/ S.Array(S.String);
 export interface ReceiveMessageRequest {
   QueueUrl: string;
   AttributeNames?: QueueAttributeName[];
@@ -945,47 +463,12 @@ export interface ReceiveMessageRequest {
   WaitTimeSeconds?: number;
   ReceiveRequestAttemptId?: string;
 }
-export const ReceiveMessageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueueUrl: S.String,
-    AttributeNames: S.optional(AttributeNameList).pipe(
-      T.XmlName("AttributeName"),
-      T.XmlFlattened(),
-    ),
-    MessageSystemAttributeNames: S.optional(MessageSystemAttributeList).pipe(
-      T.XmlName("AttributeName"),
-      T.XmlFlattened(),
-    ),
-    MessageAttributeNames: S.optional(MessageAttributeNameList).pipe(
-      T.XmlName("MessageAttributeName"),
-      T.XmlFlattened(),
-    ),
-    MaxNumberOfMessages: S.optional(S.Number),
-    VisibilityTimeout: S.optional(S.Number),
-    WaitTimeSeconds: S.optional(S.Number),
-    ReceiveRequestAttemptId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ReceiveMessageRequest",
-}) as any as S.Schema<ReceiveMessageRequest>;
 export type MessageSystemAttributeMap = {
   [key in MessageSystemAttributeName]?: string;
 };
-export const MessageSystemAttributeMap = /*@__PURE__*/ S.Record(
-  MessageSystemAttributeName.pipe(T.XmlName("Name")),
-  S.String.pipe(T.XmlName("Value")).pipe(S.optional),
-);
 export type Binary = Uint8Array;
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("StringListValue")),
-);
 export type BinaryList = Uint8Array[];
-export const BinaryList = /*@__PURE__*/ S.Array(
-  T.Blob.pipe(T.XmlName("BinaryListValue")),
-);
 export interface MessageAttributeValue {
   StringValue?: string;
   BinaryValue?: Uint8Array;
@@ -993,32 +476,9 @@ export interface MessageAttributeValue {
   BinaryListValues?: Uint8Array[];
   DataType: string;
 }
-export const MessageAttributeValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StringValue: S.optional(S.String),
-    BinaryValue: S.optional(T.Blob),
-    StringListValues: S.optional(StringList).pipe(
-      T.XmlName("StringListValue"),
-      T.XmlFlattened(),
-    ),
-    BinaryListValues: S.optional(BinaryList).pipe(
-      T.XmlName("BinaryListValue"),
-      T.XmlFlattened(),
-    ),
-    DataType: S.String,
-  }),
-).annotate({
-  identifier: "MessageAttributeValue",
-}) as any as S.Schema<MessageAttributeValue>;
 export type MessageBodyAttributeMap = {
   [key: string]: MessageAttributeValue | undefined;
 };
-export const MessageBodyAttributeMap = /*@__PURE__*/ S.Record(
-  S.String.pipe(T.XmlName("Name")),
-  MessageAttributeValue.pipe(T.XmlName("Value"))
-    .annotate({ identifier: "MessageAttributeValue" })
-    .pipe(S.optional),
-);
 export interface Message {
   MessageId?: string;
   ReceiptHandle?: string;
@@ -1028,60 +488,18 @@ export interface Message {
   MD5OfMessageAttributes?: string;
   MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
 }
-export const Message = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MessageId: S.optional(S.String),
-    ReceiptHandle: S.optional(S.String),
-    MD5OfBody: S.optional(S.String),
-    Body: S.optional(S.String),
-    Attributes: S.optional(MessageSystemAttributeMap).pipe(
-      T.XmlName("Attribute"),
-      T.XmlFlattened(),
-    ),
-    MD5OfMessageAttributes: S.optional(S.String),
-    MessageAttributes: S.optional(MessageBodyAttributeMap).pipe(
-      T.XmlName("MessageAttribute"),
-      T.XmlFlattened(),
-    ),
-  }),
-).annotate({ identifier: "Message" }) as any as S.Schema<Message>;
 export type MessageList = Message[];
-export const MessageList = /*@__PURE__*/ S.Array(Message);
 export interface ReceiveMessageResult {
   Messages?: Message[];
 }
-export const ReceiveMessageResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Messages: S.optional(MessageList).pipe(
-      T.XmlName("Message"),
-      T.XmlFlattened(),
-    ),
-  }),
-).annotate({
-  identifier: "ReceiveMessageResult",
-}) as any as S.Schema<ReceiveMessageResult>;
 export interface RemovePermissionRequest {
   QueueUrl: string;
   Label: string;
 }
-export const RemovePermissionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ QueueUrl: S.String, Label: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "RemovePermissionRequest",
-}) as any as S.Schema<RemovePermissionRequest>;
 export interface RemovePermissionResponse {}
-export const RemovePermissionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "RemovePermissionResponse",
-}) as any as S.Schema<RemovePermissionResponse>;
 export type MessageSystemAttributeNameForSends =
   | "AWSTraceHeader"
   | (string & {});
-export const MessageSystemAttributeNameForSends = S.String;
-
 export interface MessageSystemAttributeValue {
   StringValue?: string;
   BinaryValue?: Uint8Array;
@@ -1089,32 +507,9 @@ export interface MessageSystemAttributeValue {
   BinaryListValues?: Uint8Array[];
   DataType: string;
 }
-export const MessageSystemAttributeValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StringValue: S.optional(S.String),
-    BinaryValue: S.optional(T.Blob),
-    StringListValues: S.optional(StringList).pipe(
-      T.XmlName("StringListValue"),
-      T.XmlFlattened(),
-    ),
-    BinaryListValues: S.optional(BinaryList).pipe(
-      T.XmlName("BinaryListValue"),
-      T.XmlFlattened(),
-    ),
-    DataType: S.String,
-  }),
-).annotate({
-  identifier: "MessageSystemAttributeValue",
-}) as any as S.Schema<MessageSystemAttributeValue>;
 export type MessageBodySystemAttributeMap = {
   [key in MessageSystemAttributeNameForSends]?: MessageSystemAttributeValue;
 };
-export const MessageBodySystemAttributeMap = /*@__PURE__*/ S.Record(
-  MessageSystemAttributeNameForSends.pipe(T.XmlName("Name")),
-  MessageSystemAttributeValue.pipe(T.XmlName("Value"))
-    .annotate({ identifier: "MessageSystemAttributeValue" })
-    .pipe(S.optional),
-);
 export interface SendMessageRequest {
   QueueUrl: string;
   MessageBody: string;
@@ -1126,27 +521,6 @@ export interface SendMessageRequest {
   MessageDeduplicationId?: string;
   MessageGroupId?: string;
 }
-export const SendMessageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueueUrl: S.String,
-    MessageBody: S.String,
-    DelaySeconds: S.optional(S.Number),
-    MessageAttributes: S.optional(MessageBodyAttributeMap).pipe(
-      T.XmlName("MessageAttribute"),
-      T.XmlFlattened(),
-    ),
-    MessageSystemAttributes: S.optional(MessageBodySystemAttributeMap).pipe(
-      T.XmlName("MessageSystemAttribute"),
-      T.XmlFlattened(),
-    ),
-    MessageDeduplicationId: S.optional(S.String),
-    MessageGroupId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "SendMessageRequest",
-}) as any as S.Schema<SendMessageRequest>;
 export interface SendMessageResult {
   MD5OfMessageBody?: string;
   MD5OfMessageAttributes?: string;
@@ -1154,17 +528,6 @@ export interface SendMessageResult {
   MessageId?: string;
   SequenceNumber?: string;
 }
-export const SendMessageResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MD5OfMessageBody: S.optional(S.String),
-    MD5OfMessageAttributes: S.optional(S.String),
-    MD5OfMessageSystemAttributes: S.optional(S.String),
-    MessageId: S.optional(S.String),
-    SequenceNumber: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SendMessageResult",
-}) as any as S.Schema<SendMessageResult>;
 export interface SendMessageBatchRequestEntry {
   Id: string;
   MessageBody: string;
@@ -1176,46 +539,11 @@ export interface SendMessageBatchRequestEntry {
   MessageDeduplicationId?: string;
   MessageGroupId?: string;
 }
-export const SendMessageBatchRequestEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    MessageBody: S.String,
-    DelaySeconds: S.optional(S.Number),
-    MessageAttributes: S.optional(MessageBodyAttributeMap).pipe(
-      T.XmlName("MessageAttribute"),
-      T.XmlFlattened(),
-    ),
-    MessageSystemAttributes: S.optional(MessageBodySystemAttributeMap).pipe(
-      T.XmlName("MessageSystemAttribute"),
-      T.XmlFlattened(),
-    ),
-    MessageDeduplicationId: S.optional(S.String),
-    MessageGroupId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SendMessageBatchRequestEntry",
-}) as any as S.Schema<SendMessageBatchRequestEntry>;
 export type SendMessageBatchRequestEntryList = SendMessageBatchRequestEntry[];
-export const SendMessageBatchRequestEntryList = /*@__PURE__*/ S.Array(
-  SendMessageBatchRequestEntry,
-);
 export interface SendMessageBatchRequest {
   QueueUrl: string;
   Entries: SendMessageBatchRequestEntry[];
 }
-export const SendMessageBatchRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueueUrl: S.String,
-    Entries: SendMessageBatchRequestEntryList.pipe(
-      T.XmlName("SendMessageBatchRequestEntry"),
-      T.XmlFlattened(),
-    ),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "SendMessageBatchRequest",
-}) as any as S.Schema<SendMessageBatchRequest>;
 export interface SendMessageBatchResultEntry {
   Id: string;
   MessageId: string;
@@ -1224,129 +552,35 @@ export interface SendMessageBatchResultEntry {
   MD5OfMessageSystemAttributes?: string;
   SequenceNumber?: string;
 }
-export const SendMessageBatchResultEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    MessageId: S.String,
-    MD5OfMessageBody: S.String,
-    MD5OfMessageAttributes: S.optional(S.String),
-    MD5OfMessageSystemAttributes: S.optional(S.String),
-    SequenceNumber: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SendMessageBatchResultEntry",
-}) as any as S.Schema<SendMessageBatchResultEntry>;
 export type SendMessageBatchResultEntryList = SendMessageBatchResultEntry[];
-export const SendMessageBatchResultEntryList = /*@__PURE__*/ S.Array(
-  SendMessageBatchResultEntry,
-);
 export interface SendMessageBatchResult {
   Successful?: SendMessageBatchResultEntry[];
   Failed?: BatchResultErrorEntry[];
 }
-export const SendMessageBatchResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Successful: S.optional(SendMessageBatchResultEntryList).pipe(
-      T.XmlName("SendMessageBatchResultEntry"),
-      T.XmlFlattened(),
-    ),
-    Failed: S.optional(BatchResultErrorEntryList).pipe(
-      T.XmlName("BatchResultErrorEntry"),
-      T.XmlFlattened(),
-    ),
-  }),
-).annotate({
-  identifier: "SendMessageBatchResult",
-}) as any as S.Schema<SendMessageBatchResult>;
 export interface SetQueueAttributesRequest {
   QueueUrl: string;
   Attributes: { [key: string]: string | undefined };
 }
-export const SetQueueAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueueUrl: S.String,
-    Attributes: QueueAttributeMap.pipe(
-      T.XmlName("Attribute"),
-      T.XmlFlattened(),
-    ),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "SetQueueAttributesRequest",
-}) as any as S.Schema<SetQueueAttributesRequest>;
 export interface SetQueueAttributesResponse {}
-export const SetQueueAttributesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "SetQueueAttributesResponse",
-}) as any as S.Schema<SetQueueAttributesResponse>;
 export interface StartMessageMoveTaskRequest {
   SourceArn: string;
   DestinationArn?: string;
   MaxNumberOfMessagesPerSecond?: number;
 }
-export const StartMessageMoveTaskRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceArn: S.String,
-    DestinationArn: S.optional(S.String),
-    MaxNumberOfMessagesPerSecond: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StartMessageMoveTaskRequest",
-}) as any as S.Schema<StartMessageMoveTaskRequest>;
 export interface StartMessageMoveTaskResult {
   TaskHandle?: string;
 }
-export const StartMessageMoveTaskResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TaskHandle: S.optional(S.String) }),
-).annotate({
-  identifier: "StartMessageMoveTaskResult",
-}) as any as S.Schema<StartMessageMoveTaskResult>;
 export interface TagQueueRequest {
   QueueUrl: string;
   Tags: { [key: string]: string | undefined };
 }
-export const TagQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueueUrl: S.String,
-    Tags: TagMap.pipe(T.XmlName("Tag"), T.XmlFlattened()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "TagQueueRequest",
-}) as any as S.Schema<TagQueueRequest>;
 export interface TagQueueResponse {}
-export const TagQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagQueueResponse",
-}) as any as S.Schema<TagQueueResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagQueueRequest {
   QueueUrl: string;
   TagKeys: string[];
 }
-export const UntagQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueueUrl: S.String,
-    TagKeys: TagKeyList.pipe(T.XmlName("TagKey"), T.XmlFlattened()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UntagQueueRequest",
-}) as any as S.Schema<UntagQueueRequest>;
 export interface UntagQueueResponse {}
-export const UntagQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagQueueResponse",
-}) as any as S.Schema<UntagQueueResponse>;
 export type ExceptionMessage = string;
 export type AddPermissionError =
   | InvalidAddress
@@ -1389,8 +623,10 @@ export const addPermission: API.OperationMethod<
   AddPermissionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddPermissionRequest,
-  output: AddPermissionResponse,
+  descriptor: {
+    service: svc,
+    input: { QueueUrl: 0, Label: 0, AWSAccountIds: 0, Actions: 0 },
+  },
   errors: [
     InvalidAddress,
     InvalidSecurity,
@@ -1402,7 +638,7 @@ export const addPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPermission",
-}));
+})) as any;
 
 export type CancelMessageMoveTaskError =
   | InvalidAddress
@@ -1433,8 +669,7 @@ export const cancelMessageMoveTask: API.OperationMethod<
   CancelMessageMoveTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelMessageMoveTaskRequest,
-  output: CancelMessageMoveTaskResult,
+  descriptor: { service: svc, input: { TaskHandle: 0 } },
   errors: [
     InvalidAddress,
     InvalidSecurity,
@@ -1447,7 +682,7 @@ export const cancelMessageMoveTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMessageMoveTask",
-}));
+})) as any;
 
 export type ChangeMessageVisibilityError =
   | InvalidAddress
@@ -1509,8 +744,10 @@ export const changeMessageVisibility: API.OperationMethod<
   ChangeMessageVisibilityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ChangeMessageVisibilityRequest,
-  output: ChangeMessageVisibilityResponse,
+  descriptor: {
+    service: svc,
+    input: { QueueUrl: 0, ReceiptHandle: 0, VisibilityTimeout: 0 },
+  },
   errors: [
     InvalidAddress,
     InvalidSecurity,
@@ -1523,7 +760,7 @@ export const changeMessageVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangeMessageVisibility",
-}));
+})) as any;
 
 export type ChangeMessageVisibilityBatchError =
   | BatchEntryIdsNotDistinct
@@ -1554,8 +791,13 @@ export const changeMessageVisibilityBatch: API.OperationMethod<
   ChangeMessageVisibilityBatchError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ChangeMessageVisibilityBatchRequest,
-  output: ChangeMessageVisibilityBatchResult,
+  descriptor: {
+    service: svc,
+    input: {
+      QueueUrl: 0,
+      Entries: D.list({ Id: 0, ReceiptHandle: 0, VisibilityTimeout: 0 }),
+    },
+  },
   errors: [
     BatchEntryIdsNotDistinct,
     EmptyBatchRequest,
@@ -1570,7 +812,7 @@ export const changeMessageVisibilityBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangeMessageVisibilityBatch",
-}));
+})) as any;
 
 export type CreateQueueError =
   | InvalidAddress
@@ -1638,8 +880,7 @@ export const createQueue: API.OperationMethod<
   CreateQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateQueueRequest,
-  output: CreateQueueResult,
+  descriptor: { service: svc, input: { QueueName: 0, Attributes: 0, tags: 0 } },
   errors: [
     InvalidAddress,
     InvalidAttributeName,
@@ -1655,7 +896,7 @@ export const createQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueue",
-}));
+})) as any;
 
 export type DeleteMessageError =
   | InvalidAddress
@@ -1695,8 +936,7 @@ export const deleteMessage: API.OperationMethod<
   DeleteMessageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteMessageRequest,
-  output: DeleteMessageResponse,
+  descriptor: { service: svc, input: { QueueUrl: 0, ReceiptHandle: 0 } },
   errors: [
     InvalidAddress,
     InvalidIdFormat,
@@ -1709,7 +949,7 @@ export const deleteMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessage",
-}));
+})) as any;
 
 export type DeleteMessageBatchError =
   | BatchEntryIdsNotDistinct
@@ -1736,8 +976,10 @@ export const deleteMessageBatch: API.OperationMethod<
   DeleteMessageBatchError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteMessageBatchRequest,
-  output: DeleteMessageBatchResult,
+  descriptor: {
+    service: svc,
+    input: { QueueUrl: 0, Entries: D.list({ Id: 0, ReceiptHandle: 0 }) },
+  },
   errors: [
     BatchEntryIdsNotDistinct,
     EmptyBatchRequest,
@@ -1752,7 +994,7 @@ export const deleteMessageBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessageBatch",
-}));
+})) as any;
 
 export type DeleteQueueError =
   | InvalidAddress
@@ -1790,8 +1032,7 @@ export const deleteQueue: API.OperationMethod<
   DeleteQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteQueueRequest,
-  output: DeleteQueueResponse,
+  descriptor: { service: svc, input: { QueueUrl: 0 } },
   errors: [
     InvalidAddress,
     InvalidSecurity,
@@ -1802,7 +1043,7 @@ export const deleteQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueue",
-}));
+})) as any;
 
 export type GetQueueAttributesError =
   | InvalidAddress
@@ -1823,8 +1064,7 @@ export const getQueueAttributes: API.OperationMethod<
   GetQueueAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetQueueAttributesRequest,
-  output: GetQueueAttributesResult,
+  descriptor: { service: svc, input: { QueueUrl: 0, AttributeNames: 0 } },
   errors: [
     InvalidAddress,
     InvalidAttributeName,
@@ -1836,7 +1076,7 @@ export const getQueueAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueueAttributes",
-}));
+})) as any;
 
 export type GetQueueUrlError =
   | InvalidAddress
@@ -1865,8 +1105,10 @@ export const getQueueUrl: API.OperationMethod<
   GetQueueUrlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetQueueUrlRequest,
-  output: GetQueueUrlResult,
+  descriptor: {
+    service: svc,
+    input: { QueueName: 0, QueueOwnerAWSAccountId: 0 },
+  },
   errors: [
     InvalidAddress,
     InvalidSecurity,
@@ -1877,7 +1119,7 @@ export const getQueueUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueueUrl",
-}));
+})) as any;
 
 export type ListDeadLetterSourceQueuesError =
   | InvalidAddress
@@ -1908,8 +1150,10 @@ export const listDeadLetterSourceQueues: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   string
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDeadLetterSourceQueuesRequest,
-  output: ListDeadLetterSourceQueuesResult,
+  descriptor: {
+    service: svc,
+    input: { QueueUrl: 0, NextToken: 0, MaxResults: 0 },
+  },
   errors: [
     InvalidAddress,
     InvalidSecurity,
@@ -1955,8 +1199,7 @@ export const listMessageMoveTasks: API.OperationMethod<
   ListMessageMoveTasksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListMessageMoveTasksRequest,
-  output: ListMessageMoveTasksResult,
+  descriptor: { service: svc, input: { SourceArn: 0, MaxResults: 0 } },
   errors: [
     InvalidAddress,
     InvalidSecurity,
@@ -1969,7 +1212,7 @@ export const listMessageMoveTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMessageMoveTasks",
-}));
+})) as any;
 
 export type ListQueuesError =
   | InvalidAddress
@@ -2002,8 +1245,10 @@ export const listQueues: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   string
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListQueuesRequest,
-  output: ListQueuesResult,
+  descriptor: {
+    service: svc,
+    input: { QueueNamePrefix: 0, NextToken: 0, MaxResults: 0 },
+  },
   errors: [
     InvalidAddress,
     InvalidSecurity,
@@ -2043,8 +1288,7 @@ export const listQueueTags: API.OperationMethod<
   ListQueueTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListQueueTagsRequest,
-  output: ListQueueTagsResult,
+  descriptor: { service: svc, input: { QueueUrl: 0 } },
   errors: [
     InvalidAddress,
     InvalidSecurity,
@@ -2055,7 +1299,7 @@ export const listQueueTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListQueueTags",
-}));
+})) as any;
 
 export type PurgeQueueError =
   | InvalidAddress
@@ -2088,8 +1332,7 @@ export const purgeQueue: API.OperationMethod<
   PurgeQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PurgeQueueRequest,
-  output: PurgeQueueResponse,
+  descriptor: { service: svc, input: { QueueUrl: 0 } },
   errors: [
     InvalidAddress,
     InvalidSecurity,
@@ -2101,7 +1344,7 @@ export const purgeQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurgeQueue",
-}));
+})) as any;
 
 export type ReceiveMessageError =
   | InvalidAddress
@@ -2166,8 +1409,27 @@ export const receiveMessage: API.OperationMethod<
   ReceiveMessageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ReceiveMessageRequest,
-  output: ReceiveMessageResult,
+  descriptor: {
+    service: svc,
+    input: {
+      QueueUrl: 0,
+      AttributeNames: 0,
+      MessageSystemAttributeNames: 0,
+      MessageAttributeNames: 0,
+      MaxNumberOfMessages: 0,
+      VisibilityTimeout: 0,
+      WaitTimeSeconds: 0,
+      ReceiveRequestAttemptId: 0,
+    },
+    output: {
+      Messages: D.list({
+        MessageAttributes: D.map({
+          BinaryValue: D.blob,
+          BinaryListValues: D.list(D.blob),
+        }),
+      }),
+    },
+  },
   errors: [
     InvalidAddress,
     InvalidSecurity,
@@ -2188,7 +1450,7 @@ export const receiveMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReceiveMessage",
-}));
+})) as any;
 
 export type RemovePermissionError =
   | InvalidAddress
@@ -2215,8 +1477,7 @@ export const removePermission: API.OperationMethod<
   RemovePermissionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemovePermissionRequest,
-  output: RemovePermissionResponse,
+  descriptor: { service: svc, input: { QueueUrl: 0, Label: 0 } },
   errors: [
     InvalidAddress,
     InvalidSecurity,
@@ -2227,7 +1488,7 @@ export const removePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePermission",
-}));
+})) as any;
 
 export type SendMessageError =
   | InvalidAddress
@@ -2262,8 +1523,18 @@ export const sendMessage: API.OperationMethod<
   SendMessageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SendMessageRequest,
-  output: SendMessageResult,
+  descriptor: {
+    service: svc,
+    input: {
+      QueueUrl: 0,
+      MessageBody: 0,
+      DelaySeconds: 0,
+      MessageAttributes: D.map(i_MessageAttributeValue),
+      MessageSystemAttributes: D.map(i_MessageSystemAttributeValue),
+      MessageDeduplicationId: 0,
+      MessageGroupId: 0,
+    },
+  },
   errors: [
     InvalidAddress,
     InvalidMessageContents,
@@ -2285,7 +1556,7 @@ export const sendMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMessage",
-}));
+})) as any;
 
 export type SendMessageBatchError =
   | BatchEntryIdsNotDistinct
@@ -2338,8 +1609,21 @@ export const sendMessageBatch: API.OperationMethod<
   SendMessageBatchError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SendMessageBatchRequest,
-  output: SendMessageBatchResult,
+  descriptor: {
+    service: svc,
+    input: {
+      QueueUrl: 0,
+      Entries: D.list({
+        Id: 0,
+        MessageBody: 0,
+        DelaySeconds: 0,
+        MessageAttributes: D.map(i_MessageAttributeValue),
+        MessageSystemAttributes: D.map(i_MessageSystemAttributeValue),
+        MessageDeduplicationId: 0,
+        MessageGroupId: 0,
+      }),
+    },
+  },
   errors: [
     BatchEntryIdsNotDistinct,
     BatchRequestTooLong,
@@ -2365,7 +1649,7 @@ export const sendMessageBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMessageBatch",
-}));
+})) as any;
 
 export type SetQueueAttributesError =
   | InvalidAddress
@@ -2404,8 +1688,7 @@ export const setQueueAttributes: API.OperationMethod<
   SetQueueAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetQueueAttributesRequest,
-  output: SetQueueAttributesResponse,
+  descriptor: { service: svc, input: { QueueUrl: 0, Attributes: 0 } },
   errors: [
     InvalidAddress,
     InvalidAttributeName,
@@ -2423,7 +1706,7 @@ export const setQueueAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetQueueAttributes",
-}));
+})) as any;
 
 export type StartMessageMoveTaskError =
   | InvalidAddress
@@ -2458,8 +1741,10 @@ export const startMessageMoveTask: API.OperationMethod<
   StartMessageMoveTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartMessageMoveTaskRequest,
-  output: StartMessageMoveTaskResult,
+  descriptor: {
+    service: svc,
+    input: { SourceArn: 0, DestinationArn: 0, MaxNumberOfMessagesPerSecond: 0 },
+  },
   errors: [
     InvalidAddress,
     InvalidSecurity,
@@ -2473,7 +1758,7 @@ export const startMessageMoveTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMessageMoveTask",
-}));
+})) as any;
 
 export type TagQueueError =
   | InvalidAddress
@@ -2510,8 +1795,7 @@ export const tagQueue: API.OperationMethod<
   TagQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagQueueRequest,
-  output: TagQueueResponse,
+  descriptor: { service: svc, input: { QueueUrl: 0, Tags: 0 } },
   errors: [
     InvalidAddress,
     InvalidSecurity,
@@ -2522,7 +1806,7 @@ export const tagQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagQueue",
-}));
+})) as any;
 
 export type UntagQueueError =
   | InvalidAddress
@@ -2545,8 +1829,7 @@ export const untagQueue: API.OperationMethod<
   UntagQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagQueueRequest,
-  output: UntagQueueResponse,
+  descriptor: { service: svc, input: { QueueUrl: 0, TagKeys: 0 } },
   errors: [
     InvalidAddress,
     InvalidSecurity,
@@ -2557,4 +1840,19 @@ export const untagQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagQueue",
-}));
+})) as any;
+
+const i_MessageAttributeValue: D.LazyStruct = () => ({
+  StringValue: 0,
+  BinaryValue: 0,
+  StringListValues: 0,
+  BinaryListValues: 0,
+  DataType: 0,
+});
+const i_MessageSystemAttributeValue: D.LazyStruct = () => ({
+  StringValue: 0,
+  BinaryValue: 0,
+  StringListValues: 0,
+  BinaryListValues: 0,
+  DataType: 0,
+});

@@ -1,193 +1,187 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "RDS Data",
-  serviceShapeName: "RdsDataService",
-});
-const auth = T.AwsAuthSigv4({ name: "rds-data" });
-const ver = T.ServiceVersion("2018-08-01");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://rds-data-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://rds-data-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://rds-data.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://rds-data.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "RdsDataService",
+  version: "2018-08-01",
+  sigv4: "rds-data",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://rds-data-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://rds-data-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://rds-data.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://rds-data.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class BadRequestException
-  extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "BadRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class DatabaseErrorException
-  extends /*@__PURE__*/ S.TaggedError<DatabaseErrorException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DatabaseErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class DatabaseNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<DatabaseNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DatabaseNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class DatabaseResumingException
-  extends /*@__PURE__*/ S.TaggedError<DatabaseResumingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DatabaseResumingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class DatabaseUnavailableException
-  extends /*@__PURE__*/ S.TaggedError<DatabaseUnavailableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DatabaseUnavailableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(504),
-  ).pipe(C.withTimeoutError) {}
+    ["TimeoutError"],
+    { status: 504 },
+  )<{ readonly message?: string }> {}
 export class ForbiddenException
-  extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
-    "ForbiddenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ForbiddenException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class HttpEndpointNotEnabledException
-  extends /*@__PURE__*/ S.TaggedError<HttpEndpointNotEnabledException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "HttpEndpointNotEnabledException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InternalServerErrorException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerErrorException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class InvalidResourceStateException
-  extends /*@__PURE__*/ S.TaggedError<InvalidResourceStateException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidResourceStateException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidSecretException
-  extends /*@__PURE__*/ S.TaggedError<InvalidSecretException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidSecretException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class NotFoundException
-  extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class SecretsErrorException
-  extends /*@__PURE__*/ S.TaggedError<SecretsErrorException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "SecretsErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ServiceUnavailableError
-  extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableError>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceUnavailableError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(503),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 503 },
+  )<{ readonly message?: string }> {}
 export class StatementTimeoutException
-  extends /*@__PURE__*/ S.TaggedError<StatementTimeoutException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "StatementTimeoutException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      dbConnectionId: S.optional(S.Number),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string; readonly dbConnectionId?: number }> {}
 export class TransactionNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<TransactionNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TransactionNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class UnsupportedResultException
-  extends /*@__PURE__*/ S.TaggedError<UnsupportedResultException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "UnsupportedResultException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export type Arn = string;
 export type SqlStatement = string;
 export type DbName = string;
@@ -196,17 +190,10 @@ export type BoxedBoolean = boolean;
 export type BoxedLong = number;
 export type BoxedDouble = number;
 export type BooleanArray = boolean[];
-export const BooleanArray = /*@__PURE__*/ S.Array(S.Boolean).pipe(T.Sparse());
 export type LongArray = number[];
-export const LongArray = /*@__PURE__*/ S.Array(S.Number).pipe(T.Sparse());
 export type DoubleArray = number[];
-export const DoubleArray = /*@__PURE__*/ S.Array(S.Number).pipe(T.Sparse());
 export type StringArray = string[];
-export const StringArray = /*@__PURE__*/ S.Array(S.String).pipe(T.Sparse());
 export type ArrayOfArray = ArrayValue[];
-export const ArrayOfArray = /*@__PURE__*/ S.Array(
-  S.suspend(() => ArrayValue).annotate({ identifier: "ArrayValue" }),
-).pipe(T.Sparse()) as any as S.Schema<ArrayOfArray>;
 export type ArrayValue =
   | {
       booleanValues: boolean[];
@@ -243,17 +230,6 @@ export type ArrayValue =
       stringValues?: never;
       arrayValues: ArrayValue[];
     };
-export const ArrayValue = /*@__PURE__*/ S.Union([
-  S.Struct({ booleanValues: BooleanArray }),
-  S.Struct({ longValues: LongArray }),
-  S.Struct({ doubleValues: DoubleArray }),
-  S.Struct({ stringValues: StringArray }),
-  S.Struct({
-    arrayValues: S.suspend(() => ArrayOfArray).annotate({
-      identifier: "ArrayOfArray",
-    }),
-  }),
-]) as any as S.Schema<ArrayValue>;
 export type Field =
   | {
       isNull: boolean;
@@ -318,15 +294,6 @@ export type Field =
       blobValue?: never;
       arrayValue: ArrayValue;
     };
-export const Field = /*@__PURE__*/ S.Union([
-  S.Struct({ isNull: S.Boolean }),
-  S.Struct({ booleanValue: S.Boolean }),
-  S.Struct({ longValue: S.Number }),
-  S.Struct({ doubleValue: S.Number }),
-  S.Struct({ stringValue: S.String }),
-  S.Struct({ blobValue: T.Blob }),
-  S.Struct({ arrayValue: ArrayValue }),
-]);
 export type TypeHint =
   | "JSON"
   | "UUID"
@@ -335,24 +302,13 @@ export type TypeHint =
   | "TIME"
   | "DECIMAL"
   | (string & {});
-export const TypeHint = S.String;
-
 export interface SqlParameter {
   name?: string;
   value?: Field;
   typeHint?: TypeHint;
 }
-export const SqlParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    value: S.optional(Field),
-    typeHint: S.optional(TypeHint),
-  }),
-).annotate({ identifier: "SqlParameter" }) as any as S.Schema<SqlParameter>;
 export type SqlParametersList = SqlParameter[];
-export const SqlParametersList = /*@__PURE__*/ S.Array(SqlParameter);
 export type SqlParameterSets = SqlParameter[][];
-export const SqlParameterSets = /*@__PURE__*/ S.Array(SqlParametersList);
 export type Id = string;
 export interface BatchExecuteStatementRequest {
   resourceArn: string;
@@ -363,111 +319,32 @@ export interface BatchExecuteStatementRequest {
   parameterSets?: SqlParameter[][];
   transactionId?: string;
 }
-export const BatchExecuteStatementRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    secretArn: S.String,
-    sql: S.String,
-    database: S.optional(S.String),
-    schema: S.optional(S.String),
-    parameterSets: S.optional(SqlParameterSets),
-    transactionId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/BatchExecute" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchExecuteStatementRequest",
-}) as any as S.Schema<BatchExecuteStatementRequest>;
 export type FieldList = Field[];
-export const FieldList = /*@__PURE__*/ S.Array(Field);
 export interface UpdateResult {
   generatedFields?: Field[];
 }
-export const UpdateResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ generatedFields: S.optional(FieldList) }),
-).annotate({ identifier: "UpdateResult" }) as any as S.Schema<UpdateResult>;
 export type UpdateResults = UpdateResult[];
-export const UpdateResults = /*@__PURE__*/ S.Array(UpdateResult);
 export interface BatchExecuteStatementResponse {
   updateResults?: UpdateResult[];
 }
-export const BatchExecuteStatementResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ updateResults: S.optional(UpdateResults) }),
-).annotate({
-  identifier: "BatchExecuteStatementResponse",
-}) as any as S.Schema<BatchExecuteStatementResponse>;
 export interface BeginTransactionRequest {
   resourceArn: string;
   secretArn: string;
   database?: string;
   schema?: string;
 }
-export const BeginTransactionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    secretArn: S.String,
-    database: S.optional(S.String),
-    schema: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/BeginTransaction" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BeginTransactionRequest",
-}) as any as S.Schema<BeginTransactionRequest>;
 export interface BeginTransactionResponse {
   transactionId?: string;
 }
-export const BeginTransactionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ transactionId: S.optional(S.String) }),
-).annotate({
-  identifier: "BeginTransactionResponse",
-}) as any as S.Schema<BeginTransactionResponse>;
 export interface CommitTransactionRequest {
   resourceArn: string;
   secretArn: string;
   transactionId: string;
 }
-export const CommitTransactionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    secretArn: S.String,
-    transactionId: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CommitTransaction" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CommitTransactionRequest",
-}) as any as S.Schema<CommitTransactionRequest>;
 export type TransactionStatus = string;
 export interface CommitTransactionResponse {
   transactionStatus?: string;
 }
-export const CommitTransactionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ transactionStatus: S.optional(S.String) }),
-).annotate({
-  identifier: "CommitTransactionResponse",
-}) as any as S.Schema<CommitTransactionResponse>;
 export interface ExecuteSqlRequest {
   dbClusterOrInstanceArn: string;
   awsSecretStoreArn: string;
@@ -475,26 +352,6 @@ export interface ExecuteSqlRequest {
   database?: string;
   schema?: string;
 }
-export const ExecuteSqlRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dbClusterOrInstanceArn: S.String,
-    awsSecretStoreArn: S.String,
-    sqlStatements: S.String,
-    database: S.optional(S.String),
-    schema: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ExecuteSql" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ExecuteSqlRequest",
-}) as any as S.Schema<ExecuteSqlRequest>;
 export interface ColumnMetadata {
   name?: string;
   type?: number;
@@ -511,56 +368,17 @@ export interface ColumnMetadata {
   scale?: number;
   arrayBaseColumnType?: number;
 }
-export const ColumnMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    type: S.optional(S.Number),
-    typeName: S.optional(S.String),
-    label: S.optional(S.String),
-    schemaName: S.optional(S.String),
-    tableName: S.optional(S.String),
-    isAutoIncrement: S.optional(S.Boolean),
-    isSigned: S.optional(S.Boolean),
-    isCurrency: S.optional(S.Boolean),
-    isCaseSensitive: S.optional(S.Boolean),
-    nullable: S.optional(S.Number),
-    precision: S.optional(S.Number),
-    scale: S.optional(S.Number),
-    arrayBaseColumnType: S.optional(S.Number),
-  }),
-).annotate({ identifier: "ColumnMetadata" }) as any as S.Schema<ColumnMetadata>;
 export type Metadata = ColumnMetadata[];
-export const Metadata = /*@__PURE__*/ S.Array(ColumnMetadata);
 export interface ResultSetMetadata {
   columnCount?: number;
   columnMetadata?: ColumnMetadata[];
 }
-export const ResultSetMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    columnCount: S.optional(S.Number),
-    columnMetadata: S.optional(Metadata),
-  }),
-).annotate({
-  identifier: "ResultSetMetadata",
-}) as any as S.Schema<ResultSetMetadata>;
 export type BoxedInteger = number;
 export type BoxedFloat = number;
 export type ArrayValueList = Value[];
-export const ArrayValueList = /*@__PURE__*/ S.Array(
-  S.suspend(() => Value).annotate({ identifier: "Value" }),
-) as any as S.Schema<ArrayValueList>;
 export interface StructValue {
   attributes?: Value[];
 }
-export const StructValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributes: S.optional(
-      S.suspend(() => ArrayValueList).annotate({
-        identifier: "ArrayValueList",
-      }),
-    ),
-  }),
-).annotate({ identifier: "StructValue" }) as any as S.Schema<StructValue>;
 export type Value =
   | {
       isNull: boolean;
@@ -682,92 +500,31 @@ export type Value =
       arrayValues?: never;
       structValue: StructValue;
     };
-export const Value = /*@__PURE__*/ S.Union([
-  S.Struct({ isNull: S.Boolean }),
-  S.Struct({ bitValue: S.Boolean }),
-  S.Struct({ bigIntValue: S.Number }),
-  S.Struct({ intValue: S.Number }),
-  S.Struct({ doubleValue: S.Number }),
-  S.Struct({ realValue: S.Number }),
-  S.Struct({ stringValue: S.String }),
-  S.Struct({ blobValue: T.Blob }),
-  S.Struct({
-    arrayValues: S.suspend(() => ArrayValueList).annotate({
-      identifier: "ArrayValueList",
-    }),
-  }),
-  S.Struct({
-    structValue: S.suspend((): S.Schema<StructValue> => StructValue).annotate({
-      identifier: "StructValue",
-    }),
-  }),
-]) as any as S.Schema<Value>;
 export type Row = Value[];
-export const Row = /*@__PURE__*/ S.Array(
-  S.suspend(() => Value).annotate({ identifier: "Value" }),
-);
 export interface Record {
   values?: Value[];
 }
-export const Record = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ values: S.optional(Row) }),
-).annotate({ identifier: "Record" }) as any as S.Schema<Record>;
 export type Records = Record[];
-export const Records = /*@__PURE__*/ S.Array(Record);
 export interface ResultFrame {
   resultSetMetadata?: ResultSetMetadata;
   records?: Record[];
 }
-export const ResultFrame = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resultSetMetadata: S.optional(ResultSetMetadata),
-    records: S.optional(Records),
-  }),
-).annotate({ identifier: "ResultFrame" }) as any as S.Schema<ResultFrame>;
 export type RecordsUpdated = number;
 export interface SqlStatementResult {
   resultFrame?: ResultFrame;
   numberOfRecordsUpdated?: number;
 }
-export const SqlStatementResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resultFrame: S.optional(ResultFrame),
-    numberOfRecordsUpdated: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SqlStatementResult",
-}) as any as S.Schema<SqlStatementResult>;
 export type SqlStatementResults = SqlStatementResult[];
-export const SqlStatementResults = /*@__PURE__*/ S.Array(SqlStatementResult);
 export interface ExecuteSqlResponse {
   sqlStatementResults?: SqlStatementResult[];
 }
-export const ExecuteSqlResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sqlStatementResults: S.optional(SqlStatementResults) }),
-).annotate({
-  identifier: "ExecuteSqlResponse",
-}) as any as S.Schema<ExecuteSqlResponse>;
 export type DecimalReturnType = "STRING" | "DOUBLE_OR_LONG" | (string & {});
-export const DecimalReturnType = S.String;
-
 export type LongReturnType = "STRING" | "LONG" | (string & {});
-export const LongReturnType = S.String;
-
 export interface ResultSetOptions {
   decimalReturnType?: DecimalReturnType;
   longReturnType?: LongReturnType;
 }
-export const ResultSetOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    decimalReturnType: S.optional(DecimalReturnType),
-    longReturnType: S.optional(LongReturnType),
-  }),
-).annotate({
-  identifier: "ResultSetOptions",
-}) as any as S.Schema<ResultSetOptions>;
 export type RecordsFormatType = "NONE" | "JSON" | (string & {});
-export const RecordsFormatType = S.String;
-
 export interface ExecuteStatementRequest {
   resourceArn: string;
   secretArn: string;
@@ -781,34 +538,7 @@ export interface ExecuteStatementRequest {
   resultSetOptions?: ResultSetOptions;
   formatRecordsAs?: RecordsFormatType;
 }
-export const ExecuteStatementRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    secretArn: S.String,
-    sql: S.String,
-    database: S.optional(S.String),
-    schema: S.optional(S.String),
-    parameters: S.optional(SqlParametersList),
-    transactionId: S.optional(S.String),
-    includeResultMetadata: S.optional(S.Boolean),
-    continueAfterTimeout: S.optional(S.Boolean),
-    resultSetOptions: S.optional(ResultSetOptions),
-    formatRecordsAs: S.optional(RecordsFormatType),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/Execute" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ExecuteStatementRequest",
-}) as any as S.Schema<ExecuteStatementRequest>;
 export type SqlRecords = Field[][];
-export const SqlRecords = /*@__PURE__*/ S.Array(FieldList);
 export type FormattedSqlRecords = string;
 export interface ExecuteStatementResponse {
   records?: Field[][];
@@ -817,48 +547,14 @@ export interface ExecuteStatementResponse {
   generatedFields?: Field[];
   formattedRecords?: string;
 }
-export const ExecuteStatementResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    records: S.optional(SqlRecords),
-    columnMetadata: S.optional(Metadata),
-    numberOfRecordsUpdated: S.optional(S.Number),
-    generatedFields: S.optional(FieldList),
-    formattedRecords: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExecuteStatementResponse",
-}) as any as S.Schema<ExecuteStatementResponse>;
 export interface RollbackTransactionRequest {
   resourceArn: string;
   secretArn: string;
   transactionId: string;
 }
-export const RollbackTransactionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    secretArn: S.String,
-    transactionId: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/RollbackTransaction" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RollbackTransactionRequest",
-}) as any as S.Schema<RollbackTransactionRequest>;
 export interface RollbackTransactionResponse {
   transactionStatus?: string;
 }
-export const RollbackTransactionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ transactionStatus: S.optional(S.String) }),
-).annotate({
-  identifier: "RollbackTransactionResponse",
-}) as any as S.Schema<RollbackTransactionResponse>;
 export type ErrorMessage = string;
 export type BatchExecuteStatementError =
   | AccessDeniedException
@@ -894,8 +590,21 @@ export const batchExecuteStatement: API.OperationMethod<
   BatchExecuteStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchExecuteStatementRequest,
-  output: BatchExecuteStatementResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /BatchExecute",
+    input: {
+      resourceArn: 0,
+      secretArn: 0,
+      sql: 0,
+      database: 0,
+      schema: 0,
+      parameterSets: D.list(D.list(i_SqlParameter)),
+      transactionId: 0,
+    },
+    output: { updateResults: D.list({ generatedFields: D.list(o_Field) }) },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -916,7 +625,7 @@ export const batchExecuteStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchExecuteStatement",
-}));
+})) as any;
 
 export type BeginTransactionError =
   | AccessDeniedException
@@ -950,8 +659,12 @@ export const beginTransaction: API.OperationMethod<
   BeginTransactionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BeginTransactionRequest,
-  output: BeginTransactionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /BeginTransaction",
+    input: { resourceArn: 0, secretArn: 0, database: 0, schema: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -972,7 +685,7 @@ export const beginTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BeginTransaction",
-}));
+})) as any;
 
 export type CommitTransactionError =
   | AccessDeniedException
@@ -1000,8 +713,12 @@ export const commitTransaction: API.OperationMethod<
   CommitTransactionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CommitTransactionRequest,
-  output: CommitTransactionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /CommitTransaction",
+    input: { resourceArn: 0, secretArn: 0, transactionId: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1022,7 +739,7 @@ export const commitTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CommitTransaction",
-}));
+})) as any;
 
 export type ExecuteSqlError =
   | AccessDeniedException
@@ -1042,8 +759,23 @@ export const executeSql: API.OperationMethod<
   ExecuteSqlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExecuteSqlRequest,
-  output: ExecuteSqlResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /ExecuteSql",
+    input: {
+      dbClusterOrInstanceArn: 0,
+      awsSecretStoreArn: 0,
+      sqlStatements: 0,
+      database: 0,
+      schema: 0,
+    },
+    output: {
+      sqlStatementResults: D.list({
+        resultFrame: { records: D.list({ values: D.list(o_Value) }) },
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1054,7 +786,7 @@ export const executeSql: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteSql",
-}));
+})) as any;
 
 export type ExecuteStatementError =
   | AccessDeniedException
@@ -1087,8 +819,28 @@ export const executeStatement: API.OperationMethod<
   ExecuteStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExecuteStatementRequest,
-  output: ExecuteStatementResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /Execute",
+    input: {
+      resourceArn: 0,
+      secretArn: 0,
+      sql: 0,
+      database: 0,
+      schema: 0,
+      parameters: D.list(i_SqlParameter),
+      transactionId: 0,
+      includeResultMetadata: 0,
+      continueAfterTimeout: 0,
+      resultSetOptions: { decimalReturnType: 0, longReturnType: 0 },
+      formatRecordsAs: 0,
+    },
+    output: {
+      records: D.list(D.list(o_Field)),
+      generatedFields: D.list(o_Field),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1110,7 +862,7 @@ export const executeStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteStatement",
-}));
+})) as any;
 
 export type RollbackTransactionError =
   | AccessDeniedException
@@ -1138,8 +890,12 @@ export const rollbackTransaction: API.OperationMethod<
   RollbackTransactionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RollbackTransactionRequest,
-  output: RollbackTransactionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /RollbackTransaction",
+    input: { resourceArn: 0, secretArn: 0, transactionId: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1160,4 +916,31 @@ export const rollbackTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackTransaction",
-}));
+})) as any;
+
+const i_SqlParameter: D.LazyStruct = () => ({
+  name: 0,
+  value: {
+    isNull: 0,
+    booleanValue: 0,
+    longValue: 0,
+    doubleValue: 0,
+    stringValue: 0,
+    blobValue: 0,
+    arrayValue: i_ArrayValue,
+  },
+  typeHint: 0,
+});
+const o_Field: D.LazyStruct = () => ({ blobValue: D.blob });
+const o_Value: D.LazyStruct = () => ({
+  blobValue: D.blob,
+  arrayValues: D.list(o_Value),
+  structValue: { attributes: D.list(o_Value) },
+});
+const i_ArrayValue: D.LazyStruct = () => ({
+  booleanValues: 0,
+  longValues: 0,
+  doubleValues: 0,
+  stringValues: 0,
+  arrayValues: D.list(i_ArrayValue),
+});

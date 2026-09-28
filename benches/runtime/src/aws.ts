@@ -7,11 +7,10 @@
  *   STS      aws-query   GetCallerIdentity
  *
  * Stages:
- *   encode       Schema.encodeUnknownSync(input schema)         — codec only
- *   decode       Schema.decodeUnknownSync(output schema)        — codec only, on parsed data
  *   wire-decode  makeResponseParser(op)(string body)            — XML/JSON parse + protocol
- *                                                                 deserialize + schema decode
- *   build        makeRequestBuilder(op)(input)                  — protocol serialize + middleware,
+ *                                                                 deserialize + descriptor decode
+ *   build        makeRequestBuilder(op)(input)                  — protocol serialize (incl.
+ *                                                                 value encoding) + middleware,
  *                                                                 no endpoint/signing
  *   call         op(input) via AwsProtocol + mocked HttpClient  — endpoint rules, SigV4,
  *                                                                 retry wrapper, deserialize, decode
@@ -40,8 +39,6 @@ import * as STS from "@distilled.cloud/aws/sts";
 import {
   type Case,
   buildLayer,
-  decoder,
-  encoder,
   mockHttpLayer,
   runPromise,
   runSync,
@@ -60,15 +57,6 @@ ${Array.from(
 ).join("\n")}
   </Buckets>
 </ListAllMyBucketsResult>`;
-
-const listBucketsDecoded = {
-  Owner: { ID: "1234567890abcdef", DisplayName: "alchemy" },
-  Buckets: Array.from({ length: 20 }, (_, i) => ({
-    Name: `alchemy-bucket-${i}`,
-    CreationDate: `2025-01-0${(i % 9) + 1}T12:34:56.000Z`,
-    BucketRegion: "us-east-1",
-  })),
-};
 
 const headObjectHeaders = {
   "content-length": "0",
@@ -250,9 +238,6 @@ export const awsCases = async (): Promise<Case[]> => {
       headers: { "content-type": "application/xml" },
       body: s3NoSuchBucketXml,
     });
-    const encodeHead = encoder(S3.HeadObjectRequest);
-    const encodeList = encoder(S3.ListBucketsRequest);
-    const decodeList = decoder(S3.ListBucketsOutput);
     const buildHead = build(S3.headObject);
     const buildList = build(S3.listBuckets);
     const listInput: S3.ListBucketsRequest = {};
@@ -269,22 +254,6 @@ export const awsCases = async (): Promise<Case[]> => {
       );
 
     cases.push(
-      {
-        provider: "aws",
-        service: "s3",
-        op: "ListBuckets",
-        stage: "encode",
-        note: "rest-xml, empty input",
-        fn: () => encodeList(listInput),
-      },
-      {
-        provider: "aws",
-        service: "s3",
-        op: "ListBuckets",
-        stage: "decode",
-        note: "rest-xml, 20 buckets (post-XML-parse)",
-        fn: () => decodeList(listBucketsDecoded),
-      },
       {
         provider: "aws",
         service: "s3",
@@ -312,14 +281,6 @@ export const awsCases = async (): Promise<Case[]> => {
         stage: "call",
         note: "rest-xml + SigV4, 20-bucket XML body",
         fn: callList(listCtx),
-      },
-      {
-        provider: "aws",
-        service: "s3",
-        op: "HeadObject",
-        stage: "encode",
-        note: "rest-xml, labels+headers",
-        fn: () => encodeHead(headObjectInput),
       },
       {
         provider: "aws",
@@ -363,32 +324,10 @@ export const awsCases = async (): Promise<Case[]> => {
       headers: { "content-type": "application/x-amz-json-1.0" },
       body: dynamoNotFoundJson,
     });
-    const encodeGet = encoder(DynamoDB.GetItemInput);
-    const encodePut = encoder(DynamoDB.PutItemInput);
-    const decodeGet = decoder(DynamoDB.GetItemOutput);
-    const decodePut = decoder(DynamoDB.PutItemOutput);
-    const getItemDecoded = JSON.parse(getItemJson);
-    const putItemDecoded = JSON.parse(putItemJson);
     const buildGet = build(DynamoDB.getItem);
     const buildPut = build(DynamoDB.putItem);
 
     cases.push(
-      {
-        provider: "aws",
-        service: "dynamodb",
-        op: "GetItem",
-        stage: "encode",
-        note: "aws-json 1.0, 2-attr key",
-        fn: () => encodeGet(getItemInput),
-      },
-      {
-        provider: "aws",
-        service: "dynamodb",
-        op: "GetItem",
-        stage: "decode",
-        note: "aws-json 1.0, 7-attr item (AttributeValue union)",
-        fn: () => decodeGet(getItemDecoded),
-      },
       {
         provider: "aws",
         service: "dynamodb",
@@ -438,22 +377,6 @@ export const awsCases = async (): Promise<Case[]> => {
         provider: "aws",
         service: "dynamodb",
         op: "PutItem",
-        stage: "encode",
-        note: "aws-json 1.0, 7-attr item",
-        fn: () => encodePut(putItemInput),
-      },
-      {
-        provider: "aws",
-        service: "dynamodb",
-        op: "PutItem",
-        stage: "decode",
-        note: "aws-json 1.0, ConsumedCapacity",
-        fn: () => decodePut(putItemDecoded),
-      },
-      {
-        provider: "aws",
-        service: "dynamodb",
-        op: "PutItem",
         stage: "build",
         note: "aws-json serialize, 7-attr item",
         fn: () => buildPut(putItemInput),
@@ -485,30 +408,10 @@ export const awsCases = async (): Promise<Case[]> => {
       },
       body: invokeResponseBody,
     });
-    const encodeGet = encoder(Lambda.GetFunctionRequest);
-    const encodeInvoke = encoder(Lambda.InvocationRequest);
-    const decodeGet = decoder(Lambda.GetFunctionResponse);
-    const getFunctionDecoded = JSON.parse(getFunctionJson);
     const buildGet = build(Lambda.getFunction);
     const buildInvoke = build(Lambda.invoke);
 
     cases.push(
-      {
-        provider: "aws",
-        service: "lambda",
-        op: "GetFunction",
-        stage: "encode",
-        note: "rest-json, label only",
-        fn: () => encodeGet(getFunctionInput),
-      },
-      {
-        provider: "aws",
-        service: "lambda",
-        op: "GetFunction",
-        stage: "decode",
-        note: "rest-json, full FunctionConfiguration",
-        fn: () => decodeGet(getFunctionDecoded),
-      },
       {
         provider: "aws",
         service: "lambda",
@@ -544,14 +447,6 @@ export const awsCases = async (): Promise<Case[]> => {
         provider: "aws",
         service: "lambda",
         op: "Invoke",
-        stage: "encode",
-        note: "rest-json, 24-byte payload",
-        fn: () => encodeInvoke(invokeInput),
-      },
-      {
-        provider: "aws",
-        service: "lambda",
-        op: "Invoke",
         stage: "build",
         note: "rest-json serialize, streaming payload",
         fn: () => buildInvoke(invokeInput),
@@ -577,8 +472,6 @@ export const awsCases = async (): Promise<Case[]> => {
       body: callerIdentityXml,
     });
     const input: STS.GetCallerIdentityRequest = {};
-    const encodeReq = encoder(STS.GetCallerIdentityRequest);
-    const decodeRes = decoder(STS.GetCallerIdentityResponse);
     const decoded = {
       Arn: "arn:aws:iam::123456789012:user/alchemy",
       UserId: "AIDAEXAMPLE",
@@ -587,22 +480,6 @@ export const awsCases = async (): Promise<Case[]> => {
     const buildReq = build(STS.getCallerIdentity);
 
     cases.push(
-      {
-        provider: "aws",
-        service: "sts",
-        op: "GetCallerIdentity",
-        stage: "encode",
-        note: "aws-query, empty input",
-        fn: () => encodeReq(input),
-      },
-      {
-        provider: "aws",
-        service: "sts",
-        op: "GetCallerIdentity",
-        stage: "decode",
-        note: "aws-query, 3 fields",
-        fn: () => decodeRes(decoded),
-      },
       {
         provider: "aws",
         service: "sts",

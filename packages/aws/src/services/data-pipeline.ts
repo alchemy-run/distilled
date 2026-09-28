@@ -1,113 +1,110 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { awsJson1_1Protocol } from "../protocols/aws-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const ns = T.XmlNamespace("http://datapipeline.amazonaws.com/doc/2012-10-29/");
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Data Pipeline",
-  serviceShapeName: "DataPipeline",
-});
-const auth = T.AwsAuthSigv4({ name: "datapipeline" });
-const ver = T.ServiceVersion("2012-10-29");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://datapipeline-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://datapipeline-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://datapipeline.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://datapipeline.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "DataPipeline",
+  version: "2012-10-29",
+  sigv4: "datapipeline",
+  protocol: awsJson1_1Protocol,
+  xmlns: "http://datapipeline.amazonaws.com/doc/2012-10-29/",
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://datapipeline-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://datapipeline-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://datapipeline.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://datapipeline.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class InternalServiceError
-  extends /*@__PURE__*/ S.TaggedError<InternalServiceError>()(
-    "InternalServiceError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InternalServiceError")<{
+    readonly message?: string;
+  }> {}
 export class InvalidRequestException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
-    "InvalidRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidRequestException")<{
+    readonly message?: string;
+  }> {}
 export class PipelineDeletedException
-  extends /*@__PURE__*/ S.TaggedError<PipelineDeletedException>()(
-    "PipelineDeletedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("PipelineDeletedException")<{
+    readonly message?: string;
+  }> {}
 export class PipelineNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<PipelineNotFoundException>()(
-    "PipelineNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("PipelineNotFoundException")<{
+    readonly message?: string;
+  }> {}
 export class TaskNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<TaskNotFoundException>()(
-    "TaskNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("TaskNotFoundException")<{
+    readonly message?: string;
+  }> {}
 export type Id = string;
 export type FieldNameString = string;
 export type FieldStringValue = string;
@@ -115,241 +112,71 @@ export interface ParameterValue {
   id: string;
   stringValue: string;
 }
-export const ParameterValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, stringValue: S.String }),
-).annotate({ identifier: "ParameterValue" }) as any as S.Schema<ParameterValue>;
 export type ParameterValueList = ParameterValue[];
-export const ParameterValueList = /*@__PURE__*/ S.Array(ParameterValue);
 export interface ActivatePipelineInput {
   pipelineId: string;
   parameterValues?: ParameterValue[];
   startTimestamp?: Date;
 }
-export const ActivatePipelineInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pipelineId: S.String,
-    parameterValues: S.optional(ParameterValueList),
-    startTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ActivatePipelineInput",
-}) as any as S.Schema<ActivatePipelineInput>;
 export interface ActivatePipelineOutput {}
-export const ActivatePipelineOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "ActivatePipelineOutput",
-}) as any as S.Schema<ActivatePipelineOutput>;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   key: string;
   value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface AddTagsInput {
   pipelineId: string;
   tags: Tag[];
 }
-export const AddTagsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ pipelineId: S.String, tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "AddTagsInput" }) as any as S.Schema<AddTagsInput>;
 export interface AddTagsOutput {}
-export const AddTagsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({ identifier: "AddTagsOutput" }) as any as S.Schema<AddTagsOutput>;
 export interface CreatePipelineInput {
   name: string;
   uniqueId: string;
   description?: string;
   tags?: Tag[];
 }
-export const CreatePipelineInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    uniqueId: S.String,
-    description: S.optional(S.String),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreatePipelineInput",
-}) as any as S.Schema<CreatePipelineInput>;
 export interface CreatePipelineOutput {
   pipelineId: string;
 }
-export const CreatePipelineOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ pipelineId: S.String }).pipe(ns),
-).annotate({
-  identifier: "CreatePipelineOutput",
-}) as any as S.Schema<CreatePipelineOutput>;
 export type CancelActive = boolean;
 export interface DeactivatePipelineInput {
   pipelineId: string;
   cancelActive?: boolean;
 }
-export const DeactivatePipelineInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ pipelineId: S.String, cancelActive: S.optional(S.Boolean) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeactivatePipelineInput",
-}) as any as S.Schema<DeactivatePipelineInput>;
 export interface DeactivatePipelineOutput {}
-export const DeactivatePipelineOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeactivatePipelineOutput",
-}) as any as S.Schema<DeactivatePipelineOutput>;
 export interface DeletePipelineInput {
   pipelineId: string;
 }
-export const DeletePipelineInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ pipelineId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeletePipelineInput",
-}) as any as S.Schema<DeletePipelineInput>;
 export interface DeletePipelineResponse {}
-export const DeletePipelineResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeletePipelineResponse",
-}) as any as S.Schema<DeletePipelineResponse>;
 export type IdList = string[];
-export const IdList = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeObjectsInput {
   pipelineId: string;
   objectIds: string[];
   evaluateExpressions?: boolean;
   marker?: string;
 }
-export const DescribeObjectsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pipelineId: S.String,
-    objectIds: IdList,
-    evaluateExpressions: S.optional(S.Boolean),
-    marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeObjectsInput",
-}) as any as S.Schema<DescribeObjectsInput>;
 export interface Field {
   key: string;
   stringValue?: string;
   refValue?: string;
 }
-export const Field = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    key: S.String,
-    stringValue: S.optional(S.String),
-    refValue: S.optional(S.String),
-  }),
-).annotate({ identifier: "Field" }) as any as S.Schema<Field>;
 export type FieldList = Field[];
-export const FieldList = /*@__PURE__*/ S.Array(Field);
 export interface PipelineObject {
   id: string;
   name: string;
   fields: Field[];
 }
-export const PipelineObject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, name: S.String, fields: FieldList }),
-).annotate({ identifier: "PipelineObject" }) as any as S.Schema<PipelineObject>;
 export type PipelineObjectList = PipelineObject[];
-export const PipelineObjectList = /*@__PURE__*/ S.Array(PipelineObject);
 export interface DescribeObjectsOutput {
   pipelineObjects: PipelineObject[];
   marker?: string;
   hasMoreResults?: boolean;
 }
-export const DescribeObjectsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pipelineObjects: PipelineObjectList,
-    marker: S.optional(S.String),
-    hasMoreResults: S.optional(S.Boolean),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeObjectsOutput",
-}) as any as S.Schema<DescribeObjectsOutput>;
 export interface DescribePipelinesInput {
   pipelineIds: string[];
 }
-export const DescribePipelinesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ pipelineIds: IdList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribePipelinesInput",
-}) as any as S.Schema<DescribePipelinesInput>;
 export interface PipelineDescription {
   pipelineId: string;
   name: string;
@@ -357,291 +184,96 @@ export interface PipelineDescription {
   description?: string;
   tags?: Tag[];
 }
-export const PipelineDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pipelineId: S.String,
-    name: S.String,
-    fields: FieldList,
-    description: S.optional(S.String),
-    tags: S.optional(TagList),
-  }),
-).annotate({
-  identifier: "PipelineDescription",
-}) as any as S.Schema<PipelineDescription>;
 export type PipelineDescriptionList = PipelineDescription[];
-export const PipelineDescriptionList =
-  /*@__PURE__*/ S.Array(PipelineDescription);
 export interface DescribePipelinesOutput {
   pipelineDescriptionList: PipelineDescription[];
 }
-export const DescribePipelinesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ pipelineDescriptionList: PipelineDescriptionList }).pipe(ns),
-).annotate({
-  identifier: "DescribePipelinesOutput",
-}) as any as S.Schema<DescribePipelinesOutput>;
 export type LongString = string;
 export interface EvaluateExpressionInput {
   pipelineId: string;
   objectId: string;
   expression: string;
 }
-export const EvaluateExpressionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pipelineId: S.String,
-    objectId: S.String,
-    expression: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "EvaluateExpressionInput",
-}) as any as S.Schema<EvaluateExpressionInput>;
 export interface EvaluateExpressionOutput {
   evaluatedExpression: string;
 }
-export const EvaluateExpressionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ evaluatedExpression: S.String }).pipe(ns),
-).annotate({
-  identifier: "EvaluateExpressionOutput",
-}) as any as S.Schema<EvaluateExpressionOutput>;
 export interface GetPipelineDefinitionInput {
   pipelineId: string;
   version?: string;
 }
-export const GetPipelineDefinitionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ pipelineId: S.String, version: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPipelineDefinitionInput",
-}) as any as S.Schema<GetPipelineDefinitionInput>;
 export type AttributeNameString = string;
 export type AttributeValueString = string;
 export interface ParameterAttribute {
   key: string;
   stringValue: string;
 }
-export const ParameterAttribute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: S.String, stringValue: S.String }),
-).annotate({
-  identifier: "ParameterAttribute",
-}) as any as S.Schema<ParameterAttribute>;
 export type ParameterAttributeList = ParameterAttribute[];
-export const ParameterAttributeList = /*@__PURE__*/ S.Array(ParameterAttribute);
 export interface ParameterObject {
   id: string;
   attributes: ParameterAttribute[];
 }
-export const ParameterObject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, attributes: ParameterAttributeList }),
-).annotate({
-  identifier: "ParameterObject",
-}) as any as S.Schema<ParameterObject>;
 export type ParameterObjectList = ParameterObject[];
-export const ParameterObjectList = /*@__PURE__*/ S.Array(ParameterObject);
 export interface GetPipelineDefinitionOutput {
   pipelineObjects?: PipelineObject[];
   parameterObjects?: ParameterObject[];
   parameterValues?: ParameterValue[];
 }
-export const GetPipelineDefinitionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pipelineObjects: S.optional(PipelineObjectList),
-    parameterObjects: S.optional(ParameterObjectList),
-    parameterValues: S.optional(ParameterValueList),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetPipelineDefinitionOutput",
-}) as any as S.Schema<GetPipelineDefinitionOutput>;
 export interface ListPipelinesInput {
   marker?: string;
 }
-export const ListPipelinesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ marker: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListPipelinesInput",
-}) as any as S.Schema<ListPipelinesInput>;
 export interface PipelineIdName {
   id?: string;
   name?: string;
 }
-export const PipelineIdName = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.optional(S.String), name: S.optional(S.String) }),
-).annotate({ identifier: "PipelineIdName" }) as any as S.Schema<PipelineIdName>;
 export type PipelineList = PipelineIdName[];
-export const PipelineList = /*@__PURE__*/ S.Array(PipelineIdName);
 export interface ListPipelinesOutput {
   pipelineIdList: PipelineIdName[];
   marker?: string;
   hasMoreResults?: boolean;
 }
-export const ListPipelinesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pipelineIdList: PipelineList,
-    marker: S.optional(S.String),
-    hasMoreResults: S.optional(S.Boolean),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListPipelinesOutput",
-}) as any as S.Schema<ListPipelinesOutput>;
 export interface InstanceIdentity {
   document?: string;
   signature?: string;
 }
-export const InstanceIdentity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ document: S.optional(S.String), signature: S.optional(S.String) }),
-).annotate({
-  identifier: "InstanceIdentity",
-}) as any as S.Schema<InstanceIdentity>;
 export interface PollForTaskInput {
   workerGroup: string;
   hostname?: string;
   instanceIdentity?: InstanceIdentity;
 }
-export const PollForTaskInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    workerGroup: S.String,
-    hostname: S.optional(S.String),
-    instanceIdentity: S.optional(InstanceIdentity),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PollForTaskInput",
-}) as any as S.Schema<PollForTaskInput>;
 export type TaskId = string;
 export type PipelineObjectMap = { [key: string]: PipelineObject | undefined };
-export const PipelineObjectMap = /*@__PURE__*/ S.Record(
-  S.String,
-  PipelineObject.pipe(S.optional),
-);
 export interface TaskObject {
   taskId?: string;
   pipelineId?: string;
   attemptId?: string;
   objects?: { [key: string]: PipelineObject | undefined };
 }
-export const TaskObject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    taskId: S.optional(S.String),
-    pipelineId: S.optional(S.String),
-    attemptId: S.optional(S.String),
-    objects: S.optional(PipelineObjectMap),
-  }),
-).annotate({ identifier: "TaskObject" }) as any as S.Schema<TaskObject>;
 export interface PollForTaskOutput {
   taskObject?: TaskObject;
 }
-export const PollForTaskOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ taskObject: S.optional(TaskObject) }).pipe(ns),
-).annotate({
-  identifier: "PollForTaskOutput",
-}) as any as S.Schema<PollForTaskOutput>;
 export interface PutPipelineDefinitionInput {
   pipelineId: string;
   pipelineObjects: PipelineObject[];
   parameterObjects?: ParameterObject[];
   parameterValues?: ParameterValue[];
 }
-export const PutPipelineDefinitionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pipelineId: S.String,
-    pipelineObjects: PipelineObjectList,
-    parameterObjects: S.optional(ParameterObjectList),
-    parameterValues: S.optional(ParameterValueList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutPipelineDefinitionInput",
-}) as any as S.Schema<PutPipelineDefinitionInput>;
 export type ValidationMessage = string;
 export type ValidationMessages = string[];
-export const ValidationMessages = /*@__PURE__*/ S.Array(S.String);
 export interface ValidationError {
   id?: string;
   errors?: string[];
 }
-export const ValidationError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    errors: S.optional(ValidationMessages),
-  }),
-).annotate({
-  identifier: "ValidationError",
-}) as any as S.Schema<ValidationError>;
 export type ValidationErrors = ValidationError[];
-export const ValidationErrors = /*@__PURE__*/ S.Array(ValidationError);
 export interface ValidationWarning {
   id?: string;
   warnings?: string[];
 }
-export const ValidationWarning = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    warnings: S.optional(ValidationMessages),
-  }),
-).annotate({
-  identifier: "ValidationWarning",
-}) as any as S.Schema<ValidationWarning>;
 export type ValidationWarnings = ValidationWarning[];
-export const ValidationWarnings = /*@__PURE__*/ S.Array(ValidationWarning);
 export interface PutPipelineDefinitionOutput {
   validationErrors?: ValidationError[];
   validationWarnings?: ValidationWarning[];
   errored: boolean;
 }
-export const PutPipelineDefinitionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    validationErrors: S.optional(ValidationErrors),
-    validationWarnings: S.optional(ValidationWarnings),
-    errored: S.Boolean,
-  }).pipe(ns),
-).annotate({
-  identifier: "PutPipelineDefinitionOutput",
-}) as any as S.Schema<PutPipelineDefinitionOutput>;
 export type OperatorType =
   | "EQ"
   | "REF_EQ"
@@ -649,32 +281,19 @@ export type OperatorType =
   | "GE"
   | "BETWEEN"
   | (string & {});
-export const OperatorType = S.String;
-
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface Operator {
   type?: OperatorType;
   values?: string[];
 }
-export const Operator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: S.optional(OperatorType), values: S.optional(StringList) }),
-).annotate({ identifier: "Operator" }) as any as S.Schema<Operator>;
 export interface Selector {
   fieldName?: string;
   operator?: Operator;
 }
-export const Selector = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ fieldName: S.optional(S.String), operator: S.optional(Operator) }),
-).annotate({ identifier: "Selector" }) as any as S.Schema<Selector>;
 export type SelectorList = Selector[];
-export const SelectorList = /*@__PURE__*/ S.Array(Selector);
 export interface Query {
   selectors?: Selector[];
 }
-export const Query = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ selectors: S.optional(SelectorList) }),
-).annotate({ identifier: "Query" }) as any as S.Schema<Query>;
 export type Int = number;
 export interface QueryObjectsInput {
   pipelineId: string;
@@ -683,152 +302,38 @@ export interface QueryObjectsInput {
   marker?: string;
   limit?: number;
 }
-export const QueryObjectsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pipelineId: S.String,
-    query: S.optional(Query),
-    sphere: S.String,
-    marker: S.optional(S.String),
-    limit: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "QueryObjectsInput",
-}) as any as S.Schema<QueryObjectsInput>;
 export interface QueryObjectsOutput {
   ids?: string[];
   marker?: string;
   hasMoreResults?: boolean;
 }
-export const QueryObjectsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ids: S.optional(IdList),
-    marker: S.optional(S.String),
-    hasMoreResults: S.optional(S.Boolean),
-  }).pipe(ns),
-).annotate({
-  identifier: "QueryObjectsOutput",
-}) as any as S.Schema<QueryObjectsOutput>;
 export interface RemoveTagsInput {
   pipelineId: string;
   tagKeys: string[];
 }
-export const RemoveTagsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ pipelineId: S.String, tagKeys: StringList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemoveTagsInput",
-}) as any as S.Schema<RemoveTagsInput>;
 export interface RemoveTagsOutput {}
-export const RemoveTagsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RemoveTagsOutput",
-}) as any as S.Schema<RemoveTagsOutput>;
 export interface ReportTaskProgressInput {
   taskId: string;
   fields?: Field[];
 }
-export const ReportTaskProgressInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ taskId: S.String, fields: S.optional(FieldList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ReportTaskProgressInput",
-}) as any as S.Schema<ReportTaskProgressInput>;
 export interface ReportTaskProgressOutput {
   canceled: boolean;
 }
-export const ReportTaskProgressOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ canceled: S.Boolean }).pipe(ns),
-).annotate({
-  identifier: "ReportTaskProgressOutput",
-}) as any as S.Schema<ReportTaskProgressOutput>;
 export interface ReportTaskRunnerHeartbeatInput {
   taskrunnerId: string;
   workerGroup?: string;
   hostname?: string;
 }
-export const ReportTaskRunnerHeartbeatInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    taskrunnerId: S.String,
-    workerGroup: S.optional(S.String),
-    hostname: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ReportTaskRunnerHeartbeatInput",
-}) as any as S.Schema<ReportTaskRunnerHeartbeatInput>;
 export interface ReportTaskRunnerHeartbeatOutput {
   terminate: boolean;
 }
-export const ReportTaskRunnerHeartbeatOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ terminate: S.Boolean }).pipe(ns),
-).annotate({
-  identifier: "ReportTaskRunnerHeartbeatOutput",
-}) as any as S.Schema<ReportTaskRunnerHeartbeatOutput>;
 export interface SetStatusInput {
   pipelineId: string;
   objectIds: string[];
   status: string;
 }
-export const SetStatusInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ pipelineId: S.String, objectIds: IdList, status: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "SetStatusInput" }) as any as S.Schema<SetStatusInput>;
 export interface SetStatusResponse {}
-export const SetStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetStatusResponse",
-}) as any as S.Schema<SetStatusResponse>;
 export type TaskStatus = "FINISHED" | "FAILED" | "FALSE" | (string & {});
-export const TaskStatus = S.String;
-
 export type ErrorMessage = string;
 export interface SetTaskStatusInput {
   taskId: string;
@@ -837,73 +342,18 @@ export interface SetTaskStatusInput {
   errorMessage?: string;
   errorStackTrace?: string;
 }
-export const SetTaskStatusInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    taskId: S.String,
-    taskStatus: TaskStatus,
-    errorId: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    errorStackTrace: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SetTaskStatusInput",
-}) as any as S.Schema<SetTaskStatusInput>;
 export interface SetTaskStatusOutput {}
-export const SetTaskStatusOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetTaskStatusOutput",
-}) as any as S.Schema<SetTaskStatusOutput>;
 export interface ValidatePipelineDefinitionInput {
   pipelineId: string;
   pipelineObjects: PipelineObject[];
   parameterObjects?: ParameterObject[];
   parameterValues?: ParameterValue[];
 }
-export const ValidatePipelineDefinitionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pipelineId: S.String,
-    pipelineObjects: PipelineObjectList,
-    parameterObjects: S.optional(ParameterObjectList),
-    parameterValues: S.optional(ParameterValueList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ValidatePipelineDefinitionInput",
-}) as any as S.Schema<ValidatePipelineDefinitionInput>;
 export interface ValidatePipelineDefinitionOutput {
   validationErrors?: ValidationError[];
   validationWarnings?: ValidationWarning[];
   errored: boolean;
 }
-export const ValidatePipelineDefinitionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    validationErrors: S.optional(ValidationErrors),
-    validationWarnings: S.optional(ValidationWarnings),
-    errored: S.Boolean,
-  }).pipe(ns),
-).annotate({
-  identifier: "ValidatePipelineDefinitionOutput",
-}) as any as S.Schema<ValidatePipelineDefinitionOutput>;
 export type ActivatePipelineError =
   | InternalServiceError
   | InvalidRequestException
@@ -943,8 +393,14 @@ export const activatePipeline: API.OperationMethod<
   ActivatePipelineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ActivatePipelineInput,
-  output: ActivatePipelineOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      pipelineId: 0,
+      parameterValues: D.list(i_ParameterValue),
+      startTimestamp: 0,
+    },
+  },
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -954,7 +410,7 @@ export const activatePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivatePipeline",
-}));
+})) as any;
 
 export type AddTagsError =
   | InternalServiceError
@@ -971,8 +427,7 @@ export const addTags: API.OperationMethod<
   AddTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddTagsInput,
-  output: AddTagsOutput,
+  descriptor: { service: svc, input: { pipelineId: 0, tags: D.list(i_Tag) } },
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -982,7 +437,7 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
-}));
+})) as any;
 
 export type CreatePipelineError =
   | InternalServiceError
@@ -1017,13 +472,15 @@ export const createPipeline: API.OperationMethod<
   CreatePipelineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreatePipelineInput,
-  output: CreatePipelineOutput,
+  descriptor: {
+    service: svc,
+    input: { name: 0, uniqueId: 0, description: 0, tags: D.list(i_Tag) },
+  },
   errors: [InternalServiceError, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipeline",
-}));
+})) as any;
 
 export type DeactivatePipelineError =
   | InternalServiceError
@@ -1044,8 +501,7 @@ export const deactivatePipeline: API.OperationMethod<
   DeactivatePipelineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeactivatePipelineInput,
-  output: DeactivatePipelineOutput,
+  descriptor: { service: svc, input: { pipelineId: 0, cancelActive: 0 } },
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -1055,7 +511,7 @@ export const deactivatePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivatePipeline",
-}));
+})) as any;
 
 export type DeletePipelineError =
   | InternalServiceError
@@ -1093,8 +549,7 @@ export const deletePipeline: API.OperationMethod<
   DeletePipelineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeletePipelineInput,
-  output: DeletePipelineResponse,
+  descriptor: { service: svc, input: { pipelineId: 0 } },
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -1103,7 +558,7 @@ export const deletePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipeline",
-}));
+})) as any;
 
 export type DescribeObjectsError =
   | InternalServiceError
@@ -1169,8 +624,10 @@ export const describeObjects: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PipelineObject
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeObjectsInput,
-  output: DescribeObjectsOutput,
+  descriptor: {
+    service: svc,
+    input: { pipelineId: 0, objectIds: 0, evaluateExpressions: 0, marker: 0 },
+  },
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -1255,8 +712,7 @@ export const describePipelines: API.OperationMethod<
   DescribePipelinesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribePipelinesInput,
-  output: DescribePipelinesOutput,
+  descriptor: { service: svc, input: { pipelineIds: 0 } },
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -1266,7 +722,7 @@ export const describePipelines: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePipelines",
-}));
+})) as any;
 
 export type EvaluateExpressionError =
   | InternalServiceError
@@ -1304,8 +760,10 @@ export const evaluateExpression: API.OperationMethod<
   EvaluateExpressionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: EvaluateExpressionInput,
-  output: EvaluateExpressionOutput,
+  descriptor: {
+    service: svc,
+    input: { pipelineId: 0, objectId: 0, expression: 0 },
+  },
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -1316,7 +774,7 @@ export const evaluateExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluateExpression",
-}));
+})) as any;
 
 export type GetPipelineDefinitionError =
   | InternalServiceError
@@ -1387,8 +845,7 @@ export const getPipelineDefinition: API.OperationMethod<
   GetPipelineDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPipelineDefinitionInput,
-  output: GetPipelineDefinitionOutput,
+  descriptor: { service: svc, input: { pipelineId: 0, version: 0 } },
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -1398,7 +855,7 @@ export const getPipelineDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipelineDefinition",
-}));
+})) as any;
 
 export type ListPipelinesError =
   | InternalServiceError
@@ -1439,8 +896,7 @@ export const listPipelines: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PipelineIdName
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPipelinesInput,
-  output: ListPipelinesOutput,
+  descriptor: { service: svc, input: { marker: 0 } },
   errors: [InternalServiceError, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1534,8 +990,14 @@ export const pollForTask: API.OperationMethod<
   PollForTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PollForTaskInput,
-  output: PollForTaskOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      workerGroup: 0,
+      hostname: 0,
+      instanceIdentity: { document: 0, signature: 0 },
+    },
+  },
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -1544,7 +1006,7 @@ export const pollForTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PollForTask",
-}));
+})) as any;
 
 export type PutPipelineDefinitionError =
   | InternalServiceError
@@ -1700,8 +1162,15 @@ export const putPipelineDefinition: API.OperationMethod<
   PutPipelineDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutPipelineDefinitionInput,
-  output: PutPipelineDefinitionOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      pipelineId: 0,
+      pipelineObjects: D.list(i_PipelineObject),
+      parameterObjects: D.list(i_ParameterObject),
+      parameterValues: D.list(i_ParameterValue),
+    },
+  },
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -1711,7 +1180,7 @@ export const putPipelineDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPipelineDefinition",
-}));
+})) as any;
 
 export type QueryObjectsError =
   | InternalServiceError
@@ -1757,8 +1226,18 @@ export const queryObjects: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Id
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: QueryObjectsInput,
-  output: QueryObjectsOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      pipelineId: 0,
+      query: {
+        selectors: D.list({ fieldName: 0, operator: { type: 0, values: 0 } }),
+      },
+      sphere: 0,
+      marker: 0,
+      limit: 0,
+    },
+  },
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -1791,8 +1270,7 @@ export const removeTags: API.OperationMethod<
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveTagsInput,
-  output: RemoveTagsOutput,
+  descriptor: { service: svc, input: { pipelineId: 0, tagKeys: 0 } },
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -1802,7 +1280,7 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
-}));
+})) as any;
 
 export type ReportTaskProgressError =
   | InternalServiceError
@@ -1849,8 +1327,7 @@ export const reportTaskProgress: API.OperationMethod<
   ReportTaskProgressError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ReportTaskProgressInput,
-  output: ReportTaskProgressOutput,
+  descriptor: { service: svc, input: { taskId: 0, fields: D.list(i_Field) } },
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -1861,7 +1338,7 @@ export const reportTaskProgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReportTaskProgress",
-}));
+})) as any;
 
 export type ReportTaskRunnerHeartbeatError =
   | InternalServiceError
@@ -1898,13 +1375,15 @@ export const reportTaskRunnerHeartbeat: API.OperationMethod<
   ReportTaskRunnerHeartbeatError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ReportTaskRunnerHeartbeatInput,
-  output: ReportTaskRunnerHeartbeatOutput,
+  descriptor: {
+    service: svc,
+    input: { taskrunnerId: 0, workerGroup: 0, hostname: 0 },
+  },
   errors: [InternalServiceError, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReportTaskRunnerHeartbeat",
-}));
+})) as any;
 
 export type SetStatusError =
   | InternalServiceError
@@ -1943,8 +1422,10 @@ export const setStatus: API.OperationMethod<
   SetStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetStatusInput,
-  output: SetStatusResponse,
+  descriptor: {
+    service: svc,
+    input: { pipelineId: 0, objectIds: 0, status: 0 },
+  },
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -1954,7 +1435,7 @@ export const setStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetStatus",
-}));
+})) as any;
 
 export type SetTaskStatusError =
   | InternalServiceError
@@ -1992,8 +1473,16 @@ export const setTaskStatus: API.OperationMethod<
   SetTaskStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetTaskStatusInput,
-  output: SetTaskStatusOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      taskId: 0,
+      taskStatus: 0,
+      errorId: 0,
+      errorMessage: 0,
+      errorStackTrace: 0,
+    },
+  },
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -2004,7 +1493,7 @@ export const setTaskStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTaskStatus",
-}));
+})) as any;
 
 export type ValidatePipelineDefinitionError =
   | InternalServiceError
@@ -2152,8 +1641,15 @@ export const validatePipelineDefinition: API.OperationMethod<
   ValidatePipelineDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ValidatePipelineDefinitionInput,
-  output: ValidatePipelineDefinitionOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      pipelineId: 0,
+      pipelineObjects: D.list(i_PipelineObject),
+      parameterObjects: D.list(i_ParameterObject),
+      parameterValues: D.list(i_ParameterValue),
+    },
+  },
   errors: [
     InternalServiceError,
     InvalidRequestException,
@@ -2163,4 +1659,17 @@ export const validatePipelineDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidatePipelineDefinition",
-}));
+})) as any;
+
+const i_Field: D.LazyStruct = () => ({ key: 0, stringValue: 0, refValue: 0 });
+const i_ParameterObject: D.LazyStruct = () => ({
+  id: 0,
+  attributes: D.list({ key: 0, stringValue: 0 }),
+});
+const i_ParameterValue: D.LazyStruct = () => ({ id: 0, stringValue: 0 });
+const i_PipelineObject: D.LazyStruct = () => ({
+  id: 0,
+  name: 0,
+  fields: D.list(i_Field),
+});
+const i_Tag: D.LazyStruct = () => ({ key: 0, value: 0 });

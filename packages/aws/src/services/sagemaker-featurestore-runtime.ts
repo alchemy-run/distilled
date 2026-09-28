@@ -1,192 +1,145 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "SageMaker FeatureStore Runtime",
-  serviceShapeName: "AmazonSageMakerFeatureStoreRuntime",
-});
-const auth = T.AwsAuthSigv4({ name: "sagemaker" });
-const ver = T.ServiceVersion("2020-07-01");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://featurestore-runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://featurestore-runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://featurestore-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://featurestore-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AmazonSageMakerFeatureStoreRuntime",
+  version: "2020-07-01",
+  sigv4: "sagemaker",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://featurestore-runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://featurestore-runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://featurestore-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://featurestore-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessForbidden
-  extends /*@__PURE__*/ S.TaggedError<AccessForbidden>()(
-    "AccessForbidden",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessForbidden", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class FeatureGroupNotFound
-  extends /*@__PURE__*/ S.TaggedError<FeatureGroupNotFound>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "FeatureGroupNotFound",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
-      from: "ValidationError",
-      message: { includes: "Resource Not Found" },
-    }),
-  ).pipe(C.withNotFoundError) {}
+    ["NotFoundError"],
+    {
+      synthetic: {
+        from: "ValidationError",
+        message: { includes: "Resource Not Found" },
+      },
+    },
+  )<{ readonly message?: string }> {}
 export class InternalFailure
-  extends /*@__PURE__*/ S.TaggedError<InternalFailure>()(
-    "InternalFailure",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InternalFailure", ["ServerError"], {
+    status: 500,
+  })<{ readonly message?: string }> {}
 export class ResourceNotFound
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFound>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFound",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class ServiceUnavailable
-  extends /*@__PURE__*/ S.TaggedError<ServiceUnavailable>()(
-    "ServiceUnavailable",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ServiceUnavailable", ["ServerError"], {
+    status: 503,
+  })<{ readonly message?: string }> {}
 export class ValidationError
-  extends /*@__PURE__*/ S.TaggedError<ValidationError>()(
-    "ValidationError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ValidationError", ["BadRequestError"], {
+    status: 400,
+  })<{ readonly message?: string }> {}
 export type FeatureGroupNameOrArn = string;
 export type ValueAsString = string;
 export type RecordIdentifiers = string[];
-export const RecordIdentifiers = /*@__PURE__*/ S.Array(S.String);
 export type FeatureName = string;
 export type FeatureNames = string[];
-export const FeatureNames = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetRecordIdentifier {
   FeatureGroupName?: string;
   RecordIdentifiersValueAsString?: string[];
   FeatureNames?: string[];
 }
-export const BatchGetRecordIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FeatureGroupName: S.optional(S.String),
-    RecordIdentifiersValueAsString: S.optional(RecordIdentifiers),
-    FeatureNames: S.optional(FeatureNames),
-  }),
-).annotate({
-  identifier: "BatchGetRecordIdentifier",
-}) as any as S.Schema<BatchGetRecordIdentifier>;
 export type BatchGetRecordIdentifiers = BatchGetRecordIdentifier[];
-export const BatchGetRecordIdentifiers = /*@__PURE__*/ S.Array(
-  BatchGetRecordIdentifier,
-);
 export type ExpirationTimeResponse = "Enabled" | "Disabled" | (string & {});
-export const ExpirationTimeResponse = S.String;
-
 export interface BatchGetRecordRequest {
   Identifiers?: BatchGetRecordIdentifier[];
   ExpirationTimeResponse?: ExpirationTimeResponse;
 }
-export const BatchGetRecordRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Identifiers: S.optional(BatchGetRecordIdentifiers),
-    ExpirationTimeResponse: S.optional(ExpirationTimeResponse),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/BatchGetRecord" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetRecordRequest",
-}) as any as S.Schema<BatchGetRecordRequest>;
 export type ValueAsStringList = string[];
-export const ValueAsStringList = /*@__PURE__*/ S.Array(S.String);
 export interface FeatureValue {
   FeatureName?: string;
   ValueAsString?: string;
   ValueAsStringList?: string[];
 }
-export const FeatureValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FeatureName: S.optional(S.String),
-    ValueAsString: S.optional(S.String),
-    ValueAsStringList: S.optional(ValueAsStringList),
-  }),
-).annotate({ identifier: "FeatureValue" }) as any as S.Schema<FeatureValue>;
 export type Record = FeatureValue[];
-export const Record = /*@__PURE__*/ S.Array(FeatureValue);
 export type ExpiresAt = string;
 export interface BatchGetRecordResultDetail {
   FeatureGroupName?: string;
@@ -194,20 +147,7 @@ export interface BatchGetRecordResultDetail {
   Record?: FeatureValue[];
   ExpiresAt?: string;
 }
-export const BatchGetRecordResultDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FeatureGroupName: S.optional(S.String),
-    RecordIdentifierValueAsString: S.optional(S.String),
-    Record: S.optional(Record),
-    ExpiresAt: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BatchGetRecordResultDetail",
-}) as any as S.Schema<BatchGetRecordResultDetail>;
 export type BatchGetRecordResultDetails = BatchGetRecordResultDetail[];
-export const BatchGetRecordResultDetails = /*@__PURE__*/ S.Array(
-  BatchGetRecordResultDetail,
-);
 export type Message = string;
 export interface BatchGetRecordError_ {
   FeatureGroupName?: string;
@@ -215,22 +155,8 @@ export interface BatchGetRecordError_ {
   ErrorCode?: string;
   ErrorMessage?: string;
 }
-export const BatchGetRecordError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FeatureGroupName: S.optional(S.String),
-    RecordIdentifierValueAsString: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BatchGetRecordError",
-}) as any as S.Schema<BatchGetRecordError_>;
 export type BatchGetRecordErrors = BatchGetRecordError_[];
-export const BatchGetRecordErrors = /*@__PURE__*/ S.Array(BatchGetRecordError_);
 export type UnprocessedIdentifiers = BatchGetRecordIdentifier[];
-export const UnprocessedIdentifiers = /*@__PURE__*/ S.Array(
-  BatchGetRecordIdentifier,
-);
 export interface BatchGetRecordResponse {
   Records: (BatchGetRecordResultDetail & {
     FeatureGroupName: ValueAsString;
@@ -248,20 +174,8 @@ export interface BatchGetRecordResponse {
     RecordIdentifiersValueAsString: RecordIdentifiers;
   })[];
 }
-export const BatchGetRecordResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Records: S.optional(BatchGetRecordResultDetails),
-    Errors: S.optional(BatchGetRecordErrors),
-    UnprocessedIdentifiers: S.optional(UnprocessedIdentifiers),
-  }),
-).annotate({
-  identifier: "BatchGetRecordResponse",
-}) as any as S.Schema<BatchGetRecordResponse>;
 export type TargetStore = "OnlineStore" | "OfflineStore" | (string & {});
-export const TargetStore = S.String;
-
 export type TargetStores = TargetStore[];
-export const TargetStores = /*@__PURE__*/ S.Array(TargetStore);
 export type TtlDurationUnit =
   | "Seconds"
   | "Minutes"
@@ -269,79 +183,29 @@ export type TtlDurationUnit =
   | "Days"
   | "Weeks"
   | (string & {});
-export const TtlDurationUnit = S.String;
-
 export type TtlDurationValue = number;
 export interface TtlDuration {
   Unit?: TtlDurationUnit;
   Value?: number;
 }
-export const TtlDuration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Unit: S.optional(TtlDurationUnit), Value: S.optional(S.Number) }),
-).annotate({ identifier: "TtlDuration" }) as any as S.Schema<TtlDuration>;
 export interface BatchWriteRecordEntry {
   FeatureGroupName?: string;
   Record?: FeatureValue[];
   TargetStores?: TargetStore[];
   TtlDuration?: TtlDuration;
 }
-export const BatchWriteRecordEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FeatureGroupName: S.optional(S.String),
-    Record: S.optional(Record),
-    TargetStores: S.optional(TargetStores),
-    TtlDuration: S.optional(TtlDuration),
-  }),
-).annotate({
-  identifier: "BatchWriteRecordEntry",
-}) as any as S.Schema<BatchWriteRecordEntry>;
 export type BatchWriteRecordEntries = BatchWriteRecordEntry[];
-export const BatchWriteRecordEntries = /*@__PURE__*/ S.Array(
-  BatchWriteRecordEntry,
-);
 export interface BatchWriteRecordRequest {
   Entries?: BatchWriteRecordEntry[];
   TtlDuration?: TtlDuration;
 }
-export const BatchWriteRecordRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Entries: S.optional(BatchWriteRecordEntries),
-    TtlDuration: S.optional(TtlDuration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/BatchWriteRecord" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchWriteRecordRequest",
-}) as any as S.Schema<BatchWriteRecordRequest>;
 export interface BatchWriteRecordError_ {
   Entry?: BatchWriteRecordEntry;
   ErrorCode?: string;
   ErrorMessage?: string;
 }
-export const BatchWriteRecordError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Entry: S.optional(BatchWriteRecordEntry),
-    ErrorCode: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BatchWriteRecordError",
-}) as any as S.Schema<BatchWriteRecordError_>;
 export type BatchWriteRecordErrors = BatchWriteRecordError_[];
-export const BatchWriteRecordErrors = /*@__PURE__*/ S.Array(
-  BatchWriteRecordError_,
-);
 export type UnprocessedBatchWriteRecordEntries = BatchWriteRecordEntry[];
-export const UnprocessedBatchWriteRecordEntries = /*@__PURE__*/ S.Array(
-  BatchWriteRecordEntry,
-);
 export interface BatchWriteRecordResponse {
   Errors: (BatchWriteRecordError & {
     Entry: BatchWriteRecordEntry & {
@@ -364,17 +228,7 @@ export interface BatchWriteRecordResponse {
     };
   })[];
 }
-export const BatchWriteRecordResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Errors: S.optional(BatchWriteRecordErrors),
-    UnprocessedEntries: S.optional(UnprocessedBatchWriteRecordEntries),
-  }),
-).annotate({
-  identifier: "BatchWriteRecordResponse",
-}) as any as S.Schema<BatchWriteRecordResponse>;
 export type DeletionMode = "SoftDelete" | "HardDelete" | (string & {});
-export const DeletionMode = S.String;
-
 export interface DeleteRecordRequest {
   FeatureGroupName: string;
   RecordIdentifierValueAsString?: string;
@@ -382,72 +236,17 @@ export interface DeleteRecordRequest {
   TargetStores?: TargetStore[];
   DeletionMode?: DeletionMode;
 }
-export const DeleteRecordRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FeatureGroupName: S.String.pipe(T.HttpLabel("FeatureGroupName")),
-    RecordIdentifierValueAsString: S.optional(S.String).pipe(
-      T.HttpQuery("RecordIdentifierValueAsString"),
-    ),
-    EventTime: S.optional(S.String).pipe(T.HttpQuery("EventTime")),
-    TargetStores: S.optional(TargetStores).pipe(T.HttpQuery("TargetStores")),
-    DeletionMode: S.optional(DeletionMode).pipe(T.HttpQuery("DeletionMode")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/FeatureGroup/{FeatureGroupName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRecordRequest",
-}) as any as S.Schema<DeleteRecordRequest>;
 export interface DeleteRecordResponse {}
-export const DeleteRecordResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteRecordResponse",
-}) as any as S.Schema<DeleteRecordResponse>;
 export interface GetRecordRequest {
   FeatureGroupName: string;
   RecordIdentifierValueAsString?: string;
   FeatureNames?: string[];
   ExpirationTimeResponse?: ExpirationTimeResponse;
 }
-export const GetRecordRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FeatureGroupName: S.String.pipe(T.HttpLabel("FeatureGroupName")),
-    RecordIdentifierValueAsString: S.optional(S.String).pipe(
-      T.HttpQuery("RecordIdentifierValueAsString"),
-    ),
-    FeatureNames: S.optional(FeatureNames).pipe(T.HttpQuery("FeatureName")),
-    ExpirationTimeResponse: S.optional(ExpirationTimeResponse).pipe(
-      T.HttpQuery("ExpirationTimeResponse"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/FeatureGroup/{FeatureGroupName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRecordRequest",
-}) as any as S.Schema<GetRecordRequest>;
 export interface GetRecordResponse {
   Record?: (FeatureValue & { FeatureName: FeatureName })[];
   ExpiresAt?: string;
 }
-export const GetRecordResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Record: S.optional(Record), ExpiresAt: S.optional(S.String) }),
-).annotate({
-  identifier: "GetRecordResponse",
-}) as any as S.Schema<GetRecordResponse>;
 export type ListRecordsMaxResults = number;
 export type ListRecordsNextToken = string;
 export interface ListRecordsRequest {
@@ -456,73 +255,18 @@ export interface ListRecordsRequest {
   NextToken?: string;
   IncludeSoftDeletedRecords?: boolean;
 }
-export const ListRecordsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FeatureGroupName: S.String.pipe(T.HttpLabel("FeatureGroupName")),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    IncludeSoftDeletedRecords: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/FeatureGroup/{FeatureGroupName}/ListRecords",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRecordsRequest",
-}) as any as S.Schema<ListRecordsRequest>;
 export type RecordIdentifierList = string[];
-export const RecordIdentifierList = /*@__PURE__*/ S.Array(S.String);
 export interface ListRecordsResponse {
   RecordIdentifiers: string[];
   NextToken?: string;
 }
-export const ListRecordsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecordIdentifiers: S.optional(RecordIdentifierList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRecordsResponse",
-}) as any as S.Schema<ListRecordsResponse>;
 export interface PutRecordRequest {
   FeatureGroupName: string;
   Record?: FeatureValue[];
   TargetStores?: TargetStore[];
   TtlDuration?: TtlDuration;
 }
-export const PutRecordRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FeatureGroupName: S.String.pipe(T.HttpLabel("FeatureGroupName")),
-    Record: S.optional(Record),
-    TargetStores: S.optional(TargetStores),
-    TtlDuration: S.optional(TtlDuration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/FeatureGroup/{FeatureGroupName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutRecordRequest",
-}) as any as S.Schema<PutRecordRequest>;
 export interface PutRecordResponse {}
-export const PutRecordResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutRecordResponse",
-}) as any as S.Schema<PutRecordResponse>;
 export type BatchGetRecordError =
   | AccessForbidden
   | InternalFailure
@@ -538,8 +282,19 @@ export const batchGetRecord: API.OperationMethod<
   BatchGetRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetRecordRequest,
-  output: BatchGetRecordResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /BatchGetRecord",
+    input: {
+      Identifiers: D.list({
+        FeatureGroupName: 0,
+        RecordIdentifiersValueAsString: 0,
+        FeatureNames: 0,
+      }),
+      ExpirationTimeResponse: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessForbidden,
     InternalFailure,
@@ -549,7 +304,7 @@ export const batchGetRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRecord",
-}));
+})) as any;
 
 export type BatchWriteRecordError =
   | AccessForbidden
@@ -574,8 +329,20 @@ export const batchWriteRecord: API.OperationMethod<
   BatchWriteRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchWriteRecordRequest,
-  output: BatchWriteRecordResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /BatchWriteRecord",
+    input: {
+      Entries: D.list({
+        FeatureGroupName: 0,
+        Record: D.list(i_FeatureValue),
+        TargetStores: 0,
+        TtlDuration: i_TtlDuration,
+      }),
+      TtlDuration: i_TtlDuration,
+    },
+    body: true,
+  },
   errors: [
     AccessForbidden,
     InternalFailure,
@@ -586,7 +353,7 @@ export const batchWriteRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchWriteRecord",
-}));
+})) as any;
 
 export type DeleteRecordError =
   | AccessForbidden
@@ -634,8 +401,19 @@ export const deleteRecord: API.OperationMethod<
   DeleteRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRecordRequest,
-  output: DeleteRecordResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /FeatureGroup/{FeatureGroupName}",
+    input: {
+      FeatureGroupName: 0,
+      RecordIdentifierValueAsString: D.m({
+        query: "RecordIdentifierValueAsString",
+      }),
+      EventTime: D.m({ query: "EventTime" }),
+      TargetStores: D.m({ query: "TargetStores" }),
+      DeletionMode: D.m({ query: "DeletionMode" }),
+    },
+  },
   errors: [
     AccessForbidden,
     InternalFailure,
@@ -646,7 +424,7 @@ export const deleteRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecord",
-}));
+})) as any;
 
 export type GetRecordError =
   | AccessForbidden
@@ -667,8 +445,18 @@ export const getRecord: API.OperationMethod<
   GetRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRecordRequest,
-  output: GetRecordResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /FeatureGroup/{FeatureGroupName}",
+    input: {
+      FeatureGroupName: 0,
+      RecordIdentifierValueAsString: D.m({
+        query: "RecordIdentifierValueAsString",
+      }),
+      FeatureNames: D.m({ query: "FeatureName" }),
+      ExpirationTimeResponse: D.m({ query: "ExpirationTimeResponse" }),
+    },
+  },
   errors: [
     AccessForbidden,
     InternalFailure,
@@ -680,7 +468,7 @@ export const getRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecord",
-}));
+})) as any;
 
 export type ListRecordsError =
   | AccessForbidden
@@ -701,8 +489,17 @@ export const listRecords: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ValueAsString
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRecordsRequest,
-  output: ListRecordsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /FeatureGroup/{FeatureGroupName}/ListRecords",
+    input: {
+      FeatureGroupName: 0,
+      MaxResults: 0,
+      NextToken: 0,
+      IncludeSoftDeletedRecords: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessForbidden,
     InternalFailure,
@@ -755,8 +552,17 @@ export const putRecord: API.OperationMethod<
   PutRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutRecordRequest,
-  output: PutRecordResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /FeatureGroup/{FeatureGroupName}",
+    input: {
+      FeatureGroupName: 0,
+      Record: D.list(i_FeatureValue),
+      TargetStores: 0,
+      TtlDuration: i_TtlDuration,
+    },
+    body: true,
+  },
   errors: [
     AccessForbidden,
     InternalFailure,
@@ -767,4 +573,11 @@ export const putRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecord",
-}));
+})) as any;
+
+const i_FeatureValue: D.LazyStruct = () => ({
+  FeatureName: 0,
+  ValueAsString: 0,
+  ValueAsStringList: 0,
+});
+const i_TtlDuration: D.LazyStruct = () => ({ Unit: 0, Value: 0 });

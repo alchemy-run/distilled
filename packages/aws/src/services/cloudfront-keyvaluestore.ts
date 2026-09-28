@@ -1,181 +1,177 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "CloudFront KeyValueStore",
-  serviceShapeName: "CloudFrontKeyValueStore",
-});
-const auth = T.AwsAuthSigv4({ name: "cloudfront-keyvaluestore" });
-const ver = T.ServiceVersion("2022-07-26");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { KvsARN, Region, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  const _p0 = () => ({
-    authSchemes: [
-      {
-        name: "sigv4a",
-        signingName: "cloudfront-keyvaluestore",
-        signingRegionSet: ["*"],
-      },
-    ],
-  });
-  if (UseFIPS === false) {
-    if (KvsARN != null) {
-      {
-        const parsedArn = _.parseArn(KvsARN);
-        if (parsedArn != null && parsedArn !== false) {
-          if (_.getAttr(parsedArn, "service") === "cloudfront") {
-            if (_.getAttr(parsedArn, "region") === "") {
-              {
-                const arnType = _.getAttr(parsedArn, "resourceId[0]");
-                if (arnType != null && arnType !== false) {
-                  if (!(arnType === "")) {
-                    if (arnType === "key-value-store") {
-                      if (_.getAttr(parsedArn, "partition") === "aws") {
-                        if (Region != null) {
-                          {
-                            const partitionResult = _.partition(Region);
-                            if (
-                              partitionResult != null &&
-                              partitionResult !== false
-                            ) {
+  target: "CloudFrontKeyValueStore",
+  version: "2022-07-26",
+  sigv4: "cloudfront-keyvaluestore",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { KvsARN, Region, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    const _p0 = () => ({
+      authSchemes: [
+        {
+          name: "sigv4a",
+          signingName: "cloudfront-keyvaluestore",
+          signingRegionSet: ["*"],
+        },
+      ],
+    });
+    if (UseFIPS === false) {
+      if (KvsARN != null) {
+        {
+          const parsedArn = _.parseArn(KvsARN);
+          if (parsedArn != null && parsedArn !== false) {
+            if (_.getAttr(parsedArn, "service") === "cloudfront") {
+              if (_.getAttr(parsedArn, "region") === "") {
+                {
+                  const arnType = _.getAttr(parsedArn, "resourceId[0]");
+                  if (arnType != null && arnType !== false) {
+                    if (!(arnType === "")) {
+                      if (arnType === "key-value-store") {
+                        if (_.getAttr(parsedArn, "partition") === "aws") {
+                          if (Region != null) {
+                            {
+                              const partitionResult = _.partition(Region);
                               if (
-                                _.getAttr(partitionResult, "name") ===
-                                `${_.getAttr(parsedArn, "partition")}`
+                                partitionResult != null &&
+                                partitionResult !== false
                               ) {
-                                if (Endpoint != null) {
-                                  {
-                                    const url = _.parseURL(Endpoint);
-                                    if (url != null && url !== false) {
-                                      return e(
-                                        `${_.getAttr(url, "scheme")}://${_.getAttr(parsedArn, "accountId")}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
-                                        _p0(),
-                                        {},
-                                      );
+                                if (
+                                  _.getAttr(partitionResult, "name") ===
+                                  `${_.getAttr(parsedArn, "partition")}`
+                                ) {
+                                  if (Endpoint != null) {
+                                    {
+                                      const url = _.parseURL(Endpoint);
+                                      if (url != null && url !== false) {
+                                        return e(
+                                          `${_.getAttr(url, "scheme")}://${_.getAttr(parsedArn, "accountId")}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                                          _p0(),
+                                          {},
+                                        );
+                                      }
                                     }
+                                    return err(
+                                      "Provided endpoint is not a valid URL",
+                                    );
                                   }
-                                  return err(
-                                    "Provided endpoint is not a valid URL",
+                                  return e(
+                                    `https://${_.getAttr(parsedArn, "accountId")}.cloudfront-kvs.global.api.aws`,
+                                    _p0(),
+                                    {},
                                   );
                                 }
+                                return err(
+                                  `Client was configured for partition \`${_.getAttr(partitionResult, "name")}\` but Kvs ARN has \`${_.getAttr(parsedArn, "partition")}\``,
+                                );
+                              }
+                            }
+                          }
+                          if (Endpoint != null) {
+                            {
+                              const url = _.parseURL(Endpoint);
+                              if (url != null && url !== false) {
                                 return e(
-                                  `https://${_.getAttr(parsedArn, "accountId")}.cloudfront-kvs.global.api.aws`,
+                                  `${_.getAttr(url, "scheme")}://${_.getAttr(parsedArn, "accountId")}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
                                   _p0(),
                                   {},
                                 );
                               }
-                              return err(
-                                `Client was configured for partition \`${_.getAttr(partitionResult, "name")}\` but Kvs ARN has \`${_.getAttr(parsedArn, "partition")}\``,
-                              );
                             }
+                            return err("Provided endpoint is not a valid URL");
                           }
+                          return e(
+                            `https://${_.getAttr(parsedArn, "accountId")}.cloudfront-kvs.global.api.aws`,
+                            _p0(),
+                            {},
+                          );
                         }
-                        if (Endpoint != null) {
-                          {
-                            const url = _.parseURL(Endpoint);
-                            if (url != null && url !== false) {
-                              return e(
-                                `${_.getAttr(url, "scheme")}://${_.getAttr(parsedArn, "accountId")}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
-                                _p0(),
-                                {},
-                              );
-                            }
-                          }
-                          return err("Provided endpoint is not a valid URL");
-                        }
-                        return e(
-                          `https://${_.getAttr(parsedArn, "accountId")}.cloudfront-kvs.global.api.aws`,
-                          _p0(),
-                          {},
+                        return err(
+                          `CloudFront-KeyValueStore is not supported in partition \`${_.getAttr(parsedArn, "partition")}\``,
                         );
                       }
                       return err(
-                        `CloudFront-KeyValueStore is not supported in partition \`${_.getAttr(parsedArn, "partition")}\``,
+                        `ARN resource type is invalid. Expected \`key-value-store\`, found: \`${arnType}\``,
                       );
                     }
                     return err(
-                      `ARN resource type is invalid. Expected \`key-value-store\`, found: \`${arnType}\``,
+                      "No resource type found in the KVS ARN. Resource type must be `key-value-store`.",
                     );
                   }
-                  return err(
-                    "No resource type found in the KVS ARN. Resource type must be `key-value-store`.",
-                  );
                 }
+                return err(
+                  "No resource type found in the KVS ARN. Resource type must be `key-value-store`.",
+                );
               }
               return err(
-                "No resource type found in the KVS ARN. Resource type must be `key-value-store`.",
+                `Provided ARN must be a global resource ARN. Found: \`${_.getAttr(parsedArn, "region")}\``,
               );
             }
             return err(
-              `Provided ARN must be a global resource ARN. Found: \`${_.getAttr(parsedArn, "region")}\``,
+              `Provided ARN is not a valid CloudFront Service ARN. Found: \`${_.getAttr(parsedArn, "service")}\``,
             );
           }
-          return err(
-            `Provided ARN is not a valid CloudFront Service ARN. Found: \`${_.getAttr(parsedArn, "service")}\``,
-          );
         }
+        return err("KVS ARN must be a valid ARN");
       }
-      return err("KVS ARN must be a valid ARN");
+      return err("KVS ARN must be provided to use this service");
     }
-    return err("KVS ARN must be provided to use this service");
-  }
-  return err(
-    "Invalid Configuration: FIPS is not supported with CloudFront-KeyValueStore.",
-  );
-});
+    return err(
+      "Invalid Configuration: FIPS is not supported with CloudFront-KeyValueStore.",
+    );
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message?: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly message?: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export type KvsARN = string;
 export type Key = string;
 export type Etag = string;
@@ -184,60 +180,14 @@ export interface DeleteKeyRequest {
   Key: string;
   IfMatch: string;
 }
-export const DeleteKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/key-value-stores/{KvsARN}/keys/{Key}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteKeyRequest",
-}) as any as S.Schema<DeleteKeyRequest>;
 export interface DeleteKeyResponse {
   ItemCount: number;
   TotalSizeInBytes: number;
   ETag: string;
 }
-export const DeleteKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ItemCount: S.Number,
-    TotalSizeInBytes: S.Number,
-    ETag: S.String.pipe(T.HttpHeader("ETag")),
-  }),
-).annotate({
-  identifier: "DeleteKeyResponse",
-}) as any as S.Schema<DeleteKeyResponse>;
 export interface DescribeKeyValueStoreRequest {
   KvsARN: string;
 }
-export const DescribeKeyValueStoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/key-value-stores/{KvsARN}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeKeyValueStoreRequest",
-}) as any as S.Schema<DescribeKeyValueStoreRequest>;
 export interface DescribeKeyValueStoreResponse {
   ItemCount: number;
   TotalSizeInBytes: number;
@@ -248,39 +198,10 @@ export interface DescribeKeyValueStoreResponse {
   Status?: string;
   FailureReason?: string;
 }
-export const DescribeKeyValueStoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ItemCount: S.Number,
-    TotalSizeInBytes: S.Number,
-    KvsARN: S.String,
-    Created: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ETag: S.String.pipe(T.HttpHeader("ETag")),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
-    FailureReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeKeyValueStoreResponse",
-}) as any as S.Schema<DescribeKeyValueStoreResponse>;
 export interface GetKeyRequest {
   KvsARN: string;
   Key: string;
 }
-export const GetKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/key-value-stores/{KvsARN}/keys/{Key}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetKeyRequest" }) as any as S.Schema<GetKeyRequest>;
 export type Value = string | redacted.Redacted<string>;
 export interface GetKeyResponse {
   Key: string;
@@ -288,159 +209,51 @@ export interface GetKeyResponse {
   ItemCount: number;
   TotalSizeInBytes: number;
 }
-export const GetKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Key: S.String,
-    Value: SensitiveString,
-    ItemCount: S.Number,
-    TotalSizeInBytes: S.Number,
-  }),
-).annotate({ identifier: "GetKeyResponse" }) as any as S.Schema<GetKeyResponse>;
 export interface ListKeysRequest {
   KvsARN: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListKeysRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/key-value-stores/{KvsARN}/keys" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListKeysRequest",
-}) as any as S.Schema<ListKeysRequest>;
 export interface ListKeysResponseListItem {
   Key: string;
   Value: string | redacted.Redacted<string>;
 }
-export const ListKeysResponseListItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: SensitiveString }),
-).annotate({
-  identifier: "ListKeysResponseListItem",
-}) as any as S.Schema<ListKeysResponseListItem>;
 export type ListKeysResponseList = ListKeysResponseListItem[];
-export const ListKeysResponseList = /*@__PURE__*/ S.Array(
-  ListKeysResponseListItem,
-);
 export interface ListKeysResponse {
   NextToken?: string;
   Items?: ListKeysResponseListItem[];
 }
-export const ListKeysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Items: S.optional(ListKeysResponseList),
-  }),
-).annotate({
-  identifier: "ListKeysResponse",
-}) as any as S.Schema<ListKeysResponse>;
 export interface PutKeyRequest {
   Key: string;
   Value: string | redacted.Redacted<string>;
   KvsARN: string;
   IfMatch: string;
 }
-export const PutKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    Value: SensitiveString,
-    KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/key-value-stores/{KvsARN}/keys/{Key}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "PutKeyRequest" }) as any as S.Schema<PutKeyRequest>;
 export interface PutKeyResponse {
   ItemCount: number;
   TotalSizeInBytes: number;
   ETag: string;
 }
-export const PutKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ItemCount: S.Number,
-    TotalSizeInBytes: S.Number,
-    ETag: S.String.pipe(T.HttpHeader("ETag")),
-  }),
-).annotate({ identifier: "PutKeyResponse" }) as any as S.Schema<PutKeyResponse>;
 export interface PutKeyRequestListItem {
   Key: string;
   Value: string | redacted.Redacted<string>;
 }
-export const PutKeyRequestListItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: SensitiveString }),
-).annotate({
-  identifier: "PutKeyRequestListItem",
-}) as any as S.Schema<PutKeyRequestListItem>;
 export type PutKeyRequestsList = PutKeyRequestListItem[];
-export const PutKeyRequestsList = /*@__PURE__*/ S.Array(PutKeyRequestListItem);
 export interface DeleteKeyRequestListItem {
   Key: string;
 }
-export const DeleteKeyRequestListItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String }),
-).annotate({
-  identifier: "DeleteKeyRequestListItem",
-}) as any as S.Schema<DeleteKeyRequestListItem>;
 export type DeleteKeyRequestsList = DeleteKeyRequestListItem[];
-export const DeleteKeyRequestsList = /*@__PURE__*/ S.Array(
-  DeleteKeyRequestListItem,
-);
 export interface UpdateKeysRequest {
   KvsARN: string;
   IfMatch: string;
   Puts?: PutKeyRequestListItem[];
   Deletes?: DeleteKeyRequestListItem[];
 }
-export const UpdateKeysRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-    Puts: S.optional(PutKeyRequestsList),
-    Deletes: S.optional(DeleteKeyRequestsList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/key-value-stores/{KvsARN}/keys" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateKeysRequest",
-}) as any as S.Schema<UpdateKeysRequest>;
 export interface UpdateKeysResponse {
   ItemCount: number;
   TotalSizeInBytes: number;
   ETag: string;
 }
-export const UpdateKeysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ItemCount: S.Number,
-    TotalSizeInBytes: S.Number,
-    ETag: S.String.pipe(T.HttpHeader("ETag")),
-  }),
-).annotate({
-  identifier: "UpdateKeysResponse",
-}) as any as S.Schema<UpdateKeysResponse>;
 export type DeleteKeyError =
   | AccessDeniedException
   | ConflictException
@@ -458,8 +271,16 @@ export const deleteKey: API.OperationMethod<
   DeleteKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteKeyRequest,
-  output: DeleteKeyResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /key-value-stores/{KvsARN}/keys/{Key}",
+    input: {
+      KvsARN: D.m({ context: "KvsARN" }),
+      Key: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: { ETag: D.m({ header: "ETag" }) },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -471,7 +292,7 @@ export const deleteKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKey",
-}));
+})) as any;
 
 export type DescribeKeyValueStoreError =
   | AccessDeniedException
@@ -488,8 +309,16 @@ export const describeKeyValueStore: API.OperationMethod<
   DescribeKeyValueStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeKeyValueStoreRequest,
-  output: DescribeKeyValueStoreResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /key-value-stores/{KvsARN}",
+    input: { KvsARN: D.m({ context: "KvsARN" }) },
+    output: {
+      Created: D.ts,
+      ETag: D.m({ header: "ETag" }),
+      LastModified: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -499,7 +328,7 @@ export const describeKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKeyValueStore",
-}));
+})) as any;
 
 export type GetKeyError =
   | AccessDeniedException
@@ -516,8 +345,12 @@ export const getKey: API.OperationMethod<
   GetKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetKeyRequest,
-  output: GetKeyResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /key-value-stores/{KvsARN}/keys/{Key}",
+    input: { KvsARN: D.m({ context: "KvsARN" }), Key: 0 },
+    output: { Value: D.secret },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -527,7 +360,7 @@ export const getKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKey",
-}));
+})) as any;
 
 export type ListKeysError =
   | AccessDeniedException
@@ -546,8 +379,16 @@ export const listKeys: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListKeysResponseListItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListKeysRequest,
-  output: ListKeysResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /key-value-stores/{KvsARN}/keys",
+    input: {
+      KvsARN: D.m({ context: "KvsARN" }),
+      NextToken: D.m({ query: "NextToken" }),
+      MaxResults: D.m({ query: "MaxResults" }),
+    },
+    output: { Items: D.list({ Value: D.secret }) },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -583,8 +424,18 @@ export const putKey: API.OperationMethod<
   PutKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutKeyRequest,
-  output: PutKeyResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /key-value-stores/{KvsARN}/keys/{Key}",
+    input: {
+      Key: 0,
+      Value: 0,
+      KvsARN: D.m({ context: "KvsARN" }),
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: { ETag: D.m({ header: "ETag" }) },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -596,7 +447,7 @@ export const putKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutKey",
-}));
+})) as any;
 
 export type UpdateKeysError =
   | AccessDeniedException
@@ -615,8 +466,18 @@ export const updateKeys: API.OperationMethod<
   UpdateKeysError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateKeysRequest,
-  output: UpdateKeysResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /key-value-stores/{KvsARN}/keys",
+    input: {
+      KvsARN: D.m({ context: "KvsARN" }),
+      IfMatch: D.m({ header: "If-Match" }),
+      Puts: D.list({ Key: 0, Value: 0 }),
+      Deletes: D.list({ Key: 0 }),
+    },
+    output: { ETag: D.m({ header: "ETag" }) },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -628,4 +489,4 @@ export const updateKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeys",
-}));
+})) as any;

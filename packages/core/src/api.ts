@@ -2,7 +2,7 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
-import * as S from "effect/Schema";
+import type * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import { pipeArguments } from "effect/Pipeable";
 import * as Ref from "effect/Ref";
@@ -42,6 +42,12 @@ export interface ProtocolOperationConfig {
    */
   readonly endpointHostPrefix?: string;
   readonly pagination?: Pagination.PaginatedTrait;
+  /**
+   * Schema-free operations carry a descriptor (see `./shape.ts`) instead of
+   * `input`/`output` schemas: only the members the wire protocol cannot
+   * infer from the value itself. Its shape is owned by the SDK's protocol.
+   */
+  readonly descriptor?: unknown;
 }
 
 /**
@@ -85,6 +91,121 @@ export type ApiErrorClass = {
     readonly message: string;
   };
 };
+
+// Every operation is a plain function whose prototype carries the shared
+// machinery (yieldable, pipeable, introspection getters). Creating one at
+// import time is a single closure; the config is resolved on first call.
+const stateKey = Symbol.for("@distilled.cloud/core/api/operation");
+
+interface OperationState {
+  readonly configFn: () => OperationConfig<any, any, any, any, any>;
+  prepared:
+    | {
+        readonly cfg: OperationConfig<any, any, any, any, any>;
+        readonly inputAst: AST.AST;
+        readonly outputAst: AST.AST;
+      }
+    | undefined;
+  strategy: Pagination.PaginationStrategy | undefined;
+}
+
+interface OperationFn {
+  (input: unknown): Effect.Effect<any, any, any>;
+  [stateKey]: OperationState;
+}
+
+const prepareOperation = (fn: OperationFn) => {
+  const state = fn[stateKey];
+  if (state.prepared) return state.prepared;
+  const cfg = state.configFn();
+  // Schema-free (descriptor) operations have no AST; their protocols read
+  // `config.descriptor` instead.
+  state.prepared = {
+    cfg,
+    inputAst: cfg.input?.ast as AST.AST,
+    outputAst: cfg.output?.ast as AST.AST,
+  };
+  return state.prepared;
+};
+
+const callOperation = (fn: OperationFn, input: unknown) =>
+  Effect.suspend(() => {
+    const { cfg, inputAst, outputAst } = prepareOperation(fn);
+    const call = Effect.flatMap(protocolContext(cfg.protocol), (protocolCtx) =>
+      Effect.gen(function* () {
+        const protocol = yield* Protocol;
+        const client = yield* HttpClient.HttpClient;
+        const request = yield* protocol.encode({
+          input,
+          inputAst,
+          config: cfg,
+        });
+        const response = yield* client.execute(request);
+        return yield* protocol.decode({
+          response,
+          outputAst,
+          errors: cfg.errors ?? [],
+          config: cfg,
+        });
+      }).pipe(Effect.provideContext(protocolCtx)),
+    );
+    return applyRetry(call, cfg.retry);
+  });
+
+/**
+ * `yield* operation` captures the current context and returns a
+ * requirement-free call function. The captured context is a FALLBACK, not a
+ * snapshot: entries present on the calling fiber at call time win, so
+ * per-call overrides (e.g. an `Endpoint` provided around one invocation)
+ * take effect.
+ */
+const bindContext =
+  (
+    call: (input: unknown) => Effect.Effect<any, any, any>,
+    context: Context.Context<never>,
+  ) =>
+  (input: unknown) =>
+    // `Context` is contravariant; the widening cast is sound (the merge only
+    // ever adds entries).
+    Effect.updateContext(call(input), (current): Context.Context<any> =>
+      Context.merge(context, current),
+    );
+
+const OperationProto: any = Object.setPrototypeOf(
+  {
+    [Symbol.iterator](this: any) {
+      return new SingleShotGen(this.asEffect());
+    },
+    pipe(this: any) {
+      return pipeArguments(this.asEffect(), arguments);
+    },
+    asEffect(this: OperationFn) {
+      return Effect.map(Effect.context(), (context) =>
+        bindContext(this, context),
+      );
+    },
+  },
+  Function.prototype,
+);
+
+// Debug/introspection surface: the operation's metadata is readable off the
+// exported callable (`iam.listRoles.errors` / `.operationName` /
+// `.pagination`). Lazy, so importing a service module resolves nothing.
+for (const [name, get] of Object.entries({
+  input: (cfg: any) => cfg.input,
+  output: (cfg: any) => cfg.output,
+  descriptor: (cfg: any) => cfg.descriptor,
+  errors: (cfg: any) => cfg.errors ?? [],
+  operationName: (cfg: any) => cfg.operationName,
+  pagination: (cfg: any) => cfg.pagination,
+})) {
+  Object.defineProperty(OperationProto, name, {
+    get(this: OperationFn) {
+      return get(prepareOperation(this).cfg);
+    },
+    configurable: true,
+  });
+}
 
 /**
  * The shape of a generated SDK operation — usable two ways (mirrors the
@@ -157,6 +278,10 @@ export interface OperationConfig<
   input?: I;
   output?: O;
   errors?: E;
+  /** Schema-free operations: see {@link ProtocolOperationConfig.descriptor}. */
+  descriptor?: unknown;
+  /** How to advance between pages (paginated operations). */
+  pagination?: Pagination.PaginatedTrait;
   /**
    * The protocol layer that knows how to encode/decode this operation's wire
    * format. Built once per process and shared across all operations that
@@ -186,7 +311,7 @@ export interface OperationConfig<
  * Wrap one operation call with the caller-provided retry policy, if the
  * operation declares a retry tag and the context carries a policy for it.
  */
-const applyRetry = (
+export const applyRetry = (
   base: Effect.Effect<any, any, any>,
   retryKey: Context.Key<any, RetryPolicy> | undefined,
 ): Effect.Effect<any, any, any> =>
@@ -226,103 +351,9 @@ export function make<
   InstanceType<E[number]> | PE | HttpClientError.HttpClientError,
   PR | HttpClient.HttpClient
 > {
-  // Lazily resolve the operation config + schema ASTs on first call, not at
-  // module-load time. Generated SDKs wrap each request/response schema in
-  // `Schema.suspend(() => ...)`; forcing them here (rather than when the
-  // `export const` is evaluated) keeps importing a service module cheap and
-  // only pays the schema-construction cost for operations that are actually
-  // called. Memoized so subsequent calls are free.
-  interface Prepared {
-    readonly cfg: OperationConfig<I, O, PE, PR, E>;
-    readonly inputAst: AST.AST;
-    readonly outputAst: AST.AST;
-  }
-  let prepared: Prepared | undefined;
-  const prepare = (): Prepared => {
-    if (prepared) return prepared;
-    const cfg = configFn();
-    prepared = {
-      cfg,
-      inputAst: cfg.input!.ast,
-      outputAst: cfg.output!.ast,
-    };
-    return prepared;
-  };
-  const fn = (input: unknown) =>
-    Effect.suspend(() => {
-      const { cfg, inputAst, outputAst } = prepare();
-      const call = Effect.flatMap(
-        protocolContext(cfg.protocol),
-        (protocolCtx) =>
-          Effect.gen(function* () {
-            const protocol = yield* Protocol;
-            const client = yield* HttpClient.HttpClient;
-            const request = yield* protocol.encode({
-              input,
-              inputAst,
-              config: cfg,
-            });
-            const response = yield* client.execute(request);
-            return yield* protocol.decode({
-              response,
-              outputAst,
-              errors: cfg.errors ?? [],
-              config: cfg,
-            });
-          }).pipe(Effect.provideContext(protocolCtx)),
-      );
-      return applyRetry(call, cfg.retry);
-    });
-
-  // Make the operation itself yieldable: `yield* operation` captures the
-  // current context and returns a requirement-free call function (mirrors
-  // the distilled repo's OperationMethod). The captured context is a
-  // FALLBACK, not a snapshot: entries present on the calling fiber at call
-  // time win, so per-call overrides — e.g. providing `Endpoint` with a
-  // discovered data-plane address around one invocation — take effect
-  // instead of being shadowed by the context captured at yield time.
-  const Proto = {
-    [Symbol.iterator](this: any) {
-      return new SingleShotGen(this.asEffect());
-    },
-    pipe(this: any) {
-      return pipeArguments(this.asEffect(), arguments);
-    },
-    asEffect() {
-      return Effect.map(
-        Effect.context(),
-        (context) => (input: unknown) =>
-          // `Context` is contravariant, so `Context<never>` is not assignable
-          // to the `Context<any>` updateContext expects — the widening cast is
-          // sound (the merge only ever adds entries).
-          Effect.updateContext(fn(input), (current): Context.Context<any> =>
-            Context.merge(context, current),
-          ),
-      );
-    },
-  };
-  Object.assign(fn, Proto);
-
-  // Debug/introspection surface carried over from the distilled client:
-  // the operation's metadata is readable off the exported callable
-  // (e.g. `iam.listRoles.input` / `.output` / `.errors` / `.operationName`
-  // / `.pagination`). Lazy getters, so importing a service module doesn't
-  // force its suspended schemas.
-  Object.defineProperties(fn, {
-    input: { get: () => prepare().cfg.input, configurable: true },
-    output: { get: () => prepare().cfg.output, configurable: true },
-    errors: { get: () => prepare().cfg.errors ?? [], configurable: true },
-    operationName: {
-      get: () => prepare().cfg.operationName,
-      configurable: true,
-    },
-    pagination: {
-      get: () =>
-        (prepare().cfg as PaginatedOperationConfig<I, O, PE, PR, E>).pagination,
-      configurable: true,
-    },
-  });
-
+  const fn = ((input: unknown) => callOperation(fn, input)) as OperationFn;
+  fn[stateKey] = { configFn, prepared: undefined, strategy: undefined };
+  Object.setPrototypeOf(fn, OperationProto);
   return fn as any;
 }
 
@@ -414,47 +445,55 @@ export function makePaginated<
   PR | HttpClient.HttpClient
 > {
   const fn: any = make(configFn);
-  // configFn is a cheap object literal over already-constructed consts —
-  // re-invoking it here just reads the pagination trait (memoized).
-  let pagination: Pagination.PaginatedTrait | undefined;
-  const pag = () => (pagination ??= configFn().pagination);
-  const paginate = strategy ?? Pagination.paginateWithDefaults;
-
-  // The streams are built over a CALL FUNCTION, so the same code serves both
-  // call styles: the operation itself (requirements intact), and the
-  // context-bound function `yield* operation` hands back — whose streams
-  // inherit that captured context and so need nothing after the yield.
-  const withStreams = (
-    call: (input: any) => Effect.Effect<any, any, any>,
-  ): any => {
-    const pages = (input: Record<string, unknown>) =>
-      paginate(call, input, pag());
-    const items = (input: Record<string, unknown>) => {
-      const p = pag();
-      return p.items
-        ? Pagination.extractItems(pages(input), p.items)
-        : pages(input);
-    };
-    return Object.assign(call, { pages, items });
-  };
-
-  // `yield* operation` runs through `make`'s Proto.asEffect, which builds a
-  // fresh arrow and would drop `.pages` / `.items` (distilled #145). Override
-  // it here — Proto's `[Symbol.iterator]`/`pipe` dispatch on `this`, so both
-  // pick this up. Only paginated operations pay for it. Same fallback (not
-  // snapshot) semantics as Proto.asEffect: call-time fiber entries win over
-  // the captured context.
-  fn.asEffect = () =>
-    Effect.map(Effect.context(), (context) =>
-      withStreams((input: unknown) =>
-        // Same contravariance widening as Proto.asEffect above.
-        Effect.updateContext(fn(input), (current): Context.Context<any> =>
-          Context.merge(context, current),
-        ),
-      ),
-    );
-
-  return withStreams(fn);
+  fn[stateKey].strategy = strategy;
+  Object.setPrototypeOf(fn, PaginatedProto);
+  return fn;
 }
+
+const pagesOf = (
+  call: (input: any) => Effect.Effect<any, any, any>,
+  fn: OperationFn,
+  input: Record<string, unknown>,
+) => {
+  const state = fn[stateKey];
+  const pagination = prepareOperation(fn).cfg.pagination!;
+  const paginate = state.strategy ?? Pagination.paginateWithDefaults;
+  return paginate(call, input, pagination);
+};
+
+const itemsOf = (
+  call: (input: any) => Effect.Effect<any, any, any>,
+  fn: OperationFn,
+  input: Record<string, unknown>,
+) => {
+  const items = prepareOperation(fn).cfg.pagination?.items;
+  const pages = pagesOf(call, fn, input);
+  return items ? Pagination.extractItems(pages, items) : pages;
+};
+
+// Paginated operations add `.pages` / `.items` to the operation AND to the
+// context-bound function `yield* operation` hands back (distilled #145).
+const PaginatedProto: any = Object.setPrototypeOf(
+  {
+    pages(this: OperationFn, input: Record<string, unknown>) {
+      return pagesOf(this, this, input);
+    },
+    items(this: OperationFn, input: Record<string, unknown>) {
+      return itemsOf(this, this, input);
+    },
+    asEffect(this: OperationFn) {
+      return Effect.map(Effect.context(), (context) => {
+        const bound = bindContext(this, context);
+        return Object.assign(bound, {
+          pages: (input: Record<string, unknown>) =>
+            pagesOf(bound, this, input),
+          items: (input: Record<string, unknown>) =>
+            itemsOf(bound, this, input),
+        });
+      });
+    },
+  },
+  OperationProto,
+);
 
 //#endregion

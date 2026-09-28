@@ -1,185 +1,152 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Lex Model Building Service",
-  serviceShapeName: "AWSDeepSenseModelBuildingService",
-});
-const auth = T.AwsAuthSigv4({ name: "lex" });
-const ver = T.ServiceVersion("2017-04-19");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://models.lex-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            if (_.getAttr(PartitionResult, "name") === "aws") {
-              return e(`https://models-fips.lex.${Region}.amazonaws.com`);
-            }
-            if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
-              return e(`https://models-fips.lex.${Region}.amazonaws.com`);
-            }
-            return e(
-              `https://models.lex-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://models.lex.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        if ("aws" === _.getAttr(PartitionResult, "name")) {
-          return e(`https://models.lex.${Region}.amazonaws.com`);
-        }
-        if ("aws-us-gov" === _.getAttr(PartitionResult, "name")) {
-          return e(`https://models.lex.${Region}.amazonaws.com`);
-        }
-        return e(
-          `https://models.lex.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AWSDeepSenseModelBuildingService",
+  version: "2017-04-19",
+  sigv4: "lex",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://models.lex-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              if (_.getAttr(PartitionResult, "name") === "aws") {
+                return e(`https://models-fips.lex.${Region}.amazonaws.com`);
+              }
+              if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
+                return e(`https://models-fips.lex.${Region}.amazonaws.com`);
+              }
+              return e(
+                `https://models.lex-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://models.lex.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          if ("aws" === _.getAttr(PartitionResult, "name")) {
+            return e(`https://models.lex.${Region}.amazonaws.com`);
+          }
+          if ("aws-us-gov" === _.getAttr(PartitionResult, "name")) {
+            return e(`https://models.lex.${Region}.amazonaws.com`);
+          }
+          return e(
+            `https://models.lex.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class BadRequestException
-  extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "BadRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message?: string }> {}
 export class InternalFailureException
-  extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalFailureException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "LimitExceededException",
-    {
-      retryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429, headers: { retryAfterSeconds: "Retry-After" } },
+  )<{ readonly retryAfterSeconds?: string; readonly message?: string }> {}
 export class NotFoundException
-  extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class PreconditionFailedException
-  extends /*@__PURE__*/ S.TaggedError<PreconditionFailedException>()(
-    "PreconditionFailedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(412),
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("PreconditionFailedException", [], {
+    status: 412,
+  })<{ readonly message?: string }> {}
 export class ResourceInUseException
-  extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceInUseException",
-    {
-      referenceType: S.optional(
-        S.suspend(() => ReferenceType).annotate({
-          identifier: "ReferenceType",
-        }),
-      ),
-      exampleReference: S.optional(
-        S.suspend(() => ResourceReference).annotate({
-          identifier: "ResourceReference",
-        }),
-      ),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly referenceType?: ReferenceType;
+    readonly exampleReference?: ResourceReference;
+    readonly message?: string;
+  }> {}
 export type BotName = string;
 export interface CreateBotVersionRequest {
   name: string;
   checksum?: string;
 }
-export const CreateBotVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    checksum: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/bots/{name}/versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateBotVersionRequest",
-}) as any as S.Schema<CreateBotVersionRequest>;
 export type Description = string;
 export type IntentName = string;
 export type Version = string;
@@ -187,18 +154,12 @@ export interface Intent {
   intentName: string;
   intentVersion: string;
 }
-export const Intent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ intentName: S.String, intentVersion: S.String }),
-).annotate({ identifier: "Intent" }) as any as S.Schema<Intent>;
 export type IntentList = Intent[];
-export const IntentList = /*@__PURE__*/ S.Array(Intent);
 export type ContentType =
   | "PlainText"
   | "SSML"
   | "CustomPayload"
   | (string & {});
-export const ContentType = S.String;
-
 export type ContentString = string;
 export type GroupNumber = number;
 export interface Message {
@@ -206,15 +167,7 @@ export interface Message {
   content: string;
   groupNumber?: number;
 }
-export const Message = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    contentType: ContentType,
-    content: S.String,
-    groupNumber: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Message" }) as any as S.Schema<Message>;
 export type MessageList = Message[];
-export const MessageList = /*@__PURE__*/ S.Array(Message);
 export type PromptMaxAttempts = number;
 export type ResponseCard = string;
 export interface Prompt {
@@ -222,20 +175,10 @@ export interface Prompt {
   maxAttempts: number;
   responseCard?: string;
 }
-export const Prompt = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    messages: MessageList,
-    maxAttempts: S.Number,
-    responseCard: S.optional(S.String),
-  }),
-).annotate({ identifier: "Prompt" }) as any as S.Schema<Prompt>;
 export interface Statement {
   messages: Message[];
   responseCard?: string;
 }
-export const Statement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ messages: MessageList, responseCard: S.optional(S.String) }),
-).annotate({ identifier: "Statement" }) as any as S.Schema<Statement>;
 export type Status =
   | "BUILDING"
   | "READY"
@@ -243,8 +186,6 @@ export type Status =
   | "FAILED"
   | "NOT_BUILT"
   | (string & {});
-export const Status = S.String;
-
 export type SessionTTL = number;
 export type Locale =
   | "de-DE"
@@ -261,8 +202,6 @@ export type Locale =
   | "ja-JP"
   | "ko-KR"
   | (string & {});
-export const Locale = S.String;
-
 export interface CreateBotVersionResponse {
   name?: string;
   description?: string;
@@ -282,83 +221,25 @@ export interface CreateBotVersionResponse {
   enableModelImprovements?: boolean;
   detectSentiment?: boolean;
 }
-export const CreateBotVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    intents: S.optional(IntentList),
-    clarificationPrompt: S.optional(Prompt),
-    abortStatement: S.optional(Statement),
-    status: S.optional(Status),
-    failureReason: S.optional(S.String),
-    lastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    idleSessionTTLInSeconds: S.optional(S.Number),
-    voiceId: S.optional(S.String),
-    checksum: S.optional(S.String),
-    version: S.optional(S.String),
-    locale: S.optional(Locale),
-    childDirected: S.optional(S.Boolean),
-    enableModelImprovements: S.optional(S.Boolean),
-    detectSentiment: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "CreateBotVersionResponse",
-}) as any as S.Schema<CreateBotVersionResponse>;
 export interface CreateIntentVersionRequest {
   name: string;
   checksum?: string;
 }
-export const CreateIntentVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    checksum: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/intents/{name}/versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateIntentVersionRequest",
-}) as any as S.Schema<CreateIntentVersionRequest>;
 export type SlotName = string;
 export type SlotConstraint = "Required" | "Optional" | (string & {});
-export const SlotConstraint = S.String;
-
 export type CustomOrBuiltinSlotTypeName = string;
 export type Priority = number;
 export type Utterance = string;
 export type SlotUtteranceList = string[];
-export const SlotUtteranceList = /*@__PURE__*/ S.Array(S.String);
 export type ObfuscationSetting = "NONE" | "DEFAULT_OBFUSCATION" | (string & {});
-export const ObfuscationSetting = S.String;
-
 export type SlotDefaultValueString = string;
 export interface SlotDefaultValue {
   defaultValue: string;
 }
-export const SlotDefaultValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ defaultValue: S.String }),
-).annotate({
-  identifier: "SlotDefaultValue",
-}) as any as S.Schema<SlotDefaultValue>;
 export type SlotDefaultValueList = SlotDefaultValue[];
-export const SlotDefaultValueList = /*@__PURE__*/ S.Array(SlotDefaultValue);
 export interface SlotDefaultValueSpec {
   defaultValueList: SlotDefaultValue[];
 }
-export const SlotDefaultValueSpec = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ defaultValueList: SlotDefaultValueList }),
-).annotate({
-  identifier: "SlotDefaultValueSpec",
-}) as any as S.Schema<SlotDefaultValueSpec>;
 export interface Slot {
   name: string;
   description?: string;
@@ -372,56 +253,26 @@ export interface Slot {
   obfuscationSetting?: ObfuscationSetting;
   defaultValueSpec?: SlotDefaultValueSpec;
 }
-export const Slot = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    slotConstraint: SlotConstraint,
-    slotType: S.optional(S.String),
-    slotTypeVersion: S.optional(S.String),
-    valueElicitationPrompt: S.optional(Prompt),
-    priority: S.optional(S.Number),
-    sampleUtterances: S.optional(SlotUtteranceList),
-    responseCard: S.optional(S.String),
-    obfuscationSetting: S.optional(ObfuscationSetting),
-    defaultValueSpec: S.optional(SlotDefaultValueSpec),
-  }),
-).annotate({ identifier: "Slot" }) as any as S.Schema<Slot>;
 export type SlotList = Slot[];
-export const SlotList = /*@__PURE__*/ S.Array(Slot);
 export type IntentUtteranceList = string[];
-export const IntentUtteranceList = /*@__PURE__*/ S.Array(S.String);
 export interface FollowUpPrompt {
   prompt: Prompt;
   rejectionStatement: Statement;
 }
-export const FollowUpPrompt = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ prompt: Prompt, rejectionStatement: Statement }),
-).annotate({ identifier: "FollowUpPrompt" }) as any as S.Schema<FollowUpPrompt>;
 export type LambdaARN = string;
 export type MessageVersion = string;
 export interface CodeHook {
   uri: string;
   messageVersion: string;
 }
-export const CodeHook = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ uri: S.String, messageVersion: S.String }),
-).annotate({ identifier: "CodeHook" }) as any as S.Schema<CodeHook>;
 export type FulfillmentActivityType =
   | "ReturnIntent"
   | "CodeHook"
   | (string & {});
-export const FulfillmentActivityType = S.String;
-
 export interface FulfillmentActivity {
   type: FulfillmentActivityType;
   codeHook?: CodeHook;
 }
-export const FulfillmentActivity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: FulfillmentActivityType, codeHook: S.optional(CodeHook) }),
-).annotate({
-  identifier: "FulfillmentActivity",
-}) as any as S.Schema<FulfillmentActivity>;
 export type BuiltinIntentSignature = string;
 export type KendraIndexArn = string;
 export type QueryFilterString = string;
@@ -431,24 +282,11 @@ export interface KendraConfiguration {
   queryFilterString?: string;
   role: string;
 }
-export const KendraConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kendraIndex: S.String,
-    queryFilterString: S.optional(S.String),
-    role: S.String,
-  }),
-).annotate({
-  identifier: "KendraConfiguration",
-}) as any as S.Schema<KendraConfiguration>;
 export type InputContextName = string;
 export interface InputContext {
   name: string;
 }
-export const InputContext = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String }),
-).annotate({ identifier: "InputContext" }) as any as S.Schema<InputContext>;
 export type InputContextList = InputContext[];
-export const InputContextList = /*@__PURE__*/ S.Array(InputContext);
 export type OutputContextName = string;
 export type ContextTimeToLiveInSeconds = number;
 export type ContextTurnsToLive = number;
@@ -457,15 +295,7 @@ export interface OutputContext {
   timeToLiveInSeconds: number;
   turnsToLive: number;
 }
-export const OutputContext = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    timeToLiveInSeconds: S.Number,
-    turnsToLive: S.Number,
-  }),
-).annotate({ identifier: "OutputContext" }) as any as S.Schema<OutputContext>;
 export type OutputContextList = OutputContext[];
-export const OutputContextList = /*@__PURE__*/ S.Array(OutputContext);
 export interface CreateIntentVersionResponse {
   name?: string;
   description?: string;
@@ -486,95 +316,30 @@ export interface CreateIntentVersionResponse {
   inputContexts?: InputContext[];
   outputContexts?: OutputContext[];
 }
-export const CreateIntentVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    slots: S.optional(SlotList),
-    sampleUtterances: S.optional(IntentUtteranceList),
-    confirmationPrompt: S.optional(Prompt),
-    rejectionStatement: S.optional(Statement),
-    followUpPrompt: S.optional(FollowUpPrompt),
-    conclusionStatement: S.optional(Statement),
-    dialogCodeHook: S.optional(CodeHook),
-    fulfillmentActivity: S.optional(FulfillmentActivity),
-    parentIntentSignature: S.optional(S.String),
-    lastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    version: S.optional(S.String),
-    checksum: S.optional(S.String),
-    kendraConfiguration: S.optional(KendraConfiguration),
-    inputContexts: S.optional(InputContextList),
-    outputContexts: S.optional(OutputContextList),
-  }),
-).annotate({
-  identifier: "CreateIntentVersionResponse",
-}) as any as S.Schema<CreateIntentVersionResponse>;
 export type SlotTypeName = string;
 export interface CreateSlotTypeVersionRequest {
   name: string;
   checksum?: string;
 }
-export const CreateSlotTypeVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    checksum: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/slottypes/{name}/versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateSlotTypeVersionRequest",
-}) as any as S.Schema<CreateSlotTypeVersionRequest>;
 export type Value = string;
 export type SynonymList = string[];
-export const SynonymList = /*@__PURE__*/ S.Array(S.String);
 export interface EnumerationValue {
   value: string;
   synonyms?: string[];
 }
-export const EnumerationValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ value: S.String, synonyms: S.optional(SynonymList) }),
-).annotate({
-  identifier: "EnumerationValue",
-}) as any as S.Schema<EnumerationValue>;
 export type EnumerationValues = EnumerationValue[];
-export const EnumerationValues = /*@__PURE__*/ S.Array(EnumerationValue);
 export type SlotValueSelectionStrategy =
   | "ORIGINAL_VALUE"
   | "TOP_RESOLUTION"
   | (string & {});
-export const SlotValueSelectionStrategy = S.String;
-
 export type RegexPattern = string;
 export interface SlotTypeRegexConfiguration {
   pattern: string;
 }
-export const SlotTypeRegexConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ pattern: S.String }),
-).annotate({
-  identifier: "SlotTypeRegexConfiguration",
-}) as any as S.Schema<SlotTypeRegexConfiguration>;
 export interface SlotTypeConfiguration {
   regexConfiguration?: SlotTypeRegexConfiguration;
 }
-export const SlotTypeConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ regexConfiguration: S.optional(SlotTypeRegexConfiguration) }),
-).annotate({
-  identifier: "SlotTypeConfiguration",
-}) as any as S.Schema<SlotTypeConfiguration>;
 export type SlotTypeConfigurations = SlotTypeConfiguration[];
-export const SlotTypeConfigurations = /*@__PURE__*/ S.Array(
-  SlotTypeConfiguration,
-);
 export interface CreateSlotTypeVersionResponse {
   name?: string;
   description?: string;
@@ -587,283 +352,57 @@ export interface CreateSlotTypeVersionResponse {
   parentSlotTypeSignature?: string;
   slotTypeConfigurations?: SlotTypeConfiguration[];
 }
-export const CreateSlotTypeVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    enumerationValues: S.optional(EnumerationValues),
-    lastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    version: S.optional(S.String),
-    checksum: S.optional(S.String),
-    valueSelectionStrategy: S.optional(SlotValueSelectionStrategy),
-    parentSlotTypeSignature: S.optional(S.String),
-    slotTypeConfigurations: S.optional(SlotTypeConfigurations),
-  }),
-).annotate({
-  identifier: "CreateSlotTypeVersionResponse",
-}) as any as S.Schema<CreateSlotTypeVersionResponse>;
 export interface DeleteBotRequest {
   name: string;
 }
-export const DeleteBotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/bots/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBotRequest",
-}) as any as S.Schema<DeleteBotRequest>;
 export interface DeleteBotResponse {}
-export const DeleteBotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteBotResponse",
-}) as any as S.Schema<DeleteBotResponse>;
 export type AliasName = string;
 export interface DeleteBotAliasRequest {
   name: string;
   botName: string;
 }
-export const DeleteBotAliasRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    botName: S.String.pipe(T.HttpLabel("botName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/bots/{botName}/aliases/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBotAliasRequest",
-}) as any as S.Schema<DeleteBotAliasRequest>;
 export interface DeleteBotAliasResponse {}
-export const DeleteBotAliasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteBotAliasResponse",
-}) as any as S.Schema<DeleteBotAliasResponse>;
 export type BotChannelName = string;
 export interface DeleteBotChannelAssociationRequest {
   name: string;
   botName: string;
   botAlias: string;
 }
-export const DeleteBotChannelAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    botName: S.String.pipe(T.HttpLabel("botName")),
-    botAlias: S.String.pipe(T.HttpLabel("botAlias")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/bots/{botName}/aliases/{botAlias}/channels/{name}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBotChannelAssociationRequest",
-}) as any as S.Schema<DeleteBotChannelAssociationRequest>;
 export interface DeleteBotChannelAssociationResponse {}
-export const DeleteBotChannelAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteBotChannelAssociationResponse",
-}) as any as S.Schema<DeleteBotChannelAssociationResponse>;
 export type NumericalVersion = string;
 export interface DeleteBotVersionRequest {
   name: string;
   version: string;
 }
-export const DeleteBotVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    version: S.String.pipe(T.HttpLabel("version")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/bots/{name}/versions/{version}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBotVersionRequest",
-}) as any as S.Schema<DeleteBotVersionRequest>;
 export interface DeleteBotVersionResponse {}
-export const DeleteBotVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteBotVersionResponse",
-}) as any as S.Schema<DeleteBotVersionResponse>;
 export interface DeleteIntentRequest {
   name: string;
 }
-export const DeleteIntentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/intents/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteIntentRequest",
-}) as any as S.Schema<DeleteIntentRequest>;
 export interface DeleteIntentResponse {}
-export const DeleteIntentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteIntentResponse",
-}) as any as S.Schema<DeleteIntentResponse>;
 export interface DeleteIntentVersionRequest {
   name: string;
   version: string;
 }
-export const DeleteIntentVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    version: S.String.pipe(T.HttpLabel("version")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/intents/{name}/versions/{version}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteIntentVersionRequest",
-}) as any as S.Schema<DeleteIntentVersionRequest>;
 export interface DeleteIntentVersionResponse {}
-export const DeleteIntentVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteIntentVersionResponse",
-}) as any as S.Schema<DeleteIntentVersionResponse>;
 export interface DeleteSlotTypeRequest {
   name: string;
 }
-export const DeleteSlotTypeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/slottypes/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteSlotTypeRequest",
-}) as any as S.Schema<DeleteSlotTypeRequest>;
 export interface DeleteSlotTypeResponse {}
-export const DeleteSlotTypeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteSlotTypeResponse",
-}) as any as S.Schema<DeleteSlotTypeResponse>;
 export interface DeleteSlotTypeVersionRequest {
   name: string;
   version: string;
 }
-export const DeleteSlotTypeVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    version: S.String.pipe(T.HttpLabel("version")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/slottypes/{name}/version/{version}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteSlotTypeVersionRequest",
-}) as any as S.Schema<DeleteSlotTypeVersionRequest>;
 export interface DeleteSlotTypeVersionResponse {}
-export const DeleteSlotTypeVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteSlotTypeVersionResponse",
-}) as any as S.Schema<DeleteSlotTypeVersionResponse>;
 export type UserId = string;
 export interface DeleteUtterancesRequest {
   botName: string;
   userId: string;
 }
-export const DeleteUtterancesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    botName: S.String.pipe(T.HttpLabel("botName")),
-    userId: S.String.pipe(T.HttpLabel("userId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/bots/{botName}/utterances/{userId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteUtterancesRequest",
-}) as any as S.Schema<DeleteUtterancesRequest>;
 export interface DeleteUtterancesResponse {}
-export const DeleteUtterancesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteUtterancesResponse",
-}) as any as S.Schema<DeleteUtterancesResponse>;
 export interface GetBotRequest {
   name: string;
   versionOrAlias: string;
 }
-export const GetBotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    versionOrAlias: S.String.pipe(T.HttpLabel("versionOrAlias")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/bots/{name}/versions/{versionOrAlias}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetBotRequest" }) as any as S.Schema<GetBotRequest>;
 export type ConfidenceThreshold = number;
 export interface GetBotResponse {
   name?: string;
@@ -885,57 +424,12 @@ export interface GetBotResponse {
   childDirected?: boolean;
   detectSentiment?: boolean;
 }
-export const GetBotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    intents: S.optional(IntentList),
-    enableModelImprovements: S.optional(S.Boolean),
-    nluIntentConfidenceThreshold: S.optional(S.Number),
-    clarificationPrompt: S.optional(Prompt),
-    abortStatement: S.optional(Statement),
-    status: S.optional(Status),
-    failureReason: S.optional(S.String),
-    lastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    idleSessionTTLInSeconds: S.optional(S.Number),
-    voiceId: S.optional(S.String),
-    checksum: S.optional(S.String),
-    version: S.optional(S.String),
-    locale: S.optional(Locale),
-    childDirected: S.optional(S.Boolean),
-    detectSentiment: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "GetBotResponse" }) as any as S.Schema<GetBotResponse>;
 export interface GetBotAliasRequest {
   name: string;
   botName: string;
 }
-export const GetBotAliasRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    botName: S.String.pipe(T.HttpLabel("botName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/bots/{botName}/aliases/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBotAliasRequest",
-}) as any as S.Schema<GetBotAliasRequest>;
 export type LogType = "AUDIO" | "TEXT" | (string & {});
-export const LogType = S.String;
-
 export type Destination = "CLOUDWATCH_LOGS" | "S3" | (string & {});
-export const Destination = S.String;
-
 export type KmsKeyArn = string;
 export type ResourceArn = string;
 export type ResourcePrefix = string;
@@ -946,33 +440,12 @@ export interface LogSettingsResponse {
   resourceArn?: string;
   resourcePrefix?: string;
 }
-export const LogSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    logType: S.optional(LogType),
-    destination: S.optional(Destination),
-    kmsKeyArn: S.optional(S.String),
-    resourceArn: S.optional(S.String),
-    resourcePrefix: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LogSettingsResponse",
-}) as any as S.Schema<LogSettingsResponse>;
 export type LogSettingsResponseList = LogSettingsResponse[];
-export const LogSettingsResponseList =
-  /*@__PURE__*/ S.Array(LogSettingsResponse);
 export type IamRoleArn = string;
 export interface ConversationLogsResponse {
   logSettings?: LogSettingsResponse[];
   iamRoleArn?: string;
 }
-export const ConversationLogsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    logSettings: S.optional(LogSettingsResponseList),
-    iamRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConversationLogsResponse",
-}) as any as S.Schema<ConversationLogsResponse>;
 export interface GetBotAliasResponse {
   name?: string;
   description?: string;
@@ -983,22 +456,6 @@ export interface GetBotAliasResponse {
   checksum?: string;
   conversationLogs?: ConversationLogsResponse;
 }
-export const GetBotAliasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    botVersion: S.optional(S.String),
-    botName: S.optional(S.String),
-    lastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    checksum: S.optional(S.String),
-    conversationLogs: S.optional(ConversationLogsResponse),
-  }),
-).annotate({
-  identifier: "GetBotAliasResponse",
-}) as any as S.Schema<GetBotAliasResponse>;
 export type NextToken = string;
 export type MaxResults = number;
 export interface GetBotAliasesRequest {
@@ -1007,25 +464,6 @@ export interface GetBotAliasesRequest {
   maxResults?: number;
   nameContains?: string;
 }
-export const GetBotAliasesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    botName: S.String.pipe(T.HttpLabel("botName")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/bots/{botName}/aliases" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBotAliasesRequest",
-}) as any as S.Schema<GetBotAliasesRequest>;
 export interface BotAliasMetadata {
   name?: string;
   description?: string;
@@ -1036,82 +474,28 @@ export interface BotAliasMetadata {
   checksum?: string;
   conversationLogs?: ConversationLogsResponse;
 }
-export const BotAliasMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    botVersion: S.optional(S.String),
-    botName: S.optional(S.String),
-    lastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    checksum: S.optional(S.String),
-    conversationLogs: S.optional(ConversationLogsResponse),
-  }),
-).annotate({
-  identifier: "BotAliasMetadata",
-}) as any as S.Schema<BotAliasMetadata>;
 export type BotAliasMetadataList = BotAliasMetadata[];
-export const BotAliasMetadataList = /*@__PURE__*/ S.Array(BotAliasMetadata);
 export interface GetBotAliasesResponse {
   BotAliases?: BotAliasMetadata[];
   nextToken?: string;
 }
-export const GetBotAliasesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BotAliases: S.optional(BotAliasMetadataList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetBotAliasesResponse",
-}) as any as S.Schema<GetBotAliasesResponse>;
 export interface GetBotChannelAssociationRequest {
   name: string;
   botName: string;
   botAlias: string;
 }
-export const GetBotChannelAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    botName: S.String.pipe(T.HttpLabel("botName")),
-    botAlias: S.String.pipe(T.HttpLabel("botAlias")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/bots/{botName}/aliases/{botAlias}/channels/{name}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBotChannelAssociationRequest",
-}) as any as S.Schema<GetBotChannelAssociationRequest>;
 export type ChannelType =
   | "Facebook"
   | "Slack"
   | "Twilio-Sms"
   | "Kik"
   | (string & {});
-export const ChannelType = S.String;
-
 export type ChannelConfigurationMap = { [key: string]: string | undefined };
-export const ChannelConfigurationMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type ChannelStatus =
   | "IN_PROGRESS"
   | "CREATED"
   | "FAILED"
   | (string & {});
-export const ChannelStatus = S.String;
-
 export interface GetBotChannelAssociationResponse {
   name?: string;
   description?: string;
@@ -1123,21 +507,6 @@ export interface GetBotChannelAssociationResponse {
   status?: ChannelStatus;
   failureReason?: string;
 }
-export const GetBotChannelAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    botAlias: S.optional(S.String),
-    botName: S.optional(S.String),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    type: S.optional(ChannelType),
-    botConfiguration: S.optional(ChannelConfigurationMap),
-    status: S.optional(ChannelStatus),
-    failureReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetBotChannelAssociationResponse",
-}) as any as S.Schema<GetBotChannelAssociationResponse>;
 export type AliasNameOrListAll = string;
 export interface GetBotChannelAssociationsRequest {
   botName: string;
@@ -1146,29 +515,6 @@ export interface GetBotChannelAssociationsRequest {
   maxResults?: number;
   nameContains?: string;
 }
-export const GetBotChannelAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    botName: S.String.pipe(T.HttpLabel("botName")),
-    botAlias: S.String.pipe(T.HttpLabel("botAlias")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/bots/{botName}/aliases/{botAlias}/channels",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBotChannelAssociationsRequest",
-}) as any as S.Schema<GetBotChannelAssociationsRequest>;
 export interface BotChannelAssociation {
   name?: string;
   description?: string;
@@ -1180,58 +526,16 @@ export interface BotChannelAssociation {
   status?: ChannelStatus;
   failureReason?: string;
 }
-export const BotChannelAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    botAlias: S.optional(S.String),
-    botName: S.optional(S.String),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    type: S.optional(ChannelType),
-    botConfiguration: S.optional(ChannelConfigurationMap),
-    status: S.optional(ChannelStatus),
-    failureReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BotChannelAssociation",
-}) as any as S.Schema<BotChannelAssociation>;
 export type BotChannelAssociationList = BotChannelAssociation[];
-export const BotChannelAssociationList = /*@__PURE__*/ S.Array(
-  BotChannelAssociation,
-);
 export interface GetBotChannelAssociationsResponse {
   botChannelAssociations?: BotChannelAssociation[];
   nextToken?: string;
 }
-export const GetBotChannelAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    botChannelAssociations: S.optional(BotChannelAssociationList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetBotChannelAssociationsResponse",
-}) as any as S.Schema<GetBotChannelAssociationsResponse>;
 export interface GetBotsRequest {
   nextToken?: string;
   maxResults?: number;
   nameContains?: string;
 }
-export const GetBotsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/bots" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetBotsRequest" }) as any as S.Schema<GetBotsRequest>;
 export interface BotMetadata {
   name?: string;
   description?: string;
@@ -1240,256 +544,74 @@ export interface BotMetadata {
   createdDate?: Date;
   version?: string;
 }
-export const BotMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    status: S.optional(Status),
-    lastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    version: S.optional(S.String),
-  }),
-).annotate({ identifier: "BotMetadata" }) as any as S.Schema<BotMetadata>;
 export type BotMetadataList = BotMetadata[];
-export const BotMetadataList = /*@__PURE__*/ S.Array(BotMetadata);
 export interface GetBotsResponse {
   bots?: BotMetadata[];
   nextToken?: string;
 }
-export const GetBotsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bots: S.optional(BotMetadataList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetBotsResponse",
-}) as any as S.Schema<GetBotsResponse>;
 export interface GetBotVersionsRequest {
   name: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const GetBotVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/bots/{name}/versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBotVersionsRequest",
-}) as any as S.Schema<GetBotVersionsRequest>;
 export interface GetBotVersionsResponse {
   bots?: BotMetadata[];
   nextToken?: string;
 }
-export const GetBotVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bots: S.optional(BotMetadataList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetBotVersionsResponse",
-}) as any as S.Schema<GetBotVersionsResponse>;
 export interface GetBuiltinIntentRequest {
   signature: string;
 }
-export const GetBuiltinIntentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ signature: S.String.pipe(T.HttpLabel("signature")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/builtins/intents/{signature}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBuiltinIntentRequest",
-}) as any as S.Schema<GetBuiltinIntentRequest>;
 export type LocaleList = Locale[];
-export const LocaleList = /*@__PURE__*/ S.Array(Locale);
 export interface BuiltinIntentSlot {
   name?: string;
 }
-export const BuiltinIntentSlot = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.optional(S.String) }),
-).annotate({
-  identifier: "BuiltinIntentSlot",
-}) as any as S.Schema<BuiltinIntentSlot>;
 export type BuiltinIntentSlotList = BuiltinIntentSlot[];
-export const BuiltinIntentSlotList = /*@__PURE__*/ S.Array(BuiltinIntentSlot);
 export interface GetBuiltinIntentResponse {
   signature?: string;
   supportedLocales?: Locale[];
   slots?: BuiltinIntentSlot[];
 }
-export const GetBuiltinIntentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    signature: S.optional(S.String),
-    supportedLocales: S.optional(LocaleList),
-    slots: S.optional(BuiltinIntentSlotList),
-  }),
-).annotate({
-  identifier: "GetBuiltinIntentResponse",
-}) as any as S.Schema<GetBuiltinIntentResponse>;
 export interface GetBuiltinIntentsRequest {
   locale?: Locale;
   signatureContains?: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const GetBuiltinIntentsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locale: S.optional(Locale).pipe(T.HttpQuery("locale")),
-    signatureContains: S.optional(S.String).pipe(
-      T.HttpQuery("signatureContains"),
-    ),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/builtins/intents" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBuiltinIntentsRequest",
-}) as any as S.Schema<GetBuiltinIntentsRequest>;
 export interface BuiltinIntentMetadata {
   signature?: string;
   supportedLocales?: Locale[];
 }
-export const BuiltinIntentMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    signature: S.optional(S.String),
-    supportedLocales: S.optional(LocaleList),
-  }),
-).annotate({
-  identifier: "BuiltinIntentMetadata",
-}) as any as S.Schema<BuiltinIntentMetadata>;
 export type BuiltinIntentMetadataList = BuiltinIntentMetadata[];
-export const BuiltinIntentMetadataList = /*@__PURE__*/ S.Array(
-  BuiltinIntentMetadata,
-);
 export interface GetBuiltinIntentsResponse {
   intents?: BuiltinIntentMetadata[];
   nextToken?: string;
 }
-export const GetBuiltinIntentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    intents: S.optional(BuiltinIntentMetadataList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetBuiltinIntentsResponse",
-}) as any as S.Schema<GetBuiltinIntentsResponse>;
 export interface GetBuiltinSlotTypesRequest {
   locale?: Locale;
   signatureContains?: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const GetBuiltinSlotTypesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locale: S.optional(Locale).pipe(T.HttpQuery("locale")),
-    signatureContains: S.optional(S.String).pipe(
-      T.HttpQuery("signatureContains"),
-    ),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/builtins/slottypes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBuiltinSlotTypesRequest",
-}) as any as S.Schema<GetBuiltinSlotTypesRequest>;
 export type BuiltinSlotTypeSignature = string;
 export interface BuiltinSlotTypeMetadata {
   signature?: string;
   supportedLocales?: Locale[];
 }
-export const BuiltinSlotTypeMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    signature: S.optional(S.String),
-    supportedLocales: S.optional(LocaleList),
-  }),
-).annotate({
-  identifier: "BuiltinSlotTypeMetadata",
-}) as any as S.Schema<BuiltinSlotTypeMetadata>;
 export type BuiltinSlotTypeMetadataList = BuiltinSlotTypeMetadata[];
-export const BuiltinSlotTypeMetadataList = /*@__PURE__*/ S.Array(
-  BuiltinSlotTypeMetadata,
-);
 export interface GetBuiltinSlotTypesResponse {
   slotTypes?: BuiltinSlotTypeMetadata[];
   nextToken?: string;
 }
-export const GetBuiltinSlotTypesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    slotTypes: S.optional(BuiltinSlotTypeMetadataList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetBuiltinSlotTypesResponse",
-}) as any as S.Schema<GetBuiltinSlotTypesResponse>;
 export type Name = string;
 export type ResourceType = "BOT" | "INTENT" | "SLOT_TYPE" | (string & {});
-export const ResourceType = S.String;
-
 export type ExportType = "ALEXA_SKILLS_KIT" | "LEX" | (string & {});
-export const ExportType = S.String;
-
 export interface GetExportRequest {
   name: string;
   version: string;
   resourceType: ResourceType;
   exportType: ExportType;
 }
-export const GetExportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpQuery("name")),
-    version: S.String.pipe(T.HttpQuery("version")),
-    resourceType: ResourceType.pipe(T.HttpQuery("resourceType")),
-    exportType: ExportType.pipe(T.HttpQuery("exportType")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/exports" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetExportRequest",
-}) as any as S.Schema<GetExportRequest>;
 export type ExportStatus = "IN_PROGRESS" | "READY" | "FAILED" | (string & {});
-export const ExportStatus = S.String;
-
 export interface GetExportResponse {
   name?: string;
   version?: string;
@@ -1499,51 +621,19 @@ export interface GetExportResponse {
   failureReason?: string;
   url?: string;
 }
-export const GetExportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    version: S.optional(S.String),
-    resourceType: S.optional(ResourceType),
-    exportType: S.optional(ExportType),
-    exportStatus: S.optional(ExportStatus),
-    failureReason: S.optional(S.String),
-    url: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetExportResponse",
-}) as any as S.Schema<GetExportResponse>;
 export interface GetImportRequest {
   importId: string;
 }
-export const GetImportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ importId: S.String.pipe(T.HttpLabel("importId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/imports/{importId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetImportRequest",
-}) as any as S.Schema<GetImportRequest>;
 export type MergeStrategy =
   | "OVERWRITE_LATEST"
   | "FAIL_ON_CONFLICT"
   | (string & {});
-export const MergeStrategy = S.String;
-
 export type ImportStatus =
   | "IN_PROGRESS"
   | "COMPLETE"
   | "FAILED"
   | (string & {});
-export const ImportStatus = S.String;
-
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface GetImportResponse {
   name?: string;
   resourceType?: ResourceType;
@@ -1553,40 +643,10 @@ export interface GetImportResponse {
   failureReason?: string[];
   createdDate?: Date;
 }
-export const GetImportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    resourceType: S.optional(ResourceType),
-    mergeStrategy: S.optional(MergeStrategy),
-    importId: S.optional(S.String),
-    importStatus: S.optional(ImportStatus),
-    failureReason: S.optional(StringList),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "GetImportResponse",
-}) as any as S.Schema<GetImportResponse>;
 export interface GetIntentRequest {
   name: string;
   version: string;
 }
-export const GetIntentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    version: S.String.pipe(T.HttpLabel("version")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/intents/{name}/versions/{version}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetIntentRequest",
-}) as any as S.Schema<GetIntentRequest>;
 export interface GetIntentResponse {
   name?: string;
   description?: string;
@@ -1607,55 +667,11 @@ export interface GetIntentResponse {
   inputContexts?: InputContext[];
   outputContexts?: OutputContext[];
 }
-export const GetIntentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    slots: S.optional(SlotList),
-    sampleUtterances: S.optional(IntentUtteranceList),
-    confirmationPrompt: S.optional(Prompt),
-    rejectionStatement: S.optional(Statement),
-    followUpPrompt: S.optional(FollowUpPrompt),
-    conclusionStatement: S.optional(Statement),
-    dialogCodeHook: S.optional(CodeHook),
-    fulfillmentActivity: S.optional(FulfillmentActivity),
-    parentIntentSignature: S.optional(S.String),
-    lastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    version: S.optional(S.String),
-    checksum: S.optional(S.String),
-    kendraConfiguration: S.optional(KendraConfiguration),
-    inputContexts: S.optional(InputContextList),
-    outputContexts: S.optional(OutputContextList),
-  }),
-).annotate({
-  identifier: "GetIntentResponse",
-}) as any as S.Schema<GetIntentResponse>;
 export interface GetIntentsRequest {
   nextToken?: string;
   maxResults?: number;
   nameContains?: string;
 }
-export const GetIntentsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/intents" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetIntentsRequest",
-}) as any as S.Schema<GetIntentsRequest>;
 export interface IntentMetadata {
   name?: string;
   description?: string;
@@ -1663,124 +679,47 @@ export interface IntentMetadata {
   createdDate?: Date;
   version?: string;
 }
-export const IntentMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    lastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    version: S.optional(S.String),
-  }),
-).annotate({ identifier: "IntentMetadata" }) as any as S.Schema<IntentMetadata>;
 export type IntentMetadataList = IntentMetadata[];
-export const IntentMetadataList = /*@__PURE__*/ S.Array(IntentMetadata);
 export interface GetIntentsResponse {
   intents?: IntentMetadata[];
   nextToken?: string;
 }
-export const GetIntentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    intents: S.optional(IntentMetadataList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetIntentsResponse",
-}) as any as S.Schema<GetIntentsResponse>;
 export interface GetIntentVersionsRequest {
   name: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const GetIntentVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/intents/{name}/versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetIntentVersionsRequest",
-}) as any as S.Schema<GetIntentVersionsRequest>;
 export interface GetIntentVersionsResponse {
   intents?: IntentMetadata[];
   nextToken?: string;
 }
-export const GetIntentVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    intents: S.optional(IntentMetadataList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetIntentVersionsResponse",
-}) as any as S.Schema<GetIntentVersionsResponse>;
 export type MigrationId = string;
 export interface GetMigrationRequest {
   migrationId: string;
 }
-export const GetMigrationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ migrationId: S.String.pipe(T.HttpLabel("migrationId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/migrations/{migrationId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMigrationRequest",
-}) as any as S.Schema<GetMigrationRequest>;
 export type V2BotId = string;
 export type MigrationStatus =
   | "IN_PROGRESS"
   | "COMPLETED"
   | "FAILED"
   | (string & {});
-export const MigrationStatus = S.String;
-
 export type MigrationStrategy =
   | "CREATE_NEW"
   | "UPDATE_EXISTING"
   | (string & {});
-export const MigrationStrategy = S.String;
-
 export type MigrationAlertType = "ERROR" | "WARN" | (string & {});
-export const MigrationAlertType = S.String;
-
 export type MigrationAlertMessage = string;
 export type MigrationAlertDetail = string;
 export type MigrationAlertDetails = string[];
-export const MigrationAlertDetails = /*@__PURE__*/ S.Array(S.String);
 export type MigrationAlertReferenceURL = string;
 export type MigrationAlertReferenceURLs = string[];
-export const MigrationAlertReferenceURLs = /*@__PURE__*/ S.Array(S.String);
 export interface MigrationAlert {
   type?: MigrationAlertType;
   message?: string;
   details?: string[];
   referenceURLs?: string[];
 }
-export const MigrationAlert = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(MigrationAlertType),
-    message: S.optional(S.String),
-    details: S.optional(MigrationAlertDetails),
-    referenceURLs: S.optional(MigrationAlertReferenceURLs),
-  }),
-).annotate({ identifier: "MigrationAlert" }) as any as S.Schema<MigrationAlert>;
 export type MigrationAlerts = MigrationAlert[];
-export const MigrationAlerts = /*@__PURE__*/ S.Array(MigrationAlert);
 export interface GetMigrationResponse {
   migrationId?: string;
   v1BotName?: string;
@@ -1793,33 +732,11 @@ export interface GetMigrationResponse {
   migrationTimestamp?: Date;
   alerts?: MigrationAlert[];
 }
-export const GetMigrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    migrationId: S.optional(S.String),
-    v1BotName: S.optional(S.String),
-    v1BotVersion: S.optional(S.String),
-    v1BotLocale: S.optional(Locale),
-    v2BotId: S.optional(S.String),
-    v2BotRole: S.optional(S.String),
-    migrationStatus: S.optional(MigrationStatus),
-    migrationStrategy: S.optional(MigrationStrategy),
-    migrationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    alerts: S.optional(MigrationAlerts),
-  }),
-).annotate({
-  identifier: "GetMigrationResponse",
-}) as any as S.Schema<GetMigrationResponse>;
 export type MigrationSortAttribute =
   | "V1_BOT_NAME"
   | "MIGRATION_DATE_TIME"
   | (string & {});
-export const MigrationSortAttribute = S.String;
-
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
-export const SortOrder = S.String;
-
 export interface GetMigrationsRequest {
   sortByAttribute?: MigrationSortAttribute;
   sortByOrder?: SortOrder;
@@ -1828,33 +745,6 @@ export interface GetMigrationsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const GetMigrationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sortByAttribute: S.optional(MigrationSortAttribute).pipe(
-      T.HttpQuery("sortByAttribute"),
-    ),
-    sortByOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortByOrder")),
-    v1BotNameContains: S.optional(S.String).pipe(
-      T.HttpQuery("v1BotNameContains"),
-    ),
-    migrationStatusEquals: S.optional(MigrationStatus).pipe(
-      T.HttpQuery("migrationStatusEquals"),
-    ),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/migrations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMigrationsRequest",
-}) as any as S.Schema<GetMigrationsRequest>;
 export interface MigrationSummary {
   migrationId?: string;
   v1BotName?: string;
@@ -1866,58 +756,15 @@ export interface MigrationSummary {
   migrationStrategy?: MigrationStrategy;
   migrationTimestamp?: Date;
 }
-export const MigrationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    migrationId: S.optional(S.String),
-    v1BotName: S.optional(S.String),
-    v1BotVersion: S.optional(S.String),
-    v1BotLocale: S.optional(Locale),
-    v2BotId: S.optional(S.String),
-    v2BotRole: S.optional(S.String),
-    migrationStatus: S.optional(MigrationStatus),
-    migrationStrategy: S.optional(MigrationStrategy),
-    migrationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "MigrationSummary",
-}) as any as S.Schema<MigrationSummary>;
 export type MigrationSummaryList = MigrationSummary[];
-export const MigrationSummaryList = /*@__PURE__*/ S.Array(MigrationSummary);
 export interface GetMigrationsResponse {
   migrationSummaries?: MigrationSummary[];
   nextToken?: string;
 }
-export const GetMigrationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    migrationSummaries: S.optional(MigrationSummaryList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetMigrationsResponse",
-}) as any as S.Schema<GetMigrationsResponse>;
 export interface GetSlotTypeRequest {
   name: string;
   version: string;
 }
-export const GetSlotTypeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    version: S.String.pipe(T.HttpLabel("version")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/slottypes/{name}/versions/{version}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSlotTypeRequest",
-}) as any as S.Schema<GetSlotTypeRequest>;
 export interface GetSlotTypeResponse {
   name?: string;
   description?: string;
@@ -1930,47 +777,11 @@ export interface GetSlotTypeResponse {
   parentSlotTypeSignature?: string;
   slotTypeConfigurations?: SlotTypeConfiguration[];
 }
-export const GetSlotTypeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    enumerationValues: S.optional(EnumerationValues),
-    lastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    version: S.optional(S.String),
-    checksum: S.optional(S.String),
-    valueSelectionStrategy: S.optional(SlotValueSelectionStrategy),
-    parentSlotTypeSignature: S.optional(S.String),
-    slotTypeConfigurations: S.optional(SlotTypeConfigurations),
-  }),
-).annotate({
-  identifier: "GetSlotTypeResponse",
-}) as any as S.Schema<GetSlotTypeResponse>;
 export interface GetSlotTypesRequest {
   nextToken?: string;
   maxResults?: number;
   nameContains?: string;
 }
-export const GetSlotTypesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/slottypes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSlotTypesRequest",
-}) as any as S.Schema<GetSlotTypesRequest>;
 export interface SlotTypeMetadata {
   name?: string;
   description?: string;
@@ -1978,99 +789,27 @@ export interface SlotTypeMetadata {
   createdDate?: Date;
   version?: string;
 }
-export const SlotTypeMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    lastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    version: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SlotTypeMetadata",
-}) as any as S.Schema<SlotTypeMetadata>;
 export type SlotTypeMetadataList = SlotTypeMetadata[];
-export const SlotTypeMetadataList = /*@__PURE__*/ S.Array(SlotTypeMetadata);
 export interface GetSlotTypesResponse {
   slotTypes?: SlotTypeMetadata[];
   nextToken?: string;
 }
-export const GetSlotTypesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    slotTypes: S.optional(SlotTypeMetadataList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetSlotTypesResponse",
-}) as any as S.Schema<GetSlotTypesResponse>;
 export interface GetSlotTypeVersionsRequest {
   name: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const GetSlotTypeVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/slottypes/{name}/versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSlotTypeVersionsRequest",
-}) as any as S.Schema<GetSlotTypeVersionsRequest>;
 export interface GetSlotTypeVersionsResponse {
   slotTypes?: SlotTypeMetadata[];
   nextToken?: string;
 }
-export const GetSlotTypeVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    slotTypes: S.optional(SlotTypeMetadataList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetSlotTypeVersionsResponse",
-}) as any as S.Schema<GetSlotTypeVersionsResponse>;
 export type BotVersions = string[];
-export const BotVersions = /*@__PURE__*/ S.Array(S.String);
 export type StatusType = "Detected" | "Missed" | (string & {});
-export const StatusType = S.String;
-
 export interface GetUtterancesViewRequest {
   botName: string;
   botVersions: string[];
   statusType: StatusType;
 }
-export const GetUtterancesViewRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    botName: S.String.pipe(T.HttpLabel("botName")),
-    botVersions: BotVersions.pipe(T.HttpQuery("bot_versions")),
-    statusType: StatusType.pipe(T.HttpQuery("status_type")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/bots/{botName}/utterances?view=aggregation",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetUtterancesViewRequest",
-}) as any as S.Schema<GetUtterancesViewRequest>;
 export type UtteranceString = string;
 export type Count = number;
 export interface UtteranceData {
@@ -2080,85 +819,31 @@ export interface UtteranceData {
   firstUtteredDate?: Date;
   lastUtteredDate?: Date;
 }
-export const UtteranceData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    utteranceString: S.optional(S.String),
-    count: S.optional(S.Number),
-    distinctUsers: S.optional(S.Number),
-    firstUtteredDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUtteredDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({ identifier: "UtteranceData" }) as any as S.Schema<UtteranceData>;
 export type ListOfUtterance = UtteranceData[];
-export const ListOfUtterance = /*@__PURE__*/ S.Array(UtteranceData);
 export interface UtteranceList {
   botVersion?: string;
   utterances?: UtteranceData[];
 }
-export const UtteranceList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    botVersion: S.optional(S.String),
-    utterances: S.optional(ListOfUtterance),
-  }),
-).annotate({ identifier: "UtteranceList" }) as any as S.Schema<UtteranceList>;
 export type ListsOfUtterances = UtteranceList[];
-export const ListsOfUtterances = /*@__PURE__*/ S.Array(UtteranceList);
 export interface GetUtterancesViewResponse {
   botName?: string;
   utterances?: UtteranceList[];
 }
-export const GetUtterancesViewResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    botName: S.optional(S.String),
-    utterances: S.optional(ListsOfUtterances),
-  }),
-).annotate({
-  identifier: "GetUtterancesViewResponse",
-}) as any as S.Schema<GetUtterancesViewResponse>;
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   key: string;
   value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface ListTagsForResourceResponse {
   tags?: Tag[];
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(TagList) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export type ProcessBehavior = "SAVE" | "BUILD" | (string & {});
-export const ProcessBehavior = S.String;
-
 export interface PutBotRequest {
   name: string;
   description?: string;
@@ -2177,35 +862,6 @@ export interface PutBotRequest {
   createVersion?: boolean;
   tags?: Tag[];
 }
-export const PutBotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    description: S.optional(S.String),
-    intents: S.optional(IntentList),
-    enableModelImprovements: S.optional(S.Boolean),
-    nluIntentConfidenceThreshold: S.optional(S.Number),
-    clarificationPrompt: S.optional(Prompt),
-    abortStatement: S.optional(Statement),
-    idleSessionTTLInSeconds: S.optional(S.Number),
-    voiceId: S.optional(S.String),
-    checksum: S.optional(S.String),
-    processBehavior: S.optional(ProcessBehavior),
-    locale: Locale,
-    childDirected: S.Boolean,
-    detectSentiment: S.optional(S.Boolean),
-    createVersion: S.optional(S.Boolean),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/bots/{name}/versions/$LATEST" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "PutBotRequest" }) as any as S.Schema<PutBotRequest>;
 export interface PutBotResponse {
   name?: string;
   description?: string;
@@ -2228,59 +884,17 @@ export interface PutBotResponse {
   detectSentiment?: boolean;
   tags?: Tag[];
 }
-export const PutBotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    intents: S.optional(IntentList),
-    enableModelImprovements: S.optional(S.Boolean),
-    nluIntentConfidenceThreshold: S.optional(S.Number),
-    clarificationPrompt: S.optional(Prompt),
-    abortStatement: S.optional(Statement),
-    status: S.optional(Status),
-    failureReason: S.optional(S.String),
-    lastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    idleSessionTTLInSeconds: S.optional(S.Number),
-    voiceId: S.optional(S.String),
-    checksum: S.optional(S.String),
-    version: S.optional(S.String),
-    locale: S.optional(Locale),
-    childDirected: S.optional(S.Boolean),
-    createVersion: S.optional(S.Boolean),
-    detectSentiment: S.optional(S.Boolean),
-    tags: S.optional(TagList),
-  }),
-).annotate({ identifier: "PutBotResponse" }) as any as S.Schema<PutBotResponse>;
 export interface LogSettingsRequest {
   logType: LogType;
   destination: Destination;
   kmsKeyArn?: string;
   resourceArn: string;
 }
-export const LogSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    logType: LogType,
-    destination: Destination,
-    kmsKeyArn: S.optional(S.String),
-    resourceArn: S.String,
-  }),
-).annotate({
-  identifier: "LogSettingsRequest",
-}) as any as S.Schema<LogSettingsRequest>;
 export type LogSettingsRequestList = LogSettingsRequest[];
-export const LogSettingsRequestList = /*@__PURE__*/ S.Array(LogSettingsRequest);
 export interface ConversationLogsRequest {
   logSettings: LogSettingsRequest[];
   iamRoleArn: string;
 }
-export const ConversationLogsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ logSettings: LogSettingsRequestList, iamRoleArn: S.String }),
-).annotate({
-  identifier: "ConversationLogsRequest",
-}) as any as S.Schema<ConversationLogsRequest>;
 export interface PutBotAliasRequest {
   name: string;
   description?: string;
@@ -2290,28 +904,6 @@ export interface PutBotAliasRequest {
   conversationLogs?: ConversationLogsRequest;
   tags?: Tag[];
 }
-export const PutBotAliasRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    description: S.optional(S.String),
-    botVersion: S.String,
-    botName: S.String.pipe(T.HttpLabel("botName")),
-    checksum: S.optional(S.String),
-    conversationLogs: S.optional(ConversationLogsRequest),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/bots/{botName}/aliases/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutBotAliasRequest",
-}) as any as S.Schema<PutBotAliasRequest>;
 export interface PutBotAliasResponse {
   name?: string;
   description?: string;
@@ -2323,23 +915,6 @@ export interface PutBotAliasResponse {
   conversationLogs?: ConversationLogsResponse;
   tags?: Tag[];
 }
-export const PutBotAliasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    botVersion: S.optional(S.String),
-    botName: S.optional(S.String),
-    lastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    checksum: S.optional(S.String),
-    conversationLogs: S.optional(ConversationLogsResponse),
-    tags: S.optional(TagList),
-  }),
-).annotate({
-  identifier: "PutBotAliasResponse",
-}) as any as S.Schema<PutBotAliasResponse>;
 export interface PutIntentRequest {
   name: string;
   description?: string;
@@ -2358,37 +933,6 @@ export interface PutIntentRequest {
   inputContexts?: InputContext[];
   outputContexts?: OutputContext[];
 }
-export const PutIntentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    description: S.optional(S.String),
-    slots: S.optional(SlotList),
-    sampleUtterances: S.optional(IntentUtteranceList),
-    confirmationPrompt: S.optional(Prompt),
-    rejectionStatement: S.optional(Statement),
-    followUpPrompt: S.optional(FollowUpPrompt),
-    conclusionStatement: S.optional(Statement),
-    dialogCodeHook: S.optional(CodeHook),
-    fulfillmentActivity: S.optional(FulfillmentActivity),
-    parentIntentSignature: S.optional(S.String),
-    checksum: S.optional(S.String),
-    createVersion: S.optional(S.Boolean),
-    kendraConfiguration: S.optional(KendraConfiguration),
-    inputContexts: S.optional(InputContextList),
-    outputContexts: S.optional(OutputContextList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/intents/{name}/versions/$LATEST" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutIntentRequest",
-}) as any as S.Schema<PutIntentRequest>;
 export interface PutIntentResponse {
   name?: string;
   description?: string;
@@ -2410,33 +954,6 @@ export interface PutIntentResponse {
   inputContexts?: InputContext[];
   outputContexts?: OutputContext[];
 }
-export const PutIntentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    slots: S.optional(SlotList),
-    sampleUtterances: S.optional(IntentUtteranceList),
-    confirmationPrompt: S.optional(Prompt),
-    rejectionStatement: S.optional(Statement),
-    followUpPrompt: S.optional(FollowUpPrompt),
-    conclusionStatement: S.optional(Statement),
-    dialogCodeHook: S.optional(CodeHook),
-    fulfillmentActivity: S.optional(FulfillmentActivity),
-    parentIntentSignature: S.optional(S.String),
-    lastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    version: S.optional(S.String),
-    checksum: S.optional(S.String),
-    createVersion: S.optional(S.Boolean),
-    kendraConfiguration: S.optional(KendraConfiguration),
-    inputContexts: S.optional(InputContextList),
-    outputContexts: S.optional(OutputContextList),
-  }),
-).annotate({
-  identifier: "PutIntentResponse",
-}) as any as S.Schema<PutIntentResponse>;
 export interface PutSlotTypeRequest {
   name: string;
   description?: string;
@@ -2447,29 +964,6 @@ export interface PutSlotTypeRequest {
   parentSlotTypeSignature?: string;
   slotTypeConfigurations?: SlotTypeConfiguration[];
 }
-export const PutSlotTypeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    description: S.optional(S.String),
-    enumerationValues: S.optional(EnumerationValues),
-    checksum: S.optional(S.String),
-    valueSelectionStrategy: S.optional(SlotValueSelectionStrategy),
-    createVersion: S.optional(S.Boolean),
-    parentSlotTypeSignature: S.optional(S.String),
-    slotTypeConfigurations: S.optional(SlotTypeConfigurations),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/slottypes/{name}/versions/$LATEST" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutSlotTypeRequest",
-}) as any as S.Schema<PutSlotTypeRequest>;
 export interface PutSlotTypeResponse {
   name?: string;
   description?: string;
@@ -2483,50 +977,12 @@ export interface PutSlotTypeResponse {
   parentSlotTypeSignature?: string;
   slotTypeConfigurations?: SlotTypeConfiguration[];
 }
-export const PutSlotTypeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    enumerationValues: S.optional(EnumerationValues),
-    lastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    version: S.optional(S.String),
-    checksum: S.optional(S.String),
-    valueSelectionStrategy: S.optional(SlotValueSelectionStrategy),
-    createVersion: S.optional(S.Boolean),
-    parentSlotTypeSignature: S.optional(S.String),
-    slotTypeConfigurations: S.optional(SlotTypeConfigurations),
-  }),
-).annotate({
-  identifier: "PutSlotTypeResponse",
-}) as any as S.Schema<PutSlotTypeResponse>;
 export interface StartImportRequest {
   payload: Uint8Array;
   resourceType: ResourceType;
   mergeStrategy: MergeStrategy;
   tags?: Tag[];
 }
-export const StartImportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    payload: T.Blob,
-    resourceType: ResourceType,
-    mergeStrategy: MergeStrategy,
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/imports" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartImportRequest",
-}) as any as S.Schema<StartImportRequest>;
 export interface StartImportResponse {
   name?: string;
   resourceType?: ResourceType;
@@ -2536,19 +992,6 @@ export interface StartImportResponse {
   tags?: Tag[];
   createdDate?: Date;
 }
-export const StartImportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    resourceType: S.optional(ResourceType),
-    mergeStrategy: S.optional(MergeStrategy),
-    importId: S.optional(S.String),
-    importStatus: S.optional(ImportStatus),
-    tags: S.optional(TagList),
-    createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "StartImportResponse",
-}) as any as S.Schema<StartImportResponse>;
 export type V2BotName = string;
 export interface StartMigrationRequest {
   v1BotName: string;
@@ -2557,26 +1000,6 @@ export interface StartMigrationRequest {
   v2BotRole: string;
   migrationStrategy: MigrationStrategy;
 }
-export const StartMigrationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    v1BotName: S.String,
-    v1BotVersion: S.String,
-    v2BotName: S.String,
-    v2BotRole: S.String,
-    migrationStrategy: MigrationStrategy,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/migrations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartMigrationRequest",
-}) as any as S.Schema<StartMigrationRequest>;
 export interface StartMigrationResponse {
   v1BotName?: string;
   v1BotVersion?: string;
@@ -2587,95 +1010,27 @@ export interface StartMigrationResponse {
   migrationStrategy?: MigrationStrategy;
   migrationTimestamp?: Date;
 }
-export const StartMigrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    v1BotName: S.optional(S.String),
-    v1BotVersion: S.optional(S.String),
-    v1BotLocale: S.optional(Locale),
-    v2BotId: S.optional(S.String),
-    v2BotRole: S.optional(S.String),
-    migrationId: S.optional(S.String),
-    migrationStrategy: S.optional(MigrationStrategy),
-    migrationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "StartMigrationResponse",
-}) as any as S.Schema<StartMigrationResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export type ReferenceType =
   | "Intent"
   | "Bot"
   | "BotAlias"
   | "BotChannel"
   | (string & {});
-export const ReferenceType = S.String;
-
 export interface ResourceReference {
   name?: string;
   version?: string;
 }
-export const ResourceReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.optional(S.String), version: S.optional(S.String) }),
-).annotate({
-  identifier: "ResourceReference",
-}) as any as S.Schema<ResourceReference>;
 export type CreateBotVersionError =
   | BadRequestException
   | ConflictException
@@ -2706,8 +1061,13 @@ export const createBotVersion: API.OperationMethod<
   CreateBotVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBotVersionRequest,
-  output: CreateBotVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /bots/{name}/versions",
+    input: { name: 0, checksum: 0 },
+    output: { lastUpdatedDate: D.ts, createdDate: D.ts },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -2719,7 +1079,7 @@ export const createBotVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBotVersion",
-}));
+})) as any;
 
 export type CreateIntentVersionError =
   | BadRequestException
@@ -2752,8 +1112,13 @@ export const createIntentVersion: API.OperationMethod<
   CreateIntentVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateIntentVersionRequest,
-  output: CreateIntentVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /intents/{name}/versions",
+    input: { name: 0, checksum: 0 },
+    output: { lastUpdatedDate: D.ts, createdDate: D.ts },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -2765,7 +1130,7 @@ export const createIntentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntentVersion",
-}));
+})) as any;
 
 export type CreateSlotTypeVersionError =
   | BadRequestException
@@ -2798,8 +1163,13 @@ export const createSlotTypeVersion: API.OperationMethod<
   CreateSlotTypeVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSlotTypeVersionRequest,
-  output: CreateSlotTypeVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /slottypes/{name}/versions",
+    input: { name: 0, checksum: 0 },
+    output: { lastUpdatedDate: D.ts, createdDate: D.ts },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -2811,7 +1181,7 @@ export const createSlotTypeVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSlotTypeVersion",
-}));
+})) as any;
 
 export type DeleteBotError =
   | BadRequestException
@@ -2848,8 +1218,7 @@ export const deleteBot: API.OperationMethod<
   DeleteBotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBotRequest,
-  output: DeleteBotResponse,
+  descriptor: { service: svc, http: "DELETE /bots/{name}", input: { name: 0 } },
   errors: [
     BadRequestException,
     ConflictException,
@@ -2861,7 +1230,7 @@ export const deleteBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBot",
-}));
+})) as any;
 
 export type DeleteBotAliasError =
   | BadRequestException
@@ -2889,8 +1258,11 @@ export const deleteBotAlias: API.OperationMethod<
   DeleteBotAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBotAliasRequest,
-  output: DeleteBotAliasResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /bots/{botName}/aliases/{name}",
+    input: { name: 0, botName: 0 },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -2902,7 +1274,7 @@ export const deleteBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotAlias",
-}));
+})) as any;
 
 export type DeleteBotChannelAssociationError =
   | BadRequestException
@@ -2924,8 +1296,11 @@ export const deleteBotChannelAssociation: API.OperationMethod<
   DeleteBotChannelAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBotChannelAssociationRequest,
-  output: DeleteBotChannelAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /bots/{botName}/aliases/{botAlias}/channels/{name}",
+    input: { name: 0, botName: 0, botAlias: 0 },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -2936,7 +1311,7 @@ export const deleteBotChannelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotChannelAssociation",
-}));
+})) as any;
 
 export type DeleteBotVersionError =
   | BadRequestException
@@ -2959,8 +1334,11 @@ export const deleteBotVersion: API.OperationMethod<
   DeleteBotVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBotVersionRequest,
-  output: DeleteBotVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /bots/{name}/versions/{version}",
+    input: { name: 0, version: 0 },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -2972,7 +1350,7 @@ export const deleteBotVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotVersion",
-}));
+})) as any;
 
 export type DeleteIntentError =
   | BadRequestException
@@ -3008,8 +1386,11 @@ export const deleteIntent: API.OperationMethod<
   DeleteIntentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteIntentRequest,
-  output: DeleteIntentResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /intents/{name}",
+    input: { name: 0 },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -3021,7 +1402,7 @@ export const deleteIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntent",
-}));
+})) as any;
 
 export type DeleteIntentVersionError =
   | BadRequestException
@@ -3044,8 +1425,11 @@ export const deleteIntentVersion: API.OperationMethod<
   DeleteIntentVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteIntentVersionRequest,
-  output: DeleteIntentVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /intents/{name}/versions/{version}",
+    input: { name: 0, version: 0 },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -3057,7 +1441,7 @@ export const deleteIntentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntentVersion",
-}));
+})) as any;
 
 export type DeleteSlotTypeError =
   | BadRequestException
@@ -3093,8 +1477,11 @@ export const deleteSlotType: API.OperationMethod<
   DeleteSlotTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSlotTypeRequest,
-  output: DeleteSlotTypeResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /slottypes/{name}",
+    input: { name: 0 },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -3106,7 +1493,7 @@ export const deleteSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlotType",
-}));
+})) as any;
 
 export type DeleteSlotTypeVersionError =
   | BadRequestException
@@ -3129,8 +1516,11 @@ export const deleteSlotTypeVersion: API.OperationMethod<
   DeleteSlotTypeVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSlotTypeVersionRequest,
-  output: DeleteSlotTypeVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /slottypes/{name}/version/{version}",
+    input: { name: 0, version: 0 },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -3142,7 +1532,7 @@ export const deleteSlotTypeVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlotTypeVersion",
-}));
+})) as any;
 
 export type DeleteUtterancesError =
   | BadRequestException
@@ -3173,8 +1563,11 @@ export const deleteUtterances: API.OperationMethod<
   DeleteUtterancesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteUtterancesRequest,
-  output: DeleteUtterancesResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /bots/{botName}/utterances/{userId}",
+    input: { botName: 0, userId: 0 },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3184,7 +1577,7 @@ export const deleteUtterances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUtterances",
-}));
+})) as any;
 
 export type GetBotError =
   | BadRequestException
@@ -3205,8 +1598,12 @@ export const getBot: API.OperationMethod<
   GetBotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBotRequest,
-  output: GetBotResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /bots/{name}/versions/{versionOrAlias}",
+    input: { name: 0, versionOrAlias: 0 },
+    output: { lastUpdatedDate: D.ts, createdDate: D.ts },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3216,7 +1613,7 @@ export const getBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBot",
-}));
+})) as any;
 
 export type GetBotAliasError =
   | BadRequestException
@@ -3237,8 +1634,12 @@ export const getBotAlias: API.OperationMethod<
   GetBotAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBotAliasRequest,
-  output: GetBotAliasResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /bots/{botName}/aliases/{name}",
+    input: { name: 0, botName: 0 },
+    output: { lastUpdatedDate: D.ts, createdDate: D.ts },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3248,7 +1649,7 @@ export const getBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBotAlias",
-}));
+})) as any;
 
 export type GetBotAliasesError =
   | BadRequestException
@@ -3268,8 +1669,19 @@ export const getBotAliases: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetBotAliasesRequest,
-  output: GetBotAliasesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /bots/{botName}/aliases",
+    input: {
+      botName: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nameContains: D.m({ query: "nameContains" }),
+    },
+    output: {
+      BotAliases: D.list({ lastUpdatedDate: D.ts, createdDate: D.ts }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3304,8 +1716,12 @@ export const getBotChannelAssociation: API.OperationMethod<
   GetBotChannelAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBotChannelAssociationRequest,
-  output: GetBotChannelAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /bots/{botName}/aliases/{botAlias}/channels/{name}",
+    input: { name: 0, botName: 0, botAlias: 0 },
+    output: { createdDate: D.ts },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3315,7 +1731,7 @@ export const getBotChannelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBotChannelAssociation",
-}));
+})) as any;
 
 export type GetBotChannelAssociationsError =
   | BadRequestException
@@ -3337,8 +1753,18 @@ export const getBotChannelAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetBotChannelAssociationsRequest,
-  output: GetBotChannelAssociationsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /bots/{botName}/aliases/{botAlias}/channels",
+    input: {
+      botName: 0,
+      botAlias: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nameContains: D.m({ query: "nameContains" }),
+    },
+    output: { botChannelAssociations: D.list({ createdDate: D.ts }) },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3381,8 +1807,16 @@ export const getBots: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetBotsRequest,
-  output: GetBotsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /bots",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nameContains: D.m({ query: "nameContains" }),
+    },
+    output: { bots: D.list(o_BotMetadata) },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3428,8 +1862,16 @@ export const getBotVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetBotVersionsRequest,
-  output: GetBotVersionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /bots/{name}/versions",
+    input: {
+      name: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { bots: D.list(o_BotMetadata) },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3464,8 +1906,11 @@ export const getBuiltinIntent: API.OperationMethod<
   GetBuiltinIntentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBuiltinIntentRequest,
-  output: GetBuiltinIntentResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /builtins/intents/{signature}",
+    input: { signature: 0 },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3475,7 +1920,7 @@ export const getBuiltinIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBuiltinIntent",
-}));
+})) as any;
 
 export type GetBuiltinIntentsError =
   | BadRequestException
@@ -3496,8 +1941,16 @@ export const getBuiltinIntents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetBuiltinIntentsRequest,
-  output: GetBuiltinIntentsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /builtins/intents",
+    input: {
+      locale: D.m({ query: "locale" }),
+      signatureContains: D.m({ query: "signatureContains" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3535,8 +1988,16 @@ export const getBuiltinSlotTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetBuiltinSlotTypesRequest,
-  output: GetBuiltinSlotTypesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /builtins/slottypes",
+    input: {
+      locale: D.m({ query: "locale" }),
+      signatureContains: D.m({ query: "signatureContains" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3567,8 +2028,16 @@ export const getExport: API.OperationMethod<
   GetExportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetExportRequest,
-  output: GetExportResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /exports",
+    input: {
+      name: D.m({ query: "name" }),
+      version: D.m({ query: "version" }),
+      resourceType: D.m({ query: "resourceType" }),
+      exportType: D.m({ query: "exportType" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3578,7 +2047,7 @@ export const getExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExport",
-}));
+})) as any;
 
 export type GetImportError =
   | BadRequestException
@@ -3596,8 +2065,12 @@ export const getImport: API.OperationMethod<
   GetImportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetImportRequest,
-  output: GetImportResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /imports/{importId}",
+    input: { importId: 0 },
+    output: { createdDate: D.ts },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3607,7 +2080,7 @@ export const getImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImport",
-}));
+})) as any;
 
 export type GetIntentError =
   | BadRequestException
@@ -3628,8 +2101,12 @@ export const getIntent: API.OperationMethod<
   GetIntentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetIntentRequest,
-  output: GetIntentResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /intents/{name}/versions/{version}",
+    input: { name: 0, version: 0 },
+    output: { lastUpdatedDate: D.ts, createdDate: D.ts },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3639,7 +2116,7 @@ export const getIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntent",
-}));
+})) as any;
 
 export type GetIntentsError =
   | BadRequestException
@@ -3668,8 +2145,16 @@ export const getIntents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetIntentsRequest,
-  output: GetIntentsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /intents",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nameContains: D.m({ query: "nameContains" }),
+    },
+    output: { intents: D.list(o_IntentMetadata) },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3715,8 +2200,16 @@ export const getIntentVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetIntentVersionsRequest,
-  output: GetIntentVersionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /intents/{name}/versions",
+    input: {
+      name: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { intents: D.list(o_IntentMetadata) },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3750,8 +2243,12 @@ export const getMigration: API.OperationMethod<
   GetMigrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMigrationRequest,
-  output: GetMigrationResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /migrations/{migrationId}",
+    input: { migrationId: 0 },
+    output: { migrationTimestamp: D.ts },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3761,7 +2258,7 @@ export const getMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMigration",
-}));
+})) as any;
 
 export type GetMigrationsError =
   | BadRequestException
@@ -3778,8 +2275,19 @@ export const getMigrations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetMigrationsRequest,
-  output: GetMigrationsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /migrations",
+    input: {
+      sortByAttribute: D.m({ query: "sortByAttribute" }),
+      sortByOrder: D.m({ query: "sortByOrder" }),
+      v1BotNameContains: D.m({ query: "v1BotNameContains" }),
+      migrationStatusEquals: D.m({ query: "migrationStatusEquals" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: { migrationSummaries: D.list({ migrationTimestamp: D.ts }) },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3815,8 +2323,12 @@ export const getSlotType: API.OperationMethod<
   GetSlotTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSlotTypeRequest,
-  output: GetSlotTypeResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /slottypes/{name}/versions/{version}",
+    input: { name: 0, version: 0 },
+    output: { lastUpdatedDate: D.ts, createdDate: D.ts },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3826,7 +2338,7 @@ export const getSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSlotType",
-}));
+})) as any;
 
 export type GetSlotTypesError =
   | BadRequestException
@@ -3855,8 +2367,16 @@ export const getSlotTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetSlotTypesRequest,
-  output: GetSlotTypesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /slottypes",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nameContains: D.m({ query: "nameContains" }),
+    },
+    output: { slotTypes: D.list(o_SlotTypeMetadata) },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3902,8 +2422,16 @@ export const getSlotTypeVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetSlotTypeVersionsRequest,
-  output: GetSlotTypeVersionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /slottypes/{name}/versions",
+    input: {
+      name: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { slotTypes: D.list(o_SlotTypeMetadata) },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3962,8 +2490,20 @@ export const getUtterancesView: API.OperationMethod<
   GetUtterancesViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetUtterancesViewRequest,
-  output: GetUtterancesViewResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /bots/{botName}/utterances?view=aggregation",
+    input: {
+      botName: 0,
+      botVersions: D.m({ query: "bot_versions" }),
+      statusType: D.m({ query: "status_type" }),
+    },
+    output: {
+      utterances: D.list({
+        utterances: D.list({ firstUtteredDate: D.ts, lastUtteredDate: D.ts }),
+      }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -3972,7 +2512,7 @@ export const getUtterancesView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUtterancesView",
-}));
+})) as any;
 
 export type ListTagsForResourceError =
   | BadRequestException
@@ -3990,8 +2530,11 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{resourceArn}",
+    input: { resourceArn: 0 },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -4001,7 +2544,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type PutBotError =
   | BadRequestException
@@ -4037,8 +2580,30 @@ export const putBot: API.OperationMethod<
   PutBotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBotRequest,
-  output: PutBotResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /bots/{name}/versions/$LATEST",
+    input: {
+      name: 0,
+      description: 0,
+      intents: D.list({ intentName: 0, intentVersion: 0 }),
+      enableModelImprovements: 0,
+      nluIntentConfidenceThreshold: 0,
+      clarificationPrompt: i_Prompt,
+      abortStatement: i_Statement,
+      idleSessionTTLInSeconds: 0,
+      voiceId: 0,
+      checksum: 0,
+      processBehavior: 0,
+      locale: 0,
+      childDirected: 0,
+      detectSentiment: 0,
+      createVersion: 0,
+      tags: D.list(i_Tag),
+    },
+    output: { lastUpdatedDate: D.ts, createdDate: D.ts },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -4049,7 +2614,7 @@ export const putBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBot",
-}));
+})) as any;
 
 export type PutBotAliasError =
   | BadRequestException
@@ -4073,8 +2638,29 @@ export const putBotAlias: API.OperationMethod<
   PutBotAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBotAliasRequest,
-  output: PutBotAliasResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /bots/{botName}/aliases/{name}",
+    input: {
+      name: 0,
+      description: 0,
+      botVersion: 0,
+      botName: 0,
+      checksum: 0,
+      conversationLogs: {
+        logSettings: D.list({
+          logType: 0,
+          destination: 0,
+          kmsKeyArn: 0,
+          resourceArn: 0,
+        }),
+        iamRoleArn: 0,
+      },
+      tags: D.list(i_Tag),
+    },
+    output: { lastUpdatedDate: D.ts, createdDate: D.ts },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -4085,7 +2671,7 @@ export const putBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBotAlias",
-}));
+})) as any;
 
 export type PutIntentError =
   | BadRequestException
@@ -4154,8 +2740,46 @@ export const putIntent: API.OperationMethod<
   PutIntentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutIntentRequest,
-  output: PutIntentResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /intents/{name}/versions/$LATEST",
+    input: {
+      name: 0,
+      description: 0,
+      slots: D.list({
+        name: 0,
+        description: 0,
+        slotConstraint: 0,
+        slotType: 0,
+        slotTypeVersion: 0,
+        valueElicitationPrompt: i_Prompt,
+        priority: 0,
+        sampleUtterances: 0,
+        responseCard: 0,
+        obfuscationSetting: 0,
+        defaultValueSpec: { defaultValueList: D.list({ defaultValue: 0 }) },
+      }),
+      sampleUtterances: 0,
+      confirmationPrompt: i_Prompt,
+      rejectionStatement: i_Statement,
+      followUpPrompt: { prompt: i_Prompt, rejectionStatement: i_Statement },
+      conclusionStatement: i_Statement,
+      dialogCodeHook: i_CodeHook,
+      fulfillmentActivity: { type: 0, codeHook: i_CodeHook },
+      parentIntentSignature: 0,
+      checksum: 0,
+      createVersion: 0,
+      kendraConfiguration: { kendraIndex: 0, queryFilterString: 0, role: 0 },
+      inputContexts: D.list({ name: 0 }),
+      outputContexts: D.list({
+        name: 0,
+        timeToLiveInSeconds: 0,
+        turnsToLive: 0,
+      }),
+    },
+    output: { lastUpdatedDate: D.ts, createdDate: D.ts },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -4166,7 +2790,7 @@ export const putIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIntent",
-}));
+})) as any;
 
 export type PutSlotTypeError =
   | BadRequestException
@@ -4201,8 +2825,22 @@ export const putSlotType: API.OperationMethod<
   PutSlotTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutSlotTypeRequest,
-  output: PutSlotTypeResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /slottypes/{name}/versions/$LATEST",
+    input: {
+      name: 0,
+      description: 0,
+      enumerationValues: D.list({ value: 0, synonyms: 0 }),
+      checksum: 0,
+      valueSelectionStrategy: 0,
+      createVersion: 0,
+      parentSlotTypeSignature: 0,
+      slotTypeConfigurations: D.list({ regexConfiguration: { pattern: 0 } }),
+    },
+    output: { lastUpdatedDate: D.ts, createdDate: D.ts },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -4213,7 +2851,7 @@ export const putSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSlotType",
-}));
+})) as any;
 
 export type StartImportError =
   | BadRequestException
@@ -4229,8 +2867,18 @@ export const startImport: API.OperationMethod<
   StartImportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartImportRequest,
-  output: StartImportResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /imports",
+    input: {
+      payload: 0,
+      resourceType: 0,
+      mergeStrategy: 0,
+      tags: D.list(i_Tag),
+    },
+    output: { createdDate: D.ts },
+    body: true,
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -4239,7 +2887,7 @@ export const startImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImport",
-}));
+})) as any;
 
 export type StartMigrationError =
   | AccessDeniedException
@@ -4261,8 +2909,19 @@ export const startMigration: API.OperationMethod<
   StartMigrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartMigrationRequest,
-  output: StartMigrationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /migrations",
+    input: {
+      v1BotName: 0,
+      v1BotVersion: 0,
+      v2BotName: 0,
+      v2BotRole: 0,
+      migrationStrategy: 0,
+    },
+    output: { migrationTimestamp: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4273,7 +2932,7 @@ export const startMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMigration",
-}));
+})) as any;
 
 export type TagResourceError =
   | BadRequestException
@@ -4292,8 +2951,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{resourceArn}",
+    input: { resourceArn: 0, tags: D.list(i_Tag) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -4304,7 +2967,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | BadRequestException
@@ -4322,8 +2985,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{resourceArn}",
+    input: { resourceArn: 0, tagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -4334,4 +3000,33 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
+
+const i_CodeHook: D.LazyStruct = () => ({ uri: 0, messageVersion: 0 });
+const i_Prompt: D.LazyStruct = () => ({
+  messages: D.list(i_Message),
+  maxAttempts: 0,
+  responseCard: 0,
+});
+const i_Statement: D.LazyStruct = () => ({
+  messages: D.list(i_Message),
+  responseCard: 0,
+});
+const i_Tag: D.LazyStruct = () => ({ key: 0, value: 0 });
+const o_BotMetadata: D.LazyStruct = () => ({
+  lastUpdatedDate: D.ts,
+  createdDate: D.ts,
+});
+const o_IntentMetadata: D.LazyStruct = () => ({
+  lastUpdatedDate: D.ts,
+  createdDate: D.ts,
+});
+const o_SlotTypeMetadata: D.LazyStruct = () => ({
+  lastUpdatedDate: D.ts,
+  createdDate: D.ts,
+});
+const i_Message: D.LazyStruct = () => ({
+  contentType: 0,
+  content: 0,
+  groupNumber: 0,
+});

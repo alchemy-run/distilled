@@ -1,253 +1,146 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Application Signals",
-  serviceShapeName: "ApplicationSignals",
-});
-const auth = T.AwsAuthSigv4({ name: "application-signals" });
-const ver = T.ServiceVersion("2024-04-15");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { UseFIPS = false, Endpoint, Region } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true) {
-          return e(
-            `https://application-signals-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        return e(
-          `https://application-signals.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+  target: "ApplicationSignals",
+  version: "2024-04-15",
+  sigv4: "application-signals",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { UseFIPS = false, Endpoint, Region } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true) {
+            return e(
+              `https://application-signals-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
+          return e(
+            `https://application-signals.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "AccessDenied", httpResponseCode: 403 }),
-      T.HttpError(403),
-    ),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    code: "AccessDenied",
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    {
-      ResourceType: S.String,
-      ResourceId: S.String,
-      message: S.String.pipe(T.ErrorMessage()),
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{
+    readonly ResourceType: string;
+    readonly ResourceId: string;
+    readonly message: string;
+  }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly message: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ValidationError", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ValidationError", status: 400 },
+  )<{ readonly message?: string }> {}
 export type InstrumentationType = "BREAKPOINT" | "PROBE" | (string & {});
-export const InstrumentationType = S.String;
-
 export interface BatchDeleteScope {
   Service: string;
   Environment: string;
   InstrumentationType: InstrumentationType;
 }
-export const BatchDeleteScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Service: S.String,
-    Environment: S.String,
-    InstrumentationType: InstrumentationType,
-  }),
-).annotate({
-  identifier: "BatchDeleteScope",
-}) as any as S.Schema<BatchDeleteScope>;
 export type BatchDeleteResourceArnList = string[];
-export const BatchDeleteResourceArnList = /*@__PURE__*/ S.Array(S.String);
 export interface BatchDeleteByResourceArns {
   ResourceArns: string[];
   InstrumentationType: InstrumentationType;
 }
-export const BatchDeleteByResourceArns = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArns: BatchDeleteResourceArnList,
-    InstrumentationType: InstrumentationType,
-  }),
-).annotate({
-  identifier: "BatchDeleteByResourceArns",
-}) as any as S.Schema<BatchDeleteByResourceArns>;
 export type BatchDeleteDeletionTarget =
   | { Scope: BatchDeleteScope; ResourceArns?: never }
   | { Scope?: never; ResourceArns: BatchDeleteByResourceArns };
-export const BatchDeleteDeletionTarget = /*@__PURE__*/ S.Union([
-  S.Struct({ Scope: BatchDeleteScope }),
-  S.Struct({ ResourceArns: BatchDeleteByResourceArns }),
-]);
 export interface BatchDeleteInstrumentationConfigurationsRequest {
   DeletionTarget: BatchDeleteDeletionTarget;
 }
-export const BatchDeleteInstrumentationConfigurationsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ DeletionTarget: BatchDeleteDeletionTarget }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/batch-delete-instrumentation-configurations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "BatchDeleteInstrumentationConfigurationsRequest",
-  }) as any as S.Schema<BatchDeleteInstrumentationConfigurationsRequest>;
 export interface BatchDeleteSuccessfulDeletion {
   ResourceArn?: string;
   SignalType?: string;
   LocationHash?: string;
 }
-export const BatchDeleteSuccessfulDeletion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    SignalType: S.optional(S.String),
-    LocationHash: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BatchDeleteSuccessfulDeletion",
-}) as any as S.Schema<BatchDeleteSuccessfulDeletion>;
 export type BatchDeleteSuccessfulDeletionList = BatchDeleteSuccessfulDeletion[];
-export const BatchDeleteSuccessfulDeletionList = /*@__PURE__*/ S.Array(
-  BatchDeleteSuccessfulDeletion,
-);
 export type BatchDeleteErrorCode =
   | "ResourceNotFoundException"
   | "AccessDeniedException"
   | "InternalServiceException"
   | (string & {});
-export const BatchDeleteErrorCode = S.String;
-
 export interface BatchDeleteError {
   ResourceArn: string;
   Code: BatchDeleteErrorCode;
   Message: string;
 }
-export const BatchDeleteError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String,
-    Code: BatchDeleteErrorCode,
-    Message: S.String,
-  }),
-).annotate({
-  identifier: "BatchDeleteError",
-}) as any as S.Schema<BatchDeleteError>;
 export type BatchDeleteErrorList = BatchDeleteError[];
-export const BatchDeleteErrorList = /*@__PURE__*/ S.Array(BatchDeleteError);
 export interface BatchDeleteInstrumentationConfigurationsResponse {
   DeletedCount: number;
   SuccessfulDeletions: BatchDeleteSuccessfulDeletion[];
   Errors: BatchDeleteError[];
 }
-export const BatchDeleteInstrumentationConfigurationsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DeletedCount: S.Number,
-      SuccessfulDeletions: BatchDeleteSuccessfulDeletionList,
-      Errors: BatchDeleteErrorList,
-    }),
-  ).annotate({
-    identifier: "BatchDeleteInstrumentationConfigurationsResponse",
-  }) as any as S.Schema<BatchDeleteInstrumentationConfigurationsResponse>;
 export type ServiceLevelObjectiveIds = string[];
-export const ServiceLevelObjectiveIds = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetServiceLevelObjectiveBudgetReportInput {
   Timestamp: Date;
   SloIds: string[];
 }
-export const BatchGetServiceLevelObjectiveBudgetReportInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      SloIds: ServiceLevelObjectiveIds,
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/budget-report" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "BatchGetServiceLevelObjectiveBudgetReportInput",
-  }) as any as S.Schema<BatchGetServiceLevelObjectiveBudgetReportInput>;
 export type ServiceLevelObjectiveArn = string;
 export type ServiceLevelObjectiveName = string;
 export type EvaluationType = "PeriodBased" | "RequestBased" | (string & {});
-export const EvaluationType = S.String;
-
 export type ServiceLevelObjectiveBudgetStatus =
   | "OK"
   | "WARNING"
   | "BREACHED"
   | "INSUFFICIENT_DATA"
   | (string & {});
-export const ServiceLevelObjectiveBudgetStatus = S.String;
-
 export type Attainment = number;
 export type TotalBudgetSeconds = number;
 export type BudgetSecondsRemaining = number;
@@ -256,17 +149,11 @@ export type BudgetRequestsRemaining = number;
 export type KeyAttributeName = string;
 export type KeyAttributeValue = string;
 export type Attributes = { [key: string]: string | undefined };
-export const Attributes = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type OperationName = string;
 export type ServiceLevelIndicatorMetricType =
   | "LATENCY"
   | "AVAILABILITY"
   | (string & {});
-export const ServiceLevelIndicatorMetricType = S.String;
-
 export type MetricId = string;
 export type Namespace = string;
 export type MetricName = string;
@@ -276,23 +163,12 @@ export interface Dimension {
   Name: string;
   Value: string;
 }
-export const Dimension = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.String }),
-).annotate({ identifier: "Dimension" }) as any as S.Schema<Dimension>;
 export type Dimensions = Dimension[];
-export const Dimensions = /*@__PURE__*/ S.Array(Dimension);
 export interface Metric {
   Namespace?: string;
   MetricName?: string;
   Dimensions?: Dimension[];
 }
-export const Metric = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Namespace: S.optional(S.String),
-    MetricName: S.optional(S.String),
-    Dimensions: S.optional(Dimensions),
-  }),
-).annotate({ identifier: "Metric" }) as any as S.Schema<Metric>;
 export type Period = number;
 export type Stat = string;
 export type StandardUnit =
@@ -324,22 +200,12 @@ export type StandardUnit =
   | "Count/Second"
   | "None"
   | (string & {});
-export const StandardUnit = S.String;
-
 export interface MetricStat {
   Metric: Metric;
   Period: number;
   Stat: string;
   Unit?: StandardUnit;
 }
-export const MetricStat = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Metric: Metric,
-    Period: S.Number,
-    Stat: S.String,
-    Unit: S.optional(StandardUnit),
-  }),
-).annotate({ identifier: "MetricStat" }) as any as S.Schema<MetricStat>;
 export type MetricExpression = string;
 export type MetricLabel = string;
 export type ReturnData = boolean;
@@ -353,76 +219,27 @@ export interface MetricDataQuery {
   Period?: number;
   AccountId?: string;
 }
-export const MetricDataQuery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    MetricStat: S.optional(MetricStat),
-    Expression: S.optional(S.String),
-    Label: S.optional(S.String),
-    ReturnData: S.optional(S.Boolean),
-    Period: S.optional(S.Number),
-    AccountId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MetricDataQuery",
-}) as any as S.Schema<MetricDataQuery>;
 export type MetricDataQueries = MetricDataQuery[];
-export const MetricDataQueries = /*@__PURE__*/ S.Array(MetricDataQuery);
 export interface DependencyConfig {
   DependencyKeyAttributes: { [key: string]: string | undefined };
   DependencyOperationName: string;
 }
-export const DependencyConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DependencyKeyAttributes: Attributes,
-    DependencyOperationName: S.String,
-  }),
-).annotate({
-  identifier: "DependencyConfig",
-}) as any as S.Schema<DependencyConfig>;
 export interface MetricSource {
   MetricSourceKeyAttributes: { [key: string]: string | undefined };
   MetricSourceAttributes?: { [key: string]: string | undefined };
 }
-export const MetricSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MetricSourceKeyAttributes: Attributes,
-    MetricSourceAttributes: S.optional(Attributes),
-  }),
-).annotate({ identifier: "MetricSource" }) as any as S.Schema<MetricSource>;
 export type SelectionType = "EXPLICIT" | "PREFIX" | "REGEX" | (string & {});
-export const SelectionType = S.String;
-
 export type SelectionPattern = string;
 export interface SelectionConfig {
   Type: SelectionType;
   Pattern?: string;
 }
-export const SelectionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Type: SelectionType, Pattern: S.optional(S.String) }),
-).annotate({
-  identifier: "SelectionConfig",
-}) as any as S.Schema<SelectionConfig>;
 export type CompositeSliComponent = { OperationName: string };
-export const CompositeSliComponent = /*@__PURE__*/ S.Union([
-  S.Struct({ OperationName: S.String }),
-]);
 export type CompositeSliComponents = CompositeSliComponent[];
-export const CompositeSliComponents = /*@__PURE__*/ S.Array(
-  CompositeSliComponent,
-);
 export interface CompositeSliConfig {
   SelectionConfig: SelectionConfig;
   Components?: CompositeSliComponent[];
 }
-export const CompositeSliConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SelectionConfig: SelectionConfig,
-    Components: S.optional(CompositeSliComponents),
-  }),
-).annotate({
-  identifier: "CompositeSliConfig",
-}) as any as S.Schema<CompositeSliConfig>;
 export interface ServiceLevelIndicatorMetric {
   KeyAttributes?: { [key: string]: string | undefined };
   OperationName?: string;
@@ -432,19 +249,6 @@ export interface ServiceLevelIndicatorMetric {
   MetricSource?: MetricSource;
   CompositeSliConfig?: CompositeSliConfig;
 }
-export const ServiceLevelIndicatorMetric = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyAttributes: S.optional(Attributes),
-    OperationName: S.optional(S.String),
-    MetricType: S.optional(ServiceLevelIndicatorMetricType),
-    MetricDataQueries: MetricDataQueries,
-    DependencyConfig: S.optional(DependencyConfig),
-    MetricSource: S.optional(MetricSource),
-    CompositeSliConfig: S.optional(CompositeSliConfig),
-  }),
-).annotate({
-  identifier: "ServiceLevelIndicatorMetric",
-}) as any as S.Schema<ServiceLevelIndicatorMetric>;
 export type ServiceLevelIndicatorMetricThreshold = number;
 export type ServiceLevelIndicatorComparisonOperator =
   | "GreaterThanOrEqualTo"
@@ -452,29 +256,14 @@ export type ServiceLevelIndicatorComparisonOperator =
   | "LessThan"
   | "LessThanOrEqualTo"
   | (string & {});
-export const ServiceLevelIndicatorComparisonOperator = S.String;
-
 export interface ServiceLevelIndicator {
   SliMetric: ServiceLevelIndicatorMetric;
   MetricThreshold: number;
   ComparisonOperator: ServiceLevelIndicatorComparisonOperator;
 }
-export const ServiceLevelIndicator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SliMetric: ServiceLevelIndicatorMetric,
-    MetricThreshold: S.Number,
-    ComparisonOperator: ServiceLevelIndicatorComparisonOperator,
-  }),
-).annotate({
-  identifier: "ServiceLevelIndicator",
-}) as any as S.Schema<ServiceLevelIndicator>;
 export type MonitoredRequestCountMetricDataQueries =
   | { GoodCountMetric: MetricDataQuery[]; BadCountMetric?: never }
   | { GoodCountMetric?: never; BadCountMetric: MetricDataQuery[] };
-export const MonitoredRequestCountMetricDataQueries = /*@__PURE__*/ S.Union([
-  S.Struct({ GoodCountMetric: MetricDataQueries }),
-  S.Struct({ BadCountMetric: MetricDataQueries }),
-]);
 export interface RequestBasedServiceLevelIndicatorMetric {
   KeyAttributes?: { [key: string]: string | undefined };
   OperationName?: string;
@@ -485,70 +274,26 @@ export interface RequestBasedServiceLevelIndicatorMetric {
   MetricSource?: MetricSource;
   CompositeSliConfig?: CompositeSliConfig;
 }
-export const RequestBasedServiceLevelIndicatorMetric = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      KeyAttributes: S.optional(Attributes),
-      OperationName: S.optional(S.String),
-      MetricType: S.optional(ServiceLevelIndicatorMetricType),
-      TotalRequestCountMetric: MetricDataQueries,
-      MonitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries,
-      DependencyConfig: S.optional(DependencyConfig),
-      MetricSource: S.optional(MetricSource),
-      CompositeSliConfig: S.optional(CompositeSliConfig),
-    }),
-).annotate({
-  identifier: "RequestBasedServiceLevelIndicatorMetric",
-}) as any as S.Schema<RequestBasedServiceLevelIndicatorMetric>;
 export interface RequestBasedServiceLevelIndicator {
   RequestBasedSliMetric: RequestBasedServiceLevelIndicatorMetric;
   MetricThreshold?: number;
   ComparisonOperator?: ServiceLevelIndicatorComparisonOperator;
 }
-export const RequestBasedServiceLevelIndicator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RequestBasedSliMetric: RequestBasedServiceLevelIndicatorMetric,
-    MetricThreshold: S.optional(S.Number),
-    ComparisonOperator: S.optional(ServiceLevelIndicatorComparisonOperator),
-  }),
-).annotate({
-  identifier: "RequestBasedServiceLevelIndicator",
-}) as any as S.Schema<RequestBasedServiceLevelIndicator>;
 export type DurationUnit = "MINUTE" | "HOUR" | "DAY" | "MONTH" | (string & {});
-export const DurationUnit = S.String;
-
 export type RollingIntervalDuration = number;
 export interface RollingInterval {
   DurationUnit: DurationUnit;
   Duration: number;
 }
-export const RollingInterval = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DurationUnit: DurationUnit, Duration: S.Number }),
-).annotate({
-  identifier: "RollingInterval",
-}) as any as S.Schema<RollingInterval>;
 export type CalendarIntervalDuration = number;
 export interface CalendarInterval {
   StartTime: Date;
   DurationUnit: DurationUnit;
   Duration: number;
 }
-export const CalendarInterval = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    DurationUnit: DurationUnit,
-    Duration: S.Number,
-  }),
-).annotate({
-  identifier: "CalendarInterval",
-}) as any as S.Schema<CalendarInterval>;
 export type Interval =
   | { RollingInterval: RollingInterval; CalendarInterval?: never }
   | { RollingInterval?: never; CalendarInterval: CalendarInterval };
-export const Interval = /*@__PURE__*/ S.Union([
-  S.Struct({ RollingInterval: RollingInterval }),
-  S.Struct({ CalendarInterval: CalendarInterval }),
-]);
 export type AttainmentGoal = number;
 export type WarningThreshold = number;
 export interface Goal {
@@ -556,13 +301,6 @@ export interface Goal {
   AttainmentGoal?: number;
   WarningThreshold?: number;
 }
-export const Goal = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Interval: S.optional(Interval),
-    AttainmentGoal: S.optional(S.Number),
-    WarningThreshold: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Goal" }) as any as S.Schema<Goal>;
 export interface ServiceLevelObjectiveBudgetReport {
   Arn: string;
   Name: string;
@@ -577,29 +315,8 @@ export interface ServiceLevelObjectiveBudgetReport {
   RequestBasedSli?: RequestBasedServiceLevelIndicator;
   Goal?: Goal;
 }
-export const ServiceLevelObjectiveBudgetReport = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Name: S.String,
-    EvaluationType: S.optional(EvaluationType),
-    BudgetStatus: ServiceLevelObjectiveBudgetStatus,
-    Attainment: S.optional(S.Number),
-    TotalBudgetSeconds: S.optional(S.Number),
-    BudgetSecondsRemaining: S.optional(S.Number),
-    TotalBudgetRequests: S.optional(S.Number),
-    BudgetRequestsRemaining: S.optional(S.Number),
-    Sli: S.optional(ServiceLevelIndicator),
-    RequestBasedSli: S.optional(RequestBasedServiceLevelIndicator),
-    Goal: S.optional(Goal),
-  }),
-).annotate({
-  identifier: "ServiceLevelObjectiveBudgetReport",
-}) as any as S.Schema<ServiceLevelObjectiveBudgetReport>;
 export type ServiceLevelObjectiveBudgetReports =
   ServiceLevelObjectiveBudgetReport[];
-export const ServiceLevelObjectiveBudgetReports = /*@__PURE__*/ S.Array(
-  ServiceLevelObjectiveBudgetReport,
-);
 export type ServiceLevelObjectiveBudgetReportErrorCode = string;
 export type ServiceLevelObjectiveBudgetReportErrorMessage = string;
 export interface ServiceLevelObjectiveBudgetReportError {
@@ -608,52 +325,22 @@ export interface ServiceLevelObjectiveBudgetReportError {
   ErrorCode: string;
   ErrorMessage: string;
 }
-export const ServiceLevelObjectiveBudgetReportError = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Name: S.optional(S.String),
-      Arn: S.String,
-      ErrorCode: S.String,
-      ErrorMessage: S.String,
-    }),
-).annotate({
-  identifier: "ServiceLevelObjectiveBudgetReportError",
-}) as any as S.Schema<ServiceLevelObjectiveBudgetReportError>;
 export type ServiceLevelObjectiveBudgetReportErrors =
   ServiceLevelObjectiveBudgetReportError[];
-export const ServiceLevelObjectiveBudgetReportErrors = /*@__PURE__*/ S.Array(
-  ServiceLevelObjectiveBudgetReportError,
-);
 export interface BatchGetServiceLevelObjectiveBudgetReportOutput {
   Timestamp: Date;
   Reports: ServiceLevelObjectiveBudgetReport[];
   Errors: ServiceLevelObjectiveBudgetReportError[];
 }
-export const BatchGetServiceLevelObjectiveBudgetReportOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      Reports: ServiceLevelObjectiveBudgetReports,
-      Errors: ServiceLevelObjectiveBudgetReportErrors,
-    }),
-  ).annotate({
-    identifier: "BatchGetServiceLevelObjectiveBudgetReportOutput",
-  }) as any as S.Schema<BatchGetServiceLevelObjectiveBudgetReportOutput>;
 export type ExclusionDuration = number;
 export interface Window {
   DurationUnit: DurationUnit;
   Duration: number;
 }
-export const Window = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DurationUnit: DurationUnit, Duration: S.Number }),
-).annotate({ identifier: "Window" }) as any as S.Schema<Window>;
 export type Expression = string;
 export interface RecurrenceRule {
   Expression?: string;
 }
-export const RecurrenceRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Expression: S.optional(S.String) }),
-).annotate({ identifier: "RecurrenceRule" }) as any as S.Schema<RecurrenceRule>;
 export type ExclusionReason = string;
 export interface ExclusionWindow {
   Window: Window;
@@ -661,41 +348,12 @@ export interface ExclusionWindow {
   RecurrenceRule?: RecurrenceRule;
   Reason?: string;
 }
-export const ExclusionWindow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Window: Window,
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    RecurrenceRule: S.optional(RecurrenceRule),
-    Reason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExclusionWindow",
-}) as any as S.Schema<ExclusionWindow>;
 export type ExclusionWindows = ExclusionWindow[];
-export const ExclusionWindows = /*@__PURE__*/ S.Array(ExclusionWindow);
 export interface BatchUpdateExclusionWindowsInput {
   SloIds: string[];
   AddExclusionWindows?: ExclusionWindow[];
   RemoveExclusionWindows?: ExclusionWindow[];
 }
-export const BatchUpdateExclusionWindowsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SloIds: ServiceLevelObjectiveIds,
-    AddExclusionWindows: S.optional(ExclusionWindows),
-    RemoveExclusionWindows: S.optional(ExclusionWindows),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/exclusion-windows" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchUpdateExclusionWindowsInput",
-}) as any as S.Schema<BatchUpdateExclusionWindowsInput>;
 export type ServiceLevelObjectiveId = string;
 export type ExclusionWindowErrorCode = string;
 export type ExclusionWindowErrorMessage = string;
@@ -704,38 +362,18 @@ export interface BatchUpdateExclusionWindowsError_ {
   ErrorCode: string;
   ErrorMessage: string;
 }
-export const BatchUpdateExclusionWindowsError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SloId: S.String, ErrorCode: S.String, ErrorMessage: S.String }),
-).annotate({
-  identifier: "BatchUpdateExclusionWindowsError",
-}) as any as S.Schema<BatchUpdateExclusionWindowsError_>;
 export type BatchUpdateExclusionWindowsErrors =
   BatchUpdateExclusionWindowsError_[];
-export const BatchUpdateExclusionWindowsErrors = /*@__PURE__*/ S.Array(
-  BatchUpdateExclusionWindowsError_,
-);
 export interface BatchUpdateExclusionWindowsOutput {
   SloIds: string[];
   Errors: BatchUpdateExclusionWindowsError_[];
 }
-export const BatchUpdateExclusionWindowsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SloIds: ServiceLevelObjectiveIds,
-    Errors: BatchUpdateExclusionWindowsErrors,
-  }),
-).annotate({
-  identifier: "BatchUpdateExclusionWindowsOutput",
-}) as any as S.Schema<BatchUpdateExclusionWindowsOutput>;
 export type DynamicInstrumentationSignalType = "SNAPSHOT" | (string & {});
-export const DynamicInstrumentationSignalType = S.String;
-
 export type ProgrammingLanguage =
   | "Java"
   | "Python"
   | "Javascript"
   | (string & {});
-export const ProgrammingLanguage = S.String;
-
 export interface CodeLocation {
   Language: ProgrammingLanguage;
   CodeUnit?: string;
@@ -744,33 +382,14 @@ export interface CodeLocation {
   FilePath: string;
   LineNumber?: number;
 }
-export const CodeLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Language: ProgrammingLanguage,
-    CodeUnit: S.optional(S.String),
-    ClassName: S.optional(S.String),
-    MethodName: S.optional(S.String),
-    FilePath: S.String,
-    LineNumber: S.optional(S.Number),
-  }),
-).annotate({ identifier: "CodeLocation" }) as any as S.Schema<CodeLocation>;
 export type Location = { CodeLocation: CodeLocation };
-export const Location = /*@__PURE__*/ S.Union([
-  S.Struct({ CodeLocation: CodeLocation }),
-]);
 export type DynamicInstrumentationAttributeFilterGroup = {
   [key: string]: string | undefined;
 };
-export const DynamicInstrumentationAttributeFilterGroup =
-  /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type DynamicInstrumentationAttributeFilters = {
   [key: string]: string | undefined;
 }[];
-export const DynamicInstrumentationAttributeFilters = /*@__PURE__*/ S.Array(
-  DynamicInstrumentationAttributeFilterGroup,
-);
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface CaptureLimitsConfig {
   MaxHits?: number;
   MaxStringLength?: number;
@@ -781,20 +400,6 @@ export interface CaptureLimitsConfig {
   MaxObjectDepth?: number;
   MaxFieldsPerObject?: number;
 }
-export const CaptureLimitsConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxHits: S.optional(S.Number),
-    MaxStringLength: S.optional(S.Number),
-    MaxCollectionWidth: S.optional(S.Number),
-    MaxCollectionDepth: S.optional(S.Number),
-    MaxStackFrames: S.optional(S.Number),
-    MaxStackTraceSize: S.optional(S.Number),
-    MaxObjectDepth: S.optional(S.Number),
-    MaxFieldsPerObject: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CaptureLimitsConfig",
-}) as any as S.Schema<CaptureLimitsConfig>;
 export interface CodeCaptureConfiguration {
   CaptureArguments?: string[];
   CaptureReturn?: boolean;
@@ -802,32 +407,14 @@ export interface CodeCaptureConfiguration {
   CaptureLocals?: string[];
   CaptureLimits: CaptureLimitsConfig;
 }
-export const CodeCaptureConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CaptureArguments: S.optional(StringList),
-    CaptureReturn: S.optional(S.Boolean),
-    CaptureStackTrace: S.optional(S.Boolean),
-    CaptureLocals: S.optional(StringList),
-    CaptureLimits: CaptureLimitsConfig,
-  }),
-).annotate({
-  identifier: "CodeCaptureConfiguration",
-}) as any as S.Schema<CodeCaptureConfiguration>;
 export type CaptureConfiguration = { CodeCapture: CodeCaptureConfiguration };
-export const CaptureConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ CodeCapture: CodeCaptureConfiguration }),
-]);
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface CreateInstrumentationConfigurationRequest {
   InstrumentationType: InstrumentationType;
   Service: string;
@@ -840,35 +427,6 @@ export interface CreateInstrumentationConfigurationRequest {
   CaptureConfiguration: CaptureConfiguration;
   Tags?: Tag[];
 }
-export const CreateInstrumentationConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      InstrumentationType: InstrumentationType,
-      Service: S.String,
-      Environment: S.String,
-      SignalType: DynamicInstrumentationSignalType,
-      Location: Location,
-      Description: S.optional(S.String),
-      ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      AttributeFilters: S.optional(DynamicInstrumentationAttributeFilters),
-      CaptureConfiguration: CaptureConfiguration,
-      Tags: S.optional(TagList),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/create-instrumentation-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "CreateInstrumentationConfigurationRequest",
-  }) as any as S.Schema<CreateInstrumentationConfigurationRequest>;
 export type InstrumentationConfigurationArn = string;
 export interface CreateInstrumentationConfigurationResponse {
   InstrumentationType: InstrumentationType;
@@ -884,25 +442,6 @@ export interface CreateInstrumentationConfigurationResponse {
   CreatedAt: Date;
   ARN: string;
 }
-export const CreateInstrumentationConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      InstrumentationType: InstrumentationType,
-      Service: S.String,
-      Environment: S.String,
-      SignalType: DynamicInstrumentationSignalType,
-      Location: Location,
-      LocationHash: S.String,
-      Description: S.optional(S.String),
-      ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      AttributeFilters: S.optional(DynamicInstrumentationAttributeFilters),
-      CaptureConfiguration: CaptureConfiguration,
-      CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ARN: S.String,
-    }),
-  ).annotate({
-    identifier: "CreateInstrumentationConfigurationResponse",
-  }) as any as S.Schema<CreateInstrumentationConfigurationResponse>;
 export type ServiceLevelObjectiveDescription = string;
 export type ServiceLevelIndicatorStatistic = string;
 export type SLIPeriodSeconds = number;
@@ -918,36 +457,11 @@ export interface ServiceLevelIndicatorMetricConfig {
   DependencyConfig?: DependencyConfig;
   CompositeSliConfig?: CompositeSliConfig;
 }
-export const ServiceLevelIndicatorMetricConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyAttributes: S.optional(Attributes),
-    OperationName: S.optional(S.String),
-    MetricType: S.optional(ServiceLevelIndicatorMetricType),
-    MetricName: S.optional(S.String),
-    Statistic: S.optional(S.String),
-    PeriodSeconds: S.optional(S.Number),
-    MetricSource: S.optional(MetricSource),
-    MetricDataQueries: S.optional(MetricDataQueries),
-    DependencyConfig: S.optional(DependencyConfig),
-    CompositeSliConfig: S.optional(CompositeSliConfig),
-  }),
-).annotate({
-  identifier: "ServiceLevelIndicatorMetricConfig",
-}) as any as S.Schema<ServiceLevelIndicatorMetricConfig>;
 export interface ServiceLevelIndicatorConfig {
   SliMetricConfig: ServiceLevelIndicatorMetricConfig;
   MetricThreshold?: number;
   ComparisonOperator?: ServiceLevelIndicatorComparisonOperator;
 }
-export const ServiceLevelIndicatorConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SliMetricConfig: ServiceLevelIndicatorMetricConfig,
-    MetricThreshold: S.optional(S.Number),
-    ComparisonOperator: S.optional(ServiceLevelIndicatorComparisonOperator),
-  }),
-).annotate({
-  identifier: "ServiceLevelIndicatorConfig",
-}) as any as S.Schema<ServiceLevelIndicatorConfig>;
 export interface RequestBasedServiceLevelIndicatorMetricConfig {
   KeyAttributes?: { [key: string]: string | undefined };
   OperationName?: string;
@@ -959,53 +473,16 @@ export interface RequestBasedServiceLevelIndicatorMetricConfig {
   MetricName?: string;
   CompositeSliConfig?: CompositeSliConfig;
 }
-export const RequestBasedServiceLevelIndicatorMetricConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      KeyAttributes: S.optional(Attributes),
-      OperationName: S.optional(S.String),
-      MetricType: S.optional(ServiceLevelIndicatorMetricType),
-      TotalRequestCountMetric: S.optional(MetricDataQueries),
-      MonitoredRequestCountMetric: S.optional(
-        MonitoredRequestCountMetricDataQueries,
-      ),
-      DependencyConfig: S.optional(DependencyConfig),
-      MetricSource: S.optional(MetricSource),
-      MetricName: S.optional(S.String),
-      CompositeSliConfig: S.optional(CompositeSliConfig),
-    }),
-  ).annotate({
-    identifier: "RequestBasedServiceLevelIndicatorMetricConfig",
-  }) as any as S.Schema<RequestBasedServiceLevelIndicatorMetricConfig>;
 export interface RequestBasedServiceLevelIndicatorConfig {
   RequestBasedSliMetricConfig: RequestBasedServiceLevelIndicatorMetricConfig;
   MetricThreshold?: number;
   ComparisonOperator?: ServiceLevelIndicatorComparisonOperator;
 }
-export const RequestBasedServiceLevelIndicatorConfig = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RequestBasedSliMetricConfig:
-        RequestBasedServiceLevelIndicatorMetricConfig,
-      MetricThreshold: S.optional(S.Number),
-      ComparisonOperator: S.optional(ServiceLevelIndicatorComparisonOperator),
-    }),
-).annotate({
-  identifier: "RequestBasedServiceLevelIndicatorConfig",
-}) as any as S.Schema<RequestBasedServiceLevelIndicatorConfig>;
 export type BurnRateLookBackWindowMinutes = number;
 export interface BurnRateConfiguration {
   LookBackWindowMinutes: number;
 }
-export const BurnRateConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LookBackWindowMinutes: S.Number }),
-).annotate({
-  identifier: "BurnRateConfiguration",
-}) as any as S.Schema<BurnRateConfiguration>;
 export type BurnRateConfigurations = BurnRateConfiguration[];
-export const BurnRateConfigurations = /*@__PURE__*/ S.Array(
-  BurnRateConfiguration,
-);
 export interface CreateServiceLevelObjectiveInput {
   Name: string;
   Description?: string;
@@ -1017,30 +494,6 @@ export interface CreateServiceLevelObjectiveInput {
   CreateRecommendedSlo?: boolean;
   AutoInvestigationEnabled?: boolean;
 }
-export const CreateServiceLevelObjectiveInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    SliConfig: S.optional(ServiceLevelIndicatorConfig),
-    RequestBasedSliConfig: S.optional(RequestBasedServiceLevelIndicatorConfig),
-    Goal: S.optional(Goal),
-    Tags: S.optional(TagList),
-    BurnRateConfigurations: S.optional(BurnRateConfigurations),
-    CreateRecommendedSlo: S.optional(S.Boolean),
-    AutoInvestigationEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/slo" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateServiceLevelObjectiveInput",
-}) as any as S.Schema<CreateServiceLevelObjectiveInput>;
 export type MetricSourceType =
   | "ServiceOperation"
   | "CloudWatchMetric"
@@ -1049,8 +502,6 @@ export type MetricSourceType =
   | "Canary"
   | "Service"
   | (string & {});
-export const MetricSourceType = S.String;
-
 export interface ServiceLevelObjective {
   Arn: string;
   Name: string;
@@ -1065,60 +516,14 @@ export interface ServiceLevelObjective {
   MetricSourceType?: MetricSourceType;
   AutoInvestigationEnabled?: boolean;
 }
-export const ServiceLevelObjective = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Name: S.String,
-    Description: S.optional(S.String),
-    CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    LastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Sli: S.optional(ServiceLevelIndicator),
-    RequestBasedSli: S.optional(RequestBasedServiceLevelIndicator),
-    EvaluationType: S.optional(EvaluationType),
-    Goal: Goal,
-    BurnRateConfigurations: S.optional(BurnRateConfigurations),
-    MetricSourceType: S.optional(MetricSourceType),
-    AutoInvestigationEnabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ServiceLevelObjective",
-}) as any as S.Schema<ServiceLevelObjective>;
 export interface CreateServiceLevelObjectiveOutput {
   Slo: ServiceLevelObjective;
 }
-export const CreateServiceLevelObjectiveOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Slo: ServiceLevelObjective }),
-).annotate({
-  identifier: "CreateServiceLevelObjectiveOutput",
-}) as any as S.Schema<CreateServiceLevelObjectiveOutput>;
 export interface DeleteGroupingConfigurationRequest {}
-export const DeleteGroupingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/grouping-configuration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteGroupingConfigurationRequest",
-}) as any as S.Schema<DeleteGroupingConfigurationRequest>;
 export interface DeleteGroupingConfigurationOutput {}
-export const DeleteGroupingConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteGroupingConfigurationOutput",
-}) as any as S.Schema<DeleteGroupingConfigurationOutput>;
 export type LocationIdentifier =
   | { CodeLocation: CodeLocation; LocationHash?: never }
   | { CodeLocation?: never; LocationHash: string };
-export const LocationIdentifier = /*@__PURE__*/ S.Union([
-  S.Struct({ CodeLocation: CodeLocation }),
-  S.Struct({ LocationHash: S.String }),
-]);
 export interface DeleteInstrumentationConfigurationRequest {
   InstrumentationType: InstrumentationType;
   Service: string;
@@ -1126,65 +531,14 @@ export interface DeleteInstrumentationConfigurationRequest {
   SignalType: DynamicInstrumentationSignalType;
   LocationIdentifier: LocationIdentifier;
 }
-export const DeleteInstrumentationConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      InstrumentationType: InstrumentationType,
-      Service: S.String,
-      Environment: S.String,
-      SignalType: DynamicInstrumentationSignalType,
-      LocationIdentifier: LocationIdentifier,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/delete-instrumentation-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteInstrumentationConfigurationRequest",
-  }) as any as S.Schema<DeleteInstrumentationConfigurationRequest>;
 export type DynamicInstrumentationDeletionStatus = "DELETED" | (string & {});
-export const DynamicInstrumentationDeletionStatus = S.String;
-
 export interface DeleteInstrumentationConfigurationResponse {
   DeletionStatus: DynamicInstrumentationDeletionStatus;
 }
-export const DeleteInstrumentationConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ DeletionStatus: DynamicInstrumentationDeletionStatus }),
-  ).annotate({
-    identifier: "DeleteInstrumentationConfigurationResponse",
-  }) as any as S.Schema<DeleteInstrumentationConfigurationResponse>;
 export interface DeleteServiceLevelObjectiveInput {
   Id: string;
 }
-export const DeleteServiceLevelObjectiveInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/slo/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteServiceLevelObjectiveInput",
-}) as any as S.Schema<DeleteServiceLevelObjectiveInput>;
 export interface DeleteServiceLevelObjectiveOutput {}
-export const DeleteServiceLevelObjectiveOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteServiceLevelObjectiveOutput",
-}) as any as S.Schema<DeleteServiceLevelObjectiveOutput>;
 export interface GetInstrumentationConfigurationRequest {
   InstrumentationType: InstrumentationType;
   Service: string;
@@ -1192,27 +546,6 @@ export interface GetInstrumentationConfigurationRequest {
   SignalType: DynamicInstrumentationSignalType;
   LocationIdentifier: LocationIdentifier;
 }
-export const GetInstrumentationConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      InstrumentationType: InstrumentationType,
-      Service: S.String,
-      Environment: S.String,
-      SignalType: DynamicInstrumentationSignalType,
-      LocationIdentifier: LocationIdentifier,
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/get-instrumentation-configuration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetInstrumentationConfigurationRequest",
-}) as any as S.Schema<GetInstrumentationConfigurationRequest>;
 export interface InstrumentationConfiguration {
   InstrumentationType: InstrumentationType;
   Service: string;
@@ -1227,40 +560,15 @@ export interface InstrumentationConfiguration {
   CreatedAt: Date;
   ARN: string;
 }
-export const InstrumentationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstrumentationType: InstrumentationType,
-    Service: S.String,
-    Environment: S.String,
-    SignalType: DynamicInstrumentationSignalType,
-    Location: Location,
-    LocationHash: S.String,
-    Description: S.optional(S.String),
-    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    AttributeFilters: S.optional(DynamicInstrumentationAttributeFilters),
-    CaptureConfiguration: CaptureConfiguration,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ARN: S.String,
-  }),
-).annotate({
-  identifier: "InstrumentationConfiguration",
-}) as any as S.Schema<InstrumentationConfiguration>;
 export interface GetInstrumentationConfigurationResponse {
   Configuration: InstrumentationConfiguration;
 }
-export const GetInstrumentationConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Configuration: InstrumentationConfiguration }),
-).annotate({
-  identifier: "GetInstrumentationConfigurationResponse",
-}) as any as S.Schema<GetInstrumentationConfigurationResponse>;
 export type InstrumentationConfigurationStatus =
   | "READY"
   | "ERROR"
   | "ACTIVE"
   | "DISABLED"
   | (string & {});
-export const InstrumentationConfigurationStatus = S.String;
-
 export type NextToken = string;
 export interface GetInstrumentationConfigurationStatusRequest {
   InstrumentationType: InstrumentationType;
@@ -1274,35 +582,6 @@ export interface GetInstrumentationConfigurationStatusRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const GetInstrumentationConfigurationStatusRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      InstrumentationType: InstrumentationType,
-      Service: S.String,
-      Environment: S.String,
-      SignalType: DynamicInstrumentationSignalType,
-      LocationIdentifier: LocationIdentifier,
-      Status: S.optional(InstrumentationConfigurationStatus),
-      StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/get-instrumentation-configuration-status",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetInstrumentationConfigurationStatusRequest",
-  }) as any as S.Schema<GetInstrumentationConfigurationStatusRequest>;
 export type InstrumentationErrorCause =
   | "FILE_NOT_FOUND"
   | "METHOD_NOT_FOUND"
@@ -1311,24 +590,11 @@ export type InstrumentationErrorCause =
   | "LANGUAGE_MISMATCH"
   | "RUNTIME_ERROR"
   | (string & {});
-export const InstrumentationErrorCause = S.String;
-
 export interface InstrumentationStatusEvent {
   Time: Date;
   ErrorCause?: InstrumentationErrorCause;
 }
-export const InstrumentationStatusEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Time: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ErrorCause: S.optional(InstrumentationErrorCause),
-  }),
-).annotate({
-  identifier: "InstrumentationStatusEvent",
-}) as any as S.Schema<InstrumentationStatusEvent>;
 export type InstrumentationStatusEventList = InstrumentationStatusEvent[];
-export const InstrumentationStatusEventList = /*@__PURE__*/ S.Array(
-  InstrumentationStatusEvent,
-);
 export interface GetInstrumentationConfigurationStatusResponse {
   Service: string;
   Environment: string;
@@ -1338,54 +604,13 @@ export interface GetInstrumentationConfigurationStatusResponse {
   Events: InstrumentationStatusEvent[];
   NextToken?: string;
 }
-export const GetInstrumentationConfigurationStatusResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Service: S.String,
-      Environment: S.String,
-      SignalType: DynamicInstrumentationSignalType,
-      Location: Location,
-      Status: InstrumentationConfigurationStatus,
-      Events: InstrumentationStatusEventList,
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetInstrumentationConfigurationStatusResponse",
-  }) as any as S.Schema<GetInstrumentationConfigurationStatusResponse>;
 export interface GetServiceInput {
   StartTime: Date;
   EndTime: Date;
   KeyAttributes: { [key: string]: string | undefined };
 }
-export const GetServiceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("StartTime"),
-    ),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("EndTime"),
-    ),
-    KeyAttributes: Attributes,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/service" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetServiceInput",
-}) as any as S.Schema<GetServiceInput>;
 export type AttributeMap = { [key: string]: string | undefined };
-export const AttributeMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type AttributeMaps = { [key: string]: string | undefined }[];
-export const AttributeMaps = /*@__PURE__*/ S.Array(AttributeMap);
 export type GroupName = string;
 export type GroupValue = string;
 export type GroupSource = string;
@@ -1396,16 +621,7 @@ export interface ServiceGroup {
   GroupSource: string;
   GroupIdentifier: string;
 }
-export const ServiceGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupName: S.String,
-    GroupValue: S.String,
-    GroupSource: S.String,
-    GroupIdentifier: S.String,
-  }),
-).annotate({ identifier: "ServiceGroup" }) as any as S.Schema<ServiceGroup>;
 export type ServiceGroups = ServiceGroup[];
-export const ServiceGroups = /*@__PURE__*/ S.Array(ServiceGroup);
 export type MetricType = string;
 export type AwsAccountId = string;
 export interface MetricReference {
@@ -1415,21 +631,8 @@ export interface MetricReference {
   MetricName: string;
   AccountId?: string;
 }
-export const MetricReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Namespace: S.String,
-    MetricType: S.String,
-    Dimensions: S.optional(Dimensions),
-    MetricName: S.String,
-    AccountId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MetricReference",
-}) as any as S.Schema<MetricReference>;
 export type MetricReferences = MetricReference[];
-export const MetricReferences = /*@__PURE__*/ S.Array(MetricReference);
 export type LogGroupReferences = { [key: string]: string | undefined }[];
-export const LogGroupReferences = /*@__PURE__*/ S.Array(Attributes);
 export interface Service {
   KeyAttributes?: { [key: string]: string | undefined };
   AttributeMaps?: { [key: string]: string | undefined }[];
@@ -1437,101 +640,37 @@ export interface Service {
   MetricReferences?: MetricReference[];
   LogGroupReferences?: { [key: string]: string | undefined }[];
 }
-export const Service = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyAttributes: S.optional(Attributes),
-    AttributeMaps: S.optional(AttributeMaps),
-    ServiceGroups: S.optional(ServiceGroups),
-    MetricReferences: S.optional(MetricReferences),
-    LogGroupReferences: S.optional(LogGroupReferences),
-  }),
-).annotate({ identifier: "Service" }) as any as S.Schema<Service>;
 export interface GetServiceOutput {
   Service: Service;
   StartTime: Date;
   EndTime: Date;
   LogGroupReferences?: { [key: string]: string | undefined }[];
 }
-export const GetServiceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Service: Service,
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    LogGroupReferences: S.optional(LogGroupReferences),
-  }),
-).annotate({
-  identifier: "GetServiceOutput",
-}) as any as S.Schema<GetServiceOutput>;
 export interface GetServiceLevelObjectiveInput {
   Id: string;
 }
-export const GetServiceLevelObjectiveInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/slo/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetServiceLevelObjectiveInput",
-}) as any as S.Schema<GetServiceLevelObjectiveInput>;
 export interface GetServiceLevelObjectiveOutput {
   Slo: ServiceLevelObjective;
 }
-export const GetServiceLevelObjectiveOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Slo: ServiceLevelObjective }),
-).annotate({
-  identifier: "GetServiceLevelObjectiveOutput",
-}) as any as S.Schema<GetServiceLevelObjectiveOutput>;
 export type Auditors = string[];
-export const Auditors = /*@__PURE__*/ S.Array(S.String);
 export interface ServiceEntity {
   Type?: string;
   Name?: string;
   Environment?: string;
   AwsAccountId?: string;
 }
-export const ServiceEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(S.String),
-    Name: S.optional(S.String),
-    Environment: S.optional(S.String),
-    AwsAccountId: S.optional(S.String),
-  }),
-).annotate({ identifier: "ServiceEntity" }) as any as S.Schema<ServiceEntity>;
 export interface ServiceLevelObjectiveEntity {
   SloName?: string;
   SloArn?: string;
 }
-export const ServiceLevelObjectiveEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SloName: S.optional(S.String), SloArn: S.optional(S.String) }),
-).annotate({
-  identifier: "ServiceLevelObjectiveEntity",
-}) as any as S.Schema<ServiceLevelObjectiveEntity>;
 export interface ServiceOperationEntity {
   Service?: ServiceEntity;
   Operation?: string;
   MetricType?: string;
 }
-export const ServiceOperationEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Service: S.optional(ServiceEntity),
-    Operation: S.optional(S.String),
-    MetricType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ServiceOperationEntity",
-}) as any as S.Schema<ServiceOperationEntity>;
 export interface CanaryEntity {
   CanaryName: string;
 }
-export const CanaryEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CanaryName: S.String }),
-).annotate({ identifier: "CanaryEntity" }) as any as S.Schema<CanaryEntity>;
 export type AuditTargetEntity =
   | {
       Service: ServiceEntity;
@@ -1557,24 +696,12 @@ export type AuditTargetEntity =
       ServiceOperation?: never;
       Canary: CanaryEntity;
     };
-export const AuditTargetEntity = /*@__PURE__*/ S.Union([
-  S.Struct({ Service: ServiceEntity }),
-  S.Struct({ Slo: ServiceLevelObjectiveEntity }),
-  S.Struct({ ServiceOperation: ServiceOperationEntity }),
-  S.Struct({ Canary: CanaryEntity }),
-]);
 export interface AuditTarget {
   Type: string;
   Data: AuditTargetEntity;
 }
-export const AuditTarget = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Type: S.String, Data: AuditTargetEntity }),
-).annotate({ identifier: "AuditTarget" }) as any as S.Schema<AuditTarget>;
 export type AuditTargets = AuditTarget[];
-export const AuditTargets = /*@__PURE__*/ S.Array(AuditTarget);
 export type DetailLevel = "BRIEF" | "DETAILED" | (string & {});
-export const DetailLevel = S.String;
-
 export type ListAuditFindingMaxResults = number;
 export interface ListAuditFindingsInput {
   StartTime: Date;
@@ -1585,37 +712,7 @@ export interface ListAuditFindingsInput {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListAuditFindingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("StartTime"),
-    ),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("EndTime"),
-    ),
-    Auditors: S.optional(Auditors),
-    AuditTargets: AuditTargets,
-    DetailLevel: S.optional(DetailLevel),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/auditFindings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAuditFindingsInput",
-}) as any as S.Schema<ListAuditFindingsInput>;
 export type DataMap = { [key: string]: string | undefined };
-export const DataMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type Severity =
   | "CRITICAL"
   | "HIGH"
@@ -1623,36 +720,18 @@ export type Severity =
   | "LOW"
   | "NONE"
   | (string & {});
-export const Severity = S.String;
-
 export interface AuditorResult {
   Auditor?: string;
   Description?: string;
   Data?: { [key: string]: string | undefined };
   Severity?: Severity;
 }
-export const AuditorResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Auditor: S.optional(S.String),
-    Description: S.optional(S.String),
-    Data: S.optional(DataMap),
-    Severity: S.optional(Severity),
-  }),
-).annotate({ identifier: "AuditorResult" }) as any as S.Schema<AuditorResult>;
 export type AuditorResults = AuditorResult[];
-export const AuditorResults = /*@__PURE__*/ S.Array(AuditorResult);
 export interface MetricGraph {
   MetricDataQueries?: MetricDataQuery[];
   StartTime?: Date;
   EndTime?: Date;
 }
-export const MetricGraph = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MetricDataQueries: S.optional(MetricDataQueries),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "MetricGraph" }) as any as S.Schema<MetricGraph>;
 export interface Node {
   KeyAttributes: { [key: string]: string | undefined };
   Name: string;
@@ -1662,47 +741,19 @@ export interface Node {
   Duration?: number;
   Status?: string;
 }
-export const Node = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyAttributes: Attributes,
-    Name: S.String,
-    NodeId: S.String,
-    Operation: S.optional(S.String),
-    Type: S.optional(S.String),
-    Duration: S.optional(S.Number),
-    Status: S.optional(S.String),
-  }),
-).annotate({ identifier: "Node" }) as any as S.Schema<Node>;
 export type Nodes = Node[];
-export const Nodes = /*@__PURE__*/ S.Array(Node);
 export type ConnectionType = "INDIRECT" | "DIRECT" | (string & {});
-export const ConnectionType = S.String;
-
 export interface Edge {
   SourceNodeId?: string;
   DestinationNodeId?: string;
   Duration?: number;
   ConnectionType?: ConnectionType;
 }
-export const Edge = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceNodeId: S.optional(S.String),
-    DestinationNodeId: S.optional(S.String),
-    Duration: S.optional(S.Number),
-    ConnectionType: S.optional(ConnectionType),
-  }),
-).annotate({ identifier: "Edge" }) as any as S.Schema<Edge>;
 export type Edges = Edge[];
-export const Edges = /*@__PURE__*/ S.Array(Edge);
 export interface DependencyGraph {
   Nodes?: Node[];
   Edges?: Edge[];
 }
-export const DependencyGraph = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Nodes: S.optional(Nodes), Edges: S.optional(Edges) }),
-).annotate({
-  identifier: "DependencyGraph",
-}) as any as S.Schema<DependencyGraph>;
 export interface AuditFinding {
   KeyAttributes: { [key: string]: string | undefined };
   AuditorResults?: AuditorResult[];
@@ -1711,34 +762,13 @@ export interface AuditFinding {
   DependencyGraph?: DependencyGraph;
   Type?: string;
 }
-export const AuditFinding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyAttributes: Attributes,
-    AuditorResults: S.optional(AuditorResults),
-    Operation: S.optional(S.String),
-    MetricGraph: S.optional(MetricGraph),
-    DependencyGraph: S.optional(DependencyGraph),
-    Type: S.optional(S.String),
-  }),
-).annotate({ identifier: "AuditFinding" }) as any as S.Schema<AuditFinding>;
 export type AuditFindings = AuditFinding[];
-export const AuditFindings = /*@__PURE__*/ S.Array(AuditFinding);
 export interface ListAuditFindingsOutput {
   StartTime?: Date;
   EndTime?: Date;
   AuditFindings: AuditFinding[];
   NextToken?: string;
 }
-export const ListAuditFindingsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    AuditFindings: AuditFindings,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAuditFindingsOutput",
-}) as any as S.Schema<ListAuditFindingsOutput>;
 export type ListEntityEventsMaxResults = number;
 export interface ListEntityEventsInput {
   Entity: { [key: string]: string | undefined };
@@ -1747,29 +777,7 @@ export interface ListEntityEventsInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListEntityEventsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Entity: Attributes,
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/events" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListEntityEventsInput",
-}) as any as S.Schema<ListEntityEventsInput>;
 export type ChangeEventType = "DEPLOYMENT" | "CONFIGURATION" | (string & {});
-export const ChangeEventType = S.String;
-
 export interface ChangeEvent {
   Timestamp: Date;
   AccountId: string;
@@ -1780,98 +788,31 @@ export interface ChangeEvent {
   UserName?: string;
   EventName?: string;
 }
-export const ChangeEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    AccountId: S.String,
-    Region: S.String,
-    Entity: Attributes,
-    ChangeEventType: ChangeEventType,
-    EventId: S.String,
-    UserName: S.optional(S.String),
-    EventName: S.optional(S.String),
-  }),
-).annotate({ identifier: "ChangeEvent" }) as any as S.Schema<ChangeEvent>;
 export type ChangeEvents = ChangeEvent[];
-export const ChangeEvents = /*@__PURE__*/ S.Array(ChangeEvent);
 export interface ListEntityEventsOutput {
   StartTime: Date;
   EndTime: Date;
   ChangeEvents: ChangeEvent[];
   NextToken?: string;
 }
-export const ListEntityEventsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ChangeEvents: ChangeEvents,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListEntityEventsOutput",
-}) as any as S.Schema<ListEntityEventsOutput>;
 export interface ListGroupingAttributeDefinitionsInput {
   NextToken?: string;
   AwsAccountId?: string;
   IncludeLinkedAccounts?: boolean;
 }
-export const ListGroupingAttributeDefinitionsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-      AwsAccountId: S.optional(S.String).pipe(T.HttpQuery("AwsAccountId")),
-      IncludeLinkedAccounts: S.optional(S.Boolean).pipe(
-        T.HttpQuery("IncludeLinkedAccounts"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/grouping-attribute-definitions" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListGroupingAttributeDefinitionsInput",
-}) as any as S.Schema<ListGroupingAttributeDefinitionsInput>;
 export type GroupingString = string;
 export type GroupingSourceKeyStringList = string[];
-export const GroupingSourceKeyStringList = /*@__PURE__*/ S.Array(S.String);
 export interface GroupingAttributeDefinition {
   GroupingName: string;
   GroupingSourceKeys?: string[];
   DefaultGroupingValue?: string;
 }
-export const GroupingAttributeDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupingName: S.String,
-    GroupingSourceKeys: S.optional(GroupingSourceKeyStringList),
-    DefaultGroupingValue: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GroupingAttributeDefinition",
-}) as any as S.Schema<GroupingAttributeDefinition>;
 export type GroupingAttributeDefinitions = GroupingAttributeDefinition[];
-export const GroupingAttributeDefinitions = /*@__PURE__*/ S.Array(
-  GroupingAttributeDefinition,
-);
 export interface ListGroupingAttributeDefinitionsOutput {
   GroupingAttributeDefinitions: GroupingAttributeDefinition[];
   UpdatedAt?: Date;
   NextToken?: string;
 }
-export const ListGroupingAttributeDefinitionsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      GroupingAttributeDefinitions: GroupingAttributeDefinitions,
-      UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      NextToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "ListGroupingAttributeDefinitionsOutput",
-}) as any as S.Schema<ListGroupingAttributeDefinitionsOutput>;
 export interface ListInstrumentationConfigurationsRequest {
   Service: string;
   Environment: string;
@@ -1880,28 +821,6 @@ export interface ListInstrumentationConfigurationsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListInstrumentationConfigurationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Service: S.String,
-      Environment: S.String,
-      InstrumentationType: InstrumentationType,
-      SyncedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/list-instrumentation-configurations" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListInstrumentationConfigurationsRequest",
-}) as any as S.Schema<ListInstrumentationConfigurationsRequest>;
 export interface InstrumentationConfigurationWithoutServiceEnv {
   InstrumentationType: InstrumentationType;
   SignalType: DynamicInstrumentationSignalType;
@@ -1914,27 +833,8 @@ export interface InstrumentationConfigurationWithoutServiceEnv {
   CreatedAt: Date;
   ARN: string;
 }
-export const InstrumentationConfigurationWithoutServiceEnv =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      InstrumentationType: InstrumentationType,
-      SignalType: DynamicInstrumentationSignalType,
-      Location: Location,
-      LocationHash: S.String,
-      Description: S.optional(S.String),
-      ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      AttributeFilters: S.optional(DynamicInstrumentationAttributeFilters),
-      CaptureConfiguration: CaptureConfiguration,
-      CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ARN: S.String,
-    }),
-  ).annotate({
-    identifier: "InstrumentationConfigurationWithoutServiceEnv",
-  }) as any as S.Schema<InstrumentationConfigurationWithoutServiceEnv>;
 export type InstrumentationConfigurationsWithoutServiceEnv =
   InstrumentationConfigurationWithoutServiceEnv[];
-export const InstrumentationConfigurationsWithoutServiceEnv =
-  /*@__PURE__*/ S.Array(InstrumentationConfigurationWithoutServiceEnv);
 export interface InstrumentationConfigurationsPage {
   Service: string;
   Environment: string;
@@ -1944,21 +844,6 @@ export interface InstrumentationConfigurationsPage {
   SyncInterval: number;
   NextToken?: string;
 }
-export const InstrumentationConfigurationsPage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Service: S.String,
-    Environment: S.String,
-    Changed: S.Boolean,
-    LatestConfigurations: S.optional(
-      InstrumentationConfigurationsWithoutServiceEnv,
-    ),
-    SyncedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    SyncInterval: S.Number,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "InstrumentationConfigurationsPage",
-}) as any as S.Schema<InstrumentationConfigurationsPage>;
 export type ListServiceDependenciesMaxResults = number;
 export interface ListServiceDependenciesInput {
   StartTime: Date;
@@ -1967,64 +852,19 @@ export interface ListServiceDependenciesInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListServiceDependenciesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("StartTime"),
-    ),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("EndTime"),
-    ),
-    KeyAttributes: Attributes,
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/service-dependencies" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListServiceDependenciesInput",
-}) as any as S.Schema<ListServiceDependenciesInput>;
 export interface ServiceDependency {
   OperationName: string;
   DependencyKeyAttributes: { [key: string]: string | undefined };
   DependencyOperationName: string;
   MetricReferences: MetricReference[];
 }
-export const ServiceDependency = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OperationName: S.String,
-    DependencyKeyAttributes: Attributes,
-    DependencyOperationName: S.String,
-    MetricReferences: MetricReferences,
-  }),
-).annotate({
-  identifier: "ServiceDependency",
-}) as any as S.Schema<ServiceDependency>;
 export type ServiceDependencies = ServiceDependency[];
-export const ServiceDependencies = /*@__PURE__*/ S.Array(ServiceDependency);
 export interface ListServiceDependenciesOutput {
   StartTime: Date;
   EndTime: Date;
   ServiceDependencies: ServiceDependency[];
   NextToken?: string;
 }
-export const ListServiceDependenciesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ServiceDependencies: ServiceDependencies,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListServiceDependenciesOutput",
-}) as any as S.Schema<ListServiceDependenciesOutput>;
 export type ListServiceDependentsMaxResults = number;
 export interface ListServiceDependentsInput {
   StartTime: Date;
@@ -2033,105 +873,31 @@ export interface ListServiceDependentsInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListServiceDependentsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("StartTime"),
-    ),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("EndTime"),
-    ),
-    KeyAttributes: Attributes,
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/service-dependents" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListServiceDependentsInput",
-}) as any as S.Schema<ListServiceDependentsInput>;
 export interface ServiceDependent {
   OperationName?: string;
   DependentKeyAttributes: { [key: string]: string | undefined };
   DependentOperationName?: string;
   MetricReferences: MetricReference[];
 }
-export const ServiceDependent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OperationName: S.optional(S.String),
-    DependentKeyAttributes: Attributes,
-    DependentOperationName: S.optional(S.String),
-    MetricReferences: MetricReferences,
-  }),
-).annotate({
-  identifier: "ServiceDependent",
-}) as any as S.Schema<ServiceDependent>;
 export type ServiceDependents = ServiceDependent[];
-export const ServiceDependents = /*@__PURE__*/ S.Array(ServiceDependent);
 export interface ListServiceDependentsOutput {
   StartTime: Date;
   EndTime: Date;
   ServiceDependents: ServiceDependent[];
   NextToken?: string;
 }
-export const ListServiceDependentsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ServiceDependents: ServiceDependents,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListServiceDependentsOutput",
-}) as any as S.Schema<ListServiceDependentsOutput>;
 export type ListServiceLevelObjectiveExclusionWindowsMaxResults = number;
 export interface ListServiceLevelObjectiveExclusionWindowsInput {
   Id: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListServiceLevelObjectiveExclusionWindowsInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/slo/{Id}/exclusion-windows" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListServiceLevelObjectiveExclusionWindowsInput",
-  }) as any as S.Schema<ListServiceLevelObjectiveExclusionWindowsInput>;
 export interface ListServiceLevelObjectiveExclusionWindowsOutput {
   ExclusionWindows: ExclusionWindow[];
   NextToken?: string;
 }
-export const ListServiceLevelObjectiveExclusionWindowsOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ExclusionWindows: ExclusionWindows,
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListServiceLevelObjectiveExclusionWindowsOutput",
-  }) as any as S.Schema<ListServiceLevelObjectiveExclusionWindowsOutput>;
 export type ListServiceLevelObjectivesMaxResults = number;
 export type MetricSourceTypes = MetricSourceType[];
-export const MetricSourceTypes = /*@__PURE__*/ S.Array(MetricSourceType);
 export interface ListServiceLevelObjectivesInput {
   KeyAttributes?: { [key: string]: string | undefined };
   OperationName?: string;
@@ -2143,34 +909,6 @@ export interface ListServiceLevelObjectivesInput {
   SloOwnerAwsAccountId?: string;
   MetricSource?: MetricSource;
 }
-export const ListServiceLevelObjectivesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyAttributes: S.optional(Attributes),
-    OperationName: S.optional(S.String).pipe(T.HttpQuery("OperationName")),
-    DependencyConfig: S.optional(DependencyConfig),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    MetricSourceTypes: S.optional(MetricSourceTypes),
-    IncludeLinkedAccounts: S.optional(S.Boolean).pipe(
-      T.HttpQuery("IncludeLinkedAccounts"),
-    ),
-    SloOwnerAwsAccountId: S.optional(S.String).pipe(
-      T.HttpQuery("SloOwnerAwsAccountId"),
-    ),
-    MetricSource: S.optional(MetricSource),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/slos" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListServiceLevelObjectivesInput",
-}) as any as S.Schema<ListServiceLevelObjectivesInput>;
 export interface ServiceLevelObjectiveSummary {
   Arn: string;
   Name: string;
@@ -2183,38 +921,11 @@ export interface ServiceLevelObjectiveSummary {
   MetricSource?: MetricSource;
   CompositeSliConfig?: CompositeSliConfig;
 }
-export const ServiceLevelObjectiveSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Name: S.String,
-    KeyAttributes: S.optional(Attributes),
-    OperationName: S.optional(S.String),
-    DependencyConfig: S.optional(DependencyConfig),
-    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EvaluationType: S.optional(EvaluationType),
-    MetricSourceType: S.optional(MetricSourceType),
-    MetricSource: S.optional(MetricSource),
-    CompositeSliConfig: S.optional(CompositeSliConfig),
-  }),
-).annotate({
-  identifier: "ServiceLevelObjectiveSummary",
-}) as any as S.Schema<ServiceLevelObjectiveSummary>;
 export type ServiceLevelObjectiveSummaries = ServiceLevelObjectiveSummary[];
-export const ServiceLevelObjectiveSummaries = /*@__PURE__*/ S.Array(
-  ServiceLevelObjectiveSummary,
-);
 export interface ListServiceLevelObjectivesOutput {
   SloSummaries?: ServiceLevelObjectiveSummary[];
   NextToken?: string;
 }
-export const ListServiceLevelObjectivesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SloSummaries: S.optional(ServiceLevelObjectiveSummaries),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListServiceLevelObjectivesOutput",
-}) as any as S.Schema<ListServiceLevelObjectivesOutput>;
 export type ListServiceOperationMaxResults = number;
 export interface ListServiceOperationsInput {
   StartTime: Date;
@@ -2223,57 +934,17 @@ export interface ListServiceOperationsInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListServiceOperationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("StartTime"),
-    ),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("EndTime"),
-    ),
-    KeyAttributes: Attributes,
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/service-operations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListServiceOperationsInput",
-}) as any as S.Schema<ListServiceOperationsInput>;
 export interface ServiceOperation {
   Name: string;
   MetricReferences: MetricReference[];
 }
-export const ServiceOperation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, MetricReferences: MetricReferences }),
-).annotate({
-  identifier: "ServiceOperation",
-}) as any as S.Schema<ServiceOperation>;
 export type ServiceOperations = ServiceOperation[];
-export const ServiceOperations = /*@__PURE__*/ S.Array(ServiceOperation);
 export interface ListServiceOperationsOutput {
   StartTime: Date;
   EndTime: Date;
   ServiceOperations: ServiceOperation[];
   NextToken?: string;
 }
-export const ListServiceOperationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ServiceOperations: ServiceOperations,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListServiceOperationsOutput",
-}) as any as S.Schema<ListServiceOperationsOutput>;
 export type ListServicesMaxResults = number;
 export interface ListServicesInput {
   StartTime: Date;
@@ -2283,84 +954,28 @@ export interface ListServicesInput {
   IncludeLinkedAccounts?: boolean;
   AwsAccountId?: string;
 }
-export const ListServicesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("StartTime"),
-    ),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("EndTime"),
-    ),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    IncludeLinkedAccounts: S.optional(S.Boolean).pipe(
-      T.HttpQuery("IncludeLinkedAccounts"),
-    ),
-    AwsAccountId: S.optional(S.String).pipe(T.HttpQuery("AwsAccountId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/services" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListServicesInput",
-}) as any as S.Schema<ListServicesInput>;
 export interface ServiceSummary {
   KeyAttributes: { [key: string]: string | undefined };
   AttributeMaps?: { [key: string]: string | undefined }[];
   MetricReferences: MetricReference[];
   ServiceGroups?: ServiceGroup[];
 }
-export const ServiceSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyAttributes: Attributes,
-    AttributeMaps: S.optional(AttributeMaps),
-    MetricReferences: MetricReferences,
-    ServiceGroups: S.optional(ServiceGroups),
-  }),
-).annotate({ identifier: "ServiceSummary" }) as any as S.Schema<ServiceSummary>;
 export type ServiceSummaries = ServiceSummary[];
-export const ServiceSummaries = /*@__PURE__*/ S.Array(ServiceSummary);
 export interface ListServicesOutput {
   StartTime: Date;
   EndTime: Date;
   ServiceSummaries: ServiceSummary[];
   NextToken?: string;
 }
-export const ListServicesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ServiceSummaries: ServiceSummaries,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListServicesOutput",
-}) as any as S.Schema<ListServicesOutput>;
 export type ListServiceStatesMaxResults = number;
 export type AttributeFilterName = string;
 export type AttributeFilterValue = string;
 export type AttributeFilterValues = string[];
-export const AttributeFilterValues = /*@__PURE__*/ S.Array(S.String);
 export interface AttributeFilter {
   AttributeFilterName: string;
   AttributeFilterValues: string[];
 }
-export const AttributeFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttributeFilterName: S.String,
-    AttributeFilterValues: AttributeFilterValues,
-  }),
-).annotate({
-  identifier: "AttributeFilter",
-}) as any as S.Schema<AttributeFilter>;
 export type AttributeFilters = AttributeFilter[];
-export const AttributeFilters = /*@__PURE__*/ S.Array(AttributeFilter);
 export interface ListServiceStatesInput {
   StartTime: Date;
   EndTime: Date;
@@ -2370,123 +985,36 @@ export interface ListServiceStatesInput {
   AwsAccountId?: string;
   AttributeFilters?: AttributeFilter[];
 }
-export const ListServiceStatesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    IncludeLinkedAccounts: S.optional(S.Boolean),
-    AwsAccountId: S.optional(S.String),
-    AttributeFilters: S.optional(AttributeFilters),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/service/states" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListServiceStatesInput",
-}) as any as S.Schema<ListServiceStatesInput>;
 export type LatestChangeEvents = ChangeEvent[];
-export const LatestChangeEvents = /*@__PURE__*/ S.Array(ChangeEvent);
 export interface ServiceState {
   AttributeFilters?: AttributeFilter[];
   Service: { [key: string]: string | undefined };
   LatestChangeEvents: ChangeEvent[];
 }
-export const ServiceState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttributeFilters: S.optional(AttributeFilters),
-    Service: Attributes,
-    LatestChangeEvents: LatestChangeEvents,
-  }),
-).annotate({ identifier: "ServiceState" }) as any as S.Schema<ServiceState>;
 export type ServiceStates = ServiceState[];
-export const ServiceStates = /*@__PURE__*/ S.Array(ServiceState);
 export interface ListServiceStatesOutput {
   StartTime: Date;
   EndTime: Date;
   ServiceStates: ServiceState[];
   NextToken?: string;
 }
-export const ListServiceStatesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ServiceStates: ServiceStates,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListServiceStatesOutput",
-}) as any as S.Schema<ListServiceStatesOutput>;
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpQuery("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   Tags?: Tag[];
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutGroupingConfigurationInput {
   GroupingAttributeDefinitions: GroupingAttributeDefinition[];
 }
-export const PutGroupingConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GroupingAttributeDefinitions: GroupingAttributeDefinitions }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/grouping-configuration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutGroupingConfigurationInput",
-}) as any as S.Schema<PutGroupingConfigurationInput>;
 export interface GroupingConfiguration {
   GroupingAttributeDefinitions: GroupingAttributeDefinition[];
   UpdatedAt: Date;
 }
-export const GroupingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupingAttributeDefinitions: GroupingAttributeDefinitions,
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "GroupingConfiguration",
-}) as any as S.Schema<GroupingConfiguration>;
 export interface PutGroupingConfigurationOutput {
   GroupingConfiguration: GroupingConfiguration;
 }
-export const PutGroupingConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GroupingConfiguration: GroupingConfiguration }),
-).annotate({
-  identifier: "PutGroupingConfigurationOutput",
-}) as any as S.Schema<PutGroupingConfigurationOutput>;
 export interface InstrumentationConfigurationStatusReport {
   InstrumentationType: InstrumentationType;
   SignalType: DynamicInstrumentationSignalType;
@@ -2495,58 +1023,18 @@ export interface InstrumentationConfigurationStatusReport {
   Time: Date;
   ErrorCause?: InstrumentationErrorCause;
 }
-export const InstrumentationConfigurationStatusReport = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      InstrumentationType: InstrumentationType,
-      SignalType: DynamicInstrumentationSignalType,
-      LocationHash: S.String,
-      Status: InstrumentationConfigurationStatus,
-      Time: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ErrorCause: S.optional(InstrumentationErrorCause),
-    }),
-).annotate({
-  identifier: "InstrumentationConfigurationStatusReport",
-}) as any as S.Schema<InstrumentationConfigurationStatusReport>;
 export type InstrumentationConfigurationStatusList =
   InstrumentationConfigurationStatusReport[];
-export const InstrumentationConfigurationStatusList = /*@__PURE__*/ S.Array(
-  InstrumentationConfigurationStatusReport,
-);
 export interface ReportInstrumentationConfigurationStatusRequest {
   Service: string;
   Environment: string;
   Configurations: InstrumentationConfigurationStatusReport[];
 }
-export const ReportInstrumentationConfigurationStatusRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Service: S.String,
-      Environment: S.String,
-      Configurations: InstrumentationConfigurationStatusList,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/report-instrumentation-configuration-status",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ReportInstrumentationConfigurationStatusRequest",
-  }) as any as S.Schema<ReportInstrumentationConfigurationStatusRequest>;
 export type UnprocessedStatusEventFailureReason =
   | "THROTTLED"
   | "INTERNAL_ERROR"
   | "VALIDATION_ERROR"
   | (string & {});
-export const UnprocessedStatusEventFailureReason = S.String;
-
 export interface UnprocessedStatusEvent {
   InstrumentationType: InstrumentationType;
   SignalType: DynamicInstrumentationSignalType;
@@ -2555,108 +1043,25 @@ export interface UnprocessedStatusEvent {
   Time: Date;
   FailedReason: UnprocessedStatusEventFailureReason;
 }
-export const UnprocessedStatusEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstrumentationType: InstrumentationType,
-    SignalType: DynamicInstrumentationSignalType,
-    LocationHash: S.String,
-    Status: InstrumentationConfigurationStatus,
-    Time: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    FailedReason: UnprocessedStatusEventFailureReason,
-  }),
-).annotate({
-  identifier: "UnprocessedStatusEvent",
-}) as any as S.Schema<UnprocessedStatusEvent>;
 export type UnprocessedStatusEventList = UnprocessedStatusEvent[];
-export const UnprocessedStatusEventList = /*@__PURE__*/ S.Array(
-  UnprocessedStatusEvent,
-);
 export interface ReportInstrumentationConfigurationStatusResponse {
   Service: string;
   Environment: string;
   UnprocessedStatusEvents: UnprocessedStatusEvent[];
 }
-export const ReportInstrumentationConfigurationStatusResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Service: S.String,
-      Environment: S.String,
-      UnprocessedStatusEvents: UnprocessedStatusEventList,
-    }),
-  ).annotate({
-    identifier: "ReportInstrumentationConfigurationStatusResponse",
-  }) as any as S.Schema<ReportInstrumentationConfigurationStatusResponse>;
 export interface StartDiscoveryInput {}
-export const StartDiscoveryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/start-discovery" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartDiscoveryInput",
-}) as any as S.Schema<StartDiscoveryInput>;
 export interface StartDiscoveryOutput {}
-export const StartDiscoveryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "StartDiscoveryOutput",
-}) as any as S.Schema<StartDiscoveryOutput>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tag-resource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/untag-resource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateServiceLevelObjectiveInput {
   Id: string;
   Description?: string;
@@ -2666,36 +1071,9 @@ export interface UpdateServiceLevelObjectiveInput {
   BurnRateConfigurations?: BurnRateConfiguration[];
   AutoInvestigationEnabled?: boolean;
 }
-export const UpdateServiceLevelObjectiveInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    Description: S.optional(S.String),
-    SliConfig: S.optional(ServiceLevelIndicatorConfig),
-    RequestBasedSliConfig: S.optional(RequestBasedServiceLevelIndicatorConfig),
-    Goal: S.optional(Goal),
-    BurnRateConfigurations: S.optional(BurnRateConfigurations),
-    AutoInvestigationEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/slo/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateServiceLevelObjectiveInput",
-}) as any as S.Schema<UpdateServiceLevelObjectiveInput>;
 export interface UpdateServiceLevelObjectiveOutput {
   Slo: ServiceLevelObjective;
 }
-export const UpdateServiceLevelObjectiveOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Slo: ServiceLevelObjective }),
-).annotate({
-  identifier: "UpdateServiceLevelObjectiveOutput",
-}) as any as S.Schema<UpdateServiceLevelObjectiveOutput>;
 export type ValidationExceptionMessage = string;
 export type ResourceType = string;
 export type ResourceId = string;
@@ -2717,13 +1095,22 @@ export const batchDeleteInstrumentationConfigurations: API.OperationMethod<
   BatchDeleteInstrumentationConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchDeleteInstrumentationConfigurationsRequest,
-  output: BatchDeleteInstrumentationConfigurationsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /batch-delete-instrumentation-configurations",
+    input: {
+      DeletionTarget: {
+        Scope: { Service: 0, Environment: 0, InstrumentationType: 0 },
+        ResourceArns: { ResourceArns: 0, InstrumentationType: 0 },
+      },
+    },
+    body: true,
+  },
   errors: [ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteInstrumentationConfigurations",
-}));
+})) as any;
 
 export type BatchGetServiceLevelObjectiveBudgetReportError =
   | ThrottlingException
@@ -2744,13 +1131,18 @@ export const batchGetServiceLevelObjectiveBudgetReport: API.OperationMethod<
   BatchGetServiceLevelObjectiveBudgetReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetServiceLevelObjectiveBudgetReportInput,
-  output: BatchGetServiceLevelObjectiveBudgetReportOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /budget-report",
+    input: { Timestamp: 0, SloIds: 0 },
+    output: { Timestamp: D.ts, Reports: D.list({ Goal: o_Goal }) },
+    body: true,
+  },
   errors: [ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetServiceLevelObjectiveBudgetReport",
-}));
+})) as any;
 
 export type BatchUpdateExclusionWindowsError =
   | ResourceNotFoundException
@@ -2766,13 +1158,21 @@ export const batchUpdateExclusionWindows: API.OperationMethod<
   BatchUpdateExclusionWindowsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchUpdateExclusionWindowsInput,
-  output: BatchUpdateExclusionWindowsOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /exclusion-windows",
+    input: {
+      SloIds: 0,
+      AddExclusionWindows: D.list(i_ExclusionWindow),
+      RemoveExclusionWindows: D.list(i_ExclusionWindow),
+    },
+    body: true,
+  },
   errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateExclusionWindows",
-}));
+})) as any;
 
 export type CreateInstrumentationConfigurationError =
   | ConflictException
@@ -2793,8 +1193,41 @@ export const createInstrumentationConfiguration: API.OperationMethod<
   CreateInstrumentationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateInstrumentationConfigurationRequest,
-  output: CreateInstrumentationConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /create-instrumentation-configuration",
+    input: {
+      InstrumentationType: 0,
+      Service: 0,
+      Environment: 0,
+      SignalType: 0,
+      Location: { CodeLocation: i_CodeLocation },
+      Description: 0,
+      ExpiresAt: 0,
+      AttributeFilters: 0,
+      CaptureConfiguration: {
+        CodeCapture: {
+          CaptureArguments: 0,
+          CaptureReturn: 0,
+          CaptureStackTrace: 0,
+          CaptureLocals: 0,
+          CaptureLimits: {
+            MaxHits: 0,
+            MaxStringLength: 0,
+            MaxCollectionWidth: 0,
+            MaxCollectionDepth: 0,
+            MaxStackFrames: 0,
+            MaxStackTraceSize: 0,
+            MaxObjectDepth: 0,
+            MaxFieldsPerObject: 0,
+          },
+        },
+      },
+      Tags: D.list(i_Tag),
+    },
+    output: { ExpiresAt: D.ts, CreatedAt: D.ts },
+    body: true,
+  },
   errors: [
     ConflictException,
     ServiceQuotaExceededException,
@@ -2804,7 +1237,7 @@ export const createInstrumentationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstrumentationConfiguration",
-}));
+})) as any;
 
 export type CreateServiceLevelObjectiveError =
   | AccessDeniedException
@@ -2864,8 +1297,23 @@ export const createServiceLevelObjective: API.OperationMethod<
   CreateServiceLevelObjectiveError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateServiceLevelObjectiveInput,
-  output: CreateServiceLevelObjectiveOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /slo",
+    input: {
+      Name: 0,
+      Description: 0,
+      SliConfig: i_ServiceLevelIndicatorConfig,
+      RequestBasedSliConfig: i_RequestBasedServiceLevelIndicatorConfig,
+      Goal: i_Goal,
+      Tags: D.list(i_Tag),
+      BurnRateConfigurations: D.list(i_BurnRateConfiguration),
+      CreateRecommendedSlo: 0,
+      AutoInvestigationEnabled: 0,
+    },
+    output: { Slo: o_ServiceLevelObjective },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2876,7 +1324,7 @@ export const createServiceLevelObjective: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceLevelObjective",
-}));
+})) as any;
 
 export type DeleteGroupingConfigurationError =
   | AccessDeniedException
@@ -2892,13 +1340,12 @@ export const deleteGroupingConfiguration: API.OperationMethod<
   DeleteGroupingConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteGroupingConfigurationRequest,
-  output: DeleteGroupingConfigurationOutput,
+  descriptor: { service: svc, http: "DELETE /grouping-configuration" },
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroupingConfiguration",
-}));
+})) as any;
 
 export type DeleteInstrumentationConfigurationError =
   | ResourceNotFoundException
@@ -2914,13 +1361,23 @@ export const deleteInstrumentationConfiguration: API.OperationMethod<
   DeleteInstrumentationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteInstrumentationConfigurationRequest,
-  output: DeleteInstrumentationConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /delete-instrumentation-configuration",
+    input: {
+      InstrumentationType: 0,
+      Service: 0,
+      Environment: 0,
+      SignalType: 0,
+      LocationIdentifier: i_LocationIdentifier,
+    },
+    body: true,
+  },
   errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstrumentationConfiguration",
-}));
+})) as any;
 
 export type DeleteServiceLevelObjectiveError =
   | ResourceNotFoundException
@@ -2936,13 +1393,12 @@ export const deleteServiceLevelObjective: API.OperationMethod<
   DeleteServiceLevelObjectiveError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteServiceLevelObjectiveInput,
-  output: DeleteServiceLevelObjectiveOutput,
+  descriptor: { service: svc, http: "DELETE /slo/{Id}", input: { Id: 0 } },
   errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceLevelObjective",
-}));
+})) as any;
 
 export type GetInstrumentationConfigurationError =
   | ResourceNotFoundException
@@ -2958,13 +1414,24 @@ export const getInstrumentationConfiguration: API.OperationMethod<
   GetInstrumentationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetInstrumentationConfigurationRequest,
-  output: GetInstrumentationConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /get-instrumentation-configuration",
+    input: {
+      InstrumentationType: 0,
+      Service: 0,
+      Environment: 0,
+      SignalType: 0,
+      LocationIdentifier: i_LocationIdentifier,
+    },
+    output: { Configuration: { ExpiresAt: D.ts, CreatedAt: D.ts } },
+    body: true,
+  },
   errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstrumentationConfiguration",
-}));
+})) as any;
 
 export type GetInstrumentationConfigurationStatusError =
   | ResourceNotFoundException
@@ -2983,8 +1450,24 @@ export const getInstrumentationConfigurationStatus: API.PaginatedOperationMethod
   Credentials | HttpClient.HttpClient,
   InstrumentationStatusEvent
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetInstrumentationConfigurationStatusRequest,
-  output: GetInstrumentationConfigurationStatusResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /get-instrumentation-configuration-status",
+    input: {
+      InstrumentationType: 0,
+      Service: 0,
+      Environment: 0,
+      SignalType: 0,
+      LocationIdentifier: i_LocationIdentifier,
+      Status: 0,
+      StartTime: 0,
+      EndTime: 0,
+      MaxResults: 0,
+      NextToken: 0,
+    },
+    output: { Events: D.list({ Time: D.ts }) },
+    body: true,
+  },
   errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3010,13 +1493,22 @@ export const getService: API.OperationMethod<
   GetServiceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetServiceInput,
-  output: GetServiceOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /service",
+    input: {
+      StartTime: D.m({ query: "StartTime", shape: D.tsAs("epoch-seconds") }),
+      EndTime: D.m({ query: "EndTime", shape: D.tsAs("epoch-seconds") }),
+      KeyAttributes: 0,
+    },
+    output: { StartTime: D.ts, EndTime: D.ts },
+    body: true,
+  },
   errors: [ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
-}));
+})) as any;
 
 export type GetServiceLevelObjectiveError =
   | ResourceNotFoundException
@@ -3032,13 +1524,17 @@ export const getServiceLevelObjective: API.OperationMethod<
   GetServiceLevelObjectiveError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetServiceLevelObjectiveInput,
-  output: GetServiceLevelObjectiveOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /slo/{Id}",
+    input: { Id: 0 },
+    output: { Slo: o_ServiceLevelObjective },
+  },
   errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceLevelObjective",
-}));
+})) as any;
 
 export type ListAuditFindingsError =
   | ThrottlingException
@@ -3053,13 +1549,44 @@ export const listAuditFindings: API.OperationMethod<
   ListAuditFindingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListAuditFindingsInput,
-  output: ListAuditFindingsOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /auditFindings",
+    input: {
+      StartTime: D.m({ query: "StartTime", shape: D.tsAs("epoch-seconds") }),
+      EndTime: D.m({ query: "EndTime", shape: D.tsAs("epoch-seconds") }),
+      Auditors: 0,
+      AuditTargets: D.list({
+        Type: 0,
+        Data: {
+          Service: i_ServiceEntity,
+          Slo: { SloName: 0, SloArn: 0 },
+          ServiceOperation: {
+            Service: i_ServiceEntity,
+            Operation: 0,
+            MetricType: 0,
+          },
+          Canary: { CanaryName: 0 },
+        },
+      }),
+      DetailLevel: 0,
+      NextToken: 0,
+      MaxResults: 0,
+    },
+    output: {
+      StartTime: D.ts,
+      EndTime: D.ts,
+      AuditFindings: D.list({
+        MetricGraph: { StartTime: D.ts, EndTime: D.ts },
+      }),
+    },
+    body: true,
+  },
   errors: [ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAuditFindings",
-}));
+})) as any;
 
 export type ListEntityEventsError =
   | ThrottlingException
@@ -3075,8 +1602,23 @@ export const listEntityEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ChangeEvent
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListEntityEventsInput,
-  output: ListEntityEventsOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /events",
+    input: {
+      Entity: 0,
+      StartTime: 0,
+      EndTime: 0,
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: {
+      StartTime: D.ts,
+      EndTime: D.ts,
+      ChangeEvents: D.list(o_ChangeEvent),
+    },
+    body: true,
+  },
   errors: [ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3103,13 +1645,21 @@ export const listGroupingAttributeDefinitions: API.OperationMethod<
   ListGroupingAttributeDefinitionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListGroupingAttributeDefinitionsInput,
-  output: ListGroupingAttributeDefinitionsOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /grouping-attribute-definitions",
+    input: {
+      NextToken: D.m({ query: "NextToken" }),
+      AwsAccountId: D.m({ query: "AwsAccountId" }),
+      IncludeLinkedAccounts: D.m({ query: "IncludeLinkedAccounts" }),
+    },
+    output: { UpdatedAt: D.ts },
+  },
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroupingAttributeDefinitions",
-}));
+})) as any;
 
 export type ListInstrumentationConfigurationsError =
   | ResourceNotFoundException
@@ -3128,8 +1678,23 @@ export const listInstrumentationConfigurations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   InstrumentationConfigurationWithoutServiceEnv
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListInstrumentationConfigurationsRequest,
-  output: InstrumentationConfigurationsPage,
+  descriptor: {
+    service: svc,
+    http: "POST /list-instrumentation-configurations",
+    input: {
+      Service: 0,
+      Environment: 0,
+      InstrumentationType: 0,
+      SyncedAt: 0,
+      MaxResults: 0,
+      NextToken: 0,
+    },
+    output: {
+      LatestConfigurations: D.list({ ExpiresAt: D.ts, CreatedAt: D.ts }),
+      SyncedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3156,8 +1721,19 @@ export const listServiceDependencies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ServiceDependency
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListServiceDependenciesInput,
-  output: ListServiceDependenciesOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /service-dependencies",
+    input: {
+      StartTime: D.m({ query: "StartTime", shape: D.tsAs("epoch-seconds") }),
+      EndTime: D.m({ query: "EndTime", shape: D.tsAs("epoch-seconds") }),
+      KeyAttributes: 0,
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { StartTime: D.ts, EndTime: D.ts },
+    body: true,
+  },
   errors: [ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3184,8 +1760,19 @@ export const listServiceDependents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ServiceDependent
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListServiceDependentsInput,
-  output: ListServiceDependentsOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /service-dependents",
+    input: {
+      StartTime: D.m({ query: "StartTime", shape: D.tsAs("epoch-seconds") }),
+      EndTime: D.m({ query: "EndTime", shape: D.tsAs("epoch-seconds") }),
+      KeyAttributes: 0,
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { StartTime: D.ts, EndTime: D.ts },
+    body: true,
+  },
   errors: [ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3213,8 +1800,16 @@ export const listServiceLevelObjectiveExclusionWindows: API.PaginatedOperationMe
   Credentials | HttpClient.HttpClient,
   ExclusionWindow
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListServiceLevelObjectiveExclusionWindowsInput,
-  output: ListServiceLevelObjectiveExclusionWindowsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /slo/{Id}/exclusion-windows",
+    input: {
+      Id: 0,
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { ExclusionWindows: D.list({ StartTime: D.ts }) },
+  },
   errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3241,8 +1836,23 @@ export const listServiceLevelObjectives: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ServiceLevelObjectiveSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListServiceLevelObjectivesInput,
-  output: ListServiceLevelObjectivesOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /slos",
+    input: {
+      KeyAttributes: 0,
+      OperationName: D.m({ query: "OperationName" }),
+      DependencyConfig: i_DependencyConfig,
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+      MetricSourceTypes: 0,
+      IncludeLinkedAccounts: D.m({ query: "IncludeLinkedAccounts" }),
+      SloOwnerAwsAccountId: D.m({ query: "SloOwnerAwsAccountId" }),
+      MetricSource: i_MetricSource,
+    },
+    output: { SloSummaries: D.list({ CreatedTime: D.ts }) },
+    body: true,
+  },
   errors: [ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3269,8 +1879,19 @@ export const listServiceOperations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ServiceOperation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListServiceOperationsInput,
-  output: ListServiceOperationsOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /service-operations",
+    input: {
+      StartTime: D.m({ query: "StartTime", shape: D.tsAs("epoch-seconds") }),
+      EndTime: D.m({ query: "EndTime", shape: D.tsAs("epoch-seconds") }),
+      KeyAttributes: 0,
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { StartTime: D.ts, EndTime: D.ts },
+    body: true,
+  },
   errors: [ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3297,8 +1918,19 @@ export const listServices: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ServiceSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListServicesInput,
-  output: ListServicesOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /services",
+    input: {
+      StartTime: D.m({ query: "StartTime", shape: D.tsAs("epoch-seconds") }),
+      EndTime: D.m({ query: "EndTime", shape: D.tsAs("epoch-seconds") }),
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+      IncludeLinkedAccounts: D.m({ query: "IncludeLinkedAccounts" }),
+      AwsAccountId: D.m({ query: "AwsAccountId" }),
+    },
+    output: { StartTime: D.ts, EndTime: D.ts },
+  },
   errors: [ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3325,8 +1957,28 @@ export const listServiceStates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ServiceState
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListServiceStatesInput,
-  output: ListServiceStatesOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /service/states",
+    input: {
+      StartTime: 0,
+      EndTime: 0,
+      MaxResults: 0,
+      NextToken: 0,
+      IncludeLinkedAccounts: 0,
+      AwsAccountId: 0,
+      AttributeFilters: D.list({
+        AttributeFilterName: 0,
+        AttributeFilterValues: 0,
+      }),
+    },
+    output: {
+      StartTime: D.ts,
+      EndTime: D.ts,
+      ServiceStates: D.list({ LatestChangeEvents: D.list(o_ChangeEvent) }),
+    },
+    body: true,
+  },
   errors: [ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3352,13 +2004,16 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /tags",
+    input: { ResourceArn: D.m({ query: "ResourceArn" }) },
+  },
   errors: [ResourceNotFoundException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type PutGroupingConfigurationError =
   | AccessDeniedException
@@ -3374,13 +2029,24 @@ export const putGroupingConfiguration: API.OperationMethod<
   PutGroupingConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutGroupingConfigurationInput,
-  output: PutGroupingConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /grouping-configuration",
+    input: {
+      GroupingAttributeDefinitions: D.list({
+        GroupingName: 0,
+        GroupingSourceKeys: 0,
+        DefaultGroupingValue: 0,
+      }),
+    },
+    output: { GroupingConfiguration: { UpdatedAt: D.ts } },
+    body: true,
+  },
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGroupingConfiguration",
-}));
+})) as any;
 
 export type ReportInstrumentationConfigurationStatusError =
   | ThrottlingException
@@ -3397,13 +2063,29 @@ export const reportInstrumentationConfigurationStatus: API.OperationMethod<
   ReportInstrumentationConfigurationStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ReportInstrumentationConfigurationStatusRequest,
-  output: ReportInstrumentationConfigurationStatusResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /report-instrumentation-configuration-status",
+    input: {
+      Service: 0,
+      Environment: 0,
+      Configurations: D.list({
+        InstrumentationType: 0,
+        SignalType: 0,
+        LocationHash: 0,
+        Status: 0,
+        Time: 0,
+        ErrorCause: 0,
+      }),
+    },
+    output: { UnprocessedStatusEvents: D.list({ Time: D.ts }) },
+    body: true,
+  },
   errors: [ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReportInstrumentationConfigurationStatus",
-}));
+})) as any;
 
 export type StartDiscoveryError =
   | AccessDeniedException
@@ -3437,13 +2119,12 @@ export const startDiscovery: API.OperationMethod<
   StartDiscoveryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartDiscoveryInput,
-  output: StartDiscoveryOutput,
+  descriptor: { service: svc, http: "POST /start-discovery", input: {} },
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDiscovery",
-}));
+})) as any;
 
 export type TagResourceError =
   | ResourceNotFoundException
@@ -3467,8 +2148,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tag-resource",
+    input: { ResourceArn: 0, Tags: D.list(i_Tag) },
+    body: true,
+  },
   errors: [
     ResourceNotFoundException,
     ServiceQuotaExceededException,
@@ -3477,7 +2162,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | ResourceNotFoundException
@@ -3492,13 +2177,17 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /untag-resource",
+    input: { ResourceArn: 0, TagKeys: 0 },
+    body: true,
+  },
   errors: [ResourceNotFoundException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateServiceLevelObjectiveError =
   | ResourceNotFoundException
@@ -3516,10 +2205,133 @@ export const updateServiceLevelObjective: API.OperationMethod<
   UpdateServiceLevelObjectiveError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateServiceLevelObjectiveInput,
-  output: UpdateServiceLevelObjectiveOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /slo/{Id}",
+    input: {
+      Id: 0,
+      Description: 0,
+      SliConfig: i_ServiceLevelIndicatorConfig,
+      RequestBasedSliConfig: i_RequestBasedServiceLevelIndicatorConfig,
+      Goal: i_Goal,
+      BurnRateConfigurations: D.list(i_BurnRateConfiguration),
+      AutoInvestigationEnabled: 0,
+    },
+    output: { Slo: o_ServiceLevelObjective },
+    body: true,
+  },
   errors: [ResourceNotFoundException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceLevelObjective",
-}));
+})) as any;
+
+const i_BurnRateConfiguration: D.LazyStruct = () => ({
+  LookBackWindowMinutes: 0,
+});
+const i_CodeLocation: D.LazyStruct = () => ({
+  Language: 0,
+  CodeUnit: 0,
+  ClassName: 0,
+  MethodName: 0,
+  FilePath: 0,
+  LineNumber: 0,
+});
+const i_DependencyConfig: D.LazyStruct = () => ({
+  DependencyKeyAttributes: 0,
+  DependencyOperationName: 0,
+});
+const i_ExclusionWindow: D.LazyStruct = () => ({
+  Window: { DurationUnit: 0, Duration: 0 },
+  StartTime: 0,
+  RecurrenceRule: { Expression: 0 },
+  Reason: 0,
+});
+const i_Goal: D.LazyStruct = () => ({
+  Interval: {
+    RollingInterval: { DurationUnit: 0, Duration: 0 },
+    CalendarInterval: { StartTime: 0, DurationUnit: 0, Duration: 0 },
+  },
+  AttainmentGoal: 0,
+  WarningThreshold: 0,
+});
+const i_LocationIdentifier: D.LazyStruct = () => ({
+  CodeLocation: i_CodeLocation,
+  LocationHash: 0,
+});
+const i_MetricSource: D.LazyStruct = () => ({
+  MetricSourceKeyAttributes: 0,
+  MetricSourceAttributes: 0,
+});
+const i_RequestBasedServiceLevelIndicatorConfig: D.LazyStruct = () => ({
+  RequestBasedSliMetricConfig: {
+    KeyAttributes: 0,
+    OperationName: 0,
+    MetricType: 0,
+    TotalRequestCountMetric: D.list(i_MetricDataQuery),
+    MonitoredRequestCountMetric: {
+      GoodCountMetric: D.list(i_MetricDataQuery),
+      BadCountMetric: D.list(i_MetricDataQuery),
+    },
+    DependencyConfig: i_DependencyConfig,
+    MetricSource: i_MetricSource,
+    MetricName: 0,
+    CompositeSliConfig: i_CompositeSliConfig,
+  },
+  MetricThreshold: 0,
+  ComparisonOperator: 0,
+});
+const i_ServiceEntity: D.LazyStruct = () => ({
+  Type: 0,
+  Name: 0,
+  Environment: 0,
+  AwsAccountId: 0,
+});
+const i_ServiceLevelIndicatorConfig: D.LazyStruct = () => ({
+  SliMetricConfig: {
+    KeyAttributes: 0,
+    OperationName: 0,
+    MetricType: 0,
+    MetricName: 0,
+    Statistic: 0,
+    PeriodSeconds: 0,
+    MetricSource: i_MetricSource,
+    MetricDataQueries: D.list(i_MetricDataQuery),
+    DependencyConfig: i_DependencyConfig,
+    CompositeSliConfig: i_CompositeSliConfig,
+  },
+  MetricThreshold: 0,
+  ComparisonOperator: 0,
+});
+const i_Tag: D.LazyStruct = () => ({ Key: 0, Value: 0 });
+const o_ChangeEvent: D.LazyStruct = () => ({ Timestamp: D.ts });
+const o_Goal: D.LazyStruct = () => ({
+  Interval: { CalendarInterval: { StartTime: D.ts } },
+});
+const o_ServiceLevelObjective: D.LazyStruct = () => ({
+  CreatedTime: D.ts,
+  LastUpdatedTime: D.ts,
+  Goal: o_Goal,
+});
+const i_CompositeSliConfig: D.LazyStruct = () => ({
+  SelectionConfig: { Type: 0, Pattern: 0 },
+  Components: D.list({ OperationName: 0 }),
+});
+const i_MetricDataQuery: D.LazyStruct = () => ({
+  Id: 0,
+  MetricStat: {
+    Metric: {
+      Namespace: 0,
+      MetricName: 0,
+      Dimensions: D.list({ Name: 0, Value: 0 }),
+    },
+    Period: 0,
+    Stat: 0,
+    Unit: 0,
+  },
+  Expression: 0,
+  Label: 0,
+  ReturnData: 0,
+  Period: 0,
+  AccountId: 0,
+});

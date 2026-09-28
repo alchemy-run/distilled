@@ -1,177 +1,136 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "ApplicationCostProfiler",
-  serviceShapeName: "AWSApplicationCostProfiler",
-});
-const auth = T.AwsAuthSigv4({ name: "application-cost-profiler" });
-const ver = T.ServiceVersion("2020-09-10");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://application-cost-profiler-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://application-cost-profiler-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://application-cost-profiler.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://application-cost-profiler.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AWSApplicationCostProfiler",
+  version: "2020-09-10",
+  sigv4: "application-cost-profiler",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://application-cost-profiler-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://application-cost-profiler-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://application-cost-profiler.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://application-cost-profiler.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly message?: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message?: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export type ReportId = string;
 export interface DeleteReportDefinitionRequest {
   reportId: string;
 }
-export const DeleteReportDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ reportId: S.String.pipe(T.HttpLabel("reportId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/reportDefinition/{reportId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteReportDefinitionRequest",
-}) as any as S.Schema<DeleteReportDefinitionRequest>;
 export interface DeleteReportDefinitionResult {
   reportId?: string;
 }
-export const DeleteReportDefinitionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ reportId: S.optional(S.String) }),
-).annotate({
-  identifier: "DeleteReportDefinitionResult",
-}) as any as S.Schema<DeleteReportDefinitionResult>;
 export interface GetReportDefinitionRequest {
   reportId: string;
 }
-export const GetReportDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ reportId: S.String.pipe(T.HttpLabel("reportId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/reportDefinition/{reportId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetReportDefinitionRequest",
-}) as any as S.Schema<GetReportDefinitionRequest>;
 export type ReportDescription = string;
 export type ReportFrequency = "MONTHLY" | "DAILY" | "ALL" | (string & {});
-export const ReportFrequency = S.String;
-
 export type Format = "CSV" | "PARQUET" | (string & {});
-export const Format = S.String;
-
 export type S3Bucket = string;
 export type S3Prefix = string;
 export interface S3Location {
   bucket: string;
   prefix: string;
 }
-export const S3Location = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucket: S.String, prefix: S.String }),
-).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export interface GetReportDefinitionResult {
   reportId: string;
   reportDescription: string;
@@ -181,19 +140,6 @@ export interface GetReportDefinitionResult {
   createdAt: Date;
   lastUpdated: Date;
 }
-export const GetReportDefinitionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportId: S.String,
-    reportDescription: S.String,
-    reportFrequency: ReportFrequency,
-    format: Format,
-    destinationS3Location: S3Location,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    lastUpdated: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "GetReportDefinitionResult",
-}) as any as S.Schema<GetReportDefinitionResult>;
 export type S3Key = string;
 export type S3BucketRegion =
   | "ap-east-1"
@@ -201,70 +147,23 @@ export type S3BucketRegion =
   | "eu-south-1"
   | "af-south-1"
   | (string & {});
-export const S3BucketRegion = S.String;
-
 export interface SourceS3Location {
   bucket: string;
   key: string;
   region?: S3BucketRegion;
 }
-export const SourceS3Location = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bucket: S.String,
-    key: S.String,
-    region: S.optional(S3BucketRegion),
-  }),
-).annotate({
-  identifier: "SourceS3Location",
-}) as any as S.Schema<SourceS3Location>;
 export interface ImportApplicationUsageRequest {
   sourceS3Location: SourceS3Location;
 }
-export const ImportApplicationUsageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sourceS3Location: SourceS3Location }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/importApplicationUsage" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ImportApplicationUsageRequest",
-}) as any as S.Schema<ImportApplicationUsageRequest>;
 export type ImportId = string;
 export interface ImportApplicationUsageResult {
   importId: string;
 }
-export const ImportApplicationUsageResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ importId: S.String }),
-).annotate({
-  identifier: "ImportApplicationUsageResult",
-}) as any as S.Schema<ImportApplicationUsageResult>;
 export type Token = string;
 export interface ListReportDefinitionsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListReportDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/reportDefinition" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListReportDefinitionsRequest",
-}) as any as S.Schema<ListReportDefinitionsRequest>;
 export interface ReportDefinition {
   reportId?: string;
   reportDescription?: string;
@@ -274,33 +173,11 @@ export interface ReportDefinition {
   createdAt?: Date;
   lastUpdatedAt?: Date;
 }
-export const ReportDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportId: S.optional(S.String),
-    reportDescription: S.optional(S.String),
-    reportFrequency: S.optional(ReportFrequency),
-    format: S.optional(Format),
-    destinationS3Location: S.optional(S3Location),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "ReportDefinition",
-}) as any as S.Schema<ReportDefinition>;
 export type ReportDefinitionList = ReportDefinition[];
-export const ReportDefinitionList = /*@__PURE__*/ S.Array(ReportDefinition);
 export interface ListReportDefinitionsResult {
   reportDefinitions?: ReportDefinition[];
   nextToken?: string;
 }
-export const ListReportDefinitionsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportDefinitions: S.optional(ReportDefinitionList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListReportDefinitionsResult",
-}) as any as S.Schema<ListReportDefinitionsResult>;
 export interface PutReportDefinitionRequest {
   reportId: string;
   reportDescription: string;
@@ -308,34 +185,9 @@ export interface PutReportDefinitionRequest {
   format: Format;
   destinationS3Location: S3Location;
 }
-export const PutReportDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportId: S.String,
-    reportDescription: S.String,
-    reportFrequency: ReportFrequency,
-    format: Format,
-    destinationS3Location: S3Location,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/reportDefinition" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutReportDefinitionRequest",
-}) as any as S.Schema<PutReportDefinitionRequest>;
 export interface PutReportDefinitionResult {
   reportId?: string;
 }
-export const PutReportDefinitionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ reportId: S.optional(S.String) }),
-).annotate({
-  identifier: "PutReportDefinitionResult",
-}) as any as S.Schema<PutReportDefinitionResult>;
 export interface UpdateReportDefinitionRequest {
   reportId: string;
   reportDescription: string;
@@ -343,34 +195,9 @@ export interface UpdateReportDefinitionRequest {
   format: Format;
   destinationS3Location: S3Location;
 }
-export const UpdateReportDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reportId: S.String.pipe(T.HttpLabel("reportId")),
-    reportDescription: S.String,
-    reportFrequency: ReportFrequency,
-    format: Format,
-    destinationS3Location: S3Location,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/reportDefinition/{reportId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateReportDefinitionRequest",
-}) as any as S.Schema<UpdateReportDefinitionRequest>;
 export interface UpdateReportDefinitionResult {
   reportId?: string;
 }
-export const UpdateReportDefinitionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ reportId: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateReportDefinitionResult",
-}) as any as S.Schema<UpdateReportDefinitionResult>;
 export type ErrorMessage = string;
 export type DeleteReportDefinitionError =
   | AccessDeniedException
@@ -388,8 +215,11 @@ export const deleteReportDefinition: API.OperationMethod<
   DeleteReportDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteReportDefinitionRequest,
-  output: DeleteReportDefinitionResult,
+  descriptor: {
+    service: svc,
+    http: "DELETE /reportDefinition/{reportId}",
+    input: { reportId: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -399,7 +229,7 @@ export const deleteReportDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReportDefinition",
-}));
+})) as any;
 
 export type GetReportDefinitionError =
   | AccessDeniedException
@@ -416,8 +246,12 @@ export const getReportDefinition: API.OperationMethod<
   GetReportDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetReportDefinitionRequest,
-  output: GetReportDefinitionResult,
+  descriptor: {
+    service: svc,
+    http: "GET /reportDefinition/{reportId}",
+    input: { reportId: 0 },
+    output: { createdAt: D.ts, lastUpdated: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -427,7 +261,7 @@ export const getReportDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReportDefinition",
-}));
+})) as any;
 
 export type ImportApplicationUsageError =
   | AccessDeniedException
@@ -448,8 +282,12 @@ export const importApplicationUsage: API.OperationMethod<
   ImportApplicationUsageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ImportApplicationUsageRequest,
-  output: ImportApplicationUsageResult,
+  descriptor: {
+    service: svc,
+    http: "POST /importApplicationUsage",
+    input: { sourceS3Location: { bucket: 0, key: 0, region: 0 } },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -459,7 +297,7 @@ export const importApplicationUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportApplicationUsage",
-}));
+})) as any;
 
 export type ListReportDefinitionsError =
   | AccessDeniedException
@@ -479,8 +317,17 @@ export const listReportDefinitions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ReportDefinition
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListReportDefinitionsRequest,
-  output: ListReportDefinitionsResult,
+  descriptor: {
+    service: svc,
+    http: "GET /reportDefinition",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: {
+      reportDefinitions: D.list({ createdAt: D.ts, lastUpdatedAt: D.ts }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -514,8 +361,18 @@ export const putReportDefinition: API.OperationMethod<
   PutReportDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutReportDefinitionRequest,
-  output: PutReportDefinitionResult,
+  descriptor: {
+    service: svc,
+    http: "POST /reportDefinition",
+    input: {
+      reportId: 0,
+      reportDescription: 0,
+      reportFrequency: 0,
+      format: 0,
+      destinationS3Location: i_S3Location,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -526,7 +383,7 @@ export const putReportDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutReportDefinition",
-}));
+})) as any;
 
 export type UpdateReportDefinitionError =
   | AccessDeniedException
@@ -543,8 +400,18 @@ export const updateReportDefinition: API.OperationMethod<
   UpdateReportDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateReportDefinitionRequest,
-  output: UpdateReportDefinitionResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /reportDefinition/{reportId}",
+    input: {
+      reportId: 0,
+      reportDescription: 0,
+      reportFrequency: 0,
+      format: 0,
+      destinationS3Location: i_S3Location,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -554,4 +421,6 @@ export const updateReportDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReportDefinition",
-}));
+})) as any;
+
+const i_S3Location: D.LazyStruct = () => ({ bucket: 0, prefix: 0 });

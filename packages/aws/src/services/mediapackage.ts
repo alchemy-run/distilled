@@ -1,176 +1,136 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "MediaPackage",
-  serviceShapeName: "MediaPackage",
-});
-const auth = T.AwsAuthSigv4({ name: "mediapackage" });
-const ver = T.ServiceVersion("2017-10-12");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://mediapackage-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://mediapackage-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://mediapackage.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://mediapackage.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "MediaPackage",
+  version: "2017-10-12",
+  sigv4: "mediapackage",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://mediapackage-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://mediapackage-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://mediapackage.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://mediapackage.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class ForbiddenException
-  extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
-    "ForbiddenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ForbiddenException", ["AuthError"], {
+    status: 403,
+    renames: { Message: "message" },
+  })<{ readonly message?: string }> {}
 export class InternalServerErrorException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerErrorException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500, renames: { Message: "message" } },
+  )<{ readonly message?: string }> {}
 export class NotFoundException
-  extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404, renames: { Message: "message" } },
+  )<{ readonly message?: string }> {}
 export class ServiceUnavailableException
-  extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceUnavailableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(503),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 503, renames: { Message: "message" } },
+  )<{ readonly message?: string }> {}
 export class TooManyRequestsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyRequestsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429, renames: { Message: "message" } },
+  )<{ readonly message?: string }> {}
 export class UnprocessableEntityException
-  extends /*@__PURE__*/ S.TaggedError<UnprocessableEntityException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "UnprocessableEntityException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(422),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 422, renames: { Message: "message" } },
+  )<{ readonly message?: string }> {}
 export interface EgressAccessLogs {
   LogGroupName?: string;
 }
-export const EgressAccessLogs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LogGroupName: S.optional(S.String) }).pipe(
-    S.encodeKeys({ LogGroupName: "logGroupName" }),
-  ),
-).annotate({
-  identifier: "EgressAccessLogs",
-}) as any as S.Schema<EgressAccessLogs>;
 export interface IngressAccessLogs {
   LogGroupName?: string;
 }
-export const IngressAccessLogs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LogGroupName: S.optional(S.String) }).pipe(
-    S.encodeKeys({ LogGroupName: "logGroupName" }),
-  ),
-).annotate({
-  identifier: "IngressAccessLogs",
-}) as any as S.Schema<IngressAccessLogs>;
 export interface ConfigureLogsRequest {
   EgressAccessLogs?: EgressAccessLogs;
   Id: string;
   IngressAccessLogs?: IngressAccessLogs;
 }
-export const ConfigureLogsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EgressAccessLogs: S.optional(EgressAccessLogs),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IngressAccessLogs: S.optional(IngressAccessLogs),
-  })
-    .pipe(
-      S.encodeKeys({
-        EgressAccessLogs: "egressAccessLogs",
-        IngressAccessLogs: "ingressAccessLogs",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/channels/{Id}/configure_logs" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ConfigureLogsRequest",
-}) as any as S.Schema<ConfigureLogsRequest>;
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface IngestEndpoint {
   Id?: string;
@@ -178,33 +138,11 @@ export interface IngestEndpoint {
   Url?: string;
   Username?: string | redacted.Redacted<string>;
 }
-export const IngestEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Password: S.optional(SensitiveString),
-    Url: S.optional(S.String),
-    Username: S.optional(SensitiveString),
-  }).pipe(
-    S.encodeKeys({
-      Id: "id",
-      Password: "password",
-      Url: "url",
-      Username: "username",
-    }),
-  ),
-).annotate({ identifier: "IngestEndpoint" }) as any as S.Schema<IngestEndpoint>;
 export type __listOfIngestEndpoint = IngestEndpoint[];
-export const __listOfIngestEndpoint = /*@__PURE__*/ S.Array(IngestEndpoint);
 export interface HlsIngest {
   IngestEndpoints?: IngestEndpoint[];
 }
-export const HlsIngest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IngestEndpoints: S.optional(__listOfIngestEndpoint) }).pipe(
-    S.encodeKeys({ IngestEndpoints: "ingestEndpoints" }),
-  ),
-).annotate({ identifier: "HlsIngest" }) as any as S.Schema<HlsIngest>;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ConfigureLogsResponse {
   Arn?: string;
   CreatedAt?: string;
@@ -215,56 +153,11 @@ export interface ConfigureLogsResponse {
   IngressAccessLogs?: IngressAccessLogs;
   Tags?: { [key: string]: string | undefined };
 }
-export const ConfigureLogsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreatedAt: S.optional(S.String),
-    Description: S.optional(S.String),
-    EgressAccessLogs: S.optional(EgressAccessLogs),
-    HlsIngest: S.optional(HlsIngest),
-    Id: S.optional(S.String),
-    IngressAccessLogs: S.optional(IngressAccessLogs),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      CreatedAt: "createdAt",
-      Description: "description",
-      EgressAccessLogs: "egressAccessLogs",
-      HlsIngest: "hlsIngest",
-      Id: "id",
-      IngressAccessLogs: "ingressAccessLogs",
-      Tags: "tags",
-    }),
-  ),
-).annotate({
-  identifier: "ConfigureLogsResponse",
-}) as any as S.Schema<ConfigureLogsResponse>;
 export interface CreateChannelRequest {
   Description?: string;
   Id?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    Id: S.optional(S.String),
-    Tags: S.optional(Tags),
-  })
-    .pipe(S.encodeKeys({ Description: "description", Id: "id", Tags: "tags" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/channels" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateChannelRequest",
-}) as any as S.Schema<CreateChannelRequest>;
 export interface CreateChannelResponse {
   Arn?: string;
   CreatedAt?: string;
@@ -275,49 +168,11 @@ export interface CreateChannelResponse {
   IngressAccessLogs?: IngressAccessLogs;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreatedAt: S.optional(S.String),
-    Description: S.optional(S.String),
-    EgressAccessLogs: S.optional(EgressAccessLogs),
-    HlsIngest: S.optional(HlsIngest),
-    Id: S.optional(S.String),
-    IngressAccessLogs: S.optional(IngressAccessLogs),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      CreatedAt: "createdAt",
-      Description: "description",
-      EgressAccessLogs: "egressAccessLogs",
-      HlsIngest: "hlsIngest",
-      Id: "id",
-      IngressAccessLogs: "ingressAccessLogs",
-      Tags: "tags",
-    }),
-  ),
-).annotate({
-  identifier: "CreateChannelResponse",
-}) as any as S.Schema<CreateChannelResponse>;
 export interface S3Destination {
   BucketName?: string;
   ManifestKey?: string;
   RoleArn?: string;
 }
-export const S3Destination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BucketName: S.optional(S.String),
-    ManifestKey: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      BucketName: "bucketName",
-      ManifestKey: "manifestKey",
-      RoleArn: "roleArn",
-    }),
-  ),
-).annotate({ identifier: "S3Destination" }) as any as S.Schema<S3Destination>;
 export interface CreateHarvestJobRequest {
   EndTime?: string;
   Id?: string;
@@ -325,39 +180,7 @@ export interface CreateHarvestJobRequest {
   S3Destination?: S3Destination;
   StartTime?: string;
 }
-export const CreateHarvestJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndTime: S.optional(S.String),
-    Id: S.optional(S.String),
-    OriginEndpointId: S.optional(S.String),
-    S3Destination: S.optional(S3Destination),
-    StartTime: S.optional(S.String),
-  })
-    .pipe(
-      S.encodeKeys({
-        EndTime: "endTime",
-        Id: "id",
-        OriginEndpointId: "originEndpointId",
-        S3Destination: "s3Destination",
-        StartTime: "startTime",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/harvest_jobs" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateHarvestJobRequest",
-}) as any as S.Schema<CreateHarvestJobRequest>;
 export type Status = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
-export const Status = S.String;
-
 export interface CreateHarvestJobResponse {
   Arn?: string;
   ChannelId?: string;
@@ -373,51 +196,11 @@ export interface CreateHarvestJobResponse {
   StartTime?: string;
   Status?: Status;
 }
-export const CreateHarvestJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    ChannelId: S.optional(S.String),
-    CreatedAt: S.optional(S.String),
-    EndTime: S.optional(S.String),
-    Id: S.optional(S.String),
-    OriginEndpointId: S.optional(S.String),
-    S3Destination: S.optional(S3Destination),
-    StartTime: S.optional(S.String),
-    Status: S.optional(Status),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      ChannelId: "channelId",
-      CreatedAt: "createdAt",
-      EndTime: "endTime",
-      Id: "id",
-      OriginEndpointId: "originEndpointId",
-      S3Destination: "s3Destination",
-      StartTime: "startTime",
-      Status: "status",
-    }),
-  ),
-).annotate({
-  identifier: "CreateHarvestJobResponse",
-}) as any as S.Schema<CreateHarvestJobResponse>;
 export interface Authorization {
   CdnIdentifierSecret?: string;
   SecretsRoleArn?: string;
 }
-export const Authorization = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CdnIdentifierSecret: S.optional(S.String),
-    SecretsRoleArn: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      CdnIdentifierSecret: "cdnIdentifierSecret",
-      SecretsRoleArn: "secretsRoleArn",
-    }),
-  ),
-).annotate({ identifier: "Authorization" }) as any as S.Schema<Authorization>;
 export type CmafEncryptionMethod = "SAMPLE_AES" | "AES_CTR" | (string & {});
-export const CmafEncryptionMethod = S.String;
-
 export type PresetSpeke20Audio =
   | "PRESET-AUDIO-1"
   | "PRESET-AUDIO-2"
@@ -425,8 +208,6 @@ export type PresetSpeke20Audio =
   | "SHARED"
   | "UNENCRYPTED"
   | (string & {});
-export const PresetSpeke20Audio = S.String;
-
 export type PresetSpeke20Video =
   | "PRESET-VIDEO-1"
   | "PRESET-VIDEO-2"
@@ -439,27 +220,11 @@ export type PresetSpeke20Video =
   | "SHARED"
   | "UNENCRYPTED"
   | (string & {});
-export const PresetSpeke20Video = S.String;
-
 export interface EncryptionContractConfiguration {
   PresetSpeke20Audio?: PresetSpeke20Audio;
   PresetSpeke20Video?: PresetSpeke20Video;
 }
-export const EncryptionContractConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PresetSpeke20Audio: S.optional(PresetSpeke20Audio),
-    PresetSpeke20Video: S.optional(PresetSpeke20Video),
-  }).pipe(
-    S.encodeKeys({
-      PresetSpeke20Audio: "presetSpeke20Audio",
-      PresetSpeke20Video: "presetSpeke20Video",
-    }),
-  ),
-).annotate({
-  identifier: "EncryptionContractConfiguration",
-}) as any as S.Schema<EncryptionContractConfiguration>;
 export type __listOf__string = string[];
-export const __listOf__string = /*@__PURE__*/ S.Array(S.String);
 export interface SpekeKeyProvider {
   CertificateArn?: string;
   EncryptionContractConfiguration?: EncryptionContractConfiguration;
@@ -468,58 +233,18 @@ export interface SpekeKeyProvider {
   SystemIds?: string[];
   Url?: string;
 }
-export const SpekeKeyProvider = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateArn: S.optional(S.String),
-    EncryptionContractConfiguration: S.optional(
-      EncryptionContractConfiguration,
-    ),
-    ResourceId: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-    SystemIds: S.optional(__listOf__string),
-    Url: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      CertificateArn: "certificateArn",
-      EncryptionContractConfiguration: "encryptionContractConfiguration",
-      ResourceId: "resourceId",
-      RoleArn: "roleArn",
-      SystemIds: "systemIds",
-      Url: "url",
-    }),
-  ),
-).annotate({
-  identifier: "SpekeKeyProvider",
-}) as any as S.Schema<SpekeKeyProvider>;
 export interface CmafEncryption {
   ConstantInitializationVector?: string;
   EncryptionMethod?: CmafEncryptionMethod;
   KeyRotationIntervalSeconds?: number;
   SpekeKeyProvider?: SpekeKeyProvider;
 }
-export const CmafEncryption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConstantInitializationVector: S.optional(S.String),
-    EncryptionMethod: S.optional(CmafEncryptionMethod),
-    KeyRotationIntervalSeconds: S.optional(S.Number),
-    SpekeKeyProvider: S.optional(SpekeKeyProvider),
-  }).pipe(
-    S.encodeKeys({
-      ConstantInitializationVector: "constantInitializationVector",
-      EncryptionMethod: "encryptionMethod",
-      KeyRotationIntervalSeconds: "keyRotationIntervalSeconds",
-      SpekeKeyProvider: "spekeKeyProvider",
-    }),
-  ),
-).annotate({ identifier: "CmafEncryption" }) as any as S.Schema<CmafEncryption>;
 export type AdMarkers =
   | "NONE"
   | "SCTE35_ENHANCED"
   | "PASSTHROUGH"
   | "DATERANGE"
   | (string & {});
-export const AdMarkers = S.String;
-
 export type __AdTriggersElement =
   | "SPLICE_INSERT"
   | "BREAK"
@@ -530,21 +255,14 @@ export type __AdTriggersElement =
   | "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY"
   | "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
   | (string & {});
-export const __AdTriggersElement = S.String;
-
 export type AdTriggers = __AdTriggersElement[];
-export const AdTriggers = /*@__PURE__*/ S.Array(__AdTriggersElement);
 export type AdsOnDeliveryRestrictions =
   | "NONE"
   | "RESTRICTED"
   | "UNRESTRICTED"
   | "BOTH"
   | (string & {});
-export const AdsOnDeliveryRestrictions = S.String;
-
 export type PlaylistType = "NONE" | "EVENT" | "VOD" | (string & {});
-export const PlaylistType = S.String;
-
 export interface HlsManifestCreateOrUpdateParameters {
   AdMarkers?: AdMarkers;
   AdTriggers?: __AdTriggersElement[];
@@ -556,64 +274,18 @@ export interface HlsManifestCreateOrUpdateParameters {
   PlaylistWindowSeconds?: number;
   ProgramDateTimeIntervalSeconds?: number;
 }
-export const HlsManifestCreateOrUpdateParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AdMarkers: S.optional(AdMarkers),
-    AdTriggers: S.optional(AdTriggers),
-    AdsOnDeliveryRestrictions: S.optional(AdsOnDeliveryRestrictions),
-    Id: S.optional(S.String),
-    IncludeIframeOnlyStream: S.optional(S.Boolean),
-    ManifestName: S.optional(S.String),
-    PlaylistType: S.optional(PlaylistType),
-    PlaylistWindowSeconds: S.optional(S.Number),
-    ProgramDateTimeIntervalSeconds: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      AdMarkers: "adMarkers",
-      AdTriggers: "adTriggers",
-      AdsOnDeliveryRestrictions: "adsOnDeliveryRestrictions",
-      Id: "id",
-      IncludeIframeOnlyStream: "includeIframeOnlyStream",
-      ManifestName: "manifestName",
-      PlaylistType: "playlistType",
-      PlaylistWindowSeconds: "playlistWindowSeconds",
-      ProgramDateTimeIntervalSeconds: "programDateTimeIntervalSeconds",
-    }),
-  ),
-).annotate({
-  identifier: "HlsManifestCreateOrUpdateParameters",
-}) as any as S.Schema<HlsManifestCreateOrUpdateParameters>;
 export type __listOfHlsManifestCreateOrUpdateParameters =
   HlsManifestCreateOrUpdateParameters[];
-export const __listOfHlsManifestCreateOrUpdateParameters =
-  /*@__PURE__*/ S.Array(HlsManifestCreateOrUpdateParameters);
 export type StreamOrder =
   | "ORIGINAL"
   | "VIDEO_BITRATE_ASCENDING"
   | "VIDEO_BITRATE_DESCENDING"
   | (string & {});
-export const StreamOrder = S.String;
-
 export interface StreamSelection {
   MaxVideoBitsPerSecond?: number;
   MinVideoBitsPerSecond?: number;
   StreamOrder?: StreamOrder;
 }
-export const StreamSelection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxVideoBitsPerSecond: S.optional(S.Number),
-    MinVideoBitsPerSecond: S.optional(S.Number),
-    StreamOrder: S.optional(StreamOrder),
-  }).pipe(
-    S.encodeKeys({
-      MaxVideoBitsPerSecond: "maxVideoBitsPerSecond",
-      MinVideoBitsPerSecond: "minVideoBitsPerSecond",
-      StreamOrder: "streamOrder",
-    }),
-  ),
-).annotate({
-  identifier: "StreamSelection",
-}) as any as S.Schema<StreamSelection>;
 export interface CmafPackageCreateOrUpdateParameters {
   Encryption?: CmafEncryption;
   HlsManifests?: HlsManifestCreateOrUpdateParameters[];
@@ -621,77 +293,34 @@ export interface CmafPackageCreateOrUpdateParameters {
   SegmentPrefix?: string;
   StreamSelection?: StreamSelection;
 }
-export const CmafPackageCreateOrUpdateParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Encryption: S.optional(CmafEncryption),
-    HlsManifests: S.optional(__listOfHlsManifestCreateOrUpdateParameters),
-    SegmentDurationSeconds: S.optional(S.Number),
-    SegmentPrefix: S.optional(S.String),
-    StreamSelection: S.optional(StreamSelection),
-  }).pipe(
-    S.encodeKeys({
-      Encryption: "encryption",
-      HlsManifests: "hlsManifests",
-      SegmentDurationSeconds: "segmentDurationSeconds",
-      SegmentPrefix: "segmentPrefix",
-      StreamSelection: "streamSelection",
-    }),
-  ),
-).annotate({
-  identifier: "CmafPackageCreateOrUpdateParameters",
-}) as any as S.Schema<CmafPackageCreateOrUpdateParameters>;
 export interface DashEncryption {
   KeyRotationIntervalSeconds?: number;
   SpekeKeyProvider?: SpekeKeyProvider;
 }
-export const DashEncryption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyRotationIntervalSeconds: S.optional(S.Number),
-    SpekeKeyProvider: S.optional(SpekeKeyProvider),
-  }).pipe(
-    S.encodeKeys({
-      KeyRotationIntervalSeconds: "keyRotationIntervalSeconds",
-      SpekeKeyProvider: "spekeKeyProvider",
-    }),
-  ),
-).annotate({ identifier: "DashEncryption" }) as any as S.Schema<DashEncryption>;
 export type ManifestLayout =
   | "FULL"
   | "COMPACT"
   | "DRM_TOP_LEVEL_COMPACT"
   | (string & {});
-export const ManifestLayout = S.String;
-
 export type __PeriodTriggersElement = "ADS" | (string & {});
-export const __PeriodTriggersElement = S.String;
-
 export type __listOf__PeriodTriggersElement = __PeriodTriggersElement[];
-export const __listOf__PeriodTriggersElement = /*@__PURE__*/ S.Array(
-  __PeriodTriggersElement,
-);
 export type Profile =
   | "NONE"
   | "HBBTV_1_5"
   | "HYBRIDCAST"
   | "DVB_DASH_2014"
   | (string & {});
-export const Profile = S.String;
-
 export type SegmentTemplateFormat =
   | "NUMBER_WITH_TIMELINE"
   | "TIME_WITH_TIMELINE"
   | "NUMBER_WITH_DURATION"
   | (string & {});
-export const SegmentTemplateFormat = S.String;
-
 export type UtcTiming =
   | "NONE"
   | "HTTP-HEAD"
   | "HTTP-ISO"
   | "HTTP-XSDATE"
   | (string & {});
-export const UtcTiming = S.String;
-
 export interface DashPackage {
   AdTriggers?: __AdTriggersElement[];
   AdsOnDeliveryRestrictions?: AdsOnDeliveryRestrictions;
@@ -710,48 +339,7 @@ export interface DashPackage {
   UtcTiming?: UtcTiming;
   UtcTimingUri?: string;
 }
-export const DashPackage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AdTriggers: S.optional(AdTriggers),
-    AdsOnDeliveryRestrictions: S.optional(AdsOnDeliveryRestrictions),
-    Encryption: S.optional(DashEncryption),
-    IncludeIframeOnlyStream: S.optional(S.Boolean),
-    ManifestLayout: S.optional(ManifestLayout),
-    ManifestWindowSeconds: S.optional(S.Number),
-    MinBufferTimeSeconds: S.optional(S.Number),
-    MinUpdatePeriodSeconds: S.optional(S.Number),
-    PeriodTriggers: S.optional(__listOf__PeriodTriggersElement),
-    Profile: S.optional(Profile),
-    SegmentDurationSeconds: S.optional(S.Number),
-    SegmentTemplateFormat: S.optional(SegmentTemplateFormat),
-    StreamSelection: S.optional(StreamSelection),
-    SuggestedPresentationDelaySeconds: S.optional(S.Number),
-    UtcTiming: S.optional(UtcTiming),
-    UtcTimingUri: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      AdTriggers: "adTriggers",
-      AdsOnDeliveryRestrictions: "adsOnDeliveryRestrictions",
-      Encryption: "encryption",
-      IncludeIframeOnlyStream: "includeIframeOnlyStream",
-      ManifestLayout: "manifestLayout",
-      ManifestWindowSeconds: "manifestWindowSeconds",
-      MinBufferTimeSeconds: "minBufferTimeSeconds",
-      MinUpdatePeriodSeconds: "minUpdatePeriodSeconds",
-      PeriodTriggers: "periodTriggers",
-      Profile: "profile",
-      SegmentDurationSeconds: "segmentDurationSeconds",
-      SegmentTemplateFormat: "segmentTemplateFormat",
-      StreamSelection: "streamSelection",
-      SuggestedPresentationDelaySeconds: "suggestedPresentationDelaySeconds",
-      UtcTiming: "utcTiming",
-      UtcTimingUri: "utcTimingUri",
-    }),
-  ),
-).annotate({ identifier: "DashPackage" }) as any as S.Schema<DashPackage>;
 export type EncryptionMethod = "AES_128" | "SAMPLE_AES" | (string & {});
-export const EncryptionMethod = S.String;
-
 export interface HlsEncryption {
   ConstantInitializationVector?: string;
   EncryptionMethod?: EncryptionMethod;
@@ -759,23 +347,6 @@ export interface HlsEncryption {
   RepeatExtXKey?: boolean;
   SpekeKeyProvider?: SpekeKeyProvider;
 }
-export const HlsEncryption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConstantInitializationVector: S.optional(S.String),
-    EncryptionMethod: S.optional(EncryptionMethod),
-    KeyRotationIntervalSeconds: S.optional(S.Number),
-    RepeatExtXKey: S.optional(S.Boolean),
-    SpekeKeyProvider: S.optional(SpekeKeyProvider),
-  }).pipe(
-    S.encodeKeys({
-      ConstantInitializationVector: "constantInitializationVector",
-      EncryptionMethod: "encryptionMethod",
-      KeyRotationIntervalSeconds: "keyRotationIntervalSeconds",
-      RepeatExtXKey: "repeatExtXKey",
-      SpekeKeyProvider: "spekeKeyProvider",
-    }),
-  ),
-).annotate({ identifier: "HlsEncryption" }) as any as S.Schema<HlsEncryption>;
 export interface HlsPackage {
   AdMarkers?: AdMarkers;
   AdTriggers?: __AdTriggersElement[];
@@ -790,69 +361,16 @@ export interface HlsPackage {
   StreamSelection?: StreamSelection;
   UseAudioRenditionGroup?: boolean;
 }
-export const HlsPackage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AdMarkers: S.optional(AdMarkers),
-    AdTriggers: S.optional(AdTriggers),
-    AdsOnDeliveryRestrictions: S.optional(AdsOnDeliveryRestrictions),
-    Encryption: S.optional(HlsEncryption),
-    IncludeDvbSubtitles: S.optional(S.Boolean),
-    IncludeIframeOnlyStream: S.optional(S.Boolean),
-    PlaylistType: S.optional(PlaylistType),
-    PlaylistWindowSeconds: S.optional(S.Number),
-    ProgramDateTimeIntervalSeconds: S.optional(S.Number),
-    SegmentDurationSeconds: S.optional(S.Number),
-    StreamSelection: S.optional(StreamSelection),
-    UseAudioRenditionGroup: S.optional(S.Boolean),
-  }).pipe(
-    S.encodeKeys({
-      AdMarkers: "adMarkers",
-      AdTriggers: "adTriggers",
-      AdsOnDeliveryRestrictions: "adsOnDeliveryRestrictions",
-      Encryption: "encryption",
-      IncludeDvbSubtitles: "includeDvbSubtitles",
-      IncludeIframeOnlyStream: "includeIframeOnlyStream",
-      PlaylistType: "playlistType",
-      PlaylistWindowSeconds: "playlistWindowSeconds",
-      ProgramDateTimeIntervalSeconds: "programDateTimeIntervalSeconds",
-      SegmentDurationSeconds: "segmentDurationSeconds",
-      StreamSelection: "streamSelection",
-      UseAudioRenditionGroup: "useAudioRenditionGroup",
-    }),
-  ),
-).annotate({ identifier: "HlsPackage" }) as any as S.Schema<HlsPackage>;
 export interface MssEncryption {
   SpekeKeyProvider?: SpekeKeyProvider;
 }
-export const MssEncryption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SpekeKeyProvider: S.optional(SpekeKeyProvider) }).pipe(
-    S.encodeKeys({ SpekeKeyProvider: "spekeKeyProvider" }),
-  ),
-).annotate({ identifier: "MssEncryption" }) as any as S.Schema<MssEncryption>;
 export interface MssPackage {
   Encryption?: MssEncryption;
   ManifestWindowSeconds?: number;
   SegmentDurationSeconds?: number;
   StreamSelection?: StreamSelection;
 }
-export const MssPackage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Encryption: S.optional(MssEncryption),
-    ManifestWindowSeconds: S.optional(S.Number),
-    SegmentDurationSeconds: S.optional(S.Number),
-    StreamSelection: S.optional(StreamSelection),
-  }).pipe(
-    S.encodeKeys({
-      Encryption: "encryption",
-      ManifestWindowSeconds: "manifestWindowSeconds",
-      SegmentDurationSeconds: "segmentDurationSeconds",
-      StreamSelection: "streamSelection",
-    }),
-  ),
-).annotate({ identifier: "MssPackage" }) as any as S.Schema<MssPackage>;
 export type Origination = "ALLOW" | "DENY" | (string & {});
-export const Origination = S.String;
-
 export interface CreateOriginEndpointRequest {
   Authorization?: Authorization;
   ChannelId?: string;
@@ -869,54 +387,6 @@ export interface CreateOriginEndpointRequest {
   TimeDelaySeconds?: number;
   Whitelist?: string[];
 }
-export const CreateOriginEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Authorization: S.optional(Authorization),
-    ChannelId: S.optional(S.String),
-    CmafPackage: S.optional(CmafPackageCreateOrUpdateParameters),
-    DashPackage: S.optional(DashPackage),
-    Description: S.optional(S.String),
-    HlsPackage: S.optional(HlsPackage),
-    Id: S.optional(S.String),
-    ManifestName: S.optional(S.String),
-    MssPackage: S.optional(MssPackage),
-    Origination: S.optional(Origination),
-    StartoverWindowSeconds: S.optional(S.Number),
-    Tags: S.optional(Tags),
-    TimeDelaySeconds: S.optional(S.Number),
-    Whitelist: S.optional(__listOf__string),
-  })
-    .pipe(
-      S.encodeKeys({
-        Authorization: "authorization",
-        ChannelId: "channelId",
-        CmafPackage: "cmafPackage",
-        DashPackage: "dashPackage",
-        Description: "description",
-        HlsPackage: "hlsPackage",
-        Id: "id",
-        ManifestName: "manifestName",
-        MssPackage: "mssPackage",
-        Origination: "origination",
-        StartoverWindowSeconds: "startoverWindowSeconds",
-        Tags: "tags",
-        TimeDelaySeconds: "timeDelaySeconds",
-        Whitelist: "whitelist",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/origin_endpoints" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateOriginEndpointRequest",
-}) as any as S.Schema<CreateOriginEndpointRequest>;
 export interface HlsManifest {
   AdMarkers?: AdMarkers;
   Id?: string;
@@ -929,35 +399,7 @@ export interface HlsManifest {
   AdTriggers?: __AdTriggersElement[];
   AdsOnDeliveryRestrictions?: AdsOnDeliveryRestrictions;
 }
-export const HlsManifest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AdMarkers: S.optional(AdMarkers),
-    Id: S.optional(S.String),
-    IncludeIframeOnlyStream: S.optional(S.Boolean),
-    ManifestName: S.optional(S.String),
-    PlaylistType: S.optional(PlaylistType),
-    PlaylistWindowSeconds: S.optional(S.Number),
-    ProgramDateTimeIntervalSeconds: S.optional(S.Number),
-    Url: S.optional(S.String),
-    AdTriggers: S.optional(AdTriggers),
-    AdsOnDeliveryRestrictions: S.optional(AdsOnDeliveryRestrictions),
-  }).pipe(
-    S.encodeKeys({
-      AdMarkers: "adMarkers",
-      Id: "id",
-      IncludeIframeOnlyStream: "includeIframeOnlyStream",
-      ManifestName: "manifestName",
-      PlaylistType: "playlistType",
-      PlaylistWindowSeconds: "playlistWindowSeconds",
-      ProgramDateTimeIntervalSeconds: "programDateTimeIntervalSeconds",
-      Url: "url",
-      AdTriggers: "adTriggers",
-      AdsOnDeliveryRestrictions: "adsOnDeliveryRestrictions",
-    }),
-  ),
-).annotate({ identifier: "HlsManifest" }) as any as S.Schema<HlsManifest>;
 export type __listOfHlsManifest = HlsManifest[];
-export const __listOfHlsManifest = /*@__PURE__*/ S.Array(HlsManifest);
 export interface CmafPackage {
   Encryption?: CmafEncryption;
   HlsManifests?: HlsManifest[];
@@ -965,23 +407,6 @@ export interface CmafPackage {
   SegmentPrefix?: string;
   StreamSelection?: StreamSelection;
 }
-export const CmafPackage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Encryption: S.optional(CmafEncryption),
-    HlsManifests: S.optional(__listOfHlsManifest),
-    SegmentDurationSeconds: S.optional(S.Number),
-    SegmentPrefix: S.optional(S.String),
-    StreamSelection: S.optional(StreamSelection),
-  }).pipe(
-    S.encodeKeys({
-      Encryption: "encryption",
-      HlsManifests: "hlsManifests",
-      SegmentDurationSeconds: "segmentDurationSeconds",
-      SegmentPrefix: "segmentPrefix",
-      StreamSelection: "streamSelection",
-    }),
-  ),
-).annotate({ identifier: "CmafPackage" }) as any as S.Schema<CmafPackage>;
 export interface CreateOriginEndpointResponse {
   Arn?: string;
   Authorization?: Authorization & {
@@ -1057,112 +482,17 @@ export interface CreateOriginEndpointResponse {
   Url?: string;
   Whitelist?: string[];
 }
-export const CreateOriginEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Authorization: S.optional(Authorization),
-    ChannelId: S.optional(S.String),
-    CmafPackage: S.optional(CmafPackage),
-    CreatedAt: S.optional(S.String),
-    DashPackage: S.optional(DashPackage),
-    Description: S.optional(S.String),
-    HlsPackage: S.optional(HlsPackage),
-    Id: S.optional(S.String),
-    ManifestName: S.optional(S.String),
-    MssPackage: S.optional(MssPackage),
-    Origination: S.optional(Origination),
-    StartoverWindowSeconds: S.optional(S.Number),
-    Tags: S.optional(Tags),
-    TimeDelaySeconds: S.optional(S.Number),
-    Url: S.optional(S.String),
-    Whitelist: S.optional(__listOf__string),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      Authorization: "authorization",
-      ChannelId: "channelId",
-      CmafPackage: "cmafPackage",
-      CreatedAt: "createdAt",
-      DashPackage: "dashPackage",
-      Description: "description",
-      HlsPackage: "hlsPackage",
-      Id: "id",
-      ManifestName: "manifestName",
-      MssPackage: "mssPackage",
-      Origination: "origination",
-      StartoverWindowSeconds: "startoverWindowSeconds",
-      Tags: "tags",
-      TimeDelaySeconds: "timeDelaySeconds",
-      Url: "url",
-      Whitelist: "whitelist",
-    }),
-  ),
-).annotate({
-  identifier: "CreateOriginEndpointResponse",
-}) as any as S.Schema<CreateOriginEndpointResponse>;
 export interface DeleteChannelRequest {
   Id: string;
 }
-export const DeleteChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/channels/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteChannelRequest",
-}) as any as S.Schema<DeleteChannelRequest>;
 export interface DeleteChannelResponse {}
-export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteChannelResponse",
-}) as any as S.Schema<DeleteChannelResponse>;
 export interface DeleteOriginEndpointRequest {
   Id: string;
 }
-export const DeleteOriginEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/origin_endpoints/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteOriginEndpointRequest",
-}) as any as S.Schema<DeleteOriginEndpointRequest>;
 export interface DeleteOriginEndpointResponse {}
-export const DeleteOriginEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteOriginEndpointResponse",
-}) as any as S.Schema<DeleteOriginEndpointResponse>;
 export interface DescribeChannelRequest {
   Id: string;
 }
-export const DescribeChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/channels/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeChannelRequest",
-}) as any as S.Schema<DescribeChannelRequest>;
 export interface DescribeChannelResponse {
   Arn?: string;
   CreatedAt?: string;
@@ -1173,48 +503,9 @@ export interface DescribeChannelResponse {
   IngressAccessLogs?: IngressAccessLogs;
   Tags?: { [key: string]: string | undefined };
 }
-export const DescribeChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreatedAt: S.optional(S.String),
-    Description: S.optional(S.String),
-    EgressAccessLogs: S.optional(EgressAccessLogs),
-    HlsIngest: S.optional(HlsIngest),
-    Id: S.optional(S.String),
-    IngressAccessLogs: S.optional(IngressAccessLogs),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      CreatedAt: "createdAt",
-      Description: "description",
-      EgressAccessLogs: "egressAccessLogs",
-      HlsIngest: "hlsIngest",
-      Id: "id",
-      IngressAccessLogs: "ingressAccessLogs",
-      Tags: "tags",
-    }),
-  ),
-).annotate({
-  identifier: "DescribeChannelResponse",
-}) as any as S.Schema<DescribeChannelResponse>;
 export interface DescribeHarvestJobRequest {
   Id: string;
 }
-export const DescribeHarvestJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/harvest_jobs/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeHarvestJobRequest",
-}) as any as S.Schema<DescribeHarvestJobRequest>;
 export interface DescribeHarvestJobResponse {
   Arn?: string;
   ChannelId?: string;
@@ -1230,50 +521,9 @@ export interface DescribeHarvestJobResponse {
   StartTime?: string;
   Status?: Status;
 }
-export const DescribeHarvestJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    ChannelId: S.optional(S.String),
-    CreatedAt: S.optional(S.String),
-    EndTime: S.optional(S.String),
-    Id: S.optional(S.String),
-    OriginEndpointId: S.optional(S.String),
-    S3Destination: S.optional(S3Destination),
-    StartTime: S.optional(S.String),
-    Status: S.optional(Status),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      ChannelId: "channelId",
-      CreatedAt: "createdAt",
-      EndTime: "endTime",
-      Id: "id",
-      OriginEndpointId: "originEndpointId",
-      S3Destination: "s3Destination",
-      StartTime: "startTime",
-      Status: "status",
-    }),
-  ),
-).annotate({
-  identifier: "DescribeHarvestJobResponse",
-}) as any as S.Schema<DescribeHarvestJobResponse>;
 export interface DescribeOriginEndpointRequest {
   Id: string;
 }
-export const DescribeOriginEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/origin_endpoints/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeOriginEndpointRequest",
-}) as any as S.Schema<DescribeOriginEndpointRequest>;
 export interface DescribeOriginEndpointResponse {
   Arn?: string;
   Authorization?: Authorization & {
@@ -1349,71 +599,11 @@ export interface DescribeOriginEndpointResponse {
   Url?: string;
   Whitelist?: string[];
 }
-export const DescribeOriginEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Authorization: S.optional(Authorization),
-    ChannelId: S.optional(S.String),
-    CmafPackage: S.optional(CmafPackage),
-    CreatedAt: S.optional(S.String),
-    DashPackage: S.optional(DashPackage),
-    Description: S.optional(S.String),
-    HlsPackage: S.optional(HlsPackage),
-    Id: S.optional(S.String),
-    ManifestName: S.optional(S.String),
-    MssPackage: S.optional(MssPackage),
-    Origination: S.optional(Origination),
-    StartoverWindowSeconds: S.optional(S.Number),
-    Tags: S.optional(Tags),
-    TimeDelaySeconds: S.optional(S.Number),
-    Url: S.optional(S.String),
-    Whitelist: S.optional(__listOf__string),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      Authorization: "authorization",
-      ChannelId: "channelId",
-      CmafPackage: "cmafPackage",
-      CreatedAt: "createdAt",
-      DashPackage: "dashPackage",
-      Description: "description",
-      HlsPackage: "hlsPackage",
-      Id: "id",
-      ManifestName: "manifestName",
-      MssPackage: "mssPackage",
-      Origination: "origination",
-      StartoverWindowSeconds: "startoverWindowSeconds",
-      Tags: "tags",
-      TimeDelaySeconds: "timeDelaySeconds",
-      Url: "url",
-      Whitelist: "whitelist",
-    }),
-  ),
-).annotate({
-  identifier: "DescribeOriginEndpointResponse",
-}) as any as S.Schema<DescribeOriginEndpointResponse>;
 export type MaxResults = number;
 export interface ListChannelsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListChannelsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/channels" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListChannelsRequest",
-}) as any as S.Schema<ListChannelsRequest>;
 export interface Channel {
   Arn?: string;
   CreatedAt?: string;
@@ -1424,70 +614,17 @@ export interface Channel {
   IngressAccessLogs?: IngressAccessLogs;
   Tags?: { [key: string]: string | undefined };
 }
-export const Channel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreatedAt: S.optional(S.String),
-    Description: S.optional(S.String),
-    EgressAccessLogs: S.optional(EgressAccessLogs),
-    HlsIngest: S.optional(HlsIngest),
-    Id: S.optional(S.String),
-    IngressAccessLogs: S.optional(IngressAccessLogs),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      CreatedAt: "createdAt",
-      Description: "description",
-      EgressAccessLogs: "egressAccessLogs",
-      HlsIngest: "hlsIngest",
-      Id: "id",
-      IngressAccessLogs: "ingressAccessLogs",
-      Tags: "tags",
-    }),
-  ),
-).annotate({ identifier: "Channel" }) as any as S.Schema<Channel>;
 export type __listOfChannel = Channel[];
-export const __listOfChannel = /*@__PURE__*/ S.Array(Channel);
 export interface ListChannelsResponse {
   Channels?: Channel[];
   NextToken?: string;
 }
-export const ListChannelsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Channels: S.optional(__listOfChannel),
-    NextToken: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Channels: "channels", NextToken: "nextToken" })),
-).annotate({
-  identifier: "ListChannelsResponse",
-}) as any as S.Schema<ListChannelsResponse>;
 export interface ListHarvestJobsRequest {
   IncludeChannelId?: string;
   IncludeStatus?: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListHarvestJobsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IncludeChannelId: S.optional(S.String).pipe(
-      T.HttpQuery("includeChannelId"),
-    ),
-    IncludeStatus: S.optional(S.String).pipe(T.HttpQuery("includeStatus")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/harvest_jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListHarvestJobsRequest",
-}) as any as S.Schema<ListHarvestJobsRequest>;
 export interface HarvestJob {
   Arn?: string;
   ChannelId?: string;
@@ -1499,33 +636,7 @@ export interface HarvestJob {
   StartTime?: string;
   Status?: Status;
 }
-export const HarvestJob = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    ChannelId: S.optional(S.String),
-    CreatedAt: S.optional(S.String),
-    EndTime: S.optional(S.String),
-    Id: S.optional(S.String),
-    OriginEndpointId: S.optional(S.String),
-    S3Destination: S.optional(S3Destination),
-    StartTime: S.optional(S.String),
-    Status: S.optional(Status),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      ChannelId: "channelId",
-      CreatedAt: "createdAt",
-      EndTime: "endTime",
-      Id: "id",
-      OriginEndpointId: "originEndpointId",
-      S3Destination: "s3Destination",
-      StartTime: "startTime",
-      Status: "status",
-    }),
-  ),
-).annotate({ identifier: "HarvestJob" }) as any as S.Schema<HarvestJob>;
 export type __listOfHarvestJob = HarvestJob[];
-export const __listOfHarvestJob = /*@__PURE__*/ S.Array(HarvestJob);
 export interface ListHarvestJobsResponse {
   HarvestJobs?: (HarvestJob & {
     S3Destination: S3Destination & {
@@ -1536,37 +647,11 @@ export interface ListHarvestJobsResponse {
   })[];
   NextToken?: string;
 }
-export const ListHarvestJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HarvestJobs: S.optional(__listOfHarvestJob),
-    NextToken: S.optional(S.String),
-  }).pipe(S.encodeKeys({ HarvestJobs: "harvestJobs", NextToken: "nextToken" })),
-).annotate({
-  identifier: "ListHarvestJobsResponse",
-}) as any as S.Schema<ListHarvestJobsResponse>;
 export interface ListOriginEndpointsRequest {
   ChannelId?: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListOriginEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelId: S.optional(S.String).pipe(T.HttpQuery("channelId")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/origin_endpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListOriginEndpointsRequest",
-}) as any as S.Schema<ListOriginEndpointsRequest>;
 export interface OriginEndpoint {
   Arn?: string;
   Authorization?: Authorization;
@@ -1586,49 +671,7 @@ export interface OriginEndpoint {
   Url?: string;
   Whitelist?: string[];
 }
-export const OriginEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Authorization: S.optional(Authorization),
-    ChannelId: S.optional(S.String),
-    CmafPackage: S.optional(CmafPackage),
-    CreatedAt: S.optional(S.String),
-    DashPackage: S.optional(DashPackage),
-    Description: S.optional(S.String),
-    HlsPackage: S.optional(HlsPackage),
-    Id: S.optional(S.String),
-    ManifestName: S.optional(S.String),
-    MssPackage: S.optional(MssPackage),
-    Origination: S.optional(Origination),
-    StartoverWindowSeconds: S.optional(S.Number),
-    Tags: S.optional(Tags),
-    TimeDelaySeconds: S.optional(S.Number),
-    Url: S.optional(S.String),
-    Whitelist: S.optional(__listOf__string),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      Authorization: "authorization",
-      ChannelId: "channelId",
-      CmafPackage: "cmafPackage",
-      CreatedAt: "createdAt",
-      DashPackage: "dashPackage",
-      Description: "description",
-      HlsPackage: "hlsPackage",
-      Id: "id",
-      ManifestName: "manifestName",
-      MssPackage: "mssPackage",
-      Origination: "origination",
-      StartoverWindowSeconds: "startoverWindowSeconds",
-      Tags: "tags",
-      TimeDelaySeconds: "timeDelaySeconds",
-      Url: "url",
-      Whitelist: "whitelist",
-    }),
-  ),
-).annotate({ identifier: "OriginEndpoint" }) as any as S.Schema<OriginEndpoint>;
 export type __listOfOriginEndpoint = OriginEndpoint[];
-export const __listOfOriginEndpoint = /*@__PURE__*/ S.Array(OriginEndpoint);
 export interface ListOriginEndpointsResponse {
   NextToken?: string;
   OriginEndpoints?: (OriginEndpoint & {
@@ -1695,68 +738,16 @@ export interface ListOriginEndpointsResponse {
     };
   })[];
 }
-export const ListOriginEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    OriginEndpoints: S.optional(__listOfOriginEndpoint),
-  }).pipe(
-    S.encodeKeys({
-      NextToken: "nextToken",
-      OriginEndpoints: "originEndpoints",
-    }),
-  ),
-).annotate({
-  identifier: "ListOriginEndpointsResponse",
-}) as any as S.Schema<ListOriginEndpointsResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export type __mapOf__string = { [key: string]: string | undefined };
-export const __mapOf__string = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(__mapOf__string) }).pipe(
-    S.encodeKeys({ Tags: "tags" }),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface RotateChannelCredentialsRequest {
   Id: string;
 }
-export const RotateChannelCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/channels/{Id}/credentials" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RotateChannelCredentialsRequest",
-}) as any as S.Schema<RotateChannelCredentialsRequest>;
 export interface RotateChannelCredentialsResponse {
   Arn?: string;
   CreatedAt?: string;
@@ -1767,56 +758,10 @@ export interface RotateChannelCredentialsResponse {
   IngressAccessLogs?: IngressAccessLogs;
   Tags?: { [key: string]: string | undefined };
 }
-export const RotateChannelCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreatedAt: S.optional(S.String),
-    Description: S.optional(S.String),
-    EgressAccessLogs: S.optional(EgressAccessLogs),
-    HlsIngest: S.optional(HlsIngest),
-    Id: S.optional(S.String),
-    IngressAccessLogs: S.optional(IngressAccessLogs),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      CreatedAt: "createdAt",
-      Description: "description",
-      EgressAccessLogs: "egressAccessLogs",
-      HlsIngest: "hlsIngest",
-      Id: "id",
-      IngressAccessLogs: "ingressAccessLogs",
-      Tags: "tags",
-    }),
-  ),
-).annotate({
-  identifier: "RotateChannelCredentialsResponse",
-}) as any as S.Schema<RotateChannelCredentialsResponse>;
 export interface RotateIngestEndpointCredentialsRequest {
   Id: string;
   IngestEndpointId: string;
 }
-export const RotateIngestEndpointCredentialsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      IngestEndpointId: S.String.pipe(T.HttpLabel("IngestEndpointId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/channels/{Id}/ingest_endpoints/{IngestEndpointId}/credentials",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "RotateIngestEndpointCredentialsRequest",
-}) as any as S.Schema<RotateIngestEndpointCredentialsRequest>;
 export interface RotateIngestEndpointCredentialsResponse {
   Arn?: string;
   CreatedAt?: string;
@@ -1827,111 +772,20 @@ export interface RotateIngestEndpointCredentialsResponse {
   IngressAccessLogs?: IngressAccessLogs;
   Tags?: { [key: string]: string | undefined };
 }
-export const RotateIngestEndpointCredentialsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Arn: S.optional(S.String),
-      CreatedAt: S.optional(S.String),
-      Description: S.optional(S.String),
-      EgressAccessLogs: S.optional(EgressAccessLogs),
-      HlsIngest: S.optional(HlsIngest),
-      Id: S.optional(S.String),
-      IngressAccessLogs: S.optional(IngressAccessLogs),
-      Tags: S.optional(Tags),
-    }).pipe(
-      S.encodeKeys({
-        Arn: "arn",
-        CreatedAt: "createdAt",
-        Description: "description",
-        EgressAccessLogs: "egressAccessLogs",
-        HlsIngest: "hlsIngest",
-        Id: "id",
-        IngressAccessLogs: "ingressAccessLogs",
-        Tags: "tags",
-      }),
-    ),
-).annotate({
-  identifier: "RotateIngestEndpointCredentialsResponse",
-}) as any as S.Schema<RotateIngestEndpointCredentialsResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: S.optional(__mapOf__string),
-  })
-    .pipe(S.encodeKeys({ Tags: "tags" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys?: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: S.optional(__listOf__string).pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateChannelRequest {
   Description?: string;
   Id: string;
 }
-export const UpdateChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-  })
-    .pipe(S.encodeKeys({ Description: "description" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/channels/{Id}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateChannelRequest",
-}) as any as S.Schema<UpdateChannelRequest>;
 export interface UpdateChannelResponse {
   Arn?: string;
   CreatedAt?: string;
@@ -1942,31 +796,6 @@ export interface UpdateChannelResponse {
   IngressAccessLogs?: IngressAccessLogs;
   Tags?: { [key: string]: string | undefined };
 }
-export const UpdateChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreatedAt: S.optional(S.String),
-    Description: S.optional(S.String),
-    EgressAccessLogs: S.optional(EgressAccessLogs),
-    HlsIngest: S.optional(HlsIngest),
-    Id: S.optional(S.String),
-    IngressAccessLogs: S.optional(IngressAccessLogs),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      CreatedAt: "createdAt",
-      Description: "description",
-      EgressAccessLogs: "egressAccessLogs",
-      HlsIngest: "hlsIngest",
-      Id: "id",
-      IngressAccessLogs: "ingressAccessLogs",
-      Tags: "tags",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateChannelResponse",
-}) as any as S.Schema<UpdateChannelResponse>;
 export interface UpdateOriginEndpointRequest {
   Authorization?: Authorization;
   CmafPackage?: CmafPackageCreateOrUpdateParameters;
@@ -1981,49 +810,6 @@ export interface UpdateOriginEndpointRequest {
   TimeDelaySeconds?: number;
   Whitelist?: string[];
 }
-export const UpdateOriginEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Authorization: S.optional(Authorization),
-    CmafPackage: S.optional(CmafPackageCreateOrUpdateParameters),
-    DashPackage: S.optional(DashPackage),
-    Description: S.optional(S.String),
-    HlsPackage: S.optional(HlsPackage),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    ManifestName: S.optional(S.String),
-    MssPackage: S.optional(MssPackage),
-    Origination: S.optional(Origination),
-    StartoverWindowSeconds: S.optional(S.Number),
-    TimeDelaySeconds: S.optional(S.Number),
-    Whitelist: S.optional(__listOf__string),
-  })
-    .pipe(
-      S.encodeKeys({
-        Authorization: "authorization",
-        CmafPackage: "cmafPackage",
-        DashPackage: "dashPackage",
-        Description: "description",
-        HlsPackage: "hlsPackage",
-        ManifestName: "manifestName",
-        MssPackage: "mssPackage",
-        Origination: "origination",
-        StartoverWindowSeconds: "startoverWindowSeconds",
-        TimeDelaySeconds: "timeDelaySeconds",
-        Whitelist: "whitelist",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/origin_endpoints/{Id}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateOriginEndpointRequest",
-}) as any as S.Schema<UpdateOriginEndpointRequest>;
 export interface UpdateOriginEndpointResponse {
   Arn?: string;
   Authorization?: Authorization & {
@@ -2099,49 +885,6 @@ export interface UpdateOriginEndpointResponse {
   Url?: string;
   Whitelist?: string[];
 }
-export const UpdateOriginEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Authorization: S.optional(Authorization),
-    ChannelId: S.optional(S.String),
-    CmafPackage: S.optional(CmafPackage),
-    CreatedAt: S.optional(S.String),
-    DashPackage: S.optional(DashPackage),
-    Description: S.optional(S.String),
-    HlsPackage: S.optional(HlsPackage),
-    Id: S.optional(S.String),
-    ManifestName: S.optional(S.String),
-    MssPackage: S.optional(MssPackage),
-    Origination: S.optional(Origination),
-    StartoverWindowSeconds: S.optional(S.Number),
-    Tags: S.optional(Tags),
-    TimeDelaySeconds: S.optional(S.Number),
-    Url: S.optional(S.String),
-    Whitelist: S.optional(__listOf__string),
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      Authorization: "authorization",
-      ChannelId: "channelId",
-      CmafPackage: "cmafPackage",
-      CreatedAt: "createdAt",
-      DashPackage: "dashPackage",
-      Description: "description",
-      HlsPackage: "hlsPackage",
-      Id: "id",
-      ManifestName: "manifestName",
-      MssPackage: "mssPackage",
-      Origination: "origination",
-      StartoverWindowSeconds: "startoverWindowSeconds",
-      Tags: "tags",
-      TimeDelaySeconds: "timeDelaySeconds",
-      Url: "url",
-      Whitelist: "whitelist",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateOriginEndpointResponse",
-}) as any as S.Schema<UpdateOriginEndpointResponse>;
 export type ConfigureLogsError =
   | ForbiddenException
   | InternalServerErrorException
@@ -2159,8 +902,38 @@ export const configureLogs: API.OperationMethod<
   ConfigureLogsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ConfigureLogsRequest,
-  output: ConfigureLogsResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /channels/{Id}/configure_logs",
+    input: {
+      EgressAccessLogs: D.m({
+        wire: "egressAccessLogs",
+        shape: { LogGroupName: D.m({ wire: "logGroupName" }) },
+      }),
+      Id: 0,
+      IngressAccessLogs: D.m({
+        wire: "ingressAccessLogs",
+        shape: { LogGroupName: D.m({ wire: "logGroupName" }) },
+      }),
+    },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      CreatedAt: D.m({ wire: "createdAt" }),
+      Description: D.m({ wire: "description" }),
+      EgressAccessLogs: D.m({
+        wire: "egressAccessLogs",
+        shape: o_EgressAccessLogs,
+      }),
+      HlsIngest: D.m({ wire: "hlsIngest", shape: o_HlsIngest }),
+      Id: D.m({ wire: "id" }),
+      IngressAccessLogs: D.m({
+        wire: "ingressAccessLogs",
+        shape: o_IngressAccessLogs,
+      }),
+      Tags: D.m({ wire: "tags" }),
+    },
+    body: true,
+  },
   errors: [
     ForbiddenException,
     InternalServerErrorException,
@@ -2172,7 +945,7 @@ export const configureLogs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfigureLogs",
-}));
+})) as any;
 
 export type CreateChannelError =
   | ForbiddenException
@@ -2191,8 +964,32 @@ export const createChannel: API.OperationMethod<
   CreateChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateChannelRequest,
-  output: CreateChannelResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /channels",
+    input: {
+      Description: D.m({ wire: "description" }),
+      Id: D.m({ wire: "id" }),
+      Tags: D.m({ wire: "tags" }),
+    },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      CreatedAt: D.m({ wire: "createdAt" }),
+      Description: D.m({ wire: "description" }),
+      EgressAccessLogs: D.m({
+        wire: "egressAccessLogs",
+        shape: o_EgressAccessLogs,
+      }),
+      HlsIngest: D.m({ wire: "hlsIngest", shape: o_HlsIngest }),
+      Id: D.m({ wire: "id" }),
+      IngressAccessLogs: D.m({
+        wire: "ingressAccessLogs",
+        shape: o_IngressAccessLogs,
+      }),
+      Tags: D.m({ wire: "tags" }),
+    },
+    body: true,
+  },
   errors: [
     ForbiddenException,
     InternalServerErrorException,
@@ -2204,7 +1001,7 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
-}));
+})) as any;
 
 export type CreateHarvestJobError =
   | ForbiddenException
@@ -2223,8 +1020,36 @@ export const createHarvestJob: API.OperationMethod<
   CreateHarvestJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateHarvestJobRequest,
-  output: CreateHarvestJobResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /harvest_jobs",
+    input: {
+      EndTime: D.m({ wire: "endTime" }),
+      Id: D.m({ wire: "id" }),
+      OriginEndpointId: D.m({ wire: "originEndpointId" }),
+      S3Destination: D.m({
+        wire: "s3Destination",
+        shape: {
+          BucketName: D.m({ wire: "bucketName" }),
+          ManifestKey: D.m({ wire: "manifestKey" }),
+          RoleArn: D.m({ wire: "roleArn" }),
+        },
+      }),
+      StartTime: D.m({ wire: "startTime" }),
+    },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      ChannelId: D.m({ wire: "channelId" }),
+      CreatedAt: D.m({ wire: "createdAt" }),
+      EndTime: D.m({ wire: "endTime" }),
+      Id: D.m({ wire: "id" }),
+      OriginEndpointId: D.m({ wire: "originEndpointId" }),
+      S3Destination: D.m({ wire: "s3Destination", shape: o_S3Destination }),
+      StartTime: D.m({ wire: "startTime" }),
+      Status: D.m({ wire: "status" }),
+    },
+    body: true,
+  },
   errors: [
     ForbiddenException,
     InternalServerErrorException,
@@ -2236,7 +1061,7 @@ export const createHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHarvestJob",
-}));
+})) as any;
 
 export type CreateOriginEndpointError =
   | ForbiddenException
@@ -2255,8 +1080,49 @@ export const createOriginEndpoint: API.OperationMethod<
   CreateOriginEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateOriginEndpointRequest,
-  output: CreateOriginEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /origin_endpoints",
+    input: {
+      Authorization: D.m({ wire: "authorization", shape: i_Authorization }),
+      ChannelId: D.m({ wire: "channelId" }),
+      CmafPackage: D.m({
+        wire: "cmafPackage",
+        shape: i_CmafPackageCreateOrUpdateParameters,
+      }),
+      DashPackage: D.m({ wire: "dashPackage", shape: i_DashPackage }),
+      Description: D.m({ wire: "description" }),
+      HlsPackage: D.m({ wire: "hlsPackage", shape: i_HlsPackage }),
+      Id: D.m({ wire: "id" }),
+      ManifestName: D.m({ wire: "manifestName" }),
+      MssPackage: D.m({ wire: "mssPackage", shape: i_MssPackage }),
+      Origination: D.m({ wire: "origination" }),
+      StartoverWindowSeconds: D.m({ wire: "startoverWindowSeconds" }),
+      Tags: D.m({ wire: "tags" }),
+      TimeDelaySeconds: D.m({ wire: "timeDelaySeconds" }),
+      Whitelist: D.m({ wire: "whitelist" }),
+    },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      Authorization: D.m({ wire: "authorization", shape: o_Authorization }),
+      ChannelId: D.m({ wire: "channelId" }),
+      CmafPackage: D.m({ wire: "cmafPackage", shape: o_CmafPackage }),
+      CreatedAt: D.m({ wire: "createdAt" }),
+      DashPackage: D.m({ wire: "dashPackage", shape: o_DashPackage }),
+      Description: D.m({ wire: "description" }),
+      HlsPackage: D.m({ wire: "hlsPackage", shape: o_HlsPackage }),
+      Id: D.m({ wire: "id" }),
+      ManifestName: D.m({ wire: "manifestName" }),
+      MssPackage: D.m({ wire: "mssPackage", shape: o_MssPackage }),
+      Origination: D.m({ wire: "origination" }),
+      StartoverWindowSeconds: D.m({ wire: "startoverWindowSeconds" }),
+      Tags: D.m({ wire: "tags" }),
+      TimeDelaySeconds: D.m({ wire: "timeDelaySeconds" }),
+      Url: D.m({ wire: "url" }),
+      Whitelist: D.m({ wire: "whitelist" }),
+    },
+    body: true,
+  },
   errors: [
     ForbiddenException,
     InternalServerErrorException,
@@ -2268,7 +1134,7 @@ export const createOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginEndpoint",
-}));
+})) as any;
 
 export type DeleteChannelError =
   | ForbiddenException
@@ -2287,8 +1153,7 @@ export const deleteChannel: API.OperationMethod<
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteChannelRequest,
-  output: DeleteChannelResponse,
+  descriptor: { service: svc, http: "DELETE /channels/{Id}", input: { Id: 0 } },
   errors: [
     ForbiddenException,
     InternalServerErrorException,
@@ -2300,7 +1165,7 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
-}));
+})) as any;
 
 export type DeleteOriginEndpointError =
   | ForbiddenException
@@ -2319,8 +1184,11 @@ export const deleteOriginEndpoint: API.OperationMethod<
   DeleteOriginEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteOriginEndpointRequest,
-  output: DeleteOriginEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /origin_endpoints/{Id}",
+    input: { Id: 0 },
+  },
   errors: [
     ForbiddenException,
     InternalServerErrorException,
@@ -2332,7 +1200,7 @@ export const deleteOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginEndpoint",
-}));
+})) as any;
 
 export type DescribeChannelError =
   | ForbiddenException
@@ -2351,8 +1219,27 @@ export const describeChannel: API.OperationMethod<
   DescribeChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeChannelRequest,
-  output: DescribeChannelResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /channels/{Id}",
+    input: { Id: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      CreatedAt: D.m({ wire: "createdAt" }),
+      Description: D.m({ wire: "description" }),
+      EgressAccessLogs: D.m({
+        wire: "egressAccessLogs",
+        shape: o_EgressAccessLogs,
+      }),
+      HlsIngest: D.m({ wire: "hlsIngest", shape: o_HlsIngest }),
+      Id: D.m({ wire: "id" }),
+      IngressAccessLogs: D.m({
+        wire: "ingressAccessLogs",
+        shape: o_IngressAccessLogs,
+      }),
+      Tags: D.m({ wire: "tags" }),
+    },
+  },
   errors: [
     ForbiddenException,
     InternalServerErrorException,
@@ -2364,7 +1251,7 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
-}));
+})) as any;
 
 export type DescribeHarvestJobError =
   | ForbiddenException
@@ -2383,8 +1270,22 @@ export const describeHarvestJob: API.OperationMethod<
   DescribeHarvestJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeHarvestJobRequest,
-  output: DescribeHarvestJobResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /harvest_jobs/{Id}",
+    input: { Id: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      ChannelId: D.m({ wire: "channelId" }),
+      CreatedAt: D.m({ wire: "createdAt" }),
+      EndTime: D.m({ wire: "endTime" }),
+      Id: D.m({ wire: "id" }),
+      OriginEndpointId: D.m({ wire: "originEndpointId" }),
+      S3Destination: D.m({ wire: "s3Destination", shape: o_S3Destination }),
+      StartTime: D.m({ wire: "startTime" }),
+      Status: D.m({ wire: "status" }),
+    },
+  },
   errors: [
     ForbiddenException,
     InternalServerErrorException,
@@ -2396,7 +1297,7 @@ export const describeHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHarvestJob",
-}));
+})) as any;
 
 export type DescribeOriginEndpointError =
   | ForbiddenException
@@ -2415,8 +1316,30 @@ export const describeOriginEndpoint: API.OperationMethod<
   DescribeOriginEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeOriginEndpointRequest,
-  output: DescribeOriginEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /origin_endpoints/{Id}",
+    input: { Id: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      Authorization: D.m({ wire: "authorization", shape: o_Authorization }),
+      ChannelId: D.m({ wire: "channelId" }),
+      CmafPackage: D.m({ wire: "cmafPackage", shape: o_CmafPackage }),
+      CreatedAt: D.m({ wire: "createdAt" }),
+      DashPackage: D.m({ wire: "dashPackage", shape: o_DashPackage }),
+      Description: D.m({ wire: "description" }),
+      HlsPackage: D.m({ wire: "hlsPackage", shape: o_HlsPackage }),
+      Id: D.m({ wire: "id" }),
+      ManifestName: D.m({ wire: "manifestName" }),
+      MssPackage: D.m({ wire: "mssPackage", shape: o_MssPackage }),
+      Origination: D.m({ wire: "origination" }),
+      StartoverWindowSeconds: D.m({ wire: "startoverWindowSeconds" }),
+      Tags: D.m({ wire: "tags" }),
+      TimeDelaySeconds: D.m({ wire: "timeDelaySeconds" }),
+      Url: D.m({ wire: "url" }),
+      Whitelist: D.m({ wire: "whitelist" }),
+    },
+  },
   errors: [
     ForbiddenException,
     InternalServerErrorException,
@@ -2428,7 +1351,7 @@ export const describeOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOriginEndpoint",
-}));
+})) as any;
 
 export type ListChannelsError =
   | ForbiddenException
@@ -2448,8 +1371,36 @@ export const listChannels: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Channel
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListChannelsRequest,
-  output: ListChannelsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /channels",
+    input: {
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      Channels: D.m({
+        wire: "channels",
+        shape: D.list({
+          Arn: D.m({ wire: "arn" }),
+          CreatedAt: D.m({ wire: "createdAt" }),
+          Description: D.m({ wire: "description" }),
+          EgressAccessLogs: D.m({
+            wire: "egressAccessLogs",
+            shape: o_EgressAccessLogs,
+          }),
+          HlsIngest: D.m({ wire: "hlsIngest", shape: o_HlsIngest }),
+          Id: D.m({ wire: "id" }),
+          IngressAccessLogs: D.m({
+            wire: "ingressAccessLogs",
+            shape: o_IngressAccessLogs,
+          }),
+          Tags: D.m({ wire: "tags" }),
+        }),
+      }),
+      NextToken: D.m({ wire: "nextToken" }),
+    },
+  },
   errors: [
     ForbiddenException,
     InternalServerErrorException,
@@ -2487,8 +1438,33 @@ export const listHarvestJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   HarvestJob
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListHarvestJobsRequest,
-  output: ListHarvestJobsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /harvest_jobs",
+    input: {
+      IncludeChannelId: D.m({ query: "includeChannelId" }),
+      IncludeStatus: D.m({ query: "includeStatus" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      HarvestJobs: D.m({
+        wire: "harvestJobs",
+        shape: D.list({
+          Arn: D.m({ wire: "arn" }),
+          ChannelId: D.m({ wire: "channelId" }),
+          CreatedAt: D.m({ wire: "createdAt" }),
+          EndTime: D.m({ wire: "endTime" }),
+          Id: D.m({ wire: "id" }),
+          OriginEndpointId: D.m({ wire: "originEndpointId" }),
+          S3Destination: D.m({ wire: "s3Destination", shape: o_S3Destination }),
+          StartTime: D.m({ wire: "startTime" }),
+          Status: D.m({ wire: "status" }),
+        }),
+      }),
+      NextToken: D.m({ wire: "nextToken" }),
+    },
+  },
   errors: [
     ForbiddenException,
     InternalServerErrorException,
@@ -2526,8 +1502,40 @@ export const listOriginEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OriginEndpoint
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListOriginEndpointsRequest,
-  output: ListOriginEndpointsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /origin_endpoints",
+    input: {
+      ChannelId: D.m({ query: "channelId" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      NextToken: D.m({ wire: "nextToken" }),
+      OriginEndpoints: D.m({
+        wire: "originEndpoints",
+        shape: D.list({
+          Arn: D.m({ wire: "arn" }),
+          Authorization: D.m({ wire: "authorization", shape: o_Authorization }),
+          ChannelId: D.m({ wire: "channelId" }),
+          CmafPackage: D.m({ wire: "cmafPackage", shape: o_CmafPackage }),
+          CreatedAt: D.m({ wire: "createdAt" }),
+          DashPackage: D.m({ wire: "dashPackage", shape: o_DashPackage }),
+          Description: D.m({ wire: "description" }),
+          HlsPackage: D.m({ wire: "hlsPackage", shape: o_HlsPackage }),
+          Id: D.m({ wire: "id" }),
+          ManifestName: D.m({ wire: "manifestName" }),
+          MssPackage: D.m({ wire: "mssPackage", shape: o_MssPackage }),
+          Origination: D.m({ wire: "origination" }),
+          StartoverWindowSeconds: D.m({ wire: "startoverWindowSeconds" }),
+          Tags: D.m({ wire: "tags" }),
+          TimeDelaySeconds: D.m({ wire: "timeDelaySeconds" }),
+          Url: D.m({ wire: "url" }),
+          Whitelist: D.m({ wire: "whitelist" }),
+        }),
+      }),
+    },
+  },
   errors: [
     ForbiddenException,
     InternalServerErrorException,
@@ -2557,13 +1565,17 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{ResourceArn}",
+    input: { ResourceArn: 0 },
+    output: { Tags: D.m({ wire: "tags" }) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type RotateChannelCredentialsError =
   | ForbiddenException
@@ -2582,8 +1594,27 @@ export const rotateChannelCredentials: API.OperationMethod<
   RotateChannelCredentialsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RotateChannelCredentialsRequest,
-  output: RotateChannelCredentialsResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /channels/{Id}/credentials",
+    input: { Id: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      CreatedAt: D.m({ wire: "createdAt" }),
+      Description: D.m({ wire: "description" }),
+      EgressAccessLogs: D.m({
+        wire: "egressAccessLogs",
+        shape: o_EgressAccessLogs,
+      }),
+      HlsIngest: D.m({ wire: "hlsIngest", shape: o_HlsIngest }),
+      Id: D.m({ wire: "id" }),
+      IngressAccessLogs: D.m({
+        wire: "ingressAccessLogs",
+        shape: o_IngressAccessLogs,
+      }),
+      Tags: D.m({ wire: "tags" }),
+    },
+  },
   errors: [
     ForbiddenException,
     InternalServerErrorException,
@@ -2595,7 +1626,7 @@ export const rotateChannelCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotateChannelCredentials",
-}));
+})) as any;
 
 export type RotateIngestEndpointCredentialsError =
   | ForbiddenException
@@ -2614,8 +1645,27 @@ export const rotateIngestEndpointCredentials: API.OperationMethod<
   RotateIngestEndpointCredentialsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RotateIngestEndpointCredentialsRequest,
-  output: RotateIngestEndpointCredentialsResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /channels/{Id}/ingest_endpoints/{IngestEndpointId}/credentials",
+    input: { Id: 0, IngestEndpointId: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      CreatedAt: D.m({ wire: "createdAt" }),
+      Description: D.m({ wire: "description" }),
+      EgressAccessLogs: D.m({
+        wire: "egressAccessLogs",
+        shape: o_EgressAccessLogs,
+      }),
+      HlsIngest: D.m({ wire: "hlsIngest", shape: o_HlsIngest }),
+      Id: D.m({ wire: "id" }),
+      IngressAccessLogs: D.m({
+        wire: "ingressAccessLogs",
+        shape: o_IngressAccessLogs,
+      }),
+      Tags: D.m({ wire: "tags" }),
+    },
+  },
   errors: [
     ForbiddenException,
     InternalServerErrorException,
@@ -2627,7 +1677,7 @@ export const rotateIngestEndpointCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotateIngestEndpointCredentials",
-}));
+})) as any;
 
 export type TagResourceError = CommonErrors;
 /**
@@ -2639,13 +1689,17 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{ResourceArn}",
+    input: { ResourceArn: 0, Tags: D.m({ wire: "tags" }) },
+    body: true,
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError = CommonErrors;
 /**
@@ -2657,13 +1711,16 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{ResourceArn}",
+    input: { ResourceArn: 0, TagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateChannelError =
   | ForbiddenException
@@ -2682,8 +1739,28 @@ export const updateChannel: API.OperationMethod<
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateChannelRequest,
-  output: UpdateChannelResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /channels/{Id}",
+    input: { Description: D.m({ wire: "description" }), Id: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      CreatedAt: D.m({ wire: "createdAt" }),
+      Description: D.m({ wire: "description" }),
+      EgressAccessLogs: D.m({
+        wire: "egressAccessLogs",
+        shape: o_EgressAccessLogs,
+      }),
+      HlsIngest: D.m({ wire: "hlsIngest", shape: o_HlsIngest }),
+      Id: D.m({ wire: "id" }),
+      IngressAccessLogs: D.m({
+        wire: "ingressAccessLogs",
+        shape: o_IngressAccessLogs,
+      }),
+      Tags: D.m({ wire: "tags" }),
+    },
+    body: true,
+  },
   errors: [
     ForbiddenException,
     InternalServerErrorException,
@@ -2695,7 +1772,7 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
-}));
+})) as any;
 
 export type UpdateOriginEndpointError =
   | ForbiddenException
@@ -2714,8 +1791,47 @@ export const updateOriginEndpoint: API.OperationMethod<
   UpdateOriginEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateOriginEndpointRequest,
-  output: UpdateOriginEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /origin_endpoints/{Id}",
+    input: {
+      Authorization: D.m({ wire: "authorization", shape: i_Authorization }),
+      CmafPackage: D.m({
+        wire: "cmafPackage",
+        shape: i_CmafPackageCreateOrUpdateParameters,
+      }),
+      DashPackage: D.m({ wire: "dashPackage", shape: i_DashPackage }),
+      Description: D.m({ wire: "description" }),
+      HlsPackage: D.m({ wire: "hlsPackage", shape: i_HlsPackage }),
+      Id: 0,
+      ManifestName: D.m({ wire: "manifestName" }),
+      MssPackage: D.m({ wire: "mssPackage", shape: i_MssPackage }),
+      Origination: D.m({ wire: "origination" }),
+      StartoverWindowSeconds: D.m({ wire: "startoverWindowSeconds" }),
+      TimeDelaySeconds: D.m({ wire: "timeDelaySeconds" }),
+      Whitelist: D.m({ wire: "whitelist" }),
+    },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      Authorization: D.m({ wire: "authorization", shape: o_Authorization }),
+      ChannelId: D.m({ wire: "channelId" }),
+      CmafPackage: D.m({ wire: "cmafPackage", shape: o_CmafPackage }),
+      CreatedAt: D.m({ wire: "createdAt" }),
+      DashPackage: D.m({ wire: "dashPackage", shape: o_DashPackage }),
+      Description: D.m({ wire: "description" }),
+      HlsPackage: D.m({ wire: "hlsPackage", shape: o_HlsPackage }),
+      Id: D.m({ wire: "id" }),
+      ManifestName: D.m({ wire: "manifestName" }),
+      MssPackage: D.m({ wire: "mssPackage", shape: o_MssPackage }),
+      Origination: D.m({ wire: "origination" }),
+      StartoverWindowSeconds: D.m({ wire: "startoverWindowSeconds" }),
+      Tags: D.m({ wire: "tags" }),
+      TimeDelaySeconds: D.m({ wire: "timeDelaySeconds" }),
+      Url: D.m({ wire: "url" }),
+      Whitelist: D.m({ wire: "whitelist" }),
+    },
+    body: true,
+  },
   errors: [
     ForbiddenException,
     InternalServerErrorException,
@@ -2727,4 +1843,290 @@ export const updateOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginEndpoint",
-}));
+})) as any;
+
+const i_Authorization: D.LazyStruct = () => ({
+  CdnIdentifierSecret: D.m({ wire: "cdnIdentifierSecret" }),
+  SecretsRoleArn: D.m({ wire: "secretsRoleArn" }),
+});
+const i_CmafPackageCreateOrUpdateParameters: D.LazyStruct = () => ({
+  Encryption: D.m({
+    wire: "encryption",
+    shape: {
+      ConstantInitializationVector: D.m({
+        wire: "constantInitializationVector",
+      }),
+      EncryptionMethod: D.m({ wire: "encryptionMethod" }),
+      KeyRotationIntervalSeconds: D.m({ wire: "keyRotationIntervalSeconds" }),
+      SpekeKeyProvider: D.m({
+        wire: "spekeKeyProvider",
+        shape: i_SpekeKeyProvider,
+      }),
+    },
+  }),
+  HlsManifests: D.m({
+    wire: "hlsManifests",
+    shape: D.list({
+      AdMarkers: D.m({ wire: "adMarkers" }),
+      AdTriggers: D.m({ wire: "adTriggers" }),
+      AdsOnDeliveryRestrictions: D.m({ wire: "adsOnDeliveryRestrictions" }),
+      Id: D.m({ wire: "id" }),
+      IncludeIframeOnlyStream: D.m({ wire: "includeIframeOnlyStream" }),
+      ManifestName: D.m({ wire: "manifestName" }),
+      PlaylistType: D.m({ wire: "playlistType" }),
+      PlaylistWindowSeconds: D.m({ wire: "playlistWindowSeconds" }),
+      ProgramDateTimeIntervalSeconds: D.m({
+        wire: "programDateTimeIntervalSeconds",
+      }),
+    }),
+  }),
+  SegmentDurationSeconds: D.m({ wire: "segmentDurationSeconds" }),
+  SegmentPrefix: D.m({ wire: "segmentPrefix" }),
+  StreamSelection: D.m({ wire: "streamSelection", shape: i_StreamSelection }),
+});
+const i_DashPackage: D.LazyStruct = () => ({
+  AdTriggers: D.m({ wire: "adTriggers" }),
+  AdsOnDeliveryRestrictions: D.m({ wire: "adsOnDeliveryRestrictions" }),
+  Encryption: D.m({
+    wire: "encryption",
+    shape: {
+      KeyRotationIntervalSeconds: D.m({ wire: "keyRotationIntervalSeconds" }),
+      SpekeKeyProvider: D.m({
+        wire: "spekeKeyProvider",
+        shape: i_SpekeKeyProvider,
+      }),
+    },
+  }),
+  IncludeIframeOnlyStream: D.m({ wire: "includeIframeOnlyStream" }),
+  ManifestLayout: D.m({ wire: "manifestLayout" }),
+  ManifestWindowSeconds: D.m({ wire: "manifestWindowSeconds" }),
+  MinBufferTimeSeconds: D.m({ wire: "minBufferTimeSeconds" }),
+  MinUpdatePeriodSeconds: D.m({ wire: "minUpdatePeriodSeconds" }),
+  PeriodTriggers: D.m({ wire: "periodTriggers" }),
+  Profile: D.m({ wire: "profile" }),
+  SegmentDurationSeconds: D.m({ wire: "segmentDurationSeconds" }),
+  SegmentTemplateFormat: D.m({ wire: "segmentTemplateFormat" }),
+  StreamSelection: D.m({ wire: "streamSelection", shape: i_StreamSelection }),
+  SuggestedPresentationDelaySeconds: D.m({
+    wire: "suggestedPresentationDelaySeconds",
+  }),
+  UtcTiming: D.m({ wire: "utcTiming" }),
+  UtcTimingUri: D.m({ wire: "utcTimingUri" }),
+});
+const i_HlsPackage: D.LazyStruct = () => ({
+  AdMarkers: D.m({ wire: "adMarkers" }),
+  AdTriggers: D.m({ wire: "adTriggers" }),
+  AdsOnDeliveryRestrictions: D.m({ wire: "adsOnDeliveryRestrictions" }),
+  Encryption: D.m({
+    wire: "encryption",
+    shape: {
+      ConstantInitializationVector: D.m({
+        wire: "constantInitializationVector",
+      }),
+      EncryptionMethod: D.m({ wire: "encryptionMethod" }),
+      KeyRotationIntervalSeconds: D.m({ wire: "keyRotationIntervalSeconds" }),
+      RepeatExtXKey: D.m({ wire: "repeatExtXKey" }),
+      SpekeKeyProvider: D.m({
+        wire: "spekeKeyProvider",
+        shape: i_SpekeKeyProvider,
+      }),
+    },
+  }),
+  IncludeDvbSubtitles: D.m({ wire: "includeDvbSubtitles" }),
+  IncludeIframeOnlyStream: D.m({ wire: "includeIframeOnlyStream" }),
+  PlaylistType: D.m({ wire: "playlistType" }),
+  PlaylistWindowSeconds: D.m({ wire: "playlistWindowSeconds" }),
+  ProgramDateTimeIntervalSeconds: D.m({
+    wire: "programDateTimeIntervalSeconds",
+  }),
+  SegmentDurationSeconds: D.m({ wire: "segmentDurationSeconds" }),
+  StreamSelection: D.m({ wire: "streamSelection", shape: i_StreamSelection }),
+  UseAudioRenditionGroup: D.m({ wire: "useAudioRenditionGroup" }),
+});
+const i_MssPackage: D.LazyStruct = () => ({
+  Encryption: D.m({
+    wire: "encryption",
+    shape: {
+      SpekeKeyProvider: D.m({
+        wire: "spekeKeyProvider",
+        shape: i_SpekeKeyProvider,
+      }),
+    },
+  }),
+  ManifestWindowSeconds: D.m({ wire: "manifestWindowSeconds" }),
+  SegmentDurationSeconds: D.m({ wire: "segmentDurationSeconds" }),
+  StreamSelection: D.m({ wire: "streamSelection", shape: i_StreamSelection }),
+});
+const o_Authorization: D.LazyStruct = () => ({
+  CdnIdentifierSecret: D.m({ wire: "cdnIdentifierSecret" }),
+  SecretsRoleArn: D.m({ wire: "secretsRoleArn" }),
+});
+const o_CmafPackage: D.LazyStruct = () => ({
+  Encryption: D.m({
+    wire: "encryption",
+    shape: {
+      ConstantInitializationVector: D.m({
+        wire: "constantInitializationVector",
+      }),
+      EncryptionMethod: D.m({ wire: "encryptionMethod" }),
+      KeyRotationIntervalSeconds: D.m({ wire: "keyRotationIntervalSeconds" }),
+      SpekeKeyProvider: D.m({
+        wire: "spekeKeyProvider",
+        shape: o_SpekeKeyProvider,
+      }),
+    },
+  }),
+  HlsManifests: D.m({
+    wire: "hlsManifests",
+    shape: D.list({
+      AdMarkers: D.m({ wire: "adMarkers" }),
+      Id: D.m({ wire: "id" }),
+      IncludeIframeOnlyStream: D.m({ wire: "includeIframeOnlyStream" }),
+      ManifestName: D.m({ wire: "manifestName" }),
+      PlaylistType: D.m({ wire: "playlistType" }),
+      PlaylistWindowSeconds: D.m({ wire: "playlistWindowSeconds" }),
+      ProgramDateTimeIntervalSeconds: D.m({
+        wire: "programDateTimeIntervalSeconds",
+      }),
+      Url: D.m({ wire: "url" }),
+      AdTriggers: D.m({ wire: "adTriggers" }),
+      AdsOnDeliveryRestrictions: D.m({ wire: "adsOnDeliveryRestrictions" }),
+    }),
+  }),
+  SegmentDurationSeconds: D.m({ wire: "segmentDurationSeconds" }),
+  SegmentPrefix: D.m({ wire: "segmentPrefix" }),
+  StreamSelection: D.m({ wire: "streamSelection", shape: o_StreamSelection }),
+});
+const o_DashPackage: D.LazyStruct = () => ({
+  AdTriggers: D.m({ wire: "adTriggers" }),
+  AdsOnDeliveryRestrictions: D.m({ wire: "adsOnDeliveryRestrictions" }),
+  Encryption: D.m({
+    wire: "encryption",
+    shape: {
+      KeyRotationIntervalSeconds: D.m({ wire: "keyRotationIntervalSeconds" }),
+      SpekeKeyProvider: D.m({
+        wire: "spekeKeyProvider",
+        shape: o_SpekeKeyProvider,
+      }),
+    },
+  }),
+  IncludeIframeOnlyStream: D.m({ wire: "includeIframeOnlyStream" }),
+  ManifestLayout: D.m({ wire: "manifestLayout" }),
+  ManifestWindowSeconds: D.m({ wire: "manifestWindowSeconds" }),
+  MinBufferTimeSeconds: D.m({ wire: "minBufferTimeSeconds" }),
+  MinUpdatePeriodSeconds: D.m({ wire: "minUpdatePeriodSeconds" }),
+  PeriodTriggers: D.m({ wire: "periodTriggers" }),
+  Profile: D.m({ wire: "profile" }),
+  SegmentDurationSeconds: D.m({ wire: "segmentDurationSeconds" }),
+  SegmentTemplateFormat: D.m({ wire: "segmentTemplateFormat" }),
+  StreamSelection: D.m({ wire: "streamSelection", shape: o_StreamSelection }),
+  SuggestedPresentationDelaySeconds: D.m({
+    wire: "suggestedPresentationDelaySeconds",
+  }),
+  UtcTiming: D.m({ wire: "utcTiming" }),
+  UtcTimingUri: D.m({ wire: "utcTimingUri" }),
+});
+const o_EgressAccessLogs: D.LazyStruct = () => ({
+  LogGroupName: D.m({ wire: "logGroupName" }),
+});
+const o_HlsIngest: D.LazyStruct = () => ({
+  IngestEndpoints: D.m({
+    wire: "ingestEndpoints",
+    shape: D.list({
+      Id: D.m({ wire: "id" }),
+      Password: D.m({ wire: "password", shape: D.secret }),
+      Url: D.m({ wire: "url" }),
+      Username: D.m({ wire: "username", shape: D.secret }),
+    }),
+  }),
+});
+const o_HlsPackage: D.LazyStruct = () => ({
+  AdMarkers: D.m({ wire: "adMarkers" }),
+  AdTriggers: D.m({ wire: "adTriggers" }),
+  AdsOnDeliveryRestrictions: D.m({ wire: "adsOnDeliveryRestrictions" }),
+  Encryption: D.m({
+    wire: "encryption",
+    shape: {
+      ConstantInitializationVector: D.m({
+        wire: "constantInitializationVector",
+      }),
+      EncryptionMethod: D.m({ wire: "encryptionMethod" }),
+      KeyRotationIntervalSeconds: D.m({ wire: "keyRotationIntervalSeconds" }),
+      RepeatExtXKey: D.m({ wire: "repeatExtXKey" }),
+      SpekeKeyProvider: D.m({
+        wire: "spekeKeyProvider",
+        shape: o_SpekeKeyProvider,
+      }),
+    },
+  }),
+  IncludeDvbSubtitles: D.m({ wire: "includeDvbSubtitles" }),
+  IncludeIframeOnlyStream: D.m({ wire: "includeIframeOnlyStream" }),
+  PlaylistType: D.m({ wire: "playlistType" }),
+  PlaylistWindowSeconds: D.m({ wire: "playlistWindowSeconds" }),
+  ProgramDateTimeIntervalSeconds: D.m({
+    wire: "programDateTimeIntervalSeconds",
+  }),
+  SegmentDurationSeconds: D.m({ wire: "segmentDurationSeconds" }),
+  StreamSelection: D.m({ wire: "streamSelection", shape: o_StreamSelection }),
+  UseAudioRenditionGroup: D.m({ wire: "useAudioRenditionGroup" }),
+});
+const o_IngressAccessLogs: D.LazyStruct = () => ({
+  LogGroupName: D.m({ wire: "logGroupName" }),
+});
+const o_MssPackage: D.LazyStruct = () => ({
+  Encryption: D.m({
+    wire: "encryption",
+    shape: {
+      SpekeKeyProvider: D.m({
+        wire: "spekeKeyProvider",
+        shape: o_SpekeKeyProvider,
+      }),
+    },
+  }),
+  ManifestWindowSeconds: D.m({ wire: "manifestWindowSeconds" }),
+  SegmentDurationSeconds: D.m({ wire: "segmentDurationSeconds" }),
+  StreamSelection: D.m({ wire: "streamSelection", shape: o_StreamSelection }),
+});
+const o_S3Destination: D.LazyStruct = () => ({
+  BucketName: D.m({ wire: "bucketName" }),
+  ManifestKey: D.m({ wire: "manifestKey" }),
+  RoleArn: D.m({ wire: "roleArn" }),
+});
+const i_SpekeKeyProvider: D.LazyStruct = () => ({
+  CertificateArn: D.m({ wire: "certificateArn" }),
+  EncryptionContractConfiguration: D.m({
+    wire: "encryptionContractConfiguration",
+    shape: {
+      PresetSpeke20Audio: D.m({ wire: "presetSpeke20Audio" }),
+      PresetSpeke20Video: D.m({ wire: "presetSpeke20Video" }),
+    },
+  }),
+  ResourceId: D.m({ wire: "resourceId" }),
+  RoleArn: D.m({ wire: "roleArn" }),
+  SystemIds: D.m({ wire: "systemIds" }),
+  Url: D.m({ wire: "url" }),
+});
+const i_StreamSelection: D.LazyStruct = () => ({
+  MaxVideoBitsPerSecond: D.m({ wire: "maxVideoBitsPerSecond" }),
+  MinVideoBitsPerSecond: D.m({ wire: "minVideoBitsPerSecond" }),
+  StreamOrder: D.m({ wire: "streamOrder" }),
+});
+const o_SpekeKeyProvider: D.LazyStruct = () => ({
+  CertificateArn: D.m({ wire: "certificateArn" }),
+  EncryptionContractConfiguration: D.m({
+    wire: "encryptionContractConfiguration",
+    shape: {
+      PresetSpeke20Audio: D.m({ wire: "presetSpeke20Audio" }),
+      PresetSpeke20Video: D.m({ wire: "presetSpeke20Video" }),
+    },
+  }),
+  ResourceId: D.m({ wire: "resourceId" }),
+  RoleArn: D.m({ wire: "roleArn" }),
+  SystemIds: D.m({ wire: "systemIds" }),
+  Url: D.m({ wire: "url" }),
+});
+const o_StreamSelection: D.LazyStruct = () => ({
+  MaxVideoBitsPerSecond: D.m({ wire: "maxVideoBitsPerSecond" }),
+  MinVideoBitsPerSecond: D.m({ wire: "minVideoBitsPerSecond" }),
+  StreamOrder: D.m({ wire: "streamOrder" }),
+});

@@ -1,151 +1,140 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "DocDB Elastic",
-  serviceShapeName: "ChimeraDbLionfishServiceLambda",
-});
-const auth = T.AwsAuthSigv4({ name: "docdb-elastic" });
-const ver = T.ServiceVersion("2022-11-28");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://docdb-elastic-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://docdb-elastic-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://docdb-elastic.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://docdb-elastic.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "ChimeraDbLionfishServiceLambda",
+  version: "2022-11-28",
+  sigv4: "docdb-elastic",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://docdb-elastic-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://docdb-elastic-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://docdb-elastic.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://docdb-elastic.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{
+    readonly message: string;
+    readonly resourceId: string;
+    readonly resourceType: string;
+  }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(500), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 500 },
+  )<{ readonly message: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{
+    readonly message: string;
+    readonly resourceId: string;
+    readonly resourceType: string;
+  }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly message: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
-    },
-    T.all(T.HttpError(429), T.Retryable()),
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+    ["ThrottlingError", "RetryableError"],
+    { status: 429, headers: { retryAfterSeconds: ["Retry-After", "num"] } },
+  )<{ readonly message: string; readonly retryAfterSeconds?: number }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      reason: S.String,
-      fieldList: S.optional(
-        S.suspend(() => ValidationExceptionFieldList).annotate({
-          identifier: "ValidationExceptionFieldList",
-        }),
-      ),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly message: string;
+    readonly reason: string;
+    readonly fieldList?: ValidationExceptionField[];
+  }> {}
 export type InputString = string;
 export type OptInType = string;
 export interface ApplyPendingMaintenanceActionInput {
@@ -154,25 +143,6 @@ export interface ApplyPendingMaintenanceActionInput {
   optInType: string;
   applyOn?: string;
 }
-export const ApplyPendingMaintenanceActionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    applyAction: S.String,
-    optInType: S.String,
-    applyOn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/pending-action" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ApplyPendingMaintenanceActionInput",
-}) as any as S.Schema<ApplyPendingMaintenanceActionInput>;
 export interface PendingMaintenanceActionDetails {
   action: string;
   autoAppliedAfterDate?: string;
@@ -181,54 +151,18 @@ export interface PendingMaintenanceActionDetails {
   currentApplyDate?: string;
   description?: string;
 }
-export const PendingMaintenanceActionDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    action: S.String,
-    autoAppliedAfterDate: S.optional(S.String),
-    forcedApplyDate: S.optional(S.String),
-    optInStatus: S.optional(S.String),
-    currentApplyDate: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PendingMaintenanceActionDetails",
-}) as any as S.Schema<PendingMaintenanceActionDetails>;
 export type PendingMaintenanceActionDetailsList =
   PendingMaintenanceActionDetails[];
-export const PendingMaintenanceActionDetailsList = /*@__PURE__*/ S.Array(
-  PendingMaintenanceActionDetails,
-);
 export interface ResourcePendingMaintenanceAction {
   resourceArn?: string;
   pendingMaintenanceActionDetails?: PendingMaintenanceActionDetails[];
 }
-export const ResourcePendingMaintenanceAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.optional(S.String),
-    pendingMaintenanceActionDetails: S.optional(
-      PendingMaintenanceActionDetailsList,
-    ),
-  }),
-).annotate({
-  identifier: "ResourcePendingMaintenanceAction",
-}) as any as S.Schema<ResourcePendingMaintenanceAction>;
 export interface ApplyPendingMaintenanceActionOutput {
   resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction;
 }
-export const ApplyPendingMaintenanceActionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction,
-  }),
-).annotate({
-  identifier: "ApplyPendingMaintenanceActionOutput",
-}) as any as S.Schema<ApplyPendingMaintenanceActionOutput>;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface CopyClusterSnapshotInput {
   snapshotArn: string;
   targetSnapshotName: string;
@@ -236,28 +170,7 @@ export interface CopyClusterSnapshotInput {
   copyTags?: boolean;
   tags?: { [key: string]: string | undefined };
 }
-export const CopyClusterSnapshotInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    snapshotArn: S.String.pipe(T.HttpLabel("snapshotArn")),
-    targetSnapshotName: S.String,
-    kmsKeyId: S.optional(S.String),
-    copyTags: S.optional(S.Boolean),
-    tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cluster-snapshot/{snapshotArn}/copy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CopyClusterSnapshotInput",
-}) as any as S.Schema<CopyClusterSnapshotInput>;
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export type Status = string;
 export type SnapshotType = string;
 export interface ClusterSnapshot {
@@ -273,31 +186,9 @@ export interface ClusterSnapshot {
   kmsKeyId: string;
   snapshotType?: string;
 }
-export const ClusterSnapshot = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subnetIds: StringList,
-    snapshotName: S.String,
-    snapshotArn: S.String,
-    snapshotCreationTime: S.String,
-    clusterArn: S.String,
-    clusterCreationTime: S.String,
-    status: S.String,
-    vpcSecurityGroupIds: StringList,
-    adminUserName: S.String,
-    kmsKeyId: S.String,
-    snapshotType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ClusterSnapshot",
-}) as any as S.Schema<ClusterSnapshot>;
 export interface CopyClusterSnapshotOutput {
   snapshot: ClusterSnapshot;
 }
-export const CopyClusterSnapshotOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ snapshot: ClusterSnapshot }),
-).annotate({
-  identifier: "CopyClusterSnapshotOutput",
-}) as any as S.Schema<CopyClusterSnapshotOutput>;
 export type Auth = string;
 export type Password = string | redacted.Redacted<string>;
 export interface CreateClusterInput {
@@ -317,46 +208,12 @@ export interface CreateClusterInput {
   preferredBackupWindow?: string;
   shardInstanceCount?: number;
 }
-export const CreateClusterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterName: S.String,
-    authType: S.String,
-    adminUserName: S.String,
-    adminUserPassword: SensitiveString,
-    shardCapacity: S.Number,
-    shardCount: S.Number,
-    vpcSecurityGroupIds: S.optional(StringList),
-    subnetIds: S.optional(StringList),
-    kmsKeyId: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    preferredMaintenanceWindow: S.optional(S.String),
-    tags: S.optional(TagMap),
-    backupRetentionPeriod: S.optional(S.Number),
-    preferredBackupWindow: S.optional(S.String),
-    shardInstanceCount: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cluster" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateClusterInput",
-}) as any as S.Schema<CreateClusterInput>;
 export interface Shard {
   shardId: string;
   createTime: string;
   status: string;
 }
-export const Shard = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ shardId: S.String, createTime: S.String, status: S.String }),
-).annotate({ identifier: "Shard" }) as any as S.Schema<Shard>;
 export type ShardList = Shard[];
-export const ShardList = /*@__PURE__*/ S.Array(Shard);
 export interface Cluster {
   clusterName: string;
   clusterArn: string;
@@ -376,262 +233,68 @@ export interface Cluster {
   preferredBackupWindow?: string;
   shardInstanceCount?: number;
 }
-export const Cluster = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterName: S.String,
-    clusterArn: S.String,
-    status: S.String,
-    clusterEndpoint: S.optional(S.String),
-    createTime: S.String,
-    adminUserName: S.String,
-    authType: S.String,
-    shardCapacity: S.Number,
-    shardCount: S.Number,
-    vpcSecurityGroupIds: StringList,
-    subnetIds: StringList,
-    preferredMaintenanceWindow: S.String,
-    kmsKeyId: S.String,
-    shards: S.optional(ShardList),
-    backupRetentionPeriod: S.optional(S.Number),
-    preferredBackupWindow: S.optional(S.String),
-    shardInstanceCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
 export interface CreateClusterOutput {
   cluster: Cluster;
 }
-export const CreateClusterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cluster: Cluster }),
-).annotate({
-  identifier: "CreateClusterOutput",
-}) as any as S.Schema<CreateClusterOutput>;
 export interface CreateClusterSnapshotInput {
   clusterArn: string;
   snapshotName: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateClusterSnapshotInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterArn: S.String,
-    snapshotName: S.String,
-    tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cluster-snapshot" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateClusterSnapshotInput",
-}) as any as S.Schema<CreateClusterSnapshotInput>;
 export interface CreateClusterSnapshotOutput {
   snapshot: ClusterSnapshot;
 }
-export const CreateClusterSnapshotOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ snapshot: ClusterSnapshot }),
-).annotate({
-  identifier: "CreateClusterSnapshotOutput",
-}) as any as S.Schema<CreateClusterSnapshotOutput>;
 export interface DeleteClusterInput {
   clusterArn: string;
 }
-export const DeleteClusterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/cluster/{clusterArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteClusterInput",
-}) as any as S.Schema<DeleteClusterInput>;
 export interface DeleteClusterOutput {
   cluster: Cluster;
 }
-export const DeleteClusterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cluster: Cluster }),
-).annotate({
-  identifier: "DeleteClusterOutput",
-}) as any as S.Schema<DeleteClusterOutput>;
 export interface DeleteClusterSnapshotInput {
   snapshotArn: string;
 }
-export const DeleteClusterSnapshotInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ snapshotArn: S.String.pipe(T.HttpLabel("snapshotArn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/cluster-snapshot/{snapshotArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteClusterSnapshotInput",
-}) as any as S.Schema<DeleteClusterSnapshotInput>;
 export interface DeleteClusterSnapshotOutput {
   snapshot: ClusterSnapshot;
 }
-export const DeleteClusterSnapshotOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ snapshot: ClusterSnapshot }),
-).annotate({
-  identifier: "DeleteClusterSnapshotOutput",
-}) as any as S.Schema<DeleteClusterSnapshotOutput>;
 export interface GetClusterInput {
   clusterArn: string;
 }
-export const GetClusterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/cluster/{clusterArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetClusterInput",
-}) as any as S.Schema<GetClusterInput>;
 export interface GetClusterOutput {
   cluster: Cluster;
 }
-export const GetClusterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cluster: Cluster }),
-).annotate({
-  identifier: "GetClusterOutput",
-}) as any as S.Schema<GetClusterOutput>;
 export interface GetClusterSnapshotInput {
   snapshotArn: string;
 }
-export const GetClusterSnapshotInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ snapshotArn: S.String.pipe(T.HttpLabel("snapshotArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/cluster-snapshot/{snapshotArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetClusterSnapshotInput",
-}) as any as S.Schema<GetClusterSnapshotInput>;
 export interface GetClusterSnapshotOutput {
   snapshot: ClusterSnapshot;
 }
-export const GetClusterSnapshotOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ snapshot: ClusterSnapshot }),
-).annotate({
-  identifier: "GetClusterSnapshotOutput",
-}) as any as S.Schema<GetClusterSnapshotOutput>;
 export interface GetPendingMaintenanceActionInput {
   resourceArn: string;
 }
-export const GetPendingMaintenanceActionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/pending-action/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPendingMaintenanceActionInput",
-}) as any as S.Schema<GetPendingMaintenanceActionInput>;
 export interface GetPendingMaintenanceActionOutput {
   resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction;
 }
-export const GetPendingMaintenanceActionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction,
-  }),
-).annotate({
-  identifier: "GetPendingMaintenanceActionOutput",
-}) as any as S.Schema<GetPendingMaintenanceActionOutput>;
 export type PaginationToken = string;
 export interface ListClustersInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListClustersInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/clusters" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListClustersInput",
-}) as any as S.Schema<ListClustersInput>;
 export interface ClusterInList {
   clusterName: string;
   clusterArn: string;
   status: string;
 }
-export const ClusterInList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ clusterName: S.String, clusterArn: S.String, status: S.String }),
-).annotate({ identifier: "ClusterInList" }) as any as S.Schema<ClusterInList>;
 export type ClusterList = ClusterInList[];
-export const ClusterList = /*@__PURE__*/ S.Array(ClusterInList);
 export interface ListClustersOutput {
   clusters?: ClusterInList[];
   nextToken?: string;
 }
-export const ListClustersOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusters: S.optional(ClusterList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListClustersOutput",
-}) as any as S.Schema<ListClustersOutput>;
 export interface ListClusterSnapshotsInput {
   clusterArn?: string;
   nextToken?: string;
   maxResults?: number;
   snapshotType?: string;
 }
-export const ListClusterSnapshotsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterArn: S.optional(S.String).pipe(T.HttpQuery("clusterArn")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    snapshotType: S.optional(S.String).pipe(T.HttpQuery("snapshotType")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/cluster-snapshots" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListClusterSnapshotsInput",
-}) as any as S.Schema<ListClusterSnapshotsInput>;
 export interface ClusterSnapshotInList {
   snapshotName: string;
   snapshotArn: string;
@@ -639,95 +302,28 @@ export interface ClusterSnapshotInList {
   status: string;
   snapshotCreationTime: string;
 }
-export const ClusterSnapshotInList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    snapshotName: S.String,
-    snapshotArn: S.String,
-    clusterArn: S.String,
-    status: S.String,
-    snapshotCreationTime: S.String,
-  }),
-).annotate({
-  identifier: "ClusterSnapshotInList",
-}) as any as S.Schema<ClusterSnapshotInList>;
 export type ClusterSnapshotList = ClusterSnapshotInList[];
-export const ClusterSnapshotList = /*@__PURE__*/ S.Array(ClusterSnapshotInList);
 export interface ListClusterSnapshotsOutput {
   snapshots?: ClusterSnapshotInList[];
   nextToken?: string;
 }
-export const ListClusterSnapshotsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    snapshots: S.optional(ClusterSnapshotList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListClusterSnapshotsOutput",
-}) as any as S.Schema<ListClusterSnapshotsOutput>;
 export interface ListPendingMaintenanceActionsInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListPendingMaintenanceActionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/pending-actions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListPendingMaintenanceActionsInput",
-}) as any as S.Schema<ListPendingMaintenanceActionsInput>;
 export type ResourcePendingMaintenanceActionList =
   ResourcePendingMaintenanceAction[];
-export const ResourcePendingMaintenanceActionList = /*@__PURE__*/ S.Array(
-  ResourcePendingMaintenanceAction,
-);
 export interface ListPendingMaintenanceActionsOutput {
   resourcePendingMaintenanceActions: ResourcePendingMaintenanceAction[];
   nextToken?: string;
 }
-export const ListPendingMaintenanceActionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourcePendingMaintenanceActions: ResourcePendingMaintenanceActionList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListPendingMaintenanceActionsOutput",
-}) as any as S.Schema<ListPendingMaintenanceActionsOutput>;
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(TagMap) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface RestoreClusterFromSnapshotInput {
   clusterName: string;
   snapshotArn: string;
@@ -738,146 +334,32 @@ export interface RestoreClusterFromSnapshotInput {
   shardCapacity?: number;
   shardInstanceCount?: number;
 }
-export const RestoreClusterFromSnapshotInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterName: S.String,
-    snapshotArn: S.String.pipe(T.HttpLabel("snapshotArn")),
-    vpcSecurityGroupIds: S.optional(StringList),
-    subnetIds: S.optional(StringList),
-    kmsKeyId: S.optional(S.String),
-    tags: S.optional(TagMap),
-    shardCapacity: S.optional(S.Number),
-    shardInstanceCount: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/cluster-snapshot/{snapshotArn}/restore",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RestoreClusterFromSnapshotInput",
-}) as any as S.Schema<RestoreClusterFromSnapshotInput>;
 export interface RestoreClusterFromSnapshotOutput {
   cluster: Cluster;
 }
-export const RestoreClusterFromSnapshotOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cluster: Cluster }),
-).annotate({
-  identifier: "RestoreClusterFromSnapshotOutput",
-}) as any as S.Schema<RestoreClusterFromSnapshotOutput>;
 export interface StartClusterInput {
   clusterArn: string;
 }
-export const StartClusterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cluster/{clusterArn}/start" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartClusterInput",
-}) as any as S.Schema<StartClusterInput>;
 export interface StartClusterOutput {
   cluster: Cluster;
 }
-export const StartClusterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cluster: Cluster }),
-).annotate({
-  identifier: "StartClusterOutput",
-}) as any as S.Schema<StartClusterOutput>;
 export interface StopClusterInput {
   clusterArn: string;
 }
-export const StopClusterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cluster/{clusterArn}/stop" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopClusterInput",
-}) as any as S.Schema<StopClusterInput>;
 export interface StopClusterOutput {
   cluster: Cluster;
 }
-export const StopClusterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cluster: Cluster }),
-).annotate({
-  identifier: "StopClusterOutput",
-}) as any as S.Schema<StopClusterOutput>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateClusterInput {
   clusterArn: string;
   authType?: string;
@@ -892,55 +374,15 @@ export interface UpdateClusterInput {
   preferredBackupWindow?: string;
   shardInstanceCount?: number;
 }
-export const UpdateClusterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterArn: S.String.pipe(T.HttpLabel("clusterArn")),
-    authType: S.optional(S.String),
-    shardCapacity: S.optional(S.Number),
-    shardCount: S.optional(S.Number),
-    vpcSecurityGroupIds: S.optional(StringList),
-    subnetIds: S.optional(StringList),
-    adminUserPassword: S.optional(SensitiveString),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    preferredMaintenanceWindow: S.optional(S.String),
-    backupRetentionPeriod: S.optional(S.Number),
-    preferredBackupWindow: S.optional(S.String),
-    shardInstanceCount: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/cluster/{clusterArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateClusterInput",
-}) as any as S.Schema<UpdateClusterInput>;
 export interface UpdateClusterOutput {
   cluster: Cluster;
 }
-export const UpdateClusterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cluster: Cluster }),
-).annotate({
-  identifier: "UpdateClusterOutput",
-}) as any as S.Schema<UpdateClusterOutput>;
 export type ValidationExceptionReason = string;
 export interface ValidationExceptionField {
   name: string;
   message: string;
 }
-export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
 export type ApplyPendingMaintenanceActionError =
   | AccessDeniedException
   | ConflictException
@@ -958,8 +400,12 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
   ApplyPendingMaintenanceActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ApplyPendingMaintenanceActionInput,
-  output: ApplyPendingMaintenanceActionOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /pending-action",
+    input: { resourceArn: 0, applyAction: 0, optInType: 0, applyOn: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -971,7 +417,7 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyPendingMaintenanceAction",
-}));
+})) as any;
 
 export type CopyClusterSnapshotError =
   | AccessDeniedException
@@ -991,8 +437,18 @@ export const copyClusterSnapshot: API.OperationMethod<
   CopyClusterSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CopyClusterSnapshotInput,
-  output: CopyClusterSnapshotOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /cluster-snapshot/{snapshotArn}/copy",
+    input: {
+      snapshotArn: 0,
+      targetSnapshotName: 0,
+      kmsKeyId: 0,
+      copyTags: 0,
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1005,7 +461,7 @@ export const copyClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyClusterSnapshot",
-}));
+})) as any;
 
 export type CreateClusterError =
   | AccessDeniedException
@@ -1024,8 +480,28 @@ export const createCluster: API.OperationMethod<
   CreateClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateClusterInput,
-  output: CreateClusterOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /cluster",
+    input: {
+      clusterName: 0,
+      authType: 0,
+      adminUserName: 0,
+      adminUserPassword: 0,
+      shardCapacity: 0,
+      shardCount: 0,
+      vpcSecurityGroupIds: 0,
+      subnetIds: 0,
+      kmsKeyId: 0,
+      clientToken: D.m({ idempotency: true }),
+      preferredMaintenanceWindow: 0,
+      tags: 0,
+      backupRetentionPeriod: 0,
+      preferredBackupWindow: 0,
+      shardInstanceCount: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1037,7 +513,7 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
-}));
+})) as any;
 
 export type CreateClusterSnapshotError =
   | AccessDeniedException
@@ -1057,8 +533,12 @@ export const createClusterSnapshot: API.OperationMethod<
   CreateClusterSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateClusterSnapshotInput,
-  output: CreateClusterSnapshotOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /cluster-snapshot",
+    input: { clusterArn: 0, snapshotName: 0, tags: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1071,7 +551,7 @@ export const createClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterSnapshot",
-}));
+})) as any;
 
 export type DeleteClusterError =
   | AccessDeniedException
@@ -1090,8 +570,11 @@ export const deleteCluster: API.OperationMethod<
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteClusterInput,
-  output: DeleteClusterOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /cluster/{clusterArn}",
+    input: { clusterArn: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1103,7 +586,7 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
-}));
+})) as any;
 
 export type DeleteClusterSnapshotError =
   | AccessDeniedException
@@ -1122,8 +605,11 @@ export const deleteClusterSnapshot: API.OperationMethod<
   DeleteClusterSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteClusterSnapshotInput,
-  output: DeleteClusterSnapshotOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /cluster-snapshot/{snapshotArn}",
+    input: { snapshotArn: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1135,7 +621,7 @@ export const deleteClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterSnapshot",
-}));
+})) as any;
 
 export type GetClusterError =
   | AccessDeniedException
@@ -1153,8 +639,11 @@ export const getCluster: API.OperationMethod<
   GetClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetClusterInput,
-  output: GetClusterOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /cluster/{clusterArn}",
+    input: { clusterArn: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1165,7 +654,7 @@ export const getCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCluster",
-}));
+})) as any;
 
 export type GetClusterSnapshotError =
   | AccessDeniedException
@@ -1183,8 +672,11 @@ export const getClusterSnapshot: API.OperationMethod<
   GetClusterSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetClusterSnapshotInput,
-  output: GetClusterSnapshotOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /cluster-snapshot/{snapshotArn}",
+    input: { snapshotArn: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1195,7 +687,7 @@ export const getClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterSnapshot",
-}));
+})) as any;
 
 export type GetPendingMaintenanceActionError =
   | AccessDeniedException
@@ -1214,8 +706,11 @@ export const getPendingMaintenanceAction: API.OperationMethod<
   GetPendingMaintenanceActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPendingMaintenanceActionInput,
-  output: GetPendingMaintenanceActionOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /pending-action/{resourceArn}",
+    input: { resourceArn: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1227,7 +722,7 @@ export const getPendingMaintenanceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPendingMaintenanceAction",
-}));
+})) as any;
 
 export type ListClustersError =
   | AccessDeniedException
@@ -1245,8 +740,14 @@ export const listClusters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ClusterInList
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListClustersInput,
-  output: ListClustersOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /clusters",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1280,8 +781,16 @@ export const listClusterSnapshots: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ClusterSnapshotInList
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListClusterSnapshotsInput,
-  output: ListClusterSnapshotsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /cluster-snapshots",
+    input: {
+      clusterArn: D.m({ query: "clusterArn" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      snapshotType: D.m({ query: "snapshotType" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1315,8 +824,14 @@ export const listPendingMaintenanceActions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResourcePendingMaintenanceAction
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPendingMaintenanceActionsInput,
-  output: ListPendingMaintenanceActionsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /pending-actions",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1349,8 +864,11 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{resourceArn}",
+    input: { resourceArn: 0 },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1360,7 +878,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type RestoreClusterFromSnapshotError =
   | AccessDeniedException
@@ -1380,8 +898,21 @@ export const restoreClusterFromSnapshot: API.OperationMethod<
   RestoreClusterFromSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RestoreClusterFromSnapshotInput,
-  output: RestoreClusterFromSnapshotOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /cluster-snapshot/{snapshotArn}/restore",
+    input: {
+      clusterName: 0,
+      snapshotArn: 0,
+      vpcSecurityGroupIds: 0,
+      subnetIds: 0,
+      kmsKeyId: 0,
+      tags: 0,
+      shardCapacity: 0,
+      shardInstanceCount: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1394,7 +925,7 @@ export const restoreClusterFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreClusterFromSnapshot",
-}));
+})) as any;
 
 export type StartClusterError =
   | AccessDeniedException
@@ -1412,8 +943,11 @@ export const startCluster: API.OperationMethod<
   StartClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartClusterInput,
-  output: StartClusterOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /cluster/{clusterArn}/start",
+    input: { clusterArn: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1424,7 +958,7 @@ export const startCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCluster",
-}));
+})) as any;
 
 export type StopClusterError =
   | AccessDeniedException
@@ -1443,8 +977,11 @@ export const stopCluster: API.OperationMethod<
   StopClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopClusterInput,
-  output: StopClusterOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /cluster/{clusterArn}/stop",
+    input: { clusterArn: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1455,7 +992,7 @@ export const stopCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCluster",
-}));
+})) as any;
 
 export type TagResourceError =
   | InternalServerException
@@ -1472,8 +1009,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{resourceArn}",
+    input: { resourceArn: 0, tags: 0 },
+    body: true,
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1483,7 +1024,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | InternalServerException
@@ -1500,8 +1041,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{resourceArn}",
+    input: { resourceArn: 0, tagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1511,7 +1055,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateClusterError =
   | AccessDeniedException
@@ -1531,8 +1075,25 @@ export const updateCluster: API.OperationMethod<
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateClusterInput,
-  output: UpdateClusterOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /cluster/{clusterArn}",
+    input: {
+      clusterArn: 0,
+      authType: 0,
+      shardCapacity: 0,
+      shardCount: 0,
+      vpcSecurityGroupIds: 0,
+      subnetIds: 0,
+      adminUserPassword: 0,
+      clientToken: D.m({ idempotency: true }),
+      preferredMaintenanceWindow: 0,
+      backupRetentionPeriod: 0,
+      preferredBackupWindow: 0,
+      shardInstanceCount: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1544,4 +1105,4 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
-}));
+})) as any;

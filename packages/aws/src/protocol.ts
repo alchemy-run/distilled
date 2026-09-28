@@ -46,12 +46,6 @@ import * as Endpoint from "./endpoint.ts";
 import * as Region from "./region.ts";
 import { makeEndpointResolver } from "./rules-engine/endpoint-resolver.ts";
 import * as SigV4 from "./sigv4.ts";
-import {
-  getAwsApiService,
-  getAwsAuthSigv2,
-  getAwsAuthSigv4,
-} from "./traits.ts";
-import { getIdentifier } from "./util/ast.ts";
 
 /**
  * Context (requirements) shared by every generated AWS operation.
@@ -86,38 +80,26 @@ const prepare = (config: API.ProtocolOperationConfig): Prepared => {
   const cached = preparedOps.get(config);
   if (cached) return cached;
 
-  // The wire machinery predates the core seam and is typed against the v0
-  // Operation shape; the config carries the same information.
-  const op: Operation = {
-    input: config.input as any,
-    output: config.output as any,
-    errors: [...(config.errors ?? [])] as any[],
-    operationName: config.operationName,
-    pagination: config.pagination as Operation["pagination"],
-  };
-  const inputAst = op.input.ast;
-  const serviceSdkId = getAwsApiService(inputAst)?.sdkId;
-  const operationName =
-    config.operationName ??
-    getIdentifier(inputAst)?.replace(/(?:Request|Input|Message)$/, "");
+  // Generated operations carry their descriptor (built lazily by API.make).
+  const op = {
+    descriptor: config.descriptor as Operation["descriptor"],
+    errors: (config.errors ?? []) as unknown as Operation["errors"],
+    operationName: config.operationName!,
+    endpointHostPrefix: config.endpointHostPrefix,
+    pagination: config.pagination,
+  } satisfies Operation;
+  const service = op.descriptor.service;
 
   const prepared: Prepared = {
     buildRequest: makeRequestBuilder(op),
     parseResponse: makeResponseParser(op, {
-      service: serviceSdkId,
-      operation: operationName,
-      // Responses are not schema-validated by default (matching every other
-      // distilled SDK): decode still runs for its transformations
-      // (timestamps -> Date, sensitive -> Redacted) but a shape mismatch
-      // falls back to the raw response instead of failing the call.
-      // DISTILLED_AWS_VALIDATE=1 restores hard-failing validation (the seed
-      // of a future strict mode).
-      validate:
-        typeof process !== "undefined" && !!process.env?.DISTILLED_AWS_VALIDATE,
+      service: service.sdkId,
+      operation: op.operationName,
     }),
-    sigv4: getAwsAuthSigv4(inputAst),
-    sigv2: getAwsAuthSigv2(inputAst),
-    serviceSdkId,
+    sigv4:
+      service.sigv2 === undefined ? { name: service.sigv4 ?? "s3" } : undefined,
+    sigv2: service.sigv2,
+    serviceSdkId: service.sdkId,
     resolveEndpoint: makeEndpointResolver(op),
   };
   preparedOps.set(config, prepared);

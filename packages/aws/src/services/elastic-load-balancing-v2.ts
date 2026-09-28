@@ -1,657 +1,432 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { awsQueryProtocol } from "../protocols/aws-query.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const ns = T.XmlNamespace(
-  "http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/",
-);
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Elastic Load Balancing v2",
-  serviceShapeName: "ElasticLoadBalancing_v10",
-});
-const auth = T.AwsAuthSigv4({ name: "elasticloadbalancing" });
-const ver = T.ServiceVersion("2015-12-01");
-const proto = T.AwsProtocolsAwsQuery();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://elasticloadbalancing-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
-              return e(`https://elasticloadbalancing.${Region}.amazonaws.com`);
-            }
-            return e(
-              `https://elasticloadbalancing-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://elasticloadbalancing.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://elasticloadbalancing.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "ElasticLoadBalancing_v10",
+  version: "2015-12-01",
+  sigv4: "elasticloadbalancing",
+  protocol: awsQueryProtocol,
+  xmlns: "http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/",
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://elasticloadbalancing-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
+                return e(
+                  `https://elasticloadbalancing.${Region}.amazonaws.com`,
+                );
+              }
+              return e(
+                `https://elasticloadbalancing-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://elasticloadbalancing.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://elasticloadbalancing.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AllocationIdNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<AllocationIdNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "AllocationIdNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "AllocationIdNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "AllocationIdNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ALPNPolicyNotSupportedException
-  extends /*@__PURE__*/ S.TaggedError<ALPNPolicyNotSupportedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ALPNPolicyNotSupportedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ALPNPolicyNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ALPNPolicyNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class AvailabilityZoneNotSupportedException
-  extends /*@__PURE__*/ S.TaggedError<AvailabilityZoneNotSupportedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "AvailabilityZoneNotSupportedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "AvailabilityZoneNotSupported",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "AvailabilityZoneNotSupported", status: 400 },
+  )<{ readonly message?: string }> {}
 export class CaCertificatesBundleNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<CaCertificatesBundleNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CaCertificatesBundleNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "CaCertificatesBundleNotFound",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "CaCertificatesBundleNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class CapacityDecreaseRequestsLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<CapacityDecreaseRequestsLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CapacityDecreaseRequestsLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "CapacityDecreaseRequestLimitExceeded",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "CapacityDecreaseRequestLimitExceeded", status: 400 },
+  )<{ readonly message?: string }> {}
 export class CapacityReservationPendingException
-  extends /*@__PURE__*/ S.TaggedError<CapacityReservationPendingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CapacityReservationPendingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "CapacityReservationPending",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "CapacityReservationPending", status: 400 },
+  )<{ readonly message?: string }> {}
 export class CapacityUnitsLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<CapacityUnitsLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CapacityUnitsLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "CapacityUnitsLimitExceeded",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "CapacityUnitsLimitExceeded", status: 400 },
+  )<{ readonly message?: string }> {}
 export class CertificateNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<CertificateNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CertificateNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "CertificateNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "CertificateNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class DeleteAssociationSameAccountException
-  extends /*@__PURE__*/ S.TaggedError<DeleteAssociationSameAccountException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DeleteAssociationSameAccountException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "DeleteAssociationSameAccount",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "DeleteAssociationSameAccount", status: 400 },
+  )<{ readonly message?: string }> {}
 export class DuplicateListenerException
-  extends /*@__PURE__*/ S.TaggedError<DuplicateListenerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DuplicateListenerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "DuplicateListener", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "DuplicateListener", status: 400 },
+  )<{ readonly message?: string }> {}
 export class DuplicateLoadBalancerNameException
-  extends /*@__PURE__*/ S.TaggedError<DuplicateLoadBalancerNameException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DuplicateLoadBalancerNameException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "DuplicateLoadBalancerName",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "DuplicateLoadBalancerName", status: 400 },
+  )<{ readonly message?: string }> {}
 export class DuplicateTagKeysException
-  extends /*@__PURE__*/ S.TaggedError<DuplicateTagKeysException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DuplicateTagKeysException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "DuplicateTagKeys", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "DuplicateTagKeys", status: 400 },
+  )<{ readonly message?: string }> {}
 export class DuplicateTargetGroupNameException
-  extends /*@__PURE__*/ S.TaggedError<DuplicateTargetGroupNameException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DuplicateTargetGroupNameException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "DuplicateTargetGroupName",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "DuplicateTargetGroupName", status: 400 },
+  )<{ readonly message?: string }> {}
 export class DuplicateTrustStoreNameException
-  extends /*@__PURE__*/ S.TaggedError<DuplicateTrustStoreNameException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DuplicateTrustStoreNameException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "DuplicateTrustStoreName",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "DuplicateTrustStoreName", status: 400 },
+  )<{ readonly message?: string }> {}
 export class HealthUnavailableException
-  extends /*@__PURE__*/ S.TaggedError<HealthUnavailableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "HealthUnavailableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "HealthUnavailable", httpResponseCode: 500 }),
-      T.HttpError(500),
-    ),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { code: "HealthUnavailable", status: 500 },
+  )<{ readonly message?: string }> {}
 export class IncompatibleProtocolsException
-  extends /*@__PURE__*/ S.TaggedError<IncompatibleProtocolsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "IncompatibleProtocolsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "IncompatibleProtocols", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "IncompatibleProtocols", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InsufficientCapacityException
-  extends /*@__PURE__*/ S.TaggedError<InsufficientCapacityException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InsufficientCapacityException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InsufficientCapacity", httpResponseCode: 500 }),
-      T.HttpError(500),
-    ),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { code: "InsufficientCapacity", status: 500 },
+  )<{ readonly message?: string }> {}
 export class InvalidCaCertificatesBundleException
-  extends /*@__PURE__*/ S.TaggedError<InvalidCaCertificatesBundleException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidCaCertificatesBundleException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidCaCertificatesBundle",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidCaCertificatesBundle", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidConfigurationRequestException
-  extends /*@__PURE__*/ S.TaggedError<InvalidConfigurationRequestException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidConfigurationRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidConfigurationRequest",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidConfigurationRequest", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidLoadBalancerActionException
-  extends /*@__PURE__*/ S.TaggedError<InvalidLoadBalancerActionException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidLoadBalancerActionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidLoadBalancerAction",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidLoadBalancerAction", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidRevocationContentException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRevocationContentException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidRevocationContentException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidRevocationContent",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidRevocationContent", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidSchemeException
-  extends /*@__PURE__*/ S.TaggedError<InvalidSchemeException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidSchemeException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidScheme", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidScheme", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidSecurityGroupException
-  extends /*@__PURE__*/ S.TaggedError<InvalidSecurityGroupException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidSecurityGroupException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidSecurityGroup", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidSecurityGroup", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidSubnetException
-  extends /*@__PURE__*/ S.TaggedError<InvalidSubnetException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidSubnetException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidSubnet", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidTargetException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTargetException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidTargetException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidTarget", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidTarget", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ListenerNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ListenerNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ListenerNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ListenerNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ListenerNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class LoadBalancerNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<LoadBalancerNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "LoadBalancerNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "LoadBalancerNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "LoadBalancerNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class OperationNotPermittedException
-  extends /*@__PURE__*/ S.TaggedError<OperationNotPermittedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "OperationNotPermittedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "OperationNotPermitted", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "OperationNotPermitted", status: 400 },
+  )<{ readonly message?: string }> {}
 export class PriorityInUseException
-  extends /*@__PURE__*/ S.TaggedError<PriorityInUseException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "PriorityInUseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "PriorityInUse", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "PriorityInUse", status: 400 },
+  )<{ readonly message?: string }> {}
 export class PriorRequestNotCompleteException
-  extends /*@__PURE__*/ S.TaggedError<PriorRequestNotCompleteException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "PriorRequestNotCompleteException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "PriorRequestNotComplete",
-        httpResponseCode: 429,
-      }),
-      T.HttpError(429),
-    ),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { code: "PriorRequestNotComplete", status: 429 },
+  )<{ readonly message?: string }> {}
 export class ResourceInUseException
-  extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceInUseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ResourceInUse", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ResourceInUse", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ResourceNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class RevocationContentNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<RevocationContentNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RevocationContentNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "RevocationContentNotFound",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "RevocationContentNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class RevocationIdNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<RevocationIdNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RevocationIdNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "RevocationIdNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "RevocationIdNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class RuleNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<RuleNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RuleNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "RuleNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "RuleNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class SSLPolicyNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<SSLPolicyNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "SSLPolicyNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SSLPolicyNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "SSLPolicyNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class SubnetNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<SubnetNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "SubnetNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SubnetNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "SubnetNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TargetGroupAssociationLimitException
-  extends /*@__PURE__*/ S.TaggedError<TargetGroupAssociationLimitException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TargetGroupAssociationLimitException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "TargetGroupAssociationLimit",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TargetGroupAssociationLimit", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TargetGroupNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<TargetGroupNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TargetGroupNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TargetGroupNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TargetGroupNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyActionsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyActionsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyActionsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TooManyActions", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TooManyActions", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyCertificatesException
-  extends /*@__PURE__*/ S.TaggedError<TooManyCertificatesException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyCertificatesException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TooManyCertificates", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TooManyCertificates", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyListenersException
-  extends /*@__PURE__*/ S.TaggedError<TooManyListenersException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyListenersException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TooManyListeners", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TooManyListeners", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyLoadBalancersException
-  extends /*@__PURE__*/ S.TaggedError<TooManyLoadBalancersException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyLoadBalancersException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TooManyLoadBalancers", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TooManyLoadBalancers", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyRegistrationsForTargetIdException
-  extends /*@__PURE__*/ S.TaggedError<TooManyRegistrationsForTargetIdException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyRegistrationsForTargetIdException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "TooManyRegistrationsForTargetId",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TooManyRegistrationsForTargetId", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyRulesException
-  extends /*@__PURE__*/ S.TaggedError<TooManyRulesException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyRulesException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TooManyRules", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TooManyRules", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyTagsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyTagsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TooManyTags", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TooManyTags", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyTargetGroupsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyTargetGroupsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyTargetGroupsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TooManyTargetGroups", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TooManyTargetGroups", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyTargetsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyTargetsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyTargetsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TooManyTargets", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TooManyTargets", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyTrustStoreRevocationEntriesException
-  extends /*@__PURE__*/ S.TaggedError<TooManyTrustStoreRevocationEntriesException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyTrustStoreRevocationEntriesException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "TooManyTrustStoreRevocationEntries",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TooManyTrustStoreRevocationEntries", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyTrustStoresException
-  extends /*@__PURE__*/ S.TaggedError<TooManyTrustStoresException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyTrustStoresException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TooManyTrustStores", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TooManyTrustStores", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyUniqueTargetGroupsPerLoadBalancerException
-  extends /*@__PURE__*/ S.TaggedError<TooManyUniqueTargetGroupsPerLoadBalancerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyUniqueTargetGroupsPerLoadBalancerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "TooManyUniqueTargetGroupsPerLoadBalancer",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TooManyUniqueTargetGroupsPerLoadBalancer", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TrustStoreAssociationNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<TrustStoreAssociationNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TrustStoreAssociationNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "AssociationNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "AssociationNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TrustStoreInUseException
-  extends /*@__PURE__*/ S.TaggedError<TrustStoreInUseException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TrustStoreInUseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TrustStoreInUse", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TrustStoreInUse", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TrustStoreNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<TrustStoreNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TrustStoreNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TrustStoreNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TrustStoreNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TrustStoreNotReadyException
-  extends /*@__PURE__*/ S.TaggedError<TrustStoreNotReadyException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TrustStoreNotReadyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TrustStoreNotReady", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TrustStoreNotReady", status: 400 },
+  )<{ readonly message?: string }> {}
 export class UnsupportedProtocolException
-  extends /*@__PURE__*/ S.TaggedError<UnsupportedProtocolException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "UnsupportedProtocolException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "UnsupportedProtocol", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "UnsupportedProtocol", status: 400 },
+  )<{ readonly message?: string }> {}
 export type ListenerArn = string;
 export type CertificateArn = string;
 export type Default = boolean;
@@ -659,129 +434,44 @@ export interface Certificate {
   CertificateArn?: string;
   IsDefault?: boolean;
 }
-export const Certificate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateArn: S.optional(S.String),
-    IsDefault: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
 export type CertificateList = Certificate[];
-export const CertificateList = /*@__PURE__*/ S.Array(Certificate);
 export interface AddListenerCertificatesInput {
   ListenerArn?: string;
   Certificates?: Certificate[];
 }
-export const AddListenerCertificatesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ListenerArn: S.optional(S.String),
-    Certificates: S.optional(CertificateList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AddListenerCertificatesInput",
-}) as any as S.Schema<AddListenerCertificatesInput>;
 export interface AddListenerCertificatesOutput {
   Certificates?: Certificate[];
 }
-export const AddListenerCertificatesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Certificates: S.optional(CertificateList) }).pipe(ns),
-).annotate({
-  identifier: "AddListenerCertificatesOutput",
-}) as any as S.Schema<AddListenerCertificatesOutput>;
 export type ResourceArn = string;
 export type ResourceArns = string[];
-export const ResourceArns = /*@__PURE__*/ S.Array(S.String);
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key?: string;
   Value?: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface AddTagsInput {
   ResourceArns?: string[];
   Tags?: Tag[];
 }
-export const AddTagsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArns: S.optional(ResourceArns),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "AddTagsInput" }) as any as S.Schema<AddTagsInput>;
 export interface AddTagsOutput {}
-export const AddTagsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({ identifier: "AddTagsOutput" }) as any as S.Schema<AddTagsOutput>;
 export type TrustStoreArn = string;
 export type S3Bucket = string;
 export type S3Key = string;
 export type S3ObjectVersion = string;
 export type RevocationType = "CRL" | (string & {});
-export const RevocationType = S.String;
-
 export interface RevocationContent {
   S3Bucket?: string;
   S3Key?: string;
   S3ObjectVersion?: string;
   RevocationType?: RevocationType;
 }
-export const RevocationContent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    S3Bucket: S.optional(S.String),
-    S3Key: S.optional(S.String),
-    S3ObjectVersion: S.optional(S.String),
-    RevocationType: S.optional(RevocationType),
-  }),
-).annotate({
-  identifier: "RevocationContent",
-}) as any as S.Schema<RevocationContent>;
 export type RevocationContents = RevocationContent[];
-export const RevocationContents = /*@__PURE__*/ S.Array(RevocationContent);
 export interface AddTrustStoreRevocationsInput {
   TrustStoreArn?: string;
   RevocationContents?: RevocationContent[];
 }
-export const AddTrustStoreRevocationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrustStoreArn: S.optional(S.String),
-    RevocationContents: S.optional(RevocationContents),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AddTrustStoreRevocationsInput",
-}) as any as S.Schema<AddTrustStoreRevocationsInput>;
 export type RevocationId = number;
 export type NumberOfRevokedEntries = number;
 export interface TrustStoreRevocation {
@@ -790,29 +480,10 @@ export interface TrustStoreRevocation {
   RevocationType?: RevocationType;
   NumberOfRevokedEntries?: number;
 }
-export const TrustStoreRevocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrustStoreArn: S.optional(S.String),
-    RevocationId: S.optional(S.Number),
-    RevocationType: S.optional(RevocationType),
-    NumberOfRevokedEntries: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "TrustStoreRevocation",
-}) as any as S.Schema<TrustStoreRevocation>;
 export type TrustStoreRevocations = TrustStoreRevocation[];
-export const TrustStoreRevocations =
-  /*@__PURE__*/ S.Array(TrustStoreRevocation);
 export interface AddTrustStoreRevocationsOutput {
   TrustStoreRevocations?: TrustStoreRevocation[];
 }
-export const AddTrustStoreRevocationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TrustStoreRevocations: S.optional(TrustStoreRevocations) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "AddTrustStoreRevocationsOutput",
-}) as any as S.Schema<AddTrustStoreRevocationsOutput>;
 export type LoadBalancerArn = string;
 export type ProtocolEnum =
   | "HTTP"
@@ -825,8 +496,6 @@ export type ProtocolEnum =
   | "QUIC"
   | "TCP_QUIC"
   | (string & {});
-export const ProtocolEnum = S.String;
-
 export type Port = number;
 export type SslPolicyName = string;
 export type ActionTypeEnum =
@@ -837,8 +506,6 @@ export type ActionTypeEnum =
   | "fixed-response"
   | "jwt-validation"
   | (string & {});
-export const ActionTypeEnum = S.String;
-
 export type TargetGroupArn = string;
 export type AuthenticateOidcActionIssuer = string;
 export type AuthenticateOidcActionAuthorizationEndpoint = string;
@@ -854,15 +521,11 @@ export type AuthenticateOidcActionAuthenticationRequestParamValue = string;
 export type AuthenticateOidcActionAuthenticationRequestExtraParams = {
   [key: string]: string | undefined;
 };
-export const AuthenticateOidcActionAuthenticationRequestExtraParams =
-  /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type AuthenticateOidcActionConditionalBehaviorEnum =
   | "deny"
   | "allow"
   | "authenticate"
   | (string & {});
-export const AuthenticateOidcActionConditionalBehaviorEnum = S.String;
-
 export type AuthenticateOidcActionUseExistingClientSecret = boolean;
 export interface AuthenticateOidcActionConfig {
   Issuer?: string;
@@ -878,28 +541,6 @@ export interface AuthenticateOidcActionConfig {
   OnUnauthenticatedRequest?: AuthenticateOidcActionConditionalBehaviorEnum;
   UseExistingClientSecret?: boolean;
 }
-export const AuthenticateOidcActionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Issuer: S.optional(S.String),
-    AuthorizationEndpoint: S.optional(S.String),
-    TokenEndpoint: S.optional(S.String),
-    UserInfoEndpoint: S.optional(S.String),
-    ClientId: S.optional(S.String),
-    ClientSecret: S.optional(SensitiveString),
-    SessionCookieName: S.optional(S.String),
-    Scope: S.optional(S.String),
-    SessionTimeout: S.optional(S.Number),
-    AuthenticationRequestExtraParams: S.optional(
-      AuthenticateOidcActionAuthenticationRequestExtraParams,
-    ),
-    OnUnauthenticatedRequest: S.optional(
-      AuthenticateOidcActionConditionalBehaviorEnum,
-    ),
-    UseExistingClientSecret: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "AuthenticateOidcActionConfig",
-}) as any as S.Schema<AuthenticateOidcActionConfig>;
 export type AuthenticateCognitoActionUserPoolArn = string;
 export type AuthenticateCognitoActionUserPoolClientId = string;
 export type AuthenticateCognitoActionUserPoolDomain = string;
@@ -911,15 +552,11 @@ export type AuthenticateCognitoActionAuthenticationRequestParamValue = string;
 export type AuthenticateCognitoActionAuthenticationRequestExtraParams = {
   [key: string]: string | undefined;
 };
-export const AuthenticateCognitoActionAuthenticationRequestExtraParams =
-  /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type AuthenticateCognitoActionConditionalBehaviorEnum =
   | "deny"
   | "allow"
   | "authenticate"
   | (string & {});
-export const AuthenticateCognitoActionConditionalBehaviorEnum = S.String;
-
 export interface AuthenticateCognitoActionConfig {
   UserPoolArn?: string;
   UserPoolClientId?: string;
@@ -930,24 +567,6 @@ export interface AuthenticateCognitoActionConfig {
   AuthenticationRequestExtraParams?: { [key: string]: string | undefined };
   OnUnauthenticatedRequest?: AuthenticateCognitoActionConditionalBehaviorEnum;
 }
-export const AuthenticateCognitoActionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserPoolArn: S.optional(S.String),
-    UserPoolClientId: S.optional(S.String),
-    UserPoolDomain: S.optional(S.String),
-    SessionCookieName: S.optional(S.String),
-    Scope: S.optional(S.String),
-    SessionTimeout: S.optional(S.Number),
-    AuthenticationRequestExtraParams: S.optional(
-      AuthenticateCognitoActionAuthenticationRequestExtraParams,
-    ),
-    OnUnauthenticatedRequest: S.optional(
-      AuthenticateCognitoActionConditionalBehaviorEnum,
-    ),
-  }),
-).annotate({
-  identifier: "AuthenticateCognitoActionConfig",
-}) as any as S.Schema<AuthenticateCognitoActionConfig>;
 export type ActionOrder = number;
 export type RedirectActionProtocol = string;
 export type RedirectActionPort = string;
@@ -958,8 +577,6 @@ export type RedirectActionStatusCodeEnum =
   | "HTTP_301"
   | "HTTP_302"
   | (string & {});
-export const RedirectActionStatusCodeEnum = S.String;
-
 export interface RedirectActionConfig {
   Protocol?: string;
   Port?: string;
@@ -968,18 +585,6 @@ export interface RedirectActionConfig {
   Query?: string;
   StatusCode?: RedirectActionStatusCodeEnum;
 }
-export const RedirectActionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Protocol: S.optional(S.String),
-    Port: S.optional(S.String),
-    Host: S.optional(S.String),
-    Path: S.optional(S.String),
-    Query: S.optional(S.String),
-    StatusCode: S.optional(RedirectActionStatusCodeEnum),
-  }),
-).annotate({
-  identifier: "RedirectActionConfig",
-}) as any as S.Schema<RedirectActionConfig>;
 export type FixedResponseActionMessage = string;
 export type FixedResponseActionStatusCode = string;
 export type FixedResponseActionContentType = string;
@@ -988,56 +593,22 @@ export interface FixedResponseActionConfig {
   StatusCode?: string;
   ContentType?: string;
 }
-export const FixedResponseActionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MessageBody: S.optional(S.String),
-    StatusCode: S.optional(S.String),
-    ContentType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FixedResponseActionConfig",
-}) as any as S.Schema<FixedResponseActionConfig>;
 export type TargetGroupWeight = number;
 export interface TargetGroupTuple {
   TargetGroupArn?: string;
   Weight?: number;
 }
-export const TargetGroupTuple = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetGroupArn: S.optional(S.String),
-    Weight: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "TargetGroupTuple",
-}) as any as S.Schema<TargetGroupTuple>;
 export type TargetGroupList = TargetGroupTuple[];
-export const TargetGroupList = /*@__PURE__*/ S.Array(TargetGroupTuple);
 export type TargetGroupStickinessEnabled = boolean;
 export type TargetGroupStickinessDurationSeconds = number;
 export interface TargetGroupStickinessConfig {
   Enabled?: boolean;
   DurationSeconds?: number;
 }
-export const TargetGroupStickinessConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    DurationSeconds: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "TargetGroupStickinessConfig",
-}) as any as S.Schema<TargetGroupStickinessConfig>;
 export interface ForwardActionConfig {
   TargetGroups?: TargetGroupTuple[];
   TargetGroupStickinessConfig?: TargetGroupStickinessConfig;
 }
-export const ForwardActionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetGroups: S.optional(TargetGroupList),
-    TargetGroupStickinessConfig: S.optional(TargetGroupStickinessConfig),
-  }),
-).annotate({
-  identifier: "ForwardActionConfig",
-}) as any as S.Schema<ForwardActionConfig>;
 export type JwtValidationActionJwksEndpoint = string;
 export type JwtValidationActionIssuer = string;
 export type JwtValidationActionAdditionalClaimFormatEnum =
@@ -1045,47 +616,21 @@ export type JwtValidationActionAdditionalClaimFormatEnum =
   | "string-array"
   | "space-separated-values"
   | (string & {});
-export const JwtValidationActionAdditionalClaimFormatEnum = S.String;
-
 export type JwtValidationActionAdditionalClaimName = string;
 export type JwtValidationActionAdditionalClaimValue = string;
 export type JwtValidationActionAdditionalClaimValues = string[];
-export const JwtValidationActionAdditionalClaimValues = /*@__PURE__*/ S.Array(
-  S.String,
-);
 export interface JwtValidationActionAdditionalClaim {
   Format?: JwtValidationActionAdditionalClaimFormatEnum;
   Name?: string;
   Values?: string[];
 }
-export const JwtValidationActionAdditionalClaim = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Format: S.optional(JwtValidationActionAdditionalClaimFormatEnum),
-    Name: S.optional(S.String),
-    Values: S.optional(JwtValidationActionAdditionalClaimValues),
-  }),
-).annotate({
-  identifier: "JwtValidationActionAdditionalClaim",
-}) as any as S.Schema<JwtValidationActionAdditionalClaim>;
 export type JwtValidationActionAdditionalClaims =
   JwtValidationActionAdditionalClaim[];
-export const JwtValidationActionAdditionalClaims = /*@__PURE__*/ S.Array(
-  JwtValidationActionAdditionalClaim,
-);
 export interface JwtValidationActionConfig {
   JwksEndpoint?: string;
   Issuer?: string;
   AdditionalClaims?: JwtValidationActionAdditionalClaim[];
 }
-export const JwtValidationActionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    JwksEndpoint: S.optional(S.String),
-    Issuer: S.optional(S.String),
-    AdditionalClaims: S.optional(JwtValidationActionAdditionalClaims),
-  }),
-).annotate({
-  identifier: "JwtValidationActionConfig",
-}) as any as S.Schema<JwtValidationActionConfig>;
 export interface Action {
   Type?: ActionTypeEnum;
   TargetGroupArn?: string;
@@ -1097,35 +642,16 @@ export interface Action {
   ForwardConfig?: ForwardActionConfig;
   JwtValidationConfig?: JwtValidationActionConfig;
 }
-export const Action = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(ActionTypeEnum),
-    TargetGroupArn: S.optional(S.String),
-    AuthenticateOidcConfig: S.optional(AuthenticateOidcActionConfig),
-    AuthenticateCognitoConfig: S.optional(AuthenticateCognitoActionConfig),
-    Order: S.optional(S.Number),
-    RedirectConfig: S.optional(RedirectActionConfig),
-    FixedResponseConfig: S.optional(FixedResponseActionConfig),
-    ForwardConfig: S.optional(ForwardActionConfig),
-    JwtValidationConfig: S.optional(JwtValidationActionConfig),
-  }),
-).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
 export type Actions = Action[];
-export const Actions = /*@__PURE__*/ S.Array(Action);
 export type AlpnPolicyValue = string;
 export type AlpnPolicyName = string[];
-export const AlpnPolicyName = /*@__PURE__*/ S.Array(S.String);
 export type Mode = string;
 export type IgnoreClientCertificateExpiry = boolean;
 export type TrustStoreAssociationStatusEnum =
   | "active"
   | "removed"
   | (string & {});
-export const TrustStoreAssociationStatusEnum = S.String;
-
 export type AdvertiseTrustStoreCaNamesEnum = "on" | "off" | (string & {});
-export const AdvertiseTrustStoreCaNamesEnum = S.String;
-
 export interface MutualAuthenticationAttributes {
   Mode?: string;
   TrustStoreArn?: string;
@@ -1133,17 +659,6 @@ export interface MutualAuthenticationAttributes {
   TrustStoreAssociationStatus?: TrustStoreAssociationStatusEnum;
   AdvertiseTrustStoreCaNames?: AdvertiseTrustStoreCaNamesEnum;
 }
-export const MutualAuthenticationAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Mode: S.optional(S.String),
-    TrustStoreArn: S.optional(S.String),
-    IgnoreClientCertificateExpiry: S.optional(S.Boolean),
-    TrustStoreAssociationStatus: S.optional(TrustStoreAssociationStatusEnum),
-    AdvertiseTrustStoreCaNames: S.optional(AdvertiseTrustStoreCaNamesEnum),
-  }),
-).annotate({
-  identifier: "MutualAuthenticationAttributes",
-}) as any as S.Schema<MutualAuthenticationAttributes>;
 export interface CreateListenerInput {
   LoadBalancerArn?: string;
   Protocol?: ProtocolEnum;
@@ -1155,31 +670,6 @@ export interface CreateListenerInput {
   Tags?: Tag[];
   MutualAuthentication?: MutualAuthenticationAttributes;
 }
-export const CreateListenerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoadBalancerArn: S.optional(S.String),
-    Protocol: S.optional(ProtocolEnum),
-    Port: S.optional(S.Number),
-    SslPolicy: S.optional(S.String),
-    Certificates: S.optional(CertificateList),
-    DefaultActions: S.optional(Actions),
-    AlpnPolicy: S.optional(AlpnPolicyName),
-    Tags: S.optional(TagList),
-    MutualAuthentication: S.optional(MutualAuthenticationAttributes),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateListenerInput",
-}) as any as S.Schema<CreateListenerInput>;
 export interface Listener {
   ListenerArn?: string;
   LoadBalancerArn?: string;
@@ -1191,21 +681,7 @@ export interface Listener {
   AlpnPolicy?: string[];
   MutualAuthentication?: MutualAuthenticationAttributes;
 }
-export const Listener = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ListenerArn: S.optional(S.String),
-    LoadBalancerArn: S.optional(S.String),
-    Port: S.optional(S.Number),
-    Protocol: S.optional(ProtocolEnum),
-    Certificates: S.optional(CertificateList),
-    SslPolicy: S.optional(S.String),
-    DefaultActions: S.optional(Actions),
-    AlpnPolicy: S.optional(AlpnPolicyName),
-    MutualAuthentication: S.optional(MutualAuthenticationAttributes),
-  }),
-).annotate({ identifier: "Listener" }) as any as S.Schema<Listener>;
 export type Listeners = Listener[];
-export const Listeners = /*@__PURE__*/ S.Array(Listener);
 export interface CreateListenerOutput {
   Listeners?: (Listener & {
     DefaultActions: (Action & {
@@ -1240,15 +716,9 @@ export interface CreateListenerOutput {
     })[];
   })[];
 }
-export const CreateListenerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Listeners: S.optional(Listeners) }).pipe(ns),
-).annotate({
-  identifier: "CreateListenerOutput",
-}) as any as S.Schema<CreateListenerOutput>;
 export type LoadBalancerName = string;
 export type SubnetId = string;
 export type Subnets = string[];
-export const Subnets = /*@__PURE__*/ S.Array(S.String);
 export type AllocationId = string;
 export type PrivateIPv4Address = string;
 export type IPv6Address = string;
@@ -1260,51 +730,29 @@ export interface SubnetMapping {
   IPv6Address?: string;
   SourceNatIpv6Prefix?: string;
 }
-export const SubnetMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubnetId: S.optional(S.String),
-    AllocationId: S.optional(S.String),
-    PrivateIPv4Address: S.optional(S.String),
-    IPv6Address: S.optional(S.String),
-    SourceNatIpv6Prefix: S.optional(S.String),
-  }),
-).annotate({ identifier: "SubnetMapping" }) as any as S.Schema<SubnetMapping>;
 export type SubnetMappings = SubnetMapping[];
-export const SubnetMappings = /*@__PURE__*/ S.Array(SubnetMapping);
 export type SecurityGroupId = string;
 export type SecurityGroups = string[];
-export const SecurityGroups = /*@__PURE__*/ S.Array(S.String);
 export type LoadBalancerSchemeEnum =
   | "internet-facing"
   | "internal"
   | (string & {});
-export const LoadBalancerSchemeEnum = S.String;
-
 export type LoadBalancerTypeEnum =
   | "application"
   | "network"
   | "gateway"
   | (string & {});
-export const LoadBalancerTypeEnum = S.String;
-
 export type IpAddressType =
   | "ipv4"
   | "dualstack"
   | "dualstack-without-public-ipv4"
   | (string & {});
-export const IpAddressType = S.String;
-
 export type CustomerOwnedIpv4Pool = string;
 export type EnablePrefixForIpv6SourceNatEnum = "on" | "off" | (string & {});
-export const EnablePrefixForIpv6SourceNatEnum = S.String;
-
 export type IpamPoolId = string;
 export interface IpamPools {
   Ipv4IpamPoolId?: string;
 }
-export const IpamPools = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Ipv4IpamPoolId: S.optional(S.String) }),
-).annotate({ identifier: "IpamPools" }) as any as S.Schema<IpamPools>;
 export interface CreateLoadBalancerInput {
   Name?: string;
   Subnets?: string[];
@@ -1318,33 +766,6 @@ export interface CreateLoadBalancerInput {
   EnablePrefixForIpv6SourceNat?: EnablePrefixForIpv6SourceNatEnum;
   IpamPools?: IpamPools;
 }
-export const CreateLoadBalancerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Subnets: S.optional(Subnets),
-    SubnetMappings: S.optional(SubnetMappings),
-    SecurityGroups: S.optional(SecurityGroups),
-    Scheme: S.optional(LoadBalancerSchemeEnum),
-    Tags: S.optional(TagList),
-    Type: S.optional(LoadBalancerTypeEnum),
-    IpAddressType: S.optional(IpAddressType),
-    CustomerOwnedIpv4Pool: S.optional(S.String),
-    EnablePrefixForIpv6SourceNat: S.optional(EnablePrefixForIpv6SourceNatEnum),
-    IpamPools: S.optional(IpamPools),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateLoadBalancerInput",
-}) as any as S.Schema<CreateLoadBalancerInput>;
 export type DNSName = string;
 export type CanonicalHostedZoneId = string;
 export type CreatedTime = Date;
@@ -1355,21 +776,11 @@ export type LoadBalancerStateEnum =
   | "active_impaired"
   | "failed"
   | (string & {});
-export const LoadBalancerStateEnum = S.String;
-
 export type StateReason = string;
 export interface LoadBalancerState {
   Code?: LoadBalancerStateEnum;
   Reason?: string;
 }
-export const LoadBalancerState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Code: S.optional(LoadBalancerStateEnum),
-    Reason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LoadBalancerState",
-}) as any as S.Schema<LoadBalancerState>;
 export type ZoneName = string;
 export type OutpostId = string;
 export type IpAddress = string;
@@ -1379,20 +790,8 @@ export interface LoadBalancerAddress {
   PrivateIPv4Address?: string;
   IPv6Address?: string;
 }
-export const LoadBalancerAddress = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IpAddress: S.optional(S.String),
-    AllocationId: S.optional(S.String),
-    PrivateIPv4Address: S.optional(S.String),
-    IPv6Address: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LoadBalancerAddress",
-}) as any as S.Schema<LoadBalancerAddress>;
 export type LoadBalancerAddresses = LoadBalancerAddress[];
-export const LoadBalancerAddresses = /*@__PURE__*/ S.Array(LoadBalancerAddress);
 export type SourceNatIpv6Prefixes = string[];
-export const SourceNatIpv6Prefixes = /*@__PURE__*/ S.Array(S.String);
 export interface AvailabilityZone {
   ZoneName?: string;
   SubnetId?: string;
@@ -1400,19 +799,7 @@ export interface AvailabilityZone {
   LoadBalancerAddresses?: LoadBalancerAddress[];
   SourceNatIpv6Prefixes?: string[];
 }
-export const AvailabilityZone = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ZoneName: S.optional(S.String),
-    SubnetId: S.optional(S.String),
-    OutpostId: S.optional(S.String),
-    LoadBalancerAddresses: S.optional(LoadBalancerAddresses),
-    SourceNatIpv6Prefixes: S.optional(SourceNatIpv6Prefixes),
-  }),
-).annotate({
-  identifier: "AvailabilityZone",
-}) as any as S.Schema<AvailabilityZone>;
 export type AvailabilityZones = AvailabilityZone[];
-export const AvailabilityZones = /*@__PURE__*/ S.Array(AvailabilityZone);
 export type EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic = string;
 export interface LoadBalancer {
   LoadBalancerArn?: string;
@@ -1432,125 +819,43 @@ export interface LoadBalancer {
   EnablePrefixForIpv6SourceNat?: EnablePrefixForIpv6SourceNatEnum;
   IpamPools?: IpamPools;
 }
-export const LoadBalancer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoadBalancerArn: S.optional(S.String),
-    DNSName: S.optional(S.String),
-    CanonicalHostedZoneId: S.optional(S.String),
-    CreatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LoadBalancerName: S.optional(S.String),
-    Scheme: S.optional(LoadBalancerSchemeEnum),
-    VpcId: S.optional(S.String),
-    State: S.optional(LoadBalancerState),
-    Type: S.optional(LoadBalancerTypeEnum),
-    AvailabilityZones: S.optional(AvailabilityZones),
-    SecurityGroups: S.optional(SecurityGroups),
-    IpAddressType: S.optional(IpAddressType),
-    CustomerOwnedIpv4Pool: S.optional(S.String),
-    EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic: S.optional(S.String),
-    EnablePrefixForIpv6SourceNat: S.optional(EnablePrefixForIpv6SourceNatEnum),
-    IpamPools: S.optional(IpamPools),
-  }),
-).annotate({ identifier: "LoadBalancer" }) as any as S.Schema<LoadBalancer>;
 export type LoadBalancers = LoadBalancer[];
-export const LoadBalancers = /*@__PURE__*/ S.Array(LoadBalancer);
 export interface CreateLoadBalancerOutput {
   LoadBalancers?: LoadBalancer[];
 }
-export const CreateLoadBalancerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LoadBalancers: S.optional(LoadBalancers) }).pipe(ns),
-).annotate({
-  identifier: "CreateLoadBalancerOutput",
-}) as any as S.Schema<CreateLoadBalancerOutput>;
 export type ConditionFieldName = string;
 export type StringValue = string;
 export type ListOfString = string[];
-export const ListOfString = /*@__PURE__*/ S.Array(S.String);
 export interface HostHeaderConditionConfig {
   Values?: string[];
   RegexValues?: string[];
 }
-export const HostHeaderConditionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Values: S.optional(ListOfString),
-    RegexValues: S.optional(ListOfString),
-  }),
-).annotate({
-  identifier: "HostHeaderConditionConfig",
-}) as any as S.Schema<HostHeaderConditionConfig>;
 export interface PathPatternConditionConfig {
   Values?: string[];
   RegexValues?: string[];
 }
-export const PathPatternConditionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Values: S.optional(ListOfString),
-    RegexValues: S.optional(ListOfString),
-  }),
-).annotate({
-  identifier: "PathPatternConditionConfig",
-}) as any as S.Schema<PathPatternConditionConfig>;
 export type HttpHeaderConditionName = string;
 export interface HttpHeaderConditionConfig {
   HttpHeaderName?: string;
   Values?: string[];
   RegexValues?: string[];
 }
-export const HttpHeaderConditionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HttpHeaderName: S.optional(S.String),
-    Values: S.optional(ListOfString),
-    RegexValues: S.optional(ListOfString),
-  }),
-).annotate({
-  identifier: "HttpHeaderConditionConfig",
-}) as any as S.Schema<HttpHeaderConditionConfig>;
 export interface QueryStringKeyValuePair {
   Key?: string;
   Value?: string;
 }
-export const QueryStringKeyValuePair = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({
-  identifier: "QueryStringKeyValuePair",
-}) as any as S.Schema<QueryStringKeyValuePair>;
 export type QueryStringKeyValuePairList = QueryStringKeyValuePair[];
-export const QueryStringKeyValuePairList = /*@__PURE__*/ S.Array(
-  QueryStringKeyValuePair,
-);
 export interface QueryStringConditionConfig {
   Values?: QueryStringKeyValuePair[];
 }
-export const QueryStringConditionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Values: S.optional(QueryStringKeyValuePairList) }),
-).annotate({
-  identifier: "QueryStringConditionConfig",
-}) as any as S.Schema<QueryStringConditionConfig>;
 export interface HttpRequestMethodConditionConfig {
   Values?: string[];
 }
-export const HttpRequestMethodConditionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Values: S.optional(ListOfString) }),
-).annotate({
-  identifier: "HttpRequestMethodConditionConfig",
-}) as any as S.Schema<HttpRequestMethodConditionConfig>;
 export type SourceIpAddressTypeEnum = "ipv4" | "ipv6" | (string & {});
-export const SourceIpAddressTypeEnum = S.String;
-
 export interface SourceIpConditionConfig {
   Values?: string[];
   IpAddressType?: SourceIpAddressTypeEnum;
 }
-export const SourceIpConditionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Values: S.optional(ListOfString),
-    IpAddressType: S.optional(SourceIpAddressTypeEnum),
-  }),
-).annotate({
-  identifier: "SourceIpConditionConfig",
-}) as any as S.Schema<SourceIpConditionConfig>;
 export interface RuleCondition {
   Field?: string;
   Values?: string[];
@@ -1562,67 +867,29 @@ export interface RuleCondition {
   SourceIpConfig?: SourceIpConditionConfig;
   RegexValues?: string[];
 }
-export const RuleCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Field: S.optional(S.String),
-    Values: S.optional(ListOfString),
-    HostHeaderConfig: S.optional(HostHeaderConditionConfig),
-    PathPatternConfig: S.optional(PathPatternConditionConfig),
-    HttpHeaderConfig: S.optional(HttpHeaderConditionConfig),
-    QueryStringConfig: S.optional(QueryStringConditionConfig),
-    HttpRequestMethodConfig: S.optional(HttpRequestMethodConditionConfig),
-    SourceIpConfig: S.optional(SourceIpConditionConfig),
-    RegexValues: S.optional(ListOfString),
-  }),
-).annotate({ identifier: "RuleCondition" }) as any as S.Schema<RuleCondition>;
 export type RuleConditionList = RuleCondition[];
-export const RuleConditionList = /*@__PURE__*/ S.Array(RuleCondition);
 export type RulePriority = number;
 export type TransformTypeEnum =
   | "host-header-rewrite"
   | "url-rewrite"
   | (string & {});
-export const TransformTypeEnum = S.String;
-
 export interface RewriteConfig {
   Regex?: string;
   Replace?: string;
 }
-export const RewriteConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Regex: S.optional(S.String), Replace: S.optional(S.String) }),
-).annotate({ identifier: "RewriteConfig" }) as any as S.Schema<RewriteConfig>;
 export type RewriteConfigList = RewriteConfig[];
-export const RewriteConfigList = /*@__PURE__*/ S.Array(RewriteConfig);
 export interface HostHeaderRewriteConfig {
   Rewrites?: RewriteConfig[];
 }
-export const HostHeaderRewriteConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Rewrites: S.optional(RewriteConfigList) }),
-).annotate({
-  identifier: "HostHeaderRewriteConfig",
-}) as any as S.Schema<HostHeaderRewriteConfig>;
 export interface UrlRewriteConfig {
   Rewrites?: RewriteConfig[];
 }
-export const UrlRewriteConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Rewrites: S.optional(RewriteConfigList) }),
-).annotate({
-  identifier: "UrlRewriteConfig",
-}) as any as S.Schema<UrlRewriteConfig>;
 export interface RuleTransform {
   Type?: TransformTypeEnum;
   HostHeaderRewriteConfig?: HostHeaderRewriteConfig;
   UrlRewriteConfig?: UrlRewriteConfig;
 }
-export const RuleTransform = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(TransformTypeEnum),
-    HostHeaderRewriteConfig: S.optional(HostHeaderRewriteConfig),
-    UrlRewriteConfig: S.optional(UrlRewriteConfig),
-  }),
-).annotate({ identifier: "RuleTransform" }) as any as S.Schema<RuleTransform>;
 export type RuleTransformList = RuleTransform[];
-export const RuleTransformList = /*@__PURE__*/ S.Array(RuleTransform);
 export interface CreateRuleInput {
   ListenerArn?: string;
   Conditions?: RuleCondition[];
@@ -1631,28 +898,6 @@ export interface CreateRuleInput {
   Tags?: Tag[];
   Transforms?: RuleTransform[];
 }
-export const CreateRuleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ListenerArn: S.optional(S.String),
-    Conditions: S.optional(RuleConditionList),
-    Priority: S.optional(S.Number),
-    Actions: S.optional(Actions),
-    Tags: S.optional(TagList),
-    Transforms: S.optional(RuleTransformList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateRuleInput",
-}) as any as S.Schema<CreateRuleInput>;
 export type RuleArn = string;
 export type IsDefault = boolean;
 export interface Rule {
@@ -1663,18 +908,7 @@ export interface Rule {
   IsDefault?: boolean;
   Transforms?: RuleTransform[];
 }
-export const Rule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleArn: S.optional(S.String),
-    Priority: S.optional(S.String),
-    Conditions: S.optional(RuleConditionList),
-    Actions: S.optional(Actions),
-    IsDefault: S.optional(S.Boolean),
-    Transforms: S.optional(RuleTransformList),
-  }),
-).annotate({ identifier: "Rule" }) as any as S.Schema<Rule>;
 export type Rules = Rule[];
-export const Rules = /*@__PURE__*/ S.Array(Rule);
 export interface CreateRuleOutput {
   Rules?: (Rule & {
     Actions: (Action & {
@@ -1724,11 +958,6 @@ export interface CreateRuleOutput {
     })[];
   })[];
 }
-export const CreateRuleOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Rules: S.optional(Rules) }).pipe(ns),
-).annotate({
-  identifier: "CreateRuleOutput",
-}) as any as S.Schema<CreateRuleOutput>;
 export type TargetGroupName = string;
 export type ProtocolVersion = string;
 export type HealthCheckPort = string;
@@ -1743,20 +972,13 @@ export interface Matcher {
   HttpCode?: string;
   GrpcCode?: string;
 }
-export const Matcher = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ HttpCode: S.optional(S.String), GrpcCode: S.optional(S.String) }),
-).annotate({ identifier: "Matcher" }) as any as S.Schema<Matcher>;
 export type TargetTypeEnum =
   | "instance"
   | "ip"
   | "lambda"
   | "alb"
   | (string & {});
-export const TargetTypeEnum = S.String;
-
 export type TargetGroupIpAddressTypeEnum = "ipv4" | "ipv6" | (string & {});
-export const TargetGroupIpAddressTypeEnum = S.String;
-
 export type TargetControlPort = number;
 export interface CreateTargetGroupInput {
   Name?: string;
@@ -1778,42 +1000,7 @@ export interface CreateTargetGroupInput {
   IpAddressType?: TargetGroupIpAddressTypeEnum;
   TargetControlPort?: number;
 }
-export const CreateTargetGroupInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Protocol: S.optional(ProtocolEnum),
-    ProtocolVersion: S.optional(S.String),
-    Port: S.optional(S.Number),
-    VpcId: S.optional(S.String),
-    HealthCheckProtocol: S.optional(ProtocolEnum),
-    HealthCheckPort: S.optional(S.String),
-    HealthCheckEnabled: S.optional(S.Boolean),
-    HealthCheckPath: S.optional(S.String),
-    HealthCheckIntervalSeconds: S.optional(S.Number),
-    HealthCheckTimeoutSeconds: S.optional(S.Number),
-    HealthyThresholdCount: S.optional(S.Number),
-    UnhealthyThresholdCount: S.optional(S.Number),
-    Matcher: S.optional(Matcher),
-    TargetType: S.optional(TargetTypeEnum),
-    Tags: S.optional(TagList),
-    IpAddressType: S.optional(TargetGroupIpAddressTypeEnum),
-    TargetControlPort: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateTargetGroupInput",
-}) as any as S.Schema<CreateTargetGroupInput>;
 export type LoadBalancerArns = string[];
-export const LoadBalancerArns = /*@__PURE__*/ S.Array(S.String);
 export interface TargetGroup {
   TargetGroupArn?: string;
   TargetGroupName?: string;
@@ -1835,39 +1022,10 @@ export interface TargetGroup {
   IpAddressType?: TargetGroupIpAddressTypeEnum;
   TargetControlPort?: number;
 }
-export const TargetGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetGroupArn: S.optional(S.String),
-    TargetGroupName: S.optional(S.String),
-    Protocol: S.optional(ProtocolEnum),
-    Port: S.optional(S.Number),
-    VpcId: S.optional(S.String),
-    HealthCheckProtocol: S.optional(ProtocolEnum),
-    HealthCheckPort: S.optional(S.String),
-    HealthCheckEnabled: S.optional(S.Boolean),
-    HealthCheckIntervalSeconds: S.optional(S.Number),
-    HealthCheckTimeoutSeconds: S.optional(S.Number),
-    HealthyThresholdCount: S.optional(S.Number),
-    UnhealthyThresholdCount: S.optional(S.Number),
-    HealthCheckPath: S.optional(S.String),
-    Matcher: S.optional(Matcher),
-    LoadBalancerArns: S.optional(LoadBalancerArns),
-    TargetType: S.optional(TargetTypeEnum),
-    ProtocolVersion: S.optional(S.String),
-    IpAddressType: S.optional(TargetGroupIpAddressTypeEnum),
-    TargetControlPort: S.optional(S.Number),
-  }),
-).annotate({ identifier: "TargetGroup" }) as any as S.Schema<TargetGroup>;
 export type TargetGroups = TargetGroup[];
-export const TargetGroups = /*@__PURE__*/ S.Array(TargetGroup);
 export interface CreateTargetGroupOutput {
   TargetGroups?: TargetGroup[];
 }
-export const CreateTargetGroupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TargetGroups: S.optional(TargetGroups) }).pipe(ns),
-).annotate({
-  identifier: "CreateTargetGroupOutput",
-}) as any as S.Schema<CreateTargetGroupOutput>;
 export type TrustStoreName = string;
 export interface CreateTrustStoreInput {
   Name?: string;
@@ -1876,30 +1034,7 @@ export interface CreateTrustStoreInput {
   CaCertificatesBundleS3ObjectVersion?: string;
   Tags?: Tag[];
 }
-export const CreateTrustStoreInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    CaCertificatesBundleS3Bucket: S.optional(S.String),
-    CaCertificatesBundleS3Key: S.optional(S.String),
-    CaCertificatesBundleS3ObjectVersion: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateTrustStoreInput",
-}) as any as S.Schema<CreateTrustStoreInput>;
 export type TrustStoreStatus = "ACTIVE" | "CREATING" | (string & {});
-export const TrustStoreStatus = S.String;
-
 export type NumberOfCaCertificates = number;
 export type TotalRevokedEntries = number;
 export interface TrustStore {
@@ -1909,174 +1044,35 @@ export interface TrustStore {
   NumberOfCaCertificates?: number;
   TotalRevokedEntries?: number;
 }
-export const TrustStore = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    TrustStoreArn: S.optional(S.String),
-    Status: S.optional(TrustStoreStatus),
-    NumberOfCaCertificates: S.optional(S.Number),
-    TotalRevokedEntries: S.optional(S.Number),
-  }),
-).annotate({ identifier: "TrustStore" }) as any as S.Schema<TrustStore>;
 export type TrustStores = TrustStore[];
-export const TrustStores = /*@__PURE__*/ S.Array(TrustStore);
 export interface CreateTrustStoreOutput {
   TrustStores?: TrustStore[];
 }
-export const CreateTrustStoreOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TrustStores: S.optional(TrustStores) }).pipe(ns),
-).annotate({
-  identifier: "CreateTrustStoreOutput",
-}) as any as S.Schema<CreateTrustStoreOutput>;
 export interface DeleteListenerInput {
   ListenerArn?: string;
 }
-export const DeleteListenerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ListenerArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteListenerInput",
-}) as any as S.Schema<DeleteListenerInput>;
 export interface DeleteListenerOutput {}
-export const DeleteListenerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteListenerOutput",
-}) as any as S.Schema<DeleteListenerOutput>;
 export interface DeleteLoadBalancerInput {
   LoadBalancerArn?: string;
 }
-export const DeleteLoadBalancerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LoadBalancerArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteLoadBalancerInput",
-}) as any as S.Schema<DeleteLoadBalancerInput>;
 export interface DeleteLoadBalancerOutput {}
-export const DeleteLoadBalancerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteLoadBalancerOutput",
-}) as any as S.Schema<DeleteLoadBalancerOutput>;
 export interface DeleteRuleInput {
   RuleArn?: string;
 }
-export const DeleteRuleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRuleInput",
-}) as any as S.Schema<DeleteRuleInput>;
 export interface DeleteRuleOutput {}
-export const DeleteRuleOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteRuleOutput",
-}) as any as S.Schema<DeleteRuleOutput>;
 export interface DeleteSharedTrustStoreAssociationInput {
   TrustStoreArn?: string;
   ResourceArn?: string;
 }
-export const DeleteSharedTrustStoreAssociationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      TrustStoreArn: S.optional(S.String),
-      ResourceArn: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteSharedTrustStoreAssociationInput",
-}) as any as S.Schema<DeleteSharedTrustStoreAssociationInput>;
 export interface DeleteSharedTrustStoreAssociationOutput {}
-export const DeleteSharedTrustStoreAssociationOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteSharedTrustStoreAssociationOutput",
-}) as any as S.Schema<DeleteSharedTrustStoreAssociationOutput>;
 export interface DeleteTargetGroupInput {
   TargetGroupArn?: string;
 }
-export const DeleteTargetGroupInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TargetGroupArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteTargetGroupInput",
-}) as any as S.Schema<DeleteTargetGroupInput>;
 export interface DeleteTargetGroupOutput {}
-export const DeleteTargetGroupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteTargetGroupOutput",
-}) as any as S.Schema<DeleteTargetGroupOutput>;
 export interface DeleteTrustStoreInput {
   TrustStoreArn?: string;
 }
-export const DeleteTrustStoreInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TrustStoreArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteTrustStoreInput",
-}) as any as S.Schema<DeleteTrustStoreInput>;
 export interface DeleteTrustStoreOutput {}
-export const DeleteTrustStoreOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteTrustStoreOutput",
-}) as any as S.Schema<DeleteTrustStoreOutput>;
 export type TargetId = string;
 export type QuicServerId = string;
 export interface TargetDescription {
@@ -2085,282 +1081,90 @@ export interface TargetDescription {
   AvailabilityZone?: string;
   QuicServerId?: string;
 }
-export const TargetDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Port: S.optional(S.Number),
-    AvailabilityZone: S.optional(S.String),
-    QuicServerId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TargetDescription",
-}) as any as S.Schema<TargetDescription>;
 export type TargetDescriptions = TargetDescription[];
-export const TargetDescriptions = /*@__PURE__*/ S.Array(TargetDescription);
 export interface DeregisterTargetsInput {
   TargetGroupArn?: string;
   Targets?: TargetDescription[];
 }
-export const DeregisterTargetsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetGroupArn: S.optional(S.String),
-    Targets: S.optional(TargetDescriptions),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeregisterTargetsInput",
-}) as any as S.Schema<DeregisterTargetsInput>;
 export interface DeregisterTargetsOutput {}
-export const DeregisterTargetsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeregisterTargetsOutput",
-}) as any as S.Schema<DeregisterTargetsOutput>;
 export type Marker = string;
 export type PageSize = number;
 export interface DescribeAccountLimitsInput {
   Marker?: string;
   PageSize?: number;
 }
-export const DescribeAccountLimitsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeAccountLimitsInput",
-}) as any as S.Schema<DescribeAccountLimitsInput>;
 export type Name = string;
 export type Max = string;
 export interface Limit {
   Name?: string;
   Max?: string;
 }
-export const Limit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Max: S.optional(S.String) }),
-).annotate({ identifier: "Limit" }) as any as S.Schema<Limit>;
 export type Limits = Limit[];
-export const Limits = /*@__PURE__*/ S.Array(Limit);
 export interface DescribeAccountLimitsOutput {
   Limits?: Limit[];
   NextMarker?: string;
 }
-export const DescribeAccountLimitsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Limits: S.optional(Limits),
-    NextMarker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeAccountLimitsOutput",
-}) as any as S.Schema<DescribeAccountLimitsOutput>;
 export interface DescribeCapacityReservationInput {
   LoadBalancerArn?: string;
 }
-export const DescribeCapacityReservationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LoadBalancerArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeCapacityReservationInput",
-}) as any as S.Schema<DescribeCapacityReservationInput>;
 export type LastModifiedTime = Date;
 export type DecreaseRequestsRemaining = number;
 export type CapacityUnits = number;
 export interface MinimumLoadBalancerCapacity {
   CapacityUnits?: number;
 }
-export const MinimumLoadBalancerCapacity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CapacityUnits: S.optional(S.Number) }),
-).annotate({
-  identifier: "MinimumLoadBalancerCapacity",
-}) as any as S.Schema<MinimumLoadBalancerCapacity>;
 export type CapacityReservationStateEnum =
   | "provisioned"
   | "pending"
   | "rebalancing"
   | "failed"
   | (string & {});
-export const CapacityReservationStateEnum = S.String;
-
 export interface CapacityReservationStatus {
   Code?: CapacityReservationStateEnum;
   Reason?: string;
 }
-export const CapacityReservationStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Code: S.optional(CapacityReservationStateEnum),
-    Reason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CapacityReservationStatus",
-}) as any as S.Schema<CapacityReservationStatus>;
 export type CapacityUnitsDouble = number;
 export interface ZonalCapacityReservationState {
   State?: CapacityReservationStatus;
   AvailabilityZone?: string;
   EffectiveCapacityUnits?: number;
 }
-export const ZonalCapacityReservationState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    State: S.optional(CapacityReservationStatus),
-    AvailabilityZone: S.optional(S.String),
-    EffectiveCapacityUnits: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ZonalCapacityReservationState",
-}) as any as S.Schema<ZonalCapacityReservationState>;
 export type ZonalCapacityReservationStates = ZonalCapacityReservationState[];
-export const ZonalCapacityReservationStates = /*@__PURE__*/ S.Array(
-  ZonalCapacityReservationState,
-);
 export interface DescribeCapacityReservationOutput {
   LastModifiedTime?: Date;
   DecreaseRequestsRemaining?: number;
   MinimumLoadBalancerCapacity?: MinimumLoadBalancerCapacity;
   CapacityReservationState?: ZonalCapacityReservationState[];
 }
-export const DescribeCapacityReservationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LastModifiedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DecreaseRequestsRemaining: S.optional(S.Number),
-    MinimumLoadBalancerCapacity: S.optional(MinimumLoadBalancerCapacity),
-    CapacityReservationState: S.optional(ZonalCapacityReservationStates),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeCapacityReservationOutput",
-}) as any as S.Schema<DescribeCapacityReservationOutput>;
 export interface DescribeListenerAttributesInput {
   ListenerArn?: string;
 }
-export const DescribeListenerAttributesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ListenerArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeListenerAttributesInput",
-}) as any as S.Schema<DescribeListenerAttributesInput>;
 export type ListenerAttributeKey = string;
 export type ListenerAttributeValue = string;
 export interface ListenerAttribute {
   Key?: string;
   Value?: string;
 }
-export const ListenerAttribute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({
-  identifier: "ListenerAttribute",
-}) as any as S.Schema<ListenerAttribute>;
 export type ListenerAttributes = ListenerAttribute[];
-export const ListenerAttributes = /*@__PURE__*/ S.Array(ListenerAttribute);
 export interface DescribeListenerAttributesOutput {
   Attributes?: ListenerAttribute[];
 }
-export const DescribeListenerAttributesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Attributes: S.optional(ListenerAttributes) }).pipe(ns),
-).annotate({
-  identifier: "DescribeListenerAttributesOutput",
-}) as any as S.Schema<DescribeListenerAttributesOutput>;
 export interface DescribeListenerCertificatesInput {
   ListenerArn?: string;
   Marker?: string;
   PageSize?: number;
 }
-export const DescribeListenerCertificatesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ListenerArn: S.optional(S.String),
-    Marker: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeListenerCertificatesInput",
-}) as any as S.Schema<DescribeListenerCertificatesInput>;
 export interface DescribeListenerCertificatesOutput {
   Certificates?: Certificate[];
   NextMarker?: string;
 }
-export const DescribeListenerCertificatesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Certificates: S.optional(CertificateList),
-    NextMarker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeListenerCertificatesOutput",
-}) as any as S.Schema<DescribeListenerCertificatesOutput>;
 export type ListenerArns = string[];
-export const ListenerArns = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeListenersInput {
   LoadBalancerArn?: string;
   ListenerArns?: string[];
   Marker?: string;
   PageSize?: number;
 }
-export const DescribeListenersInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoadBalancerArn: S.optional(S.String),
-    ListenerArns: S.optional(ListenerArns),
-    Marker: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeListenersInput",
-}) as any as S.Schema<DescribeListenersInput>;
 export interface DescribeListenersOutput {
   Listeners?: (Listener & {
     DefaultActions: (Action & {
@@ -2396,123 +1200,37 @@ export interface DescribeListenersOutput {
   })[];
   NextMarker?: string;
 }
-export const DescribeListenersOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Listeners: S.optional(Listeners),
-    NextMarker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeListenersOutput",
-}) as any as S.Schema<DescribeListenersOutput>;
 export interface DescribeLoadBalancerAttributesInput {
   LoadBalancerArn?: string;
 }
-export const DescribeLoadBalancerAttributesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LoadBalancerArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeLoadBalancerAttributesInput",
-}) as any as S.Schema<DescribeLoadBalancerAttributesInput>;
 export type LoadBalancerAttributeKey = string;
 export type LoadBalancerAttributeValue = string;
 export interface LoadBalancerAttribute {
   Key?: string;
   Value?: string;
 }
-export const LoadBalancerAttribute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({
-  identifier: "LoadBalancerAttribute",
-}) as any as S.Schema<LoadBalancerAttribute>;
 export type LoadBalancerAttributes = LoadBalancerAttribute[];
-export const LoadBalancerAttributes = /*@__PURE__*/ S.Array(
-  LoadBalancerAttribute,
-);
 export interface DescribeLoadBalancerAttributesOutput {
   Attributes?: LoadBalancerAttribute[];
 }
-export const DescribeLoadBalancerAttributesOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Attributes: S.optional(LoadBalancerAttributes) }).pipe(ns),
-).annotate({
-  identifier: "DescribeLoadBalancerAttributesOutput",
-}) as any as S.Schema<DescribeLoadBalancerAttributesOutput>;
 export type LoadBalancerNames = string[];
-export const LoadBalancerNames = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeLoadBalancersInput {
   LoadBalancerArns?: string[];
   Names?: string[];
   Marker?: string;
   PageSize?: number;
 }
-export const DescribeLoadBalancersInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoadBalancerArns: S.optional(LoadBalancerArns),
-    Names: S.optional(LoadBalancerNames),
-    Marker: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeLoadBalancersInput",
-}) as any as S.Schema<DescribeLoadBalancersInput>;
 export interface DescribeLoadBalancersOutput {
   LoadBalancers?: LoadBalancer[];
   NextMarker?: string;
 }
-export const DescribeLoadBalancersOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoadBalancers: S.optional(LoadBalancers),
-    NextMarker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeLoadBalancersOutput",
-}) as any as S.Schema<DescribeLoadBalancersOutput>;
 export type RuleArns = string[];
-export const RuleArns = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeRulesInput {
   ListenerArn?: string;
   RuleArns?: string[];
   Marker?: string;
   PageSize?: number;
 }
-export const DescribeRulesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ListenerArn: S.optional(S.String),
-    RuleArns: S.optional(RuleArns),
-    Marker: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeRulesInput",
-}) as any as S.Schema<DescribeRulesInput>;
 export interface DescribeRulesOutput {
   Rules?: (Rule & {
     Actions: (Action & {
@@ -2563,162 +1281,59 @@ export interface DescribeRulesOutput {
   })[];
   NextMarker?: string;
 }
-export const DescribeRulesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Rules: S.optional(Rules), NextMarker: S.optional(S.String) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "DescribeRulesOutput",
-}) as any as S.Schema<DescribeRulesOutput>;
 export type SslPolicyNames = string[];
-export const SslPolicyNames = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeSSLPoliciesInput {
   Names?: string[];
   Marker?: string;
   PageSize?: number;
   LoadBalancerType?: LoadBalancerTypeEnum;
 }
-export const DescribeSSLPoliciesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Names: S.optional(SslPolicyNames),
-    Marker: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-    LoadBalancerType: S.optional(LoadBalancerTypeEnum),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeSSLPoliciesInput",
-}) as any as S.Schema<DescribeSSLPoliciesInput>;
 export type SslProtocol = string;
 export type SslProtocols = string[];
-export const SslProtocols = /*@__PURE__*/ S.Array(S.String);
 export type CipherName = string;
 export type CipherPriority = number;
 export interface Cipher {
   Name?: string;
   Priority?: number;
 }
-export const Cipher = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Priority: S.optional(S.Number) }),
-).annotate({ identifier: "Cipher" }) as any as S.Schema<Cipher>;
 export type Ciphers = Cipher[];
-export const Ciphers = /*@__PURE__*/ S.Array(Cipher);
 export interface SslPolicy {
   SslProtocols?: string[];
   Ciphers?: Cipher[];
   Name?: string;
   SupportedLoadBalancerTypes?: string[];
 }
-export const SslPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SslProtocols: S.optional(SslProtocols),
-    Ciphers: S.optional(Ciphers),
-    Name: S.optional(S.String),
-    SupportedLoadBalancerTypes: S.optional(ListOfString),
-  }),
-).annotate({ identifier: "SslPolicy" }) as any as S.Schema<SslPolicy>;
 export type SslPolicies = SslPolicy[];
-export const SslPolicies = /*@__PURE__*/ S.Array(SslPolicy);
 export interface DescribeSSLPoliciesOutput {
   SslPolicies?: SslPolicy[];
   NextMarker?: string;
 }
-export const DescribeSSLPoliciesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SslPolicies: S.optional(SslPolicies),
-    NextMarker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeSSLPoliciesOutput",
-}) as any as S.Schema<DescribeSSLPoliciesOutput>;
 export interface DescribeTagsInput {
   ResourceArns?: string[];
 }
-export const DescribeTagsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArns: S.optional(ResourceArns) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeTagsInput",
-}) as any as S.Schema<DescribeTagsInput>;
 export interface TagDescription {
   ResourceArn?: string;
   Tags?: Tag[];
 }
-export const TagDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.optional(S.String), Tags: S.optional(TagList) }),
-).annotate({ identifier: "TagDescription" }) as any as S.Schema<TagDescription>;
 export type TagDescriptions = TagDescription[];
-export const TagDescriptions = /*@__PURE__*/ S.Array(TagDescription);
 export interface DescribeTagsOutput {
   TagDescriptions?: (TagDescription & { Tags: (Tag & { Key: TagKey })[] })[];
 }
-export const DescribeTagsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TagDescriptions: S.optional(TagDescriptions) }).pipe(ns),
-).annotate({
-  identifier: "DescribeTagsOutput",
-}) as any as S.Schema<DescribeTagsOutput>;
 export interface DescribeTargetGroupAttributesInput {
   TargetGroupArn?: string;
 }
-export const DescribeTargetGroupAttributesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TargetGroupArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeTargetGroupAttributesInput",
-}) as any as S.Schema<DescribeTargetGroupAttributesInput>;
 export type TargetGroupAttributeKey = string;
 export type TargetGroupAttributeValue = string;
 export interface TargetGroupAttribute {
   Key?: string;
   Value?: string;
 }
-export const TargetGroupAttribute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({
-  identifier: "TargetGroupAttribute",
-}) as any as S.Schema<TargetGroupAttribute>;
 export type TargetGroupAttributes = TargetGroupAttribute[];
-export const TargetGroupAttributes =
-  /*@__PURE__*/ S.Array(TargetGroupAttribute);
 export interface DescribeTargetGroupAttributesOutput {
   Attributes?: TargetGroupAttribute[];
 }
-export const DescribeTargetGroupAttributesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Attributes: S.optional(TargetGroupAttributes) }).pipe(ns),
-).annotate({
-  identifier: "DescribeTargetGroupAttributesOutput",
-}) as any as S.Schema<DescribeTargetGroupAttributesOutput>;
 export type TargetGroupArns = string[];
-export const TargetGroupArns = /*@__PURE__*/ S.Array(S.String);
 export type TargetGroupNames = string[];
-export const TargetGroupNames = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeTargetGroupsInput {
   LoadBalancerArn?: string;
   TargetGroupArns?: string[];
@@ -2726,74 +1341,21 @@ export interface DescribeTargetGroupsInput {
   Marker?: string;
   PageSize?: number;
 }
-export const DescribeTargetGroupsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoadBalancerArn: S.optional(S.String),
-    TargetGroupArns: S.optional(TargetGroupArns),
-    Names: S.optional(TargetGroupNames),
-    Marker: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeTargetGroupsInput",
-}) as any as S.Schema<DescribeTargetGroupsInput>;
 export interface DescribeTargetGroupsOutput {
   TargetGroups?: TargetGroup[];
   NextMarker?: string;
 }
-export const DescribeTargetGroupsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetGroups: S.optional(TargetGroups),
-    NextMarker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeTargetGroupsOutput",
-}) as any as S.Schema<DescribeTargetGroupsOutput>;
 export type DescribeTargetHealthInputIncludeEnum =
   | "AnomalyDetection"
   | "All"
   | (string & {});
-export const DescribeTargetHealthInputIncludeEnum = S.String;
-
 export type ListOfDescribeTargetHealthIncludeOptions =
   DescribeTargetHealthInputIncludeEnum[];
-export const ListOfDescribeTargetHealthIncludeOptions = /*@__PURE__*/ S.Array(
-  DescribeTargetHealthInputIncludeEnum,
-);
 export interface DescribeTargetHealthInput {
   TargetGroupArn?: string;
   Targets?: TargetDescription[];
   Include?: DescribeTargetHealthInputIncludeEnum[];
 }
-export const DescribeTargetHealthInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetGroupArn: S.optional(S.String),
-    Targets: S.optional(TargetDescriptions),
-    Include: S.optional(ListOfDescribeTargetHealthIncludeOptions),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeTargetHealthInput",
-}) as any as S.Schema<DescribeTargetHealthInput>;
 export type TargetHealthStateEnum =
   | "initial"
   | "healthy"
@@ -2803,8 +1365,6 @@ export type TargetHealthStateEnum =
   | "draining"
   | "unavailable"
   | (string & {});
-export const TargetHealthStateEnum = S.String;
-
 export type TargetHealthReasonEnum =
   | "Elb.RegistrationInProgress"
   | "Elb.InitialHealthChecking"
@@ -2819,69 +1379,35 @@ export type TargetHealthReasonEnum =
   | "Target.HealthCheckDisabled"
   | "Elb.InternalError"
   | (string & {});
-export const TargetHealthReasonEnum = S.String;
-
 export type Description = string;
 export interface TargetHealth {
   State?: TargetHealthStateEnum;
   Reason?: TargetHealthReasonEnum;
   Description?: string;
 }
-export const TargetHealth = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    State: S.optional(TargetHealthStateEnum),
-    Reason: S.optional(TargetHealthReasonEnum),
-    Description: S.optional(S.String),
-  }),
-).annotate({ identifier: "TargetHealth" }) as any as S.Schema<TargetHealth>;
 export type AnomalyResultEnum = "anomalous" | "normal" | (string & {});
-export const AnomalyResultEnum = S.String;
-
 export type MitigationInEffectEnum = "yes" | "no" | (string & {});
-export const MitigationInEffectEnum = S.String;
-
 export interface AnomalyDetection {
   Result?: AnomalyResultEnum;
   MitigationInEffect?: MitigationInEffectEnum;
 }
-export const AnomalyDetection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Result: S.optional(AnomalyResultEnum),
-    MitigationInEffect: S.optional(MitigationInEffectEnum),
-  }),
-).annotate({
-  identifier: "AnomalyDetection",
-}) as any as S.Schema<AnomalyDetection>;
 export type TargetAdministrativeOverrideStateEnum =
   | "unknown"
   | "no_override"
   | "zonal_shift_active"
   | "zonal_shift_delegated_to_dns"
   | (string & {});
-export const TargetAdministrativeOverrideStateEnum = S.String;
-
 export type TargetAdministrativeOverrideReasonEnum =
   | "AdministrativeOverride.Unknown"
   | "AdministrativeOverride.NoOverride"
   | "AdministrativeOverride.ZonalShiftActive"
   | "AdministrativeOverride.ZonalShiftDelegatedToDns"
   | (string & {});
-export const TargetAdministrativeOverrideReasonEnum = S.String;
-
 export interface AdministrativeOverride {
   State?: TargetAdministrativeOverrideStateEnum;
   Reason?: TargetAdministrativeOverrideReasonEnum;
   Description?: string;
 }
-export const AdministrativeOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    State: S.optional(TargetAdministrativeOverrideStateEnum),
-    Reason: S.optional(TargetAdministrativeOverrideReasonEnum),
-    Description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AdministrativeOverride",
-}) as any as S.Schema<AdministrativeOverride>;
 export interface TargetHealthDescription {
   Target?: TargetDescription;
   HealthCheckPort?: string;
@@ -2889,351 +1415,100 @@ export interface TargetHealthDescription {
   AnomalyDetection?: AnomalyDetection;
   AdministrativeOverride?: AdministrativeOverride;
 }
-export const TargetHealthDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Target: S.optional(TargetDescription),
-    HealthCheckPort: S.optional(S.String),
-    TargetHealth: S.optional(TargetHealth),
-    AnomalyDetection: S.optional(AnomalyDetection),
-    AdministrativeOverride: S.optional(AdministrativeOverride),
-  }),
-).annotate({
-  identifier: "TargetHealthDescription",
-}) as any as S.Schema<TargetHealthDescription>;
 export type TargetHealthDescriptions = TargetHealthDescription[];
-export const TargetHealthDescriptions = /*@__PURE__*/ S.Array(
-  TargetHealthDescription,
-);
 export interface DescribeTargetHealthOutput {
   TargetHealthDescriptions?: (TargetHealthDescription & {
     Target: TargetDescription & { Id: TargetId };
   })[];
 }
-export const DescribeTargetHealthOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetHealthDescriptions: S.optional(TargetHealthDescriptions),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeTargetHealthOutput",
-}) as any as S.Schema<DescribeTargetHealthOutput>;
 export interface DescribeTrustStoreAssociationsInput {
   TrustStoreArn?: string;
   Marker?: string;
   PageSize?: number;
 }
-export const DescribeTrustStoreAssociationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrustStoreArn: S.optional(S.String),
-    Marker: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeTrustStoreAssociationsInput",
-}) as any as S.Schema<DescribeTrustStoreAssociationsInput>;
 export type TrustStoreAssociationResourceArn = string;
 export interface TrustStoreAssociation {
   ResourceArn?: string;
 }
-export const TrustStoreAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.optional(S.String) }),
-).annotate({
-  identifier: "TrustStoreAssociation",
-}) as any as S.Schema<TrustStoreAssociation>;
 export type TrustStoreAssociations = TrustStoreAssociation[];
-export const TrustStoreAssociations = /*@__PURE__*/ S.Array(
-  TrustStoreAssociation,
-);
 export interface DescribeTrustStoreAssociationsOutput {
   TrustStoreAssociations?: TrustStoreAssociation[];
   NextMarker?: string;
 }
-export const DescribeTrustStoreAssociationsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      TrustStoreAssociations: S.optional(TrustStoreAssociations),
-      NextMarker: S.optional(S.String),
-    }).pipe(ns),
-).annotate({
-  identifier: "DescribeTrustStoreAssociationsOutput",
-}) as any as S.Schema<DescribeTrustStoreAssociationsOutput>;
 export type RevocationIds = number[];
-export const RevocationIds = /*@__PURE__*/ S.Array(S.Number);
 export interface DescribeTrustStoreRevocationsInput {
   TrustStoreArn?: string;
   RevocationIds?: number[];
   Marker?: string;
   PageSize?: number;
 }
-export const DescribeTrustStoreRevocationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrustStoreArn: S.optional(S.String),
-    RevocationIds: S.optional(RevocationIds),
-    Marker: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeTrustStoreRevocationsInput",
-}) as any as S.Schema<DescribeTrustStoreRevocationsInput>;
 export interface DescribeTrustStoreRevocation {
   TrustStoreArn?: string;
   RevocationId?: number;
   RevocationType?: RevocationType;
   NumberOfRevokedEntries?: number;
 }
-export const DescribeTrustStoreRevocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrustStoreArn: S.optional(S.String),
-    RevocationId: S.optional(S.Number),
-    RevocationType: S.optional(RevocationType),
-    NumberOfRevokedEntries: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "DescribeTrustStoreRevocation",
-}) as any as S.Schema<DescribeTrustStoreRevocation>;
 export type DescribeTrustStoreRevocationResponse =
   DescribeTrustStoreRevocation[];
-export const DescribeTrustStoreRevocationResponse = /*@__PURE__*/ S.Array(
-  DescribeTrustStoreRevocation,
-);
 export interface DescribeTrustStoreRevocationsOutput {
   TrustStoreRevocations?: DescribeTrustStoreRevocation[];
   NextMarker?: string;
 }
-export const DescribeTrustStoreRevocationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrustStoreRevocations: S.optional(DescribeTrustStoreRevocationResponse),
-    NextMarker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeTrustStoreRevocationsOutput",
-}) as any as S.Schema<DescribeTrustStoreRevocationsOutput>;
 export type TrustStoreArns = string[];
-export const TrustStoreArns = /*@__PURE__*/ S.Array(S.String);
 export type TrustStoreNames = string[];
-export const TrustStoreNames = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeTrustStoresInput {
   TrustStoreArns?: string[];
   Names?: string[];
   Marker?: string;
   PageSize?: number;
 }
-export const DescribeTrustStoresInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrustStoreArns: S.optional(TrustStoreArns),
-    Names: S.optional(TrustStoreNames),
-    Marker: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeTrustStoresInput",
-}) as any as S.Schema<DescribeTrustStoresInput>;
 export interface DescribeTrustStoresOutput {
   TrustStores?: TrustStore[];
   NextMarker?: string;
 }
-export const DescribeTrustStoresOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrustStores: S.optional(TrustStores),
-    NextMarker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeTrustStoresOutput",
-}) as any as S.Schema<DescribeTrustStoresOutput>;
 export interface GetResourcePolicyInput {
   ResourceArn?: string;
 }
-export const GetResourcePolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetResourcePolicyInput",
-}) as any as S.Schema<GetResourcePolicyInput>;
 export type Policy = string;
 export interface GetResourcePolicyOutput {
   Policy?: string;
 }
-export const GetResourcePolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetResourcePolicyOutput",
-}) as any as S.Schema<GetResourcePolicyOutput>;
 export interface GetTrustStoreCaCertificatesBundleInput {
   TrustStoreArn?: string;
 }
-export const GetTrustStoreCaCertificatesBundleInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ TrustStoreArn: S.optional(S.String) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetTrustStoreCaCertificatesBundleInput",
-}) as any as S.Schema<GetTrustStoreCaCertificatesBundleInput>;
 export type Location = string;
 export interface GetTrustStoreCaCertificatesBundleOutput {
   Location?: string;
 }
-export const GetTrustStoreCaCertificatesBundleOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Location: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetTrustStoreCaCertificatesBundleOutput",
-}) as any as S.Schema<GetTrustStoreCaCertificatesBundleOutput>;
 export interface GetTrustStoreRevocationContentInput {
   TrustStoreArn?: string;
   RevocationId?: number;
 }
-export const GetTrustStoreRevocationContentInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrustStoreArn: S.optional(S.String),
-    RevocationId: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetTrustStoreRevocationContentInput",
-}) as any as S.Schema<GetTrustStoreRevocationContentInput>;
 export interface GetTrustStoreRevocationContentOutput {
   Location?: string;
 }
-export const GetTrustStoreRevocationContentOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Location: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetTrustStoreRevocationContentOutput",
-}) as any as S.Schema<GetTrustStoreRevocationContentOutput>;
 export type ResetCapacityReservation = boolean;
 export interface ModifyCapacityReservationInput {
   LoadBalancerArn?: string;
   MinimumLoadBalancerCapacity?: MinimumLoadBalancerCapacity;
   ResetCapacityReservation?: boolean;
 }
-export const ModifyCapacityReservationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoadBalancerArn: S.optional(S.String),
-    MinimumLoadBalancerCapacity: S.optional(MinimumLoadBalancerCapacity),
-    ResetCapacityReservation: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyCapacityReservationInput",
-}) as any as S.Schema<ModifyCapacityReservationInput>;
 export interface ModifyCapacityReservationOutput {
   LastModifiedTime?: Date;
   DecreaseRequestsRemaining?: number;
   MinimumLoadBalancerCapacity?: MinimumLoadBalancerCapacity;
   CapacityReservationState?: ZonalCapacityReservationState[];
 }
-export const ModifyCapacityReservationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LastModifiedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DecreaseRequestsRemaining: S.optional(S.Number),
-    MinimumLoadBalancerCapacity: S.optional(MinimumLoadBalancerCapacity),
-    CapacityReservationState: S.optional(ZonalCapacityReservationStates),
-  }).pipe(ns),
-).annotate({
-  identifier: "ModifyCapacityReservationOutput",
-}) as any as S.Schema<ModifyCapacityReservationOutput>;
 export type RemoveIpamPoolEnum = "ipv4" | (string & {});
-export const RemoveIpamPoolEnum = S.String;
-
 export type RemoveIpamPools = RemoveIpamPoolEnum[];
-export const RemoveIpamPools = /*@__PURE__*/ S.Array(RemoveIpamPoolEnum);
 export interface ModifyIpPoolsInput {
   LoadBalancerArn?: string;
   IpamPools?: IpamPools;
   RemoveIpamPools?: RemoveIpamPoolEnum[];
 }
-export const ModifyIpPoolsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoadBalancerArn: S.optional(S.String),
-    IpamPools: S.optional(IpamPools),
-    RemoveIpamPools: S.optional(RemoveIpamPools),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyIpPoolsInput",
-}) as any as S.Schema<ModifyIpPoolsInput>;
 export interface ModifyIpPoolsOutput {
   IpamPools?: IpamPools;
 }
-export const ModifyIpPoolsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IpamPools: S.optional(IpamPools) }).pipe(ns),
-).annotate({
-  identifier: "ModifyIpPoolsOutput",
-}) as any as S.Schema<ModifyIpPoolsOutput>;
 export interface ModifyListenerInput {
   ListenerArn?: string;
   Port?: number;
@@ -3244,30 +1519,6 @@ export interface ModifyListenerInput {
   AlpnPolicy?: string[];
   MutualAuthentication?: MutualAuthenticationAttributes;
 }
-export const ModifyListenerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ListenerArn: S.optional(S.String),
-    Port: S.optional(S.Number),
-    Protocol: S.optional(ProtocolEnum),
-    SslPolicy: S.optional(S.String),
-    Certificates: S.optional(CertificateList),
-    DefaultActions: S.optional(Actions),
-    AlpnPolicy: S.optional(AlpnPolicyName),
-    MutualAuthentication: S.optional(MutualAuthenticationAttributes),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyListenerInput",
-}) as any as S.Schema<ModifyListenerInput>;
 export interface ModifyListenerOutput {
   Listeners?: (Listener & {
     DefaultActions: (Action & {
@@ -3302,71 +1553,20 @@ export interface ModifyListenerOutput {
     })[];
   })[];
 }
-export const ModifyListenerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Listeners: S.optional(Listeners) }).pipe(ns),
-).annotate({
-  identifier: "ModifyListenerOutput",
-}) as any as S.Schema<ModifyListenerOutput>;
 export interface ModifyListenerAttributesInput {
   ListenerArn?: string;
   Attributes?: ListenerAttribute[];
 }
-export const ModifyListenerAttributesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ListenerArn: S.optional(S.String),
-    Attributes: S.optional(ListenerAttributes),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyListenerAttributesInput",
-}) as any as S.Schema<ModifyListenerAttributesInput>;
 export interface ModifyListenerAttributesOutput {
   Attributes?: ListenerAttribute[];
 }
-export const ModifyListenerAttributesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Attributes: S.optional(ListenerAttributes) }).pipe(ns),
-).annotate({
-  identifier: "ModifyListenerAttributesOutput",
-}) as any as S.Schema<ModifyListenerAttributesOutput>;
 export interface ModifyLoadBalancerAttributesInput {
   LoadBalancerArn?: string;
   Attributes?: LoadBalancerAttribute[];
 }
-export const ModifyLoadBalancerAttributesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoadBalancerArn: S.optional(S.String),
-    Attributes: S.optional(LoadBalancerAttributes),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyLoadBalancerAttributesInput",
-}) as any as S.Schema<ModifyLoadBalancerAttributesInput>;
 export interface ModifyLoadBalancerAttributesOutput {
   Attributes?: LoadBalancerAttribute[];
 }
-export const ModifyLoadBalancerAttributesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Attributes: S.optional(LoadBalancerAttributes) }).pipe(ns),
-).annotate({
-  identifier: "ModifyLoadBalancerAttributesOutput",
-}) as any as S.Schema<ModifyLoadBalancerAttributesOutput>;
 export type ResetTransforms = boolean;
 export interface ModifyRuleInput {
   RuleArn?: string;
@@ -3375,27 +1575,6 @@ export interface ModifyRuleInput {
   Transforms?: RuleTransform[];
   ResetTransforms?: boolean;
 }
-export const ModifyRuleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleArn: S.optional(S.String),
-    Conditions: S.optional(RuleConditionList),
-    Actions: S.optional(Actions),
-    Transforms: S.optional(RuleTransformList),
-    ResetTransforms: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyRuleInput",
-}) as any as S.Schema<ModifyRuleInput>;
 export interface ModifyRuleOutput {
   Rules?: (Rule & {
     Actions: (Action & {
@@ -3445,11 +1624,6 @@ export interface ModifyRuleOutput {
     })[];
   })[];
 }
-export const ModifyRuleOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Rules: S.optional(Rules) }).pipe(ns),
-).annotate({
-  identifier: "ModifyRuleOutput",
-}) as any as S.Schema<ModifyRuleOutput>;
 export interface ModifyTargetGroupInput {
   TargetGroupArn?: string;
   HealthCheckProtocol?: ProtocolEnum;
@@ -3462,277 +1636,61 @@ export interface ModifyTargetGroupInput {
   UnhealthyThresholdCount?: number;
   Matcher?: Matcher;
 }
-export const ModifyTargetGroupInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetGroupArn: S.optional(S.String),
-    HealthCheckProtocol: S.optional(ProtocolEnum),
-    HealthCheckPort: S.optional(S.String),
-    HealthCheckPath: S.optional(S.String),
-    HealthCheckEnabled: S.optional(S.Boolean),
-    HealthCheckIntervalSeconds: S.optional(S.Number),
-    HealthCheckTimeoutSeconds: S.optional(S.Number),
-    HealthyThresholdCount: S.optional(S.Number),
-    UnhealthyThresholdCount: S.optional(S.Number),
-    Matcher: S.optional(Matcher),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyTargetGroupInput",
-}) as any as S.Schema<ModifyTargetGroupInput>;
 export interface ModifyTargetGroupOutput {
   TargetGroups?: TargetGroup[];
 }
-export const ModifyTargetGroupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TargetGroups: S.optional(TargetGroups) }).pipe(ns),
-).annotate({
-  identifier: "ModifyTargetGroupOutput",
-}) as any as S.Schema<ModifyTargetGroupOutput>;
 export interface ModifyTargetGroupAttributesInput {
   TargetGroupArn?: string;
   Attributes?: TargetGroupAttribute[];
 }
-export const ModifyTargetGroupAttributesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetGroupArn: S.optional(S.String),
-    Attributes: S.optional(TargetGroupAttributes),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyTargetGroupAttributesInput",
-}) as any as S.Schema<ModifyTargetGroupAttributesInput>;
 export interface ModifyTargetGroupAttributesOutput {
   Attributes?: TargetGroupAttribute[];
 }
-export const ModifyTargetGroupAttributesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Attributes: S.optional(TargetGroupAttributes) }).pipe(ns),
-).annotate({
-  identifier: "ModifyTargetGroupAttributesOutput",
-}) as any as S.Schema<ModifyTargetGroupAttributesOutput>;
 export interface ModifyTrustStoreInput {
   TrustStoreArn?: string;
   CaCertificatesBundleS3Bucket?: string;
   CaCertificatesBundleS3Key?: string;
   CaCertificatesBundleS3ObjectVersion?: string;
 }
-export const ModifyTrustStoreInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrustStoreArn: S.optional(S.String),
-    CaCertificatesBundleS3Bucket: S.optional(S.String),
-    CaCertificatesBundleS3Key: S.optional(S.String),
-    CaCertificatesBundleS3ObjectVersion: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyTrustStoreInput",
-}) as any as S.Schema<ModifyTrustStoreInput>;
 export interface ModifyTrustStoreOutput {
   TrustStores?: TrustStore[];
 }
-export const ModifyTrustStoreOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TrustStores: S.optional(TrustStores) }).pipe(ns),
-).annotate({
-  identifier: "ModifyTrustStoreOutput",
-}) as any as S.Schema<ModifyTrustStoreOutput>;
 export interface RegisterTargetsInput {
   TargetGroupArn?: string;
   Targets?: TargetDescription[];
 }
-export const RegisterTargetsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetGroupArn: S.optional(S.String),
-    Targets: S.optional(TargetDescriptions),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RegisterTargetsInput",
-}) as any as S.Schema<RegisterTargetsInput>;
 export interface RegisterTargetsOutput {}
-export const RegisterTargetsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RegisterTargetsOutput",
-}) as any as S.Schema<RegisterTargetsOutput>;
 export interface RemoveListenerCertificatesInput {
   ListenerArn?: string;
   Certificates?: Certificate[];
 }
-export const RemoveListenerCertificatesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ListenerArn: S.optional(S.String),
-    Certificates: S.optional(CertificateList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemoveListenerCertificatesInput",
-}) as any as S.Schema<RemoveListenerCertificatesInput>;
 export interface RemoveListenerCertificatesOutput {}
-export const RemoveListenerCertificatesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RemoveListenerCertificatesOutput",
-}) as any as S.Schema<RemoveListenerCertificatesOutput>;
 export type TagKeys = string[];
-export const TagKeys = /*@__PURE__*/ S.Array(S.String);
 export interface RemoveTagsInput {
   ResourceArns?: string[];
   TagKeys?: string[];
 }
-export const RemoveTagsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArns: S.optional(ResourceArns),
-    TagKeys: S.optional(TagKeys),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemoveTagsInput",
-}) as any as S.Schema<RemoveTagsInput>;
 export interface RemoveTagsOutput {}
-export const RemoveTagsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RemoveTagsOutput",
-}) as any as S.Schema<RemoveTagsOutput>;
 export interface RemoveTrustStoreRevocationsInput {
   TrustStoreArn?: string;
   RevocationIds?: number[];
 }
-export const RemoveTrustStoreRevocationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrustStoreArn: S.optional(S.String),
-    RevocationIds: S.optional(RevocationIds),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemoveTrustStoreRevocationsInput",
-}) as any as S.Schema<RemoveTrustStoreRevocationsInput>;
 export interface RemoveTrustStoreRevocationsOutput {}
-export const RemoveTrustStoreRevocationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RemoveTrustStoreRevocationsOutput",
-}) as any as S.Schema<RemoveTrustStoreRevocationsOutput>;
 export interface SetIpAddressTypeInput {
   LoadBalancerArn?: string;
   IpAddressType?: IpAddressType;
 }
-export const SetIpAddressTypeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoadBalancerArn: S.optional(S.String),
-    IpAddressType: S.optional(IpAddressType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SetIpAddressTypeInput",
-}) as any as S.Schema<SetIpAddressTypeInput>;
 export interface SetIpAddressTypeOutput {
   IpAddressType?: IpAddressType;
 }
-export const SetIpAddressTypeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IpAddressType: S.optional(IpAddressType) }).pipe(ns),
-).annotate({
-  identifier: "SetIpAddressTypeOutput",
-}) as any as S.Schema<SetIpAddressTypeOutput>;
 export interface RulePriorityPair {
   RuleArn?: string;
   Priority?: number;
 }
-export const RulePriorityPair = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleArn: S.optional(S.String), Priority: S.optional(S.Number) }),
-).annotate({
-  identifier: "RulePriorityPair",
-}) as any as S.Schema<RulePriorityPair>;
 export type RulePriorityList = RulePriorityPair[];
-export const RulePriorityList = /*@__PURE__*/ S.Array(RulePriorityPair);
 export interface SetRulePrioritiesInput {
   RulePriorities?: RulePriorityPair[];
 }
-export const SetRulePrioritiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RulePriorities: S.optional(RulePriorityList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SetRulePrioritiesInput",
-}) as any as S.Schema<SetRulePrioritiesInput>;
 export interface SetRulePrioritiesOutput {
   Rules?: (Rule & {
     Actions: (Action & {
@@ -3782,58 +1740,19 @@ export interface SetRulePrioritiesOutput {
     })[];
   })[];
 }
-export const SetRulePrioritiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Rules: S.optional(Rules) }).pipe(ns),
-).annotate({
-  identifier: "SetRulePrioritiesOutput",
-}) as any as S.Schema<SetRulePrioritiesOutput>;
 export type EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum =
   | "on"
   | "off"
   | (string & {});
-export const EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum =
-  S.String;
-
 export interface SetSecurityGroupsInput {
   LoadBalancerArn?: string;
   SecurityGroups?: string[];
   EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic?: EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum;
 }
-export const SetSecurityGroupsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoadBalancerArn: S.optional(S.String),
-    SecurityGroups: S.optional(SecurityGroups),
-    EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic: S.optional(
-      EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum,
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SetSecurityGroupsInput",
-}) as any as S.Schema<SetSecurityGroupsInput>;
 export interface SetSecurityGroupsOutput {
   SecurityGroupIds?: string[];
   EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic?: EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum;
 }
-export const SetSecurityGroupsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SecurityGroupIds: S.optional(SecurityGroups),
-    EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic: S.optional(
-      EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum,
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "SetSecurityGroupsOutput",
-}) as any as S.Schema<SetSecurityGroupsOutput>;
 export interface SetSubnetsInput {
   LoadBalancerArn?: string;
   Subnets?: string[];
@@ -3841,41 +1760,11 @@ export interface SetSubnetsInput {
   IpAddressType?: IpAddressType;
   EnablePrefixForIpv6SourceNat?: EnablePrefixForIpv6SourceNatEnum;
 }
-export const SetSubnetsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoadBalancerArn: S.optional(S.String),
-    Subnets: S.optional(Subnets),
-    SubnetMappings: S.optional(SubnetMappings),
-    IpAddressType: S.optional(IpAddressType),
-    EnablePrefixForIpv6SourceNat: S.optional(EnablePrefixForIpv6SourceNatEnum),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SetSubnetsInput",
-}) as any as S.Schema<SetSubnetsInput>;
 export interface SetSubnetsOutput {
   AvailabilityZones?: AvailabilityZone[];
   IpAddressType?: IpAddressType;
   EnablePrefixForIpv6SourceNat?: EnablePrefixForIpv6SourceNatEnum;
 }
-export const SetSubnetsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AvailabilityZones: S.optional(AvailabilityZones),
-    IpAddressType: S.optional(IpAddressType),
-    EnablePrefixForIpv6SourceNat: S.optional(EnablePrefixForIpv6SourceNatEnum),
-  }).pipe(ns),
-).annotate({
-  identifier: "SetSubnetsOutput",
-}) as any as S.Schema<SetSubnetsOutput>;
 export type ErrorDescription = string;
 export type AddListenerCertificatesError =
   | CertificateNotFoundException
@@ -3899,8 +1788,11 @@ export const addListenerCertificates: API.OperationMethod<
   AddListenerCertificatesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddListenerCertificatesInput,
-  output: AddListenerCertificatesOutput,
+  descriptor: {
+    service: svc,
+    input: { ListenerArn: 0, Certificates: D.list(i_Certificate) },
+    output: { Certificates: D.list(o_Certificate) },
+  },
   errors: [
     CertificateNotFoundException,
     ListenerNotFoundException,
@@ -3909,7 +1801,7 @@ export const addListenerCertificates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddListenerCertificates",
-}));
+})) as any;
 
 export type AddTagsError =
   | DuplicateTagKeysException
@@ -3934,8 +1826,7 @@ export const addTags: API.OperationMethod<
   AddTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddTagsInput,
-  output: AddTagsOutput,
+  descriptor: { service: svc, input: { ResourceArns: 0, Tags: D.list(i_Tag) } },
   errors: [
     DuplicateTagKeysException,
     ListenerNotFoundException,
@@ -3948,7 +1839,7 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
-}));
+})) as any;
 
 export type AddTrustStoreRevocationsError =
   | InvalidRevocationContentException
@@ -3965,8 +1856,24 @@ export const addTrustStoreRevocations: API.OperationMethod<
   AddTrustStoreRevocationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddTrustStoreRevocationsInput,
-  output: AddTrustStoreRevocationsOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      TrustStoreArn: 0,
+      RevocationContents: D.list({
+        S3Bucket: 0,
+        S3Key: 0,
+        S3ObjectVersion: 0,
+        RevocationType: 0,
+      }),
+    },
+    output: {
+      TrustStoreRevocations: D.list({
+        RevocationId: D.num,
+        NumberOfRevokedEntries: D.num,
+      }),
+    },
+  },
   errors: [
     InvalidRevocationContentException,
     RevocationContentNotFoundException,
@@ -3976,7 +1883,7 @@ export const addTrustStoreRevocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTrustStoreRevocations",
-}));
+})) as any;
 
 export type CreateListenerError =
   | ALPNPolicyNotSupportedException
@@ -4024,8 +1931,21 @@ export const createListener: API.OperationMethod<
   CreateListenerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateListenerInput,
-  output: CreateListenerOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      LoadBalancerArn: 0,
+      Protocol: 0,
+      Port: 0,
+      SslPolicy: 0,
+      Certificates: D.list(i_Certificate),
+      DefaultActions: D.list(i_Action),
+      AlpnPolicy: 0,
+      Tags: D.list(i_Tag),
+      MutualAuthentication: i_MutualAuthenticationAttributes,
+    },
+    output: { Listeners: D.list(o_Listener) },
+  },
   errors: [
     ALPNPolicyNotSupportedException,
     CertificateNotFoundException,
@@ -4051,7 +1971,7 @@ export const createListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateListener",
-}));
+})) as any;
 
 export type CreateLoadBalancerError =
   | AllocationIdNotFoundException
@@ -4091,8 +2011,23 @@ export const createLoadBalancer: API.OperationMethod<
   CreateLoadBalancerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLoadBalancerInput,
-  output: CreateLoadBalancerOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      Name: 0,
+      Subnets: 0,
+      SubnetMappings: D.list(i_SubnetMapping),
+      SecurityGroups: 0,
+      Scheme: 0,
+      Tags: D.list(i_Tag),
+      Type: 0,
+      IpAddressType: 0,
+      CustomerOwnedIpv4Pool: 0,
+      EnablePrefixForIpv6SourceNat: 0,
+      IpamPools: i_IpamPools,
+    },
+    output: { LoadBalancers: D.list(o_LoadBalancer) },
+  },
   errors: [
     AllocationIdNotFoundException,
     AvailabilityZoneNotSupportedException,
@@ -4111,7 +2046,7 @@ export const createLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancer",
-}));
+})) as any;
 
 export type CreateRuleError =
   | IncompatibleProtocolsException
@@ -4146,8 +2081,18 @@ export const createRule: API.OperationMethod<
   CreateRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRuleInput,
-  output: CreateRuleOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      ListenerArn: 0,
+      Conditions: D.list(i_RuleCondition),
+      Priority: 0,
+      Actions: D.list(i_Action),
+      Tags: D.list(i_Tag),
+      Transforms: D.list(i_RuleTransform),
+    },
+    output: { Rules: D.list(o_Rule) },
+  },
   errors: [
     IncompatibleProtocolsException,
     InvalidConfigurationRequestException,
@@ -4168,7 +2113,7 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
-}));
+})) as any;
 
 export type CreateTargetGroupError =
   | DuplicateTargetGroupNameException
@@ -4199,8 +2144,30 @@ export const createTargetGroup: API.OperationMethod<
   CreateTargetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTargetGroupInput,
-  output: CreateTargetGroupOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      Name: 0,
+      Protocol: 0,
+      ProtocolVersion: 0,
+      Port: 0,
+      VpcId: 0,
+      HealthCheckProtocol: 0,
+      HealthCheckPort: 0,
+      HealthCheckEnabled: 0,
+      HealthCheckPath: 0,
+      HealthCheckIntervalSeconds: 0,
+      HealthCheckTimeoutSeconds: 0,
+      HealthyThresholdCount: 0,
+      UnhealthyThresholdCount: 0,
+      Matcher: i_Matcher,
+      TargetType: 0,
+      Tags: D.list(i_Tag),
+      IpAddressType: 0,
+      TargetControlPort: 0,
+    },
+    output: { TargetGroups: D.list(o_TargetGroup) },
+  },
   errors: [
     DuplicateTargetGroupNameException,
     InvalidConfigurationRequestException,
@@ -4210,7 +2177,7 @@ export const createTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTargetGroup",
-}));
+})) as any;
 
 export type CreateTrustStoreError =
   | CaCertificatesBundleNotFoundException
@@ -4231,8 +2198,17 @@ export const createTrustStore: API.OperationMethod<
   CreateTrustStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTrustStoreInput,
-  output: CreateTrustStoreOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      Name: 0,
+      CaCertificatesBundleS3Bucket: 0,
+      CaCertificatesBundleS3Key: 0,
+      CaCertificatesBundleS3ObjectVersion: 0,
+      Tags: D.list(i_Tag),
+    },
+    output: { TrustStores: D.list(o_TrustStore) },
+  },
   errors: [
     CaCertificatesBundleNotFoundException,
     DuplicateTagKeysException,
@@ -4244,7 +2220,7 @@ export const createTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustStore",
-}));
+})) as any;
 
 export type DeleteListenerError =
   | ListenerNotFoundException
@@ -4262,13 +2238,12 @@ export const deleteListener: API.OperationMethod<
   DeleteListenerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteListenerInput,
-  output: DeleteListenerOutput,
+  descriptor: { service: svc, input: { ListenerArn: 0 } },
   errors: [ListenerNotFoundException, ResourceInUseException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteListener",
-}));
+})) as any;
 
 export type DeleteLoadBalancerError =
   | LoadBalancerNotFoundException
@@ -4292,8 +2267,7 @@ export const deleteLoadBalancer: API.OperationMethod<
   DeleteLoadBalancerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLoadBalancerInput,
-  output: DeleteLoadBalancerOutput,
+  descriptor: { service: svc, input: { LoadBalancerArn: 0 } },
   errors: [
     LoadBalancerNotFoundException,
     OperationNotPermittedException,
@@ -4302,7 +2276,7 @@ export const deleteLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancer",
-}));
+})) as any;
 
 export type DeleteRuleError =
   | OperationNotPermittedException
@@ -4319,13 +2293,12 @@ export const deleteRule: API.OperationMethod<
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRuleInput,
-  output: DeleteRuleOutput,
+  descriptor: { service: svc, input: { RuleArn: 0 } },
   errors: [OperationNotPermittedException, RuleNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
-}));
+})) as any;
 
 export type DeleteSharedTrustStoreAssociationError =
   | DeleteAssociationSameAccountException
@@ -4341,8 +2314,7 @@ export const deleteSharedTrustStoreAssociation: API.OperationMethod<
   DeleteSharedTrustStoreAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSharedTrustStoreAssociationInput,
-  output: DeleteSharedTrustStoreAssociationOutput,
+  descriptor: { service: svc, input: { TrustStoreArn: 0, ResourceArn: 0 } },
   errors: [
     DeleteAssociationSameAccountException,
     TrustStoreAssociationNotFoundException,
@@ -4351,7 +2323,7 @@ export const deleteSharedTrustStoreAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSharedTrustStoreAssociation",
-}));
+})) as any;
 
 export type DeleteTargetGroupError = ResourceInUseException | CommonErrors;
 /**
@@ -4368,13 +2340,12 @@ export const deleteTargetGroup: API.OperationMethod<
   DeleteTargetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTargetGroupInput,
-  output: DeleteTargetGroupOutput,
+  descriptor: { service: svc, input: { TargetGroupArn: 0 } },
   errors: [ResourceInUseException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTargetGroup",
-}));
+})) as any;
 
 export type DeleteTrustStoreError =
   | TrustStoreInUseException
@@ -4389,13 +2360,12 @@ export const deleteTrustStore: API.OperationMethod<
   DeleteTrustStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTrustStoreInput,
-  output: DeleteTrustStoreOutput,
+  descriptor: { service: svc, input: { TrustStoreArn: 0 } },
   errors: [TrustStoreInUseException, TrustStoreNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustStore",
-}));
+})) as any;
 
 export type DeregisterTargetsError =
   | InvalidTargetException
@@ -4428,13 +2398,15 @@ export const deregisterTargets: API.OperationMethod<
   DeregisterTargetsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeregisterTargetsInput,
-  output: DeregisterTargetsOutput,
+  descriptor: {
+    service: svc,
+    input: { TargetGroupArn: 0, Targets: D.list(i_TargetDescription) },
+  },
   errors: [InvalidTargetException, TargetGroupNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTargets",
-}));
+})) as any;
 
 export type DescribeAccountLimitsError = CommonErrors;
 /**
@@ -4459,8 +2431,11 @@ export const describeAccountLimits: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Limit
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeAccountLimitsInput,
-  output: DescribeAccountLimitsOutput,
+  descriptor: {
+    service: svc,
+    input: { Marker: 0, PageSize: 0 },
+    output: { Limits: D.list({}) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4484,13 +2459,21 @@ export const describeCapacityReservation: API.OperationMethod<
   DescribeCapacityReservationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeCapacityReservationInput,
-  output: DescribeCapacityReservationOutput,
+  descriptor: {
+    service: svc,
+    input: { LoadBalancerArn: 0 },
+    output: {
+      LastModifiedTime: D.ts,
+      DecreaseRequestsRemaining: D.num,
+      MinimumLoadBalancerCapacity: o_MinimumLoadBalancerCapacity,
+      CapacityReservationState: D.list(o_ZonalCapacityReservationState),
+    },
+  },
   errors: [LoadBalancerNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCapacityReservation",
-}));
+})) as any;
 
 export type DescribeListenerAttributesError =
   | ListenerNotFoundException
@@ -4504,13 +2487,16 @@ export const describeListenerAttributes: API.OperationMethod<
   DescribeListenerAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeListenerAttributesInput,
-  output: DescribeListenerAttributesOutput,
+  descriptor: {
+    service: svc,
+    input: { ListenerArn: 0 },
+    output: { Attributes: D.list({}) },
+  },
   errors: [ListenerNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeListenerAttributes",
-}));
+})) as any;
 
 export type DescribeListenerCertificatesError =
   | ListenerNotFoundException
@@ -4534,8 +2520,11 @@ export const describeListenerCertificates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Certificate
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeListenerCertificatesInput,
-  output: DescribeListenerCertificatesOutput,
+  descriptor: {
+    service: svc,
+    input: { ListenerArn: 0, Marker: 0, PageSize: 0 },
+    output: { Certificates: D.list(o_Certificate) },
+  },
   errors: [ListenerNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4564,8 +2553,11 @@ export const describeListeners: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Listener
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeListenersInput,
-  output: DescribeListenersOutput,
+  descriptor: {
+    service: svc,
+    input: { LoadBalancerArn: 0, ListenerArns: 0, Marker: 0, PageSize: 0 },
+    output: { Listeners: D.list(o_Listener) },
+  },
   errors: [
     ListenerNotFoundException,
     LoadBalancerNotFoundException,
@@ -4605,13 +2597,16 @@ export const describeLoadBalancerAttributes: API.OperationMethod<
   DescribeLoadBalancerAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeLoadBalancerAttributesInput,
-  output: DescribeLoadBalancerAttributesOutput,
+  descriptor: {
+    service: svc,
+    input: { LoadBalancerArn: 0 },
+    output: { Attributes: D.list({}) },
+  },
   errors: [LoadBalancerNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoadBalancerAttributes",
-}));
+})) as any;
 
 export type DescribeLoadBalancersError =
   | LoadBalancerNotFoundException
@@ -4626,8 +2621,11 @@ export const describeLoadBalancers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LoadBalancer
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeLoadBalancersInput,
-  output: DescribeLoadBalancersOutput,
+  descriptor: {
+    service: svc,
+    input: { LoadBalancerArns: 0, Names: 0, Marker: 0, PageSize: 0 },
+    output: { LoadBalancers: D.list(o_LoadBalancer) },
+  },
   errors: [LoadBalancerNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4655,8 +2653,11 @@ export const describeRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Rule
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeRulesInput,
-  output: DescribeRulesOutput,
+  descriptor: {
+    service: svc,
+    input: { ListenerArn: 0, RuleArns: 0, Marker: 0, PageSize: 0 },
+    output: { Rules: D.list(o_Rule) },
+  },
   errors: [
     ListenerNotFoundException,
     RuleNotFoundException,
@@ -4687,13 +2688,22 @@ export const describeSSLPolicies: API.OperationMethod<
   DescribeSSLPoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeSSLPoliciesInput,
-  output: DescribeSSLPoliciesOutput,
+  descriptor: {
+    service: svc,
+    input: { Names: 0, Marker: 0, PageSize: 0, LoadBalancerType: 0 },
+    output: {
+      SslPolicies: D.list({
+        SslProtocols: D.list(),
+        Ciphers: D.list({ Priority: D.num }),
+        SupportedLoadBalancerTypes: D.list(),
+      }),
+    },
+  },
   errors: [SSLPolicyNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSSLPolicies",
-}));
+})) as any;
 
 export type DescribeTagsError =
   | ListenerNotFoundException
@@ -4713,8 +2723,11 @@ export const describeTags: API.OperationMethod<
   DescribeTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeTagsInput,
-  output: DescribeTagsOutput,
+  descriptor: {
+    service: svc,
+    input: { ResourceArns: 0 },
+    output: { TagDescriptions: D.list({ Tags: D.list({}) }) },
+  },
   errors: [
     ListenerNotFoundException,
     LoadBalancerNotFoundException,
@@ -4725,7 +2738,7 @@ export const describeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTags",
-}));
+})) as any;
 
 export type DescribeTargetGroupAttributesError =
   | TargetGroupNotFoundException
@@ -4750,13 +2763,16 @@ export const describeTargetGroupAttributes: API.OperationMethod<
   DescribeTargetGroupAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeTargetGroupAttributesInput,
-  output: DescribeTargetGroupAttributesOutput,
+  descriptor: {
+    service: svc,
+    input: { TargetGroupArn: 0 },
+    output: { Attributes: D.list({}) },
+  },
   errors: [TargetGroupNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTargetGroupAttributes",
-}));
+})) as any;
 
 export type DescribeTargetGroupsError =
   | LoadBalancerNotFoundException
@@ -4775,8 +2791,17 @@ export const describeTargetGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TargetGroup
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeTargetGroupsInput,
-  output: DescribeTargetGroupsOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      LoadBalancerArn: 0,
+      TargetGroupArns: 0,
+      Names: 0,
+      Marker: 0,
+      PageSize: 0,
+    },
+    output: { TargetGroups: D.list(o_TargetGroup) },
+  },
   errors: [LoadBalancerNotFoundException, TargetGroupNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4802,8 +2827,22 @@ export const describeTargetHealth: API.OperationMethod<
   DescribeTargetHealthError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeTargetHealthInput,
-  output: DescribeTargetHealthOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      TargetGroupArn: 0,
+      Targets: D.list(i_TargetDescription),
+      Include: 0,
+    },
+    output: {
+      TargetHealthDescriptions: D.list({
+        Target: { Port: D.num },
+        TargetHealth: {},
+        AnomalyDetection: {},
+        AdministrativeOverride: {},
+      }),
+    },
+  },
   errors: [
     HealthUnavailableException,
     InvalidTargetException,
@@ -4812,7 +2851,7 @@ export const describeTargetHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTargetHealth",
-}));
+})) as any;
 
 export type DescribeTrustStoreAssociationsError =
   | TrustStoreNotFoundException
@@ -4827,8 +2866,11 @@ export const describeTrustStoreAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TrustStoreAssociation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeTrustStoreAssociationsInput,
-  output: DescribeTrustStoreAssociationsOutput,
+  descriptor: {
+    service: svc,
+    input: { TrustStoreArn: 0, Marker: 0, PageSize: 0 },
+    output: { TrustStoreAssociations: D.list({}) },
+  },
   errors: [TrustStoreNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4856,8 +2898,16 @@ export const describeTrustStoreRevocations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DescribeTrustStoreRevocation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeTrustStoreRevocationsInput,
-  output: DescribeTrustStoreRevocationsOutput,
+  descriptor: {
+    service: svc,
+    input: { TrustStoreArn: 0, RevocationIds: 0, Marker: 0, PageSize: 0 },
+    output: {
+      TrustStoreRevocations: D.list({
+        RevocationId: D.num,
+        NumberOfRevokedEntries: D.num,
+      }),
+    },
+  },
   errors: [RevocationIdNotFoundException, TrustStoreNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4883,8 +2933,11 @@ export const describeTrustStores: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TrustStore
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeTrustStoresInput,
-  output: DescribeTrustStoresOutput,
+  descriptor: {
+    service: svc,
+    input: { TrustStoreArns: 0, Names: 0, Marker: 0, PageSize: 0 },
+    output: { TrustStores: D.list(o_TrustStore) },
+  },
   errors: [TrustStoreNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4907,13 +2960,12 @@ export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyInput,
-  output: GetResourcePolicyOutput,
+  descriptor: { service: svc, input: { ResourceArn: 0 } },
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-}));
+})) as any;
 
 export type GetTrustStoreCaCertificatesBundleError =
   | TrustStoreNotFoundException
@@ -4930,13 +2982,12 @@ export const getTrustStoreCaCertificatesBundle: API.OperationMethod<
   GetTrustStoreCaCertificatesBundleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTrustStoreCaCertificatesBundleInput,
-  output: GetTrustStoreCaCertificatesBundleOutput,
+  descriptor: { service: svc, input: { TrustStoreArn: 0 } },
   errors: [TrustStoreNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStoreCaCertificatesBundle",
-}));
+})) as any;
 
 export type GetTrustStoreRevocationContentError =
   | RevocationIdNotFoundException
@@ -4954,13 +3005,12 @@ export const getTrustStoreRevocationContent: API.OperationMethod<
   GetTrustStoreRevocationContentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTrustStoreRevocationContentInput,
-  output: GetTrustStoreRevocationContentOutput,
+  descriptor: { service: svc, input: { TrustStoreArn: 0, RevocationId: 0 } },
   errors: [RevocationIdNotFoundException, TrustStoreNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStoreRevocationContent",
-}));
+})) as any;
 
 export type ModifyCapacityReservationError =
   | CapacityDecreaseRequestsLimitExceededException
@@ -4984,8 +3034,20 @@ export const modifyCapacityReservation: API.OperationMethod<
   ModifyCapacityReservationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyCapacityReservationInput,
-  output: ModifyCapacityReservationOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      LoadBalancerArn: 0,
+      MinimumLoadBalancerCapacity: { CapacityUnits: 0 },
+      ResetCapacityReservation: 0,
+    },
+    output: {
+      LastModifiedTime: D.ts,
+      DecreaseRequestsRemaining: D.num,
+      MinimumLoadBalancerCapacity: o_MinimumLoadBalancerCapacity,
+      CapacityReservationState: D.list(o_ZonalCapacityReservationState),
+    },
+  },
   errors: [
     CapacityDecreaseRequestsLimitExceededException,
     CapacityReservationPendingException,
@@ -4999,7 +3061,7 @@ export const modifyCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCapacityReservation",
-}));
+})) as any;
 
 export type ModifyIpPoolsError = LoadBalancerNotFoundException | CommonErrors;
 /**
@@ -5011,13 +3073,16 @@ export const modifyIpPools: API.OperationMethod<
   ModifyIpPoolsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyIpPoolsInput,
-  output: ModifyIpPoolsOutput,
+  descriptor: {
+    service: svc,
+    input: { LoadBalancerArn: 0, IpamPools: i_IpamPools, RemoveIpamPools: 0 },
+    output: { IpamPools: {} },
+  },
   errors: [LoadBalancerNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIpPools",
-}));
+})) as any;
 
 export type ModifyListenerError =
   | ALPNPolicyNotSupportedException
@@ -5058,8 +3123,20 @@ export const modifyListener: API.OperationMethod<
   ModifyListenerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyListenerInput,
-  output: ModifyListenerOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      ListenerArn: 0,
+      Port: 0,
+      Protocol: 0,
+      SslPolicy: 0,
+      Certificates: D.list(i_Certificate),
+      DefaultActions: D.list(i_Action),
+      AlpnPolicy: 0,
+      MutualAuthentication: i_MutualAuthenticationAttributes,
+    },
+    output: { Listeners: D.list(o_Listener) },
+  },
   errors: [
     ALPNPolicyNotSupportedException,
     CertificateNotFoundException,
@@ -5084,7 +3161,7 @@ export const modifyListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyListener",
-}));
+})) as any;
 
 export type ModifyListenerAttributesError =
   | InvalidConfigurationRequestException
@@ -5099,13 +3176,16 @@ export const modifyListenerAttributes: API.OperationMethod<
   ModifyListenerAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyListenerAttributesInput,
-  output: ModifyListenerAttributesOutput,
+  descriptor: {
+    service: svc,
+    input: { ListenerArn: 0, Attributes: D.list({ Key: 0, Value: 0 }) },
+    output: { Attributes: D.list({}) },
+  },
   errors: [InvalidConfigurationRequestException, ListenerNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyListenerAttributes",
-}));
+})) as any;
 
 export type ModifyLoadBalancerAttributesError =
   | InvalidConfigurationRequestException
@@ -5124,13 +3204,16 @@ export const modifyLoadBalancerAttributes: API.OperationMethod<
   ModifyLoadBalancerAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyLoadBalancerAttributesInput,
-  output: ModifyLoadBalancerAttributesOutput,
+  descriptor: {
+    service: svc,
+    input: { LoadBalancerArn: 0, Attributes: D.list({ Key: 0, Value: 0 }) },
+    output: { Attributes: D.list({}) },
+  },
   errors: [InvalidConfigurationRequestException, LoadBalancerNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyLoadBalancerAttributes",
-}));
+})) as any;
 
 export type ModifyRuleError =
   | IncompatibleProtocolsException
@@ -5159,8 +3242,17 @@ export const modifyRule: API.OperationMethod<
   ModifyRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyRuleInput,
-  output: ModifyRuleOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      RuleArn: 0,
+      Conditions: D.list(i_RuleCondition),
+      Actions: D.list(i_Action),
+      Transforms: D.list(i_RuleTransform),
+      ResetTransforms: 0,
+    },
+    output: { Rules: D.list(o_Rule) },
+  },
   errors: [
     IncompatibleProtocolsException,
     InvalidLoadBalancerActionException,
@@ -5177,7 +3269,7 @@ export const modifyRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyRule",
-}));
+})) as any;
 
 export type ModifyTargetGroupError =
   | InvalidConfigurationRequestException
@@ -5193,13 +3285,27 @@ export const modifyTargetGroup: API.OperationMethod<
   ModifyTargetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyTargetGroupInput,
-  output: ModifyTargetGroupOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      TargetGroupArn: 0,
+      HealthCheckProtocol: 0,
+      HealthCheckPort: 0,
+      HealthCheckPath: 0,
+      HealthCheckEnabled: 0,
+      HealthCheckIntervalSeconds: 0,
+      HealthCheckTimeoutSeconds: 0,
+      HealthyThresholdCount: 0,
+      UnhealthyThresholdCount: 0,
+      Matcher: i_Matcher,
+    },
+    output: { TargetGroups: D.list(o_TargetGroup) },
+  },
   errors: [InvalidConfigurationRequestException, TargetGroupNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTargetGroup",
-}));
+})) as any;
 
 export type ModifyTargetGroupAttributesError =
   | InvalidConfigurationRequestException
@@ -5214,13 +3320,16 @@ export const modifyTargetGroupAttributes: API.OperationMethod<
   ModifyTargetGroupAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyTargetGroupAttributesInput,
-  output: ModifyTargetGroupAttributesOutput,
+  descriptor: {
+    service: svc,
+    input: { TargetGroupArn: 0, Attributes: D.list({ Key: 0, Value: 0 }) },
+    output: { Attributes: D.list({}) },
+  },
   errors: [InvalidConfigurationRequestException, TargetGroupNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTargetGroupAttributes",
-}));
+})) as any;
 
 export type ModifyTrustStoreError =
   | CaCertificatesBundleNotFoundException
@@ -5236,8 +3345,16 @@ export const modifyTrustStore: API.OperationMethod<
   ModifyTrustStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyTrustStoreInput,
-  output: ModifyTrustStoreOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      TrustStoreArn: 0,
+      CaCertificatesBundleS3Bucket: 0,
+      CaCertificatesBundleS3Key: 0,
+      CaCertificatesBundleS3ObjectVersion: 0,
+    },
+    output: { TrustStores: D.list(o_TrustStore) },
+  },
   errors: [
     CaCertificatesBundleNotFoundException,
     InvalidCaCertificatesBundleException,
@@ -5246,7 +3363,7 @@ export const modifyTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTrustStore",
-}));
+})) as any;
 
 export type RegisterTargetsError =
   | InvalidTargetException
@@ -5282,8 +3399,10 @@ export const registerTargets: API.OperationMethod<
   RegisterTargetsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RegisterTargetsInput,
-  output: RegisterTargetsOutput,
+  descriptor: {
+    service: svc,
+    input: { TargetGroupArn: 0, Targets: D.list(i_TargetDescription) },
+  },
   errors: [
     InvalidTargetException,
     TargetGroupNotFoundException,
@@ -5293,7 +3412,7 @@ export const registerTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTargets",
-}));
+})) as any;
 
 export type RemoveListenerCertificatesError =
   | ListenerNotFoundException
@@ -5309,13 +3428,15 @@ export const removeListenerCertificates: API.OperationMethod<
   RemoveListenerCertificatesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveListenerCertificatesInput,
-  output: RemoveListenerCertificatesOutput,
+  descriptor: {
+    service: svc,
+    input: { ListenerArn: 0, Certificates: D.list(i_Certificate) },
+  },
   errors: [ListenerNotFoundException, OperationNotPermittedException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveListenerCertificates",
-}));
+})) as any;
 
 export type RemoveTagsError =
   | ListenerNotFoundException
@@ -5336,8 +3457,7 @@ export const removeTags: API.OperationMethod<
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveTagsInput,
-  output: RemoveTagsOutput,
+  descriptor: { service: svc, input: { ResourceArns: 0, TagKeys: 0 } },
   errors: [
     ListenerNotFoundException,
     LoadBalancerNotFoundException,
@@ -5349,7 +3469,7 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
-}));
+})) as any;
 
 export type RemoveTrustStoreRevocationsError =
   | RevocationIdNotFoundException
@@ -5364,13 +3484,12 @@ export const removeTrustStoreRevocations: API.OperationMethod<
   RemoveTrustStoreRevocationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveTrustStoreRevocationsInput,
-  output: RemoveTrustStoreRevocationsOutput,
+  descriptor: { service: svc, input: { TrustStoreArn: 0, RevocationIds: 0 } },
   errors: [RevocationIdNotFoundException, TrustStoreNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTrustStoreRevocations",
-}));
+})) as any;
 
 export type SetIpAddressTypeError =
   | InvalidConfigurationRequestException
@@ -5386,8 +3505,7 @@ export const setIpAddressType: API.OperationMethod<
   SetIpAddressTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetIpAddressTypeInput,
-  output: SetIpAddressTypeOutput,
+  descriptor: { service: svc, input: { LoadBalancerArn: 0, IpAddressType: 0 } },
   errors: [
     InvalidConfigurationRequestException,
     InvalidSubnetException,
@@ -5396,7 +3514,7 @@ export const setIpAddressType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIpAddressType",
-}));
+})) as any;
 
 export type SetRulePrioritiesError =
   | OperationNotPermittedException
@@ -5415,8 +3533,11 @@ export const setRulePriorities: API.OperationMethod<
   SetRulePrioritiesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetRulePrioritiesInput,
-  output: SetRulePrioritiesOutput,
+  descriptor: {
+    service: svc,
+    input: { RulePriorities: D.list({ RuleArn: 0, Priority: 0 }) },
+    output: { Rules: D.list(o_Rule) },
+  },
   errors: [
     OperationNotPermittedException,
     PriorityInUseException,
@@ -5425,7 +3546,7 @@ export const setRulePriorities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetRulePriorities",
-}));
+})) as any;
 
 export type SetSecurityGroupsError =
   | InvalidConfigurationRequestException
@@ -5448,8 +3569,15 @@ export const setSecurityGroups: API.OperationMethod<
   SetSecurityGroupsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetSecurityGroupsInput,
-  output: SetSecurityGroupsOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      LoadBalancerArn: 0,
+      SecurityGroups: 0,
+      EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic: 0,
+    },
+    output: { SecurityGroupIds: D.list() },
+  },
   errors: [
     InvalidConfigurationRequestException,
     InvalidSecurityGroupException,
@@ -5458,7 +3586,7 @@ export const setSecurityGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSecurityGroups",
-}));
+})) as any;
 
 export type SetSubnetsError =
   | AllocationIdNotFoundException
@@ -5480,8 +3608,17 @@ export const setSubnets: API.OperationMethod<
   SetSubnetsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetSubnetsInput,
-  output: SetSubnetsOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      LoadBalancerArn: 0,
+      Subnets: 0,
+      SubnetMappings: D.list(i_SubnetMapping),
+      IpAddressType: 0,
+      EnablePrefixForIpv6SourceNat: 0,
+    },
+    output: { AvailabilityZones: D.list(o_AvailabilityZone) },
+  },
   errors: [
     AllocationIdNotFoundException,
     AvailabilityZoneNotSupportedException,
@@ -5494,4 +3631,172 @@ export const setSubnets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSubnets",
-}));
+})) as any;
+
+const i_Action: D.LazyStruct = () => ({
+  Type: 0,
+  TargetGroupArn: 0,
+  AuthenticateOidcConfig: {
+    Issuer: 0,
+    AuthorizationEndpoint: 0,
+    TokenEndpoint: 0,
+    UserInfoEndpoint: 0,
+    ClientId: 0,
+    ClientSecret: 0,
+    SessionCookieName: 0,
+    Scope: 0,
+    SessionTimeout: 0,
+    AuthenticationRequestExtraParams: D.map(),
+    OnUnauthenticatedRequest: 0,
+    UseExistingClientSecret: 0,
+  },
+  AuthenticateCognitoConfig: {
+    UserPoolArn: 0,
+    UserPoolClientId: 0,
+    UserPoolDomain: 0,
+    SessionCookieName: 0,
+    Scope: 0,
+    SessionTimeout: 0,
+    AuthenticationRequestExtraParams: D.map(),
+    OnUnauthenticatedRequest: 0,
+  },
+  Order: 0,
+  RedirectConfig: {
+    Protocol: 0,
+    Port: 0,
+    Host: 0,
+    Path: 0,
+    Query: 0,
+    StatusCode: 0,
+  },
+  FixedResponseConfig: { MessageBody: 0, StatusCode: 0, ContentType: 0 },
+  ForwardConfig: {
+    TargetGroups: D.list({ TargetGroupArn: 0, Weight: 0 }),
+    TargetGroupStickinessConfig: { Enabled: 0, DurationSeconds: 0 },
+  },
+  JwtValidationConfig: {
+    JwksEndpoint: 0,
+    Issuer: 0,
+    AdditionalClaims: D.list({ Format: 0, Name: 0, Values: 0 }),
+  },
+});
+const i_Certificate: D.LazyStruct = () => ({ CertificateArn: 0, IsDefault: 0 });
+const i_IpamPools: D.LazyStruct = () => ({ Ipv4IpamPoolId: 0 });
+const i_Matcher: D.LazyStruct = () => ({ HttpCode: 0, GrpcCode: 0 });
+const i_MutualAuthenticationAttributes: D.LazyStruct = () => ({
+  Mode: 0,
+  TrustStoreArn: 0,
+  IgnoreClientCertificateExpiry: 0,
+  TrustStoreAssociationStatus: 0,
+  AdvertiseTrustStoreCaNames: 0,
+});
+const i_RuleCondition: D.LazyStruct = () => ({
+  Field: 0,
+  Values: 0,
+  HostHeaderConfig: { Values: 0, RegexValues: 0 },
+  PathPatternConfig: { Values: 0, RegexValues: 0 },
+  HttpHeaderConfig: { HttpHeaderName: 0, Values: 0, RegexValues: 0 },
+  QueryStringConfig: { Values: D.list({ Key: 0, Value: 0 }) },
+  HttpRequestMethodConfig: { Values: 0 },
+  SourceIpConfig: { Values: 0, IpAddressType: 0 },
+  RegexValues: 0,
+});
+const i_RuleTransform: D.LazyStruct = () => ({
+  Type: 0,
+  HostHeaderRewriteConfig: { Rewrites: D.list(i_RewriteConfig) },
+  UrlRewriteConfig: { Rewrites: D.list(i_RewriteConfig) },
+});
+const i_SubnetMapping: D.LazyStruct = () => ({
+  SubnetId: 0,
+  AllocationId: 0,
+  PrivateIPv4Address: 0,
+  IPv6Address: 0,
+  SourceNatIpv6Prefix: 0,
+});
+const i_Tag: D.LazyStruct = () => ({ Key: 0, Value: 0 });
+const i_TargetDescription: D.LazyStruct = () => ({
+  Id: 0,
+  Port: 0,
+  AvailabilityZone: 0,
+  QuicServerId: 0,
+});
+const o_AvailabilityZone: D.LazyStruct = () => ({
+  LoadBalancerAddresses: D.list({}),
+  SourceNatIpv6Prefixes: D.list(),
+});
+const o_Certificate: D.LazyStruct = () => ({ IsDefault: D.bool });
+const o_Listener: D.LazyStruct = () => ({
+  Port: D.num,
+  Certificates: D.list(o_Certificate),
+  DefaultActions: D.list(o_Action),
+  AlpnPolicy: D.list(),
+  MutualAuthentication: { IgnoreClientCertificateExpiry: D.bool },
+});
+const o_LoadBalancer: D.LazyStruct = () => ({
+  CreatedTime: D.ts,
+  State: {},
+  AvailabilityZones: D.list(o_AvailabilityZone),
+  SecurityGroups: D.list(),
+  IpamPools: {},
+});
+const o_MinimumLoadBalancerCapacity: D.LazyStruct = () => ({
+  CapacityUnits: D.num,
+});
+const o_Rule: D.LazyStruct = () => ({
+  Conditions: D.list({
+    Values: D.list(),
+    HostHeaderConfig: { Values: D.list(), RegexValues: D.list() },
+    PathPatternConfig: { Values: D.list(), RegexValues: D.list() },
+    HttpHeaderConfig: { Values: D.list(), RegexValues: D.list() },
+    QueryStringConfig: { Values: D.list({}) },
+    HttpRequestMethodConfig: { Values: D.list() },
+    SourceIpConfig: { Values: D.list() },
+    RegexValues: D.list(),
+  }),
+  Actions: D.list(o_Action),
+  IsDefault: D.bool,
+  Transforms: D.list({
+    HostHeaderRewriteConfig: { Rewrites: D.list({}) },
+    UrlRewriteConfig: { Rewrites: D.list({}) },
+  }),
+});
+const o_TargetGroup: D.LazyStruct = () => ({
+  Port: D.num,
+  HealthCheckEnabled: D.bool,
+  HealthCheckIntervalSeconds: D.num,
+  HealthCheckTimeoutSeconds: D.num,
+  HealthyThresholdCount: D.num,
+  UnhealthyThresholdCount: D.num,
+  Matcher: {},
+  LoadBalancerArns: D.list(),
+  TargetControlPort: D.num,
+});
+const o_TrustStore: D.LazyStruct = () => ({
+  NumberOfCaCertificates: D.num,
+  TotalRevokedEntries: D.num,
+});
+const o_ZonalCapacityReservationState: D.LazyStruct = () => ({
+  State: {},
+  EffectiveCapacityUnits: D.num,
+});
+const i_RewriteConfig: D.LazyStruct = () => ({ Regex: 0, Replace: 0 });
+const o_Action: D.LazyStruct = () => ({
+  AuthenticateOidcConfig: {
+    ClientSecret: D.secret,
+    SessionTimeout: D.num,
+    AuthenticationRequestExtraParams: D.map(),
+    UseExistingClientSecret: D.bool,
+  },
+  AuthenticateCognitoConfig: {
+    SessionTimeout: D.num,
+    AuthenticationRequestExtraParams: D.map(),
+  },
+  Order: D.num,
+  RedirectConfig: {},
+  FixedResponseConfig: {},
+  ForwardConfig: {
+    TargetGroups: D.list({ Weight: D.num }),
+    TargetGroupStickinessConfig: { Enabled: D.bool, DurationSeconds: D.num },
+  },
+  JwtValidationConfig: { AdditionalClaims: D.list({ Values: D.list() }) },
+});

@@ -2,21 +2,29 @@ import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
 import { isTransientError } from "../category.ts";
 import { InternalError, ParseError } from "../errors.ts";
-import { PutObjectRequest, PutObjectOutput, SlowDown } from "../services/s3.ts";
+import { putObject, SlowDown } from "../services/s3.ts";
 import {
-  CreateFunctionRequest,
-  FunctionConfiguration,
+  createFunction,
   InvalidParameterValueException,
   LambdaInternalKmsError,
-  UpdateFunctionCodeRequest,
+  updateFunctionCode,
 } from "../services/lambda.ts";
+import type { Operation } from "./operation.ts";
 import { makeResponseParser } from "./response-parser.ts";
 
-const parseCreateFunction = makeResponseParser({
-  input: CreateFunctionRequest,
-  output: FunctionConfiguration,
-  errors: [InvalidParameterValueException, LambdaInternalKmsError],
+/** The runtime view of a generated operation, with an explicit error list. */
+const operationOf = (op: unknown, errors: Operation["errors"]): Operation => ({
+  descriptor: (op as { descriptor: Operation["descriptor"] }).descriptor,
+  operationName: (op as { operationName: string }).operationName,
+  errors,
 });
+
+const parseCreateFunction = makeResponseParser(
+  operationOf(createFunction, [
+    InvalidParameterValueException,
+    LambdaInternalKmsError,
+  ]),
+);
 
 const invalidParameterResponse = (message: string) => ({
   status: 400,
@@ -28,11 +36,7 @@ const invalidParameterResponse = (message: string) => ({
   body: JSON.stringify({ Type: "User", message }),
 });
 
-const parsePutObject = makeResponseParser({
-  input: PutObjectRequest,
-  output: PutObjectOutput,
-  errors: [SlowDown],
-});
+const parsePutObject = makeResponseParser(operationOf(putObject, [SlowDown]));
 
 const unstructuredBodies = [
   ["HTML", "<html><body>SENSITIVE_SENTINEL</body></html>"],
@@ -132,11 +136,9 @@ describe("Lambda synthetic error parsing", () => {
   });
 
   test("only specializes operations declaring the synthetic error", async () => {
-    const parseUpdateFunctionCode = makeResponseParser({
-      input: UpdateFunctionCodeRequest,
-      output: FunctionConfiguration,
-      errors: [InvalidParameterValueException],
-    });
+    const parseUpdateFunctionCode = makeResponseParser(
+      operationOf(updateFunctionCode, [InvalidParameterValueException]),
+    );
     const error = await Effect.runPromise(
       parseUpdateFunctionCode(
         invalidParameterResponse(internalKmsMessage),

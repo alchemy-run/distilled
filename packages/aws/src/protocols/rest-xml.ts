@@ -5,8 +5,15 @@
  */
 
 import * as Effect from "effect/Effect";
-import * as S from "effect/Schema";
-import type * as AST from "effect/SchemaAST";
+import {
+  decodeLeaf,
+  Events,
+  membersOf,
+  shapeOf,
+  specOf,
+  type Shape,
+  type Struct,
+} from "@distilled.cloud/core/shape";
 import type { Operation } from "../client/operation.ts";
 import type { Protocol, ProtocolHandler } from "../client/protocol.ts";
 import type { Request } from "../client/request.ts";
@@ -16,54 +23,31 @@ import {
   parseEventStreamToUnion,
   type PayloadParser,
 } from "../eventstream/parser.ts";
-import {
-  getEventSchema,
-  getHttpHeader,
-  getHttpPrefixHeaders,
-  getHttpQuery,
-  getPropAnnotations,
-  getTimestampFormatFromAST,
-  getXmlNameProp,
-  hasHttpLabel,
-  hasHttpPayload,
-  hasHttpQueryParams,
-  hasS3UnwrappedXmlOutput,
-  hasXmlAttribute,
-  hasXmlFlattened,
-  isOutputEventStream,
-  isStreamingType,
-  type StreamingInputBody,
-} from "../traits.ts";
-import {
-  getArrayElementAST,
-  getEncodedPropertySignatures,
-  getIdentifier,
-  getXmlNameFromAST,
-  getXmlNamespace,
-  isArrayAST,
-  isBooleanAST,
-  isNumberAST,
-  isStringAST,
-  unwrapUnion,
-} from "../util/ast.ts";
 import { sanitizeErrorCode } from "../util/error.ts";
 import { extractStaticQueryParams } from "../util/query-params.ts";
-import { applyHttpTrait, bindInputToRequest } from "../util/serialize-input.ts";
+import {
+  applyHttpTrait,
+  bindInputToRequest,
+  labelsOf,
+} from "../util/serialize-input.ts";
 import {
   convertStreamingInput,
   readableToEffectStream,
+  readStreamAsBytes,
   readStreamAsText,
 } from "../util/stream.ts";
-import { formatTimestamp } from "../util/timestamp.ts";
+import type { StreamingInputBody } from "../util/streaming-types.ts";
+import { parseXml, parseXmlSync, XmlParseError } from "../util/xml.ts";
+import { eventDecoder } from "./events.ts";
+import { decodeHeader, type HeaderBinding } from "./rest-json.ts";
 import {
-  deserializePrimitive,
-  escapeXml,
-  parseXml,
-  parseXmlSync,
-  XmlParseError,
-  unwrapArrayValue,
-  wrapTag,
-} from "../util/xml.ts";
+  decodeXmlStruct,
+  decodeXmlValue,
+  encodeXmlElement,
+  encodeXmlMembers,
+  identityNaming,
+  xmlRoot,
+} from "./xml-codec.ts";
 
 // =============================================================================
 // Protocol Export
@@ -72,149 +56,79 @@ import {
 export const restXmlProtocol: Protocol = (
   operation: Operation,
 ): ProtocolHandler => {
-  const inputSchema = operation.input;
-  const outputSchema = operation.output;
-  const inputAst = inputSchema.ast;
-  const outputAst = outputSchema.ast;
+  const { descriptor } = operation;
+  const xmlns = descriptor.service.xmlns;
+  const labels = labelsOf(descriptor.http);
 
-  // Pre-compute encoder (done once at init)
-  const encodeInput = S.encodeEffect(inputSchema);
-  const outputXmlName =
-    getXmlNameFromAST(outputAst) ?? getIdentifier(outputAst);
-
-  // Pre-compute s3UnwrappedXmlOutput handling (done once at init)
-  const isUnwrappedOutput = hasS3UnwrappedXmlOutput(outputAst);
-  const outputProps = getEncodedPropertySignatures(outputAst);
-  const unwrappedPropName = isUnwrappedOutput
-    ? outputProps.find(
-        (prop) => (getXmlNameProp(prop) ?? String(prop.name)) === outputXmlName,
-      )?.name
-    : undefined;
-
-  // Pre-compute httpPayload property info for serialization (done once at init)
-  const inputProps = getEncodedPropertySignatures(inputAst);
-  const payloadProp = inputProps.find((prop) => hasHttpPayload(prop));
-  const payloadXmlName = payloadProp
-    ? (getXmlNameProp(payloadProp) ??
-      getXmlNameFromAST(payloadProp.type) ??
-      getIdentifier(payloadProp.type))
-    : undefined;
-  const payloadIsStreaming = payloadProp
-    ? isStreamingType(payloadProp.type)
-    : false;
-  const inputXmlNamespace = getXmlNamespace(inputAst);
-
-  // Pre-classify output properties by their HTTP binding (done once at init)
-  // This avoids repeated trait lookups during deserialization
-  type HeaderProp = {
-    name: string;
-    header: string;
-    headerLower: string;
-    isNumber: boolean;
-    isBoolean: boolean;
-  };
-  type PrefixHeaderProp = { name: string; prefix: string };
-  type PayloadProp = {
-    name: string;
-    type: AST.AST;
-    isStreaming: boolean;
-    isEventStream: boolean;
-    eventSchema?: S.Schema<unknown>;
-    isRawString: boolean;
-    xmlName?: string;
-  };
-
-  const headerProps: HeaderProp[] = [];
-  const prefixHeaderProps: PrefixHeaderProp[] = [];
-  let outputPayloadProp: PayloadProp | undefined;
+  // Classify output members by HTTP binding once.
+  const headerProps: HeaderBinding[] = [];
+  const prefixHeaderProps: Array<{ name: string; prefix: string }> = [];
   let responseCodePropName: string | undefined;
-
-  for (const prop of outputProps) {
-    const name = String(prop.name);
-    const header = getHttpHeader(prop);
-    const prefixHeader = getHttpPrefixHeaders(prop);
-    const annotations = getPropAnnotations(prop);
-
-    if (annotations.responseCode) {
-      // Property bound to HTTP response status code
-      responseCodePropName = name;
-    } else if (header) {
-      headerProps.push({
-        name,
-        header,
-        headerLower: header.toLowerCase(),
-        isNumber: isNumberAST(prop.type),
-        isBoolean: isBooleanAST(prop.type),
-      });
-    } else if (prefixHeader) {
-      prefixHeaderProps.push({ name, prefix: prefixHeader.toLowerCase() });
-    } else if (hasHttpPayload(prop)) {
-      const unwrapped = unwrapUnion(prop.type);
-      const isEventStream = isOutputEventStream(prop.type);
-      outputPayloadProp = {
-        name,
-        type: prop.type,
-        isStreaming: isStreamingType(prop.type),
-        isEventStream,
-        eventSchema: isEventStream ? getEventSchema(prop.type) : undefined,
-        isRawString: unwrapped._tag === "Union" || unwrapped._tag === "String",
-        // Use property name as fallback when type annotations aren't preserved
-        // (e.g., when using Schema.pipe to add HttpPayload annotation)
-        xmlName:
-          getXmlNameFromAST(prop.type) ?? getIdentifier(prop.type) ?? name,
-      };
+  let outputPayload:
+    | { name: string; shape: Shape | undefined; wire: string | undefined }
+    | undefined;
+  if (descriptor.output !== undefined) {
+    for (const [name, member] of membersOf(descriptor.output)) {
+      const spec = specOf(member);
+      const shape = shapeOf(member);
+      if (spec?.status) responseCodePropName = name;
+      else if (spec?.header !== undefined) {
+        headerProps.push({ name, header: spec.header.toLowerCase(), shape });
+      } else if (spec?.prefix !== undefined) {
+        prefixHeaderProps.push({ name, prefix: spec.prefix.toLowerCase() });
+      } else if (spec?.payload) {
+        outputPayload = { name, shape, wire: spec.wire };
+      }
     }
   }
 
   return {
     serializeRequest: Effect.fn(function* (input: unknown) {
-      // Encode the input via schema - handles all transformations
-      const encoded = yield* encodeInput(input).pipe(
-        Effect.mapError((err) => new ParseError({ message: err.message })),
-      );
-
       const request: Request = {
         method: "POST",
         path: "/",
         query: {},
         headers: {},
       };
-
-      applyHttpTrait(inputAst, request);
-      const { payloadValue, payloadAst, bodyMembers, hasBodyMembers } =
-        bindInputToRequest(
-          inputAst,
-          encoded as Record<string, unknown>,
-          request,
-        );
+      applyHttpTrait(descriptor.http, request);
+      const bound = bindInputToRequest(
+        descriptor.input,
+        labels,
+        (input ?? {}) as Record<string, unknown>,
+        request,
+      );
       extractStaticQueryParams(request);
 
-      // Serialize body
-      if (payloadValue !== undefined && payloadAst !== undefined) {
-        if (payloadIsStreaming) {
-          request.body = convertStreamingInput(
-            payloadValue as StreamingInputBody,
-          );
-        } else if (typeof payloadValue === "string") {
-          request.body = payloadValue;
+      const value = bound.payloadValue;
+      if (value !== undefined) {
+        const shape = bound.payloadShape;
+        if (shape === "stream" || shape === "blob") {
+          request.body = convertStreamingInput(value as StreamingInputBody);
+        } else if (typeof value === "string") {
+          request.body = value;
         } else {
+          // Structured payload: the root element is the member's xmlName,
+          // else the target shape's xmlName or name.
           request.headers["Content-Type"] = "application/xml";
-          request.body = serializeValue(
-            payloadAst,
-            payloadValue,
-            payloadXmlName,
-            inputXmlNamespace,
+          request.body = encodeXmlElement(
+            value,
+            shape,
+            bound.payloadSpec?.wire ?? bound.payloadName!,
+            xmlns,
           );
         }
-      } else if (hasBodyMembers) {
+      } else if (bound.hasBodyMembers) {
         request.headers["Content-Type"] = "application/xml";
-        const tagName = getIdentifier(inputAst);
-        request.body = serializeObject(
-          inputAst,
-          bodyMembers,
-          tagName,
-          getXmlNamespace(inputAst),
+        const root =
+          typeof descriptor.body === "string"
+            ? descriptor.body
+            : `${operation.operationName}Request`;
+        const { attrs, children } = encodeXmlMembers(
+          bound.bodyMembers,
+          descriptor.input as Struct | undefined,
         );
+        const ns = xmlns ? ` xmlns="${xmlns}"` : "";
+        request.body = `<${root}${ns}${attrs}>${children}</${root}>`;
       }
 
       return request;
@@ -223,25 +137,13 @@ export const restXmlProtocol: Protocol = (
     deserializeResponse: Effect.fn(function* (response: Response) {
       const result: Record<string, unknown> = {};
 
-      // Extract HTTP response status code if bound to a property
-      if (responseCodePropName) {
-        result[responseCodePropName] = response.status;
-      }
+      if (responseCodePropName) result[responseCodePropName] = response.status;
 
-      // Extract header-bound properties using pre-computed metadata
       for (const hp of headerProps) {
-        const v =
-          response.headers[hp.headerLower] ?? response.headers[hp.header];
-        if (v !== undefined) {
-          result[hp.name] = hp.isNumber
-            ? Number(v)
-            : hp.isBoolean
-              ? v === "true"
-              : v;
-        }
+        const v = response.headers[hp.header];
+        if (v !== undefined) result[hp.name] = decodeHeader(hp.shape, v);
       }
 
-      // Extract prefix header properties
       for (const php of prefixHeaderProps) {
         const prefixed: Record<string, string> = {};
         for (const [k, v] of Object.entries(response.headers)) {
@@ -252,68 +154,86 @@ export const restXmlProtocol: Protocol = (
         if (Object.keys(prefixed).length) result[php.name] = prefixed;
       }
 
-      // Handle streaming output payload - return early
-      if (outputPayloadProp?.isStreaming) {
-        if (outputPayloadProp.isEventStream && response.body) {
-          // Parse event stream with XML payload parser
+      const payloadShape = outputPayload?.shape;
+      if (outputPayload !== undefined && payloadShape instanceof Events) {
+        if (response.body) {
+          // Event payloads are XML documents
           const xmlPayloadParser: PayloadParser = (payload: Uint8Array) => {
             const text = new TextDecoder().decode(payload);
             if (!text) return {};
             try {
-              return parseXmlSync(text);
+              return decodeXmlValue(
+                parseXmlSync(text),
+                undefined,
+                identityNaming,
+              );
             } catch (error) {
               if (error instanceof XmlParseError) return { payload: text };
               throw error;
             }
           };
-          result[outputPayloadProp.name] = parseEventStreamToUnion(
+          result[outputPayload.name] = parseEventStreamToUnion(
             response.body as ReadableStream<Uint8Array>,
             xmlPayloadParser,
-            outputPayloadProp.eventSchema,
+            eventDecoder(payloadShape),
           );
+        }
+        return result;
+      }
+      if (outputPayload !== undefined && payloadShape === "stream") {
+        result[outputPayload.name] = readableToEffectStream(response.body);
+        return result;
+      }
+      // Non-streaming blob payload: the raw body bytes ARE the payload
+      if (
+        outputPayload !== undefined &&
+        (payloadShape === "blob" || payloadShape === "secretBlob")
+      ) {
+        const bytes = yield* readStreamAsBytes(response.body);
+        if (bytes.byteLength > 0) {
+          result[outputPayload.name] =
+            payloadShape === "blob" ? bytes : decodeLeaf("secretBlob", bytes);
+        }
+        return result;
+      }
+
+      const bodyText = yield* readStreamAsText(response.body);
+      if (!bodyText) return result;
+
+      if (outputPayload !== undefined) {
+        if (payloadShape === "text" || payloadShape === undefined) {
+          result[outputPayload.name] = bodyText;
         } else {
-          // Raw streaming output (blob)
-          result[outputPayloadProp.name] = readableToEffectStream(
-            response.body,
+          const parsed = yield* parseXml(bodyText);
+          result[outputPayload.name] = decodeXmlValue(
+            xmlRoot(parsed).content,
+            payloadShape,
+            identityNaming,
           );
         }
         return result;
       }
 
-      // Non-streaming response - read body as text
-      const bodyText = yield* readStreamAsText(response.body);
+      const parsed = yield* parseXml(bodyText);
+      const { content } = xmlRoot(parsed);
 
-      // Handle httpPayload property
-      if (outputPayloadProp && bodyText) {
-        if (outputPayloadProp.isRawString) {
-          result[outputPayloadProp.name] = bodyText;
-        } else {
-          const parsed = yield* parseXml(bodyText);
-          result[outputPayloadProp.name] = deserializeValue(
-            outputPayloadProp.type,
-            outputPayloadProp.xmlName
-              ? (parsed[outputPayloadProp.xmlName] ?? parsed)
-              : parsed,
-          );
+      if (descriptor.unwrapped !== undefined) {
+        // aws.customizations#s3UnwrappedXmlOutput: the root element's text
+        // is the member value (e.g. GetBucketLocation).
+        const text = decodeXmlValue(content, undefined, identityNaming);
+        if (typeof text === "string" && text !== "") {
+          result[descriptor.unwrapped] = text;
         }
-      }
-
-      // Parse body XML for non-payload properties
-      if (bodyText && !outputPayloadProp) {
-        const parsed = yield* parseXml(bodyText);
-        const rawContent = outputXmlName ? parsed[outputXmlName] : parsed;
-
-        if (isUnwrappedOutput && unwrappedPropName) {
-          const textContent = extractTextContent(rawContent);
-          if (textContent !== undefined) {
-            result[String(unwrappedPropName)] = textContent;
-          }
-        } else if (rawContent && typeof rawContent === "object") {
-          Object.assign(
-            result,
-            deserializeObject(outputAst, rawContent as Record<string, unknown>),
-          );
-        }
+      } else if (content && typeof content === "object") {
+        Object.assign(
+          result,
+          decodeXmlStruct(
+            content as Record<string, unknown>,
+            descriptor.output,
+            identityNaming,
+            true,
+          ),
+        );
       }
 
       return result;
@@ -414,225 +334,6 @@ export const restXmlProtocol: Protocol = (
     ),
   };
 };
-
-// =============================================================================
-// XML Serialization
-// =============================================================================
-
-function serializeValue(
-  ast: AST.AST,
-  value: unknown,
-  tagName?: string,
-  xmlns?: string,
-): string {
-  if (value == null) return "";
-
-  // Primitives and Dates
-  if (typeof value !== "object") {
-    const content = escapeXml(String(value));
-    return tagName ? wrapTag(tagName, content, xmlns) : content;
-  }
-
-  if (value instanceof Date) {
-    const content = formatTimestamp(value, getTimestampFormatFromAST(ast));
-    return tagName ? wrapTag(tagName, content, xmlns) : content;
-  }
-
-  // Arrays
-  if (Array.isArray(value)) {
-    const elementAST = getArrayElementAST(ast);
-    const tag = tagName ?? (elementAST && getIdentifier(elementAST));
-    return value
-      .map((item, i) =>
-        serializeValue(
-          elementAST ?? ast,
-          item,
-          tag,
-          i === 0 ? xmlns : undefined,
-        ),
-      )
-      .join("");
-  }
-
-  // Objects
-  return serializeObject(ast, value as Record<string, unknown>, tagName, xmlns);
-}
-
-function serializeObject(
-  ast: AST.AST,
-  value: Record<string, unknown>,
-  tagName?: string,
-  xmlns?: string,
-): string {
-  const props = getEncodedPropertySignatures(ast);
-  const attrs: string[] = [];
-  const elems: string[] = [];
-
-  for (const prop of props) {
-    const key = String(prop.name);
-    const v = value[key];
-    if (v === undefined) continue;
-
-    if (hasXmlAttribute(prop)) {
-      attrs.push(`${getXmlNameProp(prop) ?? key}="${escapeXml(String(v))}"`);
-      continue;
-    }
-
-    const xmlName = getXmlNameProp(prop) ?? key;
-    if (!Array.isArray(v)) {
-      elems.push(serializeValue(prop.type, v, xmlName));
-      continue;
-    }
-
-    const elementAST = getArrayElementAST(prop.type);
-    if (hasXmlFlattened(prop)) {
-      elems.push(
-        v
-          .map((item) => serializeValue(elementAST ?? prop.type, item, xmlName))
-          .join(""),
-      );
-    } else {
-      // Use xmlName trait first, then fall back to class identifier
-      const itemTag =
-        elementAST &&
-        (getXmlNameFromAST(elementAST) ?? getIdentifier(elementAST));
-      elems.push(
-        `<${xmlName}>${v.map((item) => serializeValue(elementAST ?? prop.type, item, itemTag)).join("")}</${xmlName}>`,
-      );
-    }
-  }
-
-  if (!tagName) return elems.join("");
-
-  const ns = xmlns ?? getXmlNamespace(ast);
-  const attrStr =
-    (ns ? ` xmlns="${escapeXml(ns)}"` : "") +
-    (attrs.length ? ` ${attrs.join(" ")}` : "");
-  return `<${tagName}${attrStr}>${elems.join("")}</${tagName}>`;
-}
-
-// =============================================================================
-// XML Deserialization
-// =============================================================================
-
-function isStructureAST(ast: AST.AST): boolean {
-  const unwrapped = unwrapUnion(ast);
-  if (unwrapped !== ast) return isStructureAST(unwrapped);
-  if (ast._tag === "Suspend") return isStructureAST(ast.thunk());
-  if (ast.encoding && ast.encoding.length > 0) {
-    return isStructureAST(ast.encoding[0].to);
-  }
-  return ast._tag === "Objects" && ast.indexSignatures.length === 0;
-}
-
-function deserializeValue(ast: AST.AST, value: unknown): unknown {
-  if (value == null) return undefined;
-
-  // An empty XML element can represent a present structure, but not a map.
-  if (
-    value === "" ||
-    (typeof value === "object" &&
-      !Array.isArray(value) &&
-      Object.keys(value as object).length === 0)
-  ) {
-    if (isStructureAST(ast)) return {};
-    return value === "" && isStringAST(ast) ? "" : undefined;
-  }
-
-  if (isArrayAST(ast)) {
-    const elAST = getArrayElementAST(ast);
-    if (!elAST) return Array.isArray(value) ? value : [value];
-
-    // Handle wrapped arrays: { Item: [...] }
-    // Use xmlName trait first, then fall back to class identifier, then the
-    // Smithy default wrapper for non-flattened lists: <member> (e.g.
-    // CloudFront RealtimeLogConfig.EndPoints, whose list member carries no
-    // xmlName trait and arrives as <EndPoints><member>...</member>).
-    const elTag = getXmlNameFromAST(elAST) ?? getIdentifier(elAST);
-    const unwrapped = unwrapArrayValue(value, elTag, ["member"]);
-
-    const items = Array.isArray(unwrapped) ? unwrapped : [unwrapped];
-    return items.map((item) => deserializeValue(elAST, item));
-  }
-
-  if (typeof value === "string") {
-    return deserializePrimitive(ast, value);
-  }
-
-  if (typeof value === "object" && !Array.isArray(value)) {
-    return deserializeObject(ast, value as Record<string, unknown>);
-  }
-
-  return value;
-}
-
-/**
- * Extract text content from the compact XML representation.
- * Handles: { "#text": "value", "@_xmlns": "..." } → "value"
- * Or: { "@_xmlns": "..." } (empty element) → undefined
- */
-function extractTextContent(value: unknown): unknown {
-  if (value == null) return undefined;
-  if (typeof value !== "object") return value;
-
-  const obj = value as Record<string, unknown>;
-  if ("#text" in obj) return obj["#text"];
-  if (Object.keys(obj).every((k) => k.startsWith("@_"))) return undefined;
-  return value;
-}
-
-function deserializeObject(
-  ast: AST.AST,
-  value: Record<string, unknown>,
-): Record<string, unknown> {
-  const result: Record<string, unknown> = {};
-
-  for (const prop of getEncodedPropertySignatures(ast)) {
-    const key = String(prop.name);
-
-    // Skip HTTP-bound properties (headers, query, labels)
-    if (
-      getHttpHeader(prop) ||
-      getHttpQuery(prop) ||
-      hasHttpLabel(prop) ||
-      getHttpPrefixHeaders(prop) ||
-      hasHttpQueryParams(prop)
-    )
-      continue;
-
-    if (hasHttpPayload(prop)) {
-      result[key] = deserializeValue(prop.type, value);
-      continue;
-    }
-
-    const xmlName = getXmlNameProp(prop) ?? key;
-
-    // Handle XML attributes (parser prefixes attributes with @_)
-    if (hasXmlAttribute(prop)) {
-      const attrValue = value[`@_${xmlName}`];
-      if (attrValue !== undefined) {
-        result[key] = deserializeValue(prop.type, attrValue);
-      }
-      continue;
-    }
-
-    const propValue = value[xmlName];
-    if (propValue === undefined) continue;
-
-    if (hasXmlFlattened(prop) && isArrayAST(prop.type)) {
-      const elAST = getArrayElementAST(prop.type) ?? prop.type;
-      const items = Array.isArray(propValue) ? propValue : [propValue];
-      result[key] = items.map((item) => deserializeValue(elAST, item));
-    } else {
-      const deserialized = deserializeValue(prop.type, propValue);
-      if (deserialized !== undefined) {
-        result[key] = deserialized;
-      }
-    }
-  }
-
-  return result;
-}
 
 /**
  * Parse HTML error responses (e.g., S3 503 Slow Down rate limiting).

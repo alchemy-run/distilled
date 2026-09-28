@@ -1,146 +1,126 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({ sdkId: "DSQL", serviceShapeName: "DSQL" });
-const auth = T.AwsAuthSigv4({ name: "dsql" });
-const ver = T.ServiceVersion("2018-05-10");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { UseFIPS = false, Endpoint, Region } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true) {
-          return e(
-            `https://dsql-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        return e(
-          `https://dsql.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+const svc: T.ServiceInfo = {
+  sdkId: "DSQL",
+  target: "DSQL",
+  version: "2018-05-10",
+  sigv4: "dsql",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { UseFIPS = false, Endpoint, Region } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true) {
+            return e(
+              `https://dsql-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
+          return e(
+            `https://dsql.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.optional(S.String),
-      resourceType: S.optional(S.String),
-    },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{
+    readonly message: string;
+    readonly resourceId?: string;
+    readonly resourceType?: string;
+  }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
-    },
-    T.all(T.HttpError(500), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 500, headers: { retryAfterSeconds: ["Retry-After", "num"] } },
+  )<{ readonly message: string; readonly retryAfterSeconds?: number }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{
+    readonly message: string;
+    readonly resourceId: string;
+    readonly resourceType: string;
+  }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-      serviceCode: S.String,
-      quotaCode: S.String,
-    },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{
+    readonly message: string;
+    readonly resourceId: string;
+    readonly resourceType: string;
+    readonly serviceCode: string;
+    readonly quotaCode: string;
+  }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      serviceCode: S.optional(S.String),
-      quotaCode: S.optional(S.String),
-      retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
-    },
-    T.all(T.HttpError(429), T.Retryable({ throttling: true })),
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+    ["ThrottlingError", "RetryableError"],
+    { status: 429, headers: { retryAfterSeconds: ["Retry-After", "num"] } },
+  )<{
+    readonly message: string;
+    readonly serviceCode?: string;
+    readonly quotaCode?: string;
+    readonly retryAfterSeconds?: number;
+  }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      reason: S.suspend(() => ValidationExceptionReason).annotate({
-        identifier: "ValidationExceptionReason",
-      }),
-      fieldList: S.optional(
-        S.suspend(() => ValidationExceptionFieldList).annotate({
-          identifier: "ValidationExceptionFieldList",
-        }),
-      ),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly message: string;
+    readonly reason: ValidationExceptionReason;
+    readonly fieldList?: ValidationExceptionField[];
+  }> {}
 export type DeletionProtectionEnabled = boolean;
 export type KmsEncryptionKey = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type ClientToken = string;
 export type Region = string;
 export type ClusterArn = string;
 export type ClusterArnList = string[];
-export const ClusterArnList = /*@__PURE__*/ S.Array(S.String);
 export interface MultiRegionProperties {
   witnessRegion?: string;
   clusters?: string[];
 }
-export const MultiRegionProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    witnessRegion: S.optional(S.String),
-    clusters: S.optional(ClusterArnList),
-  }),
-).annotate({
-  identifier: "MultiRegionProperties",
-}) as any as S.Schema<MultiRegionProperties>;
 export type PolicyDocument = string;
 export type BypassPolicyLockoutSafetyCheck = boolean;
 export interface CreateClusterInput {
@@ -152,28 +132,6 @@ export interface CreateClusterInput {
   policy?: string;
   bypassPolicyLockoutSafetyCheck?: boolean;
 }
-export const CreateClusterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    deletionProtectionEnabled: S.optional(S.Boolean),
-    kmsEncryptionKey: S.optional(S.String),
-    tags: S.optional(TagMap),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    multiRegionProperties: S.optional(MultiRegionProperties),
-    policy: S.optional(S.String),
-    bypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cluster" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateClusterInput",
-}) as any as S.Schema<CreateClusterInput>;
 export type ClusterId = string;
 export type ClusterStatus =
   | "CREATING"
@@ -187,15 +145,11 @@ export type ClusterStatus =
   | "PENDING_SETUP"
   | "PENDING_DELETE"
   | (string & {});
-export const ClusterStatus = S.String;
-
 export type ClusterCreationTime = Date;
 export type EncryptionType =
   | "AWS_OWNED_KMS_KEY"
   | "CUSTOMER_MANAGED_KMS_KEY"
   | (string & {});
-export const EncryptionType = S.String;
-
 export type KmsKeyArn = string;
 export type EncryptionStatus =
   | "ENABLED"
@@ -203,22 +157,11 @@ export type EncryptionStatus =
   | "KMS_KEY_INACCESSIBLE"
   | "ENABLING"
   | (string & {});
-export const EncryptionStatus = S.String;
-
 export interface EncryptionDetails {
   encryptionType: EncryptionType;
   kmsKeyArn?: string;
   encryptionStatus: EncryptionStatus;
 }
-export const EncryptionDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    encryptionType: EncryptionType,
-    kmsKeyArn: S.optional(S.String),
-    encryptionStatus: EncryptionStatus,
-  }),
-).annotate({
-  identifier: "EncryptionDetails",
-}) as any as S.Schema<EncryptionDetails>;
 export type Endpoint = string;
 export interface CreateClusterOutput {
   identifier: string;
@@ -230,41 +173,15 @@ export interface CreateClusterOutput {
   deletionProtectionEnabled: boolean;
   endpoint?: string;
 }
-export const CreateClusterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String,
-    arn: S.String,
-    status: ClusterStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    multiRegionProperties: S.optional(MultiRegionProperties),
-    encryptionDetails: S.optional(EncryptionDetails),
-    deletionProtectionEnabled: S.Boolean,
-    endpoint: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateClusterOutput",
-}) as any as S.Schema<CreateClusterOutput>;
 export type KinesisStreamArn = string;
 export type RoleArn = string;
 export interface KinesisTargetDefinition {
   streamArn: string;
   roleArn: string;
 }
-export const KinesisTargetDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ streamArn: S.String, roleArn: S.String }),
-).annotate({
-  identifier: "KinesisTargetDefinition",
-}) as any as S.Schema<KinesisTargetDefinition>;
 export type TargetDefinition = { kinesis: KinesisTargetDefinition };
-export const TargetDefinition = /*@__PURE__*/ S.Union([
-  S.Struct({ kinesis: KinesisTargetDefinition }),
-]);
 export type StreamOrdering = "UNORDERED" | (string & {});
-export const StreamOrdering = S.String;
-
 export type StreamFormat = "JSON" | (string & {});
-export const StreamFormat = S.String;
-
 export interface CreateStreamInput {
   clusterIdentifier: string;
   targetDefinition: TargetDefinition;
@@ -273,27 +190,6 @@ export interface CreateStreamInput {
   tags?: { [key: string]: string | undefined };
   clientToken?: string;
 }
-export const CreateStreamInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String.pipe(T.HttpLabel("clusterIdentifier")),
-    targetDefinition: TargetDefinition,
-    ordering: StreamOrdering,
-    format: StreamFormat,
-    tags: S.optional(TagMap),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/stream/{clusterIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateStreamInput",
-}) as any as S.Schema<CreateStreamInput>;
 export type StreamId = string;
 export type StreamArn = string;
 export type StreamStatus =
@@ -304,8 +200,6 @@ export type StreamStatus =
   | "FAILED"
   | "IMPAIRED"
   | (string & {});
-export const StreamStatus = S.String;
-
 export type StreamCreationTime = Date;
 export interface CreateStreamOutput {
   clusterIdentifier: string;
@@ -316,125 +210,30 @@ export interface CreateStreamOutput {
   ordering: StreamOrdering;
   format: StreamFormat;
 }
-export const CreateStreamOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String,
-    streamIdentifier: S.String,
-    arn: S.String,
-    status: StreamStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ordering: StreamOrdering,
-    format: StreamFormat,
-  }),
-).annotate({
-  identifier: "CreateStreamOutput",
-}) as any as S.Schema<CreateStreamOutput>;
 export interface DeleteClusterInput {
   identifier: string;
   clientToken?: string;
 }
-export const DeleteClusterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("client-token"),
-      T.IdempotencyToken(),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/cluster/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteClusterInput",
-}) as any as S.Schema<DeleteClusterInput>;
 export interface DeleteClusterOutput {
   identifier: string;
   arn: string;
   status: ClusterStatus;
   creationTime: Date;
 }
-export const DeleteClusterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String,
-    arn: S.String,
-    status: ClusterStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "DeleteClusterOutput",
-}) as any as S.Schema<DeleteClusterOutput>;
 export type PolicyVersion = string;
 export interface DeleteClusterPolicyInput {
   identifier: string;
   expectedPolicyVersion?: string;
   clientToken?: string;
 }
-export const DeleteClusterPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    expectedPolicyVersion: S.optional(S.String).pipe(
-      T.HttpQuery("expected-policy-version"),
-    ),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("client-token"),
-      T.IdempotencyToken(),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/cluster/{identifier}/policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteClusterPolicyInput",
-}) as any as S.Schema<DeleteClusterPolicyInput>;
 export interface DeleteClusterPolicyOutput {
   policyVersion: string;
 }
-export const DeleteClusterPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ policyVersion: S.String }),
-).annotate({
-  identifier: "DeleteClusterPolicyOutput",
-}) as any as S.Schema<DeleteClusterPolicyOutput>;
 export interface DeleteStreamInput {
   clusterIdentifier: string;
   streamIdentifier: string;
   clientToken?: string;
 }
-export const DeleteStreamInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String.pipe(T.HttpLabel("clusterIdentifier")),
-    streamIdentifier: S.String.pipe(T.HttpLabel("streamIdentifier")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("client-token"),
-      T.IdempotencyToken(),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/stream/{clusterIdentifier}/{streamIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteStreamInput",
-}) as any as S.Schema<DeleteStreamInput>;
 export interface DeleteStreamOutput {
   clusterIdentifier: string;
   streamIdentifier: string;
@@ -442,34 +241,9 @@ export interface DeleteStreamOutput {
   status: StreamStatus;
   creationTime: Date;
 }
-export const DeleteStreamOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String,
-    streamIdentifier: S.String,
-    arn: S.String,
-    status: StreamStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "DeleteStreamOutput",
-}) as any as S.Schema<DeleteStreamOutput>;
 export interface GetClusterInput {
   identifier: string;
 }
-export const GetClusterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/cluster/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetClusterInput",
-}) as any as S.Schema<GetClusterInput>;
 export interface GetClusterOutput {
   identifier: string;
   arn: string;
@@ -481,69 +255,17 @@ export interface GetClusterOutput {
   encryptionDetails?: EncryptionDetails;
   endpoint?: string;
 }
-export const GetClusterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String,
-    arn: S.String,
-    status: ClusterStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    deletionProtectionEnabled: S.Boolean,
-    multiRegionProperties: S.optional(MultiRegionProperties),
-    tags: S.optional(TagMap),
-    encryptionDetails: S.optional(EncryptionDetails),
-    endpoint: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetClusterOutput",
-}) as any as S.Schema<GetClusterOutput>;
 export interface GetClusterPolicyInput {
   identifier: string;
 }
-export const GetClusterPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/cluster/{identifier}/policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetClusterPolicyInput",
-}) as any as S.Schema<GetClusterPolicyInput>;
 export interface GetClusterPolicyOutput {
   policy: string;
   policyVersion: string;
 }
-export const GetClusterPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ policy: S.String, policyVersion: S.String }),
-).annotate({
-  identifier: "GetClusterPolicyOutput",
-}) as any as S.Schema<GetClusterPolicyOutput>;
 export interface GetStreamInput {
   clusterIdentifier: string;
   streamIdentifier: string;
 }
-export const GetStreamInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String.pipe(T.HttpLabel("clusterIdentifier")),
-    streamIdentifier: S.String.pipe(T.HttpLabel("streamIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/stream/{clusterIdentifier}/{streamIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetStreamInput" }) as any as S.Schema<GetStreamInput>;
 export type StreamFailureErrorCode =
   | "KINESIS_THROUGHPUT_EXCEEDED"
   | "KINESIS_STREAM_NOT_FOUND"
@@ -554,18 +276,10 @@ export type StreamFailureErrorCode =
   | "CLUSTER_CMK_INACCESSIBLE"
   | "INTERNAL_ERROR"
   | (string & {});
-export const StreamFailureErrorCode = S.String;
-
 export interface StatusReason {
   error: StreamFailureErrorCode;
   updatedAt: Date;
 }
-export const StatusReason = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    error: StreamFailureErrorCode,
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({ identifier: "StatusReason" }) as any as S.Schema<StatusReason>;
 export interface GetStreamOutput {
   clusterIdentifier: string;
   streamIdentifier: string;
@@ -578,117 +292,35 @@ export interface GetStreamOutput {
   statusReason?: StatusReason;
   tags?: { [key: string]: string | undefined };
 }
-export const GetStreamOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String,
-    streamIdentifier: S.String,
-    arn: S.String,
-    status: StreamStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ordering: StreamOrdering,
-    format: StreamFormat,
-    targetDefinition: S.optional(TargetDefinition),
-    statusReason: S.optional(StatusReason),
-    tags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "GetStreamOutput",
-}) as any as S.Schema<GetStreamOutput>;
 export interface GetVpcEndpointServiceNameInput {
   identifier: string;
 }
-export const GetVpcEndpointServiceNameInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/clusters/{identifier}/vpc-endpoint-service-name",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetVpcEndpointServiceNameInput",
-}) as any as S.Schema<GetVpcEndpointServiceNameInput>;
 export type ServiceName = string;
 export type ClusterVpcEndpoint = string;
 export interface GetVpcEndpointServiceNameOutput {
   serviceName: string;
   clusterVpcEndpoint?: string;
 }
-export const GetVpcEndpointServiceNameOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ serviceName: S.String, clusterVpcEndpoint: S.optional(S.String) }),
-).annotate({
-  identifier: "GetVpcEndpointServiceNameOutput",
-}) as any as S.Schema<GetVpcEndpointServiceNameOutput>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListClustersInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListClustersInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/cluster" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListClustersInput",
-}) as any as S.Schema<ListClustersInput>;
 export interface ClusterSummary {
   identifier: string;
   arn: string;
 }
-export const ClusterSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifier: S.String, arn: S.String }),
-).annotate({ identifier: "ClusterSummary" }) as any as S.Schema<ClusterSummary>;
 export type ClusterList = ClusterSummary[];
-export const ClusterList = /*@__PURE__*/ S.Array(ClusterSummary);
 export interface ListClustersOutput {
   nextToken?: string;
   clusters: ClusterSummary[];
 }
-export const ListClustersOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ nextToken: S.optional(S.String), clusters: ClusterList }),
-).annotate({
-  identifier: "ListClustersOutput",
-}) as any as S.Schema<ListClustersOutput>;
 export interface ListStreamsInput {
   clusterIdentifier: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const ListStreamsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String.pipe(T.HttpLabel("clusterIdentifier")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/stream/{clusterIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListStreamsInput",
-}) as any as S.Schema<ListStreamsInput>;
 export interface StreamSummary {
   clusterIdentifier: string;
   streamIdentifier: string;
@@ -696,52 +328,18 @@ export interface StreamSummary {
   creationTime: Date;
   status: StreamStatus;
 }
-export const StreamSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String,
-    streamIdentifier: S.String,
-    arn: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    status: StreamStatus,
-  }),
-).annotate({ identifier: "StreamSummary" }) as any as S.Schema<StreamSummary>;
 export type StreamList = StreamSummary[];
-export const StreamList = /*@__PURE__*/ S.Array(StreamSummary);
 export interface ListStreamsOutput {
   nextToken?: string;
   streams: StreamSummary[];
 }
-export const ListStreamsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ nextToken: S.optional(S.String), streams: StreamList }),
-).annotate({
-  identifier: "ListStreamsOutput",
-}) as any as S.Schema<ListStreamsOutput>;
 export type Arn = string;
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
-export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(TagMap) }),
-).annotate({
-  identifier: "ListTagsForResourceOutput",
-}) as any as S.Schema<ListTagsForResourceOutput>;
 export interface PutClusterPolicyInput {
   identifier: string;
   policy: string;
@@ -749,90 +347,20 @@ export interface PutClusterPolicyInput {
   expectedPolicyVersion?: string;
   clientToken?: string;
 }
-export const PutClusterPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    policy: S.String,
-    bypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
-    expectedPolicyVersion: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cluster/{identifier}/policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutClusterPolicyInput",
-}) as any as S.Schema<PutClusterPolicyInput>;
 export interface PutClusterPolicyOutput {
   policyVersion: string;
 }
-export const PutClusterPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ policyVersion: S.String }),
-).annotate({
-  identifier: "PutClusterPolicyOutput",
-}) as any as S.Schema<PutClusterPolicyOutput>;
 export interface TagResourceInput {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceInput {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateClusterInput {
   identifier: string;
   deletionProtectionEnabled?: boolean;
@@ -840,42 +368,12 @@ export interface UpdateClusterInput {
   clientToken?: string;
   multiRegionProperties?: MultiRegionProperties;
 }
-export const UpdateClusterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    deletionProtectionEnabled: S.optional(S.Boolean),
-    kmsEncryptionKey: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    multiRegionProperties: S.optional(MultiRegionProperties),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cluster/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateClusterInput",
-}) as any as S.Schema<UpdateClusterInput>;
 export interface UpdateClusterOutput {
   identifier: string;
   arn: string;
   status: ClusterStatus;
   creationTime: Date;
 }
-export const UpdateClusterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String,
-    arn: S.String,
-    status: ClusterStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "UpdateClusterOutput",
-}) as any as S.Schema<UpdateClusterOutput>;
 export type ValidationExceptionReason =
   | "unknownOperation"
   | "cannotParse"
@@ -883,21 +381,11 @@ export type ValidationExceptionReason =
   | "deletionProtectionEnabled"
   | "other"
   | (string & {});
-export const ValidationExceptionReason = S.String;
-
 export interface ValidationExceptionField {
   name: string;
   message: string;
 }
-export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
 export type CreateClusterError =
   | ConflictException
   | ServiceQuotaExceededException
@@ -954,8 +442,21 @@ export const createCluster: API.OperationMethod<
   CreateClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateClusterInput,
-  output: CreateClusterOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /cluster",
+    input: {
+      deletionProtectionEnabled: 0,
+      kmsEncryptionKey: 0,
+      tags: 0,
+      clientToken: D.m({ idempotency: true }),
+      multiRegionProperties: i_MultiRegionProperties,
+      policy: 0,
+      bypassPolicyLockoutSafetyCheck: 0,
+    },
+    output: { creationTime: D.ts },
+    body: true,
+  },
   errors: [
     ConflictException,
     ServiceQuotaExceededException,
@@ -964,7 +465,7 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
-}));
+})) as any;
 
 export type CreateStreamError =
   | ConflictException
@@ -1001,8 +502,20 @@ export const createStream: API.OperationMethod<
   CreateStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateStreamInput,
-  output: CreateStreamOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /stream/{clusterIdentifier}",
+    input: {
+      clusterIdentifier: 0,
+      targetDefinition: { kinesis: { streamArn: 0, roleArn: 0 } },
+      ordering: 0,
+      format: 0,
+      tags: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: { creationTime: D.ts },
+    body: true,
+  },
   errors: [
     ConflictException,
     ResourceNotFoundException,
@@ -1012,7 +525,7 @@ export const createStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStream",
-}));
+})) as any;
 
 export type DeleteClusterError =
   | ConflictException
@@ -1027,13 +540,20 @@ export const deleteCluster: API.OperationMethod<
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteClusterInput,
-  output: DeleteClusterOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /cluster/{identifier}",
+    input: {
+      identifier: 0,
+      clientToken: D.m({ query: "client-token", idempotency: true }),
+    },
+    output: { creationTime: D.ts },
+  },
   errors: [ConflictException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
-}));
+})) as any;
 
 export type DeleteClusterPolicyError =
   | ConflictException
@@ -1049,13 +569,20 @@ export const deleteClusterPolicy: API.OperationMethod<
   DeleteClusterPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteClusterPolicyInput,
-  output: DeleteClusterPolicyOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /cluster/{identifier}/policy",
+    input: {
+      identifier: 0,
+      expectedPolicyVersion: D.m({ query: "expected-policy-version" }),
+      clientToken: D.m({ query: "client-token", idempotency: true }),
+    },
+  },
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterPolicy",
-}));
+})) as any;
 
 export type DeleteStreamError =
   | ConflictException
@@ -1070,13 +597,21 @@ export const deleteStream: API.OperationMethod<
   DeleteStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteStreamInput,
-  output: DeleteStreamOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /stream/{clusterIdentifier}/{streamIdentifier}",
+    input: {
+      clusterIdentifier: 0,
+      streamIdentifier: 0,
+      clientToken: D.m({ query: "client-token", idempotency: true }),
+    },
+    output: { creationTime: D.ts },
+  },
   errors: [ConflictException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStream",
-}));
+})) as any;
 
 export type GetClusterError = ResourceNotFoundException | CommonErrors;
 /**
@@ -1088,13 +623,17 @@ export const getCluster: API.OperationMethod<
   GetClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetClusterInput,
-  output: GetClusterOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /cluster/{identifier}",
+    input: { identifier: 0 },
+    output: { creationTime: D.ts },
+  },
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCluster",
-}));
+})) as any;
 
 export type GetClusterPolicyError =
   | ResourceNotFoundException
@@ -1109,13 +648,16 @@ export const getClusterPolicy: API.OperationMethod<
   GetClusterPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetClusterPolicyInput,
-  output: GetClusterPolicyOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /cluster/{identifier}/policy",
+    input: { identifier: 0 },
+  },
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterPolicy",
-}));
+})) as any;
 
 export type GetStreamError = ResourceNotFoundException | CommonErrors;
 /**
@@ -1127,13 +669,17 @@ export const getStream: API.OperationMethod<
   GetStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetStreamInput,
-  output: GetStreamOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /stream/{clusterIdentifier}/{streamIdentifier}",
+    input: { clusterIdentifier: 0, streamIdentifier: 0 },
+    output: { creationTime: D.ts, statusReason: { updatedAt: D.ts } },
+  },
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStream",
-}));
+})) as any;
 
 export type GetVpcEndpointServiceNameError =
   | InternalServerException
@@ -1150,8 +696,11 @@ export const getVpcEndpointServiceName: API.OperationMethod<
   GetVpcEndpointServiceNameError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetVpcEndpointServiceNameInput,
-  output: GetVpcEndpointServiceNameOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /clusters/{identifier}/vpc-endpoint-service-name",
+    input: { identifier: 0 },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1161,7 +710,7 @@ export const getVpcEndpointServiceName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcEndpointServiceName",
-}));
+})) as any;
 
 export type ListClustersError = ResourceNotFoundException | CommonErrors;
 /**
@@ -1174,8 +723,14 @@ export const listClusters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ClusterSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListClustersInput,
-  output: ListClustersOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /cluster",
+    input: {
+      maxResults: D.m({ query: "max-results" }),
+      nextToken: D.m({ query: "next-token" }),
+    },
+  },
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1199,8 +754,16 @@ export const listStreams: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   StreamSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStreamsInput,
-  output: ListStreamsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /stream/{clusterIdentifier}",
+    input: {
+      clusterIdentifier: 0,
+      maxResults: D.m({ query: "max-results" }),
+      nextToken: D.m({ query: "next-token" }),
+    },
+    output: { streams: D.list({ creationTime: D.ts }) },
+  },
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1223,13 +786,16 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{resourceArn}",
+    input: { resourceArn: 0 },
+  },
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type PutClusterPolicyError =
   | ConflictException
@@ -1245,13 +811,23 @@ export const putClusterPolicy: API.OperationMethod<
   PutClusterPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutClusterPolicyInput,
-  output: PutClusterPolicyOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /cluster/{identifier}/policy",
+    input: {
+      identifier: 0,
+      policy: 0,
+      bypassPolicyLockoutSafetyCheck: 0,
+      expectedPolicyVersion: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    body: true,
+  },
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutClusterPolicy",
-}));
+})) as any;
 
 export type TagResourceError =
   | ResourceNotFoundException
@@ -1266,13 +842,17 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{resourceArn}",
+    input: { resourceArn: 0, tags: 0 },
+    body: true,
+  },
   errors: [ResourceNotFoundException, ServiceQuotaExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
 /**
@@ -1284,13 +864,16 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{resourceArn}",
+    input: { resourceArn: 0, tagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateClusterError =
   | ConflictException
@@ -1360,10 +943,26 @@ export const updateCluster: API.OperationMethod<
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateClusterInput,
-  output: UpdateClusterOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /cluster/{identifier}",
+    input: {
+      identifier: 0,
+      deletionProtectionEnabled: 0,
+      kmsEncryptionKey: 0,
+      clientToken: D.m({ idempotency: true }),
+      multiRegionProperties: i_MultiRegionProperties,
+    },
+    output: { creationTime: D.ts },
+    body: true,
+  },
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
-}));
+})) as any;
+
+const i_MultiRegionProperties: D.LazyStruct = () => ({
+  witnessRegion: 0,
+  clusters: 0,
+});

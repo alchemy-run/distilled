@@ -1,105 +1,129 @@
 /**
  * Input Serialization
  *
- * Binds input values to HTTP request parts (headers, path labels, query params)
- * based on Smithy HTTP trait annotations.
+ * Binds input values to HTTP request parts (headers, path labels, query
+ * params) from the operation descriptor's member bindings.
  */
 
-import type * as AST from "effect/SchemaAST";
-import type { Request } from "../client/request.ts";
 import {
-  getHttpHeader,
-  getHttpLabelName,
-  getHttpPrefixHeaders,
-  getHttpQuery,
-  getHttpTrait,
-  hasHttpLabel,
-  hasHttpPayload,
-  hasHttpQueryParams,
-} from "../traits.ts";
-import { getEncodedPropertySignatures } from "./ast.ts";
+  membersOf,
+  shapeOf,
+  specOf,
+  timestampFormatOf,
+  toText,
+  type MemberSpec,
+  type Shape,
+  type Struct,
+} from "@distilled.cloud/core/shape";
+import type { Request } from "../client/request.ts";
 
-/**
- * Apply the @http trait (method, uri) to the request.
- */
-export function applyHttpTrait(ast: AST.AST, request: Request): void {
-  const httpTrait = getHttpTrait(ast);
-  if (httpTrait) {
-    request.method = httpTrait.method;
-    request.path = httpTrait.uri;
-  }
+/** Parse `METHOD /uri` into the request's method and path. */
+export function applyHttpTrait(
+  http: string | undefined,
+  request: Request,
+): void {
+  if (http === undefined) return;
+  const space = http.indexOf(" ");
+  request.method = http.slice(0, space);
+  request.path = http.slice(space + 1);
+}
+
+/** Path label names in a URI template (`{Bucket}`, `{Key+}`). */
+export const labelsOf = (http: string | undefined): Set<string> => {
+  const labels = new Set<string>();
+  if (http === undefined) return labels;
+  for (const match of http.matchAll(/\{([^}+]+)\+?\}/g)) labels.add(match[1]!);
+  return labels;
+};
+
+export interface BoundInput {
+  /** The httpPayload member's value, if bound. */
+  payloadValue: unknown;
+  /** The httpPayload member's name and spec. */
+  payloadName: string | undefined;
+  payloadSpec: MemberSpec | undefined;
+  payloadShape: Shape | undefined;
+  /** Members serialized into the body (unbound members). */
+  bodyMembers: Record<string, unknown>;
+  hasBodyMembers: boolean;
 }
 
 /**
- * Bind input values to HTTP request based on trait annotations.
- *
- * This processes each input member and:
- * - Adds @httpHeader values to request.headers
- * - Substitutes @httpLabel values in request.path
- * - Adds @httpQuery values to request.query
- * - Adds @httpPrefixHeaders values to request.headers
- * - Collects @httpPayload for body serialization
- * - Collects remaining members as body content
+ * Bind input values to the request:
+ * - header bindings → request.headers (http-date timestamps by default)
+ * - path labels → request.path
+ * - query bindings / httpQueryParams → request.query (date-time timestamps)
+ * - prefix headers → request.headers
+ * - the payload member and remaining body members are returned
  */
 export function bindInputToRequest(
-  ast: AST.AST,
+  struct: Struct | undefined,
+  labels: Set<string>,
   input: Record<string, unknown>,
   request: Request,
-) {
-  // Use encoded property signatures - these have wire format keys matching the encoded input
-  const props = getEncodedPropertySignatures(ast);
+): BoundInput {
+  const bound: BoundInput = {
+    payloadValue: undefined,
+    payloadName: undefined,
+    payloadSpec: undefined,
+    payloadShape: undefined,
+    bodyMembers: {},
+    hasBodyMembers: false,
+  };
 
-  let payloadValue: unknown = undefined;
-  let payloadAst: AST.AST | undefined = undefined;
-  const bodyMembers: Record<string, unknown> = {};
-  let hasBodyMembers = false;
-
-  for (const prop of props) {
-    const name = prop.name as string;
-    const value = input[name];
-    if (value === undefined) continue;
-
-    const header = getHttpHeader(prop);
-    const label = hasHttpLabel(prop);
-    const queryParam = getHttpQuery(prop);
-    const queryParams = hasHttpQueryParams(prop);
-    const prefixHeaders = getHttpPrefixHeaders(prop);
-    const isPayload = hasHttpPayload(prop);
-
-    if (header !== undefined) {
-      // Value should already be encoded (dates as formatted strings, etc.)
-      request.headers[header] = String(value);
-    } else if (label) {
-      // Use explicit label name if provided (needed when JsonName differs from URI template placeholder)
-      const labelName = getHttpLabelName(prop) ?? name;
-      request.path = request.path.replace(
-        new RegExp(`\\{${labelName}\\+?\\}`),
-        encodeURIComponent(String(value)),
-      );
-    } else if (queryParam !== undefined) {
-      // Handle arrays as repeated query parameters (e.g., tagKeys=A&tagKeys=B)
-      if (Array.isArray(value)) {
-        request.query[queryParam] = value.map(String);
-      } else {
-        request.query[queryParam] = String(value);
+  // The payload member is found even when unset, so the protocol can pick
+  // the body's content type and shape.
+  if (struct !== undefined) {
+    for (const [name, member] of membersOf(struct)) {
+      const spec = specOf(member);
+      if (spec?.payload === true) {
+        bound.payloadName = name;
+        bound.payloadSpec = spec;
+        bound.payloadShape = shapeOf(member);
       }
-    } else if (queryParams && typeof value === "object") {
-      Object.assign(request.query, value);
-    } else if (prefixHeaders !== undefined && typeof value === "object") {
-      for (const [k, v] of Object.entries(value as Record<string, string>)) {
-        // Skip undefined values (allowed in schema for user convenience, dropped on wire)
-        if (v !== undefined) {
-          request.headers[`${prefixHeaders}${k}`] = v;
-        }
-      }
-    } else if (isPayload) {
-      payloadValue = value;
-      payloadAst = prop.type;
-    } else {
-      bodyMembers[name] = value;
-      hasBodyMembers = true;
     }
   }
 
-  return { payloadValue, payloadAst, bodyMembers, hasBodyMembers };
+  for (const name in input) {
+    const value = input[name];
+    if (value === undefined) continue;
+    // Closed structure: keys the model doesn't have are dropped
+    if (struct !== undefined && !(name in struct)) continue;
+    const member = struct?.[name];
+    const spec = specOf(member as never);
+    const format = timestampFormatOf(shapeOf(member as never));
+
+    if (labels.has(name)) {
+      request.path = request.path.replace(
+        new RegExp(`\\{${name}\\+?\\}`),
+        encodeURIComponent(toText(value, format ?? "date-time")),
+      );
+    } else if (spec?.header !== undefined) {
+      request.headers[spec.header] = Array.isArray(value)
+        ? value.map((v) => toText(v, format ?? "http-date")).join(",")
+        : toText(value, format ?? "http-date");
+    } else if (spec?.query !== undefined) {
+      request.query[spec.query] = Array.isArray(value)
+        ? value.map((v) => toText(v, format ?? "date-time"))
+        : toText(value, format ?? "date-time");
+    } else if (spec?.queryParams === true && typeof value === "object") {
+      for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
+        if (!(k in request.query) && v !== undefined) {
+          request.query[k] = v as string | string[];
+        }
+      }
+    } else if (spec?.prefix !== undefined && typeof value === "object") {
+      for (const [k, v] of Object.entries(value as Record<string, string>)) {
+        // Undefined map values are accepted for convenience, dropped on wire
+        if (v !== undefined) request.headers[`${spec.prefix}${k}`] = v;
+      }
+    } else if (name === bound.payloadName) {
+      bound.payloadValue = value;
+    } else {
+      bound.bodyMembers[name] = value;
+      bound.hasBodyMembers = true;
+    }
+  }
+
+  return bound;
 }

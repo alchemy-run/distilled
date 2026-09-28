@@ -78,18 +78,6 @@
       "worker": "./src/retry.ts",
       "default": "./lib/retry.js"
     },
-    "./Sensitive": {
-      "types": "./lib/sensitive.d.ts",
-      "bun": "./src/sensitive.ts",
-      "worker": "./src/sensitive.ts",
-      "default": "./lib/sensitive.js"
-    },
-    "./Traits": {
-      "types": "./lib/traits.d.ts",
-      "bun": "./src/traits.ts",
-      "worker": "./src/traits.ts",
-      "default": "./lib/traits.js"
-    },
     "./client/generate-idempotency-tokens": {
       "types": "./lib/client/generate-idempotency-tokens.d.ts",
       "bun": "./src/client/generate-idempotency-tokens.ts",
@@ -132,12 +120,6 @@
       "worker": "./src/client/response.ts",
       "default": "./lib/client/response.js"
     },
-    "./client/stream-parser": {
-      "types": "./lib/client/stream-parser.d.ts",
-      "bun": "./src/client/stream-parser.ts",
-      "worker": "./src/client/stream-parser.ts",
-      "default": "./lib/client/stream-parser.js"
-    },
     "./customizations/api-gateway": {
       "types": "./lib/customizations/api-gateway.d.ts",
       "bun": "./src/customizations/api-gateway.ts",
@@ -149,12 +131,6 @@
       "bun": "./src/customizations/glacier.ts",
       "worker": "./src/customizations/glacier.ts",
       "default": "./lib/customizations/glacier.js"
-    },
-    "./ErrorMessage": {
-      "types": "./lib/error-message.d.ts",
-      "bun": "./src/error-message.ts",
-      "worker": "./src/error-message.ts",
-      "default": "./lib/error-message.js"
     },
     "./eventstream/codec": {
       "types": "./lib/eventstream/codec.d.ts",
@@ -281,12 +257,6 @@
       "bun": "./src/rules-engine/standard-functions.ts",
       "worker": "./src/rules-engine/standard-functions.ts",
       "default": "./lib/rules-engine/standard-functions.js"
-    },
-    "./util/ast": {
-      "types": "./lib/util/ast.d.ts",
-      "bun": "./src/util/ast.ts",
-      "worker": "./src/util/ast.ts",
-      "default": "./lib/util/ast.js"
     },
     "./util/base64": {
       "types": "./lib/util/base64.d.ts",

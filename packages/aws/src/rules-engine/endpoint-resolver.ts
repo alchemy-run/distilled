@@ -14,17 +14,10 @@
  */
 
 import * as Effect from "effect/Effect";
-import * as AST from "effect/SchemaAST";
+import { membersOf, specOf } from "@distilled.cloud/core/shape";
 import type { Operation } from "../client/operation.ts";
 import type { Request } from "../client/request.ts";
-import {
-  type EndpointResolverHelpers,
-  getContextParam,
-  getEndpointResolver,
-  getStaticContextParams,
-  hasHttpLabel,
-} from "../traits.ts";
-import { getPropertySignatures } from "../util/ast.ts";
+import type { EndpointResolverHelpers } from "./resolver-types.ts";
 import {
   isVirtualHostableS3Bucket,
   parseArn,
@@ -97,10 +90,8 @@ export interface EndpointResolverOutput {
  * @returns A function that resolves endpoints from input values and region
  */
 export const makeEndpointResolver = (operation: Operation) => {
-  const inputAst = operation.input.ast;
-
-  // Extract compiled endpoint resolver from annotations (done once)
-  const resolver = getEndpointResolver(inputAst);
+  const { descriptor } = operation;
+  const resolver = descriptor.service.rules;
 
   // If no resolver is available, return undefined
   if (!resolver) {
@@ -108,10 +99,10 @@ export const makeEndpointResolver = (operation: Operation) => {
   }
 
   // Extract context param mappings (done once)
-  const contextParamMappings = extractContextParamMappings(inputAst);
+  const contextParamMappings = extractContextParamMappings(operation);
 
-  // Extract static context params (done once)
-  const staticContextParams = getStaticContextParams(inputAst);
+  // Static context params (operation-level fixed values)
+  const staticContextParams = descriptor.staticContext;
 
   // Return a function that resolves endpoints and adjusts request
   return Effect.fn(function* (resolverInput: EndpointResolverInput) {
@@ -174,25 +165,25 @@ interface ContextParamInfo {
 }
 
 /**
- * Extract context parameter mappings from an input schema.
- * Maps property names to their context parameter info.
+ * Context parameter mappings from the operation's input descriptor: input
+ * member → endpoint parameter, plus whether the member is also a path label.
  */
 function extractContextParamMappings(
-  ast: AST.AST,
+  operation: Operation,
 ): Map<string, ContextParamInfo> {
   const mappings = new Map<string, ContextParamInfo>();
-  const props = getPropertySignatures(ast);
-
-  for (const prop of props) {
-    const contextParam = getContextParam(prop);
-    if (contextParam) {
-      mappings.set(String(prop.name), {
-        paramName: contextParam,
-        isHttpLabel: hasHttpLabel(prop),
-      });
-    }
+  const { input, http } = operation.descriptor;
+  if (input === undefined) return mappings;
+  for (const [name, member] of membersOf(input)) {
+    const context = specOf(member)?.context;
+    if (context === undefined) continue;
+    mappings.set(name, {
+      paramName: context,
+      isHttpLabel:
+        http !== undefined &&
+        (http.includes(`{${name}}`) || http.includes(`{${name}+}`)),
+    });
   }
-
   return mappings;
 }
 

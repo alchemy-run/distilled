@@ -1,142 +1,139 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "codestar notifications",
-  serviceShapeName: "CodeStarNotifications_20191015",
-});
-const auth = T.AwsAuthSigv4({ name: "codestar-notifications" });
-const ver = T.ServiceVersion("2019-10-15");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://codestar-notifications-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://codestar-notifications-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://codestar-notifications.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://codestar-notifications.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "CodeStarNotifications_20191015",
+  version: "2019-10-15",
+  sigv4: "codestar-notifications",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://codestar-notifications-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://codestar-notifications-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://codestar-notifications.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://codestar-notifications.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class ConcurrentModificationException
-  extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ConcurrentModificationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ConfigurationException
-  extends /*@__PURE__*/ S.TaggedError<ConfigurationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ConfigurationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidNextTokenException
-  extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidNextTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ResourceAlreadyExistsException
-  extends /*@__PURE__*/ S.TaggedError<ResourceAlreadyExistsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceAlreadyExistsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export type NotificationRuleName = string | redacted.Redacted<string>;
 export type EventTypeId = string;
 export type EventTypeIds = string[];
-export const EventTypeIds = /*@__PURE__*/ S.Array(S.String);
 export type NotificationRuleResource = string;
 export type TargetType = string;
 export type TargetAddress = string | redacted.Redacted<string>;
@@ -144,25 +141,13 @@ export interface Target {
   TargetType?: string;
   TargetAddress?: string | redacted.Redacted<string>;
 }
-export const Target = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetType: S.optional(S.String),
-    TargetAddress: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "Target" }) as any as S.Schema<Target>;
 export type Targets = Target[];
-export const Targets = /*@__PURE__*/ S.Array(Target);
 export type DetailType = "BASIC" | "FULL" | (string & {});
-export const DetailType = S.String;
-
 export type ClientRequestToken = string;
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type NotificationRuleStatus = "ENABLED" | "DISABLED" | (string & {});
-export const NotificationRuleStatus = S.String;
-
 export interface CreateNotificationRuleRequest {
   Name: string | redacted.Redacted<string>;
   EventTypeIds: string[];
@@ -173,108 +158,25 @@ export interface CreateNotificationRuleRequest {
   Tags?: { [key: string]: string | undefined };
   Status?: NotificationRuleStatus;
 }
-export const CreateNotificationRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: SensitiveString,
-    EventTypeIds: EventTypeIds,
-    Resource: S.String,
-    Targets: Targets,
-    DetailType: DetailType,
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    Tags: S.optional(Tags),
-    Status: S.optional(NotificationRuleStatus),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/createNotificationRule" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateNotificationRuleRequest",
-}) as any as S.Schema<CreateNotificationRuleRequest>;
 export type NotificationRuleArn = string;
 export interface CreateNotificationRuleResult {
   Arn?: string;
 }
-export const CreateNotificationRuleResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateNotificationRuleResult",
-}) as any as S.Schema<CreateNotificationRuleResult>;
 export interface DeleteNotificationRuleRequest {
   Arn: string;
 }
-export const DeleteNotificationRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/deleteNotificationRule" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteNotificationRuleRequest",
-}) as any as S.Schema<DeleteNotificationRuleRequest>;
 export interface DeleteNotificationRuleResult {
   Arn?: string;
 }
-export const DeleteNotificationRuleResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "DeleteNotificationRuleResult",
-}) as any as S.Schema<DeleteNotificationRuleResult>;
 export type ForceUnsubscribeAll = boolean;
 export interface DeleteTargetRequest {
   TargetAddress: string | redacted.Redacted<string>;
   ForceUnsubscribeAll?: boolean;
 }
-export const DeleteTargetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetAddress: SensitiveString,
-    ForceUnsubscribeAll: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/deleteTarget" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteTargetRequest",
-}) as any as S.Schema<DeleteTargetRequest>;
 export interface DeleteTargetResult {}
-export const DeleteTargetResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteTargetResult",
-}) as any as S.Schema<DeleteTargetResult>;
 export interface DescribeNotificationRuleRequest {
   Arn: string;
 }
-export const DescribeNotificationRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/describeNotificationRule" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeNotificationRuleRequest",
-}) as any as S.Schema<DescribeNotificationRuleRequest>;
 export type ServiceName = string;
 export type EventTypeName = string;
 export type ResourceType = string;
@@ -284,18 +186,7 @@ export interface EventTypeSummary {
   EventTypeName?: string;
   ResourceType?: string;
 }
-export const EventTypeSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventTypeId: S.optional(S.String),
-    ServiceName: S.optional(S.String),
-    EventTypeName: S.optional(S.String),
-    ResourceType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EventTypeSummary",
-}) as any as S.Schema<EventTypeSummary>;
 export type EventTypeBatch = EventTypeSummary[];
-export const EventTypeBatch = /*@__PURE__*/ S.Array(EventTypeSummary);
 export type TargetStatus =
   | "PENDING"
   | "ACTIVE"
@@ -303,22 +194,12 @@ export type TargetStatus =
   | "INACTIVE"
   | "DEACTIVATED"
   | (string & {});
-export const TargetStatus = S.String;
-
 export interface TargetSummary {
   TargetAddress?: string | redacted.Redacted<string>;
   TargetType?: string;
   TargetStatus?: TargetStatus;
 }
-export const TargetSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetAddress: S.optional(SensitiveString),
-    TargetType: S.optional(S.String),
-    TargetStatus: S.optional(TargetStatus),
-  }),
-).annotate({ identifier: "TargetSummary" }) as any as S.Schema<TargetSummary>;
 export type TargetsBatch = TargetSummary[];
-export const TargetsBatch = /*@__PURE__*/ S.Array(TargetSummary);
 export type NotificationRuleCreatedBy = string;
 export type CreatedTimestamp = Date;
 export type LastModifiedTimestamp = Date;
@@ -335,46 +216,16 @@ export interface DescribeNotificationRuleResult {
   LastModifiedTimestamp?: Date;
   Tags?: { [key: string]: string | undefined };
 }
-export const DescribeNotificationRuleResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Name: S.optional(SensitiveString),
-    EventTypes: S.optional(EventTypeBatch),
-    Resource: S.optional(S.String),
-    Targets: S.optional(TargetsBatch),
-    DetailType: S.optional(DetailType),
-    CreatedBy: S.optional(S.String),
-    Status: S.optional(NotificationRuleStatus),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "DescribeNotificationRuleResult",
-}) as any as S.Schema<DescribeNotificationRuleResult>;
 export type ListEventTypesFilterName =
   | "RESOURCE_TYPE"
   | "SERVICE_NAME"
   | (string & {});
-export const ListEventTypesFilterName = S.String;
-
 export type ListEventTypesFilterValue = string;
 export interface ListEventTypesFilter {
   Name: ListEventTypesFilterName;
   Value: string;
 }
-export const ListEventTypesFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: ListEventTypesFilterName, Value: S.String }),
-).annotate({
-  identifier: "ListEventTypesFilter",
-}) as any as S.Schema<ListEventTypesFilter>;
 export type ListEventTypesFilters = ListEventTypesFilter[];
-export const ListEventTypesFilters =
-  /*@__PURE__*/ S.Array(ListEventTypesFilter);
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListEventTypesRequest {
@@ -382,298 +233,91 @@ export interface ListEventTypesRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListEventTypesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(ListEventTypesFilters),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/listEventTypes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListEventTypesRequest",
-}) as any as S.Schema<ListEventTypesRequest>;
 export interface ListEventTypesResult {
   EventTypes?: EventTypeSummary[];
   NextToken?: string;
 }
-export const ListEventTypesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventTypes: S.optional(EventTypeBatch),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListEventTypesResult",
-}) as any as S.Schema<ListEventTypesResult>;
 export type ListNotificationRulesFilterName =
   | "EVENT_TYPE_ID"
   | "CREATED_BY"
   | "RESOURCE"
   | "TARGET_ADDRESS"
   | (string & {});
-export const ListNotificationRulesFilterName = S.String;
-
 export type ListNotificationRulesFilterValue = string;
 export interface ListNotificationRulesFilter {
   Name: ListNotificationRulesFilterName;
   Value: string;
 }
-export const ListNotificationRulesFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: ListNotificationRulesFilterName, Value: S.String }),
-).annotate({
-  identifier: "ListNotificationRulesFilter",
-}) as any as S.Schema<ListNotificationRulesFilter>;
 export type ListNotificationRulesFilters = ListNotificationRulesFilter[];
-export const ListNotificationRulesFilters = /*@__PURE__*/ S.Array(
-  ListNotificationRulesFilter,
-);
 export interface ListNotificationRulesRequest {
   Filters?: ListNotificationRulesFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListNotificationRulesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(ListNotificationRulesFilters),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/listNotificationRules" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListNotificationRulesRequest",
-}) as any as S.Schema<ListNotificationRulesRequest>;
 export type NotificationRuleId = string;
 export interface NotificationRuleSummary {
   Id?: string;
   Arn?: string;
 }
-export const NotificationRuleSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "NotificationRuleSummary",
-}) as any as S.Schema<NotificationRuleSummary>;
 export type NotificationRuleBatch = NotificationRuleSummary[];
-export const NotificationRuleBatch = /*@__PURE__*/ S.Array(
-  NotificationRuleSummary,
-);
 export interface ListNotificationRulesResult {
   NextToken?: string;
   NotificationRules?: NotificationRuleSummary[];
 }
-export const ListNotificationRulesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    NotificationRules: S.optional(NotificationRuleBatch),
-  }),
-).annotate({
-  identifier: "ListNotificationRulesResult",
-}) as any as S.Schema<ListNotificationRulesResult>;
 export interface ListTagsForResourceRequest {
   Arn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/listTagsForResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResult {
   Tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(Tags) }),
-).annotate({
-  identifier: "ListTagsForResourceResult",
-}) as any as S.Schema<ListTagsForResourceResult>;
 export type ListTargetsFilterName =
   | "TARGET_TYPE"
   | "TARGET_ADDRESS"
   | "TARGET_STATUS"
   | (string & {});
-export const ListTargetsFilterName = S.String;
-
 export type ListTargetsFilterValue = string;
 export interface ListTargetsFilter {
   Name: ListTargetsFilterName;
   Value: string;
 }
-export const ListTargetsFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: ListTargetsFilterName, Value: S.String }),
-).annotate({
-  identifier: "ListTargetsFilter",
-}) as any as S.Schema<ListTargetsFilter>;
 export type ListTargetsFilters = ListTargetsFilter[];
-export const ListTargetsFilters = /*@__PURE__*/ S.Array(ListTargetsFilter);
 export interface ListTargetsRequest {
   Filters?: ListTargetsFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListTargetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(ListTargetsFilters),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/listTargets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTargetsRequest",
-}) as any as S.Schema<ListTargetsRequest>;
 export interface ListTargetsResult {
   Targets?: TargetSummary[];
   NextToken?: string;
 }
-export const ListTargetsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Targets: S.optional(TargetsBatch),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListTargetsResult",
-}) as any as S.Schema<ListTargetsResult>;
 export interface SubscribeRequest {
   Arn: string;
   Target: Target;
   ClientRequestToken?: string;
 }
-export const SubscribeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Target: Target,
-    ClientRequestToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/subscribe" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SubscribeRequest",
-}) as any as S.Schema<SubscribeRequest>;
 export interface SubscribeResult {
   Arn?: string;
 }
-export const SubscribeResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "SubscribeResult",
-}) as any as S.Schema<SubscribeResult>;
 export interface TagResourceRequest {
   Arn: string;
   Tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String, Tags: Tags }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tagResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResult {
   Tags?: { [key: string]: string | undefined };
 }
-export const TagResourceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(Tags) }),
-).annotate({
-  identifier: "TagResourceResult",
-}) as any as S.Schema<TagResourceResult>;
 export interface UnsubscribeRequest {
   Arn: string;
   TargetAddress: string | redacted.Redacted<string>;
 }
-export const UnsubscribeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String, TargetAddress: SensitiveString }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/unsubscribe" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UnsubscribeRequest",
-}) as any as S.Schema<UnsubscribeRequest>;
 export interface UnsubscribeResult {
   Arn: string;
 }
-export const UnsubscribeResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String }),
-).annotate({
-  identifier: "UnsubscribeResult",
-}) as any as S.Schema<UnsubscribeResult>;
 export type TagKeys = string[];
-export const TagKeys = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   Arn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String.pipe(T.HttpLabel("Arn")),
-    TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/untagResource/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResult {}
-export const UntagResourceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResult",
-}) as any as S.Schema<UntagResourceResult>;
 export interface UpdateNotificationRuleRequest {
   Arn: string;
   Name?: string | redacted.Redacted<string>;
@@ -682,33 +326,7 @@ export interface UpdateNotificationRuleRequest {
   Targets?: Target[];
   DetailType?: DetailType;
 }
-export const UpdateNotificationRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Name: S.optional(SensitiveString),
-    Status: S.optional(NotificationRuleStatus),
-    EventTypeIds: S.optional(EventTypeIds),
-    Targets: S.optional(Targets),
-    DetailType: S.optional(DetailType),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/updateNotificationRule" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateNotificationRuleRequest",
-}) as any as S.Schema<UpdateNotificationRuleRequest>;
 export interface UpdateNotificationRuleResult {}
-export const UpdateNotificationRuleResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateNotificationRuleResult",
-}) as any as S.Schema<UpdateNotificationRuleResult>;
 export type Message = string;
 export type CreateNotificationRuleError =
   | AccessDeniedException
@@ -729,8 +347,21 @@ export const createNotificationRule: API.OperationMethod<
   CreateNotificationRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateNotificationRuleRequest,
-  output: CreateNotificationRuleResult,
+  descriptor: {
+    service: svc,
+    http: "POST /createNotificationRule",
+    input: {
+      Name: 0,
+      EventTypeIds: 0,
+      Resource: 0,
+      Targets: D.list(i_Target),
+      DetailType: 0,
+      ClientRequestToken: D.m({ idempotency: true }),
+      Tags: 0,
+      Status: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -742,7 +373,7 @@ export const createNotificationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotificationRule",
-}));
+})) as any;
 
 export type DeleteNotificationRuleError =
   | ConcurrentModificationException
@@ -758,8 +389,12 @@ export const deleteNotificationRule: API.OperationMethod<
   DeleteNotificationRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteNotificationRuleRequest,
-  output: DeleteNotificationRuleResult,
+  descriptor: {
+    service: svc,
+    http: "POST /deleteNotificationRule",
+    input: { Arn: 0 },
+    body: true,
+  },
   errors: [
     ConcurrentModificationException,
     LimitExceededException,
@@ -768,7 +403,7 @@ export const deleteNotificationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationRule",
-}));
+})) as any;
 
 export type DeleteTargetError = ValidationException | CommonErrors;
 /**
@@ -780,13 +415,17 @@ export const deleteTarget: API.OperationMethod<
   DeleteTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTargetRequest,
-  output: DeleteTargetResult,
+  descriptor: {
+    service: svc,
+    http: "POST /deleteTarget",
+    input: { TargetAddress: 0, ForceUnsubscribeAll: 0 },
+    body: true,
+  },
   errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTarget",
-}));
+})) as any;
 
 export type DescribeNotificationRuleError =
   | ResourceNotFoundException
@@ -801,13 +440,23 @@ export const describeNotificationRule: API.OperationMethod<
   DescribeNotificationRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeNotificationRuleRequest,
-  output: DescribeNotificationRuleResult,
+  descriptor: {
+    service: svc,
+    http: "POST /describeNotificationRule",
+    input: { Arn: 0 },
+    output: {
+      Name: D.secret,
+      Targets: D.list(o_TargetSummary),
+      CreatedTimestamp: D.ts,
+      LastModifiedTimestamp: D.ts,
+    },
+    body: true,
+  },
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNotificationRule",
-}));
+})) as any;
 
 export type ListEventTypesError =
   | InvalidNextTokenException
@@ -823,8 +472,16 @@ export const listEventTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EventTypeSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListEventTypesRequest,
-  output: ListEventTypesResult,
+  descriptor: {
+    service: svc,
+    http: "POST /listEventTypes",
+    input: {
+      Filters: D.list({ Name: 0, Value: 0 }),
+      NextToken: 0,
+      MaxResults: 0,
+    },
+    body: true,
+  },
   errors: [InvalidNextTokenException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -851,8 +508,16 @@ export const listNotificationRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   NotificationRuleSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListNotificationRulesRequest,
-  output: ListNotificationRulesResult,
+  descriptor: {
+    service: svc,
+    http: "POST /listNotificationRules",
+    input: {
+      Filters: D.list({ Name: 0, Value: 0 }),
+      NextToken: 0,
+      MaxResults: 0,
+    },
+    body: true,
+  },
   errors: [InvalidNextTokenException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -878,13 +543,17 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResult,
+  descriptor: {
+    service: svc,
+    http: "POST /listTagsForResource",
+    input: { Arn: 0 },
+    body: true,
+  },
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type ListTargetsError =
   | InvalidNextTokenException
@@ -900,8 +569,17 @@ export const listTargets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TargetSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTargetsRequest,
-  output: ListTargetsResult,
+  descriptor: {
+    service: svc,
+    http: "POST /listTargets",
+    input: {
+      Filters: D.list({ Name: 0, Value: 0 }),
+      NextToken: 0,
+      MaxResults: 0,
+    },
+    output: { Targets: D.list(o_TargetSummary) },
+    body: true,
+  },
   errors: [InvalidNextTokenException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -930,8 +608,12 @@ export const subscribe: API.OperationMethod<
   SubscribeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SubscribeRequest,
-  output: SubscribeResult,
+  descriptor: {
+    service: svc,
+    http: "POST /subscribe",
+    input: { Arn: 0, Target: i_Target, ClientRequestToken: 0 },
+    body: true,
+  },
   errors: [
     ConfigurationException,
     ResourceNotFoundException,
@@ -940,7 +622,7 @@ export const subscribe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Subscribe",
-}));
+})) as any;
 
 export type TagResourceError =
   | ConcurrentModificationException
@@ -957,8 +639,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResult,
+  descriptor: {
+    service: svc,
+    http: "POST /tagResource",
+    input: { Arn: 0, Tags: 0 },
+    body: true,
+  },
   errors: [
     ConcurrentModificationException,
     LimitExceededException,
@@ -968,7 +654,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UnsubscribeError = ValidationException | CommonErrors;
 /**
@@ -982,13 +668,17 @@ export const unsubscribe: API.OperationMethod<
   UnsubscribeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UnsubscribeRequest,
-  output: UnsubscribeResult,
+  descriptor: {
+    service: svc,
+    http: "POST /unsubscribe",
+    input: { Arn: 0, TargetAddress: 0 },
+    body: true,
+  },
   errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Unsubscribe",
-}));
+})) as any;
 
 export type UntagResourceError =
   | ConcurrentModificationException
@@ -1006,8 +696,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResult,
+  descriptor: {
+    service: svc,
+    http: "POST /untagResource/{Arn}",
+    input: { Arn: 0, TagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     ConcurrentModificationException,
     LimitExceededException,
@@ -1017,7 +710,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateNotificationRuleError =
   | ConfigurationException
@@ -1037,8 +730,19 @@ export const updateNotificationRule: API.OperationMethod<
   UpdateNotificationRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateNotificationRuleRequest,
-  output: UpdateNotificationRuleResult,
+  descriptor: {
+    service: svc,
+    http: "POST /updateNotificationRule",
+    input: {
+      Arn: 0,
+      Name: 0,
+      Status: 0,
+      EventTypeIds: 0,
+      Targets: D.list(i_Target),
+      DetailType: 0,
+    },
+    body: true,
+  },
   errors: [
     ConfigurationException,
     ResourceNotFoundException,
@@ -1047,4 +751,7 @@ export const updateNotificationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationRule",
-}));
+})) as any;
+
+const i_Target: D.LazyStruct = () => ({ TargetType: 0, TargetAddress: 0 });
+const o_TargetSummary: D.LazyStruct = () => ({ TargetAddress: D.secret });

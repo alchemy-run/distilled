@@ -1,12 +1,11 @@
 import type { Checksum } from "@smithy/types";
 import { toBase64 } from "../util/base64.ts";
 import * as Effect from "effect/Effect";
-import type * as S from "effect/Schema";
 import type { Request as ProtocolRequest } from "../client/request.ts";
 import { getCrc32ChecksumAlgorithmFunction } from "../hash/crc32.ts";
 import { getMd5ChecksumAlgorithmFunction } from "../hash/md5.ts";
 import { toUint8Array } from "../hash/utf8.ts";
-import { getAwsProtocolsHttpChecksum } from "../traits.ts";
+import type { HttpChecksumTrait } from "../client/operation.ts";
 import { createBufferedReadableStream } from "../util/stream.ts";
 
 export type SourceData = string | ArrayBuffer | ArrayBufferView;
@@ -34,17 +33,15 @@ const MIN_CHUNK_SIZE = 8 * 1024;
  * For streaming bodies, uses aws-chunked encoding with trailing checksum.
  * For non-streaming bodies, computes checksum directly and adds header.
  *
- * @param schema - The request schema with checksum annotations
+ * @param checksumTrait - The operation's aws.protocols#httpChecksum trait
  * @param request - The protocol request to add checksum to
  * @returns Effect that produces the request with checksum header added
  */
 export const applyHttpChecksum = (
-  schema: S.Top,
+  checksumTrait: HttpChecksumTrait | undefined,
   request: ProtocolRequest,
 ): Effect.Effect<ProtocolRequest> =>
   Effect.gen(function* () {
-    const checksumTrait = getAwsProtocolsHttpChecksum(schema.ast);
-
     // No checksum trait - return request as-is
     if (!checksumTrait) {
       return request;

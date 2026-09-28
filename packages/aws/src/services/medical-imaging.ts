@@ -1,144 +1,140 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Medical Imaging",
-  serviceShapeName: "AHIGatewayService",
-});
-const auth = T.AwsAuthSigv4({ name: "medical-imaging" });
-const ver = T.ServiceVersion("2023-07-19");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://medical-imaging-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://medical-imaging-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://medical-imaging.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://medical-imaging.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AHIGatewayService",
+  version: "2023-07-19",
+  sigv4: "medical-imaging",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://medical-imaging-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://medical-imaging-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://medical-imaging.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://medical-imaging.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message: string }> {}
 export class BadRequestException
-  extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "BadRequestException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message: string }> {}
 export class NotAcceptableException
-  extends /*@__PURE__*/ S.TaggedError<NotAcceptableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NotAcceptableException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(406),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 406 },
+  )<{ readonly message: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message: string }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly message: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message: string }> {}
 export type DatastoreId = string;
 export type ImageSetId = string;
 export type ImageSetExternalVersionId = string;
@@ -146,42 +142,18 @@ export type CopiableAttributes = string | redacted.Redacted<string>;
 export interface MetadataCopies {
   copiableAttributes: string | redacted.Redacted<string>;
 }
-export const MetadataCopies = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ copiableAttributes: SensitiveString }),
-).annotate({ identifier: "MetadataCopies" }) as any as S.Schema<MetadataCopies>;
 export interface CopySourceImageSetInformation {
   latestVersionId: string;
   DICOMCopies?: MetadataCopies;
 }
-export const CopySourceImageSetInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    latestVersionId: S.String,
-    DICOMCopies: S.optional(MetadataCopies),
-  }),
-).annotate({
-  identifier: "CopySourceImageSetInformation",
-}) as any as S.Schema<CopySourceImageSetInformation>;
 export interface CopyDestinationImageSet {
   imageSetId: string;
   latestVersionId: string;
 }
-export const CopyDestinationImageSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ imageSetId: S.String, latestVersionId: S.String }),
-).annotate({
-  identifier: "CopyDestinationImageSet",
-}) as any as S.Schema<CopyDestinationImageSet>;
 export interface CopyImageSetInformation {
   sourceImageSet: CopySourceImageSetInformation;
   destinationImageSet?: CopyDestinationImageSet;
 }
-export const CopyImageSetInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceImageSet: CopySourceImageSetInformation,
-    destinationImageSet: S.optional(CopyDestinationImageSet),
-  }),
-).annotate({
-  identifier: "CopyImageSetInformation",
-}) as any as S.Schema<CopyImageSetInformation>;
 export interface CopyImageSetRequest {
   datastoreId: string;
   sourceImageSetId: string;
@@ -189,36 +161,7 @@ export interface CopyImageSetRequest {
   force?: boolean;
   promoteToPrimary?: boolean;
 }
-export const CopyImageSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    sourceImageSetId: S.String.pipe(T.HttpLabel("sourceImageSetId")),
-    copyImageSetInformation: CopyImageSetInformation.pipe(
-      T.HttpPayload(),
-    ).annotate({ identifier: "CopyImageSetInformation" }),
-    force: S.optional(S.Boolean).pipe(T.HttpQuery("force")),
-    promoteToPrimary: S.optional(S.Boolean).pipe(
-      T.HttpQuery("promoteToPrimary"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/datastore/{datastoreId}/imageSet/{sourceImageSetId}/copyImageSet",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CopyImageSetRequest",
-}) as any as S.Schema<CopyImageSetRequest>;
 export type ImageSetState = "ACTIVE" | "LOCKED" | "DELETED" | (string & {});
-export const ImageSetState = S.String;
-
 export type ImageSetWorkflowStatus =
   | "CREATED"
   | "COPIED"
@@ -235,8 +178,6 @@ export type ImageSetWorkflowStatus =
   | "IMPORTED"
   | "IMPORT_FAILED"
   | (string & {});
-export const ImageSetWorkflowStatus = S.String;
-
 export type Arn = string;
 export interface CopySourceImageSetProperties {
   imageSetId: string;
@@ -247,19 +188,6 @@ export interface CopySourceImageSetProperties {
   updatedAt?: Date;
   imageSetArn?: string;
 }
-export const CopySourceImageSetProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageSetId: S.String,
-    latestVersionId: S.String,
-    imageSetState: S.optional(ImageSetState),
-    imageSetWorkflowStatus: S.optional(ImageSetWorkflowStatus),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    imageSetArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CopySourceImageSetProperties",
-}) as any as S.Schema<CopySourceImageSetProperties>;
 export interface CopyDestinationImageSetProperties {
   imageSetId: string;
   latestVersionId: string;
@@ -269,50 +197,22 @@ export interface CopyDestinationImageSetProperties {
   updatedAt?: Date;
   imageSetArn?: string;
 }
-export const CopyDestinationImageSetProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageSetId: S.String,
-    latestVersionId: S.String,
-    imageSetState: S.optional(ImageSetState),
-    imageSetWorkflowStatus: S.optional(ImageSetWorkflowStatus),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    imageSetArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CopyDestinationImageSetProperties",
-}) as any as S.Schema<CopyDestinationImageSetProperties>;
 export interface CopyImageSetResponse {
   datastoreId: string;
   sourceImageSetProperties: CopySourceImageSetProperties;
   destinationImageSetProperties: CopyDestinationImageSetProperties;
 }
-export const CopyImageSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String,
-    sourceImageSetProperties: CopySourceImageSetProperties,
-    destinationImageSetProperties: CopyDestinationImageSetProperties,
-  }),
-).annotate({
-  identifier: "CopyImageSetResponse",
-}) as any as S.Schema<CopyImageSetResponse>;
 export type DatastoreName = string;
 export type ClientToken = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type KmsKeyArn = string;
 export type LambdaArn = string;
 export type LosslessStorageFormat =
   | "HTJ2K"
   | "JPEG_2000_LOSSLESS"
   | (string & {});
-export const LosslessStorageFormat = S.String;
-
 export interface CreateDatastoreRequest {
   datastoreName?: string;
   clientToken: string;
@@ -321,27 +221,6 @@ export interface CreateDatastoreRequest {
   lambdaAuthorizerArn?: string;
   losslessStorageFormat?: LosslessStorageFormat;
 }
-export const CreateDatastoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreName: S.optional(S.String),
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    tags: S.optional(TagMap),
-    kmsKeyArn: S.optional(S.String),
-    lambdaAuthorizerArn: S.optional(S.String),
-    losslessStorageFormat: S.optional(LosslessStorageFormat),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/datastore" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDatastoreRequest",
-}) as any as S.Schema<CreateDatastoreRequest>;
 export type DatastoreStatus =
   | "CREATING"
   | "CREATE_FAILED"
@@ -349,100 +228,30 @@ export type DatastoreStatus =
   | "DELETING"
   | "DELETED"
   | (string & {});
-export const DatastoreStatus = S.String;
-
 export interface CreateDatastoreResponse {
   datastoreId: string;
   datastoreStatus: DatastoreStatus;
 }
-export const CreateDatastoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ datastoreId: S.String, datastoreStatus: DatastoreStatus }),
-).annotate({
-  identifier: "CreateDatastoreResponse",
-}) as any as S.Schema<CreateDatastoreResponse>;
 export interface DeleteDatastoreRequest {
   datastoreId: string;
 }
-export const DeleteDatastoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ datastoreId: S.String.pipe(T.HttpLabel("datastoreId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/datastore/{datastoreId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDatastoreRequest",
-}) as any as S.Schema<DeleteDatastoreRequest>;
 export interface DeleteDatastoreResponse {
   datastoreId: string;
   datastoreStatus: DatastoreStatus;
 }
-export const DeleteDatastoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ datastoreId: S.String, datastoreStatus: DatastoreStatus }),
-).annotate({
-  identifier: "DeleteDatastoreResponse",
-}) as any as S.Schema<DeleteDatastoreResponse>;
 export interface DeleteImageSetRequest {
   datastoreId: string;
   imageSetId: string;
 }
-export const DeleteImageSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/datastore/{datastoreId}/imageSet/{imageSetId}/deleteImageSet",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteImageSetRequest",
-}) as any as S.Schema<DeleteImageSetRequest>;
 export interface DeleteImageSetResponse {
   datastoreId: string;
   imageSetId: string;
   imageSetState: ImageSetState;
   imageSetWorkflowStatus: ImageSetWorkflowStatus;
 }
-export const DeleteImageSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String,
-    imageSetId: S.String,
-    imageSetState: ImageSetState,
-    imageSetWorkflowStatus: ImageSetWorkflowStatus,
-  }),
-).annotate({
-  identifier: "DeleteImageSetResponse",
-}) as any as S.Schema<DeleteImageSetResponse>;
 export interface GetDatastoreRequest {
   datastoreId: string;
 }
-export const GetDatastoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ datastoreId: S.String.pipe(T.HttpLabel("datastoreId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/datastore/{datastoreId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDatastoreRequest",
-}) as any as S.Schema<GetDatastoreRequest>;
 export interface DatastoreProperties {
   datastoreId: string;
   datastoreName: string;
@@ -454,54 +263,14 @@ export interface DatastoreProperties {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const DatastoreProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String,
-    datastoreName: S.String,
-    datastoreStatus: DatastoreStatus,
-    kmsKeyArn: S.optional(S.String),
-    lambdaAuthorizerArn: S.optional(S.String),
-    losslessStorageFormat: S.optional(LosslessStorageFormat),
-    datastoreArn: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "DatastoreProperties",
-}) as any as S.Schema<DatastoreProperties>;
 export interface GetDatastoreResponse {
   datastoreProperties: DatastoreProperties;
 }
-export const GetDatastoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ datastoreProperties: DatastoreProperties }),
-).annotate({
-  identifier: "GetDatastoreResponse",
-}) as any as S.Schema<GetDatastoreResponse>;
 export type JobId = string;
 export interface GetDICOMImportJobRequest {
   datastoreId: string;
   jobId: string;
 }
-export const GetDICOMImportJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/getDICOMImportJob/datastore/{datastoreId}/job/{jobId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDICOMImportJobRequest",
-}) as any as S.Schema<GetDICOMImportJobRequest>;
 export type JobName = string;
 export type JobStatus =
   | "SUBMITTED"
@@ -509,8 +278,6 @@ export type JobStatus =
   | "COMPLETED"
   | "FAILED"
   | (string & {});
-export const JobStatus = S.String;
-
 export type RoleArn = string;
 export type S3Uri = string;
 export type Message = string;
@@ -522,34 +289,13 @@ export interface DicomMetadataMapping {
   seriesInstanceUID?: string | redacted.Redacted<string>;
   metadataFilePath: string;
 }
-export const DicomMetadataMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    studyInstanceUID: SensitiveString,
-    seriesInstanceUID: S.optional(SensitiveString),
-    metadataFilePath: S.String,
-  }),
-).annotate({
-  identifier: "DicomMetadataMapping",
-}) as any as S.Schema<DicomMetadataMapping>;
 export type DicomMetadataMappings = DicomMetadataMapping[];
-export const DicomMetadataMappings =
-  /*@__PURE__*/ S.Array(DicomMetadataMapping);
 export interface DicomJsonMetadataImportConfiguration {
   dicomMetadataMappings: DicomMetadataMapping[];
 }
-export const DicomJsonMetadataImportConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ dicomMetadataMappings: DicomMetadataMappings }),
-).annotate({
-  identifier: "DicomJsonMetadataImportConfiguration",
-}) as any as S.Schema<DicomJsonMetadataImportConfiguration>;
 export type ImportConfiguration = {
   dicomJsonMetadataImportConfiguration: DicomJsonMetadataImportConfiguration;
 };
-export const ImportConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({
-    dicomJsonMetadataImportConfiguration: DicomJsonMetadataImportConfiguration,
-  }),
-]);
 export interface DICOMImportJobProperties {
   jobId: string;
   jobName: string;
@@ -563,118 +309,34 @@ export interface DICOMImportJobProperties {
   message?: string;
   importConfiguration?: ImportConfiguration;
 }
-export const DICOMImportJobProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.String,
-    jobName: S.String,
-    jobStatus: JobStatus,
-    datastoreId: S.String,
-    dataAccessRoleArn: S.String,
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    submittedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    inputS3Uri: S.String,
-    outputS3Uri: S.String,
-    message: S.optional(S.String),
-    importConfiguration: S.optional(ImportConfiguration),
-  }),
-).annotate({
-  identifier: "DICOMImportJobProperties",
-}) as any as S.Schema<DICOMImportJobProperties>;
 export interface GetDICOMImportJobResponse {
   jobProperties: DICOMImportJobProperties;
 }
-export const GetDICOMImportJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobProperties: DICOMImportJobProperties }),
-).annotate({
-  identifier: "GetDICOMImportJobResponse",
-}) as any as S.Schema<GetDICOMImportJobResponse>;
 export type ImageFrameId = string;
 export interface ImageFrameInformation {
   imageFrameId: string;
 }
-export const ImageFrameInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ imageFrameId: S.String }),
-).annotate({
-  identifier: "ImageFrameInformation",
-}) as any as S.Schema<ImageFrameInformation>;
 export interface GetImageFrameRequest {
   datastoreId: string;
   imageSetId: string;
   imageFrameInformation: ImageFrameInformation;
 }
-export const GetImageFrameRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
-    imageFrameInformation: ImageFrameInformation.pipe(T.HttpPayload()).annotate(
-      { identifier: "ImageFrameInformation" },
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/datastore/{datastoreId}/imageSet/{imageSetId}/getImageFrame",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetImageFrameRequest",
-}) as any as S.Schema<GetImageFrameRequest>;
 export interface GetImageFrameResponse {
   imageFrameBlob: T.StreamingOutputBody;
   contentType?: string;
 }
-export const GetImageFrameResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageFrameBlob: T.StreamingOutput.pipe(T.HttpPayload()),
-    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  }),
-).annotate({
-  identifier: "GetImageFrameResponse",
-}) as any as S.Schema<GetImageFrameResponse>;
 export interface GetImageSetRequest {
   datastoreId: string;
   imageSetId: string;
   versionId?: string;
 }
-export const GetImageSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
-    versionId: S.optional(S.String).pipe(T.HttpQuery("version")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/datastore/{datastoreId}/imageSet/{imageSetId}/getImageSet",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetImageSetRequest",
-}) as any as S.Schema<GetImageSetRequest>;
 export interface Overrides {
   forced?: boolean;
 }
-export const Overrides = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ forced: S.optional(S.Boolean) }),
-).annotate({ identifier: "Overrides" }) as any as S.Schema<Overrides>;
 export type StorageTier =
   | "FREQUENT_ACCESS"
   | "ARCHIVE_INSTANT_ACCESS"
   | (string & {});
-export const StorageTier = S.String;
-
 export interface GetImageSetResponse {
   datastoreId: string;
   imageSetId: string;
@@ -691,94 +353,22 @@ export interface GetImageSetResponse {
   lastAccessedAt?: Date;
   storageTier?: StorageTier;
 }
-export const GetImageSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String,
-    imageSetId: S.String,
-    versionId: S.String,
-    imageSetState: ImageSetState,
-    imageSetWorkflowStatus: S.optional(ImageSetWorkflowStatus),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    deletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    message: S.optional(S.String),
-    imageSetArn: S.optional(S.String),
-    overrides: S.optional(Overrides),
-    isPrimary: S.optional(S.Boolean),
-    lastAccessedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    storageTier: S.optional(StorageTier),
-  }),
-).annotate({
-  identifier: "GetImageSetResponse",
-}) as any as S.Schema<GetImageSetResponse>;
 export interface GetImageSetMetadataRequest {
   datastoreId: string;
   imageSetId: string;
   versionId?: string;
 }
-export const GetImageSetMetadataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
-    versionId: S.optional(S.String).pipe(T.HttpQuery("version")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/datastore/{datastoreId}/imageSet/{imageSetId}/getImageSetMetadata",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetImageSetMetadataRequest",
-}) as any as S.Schema<GetImageSetMetadataRequest>;
 export interface GetImageSetMetadataResponse {
   imageSetMetadataBlob: T.StreamingOutputBody;
   contentType?: string;
   contentEncoding?: string;
 }
-export const GetImageSetMetadataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageSetMetadataBlob: T.StreamingOutput.pipe(T.HttpPayload()),
-    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    contentEncoding: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Encoding"),
-    ),
-  }),
-).annotate({
-  identifier: "GetImageSetMetadataResponse",
-}) as any as S.Schema<GetImageSetMetadataResponse>;
 export type NextToken = string;
 export interface ListDatastoresRequest {
   datastoreStatus?: DatastoreStatus;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListDatastoresRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreStatus: S.optional(DatastoreStatus).pipe(
-      T.HttpQuery("datastoreStatus"),
-    ),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/datastore" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDatastoresRequest",
-}) as any as S.Schema<ListDatastoresRequest>;
 export interface DatastoreSummary {
   datastoreId: string;
   datastoreName: string;
@@ -787,60 +377,17 @@ export interface DatastoreSummary {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const DatastoreSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String,
-    datastoreName: S.String,
-    datastoreStatus: DatastoreStatus,
-    datastoreArn: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "DatastoreSummary",
-}) as any as S.Schema<DatastoreSummary>;
 export type DatastoreSummaries = DatastoreSummary[];
-export const DatastoreSummaries = /*@__PURE__*/ S.Array(DatastoreSummary);
 export interface ListDatastoresResponse {
   datastoreSummaries?: DatastoreSummary[];
   nextToken?: string;
 }
-export const ListDatastoresResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreSummaries: S.optional(DatastoreSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListDatastoresResponse",
-}) as any as S.Schema<ListDatastoresResponse>;
 export interface ListDICOMImportJobsRequest {
   datastoreId: string;
   jobStatus?: JobStatus;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListDICOMImportJobsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    jobStatus: S.optional(JobStatus).pipe(T.HttpQuery("jobStatus")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/listDICOMImportJobs/datastore/{datastoreId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDICOMImportJobsRequest",
-}) as any as S.Schema<ListDICOMImportJobsRequest>;
 export interface DICOMImportJobSummary {
   jobId: string;
   jobName: string;
@@ -851,64 +398,17 @@ export interface DICOMImportJobSummary {
   submittedAt?: Date;
   message?: string;
 }
-export const DICOMImportJobSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.String,
-    jobName: S.String,
-    jobStatus: JobStatus,
-    datastoreId: S.String,
-    dataAccessRoleArn: S.optional(S.String),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    submittedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DICOMImportJobSummary",
-}) as any as S.Schema<DICOMImportJobSummary>;
 export type DICOMImportJobSummaries = DICOMImportJobSummary[];
-export const DICOMImportJobSummaries = /*@__PURE__*/ S.Array(
-  DICOMImportJobSummary,
-);
 export interface ListDICOMImportJobsResponse {
   jobSummaries: DICOMImportJobSummary[];
   nextToken?: string;
 }
-export const ListDICOMImportJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobSummaries: DICOMImportJobSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListDICOMImportJobsResponse",
-}) as any as S.Schema<ListDICOMImportJobsResponse>;
 export interface ListImageSetVersionsRequest {
   datastoreId: string;
   imageSetId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListImageSetVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/datastore/{datastoreId}/imageSet/{imageSetId}/listImageSetVersions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListImageSetVersionsRequest",
-}) as any as S.Schema<ListImageSetVersionsRequest>;
 export interface ImageSetProperties {
   imageSetId: string;
   versionId: string;
@@ -921,61 +421,17 @@ export interface ImageSetProperties {
   overrides?: Overrides;
   isPrimary?: boolean;
 }
-export const ImageSetProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageSetId: S.String,
-    versionId: S.String,
-    imageSetState: ImageSetState,
-    ImageSetWorkflowStatus: S.optional(ImageSetWorkflowStatus),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    deletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    message: S.optional(S.String),
-    overrides: S.optional(Overrides),
-    isPrimary: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ImageSetProperties",
-}) as any as S.Schema<ImageSetProperties>;
 export type ImageSetPropertiesList = ImageSetProperties[];
-export const ImageSetPropertiesList = /*@__PURE__*/ S.Array(ImageSetProperties);
 export interface ListImageSetVersionsResponse {
   imageSetPropertiesList: ImageSetProperties[];
   nextToken?: string;
 }
-export const ListImageSetVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageSetPropertiesList: ImageSetPropertiesList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListImageSetVersionsResponse",
-}) as any as S.Schema<ListImageSetVersionsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: TagMap }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export type DICOMPatientId = string | redacted.Redacted<string>;
 export type DICOMAccessionNumber = string | redacted.Redacted<string>;
 export type DICOMStudyId = string | redacted.Redacted<string>;
@@ -985,14 +441,6 @@ export interface DICOMStudyDateAndTime {
   DICOMStudyDate: string | redacted.Redacted<string>;
   DICOMStudyTime?: string | redacted.Redacted<string>;
 }
-export const DICOMStudyDateAndTime = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DICOMStudyDate: SensitiveString,
-    DICOMStudyTime: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "DICOMStudyDateAndTime",
-}) as any as S.Schema<DICOMStudyDateAndTime>;
 export type SearchByAttributeValue =
   | {
       DICOMPatientId: string | redacted.Redacted<string>;
@@ -1093,87 +541,33 @@ export type SearchByAttributeValue =
       DICOMStudyDateAndTime?: never;
       isPrimary: boolean;
     };
-export const SearchByAttributeValue = /*@__PURE__*/ S.Union([
-  S.Struct({ DICOMPatientId: SensitiveString }),
-  S.Struct({ DICOMAccessionNumber: SensitiveString }),
-  S.Struct({ DICOMStudyId: SensitiveString }),
-  S.Struct({ DICOMStudyInstanceUID: SensitiveString }),
-  S.Struct({ DICOMSeriesInstanceUID: SensitiveString }),
-  S.Struct({ createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
-  S.Struct({ updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
-  S.Struct({ DICOMStudyDateAndTime: DICOMStudyDateAndTime }),
-  S.Struct({ isPrimary: S.Boolean }),
-]);
 export type SearchByAttributeValues = SearchByAttributeValue[];
-export const SearchByAttributeValues = /*@__PURE__*/ S.Array(
-  SearchByAttributeValue,
-);
 export type Operator = "EQUAL" | "BETWEEN" | (string & {});
-export const Operator = S.String;
-
 export interface SearchFilter {
   values: SearchByAttributeValue[];
   operator: Operator;
 }
-export const SearchFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ values: SearchByAttributeValues, operator: Operator }),
-).annotate({ identifier: "SearchFilter" }) as any as S.Schema<SearchFilter>;
 export type SearchFilters = SearchFilter[];
-export const SearchFilters = /*@__PURE__*/ S.Array(SearchFilter);
 export type SortOrder = "ASC" | "DESC" | (string & {});
-export const SortOrder = S.String;
-
 export type SortField =
   | "updatedAt"
   | "createdAt"
   | "DICOMStudyDateAndTime"
   | (string & {});
-export const SortField = S.String;
-
 export interface Sort {
   sortOrder: SortOrder;
   sortField: SortField;
 }
-export const Sort = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sortOrder: SortOrder, sortField: SortField }),
-).annotate({ identifier: "Sort" }) as any as S.Schema<Sort>;
 export interface SearchCriteria {
   filters?: SearchFilter[];
   sort?: Sort;
 }
-export const SearchCriteria = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ filters: S.optional(SearchFilters), sort: S.optional(Sort) }),
-).annotate({ identifier: "SearchCriteria" }) as any as S.Schema<SearchCriteria>;
 export interface SearchImageSetsRequest {
   datastoreId: string;
   searchCriteria?: SearchCriteria;
   maxResults?: number;
   nextToken?: string;
 }
-export const SearchImageSetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    searchCriteria: S.optional(SearchCriteria)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "SearchCriteria" }),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/datastore/{datastoreId}/searchImageSets",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SearchImageSetsRequest",
-}) as any as S.Schema<SearchImageSetsRequest>;
 export type DICOMPatientName = string | redacted.Redacted<string>;
 export type DICOMPatientBirthDate = string | redacted.Redacted<string>;
 export type DICOMPatientSex = string | redacted.Redacted<string>;
@@ -1201,26 +595,6 @@ export interface DICOMTags {
   DICOMStudyDate?: string | redacted.Redacted<string>;
   DICOMStudyTime?: string | redacted.Redacted<string>;
 }
-export const DICOMTags = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DICOMPatientId: S.optional(SensitiveString),
-    DICOMPatientName: S.optional(SensitiveString),
-    DICOMPatientBirthDate: S.optional(SensitiveString),
-    DICOMPatientSex: S.optional(SensitiveString),
-    DICOMStudyInstanceUID: S.optional(SensitiveString),
-    DICOMStudyId: S.optional(SensitiveString),
-    DICOMStudyDescription: S.optional(SensitiveString),
-    DICOMNumberOfStudyRelatedSeries: S.optional(S.Number),
-    DICOMNumberOfStudyRelatedInstances: S.optional(S.Number),
-    DICOMAccessionNumber: S.optional(SensitiveString),
-    DICOMSeriesInstanceUID: S.optional(SensitiveString),
-    DICOMSeriesModality: S.optional(SensitiveString),
-    DICOMSeriesBodyPart: S.optional(SensitiveString),
-    DICOMSeriesNumber: S.optional(S.Number),
-    DICOMStudyDate: S.optional(SensitiveString),
-    DICOMStudyTime: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "DICOMTags" }) as any as S.Schema<DICOMTags>;
 export interface ImageSetsMetadataSummary {
   imageSetId: string;
   version?: number;
@@ -1231,38 +605,12 @@ export interface ImageSetsMetadataSummary {
   DICOMTags?: DICOMTags;
   isPrimary?: boolean;
 }
-export const ImageSetsMetadataSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageSetId: S.String,
-    version: S.optional(S.Number),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastAccessedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    storageTier: S.optional(StorageTier),
-    DICOMTags: S.optional(DICOMTags),
-    isPrimary: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ImageSetsMetadataSummary",
-}) as any as S.Schema<ImageSetsMetadataSummary>;
 export type ImageSetsMetadataSummaries = ImageSetsMetadataSummary[];
-export const ImageSetsMetadataSummaries = /*@__PURE__*/ S.Array(
-  ImageSetsMetadataSummary,
-);
 export interface SearchImageSetsResponse {
   imageSetsMetadataSummaries: ImageSetsMetadataSummary[];
   sort?: Sort;
   nextToken?: string;
 }
-export const SearchImageSetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageSetsMetadataSummaries: ImageSetsMetadataSummaries,
-    sort: S.optional(Sort),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SearchImageSetsResponse",
-}) as any as S.Schema<SearchImageSetsResponse>;
 export type AwsAccountId = string;
 export interface StartDICOMImportJobRequest {
   jobName?: string;
@@ -1274,122 +622,31 @@ export interface StartDICOMImportJobRequest {
   inputOwnerAccountId?: string;
   importConfiguration?: ImportConfiguration;
 }
-export const StartDICOMImportJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobName: S.optional(S.String),
-    dataAccessRoleArn: S.String,
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    inputS3Uri: S.String,
-    outputS3Uri: S.String,
-    inputOwnerAccountId: S.optional(S.String),
-    importConfiguration: S.optional(ImportConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/startDICOMImportJob/datastore/{datastoreId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartDICOMImportJobRequest",
-}) as any as S.Schema<StartDICOMImportJobRequest>;
 export interface StartDICOMImportJobResponse {
   datastoreId: string;
   jobId: string;
   jobStatus: JobStatus;
   submittedAt: Date;
 }
-export const StartDICOMImportJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String,
-    jobId: S.String,
-    jobStatus: JobStatus,
-    submittedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "StartDICOMImportJobResponse",
-}) as any as S.Schema<StartDICOMImportJobResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export type DICOMAttribute = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface DICOMUpdates {
   removableAttributes?: Uint8Array | redacted.Redacted<Uint8Array>;
   updatableAttributes?: Uint8Array | redacted.Redacted<Uint8Array>;
 }
-export const DICOMUpdates = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    removableAttributes: S.optional(SensitiveBlob),
-    updatableAttributes: S.optional(SensitiveBlob),
-  }),
-).annotate({ identifier: "DICOMUpdates" }) as any as S.Schema<DICOMUpdates>;
 export type MetadataUpdates =
   | { DICOMUpdates: DICOMUpdates; revertToVersionId?: never }
   | { DICOMUpdates?: never; revertToVersionId: string };
-export const MetadataUpdates = /*@__PURE__*/ S.Union([
-  S.Struct({ DICOMUpdates: DICOMUpdates }),
-  S.Struct({ revertToVersionId: S.String }),
-]);
 export interface UpdateImageSetMetadataRequest {
   datastoreId: string;
   imageSetId: string;
@@ -1398,32 +655,6 @@ export interface UpdateImageSetMetadataRequest {
   includeStudyImageSets?: boolean;
   updateImageSetMetadataUpdates: MetadataUpdates;
 }
-export const UpdateImageSetMetadataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
-    latestVersionId: S.String.pipe(T.HttpQuery("latestVersion")),
-    force: S.optional(S.Boolean).pipe(T.HttpQuery("force")),
-    includeStudyImageSets: S.optional(S.Boolean).pipe(
-      T.HttpQuery("includeStudyImageSets"),
-    ),
-    updateImageSetMetadataUpdates: MetadataUpdates.pipe(T.HttpPayload()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/datastore/{datastoreId}/imageSet/{imageSetId}/updateImageSetMetadata",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateImageSetMetadataRequest",
-}) as any as S.Schema<UpdateImageSetMetadataRequest>;
 export interface UpdateImageSetMetadataResponse {
   datastoreId: string;
   imageSetId: string;
@@ -1434,20 +665,6 @@ export interface UpdateImageSetMetadataResponse {
   updatedAt?: Date;
   message?: string;
 }
-export const UpdateImageSetMetadataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String,
-    imageSetId: S.String,
-    latestVersionId: S.String,
-    imageSetState: ImageSetState,
-    imageSetWorkflowStatus: S.optional(ImageSetWorkflowStatus),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateImageSetMetadataResponse",
-}) as any as S.Schema<UpdateImageSetMetadataResponse>;
 export type CopyImageSetError =
   | AccessDeniedException
   | ConflictException
@@ -1466,8 +683,30 @@ export const copyImageSet: API.OperationMethod<
   CopyImageSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CopyImageSetRequest,
-  output: CopyImageSetResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /datastore/{datastoreId}/imageSet/{sourceImageSetId}/copyImageSet",
+    input: {
+      datastoreId: 0,
+      sourceImageSetId: 0,
+      copyImageSetInformation: D.m({
+        payload: true,
+        shape: {
+          sourceImageSet: {
+            latestVersionId: 0,
+            DICOMCopies: { copiableAttributes: 0 },
+          },
+          destinationImageSet: { imageSetId: 0, latestVersionId: 0 },
+        },
+      }),
+      force: D.m({ query: "force" }),
+      promoteToPrimary: D.m({ query: "promoteToPrimary" }),
+    },
+    output: {
+      sourceImageSetProperties: { createdAt: D.ts, updatedAt: D.ts },
+      destinationImageSetProperties: { createdAt: D.ts, updatedAt: D.ts },
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1481,7 +720,7 @@ export const copyImageSet: API.OperationMethod<
   retry: Retry,
   operationName: "CopyImageSet",
   endpointHostPrefix: "runtime-",
-}));
+})) as any;
 
 export type CreateDatastoreError =
   | AccessDeniedException
@@ -1501,8 +740,19 @@ export const createDatastore: API.OperationMethod<
   CreateDatastoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDatastoreRequest,
-  output: CreateDatastoreResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /datastore",
+    input: {
+      datastoreName: 0,
+      clientToken: D.m({ idempotency: true }),
+      tags: 0,
+      kmsKeyArn: 0,
+      lambdaAuthorizerArn: 0,
+      losslessStorageFormat: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1515,7 +765,7 @@ export const createDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatastore",
-}));
+})) as any;
 
 export type DeleteDatastoreError =
   | AccessDeniedException
@@ -1536,8 +786,11 @@ export const deleteDatastore: API.OperationMethod<
   DeleteDatastoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDatastoreRequest,
-  output: DeleteDatastoreResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /datastore/{datastoreId}",
+    input: { datastoreId: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1549,7 +802,7 @@ export const deleteDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatastore",
-}));
+})) as any;
 
 export type DeleteImageSetError =
   | AccessDeniedException
@@ -1568,8 +821,11 @@ export const deleteImageSet: API.OperationMethod<
   DeleteImageSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteImageSetRequest,
-  output: DeleteImageSetResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /datastore/{datastoreId}/imageSet/{imageSetId}/deleteImageSet",
+    input: { datastoreId: 0, imageSetId: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1582,7 +838,7 @@ export const deleteImageSet: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteImageSet",
   endpointHostPrefix: "runtime-",
-}));
+})) as any;
 
 export type GetDatastoreError =
   | AccessDeniedException
@@ -1600,8 +856,12 @@ export const getDatastore: API.OperationMethod<
   GetDatastoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDatastoreRequest,
-  output: GetDatastoreResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /datastore/{datastoreId}",
+    input: { datastoreId: 0 },
+    output: { datastoreProperties: { createdAt: D.ts, updatedAt: D.ts } },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1612,7 +872,7 @@ export const getDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDatastore",
-}));
+})) as any;
 
 export type GetDICOMImportJobError =
   | AccessDeniedException
@@ -1633,8 +893,25 @@ export const getDICOMImportJob: API.OperationMethod<
   GetDICOMImportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDICOMImportJobRequest,
-  output: GetDICOMImportJobResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /getDICOMImportJob/datastore/{datastoreId}/job/{jobId}",
+    input: { datastoreId: 0, jobId: 0 },
+    output: {
+      jobProperties: {
+        endedAt: D.ts,
+        submittedAt: D.ts,
+        importConfiguration: {
+          dicomJsonMetadataImportConfiguration: {
+            dicomMetadataMappings: D.list({
+              studyInstanceUID: D.secret,
+              seriesInstanceUID: D.secret,
+            }),
+          },
+        },
+      },
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1646,7 +923,7 @@ export const getDICOMImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDICOMImportJob",
-}));
+})) as any;
 
 export type GetImageFrameError =
   | AccessDeniedException
@@ -1667,8 +944,19 @@ export const getImageFrame: API.OperationMethod<
   GetImageFrameError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetImageFrameRequest,
-  output: GetImageFrameResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /datastore/{datastoreId}/imageSet/{imageSetId}/getImageFrame",
+    input: {
+      datastoreId: 0,
+      imageSetId: 0,
+      imageFrameInformation: D.m({ payload: true, shape: { imageFrameId: 0 } }),
+    },
+    output: {
+      imageFrameBlob: D.m({ payload: true, shape: D.stream }),
+      contentType: D.m({ header: "Content-Type" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1683,7 +971,7 @@ export const getImageFrame: API.OperationMethod<
   retry: Retry,
   operationName: "GetImageFrame",
   endpointHostPrefix: "runtime-",
-}));
+})) as any;
 
 export type GetImageSetError =
   | AccessDeniedException
@@ -1702,8 +990,21 @@ export const getImageSet: API.OperationMethod<
   GetImageSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetImageSetRequest,
-  output: GetImageSetResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /datastore/{datastoreId}/imageSet/{imageSetId}/getImageSet",
+    input: {
+      datastoreId: 0,
+      imageSetId: 0,
+      versionId: D.m({ query: "version" }),
+    },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      deletedAt: D.ts,
+      lastAccessedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1716,7 +1017,7 @@ export const getImageSet: API.OperationMethod<
   retry: Retry,
   operationName: "GetImageSet",
   endpointHostPrefix: "runtime-",
-}));
+})) as any;
 
 export type GetImageSetMetadataError =
   | AccessDeniedException
@@ -1735,8 +1036,20 @@ export const getImageSetMetadata: API.OperationMethod<
   GetImageSetMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetImageSetMetadataRequest,
-  output: GetImageSetMetadataResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /datastore/{datastoreId}/imageSet/{imageSetId}/getImageSetMetadata",
+    input: {
+      datastoreId: 0,
+      imageSetId: 0,
+      versionId: D.m({ query: "version" }),
+    },
+    output: {
+      imageSetMetadataBlob: D.m({ payload: true, shape: D.stream }),
+      contentType: D.m({ header: "Content-Type" }),
+      contentEncoding: D.m({ header: "Content-Encoding" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1749,7 +1062,7 @@ export const getImageSetMetadata: API.OperationMethod<
   retry: Retry,
   operationName: "GetImageSetMetadata",
   endpointHostPrefix: "runtime-",
-}));
+})) as any;
 
 export type ListDatastoresError =
   | AccessDeniedException
@@ -1767,8 +1080,18 @@ export const listDatastores: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DatastoreSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDatastoresRequest,
-  output: ListDatastoresResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /datastore",
+    input: {
+      datastoreStatus: D.m({ query: "datastoreStatus" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: {
+      datastoreSummaries: D.list({ createdAt: D.ts, updatedAt: D.ts }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1804,8 +1127,17 @@ export const listDICOMImportJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DICOMImportJobSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDICOMImportJobsRequest,
-  output: ListDICOMImportJobsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /listDICOMImportJobs/datastore/{datastoreId}",
+    input: {
+      datastoreId: 0,
+      jobStatus: D.m({ query: "jobStatus" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { jobSummaries: D.list({ endedAt: D.ts, submittedAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1843,8 +1175,23 @@ export const listImageSetVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ImageSetProperties
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListImageSetVersionsRequest,
-  output: ListImageSetVersionsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /datastore/{datastoreId}/imageSet/{imageSetId}/listImageSetVersions",
+    input: {
+      datastoreId: 0,
+      imageSetId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: {
+      imageSetPropertiesList: D.list({
+        createdAt: D.ts,
+        updatedAt: D.ts,
+        deletedAt: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1881,8 +1228,11 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{resourceArn}",
+    input: { resourceArn: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1893,7 +1243,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type SearchImageSetsError =
   | AccessDeniedException
@@ -1917,8 +1267,57 @@ export const searchImageSets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ImageSetsMetadataSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: SearchImageSetsRequest,
-  output: SearchImageSetsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /datastore/{datastoreId}/searchImageSets",
+    input: {
+      datastoreId: 0,
+      searchCriteria: D.m({
+        payload: true,
+        shape: {
+          filters: D.list({
+            values: D.list({
+              DICOMPatientId: 0,
+              DICOMAccessionNumber: 0,
+              DICOMStudyId: 0,
+              DICOMStudyInstanceUID: 0,
+              DICOMSeriesInstanceUID: 0,
+              createdAt: 0,
+              updatedAt: 0,
+              DICOMStudyDateAndTime: { DICOMStudyDate: 0, DICOMStudyTime: 0 },
+              isPrimary: 0,
+            }),
+            operator: 0,
+          }),
+          sort: { sortOrder: 0, sortField: 0 },
+        },
+      }),
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      imageSetsMetadataSummaries: D.list({
+        createdAt: D.ts,
+        updatedAt: D.ts,
+        lastAccessedAt: D.ts,
+        DICOMTags: {
+          DICOMPatientId: D.secret,
+          DICOMPatientName: D.secret,
+          DICOMPatientBirthDate: D.secret,
+          DICOMPatientSex: D.secret,
+          DICOMStudyInstanceUID: D.secret,
+          DICOMStudyId: D.secret,
+          DICOMStudyDescription: D.secret,
+          DICOMAccessionNumber: D.secret,
+          DICOMSeriesInstanceUID: D.secret,
+          DICOMSeriesModality: D.secret,
+          DICOMSeriesBodyPart: D.secret,
+          DICOMStudyDate: D.secret,
+          DICOMStudyTime: D.secret,
+        },
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1957,8 +1356,30 @@ export const startDICOMImportJob: API.OperationMethod<
   StartDICOMImportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartDICOMImportJobRequest,
-  output: StartDICOMImportJobResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /startDICOMImportJob/datastore/{datastoreId}",
+    input: {
+      jobName: 0,
+      dataAccessRoleArn: 0,
+      clientToken: D.m({ idempotency: true }),
+      datastoreId: 0,
+      inputS3Uri: 0,
+      outputS3Uri: 0,
+      inputOwnerAccountId: 0,
+      importConfiguration: {
+        dicomJsonMetadataImportConfiguration: {
+          dicomMetadataMappings: D.list({
+            studyInstanceUID: 0,
+            seriesInstanceUID: 0,
+            metadataFilePath: 0,
+          }),
+        },
+      },
+    },
+    output: { submittedAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1971,7 +1392,7 @@ export const startDICOMImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDICOMImportJob",
-}));
+})) as any;
 
 export type TagResourceError =
   | AccessDeniedException
@@ -1989,8 +1410,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{resourceArn}",
+    input: { resourceArn: 0, tags: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2001,7 +1426,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | AccessDeniedException
@@ -2019,8 +1444,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{resourceArn}",
+    input: { resourceArn: 0, tagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2031,7 +1459,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateImageSetMetadataError =
   | AccessDeniedException
@@ -2051,8 +1479,25 @@ export const updateImageSetMetadata: API.OperationMethod<
   UpdateImageSetMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateImageSetMetadataRequest,
-  output: UpdateImageSetMetadataResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /datastore/{datastoreId}/imageSet/{imageSetId}/updateImageSetMetadata",
+    input: {
+      datastoreId: 0,
+      imageSetId: 0,
+      latestVersionId: D.m({ query: "latestVersion" }),
+      force: D.m({ query: "force" }),
+      includeStudyImageSets: D.m({ query: "includeStudyImageSets" }),
+      updateImageSetMetadataUpdates: D.m({
+        payload: true,
+        shape: {
+          DICOMUpdates: { removableAttributes: 0, updatableAttributes: 0 },
+          revertToVersionId: 0,
+        },
+      }),
+    },
+    output: { createdAt: D.ts, updatedAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2066,4 +1511,4 @@ export const updateImageSetMetadata: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateImageSetMetadata",
   endpointHostPrefix: "runtime-",
-}));
+})) as any;

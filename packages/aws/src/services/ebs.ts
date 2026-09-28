@@ -1,182 +1,158 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({ sdkId: "EBS", serviceShapeName: "Ebs" });
-const auth = T.AwsAuthSigv4({ name: "ebs" });
-const ver = T.ServiceVersion("2019-11-02");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://ebs-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://ebs-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://ebs.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://ebs.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+const svc: T.ServiceInfo = {
+  sdkId: "EBS",
+  target: "Ebs",
+  version: "2019-11-02",
+  sigv4: "ebs",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://ebs-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://ebs-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://ebs.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://ebs.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Reason: S.suspend(() => AccessDeniedExceptionReason).annotate({
-        identifier: "AccessDeniedExceptionReason",
-      }),
-    },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{
+    readonly message?: string;
+    readonly Reason: AccessDeniedExceptionReason;
+  }> {}
 export class ConcurrentLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<ConcurrentLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ConcurrentLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message?: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class InvalidSignatureException
-  extends /*@__PURE__*/ S.TaggedError<InvalidSignatureException>()(
-    "InvalidSignatureException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidSignatureException")<{
+    readonly message?: string;
+  }> {}
 export class RequestThrottledException
-  extends /*@__PURE__*/ S.TaggedError<RequestThrottledException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RequestThrottledException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Reason: S.optional(
-        S.suspend(() => RequestThrottledExceptionReason).annotate({
-          identifier: "RequestThrottledExceptionReason",
-        }),
-      ),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly message?: string;
+    readonly Reason?: RequestThrottledExceptionReason;
+  }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Reason: S.optional(
-        S.suspend(() => ResourceNotFoundExceptionReason).annotate({
-          identifier: "ResourceNotFoundExceptionReason",
-        }),
-      ),
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{
+    readonly message?: string;
+    readonly Reason?: ResourceNotFoundExceptionReason;
+  }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Reason: S.optional(
-        S.suspend(() => ServiceQuotaExceededExceptionReason).annotate({
-          identifier: "ServiceQuotaExceededExceptionReason",
-        }),
-      ),
-    },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{
+    readonly message?: string;
+    readonly Reason?: ServiceQuotaExceededExceptionReason;
+  }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Reason: S.optional(
-        S.suspend(() => ValidationExceptionReason).annotate({
-          identifier: "ValidationExceptionReason",
-        }),
-      ),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly message?: string;
+    readonly Reason?: ValidationExceptionReason;
+  }> {}
 export type SnapshotId = string;
 export type ChangedBlocksCount = number;
 export type Checksum = string;
 export type ChecksumAlgorithm = "SHA256" | (string & {});
-export const ChecksumAlgorithm = S.String;
-
 export type ChecksumAggregationMethod = "LINEAR" | (string & {});
-export const ChecksumAggregationMethod = S.String;
-
 export interface CompleteSnapshotRequest {
   SnapshotId: string;
   ChangedBlocksCount: number;
@@ -184,41 +160,10 @@ export interface CompleteSnapshotRequest {
   ChecksumAlgorithm?: ChecksumAlgorithm;
   ChecksumAggregationMethod?: ChecksumAggregationMethod;
 }
-export const CompleteSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SnapshotId: S.String.pipe(T.HttpLabel("SnapshotId")),
-    ChangedBlocksCount: S.Number.pipe(T.HttpHeader("x-amz-ChangedBlocksCount")),
-    Checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-Checksum")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-Checksum-Algorithm"),
-    ),
-    ChecksumAggregationMethod: S.optional(ChecksumAggregationMethod).pipe(
-      T.HttpHeader("x-amz-Checksum-Aggregation-Method"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/snapshots/completion/{SnapshotId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CompleteSnapshotRequest",
-}) as any as S.Schema<CompleteSnapshotRequest>;
 export type Status = "completed" | "pending" | "error" | (string & {});
-export const Status = S.String;
-
 export interface CompleteSnapshotResponse {
   Status?: Status;
 }
-export const CompleteSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: S.optional(Status) }),
-).annotate({
-  identifier: "CompleteSnapshotResponse",
-}) as any as S.Schema<CompleteSnapshotResponse>;
 export type BlockIndex = number;
 export type BlockToken = string;
 export interface GetSnapshotBlockRequest {
@@ -226,27 +171,6 @@ export interface GetSnapshotBlockRequest {
   BlockIndex: number;
   BlockToken: string;
 }
-export const GetSnapshotBlockRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SnapshotId: S.String.pipe(T.HttpLabel("SnapshotId")),
-    BlockIndex: S.Number.pipe(T.HttpLabel("BlockIndex")),
-    BlockToken: S.String.pipe(T.HttpQuery("blockToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/snapshots/{SnapshotId}/blocks/{BlockIndex}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSnapshotBlockRequest",
-}) as any as S.Schema<GetSnapshotBlockRequest>;
 export type DataLength = number;
 export interface GetSnapshotBlockResponse {
   DataLength?: number;
@@ -254,18 +178,6 @@ export interface GetSnapshotBlockResponse {
   Checksum?: string;
   ChecksumAlgorithm?: ChecksumAlgorithm;
 }
-export const GetSnapshotBlockResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataLength: S.optional(S.Number).pipe(T.HttpHeader("x-amz-Data-Length")),
-    BlockData: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    Checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-Checksum")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-Checksum-Algorithm"),
-    ),
-  }),
-).annotate({
-  identifier: "GetSnapshotBlockResponse",
-}) as any as S.Schema<GetSnapshotBlockResponse>;
 export type PageToken = string;
 export type MaxResults = number;
 export interface ListChangedBlocksRequest {
@@ -275,45 +187,12 @@ export interface ListChangedBlocksRequest {
   MaxResults?: number;
   StartingBlockIndex?: number;
 }
-export const ListChangedBlocksRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirstSnapshotId: S.optional(S.String).pipe(T.HttpQuery("firstSnapshotId")),
-    SecondSnapshotId: S.String.pipe(T.HttpLabel("SecondSnapshotId")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("pageToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    StartingBlockIndex: S.optional(S.Number).pipe(
-      T.HttpQuery("startingBlockIndex"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/snapshots/{SecondSnapshotId}/changedblocks",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListChangedBlocksRequest",
-}) as any as S.Schema<ListChangedBlocksRequest>;
 export interface ChangedBlock {
   BlockIndex?: number;
   FirstBlockToken?: string;
   SecondBlockToken?: string;
 }
-export const ChangedBlock = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BlockIndex: S.optional(S.Number),
-    FirstBlockToken: S.optional(S.String),
-    SecondBlockToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "ChangedBlock" }) as any as S.Schema<ChangedBlock>;
 export type ChangedBlocks = ChangedBlock[];
-export const ChangedBlocks = /*@__PURE__*/ S.Array(ChangedBlock);
 export type VolumeSize = number;
 export type BlockSize = number;
 export interface ListChangedBlocksResponse {
@@ -323,56 +202,17 @@ export interface ListChangedBlocksResponse {
   BlockSize?: number;
   NextToken?: string;
 }
-export const ListChangedBlocksResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChangedBlocks: S.optional(ChangedBlocks),
-    ExpiryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    VolumeSize: S.optional(S.Number),
-    BlockSize: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListChangedBlocksResponse",
-}) as any as S.Schema<ListChangedBlocksResponse>;
 export interface ListSnapshotBlocksRequest {
   SnapshotId: string;
   NextToken?: string;
   MaxResults?: number;
   StartingBlockIndex?: number;
 }
-export const ListSnapshotBlocksRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SnapshotId: S.String.pipe(T.HttpLabel("SnapshotId")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("pageToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    StartingBlockIndex: S.optional(S.Number).pipe(
-      T.HttpQuery("startingBlockIndex"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/snapshots/{SnapshotId}/blocks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSnapshotBlocksRequest",
-}) as any as S.Schema<ListSnapshotBlocksRequest>;
 export interface Block {
   BlockIndex?: number;
   BlockToken?: string;
 }
-export const Block = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BlockIndex: S.optional(S.Number),
-    BlockToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "Block" }) as any as S.Schema<Block>;
 export type Blocks = Block[];
-export const Blocks = /*@__PURE__*/ S.Array(Block);
 export interface ListSnapshotBlocksResponse {
   Blocks?: Block[];
   ExpiryTime?: Date;
@@ -380,17 +220,6 @@ export interface ListSnapshotBlocksResponse {
   BlockSize?: number;
   NextToken?: string;
 }
-export const ListSnapshotBlocksResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Blocks: S.optional(Blocks),
-    ExpiryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    VolumeSize: S.optional(S.Number),
-    BlockSize: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSnapshotBlocksResponse",
-}) as any as S.Schema<ListSnapshotBlocksResponse>;
 export type Progress = number;
 export interface PutSnapshotBlockRequest {
   SnapshotId: string;
@@ -401,58 +230,17 @@ export interface PutSnapshotBlockRequest {
   Checksum: string;
   ChecksumAlgorithm: ChecksumAlgorithm;
 }
-export const PutSnapshotBlockRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SnapshotId: S.String.pipe(T.HttpLabel("SnapshotId")),
-    BlockIndex: S.Number.pipe(T.HttpLabel("BlockIndex")),
-    BlockData: T.StreamingInput.pipe(T.HttpPayload()),
-    DataLength: S.Number.pipe(T.HttpHeader("x-amz-Data-Length")),
-    Progress: S.optional(S.Number).pipe(T.HttpHeader("x-amz-Progress")),
-    Checksum: S.String.pipe(T.HttpHeader("x-amz-Checksum")),
-    ChecksumAlgorithm: ChecksumAlgorithm.pipe(
-      T.HttpHeader("x-amz-Checksum-Algorithm"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/snapshots/{SnapshotId}/blocks/{BlockIndex}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutSnapshotBlockRequest",
-}) as any as S.Schema<PutSnapshotBlockRequest>;
 export interface PutSnapshotBlockResponse {
   Checksum?: string;
   ChecksumAlgorithm?: ChecksumAlgorithm;
 }
-export const PutSnapshotBlockResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-Checksum")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-Checksum-Algorithm"),
-    ),
-  }),
-).annotate({
-  identifier: "PutSnapshotBlockResponse",
-}) as any as S.Schema<PutSnapshotBlockResponse>;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key?: string;
   Value?: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type Tags = Tag[];
-export const Tags = /*@__PURE__*/ S.Array(Tag);
 export type Description = string;
 export type IdempotencyToken = string;
 export type KmsKeyArn = string | redacted.Redacted<string>;
@@ -467,33 +255,8 @@ export interface StartSnapshotRequest {
   KmsKeyArn?: string | redacted.Redacted<string>;
   Timeout?: number;
 }
-export const StartSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VolumeSize: S.Number,
-    ParentSnapshotId: S.optional(S.String),
-    Tags: S.optional(Tags),
-    Description: S.optional(S.String),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    Encrypted: S.optional(S.Boolean),
-    KmsKeyArn: S.optional(SensitiveString),
-    Timeout: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/snapshots" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartSnapshotRequest",
-}) as any as S.Schema<StartSnapshotRequest>;
 export type OwnerId = string;
 export type SSEType = "sse-ebs" | "sse-kms" | "none" | (string & {});
-export const SSEType = S.String;
-
 export interface StartSnapshotResponse {
   Description?: string;
   SnapshotId?: string;
@@ -507,50 +270,25 @@ export interface StartSnapshotResponse {
   KmsKeyArn?: string | redacted.Redacted<string>;
   SseType?: SSEType;
 }
-export const StartSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    SnapshotId: S.optional(S.String),
-    OwnerId: S.optional(S.String),
-    Status: S.optional(Status),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    VolumeSize: S.optional(S.Number),
-    BlockSize: S.optional(S.Number),
-    Tags: S.optional(Tags),
-    ParentSnapshotId: S.optional(S.String),
-    KmsKeyArn: S.optional(SensitiveString),
-    SseType: S.optional(SSEType),
-  }),
-).annotate({
-  identifier: "StartSnapshotResponse",
-}) as any as S.Schema<StartSnapshotResponse>;
 export type ErrorMessage = string;
 export type AccessDeniedExceptionReason =
   | "UNAUTHORIZED_ACCOUNT"
   | "DEPENDENCY_ACCESS_DENIED"
   | (string & {});
-export const AccessDeniedExceptionReason = S.String;
-
 export type RequestThrottledExceptionReason =
   | "ACCOUNT_THROTTLED"
   | "DEPENDENCY_REQUEST_THROTTLED"
   | "RESOURCE_LEVEL_THROTTLE"
   | (string & {});
-export const RequestThrottledExceptionReason = S.String;
-
 export type ResourceNotFoundExceptionReason =
   | "SNAPSHOT_NOT_FOUND"
   | "GRANT_NOT_FOUND"
   | "DEPENDENCY_RESOURCE_NOT_FOUND"
   | "IMAGE_NOT_FOUND"
   | (string & {});
-export const ResourceNotFoundExceptionReason = S.String;
-
 export type ServiceQuotaExceededExceptionReason =
   | "DEPENDENCY_SERVICE_QUOTA_EXCEEDED"
   | (string & {});
-export const ServiceQuotaExceededExceptionReason = S.String;
-
 export type ValidationExceptionReason =
   | "INVALID_CUSTOMER_KEY"
   | "INVALID_PAGE_TOKEN"
@@ -568,8 +306,6 @@ export type ValidationExceptionReason =
   | "INVALID_IMAGE_ID"
   | "WRITE_REQUEST_TIMEOUT"
   | (string & {});
-export const ValidationExceptionReason = S.String;
-
 export type CompleteSnapshotError =
   | AccessDeniedException
   | InternalServerException
@@ -595,8 +331,19 @@ export const completeSnapshot: API.OperationMethod<
   CompleteSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CompleteSnapshotRequest,
-  output: CompleteSnapshotResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /snapshots/completion/{SnapshotId}",
+    input: {
+      SnapshotId: 0,
+      ChangedBlocksCount: D.m({ header: "x-amz-ChangedBlocksCount" }),
+      Checksum: D.m({ header: "x-amz-Checksum" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-Checksum-Algorithm" }),
+      ChecksumAggregationMethod: D.m({
+        header: "x-amz-Checksum-Aggregation-Method",
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -609,7 +356,7 @@ export const completeSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteSnapshot",
-}));
+})) as any;
 
 export type GetSnapshotBlockError =
   | AccessDeniedException
@@ -633,8 +380,21 @@ export const getSnapshotBlock: API.OperationMethod<
   GetSnapshotBlockError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSnapshotBlockRequest,
-  output: GetSnapshotBlockResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /snapshots/{SnapshotId}/blocks/{BlockIndex}",
+    input: {
+      SnapshotId: 0,
+      BlockIndex: 0,
+      BlockToken: D.m({ query: "blockToken" }),
+    },
+    output: {
+      DataLength: D.m({ header: "x-amz-Data-Length", shape: D.num }),
+      BlockData: D.m({ payload: true, shape: D.stream }),
+      Checksum: D.m({ header: "x-amz-Checksum" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-Checksum-Algorithm" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -646,7 +406,7 @@ export const getSnapshotBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSnapshotBlock",
-}));
+})) as any;
 
 export type ListChangedBlocksError =
   | AccessDeniedException
@@ -672,8 +432,18 @@ export const listChangedBlocks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListChangedBlocksRequest,
-  output: ListChangedBlocksResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /snapshots/{SecondSnapshotId}/changedblocks",
+    input: {
+      FirstSnapshotId: D.m({ query: "firstSnapshotId" }),
+      SecondSnapshotId: 0,
+      NextToken: D.m({ query: "pageToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      StartingBlockIndex: D.m({ query: "startingBlockIndex" }),
+    },
+    output: { ExpiryTime: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -715,8 +485,17 @@ export const listSnapshotBlocks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSnapshotBlocksRequest,
-  output: ListSnapshotBlocksResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /snapshots/{SnapshotId}/blocks",
+    input: {
+      SnapshotId: 0,
+      NextToken: D.m({ query: "pageToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      StartingBlockIndex: D.m({ query: "startingBlockIndex" }),
+    },
+    output: { ExpiryTime: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -762,8 +541,23 @@ export const putSnapshotBlock: API.OperationMethod<
   PutSnapshotBlockError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutSnapshotBlockRequest,
-  output: PutSnapshotBlockResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /snapshots/{SnapshotId}/blocks/{BlockIndex}",
+    input: {
+      SnapshotId: 0,
+      BlockIndex: 0,
+      BlockData: D.m({ payload: true, shape: D.stream }),
+      DataLength: D.m({ header: "x-amz-Data-Length" }),
+      Progress: D.m({ header: "x-amz-Progress" }),
+      Checksum: D.m({ header: "x-amz-Checksum" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-Checksum-Algorithm" }),
+    },
+    output: {
+      Checksum: D.m({ header: "x-amz-Checksum" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-Checksum-Algorithm" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -776,7 +570,7 @@ export const putSnapshotBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSnapshotBlock",
-}));
+})) as any;
 
 export type StartSnapshotError =
   | AccessDeniedException
@@ -806,8 +600,22 @@ export const startSnapshot: API.OperationMethod<
   StartSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartSnapshotRequest,
-  output: StartSnapshotResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /snapshots",
+    input: {
+      VolumeSize: 0,
+      ParentSnapshotId: 0,
+      Tags: D.list({ Key: 0, Value: 0 }),
+      Description: 0,
+      ClientToken: D.m({ idempotency: true }),
+      Encrypted: 0,
+      KmsKeyArn: 0,
+      Timeout: 0,
+    },
+    output: { StartTime: D.ts, KmsKeyArn: D.secret },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConcurrentLimitExceededException,
@@ -821,4 +629,4 @@ export const startSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSnapshot",
-}));
+})) as any;

@@ -28,19 +28,15 @@
  * - `header`/`postProcess` own the service consts (svc/auth/proto/ver/ns/
  *   rules via compile-rules) and conditional-import placeholder pruning.
  */
-import {
-  cyclicShapeIds,
-  reachableFrom,
-  shapeDeps,
-} from "@distilled.cloud/core/codegen/graph";
+import { cyclicShapeIds } from "@distilled.cloud/core/codegen/graph";
 import { mergePaginated } from "@distilled.cloud/core/codegen/pagination";
+import { operationConst, PURE } from "@distilled.cloud/core/codegen/emit";
 import {
-  enumDecl,
-  operationConst,
-  suspendConst,
-  suspendRef,
-  PURE,
-} from "@distilled.cloud/core/codegen/emit";
+  makeDescriptorCompiler,
+  type DescriptorCompiler,
+  type DescriptorProtocol,
+} from "@distilled.cloud/core/codegen/descriptors";
+import { tsKey } from "@distilled.cloud/core/codegen/naming";
 import {
   errorCategories,
   type SdkSpec,
@@ -445,111 +441,6 @@ const reservedNewtypeNames = new Set([
 ]);
 
 // =============================================================================
-// Member serialization traits
-// =============================================================================
-
-type SmithyTraits = Record<string, unknown> | undefined;
-
-/**
- * Collect serialization-relevant trait annotations from a Smithy traits
- * object (structure members, list members, map key/value). `memberName` is
- * the original Smithy member name — @httpLabel stores it so URI-template
- * path substitution works regardless of key transformations.
- */
-function collectSerializationTraits(
-  traits: SmithyTraits,
-  memberName?: string,
-): string[] {
-  if (!traits) return [];
-
-  const pipes: string[] = [];
-
-  if (traits["smithy.api#httpHeader"] != null) {
-    pipes.push(`T.HttpHeader("${traits["smithy.api#httpHeader"]}")`);
-  }
-  if (traits["smithy.api#httpPayload"] != null) {
-    pipes.push(`T.HttpPayload()`);
-  }
-  if (traits["smithy.api#httpLabel"] != null) {
-    if (memberName) {
-      pipes.push(`T.HttpLabel("${memberName}")`);
-    } else {
-      pipes.push(`T.HttpLabel()`);
-    }
-  }
-  if (traits["smithy.api#httpQuery"] != null) {
-    pipes.push(`T.HttpQuery("${traits["smithy.api#httpQuery"]}")`);
-  }
-  if (traits["smithy.api#httpQueryParams"] != null) {
-    pipes.push(`T.HttpQueryParams()`);
-  }
-  if (traits["smithy.api#httpPrefixHeaders"] != null) {
-    pipes.push(
-      `T.HttpPrefixHeaders("${traits["smithy.api#httpPrefixHeaders"]}")`,
-    );
-  }
-  if (traits["smithy.api#httpResponseCode"] != null) {
-    pipes.push(`T.HttpResponseCode()`);
-  }
-  if (traits["smithy.api#xmlName"] != null) {
-    pipes.push(`T.XmlName("${traits["smithy.api#xmlName"]}")`);
-  }
-  if (traits["smithy.api#xmlFlattened"] != null) {
-    pipes.push(`T.XmlFlattened()`);
-  }
-  if (traits["smithy.api#xmlAttribute"] != null) {
-    pipes.push(`T.XmlAttribute()`);
-  }
-  // smithy.api#jsonName - handled at struct level via S.encodeKeys, not per-field
-  // smithy.api#timestampFormat - applied to the inner schema, not as a pipe
-  if (traits["smithy.api#idempotencyToken"] != null) {
-    pipes.push(`T.IdempotencyToken()`);
-  }
-  if (traits["smithy.rules#contextParam"] != null) {
-    const contextParam = traits["smithy.rules#contextParam"] as {
-      name: string;
-    };
-    pipes.push(`T.ContextParam("${contextParam.name}")`);
-  }
-  if (traits["smithy.api#hostLabel"] != null) {
-    pipes.push(`T.HostLabel()`);
-  }
-  if (traits["aws.protocols#ec2QueryName"] != null) {
-    pipes.push(`T.Ec2QueryName("${traits["aws.protocols#ec2QueryName"]}")`);
-  }
-  if (traits["smithy.api#eventPayload"] != null) {
-    pipes.push(`T.EventPayload()`);
-  }
-  if (traits["smithy.api#eventHeader"] != null) {
-    pipes.push(`T.EventHeader()`);
-  }
-
-  return pipes;
-}
-
-/**
- * Apply collected traits to a schema expression. `identifier` re-adds the
- * identifier annotation after `.pipe()` (the pipe wrapper doesn't preserve
- * the inner suspended schema's identifier, which JSONSchema needs).
- */
-function applyTraitsToSchema(
-  schema: string,
-  traits: SmithyTraits,
-  memberName?: string,
-  identifier?: string,
-): string {
-  const pipes = collectSerializationTraits(traits, memberName);
-  if (pipes.length > 0) {
-    let result = `${schema}.pipe(${pipes.join(", ")})`;
-    if (identifier) {
-      result = `${result}.annotate({ identifier: "${identifier}" })`;
-    }
-    return result;
-  }
-  return schema;
-}
-
-// =============================================================================
 // Error categories
 // =============================================================================
 
@@ -767,30 +658,6 @@ function collectOperationOutputTraits(
   }
 
   return outputTraits;
-}
-
-/** Event-stream (streaming union) shape ids used as operation INPUT members. */
-function collectInputEventStreamShapeIds(model: SmithyModel): Set<string> {
-  const inputEventStreams = new Set<string>();
-
-  for (const [, shape] of Object.entries(model.shapes)) {
-    if (shape.type === "operation" && shape.input) {
-      const inputShape = model.shapes[shape.input.target];
-      if (inputShape?.type === "structure" && inputShape.members) {
-        for (const member of Object.values(inputShape.members)) {
-          const memberShape = model.shapes[member.target];
-          if (
-            memberShape?.type === "union" &&
-            memberShape.traits?.["smithy.api#streaming"]
-          ) {
-            inputEventStreams.add(member.target);
-          }
-        }
-      }
-    }
-  }
-
-  return inputEventStreams;
 }
 
 /** Shape ids carrying the @sensitive trait. */
@@ -1102,6 +969,108 @@ const smithyPrimitiveToTs: Record<string, string> = {
  * `serviceSpec` is only consulted for `errorCategories`, which is an
  * emit-time classification rather than a model fact.
  */
+const lcFirst = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
+const ucFirst = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+const XML_NAME = "smithy.api#xmlName";
+
+/** How each AWS wire protocol names members and which facts it needs. */
+export const awsDescriptorProtocol = (protocol: string): DescriptorProtocol => {
+  switch (protocol) {
+    case "aws.protocols#awsJson1_0":
+    case "aws.protocols#awsJson1_1":
+      return {
+        xml: false,
+        rest: false,
+        closedRequests: true,
+        markRequestMaps: false,
+        listItemNames: false,
+        bodyTimestamp: "epoch-seconds",
+        // awsJson ignores jsonName
+        wireName: (member) => ({ wire: member, fallback: member }),
+      };
+    case "aws.protocols#restJson1":
+      return {
+        xml: false,
+        rest: true,
+        closedRequests: true,
+        markRequestMaps: false,
+        listItemNames: false,
+        bodyTimestamp: "epoch-seconds",
+        wireName: (member, traits) => ({
+          wire: (traits["smithy.api#jsonName"] as string) ?? member,
+          fallback: member,
+        }),
+      };
+    case "aws.protocols#restXml":
+      return {
+        xml: true,
+        rest: true,
+        closedRequests: true,
+        markRequestMaps: true,
+        listItemNames: true,
+        bodyTimestamp: "date-time",
+        wireName: (member, traits) => ({
+          wire: (traits[XML_NAME] as string) ?? member,
+          fallback: member,
+        }),
+      };
+    case "aws.protocols#awsQuery":
+      return {
+        xml: true,
+        rest: false,
+        closedRequests: true,
+        markRequestMaps: true,
+        listItemNames: true,
+        bodyTimestamp: "date-time",
+        wireName: (member, traits) => ({
+          wire: (traits[XML_NAME] as string) ?? member,
+          fallback: member,
+        }),
+      };
+    case "aws.protocols#ec2Query":
+      return {
+        xml: true,
+        rest: false,
+        closedRequests: true,
+        markRequestMaps: true,
+        listItemNames: false,
+        bodyTimestamp: "date-time",
+        wireName: (member, traits, direction) => {
+          if (direction === "in") {
+            const wire =
+              (traits["aws.protocols#ec2QueryName"] as string) ??
+              ucFirst((traits[XML_NAME] as string) ?? member);
+            return { wire, fallback: ucFirst(member) };
+          }
+          // Responses: lowerCamel elements; the runtime maps an unmodeled
+          // element back by capitalizing it, so emit a rename whenever that
+          // round trip doesn't land on the member name.
+          const wire = (traits[XML_NAME] as string) ?? lcFirst(member);
+          const ok = wire === lcFirst(member) && ucFirst(wire) === member;
+          return { wire, fallback: ok ? wire : `\u0000${wire}` };
+        },
+      };
+    default:
+      throw new Error(`unsupported protocol ${protocol}`);
+  }
+};
+
+/** Runtime protocol implementation per Smithy protocol trait. */
+const PROTOCOL_IMPORTS: Record<string, [string, string]> = {
+  "aws.protocols#restXml": ["restXmlProtocol", "../protocols/rest-xml.ts"],
+  "aws.protocols#restJson1": ["restJson1Protocol", "../protocols/rest-json.ts"],
+  "aws.protocols#awsJson1_0": [
+    "awsJson1_0Protocol",
+    "../protocols/aws-json.ts",
+  ],
+  "aws.protocols#awsJson1_1": [
+    "awsJson1_1Protocol",
+    "../protocols/aws-json.ts",
+  ],
+  "aws.protocols#awsQuery": ["awsQueryProtocol", "../protocols/aws-query.ts"],
+  "aws.protocols#ec2Query": ["ec2QueryProtocol", "../protocols/ec2-query.ts"],
+};
+
 export const awsSpec = (
   model: SmithyModel,
   serviceSpec: ServiceSpec,
@@ -1130,7 +1099,6 @@ export const awsSpec = (
   const sigV2ServiceName: string | undefined =
     serviceShape.traits?.["aws.auth#sigv2"]?.name;
   const version: string = serviceShape.version ?? "";
-  const patchFileBase = sdkId.toLowerCase().replaceAll(" ", "-");
 
   const serviceXmlNamespace = (
     serviceShape.traits?.["smithy.api#xmlNamespace"] as
@@ -1146,9 +1114,6 @@ export const awsSpec = (
     protocol === "aws.protocols#restJson1" ||
     protocol === "aws.protocols#awsJson1_0" ||
     protocol === "aws.protocols#awsJson1_1";
-  const isQueryProtocol =
-    protocol === "aws.protocols#awsQuery" ||
-    protocol === "aws.protocols#ec2Query";
 
   // --- Global collections (same order as the pre-port generator) ------------
   // Cycle analysis over TS-facing names (Tarjan, shared with the other SDK
@@ -1216,10 +1181,43 @@ export const awsSpec = (
   const { operationInputTraits, operationInputTraitOverrides } =
     collectOperationInputTraits(model);
   const operationOutputTraits = collectOperationOutputTraits(model);
-  const inputEventStreamShapeIds = collectInputEventStreamShapeIds(model);
   const sensitiveShapeIds = collectSensitiveShapeIds(model);
   const operationErrorTypeNames = collectOperationErrorTypeNames(model);
   const softRequiredMembers = collectSoftRequiredMembers(model);
+
+  // Runtime descriptors: compile every operation first so structures shared
+  // between operations are hoisted (and single-use ones inlined).
+  const descriptorProtocol = awsDescriptorProtocol(protocol);
+  const descriptors: DescriptorCompiler = makeDescriptorCompiler(
+    shapes,
+    descriptorProtocol,
+  );
+  const ioTarget = (ref: { target: string } | undefined) =>
+    ref === undefined || ref.target === "smithy.api#Unit"
+      ? undefined
+      : ref.target;
+  const compiledOps = new Map<
+    string,
+    () => { input?: string; output?: string }
+  >();
+  for (const [shapeId, shape] of Object.entries(shapes)) {
+    if (shape.type !== "operation") continue;
+    compiledOps.set(
+      shapeId,
+      descriptors.operation({
+        input: ioTarget(shape.input),
+        output: ioTarget(shape.output),
+      }).render,
+    );
+  }
+  const HTTP_BINDINGS = [
+    "smithy.api#httpLabel",
+    "smithy.api#httpHeader",
+    "smithy.api#httpQuery",
+    "smithy.api#httpQueryParams",
+    "smithy.api#httpPrefixHeaders",
+    "smithy.api#httpPayload",
+  ];
 
   // Blob shapes referenced from at least one generic context. Structure
   // members bound as httpPayload (and streaming members) use the
@@ -1286,129 +1284,6 @@ export const awsSpec = (
       operationErrorTypeNames.has(name)
       ? `${name}_`
       : name;
-  };
-
-  /** Timestamp schema for the smithy.api#Timestamp prelude shape. */
-  const preludeTimestampExpr = (): string =>
-    isJsonProtocol
-      ? `S.Date.pipe(T.TimestampFormat("epoch-seconds"))`
-      : "T.DateFromString";
-
-  /** Timestamp schema for a named timestamp shape (honors its format trait). */
-  const namedTimestampExpr = (traits: SmithyTraits): string => {
-    const format = traits?.["smithy.api#timestampFormat"] as string | undefined;
-    if (format) {
-      if (format === "date-time") {
-        return `T.DateFromString.pipe(T.TimestampFormat("date-time"))`;
-      }
-      return `S.Date.pipe(T.TimestampFormat("${format}"))`;
-    }
-    if (isJsonProtocol) {
-      return `S.Date.pipe(T.TimestampFormat("epoch-seconds"))`;
-    }
-    // aws-query and ec2-query use date-time (ISO 8601) by default
-    if (isQueryProtocol) {
-      return `T.DateFromString.pipe(T.TimestampFormat("date-time"))`;
-    }
-    return "T.DateFromString";
-  };
-
-  const schemaExprCache = new Map<string, string>();
-
-  /**
-   * A shape target's schema EXPRESSION: named consts for aggregates
-   * (structure/list/map/union/enum/intEnum), inline expressions for simple
-   * shapes (newtypes reference the primitive schema directly).
-   */
-  const schemaExprOf = (target: string): string => {
-    const cached = schemaExprCache.get(target);
-    if (cached !== undefined) return cached;
-    const result = computeSchemaExpr(target);
-    schemaExprCache.set(target, result);
-    return result;
-  };
-
-  const computeSchemaExpr = (target: string): string => {
-    if (target.startsWith("smithy.api#")) {
-      switch (target) {
-        case "smithy.api#String":
-          return "S.String";
-        case "smithy.api#Integer":
-        case "smithy.api#Double":
-        case "smithy.api#Long":
-        case "smithy.api#Float":
-        case "smithy.api#PrimitiveLong":
-          return "S.Number";
-        case "smithy.api#Boolean":
-        case "smithy.api#PrimitiveBoolean":
-          return "S.Boolean";
-        case "smithy.api#Timestamp":
-          return preludeTimestampExpr();
-        case "smithy.api#Blob":
-          // Primitive blob - not streaming, so base64 encoded Blob type
-          return "T.Blob";
-        case "smithy.api#Unit":
-          return "S.Struct({})";
-        case "smithy.api#Document":
-          return "S.Any";
-        default:
-          throw new Error(`unable to transform shape to schema: ${target}`);
-      }
-    }
-    const shape = shapes[target];
-    if (!shape) throw new Error(`unable to find shape: ${target}`);
-    switch (shape.type) {
-      case "integer":
-      case "long":
-      case "double":
-      case "float":
-        return "S.Number";
-      case "string":
-        return sensitiveShapeIds.has(target) ? "SensitiveString" : "S.String";
-      case "boolean":
-        return "S.Boolean";
-      case "blob": {
-        if (shape.traits?.["smithy.api#streaming"] != null) {
-          // Streaming blob (large payloads like S3 objects). Context-specific
-          // schemas (StreamingInput/Output) are applied at the member level;
-          // this is the direct-reference fallback.
-          return shape.traits?.["smithy.api#requiresLength"] != null
-            ? "T.StreamBody().pipe(T.RequiresLength())"
-            : "T.StreamBody()";
-        }
-        return sensitiveShapeIds.has(target) ? "SensitiveBlob" : "T.Blob";
-      }
-      case "timestamp":
-        return namedTimestampExpr(shape.traits);
-      case "document":
-        return "S.Any";
-      case "enum":
-      case "intEnum":
-      case "list":
-      case "map":
-      case "union":
-        return formatName(target);
-      case "structure":
-        return structRefName(target);
-      default:
-        throw new Error(
-          `unable to transform shape to schema: type ${shape.type} at ${target}`,
-        );
-    }
-  };
-
-  /** Whether a target's schema expression references an emitted const. */
-  const isNamedConstRef = (target: string): boolean => {
-    if (target.startsWith("smithy.api#")) return false;
-    const type = shapes[target]?.type;
-    return (
-      type === "enum" ||
-      type === "intEnum" ||
-      type === "list" ||
-      type === "map" ||
-      type === "union" ||
-      type === "structure"
-    );
   };
 
   /** A shape target's TypeScript type string (model-backed). */
@@ -1513,121 +1388,59 @@ export const awsSpec = (
 
   interface ConvertedMember {
     name: string;
-    schemaExpr: string;
     tsType: string;
     isOptional: boolean;
     isSoftRequired: boolean;
-    jsonName: string | undefined;
   }
 
+  /** A structure/error member's TypeScript type and optionality. */
   const convertMember = (
     ownerName: string,
     memberName: string,
     member: { target: string; traits?: Record<string, unknown> },
-    ctx: {
-      isCurrentCyclic: boolean;
-      isOperationInput: boolean;
-      isOperationOutput: boolean;
-      /**
-       * Error-class fields: the classes are emitted BEFORE the schema
-       * consts, so every named-const reference must be suspended.
-       */
-      suspendAll: boolean;
-    },
+    ctx: { isOperationInput: boolean; isOperationOutput: boolean },
   ): ConvertedMember => {
     const traits = member.traits ?? {};
-    const memberTargetName = formatName(member.target);
     const isMemberErrorShape = errorShapeIds.has(member.target);
-
-    const hasHttpHeader = traits["smithy.api#httpHeader"] != null;
     const hasHttpPayload = traits["smithy.api#httpPayload"] != null;
-    const explicitFormat = traits["smithy.api#timestampFormat"] as
-      | string
-      | undefined;
-
     const memberTargetShape = shapes[member.target];
     const isBlob = memberTargetShape?.type === "blob";
     const isStreamingBlob =
       isBlob && memberTargetShape?.traits?.["smithy.api#streaming"] != null;
-    const hasRequiresLength =
-      memberTargetShape?.traits?.["smithy.api#requiresLength"] != null;
-    // Non-streaming blob with httpPayload also uses raw bytes (not base64)
+    // Non-streaming blob with httpPayload also travels as raw bytes
     const isBlobPayload = isBlob && hasHttpPayload && !isStreamingBlob;
     const isEventStream =
       memberTargetShape?.type === "union" &&
       memberTargetShape?.traits?.["smithy.api#streaming"] != null;
+    const isTimestamp =
+      member.target === "smithy.api#Timestamp" ||
+      memberTargetShape?.type === "timestamp";
 
-    let schema: string;
     let tsType: string;
     if (isStreamingBlob || isBlobPayload) {
-      // Streaming and httpPayload blobs need raw bytes; the schema depends
-      // on input vs output context.
-      if (ctx.isOperationOutput) {
-        schema = "T.StreamingOutput";
-        tsType = "T.StreamingOutputBody";
-      } else if (ctx.isOperationInput) {
-        schema = hasRequiresLength
-          ? "T.StreamingInput.pipe(T.RequiresLength())"
-          : "T.StreamingInput";
-        tsType = "T.StreamingInputBody";
-      } else {
-        schema = hasRequiresLength
-          ? "T.StreamBody().pipe(T.RequiresLength())"
-          : "T.StreamBody()";
-        tsType = "T.StreamBody";
-      }
+      tsType = ctx.isOperationOutput
+        ? "T.StreamingOutputBody"
+        : ctx.isOperationInput
+          ? "T.StreamingInputBody"
+          : "T.StreamBody";
     } else if (isEventStream) {
-      // Event stream member: the schema is the (streaming) union const;
-      // the interface type is a Stream of the event union.
-      schema = schemaExprOf(member.target);
       tsType = `stream.Stream<${tsTypeOf(member.target)}, Error, never>`;
+    } else if (isTimestamp) {
+      tsType = "Date";
     } else {
-      schema = schemaExprOf(member.target);
       // Request-only owners re-open enum member references inline.
       tsType = tsTypeAt(member.target, ownerName);
     }
 
-    // Timestamp members: HTTP header bindings default to http-date; an
-    // explicit member-level format overrides the target's.
-    const isTimestampSchema =
-      schema.includes("S.Date") ||
-      schema.includes("DateFromString") ||
-      schema.includes("TimestampFormat") ||
-      member.target === "smithy.api#Timestamp";
-    if (isTimestampSchema && hasHttpHeader && !explicitFormat) {
-      schema = `S.Date.pipe(T.TimestampFormat("http-date"))`;
-      tsType = "Date";
-    } else if (isTimestampSchema && explicitFormat) {
-      if (explicitFormat === "date-time") {
-        schema = `T.DateFromString.pipe(T.TimestampFormat("date-time"))`;
-      } else {
-        schema = `S.Date.pipe(T.TimestampFormat("${explicitFormat}"))`;
-      }
-      tsType = "Date";
-    }
-
-    // Suspend references that would be TDZ reads at module eval: error
-    // classes (emitted after the referencing struct? no — before, but the
-    // reference is mutual: error classes precede schemas, so schema→error
-    // refs are backward and error→schema refs are forward — both sides use
-    // suspend), cyclic refs (typed thunks for cyclic structs to break
-    // circular type inference), and — for error fields — every named const.
-    if (isMemberErrorShape) {
-      schema = suspendRef(schema);
-    } else if (ctx.isCurrentCyclic && cyclicSchemas.has(memberTargetName)) {
-      schema = suspendRef(schema, cyclicClasses.has(memberTargetName));
-    } else if (ctx.suspendAll && isNamedConstRef(member.target)) {
-      schema = suspendRef(schema, cyclicClasses.has(memberTargetName));
-    }
-
-    // Member-level @sensitive (stamped by convert from patches/{sdkId}.json
-    // `structures.<name>.members.<member>.sensitive`; the published model
-    // only marks the target string shape). Swap the wire schema for
-    // SensitiveString so responses decode to Redacted and requests accept
-    // raw or Redacted values.
-    // Upstream models also put @sensitive on non-string members; those
-    // keep their schema (the trait is informational there).
+    // Member-level @sensitive (stamped by convert from patches/{sdkId}.json;
+    // the published model only marks the target string shape): responses
+    // decode to Redacted and requests accept raw or Redacted values.
+    // Upstream models also put @sensitive on non-string members; those keep
+    // their type (the trait is informational there).
     if (traits["smithy.api#sensitive"] != null && !isMemberErrorShape) {
+      const isString =
+        member.target === "smithy.api#String" ||
+        memberTargetShape?.type === "string";
       const listMemberTarget =
         memberTargetShape?.type === "list"
           ? memberTargetShape.member?.target
@@ -1636,26 +1449,20 @@ export const awsSpec = (
         listMemberTarget !== undefined &&
         (listMemberTarget === "smithy.api#String" ||
           shapes[listMemberTarget]?.type === "string");
-      if (schema === "S.String") {
-        schema = "SensitiveString";
+      if (isString) {
         tsType = "string | redacted.Redacted<string>";
       } else if (isStringList) {
-        // Sensitive list of strings (e.g. ElastiCache user Passwords) —
-        // each element decodes to Redacted, replacing the named list const.
-        schema = "S.Array(SensitiveString)";
+        // Sensitive list of strings (e.g. ElastiCache user Passwords)
         tsType = "Array<string | redacted.Redacted<string>>";
       }
     }
 
-    // "Soft required" (@clientOptional + @required): optional in the input
-    // schema, required in output types.
+    // "Soft required" (@clientOptional + @required): optional in inputs,
+    // required in output types.
     const hasClientOptional = traits["smithy.api#clientOptional"] != null;
     const hasRequired = traits["smithy.api#required"] != null;
     const isSoftRequired = hasClientOptional && hasRequired;
     const isOptional = hasClientOptional || !hasRequired;
-    if (isOptional) {
-      schema = `S.optional(${schema})`;
-    }
 
     // Output structures: deep intersection types surface nested
     // soft-required members as required.
@@ -1665,50 +1472,10 @@ export const awsSpec = (
         model,
         softRequiredMembers,
       );
-      if (intersectionType) {
-        tsType = intersectionType;
-      }
+      if (intersectionType) tsType = intersectionType;
     }
 
-    // Serialization trait pipes; memberName lets httpLabel substitute the
-    // right URI placeholder, identifier survives the .pipe() wrapper.
-    schema = applyTraitsToSchema(
-      schema,
-      traits,
-      memberName,
-      allStructNames.has(memberTargetName) ? memberTargetName : undefined,
-    );
-
-    const jsonName = traits["smithy.api#jsonName"] as string | undefined;
-
-    return {
-      name: memberName,
-      schemaExpr: schema,
-      tsType,
-      isOptional,
-      isSoftRequired,
-      jsonName: jsonName && jsonName !== memberName ? jsonName : undefined,
-    };
-  };
-
-  const httpChecksumAnnotation = (
-    checksum: NonNullable<OperationInputTraits["httpChecksum"]>,
-  ): string => {
-    const checksumParts: string[] = [];
-    if (checksum.requestAlgorithmMember) {
-      checksumParts.push(
-        `requestAlgorithmMember: "${checksum.requestAlgorithmMember}"`,
-      );
-    }
-    if (checksum.requestChecksumRequired) {
-      checksumParts.push(`requestChecksumRequired: true`);
-    }
-    if (checksum.responseAlgorithms) {
-      checksumParts.push(
-        `responseAlgorithms: [${checksum.responseAlgorithms.map((a) => `"${a}"`).join(", ")}]`,
-      );
-    }
-    return `T.AwsProtocolsHttpChecksum({ ${checksumParts.join(", ")} })`;
+    return { name: memberName, tsType, isOptional, isSoftRequired };
   };
 
   // --- Paginated item-type resolution ---------------------------------------
@@ -1868,10 +1635,7 @@ export const awsSpec = (
           const union = enumValues.length
             ? `${enumValues.map((v) => JSON.stringify(v)).join(" | ")} | (string & {})`
             : "string";
-          return [
-            `export type ${name} = ${union};`,
-            `export const ${name} = S.String;\n`,
-          ];
+          return [`export type ${name} = ${union};`];
         }
 
         // ---- Int enums: OPEN numeric literal union aliases (v0 surface).
@@ -1883,57 +1647,23 @@ export const awsSpec = (
           const intUnion = enumValues.length
             ? `${enumValues.join(" | ")} | (number & {})`
             : "number";
-          return [
-            `export type ${name} = ${intUnion};`,
-            `export const ${name} = S.Number;`,
-          ];
+          return [`export type ${name} = ${intUnion};`];
         }
 
-        // ---- Lists (sparse-aware; cyclic lists cast through S.Schema).
+        // ---- Lists.
         case "list": {
           const name = formatName(id);
-          const isCyclic = cyclicSchemas.has(name);
-          const memberTargetName = formatName(def.member.target);
-          const isSparse = def.traits?.["smithy.api#sparse"] != null;
-
-          let innerType = schemaExprOf(def.member.target);
-          if (errorShapeIds.has(def.member.target)) {
-            innerType = suspendRef(innerType);
-          } else if (cyclicSchemas.has(memberTargetName)) {
-            innerType = suspendRef(
-              innerType,
-              cyclicClasses.has(memberTargetName),
-            );
-          }
-          innerType = applyTraitsToSchema(
-            innerType,
-            def.member.traits,
-            undefined,
-            allStructNames.has(memberTargetName) ? memberTargetName : undefined,
-          );
-
-          const sparsePipe = isSparse ? ".pipe(T.Sparse())" : "";
           const memberTsType = tsTypeAt(def.member.target, name);
           const memberTsTypeForArray = memberTsType.includes("|")
             ? `(${memberTsType})`
             : memberTsType;
-          return [
-            `export type ${name} = ${memberTsTypeForArray}[];`,
-            isCyclic
-              ? `export const ${name} = ${PURE}S.Array(${innerType})${sparsePipe} as any as S.Schema<${name}>;`
-              : `export const ${name} = ${PURE}S.Array(${innerType})${sparsePipe};`,
-          ];
+          return [`export type ${name} = ${memberTsTypeForArray}[];`];
         }
 
-        // ---- Maps (sparse- and enum-key-aware).
+        // ---- Maps (enum-key-aware).
         case "map": {
           const name = formatName(id);
-          const isCyclic = cyclicSchemas.has(name);
           const keyTargetName = formatName(def.key.target);
-          const valueTargetName = formatName(def.value.target);
-          const isSparse = def.traits?.["smithy.api#sparse"] != null;
-          const keySchema = schemaExprOf(def.key.target);
-          const valueSchema = schemaExprOf(def.value.target);
           const keyShape = def.key.target.startsWith("smithy.api#")
             ? null
             : shapes[def.key.target];
@@ -1942,134 +1672,34 @@ export const awsSpec = (
           const isKeyEnum =
             keyShape != null &&
             (keyShape.type === "enum" || keyShape.type === "intEnum");
-
-          // S.Record keys cannot be transformation schemas — strip sensitive
-          // wrappers (the sensitive trait is for logging, not key types).
-          let wrappedKey =
-            keySchema === "SensitiveString"
-              ? "S.String"
-              : keySchema === "SensitiveBlob"
-                ? "T.Blob"
-                : keySchema;
-          let wrappedValue = valueSchema;
-
-          if (errorShapeIds.has(def.key.target)) {
-            wrappedKey = suspendRef(keySchema);
-          } else if (cyclicSchemas.has(keyTargetName)) {
-            wrappedKey = suspendRef(
-              keySchema,
-              cyclicClasses.has(keyTargetName),
-            );
-          }
-          if (errorShapeIds.has(def.value.target)) {
-            wrappedValue = suspendRef(valueSchema);
-          } else if (cyclicSchemas.has(valueTargetName)) {
-            wrappedValue = suspendRef(
-              valueSchema,
-              cyclicClasses.has(valueTargetName),
-            );
-          }
-
-          wrappedKey = applyTraitsToSchema(
-            wrappedKey,
-            def.key.traits,
-            undefined,
-            allStructNames.has(keyTargetName) ? keyTargetName : undefined,
-          );
-          wrappedValue = applyTraitsToSchema(
-            wrappedValue,
-            def.value.traits,
-            undefined,
-            allStructNames.has(valueTargetName) ? valueTargetName : undefined,
-          );
-
-          const sparsePipe = isSparse ? ".pipe(T.Sparse())" : "";
           const valueTsType = tsTypeAt(def.value.target, name);
-          // Value piped through S.optional so undefined values are accepted
-          // (and dropped during serialization).
-          const recordExpr = `S.Record(${wrappedKey}, ${wrappedValue}.pipe(S.optional))${sparsePipe}`;
-          // Enum-key maps map over the (open) alias directly.
-          const typeAlias = isKeyEnum
-            ? `export type ${name} = { [key in ${keyTargetName}]?: ${valueTsType} };`
-            : `export type ${name} = { [key: string]: ${valueTsType} | undefined };`;
           return [
-            typeAlias,
-            isCyclic
-              ? `export const ${name} = ${PURE}${recordExpr} as any as S.Schema<${name}>;`
-              : `export const ${name} = ${PURE}${recordExpr};`,
+            isKeyEnum
+              ? `export type ${name} = { [key in ${keyTargetName}]?: ${valueTsType} };`
+              : `export type ${name} = { [key: string]: ${valueTsType} | undefined };`,
           ];
         }
 
         // ---- Structural unions (tagged by member key) + event streams.
         case "union": {
           const name = formatName(id);
-          const isCurrentCyclic = cyclicSchemas.has(name);
-          const isEventStream = def.traits?.["smithy.api#streaming"] != null;
           const memberEntries = Object.entries(
-            (def.members ?? {}) as Record<
-              string,
-              { target: string; traits?: Record<string, unknown> }
-            >,
+            (def.members ?? {}) as Record<string, { target: string }>,
           );
           const allMemberNames = memberEntries.map(([mn]) => mn);
-
-          const wrappedMembers: string[] = [];
-          const variantTypes: string[] = [];
-          for (const [memberName, member] of memberEntries) {
-            const memberTargetName = formatName(member.target);
-            let wrapped = schemaExprOf(member.target);
-            if (errorShapeIds.has(member.target)) {
-              wrapped = suspendRef(wrapped);
-            } else if (isCurrentCyclic && cyclicSchemas.has(memberTargetName)) {
-              wrapped = suspendRef(
-                wrapped,
-                cyclicClasses.has(memberTargetName),
-              );
-            }
-            wrapped = applyTraitsToSchema(
-              wrapped,
-              member.traits,
-              undefined,
-              allStructNames.has(memberTargetName)
-                ? memberTargetName
-                : undefined,
-            );
-            // Smithy unions are tagged: wrap in a struct keyed by member name
-            wrappedMembers.push(`S.Struct({ ${memberName}: ${wrapped} })`);
-            variantTypes.push(
-              generateUnionVariant(
-                allMemberNames,
-                memberName,
-                tsTypeAt(member.target, name),
-              ),
-            );
-          }
-          const typeAlias = `export type ${name} = ${variantTypes.join(" | ")};`;
-          const unionExpr = `S.Union([${wrappedMembers.join(", ")}])`;
-
-          if (isEventStream) {
-            const wrapper = inputEventStreamShapeIds.has(id)
-              ? "T.InputEventStream"
-              : "T.EventStream";
-            return [
-              typeAlias,
-              `export const ${name} = ${PURE}${wrapper}(${unionExpr}) as any as S.Schema<stream.Stream<${name}, Error, never>>;`,
-            ];
-          }
-          if (isCurrentCyclic) {
-            return [
-              typeAlias,
-              `export const ${name} = ${PURE}${unionExpr} as any as S.Schema<${name}>;`,
-            ];
-          }
-          return [typeAlias, `export const ${name} = ${PURE}${unionExpr};`];
+          const variantTypes = memberEntries.map(([memberName, member]) =>
+            generateUnionVariant(
+              allMemberNames,
+              memberName,
+              tsTypeAt(member.target, name),
+            ),
+          );
+          return [`export type ${name} = ${variantTypes.join(" | ")};`];
         }
 
-        // ---- Structures: interface + suspend(struct) with operation-level
-        // annotations on op I/O shapes.
+        // ---- Structures: the interface (runtime data lives in descriptors).
         case "structure": {
           const name = formatName(id);
-          const isCurrentCyclic = cyclicSchemas.has(name);
           const opTraits = operationInputTraits.get(name);
           const isOperationInput = opTraits !== undefined;
           const opOutputTraits = operationOutputTraits.get(name);
@@ -2090,10 +1720,8 @@ export const awsSpec = (
             >,
           ).map(([memberName, member]) =>
             convertMember(name, memberName, member, {
-              isCurrentCyclic,
               isOperationInput,
               isOperationOutput,
-              suspendAll: false,
             }),
           );
 
@@ -2105,75 +1733,7 @@ export const awsSpec = (
               return `${m.name}${showOptional ? "?" : ""}: ${m.tsType}`;
             })
             .join("; ");
-          const schemaFields = members
-            .map((m) => `${m.name}: ${m.schemaExpr}`)
-            .join(", ");
-
-          const xmlName = def.traits?.["smithy.api#xmlName"] as
-            | string
-            | undefined;
-          const structXmlNamespace = def.traits?.["smithy.api#xmlNamespace"] as
-            | { uri: string }
-            | undefined;
-          // Structure-level xmlNamespace overrides service-level; the
-          // service namespace applies only to op I/O schemas.
-          const xmlNamespaceRef = structXmlNamespace
-            ? `T.XmlNamespace("${structXmlNamespace.uri}")`
-            : serviceXmlNamespace && (isOperationInput || isOperationOutput)
-              ? "ns"
-              : undefined;
-
-          const classAnnotations: string[] = [];
-          if (xmlName) classAnnotations.push(`T.XmlName("${xmlName}")`);
-          if (xmlNamespaceRef) classAnnotations.push(xmlNamespaceRef);
-          if (isOperationInput && opTraits) {
-            classAnnotations.push(
-              `T.Http({ method: "${opTraits.method}", uri: "${opTraits.uri}" })`,
-            );
-            classAnnotations.push("svc", "auth", "proto", "ver");
-            if (endpointRuleSet) classAnnotations.push("rules");
-            if (opTraits.httpChecksum) {
-              classAnnotations.push(
-                httpChecksumAnnotation(opTraits.httpChecksum),
-              );
-            }
-            if (opTraits.staticContextParams) {
-              classAnnotations.push(
-                `T.StaticContextParams(${JSON.stringify(opTraits.staticContextParams)})`,
-              );
-            }
-          }
-          if (isOperationOutput && opOutputTraits?.s3UnwrappedXmlOutput) {
-            classAnnotations.push("T.S3UnwrappedXmlOutput()");
-          }
-
-          // jsonName key renames as one struct-level S.encodeKeys pipe.
-          const encodeKeysEntries = members
-            .filter((m) => m.jsonName)
-            .map((m) => `${m.name}: "${m.jsonName}"`);
-          const encodeKeysPipe =
-            encodeKeysEntries.length > 0
-              ? `.pipe(S.encodeKeys({ ${encodeKeysEntries.join(", ")} }))`
-              : "";
-
-          // Trait annotations go inside the suspend closure; identifier goes
-          // OUTSIDE on the suspend itself for JSONSchema generation.
-          let innerPipe = "";
-          if (classAnnotations.length === 1) {
-            innerPipe = `.pipe(${classAnnotations[0]})`;
-          } else if (classAnnotations.length > 1) {
-            innerPipe = `.pipe(T.all(${classAnnotations.join(", ")}))`;
-          }
-
-          return [
-            `export interface ${exportedName} { ${interfaceFields} }`,
-            suspendConst({
-              name: exportedName,
-              expr: `S.Struct({${schemaFields}})${encodeKeysPipe}${innerPipe}`,
-              pure: PURE,
-              annotation: `{ identifier: "${name}" }`,
-            }).trimEnd(),
-          ];
+          return [`export interface ${exportedName} { ${interfaceFields} }`];
         }
 
         // service / operation / resource never reach emission; suppress.
@@ -2200,121 +1760,110 @@ export const awsSpec = (
           >,
         ).map(([memberName, member]) =>
           convertMember(name, memberName, member, {
-            isCurrentCyclic: cyclicSchemas.has(name),
             isOperationInput: false,
             isOperationOutput: false,
-            suspendAll: true,
           }),
         );
         // Members patched in from patches/{sdkId}.json (`errors.<name>`)
         // are already real model members with their httpHeader / required
         // traits — convert wrote them — so they flow through convertMember
         // like any other.
-        const errorFields: Array<{ name: string; expr: string }> = members.map(
-          (m) => ({ name: m.name, expr: m.schemaExpr }),
-        );
-
         // Canonical message member. AWS spells this `message` in most models,
-        // `Message` in the XML-era ones, and omits it entirely from others —
-        // every ec2 error shape declares no members at all. The struct decode
-        // in the response parser drops any key the schema doesn't declare, so
-        // an undeclared message is silently discarded and the caller gets a
-        // typed error carrying nothing (distilled #160).
-        //
-        // Normalize to a single tagged `message` member so `Error.message` is
-        // always the service's real message and consumers never have to know
-        // which spelling a given service used. `Message` is renamed rather
-        // than duplicated — carrying the same text on two properties is what
-        // made the old parser heuristics necessary in the first place. The
-        // response parser folds the `Message` wire key onto `message` before
-        // decoding, so the rename costs nothing on the wire.
-        const messageIdx = errorFields.findIndex((f) => f.name === "message");
-        const capitalIdx = errorFields.findIndex((f) => f.name === "Message");
-        if (messageIdx >= 0) {
-          const f = errorFields[messageIdx]!;
-          f.expr = `${f.expr}.pipe(T.ErrorMessage())`;
-        } else if (capitalIdx >= 0) {
-          const f = errorFields[capitalIdx]!;
-          f.name = "message";
-          f.expr = `${f.expr}.pipe(T.ErrorMessage())`;
-        } else {
+        // `Message` in the XML-era ones, and omits it from others (every ec2
+        // error shape declares no members). Normalize to one `message` member
+        // so `Error.message` is always the service's real message; the
+        // response parser folds the `Message` wire key onto `message`.
+        const hasLowerMessage = members.some((m) => m.name === "message");
+        const errorFields = members.map((m) => ({
+          name: m.name === "Message" && !hasLowerMessage ? "message" : m.name,
+          tsType: m.tsType,
+          optional: m.isOptional,
+        }));
+        if (!errorFields.some((f) => f.name === "message")) {
           errorFields.push({
             name: "message",
-            expr: "S.optional(S.String).pipe(T.ErrorMessage())",
+            tsType: "string",
+            optional: true,
           });
         }
+        const fields = errorFields
+          .map(
+            (f) =>
+              `readonly ${tsKey(f.name)}${f.optional ? "?" : ""}: ${f.tsType}`,
+          )
+          .join("; ");
 
-        const fields = `{${errorFields
-          .map((f) => `${f.name}: ${f.expr}`)
-          .join(", ")}}`;
-
+        // Wire facts the response parser matches on.
         const errorTraits = errorShapeIds.get(id);
-        const annotations: string[] = [];
-        const categories: string[] = [];
-
-        if (errorTraits?.awsQueryError) {
-          annotations.push(
-            `T.AwsQueryError({ code: "${errorTraits.awsQueryError.code}", httpResponseCode: ${errorTraits.awsQueryError.httpResponseCode} })`,
-          );
-        }
-        // The response parser uses httpError as a status-based fallback for
-        // services whose error responses carry no error code.
-        if (errorTraits?.httpError) {
-          annotations.push(`T.HttpError(${errorTraits.httpError})`);
-        }
-        if (errorTraits?.retryable) {
-          if (errorTraits.retryable.throttling) {
-            annotations.push(`T.Retryable({ throttling: true })`);
-          } else {
-            annotations.push(`T.Retryable()`);
-          }
-        }
-        // Synthetic errors carry the matcher (base wire code + message
-        // predicate) the response parser evaluates BEFORE the plain
-        // wire-code lookup.
+        const meta: Record<string, unknown> = {};
+        const code = errorTraits?.awsQueryError?.code;
+        if (code !== undefined && code !== tag) meta.code = code;
+        // Status-based fallback for services whose errors carry no code.
+        if (errorTraits?.httpError !== undefined)
+          meta.status = errorTraits.httpError;
         if (synthetic) {
-          annotations.push(
-            `T.SyntheticError(${JSON.stringify({
-              from: synthetic.from,
-              message: synthetic.message,
-            })})`,
-          );
+          meta.synthetic = { from: synthetic.from, message: synthetic.message };
         }
+        const headers: Record<string, unknown> = {};
+        const renames: Record<string, string> = {};
+        for (const [memberName, member] of Object.entries<any>(
+          def.members ?? {},
+        )) {
+          const t = member.traits ?? {};
+          const header = t["smithy.api#httpHeader"] as string | undefined;
+          if (header !== undefined) {
+            const type =
+              shapes[member.target]?.type ??
+              member.target.split("#")[1]?.toLowerCase();
+            headers[memberName] = [
+              "integer",
+              "long",
+              "double",
+              "float",
+              "short",
+              "byte",
+            ].includes(type)
+              ? [header, "num"]
+              : type === "boolean"
+                ? [header, "bool"]
+                : header;
+          }
+          const wire = (
+            isJsonProtocol ? t["smithy.api#jsonName"] : t[XML_NAME]
+          ) as string | undefined;
+          if (wire !== undefined && wire !== memberName)
+            renames[memberName] = wire;
+        }
+        if (Object.keys(headers).length) meta.headers = headers;
+        if (Object.keys(renames).length) meta.renames = renames;
 
         // Categories come from the shared reading of the standard Smithy
-        // error traits (`smithy.api#httpError` / `smithy.api#retryable`) —
-        // the same one every other SDK uses. The spec file supplies what
-        // this service's model doesn't state, and the name heuristics run
-        // last. `errorTraits` is passed rather than `def.traits` because
-        // spec-file `errorHttpStatus` patches land there.
-        categories.push(
-          ...errorCategories(
-            {
-              "smithy.api#httpError": errorTraits?.httpError,
-              "smithy.api#retryable": errorTraits?.retryable,
-            },
-            [
-              ...(serviceSpec.errorCategories?.[name] ?? []),
-              ...inferCategoriesFromName(name),
-            ],
-          ).map((cat) => `C.with${cat}`),
+        // error traits (`smithy.api#httpError` / `smithy.api#retryable`);
+        // the spec file supplies what this model doesn't state, and the
+        // name heuristics run last.
+        const categories = errorCategories(
+          {
+            "smithy.api#httpError": errorTraits?.httpError,
+            "smithy.api#retryable": errorTraits?.retryable,
+          },
+          [
+            ...(serviceSpec.errorCategories?.[name] ?? []),
+            ...inferCategoriesFromName(name),
+          ],
         );
 
-        let annotationsArg = "";
-        if (annotations.length === 1) {
-          annotationsArg = `, ${annotations[0]}`;
-        } else if (annotations.length > 1) {
-          annotationsArg = `, T.all(${annotations.join(", ")})`;
-        }
-        const categoryPipe =
-          categories.length > 0 ? `.pipe(${categories.join(", ")})` : "";
+        const args = [
+          JSON.stringify(tag),
+          categories.length || Object.keys(meta).length
+            ? JSON.stringify(categories)
+            : undefined,
+          Object.keys(meta).length ? JSON.stringify(meta) : undefined,
+        ].filter((a) => a !== undefined);
 
-        // PURE marker: without it the heritage call is an unanalyzable side
-        // effect and the class can never be tree-shaken, so importing one
-        // operation retains every error class in the service (distilled
-        // #191). Same reason the schema consts carry one.
+        // PURE: without it the heritage call is an unanalyzable side effect
+        // and the class can never be tree-shaken (distilled #191).
         return [
-          `export class ${name} extends ${PURE}S.TaggedError<${name}>()("${tag}", ${fields}${annotationsArg})${categoryPipe} {}`,
+          `export class ${name} extends ${PURE}TE.TaggedError(${args.join(", ")})<{ ${fields} }> {}`,
         ];
       },
     },
@@ -2331,9 +1880,8 @@ export const awsSpec = (
       let input = formatName(opShape.__input);
 
       // Input shape shared by multiple operations with CONFLICTING
-      // operation-level traits: emit a derived per-operation request schema
-      // whose direct annotations (getAnnotationUnwrap checks the outermost
-      // AST node first) override the traits baked into the shared base.
+      // operation-level traits keeps a per-operation request type name;
+      // the http trait itself travels in each operation's descriptor.
       const overrideTraits = operationInputTraitOverrides.get(opName);
       if (overrideTraits !== undefined) {
         const baseName = input;
@@ -2342,27 +1890,7 @@ export const awsSpec = (
           if (allSchemaNames.has(derivedName)) {
             derivedName = `${derivedName}_`;
           }
-          const overrideAnnotations: string[] = [
-            `T.Http({ method: "${overrideTraits.method}", uri: "${overrideTraits.uri}" })`,
-          ];
-          if (overrideTraits.httpChecksum) {
-            overrideAnnotations.push(
-              httpChecksumAnnotation(overrideTraits.httpChecksum),
-            );
-          }
-          if (overrideTraits.staticContextParams) {
-            overrideAnnotations.push(
-              `T.StaticContextParams(${JSON.stringify(overrideTraits.staticContextParams)})`,
-            );
-          }
-          const overridePipe =
-            overrideAnnotations.length === 1
-              ? overrideAnnotations[0]
-              : `T.all(${overrideAnnotations.join(", ")})`;
           pre.push(`export interface ${derivedName} extends ${baseName} {}`);
-          pre.push(
-            `export const ${derivedName} = ${PURE}${baseName}.pipe(${overridePipe}).annotate({ identifier: "${derivedName}" }) as any as S.Schema<${derivedName}>;`,
-          );
           input = derivedName;
         }
       }
@@ -2401,9 +1929,61 @@ export const awsSpec = (
       // Always emit the Smithy operation name: protocols use it as the wire
       // Action / X-Amz-Target instead of guessing it from the input shape
       // identifier (which fails for e.g. AutoScaling's `...NamesType`).
+      const compiled = compiledOps.get(ctx.op.id)?.() ?? {};
+      const opTraits = opShape.traits ?? {};
+      const http = opTraits["smithy.api#http"] as
+        | { method: string; uri: string }
+        | undefined;
+      const inputShape = ioTarget(opShape.input)
+        ? shapes[opShape.input.target]
+        : undefined;
+      const hasBodyMembers = Object.values<any>(inputShape?.members ?? {}).some(
+        (m) => !HTTP_BINDINGS.some((b) => b in (m.traits ?? {})),
+      );
+      const descriptorParts: string[] = ["service: svc"];
+      if (
+        http &&
+        (protocol === "aws.protocols#restJson1" ||
+          protocol === "aws.protocols#restXml")
+      ) {
+        descriptorParts.push(
+          `http: ${JSON.stringify(`${http.method} ${http.uri}`)}`,
+        );
+      }
+      if (compiled.input) descriptorParts.push(`input: ${compiled.input}`);
+      if (compiled.output) descriptorParts.push(`output: ${compiled.output}`);
+      const checksum = opTraits["aws.protocols#httpChecksum"];
+      if (checksum)
+        descriptorParts.push(`checksum: ${JSON.stringify(checksum)}`);
+      const staticContext = opTraits["smithy.rules#staticContextParams"];
+      if (staticContext) {
+        descriptorParts.push(`staticContext: ${JSON.stringify(staticContext)}`);
+      }
+      if (opTraits["aws.customizations#s3UnwrappedXmlOutput"] != null) {
+        const outShape = shapes[opShape.output?.target] ?? {};
+        const rootName =
+          outShape.traits?.[XML_NAME] ?? formatName(opShape.output.target);
+        const member = Object.entries<any>(outShape.members ?? {}).find(
+          ([mn, m]) => (m.traits?.[XML_NAME] ?? mn) === rootName,
+        )?.[0];
+        if (member)
+          descriptorParts.push(`unwrapped: ${JSON.stringify(member)}`);
+      }
+      if (hasBodyMembers && protocol === "aws.protocols#restJson1") {
+        descriptorParts.push("body: true");
+      }
+      if (
+        hasBodyMembers &&
+        protocol === "aws.protocols#restXml" &&
+        inputShape
+      ) {
+        const root =
+          inputShape.traits?.[XML_NAME] ?? formatName(opShape.input.target);
+        descriptorParts.push(`body: ${JSON.stringify(root)}`);
+      }
+
       const metaParts = [
-        `input: ${input}`,
-        `output: ${output}`,
+        `descriptor: { ${descriptorParts.join(", ")} }`,
         `errors: ${operationErrors}`,
         `protocol: AwsProtocol`,
         `retry: Retry`,
@@ -2452,9 +2032,9 @@ export const awsSpec = (
         factory: paginatedTrait ? "API.makePaginated" : "API.make",
         config: metaObject,
         pure: PURE,
-        // The items-stream element type comes from the pagination trait
-        // path and can only be inferred as `unknown` by makePaginated.
-        castToAnnotation: paginatedTrait !== undefined,
+        // Schema-free configs carry no I/O types; the explicit annotation
+        // (from the emitted interfaces) is the operation's type.
+        castToAnnotation: true,
       });
 
       return [...pre, errorTypeAlias + operationComment + opConst].join("\n");
@@ -2470,64 +2050,53 @@ export const awsSpec = (
         commonErrorsRef === "CommonErr"
           ? 'import type { CommonErrors as CommonErr } from "../errors.ts";'
           : 'import type { CommonErrors } from "../errors.ts";';
+      const [protocolImpl, protocolModule] = PROTOCOL_IMPORTS[protocol]!;
 
       // Placeholder imports are resolved by postProcess based on usage.
-      // Sensitive schemas import directly from sensitive.ts to avoid the
-      // traits.ts↔protocol circular dependency.
       const imports = [
-        'import * as HttpClient from "effect/unstable/http/HttpClient";',
+        'import type * as HttpClient from "effect/unstable/http/HttpClient";',
         "__EFFECT_IMPORT__",
         "__REDACTED_IMPORT__",
-        'import * as S from "@distilled.cloud/core/schema";',
         "__STREAM_IMPORT__",
         'import * as API from "@distilled.cloud/core/api";',
+        "__DESCRIPTOR_IMPORT__",
+        "__ERROR_IMPORT__",
         'import { AwsProtocol } from "../protocol.ts";',
+        `import { ${protocolImpl} } from "${protocolModule}";`,
         'import { Retry } from "../retry.ts";',
-        'import * as T from "../traits.ts";',
-        "__CATEGORY_IMPORT__",
+        'import type * as T from "../types.ts";',
         credentialsImport,
         commonErrorsImport,
-        "__SENSITIVE_IMPORT__",
       ].join("\n");
 
-      const serviceConstants: string[] = [];
-      if (serviceXmlNamespace) {
-        serviceConstants.push(
-          `const ns = T.XmlNamespace("${serviceXmlNamespace}");`,
-        );
-      }
-      serviceConstants.push(
-        `const svc = T.AwsApiService({ sdkId: "${sdkId}", serviceShapeName: "${serviceShapeName}" });`,
-      );
-      serviceConstants.push(
+      // Service-wide facts every operation's descriptor points at. A plain
+      // object literal: bundlers drop it when no operation is imported.
+      const serviceParts = [
+        `sdkId: ${JSON.stringify(sdkId)}`,
+        `target: ${JSON.stringify(serviceShapeName)}`,
+        `version: ${JSON.stringify(version)}`,
         sigV2ServiceName !== undefined
-          ? `const auth = T.AwsAuthSigv2({ name: "${sigV2ServiceName}" });`
-          : `const auth = T.AwsAuthSigv4({ name: "${sigV4ServiceName}" });`,
-      );
-      serviceConstants.push(`const ver = T.ServiceVersion("${version}");`);
+          ? `sigv2: ${JSON.stringify(sigV2ServiceName)}`
+          : `sigv4: ${JSON.stringify(sigV4ServiceName)}`,
+        `protocol: ${protocolImpl}`,
+        ...(serviceXmlNamespace
+          ? [`xmlns: ${JSON.stringify(serviceXmlNamespace)}`]
+          : []),
+        ...(endpointRuleSet
+          ? [
+              `rules: ${generateRuleSetCode(endpointRuleSet as RuleSetObject, {
+                typed: true,
+              })}`,
+            ]
+          : []),
+      ];
+      return `${imports}\nconst svc: T.ServiceInfo = { ${serviceParts.join(",\n")} };\n\n`;
+    },
 
-      const protoAnnotation =
-        {
-          "aws.protocols#restXml": "T.AwsProtocolsRestXml()",
-          "aws.protocols#restJson1": "T.AwsProtocolsRestJson1()",
-          "aws.protocols#awsJson1_0": "T.AwsProtocolsAwsJson1_0()",
-          "aws.protocols#awsJson1_1": "T.AwsProtocolsAwsJson1_1()",
-          "aws.protocols#awsQuery": "T.AwsProtocolsAwsQuery()",
-          "aws.protocols#ec2Query": "T.AwsProtocolsEc2Query()",
-        }[protocol] ?? "T.AwsProtocolsRestXml()";
-      serviceConstants.push(`const proto = ${protoAnnotation};`);
-
-      // Compiled endpoint resolver function (if a rule set is available)
-      if (endpointRuleSet) {
-        serviceConstants.push(
-          `const rules = T.EndpointResolver(${generateRuleSetCode(
-            endpointRuleSet as RuleSetObject,
-            { typed: true },
-          )});`,
-        );
-      }
-
-      return `${imports}\n${serviceConstants.join("\n")}\n\n`;
+    // Shapes shared between operations: lazy consts, resolved on first use.
+    footer: () => {
+      const hoisted = descriptors.hoisted();
+      return hoisted.length ? [hoisted.join("\n") + "\n"] : [];
     },
 
     // Resolve the conditional-import placeholders against actual usage.
@@ -2547,45 +2116,29 @@ export const awsSpec = (
 
       replacePlaceholder(
         "__EFFECT_IMPORT__",
-        'import * as effect from "effect/Effect";',
+        'import type * as effect from "effect/Effect";',
         /\beffect\.[A-Z]/,
       );
       replacePlaceholder(
         "__REDACTED_IMPORT__",
-        'import * as redacted from "effect/Redacted";',
+        'import type * as redacted from "effect/Redacted";',
         /\bredacted\.[A-Z]/,
       );
       replacePlaceholder(
         "__STREAM_IMPORT__",
-        'import * as stream from "effect/Stream";',
+        'import type * as stream from "effect/Stream";',
         /\bstream\.[A-Z]/,
       );
       replacePlaceholder(
-        "__CATEGORY_IMPORT__",
-        'import * as C from "../category.ts";',
-        /\bC\.with/,
+        "__DESCRIPTOR_IMPORT__",
+        'import * as D from "@distilled.cloud/core/shape";',
+        /\bD\.[a-zA-Z]/,
       );
-      const usesSensitiveString = /\bSensitiveString\b/.test(fileContents);
-      const usesSensitiveBlob = /\bSensitiveBlob\b/.test(fileContents);
-      if (usesSensitiveString && usesSensitiveBlob) {
-        fileContents = fileContents.replace(
-          "__SENSITIVE_IMPORT__",
-          'import { SensitiveString, SensitiveBlob } from "../sensitive.ts";',
-        );
-      } else if (usesSensitiveString) {
-        fileContents = fileContents.replace(
-          "__SENSITIVE_IMPORT__",
-          'import { SensitiveString } from "../sensitive.ts";',
-        );
-      } else if (usesSensitiveBlob) {
-        fileContents = fileContents.replace(
-          "__SENSITIVE_IMPORT__",
-          'import { SensitiveBlob } from "../sensitive.ts";',
-        );
-      } else {
-        fileContents = fileContents.replace("__SENSITIVE_IMPORT__\n", "");
-        fileContents = fileContents.replace("__SENSITIVE_IMPORT__", "");
-      }
+      replacePlaceholder(
+        "__ERROR_IMPORT__",
+        'import * as TE from "@distilled.cloud/core/error-class";',
+        /\bTE\.TaggedError/,
+      );
       return fileContents;
     },
   };

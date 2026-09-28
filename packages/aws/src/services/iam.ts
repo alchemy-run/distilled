@@ -1,788 +1,624 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { awsQueryProtocol } from "../protocols/aws-query.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
-const ns = T.XmlNamespace("https://iam.amazonaws.com/doc/2010-05-08/");
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "IAM",
-  serviceShapeName: "AWSIdentityManagementV20100508",
-});
-const auth = T.AwsAuthSigv4({ name: "iam" });
-const ver = T.ServiceVersion("2010-05-08");
-const proto = T.AwsProtocolsAwsQuery();
-const rules = T.EndpointResolver((p, _) => {
-  const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  const _p0 = () => ({
-    authSchemes: [{ name: "sigv4", signingRegion: "us-east-1" }],
-  });
-  const _p1 = () => ({
-    authSchemes: [{ name: "sigv4", signingRegion: "cn-north-1" }],
-  });
-  const _p2 = () => ({
-    authSchemes: [{ name: "sigv4", signingRegion: "us-gov-west-1" }],
-  });
-  const _p3 = () => ({
-    authSchemes: [{ name: "sigv4", signingRegion: "us-iso-east-1" }],
-  });
-  const _p4 = () => ({
-    authSchemes: [{ name: "sigv4", signingRegion: "us-isob-east-1" }],
-  });
-  const _p5 = () => ({
-    authSchemes: [{ name: "sigv4", signingRegion: "eu-isoe-west-1" }],
-  });
-  const _p6 = () => ({
-    authSchemes: [{ name: "sigv4", signingRegion: "us-isof-south-1" }],
-  });
-  const _p7 = () => ({
-    authSchemes: [{ name: "sigv4", signingRegion: "eusc-de-east-1" }],
-  });
-  const _p8 = (_0: unknown) => ({
-    authSchemes: [
+  target: "AWSIdentityManagementV20100508",
+  version: "2010-05-08",
+  sigv4: "iam",
+  protocol: awsQueryProtocol,
+  xmlns: "https://iam.amazonaws.com/doc/2010-05-08/",
+  rules: (p, _) => {
+    const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    const _p0 = () => ({
+      authSchemes: [{ name: "sigv4", signingRegion: "us-east-1" }],
+    });
+    const _p1 = () => ({
+      authSchemes: [{ name: "sigv4", signingRegion: "cn-north-1" }],
+    });
+    const _p2 = () => ({
+      authSchemes: [{ name: "sigv4", signingRegion: "us-gov-west-1" }],
+    });
+    const _p3 = () => ({
+      authSchemes: [{ name: "sigv4", signingRegion: "us-iso-east-1" }],
+    });
+    const _p4 = () => ({
+      authSchemes: [{ name: "sigv4", signingRegion: "us-isob-east-1" }],
+    });
+    const _p5 = () => ({
+      authSchemes: [{ name: "sigv4", signingRegion: "eu-isoe-west-1" }],
+    });
+    const _p6 = () => ({
+      authSchemes: [{ name: "sigv4", signingRegion: "us-isof-south-1" }],
+    });
+    const _p7 = () => ({
+      authSchemes: [{ name: "sigv4", signingRegion: "eusc-de-east-1" }],
+    });
+    const _p8 = (_0: unknown) => ({
+      authSchemes: [
+        {
+          name: "sigv4",
+          signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}`,
+        },
+      ],
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
+        );
+      }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
+    }
+    if (Region != null) {
       {
-        name: "sigv4",
-        signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}`,
-      },
-    ],
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e("https://iam.amazonaws.com", _p0(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e("https://iam-fips.amazonaws.com", _p0(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e("https://iam.global.api.aws", _p0(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e("https://iam-fips.global.api.aws", _p0(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-cn" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e("https://iam.amazonaws.com", _p0(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e("https://iam-fips.amazonaws.com", _p0(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e("https://iam.global.api.aws", _p0(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e("https://iam-fips.global.api.aws", _p0(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-cn" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e(
+              "https://iam.global.api.amazonwebservices.com.cn",
+              _p1(),
+              {},
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-cn" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e(
+              "https://iam-fips.api.amazonwebservices.com.cn",
+              _p1(),
+              {},
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-cn" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e("https://iam.cn-north-1.amazonaws.com.cn", _p1(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-cn" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e("https://iam-fips.amazonaws.com.cn", _p1(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e("https://iam.us-gov.api.aws", _p2(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e("https://iam.us-gov.api.aws", _p2(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e("https://iam.us-gov.amazonaws.com", _p2(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e("https://iam.us-gov.amazonaws.com", _p2(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e("https://iam.us-iso-east-1.c2s.ic.gov", _p3(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e("https://iam-fips.us-iso-east-1.c2s.ic.gov", _p3(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e("https://iam.api.aws.ic.gov", _p3(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e("https://iam-fips.api.aws.ic.gov", _p3(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e("https://iam.us-isob-east-1.sc2s.sgov.gov", _p4(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e(
+              "https://iam-fips.us-isob-east-1.sc2s.sgov.gov",
+              _p4(),
+              {},
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e("https://iam.api.aws.scloud", _p4(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e("https://iam-fips.api.aws.scloud", _p4(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-e" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e("https://iam.eu-isoe-west-1.cloud.adc-e.uk", _p5(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-e" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e("https://iam-fips.cloud.adc-e.uk", _p5(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-e" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e("https://iam.api.cloud-aws.adc-e.uk", _p5(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-e" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e("https://iam-fips.api.cloud-aws.adc-e.uk", _p5(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e("https://iam.us-isof-south-1.csp.hci.ic.gov", _p6(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e("https://iam-fips.csp.hci.ic.gov", _p6(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e("https://iam.api.aws.hci.ic.gov", _p6(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e("https://iam-fips.api.aws.hci.ic.gov", _p6(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-eusc" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e("https://iam.eusc-de-east-1.amazonaws.eu", _p7(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-eusc" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e("https://iam-fips.amazonaws.eu", _p7(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-eusc" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e("https://iam.global.api.amazonwebservices.eu", _p7(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-eusc" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e("https://iam-fips.api.amazonwebservices.eu", _p7(), {});
+          }
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://iam-fips.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                _p8(PartitionResult),
+                {},
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true && UseDualStack === false) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://iam-fips.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                _p8(PartitionResult),
+                {},
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseFIPS === false && UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://iam.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                _p8(PartitionResult),
+                {},
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
           return e(
-            "https://iam.global.api.amazonwebservices.com.cn",
-            _p1(),
+            `https://iam.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            _p8(PartitionResult),
             {},
           );
         }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-cn" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e("https://iam-fips.api.amazonwebservices.com.cn", _p1(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-cn" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e("https://iam.cn-north-1.amazonaws.com.cn", _p1(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-cn" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e("https://iam-fips.amazonaws.com.cn", _p1(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e("https://iam.us-gov.api.aws", _p2(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e("https://iam.us-gov.api.aws", _p2(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e("https://iam.us-gov.amazonaws.com", _p2(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e("https://iam.us-gov.amazonaws.com", _p2(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e("https://iam.us-iso-east-1.c2s.ic.gov", _p3(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e("https://iam-fips.us-iso-east-1.c2s.ic.gov", _p3(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e("https://iam.api.aws.ic.gov", _p3(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e("https://iam-fips.api.aws.ic.gov", _p3(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e("https://iam.us-isob-east-1.sc2s.sgov.gov", _p4(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e("https://iam-fips.us-isob-east-1.sc2s.sgov.gov", _p4(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e("https://iam.api.aws.scloud", _p4(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e("https://iam-fips.api.aws.scloud", _p4(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-e" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e("https://iam.eu-isoe-west-1.cloud.adc-e.uk", _p5(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-e" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e("https://iam-fips.cloud.adc-e.uk", _p5(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-e" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e("https://iam.api.cloud-aws.adc-e.uk", _p5(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-e" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e("https://iam-fips.api.cloud-aws.adc-e.uk", _p5(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e("https://iam.us-isof-south-1.csp.hci.ic.gov", _p6(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e("https://iam-fips.csp.hci.ic.gov", _p6(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e("https://iam.api.aws.hci.ic.gov", _p6(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e("https://iam-fips.api.aws.hci.ic.gov", _p6(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-eusc" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e("https://iam.eusc-de-east-1.amazonaws.eu", _p7(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-eusc" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e("https://iam-fips.amazonaws.eu", _p7(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-eusc" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e("https://iam.global.api.amazonwebservices.eu", _p7(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-eusc" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e("https://iam-fips.api.amazonwebservices.eu", _p7(), {});
-        }
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://iam-fips.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-              _p8(PartitionResult),
-              {},
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true && UseDualStack === false) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://iam-fips.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-              _p8(PartitionResult),
-              {},
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseFIPS === false && UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://iam.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-              _p8(PartitionResult),
-              {},
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://iam.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          _p8(PartitionResult),
-          {},
-        );
       }
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccountNotManagementOrDelegatedAdministratorException
-  extends /*@__PURE__*/ S.TaggedError<AccountNotManagementOrDelegatedAdministratorException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "AccountNotManagementOrDelegatedAdministratorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class CallerIsNotManagementAccountException
-  extends /*@__PURE__*/ S.TaggedError<CallerIsNotManagementAccountException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CallerIsNotManagementAccountException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ConcurrentModificationException
-  extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ConcurrentModificationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ConcurrentModification",
-        httpResponseCode: 409,
-      }),
-      T.HttpError(409),
-    ),
-  ).pipe(C.withConflictError, C.withRetryableError) {}
+    ["ConflictError", "RetryableError"],
+    { code: "ConcurrentModification", status: 409 },
+  )<{ readonly message?: string }> {}
 export class CredentialReportExpiredException
-  extends /*@__PURE__*/ S.TaggedError<CredentialReportExpiredException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CredentialReportExpiredException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ReportExpired", httpResponseCode: 410 }),
-      T.HttpError(410),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ReportExpired", status: 410 },
+  )<{ readonly message?: string }> {}
 export class CredentialReportNotPresentException
-  extends /*@__PURE__*/ S.TaggedError<CredentialReportNotPresentException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CredentialReportNotPresentException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ReportNotPresent", httpResponseCode: 410 }),
-      T.HttpError(410),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ReportNotPresent", status: 410 },
+  )<{ readonly message?: string }> {}
 export class CredentialReportNotReadyException
-  extends /*@__PURE__*/ S.TaggedError<CredentialReportNotReadyException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CredentialReportNotReadyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ReportInProgress", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ReportInProgress", status: 404 },
+  )<{ readonly message?: string }> {}
 export class DeleteConflictException
-  extends /*@__PURE__*/ S.TaggedError<DeleteConflictException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DeleteConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "DeleteConflict", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { code: "DeleteConflict", status: 409 },
+  )<{ readonly message?: string }> {}
 export class DuplicateCertificateException
-  extends /*@__PURE__*/ S.TaggedError<DuplicateCertificateException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DuplicateCertificateException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "DuplicateCertificate", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { code: "DuplicateCertificate", status: 409 },
+  )<{ readonly message?: string }> {}
 export class DuplicateSSHPublicKeyException
-  extends /*@__PURE__*/ S.TaggedError<DuplicateSSHPublicKeyException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DuplicateSSHPublicKeyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "DuplicateSSHPublicKey", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "DuplicateSSHPublicKey", status: 400 },
+  )<{ readonly message?: string }> {}
 export class EntityAlreadyExistsException
-  extends /*@__PURE__*/ S.TaggedError<EntityAlreadyExistsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EntityAlreadyExistsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "EntityAlreadyExists", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { code: "EntityAlreadyExists", status: 409 },
+  )<{ readonly message?: string }> {}
 export class EntityTemporarilyUnmodifiableException
-  extends /*@__PURE__*/ S.TaggedError<EntityTemporarilyUnmodifiableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EntityTemporarilyUnmodifiableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "EntityTemporarilyUnmodifiable",
-        httpResponseCode: 409,
-      }),
-      T.HttpError(409),
-    ),
-  ).pipe(C.withConflictError, C.withRetryableError) {}
+    ["ConflictError", "RetryableError"],
+    { code: "EntityTemporarilyUnmodifiable", status: 409 },
+  )<{ readonly message?: string }> {}
 export class FeatureDisabledException
-  extends /*@__PURE__*/ S.TaggedError<FeatureDisabledException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "FeatureDisabledException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "FeatureDisabled", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "FeatureDisabled", status: 404 },
+  )<{ readonly message?: string }> {}
 export class FeatureEnabledException
-  extends /*@__PURE__*/ S.TaggedError<FeatureEnabledException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "FeatureEnabledException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "FeatureEnabled", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { code: "FeatureEnabled", status: 409 },
+  )<{ readonly message?: string }> {}
 export class InvalidAuthenticationCodeException
-  extends /*@__PURE__*/ S.TaggedError<InvalidAuthenticationCodeException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidAuthenticationCodeException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidAuthenticationCode",
-        httpResponseCode: 403,
-      }),
-      T.HttpError(403),
-    ),
-  ).pipe(C.withAuthError) {}
+    ["AuthError"],
+    { code: "InvalidAuthenticationCode", status: 403 },
+  )<{ readonly message?: string }> {}
 export class InvalidCertificateException
-  extends /*@__PURE__*/ S.TaggedError<InvalidCertificateException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidCertificateException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidCertificate", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidCertificate", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidInput
-  extends /*@__PURE__*/ S.TaggedError<InvalidInput>()("InvalidInput", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidInput")<{
+    readonly message?: string;
+  }> {}
 export class InvalidInputException
-  extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidInputException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidInput", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidInput", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidPublicKeyException
-  extends /*@__PURE__*/ S.TaggedError<InvalidPublicKeyException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidPublicKeyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidPublicKey", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidPublicKey", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidUserTypeException
-  extends /*@__PURE__*/ S.TaggedError<InvalidUserTypeException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidUserTypeException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidUserType", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidUserType", status: 400 },
+  )<{ readonly message?: string }> {}
 export class KeyPairMismatchException
-  extends /*@__PURE__*/ S.TaggedError<KeyPairMismatchException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "KeyPairMismatchException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "KeyPairMismatch", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "KeyPairMismatch", status: 400 },
+  )<{ readonly message?: string }> {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
-  ).pipe(C.withConflictError, C.withQuotaError) {}
+    ["ConflictError", "QuotaError"],
+    { code: "LimitExceeded", status: 409 },
+  )<{ readonly message?: string }> {}
 export class MalformedCertificateException
-  extends /*@__PURE__*/ S.TaggedError<MalformedCertificateException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MalformedCertificateException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "MalformedCertificate", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "MalformedCertificate", status: 400 },
+  )<{ readonly message?: string }> {}
 export class MalformedPolicyDocumentException
-  extends /*@__PURE__*/ S.TaggedError<MalformedPolicyDocumentException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MalformedPolicyDocumentException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "MalformedPolicyDocument",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "MalformedPolicyDocument", status: 400 },
+  )<{ readonly message?: string }> {}
 export class NameConflictException
-  extends /*@__PURE__*/ S.TaggedError<NameConflictException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NameConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "NameConflict", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { code: "NameConflict", status: 409 },
+  )<{ readonly message?: string }> {}
 export class NoSuchEntityException
-  extends /*@__PURE__*/ S.TaggedError<NoSuchEntityException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchEntityException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "NoSuchEntity", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError, C.withNotFoundError) {}
+    ["BadRequestError", "NotFoundError"],
+    { code: "NoSuchEntity", status: 404 },
+  )<{ readonly message?: string }> {}
 export class OpenIdIdpCommunicationErrorException
-  extends /*@__PURE__*/ S.TaggedError<OpenIdIdpCommunicationErrorException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "OpenIdIdpCommunicationErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "OpenIdIdpCommunicationError",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "OpenIdIdpCommunicationError", status: 400 },
+  )<{ readonly message?: string }> {}
 export class OrganizationNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<OrganizationNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "OrganizationNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class OrganizationNotInAllFeaturesModeException
-  extends /*@__PURE__*/ S.TaggedError<OrganizationNotInAllFeaturesModeException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "OrganizationNotInAllFeaturesModeException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class PasswordPolicyViolationException
-  extends /*@__PURE__*/ S.TaggedError<PasswordPolicyViolationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "PasswordPolicyViolationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "PasswordPolicyViolation",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "PasswordPolicyViolation", status: 400 },
+  )<{ readonly message?: string }> {}
 export class PolicyEvaluationException
-  extends /*@__PURE__*/ S.TaggedError<PolicyEvaluationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "PolicyEvaluationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "PolicyEvaluation", httpResponseCode: 500 }),
-      T.HttpError(500),
-    ),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { code: "PolicyEvaluation", status: 500 },
+  )<{ readonly message?: string }> {}
 export class PolicyNotAttachableException
-  extends /*@__PURE__*/ S.TaggedError<PolicyNotAttachableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "PolicyNotAttachableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "PolicyNotAttachable", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "PolicyNotAttachable", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ReportGenerationLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<ReportGenerationLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ReportGenerationLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ReportGenerationLimitExceeded",
-        httpResponseCode: 409,
-      }),
-      T.HttpError(409),
-    ),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { code: "ReportGenerationLimitExceeded", status: 409 },
+  )<{ readonly message?: string }> {}
 export class RequestLimitExceeded
-  extends /*@__PURE__*/ S.TaggedError<RequestLimitExceeded>()(
-    "RequestLimitExceeded",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+  extends /*@__PURE__*/ TE.TaggedError("RequestLimitExceeded", [
+    "ThrottlingError",
+    "RetryableError",
+  ])<{ readonly message?: string }> {}
 export class RoleModifiedException
-  extends /*@__PURE__*/ S.TaggedError<RoleModifiedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RoleModifiedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "RoleModified", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { code: "RoleModified", status: 409 },
+  )<{ readonly message?: string }> {}
 export class RoleTemplateDisabledException
-  extends /*@__PURE__*/ S.TaggedError<RoleTemplateDisabledException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RoleTemplateDisabledException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "RoleTemplateDisabled", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "RoleTemplateDisabled", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ServiceAccessNotEnabledException
-  extends /*@__PURE__*/ S.TaggedError<ServiceAccessNotEnabledException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceAccessNotEnabledException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ServiceFailureException
-  extends /*@__PURE__*/ S.TaggedError<ServiceFailureException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceFailureException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ServiceFailure", httpResponseCode: 500 }),
-      T.HttpError(500),
-    ),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { code: "ServiceFailure", status: 500 },
+  )<{ readonly message?: string }> {}
 export class ServiceNotSupportedException
-  extends /*@__PURE__*/ S.TaggedError<ServiceNotSupportedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceNotSupportedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "NotSupportedService", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "NotSupportedService", status: 404 },
+  )<{ readonly message?: string }> {}
 export class UnmodifiableEntityException
-  extends /*@__PURE__*/ S.TaggedError<UnmodifiableEntityException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "UnmodifiableEntityException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "UnmodifiableEntity", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "UnmodifiableEntity", status: 400 },
+  )<{ readonly message?: string }> {}
 export class UnrecognizedPublicKeyEncodingException
-  extends /*@__PURE__*/ S.TaggedError<UnrecognizedPublicKeyEncodingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "UnrecognizedPublicKeyEncodingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "UnrecognizedPublicKeyEncoding",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "UnrecognizedPublicKeyEncoding", status: 400 },
+  )<{ readonly message?: string }> {}
 export type DelegationRequestIdType = string;
 export interface AcceptDelegationRequestRequest {
   DelegationRequestId: string;
 }
-export const AcceptDelegationRequestRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DelegationRequestId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AcceptDelegationRequestRequest",
-}) as any as S.Schema<AcceptDelegationRequestRequest>;
 export interface AcceptDelegationRequestResponse {}
-export const AcceptDelegationRequestResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AcceptDelegationRequestResponse",
-}) as any as S.Schema<AcceptDelegationRequestResponse>;
 export type ArnType = string;
 export type IntegerType = number;
 export type StringType = string;
 export type ReplacementValueListType = string[];
-export const ReplacementValueListType = /*@__PURE__*/ S.Array(S.String);
 export interface ReplacementValueEntry {
   Values: string[];
 }
-export const ReplacementValueEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Values: ReplacementValueListType }),
-).annotate({
-  identifier: "ReplacementValueEntry",
-}) as any as S.Schema<ReplacementValueEntry>;
 export type MapStringReplacementValueEntry = {
   [key: string]: ReplacementValueEntry | undefined;
 };
-export const MapStringReplacementValueEntry = /*@__PURE__*/ S.Record(
-  S.String,
-  ReplacementValueEntry.pipe(S.optional),
-);
 export interface AcquireRoleRequest {
   TemplateArn: string;
   TemplateMinorVersion?: number;
   ReplacementValues?: { [key: string]: ReplacementValueEntry | undefined };
 }
-export const AcquireRoleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TemplateArn: S.String,
-    TemplateMinorVersion: S.optional(S.Number),
-    ReplacementValues: S.optional(MapStringReplacementValueEntry),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AcquireRoleRequest",
-}) as any as S.Schema<AcquireRoleRequest>;
 export type PathType = string;
 export type RoleNameType = string;
 export type IdType = string;
@@ -792,52 +628,25 @@ export type RoleMaxSessionDurationType = number;
 export type PermissionsBoundaryAttachmentType =
   | "PermissionsBoundaryPolicy"
   | (string & {});
-export const PermissionsBoundaryAttachmentType = S.String;
-
 export interface AttachedPermissionsBoundary {
   PermissionsBoundaryType?: PermissionsBoundaryAttachmentType;
   PermissionsBoundaryArn?: string;
 }
-export const AttachedPermissionsBoundary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PermissionsBoundaryType: S.optional(PermissionsBoundaryAttachmentType),
-    PermissionsBoundaryArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AttachedPermissionsBoundary",
-}) as any as S.Schema<AttachedPermissionsBoundary>;
 export type TagKeyType = string;
 export type TagValueType = string;
 export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagListType = Tag[];
-export const TagListType = /*@__PURE__*/ S.Array(Tag);
 export interface RoleLastUsed {
   LastUsedDate?: Date;
   Region?: string;
 }
-export const RoleLastUsed = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LastUsedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Region: S.optional(S.String),
-  }),
-).annotate({ identifier: "RoleLastUsed" }) as any as S.Schema<RoleLastUsed>;
 export interface SourceRoleTemplate {
   TemplateArn: string;
   TemplateMinorVersion: number;
 }
-export const SourceRoleTemplate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TemplateArn: S.String, TemplateMinorVersion: S.Number }),
-).annotate({
-  identifier: "SourceRoleTemplate",
-}) as any as S.Schema<SourceRoleTemplate>;
 export interface Role {
   Path: string;
   RoleName: string;
@@ -852,257 +661,59 @@ export interface Role {
   RoleLastUsed?: RoleLastUsed;
   SourceRoleTemplate?: SourceRoleTemplate;
 }
-export const Role = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Path: S.String,
-    RoleName: S.String,
-    RoleId: S.String,
-    Arn: S.String,
-    CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    AssumeRolePolicyDocument: S.optional(S.String),
-    Description: S.optional(S.String),
-    MaxSessionDuration: S.optional(S.Number),
-    PermissionsBoundary: S.optional(AttachedPermissionsBoundary),
-    Tags: S.optional(TagListType),
-    RoleLastUsed: S.optional(RoleLastUsed),
-    SourceRoleTemplate: S.optional(SourceRoleTemplate),
-  }),
-).annotate({ identifier: "Role" }) as any as S.Schema<Role>;
 export interface AcquireRoleResponse {
   Role: Role;
 }
-export const AcquireRoleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Role: Role }).pipe(ns),
-).annotate({
-  identifier: "AcquireRoleResponse",
-}) as any as S.Schema<AcquireRoleResponse>;
 export type ClientIDType = string;
 export interface AddClientIDToOpenIDConnectProviderRequest {
   OpenIDConnectProviderArn: string;
   ClientID: string;
 }
-export const AddClientIDToOpenIDConnectProviderRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ OpenIDConnectProviderArn: S.String, ClientID: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "AddClientIDToOpenIDConnectProviderRequest",
-  }) as any as S.Schema<AddClientIDToOpenIDConnectProviderRequest>;
 export interface AddClientIDToOpenIDConnectProviderResponse {}
-export const AddClientIDToOpenIDConnectProviderResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "AddClientIDToOpenIDConnectProviderResponse",
-  }) as any as S.Schema<AddClientIDToOpenIDConnectProviderResponse>;
 export type InstanceProfileNameType = string;
 export interface AddRoleToInstanceProfileRequest {
   InstanceProfileName: string;
   RoleName: string;
 }
-export const AddRoleToInstanceProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceProfileName: S.String, RoleName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AddRoleToInstanceProfileRequest",
-}) as any as S.Schema<AddRoleToInstanceProfileRequest>;
 export interface AddRoleToInstanceProfileResponse {}
-export const AddRoleToInstanceProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AddRoleToInstanceProfileResponse",
-}) as any as S.Schema<AddRoleToInstanceProfileResponse>;
 export type GroupNameType = string;
 export type ExistingUserNameType = string;
 export interface AddUserToGroupRequest {
   GroupName: string;
   UserName: string;
 }
-export const AddUserToGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GroupName: S.String, UserName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AddUserToGroupRequest",
-}) as any as S.Schema<AddUserToGroupRequest>;
 export interface AddUserToGroupResponse {}
-export const AddUserToGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AddUserToGroupResponse",
-}) as any as S.Schema<AddUserToGroupResponse>;
 export interface AssociateDelegationRequestRequest {
   DelegationRequestId: string;
 }
-export const AssociateDelegationRequestRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DelegationRequestId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateDelegationRequestRequest",
-}) as any as S.Schema<AssociateDelegationRequestRequest>;
 export interface AssociateDelegationRequestResponse {}
-export const AssociateDelegationRequestResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AssociateDelegationRequestResponse",
-}) as any as S.Schema<AssociateDelegationRequestResponse>;
 export interface AttachGroupPolicyRequest {
   GroupName: string;
   PolicyArn: string;
 }
-export const AttachGroupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GroupName: S.String, PolicyArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AttachGroupPolicyRequest",
-}) as any as S.Schema<AttachGroupPolicyRequest>;
 export interface AttachGroupPolicyResponse {}
-export const AttachGroupPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AttachGroupPolicyResponse",
-}) as any as S.Schema<AttachGroupPolicyResponse>;
 export interface AttachRolePolicyRequest {
   RoleName: string;
   PolicyArn: string;
 }
-export const AttachRolePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleName: S.String, PolicyArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AttachRolePolicyRequest",
-}) as any as S.Schema<AttachRolePolicyRequest>;
 export interface AttachRolePolicyResponse {}
-export const AttachRolePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AttachRolePolicyResponse",
-}) as any as S.Schema<AttachRolePolicyResponse>;
 export type UserNameType = string;
 export interface AttachUserPolicyRequest {
   UserName: string;
   PolicyArn: string;
 }
-export const AttachUserPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.String, PolicyArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AttachUserPolicyRequest",
-}) as any as S.Schema<AttachUserPolicyRequest>;
 export interface AttachUserPolicyResponse {}
-export const AttachUserPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AttachUserPolicyResponse",
-}) as any as S.Schema<AttachUserPolicyResponse>;
 export type PasswordType = string | redacted.Redacted<string>;
 export interface ChangePasswordRequest {
   OldPassword: string | redacted.Redacted<string>;
   NewPassword: string | redacted.Redacted<string>;
 }
-export const ChangePasswordRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OldPassword: SensitiveString, NewPassword: SensitiveString }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ChangePasswordRequest",
-}) as any as S.Schema<ChangePasswordRequest>;
 export interface ChangePasswordResponse {}
-export const ChangePasswordResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "ChangePasswordResponse",
-}) as any as S.Schema<ChangePasswordResponse>;
 export interface CreateAccessKeyRequest {
   UserName?: string;
 }
-export const CreateAccessKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAccessKeyRequest",
-}) as any as S.Schema<CreateAccessKeyRequest>;
 export type AccessKeyIdType = string;
 export type StatusType = "Active" | "Inactive" | "Expired" | (string & {});
-export const StatusType = S.String;
-
 export type AccessKeySecretType = string | redacted.Redacted<string>;
 export interface AccessKey {
   UserName: string;
@@ -1111,87 +722,30 @@ export interface AccessKey {
   SecretAccessKey: string | redacted.Redacted<string>;
   CreateDate?: Date;
 }
-export const AccessKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    AccessKeyId: S.String,
-    Status: StatusType,
-    SecretAccessKey: SensitiveString,
-    CreateDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({ identifier: "AccessKey" }) as any as S.Schema<AccessKey>;
 export interface CreateAccessKeyResponse {
   AccessKey: AccessKey;
 }
-export const CreateAccessKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccessKey: AccessKey }).pipe(ns),
-).annotate({
-  identifier: "CreateAccessKeyResponse",
-}) as any as S.Schema<CreateAccessKeyResponse>;
 export type AccountAliasType = string;
 export interface CreateAccountAliasRequest {
   AccountAlias: string;
 }
-export const CreateAccountAliasRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountAlias: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAccountAliasRequest",
-}) as any as S.Schema<CreateAccountAliasRequest>;
 export interface CreateAccountAliasResponse {}
-export const CreateAccountAliasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateAccountAliasResponse",
-}) as any as S.Schema<CreateAccountAliasResponse>;
 export type AccountIdType = string;
 export type DelegationRequestDescriptionType = string;
 export type PolicyParameterNameType = string;
 export type PolicyParameterValueType = string;
 export type PolicyParameterValuesListType = string[];
-export const PolicyParameterValuesListType = /*@__PURE__*/ S.Array(S.String);
 export type PolicyParameterTypeEnum = "string" | "stringList" | (string & {});
-export const PolicyParameterTypeEnum = S.String;
-
 export interface PolicyParameter {
   Name?: string;
   Values?: string[];
   Type?: PolicyParameterTypeEnum;
 }
-export const PolicyParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Values: S.optional(PolicyParameterValuesListType),
-    Type: S.optional(PolicyParameterTypeEnum),
-  }),
-).annotate({
-  identifier: "PolicyParameter",
-}) as any as S.Schema<PolicyParameter>;
 export type PolicyParameterListType = PolicyParameter[];
-export const PolicyParameterListType = /*@__PURE__*/ S.Array(PolicyParameter);
 export interface DelegationPermission {
   PolicyTemplateArn?: string;
   Parameters?: PolicyParameter[];
 }
-export const DelegationPermission = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyTemplateArn: S.optional(S.String),
-    Parameters: S.optional(PolicyParameterListType),
-  }),
-).annotate({
-  identifier: "DelegationPermission",
-}) as any as S.Schema<DelegationPermission>;
 export type RequestMessageType = string;
 export type RequestorWorkflowIdType = string;
 export type RedirectUrlType = string;
@@ -1208,63 +762,15 @@ export interface CreateDelegationRequestRequest {
   SessionDuration: number;
   OnlySendByOwner?: boolean;
 }
-export const CreateDelegationRequestRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OwnerAccountId: S.optional(S.String),
-    Description: S.String,
-    Permissions: DelegationPermission,
-    RequestMessage: S.optional(S.String),
-    RequestorWorkflowId: S.String,
-    RedirectUrl: S.optional(S.String),
-    NotificationChannel: S.String,
-    SessionDuration: S.Number,
-    OnlySendByOwner: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDelegationRequestRequest",
-}) as any as S.Schema<CreateDelegationRequestRequest>;
 export type ConsoleDeepLinkType = string;
 export interface CreateDelegationRequestResponse {
   ConsoleDeepLink?: string;
   DelegationRequestId?: string;
 }
-export const CreateDelegationRequestResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConsoleDeepLink: S.optional(S.String),
-    DelegationRequestId: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateDelegationRequestResponse",
-}) as any as S.Schema<CreateDelegationRequestResponse>;
 export interface CreateGroupRequest {
   Path?: string;
   GroupName: string;
 }
-export const CreateGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Path: S.optional(S.String), GroupName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateGroupRequest",
-}) as any as S.Schema<CreateGroupRequest>;
 export interface Group {
   Path: string;
   GroupName: string;
@@ -1272,49 +778,15 @@ export interface Group {
   Arn: string;
   CreateDate: Date;
 }
-export const Group = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Path: S.String,
-    GroupName: S.String,
-    GroupId: S.String,
-    Arn: S.String,
-    CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({ identifier: "Group" }) as any as S.Schema<Group>;
 export interface CreateGroupResponse {
   Group: Group;
 }
-export const CreateGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Group: Group }).pipe(ns),
-).annotate({
-  identifier: "CreateGroupResponse",
-}) as any as S.Schema<CreateGroupResponse>;
 export interface CreateInstanceProfileRequest {
   InstanceProfileName: string;
   Path?: string;
   Tags?: Tag[];
 }
-export const CreateInstanceProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceProfileName: S.String,
-    Path: S.optional(S.String),
-    Tags: S.optional(TagListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateInstanceProfileRequest",
-}) as any as S.Schema<CreateInstanceProfileRequest>;
 export type RoleListType = Role[];
-export const RoleListType = /*@__PURE__*/ S.Array(Role);
 export interface InstanceProfile {
   Path: string;
   InstanceProfileName: string;
@@ -1324,115 +796,36 @@ export interface InstanceProfile {
   Roles: Role[];
   Tags?: Tag[];
 }
-export const InstanceProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Path: S.String,
-    InstanceProfileName: S.String,
-    InstanceProfileId: S.String,
-    Arn: S.String,
-    CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    Roles: RoleListType,
-    Tags: S.optional(TagListType),
-  }),
-).annotate({
-  identifier: "InstanceProfile",
-}) as any as S.Schema<InstanceProfile>;
 export interface CreateInstanceProfileResponse {
   InstanceProfile: InstanceProfile;
 }
-export const CreateInstanceProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceProfile: InstanceProfile }).pipe(ns),
-).annotate({
-  identifier: "CreateInstanceProfileResponse",
-}) as any as S.Schema<CreateInstanceProfileResponse>;
 export interface CreateLoginProfileRequest {
   UserName?: string;
   Password?: string | redacted.Redacted<string>;
   PasswordResetRequired?: boolean;
 }
-export const CreateLoginProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.optional(S.String),
-    Password: S.optional(SensitiveString),
-    PasswordResetRequired: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateLoginProfileRequest",
-}) as any as S.Schema<CreateLoginProfileRequest>;
 export interface LoginProfile {
   UserName: string;
   CreateDate: Date;
   PasswordResetRequired?: boolean;
 }
-export const LoginProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    PasswordResetRequired: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "LoginProfile" }) as any as S.Schema<LoginProfile>;
 export interface CreateLoginProfileResponse {
   LoginProfile: LoginProfile;
 }
-export const CreateLoginProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LoginProfile: LoginProfile }).pipe(ns),
-).annotate({
-  identifier: "CreateLoginProfileResponse",
-}) as any as S.Schema<CreateLoginProfileResponse>;
 export type OpenIDConnectProviderUrlType = string;
 export type ClientIDListType = string[];
-export const ClientIDListType = /*@__PURE__*/ S.Array(S.String);
 export type ThumbprintType = string;
 export type ThumbprintListType = string[];
-export const ThumbprintListType = /*@__PURE__*/ S.Array(S.String);
 export interface CreateOpenIDConnectProviderRequest {
   Url: string;
   ClientIDList?: string[];
   ThumbprintList?: string[];
   Tags?: Tag[];
 }
-export const CreateOpenIDConnectProviderRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Url: S.String,
-    ClientIDList: S.optional(ClientIDListType),
-    ThumbprintList: S.optional(ThumbprintListType),
-    Tags: S.optional(TagListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateOpenIDConnectProviderRequest",
-}) as any as S.Schema<CreateOpenIDConnectProviderRequest>;
 export interface CreateOpenIDConnectProviderResponse {
   OpenIDConnectProviderArn?: string;
   Tags?: Tag[];
 }
-export const CreateOpenIDConnectProviderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OpenIDConnectProviderArn: S.optional(S.String),
-    Tags: S.optional(TagListType),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateOpenIDConnectProviderResponse",
-}) as any as S.Schema<CreateOpenIDConnectProviderResponse>;
 export type PolicyNameType = string;
 export type PolicyPathType = string;
 export type PolicyDescriptionType = string;
@@ -1443,27 +836,6 @@ export interface CreatePolicyRequest {
   Description?: string;
   Tags?: Tag[];
 }
-export const CreatePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyName: S.String,
-    Path: S.optional(S.String),
-    PolicyDocument: S.String,
-    Description: S.optional(S.String),
-    Tags: S.optional(TagListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreatePolicyRequest",
-}) as any as S.Schema<CreatePolicyRequest>;
 export type PolicyVersionIdType = string;
 export type AttachmentCountType = number;
 export interface Policy {
@@ -1480,82 +852,23 @@ export interface Policy {
   UpdateDate?: Date;
   Tags?: Tag[];
 }
-export const Policy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyName: S.optional(S.String),
-    PolicyId: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Path: S.optional(S.String),
-    DefaultVersionId: S.optional(S.String),
-    AttachmentCount: S.optional(S.Number),
-    PermissionsBoundaryUsageCount: S.optional(S.Number),
-    IsAttachable: S.optional(S.Boolean),
-    Description: S.optional(S.String),
-    CreateDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdateDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Tags: S.optional(TagListType),
-  }),
-).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 export interface CreatePolicyResponse {
   Policy?: Policy;
 }
-export const CreatePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(Policy) }).pipe(ns),
-).annotate({
-  identifier: "CreatePolicyResponse",
-}) as any as S.Schema<CreatePolicyResponse>;
 export interface CreatePolicyVersionRequest {
   PolicyArn: string;
   PolicyDocument: string;
   SetAsDefault?: boolean;
 }
-export const CreatePolicyVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyArn: S.String,
-    PolicyDocument: S.String,
-    SetAsDefault: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreatePolicyVersionRequest",
-}) as any as S.Schema<CreatePolicyVersionRequest>;
 export interface PolicyVersion {
   Document?: string;
   VersionId?: string;
   IsDefaultVersion?: boolean;
   CreateDate?: Date;
 }
-export const PolicyVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Document: S.optional(S.String),
-    VersionId: S.optional(S.String),
-    IsDefaultVersion: S.optional(S.Boolean),
-    CreateDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({ identifier: "PolicyVersion" }) as any as S.Schema<PolicyVersion>;
 export interface CreatePolicyVersionResponse {
   PolicyVersion?: PolicyVersion;
 }
-export const CreatePolicyVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyVersion: S.optional(PolicyVersion) }).pipe(ns),
-).annotate({
-  identifier: "CreatePolicyVersionResponse",
-}) as any as S.Schema<CreatePolicyVersionResponse>;
 export interface CreateRoleRequest {
   Path?: string;
   RoleName: string;
@@ -1565,45 +878,15 @@ export interface CreateRoleRequest {
   PermissionsBoundary?: string;
   Tags?: Tag[];
 }
-export const CreateRoleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Path: S.optional(S.String),
-    RoleName: S.String,
-    AssumeRolePolicyDocument: S.String,
-    Description: S.optional(S.String),
-    MaxSessionDuration: S.optional(S.Number),
-    PermissionsBoundary: S.optional(S.String),
-    Tags: S.optional(TagListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateRoleRequest",
-}) as any as S.Schema<CreateRoleRequest>;
 export interface CreateRoleResponse {
   Role: Role;
 }
-export const CreateRoleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Role: Role }).pipe(ns),
-).annotate({
-  identifier: "CreateRoleResponse",
-}) as any as S.Schema<CreateRoleResponse>;
 export type SAMLMetadataDocumentType = string;
 export type SAMLProviderNameType = string;
 export type AssertionEncryptionModeType =
   | "Required"
   | "Allowed"
   | (string & {});
-export const AssertionEncryptionModeType = S.String;
-
 export type PrivateKeyType = string | redacted.Redacted<string>;
 export interface CreateSAMLProviderRequest {
   SAMLMetadataDocument: string;
@@ -1612,72 +895,19 @@ export interface CreateSAMLProviderRequest {
   AssertionEncryptionMode?: AssertionEncryptionModeType;
   AddPrivateKey?: string | redacted.Redacted<string>;
 }
-export const CreateSAMLProviderRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SAMLMetadataDocument: S.String,
-    Name: S.String,
-    Tags: S.optional(TagListType),
-    AssertionEncryptionMode: S.optional(AssertionEncryptionModeType),
-    AddPrivateKey: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateSAMLProviderRequest",
-}) as any as S.Schema<CreateSAMLProviderRequest>;
 export interface CreateSAMLProviderResponse {
   SAMLProviderArn?: string;
   Tags?: Tag[];
 }
-export const CreateSAMLProviderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SAMLProviderArn: S.optional(S.String),
-    Tags: S.optional(TagListType),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateSAMLProviderResponse",
-}) as any as S.Schema<CreateSAMLProviderResponse>;
 export type CustomSuffixType = string;
 export interface CreateServiceLinkedRoleRequest {
   AWSServiceName: string;
   Description?: string;
   CustomSuffix?: string;
 }
-export const CreateServiceLinkedRoleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AWSServiceName: S.String,
-    Description: S.optional(S.String),
-    CustomSuffix: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateServiceLinkedRoleRequest",
-}) as any as S.Schema<CreateServiceLinkedRoleRequest>;
 export interface CreateServiceLinkedRoleResponse {
   Role?: Role;
 }
-export const CreateServiceLinkedRoleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Role: S.optional(Role) }).pipe(ns),
-).annotate({
-  identifier: "CreateServiceLinkedRoleResponse",
-}) as any as S.Schema<CreateServiceLinkedRoleResponse>;
 export type ServiceName = string;
 export type CredentialAgeDays = number;
 export interface CreateServiceSpecificCredentialRequest {
@@ -1685,26 +915,6 @@ export interface CreateServiceSpecificCredentialRequest {
   ServiceName: string;
   CredentialAgeDays?: number;
 }
-export const CreateServiceSpecificCredentialRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      UserName: S.String,
-      ServiceName: S.String,
-      CredentialAgeDays: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateServiceSpecificCredentialRequest",
-}) as any as S.Schema<CreateServiceSpecificCredentialRequest>;
 export type ServiceUserName = string;
 export type ServicePassword = string | redacted.Redacted<string>;
 export type ServiceCredentialAlias = string;
@@ -1722,61 +932,15 @@ export interface ServiceSpecificCredential {
   UserName: string;
   Status: StatusType;
 }
-export const ServiceSpecificCredential = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ExpirationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ServiceName: S.String,
-    ServiceUserName: S.optional(S.String),
-    ServicePassword: S.optional(SensitiveString),
-    ServiceCredentialAlias: S.optional(S.String),
-    ServiceCredentialSecret: S.optional(SensitiveString),
-    ServiceSpecificCredentialId: S.String,
-    UserName: S.String,
-    Status: StatusType,
-  }),
-).annotate({
-  identifier: "ServiceSpecificCredential",
-}) as any as S.Schema<ServiceSpecificCredential>;
 export interface CreateServiceSpecificCredentialResponse {
   ServiceSpecificCredential?: ServiceSpecificCredential;
 }
-export const CreateServiceSpecificCredentialResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ServiceSpecificCredential: S.optional(ServiceSpecificCredential),
-    }).pipe(ns),
-).annotate({
-  identifier: "CreateServiceSpecificCredentialResponse",
-}) as any as S.Schema<CreateServiceSpecificCredentialResponse>;
 export interface CreateUserRequest {
   Path?: string;
   UserName: string;
   PermissionsBoundary?: string;
   Tags?: Tag[];
 }
-export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Path: S.optional(S.String),
-    UserName: S.String,
-    PermissionsBoundary: S.optional(S.String),
-    Tags: S.optional(TagListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateUserRequest",
-}) as any as S.Schema<CreateUserRequest>;
 export interface User {
   Path: string;
   UserName: string;
@@ -1787,53 +951,15 @@ export interface User {
   PermissionsBoundary?: AttachedPermissionsBoundary;
   Tags?: Tag[];
 }
-export const User = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Path: S.String,
-    UserName: S.String,
-    UserId: S.String,
-    Arn: S.String,
-    CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    PasswordLastUsed: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    PermissionsBoundary: S.optional(AttachedPermissionsBoundary),
-    Tags: S.optional(TagListType),
-  }),
-).annotate({ identifier: "User" }) as any as S.Schema<User>;
 export interface CreateUserResponse {
   User?: User;
 }
-export const CreateUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ User: S.optional(User) }).pipe(ns),
-).annotate({
-  identifier: "CreateUserResponse",
-}) as any as S.Schema<CreateUserResponse>;
 export type VirtualMFADeviceName = string;
 export interface CreateVirtualMFADeviceRequest {
   Path?: string;
   VirtualMFADeviceName: string;
   Tags?: Tag[];
 }
-export const CreateVirtualMFADeviceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Path: S.optional(S.String),
-    VirtualMFADeviceName: S.String,
-    Tags: S.optional(TagListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateVirtualMFADeviceRequest",
-}) as any as S.Schema<CreateVirtualMFADeviceRequest>;
 export type SerialNumberType = string;
 export type BootstrapDatum = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface VirtualMFADevice {
@@ -1844,789 +970,151 @@ export interface VirtualMFADevice {
   EnableDate?: Date;
   Tags?: Tag[];
 }
-export const VirtualMFADevice = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SerialNumber: S.String,
-    Base32StringSeed: S.optional(SensitiveBlob),
-    QRCodePNG: S.optional(SensitiveBlob),
-    User: S.optional(User),
-    EnableDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Tags: S.optional(TagListType),
-  }),
-).annotate({
-  identifier: "VirtualMFADevice",
-}) as any as S.Schema<VirtualMFADevice>;
 export interface CreateVirtualMFADeviceResponse {
   VirtualMFADevice: VirtualMFADevice;
 }
-export const CreateVirtualMFADeviceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VirtualMFADevice: VirtualMFADevice }).pipe(ns),
-).annotate({
-  identifier: "CreateVirtualMFADeviceResponse",
-}) as any as S.Schema<CreateVirtualMFADeviceResponse>;
 export interface DeactivateMFADeviceRequest {
   UserName?: string;
   SerialNumber: string;
 }
-export const DeactivateMFADeviceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.optional(S.String), SerialNumber: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeactivateMFADeviceRequest",
-}) as any as S.Schema<DeactivateMFADeviceRequest>;
 export interface DeactivateMFADeviceResponse {}
-export const DeactivateMFADeviceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeactivateMFADeviceResponse",
-}) as any as S.Schema<DeactivateMFADeviceResponse>;
 export interface DeleteAccessKeyRequest {
   UserName?: string;
   AccessKeyId: string;
 }
-export const DeleteAccessKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.optional(S.String), AccessKeyId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAccessKeyRequest",
-}) as any as S.Schema<DeleteAccessKeyRequest>;
 export interface DeleteAccessKeyResponse {}
-export const DeleteAccessKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteAccessKeyResponse",
-}) as any as S.Schema<DeleteAccessKeyResponse>;
 export interface DeleteAccountAliasRequest {
   AccountAlias: string;
 }
-export const DeleteAccountAliasRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountAlias: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAccountAliasRequest",
-}) as any as S.Schema<DeleteAccountAliasRequest>;
 export interface DeleteAccountAliasResponse {}
-export const DeleteAccountAliasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteAccountAliasResponse",
-}) as any as S.Schema<DeleteAccountAliasResponse>;
 export interface DeleteAccountPasswordPolicyRequest {}
-export const DeleteAccountPasswordPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAccountPasswordPolicyRequest",
-}) as any as S.Schema<DeleteAccountPasswordPolicyRequest>;
 export interface DeleteAccountPasswordPolicyResponse {}
-export const DeleteAccountPasswordPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteAccountPasswordPolicyResponse",
-}) as any as S.Schema<DeleteAccountPasswordPolicyResponse>;
 export interface DeleteGroupRequest {
   GroupName: string;
 }
-export const DeleteGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GroupName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteGroupRequest",
-}) as any as S.Schema<DeleteGroupRequest>;
 export interface DeleteGroupResponse {}
-export const DeleteGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteGroupResponse",
-}) as any as S.Schema<DeleteGroupResponse>;
 export interface DeleteGroupPolicyRequest {
   GroupName: string;
   PolicyName: string;
 }
-export const DeleteGroupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GroupName: S.String, PolicyName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteGroupPolicyRequest",
-}) as any as S.Schema<DeleteGroupPolicyRequest>;
 export interface DeleteGroupPolicyResponse {}
-export const DeleteGroupPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteGroupPolicyResponse",
-}) as any as S.Schema<DeleteGroupPolicyResponse>;
 export interface DeleteInstanceProfileRequest {
   InstanceProfileName: string;
 }
-export const DeleteInstanceProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceProfileName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteInstanceProfileRequest",
-}) as any as S.Schema<DeleteInstanceProfileRequest>;
 export interface DeleteInstanceProfileResponse {}
-export const DeleteInstanceProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteInstanceProfileResponse",
-}) as any as S.Schema<DeleteInstanceProfileResponse>;
 export interface DeleteLoginProfileRequest {
   UserName?: string;
 }
-export const DeleteLoginProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteLoginProfileRequest",
-}) as any as S.Schema<DeleteLoginProfileRequest>;
 export interface DeleteLoginProfileResponse {}
-export const DeleteLoginProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteLoginProfileResponse",
-}) as any as S.Schema<DeleteLoginProfileResponse>;
 export interface DeleteOpenIDConnectProviderRequest {
   OpenIDConnectProviderArn: string;
 }
-export const DeleteOpenIDConnectProviderRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OpenIDConnectProviderArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteOpenIDConnectProviderRequest",
-}) as any as S.Schema<DeleteOpenIDConnectProviderRequest>;
 export interface DeleteOpenIDConnectProviderResponse {}
-export const DeleteOpenIDConnectProviderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteOpenIDConnectProviderResponse",
-}) as any as S.Schema<DeleteOpenIDConnectProviderResponse>;
 export interface DeletePolicyRequest {
   PolicyArn: string;
 }
-export const DeletePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeletePolicyRequest",
-}) as any as S.Schema<DeletePolicyRequest>;
 export interface DeletePolicyResponse {}
-export const DeletePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeletePolicyResponse",
-}) as any as S.Schema<DeletePolicyResponse>;
 export interface DeletePolicyVersionRequest {
   PolicyArn: string;
   VersionId: string;
 }
-export const DeletePolicyVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyArn: S.String, VersionId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeletePolicyVersionRequest",
-}) as any as S.Schema<DeletePolicyVersionRequest>;
 export interface DeletePolicyVersionResponse {}
-export const DeletePolicyVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeletePolicyVersionResponse",
-}) as any as S.Schema<DeletePolicyVersionResponse>;
 export interface DeleteRoleRequest {
   RoleName: string;
 }
-export const DeleteRoleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRoleRequest",
-}) as any as S.Schema<DeleteRoleRequest>;
 export interface DeleteRoleResponse {}
-export const DeleteRoleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteRoleResponse",
-}) as any as S.Schema<DeleteRoleResponse>;
 export interface DeleteRolePermissionsBoundaryRequest {
   RoleName: string;
 }
-export const DeleteRolePermissionsBoundaryRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ RoleName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteRolePermissionsBoundaryRequest",
-}) as any as S.Schema<DeleteRolePermissionsBoundaryRequest>;
 export interface DeleteRolePermissionsBoundaryResponse {}
-export const DeleteRolePermissionsBoundaryResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteRolePermissionsBoundaryResponse",
-}) as any as S.Schema<DeleteRolePermissionsBoundaryResponse>;
 export interface DeleteRolePolicyRequest {
   RoleName: string;
   PolicyName: string;
 }
-export const DeleteRolePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleName: S.String, PolicyName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRolePolicyRequest",
-}) as any as S.Schema<DeleteRolePolicyRequest>;
 export interface DeleteRolePolicyResponse {}
-export const DeleteRolePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteRolePolicyResponse",
-}) as any as S.Schema<DeleteRolePolicyResponse>;
 export interface DeleteSAMLProviderRequest {
   SAMLProviderArn: string;
 }
-export const DeleteSAMLProviderRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SAMLProviderArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteSAMLProviderRequest",
-}) as any as S.Schema<DeleteSAMLProviderRequest>;
 export interface DeleteSAMLProviderResponse {}
-export const DeleteSAMLProviderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteSAMLProviderResponse",
-}) as any as S.Schema<DeleteSAMLProviderResponse>;
 export type ServerCertificateNameType = string;
 export interface DeleteServerCertificateRequest {
   ServerCertificateName: string;
 }
-export const DeleteServerCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServerCertificateName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteServerCertificateRequest",
-}) as any as S.Schema<DeleteServerCertificateRequest>;
 export interface DeleteServerCertificateResponse {}
-export const DeleteServerCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteServerCertificateResponse",
-}) as any as S.Schema<DeleteServerCertificateResponse>;
 export interface DeleteServiceLinkedRoleRequest {
   RoleName: string;
 }
-export const DeleteServiceLinkedRoleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteServiceLinkedRoleRequest",
-}) as any as S.Schema<DeleteServiceLinkedRoleRequest>;
 export type DeletionTaskIdType = string;
 export interface DeleteServiceLinkedRoleResponse {
   DeletionTaskId: string;
 }
-export const DeleteServiceLinkedRoleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DeletionTaskId: S.String }).pipe(ns),
-).annotate({
-  identifier: "DeleteServiceLinkedRoleResponse",
-}) as any as S.Schema<DeleteServiceLinkedRoleResponse>;
 export interface DeleteServiceSpecificCredentialRequest {
   UserName?: string;
   ServiceSpecificCredentialId: string;
 }
-export const DeleteServiceSpecificCredentialRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      UserName: S.optional(S.String),
-      ServiceSpecificCredentialId: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteServiceSpecificCredentialRequest",
-}) as any as S.Schema<DeleteServiceSpecificCredentialRequest>;
 export interface DeleteServiceSpecificCredentialResponse {}
-export const DeleteServiceSpecificCredentialResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteServiceSpecificCredentialResponse",
-}) as any as S.Schema<DeleteServiceSpecificCredentialResponse>;
 export type CertificateIdType = string;
 export interface DeleteSigningCertificateRequest {
   UserName?: string;
   CertificateId: string;
 }
-export const DeleteSigningCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.optional(S.String), CertificateId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteSigningCertificateRequest",
-}) as any as S.Schema<DeleteSigningCertificateRequest>;
 export interface DeleteSigningCertificateResponse {}
-export const DeleteSigningCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteSigningCertificateResponse",
-}) as any as S.Schema<DeleteSigningCertificateResponse>;
 export type PublicKeyIdType = string;
 export interface DeleteSSHPublicKeyRequest {
   UserName: string;
   SSHPublicKeyId: string;
 }
-export const DeleteSSHPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.String, SSHPublicKeyId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteSSHPublicKeyRequest",
-}) as any as S.Schema<DeleteSSHPublicKeyRequest>;
 export interface DeleteSSHPublicKeyResponse {}
-export const DeleteSSHPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteSSHPublicKeyResponse",
-}) as any as S.Schema<DeleteSSHPublicKeyResponse>;
 export interface DeleteUserRequest {
   UserName: string;
 }
-export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
 export interface DeleteUserResponse {}
-export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteUserResponse",
-}) as any as S.Schema<DeleteUserResponse>;
 export interface DeleteUserPermissionsBoundaryRequest {
   UserName: string;
 }
-export const DeleteUserPermissionsBoundaryRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ UserName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteUserPermissionsBoundaryRequest",
-}) as any as S.Schema<DeleteUserPermissionsBoundaryRequest>;
 export interface DeleteUserPermissionsBoundaryResponse {}
-export const DeleteUserPermissionsBoundaryResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteUserPermissionsBoundaryResponse",
-}) as any as S.Schema<DeleteUserPermissionsBoundaryResponse>;
 export interface DeleteUserPolicyRequest {
   UserName: string;
   PolicyName: string;
 }
-export const DeleteUserPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.String, PolicyName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteUserPolicyRequest",
-}) as any as S.Schema<DeleteUserPolicyRequest>;
 export interface DeleteUserPolicyResponse {}
-export const DeleteUserPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteUserPolicyResponse",
-}) as any as S.Schema<DeleteUserPolicyResponse>;
 export interface DeleteVirtualMFADeviceRequest {
   SerialNumber: string;
 }
-export const DeleteVirtualMFADeviceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SerialNumber: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteVirtualMFADeviceRequest",
-}) as any as S.Schema<DeleteVirtualMFADeviceRequest>;
 export interface DeleteVirtualMFADeviceResponse {}
-export const DeleteVirtualMFADeviceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteVirtualMFADeviceResponse",
-}) as any as S.Schema<DeleteVirtualMFADeviceResponse>;
 export interface DetachGroupPolicyRequest {
   GroupName: string;
   PolicyArn: string;
 }
-export const DetachGroupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GroupName: S.String, PolicyArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DetachGroupPolicyRequest",
-}) as any as S.Schema<DetachGroupPolicyRequest>;
 export interface DetachGroupPolicyResponse {}
-export const DetachGroupPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DetachGroupPolicyResponse",
-}) as any as S.Schema<DetachGroupPolicyResponse>;
 export interface DetachRolePolicyRequest {
   RoleName: string;
   PolicyArn: string;
 }
-export const DetachRolePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleName: S.String, PolicyArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DetachRolePolicyRequest",
-}) as any as S.Schema<DetachRolePolicyRequest>;
 export interface DetachRolePolicyResponse {}
-export const DetachRolePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DetachRolePolicyResponse",
-}) as any as S.Schema<DetachRolePolicyResponse>;
 export interface DetachUserPolicyRequest {
   UserName: string;
   PolicyArn: string;
 }
-export const DetachUserPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.String, PolicyArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DetachUserPolicyRequest",
-}) as any as S.Schema<DetachUserPolicyRequest>;
 export interface DetachUserPolicyResponse {}
-export const DetachUserPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DetachUserPolicyResponse",
-}) as any as S.Schema<DetachUserPolicyResponse>;
 export interface DisableOrganizationsRootCredentialsManagementRequest {}
-export const DisableOrganizationsRootCredentialsManagementRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({}).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisableOrganizationsRootCredentialsManagementRequest",
-  }) as any as S.Schema<DisableOrganizationsRootCredentialsManagementRequest>;
 export type OrganizationIdType = string;
 export type FeatureType =
   | "RootCredentialsManagement"
   | "RootSessions"
   | (string & {});
-export const FeatureType = S.String;
-
 export type FeaturesListType = FeatureType[];
-export const FeaturesListType = /*@__PURE__*/ S.Array(FeatureType);
 export interface DisableOrganizationsRootCredentialsManagementResponse {
   OrganizationId?: string;
   EnabledFeatures?: FeatureType[];
 }
-export const DisableOrganizationsRootCredentialsManagementResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      OrganizationId: S.optional(S.String),
-      EnabledFeatures: S.optional(FeaturesListType),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DisableOrganizationsRootCredentialsManagementResponse",
-  }) as any as S.Schema<DisableOrganizationsRootCredentialsManagementResponse>;
 export interface DisableOrganizationsRootSessionsRequest {}
-export const DisableOrganizationsRootSessionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({}).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DisableOrganizationsRootSessionsRequest",
-}) as any as S.Schema<DisableOrganizationsRootSessionsRequest>;
 export interface DisableOrganizationsRootSessionsResponse {
   OrganizationId?: string;
   EnabledFeatures?: FeatureType[];
 }
-export const DisableOrganizationsRootSessionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      OrganizationId: S.optional(S.String),
-      EnabledFeatures: S.optional(FeaturesListType),
-    }).pipe(ns),
-).annotate({
-  identifier: "DisableOrganizationsRootSessionsResponse",
-}) as any as S.Schema<DisableOrganizationsRootSessionsResponse>;
 export interface DisableOutboundWebIdentityFederationRequest {}
-export const DisableOutboundWebIdentityFederationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({}).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisableOutboundWebIdentityFederationRequest",
-  }) as any as S.Schema<DisableOutboundWebIdentityFederationRequest>;
 export interface DisableOutboundWebIdentityFederationResponse {}
-export const DisableOutboundWebIdentityFederationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DisableOutboundWebIdentityFederationResponse",
-  }) as any as S.Schema<DisableOutboundWebIdentityFederationResponse>;
 export type AuthenticationCodeType = string;
 export interface EnableMFADeviceRequest {
   UserName: string;
@@ -2634,273 +1122,65 @@ export interface EnableMFADeviceRequest {
   AuthenticationCode1: string;
   AuthenticationCode2: string;
 }
-export const EnableMFADeviceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    SerialNumber: S.String,
-    AuthenticationCode1: S.String,
-    AuthenticationCode2: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "EnableMFADeviceRequest",
-}) as any as S.Schema<EnableMFADeviceRequest>;
 export interface EnableMFADeviceResponse {}
-export const EnableMFADeviceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "EnableMFADeviceResponse",
-}) as any as S.Schema<EnableMFADeviceResponse>;
 export interface EnableOrganizationsRootCredentialsManagementRequest {}
-export const EnableOrganizationsRootCredentialsManagementRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({}).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "EnableOrganizationsRootCredentialsManagementRequest",
-  }) as any as S.Schema<EnableOrganizationsRootCredentialsManagementRequest>;
 export interface EnableOrganizationsRootCredentialsManagementResponse {
   OrganizationId?: string;
   EnabledFeatures?: FeatureType[];
 }
-export const EnableOrganizationsRootCredentialsManagementResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      OrganizationId: S.optional(S.String),
-      EnabledFeatures: S.optional(FeaturesListType),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "EnableOrganizationsRootCredentialsManagementResponse",
-  }) as any as S.Schema<EnableOrganizationsRootCredentialsManagementResponse>;
 export interface EnableOrganizationsRootSessionsRequest {}
-export const EnableOrganizationsRootSessionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({}).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "EnableOrganizationsRootSessionsRequest",
-}) as any as S.Schema<EnableOrganizationsRootSessionsRequest>;
 export interface EnableOrganizationsRootSessionsResponse {
   OrganizationId?: string;
   EnabledFeatures?: FeatureType[];
 }
-export const EnableOrganizationsRootSessionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      OrganizationId: S.optional(S.String),
-      EnabledFeatures: S.optional(FeaturesListType),
-    }).pipe(ns),
-).annotate({
-  identifier: "EnableOrganizationsRootSessionsResponse",
-}) as any as S.Schema<EnableOrganizationsRootSessionsResponse>;
 export interface EnableOutboundWebIdentityFederationRequest {}
-export const EnableOutboundWebIdentityFederationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({}).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "EnableOutboundWebIdentityFederationRequest",
-  }) as any as S.Schema<EnableOutboundWebIdentityFederationRequest>;
 export interface EnableOutboundWebIdentityFederationResponse {
   IssuerIdentifier?: string;
 }
-export const EnableOutboundWebIdentityFederationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ IssuerIdentifier: S.optional(S.String) }).pipe(ns),
-  ).annotate({
-    identifier: "EnableOutboundWebIdentityFederationResponse",
-  }) as any as S.Schema<EnableOutboundWebIdentityFederationResponse>;
 export interface GenerateCredentialReportRequest {}
-export const GenerateCredentialReportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GenerateCredentialReportRequest",
-}) as any as S.Schema<GenerateCredentialReportRequest>;
 export type ReportStateType =
   | "STARTED"
   | "INPROGRESS"
   | "COMPLETE"
   | (string & {});
-export const ReportStateType = S.String;
-
 export type ReportStateDescriptionType = string;
 export interface GenerateCredentialReportResponse {
   State?: ReportStateType;
   Description?: string;
 }
-export const GenerateCredentialReportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    State: S.optional(ReportStateType),
-    Description: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GenerateCredentialReportResponse",
-}) as any as S.Schema<GenerateCredentialReportResponse>;
 export type OrganizationsEntityPathType = string;
 export type OrganizationsPolicyIdType = string;
 export interface GenerateOrganizationsAccessReportRequest {
   EntityPath: string;
   OrganizationsPolicyId?: string;
 }
-export const GenerateOrganizationsAccessReportRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EntityPath: S.String,
-      OrganizationsPolicyId: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GenerateOrganizationsAccessReportRequest",
-}) as any as S.Schema<GenerateOrganizationsAccessReportRequest>;
 export type JobIDType = string;
 export interface GenerateOrganizationsAccessReportResponse {
   JobId?: string;
 }
-export const GenerateOrganizationsAccessReportResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ JobId: S.optional(S.String) }).pipe(ns),
-  ).annotate({
-    identifier: "GenerateOrganizationsAccessReportResponse",
-  }) as any as S.Schema<GenerateOrganizationsAccessReportResponse>;
 export type AccessAdvisorUsageGranularityType =
   | "SERVICE_LEVEL"
   | "ACTION_LEVEL"
   | (string & {});
-export const AccessAdvisorUsageGranularityType = S.String;
-
 export interface GenerateServiceLastAccessedDetailsRequest {
   Arn: string;
   Granularity?: AccessAdvisorUsageGranularityType;
 }
-export const GenerateServiceLastAccessedDetailsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Arn: S.String,
-      Granularity: S.optional(AccessAdvisorUsageGranularityType),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GenerateServiceLastAccessedDetailsRequest",
-  }) as any as S.Schema<GenerateServiceLastAccessedDetailsRequest>;
 export interface GenerateServiceLastAccessedDetailsResponse {
   JobId?: string;
 }
-export const GenerateServiceLastAccessedDetailsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ JobId: S.optional(S.String) }).pipe(ns),
-  ).annotate({
-    identifier: "GenerateServiceLastAccessedDetailsResponse",
-  }) as any as S.Schema<GenerateServiceLastAccessedDetailsResponse>;
 export interface GetAccessKeyLastUsedRequest {
   AccessKeyId: string;
 }
-export const GetAccessKeyLastUsedRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccessKeyId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAccessKeyLastUsedRequest",
-}) as any as S.Schema<GetAccessKeyLastUsedRequest>;
 export interface AccessKeyLastUsed {
   LastUsedDate?: Date;
   ServiceName: string;
   Region: string;
 }
-export const AccessKeyLastUsed = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LastUsedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ServiceName: S.String,
-    Region: S.String,
-  }),
-).annotate({
-  identifier: "AccessKeyLastUsed",
-}) as any as S.Schema<AccessKeyLastUsed>;
 export interface GetAccessKeyLastUsedResponse {
   UserName?: string;
   AccessKeyLastUsed?: AccessKeyLastUsed;
 }
-export const GetAccessKeyLastUsedResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.optional(S.String),
-    AccessKeyLastUsed: S.optional(AccessKeyLastUsed),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetAccessKeyLastUsedResponse",
-}) as any as S.Schema<GetAccessKeyLastUsedResponse>;
 export type EntityType =
   | "User"
   | "Role"
@@ -2908,10 +1188,7 @@ export type EntityType =
   | "LocalManagedPolicy"
   | "AWSManagedPolicy"
   | (string & {});
-export const EntityType = S.String;
-
 export type EntityListType = EntityType[];
-export const EntityListType = /*@__PURE__*/ S.Array(EntityType);
 export type MaxItemsType = number;
 export type MarkerType = string;
 export interface GetAccountAuthorizationDetailsRequest {
@@ -2919,52 +1196,17 @@ export interface GetAccountAuthorizationDetailsRequest {
   MaxItems?: number;
   Marker?: string;
 }
-export const GetAccountAuthorizationDetailsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Filter: S.optional(EntityListType),
-      MaxItems: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetAccountAuthorizationDetailsRequest",
-}) as any as S.Schema<GetAccountAuthorizationDetailsRequest>;
 export interface PolicyDetail {
   PolicyName?: string;
   PolicyDocument?: string;
 }
-export const PolicyDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyName: S.optional(S.String),
-    PolicyDocument: S.optional(S.String),
-  }),
-).annotate({ identifier: "PolicyDetail" }) as any as S.Schema<PolicyDetail>;
 export type PolicyDetailListType = PolicyDetail[];
-export const PolicyDetailListType = /*@__PURE__*/ S.Array(PolicyDetail);
 export type GroupNameListType = string[];
-export const GroupNameListType = /*@__PURE__*/ S.Array(S.String);
 export interface AttachedPolicy {
   PolicyName?: string;
   PolicyArn?: string;
 }
-export const AttachedPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyName: S.optional(S.String),
-    PolicyArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "AttachedPolicy" }) as any as S.Schema<AttachedPolicy>;
 export type AttachedPoliciesListType = AttachedPolicy[];
-export const AttachedPoliciesListType = /*@__PURE__*/ S.Array(AttachedPolicy);
 export interface UserDetail {
   Path?: string;
   UserName?: string;
@@ -2977,24 +1219,7 @@ export interface UserDetail {
   PermissionsBoundary?: AttachedPermissionsBoundary;
   Tags?: Tag[];
 }
-export const UserDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Path: S.optional(S.String),
-    UserName: S.optional(S.String),
-    UserId: S.optional(S.String),
-    Arn: S.optional(S.String),
-    CreateDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UserPolicyList: S.optional(PolicyDetailListType),
-    GroupList: S.optional(GroupNameListType),
-    AttachedManagedPolicies: S.optional(AttachedPoliciesListType),
-    PermissionsBoundary: S.optional(AttachedPermissionsBoundary),
-    Tags: S.optional(TagListType),
-  }),
-).annotate({ identifier: "UserDetail" }) as any as S.Schema<UserDetail>;
 export type UserDetailListType = UserDetail[];
-export const UserDetailListType = /*@__PURE__*/ S.Array(UserDetail);
 export interface GroupDetail {
   Path?: string;
   GroupName?: string;
@@ -3004,23 +1229,8 @@ export interface GroupDetail {
   GroupPolicyList?: PolicyDetail[];
   AttachedManagedPolicies?: AttachedPolicy[];
 }
-export const GroupDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Path: S.optional(S.String),
-    GroupName: S.optional(S.String),
-    GroupId: S.optional(S.String),
-    Arn: S.optional(S.String),
-    CreateDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    GroupPolicyList: S.optional(PolicyDetailListType),
-    AttachedManagedPolicies: S.optional(AttachedPoliciesListType),
-  }),
-).annotate({ identifier: "GroupDetail" }) as any as S.Schema<GroupDetail>;
 export type GroupDetailListType = GroupDetail[];
-export const GroupDetailListType = /*@__PURE__*/ S.Array(GroupDetail);
 export type InstanceProfileListType = InstanceProfile[];
-export const InstanceProfileListType = /*@__PURE__*/ S.Array(InstanceProfile);
 export interface RoleDetail {
   Path?: string;
   RoleName?: string;
@@ -3035,29 +1245,8 @@ export interface RoleDetail {
   Tags?: Tag[];
   RoleLastUsed?: RoleLastUsed;
 }
-export const RoleDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Path: S.optional(S.String),
-    RoleName: S.optional(S.String),
-    RoleId: S.optional(S.String),
-    Arn: S.optional(S.String),
-    CreateDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    AssumeRolePolicyDocument: S.optional(S.String),
-    InstanceProfileList: S.optional(InstanceProfileListType),
-    RolePolicyList: S.optional(PolicyDetailListType),
-    AttachedManagedPolicies: S.optional(AttachedPoliciesListType),
-    PermissionsBoundary: S.optional(AttachedPermissionsBoundary),
-    Tags: S.optional(TagListType),
-    RoleLastUsed: S.optional(RoleLastUsed),
-  }),
-).annotate({ identifier: "RoleDetail" }) as any as S.Schema<RoleDetail>;
 export type RoleDetailListType = RoleDetail[];
-export const RoleDetailListType = /*@__PURE__*/ S.Array(RoleDetail);
 export type PolicyDocumentVersionListType = PolicyVersion[];
-export const PolicyDocumentVersionListType =
-  /*@__PURE__*/ S.Array(PolicyVersion);
 export interface ManagedPolicyDetail {
   PolicyName?: string;
   PolicyId?: string;
@@ -3072,31 +1261,7 @@ export interface ManagedPolicyDetail {
   UpdateDate?: Date;
   PolicyVersionList?: PolicyVersion[];
 }
-export const ManagedPolicyDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyName: S.optional(S.String),
-    PolicyId: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Path: S.optional(S.String),
-    DefaultVersionId: S.optional(S.String),
-    AttachmentCount: S.optional(S.Number),
-    PermissionsBoundaryUsageCount: S.optional(S.Number),
-    IsAttachable: S.optional(S.Boolean),
-    Description: S.optional(S.String),
-    CreateDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdateDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    PolicyVersionList: S.optional(PolicyDocumentVersionListType),
-  }),
-).annotate({
-  identifier: "ManagedPolicyDetail",
-}) as any as S.Schema<ManagedPolicyDetail>;
 export type ManagedPolicyDetailListType = ManagedPolicyDetail[];
-export const ManagedPolicyDetailListType =
-  /*@__PURE__*/ S.Array(ManagedPolicyDetail);
 export type ResponseMarkerType = string;
 export interface GetAccountAuthorizationDetailsResponse {
   UserDetailList?: UserDetail[];
@@ -3106,35 +1271,7 @@ export interface GetAccountAuthorizationDetailsResponse {
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const GetAccountAuthorizationDetailsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      UserDetailList: S.optional(UserDetailListType),
-      GroupDetailList: S.optional(GroupDetailListType),
-      RoleDetailList: S.optional(RoleDetailListType),
-      Policies: S.optional(ManagedPolicyDetailListType),
-      IsTruncated: S.optional(S.Boolean),
-      Marker: S.optional(S.String),
-    }).pipe(ns),
-).annotate({
-  identifier: "GetAccountAuthorizationDetailsResponse",
-}) as any as S.Schema<GetAccountAuthorizationDetailsResponse>;
 export interface GetAccountPasswordPolicyRequest {}
-export const GetAccountPasswordPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAccountPasswordPolicyRequest",
-}) as any as S.Schema<GetAccountPasswordPolicyRequest>;
 export type MinimumPasswordLengthType = number;
 export type MaxPasswordAgeType = number;
 export type PasswordReusePreventionType = number;
@@ -3151,75 +1288,17 @@ export interface PasswordPolicy {
   PasswordReusePrevention?: number;
   HardExpiry?: boolean;
 }
-export const PasswordPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MinimumPasswordLength: S.optional(S.Number),
-    RequireSymbols: S.optional(S.Boolean),
-    RequireNumbers: S.optional(S.Boolean),
-    RequireUppercaseCharacters: S.optional(S.Boolean),
-    RequireLowercaseCharacters: S.optional(S.Boolean),
-    AllowUsersToChangePassword: S.optional(S.Boolean),
-    ExpirePasswords: S.optional(S.Boolean),
-    MaxPasswordAge: S.optional(S.Number),
-    PasswordReusePrevention: S.optional(S.Number),
-    HardExpiry: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "PasswordPolicy" }) as any as S.Schema<PasswordPolicy>;
 export interface GetAccountPasswordPolicyResponse {
   PasswordPolicy: PasswordPolicy;
 }
-export const GetAccountPasswordPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PasswordPolicy: PasswordPolicy }).pipe(ns),
-).annotate({
-  identifier: "GetAccountPasswordPolicyResponse",
-}) as any as S.Schema<GetAccountPasswordPolicyResponse>;
 export interface GetAccountPropertiesRequest {}
-export const GetAccountPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAccountPropertiesRequest",
-}) as any as S.Schema<GetAccountPropertiesRequest>;
 export type AccountPropertyKeyType = string;
 export type AccountPropertyValueType = string;
 export type AccountPropertiesMapType = { [key: string]: string | undefined };
-export const AccountPropertiesMapType = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface GetAccountPropertiesResponse {
   Properties?: { [key: string]: string | undefined };
 }
-export const GetAccountPropertiesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Properties: S.optional(AccountPropertiesMapType) }).pipe(ns),
-).annotate({
-  identifier: "GetAccountPropertiesResponse",
-}) as any as S.Schema<GetAccountPropertiesResponse>;
 export interface GetAccountSummaryRequest {}
-export const GetAccountSummaryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAccountSummaryRequest",
-}) as any as S.Schema<GetAccountSummaryRequest>;
 export type SummaryKeyType =
   | "Users"
   | "UsersQuota"
@@ -3256,142 +1335,38 @@ export type SummaryKeyType =
   | "Roles"
   | "RolesQuota"
   | (string & {});
-export const SummaryKeyType = S.String;
-
 export type SummaryValueType = number;
 export type SummaryMapType = { [key in SummaryKeyType]?: number };
-export const SummaryMapType = /*@__PURE__*/ S.Record(
-  SummaryKeyType,
-  S.Number.pipe(S.optional),
-);
 export interface GetAccountSummaryResponse {
   SummaryMap?: { [key: string]: number | undefined };
 }
-export const GetAccountSummaryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SummaryMap: S.optional(SummaryMapType) }).pipe(ns),
-).annotate({
-  identifier: "GetAccountSummaryResponse",
-}) as any as S.Schema<GetAccountSummaryResponse>;
 export type SimulationPolicyListType = string[];
-export const SimulationPolicyListType = /*@__PURE__*/ S.Array(S.String);
 export interface GetContextKeysForCustomPolicyRequest {
   PolicyInputList: string[];
 }
-export const GetContextKeysForCustomPolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ PolicyInputList: SimulationPolicyListType }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetContextKeysForCustomPolicyRequest",
-}) as any as S.Schema<GetContextKeysForCustomPolicyRequest>;
 export type ContextKeyNameType = string;
 export type ContextKeyNamesResultListType = string[];
-export const ContextKeyNamesResultListType = /*@__PURE__*/ S.Array(S.String);
 export interface GetContextKeysForPolicyResponse {
   ContextKeyNames?: string[];
 }
-export const GetContextKeysForPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContextKeyNames: S.optional(ContextKeyNamesResultListType) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "GetContextKeysForPolicyResponse",
-}) as any as S.Schema<GetContextKeysForPolicyResponse>;
 export interface GetContextKeysForPrincipalPolicyRequest {
   PolicySourceArn: string;
   PolicyInputList?: string[];
 }
-export const GetContextKeysForPrincipalPolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      PolicySourceArn: S.String,
-      PolicyInputList: S.optional(SimulationPolicyListType),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetContextKeysForPrincipalPolicyRequest",
-}) as any as S.Schema<GetContextKeysForPrincipalPolicyRequest>;
 export interface GetCredentialReportRequest {}
-export const GetCredentialReportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetCredentialReportRequest",
-}) as any as S.Schema<GetCredentialReportRequest>;
 export type ReportContentType = Uint8Array;
 export type ReportFormatType = "text/csv" | (string & {});
-export const ReportFormatType = S.String;
-
 export interface GetCredentialReportResponse {
   Content?: Uint8Array;
   ReportFormat?: ReportFormatType;
   GeneratedTime?: Date;
 }
-export const GetCredentialReportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Content: S.optional(T.Blob),
-    ReportFormat: S.optional(ReportFormatType),
-    GeneratedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetCredentialReportResponse",
-}) as any as S.Schema<GetCredentialReportResponse>;
 export interface GetDelegationRequestRequest {
   DelegationRequestId: string;
   DelegationPermissionCheck?: boolean;
 }
-export const GetDelegationRequestRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DelegationRequestId: S.String,
-    DelegationPermissionCheck: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDelegationRequestRequest",
-}) as any as S.Schema<GetDelegationRequestRequest>;
 export type PermissionType = string;
 export type RolePermissionRestrictionArnListType = string[];
-export const RolePermissionRestrictionArnListType = /*@__PURE__*/ S.Array(
-  S.String,
-);
 export type OwnerIdType = string;
 export type StateType =
   | "UNASSIGNED"
@@ -3402,8 +1377,6 @@ export type StateType =
   | "REJECTED"
   | "EXPIRED"
   | (string & {});
-export const StateType = S.String;
-
 export type RequestorNameType = string;
 export type NotesType = string;
 export interface DelegationRequest {
@@ -3428,163 +1401,47 @@ export interface DelegationRequest {
   OnlySendByOwner?: boolean;
   UpdatedTime?: Date;
 }
-export const DelegationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DelegationRequestId: S.optional(S.String),
-    OwnerAccountId: S.optional(S.String),
-    Description: S.optional(S.String),
-    RequestMessage: S.optional(S.String),
-    Permissions: S.optional(DelegationPermission),
-    PermissionPolicy: S.optional(S.String),
-    RolePermissionRestrictionArns: S.optional(
-      RolePermissionRestrictionArnListType,
-    ),
-    OwnerId: S.optional(S.String),
-    ApproverId: S.optional(S.String),
-    State: S.optional(StateType),
-    ExpirationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    RequestorId: S.optional(S.String),
-    RequestorName: S.optional(S.String),
-    CreateDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    SessionDuration: S.optional(S.Number),
-    RedirectUrl: S.optional(S.String),
-    Notes: S.optional(S.String),
-    RejectionReason: S.optional(S.String),
-    OnlySendByOwner: S.optional(S.Boolean),
-    UpdatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "DelegationRequest",
-}) as any as S.Schema<DelegationRequest>;
 export type PermissionCheckStatusType =
   | "COMPLETE"
   | "IN_PROGRESS"
   | "FAILED"
   | (string & {});
-export const PermissionCheckStatusType = S.String;
-
 export type PermissionCheckResultType =
   | "ALLOWED"
   | "DENIED"
   | "UNSURE"
   | (string & {});
-export const PermissionCheckResultType = S.String;
-
 export interface GetDelegationRequestResponse {
   DelegationRequest?: DelegationRequest;
   PermissionCheckStatus?: PermissionCheckStatusType;
   PermissionCheckResult?: PermissionCheckResultType;
 }
-export const GetDelegationRequestResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DelegationRequest: S.optional(DelegationRequest),
-    PermissionCheckStatus: S.optional(PermissionCheckStatusType),
-    PermissionCheckResult: S.optional(PermissionCheckResultType),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetDelegationRequestResponse",
-}) as any as S.Schema<GetDelegationRequestResponse>;
 export interface GetGroupRequest {
   GroupName: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const GetGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupName: S.String,
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetGroupRequest",
-}) as any as S.Schema<GetGroupRequest>;
 export type UserListType = User[];
-export const UserListType = /*@__PURE__*/ S.Array(User);
 export interface GetGroupResponse {
   Group: Group;
   Users: User[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const GetGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Group: Group,
-    Users: UserListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetGroupResponse",
-}) as any as S.Schema<GetGroupResponse>;
 export interface GetGroupPolicyRequest {
   GroupName: string;
   PolicyName: string;
 }
-export const GetGroupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GroupName: S.String, PolicyName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetGroupPolicyRequest",
-}) as any as S.Schema<GetGroupPolicyRequest>;
 export interface GetGroupPolicyResponse {
   GroupName: string;
   PolicyName: string;
   PolicyDocument: string;
 }
-export const GetGroupPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupName: S.String,
-    PolicyName: S.String,
-    PolicyDocument: S.String,
-  }).pipe(ns),
-).annotate({
-  identifier: "GetGroupPolicyResponse",
-}) as any as S.Schema<GetGroupPolicyResponse>;
 export type LocaleType = string;
 export interface GetHumanReadableSummaryRequest {
   EntityArn: string;
   Locale?: string;
 }
-export const GetHumanReadableSummaryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EntityArn: S.String, Locale: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetHumanReadableSummaryRequest",
-}) as any as S.Schema<GetHumanReadableSummaryRequest>;
 export type SummaryContentType = string;
 export type SummaryStateType =
   | "AVAILABLE"
@@ -3592,136 +1449,39 @@ export type SummaryStateType =
   | "NOT_SUPPORTED"
   | "FAILED"
   | (string & {});
-export const SummaryStateType = S.String;
-
 export interface GetHumanReadableSummaryResponse {
   SummaryContent?: string;
   Locale?: string;
   SummaryState?: SummaryStateType;
 }
-export const GetHumanReadableSummaryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SummaryContent: S.optional(S.String),
-    Locale: S.optional(S.String),
-    SummaryState: S.optional(SummaryStateType),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetHumanReadableSummaryResponse",
-}) as any as S.Schema<GetHumanReadableSummaryResponse>;
 export interface GetInstanceProfileRequest {
   InstanceProfileName: string;
 }
-export const GetInstanceProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceProfileName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetInstanceProfileRequest",
-}) as any as S.Schema<GetInstanceProfileRequest>;
 export interface GetInstanceProfileResponse {
   InstanceProfile: InstanceProfile;
 }
-export const GetInstanceProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceProfile: InstanceProfile }).pipe(ns),
-).annotate({
-  identifier: "GetInstanceProfileResponse",
-}) as any as S.Schema<GetInstanceProfileResponse>;
 export interface GetLoginProfileRequest {
   UserName?: string;
 }
-export const GetLoginProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLoginProfileRequest",
-}) as any as S.Schema<GetLoginProfileRequest>;
 export interface GetLoginProfileResponse {
   LoginProfile: LoginProfile;
 }
-export const GetLoginProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LoginProfile: LoginProfile }).pipe(ns),
-).annotate({
-  identifier: "GetLoginProfileResponse",
-}) as any as S.Schema<GetLoginProfileResponse>;
 export interface GetMFADeviceRequest {
   SerialNumber: string;
   UserName?: string;
 }
-export const GetMFADeviceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SerialNumber: S.String, UserName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMFADeviceRequest",
-}) as any as S.Schema<GetMFADeviceRequest>;
 export type CertificationKeyType = string;
 export type CertificationValueType = string;
 export type CertificationMapType = { [key: string]: string | undefined };
-export const CertificationMapType = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface GetMFADeviceResponse {
   UserName?: string;
   SerialNumber: string;
   EnableDate?: Date;
   Certifications?: { [key: string]: string | undefined };
 }
-export const GetMFADeviceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.optional(S.String),
-    SerialNumber: S.String,
-    EnableDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Certifications: S.optional(CertificationMapType),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetMFADeviceResponse",
-}) as any as S.Schema<GetMFADeviceResponse>;
 export interface GetOpenIDConnectProviderRequest {
   OpenIDConnectProviderArn: string;
 }
-export const GetOpenIDConnectProviderRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OpenIDConnectProviderArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetOpenIDConnectProviderRequest",
-}) as any as S.Schema<GetOpenIDConnectProviderRequest>;
 export interface GetOpenIDConnectProviderResponse {
   Url?: string;
   ClientIDList?: string[];
@@ -3729,60 +1489,23 @@ export interface GetOpenIDConnectProviderResponse {
   CreateDate?: Date;
   Tags?: Tag[];
 }
-export const GetOpenIDConnectProviderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Url: S.optional(S.String),
-    ClientIDList: S.optional(ClientIDListType),
-    ThumbprintList: S.optional(ThumbprintListType),
-    CreateDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Tags: S.optional(TagListType),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetOpenIDConnectProviderResponse",
-}) as any as S.Schema<GetOpenIDConnectProviderResponse>;
 export type SortKeyType =
   | "SERVICE_NAMESPACE_ASCENDING"
   | "SERVICE_NAMESPACE_DESCENDING"
   | "LAST_AUTHENTICATED_TIME_ASCENDING"
   | "LAST_AUTHENTICATED_TIME_DESCENDING"
   | (string & {});
-export const SortKeyType = S.String;
-
 export interface GetOrganizationsAccessReportRequest {
   JobId: string;
   MaxItems?: number;
   Marker?: string;
   SortKey?: SortKeyType;
 }
-export const GetOrganizationsAccessReportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    JobId: S.String,
-    MaxItems: S.optional(S.Number),
-    Marker: S.optional(S.String),
-    SortKey: S.optional(SortKeyType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetOrganizationsAccessReportRequest",
-}) as any as S.Schema<GetOrganizationsAccessReportRequest>;
 export type JobStatusType =
   | "IN_PROGRESS"
   | "COMPLETED"
   | "FAILED"
   | (string & {});
-export const JobStatusType = S.String;
-
 export type ServiceNameType = string;
 export type ServiceNamespaceType = string;
 export interface AccessDetail {
@@ -3793,27 +1516,11 @@ export interface AccessDetail {
   LastAuthenticatedTime?: Date;
   TotalAuthenticatedEntities?: number;
 }
-export const AccessDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceName: S.String,
-    ServiceNamespace: S.String,
-    Region: S.optional(S.String),
-    EntityPath: S.optional(S.String),
-    LastAuthenticatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    TotalAuthenticatedEntities: S.optional(S.Number),
-  }),
-).annotate({ identifier: "AccessDetail" }) as any as S.Schema<AccessDetail>;
 export type AccessDetails = AccessDetail[];
-export const AccessDetails = /*@__PURE__*/ S.Array(AccessDetail);
 export interface ErrorDetails {
   Message: string;
   Code: string;
 }
-export const ErrorDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Message: S.String, Code: S.String }),
-).annotate({ identifier: "ErrorDetails" }) as any as S.Schema<ErrorDetails>;
 export interface GetOrganizationsAccessReportResponse {
   JobStatus: JobStatusType;
   JobCreationDate: Date;
@@ -3825,189 +1532,47 @@ export interface GetOrganizationsAccessReportResponse {
   Marker?: string;
   ErrorDetails?: ErrorDetails;
 }
-export const GetOrganizationsAccessReportResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      JobStatus: JobStatusType,
-      JobCreationDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      JobCompletionDate: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-      NumberOfServicesAccessible: S.optional(S.Number),
-      NumberOfServicesNotAccessed: S.optional(S.Number),
-      AccessDetails: S.optional(AccessDetails),
-      IsTruncated: S.optional(S.Boolean),
-      Marker: S.optional(S.String),
-      ErrorDetails: S.optional(ErrorDetails),
-    }).pipe(ns),
-).annotate({
-  identifier: "GetOrganizationsAccessReportResponse",
-}) as any as S.Schema<GetOrganizationsAccessReportResponse>;
 export interface GetOutboundWebIdentityFederationInfoRequest {}
-export const GetOutboundWebIdentityFederationInfoRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({}).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetOutboundWebIdentityFederationInfoRequest",
-  }) as any as S.Schema<GetOutboundWebIdentityFederationInfoRequest>;
 export interface GetOutboundWebIdentityFederationInfoResponse {
   IssuerIdentifier?: string;
   JwtVendingEnabled?: boolean;
 }
-export const GetOutboundWebIdentityFederationInfoResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      IssuerIdentifier: S.optional(S.String),
-      JwtVendingEnabled: S.optional(S.Boolean),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetOutboundWebIdentityFederationInfoResponse",
-  }) as any as S.Schema<GetOutboundWebIdentityFederationInfoResponse>;
 export interface GetPolicyRequest {
   PolicyArn: string;
 }
-export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPolicyRequest",
-}) as any as S.Schema<GetPolicyRequest>;
 export interface GetPolicyResponse {
   Policy?: Policy;
 }
-export const GetPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(Policy) }).pipe(ns),
-).annotate({
-  identifier: "GetPolicyResponse",
-}) as any as S.Schema<GetPolicyResponse>;
 export interface GetPolicyVersionRequest {
   PolicyArn: string;
   VersionId: string;
 }
-export const GetPolicyVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyArn: S.String, VersionId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPolicyVersionRequest",
-}) as any as S.Schema<GetPolicyVersionRequest>;
 export interface GetPolicyVersionResponse {
   PolicyVersion?: PolicyVersion;
 }
-export const GetPolicyVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyVersion: S.optional(PolicyVersion) }).pipe(ns),
-).annotate({
-  identifier: "GetPolicyVersionResponse",
-}) as any as S.Schema<GetPolicyVersionResponse>;
 export interface GetRoleRequest {
   RoleName: string;
 }
-export const GetRoleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetRoleRequest" }) as any as S.Schema<GetRoleRequest>;
 export interface GetRoleResponse {
   Role: Role;
 }
-export const GetRoleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Role: Role }).pipe(ns),
-).annotate({
-  identifier: "GetRoleResponse",
-}) as any as S.Schema<GetRoleResponse>;
 export interface GetRolePolicyRequest {
   RoleName: string;
   PolicyName: string;
 }
-export const GetRolePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleName: S.String, PolicyName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRolePolicyRequest",
-}) as any as S.Schema<GetRolePolicyRequest>;
 export interface GetRolePolicyResponse {
   RoleName: string;
   PolicyName: string;
   PolicyDocument: string;
 }
-export const GetRolePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoleName: S.String,
-    PolicyName: S.String,
-    PolicyDocument: S.String,
-  }).pipe(ns),
-).annotate({
-  identifier: "GetRolePolicyResponse",
-}) as any as S.Schema<GetRolePolicyResponse>;
 export type MinorVersionType = number;
 export interface GetRoleTemplateVersionRequest {
   TemplateArn: string;
   MinorVersion?: number;
 }
-export const GetRoleTemplateVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TemplateArn: S.String, MinorVersion: S.optional(S.Number) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRoleTemplateVersionRequest",
-}) as any as S.Schema<GetRoleTemplateVersionRequest>;
 export type RoleTemplateNameType = string;
 export type RoleTemplateDescriptionType = string;
 export type ManagedByTypeType = "Service" | (string & {});
-export const ManagedByTypeType = S.String;
-
 export type ManagedByValueType = string;
 export type RoleNamePatternType = string;
 export type RolePathPatternType = string;
@@ -4016,13 +1581,8 @@ export interface InlinePolicy {
   PolicyName: string;
   PolicyDocument: string;
 }
-export const InlinePolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyName: S.String, PolicyDocument: S.String }),
-).annotate({ identifier: "InlinePolicy" }) as any as S.Schema<InlinePolicy>;
 export type InlinePolicyTemplateListType = InlinePolicy[];
-export const InlinePolicyTemplateListType = /*@__PURE__*/ S.Array(InlinePolicy);
 export type ManagedPolicyArnListType = string[];
-export const ManagedPolicyArnListType = /*@__PURE__*/ S.Array(S.String);
 export type ParameterNameType = string;
 export type ParameterTypeType =
   | "String"
@@ -4032,8 +1592,6 @@ export type ParameterTypeType =
   | "Arn"
   | "ArnList"
   | (string & {});
-export const ParameterTypeType = S.String;
-
 export type ParameterSubTypeType = string;
 export type ParameterDescriptionType = string;
 export type ParameterDefaultValueType = string;
@@ -4046,33 +1604,14 @@ export interface ParameterDefinition {
   DefaultValue?: string;
   Immutable?: boolean;
 }
-export const ParameterDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Type: ParameterTypeType,
-    SubType: S.optional(S.String),
-    Description: S.optional(S.String),
-    IsRequired: S.optional(S.Boolean),
-    DefaultValue: S.optional(S.String),
-    Immutable: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ParameterDefinition",
-}) as any as S.Schema<ParameterDefinition>;
 export type ParametersDefinitionListType = ParameterDefinition[];
-export const ParametersDefinitionListType =
-  /*@__PURE__*/ S.Array(ParameterDefinition);
 export type TagTemplateKeyType = string;
 export type TagTemplateValueType = string;
 export interface TagTemplate {
   Key: string;
   Value: string;
 }
-export const TagTemplate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "TagTemplate" }) as any as S.Schema<TagTemplate>;
 export type TagTemplateListType = TagTemplate[];
-export const TagTemplateListType = /*@__PURE__*/ S.Array(TagTemplate);
 export interface RoleTemplateVersion {
   TemplateArn?: string;
   TemplateName?: string;
@@ -4098,80 +1637,18 @@ export interface RoleTemplateVersion {
   CreateTimestamp?: Date;
   UpdateTimestamp?: Date;
 }
-export const RoleTemplateVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TemplateArn: S.optional(S.String),
-    TemplateName: S.optional(S.String),
-    TemplateVersionId: S.optional(S.String),
-    Description: S.optional(S.String),
-    MajorVersion: S.optional(S.Number),
-    DefaultMinorVersion: S.optional(S.Number),
-    ManagedByType: S.optional(ManagedByTypeType),
-    ManagedByValue: S.optional(S.String),
-    Enabled: S.optional(S.Boolean),
-    MinorVersion: S.optional(S.Number),
-    RoleNamePattern: S.optional(S.String),
-    RolePathPattern: S.optional(S.String),
-    RoleDescriptionPattern: S.optional(S.String),
-    AssumeRolePolicyDocumentTemplate: S.optional(S.String),
-    InlinePolicyTemplates: S.optional(InlinePolicyTemplateListType),
-    ManagedPolicyArns: S.optional(ManagedPolicyArnListType),
-    PermissionBoundaryArn: S.optional(S.String),
-    ParametersDefinition: S.optional(ParametersDefinitionListType),
-    RoleTagsTemplate: S.optional(TagTemplateListType),
-    MaxSessionDuration: S.optional(S.Number),
-    VersionEnabled: S.optional(S.Boolean),
-    CreateTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdateTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "RoleTemplateVersion",
-}) as any as S.Schema<RoleTemplateVersion>;
 export interface GetRoleTemplateVersionResponse {
   RoleTemplateVersion: RoleTemplateVersion;
 }
-export const GetRoleTemplateVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleTemplateVersion: RoleTemplateVersion }).pipe(ns),
-).annotate({
-  identifier: "GetRoleTemplateVersionResponse",
-}) as any as S.Schema<GetRoleTemplateVersionResponse>;
 export interface GetSAMLProviderRequest {
   SAMLProviderArn: string;
 }
-export const GetSAMLProviderRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SAMLProviderArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSAMLProviderRequest",
-}) as any as S.Schema<GetSAMLProviderRequest>;
 export type PrivateKeyIdType = string;
 export interface SAMLPrivateKey {
   KeyId?: string;
   Timestamp?: Date;
 }
-export const SAMLPrivateKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyId: S.optional(S.String),
-    Timestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({ identifier: "SAMLPrivateKey" }) as any as S.Schema<SAMLPrivateKey>;
 export type PrivateKeyList = SAMLPrivateKey[];
-export const PrivateKeyList = /*@__PURE__*/ S.Array(SAMLPrivateKey);
 export interface GetSAMLProviderResponse {
   SAMLProviderUUID?: string;
   SAMLMetadataDocument?: string;
@@ -4181,41 +1658,9 @@ export interface GetSAMLProviderResponse {
   AssertionEncryptionMode?: AssertionEncryptionModeType;
   PrivateKeyList?: SAMLPrivateKey[];
 }
-export const GetSAMLProviderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SAMLProviderUUID: S.optional(S.String),
-    SAMLMetadataDocument: S.optional(S.String),
-    CreateDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ValidUntil: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Tags: S.optional(TagListType),
-    AssertionEncryptionMode: S.optional(AssertionEncryptionModeType),
-    PrivateKeyList: S.optional(PrivateKeyList),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetSAMLProviderResponse",
-}) as any as S.Schema<GetSAMLProviderResponse>;
 export interface GetServerCertificateRequest {
   ServerCertificateName: string;
 }
-export const GetServerCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServerCertificateName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetServerCertificateRequest",
-}) as any as S.Schema<GetServerCertificateRequest>;
 export interface ServerCertificateMetadata {
   Path: string;
   ServerCertificateName: string;
@@ -4224,22 +1669,6 @@ export interface ServerCertificateMetadata {
   UploadDate?: Date;
   Expiration?: Date;
 }
-export const ServerCertificateMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Path: S.String,
-    ServerCertificateName: S.String,
-    ServerCertificateId: S.String,
-    Arn: S.String,
-    UploadDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Expiration: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "ServerCertificateMetadata",
-}) as any as S.Schema<ServerCertificateMetadata>;
 export type CertificateBodyType = string;
 export type CertificateChainType = string;
 export interface ServerCertificate {
@@ -4248,71 +1677,21 @@ export interface ServerCertificate {
   CertificateChain?: string;
   Tags?: Tag[];
 }
-export const ServerCertificate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerCertificateMetadata: ServerCertificateMetadata,
-    CertificateBody: S.String,
-    CertificateChain: S.optional(S.String),
-    Tags: S.optional(TagListType),
-  }),
-).annotate({
-  identifier: "ServerCertificate",
-}) as any as S.Schema<ServerCertificate>;
 export interface GetServerCertificateResponse {
   ServerCertificate: ServerCertificate;
 }
-export const GetServerCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServerCertificate: ServerCertificate }).pipe(ns),
-).annotate({
-  identifier: "GetServerCertificateResponse",
-}) as any as S.Schema<GetServerCertificateResponse>;
 export interface GetServiceLastAccessedDetailsRequest {
   JobId: string;
   MaxItems?: number;
   Marker?: string;
 }
-export const GetServiceLastAccessedDetailsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      JobId: S.String,
-      MaxItems: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetServiceLastAccessedDetailsRequest",
-}) as any as S.Schema<GetServiceLastAccessedDetailsRequest>;
 export interface TrackedActionLastAccessed {
   ActionName?: string;
   LastAccessedEntity?: string;
   LastAccessedTime?: Date;
   LastAccessedRegion?: string;
 }
-export const TrackedActionLastAccessed = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionName: S.optional(S.String),
-    LastAccessedEntity: S.optional(S.String),
-    LastAccessedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastAccessedRegion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TrackedActionLastAccessed",
-}) as any as S.Schema<TrackedActionLastAccessed>;
 export type TrackedActionsLastAccessed = TrackedActionLastAccessed[];
-export const TrackedActionsLastAccessed = /*@__PURE__*/ S.Array(
-  TrackedActionLastAccessed,
-);
 export interface ServiceLastAccessed {
   ServiceName: string;
   LastAuthenticated?: Date;
@@ -4322,23 +1701,7 @@ export interface ServiceLastAccessed {
   TotalAuthenticatedEntities?: number;
   TrackedActionsLastAccessed?: TrackedActionLastAccessed[];
 }
-export const ServiceLastAccessed = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceName: S.String,
-    LastAuthenticated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ServiceNamespace: S.String,
-    LastAuthenticatedEntity: S.optional(S.String),
-    LastAuthenticatedRegion: S.optional(S.String),
-    TotalAuthenticatedEntities: S.optional(S.Number),
-    TrackedActionsLastAccessed: S.optional(TrackedActionsLastAccessed),
-  }),
-).annotate({
-  identifier: "ServiceLastAccessed",
-}) as any as S.Schema<ServiceLastAccessed>;
 export type ServicesLastAccessed = ServiceLastAccessed[];
-export const ServicesLastAccessed = /*@__PURE__*/ S.Array(ServiceLastAccessed);
 export interface GetServiceLastAccessedDetailsResponse {
   JobStatus: JobStatusType;
   JobType?: AccessAdvisorUsageGranularityType;
@@ -4349,51 +1712,13 @@ export interface GetServiceLastAccessedDetailsResponse {
   Marker?: string;
   Error?: ErrorDetails;
 }
-export const GetServiceLastAccessedDetailsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      JobStatus: JobStatusType,
-      JobType: S.optional(AccessAdvisorUsageGranularityType),
-      JobCreationDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ServicesLastAccessed: ServicesLastAccessed,
-      JobCompletionDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      IsTruncated: S.optional(S.Boolean),
-      Marker: S.optional(S.String),
-      Error: S.optional(ErrorDetails),
-    }).pipe(ns),
-).annotate({
-  identifier: "GetServiceLastAccessedDetailsResponse",
-}) as any as S.Schema<GetServiceLastAccessedDetailsResponse>;
 export interface GetServiceLastAccessedDetailsWithEntitiesRequest {
   JobId: string;
   ServiceNamespace: string;
   MaxItems?: number;
   Marker?: string;
 }
-export const GetServiceLastAccessedDetailsWithEntitiesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      JobId: S.String,
-      ServiceNamespace: S.String,
-      MaxItems: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetServiceLastAccessedDetailsWithEntitiesRequest",
-  }) as any as S.Schema<GetServiceLastAccessedDetailsWithEntitiesRequest>;
 export type PolicyOwnerEntityType = "USER" | "ROLE" | "GROUP" | (string & {});
-export const PolicyOwnerEntityType = S.String;
-
 export interface EntityInfo {
   Arn: string;
   Name: string;
@@ -4401,29 +1726,11 @@ export interface EntityInfo {
   Id: string;
   Path?: string;
 }
-export const EntityInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Name: S.String,
-    Type: PolicyOwnerEntityType,
-    Id: S.String,
-    Path: S.optional(S.String),
-  }),
-).annotate({ identifier: "EntityInfo" }) as any as S.Schema<EntityInfo>;
 export interface EntityDetails {
   EntityInfo: EntityInfo;
   LastAuthenticated?: Date;
 }
-export const EntityDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EntityInfo: EntityInfo,
-    LastAuthenticated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({ identifier: "EntityDetails" }) as any as S.Schema<EntityDetails>;
 export type EntityDetailsListType = EntityDetails[];
-export const EntityDetailsListType = /*@__PURE__*/ S.Array(EntityDetails);
 export interface GetServiceLastAccessedDetailsWithEntitiesResponse {
   JobStatus: JobStatusType;
   JobCreationDate: Date;
@@ -4433,115 +1740,37 @@ export interface GetServiceLastAccessedDetailsWithEntitiesResponse {
   Marker?: string;
   Error?: ErrorDetails;
 }
-export const GetServiceLastAccessedDetailsWithEntitiesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      JobStatus: JobStatusType,
-      JobCreationDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      JobCompletionDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      EntityDetailsList: EntityDetailsListType,
-      IsTruncated: S.optional(S.Boolean),
-      Marker: S.optional(S.String),
-      Error: S.optional(ErrorDetails),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetServiceLastAccessedDetailsWithEntitiesResponse",
-  }) as any as S.Schema<GetServiceLastAccessedDetailsWithEntitiesResponse>;
 export interface GetServiceLinkedRoleDeletionStatusRequest {
   DeletionTaskId: string;
 }
-export const GetServiceLinkedRoleDeletionStatusRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ DeletionTaskId: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetServiceLinkedRoleDeletionStatusRequest",
-  }) as any as S.Schema<GetServiceLinkedRoleDeletionStatusRequest>;
 export type DeletionTaskStatusType =
   | "SUCCEEDED"
   | "IN_PROGRESS"
   | "FAILED"
   | "NOT_STARTED"
   | (string & {});
-export const DeletionTaskStatusType = S.String;
-
 export type ReasonType = string;
 export type RegionNameType = string;
 export type ArnListType = string[];
-export const ArnListType = /*@__PURE__*/ S.Array(S.String);
 export interface RoleUsageType {
   Region?: string;
   Resources?: string[];
 }
-export const RoleUsageType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Region: S.optional(S.String),
-    Resources: S.optional(ArnListType),
-  }),
-).annotate({ identifier: "RoleUsageType" }) as any as S.Schema<RoleUsageType>;
 export type RoleUsageListType = RoleUsageType[];
-export const RoleUsageListType = /*@__PURE__*/ S.Array(RoleUsageType);
 export interface DeletionTaskFailureReasonType {
   Reason?: string;
   RoleUsageList?: RoleUsageType[];
 }
-export const DeletionTaskFailureReasonType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Reason: S.optional(S.String),
-    RoleUsageList: S.optional(RoleUsageListType),
-  }),
-).annotate({
-  identifier: "DeletionTaskFailureReasonType",
-}) as any as S.Schema<DeletionTaskFailureReasonType>;
 export interface GetServiceLinkedRoleDeletionStatusResponse {
   Status: DeletionTaskStatusType;
   Reason?: DeletionTaskFailureReasonType;
 }
-export const GetServiceLinkedRoleDeletionStatusResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Status: DeletionTaskStatusType,
-      Reason: S.optional(DeletionTaskFailureReasonType),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetServiceLinkedRoleDeletionStatusResponse",
-  }) as any as S.Schema<GetServiceLinkedRoleDeletionStatusResponse>;
 export type EncodingType = "SSH" | "PEM" | (string & {});
-export const EncodingType = S.String;
-
 export interface GetSSHPublicKeyRequest {
   UserName: string;
   SSHPublicKeyId: string;
   Encoding: EncodingType;
 }
-export const GetSSHPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    SSHPublicKeyId: S.String,
-    Encoding: EncodingType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSSHPublicKeyRequest",
-}) as any as S.Schema<GetSSHPublicKeyRequest>;
 export type PublicKeyFingerprintType = string;
 export type PublicKeyMaterialType = string;
 export interface SSHPublicKey {
@@ -4552,347 +1781,99 @@ export interface SSHPublicKey {
   Status: StatusType;
   UploadDate?: Date;
 }
-export const SSHPublicKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    SSHPublicKeyId: S.String,
-    Fingerprint: S.String,
-    SSHPublicKeyBody: S.String,
-    Status: StatusType,
-    UploadDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({ identifier: "SSHPublicKey" }) as any as S.Schema<SSHPublicKey>;
 export interface GetSSHPublicKeyResponse {
   SSHPublicKey?: SSHPublicKey;
 }
-export const GetSSHPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SSHPublicKey: S.optional(SSHPublicKey) }).pipe(ns),
-).annotate({
-  identifier: "GetSSHPublicKeyResponse",
-}) as any as S.Schema<GetSSHPublicKeyResponse>;
 export interface GetUserRequest {
   UserName?: string;
 }
-export const GetUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetUserRequest" }) as any as S.Schema<GetUserRequest>;
 export interface GetUserResponse {
   User: User;
 }
-export const GetUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ User: User }).pipe(ns),
-).annotate({
-  identifier: "GetUserResponse",
-}) as any as S.Schema<GetUserResponse>;
 export interface GetUserPolicyRequest {
   UserName: string;
   PolicyName: string;
 }
-export const GetUserPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.String, PolicyName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetUserPolicyRequest",
-}) as any as S.Schema<GetUserPolicyRequest>;
 export interface GetUserPolicyResponse {
   UserName: string;
   PolicyName: string;
   PolicyDocument: string;
 }
-export const GetUserPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    PolicyName: S.String,
-    PolicyDocument: S.String,
-  }).pipe(ns),
-).annotate({
-  identifier: "GetUserPolicyResponse",
-}) as any as S.Schema<GetUserPolicyResponse>;
 export interface ListAccessKeysRequest {
   UserName?: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListAccessKeysRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.optional(S.String),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAccessKeysRequest",
-}) as any as S.Schema<ListAccessKeysRequest>;
 export interface AccessKeyMetadata {
   UserName?: string;
   AccessKeyId?: string;
   Status?: StatusType;
   CreateDate?: Date;
 }
-export const AccessKeyMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.optional(S.String),
-    AccessKeyId: S.optional(S.String),
-    Status: S.optional(StatusType),
-    CreateDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "AccessKeyMetadata",
-}) as any as S.Schema<AccessKeyMetadata>;
 export type AccessKeyMetadataListType = AccessKeyMetadata[];
-export const AccessKeyMetadataListType =
-  /*@__PURE__*/ S.Array(AccessKeyMetadata);
 export interface ListAccessKeysResponse {
   AccessKeyMetadata: AccessKeyMetadata[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListAccessKeysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessKeyMetadata: AccessKeyMetadataListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListAccessKeysResponse",
-}) as any as S.Schema<ListAccessKeysResponse>;
 export interface ListAccountAliasesRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListAccountAliasesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAccountAliasesRequest",
-}) as any as S.Schema<ListAccountAliasesRequest>;
 export type AccountAliasListType = string[];
-export const AccountAliasListType = /*@__PURE__*/ S.Array(S.String);
 export interface ListAccountAliasesResponse {
   AccountAliases: string[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListAccountAliasesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountAliases: AccountAliasListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListAccountAliasesResponse",
-}) as any as S.Schema<ListAccountAliasesResponse>;
 export interface ListAttachedGroupPoliciesRequest {
   GroupName: string;
   PathPrefix?: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListAttachedGroupPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupName: S.String,
-    PathPrefix: S.optional(S.String),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAttachedGroupPoliciesRequest",
-}) as any as S.Schema<ListAttachedGroupPoliciesRequest>;
 export interface ListAttachedGroupPoliciesResponse {
   AttachedPolicies?: AttachedPolicy[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListAttachedGroupPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttachedPolicies: S.optional(AttachedPoliciesListType),
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListAttachedGroupPoliciesResponse",
-}) as any as S.Schema<ListAttachedGroupPoliciesResponse>;
 export interface ListAttachedRolePoliciesRequest {
   RoleName: string;
   PathPrefix?: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListAttachedRolePoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoleName: S.String,
-    PathPrefix: S.optional(S.String),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAttachedRolePoliciesRequest",
-}) as any as S.Schema<ListAttachedRolePoliciesRequest>;
 export interface ListAttachedRolePoliciesResponse {
   AttachedPolicies?: AttachedPolicy[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListAttachedRolePoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttachedPolicies: S.optional(AttachedPoliciesListType),
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListAttachedRolePoliciesResponse",
-}) as any as S.Schema<ListAttachedRolePoliciesResponse>;
 export interface ListAttachedUserPoliciesRequest {
   UserName: string;
   PathPrefix?: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListAttachedUserPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    PathPrefix: S.optional(S.String),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAttachedUserPoliciesRequest",
-}) as any as S.Schema<ListAttachedUserPoliciesRequest>;
 export interface ListAttachedUserPoliciesResponse {
   AttachedPolicies?: AttachedPolicy[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListAttachedUserPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttachedPolicies: S.optional(AttachedPoliciesListType),
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListAttachedUserPoliciesResponse",
-}) as any as S.Schema<ListAttachedUserPoliciesResponse>;
 export interface ListDelegationRequestsRequest {
   OwnerId?: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListDelegationRequestsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OwnerId: S.optional(S.String),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDelegationRequestsRequest",
-}) as any as S.Schema<ListDelegationRequestsRequest>;
 export type DelegationRequestsListType = DelegationRequest[];
-export const DelegationRequestsListType =
-  /*@__PURE__*/ S.Array(DelegationRequest);
 export interface ListDelegationRequestsResponse {
   DelegationRequests?: DelegationRequest[];
   Marker?: string;
   isTruncated?: boolean;
 }
-export const ListDelegationRequestsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DelegationRequests: S.optional(DelegationRequestsListType),
-    Marker: S.optional(S.String),
-    isTruncated: S.optional(S.Boolean),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDelegationRequestsResponse",
-}) as any as S.Schema<ListDelegationRequestsResponse>;
 export type PolicyUsageType =
   | "PermissionsPolicy"
   | "PermissionsBoundary"
   | (string & {});
-export const PolicyUsageType = S.String;
-
 export interface ListEntitiesForPolicyRequest {
   PolicyArn: string;
   EntityFilter?: EntityType;
@@ -4901,55 +1882,21 @@ export interface ListEntitiesForPolicyRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListEntitiesForPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyArn: S.String,
-    EntityFilter: S.optional(EntityType),
-    PathPrefix: S.optional(S.String),
-    PolicyUsageFilter: S.optional(PolicyUsageType),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListEntitiesForPolicyRequest",
-}) as any as S.Schema<ListEntitiesForPolicyRequest>;
 export interface PolicyGroup {
   GroupName?: string;
   GroupId?: string;
 }
-export const PolicyGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GroupName: S.optional(S.String), GroupId: S.optional(S.String) }),
-).annotate({ identifier: "PolicyGroup" }) as any as S.Schema<PolicyGroup>;
 export type PolicyGroupListType = PolicyGroup[];
-export const PolicyGroupListType = /*@__PURE__*/ S.Array(PolicyGroup);
 export interface PolicyUser {
   UserName?: string;
   UserId?: string;
 }
-export const PolicyUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.optional(S.String), UserId: S.optional(S.String) }),
-).annotate({ identifier: "PolicyUser" }) as any as S.Schema<PolicyUser>;
 export type PolicyUserListType = PolicyUser[];
-export const PolicyUserListType = /*@__PURE__*/ S.Array(PolicyUser);
 export interface PolicyRole {
   RoleName?: string;
   RoleId?: string;
 }
-export const PolicyRole = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleName: S.optional(S.String), RoleId: S.optional(S.String) }),
-).annotate({ identifier: "PolicyRole" }) as any as S.Schema<PolicyRole>;
 export type PolicyRoleListType = PolicyRole[];
-export const PolicyRoleListType = /*@__PURE__*/ S.Array(PolicyRole);
 export interface ListEntitiesForPolicyResponse {
   PolicyGroups?: PolicyGroup[];
   PolicyUsers?: PolicyUser[];
@@ -4957,449 +1904,119 @@ export interface ListEntitiesForPolicyResponse {
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListEntitiesForPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyGroups: S.optional(PolicyGroupListType),
-    PolicyUsers: S.optional(PolicyUserListType),
-    PolicyRoles: S.optional(PolicyRoleListType),
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListEntitiesForPolicyResponse",
-}) as any as S.Schema<ListEntitiesForPolicyResponse>;
 export interface ListGroupPoliciesRequest {
   GroupName: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListGroupPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupName: S.String,
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListGroupPoliciesRequest",
-}) as any as S.Schema<ListGroupPoliciesRequest>;
 export type PolicyNameListType = string[];
-export const PolicyNameListType = /*@__PURE__*/ S.Array(S.String);
 export interface ListGroupPoliciesResponse {
   PolicyNames: string[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListGroupPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyNames: PolicyNameListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListGroupPoliciesResponse",
-}) as any as S.Schema<ListGroupPoliciesResponse>;
 export type PathPrefixType = string;
 export interface ListGroupsRequest {
   PathPrefix?: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PathPrefix: S.optional(S.String),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListGroupsRequest",
-}) as any as S.Schema<ListGroupsRequest>;
 export type GroupListType = Group[];
-export const GroupListType = /*@__PURE__*/ S.Array(Group);
 export interface ListGroupsResponse {
   Groups: Group[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Groups: GroupListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListGroupsResponse",
-}) as any as S.Schema<ListGroupsResponse>;
 export interface ListGroupsForUserRequest {
   UserName: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListGroupsForUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListGroupsForUserRequest",
-}) as any as S.Schema<ListGroupsForUserRequest>;
 export interface ListGroupsForUserResponse {
   Groups: Group[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListGroupsForUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Groups: GroupListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListGroupsForUserResponse",
-}) as any as S.Schema<ListGroupsForUserResponse>;
 export interface ListInstanceProfilesRequest {
   PathPrefix?: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListInstanceProfilesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PathPrefix: S.optional(S.String),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListInstanceProfilesRequest",
-}) as any as S.Schema<ListInstanceProfilesRequest>;
 export interface ListInstanceProfilesResponse {
   InstanceProfiles: InstanceProfile[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListInstanceProfilesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceProfiles: InstanceProfileListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListInstanceProfilesResponse",
-}) as any as S.Schema<ListInstanceProfilesResponse>;
 export interface ListInstanceProfilesForRoleRequest {
   RoleName: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListInstanceProfilesForRoleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoleName: S.String,
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListInstanceProfilesForRoleRequest",
-}) as any as S.Schema<ListInstanceProfilesForRoleRequest>;
 export interface ListInstanceProfilesForRoleResponse {
   InstanceProfiles: InstanceProfile[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListInstanceProfilesForRoleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceProfiles: InstanceProfileListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListInstanceProfilesForRoleResponse",
-}) as any as S.Schema<ListInstanceProfilesForRoleResponse>;
 export interface ListInstanceProfileTagsRequest {
   InstanceProfileName: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListInstanceProfileTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceProfileName: S.String,
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListInstanceProfileTagsRequest",
-}) as any as S.Schema<ListInstanceProfileTagsRequest>;
 export interface ListInstanceProfileTagsResponse {
   Tags: Tag[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListInstanceProfileTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Tags: TagListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListInstanceProfileTagsResponse",
-}) as any as S.Schema<ListInstanceProfileTagsResponse>;
 export interface ListMFADevicesRequest {
   UserName?: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListMFADevicesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.optional(S.String),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListMFADevicesRequest",
-}) as any as S.Schema<ListMFADevicesRequest>;
 export interface MFADevice {
   UserName: string;
   SerialNumber: string;
   EnableDate: Date;
 }
-export const MFADevice = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    SerialNumber: S.String,
-    EnableDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({ identifier: "MFADevice" }) as any as S.Schema<MFADevice>;
 export type MfaDeviceListType = MFADevice[];
-export const MfaDeviceListType = /*@__PURE__*/ S.Array(MFADevice);
 export interface ListMFADevicesResponse {
   MFADevices: MFADevice[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListMFADevicesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MFADevices: MfaDeviceListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListMFADevicesResponse",
-}) as any as S.Schema<ListMFADevicesResponse>;
 export interface ListMFADeviceTagsRequest {
   SerialNumber: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListMFADeviceTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SerialNumber: S.String,
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListMFADeviceTagsRequest",
-}) as any as S.Schema<ListMFADeviceTagsRequest>;
 export interface ListMFADeviceTagsResponse {
   Tags: Tag[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListMFADeviceTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Tags: TagListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListMFADeviceTagsResponse",
-}) as any as S.Schema<ListMFADeviceTagsResponse>;
 export interface ListOpenIDConnectProvidersRequest {}
-export const ListOpenIDConnectProvidersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListOpenIDConnectProvidersRequest",
-}) as any as S.Schema<ListOpenIDConnectProvidersRequest>;
 export interface OpenIDConnectProviderListEntry {
   Arn?: string;
 }
-export const OpenIDConnectProviderListEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "OpenIDConnectProviderListEntry",
-}) as any as S.Schema<OpenIDConnectProviderListEntry>;
 export type OpenIDConnectProviderListType = OpenIDConnectProviderListEntry[];
-export const OpenIDConnectProviderListType = /*@__PURE__*/ S.Array(
-  OpenIDConnectProviderListEntry,
-);
 export interface ListOpenIDConnectProvidersResponse {
   OpenIDConnectProviderList?: OpenIDConnectProviderListEntry[];
 }
-export const ListOpenIDConnectProvidersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OpenIDConnectProviderList: S.optional(OpenIDConnectProviderListType),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListOpenIDConnectProvidersResponse",
-}) as any as S.Schema<ListOpenIDConnectProvidersResponse>;
 export interface ListOpenIDConnectProviderTagsRequest {
   OpenIDConnectProviderArn: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListOpenIDConnectProviderTagsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      OpenIDConnectProviderArn: S.String,
-      Marker: S.optional(S.String),
-      MaxItems: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListOpenIDConnectProviderTagsRequest",
-}) as any as S.Schema<ListOpenIDConnectProviderTagsRequest>;
 export interface ListOpenIDConnectProviderTagsResponse {
   Tags: Tag[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListOpenIDConnectProviderTagsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Tags: TagListType,
-      IsTruncated: S.optional(S.Boolean),
-      Marker: S.optional(S.String),
-    }).pipe(ns),
-).annotate({
-  identifier: "ListOpenIDConnectProviderTagsResponse",
-}) as any as S.Schema<ListOpenIDConnectProviderTagsResponse>;
 export interface ListOrganizationsFeaturesRequest {}
-export const ListOrganizationsFeaturesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListOrganizationsFeaturesRequest",
-}) as any as S.Schema<ListOrganizationsFeaturesRequest>;
 export interface ListOrganizationsFeaturesResponse {
   OrganizationId?: string;
   EnabledFeatures?: FeatureType[];
 }
-export const ListOrganizationsFeaturesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OrganizationId: S.optional(S.String),
-    EnabledFeatures: S.optional(FeaturesListType),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListOrganizationsFeaturesResponse",
-}) as any as S.Schema<ListOrganizationsFeaturesResponse>;
 export type PolicyScopeType = "All" | "AWS" | "Local" | (string & {});
-export const PolicyScopeType = S.String;
-
 export interface ListPoliciesRequest {
   Scope?: PolicyScopeType;
   OnlyAttached?: boolean;
@@ -5408,74 +2025,19 @@ export interface ListPoliciesRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Scope: S.optional(PolicyScopeType),
-    OnlyAttached: S.optional(S.Boolean),
-    PathPrefix: S.optional(S.String),
-    PolicyUsageFilter: S.optional(PolicyUsageType),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListPoliciesRequest",
-}) as any as S.Schema<ListPoliciesRequest>;
 export type PolicyListType = Policy[];
-export const PolicyListType = /*@__PURE__*/ S.Array(Policy);
 export interface ListPoliciesResponse {
   Policies?: Policy[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Policies: S.optional(PolicyListType),
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListPoliciesResponse",
-}) as any as S.Schema<ListPoliciesResponse>;
 export type ServiceNamespaceListType = string[];
-export const ServiceNamespaceListType = /*@__PURE__*/ S.Array(S.String);
 export interface ListPoliciesGrantingServiceAccessRequest {
   Marker?: string;
   Arn: string;
   ServiceNamespaces: string[];
 }
-export const ListPoliciesGrantingServiceAccessRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Marker: S.optional(S.String),
-      Arn: S.String,
-      ServiceNamespaces: ServiceNamespaceListType,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListPoliciesGrantingServiceAccessRequest",
-}) as any as S.Schema<ListPoliciesGrantingServiceAccessRequest>;
 export type PolicyType = "INLINE" | "MANAGED" | (string & {});
-export const PolicyType = S.String;
-
 export type EntityNameType = string;
 export interface PolicyGrantingServiceAccess {
   PolicyName: string;
@@ -5484,408 +2046,109 @@ export interface PolicyGrantingServiceAccess {
   EntityType?: PolicyOwnerEntityType;
   EntityName?: string;
 }
-export const PolicyGrantingServiceAccess = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyName: S.String,
-    PolicyType: PolicyType,
-    PolicyArn: S.optional(S.String),
-    EntityType: S.optional(PolicyOwnerEntityType),
-    EntityName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PolicyGrantingServiceAccess",
-}) as any as S.Schema<PolicyGrantingServiceAccess>;
 export type PolicyGrantingServiceAccessListType = PolicyGrantingServiceAccess[];
-export const PolicyGrantingServiceAccessListType = /*@__PURE__*/ S.Array(
-  PolicyGrantingServiceAccess,
-);
 export interface ListPoliciesGrantingServiceAccessEntry {
   ServiceNamespace?: string;
   Policies?: PolicyGrantingServiceAccess[];
 }
-export const ListPoliciesGrantingServiceAccessEntry = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ServiceNamespace: S.optional(S.String),
-      Policies: S.optional(PolicyGrantingServiceAccessListType),
-    }),
-).annotate({
-  identifier: "ListPoliciesGrantingServiceAccessEntry",
-}) as any as S.Schema<ListPoliciesGrantingServiceAccessEntry>;
 export type ListPolicyGrantingServiceAccessResponseListType =
   ListPoliciesGrantingServiceAccessEntry[];
-export const ListPolicyGrantingServiceAccessResponseListType =
-  /*@__PURE__*/ S.Array(ListPoliciesGrantingServiceAccessEntry);
 export interface ListPoliciesGrantingServiceAccessResponse {
   PoliciesGrantingServiceAccess: ListPoliciesGrantingServiceAccessEntry[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListPoliciesGrantingServiceAccessResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      PoliciesGrantingServiceAccess:
-        ListPolicyGrantingServiceAccessResponseListType,
-      IsTruncated: S.optional(S.Boolean),
-      Marker: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListPoliciesGrantingServiceAccessResponse",
-  }) as any as S.Schema<ListPoliciesGrantingServiceAccessResponse>;
 export interface ListPolicyTagsRequest {
   PolicyArn: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListPolicyTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyArn: S.String,
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListPolicyTagsRequest",
-}) as any as S.Schema<ListPolicyTagsRequest>;
 export interface ListPolicyTagsResponse {
   Tags: Tag[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListPolicyTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Tags: TagListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListPolicyTagsResponse",
-}) as any as S.Schema<ListPolicyTagsResponse>;
 export interface ListPolicyVersionsRequest {
   PolicyArn: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListPolicyVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyArn: S.String,
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListPolicyVersionsRequest",
-}) as any as S.Schema<ListPolicyVersionsRequest>;
 export interface ListPolicyVersionsResponse {
   Versions?: PolicyVersion[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListPolicyVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Versions: S.optional(PolicyDocumentVersionListType),
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListPolicyVersionsResponse",
-}) as any as S.Schema<ListPolicyVersionsResponse>;
 export interface ListRolePoliciesRequest {
   RoleName: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListRolePoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoleName: S.String,
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRolePoliciesRequest",
-}) as any as S.Schema<ListRolePoliciesRequest>;
 export interface ListRolePoliciesResponse {
   PolicyNames: string[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListRolePoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyNames: PolicyNameListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListRolePoliciesResponse",
-}) as any as S.Schema<ListRolePoliciesResponse>;
 export interface ListRolesRequest {
   PathPrefix?: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListRolesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PathPrefix: S.optional(S.String),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRolesRequest",
-}) as any as S.Schema<ListRolesRequest>;
 export interface ListRolesResponse {
   Roles: Role[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListRolesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Roles: RoleListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListRolesResponse",
-}) as any as S.Schema<ListRolesResponse>;
 export interface ListRoleTagsRequest {
   RoleName: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListRoleTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoleName: S.String,
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRoleTagsRequest",
-}) as any as S.Schema<ListRoleTagsRequest>;
 export interface ListRoleTagsResponse {
   Tags: Tag[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListRoleTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Tags: TagListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListRoleTagsResponse",
-}) as any as S.Schema<ListRoleTagsResponse>;
 export interface ListSAMLProvidersRequest {}
-export const ListSAMLProvidersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSAMLProvidersRequest",
-}) as any as S.Schema<ListSAMLProvidersRequest>;
 export interface SAMLProviderListEntry {
   Arn?: string;
   ValidUntil?: Date;
   CreateDate?: Date;
 }
-export const SAMLProviderListEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    ValidUntil: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    CreateDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "SAMLProviderListEntry",
-}) as any as S.Schema<SAMLProviderListEntry>;
 export type SAMLProviderListType = SAMLProviderListEntry[];
-export const SAMLProviderListType = /*@__PURE__*/ S.Array(
-  SAMLProviderListEntry,
-);
 export interface ListSAMLProvidersResponse {
   SAMLProviderList?: SAMLProviderListEntry[];
 }
-export const ListSAMLProvidersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SAMLProviderList: S.optional(SAMLProviderListType) }).pipe(ns),
-).annotate({
-  identifier: "ListSAMLProvidersResponse",
-}) as any as S.Schema<ListSAMLProvidersResponse>;
 export interface ListSAMLProviderTagsRequest {
   SAMLProviderArn: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListSAMLProviderTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SAMLProviderArn: S.String,
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSAMLProviderTagsRequest",
-}) as any as S.Schema<ListSAMLProviderTagsRequest>;
 export interface ListSAMLProviderTagsResponse {
   Tags: Tag[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListSAMLProviderTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Tags: TagListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListSAMLProviderTagsResponse",
-}) as any as S.Schema<ListSAMLProviderTagsResponse>;
 export interface ListServerCertificatesRequest {
   PathPrefix?: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListServerCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PathPrefix: S.optional(S.String),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListServerCertificatesRequest",
-}) as any as S.Schema<ListServerCertificatesRequest>;
 export type ServerCertificateMetadataListType = ServerCertificateMetadata[];
-export const ServerCertificateMetadataListType = /*@__PURE__*/ S.Array(
-  ServerCertificateMetadata,
-);
 export interface ListServerCertificatesResponse {
   ServerCertificateMetadataList: ServerCertificateMetadata[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListServerCertificatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerCertificateMetadataList: ServerCertificateMetadataListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListServerCertificatesResponse",
-}) as any as S.Schema<ListServerCertificatesResponse>;
 export interface ListServerCertificateTagsRequest {
   ServerCertificateName: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListServerCertificateTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerCertificateName: S.String,
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListServerCertificateTagsRequest",
-}) as any as S.Schema<ListServerCertificateTagsRequest>;
 export interface ListServerCertificateTagsResponse {
   Tags: Tag[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListServerCertificateTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Tags: TagListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListServerCertificateTagsResponse",
-}) as any as S.Schema<ListServerCertificateTagsResponse>;
 export type AllUsers = boolean;
 export interface ListServiceSpecificCredentialsRequest {
   UserName?: string;
@@ -5894,28 +2157,6 @@ export interface ListServiceSpecificCredentialsRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListServiceSpecificCredentialsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      UserName: S.optional(S.String),
-      ServiceName: S.optional(S.String),
-      AllUsers: S.optional(S.Boolean),
-      Marker: S.optional(S.String),
-      MaxItems: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListServiceSpecificCredentialsRequest",
-}) as any as S.Schema<ListServiceSpecificCredentialsRequest>;
 export interface ServiceSpecificCredentialMetadata {
   UserName: string;
   Status: StatusType;
@@ -5926,68 +2167,18 @@ export interface ServiceSpecificCredentialMetadata {
   ServiceSpecificCredentialId: string;
   ServiceName: string;
 }
-export const ServiceSpecificCredentialMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    Status: StatusType,
-    ServiceUserName: S.optional(S.String),
-    ServiceCredentialAlias: S.optional(S.String),
-    CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ExpirationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ServiceSpecificCredentialId: S.String,
-    ServiceName: S.String,
-  }),
-).annotate({
-  identifier: "ServiceSpecificCredentialMetadata",
-}) as any as S.Schema<ServiceSpecificCredentialMetadata>;
 export type ServiceSpecificCredentialsListType =
   ServiceSpecificCredentialMetadata[];
-export const ServiceSpecificCredentialsListType = /*@__PURE__*/ S.Array(
-  ServiceSpecificCredentialMetadata,
-);
 export interface ListServiceSpecificCredentialsResponse {
   ServiceSpecificCredentials?: ServiceSpecificCredentialMetadata[];
   Marker?: string;
   IsTruncated?: boolean;
 }
-export const ListServiceSpecificCredentialsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ServiceSpecificCredentials: S.optional(
-        ServiceSpecificCredentialsListType,
-      ),
-      Marker: S.optional(S.String),
-      IsTruncated: S.optional(S.Boolean),
-    }).pipe(ns),
-).annotate({
-  identifier: "ListServiceSpecificCredentialsResponse",
-}) as any as S.Schema<ListServiceSpecificCredentialsResponse>;
 export interface ListSigningCertificatesRequest {
   UserName?: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListSigningCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.optional(S.String),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSigningCertificatesRequest",
-}) as any as S.Schema<ListSigningCertificatesRequest>;
 export interface SigningCertificate {
   UserName: string;
   CertificateId: string;
@@ -5995,682 +2186,165 @@ export interface SigningCertificate {
   Status: StatusType;
   UploadDate?: Date;
 }
-export const SigningCertificate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    CertificateId: S.String,
-    CertificateBody: S.String,
-    Status: StatusType,
-    UploadDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "SigningCertificate",
-}) as any as S.Schema<SigningCertificate>;
 export type CertificateListType = SigningCertificate[];
-export const CertificateListType = /*@__PURE__*/ S.Array(SigningCertificate);
 export interface ListSigningCertificatesResponse {
   Certificates: SigningCertificate[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListSigningCertificatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Certificates: CertificateListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListSigningCertificatesResponse",
-}) as any as S.Schema<ListSigningCertificatesResponse>;
 export interface ListSSHPublicKeysRequest {
   UserName?: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListSSHPublicKeysRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.optional(S.String),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSSHPublicKeysRequest",
-}) as any as S.Schema<ListSSHPublicKeysRequest>;
 export interface SSHPublicKeyMetadata {
   UserName: string;
   SSHPublicKeyId: string;
   Status: StatusType;
   UploadDate: Date;
 }
-export const SSHPublicKeyMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    SSHPublicKeyId: S.String,
-    Status: StatusType,
-    UploadDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({
-  identifier: "SSHPublicKeyMetadata",
-}) as any as S.Schema<SSHPublicKeyMetadata>;
 export type SSHPublicKeyListType = SSHPublicKeyMetadata[];
-export const SSHPublicKeyListType = /*@__PURE__*/ S.Array(SSHPublicKeyMetadata);
 export interface ListSSHPublicKeysResponse {
   SSHPublicKeys?: SSHPublicKeyMetadata[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListSSHPublicKeysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SSHPublicKeys: S.optional(SSHPublicKeyListType),
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListSSHPublicKeysResponse",
-}) as any as S.Schema<ListSSHPublicKeysResponse>;
 export interface ListUserPoliciesRequest {
   UserName: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListUserPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListUserPoliciesRequest",
-}) as any as S.Schema<ListUserPoliciesRequest>;
 export interface ListUserPoliciesResponse {
   PolicyNames: string[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListUserPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyNames: PolicyNameListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListUserPoliciesResponse",
-}) as any as S.Schema<ListUserPoliciesResponse>;
 export interface ListUsersRequest {
   PathPrefix?: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PathPrefix: S.optional(S.String),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
 export interface ListUsersResponse {
   Users: User[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Users: UserListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListUsersResponse",
-}) as any as S.Schema<ListUsersResponse>;
 export interface ListUserTagsRequest {
   UserName: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListUserTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListUserTagsRequest",
-}) as any as S.Schema<ListUserTagsRequest>;
 export interface ListUserTagsResponse {
   Tags: Tag[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListUserTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Tags: TagListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListUserTagsResponse",
-}) as any as S.Schema<ListUserTagsResponse>;
 export type AssignmentStatusType =
   | "Assigned"
   | "Unassigned"
   | "Any"
   | (string & {});
-export const AssignmentStatusType = S.String;
-
 export interface ListVirtualMFADevicesRequest {
   AssignmentStatus?: AssignmentStatusType;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListVirtualMFADevicesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AssignmentStatus: S.optional(AssignmentStatusType),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListVirtualMFADevicesRequest",
-}) as any as S.Schema<ListVirtualMFADevicesRequest>;
 export type VirtualMFADeviceListType = VirtualMFADevice[];
-export const VirtualMFADeviceListType = /*@__PURE__*/ S.Array(VirtualMFADevice);
 export interface ListVirtualMFADevicesResponse {
   VirtualMFADevices: VirtualMFADevice[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const ListVirtualMFADevicesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VirtualMFADevices: VirtualMFADeviceListType,
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListVirtualMFADevicesResponse",
-}) as any as S.Schema<ListVirtualMFADevicesResponse>;
 export interface PutAccountPropertiesRequest {
   Properties: { [key: string]: string | undefined };
 }
-export const PutAccountPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Properties: AccountPropertiesMapType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutAccountPropertiesRequest",
-}) as any as S.Schema<PutAccountPropertiesRequest>;
 export interface PutAccountPropertiesResponse {}
-export const PutAccountPropertiesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutAccountPropertiesResponse",
-}) as any as S.Schema<PutAccountPropertiesResponse>;
 export interface PutGroupPolicyRequest {
   GroupName: string;
   PolicyName: string;
   PolicyDocument: string;
 }
-export const PutGroupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupName: S.String,
-    PolicyName: S.String,
-    PolicyDocument: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutGroupPolicyRequest",
-}) as any as S.Schema<PutGroupPolicyRequest>;
 export interface PutGroupPolicyResponse {}
-export const PutGroupPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutGroupPolicyResponse",
-}) as any as S.Schema<PutGroupPolicyResponse>;
 export interface PutRolePermissionsBoundaryRequest {
   RoleName: string;
   PermissionsBoundary: string;
 }
-export const PutRolePermissionsBoundaryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleName: S.String, PermissionsBoundary: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutRolePermissionsBoundaryRequest",
-}) as any as S.Schema<PutRolePermissionsBoundaryRequest>;
 export interface PutRolePermissionsBoundaryResponse {}
-export const PutRolePermissionsBoundaryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutRolePermissionsBoundaryResponse",
-}) as any as S.Schema<PutRolePermissionsBoundaryResponse>;
 export interface PutRolePolicyRequest {
   RoleName: string;
   PolicyName: string;
   PolicyDocument: string;
 }
-export const PutRolePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoleName: S.String,
-    PolicyName: S.String,
-    PolicyDocument: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutRolePolicyRequest",
-}) as any as S.Schema<PutRolePolicyRequest>;
 export interface PutRolePolicyResponse {}
-export const PutRolePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutRolePolicyResponse",
-}) as any as S.Schema<PutRolePolicyResponse>;
 export interface PutUserPermissionsBoundaryRequest {
   UserName: string;
   PermissionsBoundary: string;
 }
-export const PutUserPermissionsBoundaryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.String, PermissionsBoundary: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutUserPermissionsBoundaryRequest",
-}) as any as S.Schema<PutUserPermissionsBoundaryRequest>;
 export interface PutUserPermissionsBoundaryResponse {}
-export const PutUserPermissionsBoundaryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutUserPermissionsBoundaryResponse",
-}) as any as S.Schema<PutUserPermissionsBoundaryResponse>;
 export interface PutUserPolicyRequest {
   UserName: string;
   PolicyName: string;
   PolicyDocument: string;
 }
-export const PutUserPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    PolicyName: S.String,
-    PolicyDocument: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutUserPolicyRequest",
-}) as any as S.Schema<PutUserPolicyRequest>;
 export interface PutUserPolicyResponse {}
-export const PutUserPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutUserPolicyResponse",
-}) as any as S.Schema<PutUserPolicyResponse>;
 export interface RejectDelegationRequestRequest {
   DelegationRequestId: string;
   Notes?: string;
 }
-export const RejectDelegationRequestRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DelegationRequestId: S.String, Notes: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RejectDelegationRequestRequest",
-}) as any as S.Schema<RejectDelegationRequestRequest>;
 export interface RejectDelegationRequestResponse {}
-export const RejectDelegationRequestResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RejectDelegationRequestResponse",
-}) as any as S.Schema<RejectDelegationRequestResponse>;
 export interface RemoveClientIDFromOpenIDConnectProviderRequest {
   OpenIDConnectProviderArn: string;
   ClientID: string;
 }
-export const RemoveClientIDFromOpenIDConnectProviderRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ OpenIDConnectProviderArn: S.String, ClientID: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "RemoveClientIDFromOpenIDConnectProviderRequest",
-  }) as any as S.Schema<RemoveClientIDFromOpenIDConnectProviderRequest>;
 export interface RemoveClientIDFromOpenIDConnectProviderResponse {}
-export const RemoveClientIDFromOpenIDConnectProviderResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "RemoveClientIDFromOpenIDConnectProviderResponse",
-  }) as any as S.Schema<RemoveClientIDFromOpenIDConnectProviderResponse>;
 export interface RemoveRoleFromInstanceProfileRequest {
   InstanceProfileName: string;
   RoleName: string;
 }
-export const RemoveRoleFromInstanceProfileRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ InstanceProfileName: S.String, RoleName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "RemoveRoleFromInstanceProfileRequest",
-}) as any as S.Schema<RemoveRoleFromInstanceProfileRequest>;
 export interface RemoveRoleFromInstanceProfileResponse {}
-export const RemoveRoleFromInstanceProfileResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RemoveRoleFromInstanceProfileResponse",
-}) as any as S.Schema<RemoveRoleFromInstanceProfileResponse>;
 export interface RemoveUserFromGroupRequest {
   GroupName: string;
   UserName: string;
 }
-export const RemoveUserFromGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GroupName: S.String, UserName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemoveUserFromGroupRequest",
-}) as any as S.Schema<RemoveUserFromGroupRequest>;
 export interface RemoveUserFromGroupResponse {}
-export const RemoveUserFromGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RemoveUserFromGroupResponse",
-}) as any as S.Schema<RemoveUserFromGroupResponse>;
 export interface ResetServiceSpecificCredentialRequest {
   UserName?: string;
   ServiceSpecificCredentialId: string;
 }
-export const ResetServiceSpecificCredentialRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      UserName: S.optional(S.String),
-      ServiceSpecificCredentialId: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ResetServiceSpecificCredentialRequest",
-}) as any as S.Schema<ResetServiceSpecificCredentialRequest>;
 export interface ResetServiceSpecificCredentialResponse {
   ServiceSpecificCredential?: ServiceSpecificCredential;
 }
-export const ResetServiceSpecificCredentialResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ServiceSpecificCredential: S.optional(ServiceSpecificCredential),
-    }).pipe(ns),
-).annotate({
-  identifier: "ResetServiceSpecificCredentialResponse",
-}) as any as S.Schema<ResetServiceSpecificCredentialResponse>;
 export interface ResyncMFADeviceRequest {
   UserName: string;
   SerialNumber: string;
   AuthenticationCode1: string;
   AuthenticationCode2: string;
 }
-export const ResyncMFADeviceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    SerialNumber: S.String,
-    AuthenticationCode1: S.String,
-    AuthenticationCode2: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ResyncMFADeviceRequest",
-}) as any as S.Schema<ResyncMFADeviceRequest>;
 export interface ResyncMFADeviceResponse {}
-export const ResyncMFADeviceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "ResyncMFADeviceResponse",
-}) as any as S.Schema<ResyncMFADeviceResponse>;
 export interface SendDelegationTokenRequest {
   DelegationRequestId: string;
 }
-export const SendDelegationTokenRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DelegationRequestId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SendDelegationTokenRequest",
-}) as any as S.Schema<SendDelegationTokenRequest>;
 export interface SendDelegationTokenResponse {}
-export const SendDelegationTokenResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SendDelegationTokenResponse",
-}) as any as S.Schema<SendDelegationTokenResponse>;
 export interface SetDefaultPolicyVersionRequest {
   PolicyArn: string;
   VersionId: string;
 }
-export const SetDefaultPolicyVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyArn: S.String, VersionId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SetDefaultPolicyVersionRequest",
-}) as any as S.Schema<SetDefaultPolicyVersionRequest>;
 export interface SetDefaultPolicyVersionResponse {}
-export const SetDefaultPolicyVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetDefaultPolicyVersionResponse",
-}) as any as S.Schema<SetDefaultPolicyVersionResponse>;
 export type GlobalEndpointTokenVersion = "v1Token" | "v2Token" | (string & {});
-export const GlobalEndpointTokenVersion = S.String;
-
 export interface SetSecurityTokenServicePreferencesRequest {
   GlobalEndpointTokenVersion: GlobalEndpointTokenVersion;
 }
-export const SetSecurityTokenServicePreferencesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ GlobalEndpointTokenVersion: GlobalEndpointTokenVersion }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "SetSecurityTokenServicePreferencesRequest",
-  }) as any as S.Schema<SetSecurityTokenServicePreferencesRequest>;
 export interface SetSecurityTokenServicePreferencesResponse {}
-export const SetSecurityTokenServicePreferencesResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "SetSecurityTokenServicePreferencesResponse",
-  }) as any as S.Schema<SetSecurityTokenServicePreferencesResponse>;
 export interface OrderedOrganizationPolicyType {
   ServiceControlPolicyInputList?: string[];
 }
-export const OrderedOrganizationPolicyType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceControlPolicyInputList: S.optional(SimulationPolicyListType),
-  }),
-).annotate({
-  identifier: "OrderedOrganizationPolicyType",
-}) as any as S.Schema<OrderedOrganizationPolicyType>;
 export type OrganizationPolicyListType = OrderedOrganizationPolicyType[];
-export const OrganizationPolicyListType = /*@__PURE__*/ S.Array(
-  OrderedOrganizationPolicyType,
-);
 export type ActionNameType = string;
 export type ActionNameListType = string[];
-export const ActionNameListType = /*@__PURE__*/ S.Array(S.String);
 export type ResourceNameType = string;
 export type ResourceNameListType = string[];
-export const ResourceNameListType = /*@__PURE__*/ S.Array(S.String);
 export type ContextKeyValueType = string;
 export type ContextKeyValueListType = string[];
-export const ContextKeyValueListType = /*@__PURE__*/ S.Array(S.String);
 export type ContextKeyTypeEnum =
   | "string"
   | "stringList"
@@ -6685,22 +2359,12 @@ export type ContextKeyTypeEnum =
   | "date"
   | "dateList"
   | (string & {});
-export const ContextKeyTypeEnum = S.String;
-
 export interface ContextEntry {
   ContextKeyName?: string;
   ContextKeyValues?: string[];
   ContextKeyType?: ContextKeyTypeEnum;
 }
-export const ContextEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContextKeyName: S.optional(S.String),
-    ContextKeyValues: S.optional(ContextKeyValueListType),
-    ContextKeyType: S.optional(ContextKeyTypeEnum),
-  }),
-).annotate({ identifier: "ContextEntry" }) as any as S.Schema<ContextEntry>;
 export type ContextEntryListType = ContextEntry[];
-export const ContextEntryListType = /*@__PURE__*/ S.Array(ContextEntry);
 export type ResourceHandlingOptionType = string;
 export interface SimulateCustomPolicyRequest {
   PolicyInputList: string[];
@@ -6716,41 +2380,11 @@ export interface SimulateCustomPolicyRequest {
   MaxItems?: number;
   Marker?: string;
 }
-export const SimulateCustomPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyInputList: SimulationPolicyListType,
-    PermissionsBoundaryPolicyInputList: S.optional(SimulationPolicyListType),
-    OrderedOrganizationPolicyInputList: S.optional(OrganizationPolicyListType),
-    ActionNames: ActionNameListType,
-    ResourceArns: S.optional(ResourceNameListType),
-    ResourcePolicy: S.optional(S.String),
-    ResourceOwner: S.optional(S.String),
-    CallerArn: S.optional(S.String),
-    ContextEntries: S.optional(ContextEntryListType),
-    ResourceHandlingOption: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SimulateCustomPolicyRequest",
-}) as any as S.Schema<SimulateCustomPolicyRequest>;
 export type PolicyEvaluationDecisionType =
   | "allowed"
   | "explicitDeny"
   | "implicitDeny"
   | (string & {});
-export const PolicyEvaluationDecisionType = S.String;
-
 export type PolicyIdentifierType = string;
 export type PolicySourceType =
   | "user"
@@ -6761,57 +2395,29 @@ export type PolicySourceType =
   | "resource"
   | "none"
   | (string & {});
-export const PolicySourceType = S.String;
-
 export type LineNumber = number;
 export type ColumnNumber = number;
 export interface Position {
   Line?: number;
   Column?: number;
 }
-export const Position = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Line: S.optional(S.Number), Column: S.optional(S.Number) }),
-).annotate({ identifier: "Position" }) as any as S.Schema<Position>;
 export interface Statement {
   SourcePolicyId?: string;
   SourcePolicyType?: PolicySourceType;
   StartPosition?: Position;
   EndPosition?: Position;
 }
-export const Statement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourcePolicyId: S.optional(S.String),
-    SourcePolicyType: S.optional(PolicySourceType),
-    StartPosition: S.optional(Position),
-    EndPosition: S.optional(Position),
-  }),
-).annotate({ identifier: "Statement" }) as any as S.Schema<Statement>;
 export type StatementListType = Statement[];
-export const StatementListType = /*@__PURE__*/ S.Array(Statement);
 export interface OrganizationsDecisionDetail {
   AllowedByOrganizations?: boolean;
 }
-export const OrganizationsDecisionDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AllowedByOrganizations: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "OrganizationsDecisionDetail",
-}) as any as S.Schema<OrganizationsDecisionDetail>;
 export interface PermissionsBoundaryDecisionDetail {
   AllowedByPermissionsBoundary?: boolean;
 }
-export const PermissionsBoundaryDecisionDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AllowedByPermissionsBoundary: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "PermissionsBoundaryDecisionDetail",
-}) as any as S.Schema<PermissionsBoundaryDecisionDetail>;
 export type EvalDecisionSourceType = string;
 export type EvalDecisionDetailsType = {
   [key: string]: PolicyEvaluationDecisionType | undefined;
 };
-export const EvalDecisionDetailsType = /*@__PURE__*/ S.Record(
-  S.String,
-  PolicyEvaluationDecisionType.pipe(S.optional),
-);
 export interface ResourceSpecificResult {
   EvalResourceName: string;
   EvalResourceDecision: PolicyEvaluationDecisionType;
@@ -6822,24 +2428,7 @@ export interface ResourceSpecificResult {
   };
   PermissionsBoundaryDecisionDetail?: PermissionsBoundaryDecisionDetail;
 }
-export const ResourceSpecificResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EvalResourceName: S.String,
-    EvalResourceDecision: PolicyEvaluationDecisionType,
-    MatchedStatements: S.optional(StatementListType),
-    MissingContextValues: S.optional(ContextKeyNamesResultListType),
-    EvalDecisionDetails: S.optional(EvalDecisionDetailsType),
-    PermissionsBoundaryDecisionDetail: S.optional(
-      PermissionsBoundaryDecisionDetail,
-    ),
-  }),
-).annotate({
-  identifier: "ResourceSpecificResult",
-}) as any as S.Schema<ResourceSpecificResult>;
 export type ResourceSpecificResultListType = ResourceSpecificResult[];
-export const ResourceSpecificResultListType = /*@__PURE__*/ S.Array(
-  ResourceSpecificResult,
-);
 export interface EvaluationResult {
   EvalActionName: string;
   EvalResourceName?: string;
@@ -6853,40 +2442,12 @@ export interface EvaluationResult {
   };
   ResourceSpecificResults?: ResourceSpecificResult[];
 }
-export const EvaluationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EvalActionName: S.String,
-    EvalResourceName: S.optional(S.String),
-    EvalDecision: PolicyEvaluationDecisionType,
-    MatchedStatements: S.optional(StatementListType),
-    MissingContextValues: S.optional(ContextKeyNamesResultListType),
-    OrganizationsDecisionDetail: S.optional(OrganizationsDecisionDetail),
-    PermissionsBoundaryDecisionDetail: S.optional(
-      PermissionsBoundaryDecisionDetail,
-    ),
-    EvalDecisionDetails: S.optional(EvalDecisionDetailsType),
-    ResourceSpecificResults: S.optional(ResourceSpecificResultListType),
-  }),
-).annotate({
-  identifier: "EvaluationResult",
-}) as any as S.Schema<EvaluationResult>;
 export type EvaluationResultsListType = EvaluationResult[];
-export const EvaluationResultsListType =
-  /*@__PURE__*/ S.Array(EvaluationResult);
 export interface SimulatePolicyResponse {
   EvaluationResults?: EvaluationResult[];
   IsTruncated?: boolean;
   Marker?: string;
 }
-export const SimulatePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EvaluationResults: S.optional(EvaluationResultsListType),
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "SimulatePolicyResponse",
-}) as any as S.Schema<SimulatePolicyResponse>;
 export type PolicyIdentifierPolicyType =
   | "inline"
   | "aws-managed"
@@ -6895,26 +2456,13 @@ export type PolicyIdentifierPolicyType =
   | "scp"
   | "rcp"
   | (string & {});
-export const PolicyIdentifierPolicyType = S.String;
-
 export type AttachmentType = "user" | "group" | "role" | (string & {});
-export const AttachmentType = S.String;
-
 export type AttachmentName = string;
 export interface InlinePolicyIdentifierType {
   PolicyName: string;
   AttachmentType: AttachmentType;
   AttachmentName: string;
 }
-export const InlinePolicyIdentifierType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyName: S.String,
-    AttachmentType: AttachmentType,
-    AttachmentName: S.String,
-  }),
-).annotate({
-  identifier: "InlinePolicyIdentifierType",
-}) as any as S.Schema<InlinePolicyIdentifierType>;
 export type PolicyIdentifier =
   | {
       PolicyType: PolicyIdentifierPolicyType;
@@ -6927,13 +2475,7 @@ export type PolicyIdentifier =
       PolicyArn?: never;
       InlinePolicyIdentifier: InlinePolicyIdentifierType;
     };
-export const PolicyIdentifier = /*@__PURE__*/ S.Union([
-  S.Struct({ PolicyType: PolicyIdentifierPolicyType }),
-  S.Struct({ PolicyArn: S.String }),
-  S.Struct({ InlinePolicyIdentifier: InlinePolicyIdentifierType }),
-]);
 export type PolicyExclusionsListType = PolicyIdentifier[];
-export const PolicyExclusionsListType = /*@__PURE__*/ S.Array(PolicyIdentifier);
 export interface SimulatePrincipalPolicyRequest {
   PolicySourceArn: string;
   PolicyInputList?: string[];
@@ -6949,466 +2491,93 @@ export interface SimulatePrincipalPolicyRequest {
   MaxItems?: number;
   Marker?: string;
 }
-export const SimulatePrincipalPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicySourceArn: S.String,
-    PolicyInputList: S.optional(SimulationPolicyListType),
-    PermissionsBoundaryPolicyInputList: S.optional(SimulationPolicyListType),
-    PolicyExclusionList: S.optional(PolicyExclusionsListType),
-    ActionNames: ActionNameListType,
-    ResourceArns: S.optional(ResourceNameListType),
-    ResourcePolicy: S.optional(S.String),
-    ResourceOwner: S.optional(S.String),
-    CallerArn: S.optional(S.String),
-    ContextEntries: S.optional(ContextEntryListType),
-    ResourceHandlingOption: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SimulatePrincipalPolicyRequest",
-}) as any as S.Schema<SimulatePrincipalPolicyRequest>;
 export interface TagInstanceProfileRequest {
   InstanceProfileName: string;
   Tags: Tag[];
 }
-export const TagInstanceProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceProfileName: S.String, Tags: TagListType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagInstanceProfileRequest",
-}) as any as S.Schema<TagInstanceProfileRequest>;
 export interface TagInstanceProfileResponse {}
-export const TagInstanceProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagInstanceProfileResponse",
-}) as any as S.Schema<TagInstanceProfileResponse>;
 export interface TagMFADeviceRequest {
   SerialNumber: string;
   Tags: Tag[];
 }
-export const TagMFADeviceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SerialNumber: S.String, Tags: TagListType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagMFADeviceRequest",
-}) as any as S.Schema<TagMFADeviceRequest>;
 export interface TagMFADeviceResponse {}
-export const TagMFADeviceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagMFADeviceResponse",
-}) as any as S.Schema<TagMFADeviceResponse>;
 export interface TagOpenIDConnectProviderRequest {
   OpenIDConnectProviderArn: string;
   Tags: Tag[];
 }
-export const TagOpenIDConnectProviderRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OpenIDConnectProviderArn: S.String, Tags: TagListType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagOpenIDConnectProviderRequest",
-}) as any as S.Schema<TagOpenIDConnectProviderRequest>;
 export interface TagOpenIDConnectProviderResponse {}
-export const TagOpenIDConnectProviderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagOpenIDConnectProviderResponse",
-}) as any as S.Schema<TagOpenIDConnectProviderResponse>;
 export interface TagPolicyRequest {
   PolicyArn: string;
   Tags: Tag[];
 }
-export const TagPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyArn: S.String, Tags: TagListType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagPolicyRequest",
-}) as any as S.Schema<TagPolicyRequest>;
 export interface TagPolicyResponse {}
-export const TagPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagPolicyResponse",
-}) as any as S.Schema<TagPolicyResponse>;
 export interface TagRoleRequest {
   RoleName: string;
   Tags: Tag[];
 }
-export const TagRoleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleName: S.String, Tags: TagListType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "TagRoleRequest" }) as any as S.Schema<TagRoleRequest>;
 export interface TagRoleResponse {}
-export const TagRoleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagRoleResponse",
-}) as any as S.Schema<TagRoleResponse>;
 export interface TagSAMLProviderRequest {
   SAMLProviderArn: string;
   Tags: Tag[];
 }
-export const TagSAMLProviderRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SAMLProviderArn: S.String, Tags: TagListType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagSAMLProviderRequest",
-}) as any as S.Schema<TagSAMLProviderRequest>;
 export interface TagSAMLProviderResponse {}
-export const TagSAMLProviderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagSAMLProviderResponse",
-}) as any as S.Schema<TagSAMLProviderResponse>;
 export interface TagServerCertificateRequest {
   ServerCertificateName: string;
   Tags: Tag[];
 }
-export const TagServerCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServerCertificateName: S.String, Tags: TagListType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagServerCertificateRequest",
-}) as any as S.Schema<TagServerCertificateRequest>;
 export interface TagServerCertificateResponse {}
-export const TagServerCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagServerCertificateResponse",
-}) as any as S.Schema<TagServerCertificateResponse>;
 export interface TagUserRequest {
   UserName: string;
   Tags: Tag[];
 }
-export const TagUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.String, Tags: TagListType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "TagUserRequest" }) as any as S.Schema<TagUserRequest>;
 export interface TagUserResponse {}
-export const TagUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagUserResponse",
-}) as any as S.Schema<TagUserResponse>;
 export type TagKeyListType = string[];
-export const TagKeyListType = /*@__PURE__*/ S.Array(S.String);
 export interface UntagInstanceProfileRequest {
   InstanceProfileName: string;
   TagKeys: string[];
 }
-export const UntagInstanceProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceProfileName: S.String, TagKeys: TagKeyListType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagInstanceProfileRequest",
-}) as any as S.Schema<UntagInstanceProfileRequest>;
 export interface UntagInstanceProfileResponse {}
-export const UntagInstanceProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagInstanceProfileResponse",
-}) as any as S.Schema<UntagInstanceProfileResponse>;
 export interface UntagMFADeviceRequest {
   SerialNumber: string;
   TagKeys: string[];
 }
-export const UntagMFADeviceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SerialNumber: S.String, TagKeys: TagKeyListType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagMFADeviceRequest",
-}) as any as S.Schema<UntagMFADeviceRequest>;
 export interface UntagMFADeviceResponse {}
-export const UntagMFADeviceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagMFADeviceResponse",
-}) as any as S.Schema<UntagMFADeviceResponse>;
 export interface UntagOpenIDConnectProviderRequest {
   OpenIDConnectProviderArn: string;
   TagKeys: string[];
 }
-export const UntagOpenIDConnectProviderRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OpenIDConnectProviderArn: S.String,
-    TagKeys: TagKeyListType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagOpenIDConnectProviderRequest",
-}) as any as S.Schema<UntagOpenIDConnectProviderRequest>;
 export interface UntagOpenIDConnectProviderResponse {}
-export const UntagOpenIDConnectProviderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagOpenIDConnectProviderResponse",
-}) as any as S.Schema<UntagOpenIDConnectProviderResponse>;
 export interface UntagPolicyRequest {
   PolicyArn: string;
   TagKeys: string[];
 }
-export const UntagPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyArn: S.String, TagKeys: TagKeyListType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagPolicyRequest",
-}) as any as S.Schema<UntagPolicyRequest>;
 export interface UntagPolicyResponse {}
-export const UntagPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagPolicyResponse",
-}) as any as S.Schema<UntagPolicyResponse>;
 export interface UntagRoleRequest {
   RoleName: string;
   TagKeys: string[];
 }
-export const UntagRoleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleName: S.String, TagKeys: TagKeyListType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagRoleRequest",
-}) as any as S.Schema<UntagRoleRequest>;
 export interface UntagRoleResponse {}
-export const UntagRoleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagRoleResponse",
-}) as any as S.Schema<UntagRoleResponse>;
 export interface UntagSAMLProviderRequest {
   SAMLProviderArn: string;
   TagKeys: string[];
 }
-export const UntagSAMLProviderRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SAMLProviderArn: S.String, TagKeys: TagKeyListType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagSAMLProviderRequest",
-}) as any as S.Schema<UntagSAMLProviderRequest>;
 export interface UntagSAMLProviderResponse {}
-export const UntagSAMLProviderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagSAMLProviderResponse",
-}) as any as S.Schema<UntagSAMLProviderResponse>;
 export interface UntagServerCertificateRequest {
   ServerCertificateName: string;
   TagKeys: string[];
 }
-export const UntagServerCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServerCertificateName: S.String, TagKeys: TagKeyListType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagServerCertificateRequest",
-}) as any as S.Schema<UntagServerCertificateRequest>;
 export interface UntagServerCertificateResponse {}
-export const UntagServerCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagServerCertificateResponse",
-}) as any as S.Schema<UntagServerCertificateResponse>;
 export interface UntagUserRequest {
   UserName: string;
   TagKeys: string[];
 }
-export const UntagUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.String, TagKeys: TagKeyListType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagUserRequest",
-}) as any as S.Schema<UntagUserRequest>;
 export interface UntagUserResponse {}
-export const UntagUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagUserResponse",
-}) as any as S.Schema<UntagUserResponse>;
 export interface UpdateAccessKeyRequest {
   UserName?: string;
   AccessKeyId: string;
   Status: StatusType;
 }
-export const UpdateAccessKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.optional(S.String),
-    AccessKeyId: S.String,
-    Status: StatusType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAccessKeyRequest",
-}) as any as S.Schema<UpdateAccessKeyRequest>;
 export interface UpdateAccessKeyResponse {}
-export const UpdateAccessKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateAccessKeyResponse",
-}) as any as S.Schema<UpdateAccessKeyResponse>;
 export interface UpdateAccountPasswordPolicyRequest {
   MinimumPasswordLength?: number;
   RequireSymbols?: boolean;
@@ -7420,232 +2589,47 @@ export interface UpdateAccountPasswordPolicyRequest {
   PasswordReusePrevention?: number;
   HardExpiry?: boolean;
 }
-export const UpdateAccountPasswordPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MinimumPasswordLength: S.optional(S.Number),
-    RequireSymbols: S.optional(S.Boolean),
-    RequireNumbers: S.optional(S.Boolean),
-    RequireUppercaseCharacters: S.optional(S.Boolean),
-    RequireLowercaseCharacters: S.optional(S.Boolean),
-    AllowUsersToChangePassword: S.optional(S.Boolean),
-    MaxPasswordAge: S.optional(S.Number),
-    PasswordReusePrevention: S.optional(S.Number),
-    HardExpiry: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAccountPasswordPolicyRequest",
-}) as any as S.Schema<UpdateAccountPasswordPolicyRequest>;
 export interface UpdateAccountPasswordPolicyResponse {}
-export const UpdateAccountPasswordPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateAccountPasswordPolicyResponse",
-}) as any as S.Schema<UpdateAccountPasswordPolicyResponse>;
 export interface UpdateAssumeRolePolicyRequest {
   RoleName: string;
   PolicyDocument: string;
 }
-export const UpdateAssumeRolePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleName: S.String, PolicyDocument: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAssumeRolePolicyRequest",
-}) as any as S.Schema<UpdateAssumeRolePolicyRequest>;
 export interface UpdateAssumeRolePolicyResponse {}
-export const UpdateAssumeRolePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateAssumeRolePolicyResponse",
-}) as any as S.Schema<UpdateAssumeRolePolicyResponse>;
 export interface UpdateDelegationRequestRequest {
   DelegationRequestId: string;
   Notes?: string;
 }
-export const UpdateDelegationRequestRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DelegationRequestId: S.String, Notes: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDelegationRequestRequest",
-}) as any as S.Schema<UpdateDelegationRequestRequest>;
 export interface UpdateDelegationRequestResponse {}
-export const UpdateDelegationRequestResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateDelegationRequestResponse",
-}) as any as S.Schema<UpdateDelegationRequestResponse>;
 export interface UpdateGroupRequest {
   GroupName: string;
   NewPath?: string;
   NewGroupName?: string;
 }
-export const UpdateGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupName: S.String,
-    NewPath: S.optional(S.String),
-    NewGroupName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateGroupRequest",
-}) as any as S.Schema<UpdateGroupRequest>;
 export interface UpdateGroupResponse {}
-export const UpdateGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateGroupResponse",
-}) as any as S.Schema<UpdateGroupResponse>;
 export interface UpdateLoginProfileRequest {
   UserName: string;
   Password?: string | redacted.Redacted<string>;
   PasswordResetRequired?: boolean;
 }
-export const UpdateLoginProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    Password: S.optional(SensitiveString),
-    PasswordResetRequired: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateLoginProfileRequest",
-}) as any as S.Schema<UpdateLoginProfileRequest>;
 export interface UpdateLoginProfileResponse {}
-export const UpdateLoginProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateLoginProfileResponse",
-}) as any as S.Schema<UpdateLoginProfileResponse>;
 export interface UpdateOpenIDConnectProviderThumbprintRequest {
   OpenIDConnectProviderArn: string;
   ThumbprintList: string[];
 }
-export const UpdateOpenIDConnectProviderThumbprintRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      OpenIDConnectProviderArn: S.String,
-      ThumbprintList: ThumbprintListType,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "UpdateOpenIDConnectProviderThumbprintRequest",
-  }) as any as S.Schema<UpdateOpenIDConnectProviderThumbprintRequest>;
 export interface UpdateOpenIDConnectProviderThumbprintResponse {}
-export const UpdateOpenIDConnectProviderThumbprintResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "UpdateOpenIDConnectProviderThumbprintResponse",
-  }) as any as S.Schema<UpdateOpenIDConnectProviderThumbprintResponse>;
 export interface UpdateRoleRequest {
   RoleName: string;
   Description?: string;
   MaxSessionDuration?: number;
 }
-export const UpdateRoleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoleName: S.String,
-    Description: S.optional(S.String),
-    MaxSessionDuration: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRoleRequest",
-}) as any as S.Schema<UpdateRoleRequest>;
 export interface UpdateRoleResponse {}
-export const UpdateRoleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateRoleResponse",
-}) as any as S.Schema<UpdateRoleResponse>;
 export interface UpdateRoleDescriptionRequest {
   RoleName: string;
   Description: string;
 }
-export const UpdateRoleDescriptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleName: S.String, Description: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRoleDescriptionRequest",
-}) as any as S.Schema<UpdateRoleDescriptionRequest>;
 export interface UpdateRoleDescriptionResponse {
   Role?: Role;
 }
-export const UpdateRoleDescriptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Role: S.optional(Role) }).pipe(ns),
-).annotate({
-  identifier: "UpdateRoleDescriptionResponse",
-}) as any as S.Schema<UpdateRoleDescriptionResponse>;
 export interface UpdateSAMLProviderRequest {
   SAMLMetadataDocument?: string;
   SAMLProviderArn: string;
@@ -7653,186 +2637,39 @@ export interface UpdateSAMLProviderRequest {
   AddPrivateKey?: string | redacted.Redacted<string>;
   RemovePrivateKey?: string;
 }
-export const UpdateSAMLProviderRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SAMLMetadataDocument: S.optional(S.String),
-    SAMLProviderArn: S.String,
-    AssertionEncryptionMode: S.optional(AssertionEncryptionModeType),
-    AddPrivateKey: S.optional(SensitiveString),
-    RemovePrivateKey: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateSAMLProviderRequest",
-}) as any as S.Schema<UpdateSAMLProviderRequest>;
 export interface UpdateSAMLProviderResponse {
   SAMLProviderArn?: string;
 }
-export const UpdateSAMLProviderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SAMLProviderArn: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateSAMLProviderResponse",
-}) as any as S.Schema<UpdateSAMLProviderResponse>;
 export interface UpdateServerCertificateRequest {
   ServerCertificateName: string;
   NewPath?: string;
   NewServerCertificateName?: string;
 }
-export const UpdateServerCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerCertificateName: S.String,
-    NewPath: S.optional(S.String),
-    NewServerCertificateName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateServerCertificateRequest",
-}) as any as S.Schema<UpdateServerCertificateRequest>;
 export interface UpdateServerCertificateResponse {}
-export const UpdateServerCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateServerCertificateResponse",
-}) as any as S.Schema<UpdateServerCertificateResponse>;
 export interface UpdateServiceSpecificCredentialRequest {
   UserName?: string;
   ServiceSpecificCredentialId: string;
   Status: StatusType;
 }
-export const UpdateServiceSpecificCredentialRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      UserName: S.optional(S.String),
-      ServiceSpecificCredentialId: S.String,
-      Status: StatusType,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateServiceSpecificCredentialRequest",
-}) as any as S.Schema<UpdateServiceSpecificCredentialRequest>;
 export interface UpdateServiceSpecificCredentialResponse {}
-export const UpdateServiceSpecificCredentialResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateServiceSpecificCredentialResponse",
-}) as any as S.Schema<UpdateServiceSpecificCredentialResponse>;
 export interface UpdateSigningCertificateRequest {
   UserName?: string;
   CertificateId: string;
   Status: StatusType;
 }
-export const UpdateSigningCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.optional(S.String),
-    CertificateId: S.String,
-    Status: StatusType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateSigningCertificateRequest",
-}) as any as S.Schema<UpdateSigningCertificateRequest>;
 export interface UpdateSigningCertificateResponse {}
-export const UpdateSigningCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateSigningCertificateResponse",
-}) as any as S.Schema<UpdateSigningCertificateResponse>;
 export interface UpdateSSHPublicKeyRequest {
   UserName: string;
   SSHPublicKeyId: string;
   Status: StatusType;
 }
-export const UpdateSSHPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    SSHPublicKeyId: S.String,
-    Status: StatusType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateSSHPublicKeyRequest",
-}) as any as S.Schema<UpdateSSHPublicKeyRequest>;
 export interface UpdateSSHPublicKeyResponse {}
-export const UpdateSSHPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateSSHPublicKeyResponse",
-}) as any as S.Schema<UpdateSSHPublicKeyResponse>;
 export interface UpdateUserRequest {
   UserName: string;
   NewPath?: string;
   NewUserName?: string;
 }
-export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    NewPath: S.optional(S.String),
-    NewUserName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
 export interface UpdateUserResponse {}
-export const UpdateUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateUserResponse",
-}) as any as S.Schema<UpdateUserResponse>;
 export interface UploadServerCertificateRequest {
   Path?: string;
   ServerCertificateName: string;
@@ -7841,94 +2678,24 @@ export interface UploadServerCertificateRequest {
   CertificateChain?: string;
   Tags?: Tag[];
 }
-export const UploadServerCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Path: S.optional(S.String),
-    ServerCertificateName: S.String,
-    CertificateBody: S.String,
-    PrivateKey: SensitiveString,
-    CertificateChain: S.optional(S.String),
-    Tags: S.optional(TagListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UploadServerCertificateRequest",
-}) as any as S.Schema<UploadServerCertificateRequest>;
 export interface UploadServerCertificateResponse {
   ServerCertificateMetadata?: ServerCertificateMetadata;
   Tags?: Tag[];
 }
-export const UploadServerCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerCertificateMetadata: S.optional(ServerCertificateMetadata),
-    Tags: S.optional(TagListType),
-  }).pipe(ns),
-).annotate({
-  identifier: "UploadServerCertificateResponse",
-}) as any as S.Schema<UploadServerCertificateResponse>;
 export interface UploadSigningCertificateRequest {
   UserName?: string;
   CertificateBody: string;
 }
-export const UploadSigningCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.optional(S.String), CertificateBody: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UploadSigningCertificateRequest",
-}) as any as S.Schema<UploadSigningCertificateRequest>;
 export interface UploadSigningCertificateResponse {
   Certificate: SigningCertificate;
 }
-export const UploadSigningCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Certificate: SigningCertificate }).pipe(ns),
-).annotate({
-  identifier: "UploadSigningCertificateResponse",
-}) as any as S.Schema<UploadSigningCertificateResponse>;
 export interface UploadSSHPublicKeyRequest {
   UserName: string;
   SSHPublicKeyBody: string;
 }
-export const UploadSSHPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.String, SSHPublicKeyBody: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UploadSSHPublicKeyRequest",
-}) as any as S.Schema<UploadSSHPublicKeyRequest>;
 export interface UploadSSHPublicKeyResponse {
   SSHPublicKey?: SSHPublicKey;
 }
-export const UploadSSHPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SSHPublicKey: S.optional(SSHPublicKey) }).pipe(ns),
-).annotate({
-  identifier: "UploadSSHPublicKeyResponse",
-}) as any as S.Schema<UploadSSHPublicKeyResponse>;
 export type ConcurrentModificationMessage = string;
 export type NoSuchEntityMessage = string;
 export type ServiceFailureExceptionMessage = string;
@@ -7986,8 +2753,7 @@ export const acceptDelegationRequest: API.OperationMethod<
   AcceptDelegationRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AcceptDelegationRequestRequest,
-  output: AcceptDelegationRequestResponse,
+  descriptor: { service: svc, input: { DelegationRequestId: 0 } },
   errors: [
     ConcurrentModificationException,
     NoSuchEntityException,
@@ -7996,7 +2762,7 @@ export const acceptDelegationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptDelegationRequest",
-}));
+})) as any;
 
 export type AcquireRoleError =
   | ConcurrentModificationException
@@ -8027,8 +2793,15 @@ export const acquireRole: API.OperationMethod<
   AcquireRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AcquireRoleRequest,
-  output: AcquireRoleResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      TemplateArn: 0,
+      TemplateMinorVersion: 0,
+      ReplacementValues: D.map({ Values: 0 }),
+    },
+    output: { Role: o_Role },
+  },
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -8044,7 +2817,7 @@ export const acquireRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcquireRole",
-}));
+})) as any;
 
 export type AddClientIDToOpenIDConnectProviderError =
   | ConcurrentModificationException
@@ -8066,8 +2839,10 @@ export const addClientIDToOpenIDConnectProvider: API.OperationMethod<
   AddClientIDToOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddClientIDToOpenIDConnectProviderRequest,
-  output: AddClientIDToOpenIDConnectProviderResponse,
+  descriptor: {
+    service: svc,
+    input: { OpenIDConnectProviderArn: 0, ClientID: 0 },
+  },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -8078,7 +2853,7 @@ export const addClientIDToOpenIDConnectProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddClientIDToOpenIDConnectProvider",
-}));
+})) as any;
 
 export type AddRoleToInstanceProfileError =
   | EntityAlreadyExistsException
@@ -8115,8 +2890,7 @@ export const addRoleToInstanceProfile: API.OperationMethod<
   AddRoleToInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddRoleToInstanceProfileRequest,
-  output: AddRoleToInstanceProfileResponse,
+  descriptor: { service: svc, input: { InstanceProfileName: 0, RoleName: 0 } },
   errors: [
     EntityAlreadyExistsException,
     LimitExceededException,
@@ -8127,7 +2901,7 @@ export const addRoleToInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddRoleToInstanceProfile",
-}));
+})) as any;
 
 export type AddUserToGroupError =
   | LimitExceededException
@@ -8143,8 +2917,7 @@ export const addUserToGroup: API.OperationMethod<
   AddUserToGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddUserToGroupRequest,
-  output: AddUserToGroupResponse,
+  descriptor: { service: svc, input: { GroupName: 0, UserName: 0 } },
   errors: [
     LimitExceededException,
     NoSuchEntityException,
@@ -8153,7 +2926,7 @@ export const addUserToGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddUserToGroup",
-}));
+})) as any;
 
 export type AssociateDelegationRequestError =
   | ConcurrentModificationException
@@ -8189,8 +2962,7 @@ export const associateDelegationRequest: API.OperationMethod<
   AssociateDelegationRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateDelegationRequestRequest,
-  output: AssociateDelegationRequestResponse,
+  descriptor: { service: svc, input: { DelegationRequestId: 0 } },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -8200,7 +2972,7 @@ export const associateDelegationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDelegationRequest",
-}));
+})) as any;
 
 export type AttachGroupPolicyError =
   | InvalidInputException
@@ -8230,8 +3002,7 @@ export const attachGroupPolicy: API.OperationMethod<
   AttachGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AttachGroupPolicyRequest,
-  output: AttachGroupPolicyResponse,
+  descriptor: { service: svc, input: { GroupName: 0, PolicyArn: 0 } },
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -8242,7 +3013,7 @@ export const attachGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachGroupPolicy",
-}));
+})) as any;
 
 export type AttachRolePolicyError =
   | InvalidInputException
@@ -8282,8 +3053,7 @@ export const attachRolePolicy: API.OperationMethod<
   AttachRolePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AttachRolePolicyRequest,
-  output: AttachRolePolicyResponse,
+  descriptor: { service: svc, input: { RoleName: 0, PolicyArn: 0 } },
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -8295,7 +3065,7 @@ export const attachRolePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachRolePolicy",
-}));
+})) as any;
 
 export type AttachUserPolicyError =
   | InvalidInputException
@@ -8325,8 +3095,7 @@ export const attachUserPolicy: API.OperationMethod<
   AttachUserPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AttachUserPolicyRequest,
-  output: AttachUserPolicyResponse,
+  descriptor: { service: svc, input: { UserName: 0, PolicyArn: 0 } },
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -8337,7 +3106,7 @@ export const attachUserPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachUserPolicy",
-}));
+})) as any;
 
 export type ChangePasswordError =
   | EntityTemporarilyUnmodifiableException
@@ -8365,8 +3134,7 @@ export const changePassword: API.OperationMethod<
   ChangePasswordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ChangePasswordRequest,
-  output: ChangePasswordResponse,
+  descriptor: { service: svc, input: { OldPassword: 0, NewPassword: 0 } },
   errors: [
     EntityTemporarilyUnmodifiableException,
     InvalidUserTypeException,
@@ -8378,7 +3146,7 @@ export const changePassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangePassword",
-}));
+})) as any;
 
 export type CreateAccessKeyError =
   | LimitExceededException
@@ -8408,8 +3176,11 @@ export const createAccessKey: API.OperationMethod<
   CreateAccessKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAccessKeyRequest,
-  output: CreateAccessKeyResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0 },
+    output: { AccessKey: { SecretAccessKey: D.secret, CreateDate: D.ts } },
+  },
   errors: [
     LimitExceededException,
     NoSuchEntityException,
@@ -8418,7 +3189,7 @@ export const createAccessKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessKey",
-}));
+})) as any;
 
 export type CreateAccountAliasError =
   | ConcurrentModificationException
@@ -8438,8 +3209,7 @@ export const createAccountAlias: API.OperationMethod<
   CreateAccountAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAccountAliasRequest,
-  output: CreateAccountAliasResponse,
+  descriptor: { service: svc, input: { AccountAlias: 0 } },
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -8449,7 +3219,7 @@ export const createAccountAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccountAlias",
-}));
+})) as any;
 
 export type CreateDelegationRequestError =
   | ConcurrentModificationException
@@ -8471,8 +3241,23 @@ export const createDelegationRequest: API.OperationMethod<
   CreateDelegationRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDelegationRequestRequest,
-  output: CreateDelegationRequestResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      OwnerAccountId: 0,
+      Description: 0,
+      Permissions: {
+        PolicyTemplateArn: 0,
+        Parameters: D.list({ Name: 0, Values: 0, Type: 0 }),
+      },
+      RequestMessage: 0,
+      RequestorWorkflowId: 0,
+      RedirectUrl: 0,
+      NotificationChannel: 0,
+      SessionDuration: 0,
+      OnlySendByOwner: 0,
+    },
+  },
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -8483,7 +3268,7 @@ export const createDelegationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDelegationRequest",
-}));
+})) as any;
 
 export type CreateGroupError =
   | EntityAlreadyExistsException
@@ -8503,8 +3288,11 @@ export const createGroup: API.OperationMethod<
   CreateGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateGroupRequest,
-  output: CreateGroupResponse,
+  descriptor: {
+    service: svc,
+    input: { Path: 0, GroupName: 0 },
+    output: { Group: o_Group },
+  },
   errors: [
     EntityAlreadyExistsException,
     LimitExceededException,
@@ -8514,7 +3302,7 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
-}));
+})) as any;
 
 export type CreateInstanceProfileError =
   | ConcurrentModificationException
@@ -8537,8 +3325,11 @@ export const createInstanceProfile: API.OperationMethod<
   CreateInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateInstanceProfileRequest,
-  output: CreateInstanceProfileResponse,
+  descriptor: {
+    service: svc,
+    input: { InstanceProfileName: 0, Path: 0, Tags: D.list(i_Tag) },
+    output: { InstanceProfile: o_InstanceProfile },
+  },
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -8549,7 +3340,7 @@ export const createInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstanceProfile",
-}));
+})) as any;
 
 export type CreateLoginProfileError =
   | EntityAlreadyExistsException
@@ -8574,8 +3365,11 @@ export const createLoginProfile: API.OperationMethod<
   CreateLoginProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLoginProfileRequest,
-  output: CreateLoginProfileResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, Password: 0, PasswordResetRequired: 0 },
+    output: { LoginProfile: o_LoginProfile },
+  },
   errors: [
     EntityAlreadyExistsException,
     LimitExceededException,
@@ -8586,7 +3380,7 @@ export const createLoginProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoginProfile",
-}));
+})) as any;
 
 export type CreateOpenIDConnectProviderError =
   | ConcurrentModificationException
@@ -8641,8 +3435,11 @@ export const createOpenIDConnectProvider: API.OperationMethod<
   CreateOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateOpenIDConnectProviderRequest,
-  output: CreateOpenIDConnectProviderResponse,
+  descriptor: {
+    service: svc,
+    input: { Url: 0, ClientIDList: 0, ThumbprintList: 0, Tags: D.list(i_Tag) },
+    output: { Tags: D.list({}) },
+  },
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -8654,7 +3451,7 @@ export const createOpenIDConnectProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOpenIDConnectProvider",
-}));
+})) as any;
 
 export type CreatePolicyError =
   | ConcurrentModificationException
@@ -8686,8 +3483,17 @@ export const createPolicy: API.OperationMethod<
   CreatePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreatePolicyRequest,
-  output: CreatePolicyResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      PolicyName: 0,
+      Path: 0,
+      PolicyDocument: 0,
+      Description: 0,
+      Tags: D.list(i_Tag),
+    },
+    output: { Policy: o_Policy },
+  },
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -8699,7 +3505,7 @@ export const createPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
-}));
+})) as any;
 
 export type CreatePolicyVersionError =
   | InvalidInputException
@@ -8726,8 +3532,11 @@ export const createPolicyVersion: API.OperationMethod<
   CreatePolicyVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreatePolicyVersionRequest,
-  output: CreatePolicyVersionResponse,
+  descriptor: {
+    service: svc,
+    input: { PolicyArn: 0, PolicyDocument: 0, SetAsDefault: 0 },
+    output: { PolicyVersion: o_PolicyVersion },
+  },
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -8738,7 +3547,7 @@ export const createPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyVersion",
-}));
+})) as any;
 
 export type CreateRoleError =
   | ConcurrentModificationException
@@ -8762,8 +3571,19 @@ export const createRole: API.OperationMethod<
   CreateRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRoleRequest,
-  output: CreateRoleResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      Path: 0,
+      RoleName: 0,
+      AssumeRolePolicyDocument: 0,
+      Description: 0,
+      MaxSessionDuration: 0,
+      PermissionsBoundary: 0,
+      Tags: D.list(i_Tag),
+    },
+    output: { Role: o_Role },
+  },
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -8775,7 +3595,7 @@ export const createRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRole",
-}));
+})) as any;
 
 export type CreateSAMLProviderError =
   | ConcurrentModificationException
@@ -8812,8 +3632,17 @@ export const createSAMLProvider: API.OperationMethod<
   CreateSAMLProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSAMLProviderRequest,
-  output: CreateSAMLProviderResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      SAMLMetadataDocument: 0,
+      Name: 0,
+      Tags: D.list(i_Tag),
+      AssertionEncryptionMode: 0,
+      AddPrivateKey: 0,
+    },
+    output: { Tags: D.list({}) },
+  },
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -8824,7 +3653,7 @@ export const createSAMLProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSAMLProvider",
-}));
+})) as any;
 
 export type CreateServiceLinkedRoleError =
   | InvalidInputException
@@ -8850,8 +3679,11 @@ export const createServiceLinkedRole: API.OperationMethod<
   CreateServiceLinkedRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateServiceLinkedRoleRequest,
-  output: CreateServiceLinkedRoleResponse,
+  descriptor: {
+    service: svc,
+    input: { AWSServiceName: 0, Description: 0, CustomSuffix: 0 },
+    output: { Role: o_Role },
+  },
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -8861,7 +3693,7 @@ export const createServiceLinkedRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceLinkedRole",
-}));
+})) as any;
 
 export type CreateServiceSpecificCredentialError =
   | LimitExceededException
@@ -8898,8 +3730,11 @@ export const createServiceSpecificCredential: API.OperationMethod<
   CreateServiceSpecificCredentialError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateServiceSpecificCredentialRequest,
-  output: CreateServiceSpecificCredentialResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, ServiceName: 0, CredentialAgeDays: 0 },
+    output: { ServiceSpecificCredential: o_ServiceSpecificCredential },
+  },
   errors: [
     LimitExceededException,
     NoSuchEntityException,
@@ -8908,7 +3743,7 @@ export const createServiceSpecificCredential: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceSpecificCredential",
-}));
+})) as any;
 
 export type CreateUserError =
   | ConcurrentModificationException
@@ -8930,8 +3765,16 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateUserRequest,
-  output: CreateUserResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      Path: 0,
+      UserName: 0,
+      PermissionsBoundary: 0,
+      Tags: D.list(i_Tag),
+    },
+    output: { User: o_User },
+  },
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -8943,7 +3786,7 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
-}));
+})) as any;
 
 export type CreateVirtualMFADeviceError =
   | ConcurrentModificationException
@@ -8974,8 +3817,11 @@ export const createVirtualMFADevice: API.OperationMethod<
   CreateVirtualMFADeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateVirtualMFADeviceRequest,
-  output: CreateVirtualMFADeviceResponse,
+  descriptor: {
+    service: svc,
+    input: { Path: 0, VirtualMFADeviceName: 0, Tags: D.list(i_Tag) },
+    output: { VirtualMFADevice: o_VirtualMFADevice },
+  },
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -8986,7 +3832,7 @@ export const createVirtualMFADevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualMFADevice",
-}));
+})) as any;
 
 export type DeactivateMFADeviceError =
   | ConcurrentModificationException
@@ -9009,8 +3855,7 @@ export const deactivateMFADevice: API.OperationMethod<
   DeactivateMFADeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeactivateMFADeviceRequest,
-  output: DeactivateMFADeviceResponse,
+  descriptor: { service: svc, input: { UserName: 0, SerialNumber: 0 } },
   errors: [
     ConcurrentModificationException,
     EntityTemporarilyUnmodifiableException,
@@ -9021,7 +3866,7 @@ export const deactivateMFADevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateMFADevice",
-}));
+})) as any;
 
 export type DeleteAccessKeyError =
   | LimitExceededException
@@ -9042,8 +3887,7 @@ export const deleteAccessKey: API.OperationMethod<
   DeleteAccessKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAccessKeyRequest,
-  output: DeleteAccessKeyResponse,
+  descriptor: { service: svc, input: { UserName: 0, AccessKeyId: 0 } },
   errors: [
     LimitExceededException,
     NoSuchEntityException,
@@ -9052,7 +3896,7 @@ export const deleteAccessKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessKey",
-}));
+})) as any;
 
 export type DeleteAccountAliasError =
   | ConcurrentModificationException
@@ -9072,8 +3916,7 @@ export const deleteAccountAlias: API.OperationMethod<
   DeleteAccountAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAccountAliasRequest,
-  output: DeleteAccountAliasResponse,
+  descriptor: { service: svc, input: { AccountAlias: 0 } },
   errors: [
     ConcurrentModificationException,
     LimitExceededException,
@@ -9083,7 +3926,7 @@ export const deleteAccountAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountAlias",
-}));
+})) as any;
 
 export type DeleteAccountPasswordPolicyError =
   | LimitExceededException
@@ -9099,8 +3942,7 @@ export const deleteAccountPasswordPolicy: API.OperationMethod<
   DeleteAccountPasswordPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAccountPasswordPolicyRequest,
-  output: DeleteAccountPasswordPolicyResponse,
+  descriptor: { service: svc },
   errors: [
     LimitExceededException,
     NoSuchEntityException,
@@ -9109,7 +3951,7 @@ export const deleteAccountPasswordPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountPasswordPolicy",
-}));
+})) as any;
 
 export type DeleteGroupError =
   | DeleteConflictException
@@ -9127,8 +3969,7 @@ export const deleteGroup: API.OperationMethod<
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteGroupRequest,
-  output: DeleteGroupResponse,
+  descriptor: { service: svc, input: { GroupName: 0 } },
   errors: [
     DeleteConflictException,
     LimitExceededException,
@@ -9138,7 +3979,7 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
-}));
+})) as any;
 
 export type DeleteGroupPolicyError =
   | LimitExceededException
@@ -9160,8 +4001,7 @@ export const deleteGroupPolicy: API.OperationMethod<
   DeleteGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteGroupPolicyRequest,
-  output: DeleteGroupPolicyResponse,
+  descriptor: { service: svc, input: { GroupName: 0, PolicyName: 0 } },
   errors: [
     LimitExceededException,
     NoSuchEntityException,
@@ -9170,7 +4010,7 @@ export const deleteGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroupPolicy",
-}));
+})) as any;
 
 export type DeleteInstanceProfileError =
   | DeleteConflictException
@@ -9196,8 +4036,7 @@ export const deleteInstanceProfile: API.OperationMethod<
   DeleteInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteInstanceProfileRequest,
-  output: DeleteInstanceProfileResponse,
+  descriptor: { service: svc, input: { InstanceProfileName: 0 } },
   errors: [
     DeleteConflictException,
     LimitExceededException,
@@ -9207,7 +4046,7 @@ export const deleteInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceProfile",
-}));
+})) as any;
 
 export type DeleteLoginProfileError =
   | EntityTemporarilyUnmodifiableException
@@ -9237,8 +4076,7 @@ export const deleteLoginProfile: API.OperationMethod<
   DeleteLoginProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLoginProfileRequest,
-  output: DeleteLoginProfileResponse,
+  descriptor: { service: svc, input: { UserName: 0 } },
   errors: [
     EntityTemporarilyUnmodifiableException,
     LimitExceededException,
@@ -9248,7 +4086,7 @@ export const deleteLoginProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoginProfile",
-}));
+})) as any;
 
 export type DeleteOpenIDConnectProviderError =
   | InvalidInputException
@@ -9271,8 +4109,7 @@ export const deleteOpenIDConnectProvider: API.OperationMethod<
   DeleteOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteOpenIDConnectProviderRequest,
-  output: DeleteOpenIDConnectProviderResponse,
+  descriptor: { service: svc, input: { OpenIDConnectProviderArn: 0 } },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -9281,7 +4118,7 @@ export const deleteOpenIDConnectProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOpenIDConnectProvider",
-}));
+})) as any;
 
 export type DeletePolicyError =
   | DeleteConflictException
@@ -9318,8 +4155,7 @@ export const deletePolicy: API.OperationMethod<
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeletePolicyRequest,
-  output: DeletePolicyResponse,
+  descriptor: { service: svc, input: { PolicyArn: 0 } },
   errors: [
     DeleteConflictException,
     InvalidInputException,
@@ -9330,7 +4166,7 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
-}));
+})) as any;
 
 export type DeletePolicyVersionError =
   | DeleteConflictException
@@ -9355,8 +4191,7 @@ export const deletePolicyVersion: API.OperationMethod<
   DeletePolicyVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeletePolicyVersionRequest,
-  output: DeletePolicyVersionResponse,
+  descriptor: { service: svc, input: { PolicyArn: 0, VersionId: 0 } },
   errors: [
     DeleteConflictException,
     InvalidInputException,
@@ -9367,7 +4202,7 @@ export const deletePolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyVersion",
-}));
+})) as any;
 
 export type DeleteRoleError =
   | ConcurrentModificationException
@@ -9402,8 +4237,7 @@ export const deleteRole: API.OperationMethod<
   DeleteRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRoleRequest,
-  output: DeleteRoleResponse,
+  descriptor: { service: svc, input: { RoleName: 0 } },
   errors: [
     ConcurrentModificationException,
     DeleteConflictException,
@@ -9415,7 +4249,7 @@ export const deleteRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRole",
-}));
+})) as any;
 
 export type DeleteRolePermissionsBoundaryError =
   | NoSuchEntityException
@@ -9437,8 +4271,7 @@ export const deleteRolePermissionsBoundary: API.OperationMethod<
   DeleteRolePermissionsBoundaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRolePermissionsBoundaryRequest,
-  output: DeleteRolePermissionsBoundaryResponse,
+  descriptor: { service: svc, input: { RoleName: 0 } },
   errors: [
     NoSuchEntityException,
     ServiceFailureException,
@@ -9447,7 +4280,7 @@ export const deleteRolePermissionsBoundary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRolePermissionsBoundary",
-}));
+})) as any;
 
 export type DeleteRolePolicyError =
   | LimitExceededException
@@ -9470,8 +4303,7 @@ export const deleteRolePolicy: API.OperationMethod<
   DeleteRolePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRolePolicyRequest,
-  output: DeleteRolePolicyResponse,
+  descriptor: { service: svc, input: { RoleName: 0, PolicyName: 0 } },
   errors: [
     LimitExceededException,
     NoSuchEntityException,
@@ -9481,7 +4313,7 @@ export const deleteRolePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRolePolicy",
-}));
+})) as any;
 
 export type DeleteSAMLProviderError =
   | InvalidInputException
@@ -9504,8 +4336,7 @@ export const deleteSAMLProvider: API.OperationMethod<
   DeleteSAMLProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSAMLProviderRequest,
-  output: DeleteSAMLProviderResponse,
+  descriptor: { service: svc, input: { SAMLProviderArn: 0 } },
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -9515,7 +4346,7 @@ export const deleteSAMLProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSAMLProvider",
-}));
+})) as any;
 
 export type DeleteServerCertificateError =
   | DeleteConflictException
@@ -9546,8 +4377,7 @@ export const deleteServerCertificate: API.OperationMethod<
   DeleteServerCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteServerCertificateRequest,
-  output: DeleteServerCertificateResponse,
+  descriptor: { service: svc, input: { ServerCertificateName: 0 } },
   errors: [
     DeleteConflictException,
     LimitExceededException,
@@ -9557,7 +4387,7 @@ export const deleteServerCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServerCertificate",
-}));
+})) as any;
 
 export type DeleteServiceLinkedRoleError =
   | LimitExceededException
@@ -9591,8 +4421,7 @@ export const deleteServiceLinkedRole: API.OperationMethod<
   DeleteServiceLinkedRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteServiceLinkedRoleRequest,
-  output: DeleteServiceLinkedRoleResponse,
+  descriptor: { service: svc, input: { RoleName: 0 } },
   errors: [
     LimitExceededException,
     NoSuchEntityException,
@@ -9601,7 +4430,7 @@ export const deleteServiceLinkedRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceLinkedRole",
-}));
+})) as any;
 
 export type DeleteServiceSpecificCredentialError =
   | NoSuchEntityException
@@ -9615,13 +4444,15 @@ export const deleteServiceSpecificCredential: API.OperationMethod<
   DeleteServiceSpecificCredentialError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteServiceSpecificCredentialRequest,
-  output: DeleteServiceSpecificCredentialResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, ServiceSpecificCredentialId: 0 },
+  },
   errors: [NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceSpecificCredential",
-}));
+})) as any;
 
 export type DeleteSigningCertificateError =
   | ConcurrentModificationException
@@ -9643,8 +4474,7 @@ export const deleteSigningCertificate: API.OperationMethod<
   DeleteSigningCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSigningCertificateRequest,
-  output: DeleteSigningCertificateResponse,
+  descriptor: { service: svc, input: { UserName: 0, CertificateId: 0 } },
   errors: [
     ConcurrentModificationException,
     LimitExceededException,
@@ -9654,7 +4484,7 @@ export const deleteSigningCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSigningCertificate",
-}));
+})) as any;
 
 export type DeleteSSHPublicKeyError = NoSuchEntityException | CommonErrors;
 /**
@@ -9671,13 +4501,12 @@ export const deleteSSHPublicKey: API.OperationMethod<
   DeleteSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSSHPublicKeyRequest,
-  output: DeleteSSHPublicKeyResponse,
+  descriptor: { service: svc, input: { UserName: 0, SSHPublicKeyId: 0 } },
   errors: [NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSSHPublicKey",
-}));
+})) as any;
 
 export type DeleteUserError =
   | ConcurrentModificationException
@@ -9716,8 +4545,7 @@ export const deleteUser: API.OperationMethod<
   DeleteUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteUserRequest,
-  output: DeleteUserResponse,
+  descriptor: { service: svc, input: { UserName: 0 } },
   errors: [
     ConcurrentModificationException,
     DeleteConflictException,
@@ -9728,7 +4556,7 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
-}));
+})) as any;
 
 export type DeleteUserPermissionsBoundaryError =
   | NoSuchEntityException
@@ -9746,13 +4574,12 @@ export const deleteUserPermissionsBoundary: API.OperationMethod<
   DeleteUserPermissionsBoundaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteUserPermissionsBoundaryRequest,
-  output: DeleteUserPermissionsBoundaryResponse,
+  descriptor: { service: svc, input: { UserName: 0 } },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPermissionsBoundary",
-}));
+})) as any;
 
 export type DeleteUserPolicyError =
   | LimitExceededException
@@ -9774,8 +4601,7 @@ export const deleteUserPolicy: API.OperationMethod<
   DeleteUserPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteUserPolicyRequest,
-  output: DeleteUserPolicyResponse,
+  descriptor: { service: svc, input: { UserName: 0, PolicyName: 0 } },
   errors: [
     LimitExceededException,
     NoSuchEntityException,
@@ -9784,7 +4610,7 @@ export const deleteUserPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPolicy",
-}));
+})) as any;
 
 export type DeleteVirtualMFADeviceError =
   | ConcurrentModificationException
@@ -9805,8 +4631,7 @@ export const deleteVirtualMFADevice: API.OperationMethod<
   DeleteVirtualMFADeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteVirtualMFADeviceRequest,
-  output: DeleteVirtualMFADeviceResponse,
+  descriptor: { service: svc, input: { SerialNumber: 0 } },
   errors: [
     ConcurrentModificationException,
     DeleteConflictException,
@@ -9817,7 +4642,7 @@ export const deleteVirtualMFADevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualMFADevice",
-}));
+})) as any;
 
 export type DetachGroupPolicyError =
   | InvalidInputException
@@ -9839,8 +4664,7 @@ export const detachGroupPolicy: API.OperationMethod<
   DetachGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DetachGroupPolicyRequest,
-  output: DetachGroupPolicyResponse,
+  descriptor: { service: svc, input: { GroupName: 0, PolicyArn: 0 } },
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -9850,7 +4674,7 @@ export const detachGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachGroupPolicy",
-}));
+})) as any;
 
 export type DetachRolePolicyError =
   | InvalidInputException
@@ -9873,8 +4697,7 @@ export const detachRolePolicy: API.OperationMethod<
   DetachRolePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DetachRolePolicyRequest,
-  output: DetachRolePolicyResponse,
+  descriptor: { service: svc, input: { RoleName: 0, PolicyArn: 0 } },
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -9885,7 +4708,7 @@ export const detachRolePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachRolePolicy",
-}));
+})) as any;
 
 export type DetachUserPolicyError =
   | InvalidInputException
@@ -9907,8 +4730,7 @@ export const detachUserPolicy: API.OperationMethod<
   DetachUserPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DetachUserPolicyRequest,
-  output: DetachUserPolicyResponse,
+  descriptor: { service: svc, input: { UserName: 0, PolicyArn: 0 } },
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -9918,7 +4740,7 @@ export const detachUserPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachUserPolicy",
-}));
+})) as any;
 
 export type DisableOrganizationsRootCredentialsManagementError =
   | AccountNotManagementOrDelegatedAdministratorException
@@ -9938,8 +4760,11 @@ export const disableOrganizationsRootCredentialsManagement: API.OperationMethod<
   DisableOrganizationsRootCredentialsManagementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisableOrganizationsRootCredentialsManagementRequest,
-  output: DisableOrganizationsRootCredentialsManagementResponse,
+  descriptor: {
+    service: svc,
+    input: {},
+    output: { EnabledFeatures: D.list() },
+  },
   errors: [
     AccountNotManagementOrDelegatedAdministratorException,
     OrganizationNotFoundException,
@@ -9949,7 +4774,7 @@ export const disableOrganizationsRootCredentialsManagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationsRootCredentialsManagement",
-}));
+})) as any;
 
 export type DisableOrganizationsRootSessionsError =
   | AccountNotManagementOrDelegatedAdministratorException
@@ -9969,8 +4794,11 @@ export const disableOrganizationsRootSessions: API.OperationMethod<
   DisableOrganizationsRootSessionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisableOrganizationsRootSessionsRequest,
-  output: DisableOrganizationsRootSessionsResponse,
+  descriptor: {
+    service: svc,
+    input: {},
+    output: { EnabledFeatures: D.list() },
+  },
   errors: [
     AccountNotManagementOrDelegatedAdministratorException,
     OrganizationNotFoundException,
@@ -9980,7 +4808,7 @@ export const disableOrganizationsRootSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationsRootSessions",
-}));
+})) as any;
 
 export type DisableOutboundWebIdentityFederationError =
   | FeatureDisabledException
@@ -9996,13 +4824,12 @@ export const disableOutboundWebIdentityFederation: API.OperationMethod<
   DisableOutboundWebIdentityFederationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisableOutboundWebIdentityFederationRequest,
-  output: DisableOutboundWebIdentityFederationResponse,
+  descriptor: { service: svc },
   errors: [FeatureDisabledException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOutboundWebIdentityFederation",
-}));
+})) as any;
 
 export type EnableMFADeviceError =
   | ConcurrentModificationException
@@ -10024,8 +4851,15 @@ export const enableMFADevice: API.OperationMethod<
   EnableMFADeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: EnableMFADeviceRequest,
-  output: EnableMFADeviceResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      UserName: 0,
+      SerialNumber: 0,
+      AuthenticationCode1: 0,
+      AuthenticationCode2: 0,
+    },
+  },
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -10038,7 +4872,7 @@ export const enableMFADevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableMFADevice",
-}));
+})) as any;
 
 export type EnableOrganizationsRootCredentialsManagementError =
   | AccountNotManagementOrDelegatedAdministratorException
@@ -10068,8 +4902,11 @@ export const enableOrganizationsRootCredentialsManagement: API.OperationMethod<
   EnableOrganizationsRootCredentialsManagementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: EnableOrganizationsRootCredentialsManagementRequest,
-  output: EnableOrganizationsRootCredentialsManagementResponse,
+  descriptor: {
+    service: svc,
+    input: {},
+    output: { EnabledFeatures: D.list() },
+  },
   errors: [
     AccountNotManagementOrDelegatedAdministratorException,
     CallerIsNotManagementAccountException,
@@ -10080,7 +4917,7 @@ export const enableOrganizationsRootCredentialsManagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationsRootCredentialsManagement",
-}));
+})) as any;
 
 export type EnableOrganizationsRootSessionsError =
   | AccountNotManagementOrDelegatedAdministratorException
@@ -10109,8 +4946,11 @@ export const enableOrganizationsRootSessions: API.OperationMethod<
   EnableOrganizationsRootSessionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: EnableOrganizationsRootSessionsRequest,
-  output: EnableOrganizationsRootSessionsResponse,
+  descriptor: {
+    service: svc,
+    input: {},
+    output: { EnabledFeatures: D.list() },
+  },
   errors: [
     AccountNotManagementOrDelegatedAdministratorException,
     CallerIsNotManagementAccountException,
@@ -10121,7 +4961,7 @@ export const enableOrganizationsRootSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationsRootSessions",
-}));
+})) as any;
 
 export type EnableOutboundWebIdentityFederationError =
   | FeatureEnabledException
@@ -10137,13 +4977,12 @@ export const enableOutboundWebIdentityFederation: API.OperationMethod<
   EnableOutboundWebIdentityFederationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: EnableOutboundWebIdentityFederationRequest,
-  output: EnableOutboundWebIdentityFederationResponse,
+  descriptor: { service: svc },
   errors: [FeatureEnabledException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOutboundWebIdentityFederation",
-}));
+})) as any;
 
 export type GenerateCredentialReportError =
   | LimitExceededException
@@ -10160,13 +4999,12 @@ export const generateCredentialReport: API.OperationMethod<
   GenerateCredentialReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GenerateCredentialReportRequest,
-  output: GenerateCredentialReportResponse,
+  descriptor: { service: svc },
   errors: [LimitExceededException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateCredentialReport",
-}));
+})) as any;
 
 export type GenerateOrganizationsAccessReportError =
   | ReportGenerationLimitExceededException
@@ -10296,13 +5134,15 @@ export const generateOrganizationsAccessReport: API.OperationMethod<
   GenerateOrganizationsAccessReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GenerateOrganizationsAccessReportRequest,
-  output: GenerateOrganizationsAccessReportResponse,
+  descriptor: {
+    service: svc,
+    input: { EntityPath: 0, OrganizationsPolicyId: 0 },
+  },
   errors: [ReportGenerationLimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateOrganizationsAccessReport",
-}));
+})) as any;
 
 export type GenerateServiceLastAccessedDetailsError =
   | InvalidInputException
@@ -10368,13 +5208,12 @@ export const generateServiceLastAccessedDetails: API.OperationMethod<
   GenerateServiceLastAccessedDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GenerateServiceLastAccessedDetailsRequest,
-  output: GenerateServiceLastAccessedDetailsResponse,
+  descriptor: { service: svc, input: { Arn: 0, Granularity: 0 } },
   errors: [InvalidInputException, NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateServiceLastAccessedDetails",
-}));
+})) as any;
 
 export type GetAccessKeyLastUsedError = CommonErrors;
 /**
@@ -10388,13 +5227,16 @@ export const getAccessKeyLastUsed: API.OperationMethod<
   GetAccessKeyLastUsedError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccessKeyLastUsedRequest,
-  output: GetAccessKeyLastUsedResponse,
+  descriptor: {
+    service: svc,
+    input: { AccessKeyId: 0 },
+    output: { AccessKeyLastUsed: { LastUsedDate: D.ts } },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessKeyLastUsed",
-}));
+})) as any;
 
 export type GetAccountAuthorizationDetailsError =
   | ServiceFailureException
@@ -10423,8 +5265,43 @@ export const getAccountAuthorizationDetails: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetAccountAuthorizationDetailsRequest,
-  output: GetAccountAuthorizationDetailsResponse,
+  descriptor: {
+    service: svc,
+    input: { Filter: 0, MaxItems: 0, Marker: 0 },
+    output: {
+      UserDetailList: D.list({
+        CreateDate: D.ts,
+        UserPolicyList: D.list({}),
+        GroupList: D.list(),
+        AttachedManagedPolicies: D.list({}),
+        PermissionsBoundary: {},
+        Tags: D.list({}),
+      }),
+      GroupDetailList: D.list({
+        CreateDate: D.ts,
+        GroupPolicyList: D.list({}),
+        AttachedManagedPolicies: D.list({}),
+      }),
+      RoleDetailList: D.list({
+        CreateDate: D.ts,
+        InstanceProfileList: D.list(o_InstanceProfile),
+        RolePolicyList: D.list({}),
+        AttachedManagedPolicies: D.list({}),
+        PermissionsBoundary: {},
+        Tags: D.list({}),
+        RoleLastUsed: o_RoleLastUsed,
+      }),
+      Policies: D.list({
+        AttachmentCount: D.num,
+        PermissionsBoundaryUsageCount: D.num,
+        IsAttachable: D.bool,
+        CreateDate: D.ts,
+        UpdateDate: D.ts,
+        PolicyVersionList: D.list(o_PolicyVersion),
+      }),
+      IsTruncated: D.bool,
+    },
+  },
   errors: [ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10452,13 +5329,28 @@ export const getAccountPasswordPolicy: API.OperationMethod<
   GetAccountPasswordPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccountPasswordPolicyRequest,
-  output: GetAccountPasswordPolicyResponse,
+  descriptor: {
+    service: svc,
+    output: {
+      PasswordPolicy: {
+        MinimumPasswordLength: D.num,
+        RequireSymbols: D.bool,
+        RequireNumbers: D.bool,
+        RequireUppercaseCharacters: D.bool,
+        RequireLowercaseCharacters: D.bool,
+        AllowUsersToChangePassword: D.bool,
+        ExpirePasswords: D.bool,
+        MaxPasswordAge: D.num,
+        PasswordReusePrevention: D.num,
+        HardExpiry: D.bool,
+      },
+    },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountPasswordPolicy",
-}));
+})) as any;
 
 export type GetAccountPropertiesError =
   | InvalidInputException
@@ -10479,13 +5371,12 @@ export const getAccountProperties: API.OperationMethod<
   GetAccountPropertiesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccountPropertiesRequest,
-  output: GetAccountPropertiesResponse,
+  descriptor: { service: svc, input: {}, output: { Properties: D.map() } },
   errors: [InvalidInputException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountProperties",
-}));
+})) as any;
 
 export type GetAccountSummaryError = ServiceFailureException | CommonErrors;
 /**
@@ -10501,13 +5392,12 @@ export const getAccountSummary: API.OperationMethod<
   GetAccountSummaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccountSummaryRequest,
-  output: GetAccountSummaryResponse,
+  descriptor: { service: svc, output: { SummaryMap: D.map(D.num) } },
   errors: [ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSummary",
-}));
+})) as any;
 
 export type GetContextKeysForCustomPolicyError =
   | InvalidInputException
@@ -10531,13 +5421,16 @@ export const getContextKeysForCustomPolicy: API.OperationMethod<
   GetContextKeysForCustomPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetContextKeysForCustomPolicyRequest,
-  output: GetContextKeysForPolicyResponse,
+  descriptor: {
+    service: svc,
+    input: { PolicyInputList: 0 },
+    output: { ContextKeyNames: D.list() },
+  },
   errors: [InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContextKeysForCustomPolicy",
-}));
+})) as any;
 
 export type GetContextKeysForPrincipalPolicyError =
   | InvalidInputException
@@ -10571,13 +5464,16 @@ export const getContextKeysForPrincipalPolicy: API.OperationMethod<
   GetContextKeysForPrincipalPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetContextKeysForPrincipalPolicyRequest,
-  output: GetContextKeysForPolicyResponse,
+  descriptor: {
+    service: svc,
+    input: { PolicySourceArn: 0, PolicyInputList: 0 },
+    output: { ContextKeyNames: D.list() },
+  },
   errors: [InvalidInputException, NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContextKeysForPrincipalPolicy",
-}));
+})) as any;
 
 export type GetCredentialReportError =
   | CredentialReportExpiredException
@@ -10596,8 +5492,10 @@ export const getCredentialReport: API.OperationMethod<
   GetCredentialReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCredentialReportRequest,
-  output: GetCredentialReportResponse,
+  descriptor: {
+    service: svc,
+    output: { Content: D.blob, GeneratedTime: D.ts },
+  },
   errors: [
     CredentialReportExpiredException,
     CredentialReportNotPresentException,
@@ -10607,7 +5505,7 @@ export const getCredentialReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCredentialReport",
-}));
+})) as any;
 
 export type GetDelegationRequestError =
   | NoSuchEntityException
@@ -10630,13 +5528,16 @@ export const getDelegationRequest: API.OperationMethod<
   GetDelegationRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDelegationRequestRequest,
-  output: GetDelegationRequestResponse,
+  descriptor: {
+    service: svc,
+    input: { DelegationRequestId: 0, DelegationPermissionCheck: 0 },
+    output: { DelegationRequest: o_DelegationRequest },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDelegationRequest",
-}));
+})) as any;
 
 export type GetGroupError =
   | NoSuchEntityException
@@ -10653,8 +5554,11 @@ export const getGroup: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   User
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetGroupRequest,
-  output: GetGroupResponse,
+  descriptor: {
+    service: svc,
+    input: { GroupName: 0, Marker: 0, MaxItems: 0 },
+    output: { Group: o_Group, Users: D.list(o_User), IsTruncated: D.bool },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10696,13 +5600,12 @@ export const getGroupPolicy: API.OperationMethod<
   GetGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetGroupPolicyRequest,
-  output: GetGroupPolicyResponse,
+  descriptor: { service: svc, input: { GroupName: 0, PolicyName: 0 } },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupPolicy",
-}));
+})) as any;
 
 export type GetHumanReadableSummaryError =
   | InvalidInputException
@@ -10733,8 +5636,7 @@ export const getHumanReadableSummary: API.OperationMethod<
   GetHumanReadableSummaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetHumanReadableSummaryRequest,
-  output: GetHumanReadableSummaryResponse,
+  descriptor: { service: svc, input: { EntityArn: 0, Locale: 0 } },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -10743,7 +5645,7 @@ export const getHumanReadableSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHumanReadableSummary",
-}));
+})) as any;
 
 export type GetInstanceProfileError =
   | NoSuchEntityException
@@ -10761,13 +5663,16 @@ export const getInstanceProfile: API.OperationMethod<
   GetInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetInstanceProfileRequest,
-  output: GetInstanceProfileResponse,
+  descriptor: {
+    service: svc,
+    input: { InstanceProfileName: 0 },
+    output: { InstanceProfile: o_InstanceProfile },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceProfile",
-}));
+})) as any;
 
 export type GetLoginProfileError =
   | NoSuchEntityException
@@ -10793,13 +5698,16 @@ export const getLoginProfile: API.OperationMethod<
   GetLoginProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLoginProfileRequest,
-  output: GetLoginProfileResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0 },
+    output: { LoginProfile: o_LoginProfile },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoginProfile",
-}));
+})) as any;
 
 export type GetMFADeviceError =
   | NoSuchEntityException
@@ -10814,13 +5722,16 @@ export const getMFADevice: API.OperationMethod<
   GetMFADeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMFADeviceRequest,
-  output: GetMFADeviceResponse,
+  descriptor: {
+    service: svc,
+    input: { SerialNumber: 0, UserName: 0 },
+    output: { EnableDate: D.ts, Certifications: D.map() },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMFADevice",
-}));
+})) as any;
 
 export type GetOpenIDConnectProviderError =
   | InvalidInputException
@@ -10837,8 +5748,16 @@ export const getOpenIDConnectProvider: API.OperationMethod<
   GetOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetOpenIDConnectProviderRequest,
-  output: GetOpenIDConnectProviderResponse,
+  descriptor: {
+    service: svc,
+    input: { OpenIDConnectProviderArn: 0 },
+    output: {
+      ClientIDList: D.list(),
+      ThumbprintList: D.list(),
+      CreateDate: D.ts,
+      Tags: D.list({}),
+    },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -10847,7 +5766,7 @@ export const getOpenIDConnectProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpenIDConnectProvider",
-}));
+})) as any;
 
 export type GetOrganizationsAccessReportError =
   | NoSuchEntityException
@@ -10882,13 +5801,27 @@ export const getOrganizationsAccessReport: API.OperationMethod<
   GetOrganizationsAccessReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetOrganizationsAccessReportRequest,
-  output: GetOrganizationsAccessReportResponse,
+  descriptor: {
+    service: svc,
+    input: { JobId: 0, MaxItems: 0, Marker: 0, SortKey: 0 },
+    output: {
+      JobCreationDate: D.ts,
+      JobCompletionDate: D.ts,
+      NumberOfServicesAccessible: D.num,
+      NumberOfServicesNotAccessed: D.num,
+      AccessDetails: D.list({
+        LastAuthenticatedTime: D.ts,
+        TotalAuthenticatedEntities: D.num,
+      }),
+      IsTruncated: D.bool,
+      ErrorDetails: {},
+    },
+  },
   errors: [NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrganizationsAccessReport",
-}));
+})) as any;
 
 export type GetOutboundWebIdentityFederationInfoError =
   | FeatureDisabledException
@@ -10903,13 +5836,12 @@ export const getOutboundWebIdentityFederationInfo: API.OperationMethod<
   GetOutboundWebIdentityFederationInfoError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetOutboundWebIdentityFederationInfoRequest,
-  output: GetOutboundWebIdentityFederationInfoResponse,
+  descriptor: { service: svc, output: { JwtVendingEnabled: D.bool } },
   errors: [FeatureDisabledException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOutboundWebIdentityFederationInfo",
-}));
+})) as any;
 
 export type GetPolicyError =
   | InvalidInputException
@@ -10936,8 +5868,11 @@ export const getPolicy: API.OperationMethod<
   GetPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPolicyRequest,
-  output: GetPolicyResponse,
+  descriptor: {
+    service: svc,
+    input: { PolicyArn: 0 },
+    output: { Policy: o_Policy },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -10946,7 +5881,7 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
-}));
+})) as any;
 
 export type GetPolicyVersionError =
   | InvalidInputException
@@ -10982,8 +5917,11 @@ export const getPolicyVersion: API.OperationMethod<
   GetPolicyVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPolicyVersionRequest,
-  output: GetPolicyVersionResponse,
+  descriptor: {
+    service: svc,
+    input: { PolicyArn: 0, VersionId: 0 },
+    output: { PolicyVersion: o_PolicyVersion },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -10992,7 +5930,7 @@ export const getPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyVersion",
-}));
+})) as any;
 
 export type GetRoleError =
   | NoSuchEntityException
@@ -11017,13 +5955,16 @@ export const getRole: API.OperationMethod<
   GetRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRoleRequest,
-  output: GetRoleResponse,
+  descriptor: {
+    service: svc,
+    input: { RoleName: 0 },
+    output: { Role: o_Role },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRole",
-}));
+})) as any;
 
 export type GetRolePolicyError =
   | NoSuchEntityException
@@ -11057,13 +5998,12 @@ export const getRolePolicy: API.OperationMethod<
   GetRolePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRolePolicyRequest,
-  output: GetRolePolicyResponse,
+  descriptor: { service: svc, input: { RoleName: 0, PolicyName: 0 } },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRolePolicy",
-}));
+})) as any;
 
 export type GetRoleTemplateVersionError =
   | InvalidInputException
@@ -11085,8 +6025,26 @@ export const getRoleTemplateVersion: API.OperationMethod<
   GetRoleTemplateVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRoleTemplateVersionRequest,
-  output: GetRoleTemplateVersionResponse,
+  descriptor: {
+    service: svc,
+    input: { TemplateArn: 0, MinorVersion: 0 },
+    output: {
+      RoleTemplateVersion: {
+        MajorVersion: D.num,
+        DefaultMinorVersion: D.num,
+        Enabled: D.bool,
+        MinorVersion: D.num,
+        InlinePolicyTemplates: D.list({}),
+        ManagedPolicyArns: D.list(),
+        ParametersDefinition: D.list({ IsRequired: D.bool, Immutable: D.bool }),
+        RoleTagsTemplate: D.list({}),
+        MaxSessionDuration: D.num,
+        VersionEnabled: D.bool,
+        CreateTimestamp: D.ts,
+        UpdateTimestamp: D.ts,
+      },
+    },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -11095,7 +6053,7 @@ export const getRoleTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoleTemplateVersion",
-}));
+})) as any;
 
 export type GetSAMLProviderError =
   | InvalidInputException
@@ -11114,8 +6072,16 @@ export const getSAMLProvider: API.OperationMethod<
   GetSAMLProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSAMLProviderRequest,
-  output: GetSAMLProviderResponse,
+  descriptor: {
+    service: svc,
+    input: { SAMLProviderArn: 0 },
+    output: {
+      CreateDate: D.ts,
+      ValidUntil: D.ts,
+      Tags: D.list({}),
+      PrivateKeyList: D.list({ Timestamp: D.ts }),
+    },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -11124,7 +6090,7 @@ export const getSAMLProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSAMLProvider",
-}));
+})) as any;
 
 export type GetServerCertificateError =
   | NoSuchEntityException
@@ -11144,13 +6110,21 @@ export const getServerCertificate: API.OperationMethod<
   GetServerCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetServerCertificateRequest,
-  output: GetServerCertificateResponse,
+  descriptor: {
+    service: svc,
+    input: { ServerCertificateName: 0 },
+    output: {
+      ServerCertificate: {
+        ServerCertificateMetadata: o_ServerCertificateMetadata,
+        Tags: D.list({}),
+      },
+    },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServerCertificate",
-}));
+})) as any;
 
 export type GetServiceLastAccessedDetailsError =
   | InvalidInputException
@@ -11210,13 +6184,26 @@ export const getServiceLastAccessedDetails: API.OperationMethod<
   GetServiceLastAccessedDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetServiceLastAccessedDetailsRequest,
-  output: GetServiceLastAccessedDetailsResponse,
+  descriptor: {
+    service: svc,
+    input: { JobId: 0, MaxItems: 0, Marker: 0 },
+    output: {
+      JobCreationDate: D.ts,
+      ServicesLastAccessed: D.list({
+        LastAuthenticated: D.ts,
+        TotalAuthenticatedEntities: D.num,
+        TrackedActionsLastAccessed: D.list({ LastAccessedTime: D.ts }),
+      }),
+      JobCompletionDate: D.ts,
+      IsTruncated: D.bool,
+      Error: {},
+    },
+  },
   errors: [InvalidInputException, NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceLastAccessedDetails",
-}));
+})) as any;
 
 export type GetServiceLastAccessedDetailsWithEntitiesError =
   | InvalidInputException
@@ -11253,13 +6240,22 @@ export const getServiceLastAccessedDetailsWithEntities: API.OperationMethod<
   GetServiceLastAccessedDetailsWithEntitiesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetServiceLastAccessedDetailsWithEntitiesRequest,
-  output: GetServiceLastAccessedDetailsWithEntitiesResponse,
+  descriptor: {
+    service: svc,
+    input: { JobId: 0, ServiceNamespace: 0, MaxItems: 0, Marker: 0 },
+    output: {
+      JobCreationDate: D.ts,
+      JobCompletionDate: D.ts,
+      EntityDetailsList: D.list({ EntityInfo: {}, LastAuthenticated: D.ts }),
+      IsTruncated: D.bool,
+      Error: {},
+    },
+  },
   errors: [InvalidInputException, NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceLastAccessedDetailsWithEntities",
-}));
+})) as any;
 
 export type GetServiceLinkedRoleDeletionStatusError =
   | InvalidInputException
@@ -11279,8 +6275,11 @@ export const getServiceLinkedRoleDeletionStatus: API.OperationMethod<
   GetServiceLinkedRoleDeletionStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetServiceLinkedRoleDeletionStatusRequest,
-  output: GetServiceLinkedRoleDeletionStatusResponse,
+  descriptor: {
+    service: svc,
+    input: { DeletionTaskId: 0 },
+    output: { Reason: { RoleUsageList: D.list({ Resources: D.list() }) } },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -11289,7 +6288,7 @@ export const getServiceLinkedRoleDeletionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceLinkedRoleDeletionStatus",
-}));
+})) as any;
 
 export type GetSSHPublicKeyError =
   | NoSuchEntityException
@@ -11309,13 +6308,16 @@ export const getSSHPublicKey: API.OperationMethod<
   GetSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSSHPublicKeyRequest,
-  output: GetSSHPublicKeyResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, SSHPublicKeyId: 0, Encoding: 0 },
+    output: { SSHPublicKey: o_SSHPublicKey },
+  },
   errors: [NoSuchEntityException, UnrecognizedPublicKeyEncodingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSSHPublicKey",
-}));
+})) as any;
 
 export type GetUserError =
   | NoSuchEntityException
@@ -11334,13 +6336,16 @@ export const getUser: API.OperationMethod<
   GetUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetUserRequest,
-  output: GetUserResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0 },
+    output: { User: o_User },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUser",
-}));
+})) as any;
 
 export type GetUserPolicyError =
   | NoSuchEntityException
@@ -11371,13 +6376,12 @@ export const getUserPolicy: API.OperationMethod<
   GetUserPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetUserPolicyRequest,
-  output: GetUserPolicyResponse,
+  descriptor: { service: svc, input: { UserName: 0, PolicyName: 0 } },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserPolicy",
-}));
+})) as any;
 
 export type ListAccessKeysError =
   | NoSuchEntityException
@@ -11409,8 +6413,14 @@ export const listAccessKeys: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AccessKeyMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAccessKeysRequest,
-  output: ListAccessKeysResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, Marker: 0, MaxItems: 0 },
+    output: {
+      AccessKeyMetadata: D.list({ CreateDate: D.ts }),
+      IsTruncated: D.bool,
+    },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11437,8 +6447,11 @@ export const listAccountAliases: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AccountAliasType
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountAliasesRequest,
-  output: ListAccountAliasesResponse,
+  descriptor: {
+    service: svc,
+    input: { Marker: 0, MaxItems: 0 },
+    output: { AccountAliases: D.list(), IsTruncated: D.bool },
+  },
   errors: [ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11477,8 +6490,11 @@ export const listAttachedGroupPolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AttachedPolicy
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAttachedGroupPoliciesRequest,
-  output: ListAttachedGroupPoliciesResponse,
+  descriptor: {
+    service: svc,
+    input: { GroupName: 0, PathPrefix: 0, Marker: 0, MaxItems: 0 },
+    output: { AttachedPolicies: D.list({}), IsTruncated: D.bool },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -11521,8 +6537,11 @@ export const listAttachedRolePolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AttachedPolicy
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAttachedRolePoliciesRequest,
-  output: ListAttachedRolePoliciesResponse,
+  descriptor: {
+    service: svc,
+    input: { RoleName: 0, PathPrefix: 0, Marker: 0, MaxItems: 0 },
+    output: { AttachedPolicies: D.list({}), IsTruncated: D.bool },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -11565,8 +6584,11 @@ export const listAttachedUserPolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AttachedPolicy
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAttachedUserPoliciesRequest,
-  output: ListAttachedUserPoliciesResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, PathPrefix: 0, Marker: 0, MaxItems: 0 },
+    output: { AttachedPolicies: D.list({}), IsTruncated: D.bool },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -11604,8 +6626,14 @@ export const listDelegationRequests: API.OperationMethod<
   ListDelegationRequestsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDelegationRequestsRequest,
-  output: ListDelegationRequestsResponse,
+  descriptor: {
+    service: svc,
+    input: { OwnerId: 0, Marker: 0, MaxItems: 0 },
+    output: {
+      DelegationRequests: D.list(o_DelegationRequest),
+      isTruncated: D.bool,
+    },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -11614,7 +6642,7 @@ export const listDelegationRequests: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDelegationRequests",
-}));
+})) as any;
 
 export type ListEntitiesForPolicyError =
   | InvalidInputException
@@ -11640,8 +6668,23 @@ export const listEntitiesForPolicy: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListEntitiesForPolicyRequest,
-  output: ListEntitiesForPolicyResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      PolicyArn: 0,
+      EntityFilter: 0,
+      PathPrefix: 0,
+      PolicyUsageFilter: 0,
+      Marker: 0,
+      MaxItems: 0,
+    },
+    output: {
+      PolicyGroups: D.list({}),
+      PolicyUsers: D.list({}),
+      PolicyRoles: D.list({}),
+      IsTruncated: D.bool,
+    },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -11681,8 +6724,11 @@ export const listGroupPolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PolicyNameType
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListGroupPoliciesRequest,
-  output: ListGroupPoliciesResponse,
+  descriptor: {
+    service: svc,
+    input: { GroupName: 0, Marker: 0, MaxItems: 0 },
+    output: { PolicyNames: D.list(), IsTruncated: D.bool },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11709,8 +6755,11 @@ export const listGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Group
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListGroupsRequest,
-  output: ListGroupsResponse,
+  descriptor: {
+    service: svc,
+    input: { PathPrefix: 0, Marker: 0, MaxItems: 0 },
+    output: { Groups: D.list(o_Group), IsTruncated: D.bool },
+  },
   errors: [ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11740,8 +6789,11 @@ export const listGroupsForUser: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Group
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListGroupsForUserRequest,
-  output: ListGroupsForUserResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, Marker: 0, MaxItems: 0 },
+    output: { Groups: D.list(o_Group), IsTruncated: D.bool },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11775,8 +6827,14 @@ export const listInstanceProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   InstanceProfile
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListInstanceProfilesRequest,
-  output: ListInstanceProfilesResponse,
+  descriptor: {
+    service: svc,
+    input: { PathPrefix: 0, Marker: 0, MaxItems: 0 },
+    output: {
+      InstanceProfiles: D.list(o_InstanceProfile),
+      IsTruncated: D.bool,
+    },
+  },
   errors: [ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11809,8 +6867,14 @@ export const listInstanceProfilesForRole: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   InstanceProfile
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListInstanceProfilesForRoleRequest,
-  output: ListInstanceProfilesForRoleResponse,
+  descriptor: {
+    service: svc,
+    input: { RoleName: 0, Marker: 0, MaxItems: 0 },
+    output: {
+      InstanceProfiles: D.list(o_InstanceProfile),
+      IsTruncated: D.bool,
+    },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11839,8 +6903,11 @@ export const listInstanceProfileTags: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListInstanceProfileTagsRequest,
-  output: ListInstanceProfileTagsResponse,
+  descriptor: {
+    service: svc,
+    input: { InstanceProfileName: 0, Marker: 0, MaxItems: 0 },
+    output: { Tags: D.list({}), IsTruncated: D.bool },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11873,8 +6940,11 @@ export const listMFADevices: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MFADevice
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListMFADevicesRequest,
-  output: ListMFADevicesResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, Marker: 0, MaxItems: 0 },
+    output: { MFADevices: D.list({ EnableDate: D.ts }), IsTruncated: D.bool },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11904,8 +6974,11 @@ export const listMFADeviceTags: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListMFADeviceTagsRequest,
-  output: ListMFADeviceTagsResponse,
+  descriptor: {
+    service: svc,
+    input: { SerialNumber: 0, Marker: 0, MaxItems: 0 },
+    output: { Tags: D.list({}), IsTruncated: D.bool },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -11938,13 +7011,16 @@ export const listOpenIDConnectProviders: API.OperationMethod<
   ListOpenIDConnectProvidersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListOpenIDConnectProvidersRequest,
-  output: ListOpenIDConnectProvidersResponse,
+  descriptor: {
+    service: svc,
+    input: {},
+    output: { OpenIDConnectProviderList: D.list({}) },
+  },
   errors: [ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOpenIDConnectProviders",
-}));
+})) as any;
 
 export type ListOpenIDConnectProviderTagsError =
   | InvalidInputException
@@ -11966,8 +7042,11 @@ export const listOpenIDConnectProviderTags: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListOpenIDConnectProviderTagsRequest,
-  output: ListOpenIDConnectProviderTagsResponse,
+  descriptor: {
+    service: svc,
+    input: { OpenIDConnectProviderArn: 0, Marker: 0, MaxItems: 0 },
+    output: { Tags: D.list({}), IsTruncated: D.bool },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -12000,8 +7079,11 @@ export const listOrganizationsFeatures: API.OperationMethod<
   ListOrganizationsFeaturesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListOrganizationsFeaturesRequest,
-  output: ListOrganizationsFeaturesResponse,
+  descriptor: {
+    service: svc,
+    input: {},
+    output: { EnabledFeatures: D.list() },
+  },
   errors: [
     AccountNotManagementOrDelegatedAdministratorException,
     OrganizationNotFoundException,
@@ -12011,7 +7093,7 @@ export const listOrganizationsFeatures: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOrganizationsFeatures",
-}));
+})) as any;
 
 export type ListPoliciesError = ServiceFailureException | CommonErrors;
 /**
@@ -12041,8 +7123,18 @@ export const listPolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Policy
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPoliciesRequest,
-  output: ListPoliciesResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      Scope: 0,
+      OnlyAttached: 0,
+      PathPrefix: 0,
+      PolicyUsageFilter: 0,
+      Marker: 0,
+      MaxItems: 0,
+    },
+    output: { Policies: D.list(o_Policy), IsTruncated: D.bool },
+  },
   errors: [ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12101,13 +7193,19 @@ export const listPoliciesGrantingServiceAccess: API.OperationMethod<
   ListPoliciesGrantingServiceAccessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListPoliciesGrantingServiceAccessRequest,
-  output: ListPoliciesGrantingServiceAccessResponse,
+  descriptor: {
+    service: svc,
+    input: { Marker: 0, Arn: 0, ServiceNamespaces: 0 },
+    output: {
+      PoliciesGrantingServiceAccess: D.list({ Policies: D.list({}) }),
+      IsTruncated: D.bool,
+    },
+  },
   errors: [InvalidInputException, NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPoliciesGrantingServiceAccess",
-}));
+})) as any;
 
 export type ListPolicyTagsError =
   | InvalidInputException
@@ -12126,8 +7224,11 @@ export const listPolicyTags: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPolicyTagsRequest,
-  output: ListPolicyTagsResponse,
+  descriptor: {
+    service: svc,
+    input: { PolicyArn: 0, Marker: 0, MaxItems: 0 },
+    output: { Tags: D.list({}), IsTruncated: D.bool },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -12163,8 +7264,11 @@ export const listPolicyVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PolicyVersion
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPolicyVersionsRequest,
-  output: ListPolicyVersionsResponse,
+  descriptor: {
+    service: svc,
+    input: { PolicyArn: 0, Marker: 0, MaxItems: 0 },
+    output: { Versions: D.list(o_PolicyVersion), IsTruncated: D.bool },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -12205,8 +7309,11 @@ export const listRolePolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PolicyNameType
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRolePoliciesRequest,
-  output: ListRolePoliciesResponse,
+  descriptor: {
+    service: svc,
+    input: { RoleName: 0, Marker: 0, MaxItems: 0 },
+    output: { PolicyNames: D.list(), IsTruncated: D.bool },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12246,8 +7353,11 @@ export const listRoles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Role
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRolesRequest,
-  output: ListRolesResponse,
+  descriptor: {
+    service: svc,
+    input: { PathPrefix: 0, Marker: 0, MaxItems: 0 },
+    output: { Roles: D.list(o_Role), IsTruncated: D.bool },
+  },
   errors: [ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12276,8 +7386,11 @@ export const listRoleTags: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRoleTagsRequest,
-  output: ListRoleTagsResponse,
+  descriptor: {
+    service: svc,
+    input: { RoleName: 0, Marker: 0, MaxItems: 0 },
+    output: { Tags: D.list({}), IsTruncated: D.bool },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12304,13 +7417,18 @@ export const listSAMLProviders: API.OperationMethod<
   ListSAMLProvidersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListSAMLProvidersRequest,
-  output: ListSAMLProvidersResponse,
+  descriptor: {
+    service: svc,
+    input: {},
+    output: {
+      SAMLProviderList: D.list({ ValidUntil: D.ts, CreateDate: D.ts }),
+    },
+  },
   errors: [ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSAMLProviders",
-}));
+})) as any;
 
 export type ListSAMLProviderTagsError =
   | InvalidInputException
@@ -12332,8 +7450,11 @@ export const listSAMLProviderTags: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSAMLProviderTagsRequest,
-  output: ListSAMLProviderTagsResponse,
+  descriptor: {
+    service: svc,
+    input: { SAMLProviderArn: 0, Marker: 0, MaxItems: 0 },
+    output: { Tags: D.list({}), IsTruncated: D.bool },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -12376,8 +7497,14 @@ export const listServerCertificates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ServerCertificateMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListServerCertificatesRequest,
-  output: ListServerCertificatesResponse,
+  descriptor: {
+    service: svc,
+    input: { PathPrefix: 0, Marker: 0, MaxItems: 0 },
+    output: {
+      ServerCertificateMetadataList: D.list(o_ServerCertificateMetadata),
+      IsTruncated: D.bool,
+    },
+  },
   errors: [ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12412,8 +7539,11 @@ export const listServerCertificateTags: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListServerCertificateTagsRequest,
-  output: ListServerCertificateTagsResponse,
+  descriptor: {
+    service: svc,
+    input: { ServerCertificateName: 0, Marker: 0, MaxItems: 0 },
+    output: { Tags: D.list({}), IsTruncated: D.bool },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12456,8 +7586,17 @@ export const listServiceSpecificCredentials: API.OperationMethod<
   ListServiceSpecificCredentialsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListServiceSpecificCredentialsRequest,
-  output: ListServiceSpecificCredentialsResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, ServiceName: 0, AllUsers: 0, Marker: 0, MaxItems: 0 },
+    output: {
+      ServiceSpecificCredentials: D.list({
+        CreateDate: D.ts,
+        ExpirationDate: D.ts,
+      }),
+      IsTruncated: D.bool,
+    },
+  },
   errors: [
     NoSuchEntityException,
     ServiceNotSupportedException,
@@ -12467,7 +7606,7 @@ export const listServiceSpecificCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServiceSpecificCredentials",
-}));
+})) as any;
 
 export type ListSigningCertificatesError =
   | NoSuchEntityException
@@ -12494,8 +7633,11 @@ export const listSigningCertificates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SigningCertificate
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSigningCertificatesRequest,
-  output: ListSigningCertificatesResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, Marker: 0, MaxItems: 0 },
+    output: { Certificates: D.list(o_SigningCertificate), IsTruncated: D.bool },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12528,8 +7670,14 @@ export const listSSHPublicKeys: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SSHPublicKeyMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSSHPublicKeysRequest,
-  output: ListSSHPublicKeysResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, Marker: 0, MaxItems: 0 },
+    output: {
+      SSHPublicKeys: D.list({ UploadDate: D.ts }),
+      IsTruncated: D.bool,
+    },
+  },
   errors: [NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12565,8 +7713,11 @@ export const listUserPolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PolicyNameType
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListUserPoliciesRequest,
-  output: ListUserPoliciesResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, Marker: 0, MaxItems: 0 },
+    output: { PolicyNames: D.list(), IsTruncated: D.bool },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12604,8 +7755,11 @@ export const listUsers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   User
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListUsersRequest,
-  output: ListUsersResponse,
+  descriptor: {
+    service: svc,
+    input: { PathPrefix: 0, Marker: 0, MaxItems: 0 },
+    output: { Users: D.list(o_User), IsTruncated: D.bool },
+  },
   errors: [ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12633,8 +7787,11 @@ export const listUserTags: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListUserTagsRequest,
-  output: ListUserTagsResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, Marker: 0, MaxItems: 0 },
+    output: { Tags: D.list({}), IsTruncated: D.bool },
+  },
   errors: [NoSuchEntityException, ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12667,8 +7824,14 @@ export const listVirtualMFADevices: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   VirtualMFADevice
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListVirtualMFADevicesRequest,
-  output: ListVirtualMFADevicesResponse,
+  descriptor: {
+    service: svc,
+    input: { AssignmentStatus: 0, Marker: 0, MaxItems: 0 },
+    output: {
+      VirtualMFADevices: D.list(o_VirtualMFADevice),
+      IsTruncated: D.bool,
+    },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12701,8 +7864,7 @@ export const putAccountProperties: API.OperationMethod<
   PutAccountPropertiesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutAccountPropertiesRequest,
-  output: PutAccountPropertiesResponse,
+  descriptor: { service: svc, input: { Properties: D.map() } },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -12711,7 +7873,7 @@ export const putAccountProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountProperties",
-}));
+})) as any;
 
 export type PutGroupPolicyError =
   | LimitExceededException
@@ -12747,8 +7909,10 @@ export const putGroupPolicy: API.OperationMethod<
   PutGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutGroupPolicyRequest,
-  output: PutGroupPolicyResponse,
+  descriptor: {
+    service: svc,
+    input: { GroupName: 0, PolicyName: 0, PolicyDocument: 0 },
+  },
   errors: [
     LimitExceededException,
     MalformedPolicyDocumentException,
@@ -12758,7 +7922,7 @@ export const putGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGroupPolicy",
-}));
+})) as any;
 
 export type PutRolePermissionsBoundaryError =
   | InvalidInputException
@@ -12787,8 +7951,7 @@ export const putRolePermissionsBoundary: API.OperationMethod<
   PutRolePermissionsBoundaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutRolePermissionsBoundaryRequest,
-  output: PutRolePermissionsBoundaryResponse,
+  descriptor: { service: svc, input: { RoleName: 0, PermissionsBoundary: 0 } },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -12799,7 +7962,7 @@ export const putRolePermissionsBoundary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRolePermissionsBoundary",
-}));
+})) as any;
 
 export type PutRolePolicyError =
   | LimitExceededException
@@ -12847,8 +8010,10 @@ export const putRolePolicy: API.OperationMethod<
   PutRolePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutRolePolicyRequest,
-  output: PutRolePolicyResponse,
+  descriptor: {
+    service: svc,
+    input: { RoleName: 0, PolicyName: 0, PolicyDocument: 0 },
+  },
   errors: [
     LimitExceededException,
     MalformedPolicyDocumentException,
@@ -12859,7 +8024,7 @@ export const putRolePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRolePolicy",
-}));
+})) as any;
 
 export type PutUserPermissionsBoundaryError =
   | InvalidInputException
@@ -12885,8 +8050,7 @@ export const putUserPermissionsBoundary: API.OperationMethod<
   PutUserPermissionsBoundaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutUserPermissionsBoundaryRequest,
-  output: PutUserPermissionsBoundaryResponse,
+  descriptor: { service: svc, input: { UserName: 0, PermissionsBoundary: 0 } },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -12896,7 +8060,7 @@ export const putUserPermissionsBoundary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutUserPermissionsBoundary",
-}));
+})) as any;
 
 export type PutUserPolicyError =
   | LimitExceededException
@@ -12932,8 +8096,10 @@ export const putUserPolicy: API.OperationMethod<
   PutUserPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutUserPolicyRequest,
-  output: PutUserPolicyResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, PolicyName: 0, PolicyDocument: 0 },
+  },
   errors: [
     LimitExceededException,
     MalformedPolicyDocumentException,
@@ -12943,7 +8109,7 @@ export const putUserPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutUserPolicy",
-}));
+})) as any;
 
 export type RejectDelegationRequestError =
   | ConcurrentModificationException
@@ -12968,8 +8134,7 @@ export const rejectDelegationRequest: API.OperationMethod<
   RejectDelegationRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RejectDelegationRequestRequest,
-  output: RejectDelegationRequestResponse,
+  descriptor: { service: svc, input: { DelegationRequestId: 0, Notes: 0 } },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -12979,7 +8144,7 @@ export const rejectDelegationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectDelegationRequest",
-}));
+})) as any;
 
 export type RemoveClientIDFromOpenIDConnectProviderError =
   | ConcurrentModificationException
@@ -13001,8 +8166,10 @@ export const removeClientIDFromOpenIDConnectProvider: API.OperationMethod<
   RemoveClientIDFromOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveClientIDFromOpenIDConnectProviderRequest,
-  output: RemoveClientIDFromOpenIDConnectProviderResponse,
+  descriptor: {
+    service: svc,
+    input: { OpenIDConnectProviderArn: 0, ClientID: 0 },
+  },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -13012,7 +8179,7 @@ export const removeClientIDFromOpenIDConnectProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveClientIDFromOpenIDConnectProvider",
-}));
+})) as any;
 
 export type RemoveRoleFromInstanceProfileError =
   | LimitExceededException
@@ -13039,8 +8206,7 @@ export const removeRoleFromInstanceProfile: API.OperationMethod<
   RemoveRoleFromInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveRoleFromInstanceProfileRequest,
-  output: RemoveRoleFromInstanceProfileResponse,
+  descriptor: { service: svc, input: { InstanceProfileName: 0, RoleName: 0 } },
   errors: [
     LimitExceededException,
     NoSuchEntityException,
@@ -13050,7 +8216,7 @@ export const removeRoleFromInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveRoleFromInstanceProfile",
-}));
+})) as any;
 
 export type RemoveUserFromGroupError =
   | LimitExceededException
@@ -13066,8 +8232,7 @@ export const removeUserFromGroup: API.OperationMethod<
   RemoveUserFromGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveUserFromGroupRequest,
-  output: RemoveUserFromGroupResponse,
+  descriptor: { service: svc, input: { GroupName: 0, UserName: 0 } },
   errors: [
     LimitExceededException,
     NoSuchEntityException,
@@ -13076,7 +8241,7 @@ export const removeUserFromGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveUserFromGroup",
-}));
+})) as any;
 
 export type ResetServiceSpecificCredentialError =
   | NoSuchEntityException
@@ -13093,13 +8258,16 @@ export const resetServiceSpecificCredential: API.OperationMethod<
   ResetServiceSpecificCredentialError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ResetServiceSpecificCredentialRequest,
-  output: ResetServiceSpecificCredentialResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, ServiceSpecificCredentialId: 0 },
+    output: { ServiceSpecificCredential: o_ServiceSpecificCredential },
+  },
   errors: [NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetServiceSpecificCredential",
-}));
+})) as any;
 
 export type ResyncMFADeviceError =
   | ConcurrentModificationException
@@ -13121,8 +8289,15 @@ export const resyncMFADevice: API.OperationMethod<
   ResyncMFADeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ResyncMFADeviceRequest,
-  output: ResyncMFADeviceResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      UserName: 0,
+      SerialNumber: 0,
+      AuthenticationCode1: 0,
+      AuthenticationCode2: 0,
+    },
+  },
   errors: [
     ConcurrentModificationException,
     InvalidAuthenticationCodeException,
@@ -13133,7 +8308,7 @@ export const resyncMFADevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResyncMFADevice",
-}));
+})) as any;
 
 export type SendDelegationTokenError =
   | ConcurrentModificationException
@@ -13161,8 +8336,7 @@ export const sendDelegationToken: API.OperationMethod<
   SendDelegationTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SendDelegationTokenRequest,
-  output: SendDelegationTokenResponse,
+  descriptor: { service: svc, input: { DelegationRequestId: 0 } },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -13172,7 +8346,7 @@ export const sendDelegationToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDelegationToken",
-}));
+})) as any;
 
 export type SetDefaultPolicyVersionError =
   | InvalidInputException
@@ -13196,8 +8370,7 @@ export const setDefaultPolicyVersion: API.OperationMethod<
   SetDefaultPolicyVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetDefaultPolicyVersionRequest,
-  output: SetDefaultPolicyVersionResponse,
+  descriptor: { service: svc, input: { PolicyArn: 0, VersionId: 0 } },
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -13207,7 +8380,7 @@ export const setDefaultPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDefaultPolicyVersion",
-}));
+})) as any;
 
 export type SetSecurityTokenServicePreferencesError =
   | ServiceFailureException
@@ -13242,13 +8415,12 @@ export const setSecurityTokenServicePreferences: API.OperationMethod<
   SetSecurityTokenServicePreferencesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetSecurityTokenServicePreferencesRequest,
-  output: SetSecurityTokenServicePreferencesResponse,
+  descriptor: { service: svc, input: { GlobalEndpointTokenVersion: 0 } },
   errors: [ServiceFailureException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSecurityTokenServicePreferences",
-}));
+})) as any;
 
 export type SimulateCustomPolicyError =
   | InvalidInputException
@@ -13291,8 +8463,29 @@ export const simulateCustomPolicy: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EvaluationResult
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: SimulateCustomPolicyRequest,
-  output: SimulatePolicyResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      PolicyInputList: 0,
+      PermissionsBoundaryPolicyInputList: 0,
+      OrderedOrganizationPolicyInputList: D.list({
+        ServiceControlPolicyInputList: 0,
+      }),
+      ActionNames: 0,
+      ResourceArns: 0,
+      ResourcePolicy: 0,
+      ResourceOwner: 0,
+      CallerArn: 0,
+      ContextEntries: D.list(i_ContextEntry),
+      ResourceHandlingOption: 0,
+      MaxItems: 0,
+      Marker: 0,
+    },
+    output: {
+      EvaluationResults: D.list(o_EvaluationResult),
+      IsTruncated: D.bool,
+    },
+  },
   errors: [InvalidInputException, PolicyEvaluationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13361,8 +8554,36 @@ export const simulatePrincipalPolicy: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EvaluationResult
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: SimulatePrincipalPolicyRequest,
-  output: SimulatePolicyResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      PolicySourceArn: 0,
+      PolicyInputList: 0,
+      PermissionsBoundaryPolicyInputList: 0,
+      PolicyExclusionList: D.list({
+        PolicyType: 0,
+        PolicyArn: 0,
+        InlinePolicyIdentifier: {
+          PolicyName: 0,
+          AttachmentType: 0,
+          AttachmentName: 0,
+        },
+      }),
+      ActionNames: 0,
+      ResourceArns: 0,
+      ResourcePolicy: 0,
+      ResourceOwner: 0,
+      CallerArn: 0,
+      ContextEntries: D.list(i_ContextEntry),
+      ResourceHandlingOption: 0,
+      MaxItems: 0,
+      Marker: 0,
+    },
+    output: {
+      EvaluationResults: D.list(o_EvaluationResult),
+      IsTruncated: D.bool,
+    },
+  },
   errors: [
     InvalidInputException,
     NoSuchEntityException,
@@ -13419,8 +8640,10 @@ export const tagInstanceProfile: API.OperationMethod<
   TagInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagInstanceProfileRequest,
-  output: TagInstanceProfileResponse,
+  descriptor: {
+    service: svc,
+    input: { InstanceProfileName: 0, Tags: D.list(i_Tag) },
+  },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -13431,7 +8654,7 @@ export const tagInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagInstanceProfile",
-}));
+})) as any;
 
 export type TagMFADeviceError =
   | ConcurrentModificationException
@@ -13474,8 +8697,7 @@ export const tagMFADevice: API.OperationMethod<
   TagMFADeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagMFADeviceRequest,
-  output: TagMFADeviceResponse,
+  descriptor: { service: svc, input: { SerialNumber: 0, Tags: D.list(i_Tag) } },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -13486,7 +8708,7 @@ export const tagMFADevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagMFADevice",
-}));
+})) as any;
 
 export type TagOpenIDConnectProviderError =
   | ConcurrentModificationException
@@ -13530,8 +8752,10 @@ export const tagOpenIDConnectProvider: API.OperationMethod<
   TagOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagOpenIDConnectProviderRequest,
-  output: TagOpenIDConnectProviderResponse,
+  descriptor: {
+    service: svc,
+    input: { OpenIDConnectProviderArn: 0, Tags: D.list(i_Tag) },
+  },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -13542,7 +8766,7 @@ export const tagOpenIDConnectProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagOpenIDConnectProvider",
-}));
+})) as any;
 
 export type TagPolicyError =
   | ConcurrentModificationException
@@ -13584,8 +8808,7 @@ export const tagPolicy: API.OperationMethod<
   TagPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagPolicyRequest,
-  output: TagPolicyResponse,
+  descriptor: { service: svc, input: { PolicyArn: 0, Tags: D.list(i_Tag) } },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -13596,7 +8819,7 @@ export const tagPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagPolicy",
-}));
+})) as any;
 
 export type TagRoleError =
   | ConcurrentModificationException
@@ -13646,8 +8869,7 @@ export const tagRole: API.OperationMethod<
   TagRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagRoleRequest,
-  output: TagRoleResponse,
+  descriptor: { service: svc, input: { RoleName: 0, Tags: D.list(i_Tag) } },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -13658,7 +8880,7 @@ export const tagRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagRole",
-}));
+})) as any;
 
 export type TagSAMLProviderError =
   | ConcurrentModificationException
@@ -13702,8 +8924,10 @@ export const tagSAMLProvider: API.OperationMethod<
   TagSAMLProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagSAMLProviderRequest,
-  output: TagSAMLProviderResponse,
+  descriptor: {
+    service: svc,
+    input: { SAMLProviderArn: 0, Tags: D.list(i_Tag) },
+  },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -13714,7 +8938,7 @@ export const tagSAMLProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagSAMLProvider",
-}));
+})) as any;
 
 export type TagServerCertificateError =
   | ConcurrentModificationException
@@ -13765,8 +8989,10 @@ export const tagServerCertificate: API.OperationMethod<
   TagServerCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagServerCertificateRequest,
-  output: TagServerCertificateResponse,
+  descriptor: {
+    service: svc,
+    input: { ServerCertificateName: 0, Tags: D.list(i_Tag) },
+  },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -13777,7 +9003,7 @@ export const tagServerCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagServerCertificate",
-}));
+})) as any;
 
 export type TagUserError =
   | ConcurrentModificationException
@@ -13826,8 +9052,7 @@ export const tagUser: API.OperationMethod<
   TagUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagUserRequest,
-  output: TagUserResponse,
+  descriptor: { service: svc, input: { UserName: 0, Tags: D.list(i_Tag) } },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -13838,7 +9063,7 @@ export const tagUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagUser",
-}));
+})) as any;
 
 export type UntagInstanceProfileError =
   | ConcurrentModificationException
@@ -13856,8 +9081,7 @@ export const untagInstanceProfile: API.OperationMethod<
   UntagInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagInstanceProfileRequest,
-  output: UntagInstanceProfileResponse,
+  descriptor: { service: svc, input: { InstanceProfileName: 0, TagKeys: 0 } },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -13867,7 +9091,7 @@ export const untagInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagInstanceProfile",
-}));
+})) as any;
 
 export type UntagMFADeviceError =
   | ConcurrentModificationException
@@ -13886,8 +9110,7 @@ export const untagMFADevice: API.OperationMethod<
   UntagMFADeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagMFADeviceRequest,
-  output: UntagMFADeviceResponse,
+  descriptor: { service: svc, input: { SerialNumber: 0, TagKeys: 0 } },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -13897,7 +9120,7 @@ export const untagMFADevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagMFADevice",
-}));
+})) as any;
 
 export type UntagOpenIDConnectProviderError =
   | ConcurrentModificationException
@@ -13917,8 +9140,10 @@ export const untagOpenIDConnectProvider: API.OperationMethod<
   UntagOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagOpenIDConnectProviderRequest,
-  output: UntagOpenIDConnectProviderResponse,
+  descriptor: {
+    service: svc,
+    input: { OpenIDConnectProviderArn: 0, TagKeys: 0 },
+  },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -13928,7 +9153,7 @@ export const untagOpenIDConnectProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagOpenIDConnectProvider",
-}));
+})) as any;
 
 export type UntagPolicyError =
   | ConcurrentModificationException
@@ -13946,8 +9171,7 @@ export const untagPolicy: API.OperationMethod<
   UntagPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagPolicyRequest,
-  output: UntagPolicyResponse,
+  descriptor: { service: svc, input: { PolicyArn: 0, TagKeys: 0 } },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -13957,7 +9181,7 @@ export const untagPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagPolicy",
-}));
+})) as any;
 
 export type UntagRoleError =
   | ConcurrentModificationException
@@ -13974,8 +9198,7 @@ export const untagRole: API.OperationMethod<
   UntagRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagRoleRequest,
-  output: UntagRoleResponse,
+  descriptor: { service: svc, input: { RoleName: 0, TagKeys: 0 } },
   errors: [
     ConcurrentModificationException,
     NoSuchEntityException,
@@ -13984,7 +9207,7 @@ export const untagRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagRole",
-}));
+})) as any;
 
 export type UntagSAMLProviderError =
   | ConcurrentModificationException
@@ -14004,8 +9227,7 @@ export const untagSAMLProvider: API.OperationMethod<
   UntagSAMLProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagSAMLProviderRequest,
-  output: UntagSAMLProviderResponse,
+  descriptor: { service: svc, input: { SAMLProviderArn: 0, TagKeys: 0 } },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -14015,7 +9237,7 @@ export const untagSAMLProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagSAMLProvider",
-}));
+})) as any;
 
 export type UntagServerCertificateError =
   | ConcurrentModificationException
@@ -14040,8 +9262,7 @@ export const untagServerCertificate: API.OperationMethod<
   UntagServerCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagServerCertificateRequest,
-  output: UntagServerCertificateResponse,
+  descriptor: { service: svc, input: { ServerCertificateName: 0, TagKeys: 0 } },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -14051,7 +9272,7 @@ export const untagServerCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagServerCertificate",
-}));
+})) as any;
 
 export type UntagUserError =
   | ConcurrentModificationException
@@ -14068,8 +9289,7 @@ export const untagUser: API.OperationMethod<
   UntagUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagUserRequest,
-  output: UntagUserResponse,
+  descriptor: { service: svc, input: { UserName: 0, TagKeys: 0 } },
   errors: [
     ConcurrentModificationException,
     NoSuchEntityException,
@@ -14078,7 +9298,7 @@ export const untagUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagUser",
-}));
+})) as any;
 
 export type UpdateAccessKeyError =
   | InvalidInputException
@@ -14107,8 +9327,10 @@ export const updateAccessKey: API.OperationMethod<
   UpdateAccessKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAccessKeyRequest,
-  output: UpdateAccessKeyResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, AccessKeyId: 0, Status: 0 },
+  },
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -14118,7 +9340,7 @@ export const updateAccessKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessKey",
-}));
+})) as any;
 
 export type UpdateAccountPasswordPolicyError =
   | LimitExceededException
@@ -14145,8 +9367,20 @@ export const updateAccountPasswordPolicy: API.OperationMethod<
   UpdateAccountPasswordPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAccountPasswordPolicyRequest,
-  output: UpdateAccountPasswordPolicyResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      MinimumPasswordLength: 0,
+      RequireSymbols: 0,
+      RequireNumbers: 0,
+      RequireUppercaseCharacters: 0,
+      RequireLowercaseCharacters: 0,
+      AllowUsersToChangePassword: 0,
+      MaxPasswordAge: 0,
+      PasswordReusePrevention: 0,
+      HardExpiry: 0,
+    },
+  },
   errors: [
     LimitExceededException,
     MalformedPolicyDocumentException,
@@ -14156,7 +9390,7 @@ export const updateAccountPasswordPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountPasswordPolicy",
-}));
+})) as any;
 
 export type UpdateAssumeRolePolicyError =
   | LimitExceededException
@@ -14177,8 +9411,7 @@ export const updateAssumeRolePolicy: API.OperationMethod<
   UpdateAssumeRolePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAssumeRolePolicyRequest,
-  output: UpdateAssumeRolePolicyResponse,
+  descriptor: { service: svc, input: { RoleName: 0, PolicyDocument: 0 } },
   errors: [
     LimitExceededException,
     MalformedPolicyDocumentException,
@@ -14189,7 +9422,7 @@ export const updateAssumeRolePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssumeRolePolicy",
-}));
+})) as any;
 
 export type UpdateDelegationRequestError =
   | ConcurrentModificationException
@@ -14212,8 +9445,7 @@ export const updateDelegationRequest: API.OperationMethod<
   UpdateDelegationRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDelegationRequestRequest,
-  output: UpdateDelegationRequestResponse,
+  descriptor: { service: svc, input: { DelegationRequestId: 0, Notes: 0 } },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -14223,7 +9455,7 @@ export const updateDelegationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDelegationRequest",
-}));
+})) as any;
 
 export type UpdateGroupError =
   | EntityAlreadyExistsException
@@ -14251,8 +9483,10 @@ export const updateGroup: API.OperationMethod<
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateGroupRequest,
-  output: UpdateGroupResponse,
+  descriptor: {
+    service: svc,
+    input: { GroupName: 0, NewPath: 0, NewGroupName: 0 },
+  },
   errors: [
     EntityAlreadyExistsException,
     LimitExceededException,
@@ -14262,7 +9496,7 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
-}));
+})) as any;
 
 export type UpdateLoginProfileError =
   | EntityTemporarilyUnmodifiableException
@@ -14287,8 +9521,10 @@ export const updateLoginProfile: API.OperationMethod<
   UpdateLoginProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateLoginProfileRequest,
-  output: UpdateLoginProfileResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, Password: 0, PasswordResetRequired: 0 },
+  },
   errors: [
     EntityTemporarilyUnmodifiableException,
     LimitExceededException,
@@ -14299,7 +9535,7 @@ export const updateLoginProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoginProfile",
-}));
+})) as any;
 
 export type UpdateOpenIDConnectProviderThumbprintError =
   | ConcurrentModificationException
@@ -14337,8 +9573,10 @@ export const updateOpenIDConnectProviderThumbprint: API.OperationMethod<
   UpdateOpenIDConnectProviderThumbprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateOpenIDConnectProviderThumbprintRequest,
-  output: UpdateOpenIDConnectProviderThumbprintResponse,
+  descriptor: {
+    service: svc,
+    input: { OpenIDConnectProviderArn: 0, ThumbprintList: 0 },
+  },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -14348,7 +9586,7 @@ export const updateOpenIDConnectProviderThumbprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOpenIDConnectProviderThumbprint",
-}));
+})) as any;
 
 export type UpdateRoleError =
   | NoSuchEntityException
@@ -14364,8 +9602,10 @@ export const updateRole: API.OperationMethod<
   UpdateRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRoleRequest,
-  output: UpdateRoleResponse,
+  descriptor: {
+    service: svc,
+    input: { RoleName: 0, Description: 0, MaxSessionDuration: 0 },
+  },
   errors: [
     NoSuchEntityException,
     ServiceFailureException,
@@ -14374,7 +9614,7 @@ export const updateRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRole",
-}));
+})) as any;
 
 export type UpdateRoleDescriptionError =
   | NoSuchEntityException
@@ -14393,8 +9633,11 @@ export const updateRoleDescription: API.OperationMethod<
   UpdateRoleDescriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRoleDescriptionRequest,
-  output: UpdateRoleDescriptionResponse,
+  descriptor: {
+    service: svc,
+    input: { RoleName: 0, Description: 0 },
+    output: { Role: o_Role },
+  },
   errors: [
     NoSuchEntityException,
     ServiceFailureException,
@@ -14403,7 +9646,7 @@ export const updateRoleDescription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoleDescription",
-}));
+})) as any;
 
 export type UpdateSAMLProviderError =
   | ConcurrentModificationException
@@ -14423,8 +9666,16 @@ export const updateSAMLProvider: API.OperationMethod<
   UpdateSAMLProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSAMLProviderRequest,
-  output: UpdateSAMLProviderResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      SAMLMetadataDocument: 0,
+      SAMLProviderArn: 0,
+      AssertionEncryptionMode: 0,
+      AddPrivateKey: 0,
+      RemovePrivateKey: 0,
+    },
+  },
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -14435,7 +9686,7 @@ export const updateSAMLProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSAMLProvider",
-}));
+})) as any;
 
 export type UpdateServerCertificateError =
   | EntityAlreadyExistsException
@@ -14470,8 +9721,14 @@ export const updateServerCertificate: API.OperationMethod<
   UpdateServerCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateServerCertificateRequest,
-  output: UpdateServerCertificateResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ServerCertificateName: 0,
+      NewPath: 0,
+      NewServerCertificateName: 0,
+    },
+  },
   errors: [
     EntityAlreadyExistsException,
     LimitExceededException,
@@ -14481,7 +9738,7 @@ export const updateServerCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServerCertificate",
-}));
+})) as any;
 
 export type UpdateServiceSpecificCredentialError =
   | NoSuchEntityException
@@ -14498,13 +9755,15 @@ export const updateServiceSpecificCredential: API.OperationMethod<
   UpdateServiceSpecificCredentialError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateServiceSpecificCredentialRequest,
-  output: UpdateServiceSpecificCredentialResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, ServiceSpecificCredentialId: 0, Status: 0 },
+  },
   errors: [NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSpecificCredential",
-}));
+})) as any;
 
 export type UpdateSigningCertificateError =
   | InvalidInputException
@@ -14529,8 +9788,10 @@ export const updateSigningCertificate: API.OperationMethod<
   UpdateSigningCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSigningCertificateRequest,
-  output: UpdateSigningCertificateResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, CertificateId: 0, Status: 0 },
+  },
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -14540,7 +9801,7 @@ export const updateSigningCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSigningCertificate",
-}));
+})) as any;
 
 export type UpdateSSHPublicKeyError =
   | InvalidInputException
@@ -14562,13 +9823,15 @@ export const updateSSHPublicKey: API.OperationMethod<
   UpdateSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSSHPublicKeyRequest,
-  output: UpdateSSHPublicKeyResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, SSHPublicKeyId: 0, Status: 0 },
+  },
   errors: [InvalidInputException, NoSuchEntityException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSSHPublicKey",
-}));
+})) as any;
 
 export type UpdateUserError =
   | ConcurrentModificationException
@@ -14597,8 +9860,10 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateUserRequest,
-  output: UpdateUserResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, NewPath: 0, NewUserName: 0 },
+  },
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -14610,7 +9875,7 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
-}));
+})) as any;
 
 export type UploadServerCertificateError =
   | ConcurrentModificationException
@@ -14655,8 +9920,21 @@ export const uploadServerCertificate: API.OperationMethod<
   UploadServerCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UploadServerCertificateRequest,
-  output: UploadServerCertificateResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      Path: 0,
+      ServerCertificateName: 0,
+      CertificateBody: 0,
+      PrivateKey: 0,
+      CertificateChain: 0,
+      Tags: D.list(i_Tag),
+    },
+    output: {
+      ServerCertificateMetadata: o_ServerCertificateMetadata,
+      Tags: D.list({}),
+    },
+  },
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -14669,7 +9947,7 @@ export const uploadServerCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadServerCertificate",
-}));
+})) as any;
 
 export type UploadSigningCertificateError =
   | ConcurrentModificationException
@@ -14710,8 +9988,11 @@ export const uploadSigningCertificate: API.OperationMethod<
   UploadSigningCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UploadSigningCertificateRequest,
-  output: UploadSigningCertificateResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, CertificateBody: 0 },
+    output: { Certificate: o_SigningCertificate },
+  },
   errors: [
     ConcurrentModificationException,
     DuplicateCertificateException,
@@ -14725,7 +10006,7 @@ export const uploadSigningCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadSigningCertificate",
-}));
+})) as any;
 
 export type UploadSSHPublicKeyError =
   | DuplicateSSHPublicKeyException
@@ -14748,8 +10029,11 @@ export const uploadSSHPublicKey: API.OperationMethod<
   UploadSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UploadSSHPublicKeyRequest,
-  output: UploadSSHPublicKeyResponse,
+  descriptor: {
+    service: svc,
+    input: { UserName: 0, SSHPublicKeyBody: 0 },
+    output: { SSHPublicKey: o_SSHPublicKey },
+  },
   errors: [
     DuplicateSSHPublicKeyException,
     InvalidPublicKeyException,
@@ -14760,4 +10044,97 @@ export const uploadSSHPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadSSHPublicKey",
-}));
+})) as any;
+
+const i_ContextEntry: D.LazyStruct = () => ({
+  ContextKeyName: 0,
+  ContextKeyValues: 0,
+  ContextKeyType: 0,
+});
+const i_Tag: D.LazyStruct = () => ({ Key: 0, Value: 0 });
+const o_DelegationRequest: D.LazyStruct = () => ({
+  Permissions: { Parameters: D.list({ Values: D.list() }) },
+  RolePermissionRestrictionArns: D.list(),
+  ExpirationTime: D.ts,
+  CreateDate: D.ts,
+  SessionDuration: D.num,
+  OnlySendByOwner: D.bool,
+  UpdatedTime: D.ts,
+});
+const o_EvaluationResult: D.LazyStruct = () => ({
+  MatchedStatements: D.list(o_Statement),
+  MissingContextValues: D.list(),
+  OrganizationsDecisionDetail: { AllowedByOrganizations: D.bool },
+  PermissionsBoundaryDecisionDetail: o_PermissionsBoundaryDecisionDetail,
+  EvalDecisionDetails: D.map(),
+  ResourceSpecificResults: D.list({
+    MatchedStatements: D.list(o_Statement),
+    MissingContextValues: D.list(),
+    EvalDecisionDetails: D.map(),
+    PermissionsBoundaryDecisionDetail: o_PermissionsBoundaryDecisionDetail,
+  }),
+});
+const o_Group: D.LazyStruct = () => ({ CreateDate: D.ts });
+const o_InstanceProfile: D.LazyStruct = () => ({
+  CreateDate: D.ts,
+  Roles: D.list(o_Role),
+  Tags: D.list({}),
+});
+const o_LoginProfile: D.LazyStruct = () => ({
+  CreateDate: D.ts,
+  PasswordResetRequired: D.bool,
+});
+const o_Policy: D.LazyStruct = () => ({
+  AttachmentCount: D.num,
+  PermissionsBoundaryUsageCount: D.num,
+  IsAttachable: D.bool,
+  CreateDate: D.ts,
+  UpdateDate: D.ts,
+  Tags: D.list({}),
+});
+const o_PolicyVersion: D.LazyStruct = () => ({
+  IsDefaultVersion: D.bool,
+  CreateDate: D.ts,
+});
+const o_Role: D.LazyStruct = () => ({
+  CreateDate: D.ts,
+  MaxSessionDuration: D.num,
+  PermissionsBoundary: {},
+  Tags: D.list({}),
+  RoleLastUsed: o_RoleLastUsed,
+  SourceRoleTemplate: { TemplateMinorVersion: D.num },
+});
+const o_RoleLastUsed: D.LazyStruct = () => ({ LastUsedDate: D.ts });
+const o_SSHPublicKey: D.LazyStruct = () => ({ UploadDate: D.ts });
+const o_ServerCertificateMetadata: D.LazyStruct = () => ({
+  UploadDate: D.ts,
+  Expiration: D.ts,
+});
+const o_ServiceSpecificCredential: D.LazyStruct = () => ({
+  CreateDate: D.ts,
+  ExpirationDate: D.ts,
+  ServicePassword: D.secret,
+  ServiceCredentialSecret: D.secret,
+});
+const o_SigningCertificate: D.LazyStruct = () => ({ UploadDate: D.ts });
+const o_User: D.LazyStruct = () => ({
+  CreateDate: D.ts,
+  PasswordLastUsed: D.ts,
+  PermissionsBoundary: {},
+  Tags: D.list({}),
+});
+const o_VirtualMFADevice: D.LazyStruct = () => ({
+  Base32StringSeed: D.secretBlob,
+  QRCodePNG: D.secretBlob,
+  User: o_User,
+  EnableDate: D.ts,
+  Tags: D.list({}),
+});
+const o_PermissionsBoundaryDecisionDetail: D.LazyStruct = () => ({
+  AllowedByPermissionsBoundary: D.bool,
+});
+const o_Statement: D.LazyStruct = () => ({
+  StartPosition: o_Position,
+  EndPosition: o_Position,
+});
+const o_Position: D.LazyStruct = () => ({ Line: D.num, Column: D.num });

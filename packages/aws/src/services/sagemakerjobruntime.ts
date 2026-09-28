@@ -1,253 +1,154 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "SagemakerJobRuntime",
-  serviceShapeName: "AgenticRFTRuntimeService",
-});
-const auth = T.AwsAuthSigv4({ name: "sagemaker" });
-const ver = T.ServiceVersion("2026-02-01");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { UseFIPS = false, Endpoint, Region } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (_.getAttr(PartitionResult, "name") === "aws" && UseFIPS === false) {
-          return e(
-            `https://job-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-cn" &&
-          UseFIPS === false
-        ) {
-          return e(
-            `https://job-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === false
-        ) {
-          return e(
-            `https://job-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        if (UseFIPS === true) {
-          return e(
-            `https://job-runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        return e(
-          `https://job-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+  target: "AgenticRFTRuntimeService",
+  version: "2026-02-01",
+  sigv4: "sagemaker",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { UseFIPS = false, Endpoint, Region } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === false
+          ) {
+            return e(
+              `https://job-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-cn" &&
+            UseFIPS === false
+          ) {
+            return e(
+              `https://job-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            UseFIPS === false
+          ) {
+            return e(
+              `https://job-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
+          if (UseFIPS === true) {
+            return e(
+              `https://job-runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
+          return e(
+            `https://job-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message: string }> {}
 export class InternalServiceError
-  extends /*@__PURE__*/ S.TaggedError<InternalServiceError>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServiceError",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(500), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 500 },
+  )<{ readonly message: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message: string }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly message: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(429), T.Retryable()),
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+    ["ThrottlingError", "RetryableError"],
+    { status: 429 },
+  )<{ readonly message: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message: string }> {}
 export type JobArn = string;
 export type TrajectoryId = string;
 export type CompletionStatus = "ready" | "failed" | (string & {});
-export const CompletionStatus = S.String;
-
 export interface CompleteRolloutRequest {
   JobArn: string;
   TrajectoryId: string;
   Status?: CompletionStatus;
   ClientToken?: string;
 }
-export const CompleteRolloutRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    JobArn: S.String.pipe(T.HttpHeader("X-Amzn-SageMaker-Job-Arn")),
-    TrajectoryId: S.String,
-    Status: S.optional(CompletionStatus),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/complete-rollout" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CompleteRolloutRequest",
-}) as any as S.Schema<CompleteRolloutRequest>;
 export interface CompleteRolloutResponse {}
-export const CompleteRolloutResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CompleteRolloutResponse",
-}) as any as S.Schema<CompleteRolloutResponse>;
 export interface SampleRequest {
   JobArn: string;
   TrajectoryId: string;
   Body: T.StreamingInputBody;
 }
-export const SampleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    JobArn: S.String.pipe(T.HttpHeader("X-Amzn-SageMaker-Job-Arn")),
-    TrajectoryId: S.String.pipe(T.HttpHeader("X-Amzn-SageMaker-Trajectory-Id")),
-    Body: T.StreamingInput.pipe(T.HttpPayload()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/sample" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "SampleRequest" }) as any as S.Schema<SampleRequest>;
 export interface SampleResponse {
   ContentType?: string;
   Body: T.StreamingOutputBody;
 }
-export const SampleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    Body: T.StreamingOutput.pipe(T.HttpPayload()),
-  }),
-).annotate({ identifier: "SampleResponse" }) as any as S.Schema<SampleResponse>;
 export interface SampleWithResponseStreamRequest {
   JobArn: string;
   TrajectoryId: string;
   Body: T.StreamingInputBody;
 }
-export const SampleWithResponseStreamRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    JobArn: S.String.pipe(T.HttpHeader("X-Amzn-SageMaker-Job-Arn")),
-    TrajectoryId: S.String.pipe(T.HttpHeader("X-Amzn-SageMaker-Trajectory-Id")),
-    Body: T.StreamingInput.pipe(T.HttpPayload()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/sample-with-response-stream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SampleWithResponseStreamRequest",
-}) as any as S.Schema<SampleWithResponseStreamRequest>;
 export interface SampleWithResponseStreamResponse {
   ContentType?: string;
   Body: T.StreamingOutputBody;
 }
-export const SampleWithResponseStreamResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    Body: T.StreamingOutput.pipe(T.HttpPayload()),
-  }),
-).annotate({
-  identifier: "SampleWithResponseStreamResponse",
-}) as any as S.Schema<SampleWithResponseStreamResponse>;
 export type DoubleList = number[];
-export const DoubleList = /*@__PURE__*/ S.Array(S.Number);
 export interface UpdateRewardRequest {
   JobArn: string;
   TrajectoryId: string;
   Rewards: number[];
   ClientToken?: string;
 }
-export const UpdateRewardRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    JobArn: S.String.pipe(T.HttpHeader("X-Amzn-SageMaker-Job-Arn")),
-    TrajectoryId: S.String,
-    Rewards: DoubleList,
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/update-reward" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRewardRequest",
-}) as any as S.Schema<UpdateRewardRequest>;
 export interface UpdateRewardResponse {}
-export const UpdateRewardResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateRewardResponse",
-}) as any as S.Schema<UpdateRewardResponse>;
 export type FailureReason = string;
 export type CompleteRolloutError =
   | AccessDeniedException
@@ -269,8 +170,17 @@ export const completeRollout: API.OperationMethod<
   CompleteRolloutError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CompleteRolloutRequest,
-  output: CompleteRolloutResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /complete-rollout",
+    input: {
+      JobArn: D.m({ header: "X-Amzn-SageMaker-Job-Arn" }),
+      TrajectoryId: 0,
+      Status: 0,
+      ClientToken: D.m({ idempotency: true }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -283,7 +193,7 @@ export const completeRollout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteRollout",
-}));
+})) as any;
 
 export type SampleError =
   | AccessDeniedException
@@ -304,8 +214,19 @@ export const sample: API.OperationMethod<
   SampleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SampleRequest,
-  output: SampleResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /sample",
+    input: {
+      JobArn: D.m({ header: "X-Amzn-SageMaker-Job-Arn" }),
+      TrajectoryId: D.m({ header: "X-Amzn-SageMaker-Trajectory-Id" }),
+      Body: D.m({ payload: true, shape: D.stream }),
+    },
+    output: {
+      ContentType: D.m({ header: "Content-Type" }),
+      Body: D.m({ payload: true, shape: D.stream }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServiceError,
@@ -317,7 +238,7 @@ export const sample: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Sample",
-}));
+})) as any;
 
 export type SampleWithResponseStreamError =
   | AccessDeniedException
@@ -338,8 +259,19 @@ export const sampleWithResponseStream: API.OperationMethod<
   SampleWithResponseStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SampleWithResponseStreamRequest,
-  output: SampleWithResponseStreamResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /sample-with-response-stream",
+    input: {
+      JobArn: D.m({ header: "X-Amzn-SageMaker-Job-Arn" }),
+      TrajectoryId: D.m({ header: "X-Amzn-SageMaker-Trajectory-Id" }),
+      Body: D.m({ payload: true, shape: D.stream }),
+    },
+    output: {
+      ContentType: D.m({ header: "Content-Type" }),
+      Body: D.m({ payload: true, shape: D.stream }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServiceError,
@@ -351,7 +283,7 @@ export const sampleWithResponseStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SampleWithResponseStream",
-}));
+})) as any;
 
 export type UpdateRewardError =
   | AccessDeniedException
@@ -373,8 +305,17 @@ export const updateReward: API.OperationMethod<
   UpdateRewardError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRewardRequest,
-  output: UpdateRewardResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /update-reward",
+    input: {
+      JobArn: D.m({ header: "X-Amzn-SageMaker-Job-Arn" }),
+      TrajectoryId: 0,
+      Rewards: 0,
+      ClientToken: D.m({ idempotency: true }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -387,4 +328,4 @@ export const updateReward: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReward",
-}));
+})) as any;

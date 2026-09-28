@@ -1,155 +1,142 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "SimpleDBv2",
-  serviceShapeName: "SimpleDBv2",
-});
-const auth = T.AwsAuthSigv4({ name: "sdb" });
-const ver = T.ServiceVersion("2025-09-26");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (
-          Region === "us-east-1" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e("https://sdb.amazonaws.com");
-        }
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://sdb-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true && UseDualStack === false) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://sdb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseFIPS === false && UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://sdb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://sdb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "SimpleDBv2",
+  version: "2025-09-26",
+  sigv4: "sdb",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (
+            Region === "us-east-1" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e("https://sdb.amazonaws.com");
+          }
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://sdb-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true && UseDualStack === false) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://sdb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseFIPS === false && UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://sdb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://sdb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ConflictException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message: string }> {}
 export class InvalidNextTokenException
-  extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidNextTokenException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message: string }> {}
 export class InvalidParameterCombinationException
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterCombinationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidParameterCombinationException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message: string }> {}
 export class InvalidParameterValueException
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterValueException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidParameterValueException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message: string }> {}
 export class NoSuchDomainException
-  extends /*@__PURE__*/ S.TaggedError<NoSuchDomainException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchDomainException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message: string }> {}
 export class NoSuchExportException
-  extends /*@__PURE__*/ S.TaggedError<NoSuchExportException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchExportException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message: string }> {}
 export class NumberExportsLimitExceeded
-  extends /*@__PURE__*/ S.TaggedError<NumberExportsLimitExceeded>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NumberExportsLimitExceeded",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withThrottlingError) {}
+    ["ConflictError", "ThrottlingError"],
+    { status: 409 },
+  )<{ readonly message: string }> {}
 export type ExportArn = string;
 export interface GetExportRequest {
   exportArn: string;
 }
-export const GetExportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ exportArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/GetExport" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetExportRequest",
-}) as any as S.Schema<GetExportRequest>;
 export type IdempotencyToken = string;
 export type ExportStatus =
   | "PENDING"
@@ -157,15 +144,11 @@ export type ExportStatus =
   | "SUCCEEDED"
   | "FAILED"
   | (string & {});
-export const ExportStatus = S.String;
-
 export type DomainName = string;
 export type RequestedAt = Date;
 export type S3BucketName = string;
 export type S3KeyPrefix = string;
 export type S3SseAlgorithm = "AES256" | "KMS" | (string & {});
-export const S3SseAlgorithm = S.String;
-
 export type S3SseKmsKeyId = string;
 export type AwsAccountId = string;
 export type FailureCode = string;
@@ -190,29 +173,6 @@ export interface GetExportResponse {
   itemsCount?: number;
   exportDataCutoffTime?: Date;
 }
-export const GetExportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    exportArn: S.String,
-    clientToken: S.String,
-    exportStatus: ExportStatus,
-    domainName: S.String,
-    requestedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    s3Bucket: S.String,
-    s3KeyPrefix: S.optional(S.String),
-    s3SseAlgorithm: S.optional(S3SseAlgorithm),
-    s3SseKmsKeyId: S.optional(S.String),
-    s3BucketOwner: S.optional(S.String),
-    failureCode: S.optional(S.String),
-    failureMessage: S.optional(S.String),
-    exportManifest: S.optional(S.String),
-    itemsCount: S.optional(S.Number),
-    exportDataCutoffTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "GetExportResponse",
-}) as any as S.Schema<GetExportResponse>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListExportsRequest {
@@ -220,52 +180,17 @@ export interface ListExportsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListExportsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainName: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/ListExports" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListExportsRequest",
-}) as any as S.Schema<ListExportsRequest>;
 export interface ExportSummary {
   exportArn: string;
   exportStatus: ExportStatus;
   requestedAt: Date;
   domainName: string;
 }
-export const ExportSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    exportArn: S.String,
-    exportStatus: ExportStatus,
-    requestedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    domainName: S.String,
-  }),
-).annotate({ identifier: "ExportSummary" }) as any as S.Schema<ExportSummary>;
 export type ExportSummaries = ExportSummary[];
-export const ExportSummaries = /*@__PURE__*/ S.Array(ExportSummary);
 export interface ListExportsResponse {
   exportSummaries: ExportSummary[];
   nextToken?: string;
 }
-export const ListExportsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    exportSummaries: ExportSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListExportsResponse",
-}) as any as S.Schema<ListExportsResponse>;
 export interface StartDomainExportRequest {
   clientToken?: string;
   domainName: string;
@@ -275,42 +200,11 @@ export interface StartDomainExportRequest {
   s3SseKmsKeyId?: string;
   s3BucketOwner?: string;
 }
-export const StartDomainExportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    domainName: S.String,
-    s3Bucket: S.String,
-    s3KeyPrefix: S.optional(S.String),
-    s3SseAlgorithm: S.optional(S3SseAlgorithm),
-    s3SseKmsKeyId: S.optional(S.String),
-    s3BucketOwner: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/StartDomainExport" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartDomainExportRequest",
-}) as any as S.Schema<StartDomainExportRequest>;
 export interface StartDomainExportResponse {
   clientToken: string;
   exportArn: string;
   requestedAt: Date;
 }
-export const StartDomainExportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.String,
-    exportArn: S.String,
-    requestedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "StartDomainExportResponse",
-}) as any as S.Schema<StartDomainExportResponse>;
 export type GetExportError =
   | InvalidParameterValueException
   | NoSuchExportException
@@ -324,13 +218,18 @@ export const getExport: API.OperationMethod<
   GetExportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetExportRequest,
-  output: GetExportResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/GetExport",
+    input: { exportArn: 0 },
+    output: { requestedAt: D.ts, exportDataCutoffTime: D.ts },
+    body: true,
+  },
   errors: [InvalidParameterValueException, NoSuchExportException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExport",
-}));
+})) as any;
 
 export type ListExportsError =
   | InvalidNextTokenException
@@ -347,8 +246,13 @@ export const listExports: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ExportSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListExportsRequest,
-  output: ListExportsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/ListExports",
+    input: { domainName: 0, maxResults: 0, nextToken: 0 },
+    output: { exportSummaries: D.list({ requestedAt: D.ts }) },
+    body: true,
+  },
   errors: [
     InvalidNextTokenException,
     InvalidParameterValueException,
@@ -381,8 +285,21 @@ export const startDomainExport: API.OperationMethod<
   StartDomainExportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartDomainExportRequest,
-  output: StartDomainExportResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/StartDomainExport",
+    input: {
+      clientToken: D.m({ idempotency: true }),
+      domainName: 0,
+      s3Bucket: 0,
+      s3KeyPrefix: 0,
+      s3SseAlgorithm: 0,
+      s3SseKmsKeyId: 0,
+      s3BucketOwner: 0,
+    },
+    output: { requestedAt: D.ts },
+    body: true,
+  },
   errors: [
     ConflictException,
     InvalidParameterCombinationException,
@@ -393,4 +310,4 @@ export const startDomainExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDomainExport",
-}));
+})) as any;

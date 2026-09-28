@@ -1,48 +1,61 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "DataZone",
-  serviceShapeName: "DataZone",
-});
-const auth = T.AwsAuthSigv4({ name: "datazone" });
-const ver = T.ServiceVersion("2018-05-10");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+  target: "DataZone",
+  version: "2018-05-10",
+  sigv4: "datazone",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+            if (UseFIPS === true) {
+              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                return e(
+                  `https://datazone-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                );
+              }
+              return err(
+                "FIPS is enabled but this partition does not support FIPS",
+              );
+            }
+            return e(
+              `https://datazone.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
           if (UseFIPS === true) {
             if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
               return e(
-                `https://datazone-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                `https://datazone-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
               );
             }
             return err(
@@ -50,101 +63,68 @@ const rules = T.EndpointResolver((p, _) => {
             );
           }
           return e(
-            `https://datazone.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            `https://datazone.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
           );
         }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://datazone-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        return e(
-          `https://datazone.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
       }
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(500), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 500 },
+  )<{ readonly message: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message: string }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly message: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(429), T.Retryable()),
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+    ["ThrottlingError", "RetryableError"],
+    { status: 429 },
+  )<{ readonly message: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message: string }> {}
 export type DomainId = string;
 export type AssetIdentifier = string;
 export type Revision = string;
 export type AcceptRuleBehavior = "ALL" | "NONE" | (string & {});
-export const AcceptRuleBehavior = S.String;
-
 export interface AcceptRule {
   rule?: AcceptRuleBehavior;
   threshold?: number;
 }
-export const AcceptRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    rule: S.optional(AcceptRuleBehavior),
-    threshold: S.optional(S.Number),
-  }),
-).annotate({ identifier: "AcceptRule" }) as any as S.Schema<AcceptRule>;
 export type EditedValue = string | redacted.Redacted<string>;
 export interface AcceptChoice {
   predictionTarget?: string;
   predictionChoice?: number;
   editedValue?: string | redacted.Redacted<string>;
 }
-export const AcceptChoice = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    predictionTarget: S.optional(S.String),
-    predictionChoice: S.optional(S.Number),
-    editedValue: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "AcceptChoice" }) as any as S.Schema<AcceptChoice>;
 export type AcceptChoices = AcceptChoice[];
-export const AcceptChoices = /*@__PURE__*/ S.Array(AcceptChoice);
 export type ClientToken = string;
 export interface AcceptPredictionsInput {
   domainIdentifier: string;
@@ -154,77 +134,29 @@ export interface AcceptPredictionsInput {
   acceptChoices?: AcceptChoice[];
   clientToken?: string;
 }
-export const AcceptPredictionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
-    acceptRule: S.optional(AcceptRule),
-    acceptChoices: S.optional(AcceptChoices),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v2/domains/{domainIdentifier}/assets/{identifier}/accept-predictions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AcceptPredictionsInput",
-}) as any as S.Schema<AcceptPredictionsInput>;
 export type AssetId = string;
 export interface AcceptPredictionsOutput {
   domainId: string;
   assetId: string;
   revision: string;
 }
-export const AcceptPredictionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ domainId: S.String, assetId: S.String, revision: S.String }),
-).annotate({
-  identifier: "AcceptPredictionsOutput",
-}) as any as S.Schema<AcceptPredictionsOutput>;
 export type SubscriptionRequestId = string;
 export type DecisionComment = string | redacted.Redacted<string>;
 export type FilterId = string;
 export type FilterIds = string[];
-export const FilterIds = /*@__PURE__*/ S.Array(S.String);
 export interface AcceptedAssetScope {
   assetId: string;
   filterIds: string[];
 }
-export const AcceptedAssetScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ assetId: S.String, filterIds: FilterIds }),
-).annotate({
-  identifier: "AcceptedAssetScope",
-}) as any as S.Schema<AcceptedAssetScope>;
 export type AcceptedAssetScopes = AcceptedAssetScope[];
-export const AcceptedAssetScopes = /*@__PURE__*/ S.Array(AcceptedAssetScope);
 export type S3Permission = "READ" | "WRITE" | (string & {});
-export const S3Permission = S.String;
-
 export type S3Permissions = S3Permission[];
-export const S3Permissions = /*@__PURE__*/ S.Array(S3Permission);
 export type Permissions = { s3: S3Permission[] };
-export const Permissions = /*@__PURE__*/ S.Union([
-  S.Struct({ s3: S3Permissions }),
-]);
 export interface AssetPermission {
   assetId: string;
   permissions: Permissions;
 }
-export const AssetPermission = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ assetId: S.String, permissions: Permissions }),
-).annotate({
-  identifier: "AssetPermission",
-}) as any as S.Schema<AssetPermission>;
 export type AssetPermissions = AssetPermission[];
-export const AssetPermissions = /*@__PURE__*/ S.Array(AssetPermission);
 export interface AcceptSubscriptionRequestInput {
   domainIdentifier: string;
   identifier: string;
@@ -232,29 +164,6 @@ export interface AcceptSubscriptionRequestInput {
   assetScopes?: AcceptedAssetScope[];
   assetPermissions?: AssetPermission[];
 }
-export const AcceptSubscriptionRequestInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    decisionComment: S.optional(SensitiveString),
-    assetScopes: S.optional(AcceptedAssetScopes),
-    assetPermissions: S.optional(AssetPermissions),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v2/domains/{domainIdentifier}/subscription-requests/{identifier}/accept",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AcceptSubscriptionRequestInput",
-}) as any as S.Schema<AcceptSubscriptionRequestInput>;
 export type CreatedBy = string;
 export type UpdatedBy = string;
 export type SubscriptionRequestStatus =
@@ -262,8 +171,6 @@ export type SubscriptionRequestStatus =
   | "ACCEPTED"
   | "REJECTED"
   | (string & {});
-export const SubscriptionRequestStatus = S.String;
-
 export type CreatedAt = Date;
 export type UpdatedAt = Date;
 export type RequestReason = string | redacted.Redacted<string>;
@@ -273,11 +180,6 @@ export interface SubscribedProject {
   id?: string;
   name?: string | redacted.Redacted<string>;
 }
-export const SubscribedProject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.optional(S.String), name: S.optional(SensitiveString) }),
-).annotate({
-  identifier: "SubscribedProject",
-}) as any as S.Schema<SubscribedProject>;
 export type UserProfileId = string;
 export interface IamUserProfileDetails {
   arn?: string;
@@ -285,16 +187,6 @@ export interface IamUserProfileDetails {
   sessionName?: string;
   groupProfileId?: string;
 }
-export const IamUserProfileDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    principalId: S.optional(S.String),
-    sessionName: S.optional(S.String),
-    groupProfileId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IamUserProfileDetails",
-}) as any as S.Schema<IamUserProfileDetails>;
 export type UserProfileName = string | redacted.Redacted<string>;
 export type FirstName = string | redacted.Redacted<string>;
 export type LastName = string | redacted.Redacted<string>;
@@ -303,52 +195,23 @@ export interface SsoUserProfileDetails {
   firstName?: string | redacted.Redacted<string>;
   lastName?: string | redacted.Redacted<string>;
 }
-export const SsoUserProfileDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    username: S.optional(SensitiveString),
-    firstName: S.optional(SensitiveString),
-    lastName: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "SsoUserProfileDetails",
-}) as any as S.Schema<SsoUserProfileDetails>;
 export type UserProfileDetails =
   | { iam: IamUserProfileDetails; sso?: never }
   | { iam?: never; sso: SsoUserProfileDetails };
-export const UserProfileDetails = /*@__PURE__*/ S.Union([
-  S.Struct({ iam: IamUserProfileDetails }),
-  S.Struct({ sso: SsoUserProfileDetails }),
-]);
 export interface SubscribedUser {
   id?: string;
   details?: UserProfileDetails;
 }
-export const SubscribedUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    details: S.optional(UserProfileDetails),
-  }),
-).annotate({ identifier: "SubscribedUser" }) as any as S.Schema<SubscribedUser>;
 export type GroupProfileId = string;
 export type GroupProfileName = string | redacted.Redacted<string>;
 export interface SubscribedGroup {
   id?: string;
   name?: string | redacted.Redacted<string>;
 }
-export const SubscribedGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.optional(S.String), name: S.optional(SensitiveString) }),
-).annotate({
-  identifier: "SubscribedGroup",
-}) as any as S.Schema<SubscribedGroup>;
 export type IamPrincipalArn = string;
 export interface SubscribedIamPrincipal {
   principalArn?: string;
 }
-export const SubscribedIamPrincipal = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ principalArn: S.optional(S.String) }),
-).annotate({
-  identifier: "SubscribedIamPrincipal",
-}) as any as S.Schema<SubscribedIamPrincipal>;
 export type SubscribedPrincipal =
   | { project: SubscribedProject; user?: never; group?: never; iam?: never }
   | { project?: never; user: SubscribedUser; group?: never; iam?: never }
@@ -359,14 +222,7 @@ export type SubscribedPrincipal =
       group?: never;
       iam: SubscribedIamPrincipal;
     };
-export const SubscribedPrincipal = /*@__PURE__*/ S.Union([
-  S.Struct({ project: SubscribedProject }),
-  S.Struct({ user: SubscribedUser }),
-  S.Struct({ group: SubscribedGroup }),
-  S.Struct({ iam: SubscribedIamPrincipal }),
-]);
 export type SubscribedPrincipals = SubscribedPrincipal[];
-export const SubscribedPrincipals = /*@__PURE__*/ S.Array(SubscribedPrincipal);
 export type ListingId = string;
 export type ListingName = string;
 export type Description = string | redacted.Redacted<string>;
@@ -378,17 +234,7 @@ export interface DetailedGlossaryTerm {
   name?: string | redacted.Redacted<string>;
   shortDescription?: string | redacted.Redacted<string>;
 }
-export const DetailedGlossaryTerm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(SensitiveString),
-    shortDescription: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "DetailedGlossaryTerm",
-}) as any as S.Schema<DetailedGlossaryTerm>;
 export type DetailedGlossaryTerms = DetailedGlossaryTerm[];
-export const DetailedGlossaryTerms =
-  /*@__PURE__*/ S.Array(DetailedGlossaryTerm);
 export interface AssetScope {
   assetId: string;
   filterIds: string[];
@@ -396,15 +242,6 @@ export interface AssetScope {
   scopeName?: string;
   errorMessage?: string;
 }
-export const AssetScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    assetId: S.String,
-    filterIds: FilterIds,
-    status: S.String,
-    scopeName: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "AssetScope" }) as any as S.Schema<AssetScope>;
 export interface SubscribedAssetListing {
   entityId?: string;
   entityRevision?: string;
@@ -414,37 +251,12 @@ export interface SubscribedAssetListing {
   assetScope?: AssetScope;
   permissions?: Permissions;
 }
-export const SubscribedAssetListing = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entityId: S.optional(S.String),
-    entityRevision: S.optional(S.String),
-    entityType: S.optional(S.String),
-    forms: S.optional(S.String),
-    glossaryTerms: S.optional(DetailedGlossaryTerms),
-    assetScope: S.optional(AssetScope),
-    permissions: S.optional(Permissions),
-  }),
-).annotate({
-  identifier: "SubscribedAssetListing",
-}) as any as S.Schema<SubscribedAssetListing>;
 export interface AssetInDataProductListingItem {
   entityId?: string;
   entityRevision?: string;
   entityType?: string;
 }
-export const AssetInDataProductListingItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entityId: S.optional(S.String),
-    entityRevision: S.optional(S.String),
-    entityType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AssetInDataProductListingItem",
-}) as any as S.Schema<AssetInDataProductListingItem>;
 export type AssetInDataProductListingItems = AssetInDataProductListingItem[];
-export const AssetInDataProductListingItems = /*@__PURE__*/ S.Array(
-  AssetInDataProductListingItem,
-);
 export interface SubscribedProductListing {
   entityId?: string;
   entityRevision?: string;
@@ -453,25 +265,9 @@ export interface SubscribedProductListing {
   description?: string;
   assetListings?: AssetInDataProductListingItem[];
 }
-export const SubscribedProductListing = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entityId: S.optional(S.String),
-    entityRevision: S.optional(S.String),
-    glossaryTerms: S.optional(DetailedGlossaryTerms),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    assetListings: S.optional(AssetInDataProductListingItems),
-  }),
-).annotate({
-  identifier: "SubscribedProductListing",
-}) as any as S.Schema<SubscribedProductListing>;
 export type SubscribedListingItem =
   | { assetListing: SubscribedAssetListing; productListing?: never }
   | { assetListing?: never; productListing: SubscribedProductListing };
-export const SubscribedListingItem = /*@__PURE__*/ S.Union([
-  S.Struct({ assetListing: SubscribedAssetListing }),
-  S.Struct({ productListing: SubscribedProductListing }),
-]);
 export interface SubscribedListing {
   id: string;
   revision?: string;
@@ -481,21 +277,7 @@ export interface SubscribedListing {
   ownerProjectId: string;
   ownerProjectName?: string;
 }
-export const SubscribedListing = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    revision: S.optional(S.String),
-    name: S.String,
-    description: SensitiveString,
-    item: SubscribedListingItem,
-    ownerProjectId: S.String,
-    ownerProjectName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SubscribedListing",
-}) as any as S.Schema<SubscribedListing>;
 export type SubscribedListings = SubscribedListing[];
-export const SubscribedListings = /*@__PURE__*/ S.Array(SubscribedListing);
 export type SubscriptionId = string;
 export type FormName = string;
 export type FormTypeName = string | redacted.Redacted<string>;
@@ -505,16 +287,7 @@ export interface FormOutput {
   typeRevision?: string;
   content?: string;
 }
-export const FormOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    formName: S.String,
-    typeName: S.optional(SensitiveString),
-    typeRevision: S.optional(S.String),
-    content: S.optional(S.String),
-  }),
-).annotate({ identifier: "FormOutput" }) as any as S.Schema<FormOutput>;
 export type MetadataForms = FormOutput[];
-export const MetadataForms = /*@__PURE__*/ S.Array(FormOutput);
 export interface AcceptSubscriptionRequestOutput {
   id: string;
   createdBy: string;
@@ -531,54 +304,18 @@ export interface AcceptSubscriptionRequestOutput {
   existingSubscriptionId?: string;
   metadataForms?: FormOutput[];
 }
-export const AcceptSubscriptionRequestOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    domainId: S.String,
-    status: SubscriptionRequestStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    requestReason: SensitiveString,
-    subscribedPrincipals: SubscribedPrincipals,
-    subscribedListings: SubscribedListings,
-    reviewerId: S.optional(S.String),
-    decisionComment: S.optional(SensitiveString),
-    existingSubscriptionId: S.optional(S.String),
-    metadataForms: S.optional(MetadataForms),
-  }),
-).annotate({
-  identifier: "AcceptSubscriptionRequestOutput",
-}) as any as S.Schema<AcceptSubscriptionRequestOutput>;
 export type DataZoneEntityType = "DOMAIN_UNIT" | (string & {});
-export const DataZoneEntityType = S.String;
-
 export type UserIdentifier = string;
 export interface OwnerUserProperties {
   userIdentifier: string;
 }
-export const OwnerUserProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ userIdentifier: S.String }),
-).annotate({
-  identifier: "OwnerUserProperties",
-}) as any as S.Schema<OwnerUserProperties>;
 export type GroupIdentifier = string;
 export interface OwnerGroupProperties {
   groupIdentifier: string;
 }
-export const OwnerGroupProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ groupIdentifier: S.String }),
-).annotate({
-  identifier: "OwnerGroupProperties",
-}) as any as S.Schema<OwnerGroupProperties>;
 export type OwnerProperties =
   | { user: OwnerUserProperties; group?: never }
   | { user?: never; group: OwnerGroupProperties };
-export const OwnerProperties = /*@__PURE__*/ S.Union([
-  S.Struct({ user: OwnerUserProperties }),
-  S.Struct({ group: OwnerGroupProperties }),
-]);
 export interface AddEntityOwnerInput {
   domainIdentifier: string;
   entityType: DataZoneEntityType;
@@ -586,43 +323,13 @@ export interface AddEntityOwnerInput {
   owner: OwnerProperties;
   clientToken?: string;
 }
-export const AddEntityOwnerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    entityType: DataZoneEntityType.pipe(T.HttpLabel("entityType")),
-    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-    owner: OwnerProperties,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/addOwner",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AddEntityOwnerInput",
-}) as any as S.Schema<AddEntityOwnerInput>;
 export interface AddEntityOwnerOutput {}
-export const AddEntityOwnerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AddEntityOwnerOutput",
-}) as any as S.Schema<AddEntityOwnerOutput>;
 export type TargetEntityType =
   | "DOMAIN_UNIT"
   | "ENVIRONMENT_BLUEPRINT_CONFIGURATION"
   | "ENVIRONMENT_PROFILE"
   | "ASSET_TYPE"
   | (string & {});
-export const TargetEntityType = S.String;
-
 export type ManagedPolicyType =
   | "CREATE_DOMAIN_UNIT"
   | "OVERRIDE_DOMAIN_UNIT_OWNERS"
@@ -639,94 +346,39 @@ export type ManagedPolicyType =
   | "CREATE_PROJECT_FROM_PROJECT_PROFILE"
   | "USE_ASSET_TYPE"
   | (string & {});
-export const ManagedPolicyType = S.String;
-
 export interface AllUsersGrantFilter {}
-export const AllUsersGrantFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AllUsersGrantFilter",
-}) as any as S.Schema<AllUsersGrantFilter>;
 export type UserPolicyGrantPrincipal =
   | { userIdentifier: string; allUsersGrantFilter?: never }
   | { userIdentifier?: never; allUsersGrantFilter: AllUsersGrantFilter };
-export const UserPolicyGrantPrincipal = /*@__PURE__*/ S.Union([
-  S.Struct({ userIdentifier: S.String }),
-  S.Struct({ allUsersGrantFilter: AllUsersGrantFilter }),
-]);
 export type GroupPolicyGrantPrincipal = { groupIdentifier: string };
-export const GroupPolicyGrantPrincipal = /*@__PURE__*/ S.Union([
-  S.Struct({ groupIdentifier: S.String }),
-]);
 export type ProjectDesignation =
   | "OWNER"
   | "CONTRIBUTOR"
   | "PROJECT_CATALOG_STEWARD"
   | (string & {});
-export const ProjectDesignation = S.String;
-
 export type DomainUnitId = string;
 export interface DomainUnitFilterForProject {
   domainUnit: string;
   includeChildDomainUnits?: boolean;
 }
-export const DomainUnitFilterForProject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainUnit: S.String,
-    includeChildDomainUnits: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "DomainUnitFilterForProject",
-}) as any as S.Schema<DomainUnitFilterForProject>;
 export type ProjectGrantFilter = {
   domainUnitFilter: DomainUnitFilterForProject;
 };
-export const ProjectGrantFilter = /*@__PURE__*/ S.Union([
-  S.Struct({ domainUnitFilter: DomainUnitFilterForProject }),
-]);
 export interface ProjectPolicyGrantPrincipal {
   projectDesignation: ProjectDesignation;
   projectIdentifier?: string;
   projectGrantFilter?: ProjectGrantFilter;
 }
-export const ProjectPolicyGrantPrincipal = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectDesignation: ProjectDesignation,
-    projectIdentifier: S.optional(S.String),
-    projectGrantFilter: S.optional(ProjectGrantFilter),
-  }),
-).annotate({
-  identifier: "ProjectPolicyGrantPrincipal",
-}) as any as S.Schema<ProjectPolicyGrantPrincipal>;
 export type DomainUnitDesignation = "OWNER" | (string & {});
-export const DomainUnitDesignation = S.String;
-
 export interface AllDomainUnitsGrantFilter {}
-export const AllDomainUnitsGrantFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AllDomainUnitsGrantFilter",
-}) as any as S.Schema<AllDomainUnitsGrantFilter>;
 export type DomainUnitGrantFilter = {
   allDomainUnitsGrantFilter: AllDomainUnitsGrantFilter;
 };
-export const DomainUnitGrantFilter = /*@__PURE__*/ S.Union([
-  S.Struct({ allDomainUnitsGrantFilter: AllDomainUnitsGrantFilter }),
-]);
 export interface DomainUnitPolicyGrantPrincipal {
   domainUnitDesignation: DomainUnitDesignation;
   domainUnitIdentifier?: string;
   domainUnitGrantFilter?: DomainUnitGrantFilter;
 }
-export const DomainUnitPolicyGrantPrincipal = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainUnitDesignation: DomainUnitDesignation,
-    domainUnitIdentifier: S.optional(S.String),
-    domainUnitGrantFilter: S.optional(DomainUnitGrantFilter),
-  }),
-).annotate({
-  identifier: "DomainUnitPolicyGrantPrincipal",
-}) as any as S.Schema<DomainUnitPolicyGrantPrincipal>;
 export type PolicyGrantPrincipal =
   | {
       user: UserPolicyGrantPrincipal;
@@ -752,113 +404,42 @@ export type PolicyGrantPrincipal =
       project?: never;
       domainUnit: DomainUnitPolicyGrantPrincipal;
     };
-export const PolicyGrantPrincipal = /*@__PURE__*/ S.Union([
-  S.Struct({ user: UserPolicyGrantPrincipal }),
-  S.Struct({ group: GroupPolicyGrantPrincipal }),
-  S.Struct({ project: ProjectPolicyGrantPrincipal }),
-  S.Struct({ domainUnit: DomainUnitPolicyGrantPrincipal }),
-]);
 export interface CreateDomainUnitPolicyGrantDetail {
   includeChildDomainUnits?: boolean;
 }
-export const CreateDomainUnitPolicyGrantDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ includeChildDomainUnits: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "CreateDomainUnitPolicyGrantDetail",
-}) as any as S.Schema<CreateDomainUnitPolicyGrantDetail>;
 export interface OverrideDomainUnitOwnersPolicyGrantDetail {
   includeChildDomainUnits?: boolean;
 }
-export const OverrideDomainUnitOwnersPolicyGrantDetail =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ includeChildDomainUnits: S.optional(S.Boolean) }),
-  ).annotate({
-    identifier: "OverrideDomainUnitOwnersPolicyGrantDetail",
-  }) as any as S.Schema<OverrideDomainUnitOwnersPolicyGrantDetail>;
 export interface AddToProjectMemberPoolPolicyGrantDetail {
   includeChildDomainUnits?: boolean;
 }
-export const AddToProjectMemberPoolPolicyGrantDetail = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ includeChildDomainUnits: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "AddToProjectMemberPoolPolicyGrantDetail",
-}) as any as S.Schema<AddToProjectMemberPoolPolicyGrantDetail>;
 export interface OverrideProjectOwnersPolicyGrantDetail {
   includeChildDomainUnits?: boolean;
 }
-export const OverrideProjectOwnersPolicyGrantDetail = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ includeChildDomainUnits: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "OverrideProjectOwnersPolicyGrantDetail",
-}) as any as S.Schema<OverrideProjectOwnersPolicyGrantDetail>;
 export interface CreateGlossaryPolicyGrantDetail {
   includeChildDomainUnits?: boolean;
 }
-export const CreateGlossaryPolicyGrantDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ includeChildDomainUnits: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "CreateGlossaryPolicyGrantDetail",
-}) as any as S.Schema<CreateGlossaryPolicyGrantDetail>;
 export interface CreateFormTypePolicyGrantDetail {
   includeChildDomainUnits?: boolean;
 }
-export const CreateFormTypePolicyGrantDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ includeChildDomainUnits: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "CreateFormTypePolicyGrantDetail",
-}) as any as S.Schema<CreateFormTypePolicyGrantDetail>;
 export interface CreateAssetTypePolicyGrantDetail {
   includeChildDomainUnits?: boolean;
 }
-export const CreateAssetTypePolicyGrantDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ includeChildDomainUnits: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "CreateAssetTypePolicyGrantDetail",
-}) as any as S.Schema<CreateAssetTypePolicyGrantDetail>;
 export interface CreateProjectPolicyGrantDetail {
   includeChildDomainUnits?: boolean;
 }
-export const CreateProjectPolicyGrantDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ includeChildDomainUnits: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "CreateProjectPolicyGrantDetail",
-}) as any as S.Schema<CreateProjectPolicyGrantDetail>;
 export interface CreateEnvironmentProfilePolicyGrantDetail {
   domainUnitId?: string;
 }
-export const CreateEnvironmentProfilePolicyGrantDetail =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ domainUnitId: S.optional(S.String) }),
-  ).annotate({
-    identifier: "CreateEnvironmentProfilePolicyGrantDetail",
-  }) as any as S.Schema<CreateEnvironmentProfilePolicyGrantDetail>;
 export interface Unit {}
-export const Unit = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "Unit",
-}) as any as S.Schema<Unit>;
 export type ProjectProfileList = string[];
-export const ProjectProfileList = /*@__PURE__*/ S.Array(S.String);
 export interface CreateProjectFromProjectProfilePolicyGrantDetail {
   includeChildDomainUnits?: boolean;
   projectProfiles?: string[];
 }
-export const CreateProjectFromProjectProfilePolicyGrantDetail =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      includeChildDomainUnits: S.optional(S.Boolean),
-      projectProfiles: S.optional(ProjectProfileList),
-    }),
-  ).annotate({
-    identifier: "CreateProjectFromProjectProfilePolicyGrantDetail",
-  }) as any as S.Schema<CreateProjectFromProjectProfilePolicyGrantDetail>;
 export interface UseAssetTypePolicyGrantDetail {
   domainUnitId?: string;
 }
-export const UseAssetTypePolicyGrantDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ domainUnitId: S.optional(S.String) }),
-).annotate({
-  identifier: "UseAssetTypePolicyGrantDetail",
-}) as any as S.Schema<UseAssetTypePolicyGrantDetail>;
 export type PolicyGrantDetail =
   | {
       createDomainUnit: CreateDomainUnitPolicyGrantDetail;
@@ -1084,29 +665,6 @@ export type PolicyGrantDetail =
       createProjectFromProjectProfile?: never;
       useAssetType: UseAssetTypePolicyGrantDetail;
     };
-export const PolicyGrantDetail = /*@__PURE__*/ S.Union([
-  S.Struct({ createDomainUnit: CreateDomainUnitPolicyGrantDetail }),
-  S.Struct({
-    overrideDomainUnitOwners: OverrideDomainUnitOwnersPolicyGrantDetail,
-  }),
-  S.Struct({ addToProjectMemberPool: AddToProjectMemberPoolPolicyGrantDetail }),
-  S.Struct({ overrideProjectOwners: OverrideProjectOwnersPolicyGrantDetail }),
-  S.Struct({ createGlossary: CreateGlossaryPolicyGrantDetail }),
-  S.Struct({ createFormType: CreateFormTypePolicyGrantDetail }),
-  S.Struct({ createAssetType: CreateAssetTypePolicyGrantDetail }),
-  S.Struct({ createProject: CreateProjectPolicyGrantDetail }),
-  S.Struct({
-    createEnvironmentProfile: CreateEnvironmentProfilePolicyGrantDetail,
-  }),
-  S.Struct({ delegateCreateEnvironmentProfile: Unit }),
-  S.Struct({ createEnvironment: Unit }),
-  S.Struct({ createEnvironmentFromBlueprint: Unit }),
-  S.Struct({
-    createProjectFromProjectProfile:
-      CreateProjectFromProjectProfilePolicyGrantDetail,
-  }),
-  S.Struct({ useAssetType: UseAssetTypePolicyGrantDetail }),
-]);
 export interface AddPolicyGrantInput {
   domainIdentifier: string;
   entityType: TargetEntityType;
@@ -1116,121 +674,32 @@ export interface AddPolicyGrantInput {
   detail: PolicyGrantDetail;
   clientToken?: string;
 }
-export const AddPolicyGrantInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    entityType: TargetEntityType.pipe(T.HttpLabel("entityType")),
-    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-    policyType: ManagedPolicyType,
-    principal: PolicyGrantPrincipal,
-    detail: PolicyGrantDetail,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/policies/managed/{entityType}/{entityIdentifier}/addGrant",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AddPolicyGrantInput",
-}) as any as S.Schema<AddPolicyGrantInput>;
 export type GrantIdentifier = string;
 export interface AddPolicyGrantOutput {
   grantId?: string;
 }
-export const AddPolicyGrantOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ grantId: S.optional(S.String) }),
-).annotate({
-  identifier: "AddPolicyGrantOutput",
-}) as any as S.Schema<AddPolicyGrantOutput>;
 export type EnvironmentId = string;
 export interface AssociateEnvironmentRoleInput {
   domainIdentifier: string;
   environmentIdentifier: string;
   environmentRoleArn: string;
 }
-export const AssociateEnvironmentRoleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
-    environmentRoleArn: S.String.pipe(T.HttpLabel("environmentRoleArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/roles/{environmentRoleArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateEnvironmentRoleInput",
-}) as any as S.Schema<AssociateEnvironmentRoleInput>;
 export interface AssociateEnvironmentRoleOutput {}
-export const AssociateEnvironmentRoleOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AssociateEnvironmentRoleOutput",
-}) as any as S.Schema<AssociateEnvironmentRoleOutput>;
 export type EntityIdentifier = string;
 export type GovernedEntityType = "ASSET" | (string & {});
-export const GovernedEntityType = S.String;
-
 export type GlossaryTermId = string;
 export type GovernedGlossaryTerms = string[];
-export const GovernedGlossaryTerms = /*@__PURE__*/ S.Array(S.String);
 export interface AssociateGovernedTermsInput {
   domainIdentifier: string;
   entityIdentifier: string;
   entityType: GovernedEntityType;
   governedGlossaryTerms: string[];
 }
-export const AssociateGovernedTermsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-    entityType: GovernedEntityType.pipe(T.HttpLabel("entityType")),
-    governedGlossaryTerms: GovernedGlossaryTerms,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/associate-governed-terms",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateGovernedTermsInput",
-}) as any as S.Schema<AssociateGovernedTermsInput>;
 export interface AssociateGovernedTermsOutput {}
-export const AssociateGovernedTermsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AssociateGovernedTermsOutput",
-}) as any as S.Schema<AssociateGovernedTermsOutput>;
 export type AttributeEntityType = "ASSET" | "LISTING" | (string & {});
-export const AttributeEntityType = S.String;
-
 export type EntityId = string;
 export type AttributeIdentifier = string;
 export type AttributesList = string[];
-export const AttributesList = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetAttributesMetadataInput {
   domainIdentifier: string;
   entityType: AttributeEntityType;
@@ -1238,75 +707,22 @@ export interface BatchGetAttributesMetadataInput {
   entityRevision?: string;
   attributeIdentifiers: string[];
 }
-export const BatchGetAttributesMetadataInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    entityType: AttributeEntityType.pipe(T.HttpLabel("entityType")),
-    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-    entityRevision: S.optional(S.String).pipe(T.HttpQuery("entityRevision")),
-    attributeIdentifiers: AttributesList.pipe(
-      T.HttpQuery("attributeIdentifier"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/attributes-metadata",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetAttributesMetadataInput",
-}) as any as S.Schema<BatchGetAttributesMetadataInput>;
 export type FormOutputList = FormOutput[];
-export const FormOutputList = /*@__PURE__*/ S.Array(FormOutput);
 export interface BatchGetAttributeOutput {
   attributeIdentifier: string;
   forms?: FormOutput[];
 }
-export const BatchGetAttributeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributeIdentifier: S.String,
-    forms: S.optional(FormOutputList),
-  }),
-).annotate({
-  identifier: "BatchGetAttributeOutput",
-}) as any as S.Schema<BatchGetAttributeOutput>;
 export type BatchGetAttributeItems = BatchGetAttributeOutput[];
-export const BatchGetAttributeItems = /*@__PURE__*/ S.Array(
-  BatchGetAttributeOutput,
-);
 export interface AttributeError {
   attributeIdentifier: string;
   code: string;
   message: string;
 }
-export const AttributeError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributeIdentifier: S.String,
-    code: S.String,
-    message: S.String,
-  }),
-).annotate({ identifier: "AttributeError" }) as any as S.Schema<AttributeError>;
 export type AttributesErrors = AttributeError[];
-export const AttributesErrors = /*@__PURE__*/ S.Array(AttributeError);
 export interface BatchGetAttributesMetadataOutput {
   attributes?: BatchGetAttributeOutput[];
   errors: AttributeError[];
 }
-export const BatchGetAttributesMetadataOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributes: S.optional(BatchGetAttributeItems),
-    errors: AttributesErrors,
-  }),
-).annotate({
-  identifier: "BatchGetAttributesMetadataOutput",
-}) as any as S.Schema<BatchGetAttributesMetadataOutput>;
 export type FormTypeIdentifier = string;
 export type RevisionInput = string;
 export interface FormInput {
@@ -1315,25 +731,12 @@ export interface FormInput {
   typeRevision?: string;
   content?: string;
 }
-export const FormInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    formName: S.String,
-    typeIdentifier: S.optional(S.String),
-    typeRevision: S.optional(S.String),
-    content: S.optional(S.String),
-  }),
-).annotate({ identifier: "FormInput" }) as any as S.Schema<FormInput>;
 export type FormInputList = FormInput[];
-export const FormInputList = /*@__PURE__*/ S.Array(FormInput);
 export interface AttributeInput {
   attributeIdentifier: string;
   forms: FormInput[];
 }
-export const AttributeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ attributeIdentifier: S.String, forms: FormInputList }),
-).annotate({ identifier: "AttributeInput" }) as any as S.Schema<AttributeInput>;
 export type Attributes = AttributeInput[];
-export const Attributes = /*@__PURE__*/ S.Array(AttributeInput);
 export interface BatchPutAttributesMetadataInput {
   domainIdentifier: string;
   entityType: AttributeEntityType;
@@ -1341,115 +744,29 @@ export interface BatchPutAttributesMetadataInput {
   clientToken?: string;
   attributes: AttributeInput[];
 }
-export const BatchPutAttributesMetadataInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    entityType: AttributeEntityType.pipe(T.HttpLabel("entityType")),
-    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    attributes: Attributes,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/attributes-metadata",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchPutAttributesMetadataInput",
-}) as any as S.Schema<BatchPutAttributesMetadataInput>;
 export interface BatchPutAttributeOutput {
   attributeIdentifier: string;
 }
-export const BatchPutAttributeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ attributeIdentifier: S.String }),
-).annotate({
-  identifier: "BatchPutAttributeOutput",
-}) as any as S.Schema<BatchPutAttributeOutput>;
 export type BatchPutAttributeItems = BatchPutAttributeOutput[];
-export const BatchPutAttributeItems = /*@__PURE__*/ S.Array(
-  BatchPutAttributeOutput,
-);
 export interface BatchPutAttributesMetadataOutput {
   errors?: AttributeError[];
   attributes?: BatchPutAttributeOutput[];
 }
-export const BatchPutAttributesMetadataOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    errors: S.optional(AttributesErrors),
-    attributes: S.optional(BatchPutAttributeItems),
-  }),
-).annotate({
-  identifier: "BatchPutAttributesMetadataOutput",
-}) as any as S.Schema<BatchPutAttributesMetadataOutput>;
 export type MetadataGenerationRunIdentifier = string;
 export interface CancelMetadataGenerationRunInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const CancelMetadataGenerationRunInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/metadata-generation-runs/{identifier}/cancel",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CancelMetadataGenerationRunInput",
-}) as any as S.Schema<CancelMetadataGenerationRunInput>;
 export interface CancelMetadataGenerationRunOutput {}
-export const CancelMetadataGenerationRunOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CancelMetadataGenerationRunOutput",
-}) as any as S.Schema<CancelMetadataGenerationRunOutput>;
 export interface CancelSubscriptionInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const CancelSubscriptionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v2/domains/{domainIdentifier}/subscriptions/{identifier}/cancel",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CancelSubscriptionInput",
-}) as any as S.Schema<CancelSubscriptionInput>;
 export type SubscriptionStatus =
   | "APPROVED"
   | "REVOKED"
   | "CANCELLED"
   | (string & {});
-export const SubscriptionStatus = S.String;
-
 export interface CancelSubscriptionOutput {
   id: string;
   createdBy: string;
@@ -1463,67 +780,27 @@ export interface CancelSubscriptionOutput {
   subscriptionRequestId?: string;
   retainPermissions?: boolean;
 }
-export const CancelSubscriptionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    domainId: S.String,
-    status: SubscriptionStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    subscribedPrincipal: SubscribedPrincipal,
-    subscribedListing: SubscribedListing,
-    subscriptionRequestId: S.optional(S.String),
-    retainPermissions: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "CancelSubscriptionOutput",
-}) as any as S.Schema<CancelSubscriptionOutput>;
 export type AccountPoolName = string | redacted.Redacted<string>;
 export type ResolutionStrategy = "MANUAL" | (string & {});
-export const ResolutionStrategy = S.String;
-
 export type AwsAccountId = string;
 export type AwsRegion = string;
 export type AwsRegionList = string[];
-export const AwsRegionList = /*@__PURE__*/ S.Array(S.String);
 export type AwsAccountName = string | redacted.Redacted<string>;
 export interface AccountInfo {
   awsAccountId: string;
   supportedRegions: string[];
   awsAccountName?: string | redacted.Redacted<string>;
 }
-export const AccountInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    awsAccountId: S.String,
-    supportedRegions: AwsRegionList,
-    awsAccountName: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "AccountInfo" }) as any as S.Schema<AccountInfo>;
 export type AccountInfoList = AccountInfo[];
-export const AccountInfoList = /*@__PURE__*/ S.Array(AccountInfo);
 export type LambdaFunctionArn = string;
 export type LambdaExecutionRoleArn = string;
 export interface CustomAccountPoolHandler {
   lambdaFunctionArn: string;
   lambdaExecutionRoleArn?: string;
 }
-export const CustomAccountPoolHandler = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lambdaFunctionArn: S.String,
-    lambdaExecutionRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CustomAccountPoolHandler",
-}) as any as S.Schema<CustomAccountPoolHandler>;
 export type AccountSource =
   | { accounts: AccountInfo[]; customAccountPoolHandler?: never }
   | { accounts?: never; customAccountPoolHandler: CustomAccountPoolHandler };
-export const AccountSource = /*@__PURE__*/ S.Union([
-  S.Struct({ accounts: AccountInfoList }),
-  S.Struct({ customAccountPoolHandler: CustomAccountPoolHandler }),
-]);
 export interface CreateAccountPoolInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
@@ -1531,29 +808,6 @@ export interface CreateAccountPoolInput {
   resolutionStrategy: ResolutionStrategy;
   accountSource: AccountSource;
 }
-export const CreateAccountPoolInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    resolutionStrategy: ResolutionStrategy,
-    accountSource: AccountSource,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/account-pools",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAccountPoolInput",
-}) as any as S.Schema<CreateAccountPoolInput>;
 export type AccountPoolId = string;
 export interface CreateAccountPoolOutput {
   domainId?: string;
@@ -1568,50 +822,16 @@ export interface CreateAccountPoolOutput {
   updatedBy?: string;
   domainUnitId?: string;
 }
-export const CreateAccountPoolOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    name: S.optional(SensitiveString),
-    id: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    resolutionStrategy: S.optional(ResolutionStrategy),
-    accountSource: AccountSource,
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    domainUnitId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateAccountPoolOutput",
-}) as any as S.Schema<CreateAccountPoolOutput>;
 export type AssetName = string | redacted.Redacted<string>;
 export type ExternalIdentifier = string;
 export type AssetTypeIdentifier = string;
 export type GlossaryTerms = string[];
-export const GlossaryTerms = /*@__PURE__*/ S.Array(S.String);
 export interface BusinessNameGenerationConfiguration {
   enabled?: boolean;
 }
-export const BusinessNameGenerationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ enabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "BusinessNameGenerationConfiguration",
-}) as any as S.Schema<BusinessNameGenerationConfiguration>;
 export interface PredictionConfiguration {
   businessNameGeneration?: BusinessNameGenerationConfiguration;
 }
-export const PredictionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    businessNameGeneration: S.optional(BusinessNameGenerationConfiguration),
-  }),
-).annotate({
-  identifier: "PredictionConfiguration",
-}) as any as S.Schema<PredictionConfiguration>;
 export interface CreateAssetInput {
   name: string | redacted.Redacted<string>;
   domainIdentifier: string;
@@ -1625,44 +845,11 @@ export interface CreateAssetInput {
   predictionConfiguration?: PredictionConfiguration;
   clientToken?: string;
 }
-export const CreateAssetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: SensitiveString,
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    externalIdentifier: S.optional(S.String),
-    typeIdentifier: S.String,
-    typeRevision: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    glossaryTerms: S.optional(GlossaryTerms),
-    formsInput: S.optional(FormInputList),
-    owningProjectIdentifier: S.String,
-    predictionConfiguration: S.optional(PredictionConfiguration),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/domains/{domainIdentifier}/assets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAssetInput",
-}) as any as S.Schema<CreateAssetInput>;
 export type ListingStatus = "CREATING" | "ACTIVE" | "INACTIVE" | (string & {});
-export const ListingStatus = S.String;
-
 export interface AssetListingDetails {
   listingId: string;
   listingStatus: ListingStatus;
 }
-export const AssetListingDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ listingId: S.String, listingStatus: ListingStatus }),
-).annotate({
-  identifier: "AssetListingDetails",
-}) as any as S.Schema<AssetListingDetails>;
 export type TimeSeriesFormName = string;
 export type DataPointIdentifier = string;
 export interface TimeSeriesDataPointSummaryFormOutput {
@@ -1673,24 +860,8 @@ export interface TimeSeriesDataPointSummaryFormOutput {
   contentSummary?: string;
   id?: string;
 }
-export const TimeSeriesDataPointSummaryFormOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      formName: S.String,
-      typeIdentifier: S.String,
-      typeRevision: S.optional(S.String),
-      timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      contentSummary: S.optional(S.String),
-      id: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "TimeSeriesDataPointSummaryFormOutput",
-}) as any as S.Schema<TimeSeriesDataPointSummaryFormOutput>;
 export type TimeSeriesDataPointSummaryFormOutputList =
   TimeSeriesDataPointSummaryFormOutput[];
-export const TimeSeriesDataPointSummaryFormOutputList = /*@__PURE__*/ S.Array(
-  TimeSeriesDataPointSummaryFormOutput,
-);
 export interface CreateAssetOutput {
   id: string;
   name: string | redacted.Redacted<string>;
@@ -1713,151 +884,58 @@ export interface CreateAssetOutput {
   latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[];
   predictionConfiguration?: PredictionConfiguration;
 }
-export const CreateAssetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: SensitiveString,
-    typeIdentifier: S.String,
-    typeRevision: S.String,
-    externalIdentifier: S.optional(S.String),
-    revision: S.String,
-    description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    firstRevisionCreatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    firstRevisionCreatedBy: S.optional(S.String),
-    glossaryTerms: S.optional(GlossaryTerms),
-    governedGlossaryTerms: S.optional(GovernedGlossaryTerms),
-    owningProjectId: S.String,
-    domainId: S.String,
-    listing: S.optional(AssetListingDetails),
-    formsOutput: FormOutputList,
-    readOnlyFormsOutput: S.optional(FormOutputList),
-    latestTimeSeriesDataPointFormsOutput: S.optional(
-      TimeSeriesDataPointSummaryFormOutputList,
-    ),
-    predictionConfiguration: S.optional(PredictionConfiguration),
-  }),
-).annotate({
-  identifier: "CreateAssetOutput",
-}) as any as S.Schema<CreateAssetOutput>;
 export type FilterName = string | redacted.Redacted<string>;
 export type ColumnNameList = string[];
-export const ColumnNameList = /*@__PURE__*/ S.Array(S.String);
 export interface ColumnFilterConfiguration {
   includedColumnNames?: string[];
 }
-export const ColumnFilterConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ includedColumnNames: S.optional(ColumnNameList) }),
-).annotate({
-  identifier: "ColumnFilterConfiguration",
-}) as any as S.Schema<ColumnFilterConfiguration>;
 export interface EqualToExpression {
   columnName: string;
   value: string;
 }
-export const EqualToExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ columnName: S.String, value: S.String }),
-).annotate({
-  identifier: "EqualToExpression",
-}) as any as S.Schema<EqualToExpression>;
 export interface NotEqualToExpression {
   columnName: string;
   value: string;
 }
-export const NotEqualToExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ columnName: S.String, value: S.String }),
-).annotate({
-  identifier: "NotEqualToExpression",
-}) as any as S.Schema<NotEqualToExpression>;
 export interface GreaterThanExpression {
   columnName: string;
   value: string;
 }
-export const GreaterThanExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ columnName: S.String, value: S.String }),
-).annotate({
-  identifier: "GreaterThanExpression",
-}) as any as S.Schema<GreaterThanExpression>;
 export interface LessThanExpression {
   columnName: string;
   value: string;
 }
-export const LessThanExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ columnName: S.String, value: S.String }),
-).annotate({
-  identifier: "LessThanExpression",
-}) as any as S.Schema<LessThanExpression>;
 export interface GreaterThanOrEqualToExpression {
   columnName: string;
   value: string;
 }
-export const GreaterThanOrEqualToExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ columnName: S.String, value: S.String }),
-).annotate({
-  identifier: "GreaterThanOrEqualToExpression",
-}) as any as S.Schema<GreaterThanOrEqualToExpression>;
 export interface LessThanOrEqualToExpression {
   columnName: string;
   value: string;
 }
-export const LessThanOrEqualToExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ columnName: S.String, value: S.String }),
-).annotate({
-  identifier: "LessThanOrEqualToExpression",
-}) as any as S.Schema<LessThanOrEqualToExpression>;
 export interface IsNullExpression {
   columnName: string;
 }
-export const IsNullExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ columnName: S.String }),
-).annotate({
-  identifier: "IsNullExpression",
-}) as any as S.Schema<IsNullExpression>;
 export interface IsNotNullExpression {
   columnName: string;
 }
-export const IsNotNullExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ columnName: S.String }),
-).annotate({
-  identifier: "IsNotNullExpression",
-}) as any as S.Schema<IsNotNullExpression>;
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface InExpression {
   columnName: string;
   values: string[];
 }
-export const InExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ columnName: S.String, values: StringList }),
-).annotate({ identifier: "InExpression" }) as any as S.Schema<InExpression>;
 export interface NotInExpression {
   columnName: string;
   values: string[];
 }
-export const NotInExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ columnName: S.String, values: StringList }),
-).annotate({
-  identifier: "NotInExpression",
-}) as any as S.Schema<NotInExpression>;
 export interface LikeExpression {
   columnName: string;
   value: string;
 }
-export const LikeExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ columnName: S.String, value: S.String }),
-).annotate({ identifier: "LikeExpression" }) as any as S.Schema<LikeExpression>;
 export interface NotLikeExpression {
   columnName: string;
   value: string;
 }
-export const NotLikeExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ columnName: S.String, value: S.String }),
-).annotate({
-  identifier: "NotLikeExpression",
-}) as any as S.Schema<NotLikeExpression>;
 export type RowFilterExpression =
   | {
       equalTo: EqualToExpression;
@@ -2027,57 +1105,18 @@ export type RowFilterExpression =
       like?: never;
       notLike: NotLikeExpression;
     };
-export const RowFilterExpression = /*@__PURE__*/ S.Union([
-  S.Struct({ equalTo: EqualToExpression }),
-  S.Struct({ notEqualTo: NotEqualToExpression }),
-  S.Struct({ greaterThan: GreaterThanExpression }),
-  S.Struct({ lessThan: LessThanExpression }),
-  S.Struct({ greaterThanOrEqualTo: GreaterThanOrEqualToExpression }),
-  S.Struct({ lessThanOrEqualTo: LessThanOrEqualToExpression }),
-  S.Struct({ isNull: IsNullExpression }),
-  S.Struct({ isNotNull: IsNotNullExpression }),
-  S.Struct({ in: InExpression }),
-  S.Struct({ notIn: NotInExpression }),
-  S.Struct({ like: LikeExpression }),
-  S.Struct({ notLike: NotLikeExpression }),
-]);
 export type RowFilterList = RowFilter[];
-export const RowFilterList = /*@__PURE__*/ S.Array(
-  S.suspend(() => RowFilter).annotate({ identifier: "RowFilter" }),
-) as any as S.Schema<RowFilterList>;
 export type RowFilter =
   | { expression: RowFilterExpression; and?: never; or?: never }
   | { expression?: never; and: RowFilter[]; or?: never }
   | { expression?: never; and?: never; or: RowFilter[] };
-export const RowFilter = /*@__PURE__*/ S.Union([
-  S.Struct({ expression: RowFilterExpression }),
-  S.Struct({
-    and: S.suspend(() => RowFilterList).annotate({
-      identifier: "RowFilterList",
-    }),
-  }),
-  S.Struct({
-    or: S.suspend(() => RowFilterList).annotate({
-      identifier: "RowFilterList",
-    }),
-  }),
-]) as any as S.Schema<RowFilter>;
 export interface RowFilterConfiguration {
   rowFilter: RowFilter;
   sensitive?: boolean;
 }
-export const RowFilterConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ rowFilter: RowFilter, sensitive: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "RowFilterConfiguration",
-}) as any as S.Schema<RowFilterConfiguration>;
 export type AssetFilterConfiguration =
   | { columnConfiguration: ColumnFilterConfiguration; rowConfiguration?: never }
   | { columnConfiguration?: never; rowConfiguration: RowFilterConfiguration };
-export const AssetFilterConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ columnConfiguration: ColumnFilterConfiguration }),
-  S.Struct({ rowConfiguration: RowFilterConfiguration }),
-]);
 export interface CreateAssetFilterInput {
   domainIdentifier: string;
   assetIdentifier: string;
@@ -2086,33 +1125,7 @@ export interface CreateAssetFilterInput {
   configuration: AssetFilterConfiguration;
   clientToken?: string;
 }
-export const CreateAssetFilterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    configuration: AssetFilterConfiguration,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAssetFilterInput",
-}) as any as S.Schema<CreateAssetFilterInput>;
 export type FilterStatus = "VALID" | "INVALID" | (string & {});
-export const FilterStatus = S.String;
-
 export interface CreateAssetFilterOutput {
   id: string;
   domainId: string;
@@ -2126,23 +1139,6 @@ export interface CreateAssetFilterOutput {
   effectiveColumnNames?: string[];
   effectiveRowFilter?: string;
 }
-export const CreateAssetFilterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    assetId: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    status: S.optional(FilterStatus),
-    configuration: AssetFilterConfiguration,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    errorMessage: S.optional(S.String),
-    effectiveColumnNames: S.optional(ColumnNameList),
-    effectiveRowFilter: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateAssetFilterOutput",
-}) as any as S.Schema<CreateAssetFilterOutput>;
 export interface CreateAssetRevisionInput {
   name: string | redacted.Redacted<string>;
   domainIdentifier: string;
@@ -2154,33 +1150,6 @@ export interface CreateAssetRevisionInput {
   predictionConfiguration?: PredictionConfiguration;
   clientToken?: string;
 }
-export const CreateAssetRevisionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: SensitiveString,
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    typeRevision: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    glossaryTerms: S.optional(GlossaryTerms),
-    formsInput: S.optional(FormInputList),
-    predictionConfiguration: S.optional(PredictionConfiguration),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/assets/{identifier}/revisions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAssetRevisionInput",
-}) as any as S.Schema<CreateAssetRevisionInput>;
 export interface CreateAssetRevisionOutput {
   id: string;
   name: string | redacted.Redacted<string>;
@@ -2203,53 +1172,12 @@ export interface CreateAssetRevisionOutput {
   latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[];
   predictionConfiguration?: PredictionConfiguration;
 }
-export const CreateAssetRevisionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: SensitiveString,
-    typeIdentifier: S.String,
-    typeRevision: S.String,
-    externalIdentifier: S.optional(S.String),
-    revision: S.String,
-    description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    firstRevisionCreatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    firstRevisionCreatedBy: S.optional(S.String),
-    glossaryTerms: S.optional(GlossaryTerms),
-    governedGlossaryTerms: S.optional(GovernedGlossaryTerms),
-    owningProjectId: S.String,
-    domainId: S.String,
-    listing: S.optional(AssetListingDetails),
-    formsOutput: FormOutputList,
-    readOnlyFormsOutput: S.optional(FormOutputList),
-    latestTimeSeriesDataPointFormsOutput: S.optional(
-      TimeSeriesDataPointSummaryFormOutputList,
-    ),
-    predictionConfiguration: S.optional(PredictionConfiguration),
-  }),
-).annotate({
-  identifier: "CreateAssetRevisionOutput",
-}) as any as S.Schema<CreateAssetRevisionOutput>;
 export interface FormEntryInput {
   typeIdentifier: string;
   typeRevision: string;
   required?: boolean;
 }
-export const FormEntryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    typeIdentifier: S.String,
-    typeRevision: S.String,
-    required: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "FormEntryInput" }) as any as S.Schema<FormEntryInput>;
 export type FormsInputMap = { [key: string]: FormEntryInput | undefined };
-export const FormsInputMap = /*@__PURE__*/ S.Record(
-  S.String,
-  FormEntryInput.pipe(S.optional),
-);
 export interface CreateAssetTypeInput {
   domainIdentifier: string;
   name: string;
@@ -2257,48 +1185,12 @@ export interface CreateAssetTypeInput {
   formsInput: { [key: string]: FormEntryInput | undefined };
   owningProjectIdentifier: string;
 }
-export const CreateAssetTypeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: S.String,
-    description: S.optional(SensitiveString),
-    formsInput: FormsInputMap,
-    owningProjectIdentifier: S.String,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/asset-types",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAssetTypeInput",
-}) as any as S.Schema<CreateAssetTypeInput>;
 export interface FormEntryOutput {
   typeName: string | redacted.Redacted<string>;
   typeRevision: string;
   required?: boolean;
 }
-export const FormEntryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    typeName: SensitiveString,
-    typeRevision: S.String,
-    required: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "FormEntryOutput",
-}) as any as S.Schema<FormEntryOutput>;
 export type FormsOutputMap = { [key: string]: FormEntryOutput | undefined };
-export const FormsOutputMap = /*@__PURE__*/ S.Record(
-  S.String,
-  FormEntryOutput.pipe(S.optional),
-);
 export interface CreateAssetTypeOutput {
   domainId: string;
   name: string;
@@ -2313,24 +1205,6 @@ export interface CreateAssetTypeOutput {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const CreateAssetTypeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    name: S.String,
-    revision: S.String,
-    description: S.optional(SensitiveString),
-    formsOutput: FormsOutputMap,
-    owningProjectId: S.optional(S.String),
-    originDomainId: S.optional(S.String),
-    originProjectId: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateAssetTypeOutput",
-}) as any as S.Schema<CreateAssetTypeOutput>;
 export type ConnectionId = string;
 export interface AwsLocation {
   accessRole?: string;
@@ -2338,66 +1212,26 @@ export interface AwsLocation {
   awsRegion?: string;
   iamConnectionId?: string;
 }
-export const AwsLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessRole: S.optional(S.String),
-    awsAccountId: S.optional(S.String),
-    awsRegion: S.optional(S.String),
-    iamConnectionId: S.optional(S.String),
-  }),
-).annotate({ identifier: "AwsLocation" }) as any as S.Schema<AwsLocation>;
 export type PropertyMap = { [key: string]: string | undefined };
-export const PropertyMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface Configuration {
   classification?: string;
   properties?: { [key: string]: string | undefined };
 }
-export const Configuration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    classification: S.optional(S.String),
-    properties: S.optional(PropertyMap),
-  }),
-).annotate({ identifier: "Configuration" }) as any as S.Schema<Configuration>;
 export type Configurations = Configuration[];
-export const Configurations = /*@__PURE__*/ S.Array(Configuration);
 export type ConnectionName = string;
 export interface AthenaPropertiesInput {
   workgroupName?: string;
 }
-export const AthenaPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ workgroupName: S.optional(S.String) }),
-).annotate({
-  identifier: "AthenaPropertiesInput",
-}) as any as S.Schema<AthenaPropertiesInput>;
 export type ConnectionProperties = { [key: string]: string | undefined };
-export const ConnectionProperties = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type SubnetId = string;
 export type SubnetIdList = string[];
-export const SubnetIdList = /*@__PURE__*/ S.Array(S.String);
 export type SecurityGroupIdList = string[];
-export const SecurityGroupIdList = /*@__PURE__*/ S.Array(S.String);
 export interface PhysicalConnectionRequirements {
   subnetId?: string;
   subnetIdList?: string[];
   securityGroupIdList?: string[];
   availabilityZone?: string;
 }
-export const PhysicalConnectionRequirements = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subnetId: S.optional(S.String),
-    subnetIdList: S.optional(SubnetIdList),
-    securityGroupIdList: S.optional(SecurityGroupIdList),
-    availabilityZone: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PhysicalConnectionRequirements",
-}) as any as S.Schema<PhysicalConnectionRequirements>;
 export type GlueConnectionType =
   | "SNOWFLAKE"
   | "BIGQUERY"
@@ -2413,69 +1247,29 @@ export type GlueConnectionType =
   | "TERADATA"
   | "VERTICA"
   | (string & {});
-export const GlueConnectionType = S.String;
-
 export type ComputeEnvironments = "SPARK" | "ATHENA" | "PYTHON" | (string & {});
-export const ComputeEnvironments = S.String;
-
 export type ComputeEnvironmentsList = ComputeEnvironments[];
-export const ComputeEnvironmentsList =
-  /*@__PURE__*/ S.Array(ComputeEnvironments);
 export type AuthenticationType = "BASIC" | "OAUTH2" | "CUSTOM" | (string & {});
-export const AuthenticationType = S.String;
-
 export type OAuth2GrantType =
   | "AUTHORIZATION_CODE"
   | "CLIENT_CREDENTIALS"
   | "JWT_BEARER"
   | (string & {});
-export const OAuth2GrantType = S.String;
-
 export interface OAuth2ClientApplication {
   userManagedClientApplicationClientId?: string;
   aWSManagedClientApplicationReference?: string;
 }
-export const OAuth2ClientApplication = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    userManagedClientApplicationClientId: S.optional(S.String),
-    aWSManagedClientApplicationReference: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "OAuth2ClientApplication",
-}) as any as S.Schema<OAuth2ClientApplication>;
 export type TokenUrlParametersMap = { [key: string]: string | undefined };
-export const TokenUrlParametersMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface AuthorizationCodeProperties {
   authorizationCode?: string;
   redirectUri?: string;
 }
-export const AuthorizationCodeProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authorizationCode: S.optional(S.String),
-    redirectUri: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AuthorizationCodeProperties",
-}) as any as S.Schema<AuthorizationCodeProperties>;
 export interface GlueOAuth2Credentials {
   userManagedClientApplicationClientSecret?: string;
   accessToken?: string;
   refreshToken?: string;
   jwtToken?: string;
 }
-export const GlueOAuth2Credentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    userManagedClientApplicationClientSecret: S.optional(S.String),
-    accessToken: S.optional(S.String),
-    refreshToken: S.optional(S.String),
-    jwtToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GlueOAuth2Credentials",
-}) as any as S.Schema<GlueOAuth2Credentials>;
 export interface OAuth2Properties {
   oAuth2GrantType?: OAuth2GrantType;
   oAuth2ClientApplication?: OAuth2ClientApplication;
@@ -2484,32 +1278,11 @@ export interface OAuth2Properties {
   authorizationCodeProperties?: AuthorizationCodeProperties;
   oAuth2Credentials?: GlueOAuth2Credentials;
 }
-export const OAuth2Properties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    oAuth2GrantType: S.optional(OAuth2GrantType),
-    oAuth2ClientApplication: S.optional(OAuth2ClientApplication),
-    tokenUrl: S.optional(S.String),
-    tokenUrlParametersMap: S.optional(TokenUrlParametersMap),
-    authorizationCodeProperties: S.optional(AuthorizationCodeProperties),
-    oAuth2Credentials: S.optional(GlueOAuth2Credentials),
-  }),
-).annotate({
-  identifier: "OAuth2Properties",
-}) as any as S.Schema<OAuth2Properties>;
 export interface BasicAuthenticationCredentials {
   userName?: string;
   password?: string;
 }
-export const BasicAuthenticationCredentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ userName: S.optional(S.String), password: S.optional(S.String) }),
-).annotate({
-  identifier: "BasicAuthenticationCredentials",
-}) as any as S.Schema<BasicAuthenticationCredentials>;
 export type CredentialMap = { [key: string]: string | undefined };
-export const CredentialMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface AuthenticationConfigurationInput {
   authenticationType?: AuthenticationType;
   oAuth2Properties?: OAuth2Properties;
@@ -2518,18 +1291,6 @@ export interface AuthenticationConfigurationInput {
   basicAuthenticationCredentials?: BasicAuthenticationCredentials;
   customAuthenticationCredentials?: { [key: string]: string | undefined };
 }
-export const AuthenticationConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authenticationType: S.optional(AuthenticationType),
-    oAuth2Properties: S.optional(OAuth2Properties),
-    secretArn: S.optional(S.String),
-    kmsKeyArn: S.optional(S.String),
-    basicAuthenticationCredentials: S.optional(BasicAuthenticationCredentials),
-    customAuthenticationCredentials: S.optional(CredentialMap),
-  }),
-).annotate({
-  identifier: "AuthenticationConfigurationInput",
-}) as any as S.Schema<AuthenticationConfigurationInput>;
 export interface GlueConnectionInput {
   connectionProperties?: { [key: string]: string | undefined };
   physicalConnectionRequirements?: PhysicalConnectionRequirements;
@@ -2544,94 +1305,34 @@ export interface GlueConnectionInput {
   pythonProperties?: { [key: string]: string | undefined };
   authenticationConfiguration?: AuthenticationConfigurationInput;
 }
-export const GlueConnectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectionProperties: S.optional(ConnectionProperties),
-    physicalConnectionRequirements: S.optional(PhysicalConnectionRequirements),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    connectionType: S.optional(GlueConnectionType),
-    matchCriteria: S.optional(S.String),
-    validateCredentials: S.optional(S.Boolean),
-    validateForComputeEnvironments: S.optional(ComputeEnvironmentsList),
-    sparkProperties: S.optional(PropertyMap),
-    athenaProperties: S.optional(PropertyMap),
-    pythonProperties: S.optional(PropertyMap),
-    authenticationConfiguration: S.optional(AuthenticationConfigurationInput),
-  }),
-).annotate({
-  identifier: "GlueConnectionInput",
-}) as any as S.Schema<GlueConnectionInput>;
 export interface GluePropertiesInput {
   glueConnectionInput?: GlueConnectionInput;
 }
-export const GluePropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ glueConnectionInput: S.optional(GlueConnectionInput) }),
-).annotate({
-  identifier: "GluePropertiesInput",
-}) as any as S.Schema<GluePropertiesInput>;
 export interface HyperPodPropertiesInput {
   clusterName: string;
 }
-export const HyperPodPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ clusterName: S.String }),
-).annotate({
-  identifier: "HyperPodPropertiesInput",
-}) as any as S.Schema<HyperPodPropertiesInput>;
 export interface IamPropertiesInput {
   glueLineageSyncEnabled?: boolean;
 }
-export const IamPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ glueLineageSyncEnabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "IamPropertiesInput",
-}) as any as S.Schema<IamPropertiesInput>;
 export type RedshiftStorageProperties =
   | { clusterName: string; workgroupName?: never }
   | { clusterName?: never; workgroupName: string };
-export const RedshiftStorageProperties = /*@__PURE__*/ S.Union([
-  S.Struct({ clusterName: S.String }),
-  S.Struct({ workgroupName: S.String }),
-]);
 export type Password = string | redacted.Redacted<string>;
 export type Username = string;
 export interface UsernamePassword {
   password: string | redacted.Redacted<string>;
   username: string;
 }
-export const UsernamePassword = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ password: SensitiveString, username: S.String }),
-).annotate({
-  identifier: "UsernamePassword",
-}) as any as S.Schema<UsernamePassword>;
 export type RedshiftCredentials =
   | { secretArn: string; usernamePassword?: never }
   | { secretArn?: never; usernamePassword: UsernamePassword };
-export const RedshiftCredentials = /*@__PURE__*/ S.Union([
-  S.Struct({ secretArn: S.String }),
-  S.Struct({ usernamePassword: UsernamePassword }),
-]);
 export interface LineageSyncSchedule {
   schedule?: string;
 }
-export const LineageSyncSchedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ schedule: S.optional(S.String) }),
-).annotate({
-  identifier: "LineageSyncSchedule",
-}) as any as S.Schema<LineageSyncSchedule>;
 export interface RedshiftLineageSyncConfigurationInput {
   enabled?: boolean;
   schedule?: LineageSyncSchedule;
 }
-export const RedshiftLineageSyncConfigurationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      enabled: S.optional(S.Boolean),
-      schedule: S.optional(LineageSyncSchedule),
-    }),
-).annotate({
-  identifier: "RedshiftLineageSyncConfigurationInput",
-}) as any as S.Schema<RedshiftLineageSyncConfigurationInput>;
 export interface RedshiftPropertiesInput {
   storage?: RedshiftStorageProperties;
   databaseName?: string;
@@ -2640,18 +1341,6 @@ export interface RedshiftPropertiesInput {
   credentials?: RedshiftCredentials;
   lineageSync?: RedshiftLineageSyncConfigurationInput;
 }
-export const RedshiftPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storage: S.optional(RedshiftStorageProperties),
-    databaseName: S.optional(S.String),
-    host: S.optional(S.String),
-    port: S.optional(S.Number),
-    credentials: S.optional(RedshiftCredentials),
-    lineageSync: S.optional(RedshiftLineageSyncConfigurationInput),
-  }),
-).annotate({
-  identifier: "RedshiftPropertiesInput",
-}) as any as S.Schema<RedshiftPropertiesInput>;
 export interface SparkEmrPropertiesInput {
   computeArn?: string;
   instanceProfileArn?: string;
@@ -2662,29 +1351,11 @@ export interface SparkEmrPropertiesInput {
   trustedCertificatesS3Uri?: string;
   managedEndpointArn?: string;
 }
-export const SparkEmrPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    computeArn: S.optional(S.String),
-    instanceProfileArn: S.optional(S.String),
-    javaVirtualEnv: S.optional(S.String),
-    logUri: S.optional(S.String),
-    pythonVirtualEnv: S.optional(S.String),
-    runtimeRole: S.optional(S.String),
-    trustedCertificatesS3Uri: S.optional(S.String),
-    managedEndpointArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SparkEmrPropertiesInput",
-}) as any as S.Schema<SparkEmrPropertiesInput>;
 export interface SparkGlueArgs {
   connection?: string;
 }
-export const SparkGlueArgs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ connection: S.optional(S.String) }),
-).annotate({ identifier: "SparkGlueArgs" }) as any as S.Schema<SparkGlueArgs>;
 export type GlueConnectionName = string;
 export type GlueConnectionNames = string[];
-export const GlueConnectionNames = /*@__PURE__*/ S.Array(S.String);
 export interface SparkGluePropertiesInput {
   additionalArgs?: SparkGlueArgs;
   glueConnectionName?: string;
@@ -2696,21 +1367,6 @@ export interface SparkGluePropertiesInput {
   pythonVirtualEnv?: string;
   workerType?: string;
 }
-export const SparkGluePropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    additionalArgs: S.optional(SparkGlueArgs),
-    glueConnectionName: S.optional(S.String),
-    glueConnectionNames: S.optional(GlueConnectionNames),
-    glueVersion: S.optional(S.String),
-    idleTimeout: S.optional(S.Number),
-    javaVirtualEnv: S.optional(S.String),
-    numberOfWorkers: S.optional(S.Number),
-    pythonVirtualEnv: S.optional(S.String),
-    workerType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SparkGluePropertiesInput",
-}) as any as S.Schema<SparkGluePropertiesInput>;
 export type S3Uri = string;
 export type S3AccessGrantLocationId = string;
 export interface S3PropertiesInput {
@@ -2718,15 +1374,6 @@ export interface S3PropertiesInput {
   s3AccessGrantLocationId?: string;
   registerS3AccessGrantLocation?: boolean;
 }
-export const S3PropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    s3Uri: S.String,
-    s3AccessGrantLocationId: S.optional(S.String),
-    registerS3AccessGrantLocation: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "S3PropertiesInput",
-}) as any as S.Schema<S3PropertiesInput>;
 export interface ConnectivityProperties {
   connectionProperties?: { [key: string]: string | undefined };
   physicalConnectionRequirements?: PhysicalConnectionRequirements;
@@ -2739,32 +1386,11 @@ export interface ConnectivityProperties {
   pythonProperties?: { [key: string]: string | undefined };
   authenticationConfiguration?: AuthenticationConfigurationInput;
 }
-export const ConnectivityProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectionProperties: S.optional(ConnectionProperties),
-    physicalConnectionRequirements: S.optional(PhysicalConnectionRequirements),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    validateCredentials: S.optional(S.Boolean),
-    validateForComputeEnvironments: S.optional(ComputeEnvironmentsList),
-    sparkProperties: S.optional(PropertyMap),
-    athenaProperties: S.optional(PropertyMap),
-    pythonProperties: S.optional(PropertyMap),
-    authenticationConfiguration: S.optional(AuthenticationConfigurationInput),
-  }),
-).annotate({
-  identifier: "ConnectivityProperties",
-}) as any as S.Schema<ConnectivityProperties>;
 export type SnowflakeRole = string;
 export interface IdentityMapping {
   usernameAttribute: string;
   prefix?: string;
 }
-export const IdentityMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ usernameAttribute: S.String, prefix: S.optional(S.String) }),
-).annotate({
-  identifier: "IdentityMapping",
-}) as any as S.Schema<IdentityMapping>;
 export type Timezone =
   | "UTC"
   | "AFRICA_JOHANNESBURG"
@@ -2831,115 +1457,46 @@ export type Timezone =
   | "US_MOUNTAIN"
   | "US_PACIFIC"
   | (string & {});
-export const Timezone = S.String;
-
 export type LineageSyncScheduleCronString = string;
 export interface LineageSyncInput {
   timezone?: Timezone;
   enabled: boolean;
   schedule?: string;
 }
-export const LineageSyncInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timezone: S.optional(Timezone),
-    enabled: S.Boolean,
-    schedule: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LineageSyncInput",
-}) as any as S.Schema<LineageSyncInput>;
 export interface SnowflakePropertiesInput {
   connectivityProperties?: ConnectivityProperties;
   snowflakeRole: string;
   identityMapping: IdentityMapping;
   lineageSync?: LineageSyncInput;
 }
-export const SnowflakePropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectivityProperties: S.optional(ConnectivityProperties),
-    snowflakeRole: S.String,
-    identityMapping: IdentityMapping,
-    lineageSync: S.optional(LineageSyncInput),
-  }),
-).annotate({
-  identifier: "SnowflakePropertiesInput",
-}) as any as S.Schema<SnowflakePropertiesInput>;
 export interface AmazonQPropertiesInput {
   isEnabled: boolean;
   profileArn?: string;
   authMode?: string;
 }
-export const AmazonQPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    isEnabled: S.Boolean,
-    profileArn: S.optional(S.String),
-    authMode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AmazonQPropertiesInput",
-}) as any as S.Schema<AmazonQPropertiesInput>;
 export interface MlflowPropertiesInput {
   trackingServerArn?: string;
 }
-export const MlflowPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ trackingServerArn: S.optional(S.String) }),
-).annotate({
-  identifier: "MlflowPropertiesInput",
-}) as any as S.Schema<MlflowPropertiesInput>;
 export interface WorkflowsMwaaPropertiesInput {
   mwaaEnvironmentName?: string;
 }
-export const WorkflowsMwaaPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ mwaaEnvironmentName: S.optional(S.String) }),
-).annotate({
-  identifier: "WorkflowsMwaaPropertiesInput",
-}) as any as S.Schema<WorkflowsMwaaPropertiesInput>;
 export interface WorkflowsServerlessPropertiesInput {}
-export const WorkflowsServerlessPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "WorkflowsServerlessPropertiesInput",
-}) as any as S.Schema<WorkflowsServerlessPropertiesInput>;
 export interface LakehousePropertiesInput {
   glueLineageSyncEnabled?: boolean;
 }
-export const LakehousePropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ glueLineageSyncEnabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "LakehousePropertiesInput",
-}) as any as S.Schema<LakehousePropertiesInput>;
 export type VpcId = string;
 export type VpcConnectionSubnetIdList = string[];
-export const VpcConnectionSubnetIdList = /*@__PURE__*/ S.Array(S.String);
 export type SecurityGroupId = string;
 export interface VpcPropertiesInput {
   vpcId: string;
   subnetIds: string[];
   securityGroupId?: string;
 }
-export const VpcPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vpcId: S.String,
-    subnetIds: VpcConnectionSubnetIdList,
-    securityGroupId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VpcPropertiesInput",
-}) as any as S.Schema<VpcPropertiesInput>;
 export interface GitPropertiesInput {
   codeConnectionArn: string;
   repositoryId: string;
   defaultBranch: string;
 }
-export const GitPropertiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    codeConnectionArn: S.String,
-    repositoryId: S.String,
-    defaultBranch: S.String,
-  }),
-).annotate({
-  identifier: "GitPropertiesInput",
-}) as any as S.Schema<GitPropertiesInput>;
 export type ConnectionPropertiesInput =
   | {
       athenaProperties: AthenaPropertiesInput;
@@ -3229,29 +1786,7 @@ export type ConnectionPropertiesInput =
       vpcProperties?: never;
       gitProperties: GitPropertiesInput;
     };
-export const ConnectionPropertiesInput = /*@__PURE__*/ S.Union([
-  S.Struct({ athenaProperties: AthenaPropertiesInput }),
-  S.Struct({ glueProperties: GluePropertiesInput }),
-  S.Struct({ hyperPodProperties: HyperPodPropertiesInput }),
-  S.Struct({ iamProperties: IamPropertiesInput }),
-  S.Struct({ redshiftProperties: RedshiftPropertiesInput }),
-  S.Struct({ sparkEmrProperties: SparkEmrPropertiesInput }),
-  S.Struct({ sparkGlueProperties: SparkGluePropertiesInput }),
-  S.Struct({ s3Properties: S3PropertiesInput }),
-  S.Struct({ snowflakeProperties: SnowflakePropertiesInput }),
-  S.Struct({ amazonQProperties: AmazonQPropertiesInput }),
-  S.Struct({ mlflowProperties: MlflowPropertiesInput }),
-  S.Struct({ workflowsMwaaProperties: WorkflowsMwaaPropertiesInput }),
-  S.Struct({
-    workflowsServerlessProperties: WorkflowsServerlessPropertiesInput,
-  }),
-  S.Struct({ lakehouseProperties: LakehousePropertiesInput }),
-  S.Struct({ vpcProperties: VpcPropertiesInput }),
-  S.Struct({ gitProperties: GitPropertiesInput }),
-]);
 export type ConnectionScope = "DOMAIN" | "PROJECT" | (string & {});
-export const ConnectionScope = S.String;
-
 export interface CreateConnectionInput {
   awsLocation?: AwsLocation;
   clientToken?: string;
@@ -3264,34 +1799,6 @@ export interface CreateConnectionInput {
   enableTrustedIdentityPropagation?: boolean;
   scope?: ConnectionScope;
 }
-export const CreateConnectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    awsLocation: S.optional(AwsLocation),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    configurations: S.optional(Configurations),
-    description: S.optional(SensitiveString),
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    environmentIdentifier: S.optional(S.String),
-    name: S.String,
-    props: S.optional(ConnectionPropertiesInput),
-    enableTrustedIdentityPropagation: S.optional(S.Boolean),
-    scope: S.optional(ConnectionScope),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/connections",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateConnectionInput",
-}) as any as S.Schema<CreateConnectionInput>;
 export type ConnectionType =
   | "ATHENA"
   | "BIGQUERY"
@@ -3318,10 +1825,7 @@ export type ConnectionType =
   | "VPC"
   | "GIT"
   | (string & {});
-export const ConnectionType = S.String;
-
 export type MatchCriteria = string[];
-export const MatchCriteria = /*@__PURE__*/ S.Array(S.String);
 export type ConnectionStatus =
   | "CREATING"
   | "CREATE_FAILED"
@@ -3332,22 +1836,11 @@ export type ConnectionStatus =
   | "UPDATE_FAILED"
   | "DELETED"
   | (string & {});
-export const ConnectionStatus = S.String;
-
 export interface AuthenticationConfiguration {
   authenticationType?: AuthenticationType;
   secretArn?: string;
   oAuth2Properties?: OAuth2Properties;
 }
-export const AuthenticationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authenticationType: S.optional(AuthenticationType),
-    secretArn: S.optional(S.String),
-    oAuth2Properties: S.optional(OAuth2Properties),
-  }),
-).annotate({
-  identifier: "AuthenticationConfiguration",
-}) as any as S.Schema<AuthenticationConfiguration>;
 export interface GlueConnection {
   name?: string;
   description?: string;
@@ -3368,32 +1861,6 @@ export interface GlueConnection {
   connectionSchemaVersion?: number;
   compatibleComputeEnvironments?: ComputeEnvironments[];
 }
-export const GlueConnection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    connectionType: S.optional(ConnectionType),
-    matchCriteria: S.optional(MatchCriteria),
-    connectionProperties: S.optional(ConnectionProperties),
-    sparkProperties: S.optional(PropertyMap),
-    athenaProperties: S.optional(PropertyMap),
-    pythonProperties: S.optional(PropertyMap),
-    physicalConnectionRequirements: S.optional(PhysicalConnectionRequirements),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastUpdatedBy: S.optional(S.String),
-    status: S.optional(ConnectionStatus),
-    statusReason: S.optional(S.String),
-    lastConnectionValidationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    authenticationConfiguration: S.optional(AuthenticationConfiguration),
-    connectionSchemaVersion: S.optional(S.Number),
-    compatibleComputeEnvironments: S.optional(ComputeEnvironmentsList),
-  }),
-).annotate({ identifier: "GlueConnection" }) as any as S.Schema<GlueConnection>;
 export type Protocol =
   | "ATHENA"
   | "GLUE_INTERACTIVE_SESSION"
@@ -3403,8 +1870,6 @@ export type Protocol =
   | "ODBC"
   | "PRISM"
   | (string & {});
-export const Protocol = S.String;
-
 export interface PhysicalEndpoint {
   awsLocation?: AwsLocation;
   glueConnectionName?: string;
@@ -3416,87 +1881,29 @@ export interface PhysicalEndpoint {
   protocol?: Protocol;
   stage?: string;
 }
-export const PhysicalEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    awsLocation: S.optional(AwsLocation),
-    glueConnectionName: S.optional(S.String),
-    glueConnectionNames: S.optional(GlueConnectionNames),
-    glueConnection: S.optional(GlueConnection),
-    enableTrustedIdentityPropagation: S.optional(S.Boolean),
-    host: S.optional(S.String),
-    port: S.optional(S.Number),
-    protocol: S.optional(Protocol),
-    stage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PhysicalEndpoint",
-}) as any as S.Schema<PhysicalEndpoint>;
 export type PhysicalEndpoints = PhysicalEndpoint[];
-export const PhysicalEndpoints = /*@__PURE__*/ S.Array(PhysicalEndpoint);
 export interface AthenaPropertiesOutput {
   workgroupName?: string;
 }
-export const AthenaPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ workgroupName: S.optional(S.String) }),
-).annotate({
-  identifier: "AthenaPropertiesOutput",
-}) as any as S.Schema<AthenaPropertiesOutput>;
 export interface GluePropertiesOutput {
   status?: ConnectionStatus;
   errorMessage?: string;
 }
-export const GluePropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(ConnectionStatus),
-    errorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GluePropertiesOutput",
-}) as any as S.Schema<GluePropertiesOutput>;
 export type HyperPodOrchestrator = "EKS" | "SLURM" | (string & {});
-export const HyperPodOrchestrator = S.String;
-
 export interface HyperPodPropertiesOutput {
   clusterName: string;
   clusterArn?: string;
   orchestrator?: HyperPodOrchestrator;
 }
-export const HyperPodPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterName: S.String,
-    clusterArn: S.optional(S.String),
-    orchestrator: S.optional(HyperPodOrchestrator),
-  }),
-).annotate({
-  identifier: "HyperPodPropertiesOutput",
-}) as any as S.Schema<HyperPodPropertiesOutput>;
 export interface IamPropertiesOutput {
   environmentId?: string;
   glueLineageSyncEnabled?: boolean;
 }
-export const IamPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    environmentId: S.optional(S.String),
-    glueLineageSyncEnabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "IamPropertiesOutput",
-}) as any as S.Schema<IamPropertiesOutput>;
 export interface RedshiftLineageSyncConfigurationOutput {
   lineageJobId?: string;
   enabled?: boolean;
   schedule?: LineageSyncSchedule;
 }
-export const RedshiftLineageSyncConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      lineageJobId: S.optional(S.String),
-      enabled: S.optional(S.Boolean),
-      schedule: S.optional(LineageSyncSchedule),
-    }),
-).annotate({
-  identifier: "RedshiftLineageSyncConfigurationOutput",
-}) as any as S.Schema<RedshiftLineageSyncConfigurationOutput>;
 export interface RedshiftPropertiesOutput {
   storage?: RedshiftStorageProperties;
   credentials?: RedshiftCredentials;
@@ -3508,33 +1915,11 @@ export interface RedshiftPropertiesOutput {
   status?: ConnectionStatus;
   databaseName?: string;
 }
-export const RedshiftPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storage: S.optional(RedshiftStorageProperties),
-    credentials: S.optional(RedshiftCredentials),
-    isProvisionedSecret: S.optional(S.Boolean),
-    jdbcIamUrl: S.optional(S.String),
-    jdbcUrl: S.optional(S.String),
-    redshiftTempDir: S.optional(S.String),
-    lineageSync: S.optional(RedshiftLineageSyncConfigurationOutput),
-    status: S.optional(ConnectionStatus),
-    databaseName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RedshiftPropertiesOutput",
-}) as any as S.Schema<RedshiftPropertiesOutput>;
 export type GovernanceType = "AWS_MANAGED" | "USER_MANAGED" | (string & {});
-export const GovernanceType = S.String;
-
 export interface ManagedEndpointCredentials {
   id?: string;
   token?: string;
 }
-export const ManagedEndpointCredentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.optional(S.String), token: S.optional(S.String) }),
-).annotate({
-  identifier: "ManagedEndpointCredentials",
-}) as any as S.Schema<ManagedEndpointCredentials>;
 export interface SparkEmrPropertiesOutput {
   computeArn?: string;
   credentials?: UsernamePassword;
@@ -3551,28 +1936,6 @@ export interface SparkEmrPropertiesOutput {
   managedEndpointArn?: string;
   managedEndpointCredentials?: ManagedEndpointCredentials;
 }
-export const SparkEmrPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    computeArn: S.optional(S.String),
-    credentials: S.optional(UsernamePassword),
-    credentialsExpiration: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    governanceType: S.optional(GovernanceType),
-    instanceProfileArn: S.optional(S.String),
-    javaVirtualEnv: S.optional(S.String),
-    livyEndpoint: S.optional(S.String),
-    logUri: S.optional(S.String),
-    pythonVirtualEnv: S.optional(S.String),
-    runtimeRole: S.optional(S.String),
-    trustedCertificatesS3Uri: S.optional(S.String),
-    certificateData: S.optional(S.String),
-    managedEndpointArn: S.optional(S.String),
-    managedEndpointCredentials: S.optional(ManagedEndpointCredentials),
-  }),
-).annotate({
-  identifier: "SparkEmrPropertiesOutput",
-}) as any as S.Schema<SparkEmrPropertiesOutput>;
 export interface SparkGluePropertiesOutput {
   additionalArgs?: SparkGlueArgs;
   glueConnectionName?: string;
@@ -3584,21 +1947,6 @@ export interface SparkGluePropertiesOutput {
   pythonVirtualEnv?: string;
   workerType?: string;
 }
-export const SparkGluePropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    additionalArgs: S.optional(SparkGlueArgs),
-    glueConnectionName: S.optional(S.String),
-    glueConnectionNames: S.optional(GlueConnectionNames),
-    glueVersion: S.optional(S.String),
-    idleTimeout: S.optional(S.Number),
-    javaVirtualEnv: S.optional(S.String),
-    numberOfWorkers: S.optional(S.Number),
-    pythonVirtualEnv: S.optional(S.String),
-    workerType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SparkGluePropertiesOutput",
-}) as any as S.Schema<SparkGluePropertiesOutput>;
 export interface S3PropertiesOutput {
   s3Uri: string;
   s3AccessGrantLocationId?: string;
@@ -3606,33 +1954,12 @@ export interface S3PropertiesOutput {
   status?: ConnectionStatus;
   errorMessage?: string;
 }
-export const S3PropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    s3Uri: S.String,
-    s3AccessGrantLocationId: S.optional(S.String),
-    registerS3AccessGrantLocation: S.optional(S.Boolean),
-    status: S.optional(ConnectionStatus),
-    errorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "S3PropertiesOutput",
-}) as any as S.Schema<S3PropertiesOutput>;
 export interface LineageSyncOutput {
   lineageJobId?: string;
   timezone?: Timezone;
   enabled?: boolean;
   schedule?: string;
 }
-export const LineageSyncOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lineageJobId: S.optional(S.String),
-    timezone: S.optional(Timezone),
-    enabled: S.optional(S.Boolean),
-    schedule: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LineageSyncOutput",
-}) as any as S.Schema<LineageSyncOutput>;
 export interface SnowflakePropertiesOutput {
   snowflakeRole: string;
   identityMapping: IdentityMapping;
@@ -3640,61 +1967,21 @@ export interface SnowflakePropertiesOutput {
   status: ConnectionStatus;
   errorMessage?: string;
 }
-export const SnowflakePropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    snowflakeRole: S.String,
-    identityMapping: IdentityMapping,
-    lineageSync: LineageSyncOutput,
-    status: ConnectionStatus,
-    errorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SnowflakePropertiesOutput",
-}) as any as S.Schema<SnowflakePropertiesOutput>;
 export interface AmazonQPropertiesOutput {
   isEnabled: boolean;
   profileArn?: string;
   authMode?: string;
 }
-export const AmazonQPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    isEnabled: S.Boolean,
-    profileArn: S.optional(S.String),
-    authMode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AmazonQPropertiesOutput",
-}) as any as S.Schema<AmazonQPropertiesOutput>;
 export interface MlflowPropertiesOutput {
   trackingServerArn?: string;
 }
-export const MlflowPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ trackingServerArn: S.optional(S.String) }),
-).annotate({
-  identifier: "MlflowPropertiesOutput",
-}) as any as S.Schema<MlflowPropertiesOutput>;
 export interface WorkflowsMwaaPropertiesOutput {
   mwaaEnvironmentName?: string;
 }
-export const WorkflowsMwaaPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ mwaaEnvironmentName: S.optional(S.String) }),
-).annotate({
-  identifier: "WorkflowsMwaaPropertiesOutput",
-}) as any as S.Schema<WorkflowsMwaaPropertiesOutput>;
 export interface WorkflowsServerlessPropertiesOutput {}
-export const WorkflowsServerlessPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "WorkflowsServerlessPropertiesOutput",
-}) as any as S.Schema<WorkflowsServerlessPropertiesOutput>;
 export interface LakehousePropertiesOutput {
   glueLineageSyncEnabled?: boolean;
 }
-export const LakehousePropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ glueLineageSyncEnabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "LakehousePropertiesOutput",
-}) as any as S.Schema<LakehousePropertiesOutput>;
 export interface VpcPropertiesOutput {
   vpcId: string;
   subnetIds: string[];
@@ -3702,17 +1989,6 @@ export interface VpcPropertiesOutput {
   securityGroupId?: string;
   glueConnectionNames?: string[];
 }
-export const VpcPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vpcId: S.String,
-    subnetIds: VpcConnectionSubnetIdList,
-    status: ConnectionStatus,
-    securityGroupId: S.optional(S.String),
-    glueConnectionNames: S.optional(GlueConnectionNames),
-  }),
-).annotate({
-  identifier: "VpcPropertiesOutput",
-}) as any as S.Schema<VpcPropertiesOutput>;
 export interface GitPropertiesOutput {
   codeConnectionArn: string;
   repositoryId: string;
@@ -3720,17 +1996,6 @@ export interface GitPropertiesOutput {
   status?: ConnectionStatus;
   errorMessage?: string;
 }
-export const GitPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    codeConnectionArn: S.String,
-    repositoryId: S.String,
-    defaultBranch: S.String,
-    status: S.optional(ConnectionStatus),
-    errorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GitPropertiesOutput",
-}) as any as S.Schema<GitPropertiesOutput>;
 export type ConnectionPropertiesOutput =
   | {
       athenaProperties: AthenaPropertiesOutput;
@@ -4020,26 +2285,6 @@ export type ConnectionPropertiesOutput =
       vpcProperties?: never;
       gitProperties: GitPropertiesOutput;
     };
-export const ConnectionPropertiesOutput = /*@__PURE__*/ S.Union([
-  S.Struct({ athenaProperties: AthenaPropertiesOutput }),
-  S.Struct({ glueProperties: GluePropertiesOutput }),
-  S.Struct({ hyperPodProperties: HyperPodPropertiesOutput }),
-  S.Struct({ iamProperties: IamPropertiesOutput }),
-  S.Struct({ redshiftProperties: RedshiftPropertiesOutput }),
-  S.Struct({ sparkEmrProperties: SparkEmrPropertiesOutput }),
-  S.Struct({ sparkGlueProperties: SparkGluePropertiesOutput }),
-  S.Struct({ s3Properties: S3PropertiesOutput }),
-  S.Struct({ snowflakeProperties: SnowflakePropertiesOutput }),
-  S.Struct({ amazonQProperties: AmazonQPropertiesOutput }),
-  S.Struct({ mlflowProperties: MlflowPropertiesOutput }),
-  S.Struct({ workflowsMwaaProperties: WorkflowsMwaaPropertiesOutput }),
-  S.Struct({
-    workflowsServerlessProperties: WorkflowsServerlessPropertiesOutput,
-  }),
-  S.Struct({ lakehouseProperties: LakehousePropertiesOutput }),
-  S.Struct({ vpcProperties: VpcPropertiesOutput }),
-  S.Struct({ gitProperties: GitPropertiesOutput }),
-]);
 export interface CreateConnectionOutput {
   connectionId: string;
   configurations?: Configuration[];
@@ -4054,49 +2299,17 @@ export interface CreateConnectionOutput {
   type: ConnectionType;
   scope?: ConnectionScope;
 }
-export const CreateConnectionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectionId: S.String,
-    configurations: S.optional(Configurations),
-    description: S.optional(SensitiveString),
-    domainId: S.String,
-    domainUnitId: S.String,
-    environmentId: S.optional(S.String),
-    name: S.String,
-    physicalEndpoints: PhysicalEndpoints,
-    projectId: S.optional(S.String),
-    props: S.optional(ConnectionPropertiesOutput),
-    type: ConnectionType,
-    scope: S.optional(ConnectionScope),
-  }),
-).annotate({
-  identifier: "CreateConnectionOutput",
-}) as any as S.Schema<CreateConnectionOutput>;
 export type DataProductName = string | redacted.Redacted<string>;
 export type DataProductDescription = string | redacted.Redacted<string>;
 export type DataProductItemType = "ASSET" | (string & {});
-export const DataProductItemType = S.String;
-
 export type ItemGlossaryTerms = string[];
-export const ItemGlossaryTerms = /*@__PURE__*/ S.Array(S.String);
 export interface DataProductItem {
   itemType: DataProductItemType;
   identifier: string;
   revision?: string;
   glossaryTerms?: string[];
 }
-export const DataProductItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    itemType: DataProductItemType,
-    identifier: S.String,
-    revision: S.optional(S.String),
-    glossaryTerms: S.optional(ItemGlossaryTerms),
-  }),
-).annotate({
-  identifier: "DataProductItem",
-}) as any as S.Schema<DataProductItem>;
 export type DataProductItems = DataProductItem[];
-export const DataProductItems = /*@__PURE__*/ S.Array(DataProductItem);
 export interface CreateDataProductInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
@@ -4107,40 +2320,12 @@ export interface CreateDataProductInput {
   items?: DataProductItem[];
   clientToken?: string;
 }
-export const CreateDataProductInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: SensitiveString,
-    owningProjectIdentifier: S.String,
-    description: S.optional(SensitiveString),
-    glossaryTerms: S.optional(GlossaryTerms),
-    formsInput: S.optional(FormInputList),
-    items: S.optional(DataProductItems),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/data-products",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDataProductInput",
-}) as any as S.Schema<CreateDataProductInput>;
 export type DataProductId = string;
 export type DataProductStatus =
   | "CREATED"
   | "CREATING"
   | "CREATE_FAILED"
   | (string & {});
-export const DataProductStatus = S.String;
-
 export interface CreateDataProductOutput {
   domainId: string;
   id: string;
@@ -4157,28 +2342,6 @@ export interface CreateDataProductOutput {
   firstRevisionCreatedAt?: Date;
   firstRevisionCreatedBy?: string;
 }
-export const CreateDataProductOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    revision: S.String,
-    owningProjectId: S.String,
-    name: SensitiveString,
-    status: DataProductStatus,
-    description: S.optional(SensitiveString),
-    glossaryTerms: S.optional(GlossaryTerms),
-    items: S.optional(DataProductItems),
-    formsOutput: S.optional(FormOutputList),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    firstRevisionCreatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    firstRevisionCreatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateDataProductOutput",
-}) as any as S.Schema<CreateDataProductOutput>;
 export interface CreateDataProductRevisionInput {
   domainIdentifier: string;
   identifier: string;
@@ -4189,32 +2352,6 @@ export interface CreateDataProductRevisionInput {
   formsInput?: FormInput[];
   clientToken?: string;
 }
-export const CreateDataProductRevisionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    glossaryTerms: S.optional(GlossaryTerms),
-    items: S.optional(DataProductItems),
-    formsInput: S.optional(FormInputList),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/data-products/{identifier}/revisions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDataProductRevisionInput",
-}) as any as S.Schema<CreateDataProductRevisionInput>;
 export interface CreateDataProductRevisionOutput {
   domainId: string;
   id: string;
@@ -4231,102 +2368,35 @@ export interface CreateDataProductRevisionOutput {
   firstRevisionCreatedAt?: Date;
   firstRevisionCreatedBy?: string;
 }
-export const CreateDataProductRevisionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    revision: S.String,
-    owningProjectId: S.String,
-    name: SensitiveString,
-    status: DataProductStatus,
-    description: S.optional(SensitiveString),
-    glossaryTerms: S.optional(GlossaryTerms),
-    items: S.optional(DataProductItems),
-    formsOutput: S.optional(FormOutputList),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    firstRevisionCreatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    firstRevisionCreatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateDataProductRevisionOutput",
-}) as any as S.Schema<CreateDataProductRevisionOutput>;
 export type Name = string | redacted.Redacted<string>;
 export type DataSourceType = string;
 export type FilterExpressionType = "INCLUDE" | "EXCLUDE" | (string & {});
-export const FilterExpressionType = S.String;
-
 export interface FilterExpression {
   type: FilterExpressionType;
   expression: string;
 }
-export const FilterExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: FilterExpressionType, expression: S.String }),
-).annotate({
-  identifier: "FilterExpression",
-}) as any as S.Schema<FilterExpression>;
 export type FilterExpressions = FilterExpression[];
-export const FilterExpressions = /*@__PURE__*/ S.Array(FilterExpression);
 export interface RelationalFilterConfiguration {
   databaseName: string;
   schemaName?: string;
   filterExpressions?: FilterExpression[];
 }
-export const RelationalFilterConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    databaseName: S.String,
-    schemaName: S.optional(S.String),
-    filterExpressions: S.optional(FilterExpressions),
-  }),
-).annotate({
-  identifier: "RelationalFilterConfiguration",
-}) as any as S.Schema<RelationalFilterConfiguration>;
 export type RelationalFilterConfigurations = RelationalFilterConfiguration[];
-export const RelationalFilterConfigurations = /*@__PURE__*/ S.Array(
-  RelationalFilterConfiguration,
-);
 export interface GlueRunConfigurationInput {
   dataAccessRole?: string;
   relationalFilterConfigurations: RelationalFilterConfiguration[];
   autoImportDataQualityResult?: boolean;
   catalogName?: string;
 }
-export const GlueRunConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataAccessRole: S.optional(S.String),
-    relationalFilterConfigurations: RelationalFilterConfigurations,
-    autoImportDataQualityResult: S.optional(S.Boolean),
-    catalogName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GlueRunConfigurationInput",
-}) as any as S.Schema<GlueRunConfigurationInput>;
 export interface RedshiftCredentialConfiguration {
   secretManagerArn: string;
 }
-export const RedshiftCredentialConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ secretManagerArn: S.String }),
-).annotate({
-  identifier: "RedshiftCredentialConfiguration",
-}) as any as S.Schema<RedshiftCredentialConfiguration>;
 export interface RedshiftClusterStorage {
   clusterName: string;
 }
-export const RedshiftClusterStorage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ clusterName: S.String }),
-).annotate({
-  identifier: "RedshiftClusterStorage",
-}) as any as S.Schema<RedshiftClusterStorage>;
 export interface RedshiftServerlessStorage {
   workgroupName: string;
 }
-export const RedshiftServerlessStorage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ workgroupName: S.String }),
-).annotate({
-  identifier: "RedshiftServerlessStorage",
-}) as any as S.Schema<RedshiftServerlessStorage>;
 export type RedshiftStorage =
   | {
       redshiftClusterSource: RedshiftClusterStorage;
@@ -4336,45 +2406,19 @@ export type RedshiftStorage =
       redshiftClusterSource?: never;
       redshiftServerlessSource: RedshiftServerlessStorage;
     };
-export const RedshiftStorage = /*@__PURE__*/ S.Union([
-  S.Struct({ redshiftClusterSource: RedshiftClusterStorage }),
-  S.Struct({ redshiftServerlessSource: RedshiftServerlessStorage }),
-]);
 export interface RedshiftRunConfigurationInput {
   dataAccessRole?: string;
   relationalFilterConfigurations: RelationalFilterConfiguration[];
   redshiftCredentialConfiguration?: RedshiftCredentialConfiguration;
   redshiftStorage?: RedshiftStorage;
 }
-export const RedshiftRunConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataAccessRole: S.optional(S.String),
-    relationalFilterConfigurations: RelationalFilterConfigurations,
-    redshiftCredentialConfiguration: S.optional(
-      RedshiftCredentialConfiguration,
-    ),
-    redshiftStorage: S.optional(RedshiftStorage),
-  }),
-).annotate({
-  identifier: "RedshiftRunConfigurationInput",
-}) as any as S.Schema<RedshiftRunConfigurationInput>;
 export type SageMakerAssetType = string;
 export type SageMakerResourceArn = string;
 export type TrackingAssetArns = string[];
-export const TrackingAssetArns = /*@__PURE__*/ S.Array(S.String);
 export type TrackingAssets = { [key: string]: string[] | undefined };
-export const TrackingAssets = /*@__PURE__*/ S.Record(
-  S.String,
-  TrackingAssetArns.pipe(S.optional),
-);
 export interface SageMakerRunConfigurationInput {
   trackingAssets: { [key: string]: string[] | undefined };
 }
-export const SageMakerRunConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ trackingAssets: TrackingAssets }),
-).annotate({
-  identifier: "SageMakerRunConfigurationInput",
-}) as any as S.Schema<SageMakerRunConfigurationInput>;
 export type DataSourceConfigurationInput =
   | {
       glueRunConfiguration: GlueRunConfigurationInput;
@@ -4391,32 +2435,15 @@ export type DataSourceConfigurationInput =
       redshiftRunConfiguration?: never;
       sageMakerRunConfiguration: SageMakerRunConfigurationInput;
     };
-export const DataSourceConfigurationInput = /*@__PURE__*/ S.Union([
-  S.Struct({ glueRunConfiguration: GlueRunConfigurationInput }),
-  S.Struct({ redshiftRunConfiguration: RedshiftRunConfigurationInput }),
-  S.Struct({ sageMakerRunConfiguration: SageMakerRunConfigurationInput }),
-]);
 export interface RecommendationConfiguration {
   enableBusinessNameGeneration?: boolean;
 }
-export const RecommendationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ enableBusinessNameGeneration: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "RecommendationConfiguration",
-}) as any as S.Schema<RecommendationConfiguration>;
 export type EnableSetting = "ENABLED" | "DISABLED" | (string & {});
-export const EnableSetting = S.String;
-
 export type CronString = string;
 export interface ScheduleConfiguration {
   timezone?: Timezone;
   schedule?: string;
 }
-export const ScheduleConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ timezone: S.optional(Timezone), schedule: S.optional(S.String) }),
-).annotate({
-  identifier: "ScheduleConfiguration",
-}) as any as S.Schema<ScheduleConfiguration>;
 export interface CreateDataSourceInput {
   name: string | redacted.Redacted<string>;
   description?: string | redacted.Redacted<string>;
@@ -4433,38 +2460,6 @@ export interface CreateDataSourceInput {
   assetFormsInput?: FormInput[];
   clientToken?: string;
 }
-export const CreateDataSourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    projectIdentifier: S.String,
-    environmentIdentifier: S.optional(S.String),
-    connectionIdentifier: S.optional(S.String),
-    type: S.String,
-    configuration: S.optional(DataSourceConfigurationInput),
-    recommendation: S.optional(RecommendationConfiguration),
-    enableSetting: S.optional(EnableSetting),
-    schedule: S.optional(ScheduleConfiguration),
-    publishOnImport: S.optional(S.Boolean),
-    assetFormsInput: S.optional(FormInputList),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/data-sources",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDataSourceInput",
-}) as any as S.Schema<CreateDataSourceInput>;
 export type DataSourceId = string;
 export type DataSourceStatus =
   | "CREATING"
@@ -4476,8 +2471,6 @@ export type DataSourceStatus =
   | "DELETING"
   | "FAILED_DELETION"
   | (string & {});
-export const DataSourceStatus = S.String;
-
 export interface GlueRunConfigurationOutput {
   accountId?: string;
   region?: string;
@@ -4486,18 +2479,6 @@ export interface GlueRunConfigurationOutput {
   autoImportDataQualityResult?: boolean;
   catalogName?: string;
 }
-export const GlueRunConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.optional(S.String),
-    region: S.optional(S.String),
-    dataAccessRole: S.optional(S.String),
-    relationalFilterConfigurations: RelationalFilterConfigurations,
-    autoImportDataQualityResult: S.optional(S.Boolean),
-    catalogName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GlueRunConfigurationOutput",
-}) as any as S.Schema<GlueRunConfigurationOutput>;
 export interface RedshiftRunConfigurationOutput {
   accountId?: string;
   region?: string;
@@ -4506,34 +2487,11 @@ export interface RedshiftRunConfigurationOutput {
   redshiftCredentialConfiguration?: RedshiftCredentialConfiguration;
   redshiftStorage: RedshiftStorage;
 }
-export const RedshiftRunConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.optional(S.String),
-    region: S.optional(S.String),
-    dataAccessRole: S.optional(S.String),
-    relationalFilterConfigurations: RelationalFilterConfigurations,
-    redshiftCredentialConfiguration: S.optional(
-      RedshiftCredentialConfiguration,
-    ),
-    redshiftStorage: RedshiftStorage,
-  }),
-).annotate({
-  identifier: "RedshiftRunConfigurationOutput",
-}) as any as S.Schema<RedshiftRunConfigurationOutput>;
 export interface SageMakerRunConfigurationOutput {
   accountId?: string;
   region?: string;
   trackingAssets: { [key: string]: string[] | undefined };
 }
-export const SageMakerRunConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.optional(S.String),
-    region: S.optional(S.String),
-    trackingAssets: TrackingAssets,
-  }),
-).annotate({
-  identifier: "SageMakerRunConfigurationOutput",
-}) as any as S.Schema<SageMakerRunConfigurationOutput>;
 export type DataSourceConfigurationOutput =
   | {
       glueRunConfiguration: GlueRunConfigurationOutput;
@@ -4550,11 +2508,6 @@ export type DataSourceConfigurationOutput =
       redshiftRunConfiguration?: never;
       sageMakerRunConfiguration: SageMakerRunConfigurationOutput;
     };
-export const DataSourceConfigurationOutput = /*@__PURE__*/ S.Union([
-  S.Struct({ glueRunConfiguration: GlueRunConfigurationOutput }),
-  S.Struct({ redshiftRunConfiguration: RedshiftRunConfigurationOutput }),
-  S.Struct({ sageMakerRunConfiguration: SageMakerRunConfigurationOutput }),
-]);
 export type DataSourceRunStatus =
   | "REQUESTED"
   | "RUNNING"
@@ -4562,8 +2515,6 @@ export type DataSourceRunStatus =
   | "PARTIALLY_SUCCEEDED"
   | "SUCCESS"
   | (string & {});
-export const DataSourceRunStatus = S.String;
-
 export type DataSourceErrorType =
   | "ACCESS_DENIED_EXCEPTION"
   | "CONFLICT_EXCEPTION"
@@ -4573,20 +2524,10 @@ export type DataSourceErrorType =
   | "THROTTLING_EXCEPTION"
   | "VALIDATION_EXCEPTION"
   | (string & {});
-export const DataSourceErrorType = S.String;
-
 export interface DataSourceErrorMessage {
   errorType: DataSourceErrorType;
   errorDetail?: string;
 }
-export const DataSourceErrorMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    errorType: DataSourceErrorType,
-    errorDetail: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DataSourceErrorMessage",
-}) as any as S.Schema<DataSourceErrorMessage>;
 export interface CreateDataSourceOutput {
   id: string;
   status?: DataSourceStatus;
@@ -4610,66 +2551,19 @@ export interface CreateDataSourceOutput {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const CreateDataSourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    status: S.optional(DataSourceStatus),
-    type: S.optional(S.String),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    domainId: S.String,
-    projectId: S.String,
-    environmentId: S.optional(S.String),
-    connectionId: S.optional(S.String),
-    configuration: S.optional(DataSourceConfigurationOutput),
-    recommendation: S.optional(RecommendationConfiguration),
-    enableSetting: S.optional(EnableSetting),
-    publishOnImport: S.optional(S.Boolean),
-    assetFormsOutput: S.optional(FormOutputList),
-    schedule: S.optional(ScheduleConfiguration),
-    lastRunStatus: S.optional(DataSourceRunStatus),
-    lastRunAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastRunErrorMessage: S.optional(DataSourceErrorMessage),
-    errorMessage: S.optional(DataSourceErrorMessage),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "CreateDataSourceOutput",
-}) as any as S.Schema<CreateDataSourceOutput>;
 export type AuthType = "IAM_IDC" | "DISABLED" | (string & {});
-export const AuthType = S.String;
-
 export type UserAssignment = "AUTOMATIC" | "MANUAL" | (string & {});
-export const UserAssignment = S.String;
-
 export interface SingleSignOn {
   type?: AuthType;
   userAssignment?: UserAssignment;
   idcInstanceArn?: string;
 }
-export const SingleSignOn = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(AuthType),
-    userAssignment: S.optional(UserAssignment),
-    idcInstanceArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "SingleSignOn" }) as any as S.Schema<SingleSignOn>;
 export type RoleArn = string;
 export type KmsKeyArn = string;
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type DomainVersion = "V1" | "V2" | (string & {});
-export const DomainVersion = S.String;
-
 export interface CreateDomainInput {
   name: string;
   description?: string;
@@ -4681,30 +2575,6 @@ export interface CreateDomainInput {
   serviceRole?: string;
   clientToken?: string;
 }
-export const CreateDomainInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    singleSignOn: S.optional(SingleSignOn),
-    domainExecutionRole: S.optional(S.String),
-    kmsKeyIdentifier: S.optional(S.String),
-    tags: S.optional(Tags),
-    domainVersion: S.optional(DomainVersion),
-    serviceRole: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/domains" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDomainInput",
-}) as any as S.Schema<CreateDomainInput>;
 export type DomainStatus =
   | "CREATING"
   | "AVAILABLE"
@@ -4713,8 +2583,6 @@ export type DomainStatus =
   | "DELETED"
   | "DELETION_FAILED"
   | (string & {});
-export const DomainStatus = S.String;
-
 export interface CreateDomainOutput {
   id: string;
   rootDomainUnitId?: string;
@@ -4730,25 +2598,6 @@ export interface CreateDomainOutput {
   domainVersion?: DomainVersion;
   serviceRole?: string;
 }
-export const CreateDomainOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    rootDomainUnitId: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    singleSignOn: S.optional(SingleSignOn),
-    domainExecutionRole: S.optional(S.String),
-    arn: S.optional(S.String),
-    kmsKeyIdentifier: S.optional(S.String),
-    status: S.optional(DomainStatus),
-    portalUrl: S.optional(S.String),
-    tags: S.optional(Tags),
-    domainVersion: S.optional(DomainVersion),
-    serviceRole: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateDomainOutput",
-}) as any as S.Schema<CreateDomainOutput>;
 export type DomainUnitName = string | redacted.Redacted<string>;
 export type DomainUnitDescription = string | redacted.Redacted<string>;
 export interface CreateDomainUnitInput {
@@ -4758,58 +2607,17 @@ export interface CreateDomainUnitInput {
   description?: string | redacted.Redacted<string>;
   clientToken?: string;
 }
-export const CreateDomainUnitInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: SensitiveString,
-    parentDomainUnitIdentifier: S.String,
-    description: S.optional(SensitiveString),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/domain-units",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDomainUnitInput",
-}) as any as S.Schema<CreateDomainUnitInput>;
 export interface DomainUnitUserProperties {
   userId?: string;
 }
-export const DomainUnitUserProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ userId: S.optional(S.String) }),
-).annotate({
-  identifier: "DomainUnitUserProperties",
-}) as any as S.Schema<DomainUnitUserProperties>;
 export interface DomainUnitGroupProperties {
   groupId?: string;
 }
-export const DomainUnitGroupProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ groupId: S.optional(S.String) }),
-).annotate({
-  identifier: "DomainUnitGroupProperties",
-}) as any as S.Schema<DomainUnitGroupProperties>;
 export type DomainUnitOwnerProperties =
   | { user: DomainUnitUserProperties; group?: never }
   | { user?: never; group: DomainUnitGroupProperties };
-export const DomainUnitOwnerProperties = /*@__PURE__*/ S.Union([
-  S.Struct({ user: DomainUnitUserProperties }),
-  S.Struct({ group: DomainUnitGroupProperties }),
-]);
 export type DomainUnitOwners = DomainUnitOwnerProperties[];
-export const DomainUnitOwners = /*@__PURE__*/ S.Array(
-  DomainUnitOwnerProperties,
-);
 export type DomainUnitIds = string[];
-export const DomainUnitIds = /*@__PURE__*/ S.Array(S.String);
 export interface CreateDomainUnitOutput {
   id: string;
   domainId: string;
@@ -4821,34 +2629,12 @@ export interface CreateDomainUnitOutput {
   createdAt?: Date;
   createdBy?: string;
 }
-export const CreateDomainUnitOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    name: SensitiveString,
-    parentDomainUnitId: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    owners: DomainUnitOwners,
-    ancestorDomainUnitIds: DomainUnitIds,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateDomainUnitOutput",
-}) as any as S.Schema<CreateDomainUnitOutput>;
 export type EnvironmentProfileId = string;
 export interface EnvironmentParameter {
   name?: string;
   value?: string;
 }
-export const EnvironmentParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.optional(S.String), value: S.optional(S.String) }),
-).annotate({
-  identifier: "EnvironmentParameter",
-}) as any as S.Schema<EnvironmentParameter>;
 export type EnvironmentParametersList = EnvironmentParameter[];
-export const EnvironmentParametersList =
-  /*@__PURE__*/ S.Array(EnvironmentParameter);
 export type EnvironmentConfigurationName = string | redacted.Redacted<string>;
 export interface CreateEnvironmentInput {
   projectIdentifier: string;
@@ -4865,37 +2651,6 @@ export interface CreateEnvironmentInput {
   environmentConfigurationId?: string;
   environmentConfigurationName?: string | redacted.Redacted<string>;
 }
-export const CreateEnvironmentInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectIdentifier: S.String,
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    description: S.optional(S.String),
-    name: S.String,
-    environmentProfileIdentifier: S.optional(S.String),
-    userParameters: S.optional(EnvironmentParametersList),
-    glossaryTerms: S.optional(GlossaryTerms),
-    environmentAccountIdentifier: S.optional(S.String),
-    environmentAccountRegion: S.optional(S.String),
-    environmentBlueprintIdentifier: S.optional(S.String),
-    deploymentOrder: S.optional(S.Number),
-    environmentConfigurationId: S.optional(S.String),
-    environmentConfigurationName: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/environments",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateEnvironmentInput",
-}) as any as S.Schema<CreateEnvironmentInput>;
 export type EnvironmentName = string | redacted.Redacted<string>;
 export interface Resource {
   provider?: string;
@@ -4903,16 +2658,7 @@ export interface Resource {
   value: string;
   type: string;
 }
-export const Resource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provider: S.optional(S.String),
-    name: S.optional(S.String),
-    value: S.String,
-    type: S.String,
-  }),
-).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type ResourceList = Resource[];
-export const ResourceList = /*@__PURE__*/ S.Array(Resource);
 export type EnvironmentStatus =
   | "ACTIVE"
   | "CREATING"
@@ -4928,45 +2674,21 @@ export type EnvironmentStatus =
   | "DELETED"
   | "INACCESSIBLE"
   | (string & {});
-export const EnvironmentStatus = S.String;
-
 export type ConfigurableActionTypeAuthorization =
   | "IAM"
   | "HTTPS"
   | (string & {});
-export const ConfigurableActionTypeAuthorization = S.String;
-
 export interface ConfigurableActionParameter {
   key?: string;
   value?: string;
 }
-export const ConfigurableActionParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
-).annotate({
-  identifier: "ConfigurableActionParameter",
-}) as any as S.Schema<ConfigurableActionParameter>;
 export type ConfigurableActionParameterList = ConfigurableActionParameter[];
-export const ConfigurableActionParameterList = /*@__PURE__*/ S.Array(
-  ConfigurableActionParameter,
-);
 export interface ConfigurableEnvironmentAction {
   type: string;
   auth?: ConfigurableActionTypeAuthorization;
   parameters: ConfigurableActionParameter[];
 }
-export const ConfigurableEnvironmentAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    auth: S.optional(ConfigurableActionTypeAuthorization),
-    parameters: ConfigurableActionParameterList,
-  }),
-).annotate({
-  identifier: "ConfigurableEnvironmentAction",
-}) as any as S.Schema<ConfigurableEnvironmentAction>;
 export type EnvironmentActionList = ConfigurableEnvironmentAction[];
-export const EnvironmentActionList = /*@__PURE__*/ S.Array(
-  ConfigurableEnvironmentAction,
-);
 export interface CustomParameter {
   keyName: string;
   description?: string | redacted.Redacted<string>;
@@ -4976,44 +2698,20 @@ export interface CustomParameter {
   isOptional?: boolean;
   isUpdateSupported?: boolean;
 }
-export const CustomParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    keyName: S.String,
-    description: S.optional(SensitiveString),
-    fieldType: S.String,
-    defaultValue: S.optional(S.String),
-    isEditable: S.optional(S.Boolean),
-    isOptional: S.optional(S.Boolean),
-    isUpdateSupported: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "CustomParameter",
-}) as any as S.Schema<CustomParameter>;
 export type CustomParameterList = CustomParameter[];
-export const CustomParameterList = /*@__PURE__*/ S.Array(CustomParameter);
 export type DeploymentType = "CREATE" | "UPDATE" | "DELETE" | (string & {});
-export const DeploymentType = S.String;
-
 export type DeploymentStatus =
   | "IN_PROGRESS"
   | "SUCCESSFUL"
   | "FAILED"
   | "PENDING_DEPLOYMENT"
   | (string & {});
-export const DeploymentStatus = S.String;
-
 export interface EnvironmentError {
   code?: string;
   message: string;
 }
-export const EnvironmentError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ code: S.optional(S.String), message: S.String }),
-).annotate({
-  identifier: "EnvironmentError",
-}) as any as S.Schema<EnvironmentError>;
 export type DeploymentMessage = string;
 export type DeploymentMessagesList = string[];
-export const DeploymentMessagesList = /*@__PURE__*/ S.Array(S.String);
 export interface Deployment {
   deploymentId?: string;
   deploymentType?: DeploymentType;
@@ -5022,43 +2720,16 @@ export interface Deployment {
   messages?: string[];
   isDeploymentComplete?: boolean;
 }
-export const Deployment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    deploymentId: S.optional(S.String),
-    deploymentType: S.optional(DeploymentType),
-    deploymentStatus: S.optional(DeploymentStatus),
-    failureReason: S.optional(EnvironmentError),
-    messages: S.optional(DeploymentMessagesList),
-    isDeploymentComplete: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "Deployment" }) as any as S.Schema<Deployment>;
 export interface CloudFormationProperties {
   templateUrl: string;
 }
-export const CloudFormationProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ templateUrl: S.String }),
-).annotate({
-  identifier: "CloudFormationProperties",
-}) as any as S.Schema<CloudFormationProperties>;
 export type ProvisioningProperties =
   | { cloudFormation: CloudFormationProperties; manual?: never }
   | { cloudFormation?: never; manual: Record<string, never> };
-export const ProvisioningProperties = /*@__PURE__*/ S.Union([
-  S.Struct({ cloudFormation: CloudFormationProperties }),
-  S.Struct({ manual: S.Struct({}) }),
-]);
 export interface DeploymentProperties {
   startTimeoutMinutes?: number;
   endTimeoutMinutes?: number;
 }
-export const DeploymentProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startTimeoutMinutes: S.optional(S.Number),
-    endTimeoutMinutes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "DeploymentProperties",
-}) as any as S.Schema<DeploymentProperties>;
 export type EnvironmentBlueprintId = string;
 export type EnvironmentConfigurationId = string | redacted.Redacted<string>;
 export interface CreateEnvironmentOutput {
@@ -5086,51 +2757,10 @@ export interface CreateEnvironmentOutput {
   environmentConfigurationId?: string | redacted.Redacted<string>;
   environmentConfigurationName?: string | redacted.Redacted<string>;
 }
-export const CreateEnvironmentOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectId: S.String,
-    id: S.optional(S.String),
-    domainId: S.String,
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    environmentProfileId: S.optional(S.String),
-    awsAccountId: S.optional(S.String),
-    awsAccountRegion: S.optional(S.String),
-    provider: S.String,
-    provisionedResources: S.optional(ResourceList),
-    status: S.optional(EnvironmentStatus),
-    environmentActions: S.optional(EnvironmentActionList),
-    glossaryTerms: S.optional(GlossaryTerms),
-    userParameters: S.optional(CustomParameterList),
-    lastDeployment: S.optional(Deployment),
-    provisioningProperties: S.optional(ProvisioningProperties),
-    deploymentProperties: S.optional(DeploymentProperties),
-    environmentBlueprintId: S.optional(S.String),
-    environmentConfigurationId: S.optional(SensitiveString),
-    environmentConfigurationName: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "CreateEnvironmentOutput",
-}) as any as S.Schema<CreateEnvironmentOutput>;
 export interface AwsConsoleLinkParameters {
   uri?: string;
 }
-export const AwsConsoleLinkParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ uri: S.optional(S.String) }),
-).annotate({
-  identifier: "AwsConsoleLinkParameters",
-}) as any as S.Schema<AwsConsoleLinkParameters>;
 export type ActionParameters = { awsConsoleLink: AwsConsoleLinkParameters };
-export const ActionParameters = /*@__PURE__*/ S.Union([
-  S.Struct({ awsConsoleLink: AwsConsoleLinkParameters }),
-]);
 export interface CreateEnvironmentActionInput {
   domainIdentifier: string;
   environmentIdentifier: string;
@@ -5138,29 +2768,6 @@ export interface CreateEnvironmentActionInput {
   parameters: ActionParameters;
   description?: string;
 }
-export const CreateEnvironmentActionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
-    name: S.String,
-    parameters: ActionParameters,
-    description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateEnvironmentActionInput",
-}) as any as S.Schema<CreateEnvironmentActionInput>;
 export type EnvironmentActionId = string;
 export interface CreateEnvironmentActionOutput {
   domainId: string;
@@ -5170,18 +2777,6 @@ export interface CreateEnvironmentActionOutput {
   parameters: ActionParameters;
   description?: string;
 }
-export const CreateEnvironmentActionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    environmentId: S.String,
-    id: S.String,
-    name: S.String,
-    parameters: ActionParameters,
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateEnvironmentActionOutput",
-}) as any as S.Schema<CreateEnvironmentActionOutput>;
 export type EnvironmentBlueprintName = string;
 export interface CreateEnvironmentBlueprintInput {
   domainIdentifier: string;
@@ -5190,29 +2785,6 @@ export interface CreateEnvironmentBlueprintInput {
   provisioningProperties: ProvisioningProperties;
   userParameters?: CustomParameter[];
 }
-export const CreateEnvironmentBlueprintInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: S.String,
-    description: S.optional(SensitiveString),
-    provisioningProperties: ProvisioningProperties,
-    userParameters: S.optional(CustomParameterList),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/environment-blueprints",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateEnvironmentBlueprintInput",
-}) as any as S.Schema<CreateEnvironmentBlueprintInput>;
 export interface CreateEnvironmentBlueprintOutput {
   id: string;
   name: string;
@@ -5225,26 +2797,6 @@ export interface CreateEnvironmentBlueprintOutput {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const CreateEnvironmentBlueprintOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: S.String,
-    description: S.optional(SensitiveString),
-    provider: S.String,
-    provisioningProperties: ProvisioningProperties,
-    deploymentProperties: S.optional(DeploymentProperties),
-    userParameters: S.optional(CustomParameterList),
-    glossaryTerms: S.optional(GlossaryTerms),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "CreateEnvironmentBlueprintOutput",
-}) as any as S.Schema<CreateEnvironmentBlueprintOutput>;
 export type EnvironmentProfileName = string | redacted.Redacted<string>;
 export interface CreateEnvironmentProfileInput {
   domainIdentifier: string;
@@ -5256,32 +2808,6 @@ export interface CreateEnvironmentProfileInput {
   awsAccountId?: string;
   awsAccountRegion?: string;
 }
-export const CreateEnvironmentProfileInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    environmentBlueprintIdentifier: S.String,
-    projectIdentifier: S.String,
-    userParameters: S.optional(EnvironmentParametersList),
-    awsAccountId: S.optional(S.String),
-    awsAccountRegion: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/environment-profiles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateEnvironmentProfileInput",
-}) as any as S.Schema<CreateEnvironmentProfileInput>;
 export interface CreateEnvironmentProfileOutput {
   id: string;
   domainId: string;
@@ -5296,34 +2822,9 @@ export interface CreateEnvironmentProfileOutput {
   projectId?: string;
   userParameters?: CustomParameter[];
 }
-export const CreateEnvironmentProfileOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    awsAccountId: S.optional(S.String),
-    awsAccountRegion: S.optional(S.String),
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    environmentBlueprintId: S.String,
-    projectId: S.optional(S.String),
-    userParameters: S.optional(CustomParameterList),
-  }),
-).annotate({
-  identifier: "CreateEnvironmentProfileOutput",
-}) as any as S.Schema<CreateEnvironmentProfileOutput>;
 export type Smithy = string;
 export type Model = { smithy: string };
-export const Model = /*@__PURE__*/ S.Union([S.Struct({ smithy: S.String })]);
 export type FormTypeStatus = "ENABLED" | "DISABLED" | (string & {});
-export const FormTypeStatus = S.String;
-
 export interface CreateFormTypeInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
@@ -5332,30 +2833,6 @@ export interface CreateFormTypeInput {
   status?: FormTypeStatus;
   description?: string | redacted.Redacted<string>;
 }
-export const CreateFormTypeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: SensitiveString,
-    model: Model,
-    owningProjectIdentifier: S.String,
-    status: S.optional(FormTypeStatus),
-    description: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/form-types",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateFormTypeInput",
-}) as any as S.Schema<CreateFormTypeInput>;
 export interface CreateFormTypeOutput {
   domainId: string;
   name: string | redacted.Redacted<string>;
@@ -5365,31 +2842,11 @@ export interface CreateFormTypeOutput {
   originDomainId?: string;
   originProjectId?: string;
 }
-export const CreateFormTypeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    name: SensitiveString,
-    revision: S.String,
-    description: S.optional(SensitiveString),
-    owningProjectId: S.optional(S.String),
-    originDomainId: S.optional(S.String),
-    originProjectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateFormTypeOutput",
-}) as any as S.Schema<CreateFormTypeOutput>;
 export type GlossaryName = string | redacted.Redacted<string>;
 export type GlossaryDescription = string | redacted.Redacted<string>;
 export type GlossaryStatus = "DISABLED" | "ENABLED" | (string & {});
-export const GlossaryStatus = S.String;
-
 export type GlossaryUsageRestriction = "ASSET_GOVERNED_TERMS" | (string & {});
-export const GlossaryUsageRestriction = S.String;
-
 export type GlossaryUsageRestrictions = GlossaryUsageRestriction[];
-export const GlossaryUsageRestrictions = /*@__PURE__*/ S.Array(
-  GlossaryUsageRestriction,
-);
 export interface CreateGlossaryInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
@@ -5399,31 +2856,6 @@ export interface CreateGlossaryInput {
   usageRestrictions?: GlossaryUsageRestriction[];
   clientToken?: string;
 }
-export const CreateGlossaryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: SensitiveString,
-    owningProjectIdentifier: S.String,
-    description: S.optional(SensitiveString),
-    status: S.optional(GlossaryStatus),
-    usageRestrictions: S.optional(GlossaryUsageRestrictions),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/glossaries",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateGlossaryInput",
-}) as any as S.Schema<CreateGlossaryInput>;
 export type GlossaryId = string;
 export interface CreateGlossaryOutput {
   domainId: string;
@@ -5434,33 +2866,12 @@ export interface CreateGlossaryOutput {
   status?: GlossaryStatus;
   usageRestrictions?: GlossaryUsageRestriction[];
 }
-export const CreateGlossaryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    name: SensitiveString,
-    owningProjectId: S.String,
-    description: S.optional(SensitiveString),
-    status: S.optional(GlossaryStatus),
-    usageRestrictions: S.optional(GlossaryUsageRestrictions),
-  }),
-).annotate({
-  identifier: "CreateGlossaryOutput",
-}) as any as S.Schema<CreateGlossaryOutput>;
 export type GlossaryTermStatus = "ENABLED" | "DISABLED" | (string & {});
-export const GlossaryTermStatus = S.String;
-
 export type LongDescription = string | redacted.Redacted<string>;
 export interface TermRelations {
   isA?: string[];
   classifies?: string[];
 }
-export const TermRelations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    isA: S.optional(GlossaryTerms),
-    classifies: S.optional(GlossaryTerms),
-  }),
-).annotate({ identifier: "TermRelations" }) as any as S.Schema<TermRelations>;
 export interface CreateGlossaryTermInput {
   domainIdentifier: string;
   glossaryIdentifier: string;
@@ -5471,32 +2882,6 @@ export interface CreateGlossaryTermInput {
   termRelations?: TermRelations;
   clientToken?: string;
 }
-export const CreateGlossaryTermInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    glossaryIdentifier: S.String,
-    name: SensitiveString,
-    status: S.optional(GlossaryTermStatus),
-    shortDescription: S.optional(SensitiveString),
-    longDescription: S.optional(SensitiveString),
-    termRelations: S.optional(TermRelations),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/glossary-terms",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateGlossaryTermInput",
-}) as any as S.Schema<CreateGlossaryTermInput>;
 export interface CreateGlossaryTermOutput {
   id: string;
   domainId: string;
@@ -5508,52 +2893,13 @@ export interface CreateGlossaryTermOutput {
   termRelations?: TermRelations;
   usageRestrictions?: GlossaryUsageRestriction[];
 }
-export const CreateGlossaryTermOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    glossaryId: S.String,
-    name: SensitiveString,
-    status: GlossaryTermStatus,
-    shortDescription: S.optional(SensitiveString),
-    longDescription: S.optional(SensitiveString),
-    termRelations: S.optional(TermRelations),
-    usageRestrictions: S.optional(GlossaryUsageRestrictions),
-  }),
-).annotate({
-  identifier: "CreateGlossaryTermOutput",
-}) as any as S.Schema<CreateGlossaryTermOutput>;
 export interface CreateGroupProfileInput {
   domainIdentifier: string;
   groupIdentifier?: string;
   rolePrincipalArn?: string;
   clientToken?: string;
 }
-export const CreateGroupProfileInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    groupIdentifier: S.optional(S.String),
-    rolePrincipalArn: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/group-profiles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateGroupProfileInput",
-}) as any as S.Schema<CreateGroupProfileInput>;
 export type GroupProfileStatus = "ASSIGNED" | "NOT_ASSIGNED" | (string & {});
-export const GroupProfileStatus = S.String;
-
 export interface CreateGroupProfileOutput {
   domainId?: string;
   id?: string;
@@ -5562,24 +2908,8 @@ export interface CreateGroupProfileOutput {
   rolePrincipalArn?: string;
   rolePrincipalId?: string;
 }
-export const CreateGroupProfileOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    id: S.optional(S.String),
-    status: S.optional(GroupProfileStatus),
-    groupName: S.optional(SensitiveString),
-    rolePrincipalArn: S.optional(S.String),
-    rolePrincipalId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateGroupProfileOutput",
-}) as any as S.Schema<CreateGroupProfileOutput>;
 export type EntityType = "ASSET" | "DATA_PRODUCT" | (string & {});
-export const EntityType = S.String;
-
 export type ChangeAction = "PUBLISH" | "UNPUBLISH" | (string & {});
-export const ChangeAction = S.String;
-
 export interface CreateListingChangeSetInput {
   domainIdentifier: string;
   entityIdentifier: string;
@@ -5588,61 +2918,20 @@ export interface CreateListingChangeSetInput {
   action: ChangeAction;
   clientToken?: string;
 }
-export const CreateListingChangeSetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    entityIdentifier: S.String,
-    entityType: EntityType,
-    entityRevision: S.optional(S.String),
-    action: ChangeAction,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/listings/change-set",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateListingChangeSetInput",
-}) as any as S.Schema<CreateListingChangeSetInput>;
 export interface CreateListingChangeSetOutput {
   listingId: string;
   listingRevision: string;
   status: ListingStatus;
 }
-export const CreateListingChangeSetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    listingId: S.String,
-    listingRevision: S.String,
-    status: ListingStatus,
-  }),
-).annotate({
-  identifier: "CreateListingChangeSetOutput",
-}) as any as S.Schema<CreateListingChangeSetOutput>;
 export type NotebookName = string | redacted.Redacted<string>;
 export type MetadataKey = string;
 export type MetadataValue = string | redacted.Redacted<string>;
 export type Metadata = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
-export const Metadata = /*@__PURE__*/ S.Record(
-  S.String,
-  SensitiveString.pipe(S.optional),
-);
 export type ParameterKey = string;
 export type ParameterValue = string;
 export type Parameters = { [key: string]: string | undefined };
-export const Parameters = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface CreateNotebookInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
@@ -5652,80 +2941,28 @@ export interface CreateNotebookInput {
   parameters?: { [key: string]: string | undefined };
   clientToken?: string;
 }
-export const CreateNotebookInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    owningProjectIdentifier: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    metadata: S.optional(Metadata),
-    parameters: S.optional(Parameters),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/notebooks",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateNotebookInput",
-}) as any as S.Schema<CreateNotebookInput>;
 export type NotebookId = string;
 export interface CellInformation {}
-export const CellInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CellInformation",
-}) as any as S.Schema<CellInformation>;
 export type CellOrder = CellInformation[];
-export const CellOrder = /*@__PURE__*/ S.Array(CellInformation);
 export type NotebookStatus =
   | "ACTIVE"
   | "ARCHIVED"
   | "SYNC_IN_PROGRESS"
   | "SYNC_FAILED"
   | (string & {});
-export const NotebookStatus = S.String;
-
 export type ComputeId = string;
 export type PackageManager = "UV" | (string & {});
-export const PackageManager = S.String;
-
 export interface PackageConfig {
   packageManager: PackageManager;
   packageSpecification?: string;
 }
-export const PackageConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    packageManager: PackageManager,
-    packageSpecification: S.optional(S.String),
-  }),
-).annotate({ identifier: "PackageConfig" }) as any as S.Schema<PackageConfig>;
 export interface EnvironmentConfig {
   imageVersion?: string;
   packageConfig?: PackageConfig;
 }
-export const EnvironmentConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageVersion: S.optional(S.String),
-    packageConfig: S.optional(PackageConfig),
-  }),
-).annotate({
-  identifier: "EnvironmentConfig",
-}) as any as S.Schema<EnvironmentConfig>;
 export interface NotebookError {
   message: string;
 }
-export const NotebookError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ message: S.String }),
-).annotate({ identifier: "NotebookError" }) as any as S.Schema<NotebookError>;
 export type GitConnectionId = string;
 export type GitRepository = string | redacted.Redacted<string>;
 export type GitBranch = string | redacted.Redacted<string>;
@@ -5741,17 +2978,6 @@ export interface GitMetadata {
   committedAt?: Date;
   commitMessage?: string | redacted.Redacted<string>;
 }
-export const GitMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectionId: S.String,
-    repository: SensitiveString,
-    branch: SensitiveString,
-    commitHash: S.String,
-    fileName: S.optional(S.String),
-    committedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    commitMessage: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "GitMetadata" }) as any as S.Schema<GitMetadata>;
 export interface CreateNotebookOutput {
   id: string;
   name: string | redacted.Redacted<string>;
@@ -5774,76 +3000,23 @@ export interface CreateNotebookOutput {
   error?: NotebookError;
   gitMetadata?: GitMetadata;
 }
-export const CreateNotebookOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: SensitiveString,
-    owningProjectId: S.String,
-    domainId: S.String,
-    cellOrder: CellOrder,
-    status: NotebookStatus,
-    description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-    lockedBy: S.optional(S.String),
-    lockedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lockExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    computeId: S.optional(S.String),
-    metadata: S.optional(Metadata),
-    parameters: S.optional(Parameters),
-    environmentConfiguration: S.optional(EnvironmentConfig),
-    error: S.optional(NotebookError),
-    gitMetadata: S.optional(GitMetadata),
-  }),
-).annotate({
-  identifier: "CreateNotebookOutput",
-}) as any as S.Schema<CreateNotebookOutput>;
 export type ProjectProfileId = string;
 export interface EnvironmentResolvedAccount {
   awsAccountId: string;
   regionName: string;
   sourceAccountPoolId?: string;
 }
-export const EnvironmentResolvedAccount = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    awsAccountId: S.String,
-    regionName: S.String,
-    sourceAccountPoolId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EnvironmentResolvedAccount",
-}) as any as S.Schema<EnvironmentResolvedAccount>;
 export interface EnvironmentConfigurationUserParameter {
   environmentId?: string;
   environmentResolvedAccount?: EnvironmentResolvedAccount;
   environmentConfigurationName?: string | redacted.Redacted<string>;
   environmentParameters?: EnvironmentParameter[];
 }
-export const EnvironmentConfigurationUserParameter = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      environmentId: S.optional(S.String),
-      environmentResolvedAccount: S.optional(EnvironmentResolvedAccount),
-      environmentConfigurationName: S.optional(SensitiveString),
-      environmentParameters: S.optional(EnvironmentParametersList),
-    }),
-).annotate({
-  identifier: "EnvironmentConfigurationUserParameter",
-}) as any as S.Schema<EnvironmentConfigurationUserParameter>;
 export type EnvironmentConfigurationUserParametersList =
   EnvironmentConfigurationUserParameter[];
-export const EnvironmentConfigurationUserParametersList = /*@__PURE__*/ S.Array(
-  EnvironmentConfigurationUserParameter,
-);
 export type Member =
   | { userIdentifier: string; groupIdentifier?: never }
   | { userIdentifier?: never; groupIdentifier: string };
-export const Member = /*@__PURE__*/ S.Union([
-  S.Struct({ userIdentifier: S.String }),
-  S.Struct({ groupIdentifier: S.String }),
-]);
 export type UserDesignation =
   | "PROJECT_OWNER"
   | "PROJECT_CONTRIBUTOR"
@@ -5851,21 +3024,11 @@ export type UserDesignation =
   | "PROJECT_CATALOG_CONSUMER"
   | "PROJECT_CATALOG_STEWARD"
   | (string & {});
-export const UserDesignation = S.String;
-
 export interface ProjectMembershipAssignment {
   member: Member;
   designation: UserDesignation;
 }
-export const ProjectMembershipAssignment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ member: Member, designation: UserDesignation }),
-).annotate({
-  identifier: "ProjectMembershipAssignment",
-}) as any as S.Schema<ProjectMembershipAssignment>;
 export type ProjectMembershipAssignments = ProjectMembershipAssignment[];
-export const ProjectMembershipAssignments = /*@__PURE__*/ S.Array(
-  ProjectMembershipAssignment,
-);
 export interface CreateProjectInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
@@ -5879,35 +3042,6 @@ export interface CreateProjectInput {
   projectExecutionRole?: string;
   membershipAssignments?: ProjectMembershipAssignment[];
 }
-export const CreateProjectInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    resourceTags: S.optional(Tags),
-    glossaryTerms: S.optional(GlossaryTerms),
-    domainUnitId: S.optional(S.String),
-    projectProfileId: S.optional(S.String),
-    userParameters: S.optional(EnvironmentConfigurationUserParametersList),
-    projectCategory: S.optional(S.String),
-    projectExecutionRole: S.optional(S.String),
-    membershipAssignments: S.optional(ProjectMembershipAssignments),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/projects",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateProjectInput",
-}) as any as S.Schema<CreateProjectInput>;
 export type ProjectStatus =
   | "ACTIVE"
   | "DELETING"
@@ -5916,32 +3050,18 @@ export type ProjectStatus =
   | "UPDATE_FAILED"
   | "MOVING"
   | (string & {});
-export const ProjectStatus = S.String;
-
 export interface ProjectDeletionError {
   code?: string;
   message?: string;
 }
-export const ProjectDeletionError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
-).annotate({
-  identifier: "ProjectDeletionError",
-}) as any as S.Schema<ProjectDeletionError>;
 export type FailureReasons = ProjectDeletionError[];
-export const FailureReasons = /*@__PURE__*/ S.Array(ProjectDeletionError);
 export type ResourceTagSource = "PROJECT" | "PROJECT_PROFILE" | (string & {});
-export const ResourceTagSource = S.String;
-
 export interface ResourceTag {
   key: string;
   value: string;
   source: ResourceTagSource;
 }
-export const ResourceTag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String, source: ResourceTagSource }),
-).annotate({ identifier: "ResourceTag" }) as any as S.Schema<ResourceTag>;
 export type ResourceTags = ResourceTag[];
-export const ResourceTags = /*@__PURE__*/ S.Array(ResourceTag);
 export type OverallDeploymentStatus =
   | "PENDING_DEPLOYMENT"
   | "IN_PROGRESS"
@@ -5949,30 +3069,14 @@ export type OverallDeploymentStatus =
   | "FAILED_VALIDATION"
   | "FAILED_DEPLOYMENT"
   | (string & {});
-export const OverallDeploymentStatus = S.String;
-
 export type EnvironmentFailureReasonsList = EnvironmentError[];
-export const EnvironmentFailureReasonsList =
-  /*@__PURE__*/ S.Array(EnvironmentError);
 export type EnvironmentFailureReasons = {
   [key: string]: EnvironmentError[] | undefined;
 };
-export const EnvironmentFailureReasons = /*@__PURE__*/ S.Record(
-  S.String,
-  EnvironmentFailureReasonsList.pipe(S.optional),
-);
 export interface EnvironmentDeploymentDetails {
   overallDeploymentStatus?: OverallDeploymentStatus;
   environmentFailureReasons?: { [key: string]: EnvironmentError[] | undefined };
 }
-export const EnvironmentDeploymentDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    overallDeploymentStatus: S.optional(OverallDeploymentStatus),
-    environmentFailureReasons: S.optional(EnvironmentFailureReasons),
-  }),
-).annotate({
-  identifier: "EnvironmentDeploymentDetails",
-}) as any as S.Schema<EnvironmentDeploymentDetails>;
 export interface CreateProjectOutput {
   domainId: string;
   id: string;
@@ -5991,86 +3095,22 @@ export interface CreateProjectOutput {
   environmentDeploymentDetails?: EnvironmentDeploymentDetails;
   projectCategory?: string;
 }
-export const CreateProjectOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    projectStatus: S.optional(ProjectStatus),
-    failureReasons: S.optional(FailureReasons),
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    resourceTags: S.optional(ResourceTags),
-    glossaryTerms: S.optional(GlossaryTerms),
-    domainUnitId: S.optional(S.String),
-    projectProfileId: S.optional(S.String),
-    userParameters: S.optional(EnvironmentConfigurationUserParametersList),
-    environmentDeploymentDetails: S.optional(EnvironmentDeploymentDetails),
-    projectCategory: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateProjectOutput",
-}) as any as S.Schema<CreateProjectOutput>;
 export interface CreateProjectMembershipInput {
   domainIdentifier: string;
   projectIdentifier: string;
   member: Member;
   designation: UserDesignation;
 }
-export const CreateProjectMembershipInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    projectIdentifier: S.String.pipe(T.HttpLabel("projectIdentifier")),
-    member: Member,
-    designation: UserDesignation,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/projects/{projectIdentifier}/createMembership",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateProjectMembershipInput",
-}) as any as S.Schema<CreateProjectMembershipInput>;
 export interface CreateProjectMembershipOutput {}
-export const CreateProjectMembershipOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CreateProjectMembershipOutput",
-}) as any as S.Schema<CreateProjectMembershipOutput>;
 export type ProjectProfileName = string | redacted.Redacted<string>;
 export type Status = "ENABLED" | "DISABLED" | (string & {});
-export const Status = S.String;
-
 export interface ResourceTagParameter {
   key: string;
   value: string;
   isValueEditable: boolean;
 }
-export const ResourceTagParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String, isValueEditable: S.Boolean }),
-).annotate({
-  identifier: "ResourceTagParameter",
-}) as any as S.Schema<ResourceTagParameter>;
 export type ProjectResourceTagParameters = ResourceTagParameter[];
-export const ProjectResourceTagParameters =
-  /*@__PURE__*/ S.Array(ResourceTagParameter);
 export type DeploymentMode = "ON_CREATE" | "ON_DEMAND" | (string & {});
-export const DeploymentMode = S.String;
-
 export type ParameterStorePath = string;
 export type EnvironmentConfigurationParameterName = string;
 export interface EnvironmentConfigurationParameter {
@@ -6078,52 +3118,21 @@ export interface EnvironmentConfigurationParameter {
   value?: string;
   isEditable?: boolean;
 }
-export const EnvironmentConfigurationParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    value: S.optional(S.String),
-    isEditable: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "EnvironmentConfigurationParameter",
-}) as any as S.Schema<EnvironmentConfigurationParameter>;
 export type EnvironmentConfigurationParametersList =
   EnvironmentConfigurationParameter[];
-export const EnvironmentConfigurationParametersList = /*@__PURE__*/ S.Array(
-  EnvironmentConfigurationParameter,
-);
 export interface EnvironmentConfigurationParametersDetails {
   ssmPath?: string;
   parameterOverrides?: EnvironmentConfigurationParameter[];
   resolvedParameters?: EnvironmentConfigurationParameter[];
 }
-export const EnvironmentConfigurationParametersDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ssmPath: S.optional(S.String),
-      parameterOverrides: S.optional(EnvironmentConfigurationParametersList),
-      resolvedParameters: S.optional(EnvironmentConfigurationParametersList),
-    }),
-  ).annotate({
-    identifier: "EnvironmentConfigurationParametersDetails",
-  }) as any as S.Schema<EnvironmentConfigurationParametersDetails>;
 export type AwsAccount =
   | { awsAccountId: string; awsAccountIdPath?: never }
   | { awsAccountId?: never; awsAccountIdPath: string };
-export const AwsAccount = /*@__PURE__*/ S.Union([
-  S.Struct({ awsAccountId: S.String }),
-  S.Struct({ awsAccountIdPath: S.String }),
-]);
 export type AccountPoolList = string[];
-export const AccountPoolList = /*@__PURE__*/ S.Array(S.String);
 export type RegionName = string;
 export type Region =
   | { regionName: string; regionNamePath?: never }
   | { regionName?: never; regionNamePath: string };
-export const Region = /*@__PURE__*/ S.Union([
-  S.Struct({ regionName: S.String }),
-  S.Struct({ regionNamePath: S.String }),
-]);
 export type DeploymentOrder = number;
 export interface EnvironmentConfiguration {
   name: string | redacted.Redacted<string>;
@@ -6137,28 +3146,7 @@ export interface EnvironmentConfiguration {
   awsRegion?: Region;
   deploymentOrder?: number;
 }
-export const EnvironmentConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: SensitiveString,
-    id: S.optional(SensitiveString),
-    environmentBlueprintId: S.String,
-    description: S.optional(SensitiveString),
-    deploymentMode: S.optional(DeploymentMode),
-    configurationParameters: S.optional(
-      EnvironmentConfigurationParametersDetails,
-    ),
-    awsAccount: S.optional(AwsAccount),
-    accountPools: S.optional(AccountPoolList),
-    awsRegion: S.optional(Region),
-    deploymentOrder: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "EnvironmentConfiguration",
-}) as any as S.Schema<EnvironmentConfiguration>;
 export type EnvironmentConfigurationsList = EnvironmentConfiguration[];
-export const EnvironmentConfigurationsList = /*@__PURE__*/ S.Array(
-  EnvironmentConfiguration,
-);
 export interface CreateProjectProfileInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
@@ -6170,33 +3158,6 @@ export interface CreateProjectProfileInput {
   environmentConfigurations?: EnvironmentConfiguration[];
   domainUnitIdentifier?: string;
 }
-export const CreateProjectProfileInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    status: S.optional(Status),
-    projectResourceTags: S.optional(ProjectResourceTagParameters),
-    allowCustomProjectResourceTags: S.optional(S.Boolean),
-    projectResourceTagsDescription: S.optional(SensitiveString),
-    environmentConfigurations: S.optional(EnvironmentConfigurationsList),
-    domainUnitIdentifier: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/project-profiles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateProjectProfileInput",
-}) as any as S.Schema<CreateProjectProfileInput>;
 export interface CreateProjectProfileOutput {
   domainId: string;
   id: string;
@@ -6212,126 +3173,44 @@ export interface CreateProjectProfileOutput {
   lastUpdatedAt?: Date;
   domainUnitId?: string;
 }
-export const CreateProjectProfileOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    status: S.optional(Status),
-    projectResourceTags: S.optional(ProjectResourceTagParameters),
-    allowCustomProjectResourceTags: S.optional(S.Boolean),
-    projectResourceTagsDescription: S.optional(SensitiveString),
-    environmentConfigurations: S.optional(EnvironmentConfigurationsList),
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    domainUnitId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateProjectProfileOutput",
-}) as any as S.Schema<CreateProjectProfileOutput>;
 export type RuleName = string | redacted.Redacted<string>;
 export interface DomainUnitTarget {
   domainUnitId: string;
   includeChildDomainUnits?: boolean;
 }
-export const DomainUnitTarget = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainUnitId: S.String,
-    includeChildDomainUnits: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "DomainUnitTarget",
-}) as any as S.Schema<DomainUnitTarget>;
 export type RuleTarget = { domainUnitTarget: DomainUnitTarget };
-export const RuleTarget = /*@__PURE__*/ S.Union([
-  S.Struct({ domainUnitTarget: DomainUnitTarget }),
-]);
 export type RuleAction =
   | "CREATE_LISTING_CHANGE_SET"
   | "CREATE_SUBSCRIPTION_REQUEST"
   | (string & {});
-export const RuleAction = S.String;
-
 export type RuleScopeSelectionMode = "ALL" | "SPECIFIC" | (string & {});
-export const RuleScopeSelectionMode = S.String;
-
 export type RuleAssetTypeList = string[];
-export const RuleAssetTypeList = /*@__PURE__*/ S.Array(S.String);
 export interface AssetTypesForRule {
   selectionMode: RuleScopeSelectionMode;
   specificAssetTypes?: string[];
 }
-export const AssetTypesForRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    selectionMode: RuleScopeSelectionMode,
-    specificAssetTypes: S.optional(RuleAssetTypeList),
-  }),
-).annotate({
-  identifier: "AssetTypesForRule",
-}) as any as S.Schema<AssetTypesForRule>;
 export type RuleProjectIdentifierList = string[];
-export const RuleProjectIdentifierList = /*@__PURE__*/ S.Array(S.String);
 export interface ProjectsForRule {
   selectionMode: RuleScopeSelectionMode;
   specificProjects?: string[];
 }
-export const ProjectsForRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    selectionMode: RuleScopeSelectionMode,
-    specificProjects: S.optional(RuleProjectIdentifierList),
-  }),
-).annotate({
-  identifier: "ProjectsForRule",
-}) as any as S.Schema<ProjectsForRule>;
 export interface RuleScope {
   assetType?: AssetTypesForRule;
   dataProduct?: boolean;
   project?: ProjectsForRule;
 }
-export const RuleScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    assetType: S.optional(AssetTypesForRule),
-    dataProduct: S.optional(S.Boolean),
-    project: S.optional(ProjectsForRule),
-  }),
-).annotate({ identifier: "RuleScope" }) as any as S.Schema<RuleScope>;
 export interface MetadataFormReference {
   typeIdentifier: string;
   typeRevision: string;
 }
-export const MetadataFormReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ typeIdentifier: S.String, typeRevision: S.String }),
-).annotate({
-  identifier: "MetadataFormReference",
-}) as any as S.Schema<MetadataFormReference>;
 export type RequiredMetadataFormList = MetadataFormReference[];
-export const RequiredMetadataFormList = /*@__PURE__*/ S.Array(
-  MetadataFormReference,
-);
 export interface MetadataFormEnforcementDetail {
   requiredMetadataForms?: MetadataFormReference[];
 }
-export const MetadataFormEnforcementDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ requiredMetadataForms: S.optional(RequiredMetadataFormList) }),
-).annotate({
-  identifier: "MetadataFormEnforcementDetail",
-}) as any as S.Schema<MetadataFormEnforcementDetail>;
 export type GlossaryTermIdentifiers = string[];
-export const GlossaryTermIdentifiers = /*@__PURE__*/ S.Array(S.String);
 export interface GlossaryTermEnforcementDetail {
   requiredGlossaryTermIds?: string[];
 }
-export const GlossaryTermEnforcementDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ requiredGlossaryTermIds: S.optional(GlossaryTermIdentifiers) }),
-).annotate({
-  identifier: "GlossaryTermEnforcementDetail",
-}) as any as S.Schema<GlossaryTermEnforcementDetail>;
 export type RuleDetail =
   | {
       metadataFormEnforcementDetail: MetadataFormEnforcementDetail;
@@ -6341,10 +3220,6 @@ export type RuleDetail =
       metadataFormEnforcementDetail?: never;
       glossaryTermEnforcementDetail: GlossaryTermEnforcementDetail;
     };
-export const RuleDetail = /*@__PURE__*/ S.Union([
-  S.Struct({ metadataFormEnforcementDetail: MetadataFormEnforcementDetail }),
-  S.Struct({ glossaryTermEnforcementDetail: GlossaryTermEnforcementDetail }),
-]);
 export interface CreateRuleInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
@@ -6355,39 +3230,12 @@ export interface CreateRuleInput {
   description?: string | redacted.Redacted<string>;
   clientToken?: string;
 }
-export const CreateRuleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: SensitiveString,
-    target: RuleTarget,
-    action: RuleAction,
-    scope: RuleScope,
-    detail: RuleDetail,
-    description: S.optional(SensitiveString),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/domains/{domainIdentifier}/rules" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateRuleInput",
-}) as any as S.Schema<CreateRuleInput>;
 export type RuleId = string;
 export type RuleType =
   | "METADATA_FORM_ENFORCEMENT"
   | "GLOSSARY_TERM_ENFORCEMENT"
   | (string & {});
-export const RuleType = S.String;
-
 export type RuleTargetType = "DOMAIN_UNIT" | (string & {});
-export const RuleTargetType = S.String;
-
 export interface CreateRuleOutput {
   identifier: string;
   name: string | redacted.Redacted<string>;
@@ -6401,48 +3249,17 @@ export interface CreateRuleOutput {
   createdAt: Date;
   createdBy: string;
 }
-export const CreateRuleOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String,
-    name: SensitiveString,
-    ruleType: RuleType,
-    target: RuleTarget,
-    action: RuleAction,
-    scope: RuleScope,
-    detail: RuleDetail,
-    targetType: S.optional(RuleTargetType),
-    description: S.optional(SensitiveString),
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    createdBy: S.String,
-  }),
-).annotate({
-  identifier: "CreateRuleOutput",
-}) as any as S.Schema<CreateRuleOutput>;
 export type SubscriptionTargetId = string;
 export interface ListingRevisionInput {
   identifier: string;
   revision: string;
 }
-export const ListingRevisionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifier: S.String, revision: S.String }),
-).annotate({
-  identifier: "ListingRevisionInput",
-}) as any as S.Schema<ListingRevisionInput>;
 export type GrantedEntityInput = { listing: ListingRevisionInput };
-export const GrantedEntityInput = /*@__PURE__*/ S.Union([
-  S.Struct({ listing: ListingRevisionInput }),
-]);
 export interface AssetTargetNameMap {
   assetId: string;
   targetName: string;
 }
-export const AssetTargetNameMap = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ assetId: S.String, targetName: S.String }),
-).annotate({
-  identifier: "AssetTargetNameMap",
-}) as any as S.Schema<AssetTargetNameMap>;
 export type AssetTargetNames = AssetTargetNameMap[];
-export const AssetTargetNames = /*@__PURE__*/ S.Array(AssetTargetNameMap);
 export interface CreateSubscriptionGrantInput {
   domainIdentifier: string;
   environmentIdentifier: string;
@@ -6451,44 +3268,12 @@ export interface CreateSubscriptionGrantInput {
   assetTargetNames?: AssetTargetNameMap[];
   clientToken?: string;
 }
-export const CreateSubscriptionGrantInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    environmentIdentifier: S.String,
-    subscriptionTargetIdentifier: S.optional(S.String),
-    grantedEntity: GrantedEntityInput,
-    assetTargetNames: S.optional(AssetTargetNames),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/subscription-grants",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateSubscriptionGrantInput",
-}) as any as S.Schema<CreateSubscriptionGrantInput>;
 export type SubscriptionGrantId = string;
 export interface ListingRevision {
   id: string;
   revision: string;
 }
-export const ListingRevision = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, revision: S.String }),
-).annotate({
-  identifier: "ListingRevision",
-}) as any as S.Schema<ListingRevision>;
 export type GrantedEntity = { listing: ListingRevision };
-export const GrantedEntity = /*@__PURE__*/ S.Union([
-  S.Struct({ listing: ListingRevision }),
-]);
 export type SubscriptionGrantOverallStatus =
   | "PENDING"
   | "IN_PROGRESS"
@@ -6498,8 +3283,6 @@ export type SubscriptionGrantOverallStatus =
   | "COMPLETED"
   | "INACCESSIBLE"
   | (string & {});
-export const SubscriptionGrantOverallStatus = S.String;
-
 export type SubscriptionGrantStatus =
   | "GRANT_PENDING"
   | "REVOKE_PENDING"
@@ -6510,14 +3293,9 @@ export type SubscriptionGrantStatus =
   | "GRANT_FAILED"
   | "REVOKE_FAILED"
   | (string & {});
-export const SubscriptionGrantStatus = S.String;
-
 export interface FailureCause {
   message?: string;
 }
-export const FailureCause = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ message: S.optional(S.String) }),
-).annotate({ identifier: "FailureCause" }) as any as S.Schema<FailureCause>;
 export interface SubscribedAsset {
   assetId: string;
   assetRevision: string;
@@ -6529,27 +3307,7 @@ export interface SubscribedAsset {
   assetScope?: AssetScope;
   permissions?: Permissions;
 }
-export const SubscribedAsset = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    assetId: S.String,
-    assetRevision: S.String,
-    status: SubscriptionGrantStatus,
-    targetName: S.optional(S.String),
-    failureCause: S.optional(FailureCause),
-    grantedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    failureTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    assetScope: S.optional(AssetScope),
-    permissions: S.optional(Permissions),
-  }),
-).annotate({
-  identifier: "SubscribedAsset",
-}) as any as S.Schema<SubscribedAsset>;
 export type SubscribedAssets = SubscribedAsset[];
-export const SubscribedAssets = /*@__PURE__*/ S.Array(SubscribedAsset);
 export interface CreateSubscriptionGrantOutput {
   id: string;
   createdBy: string;
@@ -6564,56 +3322,18 @@ export interface CreateSubscriptionGrantOutput {
   assets?: SubscribedAsset[];
   subscriptionId?: string;
 }
-export const CreateSubscriptionGrantOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    domainId: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    environmentId: S.optional(S.String),
-    subscriptionTargetId: S.String,
-    grantedEntity: GrantedEntity,
-    status: SubscriptionGrantOverallStatus,
-    assets: S.optional(SubscribedAssets),
-    subscriptionId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateSubscriptionGrantOutput",
-}) as any as S.Schema<CreateSubscriptionGrantOutput>;
 export interface SubscribedProjectInput {
   identifier?: string;
 }
-export const SubscribedProjectInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifier: S.optional(S.String) }),
-).annotate({
-  identifier: "SubscribedProjectInput",
-}) as any as S.Schema<SubscribedProjectInput>;
 export interface SubscribedUserInput {
   identifier?: string;
 }
-export const SubscribedUserInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifier: S.optional(S.String) }),
-).annotate({
-  identifier: "SubscribedUserInput",
-}) as any as S.Schema<SubscribedUserInput>;
 export interface SubscribedGroupInput {
   identifier?: string;
 }
-export const SubscribedGroupInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifier: S.optional(S.String) }),
-).annotate({
-  identifier: "SubscribedGroupInput",
-}) as any as S.Schema<SubscribedGroupInput>;
 export interface SubscribedIamPrincipalInput {
   identifier?: string;
 }
-export const SubscribedIamPrincipalInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifier: S.optional(S.String) }),
-).annotate({
-  identifier: "SubscribedIamPrincipalInput",
-}) as any as S.Schema<SubscribedIamPrincipalInput>;
 export type SubscribedPrincipalInput =
   | {
       project: SubscribedProjectInput;
@@ -6629,30 +3349,12 @@ export type SubscribedPrincipalInput =
       group?: never;
       iam: SubscribedIamPrincipalInput;
     };
-export const SubscribedPrincipalInput = /*@__PURE__*/ S.Union([
-  S.Struct({ project: SubscribedProjectInput }),
-  S.Struct({ user: SubscribedUserInput }),
-  S.Struct({ group: SubscribedGroupInput }),
-  S.Struct({ iam: SubscribedIamPrincipalInput }),
-]);
 export type SubscribedPrincipalInputs = SubscribedPrincipalInput[];
-export const SubscribedPrincipalInputs = /*@__PURE__*/ S.Array(
-  SubscribedPrincipalInput,
-);
 export interface SubscribedListingInput {
   identifier: string;
 }
-export const SubscribedListingInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifier: S.String }),
-).annotate({
-  identifier: "SubscribedListingInput",
-}) as any as S.Schema<SubscribedListingInput>;
 export type SubscribedListingInputs = SubscribedListingInput[];
-export const SubscribedListingInputs = /*@__PURE__*/ S.Array(
-  SubscribedListingInput,
-);
 export type MetadataFormInputs = FormInput[];
-export const MetadataFormInputs = /*@__PURE__*/ S.Array(FormInput);
 export interface CreateSubscriptionRequestInput {
   domainIdentifier: string;
   subscribedPrincipals: SubscribedPrincipalInput[];
@@ -6663,32 +3365,6 @@ export interface CreateSubscriptionRequestInput {
   assetPermissions?: AssetPermission[];
   assetScopes?: AcceptedAssetScope[];
 }
-export const CreateSubscriptionRequestInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    subscribedPrincipals: SubscribedPrincipalInputs,
-    subscribedListings: SubscribedListingInputs,
-    requestReason: SensitiveString,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    metadataForms: S.optional(MetadataFormInputs),
-    assetPermissions: S.optional(AssetPermissions),
-    assetScopes: S.optional(AcceptedAssetScopes),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/subscription-requests",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateSubscriptionRequestInput",
-}) as any as S.Schema<CreateSubscriptionRequestInput>;
 export interface CreateSubscriptionRequestOutput {
   id: string;
   createdBy: string;
@@ -6705,52 +3381,20 @@ export interface CreateSubscriptionRequestOutput {
   existingSubscriptionId?: string;
   metadataForms?: FormOutput[];
 }
-export const CreateSubscriptionRequestOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    domainId: S.String,
-    status: SubscriptionRequestStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    requestReason: SensitiveString,
-    subscribedPrincipals: SubscribedPrincipals,
-    subscribedListings: SubscribedListings,
-    reviewerId: S.optional(S.String),
-    decisionComment: S.optional(SensitiveString),
-    existingSubscriptionId: S.optional(S.String),
-    metadataForms: S.optional(MetadataForms),
-  }),
-).annotate({
-  identifier: "CreateSubscriptionRequestOutput",
-}) as any as S.Schema<CreateSubscriptionRequestOutput>;
 export type SubscriptionTargetName = string | redacted.Redacted<string>;
 export interface SubscriptionTargetForm {
   formName: string;
   content: string;
 }
-export const SubscriptionTargetForm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ formName: S.String, content: S.String }),
-).annotate({
-  identifier: "SubscriptionTargetForm",
-}) as any as S.Schema<SubscriptionTargetForm>;
 export type SubscriptionTargetForms = SubscriptionTargetForm[];
-export const SubscriptionTargetForms = /*@__PURE__*/ S.Array(
-  SubscriptionTargetForm,
-);
 export type AuthorizedPrincipalIdentifier = string;
 export type AuthorizedPrincipalIdentifiers = string[];
-export const AuthorizedPrincipalIdentifiers = /*@__PURE__*/ S.Array(S.String);
 export type IamRoleArn = string;
 export type ApplicableAssetTypes = string[];
-export const ApplicableAssetTypes = /*@__PURE__*/ S.Array(S.String);
 export type SubscriptionGrantCreationMode =
   | "AUTOMATIC"
   | "MANUAL"
   | (string & {});
-export const SubscriptionGrantCreationMode = S.String;
-
 export interface CreateSubscriptionTargetInput {
   domainIdentifier: string;
   environmentIdentifier: string;
@@ -6764,35 +3408,6 @@ export interface CreateSubscriptionTargetInput {
   clientToken?: string;
   subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
 }
-export const CreateSubscriptionTargetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
-    name: SensitiveString,
-    type: S.String,
-    subscriptionTargetConfig: SubscriptionTargetForms,
-    authorizedPrincipals: AuthorizedPrincipalIdentifiers,
-    manageAccessRole: S.String,
-    applicableAssetTypes: ApplicableAssetTypes,
-    provider: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    subscriptionGrantCreationMode: S.optional(SubscriptionGrantCreationMode),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/subscription-targets",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateSubscriptionTargetInput",
-}) as any as S.Schema<CreateSubscriptionTargetInput>;
 export interface CreateSubscriptionTargetOutput {
   id: string;
   authorizedPrincipals: string[];
@@ -6811,36 +3426,12 @@ export interface CreateSubscriptionTargetOutput {
   provider: string;
   subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
 }
-export const CreateSubscriptionTargetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    authorizedPrincipals: AuthorizedPrincipalIdentifiers,
-    domainId: S.String,
-    projectId: S.String,
-    environmentId: S.String,
-    name: SensitiveString,
-    type: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    manageAccessRole: S.optional(S.String),
-    applicableAssetTypes: ApplicableAssetTypes,
-    subscriptionTargetConfig: SubscriptionTargetForms,
-    provider: S.String,
-    subscriptionGrantCreationMode: S.optional(SubscriptionGrantCreationMode),
-  }),
-).annotate({
-  identifier: "CreateSubscriptionTargetOutput",
-}) as any as S.Schema<CreateSubscriptionTargetOutput>;
 export type UserType =
   | "IAM_USER"
   | "IAM_ROLE"
   | "SSO_USER"
   | "IAM_ROLE_SESSION"
   | (string & {});
-export const UserType = S.String;
-
 export interface CreateUserProfileInput {
   domainIdentifier: string;
   userIdentifier: string;
@@ -6848,40 +3439,13 @@ export interface CreateUserProfileInput {
   sessionName?: string;
   clientToken?: string;
 }
-export const CreateUserProfileInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    userIdentifier: S.String,
-    userType: S.optional(UserType),
-    sessionName: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/user-profiles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateUserProfileInput",
-}) as any as S.Schema<CreateUserProfileInput>;
 export type UserProfileType = "IAM" | "SSO" | (string & {});
-export const UserProfileType = S.String;
-
 export type UserProfileStatus =
   | "ASSIGNED"
   | "NOT_ASSIGNED"
   | "ACTIVATED"
   | "DEACTIVATED"
   | (string & {});
-export const UserProfileStatus = S.String;
-
 export interface CreateUserProfileOutput {
   domainId?: string;
   id?: string;
@@ -6889,262 +3453,49 @@ export interface CreateUserProfileOutput {
   status?: UserProfileStatus;
   details?: UserProfileDetails;
 }
-export const CreateUserProfileOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    id: S.optional(S.String),
-    type: S.optional(UserProfileType),
-    status: S.optional(UserProfileStatus),
-    details: S.optional(UserProfileDetails),
-  }),
-).annotate({
-  identifier: "CreateUserProfileOutput",
-}) as any as S.Schema<CreateUserProfileOutput>;
 export interface DeleteAccountPoolInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteAccountPoolInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/account-pools/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAccountPoolInput",
-}) as any as S.Schema<DeleteAccountPoolInput>;
 export interface DeleteAccountPoolOutput {}
-export const DeleteAccountPoolOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAccountPoolOutput",
-}) as any as S.Schema<DeleteAccountPoolOutput>;
 export interface DeleteAssetInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteAssetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/assets/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAssetInput",
-}) as any as S.Schema<DeleteAssetInput>;
 export interface DeleteAssetOutput {}
-export const DeleteAssetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAssetOutput",
-}) as any as S.Schema<DeleteAssetOutput>;
 export interface DeleteAssetFilterInput {
   domainIdentifier: string;
   assetIdentifier: string;
   identifier: string;
 }
-export const DeleteAssetFilterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAssetFilterInput",
-}) as any as S.Schema<DeleteAssetFilterInput>;
 export interface DeleteAssetFilterResponse {}
-export const DeleteAssetFilterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAssetFilterResponse",
-}) as any as S.Schema<DeleteAssetFilterResponse>;
 export interface DeleteAssetTypeInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteAssetTypeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/asset-types/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAssetTypeInput",
-}) as any as S.Schema<DeleteAssetTypeInput>;
 export interface DeleteAssetTypeOutput {}
-export const DeleteAssetTypeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAssetTypeOutput",
-}) as any as S.Schema<DeleteAssetTypeOutput>;
 export interface DeleteConnectionInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteConnectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/connections/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteConnectionInput",
-}) as any as S.Schema<DeleteConnectionInput>;
 export interface DeleteConnectionOutput {
   status?: string;
 }
-export const DeleteConnectionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
-).annotate({
-  identifier: "DeleteConnectionOutput",
-}) as any as S.Schema<DeleteConnectionOutput>;
 export interface DeleteDataExportConfigurationInput {
   domainIdentifier: string;
 }
-export const DeleteDataExportConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/data-export-configuration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDataExportConfigurationInput",
-}) as any as S.Schema<DeleteDataExportConfigurationInput>;
 export interface DeleteDataExportConfigurationOutput {}
-export const DeleteDataExportConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteDataExportConfigurationOutput",
-}) as any as S.Schema<DeleteDataExportConfigurationOutput>;
 export interface DeleteDataProductInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteDataProductInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/data-products/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDataProductInput",
-}) as any as S.Schema<DeleteDataProductInput>;
 export interface DeleteDataProductOutput {}
-export const DeleteDataProductOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteDataProductOutput",
-}) as any as S.Schema<DeleteDataProductOutput>;
 export interface DeleteDataSourceInput {
   domainIdentifier: string;
   identifier: string;
   clientToken?: string;
   retainPermissionsOnRevokeFailure?: boolean;
 }
-export const DeleteDataSourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
-    retainPermissionsOnRevokeFailure: S.optional(S.Boolean).pipe(
-      T.HttpQuery("retainPermissionsOnRevokeFailure"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/data-sources/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDataSourceInput",
-}) as any as S.Schema<DeleteDataSourceInput>;
 export type SelfGrantStatus =
   | "GRANT_PENDING"
   | "REVOKE_PENDING"
@@ -7154,44 +3505,19 @@ export type SelfGrantStatus =
   | "GRANT_FAILED"
   | "REVOKE_FAILED"
   | (string & {});
-export const SelfGrantStatus = S.String;
-
 export interface SelfGrantStatusDetail {
   databaseName: string;
   schemaName?: string;
   status: SelfGrantStatus;
   failureCause?: string;
 }
-export const SelfGrantStatusDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    databaseName: S.String,
-    schemaName: S.optional(S.String),
-    status: SelfGrantStatus,
-    failureCause: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SelfGrantStatusDetail",
-}) as any as S.Schema<SelfGrantStatusDetail>;
 export type SelfGrantStatusDetails = SelfGrantStatusDetail[];
-export const SelfGrantStatusDetails = /*@__PURE__*/ S.Array(
-  SelfGrantStatusDetail,
-);
 export interface GlueSelfGrantStatusOutput {
   selfGrantStatusDetails: SelfGrantStatusDetail[];
 }
-export const GlueSelfGrantStatusOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ selfGrantStatusDetails: SelfGrantStatusDetails }),
-).annotate({
-  identifier: "GlueSelfGrantStatusOutput",
-}) as any as S.Schema<GlueSelfGrantStatusOutput>;
 export interface RedshiftSelfGrantStatusOutput {
   selfGrantStatusDetails: SelfGrantStatusDetail[];
 }
-export const RedshiftSelfGrantStatusOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ selfGrantStatusDetails: SelfGrantStatusDetails }),
-).annotate({
-  identifier: "RedshiftSelfGrantStatusOutput",
-}) as any as S.Schema<RedshiftSelfGrantStatusOutput>;
 export type SelfGrantStatusOutput =
   | {
       glueSelfGrantStatus: GlueSelfGrantStatusOutput;
@@ -7201,10 +3527,6 @@ export type SelfGrantStatusOutput =
       glueSelfGrantStatus?: never;
       redshiftSelfGrantStatus: RedshiftSelfGrantStatusOutput;
     };
-export const SelfGrantStatusOutput = /*@__PURE__*/ S.Union([
-  S.Struct({ glueSelfGrantStatus: GlueSelfGrantStatusOutput }),
-  S.Struct({ redshiftSelfGrantStatus: RedshiftSelfGrantStatusOutput }),
-]);
 export interface DeleteDataSourceOutput {
   id: string;
   status?: DataSourceStatus;
@@ -7229,609 +3551,113 @@ export interface DeleteDataSourceOutput {
   selfGrantStatus?: SelfGrantStatusOutput;
   retainPermissionsOnRevokeFailure?: boolean;
 }
-export const DeleteDataSourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    status: S.optional(DataSourceStatus),
-    type: S.optional(S.String),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    domainId: S.String,
-    projectId: S.String,
-    environmentId: S.optional(S.String),
-    connectionId: S.optional(S.String),
-    configuration: S.optional(DataSourceConfigurationOutput),
-    enableSetting: S.optional(EnableSetting),
-    publishOnImport: S.optional(S.Boolean),
-    assetFormsOutput: S.optional(FormOutputList),
-    schedule: S.optional(ScheduleConfiguration),
-    lastRunStatus: S.optional(DataSourceRunStatus),
-    lastRunAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastRunErrorMessage: S.optional(DataSourceErrorMessage),
-    errorMessage: S.optional(DataSourceErrorMessage),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    selfGrantStatus: S.optional(SelfGrantStatusOutput),
-    retainPermissionsOnRevokeFailure: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "DeleteDataSourceOutput",
-}) as any as S.Schema<DeleteDataSourceOutput>;
 export interface DeleteDomainInput {
   identifier: string;
   clientToken?: string;
   skipDeletionCheck?: boolean;
   cascadeDelete?: boolean;
 }
-export const DeleteDomainInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
-    skipDeletionCheck: S.optional(S.Boolean).pipe(
-      T.HttpQuery("skipDeletionCheck"),
-    ),
-    cascadeDelete: S.optional(S.Boolean).pipe(T.HttpQuery("cascadeDelete")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v2/domains/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDomainInput",
-}) as any as S.Schema<DeleteDomainInput>;
 export interface DeleteDomainOutput {
   status: DomainStatus;
 }
-export const DeleteDomainOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: DomainStatus }),
-).annotate({
-  identifier: "DeleteDomainOutput",
-}) as any as S.Schema<DeleteDomainOutput>;
 export interface DeleteDomainUnitInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteDomainUnitInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/domain-units/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDomainUnitInput",
-}) as any as S.Schema<DeleteDomainUnitInput>;
 export interface DeleteDomainUnitOutput {}
-export const DeleteDomainUnitOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteDomainUnitOutput",
-}) as any as S.Schema<DeleteDomainUnitOutput>;
 export interface DeleteEnvironmentInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteEnvironmentInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/environments/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteEnvironmentInput",
-}) as any as S.Schema<DeleteEnvironmentInput>;
 export interface DeleteEnvironmentResponse {}
-export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteEnvironmentResponse",
-}) as any as S.Schema<DeleteEnvironmentResponse>;
 export interface DeleteEnvironmentActionInput {
   domainIdentifier: string;
   environmentIdentifier: string;
   identifier: string;
 }
-export const DeleteEnvironmentActionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteEnvironmentActionInput",
-}) as any as S.Schema<DeleteEnvironmentActionInput>;
 export interface DeleteEnvironmentActionResponse {}
-export const DeleteEnvironmentActionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteEnvironmentActionResponse",
-}) as any as S.Schema<DeleteEnvironmentActionResponse>;
 export interface DeleteEnvironmentBlueprintInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteEnvironmentBlueprintInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/environment-blueprints/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteEnvironmentBlueprintInput",
-}) as any as S.Schema<DeleteEnvironmentBlueprintInput>;
 export interface DeleteEnvironmentBlueprintResponse {}
-export const DeleteEnvironmentBlueprintResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteEnvironmentBlueprintResponse",
-}) as any as S.Schema<DeleteEnvironmentBlueprintResponse>;
 export interface DeleteEnvironmentBlueprintConfigurationInput {
   domainIdentifier: string;
   environmentBlueprintIdentifier: string;
 }
-export const DeleteEnvironmentBlueprintConfigurationInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-      environmentBlueprintIdentifier: S.String.pipe(
-        T.HttpLabel("environmentBlueprintIdentifier"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/v2/domains/{domainIdentifier}/environment-blueprint-configurations/{environmentBlueprintIdentifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteEnvironmentBlueprintConfigurationInput",
-  }) as any as S.Schema<DeleteEnvironmentBlueprintConfigurationInput>;
 export interface DeleteEnvironmentBlueprintConfigurationOutput {}
-export const DeleteEnvironmentBlueprintConfigurationOutput =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DeleteEnvironmentBlueprintConfigurationOutput",
-  }) as any as S.Schema<DeleteEnvironmentBlueprintConfigurationOutput>;
 export interface DeleteEnvironmentProfileInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteEnvironmentProfileInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/environment-profiles/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteEnvironmentProfileInput",
-}) as any as S.Schema<DeleteEnvironmentProfileInput>;
 export interface DeleteEnvironmentProfileResponse {}
-export const DeleteEnvironmentProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteEnvironmentProfileResponse",
-}) as any as S.Schema<DeleteEnvironmentProfileResponse>;
 export interface DeleteFormTypeInput {
   domainIdentifier: string;
   formTypeIdentifier: string;
 }
-export const DeleteFormTypeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    formTypeIdentifier: S.String.pipe(T.HttpLabel("formTypeIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/form-types/{formTypeIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteFormTypeInput",
-}) as any as S.Schema<DeleteFormTypeInput>;
 export interface DeleteFormTypeOutput {}
-export const DeleteFormTypeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteFormTypeOutput",
-}) as any as S.Schema<DeleteFormTypeOutput>;
 export interface DeleteGlossaryInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteGlossaryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/glossaries/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteGlossaryInput",
-}) as any as S.Schema<DeleteGlossaryInput>;
 export interface DeleteGlossaryOutput {}
-export const DeleteGlossaryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteGlossaryOutput",
-}) as any as S.Schema<DeleteGlossaryOutput>;
 export interface DeleteGlossaryTermInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteGlossaryTermInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/glossary-terms/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteGlossaryTermInput",
-}) as any as S.Schema<DeleteGlossaryTermInput>;
 export interface DeleteGlossaryTermOutput {}
-export const DeleteGlossaryTermOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteGlossaryTermOutput",
-}) as any as S.Schema<DeleteGlossaryTermOutput>;
 export type LineageEventIdentifier = string;
 export interface DeleteLineageEventInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteLineageEventInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/lineage/events/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteLineageEventInput",
-}) as any as S.Schema<DeleteLineageEventInput>;
 export type LineageEventProcessingStatus =
   | "REQUESTED"
   | "PROCESSING"
   | "SUCCESS"
   | "FAILED"
   | (string & {});
-export const LineageEventProcessingStatus = S.String;
-
 export interface DeleteLineageEventOutput {
   id?: string;
   domainId?: string;
   processingStatus?: LineageEventProcessingStatus;
 }
-export const DeleteLineageEventOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    domainId: S.optional(S.String),
-    processingStatus: S.optional(LineageEventProcessingStatus),
-  }),
-).annotate({
-  identifier: "DeleteLineageEventOutput",
-}) as any as S.Schema<DeleteLineageEventOutput>;
 export interface DeleteListingInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteListingInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/listings/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteListingInput",
-}) as any as S.Schema<DeleteListingInput>;
 export interface DeleteListingOutput {}
-export const DeleteListingOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteListingOutput",
-}) as any as S.Schema<DeleteListingOutput>;
 export interface DeleteNotebookInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteNotebookInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/notebooks/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteNotebookInput",
-}) as any as S.Schema<DeleteNotebookInput>;
 export interface DeleteNotebookOutput {}
-export const DeleteNotebookOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteNotebookOutput",
-}) as any as S.Schema<DeleteNotebookOutput>;
 export interface DeleteProjectInput {
   domainIdentifier: string;
   identifier: string;
   skipDeletionCheck?: boolean;
 }
-export const DeleteProjectInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    skipDeletionCheck: S.optional(S.Boolean).pipe(
-      T.HttpQuery("skipDeletionCheck"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/projects/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteProjectInput",
-}) as any as S.Schema<DeleteProjectInput>;
 export interface DeleteProjectOutput {}
-export const DeleteProjectOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteProjectOutput",
-}) as any as S.Schema<DeleteProjectOutput>;
 export interface DeleteProjectMembershipInput {
   domainIdentifier: string;
   projectIdentifier: string;
   member: Member;
 }
-export const DeleteProjectMembershipInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    projectIdentifier: S.String.pipe(T.HttpLabel("projectIdentifier")),
-    member: Member,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/projects/{projectIdentifier}/deleteMembership",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteProjectMembershipInput",
-}) as any as S.Schema<DeleteProjectMembershipInput>;
 export interface DeleteProjectMembershipOutput {}
-export const DeleteProjectMembershipOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteProjectMembershipOutput",
-}) as any as S.Schema<DeleteProjectMembershipOutput>;
 export interface DeleteProjectProfileInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteProjectProfileInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/project-profiles/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteProjectProfileInput",
-}) as any as S.Schema<DeleteProjectProfileInput>;
 export interface DeleteProjectProfileOutput {}
-export const DeleteProjectProfileOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteProjectProfileOutput",
-}) as any as S.Schema<DeleteProjectProfileOutput>;
 export interface DeleteRuleInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteRuleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/rules/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRuleInput",
-}) as any as S.Schema<DeleteRuleInput>;
 export interface DeleteRuleOutput {}
-export const DeleteRuleOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteRuleOutput",
-}) as any as S.Schema<DeleteRuleOutput>;
 export interface DeleteSubscriptionGrantInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteSubscriptionGrantInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/subscription-grants/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteSubscriptionGrantInput",
-}) as any as S.Schema<DeleteSubscriptionGrantInput>;
 export interface DeleteSubscriptionGrantOutput {
   id: string;
   createdBy: string;
@@ -7846,89 +3672,18 @@ export interface DeleteSubscriptionGrantOutput {
   assets?: SubscribedAsset[];
   subscriptionId?: string;
 }
-export const DeleteSubscriptionGrantOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    domainId: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    environmentId: S.optional(S.String),
-    subscriptionTargetId: S.String,
-    grantedEntity: GrantedEntity,
-    status: SubscriptionGrantOverallStatus,
-    assets: S.optional(SubscribedAssets),
-    subscriptionId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteSubscriptionGrantOutput",
-}) as any as S.Schema<DeleteSubscriptionGrantOutput>;
 export interface DeleteSubscriptionRequestInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const DeleteSubscriptionRequestInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/subscription-requests/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteSubscriptionRequestInput",
-}) as any as S.Schema<DeleteSubscriptionRequestInput>;
 export interface DeleteSubscriptionRequestResponse {}
-export const DeleteSubscriptionRequestResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteSubscriptionRequestResponse",
-}) as any as S.Schema<DeleteSubscriptionRequestResponse>;
 export interface DeleteSubscriptionTargetInput {
   domainIdentifier: string;
   environmentIdentifier: string;
   identifier: string;
 }
-export const DeleteSubscriptionTargetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/subscription-targets/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteSubscriptionTargetInput",
-}) as any as S.Schema<DeleteSubscriptionTargetInput>;
 export interface DeleteSubscriptionTargetResponse {}
-export const DeleteSubscriptionTargetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteSubscriptionTargetResponse",
-}) as any as S.Schema<DeleteSubscriptionTargetResponse>;
 export type TimeSeriesEntityType = "ASSET" | "LISTING" | (string & {});
-export const TimeSeriesEntityType = S.String;
-
 export interface DeleteTimeSeriesDataPointsInput {
   domainIdentifier: string;
   entityIdentifier: string;
@@ -7936,128 +3691,24 @@ export interface DeleteTimeSeriesDataPointsInput {
   formName: string;
   clientToken?: string;
 }
-export const DeleteTimeSeriesDataPointsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-    entityType: TimeSeriesEntityType.pipe(T.HttpLabel("entityType")),
-    formName: S.String.pipe(T.HttpQuery("formName")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/time-series-data-points",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteTimeSeriesDataPointsInput",
-}) as any as S.Schema<DeleteTimeSeriesDataPointsInput>;
 export interface DeleteTimeSeriesDataPointsOutput {}
-export const DeleteTimeSeriesDataPointsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteTimeSeriesDataPointsOutput",
-}) as any as S.Schema<DeleteTimeSeriesDataPointsOutput>;
 export interface DisassociateEnvironmentRoleInput {
   domainIdentifier: string;
   environmentIdentifier: string;
   environmentRoleArn: string;
 }
-export const DisassociateEnvironmentRoleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
-    environmentRoleArn: S.String.pipe(T.HttpLabel("environmentRoleArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/roles/{environmentRoleArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisassociateEnvironmentRoleInput",
-}) as any as S.Schema<DisassociateEnvironmentRoleInput>;
 export interface DisassociateEnvironmentRoleOutput {}
-export const DisassociateEnvironmentRoleOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisassociateEnvironmentRoleOutput",
-}) as any as S.Schema<DisassociateEnvironmentRoleOutput>;
 export interface DisassociateGovernedTermsInput {
   domainIdentifier: string;
   entityIdentifier: string;
   entityType: GovernedEntityType;
   governedGlossaryTerms: string[];
 }
-export const DisassociateGovernedTermsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-    entityType: GovernedEntityType.pipe(T.HttpLabel("entityType")),
-    governedGlossaryTerms: GovernedGlossaryTerms,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/disassociate-governed-terms",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisassociateGovernedTermsInput",
-}) as any as S.Schema<DisassociateGovernedTermsInput>;
 export interface DisassociateGovernedTermsOutput {}
-export const DisassociateGovernedTermsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisassociateGovernedTermsOutput",
-}) as any as S.Schema<DisassociateGovernedTermsOutput>;
 export interface GetAccountPoolInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetAccountPoolInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/account-pools/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAccountPoolInput",
-}) as any as S.Schema<GetAccountPoolInput>;
 export interface GetAccountPoolOutput {
   domainId?: string;
   name?: string | redacted.Redacted<string>;
@@ -8071,51 +3722,11 @@ export interface GetAccountPoolOutput {
   updatedBy?: string;
   domainUnitId?: string;
 }
-export const GetAccountPoolOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    name: S.optional(SensitiveString),
-    id: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    resolutionStrategy: S.optional(ResolutionStrategy),
-    accountSource: AccountSource,
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    domainUnitId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetAccountPoolOutput",
-}) as any as S.Schema<GetAccountPoolOutput>;
 export interface GetAssetInput {
   domainIdentifier: string;
   identifier: string;
   revision?: string;
 }
-export const GetAssetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/assets/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetAssetInput" }) as any as S.Schema<GetAssetInput>;
 export interface GetAssetOutput {
   id: string;
   name: string | redacted.Redacted<string>;
@@ -8137,59 +3748,11 @@ export interface GetAssetOutput {
   readOnlyFormsOutput?: FormOutput[];
   latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[];
 }
-export const GetAssetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: SensitiveString,
-    typeIdentifier: S.String,
-    typeRevision: S.String,
-    externalIdentifier: S.optional(S.String),
-    revision: S.String,
-    description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    firstRevisionCreatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    firstRevisionCreatedBy: S.optional(S.String),
-    glossaryTerms: S.optional(GlossaryTerms),
-    governedGlossaryTerms: S.optional(GovernedGlossaryTerms),
-    owningProjectId: S.String,
-    domainId: S.String,
-    listing: S.optional(AssetListingDetails),
-    formsOutput: FormOutputList,
-    readOnlyFormsOutput: S.optional(FormOutputList),
-    latestTimeSeriesDataPointFormsOutput: S.optional(
-      TimeSeriesDataPointSummaryFormOutputList,
-    ),
-  }),
-).annotate({ identifier: "GetAssetOutput" }) as any as S.Schema<GetAssetOutput>;
 export interface GetAssetFilterInput {
   domainIdentifier: string;
   assetIdentifier: string;
   identifier: string;
 }
-export const GetAssetFilterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAssetFilterInput",
-}) as any as S.Schema<GetAssetFilterInput>;
 export interface GetAssetFilterOutput {
   id: string;
   domainId: string;
@@ -8203,49 +3766,11 @@ export interface GetAssetFilterOutput {
   effectiveColumnNames?: string[];
   effectiveRowFilter?: string;
 }
-export const GetAssetFilterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    assetId: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    status: S.optional(FilterStatus),
-    configuration: AssetFilterConfiguration,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    errorMessage: S.optional(S.String),
-    effectiveColumnNames: S.optional(ColumnNameList),
-    effectiveRowFilter: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetAssetFilterOutput",
-}) as any as S.Schema<GetAssetFilterOutput>;
 export interface GetAssetTypeInput {
   domainIdentifier: string;
   identifier: string;
   revision?: string;
 }
-export const GetAssetTypeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/asset-types/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAssetTypeInput",
-}) as any as S.Schema<GetAssetTypeInput>;
 export interface GetAssetTypeOutput {
   domainId: string;
   name: string;
@@ -8260,68 +3785,17 @@ export interface GetAssetTypeOutput {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const GetAssetTypeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    name: S.String,
-    revision: S.String,
-    description: S.optional(SensitiveString),
-    formsOutput: FormsOutputMap,
-    owningProjectId: S.String,
-    originDomainId: S.optional(S.String),
-    originProjectId: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetAssetTypeOutput",
-}) as any as S.Schema<GetAssetTypeOutput>;
 export interface GetConnectionInput {
   domainIdentifier: string;
   identifier: string;
   withSecret?: boolean;
 }
-export const GetConnectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    withSecret: S.optional(S.Boolean).pipe(T.HttpQuery("withSecret")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/connections/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetConnectionInput",
-}) as any as S.Schema<GetConnectionInput>;
 export interface ConnectionCredentials {
   accessKeyId?: string;
   secretAccessKey?: string | redacted.Redacted<string>;
   sessionToken?: string | redacted.Redacted<string>;
   expiration?: Date;
 }
-export const ConnectionCredentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessKeyId: S.optional(S.String),
-    secretAccessKey: S.optional(SensitiveString),
-    sessionToken: S.optional(SensitiveString),
-    expiration: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "ConnectionCredentials",
-}) as any as S.Schema<ConnectionCredentials>;
 export interface GetConnectionOutput {
   connectionCredentials?: ConnectionCredentials;
   configurations?: Configuration[];
@@ -8338,63 +3812,14 @@ export interface GetConnectionOutput {
   type: ConnectionType;
   scope?: ConnectionScope;
 }
-export const GetConnectionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectionCredentials: S.optional(ConnectionCredentials),
-    configurations: S.optional(Configurations),
-    connectionId: S.String,
-    description: S.optional(SensitiveString),
-    domainId: S.String,
-    domainUnitId: S.String,
-    environmentId: S.optional(S.String),
-    environmentUserRole: S.optional(S.String),
-    name: S.String,
-    physicalEndpoints: PhysicalEndpoints,
-    projectId: S.optional(S.String),
-    props: S.optional(ConnectionPropertiesOutput),
-    type: ConnectionType,
-    scope: S.optional(ConnectionScope),
-  }),
-).annotate({
-  identifier: "GetConnectionOutput",
-}) as any as S.Schema<GetConnectionOutput>;
 export interface GetDataExportConfigurationInput {
   domainIdentifier: string;
 }
-export const GetDataExportConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/data-export-configuration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDataExportConfigurationInput",
-}) as any as S.Schema<GetDataExportConfigurationInput>;
 export type ConfigurationStatus = "COMPLETED" | "FAILED" | (string & {});
-export const ConfigurationStatus = S.String;
-
 export interface EncryptionConfiguration {
   kmsKeyArn?: string;
   sseAlgorithm?: string;
 }
-export const EncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kmsKeyArn: S.optional(S.String),
-    sseAlgorithm: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
 export interface GetDataExportConfigurationOutput {
   isExportEnabled?: boolean;
   status?: ConfigurationStatus;
@@ -8403,44 +3828,11 @@ export interface GetDataExportConfigurationOutput {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const GetDataExportConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    isExportEnabled: S.optional(S.Boolean),
-    status: S.optional(ConfigurationStatus),
-    encryptionConfiguration: S.optional(EncryptionConfiguration),
-    s3TableBucketArn: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "GetDataExportConfigurationOutput",
-}) as any as S.Schema<GetDataExportConfigurationOutput>;
 export interface GetDataProductInput {
   domainIdentifier: string;
   identifier: string;
   revision?: string;
 }
-export const GetDataProductInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/data-products/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDataProductInput",
-}) as any as S.Schema<GetDataProductInput>;
 export interface GetDataProductOutput {
   domainId: string;
   id: string;
@@ -8457,52 +3849,10 @@ export interface GetDataProductOutput {
   firstRevisionCreatedAt?: Date;
   firstRevisionCreatedBy?: string;
 }
-export const GetDataProductOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    revision: S.String,
-    owningProjectId: S.String,
-    name: SensitiveString,
-    status: DataProductStatus,
-    description: S.optional(SensitiveString),
-    glossaryTerms: S.optional(GlossaryTerms),
-    items: S.optional(DataProductItems),
-    formsOutput: S.optional(FormOutputList),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    firstRevisionCreatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    firstRevisionCreatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetDataProductOutput",
-}) as any as S.Schema<GetDataProductOutput>;
 export interface GetDataSourceInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetDataSourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/data-sources/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDataSourceInput",
-}) as any as S.Schema<GetDataSourceInput>;
 export interface GetDataSourceOutput {
   id: string;
   status?: DataSourceStatus;
@@ -8528,69 +3878,12 @@ export interface GetDataSourceOutput {
   updatedAt?: Date;
   selfGrantStatus?: SelfGrantStatusOutput;
 }
-export const GetDataSourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    status: S.optional(DataSourceStatus),
-    type: S.optional(S.String),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    domainId: S.String,
-    projectId: S.String,
-    environmentId: S.optional(S.String),
-    connectionId: S.optional(S.String),
-    configuration: S.optional(DataSourceConfigurationOutput),
-    recommendation: S.optional(RecommendationConfiguration),
-    enableSetting: S.optional(EnableSetting),
-    publishOnImport: S.optional(S.Boolean),
-    assetFormsOutput: S.optional(FormOutputList),
-    schedule: S.optional(ScheduleConfiguration),
-    lastRunStatus: S.optional(DataSourceRunStatus),
-    lastRunAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastRunErrorMessage: S.optional(DataSourceErrorMessage),
-    lastRunAssetCount: S.optional(S.Number),
-    errorMessage: S.optional(DataSourceErrorMessage),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    selfGrantStatus: S.optional(SelfGrantStatusOutput),
-  }),
-).annotate({
-  identifier: "GetDataSourceOutput",
-}) as any as S.Schema<GetDataSourceOutput>;
 export type DataSourceRunId = string;
 export interface GetDataSourceRunInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetDataSourceRunInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/data-source-runs/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDataSourceRunInput",
-}) as any as S.Schema<GetDataSourceRunInput>;
 export type DataSourceRunType = "PRIORITIZED" | "SCHEDULED" | (string & {});
-export const DataSourceRunType = S.String;
-
 export interface RunStatisticsForAssets {
   added?: number;
   updated?: number;
@@ -8598,33 +3891,15 @@ export interface RunStatisticsForAssets {
   skipped?: number;
   failed?: number;
 }
-export const RunStatisticsForAssets = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    added: S.optional(S.Number),
-    updated: S.optional(S.Number),
-    unchanged: S.optional(S.Number),
-    skipped: S.optional(S.Number),
-    failed: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "RunStatisticsForAssets",
-}) as any as S.Schema<RunStatisticsForAssets>;
 export type LineageImportStatus =
   | "IN_PROGRESS"
   | "SUCCESS"
   | "FAILED"
   | "PARTIALLY_SUCCEEDED"
   | (string & {});
-export const LineageImportStatus = S.String;
-
 export interface DataSourceRunLineageSummary {
   importStatus?: LineageImportStatus;
 }
-export const DataSourceRunLineageSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ importStatus: S.optional(LineageImportStatus) }),
-).annotate({
-  identifier: "DataSourceRunLineageSummary",
-}) as any as S.Schema<DataSourceRunLineageSummary>;
 export interface GetDataSourceRunOutput {
   domainId: string;
   dataSourceId: string;
@@ -8641,60 +3916,17 @@ export interface GetDataSourceRunOutput {
   startedAt?: Date;
   stoppedAt?: Date;
 }
-export const GetDataSourceRunOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    dataSourceId: S.String,
-    id: S.String,
-    projectId: S.String,
-    status: DataSourceRunStatus,
-    type: DataSourceRunType,
-    dataSourceConfigurationSnapshot: S.optional(S.String),
-    runStatisticsForAssets: S.optional(RunStatisticsForAssets),
-    lineageSummary: S.optional(DataSourceRunLineageSummary),
-    errorMessage: S.optional(DataSourceErrorMessage),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    stoppedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "GetDataSourceRunOutput",
-}) as any as S.Schema<GetDataSourceRunOutput>;
 export interface GetDomainInput {
   identifier: string;
 }
-export const GetDomainInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/domains/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetDomainInput" }) as any as S.Schema<GetDomainInput>;
 export interface FailureReason {
   id?: string;
   message?: string;
 }
-export const FailureReason = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.optional(S.String), message: S.optional(S.String) }),
-).annotate({ identifier: "FailureReason" }) as any as S.Schema<FailureReason>;
 export type FailureReasonsList = FailureReason[];
-export const FailureReasonsList = /*@__PURE__*/ S.Array(FailureReason);
 export interface DeleteProgress {
   successfullyDeletedProjectCount?: number;
 }
-export const DeleteProgress = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ successfullyDeletedProjectCount: S.optional(S.Number) }),
-).annotate({ identifier: "DeleteProgress" }) as any as S.Schema<DeleteProgress>;
 export interface GetDomainOutput {
   id: string;
   rootDomainUnitId?: string;
@@ -8714,53 +3946,10 @@ export interface GetDomainOutput {
   failureReasons?: FailureReason[];
   deleteProgress?: DeleteProgress;
 }
-export const GetDomainOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    rootDomainUnitId: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    singleSignOn: S.optional(SingleSignOn),
-    domainExecutionRole: S.String,
-    arn: S.optional(S.String),
-    kmsKeyIdentifier: S.optional(S.String),
-    status: DomainStatus,
-    portalUrl: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    tags: S.optional(Tags),
-    domainVersion: S.optional(DomainVersion),
-    serviceRole: S.optional(S.String),
-    failureReasons: S.optional(FailureReasonsList),
-    deleteProgress: S.optional(DeleteProgress),
-  }),
-).annotate({
-  identifier: "GetDomainOutput",
-}) as any as S.Schema<GetDomainOutput>;
 export interface GetDomainUnitInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetDomainUnitInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/domain-units/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDomainUnitInput",
-}) as any as S.Schema<GetDomainUnitInput>;
 export interface GetDomainUnitOutput {
   id: string;
   domainId: string;
@@ -8773,46 +3962,10 @@ export interface GetDomainUnitOutput {
   createdBy?: string;
   lastUpdatedBy?: string;
 }
-export const GetDomainUnitOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    name: SensitiveString,
-    parentDomainUnitId: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    owners: DomainUnitOwners,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    lastUpdatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetDomainUnitOutput",
-}) as any as S.Schema<GetDomainUnitOutput>;
 export interface GetEnvironmentInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetEnvironmentInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/environments/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEnvironmentInput",
-}) as any as S.Schema<GetEnvironmentInput>;
 export interface GetEnvironmentOutput {
   projectId: string;
   id?: string;
@@ -8838,65 +3991,11 @@ export interface GetEnvironmentOutput {
   environmentConfigurationId?: string | redacted.Redacted<string>;
   environmentConfigurationName?: string | redacted.Redacted<string>;
 }
-export const GetEnvironmentOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectId: S.String,
-    id: S.optional(S.String),
-    domainId: S.String,
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    environmentProfileId: S.optional(S.String),
-    awsAccountId: S.optional(S.String),
-    awsAccountRegion: S.optional(S.String),
-    provider: S.String,
-    provisionedResources: S.optional(ResourceList),
-    status: S.optional(EnvironmentStatus),
-    environmentActions: S.optional(EnvironmentActionList),
-    glossaryTerms: S.optional(GlossaryTerms),
-    userParameters: S.optional(CustomParameterList),
-    lastDeployment: S.optional(Deployment),
-    provisioningProperties: S.optional(ProvisioningProperties),
-    deploymentProperties: S.optional(DeploymentProperties),
-    environmentBlueprintId: S.optional(S.String),
-    environmentConfigurationId: S.optional(SensitiveString),
-    environmentConfigurationName: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "GetEnvironmentOutput",
-}) as any as S.Schema<GetEnvironmentOutput>;
 export interface GetEnvironmentActionInput {
   domainIdentifier: string;
   environmentIdentifier: string;
   identifier: string;
 }
-export const GetEnvironmentActionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEnvironmentActionInput",
-}) as any as S.Schema<GetEnvironmentActionInput>;
 export interface GetEnvironmentActionOutput {
   domainId: string;
   environmentId: string;
@@ -8905,42 +4004,10 @@ export interface GetEnvironmentActionOutput {
   parameters: ActionParameters;
   description?: string;
 }
-export const GetEnvironmentActionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    environmentId: S.String,
-    id: S.String,
-    name: S.String,
-    parameters: ActionParameters,
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetEnvironmentActionOutput",
-}) as any as S.Schema<GetEnvironmentActionOutput>;
 export interface GetEnvironmentBlueprintInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetEnvironmentBlueprintInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/environment-blueprints/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEnvironmentBlueprintInput",
-}) as any as S.Schema<GetEnvironmentBlueprintInput>;
 export interface GetEnvironmentBlueprintOutput {
   id: string;
   name: string;
@@ -8953,75 +4020,19 @@ export interface GetEnvironmentBlueprintOutput {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const GetEnvironmentBlueprintOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: S.String,
-    description: S.optional(SensitiveString),
-    provider: S.String,
-    provisioningProperties: ProvisioningProperties,
-    deploymentProperties: S.optional(DeploymentProperties),
-    userParameters: S.optional(CustomParameterList),
-    glossaryTerms: S.optional(GlossaryTerms),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "GetEnvironmentBlueprintOutput",
-}) as any as S.Schema<GetEnvironmentBlueprintOutput>;
 export interface GetEnvironmentBlueprintConfigurationInput {
   domainIdentifier: string;
   environmentBlueprintIdentifier: string;
 }
-export const GetEnvironmentBlueprintConfigurationInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-      environmentBlueprintIdentifier: S.String.pipe(
-        T.HttpLabel("environmentBlueprintIdentifier"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/v2/domains/{domainIdentifier}/environment-blueprint-configurations/{environmentBlueprintIdentifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetEnvironmentBlueprintConfigurationInput",
-  }) as any as S.Schema<GetEnvironmentBlueprintConfigurationInput>;
 export type PolicyArn = string;
 export type EnabledRegionList = string[];
-export const EnabledRegionList = /*@__PURE__*/ S.Array(S.String);
 export type RegionalParameter = { [key: string]: string | undefined };
-export const RegionalParameter = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type RegionalParameterMap = {
   [key: string]: { [key: string]: string | undefined } | undefined;
 };
-export const RegionalParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  RegionalParameter.pipe(S.optional),
-);
 export type ResourceConfigurationParameterMap = {
   [key: string]: string | undefined;
 };
-export const ResourceConfigurationParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface ResourceConfiguration {
   identifier: string;
   name: string;
@@ -9029,46 +4040,17 @@ export interface ResourceConfiguration {
   region: string;
   parameters: { [key: string]: string | undefined };
 }
-export const ResourceConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String,
-    name: S.String,
-    description: S.optional(S.String),
-    region: S.String,
-    parameters: ResourceConfigurationParameterMap,
-  }),
-).annotate({
-  identifier: "ResourceConfiguration",
-}) as any as S.Schema<ResourceConfiguration>;
 export type ResourceConfigurations = ResourceConfiguration[];
-export const ResourceConfigurations = /*@__PURE__*/ S.Array(
-  ResourceConfiguration,
-);
 export type S3Location = string;
 export type S3LocationList = string[];
-export const S3LocationList = /*@__PURE__*/ S.Array(S.String);
 export interface LakeFormationConfiguration {
   locationRegistrationRole?: string;
   locationRegistrationExcludeS3Locations?: string[];
 }
-export const LakeFormationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locationRegistrationRole: S.optional(S.String),
-    locationRegistrationExcludeS3Locations: S.optional(S3LocationList),
-  }),
-).annotate({
-  identifier: "LakeFormationConfiguration",
-}) as any as S.Schema<LakeFormationConfiguration>;
 export type ProvisioningConfiguration = {
   lakeFormationConfiguration: LakeFormationConfiguration;
 };
-export const ProvisioningConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ lakeFormationConfiguration: LakeFormationConfiguration }),
-]);
 export type ProvisioningConfigurationList = ProvisioningConfiguration[];
-export const ProvisioningConfigurationList = /*@__PURE__*/ S.Array(
-  ProvisioningConfiguration,
-);
 export interface GetEnvironmentBlueprintConfigurationOutput {
   domainId: string;
   environmentBlueprintId: string;
@@ -9085,95 +4067,20 @@ export interface GetEnvironmentBlueprintConfigurationOutput {
   resourceConfigurations?: ResourceConfiguration[];
   provisioningConfigurations?: ProvisioningConfiguration[];
 }
-export const GetEnvironmentBlueprintConfigurationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      domainId: S.String,
-      environmentBlueprintId: S.String,
-      provisioningRoleArn: S.optional(S.String),
-      environmentRolePermissionBoundary: S.optional(S.String),
-      manageAccessRoleArn: S.optional(S.String),
-      enabledRegions: S.optional(EnabledRegionList),
-      regionalParameters: S.optional(RegionalParameterMap),
-      allowUserProvidedConfigurations: S.optional(S.Boolean),
-      createdAt: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-      updatedAt: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-      resourceConfigurations: S.optional(ResourceConfigurations),
-      provisioningConfigurations: S.optional(ProvisioningConfigurationList),
-    }),
-  ).annotate({
-    identifier: "GetEnvironmentBlueprintConfigurationOutput",
-  }) as any as S.Schema<GetEnvironmentBlueprintConfigurationOutput>;
 export interface GetEnvironmentCredentialsInput {
   domainIdentifier: string;
   environmentIdentifier: string;
 }
-export const GetEnvironmentCredentialsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/credentials",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEnvironmentCredentialsInput",
-}) as any as S.Schema<GetEnvironmentCredentialsInput>;
 export interface GetEnvironmentCredentialsOutput {
   accessKeyId?: string;
   secretAccessKey?: string | redacted.Redacted<string>;
   sessionToken?: string | redacted.Redacted<string>;
   expiration?: Date;
 }
-export const GetEnvironmentCredentialsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessKeyId: S.optional(S.String),
-    secretAccessKey: S.optional(SensitiveString),
-    sessionToken: S.optional(SensitiveString),
-    expiration: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "GetEnvironmentCredentialsOutput",
-}) as any as S.Schema<GetEnvironmentCredentialsOutput>;
 export interface GetEnvironmentProfileInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetEnvironmentProfileInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/environment-profiles/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEnvironmentProfileInput",
-}) as any as S.Schema<GetEnvironmentProfileInput>;
 export interface GetEnvironmentProfileOutput {
   id: string;
   domainId: string;
@@ -9188,63 +4095,16 @@ export interface GetEnvironmentProfileOutput {
   projectId?: string;
   userParameters?: CustomParameter[];
 }
-export const GetEnvironmentProfileOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    awsAccountId: S.optional(S.String),
-    awsAccountRegion: S.optional(S.String),
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    environmentBlueprintId: S.String,
-    projectId: S.optional(S.String),
-    userParameters: S.optional(CustomParameterList),
-  }),
-).annotate({
-  identifier: "GetEnvironmentProfileOutput",
-}) as any as S.Schema<GetEnvironmentProfileOutput>;
 export interface GetFormTypeInput {
   domainIdentifier: string;
   formTypeIdentifier: string;
   revision?: string;
 }
-export const GetFormTypeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    formTypeIdentifier: S.String.pipe(T.HttpLabel("formTypeIdentifier")),
-    revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/form-types/{formTypeIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetFormTypeInput",
-}) as any as S.Schema<GetFormTypeInput>;
 export interface Import {
   name: string | redacted.Redacted<string>;
   revision: string;
 }
-export const Import = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: SensitiveString, revision: S.String }),
-).annotate({ identifier: "Import" }) as any as S.Schema<Import>;
 export type ImportList = Import[];
-export const ImportList = /*@__PURE__*/ S.Array(Import);
 export interface GetFormTypeOutput {
   domainId: string;
   name: string | redacted.Redacted<string>;
@@ -9259,48 +4119,10 @@ export interface GetFormTypeOutput {
   description?: string | redacted.Redacted<string>;
   imports?: Import[];
 }
-export const GetFormTypeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    name: SensitiveString,
-    revision: S.String,
-    model: Model,
-    owningProjectId: S.optional(S.String),
-    originDomainId: S.optional(S.String),
-    originProjectId: S.optional(S.String),
-    status: S.optional(FormTypeStatus),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    imports: S.optional(ImportList),
-  }),
-).annotate({
-  identifier: "GetFormTypeOutput",
-}) as any as S.Schema<GetFormTypeOutput>;
 export interface GetGlossaryInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetGlossaryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/glossaries/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetGlossaryInput",
-}) as any as S.Schema<GetGlossaryInput>;
 export interface GetGlossaryOutput {
   domainId: string;
   id: string;
@@ -9314,47 +4136,10 @@ export interface GetGlossaryOutput {
   updatedBy?: string;
   usageRestrictions?: GlossaryUsageRestriction[];
 }
-export const GetGlossaryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    owningProjectId: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    status: GlossaryStatus,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-    usageRestrictions: S.optional(GlossaryUsageRestrictions),
-  }),
-).annotate({
-  identifier: "GetGlossaryOutput",
-}) as any as S.Schema<GetGlossaryOutput>;
 export interface GetGlossaryTermInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetGlossaryTermInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/glossary-terms/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetGlossaryTermInput",
-}) as any as S.Schema<GetGlossaryTermInput>;
 export interface GetGlossaryTermOutput {
   domainId: string;
   glossaryId: string;
@@ -9370,49 +4155,10 @@ export interface GetGlossaryTermOutput {
   updatedBy?: string;
   usageRestrictions?: GlossaryUsageRestriction[];
 }
-export const GetGlossaryTermOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    glossaryId: S.String,
-    id: S.String,
-    name: SensitiveString,
-    shortDescription: S.optional(SensitiveString),
-    longDescription: S.optional(SensitiveString),
-    termRelations: S.optional(TermRelations),
-    status: GlossaryTermStatus,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-    usageRestrictions: S.optional(GlossaryUsageRestrictions),
-  }),
-).annotate({
-  identifier: "GetGlossaryTermOutput",
-}) as any as S.Schema<GetGlossaryTermOutput>;
 export interface GetGroupProfileInput {
   domainIdentifier: string;
   groupIdentifier: string;
 }
-export const GetGroupProfileInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    groupIdentifier: S.String.pipe(T.HttpLabel("groupIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/group-profiles/{groupIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetGroupProfileInput",
-}) as any as S.Schema<GetGroupProfileInput>;
 export interface GetGroupProfileOutput {
   domainId?: string;
   id?: string;
@@ -9421,82 +4167,21 @@ export interface GetGroupProfileOutput {
   rolePrincipalArn?: string;
   rolePrincipalId?: string;
 }
-export const GetGroupProfileOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    id: S.optional(S.String),
-    status: S.optional(GroupProfileStatus),
-    groupName: S.optional(SensitiveString),
-    rolePrincipalArn: S.optional(S.String),
-    rolePrincipalId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetGroupProfileOutput",
-}) as any as S.Schema<GetGroupProfileOutput>;
 export interface GetIamPortalLoginUrlInput {
   domainIdentifier: string;
 }
-export const GetIamPortalLoginUrlInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/get-portal-login-url",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetIamPortalLoginUrlInput",
-}) as any as S.Schema<GetIamPortalLoginUrlInput>;
 export interface GetIamPortalLoginUrlOutput {
   authCodeUrl?: string;
   userProfileId: string;
 }
-export const GetIamPortalLoginUrlOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ authCodeUrl: S.optional(S.String), userProfileId: S.String }),
-).annotate({
-  identifier: "GetIamPortalLoginUrlOutput",
-}) as any as S.Schema<GetIamPortalLoginUrlOutput>;
 export type RunIdentifier = string;
 export interface GetJobRunInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetJobRunInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/jobRuns/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetJobRunInput" }) as any as S.Schema<GetJobRunInput>;
 export type JobType = "LINEAGE" | (string & {});
-export const JobType = S.String;
-
 export type JobRunMode = "SCHEDULED" | "ON_DEMAND" | (string & {});
-export const JobRunMode = S.String;
-
 export type FailedQueryProcessingErrorMessages = string[];
-export const FailedQueryProcessingErrorMessages = /*@__PURE__*/ S.Array(
-  S.String,
-);
 export interface LineageSqlQueryRunDetails {
   queryStartTime?: Date;
   queryEndTime?: Date;
@@ -9504,29 +4189,10 @@ export interface LineageSqlQueryRunDetails {
   numQueriesFailed?: number;
   errorMessages?: string[];
 }
-export const LineageSqlQueryRunDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queryStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    queryEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    totalQueriesProcessed: S.optional(S.Number),
-    numQueriesFailed: S.optional(S.Number),
-    errorMessages: S.optional(FailedQueryProcessingErrorMessages),
-  }),
-).annotate({
-  identifier: "LineageSqlQueryRunDetails",
-}) as any as S.Schema<LineageSqlQueryRunDetails>;
 export interface LineageRunDetails {
   sqlQueryRunDetails?: LineageSqlQueryRunDetails;
 }
-export const LineageRunDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sqlQueryRunDetails: S.optional(LineageSqlQueryRunDetails) }),
-).annotate({
-  identifier: "LineageRunDetails",
-}) as any as S.Schema<LineageRunDetails>;
 export type JobRunDetails = { lineageRunDetails: LineageRunDetails };
-export const JobRunDetails = /*@__PURE__*/ S.Union([
-  S.Struct({ lineageRunDetails: LineageRunDetails }),
-]);
 export type JobRunStatus =
   | "SCHEDULED"
   | "IN_PROGRESS"
@@ -9537,14 +4203,9 @@ export type JobRunStatus =
   | "TIMED_OUT"
   | "CANCELED"
   | (string & {});
-export const JobRunStatus = S.String;
-
 export interface JobRunError {
   message: string;
 }
-export const JobRunError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ message: S.String }),
-).annotate({ identifier: "JobRunError" }) as any as S.Schema<JobRunError>;
 export interface GetJobRunOutput {
   domainId?: string;
   id?: string;
@@ -9559,48 +4220,10 @@ export interface GetJobRunOutput {
   startTime?: Date;
   endTime?: Date;
 }
-export const GetJobRunOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    id: S.optional(S.String),
-    jobId: S.optional(S.String),
-    jobType: S.optional(JobType),
-    runMode: S.optional(JobRunMode),
-    details: S.optional(JobRunDetails),
-    status: S.optional(JobRunStatus),
-    error: S.optional(JobRunError),
-    createdBy: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "GetJobRunOutput",
-}) as any as S.Schema<GetJobRunOutput>;
 export interface GetLineageEventInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetLineageEventInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/lineage/events/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLineageEventInput",
-}) as any as S.Schema<GetLineageEventInput>;
 export interface GetLineageEventOutput {
   domainId?: string;
   id?: string;
@@ -9610,70 +4233,18 @@ export interface GetLineageEventOutput {
   eventTime?: Date;
   createdAt?: Date;
 }
-export const GetLineageEventOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String).pipe(T.HttpHeader("Domain-Id")),
-    id: S.optional(S.String).pipe(T.HttpHeader("Id")),
-    event: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    createdBy: S.optional(S.String).pipe(T.HttpHeader("Created-By")),
-    processingStatus: S.optional(LineageEventProcessingStatus).pipe(
-      T.HttpHeader("Processing-Status"),
-    ),
-    eventTime: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-      T.HttpHeader("Event-Time"),
-    ),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-      T.HttpHeader("Created-At"),
-    ),
-  }),
-).annotate({
-  identifier: "GetLineageEventOutput",
-}) as any as S.Schema<GetLineageEventOutput>;
 export type LineageNodeIdentifier = string;
 export interface GetLineageNodeInput {
   domainIdentifier: string;
   identifier: string;
   eventTimestamp?: Date;
 }
-export const GetLineageNodeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    eventTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("timestamp")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/lineage/nodes/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLineageNodeInput",
-}) as any as S.Schema<GetLineageNodeInput>;
 export type LineageNodeId = string;
 export interface LineageNodeReference {
   id?: string;
   eventTimestamp?: Date;
 }
-export const LineageNodeReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    eventTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "LineageNodeReference",
-}) as any as S.Schema<LineageNodeReference>;
 export type LineageNodeReferenceList = LineageNodeReference[];
-export const LineageNodeReferenceList =
-  /*@__PURE__*/ S.Array(LineageNodeReference);
 export interface GetLineageNodeOutput {
   domainId: string;
   name?: string;
@@ -9691,53 +4262,11 @@ export interface GetLineageNodeOutput {
   upstreamNodes?: LineageNodeReference[];
   downstreamNodes?: LineageNodeReference[];
 }
-export const GetLineageNodeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-    id: S.String,
-    typeName: S.String,
-    typeRevision: S.optional(S.String),
-    sourceIdentifier: S.optional(S.String),
-    eventTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    formsOutput: S.optional(FormOutputList),
-    upstreamNodes: S.optional(LineageNodeReferenceList),
-    downstreamNodes: S.optional(LineageNodeReferenceList),
-  }),
-).annotate({
-  identifier: "GetLineageNodeOutput",
-}) as any as S.Schema<GetLineageNodeOutput>;
 export interface GetListingInput {
   domainIdentifier: string;
   identifier: string;
   listingRevision?: string;
 }
-export const GetListingInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    listingRevision: S.optional(S.String).pipe(T.HttpQuery("listingRevision")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/listings/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetListingInput",
-}) as any as S.Schema<GetListingInput>;
 export interface AssetListing {
   assetId?: string;
   assetRevision?: string;
@@ -9749,35 +4278,12 @@ export interface AssetListing {
   governedGlossaryTerms?: DetailedGlossaryTerm[];
   owningProjectId?: string;
 }
-export const AssetListing = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    assetId: S.optional(S.String),
-    assetRevision: S.optional(S.String),
-    assetType: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    forms: S.optional(S.String),
-    latestTimeSeriesDataPointForms: S.optional(
-      TimeSeriesDataPointSummaryFormOutputList,
-    ),
-    glossaryTerms: S.optional(DetailedGlossaryTerms),
-    governedGlossaryTerms: S.optional(DetailedGlossaryTerms),
-    owningProjectId: S.optional(S.String),
-  }),
-).annotate({ identifier: "AssetListing" }) as any as S.Schema<AssetListing>;
 export interface ListingSummary {
   listingId?: string;
   listingRevision?: string;
   glossaryTerms?: DetailedGlossaryTerm[];
 }
-export const ListingSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    listingId: S.optional(S.String),
-    listingRevision: S.optional(S.String),
-    glossaryTerms: S.optional(DetailedGlossaryTerms),
-  }),
-).annotate({ identifier: "ListingSummary" }) as any as S.Schema<ListingSummary>;
 export type ListingSummaries = ListingSummary[];
-export const ListingSummaries = /*@__PURE__*/ S.Array(ListingSummary);
 export interface DataProductListing {
   dataProductId?: string;
   dataProductRevision?: string;
@@ -9787,26 +4293,9 @@ export interface DataProductListing {
   owningProjectId?: string;
   items?: ListingSummary[];
 }
-export const DataProductListing = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataProductId: S.optional(S.String),
-    dataProductRevision: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    forms: S.optional(S.String),
-    glossaryTerms: S.optional(DetailedGlossaryTerms),
-    owningProjectId: S.optional(S.String),
-    items: S.optional(ListingSummaries),
-  }),
-).annotate({
-  identifier: "DataProductListing",
-}) as any as S.Schema<DataProductListing>;
 export type ListingItem =
   | { assetListing: AssetListing; dataProductListing?: never }
   | { assetListing?: never; dataProductListing: DataProductListing };
-export const ListingItem = /*@__PURE__*/ S.Union([
-  S.Struct({ assetListing: AssetListing }),
-  S.Struct({ dataProductListing: DataProductListing }),
-]);
 export interface GetListingOutput {
   domainId: string;
   id: string;
@@ -9820,73 +4309,22 @@ export interface GetListingOutput {
   description?: string | redacted.Redacted<string>;
   status?: ListingStatus;
 }
-export const GetListingOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    listingRevision: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedBy: S.optional(S.String),
-    item: S.optional(ListingItem),
-    name: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    status: S.optional(ListingStatus),
-  }),
-).annotate({
-  identifier: "GetListingOutput",
-}) as any as S.Schema<GetListingOutput>;
 export type MetadataGenerationRunType =
   | "BUSINESS_DESCRIPTIONS"
   | "BUSINESS_NAMES"
   | "BUSINESS_GLOSSARY_ASSOCIATIONS"
   | (string & {});
-export const MetadataGenerationRunType = S.String;
-
 export interface GetMetadataGenerationRunInput {
   domainIdentifier: string;
   identifier: string;
   type?: MetadataGenerationRunType;
 }
-export const GetMetadataGenerationRunInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    type: S.optional(MetadataGenerationRunType).pipe(T.HttpQuery("type")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/metadata-generation-runs/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMetadataGenerationRunInput",
-}) as any as S.Schema<GetMetadataGenerationRunInput>;
 export type MetadataGenerationTargetType = "ASSET" | (string & {});
-export const MetadataGenerationTargetType = S.String;
-
 export interface MetadataGenerationRunTarget {
   type: MetadataGenerationTargetType;
   identifier: string;
   revision?: string;
 }
-export const MetadataGenerationRunTarget = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: MetadataGenerationTargetType,
-    identifier: S.String,
-    revision: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MetadataGenerationRunTarget",
-}) as any as S.Schema<MetadataGenerationRunTarget>;
 export type MetadataGenerationRunStatus =
   | "SUBMITTED"
   | "IN_PROGRESS"
@@ -9895,30 +4333,13 @@ export type MetadataGenerationRunStatus =
   | "FAILED"
   | "PARTIALLY_SUCCEEDED"
   | (string & {});
-export const MetadataGenerationRunStatus = S.String;
-
 export type MetadataGenerationRunTypes = MetadataGenerationRunType[];
-export const MetadataGenerationRunTypes = /*@__PURE__*/ S.Array(
-  MetadataGenerationRunType,
-);
 export interface MetadataGenerationRunTypeStat {
   type: MetadataGenerationRunType;
   status: MetadataGenerationRunStatus;
   errorMessage?: string;
 }
-export const MetadataGenerationRunTypeStat = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: MetadataGenerationRunType,
-    status: MetadataGenerationRunStatus,
-    errorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MetadataGenerationRunTypeStat",
-}) as any as S.Schema<MetadataGenerationRunTypeStat>;
 export type MetadataGenerationRunTypeStats = MetadataGenerationRunTypeStat[];
-export const MetadataGenerationRunTypeStats = /*@__PURE__*/ S.Array(
-  MetadataGenerationRunTypeStat,
-);
 export interface GetMetadataGenerationRunOutput {
   domainId: string;
   id: string;
@@ -9931,46 +4352,10 @@ export interface GetMetadataGenerationRunOutput {
   owningProjectId: string;
   typeStats?: MetadataGenerationRunTypeStat[];
 }
-export const GetMetadataGenerationRunOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    target: S.optional(MetadataGenerationRunTarget),
-    status: S.optional(MetadataGenerationRunStatus),
-    type: S.optional(MetadataGenerationRunType),
-    types: S.optional(MetadataGenerationRunTypes),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    owningProjectId: S.String,
-    typeStats: S.optional(MetadataGenerationRunTypeStats),
-  }),
-).annotate({
-  identifier: "GetMetadataGenerationRunOutput",
-}) as any as S.Schema<GetMetadataGenerationRunOutput>;
 export interface GetNotebookInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetNotebookInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/notebooks/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetNotebookInput",
-}) as any as S.Schema<GetNotebookInput>;
 export interface GetNotebookOutput {
   id: string;
   name: string | redacted.Redacted<string>;
@@ -9993,86 +4378,25 @@ export interface GetNotebookOutput {
   error?: NotebookError;
   gitMetadata?: GitMetadata;
 }
-export const GetNotebookOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: SensitiveString,
-    owningProjectId: S.String,
-    domainId: S.String,
-    cellOrder: CellOrder,
-    status: NotebookStatus,
-    description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-    lockedBy: S.optional(S.String),
-    lockedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lockExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    computeId: S.optional(S.String),
-    metadata: S.optional(Metadata),
-    parameters: S.optional(Parameters),
-    environmentConfiguration: S.optional(EnvironmentConfig),
-    error: S.optional(NotebookError),
-    gitMetadata: S.optional(GitMetadata),
-  }),
-).annotate({
-  identifier: "GetNotebookOutput",
-}) as any as S.Schema<GetNotebookOutput>;
 export type ExportId = string;
 export interface GetNotebookExportInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetNotebookExportInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/notebook-exports/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetNotebookExportInput",
-}) as any as S.Schema<GetNotebookExportInput>;
 export type FileFormat = "PDF" | "IPYNB" | (string & {});
-export const FileFormat = S.String;
-
 export type NotebookExportStatus =
   | "IN_PROGRESS"
   | "SUCCEEDED"
   | "FAILED"
   | (string & {});
-export const NotebookExportStatus = S.String;
-
 export type NotebookS3Uri = string | redacted.Redacted<string>;
 export interface S3Destination {
   uri?: string | redacted.Redacted<string>;
 }
-export const S3Destination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ uri: S.optional(SensitiveString) }),
-).annotate({ identifier: "S3Destination" }) as any as S.Schema<S3Destination>;
 export type OutputLocation = { s3: S3Destination };
-export const OutputLocation = /*@__PURE__*/ S.Union([
-  S.Struct({ s3: S3Destination }),
-]);
 export interface NotebookExportError {
   message: string;
 }
-export const NotebookExportError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ message: S.String }),
-).annotate({
-  identifier: "NotebookExportError",
-}) as any as S.Schema<NotebookExportError>;
 export type CompletedAt = Date;
 export interface GetNotebookExportOutput {
   id: string;
@@ -10087,48 +4411,11 @@ export interface GetNotebookExportOutput {
   createdAt?: Date;
   createdBy?: string;
 }
-export const GetNotebookExportOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    owningProjectId: S.String,
-    notebookId: S.String,
-    fileFormat: FileFormat,
-    status: NotebookExportStatus,
-    outputLocation: S.optional(OutputLocation),
-    error: S.optional(NotebookExportError),
-    completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetNotebookExportOutput",
-}) as any as S.Schema<GetNotebookExportOutput>;
 export type NotebookRunId = string;
 export interface GetNotebookRunInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetNotebookRunInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/notebook-runs/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetNotebookRunInput",
-}) as any as S.Schema<GetNotebookRunInput>;
 export type ScheduleId = string;
 export type NotebookRunStatus =
   | "QUEUED"
@@ -10139,82 +4426,43 @@ export type NotebookRunStatus =
   | "SUCCEEDED"
   | "FAILED"
   | (string & {});
-export const NotebookRunStatus = S.String;
-
 export type InstanceType = string;
 export interface ComputeConfig {
   instanceType?: string;
   environmentVersion?: string;
 }
-export const ComputeConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceType: S.optional(S.String),
-    environmentVersion: S.optional(S.String),
-  }),
-).annotate({ identifier: "ComputeConfig" }) as any as S.Schema<ComputeConfig>;
 export type NetworkAccessType =
   | "PUBLIC_INTERNET_ONLY"
   | "VPC_ONLY"
   | (string & {});
-export const NetworkAccessType = S.String;
-
 export type SubnetIds = string[];
-export const SubnetIds = /*@__PURE__*/ S.Array(S.String);
 export type SecurityGroupIds = string[];
-export const SecurityGroupIds = /*@__PURE__*/ S.Array(S.String);
 export interface NetworkConfig {
   networkAccessType: NetworkAccessType;
   vpcId?: string;
   subnetIds?: string[];
   securityGroupIds?: string[];
 }
-export const NetworkConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    networkAccessType: NetworkAccessType,
-    vpcId: S.optional(S.String),
-    subnetIds: S.optional(SubnetIds),
-    securityGroupIds: S.optional(SecurityGroupIds),
-  }),
-).annotate({ identifier: "NetworkConfig" }) as any as S.Schema<NetworkConfig>;
 export interface TimeoutConfig {
   runTimeoutInMinutes?: number;
 }
-export const TimeoutConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ runTimeoutInMinutes: S.optional(S.Number) }),
-).annotate({ identifier: "TimeoutConfig" }) as any as S.Schema<TimeoutConfig>;
 export type S3Path = string;
 export interface StorageConfig {
   projectS3Path?: string;
   kmsKeyArn?: string;
 }
-export const StorageConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectS3Path: S.optional(S.String),
-    kmsKeyArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "StorageConfig" }) as any as S.Schema<StorageConfig>;
 export type TriggerSourceType =
   | "MANUAL"
   | "SCHEDULED"
   | "WORKFLOW"
   | (string & {});
-export const TriggerSourceType = S.String;
-
 export interface TriggerSource {
   type?: TriggerSourceType;
   name?: string;
 }
-export const TriggerSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: S.optional(TriggerSourceType), name: S.optional(S.String) }),
-).annotate({ identifier: "TriggerSource" }) as any as S.Schema<TriggerSource>;
 export interface NotebookRunError {
   message: string;
 }
-export const NotebookRunError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ message: S.String }),
-).annotate({
-  identifier: "NotebookRunError",
-}) as any as S.Schema<NotebookRunError>;
 export interface GetNotebookRunOutput {
   id: string;
   domainId: string;
@@ -10239,58 +4487,10 @@ export interface GetNotebookRunOutput {
   startedAt?: Date;
   completedAt?: Date;
 }
-export const GetNotebookRunOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    owningProjectId: S.String,
-    notebookId: S.String,
-    scheduleId: S.optional(S.String),
-    status: NotebookRunStatus,
-    cellOrder: S.optional(CellOrder),
-    metadata: S.optional(Metadata),
-    parameters: S.optional(Parameters),
-    computeConfiguration: S.optional(ComputeConfig),
-    networkConfiguration: S.optional(NetworkConfig),
-    timeoutConfiguration: S.optional(TimeoutConfig),
-    environmentConfiguration: S.optional(EnvironmentConfig),
-    storageConfiguration: S.optional(StorageConfig),
-    triggerSource: S.optional(TriggerSource),
-    error: S.optional(NotebookRunError),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "GetNotebookRunOutput",
-}) as any as S.Schema<GetNotebookRunOutput>;
 export interface GetProjectInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetProjectInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/projects/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetProjectInput",
-}) as any as S.Schema<GetProjectInput>;
 export interface GetProjectOutput {
   domainId: string;
   id: string;
@@ -10309,56 +4509,10 @@ export interface GetProjectOutput {
   environmentDeploymentDetails?: EnvironmentDeploymentDetails;
   projectCategory?: string;
 }
-export const GetProjectOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    projectStatus: S.optional(ProjectStatus),
-    failureReasons: S.optional(FailureReasons),
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    resourceTags: S.optional(ResourceTags),
-    glossaryTerms: S.optional(GlossaryTerms),
-    domainUnitId: S.optional(S.String),
-    projectProfileId: S.optional(S.String),
-    userParameters: S.optional(EnvironmentConfigurationUserParametersList),
-    environmentDeploymentDetails: S.optional(EnvironmentDeploymentDetails),
-    projectCategory: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetProjectOutput",
-}) as any as S.Schema<GetProjectOutput>;
 export interface GetProjectProfileInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetProjectProfileInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/project-profiles/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetProjectProfileInput",
-}) as any as S.Schema<GetProjectProfileInput>;
 export interface GetProjectProfileOutput {
   domainId: string;
   id: string;
@@ -10374,53 +4528,11 @@ export interface GetProjectProfileOutput {
   lastUpdatedAt?: Date;
   domainUnitId?: string;
 }
-export const GetProjectProfileOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    status: S.optional(Status),
-    projectResourceTags: S.optional(ProjectResourceTagParameters),
-    allowCustomProjectResourceTags: S.optional(S.Boolean),
-    projectResourceTagsDescription: S.optional(SensitiveString),
-    environmentConfigurations: S.optional(EnvironmentConfigurationsList),
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    domainUnitId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetProjectProfileOutput",
-}) as any as S.Schema<GetProjectProfileOutput>;
 export interface GetRuleInput {
   domainIdentifier: string;
   identifier: string;
   revision?: string;
 }
-export const GetRuleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/rules/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetRuleInput" }) as any as S.Schema<GetRuleInput>;
 export interface GetRuleOutput {
   identifier: string;
   revision: string;
@@ -10437,48 +4549,10 @@ export interface GetRuleOutput {
   createdBy: string;
   lastUpdatedBy: string;
 }
-export const GetRuleOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String,
-    revision: S.String,
-    name: SensitiveString,
-    ruleType: RuleType,
-    target: RuleTarget,
-    action: RuleAction,
-    scope: RuleScope,
-    detail: RuleDetail,
-    targetType: S.optional(RuleTargetType),
-    description: S.optional(SensitiveString),
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    createdBy: S.String,
-    lastUpdatedBy: S.String,
-  }),
-).annotate({ identifier: "GetRuleOutput" }) as any as S.Schema<GetRuleOutput>;
 export interface GetSubscriptionInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetSubscriptionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/subscriptions/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSubscriptionInput",
-}) as any as S.Schema<GetSubscriptionInput>;
 export interface GetSubscriptionOutput {
   id: string;
   createdBy: string;
@@ -10492,47 +4566,10 @@ export interface GetSubscriptionOutput {
   subscriptionRequestId?: string;
   retainPermissions?: boolean;
 }
-export const GetSubscriptionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    domainId: S.String,
-    status: SubscriptionStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    subscribedPrincipal: SubscribedPrincipal,
-    subscribedListing: SubscribedListing,
-    subscriptionRequestId: S.optional(S.String),
-    retainPermissions: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "GetSubscriptionOutput",
-}) as any as S.Schema<GetSubscriptionOutput>;
 export interface GetSubscriptionGrantInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetSubscriptionGrantInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/subscription-grants/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSubscriptionGrantInput",
-}) as any as S.Schema<GetSubscriptionGrantInput>;
 export interface GetSubscriptionGrantOutput {
   id: string;
   createdBy: string;
@@ -10547,48 +4584,10 @@ export interface GetSubscriptionGrantOutput {
   assets?: SubscribedAsset[];
   subscriptionId?: string;
 }
-export const GetSubscriptionGrantOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    domainId: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    environmentId: S.optional(S.String),
-    subscriptionTargetId: S.String,
-    grantedEntity: GrantedEntity,
-    status: SubscriptionGrantOverallStatus,
-    assets: S.optional(SubscribedAssets),
-    subscriptionId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetSubscriptionGrantOutput",
-}) as any as S.Schema<GetSubscriptionGrantOutput>;
 export interface GetSubscriptionRequestDetailsInput {
   domainIdentifier: string;
   identifier: string;
 }
-export const GetSubscriptionRequestDetailsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/subscription-requests/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSubscriptionRequestDetailsInput",
-}) as any as S.Schema<GetSubscriptionRequestDetailsInput>;
 export interface GetSubscriptionRequestDetailsOutput {
   id: string;
   createdBy: string;
@@ -10605,52 +4604,11 @@ export interface GetSubscriptionRequestDetailsOutput {
   existingSubscriptionId?: string;
   metadataForms?: FormOutput[];
 }
-export const GetSubscriptionRequestDetailsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    domainId: S.String,
-    status: SubscriptionRequestStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    requestReason: SensitiveString,
-    subscribedPrincipals: SubscribedPrincipals,
-    subscribedListings: SubscribedListings,
-    reviewerId: S.optional(S.String),
-    decisionComment: S.optional(SensitiveString),
-    existingSubscriptionId: S.optional(S.String),
-    metadataForms: S.optional(MetadataForms),
-  }),
-).annotate({
-  identifier: "GetSubscriptionRequestDetailsOutput",
-}) as any as S.Schema<GetSubscriptionRequestDetailsOutput>;
 export interface GetSubscriptionTargetInput {
   domainIdentifier: string;
   environmentIdentifier: string;
   identifier: string;
 }
-export const GetSubscriptionTargetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/subscription-targets/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSubscriptionTargetInput",
-}) as any as S.Schema<GetSubscriptionTargetInput>;
 export interface GetSubscriptionTargetOutput {
   id: string;
   authorizedPrincipals: string[];
@@ -10669,28 +4627,6 @@ export interface GetSubscriptionTargetOutput {
   provider: string;
   subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
 }
-export const GetSubscriptionTargetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    authorizedPrincipals: AuthorizedPrincipalIdentifiers,
-    domainId: S.String,
-    projectId: S.String,
-    environmentId: S.String,
-    name: SensitiveString,
-    type: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    manageAccessRole: S.optional(S.String),
-    applicableAssetTypes: ApplicableAssetTypes,
-    subscriptionTargetConfig: SubscriptionTargetForms,
-    provider: S.String,
-    subscriptionGrantCreationMode: S.optional(SubscriptionGrantCreationMode),
-  }),
-).annotate({
-  identifier: "GetSubscriptionTargetOutput",
-}) as any as S.Schema<GetSubscriptionTargetOutput>;
 export type TimeSeriesDataPointIdentifier = string;
 export interface GetTimeSeriesDataPointInput {
   domainIdentifier: string;
@@ -10699,29 +4635,6 @@ export interface GetTimeSeriesDataPointInput {
   identifier: string;
   formName: string;
 }
-export const GetTimeSeriesDataPointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-    entityType: TimeSeriesEntityType.pipe(T.HttpLabel("entityType")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    formName: S.String.pipe(T.HttpQuery("formName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/time-series-data-points/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetTimeSeriesDataPointInput",
-}) as any as S.Schema<GetTimeSeriesDataPointInput>;
 export interface TimeSeriesDataPointFormOutput {
   formName: string;
   typeIdentifier: string;
@@ -10730,18 +4643,6 @@ export interface TimeSeriesDataPointFormOutput {
   content?: string;
   id?: string;
 }
-export const TimeSeriesDataPointFormOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    formName: S.String,
-    typeIdentifier: S.String,
-    typeRevision: S.optional(S.String),
-    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    content: S.optional(S.String),
-    id: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TimeSeriesDataPointFormOutput",
-}) as any as S.Schema<TimeSeriesDataPointFormOutput>;
 export interface GetTimeSeriesDataPointOutput {
   domainId?: string;
   entityId?: string;
@@ -10749,45 +4650,12 @@ export interface GetTimeSeriesDataPointOutput {
   formName?: string;
   form?: TimeSeriesDataPointFormOutput;
 }
-export const GetTimeSeriesDataPointOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    entityId: S.optional(S.String),
-    entityType: S.optional(TimeSeriesEntityType),
-    formName: S.optional(S.String),
-    form: S.optional(TimeSeriesDataPointFormOutput),
-  }),
-).annotate({
-  identifier: "GetTimeSeriesDataPointOutput",
-}) as any as S.Schema<GetTimeSeriesDataPointOutput>;
 export interface GetUserProfileInput {
   domainIdentifier: string;
   userIdentifier: string;
   type?: UserProfileType;
   sessionName?: string;
 }
-export const GetUserProfileInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    userIdentifier: S.String.pipe(T.HttpLabel("userIdentifier")),
-    type: S.optional(UserProfileType).pipe(T.HttpQuery("type")),
-    sessionName: S.optional(S.String).pipe(T.HttpQuery("sessionName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/user-profiles/{userIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetUserProfileInput",
-}) as any as S.Schema<GetUserProfileInput>;
 export interface GetUserProfileOutput {
   domainId?: string;
   id?: string;
@@ -10795,23 +4663,8 @@ export interface GetUserProfileOutput {
   status?: UserProfileStatus;
   details?: UserProfileDetails;
 }
-export const GetUserProfileOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    id: S.optional(S.String),
-    type: S.optional(UserProfileType),
-    status: S.optional(UserProfileStatus),
-    details: S.optional(UserProfileDetails),
-  }),
-).annotate({
-  identifier: "GetUserProfileOutput",
-}) as any as S.Schema<GetUserProfileOutput>;
 export type SortFieldAccountPool = "NAME" | (string & {});
-export const SortFieldAccountPool = S.String;
-
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
-export const SortOrder = S.String;
-
 export type PaginationToken = string;
 export type MaxResults = number;
 export interface ListAccountPoolsInput {
@@ -10822,30 +4675,6 @@ export interface ListAccountPoolsInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAccountPoolsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: S.optional(SensitiveString).pipe(T.HttpQuery("name")),
-    sortBy: S.optional(SortFieldAccountPool).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/account-pools",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAccountPoolsInput",
-}) as any as S.Schema<ListAccountPoolsInput>;
 export interface AccountPoolSummary {
   domainId?: string;
   id?: string;
@@ -10855,73 +4684,21 @@ export interface AccountPoolSummary {
   createdBy?: string;
   updatedBy?: string;
 }
-export const AccountPoolSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    id: S.optional(S.String),
-    name: S.optional(SensitiveString),
-    resolutionStrategy: S.optional(ResolutionStrategy),
-    domainUnitId: S.optional(S.String),
-    createdBy: S.optional(S.String),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AccountPoolSummary",
-}) as any as S.Schema<AccountPoolSummary>;
 export type AccountPoolSummaries = AccountPoolSummary[];
-export const AccountPoolSummaries = /*@__PURE__*/ S.Array(AccountPoolSummary);
 export interface ListAccountPoolsOutput {
   items?: AccountPoolSummary[];
   nextToken?: string;
 }
-export const ListAccountPoolsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(AccountPoolSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAccountPoolsOutput",
-}) as any as S.Schema<ListAccountPoolsOutput>;
 export interface ListAccountsInAccountPoolInput {
   domainIdentifier: string;
   identifier: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAccountsInAccountPoolInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/account-pools/{identifier}/accounts",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAccountsInAccountPoolInput",
-}) as any as S.Schema<ListAccountsInAccountPoolInput>;
 export interface ListAccountsInAccountPoolOutput {
   items?: AccountInfo[];
   nextToken?: string;
 }
-export const ListAccountsInAccountPoolOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(AccountInfoList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAccountsInAccountPoolOutput",
-}) as any as S.Schema<ListAccountsInAccountPoolOutput>;
 export interface ListAssetFiltersInput {
   domainIdentifier: string;
   assetIdentifier: string;
@@ -10929,29 +4706,6 @@ export interface ListAssetFiltersInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAssetFiltersInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
-    status: S.optional(FilterStatus).pipe(T.HttpQuery("status")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAssetFiltersInput",
-}) as any as S.Schema<ListAssetFiltersInput>;
 export interface AssetFilterSummary {
   id: string;
   domainId: string;
@@ -10964,61 +4718,17 @@ export interface AssetFilterSummary {
   createdAt?: Date;
   errorMessage?: string;
 }
-export const AssetFilterSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    assetId: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    status: S.optional(FilterStatus),
-    effectiveColumnNames: S.optional(ColumnNameList),
-    effectiveRowFilter: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    errorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AssetFilterSummary",
-}) as any as S.Schema<AssetFilterSummary>;
 export type AssetFilters = AssetFilterSummary[];
-export const AssetFilters = /*@__PURE__*/ S.Array(AssetFilterSummary);
 export interface ListAssetFiltersOutput {
   items: AssetFilterSummary[];
   nextToken?: string;
 }
-export const ListAssetFiltersOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ items: AssetFilters, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListAssetFiltersOutput",
-}) as any as S.Schema<ListAssetFiltersOutput>;
 export interface ListAssetRevisionsInput {
   domainIdentifier: string;
   identifier: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAssetRevisionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/assets/{identifier}/revisions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAssetRevisionsInput",
-}) as any as S.Schema<ListAssetRevisionsInput>;
 export interface AssetRevision {
   domainId?: string;
   id?: string;
@@ -11026,32 +4736,12 @@ export interface AssetRevision {
   createdBy?: string;
   createdAt?: Date;
 }
-export const AssetRevision = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    id: S.optional(S.String),
-    revision: S.optional(S.String),
-    createdBy: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "AssetRevision" }) as any as S.Schema<AssetRevision>;
 export type AssetRevisions = AssetRevision[];
-export const AssetRevisions = /*@__PURE__*/ S.Array(AssetRevision);
 export interface ListAssetRevisionsOutput {
   items?: AssetRevision[];
   nextToken?: string;
 }
-export const ListAssetRevisionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(AssetRevisions),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAssetRevisionsOutput",
-}) as any as S.Schema<ListAssetRevisionsOutput>;
 export type SortFieldConnection = "NAME" | (string & {});
-export const SortFieldConnection = S.String;
-
 export interface ListConnectionsInput {
   domainIdentifier: string;
   maxResults?: number;
@@ -11064,38 +4754,6 @@ export interface ListConnectionsInput {
   type?: ConnectionType;
   scope?: ConnectionScope;
 }
-export const ListConnectionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    sortBy: S.optional(SortFieldConnection).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-    name: S.optional(S.String).pipe(T.HttpQuery("name")),
-    environmentIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("environmentIdentifier"),
-    ),
-    projectIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("projectIdentifier"),
-    ),
-    type: S.optional(ConnectionType).pipe(T.HttpQuery("type")),
-    scope: S.optional(ConnectionScope).pipe(T.HttpQuery("scope")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/connections",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListConnectionsInput",
-}) as any as S.Schema<ListConnectionsInput>;
 export interface ConnectionSummary {
   configurations?: Configuration[];
   connectionId: string;
@@ -11109,62 +4767,17 @@ export interface ConnectionSummary {
   type: ConnectionType;
   scope?: ConnectionScope;
 }
-export const ConnectionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    configurations: S.optional(Configurations),
-    connectionId: S.String,
-    domainId: S.String,
-    domainUnitId: S.String,
-    environmentId: S.optional(S.String),
-    name: S.String,
-    physicalEndpoints: PhysicalEndpoints,
-    projectId: S.optional(S.String),
-    props: S.optional(ConnectionPropertiesOutput),
-    type: ConnectionType,
-    scope: S.optional(ConnectionScope),
-  }),
-).annotate({
-  identifier: "ConnectionSummary",
-}) as any as S.Schema<ConnectionSummary>;
 export type ConnectionSummaries = ConnectionSummary[];
-export const ConnectionSummaries = /*@__PURE__*/ S.Array(ConnectionSummary);
 export interface ListConnectionsOutput {
   items: ConnectionSummary[];
   nextToken?: string;
 }
-export const ListConnectionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ items: ConnectionSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListConnectionsOutput",
-}) as any as S.Schema<ListConnectionsOutput>;
 export interface ListDataProductRevisionsInput {
   domainIdentifier: string;
   identifier: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const ListDataProductRevisionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/data-products/{identifier}/revisions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDataProductRevisionsInput",
-}) as any as S.Schema<ListDataProductRevisionsInput>;
 export interface DataProductRevision {
   domainId?: string;
   id?: string;
@@ -11172,28 +4785,11 @@ export interface DataProductRevision {
   createdAt?: Date;
   createdBy?: string;
 }
-export const DataProductRevision = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    id: S.optional(S.String),
-    revision: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DataProductRevision",
-}) as any as S.Schema<DataProductRevision>;
 export type DataProductRevisions = DataProductRevision[];
-export const DataProductRevisions = /*@__PURE__*/ S.Array(DataProductRevision);
 export interface ListDataProductRevisionsOutput {
   items: DataProductRevision[];
   nextToken?: string;
 }
-export const ListDataProductRevisionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ items: DataProductRevisions, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDataProductRevisionsOutput",
-}) as any as S.Schema<ListDataProductRevisionsOutput>;
 export type DataAssetActivityStatus =
   | "FAILED"
   | "PUBLISHING_FAILED"
@@ -11204,8 +4800,6 @@ export type DataAssetActivityStatus =
   | "SKIPPED_NO_ACCESS"
   | "UNCHANGED"
   | (string & {});
-export const DataAssetActivityStatus = S.String;
-
 export interface ListDataSourceRunActivitiesInput {
   domainIdentifier: string;
   identifier: string;
@@ -11213,42 +4807,12 @@ export interface ListDataSourceRunActivitiesInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListDataSourceRunActivitiesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    status: S.optional(DataAssetActivityStatus).pipe(T.HttpQuery("status")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/data-source-runs/{identifier}/activities",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDataSourceRunActivitiesInput",
-}) as any as S.Schema<ListDataSourceRunActivitiesInput>;
 export type LineageEventErrorMessage = string;
 export interface LineageInfo {
   eventId?: string;
   eventStatus?: LineageEventProcessingStatus;
   errorMessage?: string;
 }
-export const LineageInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.optional(S.String),
-    eventStatus: S.optional(LineageEventProcessingStatus),
-    errorMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "LineageInfo" }) as any as S.Schema<LineageInfo>;
 export interface DataSourceRunActivity {
   database: string | redacted.Redacted<string>;
   dataSourceRunId: string;
@@ -11262,36 +4826,11 @@ export interface DataSourceRunActivity {
   createdAt: Date;
   updatedAt: Date;
 }
-export const DataSourceRunActivity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    database: SensitiveString,
-    dataSourceRunId: S.String,
-    technicalName: SensitiveString,
-    dataAssetStatus: DataAssetActivityStatus,
-    projectId: S.String,
-    dataAssetId: S.optional(S.String),
-    technicalDescription: S.optional(SensitiveString),
-    errorMessage: S.optional(DataSourceErrorMessage),
-    lineageSummary: S.optional(LineageInfo),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({
-  identifier: "DataSourceRunActivity",
-}) as any as S.Schema<DataSourceRunActivity>;
 export type DataSourceRunActivities = DataSourceRunActivity[];
-export const DataSourceRunActivities = /*@__PURE__*/ S.Array(
-  DataSourceRunActivity,
-);
 export interface ListDataSourceRunActivitiesOutput {
   items: DataSourceRunActivity[];
   nextToken?: string;
 }
-export const ListDataSourceRunActivitiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ items: DataSourceRunActivities, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDataSourceRunActivitiesOutput",
-}) as any as S.Schema<ListDataSourceRunActivitiesOutput>;
 export interface ListDataSourceRunsInput {
   domainIdentifier: string;
   dataSourceIdentifier: string;
@@ -11299,29 +4838,6 @@ export interface ListDataSourceRunsInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListDataSourceRunsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    dataSourceIdentifier: S.String.pipe(T.HttpLabel("dataSourceIdentifier")),
-    status: S.optional(DataSourceRunStatus).pipe(T.HttpQuery("status")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/data-sources/{dataSourceIdentifier}/runs",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDataSourceRunsInput",
-}) as any as S.Schema<ListDataSourceRunsInput>;
 export interface DataSourceRunSummary {
   id: string;
   dataSourceId: string;
@@ -11336,40 +4852,11 @@ export interface DataSourceRunSummary {
   stoppedAt?: Date;
   lineageSummary?: DataSourceRunLineageSummary;
 }
-export const DataSourceRunSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    dataSourceId: S.String,
-    type: DataSourceRunType,
-    status: DataSourceRunStatus,
-    projectId: S.String,
-    runStatisticsForAssets: S.optional(RunStatisticsForAssets),
-    errorMessage: S.optional(DataSourceErrorMessage),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    stoppedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lineageSummary: S.optional(DataSourceRunLineageSummary),
-  }),
-).annotate({
-  identifier: "DataSourceRunSummary",
-}) as any as S.Schema<DataSourceRunSummary>;
 export type DataSourceRunSummaries = DataSourceRunSummary[];
-export const DataSourceRunSummaries =
-  /*@__PURE__*/ S.Array(DataSourceRunSummary);
 export interface ListDataSourceRunsOutput {
   items: DataSourceRunSummary[];
   nextToken?: string;
 }
-export const ListDataSourceRunsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ items: DataSourceRunSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDataSourceRunsOutput",
-}) as any as S.Schema<ListDataSourceRunsOutput>;
 export interface ListDataSourcesInput {
   domainIdentifier: string;
   projectIdentifier: string;
@@ -11381,37 +4868,6 @@ export interface ListDataSourcesInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListDataSourcesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    projectIdentifier: S.String.pipe(T.HttpQuery("projectIdentifier")),
-    environmentIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("environmentIdentifier"),
-    ),
-    connectionIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("connectionIdentifier"),
-    ),
-    type: S.optional(S.String).pipe(T.HttpQuery("type")),
-    status: S.optional(DataSourceStatus).pipe(T.HttpQuery("status")),
-    name: S.optional(SensitiveString).pipe(T.HttpQuery("name")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/data-sources",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDataSourcesInput",
-}) as any as S.Schema<ListDataSourcesInput>;
 export interface DataSourceSummary {
   domainId: string;
   environmentId?: string;
@@ -11430,69 +4886,17 @@ export interface DataSourceSummary {
   updatedAt?: Date;
   description?: string | redacted.Redacted<string>;
 }
-export const DataSourceSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    environmentId: S.optional(S.String),
-    connectionId: S.optional(S.String),
-    dataSourceId: S.String,
-    name: SensitiveString,
-    type: S.String,
-    status: DataSourceStatus,
-    enableSetting: S.optional(EnableSetting),
-    schedule: S.optional(ScheduleConfiguration),
-    lastRunStatus: S.optional(DataSourceRunStatus),
-    lastRunAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastRunErrorMessage: S.optional(DataSourceErrorMessage),
-    lastRunAssetCount: S.optional(S.Number),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    description: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "DataSourceSummary",
-}) as any as S.Schema<DataSourceSummary>;
 export type DataSourceSummaries = DataSourceSummary[];
-export const DataSourceSummaries = /*@__PURE__*/ S.Array(DataSourceSummary);
 export interface ListDataSourcesOutput {
   items: DataSourceSummary[];
   nextToken?: string;
 }
-export const ListDataSourcesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ items: DataSourceSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDataSourcesOutput",
-}) as any as S.Schema<ListDataSourcesOutput>;
 export type MaxResultsForListDomains = number;
 export interface ListDomainsInput {
   status?: DomainStatus;
   maxResults?: number;
   nextToken?: string;
 }
-export const ListDomainsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(DomainStatus).pipe(T.HttpQuery("status")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/domains" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDomainsInput",
-}) as any as S.Schema<ListDomainsInput>;
 export type DomainName = string | redacted.Redacted<string>;
 export type DomainDescription = string | redacted.Redacted<string>;
 export interface DomainSummary {
@@ -11507,81 +4911,26 @@ export interface DomainSummary {
   lastUpdatedAt?: Date;
   domainVersion?: DomainVersion;
 }
-export const DomainSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    arn: S.String,
-    managedAccountId: S.String,
-    status: DomainStatus,
-    portalUrl: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    domainVersion: S.optional(DomainVersion),
-  }),
-).annotate({ identifier: "DomainSummary" }) as any as S.Schema<DomainSummary>;
 export type DomainSummaries = DomainSummary[];
-export const DomainSummaries = /*@__PURE__*/ S.Array(DomainSummary);
 export interface ListDomainsOutput {
   items: DomainSummary[];
   nextToken?: string;
 }
-export const ListDomainsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ items: DomainSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDomainsOutput",
-}) as any as S.Schema<ListDomainsOutput>;
 export interface ListDomainUnitsForParentInput {
   domainIdentifier: string;
   parentDomainUnitIdentifier: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const ListDomainUnitsForParentInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    parentDomainUnitIdentifier: S.String.pipe(
-      T.HttpQuery("parentDomainUnitIdentifier"),
-    ),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/domain-units",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDomainUnitsForParentInput",
-}) as any as S.Schema<ListDomainUnitsForParentInput>;
 export interface DomainUnitSummary {
   name: string;
   id: string;
 }
-export const DomainUnitSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, id: S.String }),
-).annotate({
-  identifier: "DomainUnitSummary",
-}) as any as S.Schema<DomainUnitSummary>;
 export type DomainUnitSummaries = DomainUnitSummary[];
-export const DomainUnitSummaries = /*@__PURE__*/ S.Array(DomainUnitSummary);
 export interface ListDomainUnitsForParentOutput {
   items: DomainUnitSummary[];
   nextToken?: string;
 }
-export const ListDomainUnitsForParentOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ items: DomainUnitSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDomainUnitsForParentOutput",
-}) as any as S.Schema<ListDomainUnitsForParentOutput>;
 export interface ListEntityOwnersInput {
   domainIdentifier: string;
   entityType: DataZoneEntityType;
@@ -11589,91 +4938,26 @@ export interface ListEntityOwnersInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListEntityOwnersInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    entityType: DataZoneEntityType.pipe(T.HttpLabel("entityType")),
-    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/owners",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListEntityOwnersInput",
-}) as any as S.Schema<ListEntityOwnersInput>;
 export interface OwnerUserPropertiesOutput {
   userId?: string;
 }
-export const OwnerUserPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ userId: S.optional(S.String) }),
-).annotate({
-  identifier: "OwnerUserPropertiesOutput",
-}) as any as S.Schema<OwnerUserPropertiesOutput>;
 export interface OwnerGroupPropertiesOutput {
   groupId?: string;
 }
-export const OwnerGroupPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ groupId: S.optional(S.String) }),
-).annotate({
-  identifier: "OwnerGroupPropertiesOutput",
-}) as any as S.Schema<OwnerGroupPropertiesOutput>;
 export type OwnerPropertiesOutput =
   | { user: OwnerUserPropertiesOutput; group?: never }
   | { user?: never; group: OwnerGroupPropertiesOutput };
-export const OwnerPropertiesOutput = /*@__PURE__*/ S.Union([
-  S.Struct({ user: OwnerUserPropertiesOutput }),
-  S.Struct({ group: OwnerGroupPropertiesOutput }),
-]);
 export type EntityOwners = OwnerPropertiesOutput[];
-export const EntityOwners = /*@__PURE__*/ S.Array(OwnerPropertiesOutput);
 export interface ListEntityOwnersOutput {
   owners: OwnerPropertiesOutput[];
   nextToken?: string;
 }
-export const ListEntityOwnersOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ owners: EntityOwners, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListEntityOwnersOutput",
-}) as any as S.Schema<ListEntityOwnersOutput>;
 export interface ListEnvironmentActionsInput {
   domainIdentifier: string;
   environmentIdentifier: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListEnvironmentActionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListEnvironmentActionsInput",
-}) as any as S.Schema<ListEnvironmentActionsInput>;
 export interface EnvironmentActionSummary {
   domainId: string;
   environmentId: string;
@@ -11682,61 +4966,16 @@ export interface EnvironmentActionSummary {
   parameters: ActionParameters;
   description?: string;
 }
-export const EnvironmentActionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    environmentId: S.String,
-    id: S.String,
-    name: S.String,
-    parameters: ActionParameters,
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EnvironmentActionSummary",
-}) as any as S.Schema<EnvironmentActionSummary>;
 export type ListEnvironmentActionSummaries = EnvironmentActionSummary[];
-export const ListEnvironmentActionSummaries = /*@__PURE__*/ S.Array(
-  EnvironmentActionSummary,
-);
 export interface ListEnvironmentActionsOutput {
   items?: EnvironmentActionSummary[];
   nextToken?: string;
 }
-export const ListEnvironmentActionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(ListEnvironmentActionSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListEnvironmentActionsOutput",
-}) as any as S.Schema<ListEnvironmentActionsOutput>;
 export interface ListEnvironmentBlueprintConfigurationsInput {
   domainIdentifier: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const ListEnvironmentBlueprintConfigurationsInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/v2/domains/{domainIdentifier}/environment-blueprint-configurations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListEnvironmentBlueprintConfigurationsInput",
-  }) as any as S.Schema<ListEnvironmentBlueprintConfigurationsInput>;
 export interface EnvironmentBlueprintConfigurationItem {
   domainId: string;
   environmentBlueprintId: string;
@@ -11753,47 +4992,12 @@ export interface EnvironmentBlueprintConfigurationItem {
   resourceConfigurations?: ResourceConfiguration[];
   provisioningConfigurations?: ProvisioningConfiguration[];
 }
-export const EnvironmentBlueprintConfigurationItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      domainId: S.String,
-      environmentBlueprintId: S.String,
-      provisioningRoleArn: S.optional(S.String),
-      environmentRolePermissionBoundary: S.optional(S.String),
-      manageAccessRoleArn: S.optional(S.String),
-      enabledRegions: S.optional(EnabledRegionList),
-      regionalParameters: S.optional(RegionalParameterMap),
-      allowUserProvidedConfigurations: S.optional(S.Boolean),
-      createdAt: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-      updatedAt: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-      resourceConfigurations: S.optional(ResourceConfigurations),
-      provisioningConfigurations: S.optional(ProvisioningConfigurationList),
-    }),
-).annotate({
-  identifier: "EnvironmentBlueprintConfigurationItem",
-}) as any as S.Schema<EnvironmentBlueprintConfigurationItem>;
 export type EnvironmentBlueprintConfigurations =
   EnvironmentBlueprintConfigurationItem[];
-export const EnvironmentBlueprintConfigurations = /*@__PURE__*/ S.Array(
-  EnvironmentBlueprintConfigurationItem,
-);
 export interface ListEnvironmentBlueprintConfigurationsOutput {
   items?: EnvironmentBlueprintConfigurationItem[];
   nextToken?: string;
 }
-export const ListEnvironmentBlueprintConfigurationsOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      items: S.optional(EnvironmentBlueprintConfigurations),
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListEnvironmentBlueprintConfigurationsOutput",
-  }) as any as S.Schema<ListEnvironmentBlueprintConfigurationsOutput>;
 export interface ListEnvironmentBlueprintsInput {
   domainIdentifier: string;
   maxResults?: number;
@@ -11801,29 +5005,6 @@ export interface ListEnvironmentBlueprintsInput {
   name?: string;
   managed?: boolean;
 }
-export const ListEnvironmentBlueprintsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    name: S.optional(S.String).pipe(T.HttpQuery("name")),
-    managed: S.optional(S.Boolean).pipe(T.HttpQuery("managed")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/environment-blueprints",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListEnvironmentBlueprintsInput",
-}) as any as S.Schema<ListEnvironmentBlueprintsInput>;
 export interface EnvironmentBlueprintSummary {
   id: string;
   name: string;
@@ -11833,39 +5014,11 @@ export interface EnvironmentBlueprintSummary {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const EnvironmentBlueprintSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: S.String,
-    description: S.optional(SensitiveString),
-    provider: S.String,
-    provisioningProperties: ProvisioningProperties,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "EnvironmentBlueprintSummary",
-}) as any as S.Schema<EnvironmentBlueprintSummary>;
 export type EnvironmentBlueprintSummaries = EnvironmentBlueprintSummary[];
-export const EnvironmentBlueprintSummaries = /*@__PURE__*/ S.Array(
-  EnvironmentBlueprintSummary,
-);
 export interface ListEnvironmentBlueprintsOutput {
   items: EnvironmentBlueprintSummary[];
   nextToken?: string;
 }
-export const ListEnvironmentBlueprintsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: EnvironmentBlueprintSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListEnvironmentBlueprintsOutput",
-}) as any as S.Schema<ListEnvironmentBlueprintsOutput>;
 export interface ListEnvironmentProfilesInput {
   domainIdentifier: string;
   awsAccountId?: string;
@@ -11876,38 +5029,6 @@ export interface ListEnvironmentProfilesInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListEnvironmentProfilesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    awsAccountId: S.optional(S.String).pipe(T.HttpQuery("awsAccountId")),
-    awsAccountRegion: S.optional(S.String).pipe(
-      T.HttpQuery("awsAccountRegion"),
-    ),
-    environmentBlueprintIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("environmentBlueprintIdentifier"),
-    ),
-    projectIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("projectIdentifier"),
-    ),
-    name: S.optional(SensitiveString).pipe(T.HttpQuery("name")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/environment-profiles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListEnvironmentProfilesInput",
-}) as any as S.Schema<ListEnvironmentProfilesInput>;
 export interface EnvironmentProfileSummary {
   id: string;
   domainId: string;
@@ -11921,43 +5042,11 @@ export interface EnvironmentProfileSummary {
   environmentBlueprintId: string;
   projectId?: string;
 }
-export const EnvironmentProfileSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    awsAccountId: S.optional(S.String),
-    awsAccountRegion: S.optional(S.String),
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    environmentBlueprintId: S.String,
-    projectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EnvironmentProfileSummary",
-}) as any as S.Schema<EnvironmentProfileSummary>;
 export type EnvironmentProfileSummaries = EnvironmentProfileSummary[];
-export const EnvironmentProfileSummaries = /*@__PURE__*/ S.Array(
-  EnvironmentProfileSummary,
-);
 export interface ListEnvironmentProfilesOutput {
   items: EnvironmentProfileSummary[];
   nextToken?: string;
 }
-export const ListEnvironmentProfilesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: EnvironmentProfileSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListEnvironmentProfilesOutput",
-}) as any as S.Schema<ListEnvironmentProfilesOutput>;
 export interface ListEnvironmentsInput {
   domainIdentifier: string;
   awsAccountId?: string;
@@ -11971,41 +5060,6 @@ export interface ListEnvironmentsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListEnvironmentsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    awsAccountId: S.optional(S.String).pipe(T.HttpQuery("awsAccountId")),
-    status: S.optional(EnvironmentStatus).pipe(T.HttpQuery("status")),
-    awsAccountRegion: S.optional(S.String).pipe(
-      T.HttpQuery("awsAccountRegion"),
-    ),
-    projectIdentifier: S.String.pipe(T.HttpQuery("projectIdentifier")),
-    environmentProfileIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("environmentProfileIdentifier"),
-    ),
-    environmentBlueprintIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("environmentBlueprintIdentifier"),
-    ),
-    provider: S.optional(S.String).pipe(T.HttpQuery("provider")),
-    name: S.optional(S.String).pipe(T.HttpQuery("name")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/environments",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListEnvironmentsInput",
-}) as any as S.Schema<ListEnvironmentsInput>;
 export interface EnvironmentSummary {
   projectId: string;
   id?: string;
@@ -12023,42 +5077,11 @@ export interface EnvironmentSummary {
   environmentConfigurationId?: string | redacted.Redacted<string>;
   environmentConfigurationName?: string | redacted.Redacted<string>;
 }
-export const EnvironmentSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectId: S.String,
-    id: S.optional(S.String),
-    domainId: S.String,
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    environmentProfileId: S.optional(S.String),
-    awsAccountId: S.optional(S.String),
-    awsAccountRegion: S.optional(S.String),
-    provider: S.String,
-    status: S.optional(EnvironmentStatus),
-    environmentConfigurationId: S.optional(SensitiveString),
-    environmentConfigurationName: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "EnvironmentSummary",
-}) as any as S.Schema<EnvironmentSummary>;
 export type EnvironmentSummaries = EnvironmentSummary[];
-export const EnvironmentSummaries = /*@__PURE__*/ S.Array(EnvironmentSummary);
 export interface ListEnvironmentsOutput {
   items: EnvironmentSummary[];
   nextToken?: string;
 }
-export const ListEnvironmentsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ items: EnvironmentSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListEnvironmentsOutput",
-}) as any as S.Schema<ListEnvironmentsOutput>;
 export interface ListJobRunsInput {
   domainIdentifier: string;
   jobIdentifier: string;
@@ -12067,30 +5090,6 @@ export interface ListJobRunsInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListJobRunsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")),
-    status: S.optional(JobRunStatus).pipe(T.HttpQuery("status")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/jobs/{jobIdentifier}/runs",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListJobRunsInput",
-}) as any as S.Schema<ListJobRunsInput>;
 export interface JobRunSummary {
   domainId?: string;
   jobId?: string;
@@ -12104,35 +5103,11 @@ export interface JobRunSummary {
   startTime?: Date;
   endTime?: Date;
 }
-export const JobRunSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    jobId: S.optional(S.String),
-    jobType: S.optional(JobType),
-    runId: S.optional(S.String),
-    runMode: S.optional(JobRunMode),
-    status: S.optional(JobRunStatus),
-    error: S.optional(JobRunError),
-    createdBy: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "JobRunSummary" }) as any as S.Schema<JobRunSummary>;
 export type JobRunSummaries = JobRunSummary[];
-export const JobRunSummaries = /*@__PURE__*/ S.Array(JobRunSummary);
 export interface ListJobRunsOutput {
   items?: JobRunSummary[];
   nextToken?: string;
 }
-export const ListJobRunsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(JobRunSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListJobRunsOutput",
-}) as any as S.Schema<ListJobRunsOutput>;
 export interface ListLineageEventsInput {
   domainIdentifier: string;
   maxResults?: number;
@@ -12142,37 +5117,6 @@ export interface ListLineageEventsInput {
   sortOrder?: SortOrder;
   nextToken?: string;
 }
-export const ListLineageEventsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    timestampAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("timestampAfter")),
-    timestampBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("timestampBefore")),
-    processingStatus: S.optional(LineageEventProcessingStatus).pipe(
-      T.HttpQuery("processingStatus"),
-    ),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/lineage/events",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListLineageEventsInput",
-}) as any as S.Schema<ListLineageEventsInput>;
 export type OpenLineageRunState =
   | "START"
   | "RUNNING"
@@ -12181,17 +5125,11 @@ export type OpenLineageRunState =
   | "FAIL"
   | "OTHER"
   | (string & {});
-export const OpenLineageRunState = S.String;
-
 export interface NameIdentifier {
   name?: string;
   namespace?: string;
 }
-export const NameIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.optional(S.String), namespace: S.optional(S.String) }),
-).annotate({ identifier: "NameIdentifier" }) as any as S.Schema<NameIdentifier>;
 export type NameIdentifiers = NameIdentifier[];
-export const NameIdentifiers = /*@__PURE__*/ S.Array(NameIdentifier);
 export interface OpenLineageRunEventSummary {
   eventType?: OpenLineageRunState;
   runId?: string;
@@ -12199,23 +5137,9 @@ export interface OpenLineageRunEventSummary {
   inputs?: NameIdentifier[];
   outputs?: NameIdentifier[];
 }
-export const OpenLineageRunEventSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventType: S.optional(OpenLineageRunState),
-    runId: S.optional(S.String),
-    job: S.optional(NameIdentifier),
-    inputs: S.optional(NameIdentifiers),
-    outputs: S.optional(NameIdentifiers),
-  }),
-).annotate({
-  identifier: "OpenLineageRunEventSummary",
-}) as any as S.Schema<OpenLineageRunEventSummary>;
 export type EventSummary = {
   openLineageRunEventSummary: OpenLineageRunEventSummary;
 };
-export const EventSummary = /*@__PURE__*/ S.Union([
-  S.Struct({ openLineageRunEventSummary: OpenLineageRunEventSummary }),
-]);
 export interface LineageEventSummary {
   id?: string;
   domainId?: string;
@@ -12225,36 +5149,12 @@ export interface LineageEventSummary {
   createdBy?: string;
   createdAt?: Date;
 }
-export const LineageEventSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    domainId: S.optional(S.String),
-    processingStatus: S.optional(LineageEventProcessingStatus),
-    eventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    eventSummary: S.optional(EventSummary),
-    createdBy: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "LineageEventSummary",
-}) as any as S.Schema<LineageEventSummary>;
 export type LineageEventSummaries = LineageEventSummary[];
-export const LineageEventSummaries = /*@__PURE__*/ S.Array(LineageEventSummary);
 export interface ListLineageEventsOutput {
   items?: LineageEventSummary[];
   nextToken?: string;
 }
-export const ListLineageEventsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(LineageEventSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListLineageEventsOutput",
-}) as any as S.Schema<ListLineageEventsOutput>;
 export type EdgeDirection = "UPSTREAM" | "DOWNSTREAM" | (string & {});
-export const EdgeDirection = S.String;
-
 export interface ListLineageNodeHistoryInput {
   domainIdentifier: string;
   maxResults?: number;
@@ -12265,36 +5165,6 @@ export interface ListLineageNodeHistoryInput {
   eventTimestampLTE?: Date;
   sortOrder?: SortOrder;
 }
-export const ListLineageNodeHistoryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    direction: S.optional(EdgeDirection).pipe(T.HttpQuery("direction")),
-    eventTimestampGTE: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("timestampGTE")),
-    eventTimestampLTE: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("timestampLTE")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/lineage/nodes/{identifier}/history",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListLineageNodeHistoryInput",
-}) as any as S.Schema<ListLineageNodeHistoryInput>;
 export interface LineageNodeSummary {
   domainId: string;
   name?: string;
@@ -12309,38 +5179,11 @@ export interface LineageNodeSummary {
   sourceIdentifier?: string;
   eventTimestamp?: Date;
 }
-export const LineageNodeSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-    id: S.String,
-    typeName: S.String,
-    typeRevision: S.optional(S.String),
-    sourceIdentifier: S.optional(S.String),
-    eventTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "LineageNodeSummary",
-}) as any as S.Schema<LineageNodeSummary>;
 export type LineageNodeSummaries = LineageNodeSummary[];
-export const LineageNodeSummaries = /*@__PURE__*/ S.Array(LineageNodeSummary);
 export interface ListLineageNodeHistoryOutput {
   nodes?: LineageNodeSummary[];
   nextToken?: string;
 }
-export const ListLineageNodeHistoryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nodes: S.optional(LineageNodeSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListLineageNodeHistoryOutput",
-}) as any as S.Schema<ListLineageNodeHistoryOutput>;
 export interface ListMetadataGenerationRunsInput {
   domainIdentifier: string;
   status?: MetadataGenerationRunStatus;
@@ -12349,32 +5192,6 @@ export interface ListMetadataGenerationRunsInput {
   maxResults?: number;
   targetIdentifier?: string;
 }
-export const ListMetadataGenerationRunsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    status: S.optional(MetadataGenerationRunStatus).pipe(T.HttpQuery("status")),
-    type: S.optional(MetadataGenerationRunType).pipe(T.HttpQuery("type")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    targetIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("targetIdentifier"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/metadata-generation-runs",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListMetadataGenerationRunsInput",
-}) as any as S.Schema<ListMetadataGenerationRunsInput>;
 export interface MetadataGenerationRunItem {
   domainId: string;
   id: string;
@@ -12386,37 +5203,11 @@ export interface MetadataGenerationRunItem {
   createdBy?: string;
   owningProjectId: string;
 }
-export const MetadataGenerationRunItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    target: S.optional(MetadataGenerationRunTarget),
-    status: S.optional(MetadataGenerationRunStatus),
-    type: S.optional(MetadataGenerationRunType),
-    types: S.optional(MetadataGenerationRunTypes),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    owningProjectId: S.String,
-  }),
-).annotate({
-  identifier: "MetadataGenerationRunItem",
-}) as any as S.Schema<MetadataGenerationRunItem>;
 export type MetadataGenerationRuns = MetadataGenerationRunItem[];
-export const MetadataGenerationRuns = /*@__PURE__*/ S.Array(
-  MetadataGenerationRunItem,
-);
 export interface ListMetadataGenerationRunsOutput {
   items?: MetadataGenerationRunItem[];
   nextToken?: string;
 }
-export const ListMetadataGenerationRunsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(MetadataGenerationRuns),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListMetadataGenerationRunsOutput",
-}) as any as S.Schema<ListMetadataGenerationRunsOutput>;
 export interface ListNotebookRunsInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
@@ -12427,38 +5218,6 @@ export interface ListNotebookRunsInput {
   sortOrder?: SortOrder;
   nextToken?: string;
 }
-export const ListNotebookRunsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    owningProjectIdentifier: S.String.pipe(
-      T.HttpQuery("owningProjectIdentifier"),
-    ),
-    notebookIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("notebookIdentifier"),
-    ),
-    status: S.optional(NotebookRunStatus).pipe(T.HttpQuery("status")),
-    scheduleIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("scheduleIdentifier"),
-    ),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/notebook-runs",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListNotebookRunsInput",
-}) as any as S.Schema<ListNotebookRunsInput>;
 export interface NotebookRunSummary {
   id: string;
   domainId: string;
@@ -12474,42 +5233,12 @@ export interface NotebookRunSummary {
   startedAt?: Date;
   completedAt?: Date;
 }
-export const NotebookRunSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    owningProjectId: S.String,
-    notebookId: S.String,
-    scheduleId: S.optional(S.String),
-    status: NotebookRunStatus,
-    triggerSource: S.optional(TriggerSource),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "NotebookRunSummary",
-}) as any as S.Schema<NotebookRunSummary>;
 export type NotebookRunSummaryList = NotebookRunSummary[];
-export const NotebookRunSummaryList = /*@__PURE__*/ S.Array(NotebookRunSummary);
 export interface ListNotebookRunsOutput {
   items?: NotebookRunSummary[];
   nextToken?: string;
 }
-export const ListNotebookRunsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(NotebookRunSummaryList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListNotebookRunsOutput",
-}) as any as S.Schema<ListNotebookRunsOutput>;
 export type SortKey = "CREATED_AT" | "UPDATED_AT" | (string & {});
-export const SortKey = S.String;
-
 export interface ListNotebooksInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
@@ -12519,33 +5248,6 @@ export interface ListNotebooksInput {
   status?: NotebookStatus;
   nextToken?: string;
 }
-export const ListNotebooksInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    owningProjectIdentifier: S.String.pipe(
-      T.HttpQuery("owningProjectIdentifier"),
-    ),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-    sortBy: S.optional(SortKey).pipe(T.HttpQuery("sortBy")),
-    status: S.optional(NotebookStatus).pipe(T.HttpQuery("status")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/notebooks",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListNotebooksInput",
-}) as any as S.Schema<ListNotebooksInput>;
 export interface NotebookSummary {
   id: string;
   name: string | redacted.Redacted<string>;
@@ -12558,44 +5260,14 @@ export interface NotebookSummary {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const NotebookSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: SensitiveString,
-    owningProjectId: S.String,
-    domainId: S.String,
-    status: NotebookStatus,
-    description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NotebookSummary",
-}) as any as S.Schema<NotebookSummary>;
 export type NotebookSummaryList = NotebookSummary[];
-export const NotebookSummaryList = /*@__PURE__*/ S.Array(NotebookSummary);
 export interface ListNotebooksOutput {
   items?: NotebookSummary[];
   nextToken?: string;
 }
-export const ListNotebooksOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(NotebookSummaryList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListNotebooksOutput",
-}) as any as S.Schema<ListNotebooksOutput>;
 export type NotificationType = "TASK" | "EVENT" | (string & {});
-export const NotificationType = S.String;
-
 export type NotificationSubjects = string[];
-export const NotificationSubjects = /*@__PURE__*/ S.Array(S.String);
 export type TaskStatus = "ACTIVE" | "INACTIVE" | (string & {});
-export const TaskStatus = S.String;
-
 export interface ListNotificationsInput {
   domainIdentifier: string;
   type: NotificationType;
@@ -12606,54 +5278,13 @@ export interface ListNotificationsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListNotificationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    type: NotificationType.pipe(T.HttpQuery("type")),
-    afterTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("afterTimestamp")),
-    beforeTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("beforeTimestamp")),
-    subjects: S.optional(NotificationSubjects).pipe(T.HttpQuery("subjects")),
-    taskStatus: S.optional(TaskStatus).pipe(T.HttpQuery("taskStatus")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/notifications",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListNotificationsInput",
-}) as any as S.Schema<ListNotificationsInput>;
 export type TaskId = string;
 export type NotificationResourceType = "PROJECT" | (string & {});
-export const NotificationResourceType = S.String;
-
 export interface NotificationResource {
   type: NotificationResourceType;
   id: string;
   name?: string;
 }
-export const NotificationResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: NotificationResourceType,
-    id: S.String,
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NotificationResource",
-}) as any as S.Schema<NotificationResource>;
 export type NotificationRole =
   | "PROJECT_OWNER"
   | "PROJECT_CONTRIBUTOR"
@@ -12661,28 +5292,15 @@ export type NotificationRole =
   | "DOMAIN_OWNER"
   | "PROJECT_SUBSCRIBER"
   | (string & {});
-export const NotificationRole = S.String;
-
 export interface Topic {
   subject: string;
   resource: NotificationResource;
   role: NotificationRole;
 }
-export const Topic = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subject: S.String,
-    resource: NotificationResource,
-    role: NotificationRole,
-  }),
-).annotate({ identifier: "Topic" }) as any as S.Schema<Topic>;
 export type Title = string | redacted.Redacted<string>;
 export type Message = string | redacted.Redacted<string>;
 export type ActionLink = string | redacted.Redacted<string>;
 export type MetadataMap = { [key: string]: string | undefined };
-export const MetadataMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface NotificationOutput {
   identifier: string;
   domainIdentifier: string;
@@ -12696,37 +5314,11 @@ export interface NotificationOutput {
   lastUpdatedTimestamp: Date;
   metadata?: { [key: string]: string | undefined };
 }
-export const NotificationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String,
-    domainIdentifier: S.String,
-    type: NotificationType,
-    topic: Topic,
-    title: SensitiveString,
-    message: SensitiveString,
-    status: S.optional(TaskStatus),
-    actionLink: SensitiveString,
-    creationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    lastUpdatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    metadata: S.optional(MetadataMap),
-  }),
-).annotate({
-  identifier: "NotificationOutput",
-}) as any as S.Schema<NotificationOutput>;
 export type NotificationsList = NotificationOutput[];
-export const NotificationsList = /*@__PURE__*/ S.Array(NotificationOutput);
 export interface ListNotificationsOutput {
   notifications?: NotificationOutput[];
   nextToken?: string;
 }
-export const ListNotificationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    notifications: S.optional(NotificationsList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListNotificationsOutput",
-}) as any as S.Schema<ListNotificationsOutput>;
 export interface ListPolicyGrantsInput {
   domainIdentifier: string;
   entityType: TargetEntityType;
@@ -12735,30 +5327,6 @@ export interface ListPolicyGrantsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListPolicyGrantsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    entityType: TargetEntityType.pipe(T.HttpLabel("entityType")),
-    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-    policyType: ManagedPolicyType.pipe(T.HttpQuery("policyType")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/policies/managed/{entityType}/{entityIdentifier}/grants",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListPolicyGrantsInput",
-}) as any as S.Schema<ListPolicyGrantsInput>;
 export interface PolicyGrantMember {
   principal?: PolicyGrantPrincipal;
   detail?: PolicyGrantDetail;
@@ -12766,31 +5334,12 @@ export interface PolicyGrantMember {
   createdBy?: string;
   grantId?: string;
 }
-export const PolicyGrantMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    principal: S.optional(PolicyGrantPrincipal),
-    detail: S.optional(PolicyGrantDetail),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    grantId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PolicyGrantMember",
-}) as any as S.Schema<PolicyGrantMember>;
 export type PolicyGrantList = PolicyGrantMember[];
-export const PolicyGrantList = /*@__PURE__*/ S.Array(PolicyGrantMember);
 export interface ListPolicyGrantsOutput {
   grantList: PolicyGrantMember[];
   nextToken?: string;
 }
-export const ListPolicyGrantsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ grantList: PolicyGrantList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListPolicyGrantsOutput",
-}) as any as S.Schema<ListPolicyGrantsOutput>;
 export type SortFieldProject = "NAME" | (string & {});
-export const SortFieldProject = S.String;
-
 export interface ListProjectMembershipsInput {
   domainIdentifier: string;
   projectIdentifier: string;
@@ -12799,67 +5348,24 @@ export interface ListProjectMembershipsInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListProjectMembershipsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    projectIdentifier: S.String.pipe(T.HttpLabel("projectIdentifier")),
-    sortBy: S.optional(SortFieldProject).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/projects/{projectIdentifier}/memberships",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListProjectMembershipsInput",
-}) as any as S.Schema<ListProjectMembershipsInput>;
 export interface UserDetails {
   userId: string;
 }
-export const UserDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ userId: S.String }),
-).annotate({ identifier: "UserDetails" }) as any as S.Schema<UserDetails>;
 export interface GroupDetails {
   groupId: string;
 }
-export const GroupDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ groupId: S.String }),
-).annotate({ identifier: "GroupDetails" }) as any as S.Schema<GroupDetails>;
 export type MemberDetails =
   | { user: UserDetails; group?: never }
   | { user?: never; group: GroupDetails };
-export const MemberDetails = /*@__PURE__*/ S.Union([
-  S.Struct({ user: UserDetails }),
-  S.Struct({ group: GroupDetails }),
-]);
 export interface ProjectMember {
   memberDetails: MemberDetails;
   designation: UserDesignation;
 }
-export const ProjectMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ memberDetails: MemberDetails, designation: UserDesignation }),
-).annotate({ identifier: "ProjectMember" }) as any as S.Schema<ProjectMember>;
 export type ProjectMembers = ProjectMember[];
-export const ProjectMembers = /*@__PURE__*/ S.Array(ProjectMember);
 export interface ListProjectMembershipsOutput {
   members: ProjectMember[];
   nextToken?: string;
 }
-export const ListProjectMembershipsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ members: ProjectMembers, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListProjectMembershipsOutput",
-}) as any as S.Schema<ListProjectMembershipsOutput>;
 export interface ListProjectProfilesInput {
   domainIdentifier: string;
   name?: string | redacted.Redacted<string>;
@@ -12868,30 +5374,6 @@ export interface ListProjectProfilesInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListProjectProfilesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: S.optional(SensitiveString).pipe(T.HttpQuery("name")),
-    sortBy: S.optional(SortFieldProject).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/project-profiles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListProjectProfilesInput",
-}) as any as S.Schema<ListProjectProfilesInput>;
 export interface ProjectProfileSummary {
   domainId: string;
   id: string;
@@ -12903,41 +5385,11 @@ export interface ProjectProfileSummary {
   lastUpdatedAt?: Date;
   domainUnitId?: string;
 }
-export const ProjectProfileSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    status: S.optional(Status),
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    domainUnitId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ProjectProfileSummary",
-}) as any as S.Schema<ProjectProfileSummary>;
 export type ProjectProfileSummaries = ProjectProfileSummary[];
-export const ProjectProfileSummaries = /*@__PURE__*/ S.Array(
-  ProjectProfileSummary,
-);
 export interface ListProjectProfilesOutput {
   items?: ProjectProfileSummary[];
   nextToken?: string;
 }
-export const ListProjectProfilesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(ProjectProfileSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListProjectProfilesOutput",
-}) as any as S.Schema<ListProjectProfilesOutput>;
 export interface ListProjectsInput {
   domainIdentifier: string;
   userIdentifier?: string;
@@ -12947,28 +5399,6 @@ export interface ListProjectsInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListProjectsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    userIdentifier: S.optional(S.String).pipe(T.HttpQuery("userIdentifier")),
-    groupIdentifier: S.optional(S.String).pipe(T.HttpQuery("groupIdentifier")),
-    name: S.optional(SensitiveString).pipe(T.HttpQuery("name")),
-    projectCategory: S.optional(S.String).pipe(T.HttpQuery("projectCategory")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/domains/{domainIdentifier}/projects" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListProjectsInput",
-}) as any as S.Schema<ListProjectsInput>;
 export interface ProjectSummary {
   domainId: string;
   id: string;
@@ -12982,43 +5412,13 @@ export interface ProjectSummary {
   domainUnitId?: string;
   projectCategory?: string;
 }
-export const ProjectSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    projectStatus: S.optional(ProjectStatus),
-    failureReasons: S.optional(FailureReasons),
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    domainUnitId: S.optional(S.String),
-    projectCategory: S.optional(S.String),
-  }),
-).annotate({ identifier: "ProjectSummary" }) as any as S.Schema<ProjectSummary>;
 export type ProjectSummaries = ProjectSummary[];
-export const ProjectSummaries = /*@__PURE__*/ S.Array(ProjectSummary);
 export interface ListProjectsOutput {
   items?: ProjectSummary[];
   nextToken?: string;
 }
-export const ListProjectsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(ProjectSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListProjectsOutput",
-}) as any as S.Schema<ListProjectsOutput>;
 export type ProjectIds = string[];
-export const ProjectIds = /*@__PURE__*/ S.Array(S.String);
 export type AssetTypeIdentifiers = string[];
-export const AssetTypeIdentifiers = /*@__PURE__*/ S.Array(S.String);
 export interface ListRulesInput {
   domainIdentifier: string;
   targetType: RuleTargetType;
@@ -13032,35 +5432,6 @@ export interface ListRulesInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListRulesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    targetType: RuleTargetType.pipe(T.HttpLabel("targetType")),
-    targetIdentifier: S.String.pipe(T.HttpLabel("targetIdentifier")),
-    ruleType: S.optional(RuleType).pipe(T.HttpQuery("ruleType")),
-    action: S.optional(RuleAction).pipe(T.HttpQuery("ruleAction")),
-    projectIds: S.optional(ProjectIds).pipe(T.HttpQuery("projectIds")),
-    assetTypes: S.optional(AssetTypeIdentifiers).pipe(
-      T.HttpQuery("assetTypes"),
-    ),
-    dataProduct: S.optional(S.Boolean).pipe(T.HttpQuery("dataProduct")),
-    includeCascaded: S.optional(S.Boolean).pipe(T.HttpQuery("includeCascaded")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/list-rules/{targetType}/{targetIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "ListRulesInput" }) as any as S.Schema<ListRulesInput>;
 export interface RuleSummary {
   identifier?: string;
   revision?: string;
@@ -13073,31 +5444,11 @@ export interface RuleSummary {
   updatedAt?: Date;
   lastUpdatedBy?: string;
 }
-export const RuleSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.optional(S.String),
-    revision: S.optional(S.String),
-    ruleType: S.optional(RuleType),
-    name: S.optional(SensitiveString),
-    targetType: S.optional(RuleTargetType),
-    target: S.optional(RuleTarget),
-    action: S.optional(RuleAction),
-    scope: S.optional(RuleScope),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdatedBy: S.optional(S.String),
-  }),
-).annotate({ identifier: "RuleSummary" }) as any as S.Schema<RuleSummary>;
 export type RuleSummaries = RuleSummary[];
-export const RuleSummaries = /*@__PURE__*/ S.Array(RuleSummary);
 export interface ListRulesOutput {
   items: RuleSummary[];
   nextToken?: string;
 }
-export const ListRulesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ items: RuleSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListRulesOutput",
-}) as any as S.Schema<ListRulesOutput>;
 export interface ListSubscriptionGrantsInput {
   domainIdentifier: string;
   environmentId?: string;
@@ -13113,43 +5464,6 @@ export interface ListSubscriptionGrantsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListSubscriptionGrantsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    environmentId: S.optional(S.String).pipe(T.HttpQuery("environmentId")),
-    subscriptionTargetId: S.optional(S.String).pipe(
-      T.HttpQuery("subscriptionTargetId"),
-    ),
-    subscribedListingId: S.optional(S.String).pipe(
-      T.HttpQuery("subscribedListingId"),
-    ),
-    subscriptionId: S.optional(S.String).pipe(T.HttpQuery("subscriptionId")),
-    owningProjectId: S.optional(S.String).pipe(T.HttpQuery("owningProjectId")),
-    owningIamPrincipalArn: S.optional(S.String).pipe(
-      T.HttpQuery("owningIamPrincipalArn"),
-    ),
-    owningUserId: S.optional(S.String).pipe(T.HttpQuery("owningUserId")),
-    owningGroupId: S.optional(S.String).pipe(T.HttpQuery("owningGroupId")),
-    sortBy: S.optional(SortKey).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/subscription-grants",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSubscriptionGrantsInput",
-}) as any as S.Schema<ListSubscriptionGrantsInput>;
 export interface SubscriptionGrantSummary {
   id: string;
   createdBy: string;
@@ -13164,37 +5478,11 @@ export interface SubscriptionGrantSummary {
   assets?: SubscribedAsset[];
   subscriptionId?: string;
 }
-export const SubscriptionGrantSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    domainId: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    environmentId: S.optional(S.String),
-    subscriptionTargetId: S.String,
-    grantedEntity: GrantedEntity,
-    status: SubscriptionGrantOverallStatus,
-    assets: S.optional(SubscribedAssets),
-    subscriptionId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SubscriptionGrantSummary",
-}) as any as S.Schema<SubscriptionGrantSummary>;
 export type SubscriptionGrants = SubscriptionGrantSummary[];
-export const SubscriptionGrants = /*@__PURE__*/ S.Array(
-  SubscriptionGrantSummary,
-);
 export interface ListSubscriptionGrantsOutput {
   items: SubscriptionGrantSummary[];
   nextToken?: string;
 }
-export const ListSubscriptionGrantsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ items: SubscriptionGrants, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListSubscriptionGrantsOutput",
-}) as any as S.Schema<ListSubscriptionGrantsOutput>;
 export interface ListSubscriptionRequestsInput {
   domainIdentifier: string;
   status?: SubscriptionRequestStatus;
@@ -13209,58 +5497,12 @@ export interface ListSubscriptionRequestsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListSubscriptionRequestsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    status: S.optional(SubscriptionRequestStatus).pipe(T.HttpQuery("status")),
-    subscribedListingId: S.optional(S.String).pipe(
-      T.HttpQuery("subscribedListingId"),
-    ),
-    owningProjectId: S.optional(S.String).pipe(T.HttpQuery("owningProjectId")),
-    owningIamPrincipalArn: S.optional(S.String).pipe(
-      T.HttpQuery("owningIamPrincipalArn"),
-    ),
-    approverProjectId: S.optional(S.String).pipe(
-      T.HttpQuery("approverProjectId"),
-    ),
-    owningUserId: S.optional(S.String).pipe(T.HttpQuery("owningUserId")),
-    owningGroupId: S.optional(S.String).pipe(T.HttpQuery("owningGroupId")),
-    sortBy: S.optional(SortKey).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/subscription-requests",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSubscriptionRequestsInput",
-}) as any as S.Schema<ListSubscriptionRequestsInput>;
 export interface MetadataFormSummary {
   formName?: string;
   typeName: string | redacted.Redacted<string>;
   typeRevision: string;
 }
-export const MetadataFormSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    formName: S.optional(S.String),
-    typeName: SensitiveString,
-    typeRevision: S.String,
-  }),
-).annotate({
-  identifier: "MetadataFormSummary",
-}) as any as S.Schema<MetadataFormSummary>;
 export type MetadataFormsSummary = MetadataFormSummary[];
-export const MetadataFormsSummary = /*@__PURE__*/ S.Array(MetadataFormSummary);
 export interface SubscriptionRequestSummary {
   id: string;
   createdBy: string;
@@ -13277,39 +5519,11 @@ export interface SubscriptionRequestSummary {
   existingSubscriptionId?: string;
   metadataFormsSummary?: MetadataFormSummary[];
 }
-export const SubscriptionRequestSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    domainId: S.String,
-    status: SubscriptionRequestStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    requestReason: SensitiveString,
-    subscribedPrincipals: SubscribedPrincipals,
-    subscribedListings: SubscribedListings,
-    reviewerId: S.optional(S.String),
-    decisionComment: S.optional(SensitiveString),
-    existingSubscriptionId: S.optional(S.String),
-    metadataFormsSummary: S.optional(MetadataFormsSummary),
-  }),
-).annotate({
-  identifier: "SubscriptionRequestSummary",
-}) as any as S.Schema<SubscriptionRequestSummary>;
 export type SubscriptionRequests = SubscriptionRequestSummary[];
-export const SubscriptionRequests = /*@__PURE__*/ S.Array(
-  SubscriptionRequestSummary,
-);
 export interface ListSubscriptionRequestsOutput {
   items: SubscriptionRequestSummary[];
   nextToken?: string;
 }
-export const ListSubscriptionRequestsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ items: SubscriptionRequests, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListSubscriptionRequestsOutput",
-}) as any as S.Schema<ListSubscriptionRequestsOutput>;
 export interface ListSubscriptionsInput {
   domainIdentifier: string;
   subscriptionRequestIdentifier?: string;
@@ -13325,45 +5539,6 @@ export interface ListSubscriptionsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListSubscriptionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    subscriptionRequestIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("subscriptionRequestIdentifier"),
-    ),
-    status: S.optional(SubscriptionStatus).pipe(T.HttpQuery("status")),
-    subscribedListingId: S.optional(S.String).pipe(
-      T.HttpQuery("subscribedListingId"),
-    ),
-    owningProjectId: S.optional(S.String).pipe(T.HttpQuery("owningProjectId")),
-    owningIamPrincipalArn: S.optional(S.String).pipe(
-      T.HttpQuery("owningIamPrincipalArn"),
-    ),
-    owningUserId: S.optional(S.String).pipe(T.HttpQuery("owningUserId")),
-    owningGroupId: S.optional(S.String).pipe(T.HttpQuery("owningGroupId")),
-    approverProjectId: S.optional(S.String).pipe(
-      T.HttpQuery("approverProjectId"),
-    ),
-    sortBy: S.optional(SortKey).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/subscriptions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSubscriptionsInput",
-}) as any as S.Schema<ListSubscriptionsInput>;
 export interface SubscriptionSummary {
   id: string;
   createdBy: string;
@@ -13377,34 +5552,11 @@ export interface SubscriptionSummary {
   subscriptionRequestId?: string;
   retainPermissions?: boolean;
 }
-export const SubscriptionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    domainId: S.String,
-    status: SubscriptionStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    subscribedPrincipal: SubscribedPrincipal,
-    subscribedListing: SubscribedListing,
-    subscriptionRequestId: S.optional(S.String),
-    retainPermissions: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "SubscriptionSummary",
-}) as any as S.Schema<SubscriptionSummary>;
 export type Subscriptions = SubscriptionSummary[];
-export const Subscriptions = /*@__PURE__*/ S.Array(SubscriptionSummary);
 export interface ListSubscriptionsOutput {
   items: SubscriptionSummary[];
   nextToken?: string;
 }
-export const ListSubscriptionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ items: Subscriptions, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListSubscriptionsOutput",
-}) as any as S.Schema<ListSubscriptionsOutput>;
 export interface ListSubscriptionTargetsInput {
   domainIdentifier: string;
   environmentIdentifier: string;
@@ -13413,30 +5565,6 @@ export interface ListSubscriptionTargetsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListSubscriptionTargetsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
-    sortBy: S.optional(SortKey).pipe(T.HttpQuery("sortBy")),
-    sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/subscription-targets",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSubscriptionTargetsInput",
-}) as any as S.Schema<ListSubscriptionTargetsInput>;
 export interface SubscriptionTargetSummary {
   id: string;
   authorizedPrincipals: string[];
@@ -13455,66 +5583,17 @@ export interface SubscriptionTargetSummary {
   provider: string;
   subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
 }
-export const SubscriptionTargetSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    authorizedPrincipals: AuthorizedPrincipalIdentifiers,
-    domainId: S.String,
-    projectId: S.String,
-    environmentId: S.String,
-    name: SensitiveString,
-    type: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    manageAccessRole: S.optional(S.String),
-    applicableAssetTypes: ApplicableAssetTypes,
-    subscriptionTargetConfig: SubscriptionTargetForms,
-    provider: S.String,
-    subscriptionGrantCreationMode: S.optional(SubscriptionGrantCreationMode),
-  }),
-).annotate({
-  identifier: "SubscriptionTargetSummary",
-}) as any as S.Schema<SubscriptionTargetSummary>;
 export type SubscriptionTargets = SubscriptionTargetSummary[];
-export const SubscriptionTargets = /*@__PURE__*/ S.Array(
-  SubscriptionTargetSummary,
-);
 export interface ListSubscriptionTargetsOutput {
   items: SubscriptionTargetSummary[];
   nextToken?: string;
 }
-export const ListSubscriptionTargetsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ items: SubscriptionTargets, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListSubscriptionTargetsOutput",
-}) as any as S.Schema<ListSubscriptionTargetsOutput>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(Tags) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTimeSeriesDataPointsInput {
   domainIdentifier: string;
   entityIdentifier: string;
@@ -13525,86 +5604,19 @@ export interface ListTimeSeriesDataPointsInput {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListTimeSeriesDataPointsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-    entityType: TimeSeriesEntityType.pipe(T.HttpLabel("entityType")),
-    formName: S.String.pipe(T.HttpQuery("formName")),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.HttpQuery("startedAt"),
-    ),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.HttpQuery("endedAt"),
-    ),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/time-series-data-points",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTimeSeriesDataPointsInput",
-}) as any as S.Schema<ListTimeSeriesDataPointsInput>;
 export interface ListTimeSeriesDataPointsOutput {
   items?: TimeSeriesDataPointSummaryFormOutput[];
   nextToken?: string;
 }
-export const ListTimeSeriesDataPointsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(TimeSeriesDataPointSummaryFormOutputList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListTimeSeriesDataPointsOutput",
-}) as any as S.Schema<ListTimeSeriesDataPointsOutput>;
 export interface PostLineageEventInput {
   domainIdentifier: string;
   event: T.StreamingInputBody;
   clientToken?: string;
 }
-export const PostLineageEventInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    event: T.StreamingInput.pipe(T.HttpPayload()),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("Client-Token"),
-      T.IdempotencyToken(),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/lineage/events",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PostLineageEventInput",
-}) as any as S.Schema<PostLineageEventInput>;
 export interface PostLineageEventOutput {
   id?: string;
   domainId?: string;
 }
-export const PostLineageEventOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.optional(S.String), domainId: S.optional(S.String) }),
-).annotate({
-  identifier: "PostLineageEventOutput",
-}) as any as S.Schema<PostLineageEventOutput>;
 export interface TimeSeriesDataPointFormInput {
   formName: string;
   typeIdentifier: string;
@@ -13612,21 +5624,7 @@ export interface TimeSeriesDataPointFormInput {
   timestamp: Date;
   content?: string;
 }
-export const TimeSeriesDataPointFormInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    formName: S.String,
-    typeIdentifier: S.String,
-    typeRevision: S.optional(S.String),
-    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    content: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TimeSeriesDataPointFormInput",
-}) as any as S.Schema<TimeSeriesDataPointFormInput>;
 export type TimeSeriesDataPointFormInputList = TimeSeriesDataPointFormInput[];
-export const TimeSeriesDataPointFormInputList = /*@__PURE__*/ S.Array(
-  TimeSeriesDataPointFormInput,
-);
 export interface PostTimeSeriesDataPointsInput {
   domainIdentifier: string;
   entityIdentifier: string;
@@ -13634,108 +5632,28 @@ export interface PostTimeSeriesDataPointsInput {
   forms: TimeSeriesDataPointFormInput[];
   clientToken?: string;
 }
-export const PostTimeSeriesDataPointsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-    entityType: TimeSeriesEntityType.pipe(T.HttpLabel("entityType")),
-    forms: TimeSeriesDataPointFormInputList,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/time-series-data-points",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PostTimeSeriesDataPointsInput",
-}) as any as S.Schema<PostTimeSeriesDataPointsInput>;
 export type TimeSeriesDataPointFormOutputList = TimeSeriesDataPointFormOutput[];
-export const TimeSeriesDataPointFormOutputList = /*@__PURE__*/ S.Array(
-  TimeSeriesDataPointFormOutput,
-);
 export interface PostTimeSeriesDataPointsOutput {
   domainId?: string;
   entityId?: string;
   entityType?: TimeSeriesEntityType;
   forms?: TimeSeriesDataPointFormOutput[];
 }
-export const PostTimeSeriesDataPointsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    entityId: S.optional(S.String),
-    entityType: S.optional(TimeSeriesEntityType),
-    forms: S.optional(TimeSeriesDataPointFormOutputList),
-  }),
-).annotate({
-  identifier: "PostTimeSeriesDataPointsOutput",
-}) as any as S.Schema<PostTimeSeriesDataPointsOutput>;
 export interface PutDataExportConfigurationInput {
   domainIdentifier: string;
   enableExport: boolean;
   encryptionConfiguration?: EncryptionConfiguration;
   clientToken?: string;
 }
-export const PutDataExportConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    enableExport: S.Boolean,
-    encryptionConfiguration: S.optional(EncryptionConfiguration),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v2/domains/{domainIdentifier}/data-export-configuration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutDataExportConfigurationInput",
-}) as any as S.Schema<PutDataExportConfigurationInput>;
 export interface PutDataExportConfigurationOutput {}
-export const PutDataExportConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutDataExportConfigurationOutput",
-}) as any as S.Schema<PutDataExportConfigurationOutput>;
 export interface PutResourceConfiguration {
   name: string;
   description?: string;
   region: string;
   parameters: { [key: string]: string | undefined };
 }
-export const PutResourceConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    region: S.String,
-    parameters: ResourceConfigurationParameterMap,
-  }),
-).annotate({
-  identifier: "PutResourceConfiguration",
-}) as any as S.Schema<PutResourceConfiguration>;
 export type PutResourceConfigurations = PutResourceConfiguration[];
-export const PutResourceConfigurations = /*@__PURE__*/ S.Array(
-  PutResourceConfiguration,
-);
 export type GlobalParameterMap = { [key: string]: string | undefined };
-export const GlobalParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface PutEnvironmentBlueprintConfigurationInput {
   domainIdentifier: string;
   environmentBlueprintIdentifier: string;
@@ -13751,38 +5669,6 @@ export interface PutEnvironmentBlueprintConfigurationInput {
   globalParameters?: { [key: string]: string | undefined };
   provisioningConfigurations?: ProvisioningConfiguration[];
 }
-export const PutEnvironmentBlueprintConfigurationInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-      environmentBlueprintIdentifier: S.String.pipe(
-        T.HttpLabel("environmentBlueprintIdentifier"),
-      ),
-      provisioningRoleArn: S.optional(S.String),
-      manageAccessRoleArn: S.optional(S.String),
-      environmentRolePermissionBoundary: S.optional(S.String),
-      enabledRegions: EnabledRegionList,
-      regionalParameters: S.optional(RegionalParameterMap),
-      resourceConfigurations: S.optional(PutResourceConfigurations),
-      allowUserProvidedConfigurations: S.optional(S.Boolean),
-      globalParameters: S.optional(GlobalParameterMap),
-      provisioningConfigurations: S.optional(ProvisioningConfigurationList),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/v2/domains/{domainIdentifier}/environment-blueprint-configurations/{environmentBlueprintIdentifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "PutEnvironmentBlueprintConfigurationInput",
-  }) as any as S.Schema<PutEnvironmentBlueprintConfigurationInput>;
 export interface PutEnvironmentBlueprintConfigurationOutput {
   domainId: string;
   environmentBlueprintId: string;
@@ -13799,52 +5685,14 @@ export interface PutEnvironmentBlueprintConfigurationOutput {
   resourceConfigurations?: ResourceConfiguration[];
   provisioningConfigurations?: ProvisioningConfiguration[];
 }
-export const PutEnvironmentBlueprintConfigurationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      domainId: S.String,
-      environmentBlueprintId: S.String,
-      provisioningRoleArn: S.optional(S.String),
-      environmentRolePermissionBoundary: S.optional(S.String),
-      manageAccessRoleArn: S.optional(S.String),
-      enabledRegions: S.optional(EnabledRegionList),
-      regionalParameters: S.optional(RegionalParameterMap),
-      allowUserProvidedConfigurations: S.optional(S.Boolean),
-      createdAt: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-      updatedAt: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-      resourceConfigurations: S.optional(ResourceConfigurations),
-      provisioningConfigurations: S.optional(ProvisioningConfigurationList),
-    }),
-  ).annotate({
-    identifier: "PutEnvironmentBlueprintConfigurationOutput",
-  }) as any as S.Schema<PutEnvironmentBlueprintConfigurationOutput>;
 export type RelationType = "LINEAGE" | (string & {});
-export const RelationType = S.String;
-
 export type RelationDirection = "IN" | "OUT" | (string & {});
-export const RelationDirection = S.String;
-
 export interface RelationPattern {
   relationType: RelationType;
   relationDirection: RelationDirection;
   maxPathLength?: number;
 }
-export const RelationPattern = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    relationType: RelationType,
-    relationDirection: RelationDirection,
-    maxPathLength: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "RelationPattern",
-}) as any as S.Schema<RelationPattern>;
 export type GraphEntityType = "LINEAGE_NODE" | (string & {});
-export const GraphEntityType = S.String;
-
 export type Attribute = string;
 export type FilterOperator =
   | "EQ"
@@ -13854,70 +5702,30 @@ export type FilterOperator =
   | "GT"
   | "TEXT_SEARCH"
   | (string & {});
-export const FilterOperator = S.String;
-
 export interface Filter {
   attribute: string;
   value?: string;
   intValue?: number;
   operator?: FilterOperator;
 }
-export const Filter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attribute: S.String,
-    value: S.optional(S.String),
-    intValue: S.optional(S.Number),
-    operator: S.optional(FilterOperator),
-  }),
-).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = FilterClause[];
-export const FilterList = /*@__PURE__*/ S.Array(
-  S.suspend(() => FilterClause).annotate({ identifier: "FilterClause" }),
-) as any as S.Schema<FilterList>;
 export type FilterClause =
   | { filter: Filter; and?: never; or?: never }
   | { filter?: never; and: FilterClause[]; or?: never }
   | { filter?: never; and?: never; or: FilterClause[] };
-export const FilterClause = /*@__PURE__*/ S.Union([
-  S.Struct({ filter: Filter }),
-  S.Struct({
-    and: S.suspend(() => FilterList).annotate({ identifier: "FilterList" }),
-  }),
-  S.Struct({
-    or: S.suspend(() => FilterList).annotate({ identifier: "FilterList" }),
-  }),
-]) as any as S.Schema<FilterClause>;
 export interface EntityPattern {
   entityType: GraphEntityType;
   identifier: string;
   filters?: FilterClause;
 }
-export const EntityPattern = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entityType: GraphEntityType,
-    identifier: S.String,
-    filters: S.optional(FilterClause),
-  }),
-).annotate({ identifier: "EntityPattern" }) as any as S.Schema<EntityPattern>;
 export type MatchClause =
   | { relationPattern: RelationPattern; entityPattern?: never }
   | { relationPattern?: never; entityPattern: EntityPattern };
-export const MatchClause = /*@__PURE__*/ S.Union([
-  S.Struct({ relationPattern: RelationPattern }),
-  S.Struct({ entityPattern: EntityPattern }),
-]);
 export type MatchClauses = MatchClause[];
-export const MatchClauses = /*@__PURE__*/ S.Array(MatchClause);
 export type FormNameList = string[];
-export const FormNameList = /*@__PURE__*/ S.Array(S.String);
 export interface AdditionalAttributes {
   formNames?: string[];
 }
-export const AdditionalAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ formNames: S.optional(FormNameList) }),
-).annotate({
-  identifier: "AdditionalAttributes",
-}) as any as S.Schema<AdditionalAttributes>;
 export interface QueryGraphInput {
   domainIdentifier: string;
   match: MatchClause[];
@@ -13925,31 +5733,7 @@ export interface QueryGraphInput {
   nextToken?: string;
   additionalAttributes?: AdditionalAttributes;
 }
-export const QueryGraphInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    match: MatchClauses,
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    additionalAttributes: S.optional(AdditionalAttributes),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/graph/query",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "QueryGraphInput",
-}) as any as S.Schema<QueryGraphInput>;
 export type LineageNodeIds = string[];
-export const LineageNodeIds = /*@__PURE__*/ S.Array(S.String);
 export interface LineageNodeItem {
   domainId: string;
   name?: string;
@@ -13967,72 +5751,23 @@ export interface LineageNodeItem {
   upstreamLineageNodeIds?: string[];
   downstreamLineageNodeIds?: string[];
 }
-export const LineageNodeItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-    id: S.String,
-    typeName: S.String,
-    typeRevision: S.optional(S.String),
-    sourceIdentifier: S.optional(S.String),
-    eventTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    formsOutput: S.optional(FormOutputList),
-    upstreamLineageNodeIds: S.optional(LineageNodeIds),
-    downstreamLineageNodeIds: S.optional(LineageNodeIds),
-  }),
-).annotate({
-  identifier: "LineageNodeItem",
-}) as any as S.Schema<LineageNodeItem>;
 export type ResultItem = { lineageNode: LineageNodeItem };
-export const ResultItem = /*@__PURE__*/ S.Union([
-  S.Struct({ lineageNode: LineageNodeItem }),
-]);
 export type ResultItemList = ResultItem[];
-export const ResultItemList = /*@__PURE__*/ S.Array(ResultItem);
 export interface QueryGraphOutput {
   items?: ResultItem[];
   nextToken?: string;
 }
-export const QueryGraphOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(ResultItemList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "QueryGraphOutput",
-}) as any as S.Schema<QueryGraphOutput>;
 export type RejectRuleBehavior = "ALL" | "NONE" | (string & {});
-export const RejectRuleBehavior = S.String;
-
 export interface RejectRule {
   rule?: RejectRuleBehavior;
   threshold?: number;
 }
-export const RejectRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    rule: S.optional(RejectRuleBehavior),
-    threshold: S.optional(S.Number),
-  }),
-).annotate({ identifier: "RejectRule" }) as any as S.Schema<RejectRule>;
 export type PredictionChoices = number[];
-export const PredictionChoices = /*@__PURE__*/ S.Array(S.Number);
 export interface RejectChoice {
   predictionTarget?: string;
   predictionChoices?: number[];
 }
-export const RejectChoice = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    predictionTarget: S.optional(S.String),
-    predictionChoices: S.optional(PredictionChoices),
-  }),
-).annotate({ identifier: "RejectChoice" }) as any as S.Schema<RejectChoice>;
 export type RejectChoices = RejectChoice[];
-export const RejectChoices = /*@__PURE__*/ S.Array(RejectChoice);
 export interface RejectPredictionsInput {
   domainIdentifier: string;
   identifier: string;
@@ -14041,66 +5776,16 @@ export interface RejectPredictionsInput {
   rejectChoices?: RejectChoice[];
   clientToken?: string;
 }
-export const RejectPredictionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
-    rejectRule: S.optional(RejectRule),
-    rejectChoices: S.optional(RejectChoices),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v2/domains/{domainIdentifier}/assets/{identifier}/reject-predictions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RejectPredictionsInput",
-}) as any as S.Schema<RejectPredictionsInput>;
 export interface RejectPredictionsOutput {
   domainId: string;
   assetId: string;
   assetRevision: string;
 }
-export const RejectPredictionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ domainId: S.String, assetId: S.String, assetRevision: S.String }),
-).annotate({
-  identifier: "RejectPredictionsOutput",
-}) as any as S.Schema<RejectPredictionsOutput>;
 export interface RejectSubscriptionRequestInput {
   domainIdentifier: string;
   identifier: string;
   decisionComment?: string | redacted.Redacted<string>;
 }
-export const RejectSubscriptionRequestInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    decisionComment: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v2/domains/{domainIdentifier}/subscription-requests/{identifier}/reject",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RejectSubscriptionRequestInput",
-}) as any as S.Schema<RejectSubscriptionRequestInput>;
 export interface RejectSubscriptionRequestOutput {
   id: string;
   createdBy: string;
@@ -14117,26 +5802,6 @@ export interface RejectSubscriptionRequestOutput {
   existingSubscriptionId?: string;
   metadataForms?: FormOutput[];
 }
-export const RejectSubscriptionRequestOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    domainId: S.String,
-    status: SubscriptionRequestStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    requestReason: SensitiveString,
-    subscribedPrincipals: SubscribedPrincipals,
-    subscribedListings: SubscribedListings,
-    reviewerId: S.optional(S.String),
-    decisionComment: S.optional(SensitiveString),
-    existingSubscriptionId: S.optional(S.String),
-    metadataForms: S.optional(MetadataForms),
-  }),
-).annotate({
-  identifier: "RejectSubscriptionRequestOutput",
-}) as any as S.Schema<RejectSubscriptionRequestOutput>;
 export interface RemoveEntityOwnerInput {
   domainIdentifier: string;
   entityType: DataZoneEntityType;
@@ -14144,35 +5809,7 @@ export interface RemoveEntityOwnerInput {
   owner: OwnerProperties;
   clientToken?: string;
 }
-export const RemoveEntityOwnerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    entityType: DataZoneEntityType.pipe(T.HttpLabel("entityType")),
-    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-    owner: OwnerProperties,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/removeOwner",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemoveEntityOwnerInput",
-}) as any as S.Schema<RemoveEntityOwnerInput>;
 export interface RemoveEntityOwnerOutput {}
-export const RemoveEntityOwnerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "RemoveEntityOwnerOutput",
-}) as any as S.Schema<RemoveEntityOwnerOutput>;
 export interface RemovePolicyGrantInput {
   domainIdentifier: string;
   entityType: TargetEntityType;
@@ -14182,63 +5819,12 @@ export interface RemovePolicyGrantInput {
   grantIdentifier?: string;
   clientToken?: string;
 }
-export const RemovePolicyGrantInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    entityType: TargetEntityType.pipe(T.HttpLabel("entityType")),
-    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
-    policyType: ManagedPolicyType,
-    principal: PolicyGrantPrincipal,
-    grantIdentifier: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/policies/managed/{entityType}/{entityIdentifier}/removeGrant",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemovePolicyGrantInput",
-}) as any as S.Schema<RemovePolicyGrantInput>;
 export interface RemovePolicyGrantOutput {}
-export const RemovePolicyGrantOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "RemovePolicyGrantOutput",
-}) as any as S.Schema<RemovePolicyGrantOutput>;
 export interface RevokeSubscriptionInput {
   domainIdentifier: string;
   identifier: string;
   retainPermissions?: boolean;
 }
-export const RevokeSubscriptionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    retainPermissions: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v2/domains/{domainIdentifier}/subscriptions/{identifier}/revoke",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RevokeSubscriptionInput",
-}) as any as S.Schema<RevokeSubscriptionInput>;
 export interface RevokeSubscriptionOutput {
   id: string;
   createdBy: string;
@@ -14252,59 +5838,28 @@ export interface RevokeSubscriptionOutput {
   subscriptionRequestId?: string;
   retainPermissions?: boolean;
 }
-export const RevokeSubscriptionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    domainId: S.String,
-    status: SubscriptionStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    subscribedPrincipal: SubscribedPrincipal,
-    subscribedListing: SubscribedListing,
-    subscriptionRequestId: S.optional(S.String),
-    retainPermissions: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "RevokeSubscriptionOutput",
-}) as any as S.Schema<RevokeSubscriptionOutput>;
 export type InventorySearchScope =
   | "ASSET"
   | "GLOSSARY"
   | "GLOSSARY_TERM"
   | "DATA_PRODUCT"
   | (string & {});
-export const InventorySearchScope = S.String;
-
 export type SearchText = string;
 export interface SearchInItem {
   attribute: string;
 }
-export const SearchInItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ attribute: S.String }),
-).annotate({ identifier: "SearchInItem" }) as any as S.Schema<SearchInItem>;
 export type SearchInList = SearchInItem[];
-export const SearchInList = /*@__PURE__*/ S.Array(SearchInItem);
 export interface SearchSort {
   attribute: string;
   order?: SortOrder;
 }
-export const SearchSort = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ attribute: S.String, order: S.optional(SortOrder) }),
-).annotate({ identifier: "SearchSort" }) as any as S.Schema<SearchSort>;
 export type SearchOutputAdditionalAttribute =
   | "FORMS"
   | "TIME_SERIES_DATA_POINT_FORMS"
   | "TEXT_MATCH_RATIONALE"
   | (string & {});
-export const SearchOutputAdditionalAttribute = S.String;
-
 export type SearchOutputAdditionalAttributes =
   SearchOutputAdditionalAttribute[];
-export const SearchOutputAdditionalAttributes = /*@__PURE__*/ S.Array(
-  SearchOutputAdditionalAttribute,
-);
 export interface SearchInput {
   domainIdentifier: string;
   owningProjectIdentifier?: string;
@@ -14317,69 +5872,22 @@ export interface SearchInput {
   sort?: SearchSort;
   additionalAttributes?: SearchOutputAdditionalAttribute[];
 }
-export const SearchInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    owningProjectIdentifier: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-    searchScope: InventorySearchScope,
-    searchText: S.optional(S.String),
-    searchIn: S.optional(SearchInList),
-    filters: S.optional(FilterClause),
-    sort: S.optional(SearchSort),
-    additionalAttributes: S.optional(SearchOutputAdditionalAttributes),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/domains/{domainIdentifier}/search" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "SearchInput" }) as any as S.Schema<SearchInput>;
 export interface MatchOffset {
   startOffset?: number;
   endOffset?: number;
 }
-export const MatchOffset = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startOffset: S.optional(S.Number),
-    endOffset: S.optional(S.Number),
-  }),
-).annotate({ identifier: "MatchOffset" }) as any as S.Schema<MatchOffset>;
 export type MatchOffsets = MatchOffset[];
-export const MatchOffsets = /*@__PURE__*/ S.Array(MatchOffset);
 export interface TextMatchItem {
   attribute?: string;
   text?: string;
   matchOffsets?: MatchOffset[];
 }
-export const TextMatchItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attribute: S.optional(S.String),
-    text: S.optional(S.String),
-    matchOffsets: S.optional(MatchOffsets),
-  }),
-).annotate({ identifier: "TextMatchItem" }) as any as S.Schema<TextMatchItem>;
 export type TextMatches = TextMatchItem[];
-export const TextMatches = /*@__PURE__*/ S.Array(TextMatchItem);
 export type MatchRationaleItem = { textMatches: TextMatchItem[] };
-export const MatchRationaleItem = /*@__PURE__*/ S.Union([
-  S.Struct({ textMatches: TextMatches }),
-]);
 export type MatchRationale = MatchRationaleItem[];
-export const MatchRationale = /*@__PURE__*/ S.Array(MatchRationaleItem);
 export interface GlossaryItemAdditionalAttributes {
   matchRationale?: MatchRationaleItem[];
 }
-export const GlossaryItemAdditionalAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ matchRationale: S.optional(MatchRationale) }),
-).annotate({
-  identifier: "GlossaryItemAdditionalAttributes",
-}) as any as S.Schema<GlossaryItemAdditionalAttributes>;
 export interface GlossaryItem {
   domainId: string;
   id: string;
@@ -14394,30 +5902,9 @@ export interface GlossaryItem {
   updatedBy?: string;
   additionalAttributes?: GlossaryItemAdditionalAttributes;
 }
-export const GlossaryItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    name: SensitiveString,
-    owningProjectId: S.String,
-    description: S.optional(SensitiveString),
-    status: GlossaryStatus,
-    usageRestrictions: S.optional(GlossaryUsageRestrictions),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-    additionalAttributes: S.optional(GlossaryItemAdditionalAttributes),
-  }),
-).annotate({ identifier: "GlossaryItem" }) as any as S.Schema<GlossaryItem>;
 export interface GlossaryTermItemAdditionalAttributes {
   matchRationale?: MatchRationaleItem[];
 }
-export const GlossaryTermItemAdditionalAttributes = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ matchRationale: S.optional(MatchRationale) }),
-).annotate({
-  identifier: "GlossaryTermItemAdditionalAttributes",
-}) as any as S.Schema<GlossaryTermItemAdditionalAttributes>;
 export interface GlossaryTermItem {
   domainId: string;
   glossaryId: string;
@@ -14434,44 +5921,12 @@ export interface GlossaryTermItem {
   updatedBy?: string;
   additionalAttributes?: GlossaryTermItemAdditionalAttributes;
 }
-export const GlossaryTermItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    glossaryId: S.String,
-    id: S.String,
-    name: SensitiveString,
-    shortDescription: S.optional(SensitiveString),
-    usageRestrictions: S.optional(GlossaryUsageRestrictions),
-    longDescription: S.optional(SensitiveString),
-    termRelations: S.optional(TermRelations),
-    status: GlossaryTermStatus,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-    additionalAttributes: S.optional(GlossaryTermItemAdditionalAttributes),
-  }),
-).annotate({
-  identifier: "GlossaryTermItem",
-}) as any as S.Schema<GlossaryTermItem>;
 export interface AssetItemAdditionalAttributes {
   formsOutput?: FormOutput[];
   readOnlyFormsOutput?: FormOutput[];
   latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[];
   matchRationale?: MatchRationaleItem[];
 }
-export const AssetItemAdditionalAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    formsOutput: S.optional(FormOutputList),
-    readOnlyFormsOutput: S.optional(FormOutputList),
-    latestTimeSeriesDataPointFormsOutput: S.optional(
-      TimeSeriesDataPointSummaryFormOutputList,
-    ),
-    matchRationale: S.optional(MatchRationale),
-  }),
-).annotate({
-  identifier: "AssetItemAdditionalAttributes",
-}) as any as S.Schema<AssetItemAdditionalAttributes>;
 export interface AssetItem {
   domainId: string;
   identifier: string;
@@ -14489,35 +5944,9 @@ export interface AssetItem {
   additionalAttributes?: AssetItemAdditionalAttributes;
   governedGlossaryTerms?: string[];
 }
-export const AssetItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    identifier: S.String,
-    name: SensitiveString,
-    typeIdentifier: S.String,
-    typeRevision: S.String,
-    externalIdentifier: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    firstRevisionCreatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    firstRevisionCreatedBy: S.optional(S.String),
-    glossaryTerms: S.optional(GlossaryTerms),
-    owningProjectId: S.String,
-    additionalAttributes: S.optional(AssetItemAdditionalAttributes),
-    governedGlossaryTerms: S.optional(GovernedGlossaryTerms),
-  }),
-).annotate({ identifier: "AssetItem" }) as any as S.Schema<AssetItem>;
 export interface DataProductItemAdditionalAttributes {
   matchRationale?: MatchRationaleItem[];
 }
-export const DataProductItemAdditionalAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ matchRationale: S.optional(MatchRationale) }),
-).annotate({
-  identifier: "DataProductItemAdditionalAttributes",
-}) as any as S.Schema<DataProductItemAdditionalAttributes>;
 export interface DataProductResultItem {
   domainId: string;
   id: string;
@@ -14531,25 +5960,6 @@ export interface DataProductResultItem {
   firstRevisionCreatedBy?: string;
   additionalAttributes?: DataProductItemAdditionalAttributes;
 }
-export const DataProductResultItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    name: SensitiveString,
-    owningProjectId: S.String,
-    description: S.optional(SensitiveString),
-    glossaryTerms: S.optional(GlossaryTerms),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    firstRevisionCreatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    firstRevisionCreatedBy: S.optional(S.String),
-    additionalAttributes: S.optional(DataProductItemAdditionalAttributes),
-  }),
-).annotate({
-  identifier: "DataProductResultItem",
-}) as any as S.Schema<DataProductResultItem>;
 export type SearchInventoryResultItem =
   | {
       glossaryItem: GlossaryItem;
@@ -14575,35 +5985,17 @@ export type SearchInventoryResultItem =
       assetItem?: never;
       dataProductItem: DataProductResultItem;
     };
-export const SearchInventoryResultItem = /*@__PURE__*/ S.Union([
-  S.Struct({ glossaryItem: GlossaryItem }),
-  S.Struct({ glossaryTermItem: GlossaryTermItem }),
-  S.Struct({ assetItem: AssetItem }),
-  S.Struct({ dataProductItem: DataProductResultItem }),
-]);
 export type SearchInventoryResultItems = SearchInventoryResultItem[];
-export const SearchInventoryResultItems = /*@__PURE__*/ S.Array(
-  SearchInventoryResultItem,
-);
 export interface SearchOutput {
   items?: SearchInventoryResultItem[];
   nextToken?: string;
   totalMatchCount?: number;
 }
-export const SearchOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(SearchInventoryResultItems),
-    nextToken: S.optional(S.String),
-    totalMatchCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "SearchOutput" }) as any as S.Schema<SearchOutput>;
 export type GroupSearchType =
   | "SSO_GROUP"
   | "DATAZONE_SSO_GROUP"
   | "IAM_ROLE_SESSION_GROUP"
   | (string & {});
-export const GroupSearchType = S.String;
-
 export type GroupSearchText = string | redacted.Redacted<string>;
 export interface SearchGroupProfilesInput {
   domainIdentifier: string;
@@ -14612,29 +6004,6 @@ export interface SearchGroupProfilesInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const SearchGroupProfilesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    groupType: GroupSearchType,
-    searchText: S.optional(SensitiveString),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/search-group-profiles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SearchGroupProfilesInput",
-}) as any as S.Schema<SearchGroupProfilesInput>;
 export interface GroupProfileSummary {
   domainId?: string;
   id?: string;
@@ -14643,44 +6012,17 @@ export interface GroupProfileSummary {
   rolePrincipalArn?: string;
   rolePrincipalId?: string;
 }
-export const GroupProfileSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    id: S.optional(S.String),
-    status: S.optional(GroupProfileStatus),
-    groupName: S.optional(SensitiveString),
-    rolePrincipalArn: S.optional(S.String),
-    rolePrincipalId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GroupProfileSummary",
-}) as any as S.Schema<GroupProfileSummary>;
 export type GroupProfileSummaries = GroupProfileSummary[];
-export const GroupProfileSummaries = /*@__PURE__*/ S.Array(GroupProfileSummary);
 export interface SearchGroupProfilesOutput {
   items?: GroupProfileSummary[];
   nextToken?: string;
 }
-export const SearchGroupProfilesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(GroupProfileSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SearchGroupProfilesOutput",
-}) as any as S.Schema<SearchGroupProfilesOutput>;
 export type AggregationDisplayValue = string;
 export interface AggregationListItem {
   attribute: string;
   displayValue?: string;
 }
-export const AggregationListItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ attribute: S.String, displayValue: S.optional(S.String) }),
-).annotate({
-  identifier: "AggregationListItem",
-}) as any as S.Schema<AggregationListItem>;
 export type AggregationList = AggregationListItem[];
-export const AggregationList = /*@__PURE__*/ S.Array(AggregationListItem);
 export interface SearchListingsInput {
   domainIdentifier: string;
   searchText?: string;
@@ -14692,50 +6034,11 @@ export interface SearchListingsInput {
   sort?: SearchSort;
   additionalAttributes?: SearchOutputAdditionalAttribute[];
 }
-export const SearchListingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    searchText: S.optional(S.String),
-    searchIn: S.optional(SearchInList),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-    filters: S.optional(FilterClause),
-    aggregations: S.optional(AggregationList),
-    sort: S.optional(SearchSort),
-    additionalAttributes: S.optional(SearchOutputAdditionalAttributes),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/listings/search",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SearchListingsInput",
-}) as any as S.Schema<SearchListingsInput>;
 export interface AssetListingItemAdditionalAttributes {
   forms?: string;
   matchRationale?: MatchRationaleItem[];
   latestTimeSeriesDataPointForms?: TimeSeriesDataPointSummaryFormOutput[];
 }
-export const AssetListingItemAdditionalAttributes = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      forms: S.optional(S.String),
-      matchRationale: S.optional(MatchRationale),
-      latestTimeSeriesDataPointForms: S.optional(
-        TimeSeriesDataPointSummaryFormOutputList,
-      ),
-    }),
-).annotate({
-  identifier: "AssetListingItemAdditionalAttributes",
-}) as any as S.Schema<AssetListingItemAdditionalAttributes>;
 export interface AssetListingItem {
   listingId?: string;
   listingRevision?: string;
@@ -14752,55 +6055,16 @@ export interface AssetListingItem {
   owningProjectId?: string;
   additionalAttributes?: AssetListingItemAdditionalAttributes;
 }
-export const AssetListingItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    listingId: S.optional(S.String),
-    listingRevision: S.optional(S.String),
-    name: S.optional(SensitiveString),
-    entityId: S.optional(S.String),
-    entityRevision: S.optional(S.String),
-    entityType: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    listingCreatedBy: S.optional(S.String),
-    listingUpdatedBy: S.optional(S.String),
-    glossaryTerms: S.optional(DetailedGlossaryTerms),
-    governedGlossaryTerms: S.optional(DetailedGlossaryTerms),
-    owningProjectId: S.optional(S.String),
-    additionalAttributes: S.optional(AssetListingItemAdditionalAttributes),
-  }),
-).annotate({
-  identifier: "AssetListingItem",
-}) as any as S.Schema<AssetListingItem>;
 export interface DataProductListingItemAdditionalAttributes {
   forms?: string;
   matchRationale?: MatchRationaleItem[];
 }
-export const DataProductListingItemAdditionalAttributes =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      forms: S.optional(S.String),
-      matchRationale: S.optional(MatchRationale),
-    }),
-  ).annotate({
-    identifier: "DataProductListingItemAdditionalAttributes",
-  }) as any as S.Schema<DataProductListingItemAdditionalAttributes>;
 export interface ListingSummaryItem {
   listingId?: string;
   listingRevision?: string;
   glossaryTerms?: DetailedGlossaryTerm[];
 }
-export const ListingSummaryItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    listingId: S.optional(S.String),
-    listingRevision: S.optional(S.String),
-    glossaryTerms: S.optional(DetailedGlossaryTerms),
-  }),
-).annotate({
-  identifier: "ListingSummaryItem",
-}) as any as S.Schema<ListingSummaryItem>;
 export type ListingSummaryItems = ListingSummaryItem[];
-export const ListingSummaryItems = /*@__PURE__*/ S.Array(ListingSummaryItem);
 export interface DataProductListingItem {
   listingId?: string;
   listingRevision?: string;
@@ -14816,36 +6080,10 @@ export interface DataProductListingItem {
   additionalAttributes?: DataProductListingItemAdditionalAttributes;
   items?: ListingSummaryItem[];
 }
-export const DataProductListingItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    listingId: S.optional(S.String),
-    listingRevision: S.optional(S.String),
-    name: S.optional(SensitiveString),
-    entityId: S.optional(S.String),
-    entityRevision: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    listingCreatedBy: S.optional(S.String),
-    listingUpdatedBy: S.optional(S.String),
-    glossaryTerms: S.optional(DetailedGlossaryTerms),
-    owningProjectId: S.optional(S.String),
-    additionalAttributes: S.optional(
-      DataProductListingItemAdditionalAttributes,
-    ),
-    items: S.optional(ListingSummaryItems),
-  }),
-).annotate({
-  identifier: "DataProductListingItem",
-}) as any as S.Schema<DataProductListingItem>;
 export type SearchResultItem =
   | { assetListing: AssetListingItem; dataProductListing?: never }
   | { assetListing?: never; dataProductListing: DataProductListingItem };
-export const SearchResultItem = /*@__PURE__*/ S.Union([
-  S.Struct({ assetListing: AssetListingItem }),
-  S.Struct({ dataProductListing: DataProductListingItem }),
-]);
 export type SearchResultItems = SearchResultItem[];
-export const SearchResultItems = /*@__PURE__*/ S.Array(SearchResultItem);
 export type AggregationAttributeValue = string;
 export type AggregationAttributeDisplayValue = string;
 export interface AggregationOutputItem {
@@ -14853,58 +6091,24 @@ export interface AggregationOutputItem {
   count?: number;
   displayValue?: string;
 }
-export const AggregationOutputItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.String),
-    count: S.optional(S.Number),
-    displayValue: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AggregationOutputItem",
-}) as any as S.Schema<AggregationOutputItem>;
 export type AggregationOutputItems = AggregationOutputItem[];
-export const AggregationOutputItems = /*@__PURE__*/ S.Array(
-  AggregationOutputItem,
-);
 export interface AggregationOutput {
   attribute?: string;
   displayValue?: string;
   items?: AggregationOutputItem[];
 }
-export const AggregationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attribute: S.optional(S.String),
-    displayValue: S.optional(S.String),
-    items: S.optional(AggregationOutputItems),
-  }),
-).annotate({
-  identifier: "AggregationOutput",
-}) as any as S.Schema<AggregationOutput>;
 export type AggregationOutputList = AggregationOutput[];
-export const AggregationOutputList = /*@__PURE__*/ S.Array(AggregationOutput);
 export interface SearchListingsOutput {
   items?: SearchResultItem[];
   nextToken?: string;
   totalMatchCount?: number;
   aggregates?: AggregationOutput[];
 }
-export const SearchListingsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(SearchResultItems),
-    nextToken: S.optional(S.String),
-    totalMatchCount: S.optional(S.Number),
-    aggregates: S.optional(AggregationOutputList),
-  }),
-).annotate({
-  identifier: "SearchListingsOutput",
-}) as any as S.Schema<SearchListingsOutput>;
 export type TypesSearchScope =
   | "ASSET_TYPE"
   | "FORM_TYPE"
   | "LINEAGE_NODE_TYPE"
   | (string & {});
-export const TypesSearchScope = S.String;
-
 export interface SearchTypesInput {
   domainIdentifier: string;
   maxResults?: number;
@@ -14916,33 +6120,6 @@ export interface SearchTypesInput {
   sort?: SearchSort;
   managed: boolean;
 }
-export const SearchTypesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-    searchScope: TypesSearchScope,
-    searchText: S.optional(S.String),
-    searchIn: S.optional(SearchInList),
-    filters: S.optional(FilterClause),
-    sort: S.optional(SearchSort),
-    managed: S.Boolean,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/types-search",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SearchTypesInput",
-}) as any as S.Schema<SearchTypesInput>;
 export interface AssetTypeItem {
   domainId: string;
   name: string;
@@ -14957,22 +6134,6 @@ export interface AssetTypeItem {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const AssetTypeItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    name: S.String,
-    revision: S.String,
-    description: S.optional(SensitiveString),
-    formsOutput: FormsOutputMap,
-    owningProjectId: S.String,
-    originDomainId: S.optional(S.String),
-    originProjectId: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({ identifier: "AssetTypeItem" }) as any as S.Schema<AssetTypeItem>;
 export interface FormTypeData {
   domainId: string;
   name: string | redacted.Redacted<string>;
@@ -14987,22 +6148,6 @@ export interface FormTypeData {
   description?: string | redacted.Redacted<string>;
   imports?: Import[];
 }
-export const FormTypeData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    name: SensitiveString,
-    revision: S.String,
-    model: S.optional(Model),
-    status: S.optional(FormTypeStatus),
-    owningProjectId: S.optional(S.String),
-    originDomainId: S.optional(S.String),
-    originProjectId: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    imports: S.optional(ImportList),
-  }),
-).annotate({ identifier: "FormTypeData" }) as any as S.Schema<FormTypeData>;
 export interface LineageNodeTypeItem {
   domainId: string;
   name?: string;
@@ -15014,21 +6159,6 @@ export interface LineageNodeTypeItem {
   revision: string;
   formsOutput: { [key: string]: FormEntryOutput | undefined };
 }
-export const LineageNodeTypeItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-    revision: S.String,
-    formsOutput: FormsOutputMap,
-  }),
-).annotate({
-  identifier: "LineageNodeTypeItem",
-}) as any as S.Schema<LineageNodeTypeItem>;
 export type SearchTypesResultItem =
   | {
       assetTypeItem: AssetTypeItem;
@@ -15045,37 +6175,18 @@ export type SearchTypesResultItem =
       formTypeItem?: never;
       lineageNodeTypeItem: LineageNodeTypeItem;
     };
-export const SearchTypesResultItem = /*@__PURE__*/ S.Union([
-  S.Struct({ assetTypeItem: AssetTypeItem }),
-  S.Struct({ formTypeItem: FormTypeData }),
-  S.Struct({ lineageNodeTypeItem: LineageNodeTypeItem }),
-]);
 export type SearchTypesResultItems = SearchTypesResultItem[];
-export const SearchTypesResultItems = /*@__PURE__*/ S.Array(
-  SearchTypesResultItem,
-);
 export interface SearchTypesOutput {
   items?: SearchTypesResultItem[];
   nextToken?: string;
   totalMatchCount?: number;
 }
-export const SearchTypesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(SearchTypesResultItems),
-    nextToken: S.optional(S.String),
-    totalMatchCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SearchTypesOutput",
-}) as any as S.Schema<SearchTypesOutput>;
 export type UserSearchType =
   | "SSO_USER"
   | "DATAZONE_USER"
   | "DATAZONE_SSO_USER"
   | "DATAZONE_IAM_USER"
   | (string & {});
-export const UserSearchType = S.String;
-
 export type UserSearchText = string | redacted.Redacted<string>;
 export interface SearchUserProfilesInput {
   domainIdentifier: string;
@@ -15084,29 +6195,6 @@ export interface SearchUserProfilesInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const SearchUserProfilesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    userType: UserSearchType,
-    searchText: S.optional(SensitiveString),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/search-user-profiles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SearchUserProfilesInput",
-}) as any as S.Schema<SearchUserProfilesInput>;
 export interface UserProfileSummary {
   domainId?: string;
   id?: string;
@@ -15114,57 +6202,16 @@ export interface UserProfileSummary {
   status?: UserProfileStatus;
   details?: UserProfileDetails;
 }
-export const UserProfileSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    id: S.optional(S.String),
-    type: S.optional(UserProfileType),
-    status: S.optional(UserProfileStatus),
-    details: S.optional(UserProfileDetails),
-  }),
-).annotate({
-  identifier: "UserProfileSummary",
-}) as any as S.Schema<UserProfileSummary>;
 export type UserProfileSummaries = UserProfileSummary[];
-export const UserProfileSummaries = /*@__PURE__*/ S.Array(UserProfileSummary);
 export interface SearchUserProfilesOutput {
   items?: UserProfileSummary[];
   nextToken?: string;
 }
-export const SearchUserProfilesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(UserProfileSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SearchUserProfilesOutput",
-}) as any as S.Schema<SearchUserProfilesOutput>;
 export interface StartDataSourceRunInput {
   domainIdentifier: string;
   dataSourceIdentifier: string;
   clientToken?: string;
 }
-export const StartDataSourceRunInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    dataSourceIdentifier: S.String.pipe(T.HttpLabel("dataSourceIdentifier")),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/data-sources/{dataSourceIdentifier}/runs",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartDataSourceRunInput",
-}) as any as S.Schema<StartDataSourceRunInput>;
 export interface StartDataSourceRunOutput {
   domainId: string;
   dataSourceId: string;
@@ -15180,29 +6227,6 @@ export interface StartDataSourceRunOutput {
   startedAt?: Date;
   stoppedAt?: Date;
 }
-export const StartDataSourceRunOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    dataSourceId: S.String,
-    id: S.String,
-    projectId: S.String,
-    status: DataSourceRunStatus,
-    type: DataSourceRunType,
-    dataSourceConfigurationSnapshot: S.optional(S.String),
-    runStatisticsForAssets: S.optional(RunStatisticsForAssets),
-    errorMessage: S.optional(DataSourceErrorMessage),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    stoppedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "StartDataSourceRunOutput",
-}) as any as S.Schema<StartDataSourceRunOutput>;
 export interface StartMetadataGenerationRunInput {
   domainIdentifier: string;
   type?: MetadataGenerationRunType;
@@ -15211,30 +6235,6 @@ export interface StartMetadataGenerationRunInput {
   clientToken?: string;
   owningProjectIdentifier: string;
 }
-export const StartMetadataGenerationRunInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    type: S.optional(MetadataGenerationRunType),
-    types: S.optional(MetadataGenerationRunTypes),
-    target: MetadataGenerationRunTarget,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    owningProjectIdentifier: S.String,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/metadata-generation-runs",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartMetadataGenerationRunInput",
-}) as any as S.Schema<StartMetadataGenerationRunInput>;
 export interface StartMetadataGenerationRunOutput {
   domainId: string;
   id: string;
@@ -15245,20 +6245,6 @@ export interface StartMetadataGenerationRunOutput {
   createdBy?: string;
   owningProjectId?: string;
 }
-export const StartMetadataGenerationRunOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    status: S.optional(MetadataGenerationRunStatus),
-    type: S.optional(MetadataGenerationRunType),
-    types: S.optional(MetadataGenerationRunTypes),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    owningProjectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "StartMetadataGenerationRunOutput",
-}) as any as S.Schema<StartMetadataGenerationRunOutput>;
 export interface StartNotebookExportInput {
   domainIdentifier: string;
   notebookIdentifier: string;
@@ -15266,29 +6252,6 @@ export interface StartNotebookExportInput {
   fileFormat: FileFormat;
   clientToken?: string;
 }
-export const StartNotebookExportInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    notebookIdentifier: S.String,
-    owningProjectIdentifier: S.String,
-    fileFormat: FileFormat,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/notebook-exports",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartNotebookExportInput",
-}) as any as S.Schema<StartNotebookExportInput>;
 export interface StartNotebookExportOutput {
   id: string;
   domainId: string;
@@ -15299,25 +6262,8 @@ export interface StartNotebookExportOutput {
   createdAt?: Date;
   createdBy?: string;
 }
-export const StartNotebookExportOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    owningProjectId: S.String,
-    notebookId: S.String,
-    fileFormat: FileFormat,
-    status: NotebookExportStatus,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "StartNotebookExportOutput",
-}) as any as S.Schema<StartNotebookExportOutput>;
 export type S3SourceLocation = string | redacted.Redacted<string>;
 export type SourceLocation = { s3: string | redacted.Redacted<string> };
-export const SourceLocation = /*@__PURE__*/ S.Union([
-  S.Struct({ s3: SensitiveString }),
-]);
 export interface StartNotebookImportInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
@@ -15326,30 +6272,6 @@ export interface StartNotebookImportInput {
   description?: string | redacted.Redacted<string>;
   clientToken?: string;
 }
-export const StartNotebookImportInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    owningProjectIdentifier: S.String,
-    sourceLocation: SourceLocation,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/notebook-imports",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartNotebookImportInput",
-}) as any as S.Schema<StartNotebookImportInput>;
 export interface StartNotebookImportOutput {
   notebookId?: string;
   status?: NotebookStatus;
@@ -15361,21 +6283,6 @@ export interface StartNotebookImportOutput {
   createdAt?: Date;
   createdBy?: string;
 }
-export const StartNotebookImportOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    notebookId: S.optional(S.String),
-    status: S.optional(NotebookStatus),
-    domainId: S.optional(S.String),
-    owningProjectId: S.optional(S.String),
-    name: S.optional(SensitiveString),
-    description: S.optional(SensitiveString),
-    sourceLocation: S.optional(SourceLocation),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "StartNotebookImportOutput",
-}) as any as S.Schema<StartNotebookImportOutput>;
 export interface StartNotebookRunInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
@@ -15389,35 +6296,6 @@ export interface StartNotebookRunInput {
   parameters?: { [key: string]: string | undefined };
   clientToken?: string;
 }
-export const StartNotebookRunInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    owningProjectIdentifier: S.String,
-    notebookIdentifier: S.String,
-    scheduleIdentifier: S.optional(S.String),
-    computeConfiguration: S.optional(ComputeConfig),
-    networkConfiguration: S.optional(NetworkConfig),
-    timeoutConfiguration: S.optional(TimeoutConfig),
-    triggerSource: S.optional(TriggerSource),
-    metadata: S.optional(Metadata),
-    parameters: S.optional(Parameters),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/notebook-runs",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartNotebookRunInput",
-}) as any as S.Schema<StartNotebookRunInput>;
 export interface StartNotebookRunOutput {
   id: string;
   domainId: string;
@@ -15442,34 +6320,6 @@ export interface StartNotebookRunOutput {
   startedAt?: Date;
   completedAt?: Date;
 }
-export const StartNotebookRunOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    owningProjectId: S.String,
-    notebookId: S.String,
-    scheduleId: S.optional(S.String),
-    status: NotebookRunStatus,
-    cellOrder: S.optional(CellOrder),
-    metadata: S.optional(Metadata),
-    parameters: S.optional(Parameters),
-    computeConfiguration: S.optional(ComputeConfig),
-    networkConfiguration: S.optional(NetworkConfig),
-    timeoutConfiguration: S.optional(TimeoutConfig),
-    environmentConfiguration: S.optional(EnvironmentConfig),
-    storageConfiguration: S.optional(StorageConfig),
-    triggerSource: S.optional(TriggerSource),
-    error: S.optional(NotebookRunError),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "StartNotebookRunOutput",
-}) as any as S.Schema<StartNotebookRunOutput>;
 export interface StartNotebookSyncInput {
   domainIdentifier: string;
   owningProjectIdentifier: string;
@@ -15480,32 +6330,6 @@ export interface StartNotebookSyncInput {
   description?: string | redacted.Redacted<string>;
   clientToken?: string;
 }
-export const StartNotebookSyncInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    owningProjectIdentifier: S.String,
-    sourceLocation: SourceLocation,
-    gitMetadata: S.optional(GitMetadata),
-    notebookId: S.optional(S.String),
-    name: S.optional(SensitiveString),
-    description: S.optional(SensitiveString),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domains/{domainIdentifier}/notebook-syncs",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartNotebookSyncInput",
-}) as any as S.Schema<StartNotebookSyncInput>;
 export interface StartNotebookSyncOutput {
   notebookId?: string;
   status?: NotebookStatus;
@@ -15518,120 +6342,28 @@ export interface StartNotebookSyncOutput {
   createdAt?: Date;
   createdBy?: string;
 }
-export const StartNotebookSyncOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    notebookId: S.optional(S.String),
-    status: S.optional(NotebookStatus),
-    domainId: S.optional(S.String),
-    owningProjectId: S.optional(S.String),
-    sourceLocation: S.optional(SourceLocation),
-    gitMetadata: S.optional(GitMetadata),
-    name: S.optional(SensitiveString),
-    description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "StartNotebookSyncOutput",
-}) as any as S.Schema<StartNotebookSyncOutput>;
 export interface StopNotebookRunInput {
   domainIdentifier: string;
   identifier: string;
   clientToken?: string;
 }
-export const StopNotebookRunInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v2/domains/{domainIdentifier}/notebook-runs/{identifier}/stop",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopNotebookRunInput",
-}) as any as S.Schema<StopNotebookRunInput>;
 export interface StopNotebookRunOutput {
   id: string;
   domainId: string;
   owningProjectId: string;
   status: NotebookRunStatus;
 }
-export const StopNotebookRunOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    owningProjectId: S.String,
-    status: NotebookRunStatus,
-  }),
-).annotate({
-  identifier: "StopNotebookRunOutput",
-}) as any as S.Schema<StopNotebookRunOutput>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: Tags,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAccountPoolInput {
   domainIdentifier: string;
   identifier: string;
@@ -15640,30 +6372,6 @@ export interface UpdateAccountPoolInput {
   resolutionStrategy?: ResolutionStrategy;
   accountSource?: AccountSource;
 }
-export const UpdateAccountPoolInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(SensitiveString),
-    description: S.optional(SensitiveString),
-    resolutionStrategy: S.optional(ResolutionStrategy),
-    accountSource: S.optional(AccountSource),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/account-pools/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAccountPoolInput",
-}) as any as S.Schema<UpdateAccountPoolInput>;
 export interface UpdateAccountPoolOutput {
   domainId?: string;
   name?: string | redacted.Redacted<string>;
@@ -15677,27 +6385,6 @@ export interface UpdateAccountPoolOutput {
   updatedBy?: string;
   domainUnitId?: string;
 }
-export const UpdateAccountPoolOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    name: S.optional(SensitiveString),
-    id: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    resolutionStrategy: S.optional(ResolutionStrategy),
-    accountSource: AccountSource,
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    domainUnitId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateAccountPoolOutput",
-}) as any as S.Schema<UpdateAccountPoolOutput>;
 export interface UpdateAssetFilterInput {
   domainIdentifier: string;
   assetIdentifier: string;
@@ -15706,30 +6393,6 @@ export interface UpdateAssetFilterInput {
   description?: string | redacted.Redacted<string>;
   configuration?: AssetFilterConfiguration;
 }
-export const UpdateAssetFilterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    configuration: S.optional(AssetFilterConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAssetFilterInput",
-}) as any as S.Schema<UpdateAssetFilterInput>;
 export interface UpdateAssetFilterOutput {
   id: string;
   domainId: string;
@@ -15743,73 +6406,24 @@ export interface UpdateAssetFilterOutput {
   effectiveColumnNames?: string[];
   effectiveRowFilter?: string;
 }
-export const UpdateAssetFilterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    assetId: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    status: S.optional(FilterStatus),
-    configuration: AssetFilterConfiguration,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    errorMessage: S.optional(S.String),
-    effectiveColumnNames: S.optional(ColumnNameList),
-    effectiveRowFilter: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateAssetFilterOutput",
-}) as any as S.Schema<UpdateAssetFilterOutput>;
 export interface AthenaPropertiesPatch {
   workgroupName?: string;
 }
-export const AthenaPropertiesPatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ workgroupName: S.optional(S.String) }),
-).annotate({
-  identifier: "AthenaPropertiesPatch",
-}) as any as S.Schema<AthenaPropertiesPatch>;
 export interface AuthenticationConfigurationPatch {
   secretArn?: string;
   basicAuthenticationCredentials?: BasicAuthenticationCredentials;
 }
-export const AuthenticationConfigurationPatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    secretArn: S.optional(S.String),
-    basicAuthenticationCredentials: S.optional(BasicAuthenticationCredentials),
-  }),
-).annotate({
-  identifier: "AuthenticationConfigurationPatch",
-}) as any as S.Schema<AuthenticationConfigurationPatch>;
 export interface GlueConnectionPatch {
   description?: string;
   connectionProperties?: { [key: string]: string | undefined };
   authenticationConfiguration?: AuthenticationConfigurationPatch;
 }
-export const GlueConnectionPatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    connectionProperties: S.optional(ConnectionProperties),
-    authenticationConfiguration: S.optional(AuthenticationConfigurationPatch),
-  }),
-).annotate({
-  identifier: "GlueConnectionPatch",
-}) as any as S.Schema<GlueConnectionPatch>;
 export interface GluePropertiesPatch {
   glueConnectionInput?: GlueConnectionPatch;
 }
-export const GluePropertiesPatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ glueConnectionInput: S.optional(GlueConnectionPatch) }),
-).annotate({
-  identifier: "GluePropertiesPatch",
-}) as any as S.Schema<GluePropertiesPatch>;
 export interface IamPropertiesPatch {
   glueLineageSyncEnabled?: boolean;
 }
-export const IamPropertiesPatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ glueLineageSyncEnabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "IamPropertiesPatch",
-}) as any as S.Schema<IamPropertiesPatch>;
 export interface RedshiftPropertiesPatch {
   storage?: RedshiftStorageProperties;
   databaseName?: string;
@@ -15818,18 +6432,6 @@ export interface RedshiftPropertiesPatch {
   credentials?: RedshiftCredentials;
   lineageSync?: RedshiftLineageSyncConfigurationInput;
 }
-export const RedshiftPropertiesPatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storage: S.optional(RedshiftStorageProperties),
-    databaseName: S.optional(S.String),
-    host: S.optional(S.String),
-    port: S.optional(S.Number),
-    credentials: S.optional(RedshiftCredentials),
-    lineageSync: S.optional(RedshiftLineageSyncConfigurationInput),
-  }),
-).annotate({
-  identifier: "RedshiftPropertiesPatch",
-}) as any as S.Schema<RedshiftPropertiesPatch>;
 export interface SparkEmrPropertiesPatch {
   computeArn?: string;
   instanceProfileArn?: string;
@@ -15840,118 +6442,41 @@ export interface SparkEmrPropertiesPatch {
   trustedCertificatesS3Uri?: string;
   managedEndpointArn?: string;
 }
-export const SparkEmrPropertiesPatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    computeArn: S.optional(S.String),
-    instanceProfileArn: S.optional(S.String),
-    javaVirtualEnv: S.optional(S.String),
-    logUri: S.optional(S.String),
-    pythonVirtualEnv: S.optional(S.String),
-    runtimeRole: S.optional(S.String),
-    trustedCertificatesS3Uri: S.optional(S.String),
-    managedEndpointArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SparkEmrPropertiesPatch",
-}) as any as S.Schema<SparkEmrPropertiesPatch>;
 export interface S3PropertiesPatch {
   s3Uri: string;
   s3AccessGrantLocationId?: string;
   registerS3AccessGrantLocation?: boolean;
 }
-export const S3PropertiesPatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    s3Uri: S.String,
-    s3AccessGrantLocationId: S.optional(S.String),
-    registerS3AccessGrantLocation: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "S3PropertiesPatch",
-}) as any as S.Schema<S3PropertiesPatch>;
 export interface ConnectivityPropertiesPatch {
   description?: string;
   connectionProperties?: { [key: string]: string | undefined };
   authenticationConfiguration?: AuthenticationConfigurationPatch;
 }
-export const ConnectivityPropertiesPatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    connectionProperties: S.optional(ConnectionProperties),
-    authenticationConfiguration: S.optional(AuthenticationConfigurationPatch),
-  }),
-).annotate({
-  identifier: "ConnectivityPropertiesPatch",
-}) as any as S.Schema<ConnectivityPropertiesPatch>;
 export interface SnowflakePropertiesPatch {
   connectivityPropertiesPatch?: ConnectivityPropertiesPatch;
   snowflakeRole?: string;
   lineageSync?: LineageSyncInput;
 }
-export const SnowflakePropertiesPatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectivityPropertiesPatch: S.optional(ConnectivityPropertiesPatch),
-    snowflakeRole: S.optional(S.String),
-    lineageSync: S.optional(LineageSyncInput),
-  }),
-).annotate({
-  identifier: "SnowflakePropertiesPatch",
-}) as any as S.Schema<SnowflakePropertiesPatch>;
 export interface AmazonQPropertiesPatch {
   isEnabled: boolean;
   profileArn?: string;
   authMode?: string;
 }
-export const AmazonQPropertiesPatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    isEnabled: S.Boolean,
-    profileArn: S.optional(S.String),
-    authMode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AmazonQPropertiesPatch",
-}) as any as S.Schema<AmazonQPropertiesPatch>;
 export interface MlflowPropertiesPatch {
   trackingServerArn?: string;
 }
-export const MlflowPropertiesPatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ trackingServerArn: S.optional(S.String) }),
-).annotate({
-  identifier: "MlflowPropertiesPatch",
-}) as any as S.Schema<MlflowPropertiesPatch>;
 export interface LakehousePropertiesPatch {
   glueLineageSyncEnabled?: boolean;
 }
-export const LakehousePropertiesPatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ glueLineageSyncEnabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "LakehousePropertiesPatch",
-}) as any as S.Schema<LakehousePropertiesPatch>;
 export interface VpcPropertiesPatch {
   vpcId?: string;
   subnetIds?: string[];
   securityGroupId?: string;
 }
-export const VpcPropertiesPatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vpcId: S.optional(S.String),
-    subnetIds: S.optional(VpcConnectionSubnetIdList),
-    securityGroupId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VpcPropertiesPatch",
-}) as any as S.Schema<VpcPropertiesPatch>;
 export interface GitPropertiesPatch {
   codeConnectionArn?: string;
   defaultBranch?: string;
 }
-export const GitPropertiesPatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    codeConnectionArn: S.optional(S.String),
-    defaultBranch: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GitPropertiesPatch",
-}) as any as S.Schema<GitPropertiesPatch>;
 export type ConnectionPropertiesPatch =
   | {
       athenaProperties: AthenaPropertiesPatch;
@@ -16121,20 +6646,6 @@ export type ConnectionPropertiesPatch =
       vpcProperties?: never;
       gitProperties: GitPropertiesPatch;
     };
-export const ConnectionPropertiesPatch = /*@__PURE__*/ S.Union([
-  S.Struct({ athenaProperties: AthenaPropertiesPatch }),
-  S.Struct({ glueProperties: GluePropertiesPatch }),
-  S.Struct({ iamProperties: IamPropertiesPatch }),
-  S.Struct({ redshiftProperties: RedshiftPropertiesPatch }),
-  S.Struct({ sparkEmrProperties: SparkEmrPropertiesPatch }),
-  S.Struct({ s3Properties: S3PropertiesPatch }),
-  S.Struct({ snowflakeProperties: SnowflakePropertiesPatch }),
-  S.Struct({ amazonQProperties: AmazonQPropertiesPatch }),
-  S.Struct({ mlflowProperties: MlflowPropertiesPatch }),
-  S.Struct({ lakehouseProperties: LakehousePropertiesPatch }),
-  S.Struct({ vpcProperties: VpcPropertiesPatch }),
-  S.Struct({ gitProperties: GitPropertiesPatch }),
-]);
 export interface UpdateConnectionInput {
   configurations?: Configuration[];
   domainIdentifier: string;
@@ -16143,30 +6654,6 @@ export interface UpdateConnectionInput {
   awsLocation?: AwsLocation;
   props?: ConnectionPropertiesPatch;
 }
-export const UpdateConnectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    configurations: S.optional(Configurations),
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    description: S.optional(SensitiveString),
-    awsLocation: S.optional(AwsLocation),
-    props: S.optional(ConnectionPropertiesPatch),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/connections/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateConnectionInput",
-}) as any as S.Schema<UpdateConnectionInput>;
 export interface UpdateConnectionOutput {
   configurations?: Configuration[];
   connectionId: string;
@@ -16181,24 +6668,6 @@ export interface UpdateConnectionOutput {
   type: ConnectionType;
   scope?: ConnectionScope;
 }
-export const UpdateConnectionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    configurations: S.optional(Configurations),
-    connectionId: S.String,
-    description: S.optional(SensitiveString),
-    domainId: S.String,
-    domainUnitId: S.String,
-    environmentId: S.optional(S.String),
-    name: S.String,
-    physicalEndpoints: PhysicalEndpoints,
-    projectId: S.optional(S.String),
-    props: S.optional(ConnectionPropertiesOutput),
-    type: ConnectionType,
-    scope: S.optional(ConnectionScope),
-  }),
-).annotate({
-  identifier: "UpdateConnectionOutput",
-}) as any as S.Schema<UpdateConnectionOutput>;
 export interface UpdateDataSourceInput {
   domainIdentifier: string;
   identifier: string;
@@ -16212,35 +6681,6 @@ export interface UpdateDataSourceInput {
   recommendation?: RecommendationConfiguration;
   retainPermissionsOnRevokeFailure?: boolean;
 }
-export const UpdateDataSourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(SensitiveString),
-    description: S.optional(SensitiveString),
-    enableSetting: S.optional(EnableSetting),
-    publishOnImport: S.optional(S.Boolean),
-    assetFormsInput: S.optional(FormInputList),
-    schedule: S.optional(ScheduleConfiguration),
-    configuration: S.optional(DataSourceConfigurationInput),
-    recommendation: S.optional(RecommendationConfiguration),
-    retainPermissionsOnRevokeFailure: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/data-sources/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDataSourceInput",
-}) as any as S.Schema<UpdateDataSourceInput>;
 export interface UpdateDataSourceOutput {
   id: string;
   status?: DataSourceStatus;
@@ -16266,41 +6706,6 @@ export interface UpdateDataSourceOutput {
   selfGrantStatus?: SelfGrantStatusOutput;
   retainPermissionsOnRevokeFailure?: boolean;
 }
-export const UpdateDataSourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    status: S.optional(DataSourceStatus),
-    type: S.optional(S.String),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    domainId: S.String,
-    projectId: S.String,
-    environmentId: S.optional(S.String),
-    connectionId: S.optional(S.String),
-    configuration: S.optional(DataSourceConfigurationOutput),
-    recommendation: S.optional(RecommendationConfiguration),
-    enableSetting: S.optional(EnableSetting),
-    publishOnImport: S.optional(S.Boolean),
-    assetFormsOutput: S.optional(FormOutputList),
-    schedule: S.optional(ScheduleConfiguration),
-    lastRunStatus: S.optional(DataSourceRunStatus),
-    lastRunAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastRunErrorMessage: S.optional(DataSourceErrorMessage),
-    errorMessage: S.optional(DataSourceErrorMessage),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    selfGrantStatus: S.optional(SelfGrantStatusOutput),
-    retainPermissionsOnRevokeFailure: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "UpdateDataSourceOutput",
-}) as any as S.Schema<UpdateDataSourceOutput>;
 export interface UpdateDomainInput {
   identifier: string;
   description?: string;
@@ -16310,31 +6715,6 @@ export interface UpdateDomainInput {
   name?: string;
   clientToken?: string;
 }
-export const UpdateDomainInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    description: S.optional(S.String),
-    singleSignOn: S.optional(SingleSignOn),
-    domainExecutionRole: S.optional(S.String),
-    serviceRole: S.optional(S.String),
-    name: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/v2/domains/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDomainInput",
-}) as any as S.Schema<UpdateDomainInput>;
 export interface UpdateDomainOutput {
   id: string;
   rootDomainUnitId?: string;
@@ -16345,48 +6725,12 @@ export interface UpdateDomainOutput {
   name?: string;
   lastUpdatedAt?: Date;
 }
-export const UpdateDomainOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    rootDomainUnitId: S.optional(S.String),
-    description: S.optional(S.String),
-    singleSignOn: S.optional(SingleSignOn),
-    domainExecutionRole: S.optional(S.String),
-    serviceRole: S.optional(S.String),
-    name: S.optional(S.String),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "UpdateDomainOutput",
-}) as any as S.Schema<UpdateDomainOutput>;
 export interface UpdateDomainUnitInput {
   domainIdentifier: string;
   identifier: string;
   description?: string | redacted.Redacted<string>;
   name?: string | redacted.Redacted<string>;
 }
-export const UpdateDomainUnitInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    description: S.optional(SensitiveString),
-    name: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v2/domains/{domainIdentifier}/domain-units/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDomainUnitInput",
-}) as any as S.Schema<UpdateDomainUnitInput>;
 export interface UpdateDomainUnitOutput {
   id: string;
   domainId: string;
@@ -16399,22 +6743,6 @@ export interface UpdateDomainUnitOutput {
   createdBy?: string;
   lastUpdatedBy?: string;
 }
-export const UpdateDomainUnitOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    name: SensitiveString,
-    owners: DomainUnitOwners,
-    description: S.optional(SensitiveString),
-    parentDomainUnitId: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    lastUpdatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateDomainUnitOutput",
-}) as any as S.Schema<UpdateDomainUnitOutput>;
 export interface UpdateEnvironmentInput {
   domainIdentifier: string;
   identifier: string;
@@ -16425,32 +6753,6 @@ export interface UpdateEnvironmentInput {
   userParameters?: EnvironmentParameter[];
   environmentConfigurationName?: string | redacted.Redacted<string>;
 }
-export const UpdateEnvironmentInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    glossaryTerms: S.optional(GlossaryTerms),
-    blueprintVersion: S.optional(S.String),
-    userParameters: S.optional(EnvironmentParametersList),
-    environmentConfigurationName: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/environments/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateEnvironmentInput",
-}) as any as S.Schema<UpdateEnvironmentInput>;
 export interface UpdateEnvironmentOutput {
   projectId: string;
   id?: string;
@@ -16476,39 +6778,6 @@ export interface UpdateEnvironmentOutput {
   environmentConfigurationId?: string | redacted.Redacted<string>;
   environmentConfigurationName?: string | redacted.Redacted<string>;
 }
-export const UpdateEnvironmentOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectId: S.String,
-    id: S.optional(S.String),
-    domainId: S.String,
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    environmentProfileId: S.optional(S.String),
-    awsAccountId: S.optional(S.String),
-    awsAccountRegion: S.optional(S.String),
-    provider: S.String,
-    provisionedResources: S.optional(ResourceList),
-    status: S.optional(EnvironmentStatus),
-    environmentActions: S.optional(EnvironmentActionList),
-    glossaryTerms: S.optional(GlossaryTerms),
-    userParameters: S.optional(CustomParameterList),
-    lastDeployment: S.optional(Deployment),
-    provisioningProperties: S.optional(ProvisioningProperties),
-    deploymentProperties: S.optional(DeploymentProperties),
-    environmentBlueprintId: S.optional(S.String),
-    environmentConfigurationId: S.optional(SensitiveString),
-    environmentConfigurationName: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "UpdateEnvironmentOutput",
-}) as any as S.Schema<UpdateEnvironmentOutput>;
 export interface UpdateEnvironmentActionInput {
   domainIdentifier: string;
   environmentIdentifier: string;
@@ -16517,30 +6786,6 @@ export interface UpdateEnvironmentActionInput {
   name?: string;
   description?: string;
 }
-export const UpdateEnvironmentActionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    parameters: S.optional(ActionParameters),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateEnvironmentActionInput",
-}) as any as S.Schema<UpdateEnvironmentActionInput>;
 export interface UpdateEnvironmentActionOutput {
   domainId: string;
   environmentId: string;
@@ -16549,18 +6794,6 @@ export interface UpdateEnvironmentActionOutput {
   parameters: ActionParameters;
   description?: string;
 }
-export const UpdateEnvironmentActionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    environmentId: S.String,
-    id: S.String,
-    name: S.String,
-    parameters: ActionParameters,
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateEnvironmentActionOutput",
-}) as any as S.Schema<UpdateEnvironmentActionOutput>;
 export interface UpdateEnvironmentBlueprintInput {
   domainIdentifier: string;
   identifier: string;
@@ -16568,29 +6801,6 @@ export interface UpdateEnvironmentBlueprintInput {
   provisioningProperties?: ProvisioningProperties;
   userParameters?: CustomParameter[];
 }
-export const UpdateEnvironmentBlueprintInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    description: S.optional(S.String),
-    provisioningProperties: S.optional(ProvisioningProperties),
-    userParameters: S.optional(CustomParameterList),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/environment-blueprints/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateEnvironmentBlueprintInput",
-}) as any as S.Schema<UpdateEnvironmentBlueprintInput>;
 export interface UpdateEnvironmentBlueprintOutput {
   id: string;
   name: string;
@@ -16603,26 +6813,6 @@ export interface UpdateEnvironmentBlueprintOutput {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const UpdateEnvironmentBlueprintOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: S.String,
-    description: S.optional(SensitiveString),
-    provider: S.String,
-    provisioningProperties: ProvisioningProperties,
-    deploymentProperties: S.optional(DeploymentProperties),
-    userParameters: S.optional(CustomParameterList),
-    glossaryTerms: S.optional(GlossaryTerms),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "UpdateEnvironmentBlueprintOutput",
-}) as any as S.Schema<UpdateEnvironmentBlueprintOutput>;
 export interface UpdateEnvironmentProfileInput {
   domainIdentifier: string;
   identifier: string;
@@ -16632,31 +6822,6 @@ export interface UpdateEnvironmentProfileInput {
   awsAccountId?: string;
   awsAccountRegion?: string;
 }
-export const UpdateEnvironmentProfileInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(SensitiveString),
-    description: S.optional(S.String),
-    userParameters: S.optional(EnvironmentParametersList),
-    awsAccountId: S.optional(S.String),
-    awsAccountRegion: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/environment-profiles/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateEnvironmentProfileInput",
-}) as any as S.Schema<UpdateEnvironmentProfileInput>;
 export interface UpdateEnvironmentProfileOutput {
   id: string;
   domainId: string;
@@ -16671,28 +6836,6 @@ export interface UpdateEnvironmentProfileOutput {
   projectId?: string;
   userParameters?: CustomParameter[];
 }
-export const UpdateEnvironmentProfileOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    awsAccountId: S.optional(S.String),
-    awsAccountRegion: S.optional(S.String),
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    environmentBlueprintId: S.String,
-    projectId: S.optional(S.String),
-    userParameters: S.optional(CustomParameterList),
-  }),
-).annotate({
-  identifier: "UpdateEnvironmentProfileOutput",
-}) as any as S.Schema<UpdateEnvironmentProfileOutput>;
 export interface UpdateGlossaryInput {
   domainIdentifier: string;
   identifier: string;
@@ -16701,30 +6844,6 @@ export interface UpdateGlossaryInput {
   status?: GlossaryStatus;
   clientToken?: string;
 }
-export const UpdateGlossaryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(SensitiveString),
-    description: S.optional(SensitiveString),
-    status: S.optional(GlossaryStatus),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/glossaries/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateGlossaryInput",
-}) as any as S.Schema<UpdateGlossaryInput>;
 export interface UpdateGlossaryOutput {
   domainId: string;
   id: string;
@@ -16734,19 +6853,6 @@ export interface UpdateGlossaryOutput {
   status?: GlossaryStatus;
   usageRestrictions?: GlossaryUsageRestriction[];
 }
-export const UpdateGlossaryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    name: SensitiveString,
-    owningProjectId: S.String,
-    description: S.optional(SensitiveString),
-    status: S.optional(GlossaryStatus),
-    usageRestrictions: S.optional(GlossaryUsageRestrictions),
-  }),
-).annotate({
-  identifier: "UpdateGlossaryOutput",
-}) as any as S.Schema<UpdateGlossaryOutput>;
 export interface UpdateGlossaryTermInput {
   domainIdentifier: string;
   glossaryIdentifier?: string;
@@ -16757,32 +6863,6 @@ export interface UpdateGlossaryTermInput {
   termRelations?: TermRelations;
   status?: GlossaryTermStatus;
 }
-export const UpdateGlossaryTermInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    glossaryIdentifier: S.optional(S.String),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(SensitiveString),
-    shortDescription: S.optional(SensitiveString),
-    longDescription: S.optional(SensitiveString),
-    termRelations: S.optional(TermRelations),
-    status: S.optional(GlossaryTermStatus),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/glossary-terms/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateGlossaryTermInput",
-}) as any as S.Schema<UpdateGlossaryTermInput>;
 export interface UpdateGlossaryTermOutput {
   id: string;
   domainId: string;
@@ -16794,47 +6874,11 @@ export interface UpdateGlossaryTermOutput {
   termRelations?: TermRelations;
   usageRestrictions?: GlossaryUsageRestriction[];
 }
-export const UpdateGlossaryTermOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    domainId: S.String,
-    glossaryId: S.String,
-    name: SensitiveString,
-    status: GlossaryTermStatus,
-    shortDescription: S.optional(SensitiveString),
-    longDescription: S.optional(SensitiveString),
-    termRelations: S.optional(TermRelations),
-    usageRestrictions: S.optional(GlossaryUsageRestrictions),
-  }),
-).annotate({
-  identifier: "UpdateGlossaryTermOutput",
-}) as any as S.Schema<UpdateGlossaryTermOutput>;
 export interface UpdateGroupProfileInput {
   domainIdentifier: string;
   groupIdentifier: string;
   status: GroupProfileStatus;
 }
-export const UpdateGroupProfileInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    groupIdentifier: S.String.pipe(T.HttpLabel("groupIdentifier")),
-    status: GroupProfileStatus,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v2/domains/{domainIdentifier}/group-profiles/{groupIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateGroupProfileInput",
-}) as any as S.Schema<UpdateGroupProfileInput>;
 export interface UpdateGroupProfileOutput {
   domainId?: string;
   id?: string;
@@ -16843,18 +6887,6 @@ export interface UpdateGroupProfileOutput {
   rolePrincipalArn?: string;
   rolePrincipalId?: string;
 }
-export const UpdateGroupProfileOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    id: S.optional(S.String),
-    status: S.optional(GroupProfileStatus),
-    groupName: S.optional(SensitiveString),
-    rolePrincipalArn: S.optional(S.String),
-    rolePrincipalId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateGroupProfileOutput",
-}) as any as S.Schema<UpdateGroupProfileOutput>;
 export interface UpdateNotebookInput {
   domainIdentifier: string;
   identifier: string;
@@ -16867,34 +6899,6 @@ export interface UpdateNotebookInput {
   environmentConfiguration?: EnvironmentConfig;
   clientToken?: string;
 }
-export const UpdateNotebookInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    description: S.optional(SensitiveString),
-    status: S.optional(NotebookStatus),
-    name: S.optional(SensitiveString),
-    cellOrder: S.optional(CellOrder),
-    metadata: S.optional(Metadata),
-    parameters: S.optional(Parameters),
-    environmentConfiguration: S.optional(EnvironmentConfig),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/notebooks/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateNotebookInput",
-}) as any as S.Schema<UpdateNotebookInput>;
 export interface UpdateNotebookOutput {
   id: string;
   name: string | redacted.Redacted<string>;
@@ -16917,32 +6921,6 @@ export interface UpdateNotebookOutput {
   error?: NotebookError;
   gitMetadata?: GitMetadata;
 }
-export const UpdateNotebookOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: SensitiveString,
-    owningProjectId: S.String,
-    domainId: S.String,
-    cellOrder: CellOrder,
-    status: NotebookStatus,
-    description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedBy: S.optional(S.String),
-    lockedBy: S.optional(S.String),
-    lockedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lockExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    computeId: S.optional(S.String),
-    metadata: S.optional(Metadata),
-    parameters: S.optional(Parameters),
-    environmentConfiguration: S.optional(EnvironmentConfig),
-    error: S.optional(NotebookError),
-    gitMetadata: S.optional(GitMetadata),
-  }),
-).annotate({
-  identifier: "UpdateNotebookOutput",
-}) as any as S.Schema<UpdateNotebookOutput>;
 export interface UpdateProjectInput {
   domainIdentifier: string;
   identifier: string;
@@ -16955,34 +6933,6 @@ export interface UpdateProjectInput {
   userParameters?: EnvironmentConfigurationUserParameter[];
   projectProfileVersion?: string;
 }
-export const UpdateProjectInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(SensitiveString),
-    description: S.optional(SensitiveString),
-    resourceTags: S.optional(Tags),
-    glossaryTerms: S.optional(GlossaryTerms),
-    domainUnitId: S.optional(S.String),
-    environmentDeploymentDetails: S.optional(EnvironmentDeploymentDetails),
-    userParameters: S.optional(EnvironmentConfigurationUserParametersList),
-    projectProfileVersion: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/projects/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateProjectInput",
-}) as any as S.Schema<UpdateProjectInput>;
 export interface UpdateProjectOutput {
   domainId: string;
   id: string;
@@ -17001,32 +6951,6 @@ export interface UpdateProjectOutput {
   environmentDeploymentDetails?: EnvironmentDeploymentDetails;
   projectCategory?: string;
 }
-export const UpdateProjectOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    projectStatus: S.optional(ProjectStatus),
-    failureReasons: S.optional(FailureReasons),
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    resourceTags: S.optional(ResourceTags),
-    glossaryTerms: S.optional(GlossaryTerms),
-    domainUnitId: S.optional(S.String),
-    projectProfileId: S.optional(S.String),
-    userParameters: S.optional(EnvironmentConfigurationUserParametersList),
-    environmentDeploymentDetails: S.optional(EnvironmentDeploymentDetails),
-    projectCategory: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateProjectOutput",
-}) as any as S.Schema<UpdateProjectOutput>;
 export interface UpdateProjectProfileInput {
   domainIdentifier: string;
   identifier: string;
@@ -17039,34 +6963,6 @@ export interface UpdateProjectProfileInput {
   environmentConfigurations?: EnvironmentConfiguration[];
   domainUnitIdentifier?: string;
 }
-export const UpdateProjectProfileInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(SensitiveString),
-    description: S.optional(SensitiveString),
-    status: S.optional(Status),
-    projectResourceTags: S.optional(ProjectResourceTagParameters),
-    allowCustomProjectResourceTags: S.optional(S.Boolean),
-    projectResourceTagsDescription: S.optional(SensitiveString),
-    environmentConfigurations: S.optional(EnvironmentConfigurationsList),
-    domainUnitIdentifier: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/project-profiles/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateProjectProfileInput",
-}) as any as S.Schema<UpdateProjectProfileInput>;
 export interface UpdateProjectProfileOutput {
   domainId: string;
   id: string;
@@ -17082,63 +6978,13 @@ export interface UpdateProjectProfileOutput {
   lastUpdatedAt?: Date;
   domainUnitId?: string;
 }
-export const UpdateProjectProfileOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    id: S.String,
-    name: SensitiveString,
-    description: S.optional(SensitiveString),
-    status: S.optional(Status),
-    projectResourceTags: S.optional(ProjectResourceTagParameters),
-    allowCustomProjectResourceTags: S.optional(S.Boolean),
-    projectResourceTagsDescription: S.optional(SensitiveString),
-    environmentConfigurations: S.optional(EnvironmentConfigurationsList),
-    createdBy: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    domainUnitId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateProjectProfileOutput",
-}) as any as S.Schema<UpdateProjectProfileOutput>;
 export interface UpdateRootDomainUnitOwnerInput {
   domainIdentifier: string;
   currentOwner: string;
   newOwner: string;
   clientToken?: string;
 }
-export const UpdateRootDomainUnitOwnerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    currentOwner: S.String,
-    newOwner: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/root-domain-unit-owner",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRootDomainUnitOwnerInput",
-}) as any as S.Schema<UpdateRootDomainUnitOwnerInput>;
 export interface UpdateRootDomainUnitOwnerOutput {}
-export const UpdateRootDomainUnitOwnerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateRootDomainUnitOwnerOutput",
-}) as any as S.Schema<UpdateRootDomainUnitOwnerOutput>;
 export interface UpdateRuleInput {
   domainIdentifier: string;
   identifier: string;
@@ -17148,31 +6994,6 @@ export interface UpdateRuleInput {
   detail?: RuleDetail;
   includeChildDomainUnits?: boolean;
 }
-export const UpdateRuleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(SensitiveString),
-    description: S.optional(SensitiveString),
-    scope: S.optional(RuleScope),
-    detail: S.optional(RuleDetail),
-    includeChildDomainUnits: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/rules/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRuleInput",
-}) as any as S.Schema<UpdateRuleInput>;
 export interface UpdateRuleOutput {
   identifier: string;
   revision: string;
@@ -17188,25 +7009,6 @@ export interface UpdateRuleOutput {
   createdBy: string;
   lastUpdatedBy: string;
 }
-export const UpdateRuleOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String,
-    revision: S.String,
-    name: SensitiveString,
-    ruleType: RuleType,
-    target: RuleTarget,
-    action: RuleAction,
-    scope: RuleScope,
-    detail: RuleDetail,
-    description: S.optional(SensitiveString),
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    createdBy: S.String,
-    lastUpdatedBy: S.String,
-  }),
-).annotate({
-  identifier: "UpdateRuleOutput",
-}) as any as S.Schema<UpdateRuleOutput>;
 export interface UpdateSubscriptionGrantStatusInput {
   domainIdentifier: string;
   identifier: string;
@@ -17215,30 +7017,6 @@ export interface UpdateSubscriptionGrantStatusInput {
   failureCause?: FailureCause;
   targetName?: string;
 }
-export const UpdateSubscriptionGrantStatusInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
-    status: SubscriptionGrantStatus,
-    failureCause: S.optional(FailureCause),
-    targetName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/subscription-grants/{identifier}/status/{assetIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateSubscriptionGrantStatusInput",
-}) as any as S.Schema<UpdateSubscriptionGrantStatusInput>;
 export interface UpdateSubscriptionGrantStatusOutput {
   id: string;
   createdBy: string;
@@ -17253,50 +7031,11 @@ export interface UpdateSubscriptionGrantStatusOutput {
   assets?: SubscribedAsset[];
   subscriptionId?: string;
 }
-export const UpdateSubscriptionGrantStatusOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    domainId: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    environmentId: S.optional(S.String),
-    subscriptionTargetId: S.String,
-    grantedEntity: GrantedEntity,
-    status: SubscriptionGrantOverallStatus,
-    assets: S.optional(SubscribedAssets),
-    subscriptionId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateSubscriptionGrantStatusOutput",
-}) as any as S.Schema<UpdateSubscriptionGrantStatusOutput>;
 export interface UpdateSubscriptionRequestInput {
   domainIdentifier: string;
   identifier: string;
   requestReason: string | redacted.Redacted<string>;
 }
-export const UpdateSubscriptionRequestInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    requestReason: SensitiveString,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/subscription-requests/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateSubscriptionRequestInput",
-}) as any as S.Schema<UpdateSubscriptionRequestInput>;
 export interface UpdateSubscriptionRequestOutput {
   id: string;
   createdBy: string;
@@ -17313,26 +7052,6 @@ export interface UpdateSubscriptionRequestOutput {
   existingSubscriptionId?: string;
   metadataForms?: FormOutput[];
 }
-export const UpdateSubscriptionRequestOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    domainId: S.String,
-    status: SubscriptionRequestStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    requestReason: SensitiveString,
-    subscribedPrincipals: SubscribedPrincipals,
-    subscribedListings: SubscribedListings,
-    reviewerId: S.optional(S.String),
-    decisionComment: S.optional(SensitiveString),
-    existingSubscriptionId: S.optional(S.String),
-    metadataForms: S.optional(MetadataForms),
-  }),
-).annotate({
-  identifier: "UpdateSubscriptionRequestOutput",
-}) as any as S.Schema<UpdateSubscriptionRequestOutput>;
 export interface UpdateSubscriptionTargetInput {
   domainIdentifier: string;
   environmentIdentifier: string;
@@ -17345,34 +7064,6 @@ export interface UpdateSubscriptionTargetInput {
   provider?: string;
   subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
 }
-export const UpdateSubscriptionTargetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(SensitiveString),
-    authorizedPrincipals: S.optional(AuthorizedPrincipalIdentifiers),
-    applicableAssetTypes: S.optional(ApplicableAssetTypes),
-    subscriptionTargetConfig: S.optional(SubscriptionTargetForms),
-    manageAccessRole: S.optional(S.String),
-    provider: S.optional(S.String),
-    subscriptionGrantCreationMode: S.optional(SubscriptionGrantCreationMode),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/subscription-targets/{identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateSubscriptionTargetInput",
-}) as any as S.Schema<UpdateSubscriptionTargetInput>;
 export interface UpdateSubscriptionTargetOutput {
   id: string;
   authorizedPrincipals: string[];
@@ -17391,28 +7082,6 @@ export interface UpdateSubscriptionTargetOutput {
   provider: string;
   subscriptionGrantCreationMode?: SubscriptionGrantCreationMode;
 }
-export const UpdateSubscriptionTargetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    authorizedPrincipals: AuthorizedPrincipalIdentifiers,
-    domainId: S.String,
-    projectId: S.String,
-    environmentId: S.String,
-    name: SensitiveString,
-    type: S.String,
-    createdBy: S.String,
-    updatedBy: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    manageAccessRole: S.optional(S.String),
-    applicableAssetTypes: ApplicableAssetTypes,
-    subscriptionTargetConfig: SubscriptionTargetForms,
-    provider: S.String,
-    subscriptionGrantCreationMode: S.optional(SubscriptionGrantCreationMode),
-  }),
-).annotate({
-  identifier: "UpdateSubscriptionTargetOutput",
-}) as any as S.Schema<UpdateSubscriptionTargetOutput>;
 export interface UpdateUserProfileInput {
   domainIdentifier: string;
   userIdentifier: string;
@@ -17420,29 +7089,6 @@ export interface UpdateUserProfileInput {
   status: UserProfileStatus;
   sessionName?: string;
 }
-export const UpdateUserProfileInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    userIdentifier: S.String.pipe(T.HttpLabel("userIdentifier")),
-    type: S.optional(UserProfileType),
-    status: UserProfileStatus,
-    sessionName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v2/domains/{domainIdentifier}/user-profiles/{userIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateUserProfileInput",
-}) as any as S.Schema<UpdateUserProfileInput>;
 export interface UpdateUserProfileOutput {
   domainId?: string;
   id?: string;
@@ -17450,17 +7096,6 @@ export interface UpdateUserProfileOutput {
   status?: UserProfileStatus;
   details?: UserProfileDetails;
 }
-export const UpdateUserProfileOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainId: S.optional(S.String),
-    id: S.optional(S.String),
-    type: S.optional(UserProfileType),
-    status: S.optional(UserProfileStatus),
-    details: S.optional(UserProfileDetails),
-  }),
-).annotate({
-  identifier: "UpdateUserProfileOutput",
-}) as any as S.Schema<UpdateUserProfileOutput>;
 export type ErrorMessage = string;
 export type AcceptPredictionsError =
   | AccessDeniedException
@@ -17479,8 +7114,23 @@ export const acceptPredictions: API.OperationMethod<
   AcceptPredictionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AcceptPredictionsInput,
-  output: AcceptPredictionsOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /v2/domains/{domainIdentifier}/assets/{identifier}/accept-predictions",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      revision: D.m({ query: "revision" }),
+      acceptRule: { rule: 0, threshold: 0 },
+      acceptChoices: D.list({
+        predictionTarget: 0,
+        predictionChoice: 0,
+        editedValue: 0,
+      }),
+      clientToken: D.m({ idempotency: true }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -17492,7 +7142,7 @@ export const acceptPredictions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptPredictions",
-}));
+})) as any;
 
 export type AcceptSubscriptionRequestError =
   | AccessDeniedException
@@ -17512,8 +7162,27 @@ export const acceptSubscriptionRequest: API.OperationMethod<
   AcceptSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AcceptSubscriptionRequestInput,
-  output: AcceptSubscriptionRequestOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /v2/domains/{domainIdentifier}/subscription-requests/{identifier}/accept",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      decisionComment: 0,
+      assetScopes: D.list(i_AcceptedAssetScope),
+      assetPermissions: D.list(i_AssetPermission),
+    },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      requestReason: D.secret,
+      subscribedPrincipals: D.list(o_SubscribedPrincipal),
+      subscribedListings: D.list(o_SubscribedListing),
+      decisionComment: D.secret,
+      metadataForms: D.list(o_FormOutput),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -17526,7 +7195,7 @@ export const acceptSubscriptionRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptSubscriptionRequest",
-}));
+})) as any;
 
 export type AddEntityOwnerError =
   | AccessDeniedException
@@ -17546,8 +7215,18 @@ export const addEntityOwner: API.OperationMethod<
   AddEntityOwnerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddEntityOwnerInput,
-  output: AddEntityOwnerOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/addOwner",
+    input: {
+      domainIdentifier: 0,
+      entityType: 0,
+      entityIdentifier: 0,
+      owner: i_OwnerProperties,
+      clientToken: D.m({ idempotency: true }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -17560,7 +7239,7 @@ export const addEntityOwner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddEntityOwner",
-}));
+})) as any;
 
 export type AddPolicyGrantError =
   | AccessDeniedException
@@ -17579,8 +7258,38 @@ export const addPolicyGrant: API.OperationMethod<
   AddPolicyGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddPolicyGrantInput,
-  output: AddPolicyGrantOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/policies/managed/{entityType}/{entityIdentifier}/addGrant",
+    input: {
+      domainIdentifier: 0,
+      entityType: 0,
+      entityIdentifier: 0,
+      policyType: 0,
+      principal: i_PolicyGrantPrincipal,
+      detail: {
+        createDomainUnit: { includeChildDomainUnits: 0 },
+        overrideDomainUnitOwners: { includeChildDomainUnits: 0 },
+        addToProjectMemberPool: { includeChildDomainUnits: 0 },
+        overrideProjectOwners: { includeChildDomainUnits: 0 },
+        createGlossary: { includeChildDomainUnits: 0 },
+        createFormType: { includeChildDomainUnits: 0 },
+        createAssetType: { includeChildDomainUnits: 0 },
+        createProject: { includeChildDomainUnits: 0 },
+        createEnvironmentProfile: { domainUnitId: 0 },
+        delegateCreateEnvironmentProfile: i_Unit,
+        createEnvironment: i_Unit,
+        createEnvironmentFromBlueprint: i_Unit,
+        createProjectFromProjectProfile: {
+          includeChildDomainUnits: 0,
+          projectProfiles: 0,
+        },
+        useAssetType: { domainUnitId: 0 },
+      },
+      clientToken: D.m({ idempotency: true }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -17592,7 +7301,7 @@ export const addPolicyGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPolicyGrant",
-}));
+})) as any;
 
 export type AssociateEnvironmentRoleError =
   | AccessDeniedException
@@ -17611,8 +7320,15 @@ export const associateEnvironmentRole: API.OperationMethod<
   AssociateEnvironmentRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateEnvironmentRoleInput,
-  output: AssociateEnvironmentRoleOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/roles/{environmentRoleArn}",
+    input: {
+      domainIdentifier: 0,
+      environmentIdentifier: 0,
+      environmentRoleArn: 0,
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -17624,7 +7340,7 @@ export const associateEnvironmentRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEnvironmentRole",
-}));
+})) as any;
 
 export type AssociateGovernedTermsError =
   | AccessDeniedException
@@ -17643,8 +7359,17 @@ export const associateGovernedTerms: API.OperationMethod<
   AssociateGovernedTermsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateGovernedTermsInput,
-  output: AssociateGovernedTermsOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/associate-governed-terms",
+    input: {
+      domainIdentifier: 0,
+      entityIdentifier: 0,
+      entityType: 0,
+      governedGlossaryTerms: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -17656,7 +7381,7 @@ export const associateGovernedTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateGovernedTerms",
-}));
+})) as any;
 
 export type BatchGetAttributesMetadataError =
   | AccessDeniedException
@@ -17674,8 +7399,18 @@ export const batchGetAttributesMetadata: API.OperationMethod<
   BatchGetAttributesMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetAttributesMetadataInput,
-  output: BatchGetAttributesMetadataOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/attributes-metadata",
+    input: {
+      domainIdentifier: 0,
+      entityType: 0,
+      entityIdentifier: 0,
+      entityRevision: D.m({ query: "entityRevision" }),
+      attributeIdentifiers: D.m({ query: "attributeIdentifier" }),
+    },
+    output: { attributes: D.list({ forms: D.list(o_FormOutput) }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -17686,7 +7421,7 @@ export const batchGetAttributesMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAttributesMetadata",
-}));
+})) as any;
 
 export type BatchPutAttributesMetadataError =
   | AccessDeniedException
@@ -17705,8 +7440,21 @@ export const batchPutAttributesMetadata: API.OperationMethod<
   BatchPutAttributesMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchPutAttributesMetadataInput,
-  output: BatchPutAttributesMetadataOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/attributes-metadata",
+    input: {
+      domainIdentifier: 0,
+      entityType: 0,
+      entityIdentifier: 0,
+      clientToken: D.m({ idempotency: true }),
+      attributes: D.list({
+        attributeIdentifier: 0,
+        forms: D.list(i_FormInput),
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -17718,7 +7466,7 @@ export const batchPutAttributesMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutAttributesMetadata",
-}));
+})) as any;
 
 export type CancelMetadataGenerationRunError =
   | AccessDeniedException
@@ -17745,8 +7493,11 @@ export const cancelMetadataGenerationRun: API.OperationMethod<
   CancelMetadataGenerationRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelMetadataGenerationRunInput,
-  output: CancelMetadataGenerationRunOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/metadata-generation-runs/{identifier}/cancel",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -17758,7 +7509,7 @@ export const cancelMetadataGenerationRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMetadataGenerationRun",
-}));
+})) as any;
 
 export type CancelSubscriptionError =
   | AccessDeniedException
@@ -17777,8 +7528,17 @@ export const cancelSubscription: API.OperationMethod<
   CancelSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelSubscriptionInput,
-  output: CancelSubscriptionOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /v2/domains/{domainIdentifier}/subscriptions/{identifier}/cancel",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      subscribedPrincipal: o_SubscribedPrincipal,
+      subscribedListing: o_SubscribedListing,
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -17790,7 +7550,7 @@ export const cancelSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSubscription",
-}));
+})) as any;
 
 export type CreateAccountPoolError =
   | AccessDeniedException
@@ -17810,8 +7570,25 @@ export const createAccountPool: API.OperationMethod<
   CreateAccountPoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAccountPoolInput,
-  output: CreateAccountPoolOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/account-pools",
+    input: {
+      domainIdentifier: 0,
+      name: 0,
+      description: 0,
+      resolutionStrategy: 0,
+      accountSource: i_AccountSource,
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      accountSource: o_AccountSource,
+      createdAt: D.ts,
+      lastUpdatedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -17824,7 +7601,7 @@ export const createAccountPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccountPool",
-}));
+})) as any;
 
 export type CreateAssetError =
   | AccessDeniedException
@@ -17864,8 +7641,35 @@ export const createAsset: API.OperationMethod<
   CreateAssetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAssetInput,
-  output: CreateAssetOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/assets",
+    input: {
+      name: 0,
+      domainIdentifier: 0,
+      externalIdentifier: 0,
+      typeIdentifier: 0,
+      typeRevision: 0,
+      description: 0,
+      glossaryTerms: 0,
+      formsInput: D.list(i_FormInput),
+      owningProjectIdentifier: 0,
+      predictionConfiguration: i_PredictionConfiguration,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      createdAt: D.ts,
+      firstRevisionCreatedAt: D.ts,
+      formsOutput: D.list(o_FormOutput),
+      readOnlyFormsOutput: D.list(o_FormOutput),
+      latestTimeSeriesDataPointFormsOutput: D.list(
+        o_TimeSeriesDataPointSummaryFormOutput,
+      ),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -17878,7 +7682,7 @@ export const createAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAsset",
-}));
+})) as any;
 
 export type CreateAssetFilterError =
   | AccessDeniedException
@@ -17910,8 +7714,20 @@ export const createAssetFilter: API.OperationMethod<
   CreateAssetFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAssetFilterInput,
-  output: CreateAssetFilterOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters",
+    input: {
+      domainIdentifier: 0,
+      assetIdentifier: 0,
+      name: 0,
+      description: 0,
+      configuration: i_AssetFilterConfiguration,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: { name: D.secret, description: D.secret, createdAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -17924,7 +7740,7 @@ export const createAssetFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssetFilter",
-}));
+})) as any;
 
 export type CreateAssetRevisionError =
   | AccessDeniedException
@@ -17957,8 +7773,33 @@ export const createAssetRevision: API.OperationMethod<
   CreateAssetRevisionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAssetRevisionInput,
-  output: CreateAssetRevisionOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/assets/{identifier}/revisions",
+    input: {
+      name: 0,
+      domainIdentifier: 0,
+      identifier: 0,
+      typeRevision: 0,
+      description: 0,
+      glossaryTerms: 0,
+      formsInput: D.list(i_FormInput),
+      predictionConfiguration: i_PredictionConfiguration,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      createdAt: D.ts,
+      firstRevisionCreatedAt: D.ts,
+      formsOutput: D.list(o_FormOutput),
+      readOnlyFormsOutput: D.list(o_FormOutput),
+      latestTimeSeriesDataPointFormsOutput: D.list(
+        o_TimeSeriesDataPointSummaryFormOutput,
+      ),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -17970,7 +7811,7 @@ export const createAssetRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssetRevision",
-}));
+})) as any;
 
 export type CreateAssetTypeError =
   | AccessDeniedException
@@ -18001,8 +7842,24 @@ export const createAssetType: API.OperationMethod<
   CreateAssetTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAssetTypeInput,
-  output: CreateAssetTypeOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/asset-types",
+    input: {
+      domainIdentifier: 0,
+      name: 0,
+      description: 0,
+      formsInput: D.map({ typeIdentifier: 0, typeRevision: 0, required: 0 }),
+      owningProjectIdentifier: 0,
+    },
+    output: {
+      description: D.secret,
+      formsOutput: D.map(o_FormEntryOutput),
+      createdAt: D.ts,
+      updatedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18014,7 +7871,7 @@ export const createAssetType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssetType",
-}));
+})) as any;
 
 export type CreateConnectionError =
   | AccessDeniedException
@@ -18034,8 +7891,110 @@ export const createConnection: API.OperationMethod<
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateConnectionInput,
-  output: CreateConnectionOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/connections",
+    input: {
+      awsLocation: i_AwsLocation,
+      clientToken: D.m({ idempotency: true }),
+      configurations: D.list(i_Configuration),
+      description: 0,
+      domainIdentifier: 0,
+      environmentIdentifier: 0,
+      name: 0,
+      props: {
+        athenaProperties: { workgroupName: 0 },
+        glueProperties: {
+          glueConnectionInput: {
+            connectionProperties: 0,
+            physicalConnectionRequirements: i_PhysicalConnectionRequirements,
+            name: 0,
+            description: 0,
+            connectionType: 0,
+            matchCriteria: 0,
+            validateCredentials: 0,
+            validateForComputeEnvironments: 0,
+            sparkProperties: 0,
+            athenaProperties: 0,
+            pythonProperties: 0,
+            authenticationConfiguration: i_AuthenticationConfigurationInput,
+          },
+        },
+        hyperPodProperties: { clusterName: 0 },
+        iamProperties: { glueLineageSyncEnabled: 0 },
+        redshiftProperties: {
+          storage: i_RedshiftStorageProperties,
+          databaseName: 0,
+          host: 0,
+          port: 0,
+          credentials: i_RedshiftCredentials,
+          lineageSync: i_RedshiftLineageSyncConfigurationInput,
+        },
+        sparkEmrProperties: {
+          computeArn: 0,
+          instanceProfileArn: 0,
+          javaVirtualEnv: 0,
+          logUri: 0,
+          pythonVirtualEnv: 0,
+          runtimeRole: 0,
+          trustedCertificatesS3Uri: 0,
+          managedEndpointArn: 0,
+        },
+        sparkGlueProperties: {
+          additionalArgs: { connection: 0 },
+          glueConnectionName: 0,
+          glueConnectionNames: 0,
+          glueVersion: 0,
+          idleTimeout: 0,
+          javaVirtualEnv: 0,
+          numberOfWorkers: 0,
+          pythonVirtualEnv: 0,
+          workerType: 0,
+        },
+        s3Properties: {
+          s3Uri: 0,
+          s3AccessGrantLocationId: 0,
+          registerS3AccessGrantLocation: 0,
+        },
+        snowflakeProperties: {
+          connectivityProperties: {
+            connectionProperties: 0,
+            physicalConnectionRequirements: i_PhysicalConnectionRequirements,
+            name: 0,
+            description: 0,
+            validateCredentials: 0,
+            validateForComputeEnvironments: 0,
+            sparkProperties: 0,
+            athenaProperties: 0,
+            pythonProperties: 0,
+            authenticationConfiguration: i_AuthenticationConfigurationInput,
+          },
+          snowflakeRole: 0,
+          identityMapping: { usernameAttribute: 0, prefix: 0 },
+          lineageSync: i_LineageSyncInput,
+        },
+        amazonQProperties: { isEnabled: 0, profileArn: 0, authMode: 0 },
+        mlflowProperties: { trackingServerArn: 0 },
+        workflowsMwaaProperties: { mwaaEnvironmentName: 0 },
+        workflowsServerlessProperties: {},
+        lakehouseProperties: { glueLineageSyncEnabled: 0 },
+        vpcProperties: { vpcId: 0, subnetIds: 0, securityGroupId: 0 },
+        gitProperties: {
+          codeConnectionArn: 0,
+          repositoryId: 0,
+          defaultBranch: 0,
+        },
+      },
+      enableTrustedIdentityPropagation: 0,
+      scope: 0,
+    },
+    output: {
+      description: D.secret,
+      physicalEndpoints: D.list(o_PhysicalEndpoint),
+      props: o_ConnectionPropertiesOutput,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18048,7 +8007,7 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
-}));
+})) as any;
 
 export type CreateDataProductError =
   | AccessDeniedException
@@ -18080,8 +8039,28 @@ export const createDataProduct: API.OperationMethod<
   CreateDataProductError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDataProductInput,
-  output: CreateDataProductOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/data-products",
+    input: {
+      domainIdentifier: 0,
+      name: 0,
+      owningProjectIdentifier: 0,
+      description: 0,
+      glossaryTerms: 0,
+      formsInput: D.list(i_FormInput),
+      items: D.list(i_DataProductItem),
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      formsOutput: D.list(o_FormOutput),
+      createdAt: D.ts,
+      firstRevisionCreatedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18094,7 +8073,7 @@ export const createDataProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataProduct",
-}));
+})) as any;
 
 export type CreateDataProductRevisionError =
   | AccessDeniedException
@@ -18123,8 +8102,28 @@ export const createDataProductRevision: API.OperationMethod<
   CreateDataProductRevisionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDataProductRevisionInput,
-  output: CreateDataProductRevisionOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/data-products/{identifier}/revisions",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      name: 0,
+      description: 0,
+      glossaryTerms: 0,
+      items: D.list(i_DataProductItem),
+      formsInput: D.list(i_FormInput),
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      formsOutput: D.list(o_FormOutput),
+      createdAt: D.ts,
+      firstRevisionCreatedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18136,7 +8135,7 @@ export const createDataProductRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataProductRevision",
-}));
+})) as any;
 
 export type CreateDataSourceError =
   | AccessDeniedException
@@ -18156,8 +8155,35 @@ export const createDataSource: API.OperationMethod<
   CreateDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDataSourceInput,
-  output: CreateDataSourceOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/data-sources",
+    input: {
+      name: 0,
+      description: 0,
+      domainIdentifier: 0,
+      projectIdentifier: 0,
+      environmentIdentifier: 0,
+      connectionIdentifier: 0,
+      type: 0,
+      configuration: i_DataSourceConfigurationInput,
+      recommendation: i_RecommendationConfiguration,
+      enableSetting: 0,
+      schedule: i_ScheduleConfiguration,
+      publishOnImport: 0,
+      assetFormsInput: D.list(i_FormInput),
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      assetFormsOutput: D.list(o_FormOutput),
+      lastRunAt: D.ts,
+      createdAt: D.ts,
+      updatedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18170,7 +8196,7 @@ export const createDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSource",
-}));
+})) as any;
 
 export type CreateDomainError =
   | AccessDeniedException
@@ -18190,8 +8216,22 @@ export const createDomain: API.OperationMethod<
   CreateDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDomainInput,
-  output: CreateDomainOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains",
+    input: {
+      name: 0,
+      description: 0,
+      singleSignOn: i_SingleSignOn,
+      domainExecutionRole: 0,
+      kmsKeyIdentifier: 0,
+      tags: 0,
+      domainVersion: 0,
+      serviceRole: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18204,7 +8244,7 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
-}));
+})) as any;
 
 export type CreateDomainUnitError =
   | AccessDeniedException
@@ -18223,8 +8263,19 @@ export const createDomainUnit: API.OperationMethod<
   CreateDomainUnitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDomainUnitInput,
-  output: CreateDomainUnitOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/domain-units",
+    input: {
+      domainIdentifier: 0,
+      name: 0,
+      parentDomainUnitIdentifier: 0,
+      description: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: { name: D.secret, description: D.secret, createdAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18236,7 +8287,7 @@ export const createDomainUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainUnit",
-}));
+})) as any;
 
 export type CreateEnvironmentError =
   | AccessDeniedException
@@ -18255,8 +8306,35 @@ export const createEnvironment: API.OperationMethod<
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateEnvironmentInput,
-  output: CreateEnvironmentOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/environments",
+    input: {
+      projectIdentifier: 0,
+      domainIdentifier: 0,
+      description: 0,
+      name: 0,
+      environmentProfileIdentifier: 0,
+      userParameters: D.list(i_EnvironmentParameter),
+      glossaryTerms: 0,
+      environmentAccountIdentifier: 0,
+      environmentAccountRegion: 0,
+      environmentBlueprintIdentifier: 0,
+      deploymentOrder: 0,
+      environmentConfigurationId: 0,
+      environmentConfigurationName: 0,
+    },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      name: D.secret,
+      description: D.secret,
+      userParameters: D.list(o_CustomParameter),
+      environmentConfigurationId: D.secret,
+      environmentConfigurationName: D.secret,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18268,7 +8346,7 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
-}));
+})) as any;
 
 export type CreateEnvironmentActionError =
   | AccessDeniedException
@@ -18287,8 +8365,18 @@ export const createEnvironmentAction: API.OperationMethod<
   CreateEnvironmentActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateEnvironmentActionInput,
-  output: CreateEnvironmentActionOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions",
+    input: {
+      domainIdentifier: 0,
+      environmentIdentifier: 0,
+      name: 0,
+      parameters: i_ActionParameters,
+      description: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18300,7 +8388,7 @@ export const createEnvironmentAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentAction",
-}));
+})) as any;
 
 export type CreateEnvironmentBlueprintError =
   | AccessDeniedException
@@ -18320,8 +8408,24 @@ export const createEnvironmentBlueprint: API.OperationMethod<
   CreateEnvironmentBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateEnvironmentBlueprintInput,
-  output: CreateEnvironmentBlueprintOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/environment-blueprints",
+    input: {
+      domainIdentifier: 0,
+      name: 0,
+      description: 0,
+      provisioningProperties: i_ProvisioningProperties,
+      userParameters: D.list(i_CustomParameter),
+    },
+    output: {
+      description: D.secret,
+      userParameters: D.list(o_CustomParameter),
+      createdAt: D.ts,
+      updatedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18334,7 +8438,7 @@ export const createEnvironmentBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentBlueprint",
-}));
+})) as any;
 
 export type CreateEnvironmentProfileError =
   | AccessDeniedException
@@ -18354,8 +8458,28 @@ export const createEnvironmentProfile: API.OperationMethod<
   CreateEnvironmentProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateEnvironmentProfileInput,
-  output: CreateEnvironmentProfileOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/environment-profiles",
+    input: {
+      domainIdentifier: 0,
+      name: 0,
+      description: 0,
+      environmentBlueprintIdentifier: 0,
+      projectIdentifier: 0,
+      userParameters: D.list(i_EnvironmentParameter),
+      awsAccountId: 0,
+      awsAccountRegion: 0,
+    },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      name: D.secret,
+      description: D.secret,
+      userParameters: D.list(o_CustomParameter),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18368,7 +8492,7 @@ export const createEnvironmentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentProfile",
-}));
+})) as any;
 
 export type CreateFormTypeError =
   | AccessDeniedException
@@ -18399,8 +8523,20 @@ export const createFormType: API.OperationMethod<
   CreateFormTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFormTypeInput,
-  output: CreateFormTypeOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/form-types",
+    input: {
+      domainIdentifier: 0,
+      name: 0,
+      model: { smithy: 0 },
+      owningProjectIdentifier: 0,
+      status: 0,
+      description: 0,
+    },
+    output: { name: D.secret, description: D.secret },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18412,7 +8548,7 @@ export const createFormType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFormType",
-}));
+})) as any;
 
 export type CreateGlossaryError =
   | AccessDeniedException
@@ -18443,8 +8579,21 @@ export const createGlossary: API.OperationMethod<
   CreateGlossaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateGlossaryInput,
-  output: CreateGlossaryOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/glossaries",
+    input: {
+      domainIdentifier: 0,
+      name: 0,
+      owningProjectIdentifier: 0,
+      description: 0,
+      status: 0,
+      usageRestrictions: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: { name: D.secret, description: D.secret },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18456,7 +8605,7 @@ export const createGlossary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlossary",
-}));
+})) as any;
 
 export type CreateGlossaryTermError =
   | AccessDeniedException
@@ -18488,8 +8637,26 @@ export const createGlossaryTerm: API.OperationMethod<
   CreateGlossaryTermError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateGlossaryTermInput,
-  output: CreateGlossaryTermOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/glossary-terms",
+    input: {
+      domainIdentifier: 0,
+      glossaryIdentifier: 0,
+      name: 0,
+      status: 0,
+      shortDescription: 0,
+      longDescription: 0,
+      termRelations: i_TermRelations,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: {
+      name: D.secret,
+      shortDescription: D.secret,
+      longDescription: D.secret,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18502,7 +8669,7 @@ export const createGlossaryTerm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlossaryTerm",
-}));
+})) as any;
 
 export type CreateGroupProfileError =
   | AccessDeniedException
@@ -18519,8 +8686,18 @@ export const createGroupProfile: API.OperationMethod<
   CreateGroupProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateGroupProfileInput,
-  output: CreateGroupProfileOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/group-profiles",
+    input: {
+      domainIdentifier: 0,
+      groupIdentifier: 0,
+      rolePrincipalArn: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: { groupName: D.secret },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -18530,7 +8707,7 @@ export const createGroupProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroupProfile",
-}));
+})) as any;
 
 export type CreateListingChangeSetError =
   | AccessDeniedException
@@ -18550,8 +8727,19 @@ export const createListingChangeSet: API.OperationMethod<
   CreateListingChangeSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateListingChangeSetInput,
-  output: CreateListingChangeSetOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/listings/change-set",
+    input: {
+      domainIdentifier: 0,
+      entityIdentifier: 0,
+      entityType: 0,
+      entityRevision: 0,
+      action: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18564,7 +8752,7 @@ export const createListingChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateListingChangeSet",
-}));
+})) as any;
 
 export type CreateNotebookError =
   | AccessDeniedException
@@ -18584,8 +8772,30 @@ export const createNotebook: API.OperationMethod<
   CreateNotebookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateNotebookInput,
-  output: CreateNotebookOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/notebooks",
+    input: {
+      domainIdentifier: 0,
+      owningProjectIdentifier: 0,
+      name: 0,
+      description: 0,
+      metadata: 0,
+      parameters: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      lockedAt: D.ts,
+      lockExpiresAt: D.ts,
+      metadata: D.map(D.secret),
+      gitMetadata: o_GitMetadata,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18598,7 +8808,7 @@ export const createNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotebook",
-}));
+})) as any;
 
 export type CreateProjectError =
   | AccessDeniedException
@@ -18618,8 +8828,31 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateProjectInput,
-  output: CreateProjectOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/projects",
+    input: {
+      domainIdentifier: 0,
+      name: 0,
+      description: 0,
+      resourceTags: 0,
+      glossaryTerms: 0,
+      domainUnitId: 0,
+      projectProfileId: 0,
+      userParameters: D.list(i_EnvironmentConfigurationUserParameter),
+      projectCategory: 0,
+      projectExecutionRole: 0,
+      membershipAssignments: D.list({ member: i_Member, designation: 0 }),
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      createdAt: D.ts,
+      lastUpdatedAt: D.ts,
+      userParameters: D.list(o_EnvironmentConfigurationUserParameter),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18632,7 +8865,7 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
-}));
+})) as any;
 
 export type CreateProjectMembershipError =
   | AccessDeniedException
@@ -18649,8 +8882,17 @@ export const createProjectMembership: API.OperationMethod<
   CreateProjectMembershipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateProjectMembershipInput,
-  output: CreateProjectMembershipOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/projects/{projectIdentifier}/createMembership",
+    input: {
+      domainIdentifier: 0,
+      projectIdentifier: 0,
+      member: i_Member,
+      designation: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -18660,7 +8902,7 @@ export const createProjectMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProjectMembership",
-}));
+})) as any;
 
 export type CreateProjectProfileError =
   | AccessDeniedException
@@ -18680,8 +8922,30 @@ export const createProjectProfile: API.OperationMethod<
   CreateProjectProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateProjectProfileInput,
-  output: CreateProjectProfileOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/project-profiles",
+    input: {
+      domainIdentifier: 0,
+      name: 0,
+      description: 0,
+      status: 0,
+      projectResourceTags: D.list(i_ResourceTagParameter),
+      allowCustomProjectResourceTags: 0,
+      projectResourceTagsDescription: 0,
+      environmentConfigurations: D.list(i_EnvironmentConfiguration),
+      domainUnitIdentifier: 0,
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      projectResourceTagsDescription: D.secret,
+      environmentConfigurations: D.list(o_EnvironmentConfiguration),
+      createdAt: D.ts,
+      lastUpdatedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18694,7 +8958,7 @@ export const createProjectProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProjectProfile",
-}));
+})) as any;
 
 export type CreateRuleError =
   | AccessDeniedException
@@ -18714,8 +8978,24 @@ export const createRule: API.OperationMethod<
   CreateRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRuleInput,
-  output: CreateRuleOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/rules",
+    input: {
+      domainIdentifier: 0,
+      name: 0,
+      target: {
+        domainUnitTarget: { domainUnitId: 0, includeChildDomainUnits: 0 },
+      },
+      action: 0,
+      scope: i_RuleScope,
+      detail: i_RuleDetail,
+      description: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: { name: D.secret, description: D.secret, createdAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18728,7 +9008,7 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
-}));
+})) as any;
 
 export type CreateSubscriptionGrantError =
   | AccessDeniedException
@@ -18747,8 +9027,24 @@ export const createSubscriptionGrant: API.OperationMethod<
   CreateSubscriptionGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSubscriptionGrantInput,
-  output: CreateSubscriptionGrantOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/subscription-grants",
+    input: {
+      domainIdentifier: 0,
+      environmentIdentifier: 0,
+      subscriptionTargetIdentifier: 0,
+      grantedEntity: { listing: { identifier: 0, revision: 0 } },
+      assetTargetNames: D.list({ assetId: 0, targetName: 0 }),
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      assets: D.list(o_SubscribedAsset),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18760,7 +9056,7 @@ export const createSubscriptionGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionGrant",
-}));
+})) as any;
 
 export type CreateSubscriptionRequestError =
   | AccessDeniedException
@@ -18780,8 +9076,35 @@ export const createSubscriptionRequest: API.OperationMethod<
   CreateSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSubscriptionRequestInput,
-  output: CreateSubscriptionRequestOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/subscription-requests",
+    input: {
+      domainIdentifier: 0,
+      subscribedPrincipals: D.list({
+        project: { identifier: 0 },
+        user: { identifier: 0 },
+        group: { identifier: 0 },
+        iam: { identifier: 0 },
+      }),
+      subscribedListings: D.list({ identifier: 0 }),
+      requestReason: 0,
+      clientToken: D.m({ idempotency: true }),
+      metadataForms: D.list(i_FormInput),
+      assetPermissions: D.list(i_AssetPermission),
+      assetScopes: D.list(i_AcceptedAssetScope),
+    },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      requestReason: D.secret,
+      subscribedPrincipals: D.list(o_SubscribedPrincipal),
+      subscribedListings: D.list(o_SubscribedListing),
+      decisionComment: D.secret,
+      metadataForms: D.list(o_FormOutput),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18794,7 +9117,7 @@ export const createSubscriptionRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionRequest",
-}));
+})) as any;
 
 export type CreateSubscriptionTargetError =
   | AccessDeniedException
@@ -18813,8 +9136,25 @@ export const createSubscriptionTarget: API.OperationMethod<
   CreateSubscriptionTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSubscriptionTargetInput,
-  output: CreateSubscriptionTargetOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/subscription-targets",
+    input: {
+      domainIdentifier: 0,
+      environmentIdentifier: 0,
+      name: 0,
+      type: 0,
+      subscriptionTargetConfig: D.list(i_SubscriptionTargetForm),
+      authorizedPrincipals: 0,
+      manageAccessRole: 0,
+      applicableAssetTypes: 0,
+      provider: 0,
+      clientToken: D.m({ idempotency: true }),
+      subscriptionGrantCreationMode: 0,
+    },
+    output: { name: D.secret, createdAt: D.ts, updatedAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18826,7 +9166,7 @@ export const createSubscriptionTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionTarget",
-}));
+})) as any;
 
 export type CreateUserProfileError =
   | AccessDeniedException
@@ -18843,8 +9183,19 @@ export const createUserProfile: API.OperationMethod<
   CreateUserProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateUserProfileInput,
-  output: CreateUserProfileOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/user-profiles",
+    input: {
+      domainIdentifier: 0,
+      userIdentifier: 0,
+      userType: 0,
+      sessionName: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: { details: o_UserProfileDetails },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -18854,7 +9205,7 @@ export const createUserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserProfile",
-}));
+})) as any;
 
 export type DeleteAccountPoolError =
   | AccessDeniedException
@@ -18872,8 +9223,11 @@ export const deleteAccountPool: API.OperationMethod<
   DeleteAccountPoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAccountPoolInput,
-  output: DeleteAccountPoolOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/account-pools/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -18884,7 +9238,7 @@ export const deleteAccountPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountPool",
-}));
+})) as any;
 
 export type DeleteAssetError =
   | AccessDeniedException
@@ -18913,8 +9267,11 @@ export const deleteAsset: API.OperationMethod<
   DeleteAssetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAssetInput,
-  output: DeleteAssetOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/assets/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18926,7 +9283,7 @@ export const deleteAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAsset",
-}));
+})) as any;
 
 export type DeleteAssetFilterError =
   | AccessDeniedException
@@ -18953,8 +9310,11 @@ export const deleteAssetFilter: API.OperationMethod<
   DeleteAssetFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAssetFilterInput,
-  output: DeleteAssetFilterResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters/{identifier}",
+    input: { domainIdentifier: 0, assetIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -18966,7 +9326,7 @@ export const deleteAssetFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssetFilter",
-}));
+})) as any;
 
 export type DeleteAssetTypeError =
   | AccessDeniedException
@@ -18995,8 +9355,11 @@ export const deleteAssetType: API.OperationMethod<
   DeleteAssetTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAssetTypeInput,
-  output: DeleteAssetTypeOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/asset-types/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19008,7 +9371,7 @@ export const deleteAssetType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssetType",
-}));
+})) as any;
 
 export type DeleteConnectionError =
   | AccessDeniedException
@@ -19026,8 +9389,11 @@ export const deleteConnection: API.OperationMethod<
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteConnectionInput,
-  output: DeleteConnectionOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/connections/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -19038,7 +9404,7 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
-}));
+})) as any;
 
 export type DeleteDataExportConfigurationError =
   | AccessDeniedException
@@ -19061,8 +9427,11 @@ export const deleteDataExportConfiguration: API.OperationMethod<
   DeleteDataExportConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDataExportConfigurationInput,
-  output: DeleteDataExportConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/data-export-configuration",
+    input: { domainIdentifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19074,7 +9443,7 @@ export const deleteDataExportConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataExportConfiguration",
-}));
+})) as any;
 
 export type DeleteDataProductError =
   | AccessDeniedException
@@ -19101,8 +9470,11 @@ export const deleteDataProduct: API.OperationMethod<
   DeleteDataProductError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDataProductInput,
-  output: DeleteDataProductOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/data-products/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19114,7 +9486,7 @@ export const deleteDataProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataProduct",
-}));
+})) as any;
 
 export type DeleteDataSourceError =
   | AccessDeniedException
@@ -19134,8 +9506,26 @@ export const deleteDataSource: API.OperationMethod<
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDataSourceInput,
-  output: DeleteDataSourceOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/data-sources/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      clientToken: D.m({ query: "clientToken", idempotency: true }),
+      retainPermissionsOnRevokeFailure: D.m({
+        query: "retainPermissionsOnRevokeFailure",
+      }),
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      assetFormsOutput: D.list(o_FormOutput),
+      lastRunAt: D.ts,
+      createdAt: D.ts,
+      updatedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19148,7 +9538,7 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
-}));
+})) as any;
 
 export type DeleteDomainError =
   | AccessDeniedException
@@ -19167,8 +9557,16 @@ export const deleteDomain: API.OperationMethod<
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDomainInput,
-  output: DeleteDomainOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{identifier}",
+    input: {
+      identifier: 0,
+      clientToken: D.m({ query: "clientToken", idempotency: true }),
+      skipDeletionCheck: D.m({ query: "skipDeletionCheck" }),
+      cascadeDelete: D.m({ query: "cascadeDelete" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19180,7 +9578,7 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
-}));
+})) as any;
 
 export type DeleteDomainUnitError =
   | AccessDeniedException
@@ -19199,8 +9597,11 @@ export const deleteDomainUnit: API.OperationMethod<
   DeleteDomainUnitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDomainUnitInput,
-  output: DeleteDomainUnitOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/domain-units/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19212,7 +9613,7 @@ export const deleteDomainUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainUnit",
-}));
+})) as any;
 
 export type DeleteEnvironmentError =
   | AccessDeniedException
@@ -19230,8 +9631,11 @@ export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEnvironmentInput,
-  output: DeleteEnvironmentResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/environments/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -19242,7 +9646,7 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
-}));
+})) as any;
 
 export type DeleteEnvironmentActionError =
   | AccessDeniedException
@@ -19261,8 +9665,11 @@ export const deleteEnvironmentAction: API.OperationMethod<
   DeleteEnvironmentActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEnvironmentActionInput,
-  output: DeleteEnvironmentActionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions/{identifier}",
+    input: { domainIdentifier: 0, environmentIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19274,7 +9681,7 @@ export const deleteEnvironmentAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentAction",
-}));
+})) as any;
 
 export type DeleteEnvironmentBlueprintError =
   | AccessDeniedException
@@ -19293,8 +9700,11 @@ export const deleteEnvironmentBlueprint: API.OperationMethod<
   DeleteEnvironmentBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEnvironmentBlueprintInput,
-  output: DeleteEnvironmentBlueprintResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/environment-blueprints/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19306,7 +9716,7 @@ export const deleteEnvironmentBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentBlueprint",
-}));
+})) as any;
 
 export type DeleteEnvironmentBlueprintConfigurationError =
   | AccessDeniedException
@@ -19323,8 +9733,11 @@ export const deleteEnvironmentBlueprintConfiguration: API.OperationMethod<
   DeleteEnvironmentBlueprintConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEnvironmentBlueprintConfigurationInput,
-  output: DeleteEnvironmentBlueprintConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/environment-blueprint-configurations/{environmentBlueprintIdentifier}",
+    input: { domainIdentifier: 0, environmentBlueprintIdentifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -19334,7 +9747,7 @@ export const deleteEnvironmentBlueprintConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentBlueprintConfiguration",
-}));
+})) as any;
 
 export type DeleteEnvironmentProfileError =
   | AccessDeniedException
@@ -19352,8 +9765,11 @@ export const deleteEnvironmentProfile: API.OperationMethod<
   DeleteEnvironmentProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEnvironmentProfileInput,
-  output: DeleteEnvironmentProfileResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/environment-profiles/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -19364,7 +9780,7 @@ export const deleteEnvironmentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentProfile",
-}));
+})) as any;
 
 export type DeleteFormTypeError =
   | AccessDeniedException
@@ -19395,8 +9811,11 @@ export const deleteFormType: API.OperationMethod<
   DeleteFormTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFormTypeInput,
-  output: DeleteFormTypeOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/form-types/{formTypeIdentifier}",
+    input: { domainIdentifier: 0, formTypeIdentifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19408,7 +9827,7 @@ export const deleteFormType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFormType",
-}));
+})) as any;
 
 export type DeleteGlossaryError =
   | AccessDeniedException
@@ -19439,8 +9858,11 @@ export const deleteGlossary: API.OperationMethod<
   DeleteGlossaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteGlossaryInput,
-  output: DeleteGlossaryOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/glossaries/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19452,7 +9874,7 @@ export const deleteGlossary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlossary",
-}));
+})) as any;
 
 export type DeleteGlossaryTermError =
   | AccessDeniedException
@@ -19481,8 +9903,11 @@ export const deleteGlossaryTerm: API.OperationMethod<
   DeleteGlossaryTermError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteGlossaryTermInput,
-  output: DeleteGlossaryTermOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/glossary-terms/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19494,7 +9919,7 @@ export const deleteGlossaryTerm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlossaryTerm",
-}));
+})) as any;
 
 export type DeleteLineageEventError =
   | AccessDeniedException
@@ -19512,8 +9937,11 @@ export const deleteLineageEvent: API.OperationMethod<
   DeleteLineageEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLineageEventInput,
-  output: DeleteLineageEventOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/lineage/events/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -19524,7 +9952,7 @@ export const deleteLineageEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLineageEvent",
-}));
+})) as any;
 
 export type DeleteListingError =
   | AccessDeniedException
@@ -19543,8 +9971,11 @@ export const deleteListing: API.OperationMethod<
   DeleteListingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteListingInput,
-  output: DeleteListingOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/listings/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19556,7 +9987,7 @@ export const deleteListing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteListing",
-}));
+})) as any;
 
 export type DeleteNotebookError =
   | AccessDeniedException
@@ -19574,8 +10005,11 @@ export const deleteNotebook: API.OperationMethod<
   DeleteNotebookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteNotebookInput,
-  output: DeleteNotebookOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/notebooks/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19586,7 +10020,7 @@ export const deleteNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotebook",
-}));
+})) as any;
 
 export type DeleteProjectError =
   | AccessDeniedException
@@ -19604,8 +10038,15 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteProjectInput,
-  output: DeleteProjectOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/projects/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      skipDeletionCheck: D.m({ query: "skipDeletionCheck" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -19616,7 +10057,7 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
-}));
+})) as any;
 
 export type DeleteProjectMembershipError =
   | AccessDeniedException
@@ -19635,8 +10076,12 @@ export const deleteProjectMembership: API.OperationMethod<
   DeleteProjectMembershipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteProjectMembershipInput,
-  output: DeleteProjectMembershipOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/projects/{projectIdentifier}/deleteMembership",
+    input: { domainIdentifier: 0, projectIdentifier: 0, member: i_Member },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -19648,7 +10093,7 @@ export const deleteProjectMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProjectMembership",
-}));
+})) as any;
 
 export type DeleteProjectProfileError =
   | AccessDeniedException
@@ -19666,8 +10111,11 @@ export const deleteProjectProfile: API.OperationMethod<
   DeleteProjectProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteProjectProfileInput,
-  output: DeleteProjectProfileOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/project-profiles/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -19678,7 +10126,7 @@ export const deleteProjectProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProjectProfile",
-}));
+})) as any;
 
 export type DeleteRuleError =
   | AccessDeniedException
@@ -19697,8 +10145,11 @@ export const deleteRule: API.OperationMethod<
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRuleInput,
-  output: DeleteRuleOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/rules/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19710,7 +10161,7 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
-}));
+})) as any;
 
 export type DeleteSubscriptionGrantError =
   | AccessDeniedException
@@ -19729,8 +10180,16 @@ export const deleteSubscriptionGrant: API.OperationMethod<
   DeleteSubscriptionGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSubscriptionGrantInput,
-  output: DeleteSubscriptionGrantOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/subscription-grants/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      assets: D.list(o_SubscribedAsset),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19742,7 +10201,7 @@ export const deleteSubscriptionGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriptionGrant",
-}));
+})) as any;
 
 export type DeleteSubscriptionRequestError =
   | AccessDeniedException
@@ -19761,8 +10220,11 @@ export const deleteSubscriptionRequest: API.OperationMethod<
   DeleteSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSubscriptionRequestInput,
-  output: DeleteSubscriptionRequestResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/subscription-requests/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19774,7 +10236,7 @@ export const deleteSubscriptionRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriptionRequest",
-}));
+})) as any;
 
 export type DeleteSubscriptionTargetError =
   | AccessDeniedException
@@ -19793,8 +10255,11 @@ export const deleteSubscriptionTarget: API.OperationMethod<
   DeleteSubscriptionTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSubscriptionTargetInput,
-  output: DeleteSubscriptionTargetResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/subscription-targets/{identifier}",
+    input: { domainIdentifier: 0, environmentIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19806,7 +10271,7 @@ export const deleteSubscriptionTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriptionTarget",
-}));
+})) as any;
 
 export type DeleteTimeSeriesDataPointsError =
   | AccessDeniedException
@@ -19824,8 +10289,17 @@ export const deleteTimeSeriesDataPoints: API.OperationMethod<
   DeleteTimeSeriesDataPointsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTimeSeriesDataPointsInput,
-  output: DeleteTimeSeriesDataPointsOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/time-series-data-points",
+    input: {
+      domainIdentifier: 0,
+      entityIdentifier: 0,
+      entityType: 0,
+      formName: D.m({ query: "formName" }),
+      clientToken: D.m({ query: "clientToken", idempotency: true }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -19836,7 +10310,7 @@ export const deleteTimeSeriesDataPoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTimeSeriesDataPoints",
-}));
+})) as any;
 
 export type DisassociateEnvironmentRoleError =
   | AccessDeniedException
@@ -19855,8 +10329,15 @@ export const disassociateEnvironmentRole: API.OperationMethod<
   DisassociateEnvironmentRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateEnvironmentRoleInput,
-  output: DisassociateEnvironmentRoleOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/roles/{environmentRoleArn}",
+    input: {
+      domainIdentifier: 0,
+      environmentIdentifier: 0,
+      environmentRoleArn: 0,
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19868,7 +10349,7 @@ export const disassociateEnvironmentRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateEnvironmentRole",
-}));
+})) as any;
 
 export type DisassociateGovernedTermsError =
   | AccessDeniedException
@@ -19887,8 +10368,17 @@ export const disassociateGovernedTerms: API.OperationMethod<
   DisassociateGovernedTermsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateGovernedTermsInput,
-  output: DisassociateGovernedTermsOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/disassociate-governed-terms",
+    input: {
+      domainIdentifier: 0,
+      entityIdentifier: 0,
+      entityType: 0,
+      governedGlossaryTerms: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -19900,7 +10390,7 @@ export const disassociateGovernedTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateGovernedTerms",
-}));
+})) as any;
 
 export type GetAccountPoolError =
   | AccessDeniedException
@@ -19918,8 +10408,18 @@ export const getAccountPool: API.OperationMethod<
   GetAccountPoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccountPoolInput,
-  output: GetAccountPoolOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/account-pools/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      accountSource: o_AccountSource,
+      createdAt: D.ts,
+      lastUpdatedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -19930,7 +10430,7 @@ export const getAccountPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountPool",
-}));
+})) as any;
 
 export type GetAssetError =
   | AccessDeniedException
@@ -19958,8 +10458,26 @@ export const getAsset: API.OperationMethod<
   GetAssetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAssetInput,
-  output: GetAssetOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/assets/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      revision: D.m({ query: "revision" }),
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      createdAt: D.ts,
+      firstRevisionCreatedAt: D.ts,
+      formsOutput: D.list(o_FormOutput),
+      readOnlyFormsOutput: D.list(o_FormOutput),
+      latestTimeSeriesDataPointFormsOutput: D.list(
+        o_TimeSeriesDataPointSummaryFormOutput,
+      ),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -19970,7 +10488,7 @@ export const getAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAsset",
-}));
+})) as any;
 
 export type GetAssetFilterError =
   | AccessDeniedException
@@ -19996,8 +10514,12 @@ export const getAssetFilter: API.OperationMethod<
   GetAssetFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAssetFilterInput,
-  output: GetAssetFilterOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters/{identifier}",
+    input: { domainIdentifier: 0, assetIdentifier: 0, identifier: 0 },
+    output: { name: D.secret, description: D.secret, createdAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20008,7 +10530,7 @@ export const getAssetFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssetFilter",
-}));
+})) as any;
 
 export type GetAssetTypeError =
   | AccessDeniedException
@@ -20036,8 +10558,21 @@ export const getAssetType: API.OperationMethod<
   GetAssetTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAssetTypeInput,
-  output: GetAssetTypeOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/asset-types/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      revision: D.m({ query: "revision" }),
+    },
+    output: {
+      description: D.secret,
+      formsOutput: D.map(o_FormEntryOutput),
+      createdAt: D.ts,
+      updatedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20048,7 +10583,7 @@ export const getAssetType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssetType",
-}));
+})) as any;
 
 export type GetConnectionError =
   | AccessDeniedException
@@ -20066,8 +10601,25 @@ export const getConnection: API.OperationMethod<
   GetConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetConnectionInput,
-  output: GetConnectionOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/connections/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      withSecret: D.m({ query: "withSecret" }),
+    },
+    output: {
+      connectionCredentials: {
+        secretAccessKey: D.secret,
+        sessionToken: D.secret,
+        expiration: D.ts,
+      },
+      description: D.secret,
+      physicalEndpoints: D.list(o_PhysicalEndpoint),
+      props: o_ConnectionPropertiesOutput,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20078,7 +10630,7 @@ export const getConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
-}));
+})) as any;
 
 export type GetDataExportConfigurationError =
   | AccessDeniedException
@@ -20096,8 +10648,12 @@ export const getDataExportConfiguration: API.OperationMethod<
   GetDataExportConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDataExportConfigurationInput,
-  output: GetDataExportConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/data-export-configuration",
+    input: { domainIdentifier: 0 },
+    output: { createdAt: D.ts, updatedAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20108,7 +10664,7 @@ export const getDataExportConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataExportConfiguration",
-}));
+})) as any;
 
 export type GetDataProductError =
   | AccessDeniedException
@@ -20134,8 +10690,22 @@ export const getDataProduct: API.OperationMethod<
   GetDataProductError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDataProductInput,
-  output: GetDataProductOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/data-products/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      revision: D.m({ query: "revision" }),
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      formsOutput: D.list(o_FormOutput),
+      createdAt: D.ts,
+      firstRevisionCreatedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20146,7 +10716,7 @@ export const getDataProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataProduct",
-}));
+})) as any;
 
 export type GetDataSourceError =
   | AccessDeniedException
@@ -20166,8 +10736,19 @@ export const getDataSource: API.OperationMethod<
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDataSourceInput,
-  output: GetDataSourceOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/data-sources/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      assetFormsOutput: D.list(o_FormOutput),
+      lastRunAt: D.ts,
+      createdAt: D.ts,
+      updatedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -20180,7 +10761,7 @@ export const getDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
-}));
+})) as any;
 
 export type GetDataSourceRunError =
   | AccessDeniedException
@@ -20200,8 +10781,17 @@ export const getDataSourceRun: API.OperationMethod<
   GetDataSourceRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDataSourceRunInput,
-  output: GetDataSourceRunOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/data-source-runs/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      startedAt: D.ts,
+      stoppedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -20214,7 +10804,7 @@ export const getDataSourceRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSourceRun",
-}));
+})) as any;
 
 export type GetDomainError =
   | AccessDeniedException
@@ -20233,8 +10823,12 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDomainInput,
-  output: GetDomainOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{identifier}",
+    input: { identifier: 0 },
+    output: { createdAt: D.ts, lastUpdatedAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20246,7 +10840,7 @@ export const getDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomain",
-}));
+})) as any;
 
 export type GetDomainUnitError =
   | AccessDeniedException
@@ -20264,8 +10858,17 @@ export const getDomainUnit: API.OperationMethod<
   GetDomainUnitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDomainUnitInput,
-  output: GetDomainUnitOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/domain-units/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      createdAt: D.ts,
+      lastUpdatedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20276,7 +10879,7 @@ export const getDomainUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainUnit",
-}));
+})) as any;
 
 export type GetEnvironmentError =
   | AccessDeniedException
@@ -20294,8 +10897,20 @@ export const getEnvironment: API.OperationMethod<
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEnvironmentInput,
-  output: GetEnvironmentOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/environments/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      name: D.secret,
+      description: D.secret,
+      userParameters: D.list(o_CustomParameter),
+      environmentConfigurationId: D.secret,
+      environmentConfigurationName: D.secret,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20306,7 +10921,7 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
-}));
+})) as any;
 
 export type GetEnvironmentActionError =
   | AccessDeniedException
@@ -20324,8 +10939,11 @@ export const getEnvironmentAction: API.OperationMethod<
   GetEnvironmentActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEnvironmentActionInput,
-  output: GetEnvironmentActionOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions/{identifier}",
+    input: { domainIdentifier: 0, environmentIdentifier: 0, identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20336,7 +10954,7 @@ export const getEnvironmentAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentAction",
-}));
+})) as any;
 
 export type GetEnvironmentBlueprintError =
   | AccessDeniedException
@@ -20354,8 +10972,17 @@ export const getEnvironmentBlueprint: API.OperationMethod<
   GetEnvironmentBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEnvironmentBlueprintInput,
-  output: GetEnvironmentBlueprintOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/environment-blueprints/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      description: D.secret,
+      userParameters: D.list(o_CustomParameter),
+      createdAt: D.ts,
+      updatedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20366,7 +10993,7 @@ export const getEnvironmentBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentBlueprint",
-}));
+})) as any;
 
 export type GetEnvironmentBlueprintConfigurationError =
   | AccessDeniedException
@@ -20383,8 +11010,12 @@ export const getEnvironmentBlueprintConfiguration: API.OperationMethod<
   GetEnvironmentBlueprintConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEnvironmentBlueprintConfigurationInput,
-  output: GetEnvironmentBlueprintConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/environment-blueprint-configurations/{environmentBlueprintIdentifier}",
+    input: { domainIdentifier: 0, environmentBlueprintIdentifier: 0 },
+    output: { createdAt: D.ts, updatedAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20394,7 +11025,7 @@ export const getEnvironmentBlueprintConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentBlueprintConfiguration",
-}));
+})) as any;
 
 export type GetEnvironmentCredentialsError =
   | AccessDeniedException
@@ -20412,8 +11043,16 @@ export const getEnvironmentCredentials: API.OperationMethod<
   GetEnvironmentCredentialsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEnvironmentCredentialsInput,
-  output: GetEnvironmentCredentialsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/credentials",
+    input: { domainIdentifier: 0, environmentIdentifier: 0 },
+    output: {
+      secretAccessKey: D.secret,
+      sessionToken: D.secret,
+      expiration: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20424,7 +11063,7 @@ export const getEnvironmentCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentCredentials",
-}));
+})) as any;
 
 export type GetEnvironmentProfileError =
   | AccessDeniedException
@@ -20442,8 +11081,18 @@ export const getEnvironmentProfile: API.OperationMethod<
   GetEnvironmentProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEnvironmentProfileInput,
-  output: GetEnvironmentProfileOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/environment-profiles/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      name: D.secret,
+      description: D.secret,
+      userParameters: D.list(o_CustomParameter),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20454,7 +11103,7 @@ export const getEnvironmentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentProfile",
-}));
+})) as any;
 
 export type GetFormTypeError =
   | AccessDeniedException
@@ -20488,8 +11137,21 @@ export const getFormType: API.OperationMethod<
   GetFormTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetFormTypeInput,
-  output: GetFormTypeOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/form-types/{formTypeIdentifier}",
+    input: {
+      domainIdentifier: 0,
+      formTypeIdentifier: 0,
+      revision: D.m({ query: "revision" }),
+    },
+    output: {
+      name: D.secret,
+      createdAt: D.ts,
+      description: D.secret,
+      imports: D.list(o_Import),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20500,7 +11162,7 @@ export const getFormType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFormType",
-}));
+})) as any;
 
 export type GetGlossaryError =
   | AccessDeniedException
@@ -20524,8 +11186,17 @@ export const getGlossary: API.OperationMethod<
   GetGlossaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetGlossaryInput,
-  output: GetGlossaryOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/glossaries/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      createdAt: D.ts,
+      updatedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20536,7 +11207,7 @@ export const getGlossary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlossary",
-}));
+})) as any;
 
 export type GetGlossaryTermError =
   | AccessDeniedException
@@ -20562,8 +11233,18 @@ export const getGlossaryTerm: API.OperationMethod<
   GetGlossaryTermError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetGlossaryTermInput,
-  output: GetGlossaryTermOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/glossary-terms/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      name: D.secret,
+      shortDescription: D.secret,
+      longDescription: D.secret,
+      createdAt: D.ts,
+      updatedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20574,7 +11255,7 @@ export const getGlossaryTerm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlossaryTerm",
-}));
+})) as any;
 
 export type GetGroupProfileError =
   | AccessDeniedException
@@ -20591,8 +11272,12 @@ export const getGroupProfile: API.OperationMethod<
   GetGroupProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetGroupProfileInput,
-  output: GetGroupProfileOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/group-profiles/{groupIdentifier}",
+    input: { domainIdentifier: 0, groupIdentifier: 0 },
+    output: { groupName: D.secret },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20602,7 +11287,7 @@ export const getGroupProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupProfile",
-}));
+})) as any;
 
 export type GetIamPortalLoginUrlError =
   | AccessDeniedException
@@ -20621,8 +11306,11 @@ export const getIamPortalLoginUrl: API.OperationMethod<
   GetIamPortalLoginUrlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetIamPortalLoginUrlInput,
-  output: GetIamPortalLoginUrlOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/get-portal-login-url",
+    input: { domainIdentifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -20634,7 +11322,7 @@ export const getIamPortalLoginUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIamPortalLoginUrl",
-}));
+})) as any;
 
 export type GetJobRunError =
   | AccessDeniedException
@@ -20652,8 +11340,21 @@ export const getJobRun: API.OperationMethod<
   GetJobRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetJobRunInput,
-  output: GetJobRunOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/jobRuns/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      details: {
+        lineageRunDetails: {
+          sqlQueryRunDetails: { queryStartTime: D.ts, queryEndTime: D.ts },
+        },
+      },
+      createdAt: D.ts,
+      startTime: D.ts,
+      endTime: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20664,7 +11365,7 @@ export const getJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobRun",
-}));
+})) as any;
 
 export type GetLineageEventError =
   | AccessDeniedException
@@ -20682,8 +11383,20 @@ export const getLineageEvent: API.OperationMethod<
   GetLineageEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLineageEventInput,
-  output: GetLineageEventOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/lineage/events/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      domainId: D.m({ header: "Domain-Id" }),
+      id: D.m({ header: "Id" }),
+      event: D.m({ payload: true, shape: D.stream }),
+      createdBy: D.m({ header: "Created-By" }),
+      processingStatus: D.m({ header: "Processing-Status" }),
+      eventTime: D.m({ header: "Event-Time", shape: D.ts }),
+      createdAt: D.m({ header: "Created-At", shape: D.ts }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20694,7 +11407,7 @@ export const getLineageEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLineageEvent",
-}));
+})) as any;
 
 export type GetLineageNodeError =
   | AccessDeniedException
@@ -20712,8 +11425,26 @@ export const getLineageNode: API.OperationMethod<
   GetLineageNodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLineageNodeInput,
-  output: GetLineageNodeOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/lineage/nodes/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      eventTimestamp: D.m({
+        query: "timestamp",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+    },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      eventTimestamp: D.ts,
+      formsOutput: D.list(o_FormOutput),
+      upstreamNodes: D.list(o_LineageNodeReference),
+      downstreamNodes: D.list(o_LineageNodeReference),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20724,7 +11455,7 @@ export const getLineageNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLineageNode",
-}));
+})) as any;
 
 export type GetListingError =
   | AccessDeniedException
@@ -20742,8 +11473,35 @@ export const getListing: API.OperationMethod<
   GetListingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetListingInput,
-  output: GetListingOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/listings/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      listingRevision: D.m({ query: "listingRevision" }),
+    },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      item: {
+        assetListing: {
+          createdAt: D.ts,
+          latestTimeSeriesDataPointForms: D.list(
+            o_TimeSeriesDataPointSummaryFormOutput,
+          ),
+          glossaryTerms: D.list(o_DetailedGlossaryTerm),
+          governedGlossaryTerms: D.list(o_DetailedGlossaryTerm),
+        },
+        dataProductListing: {
+          createdAt: D.ts,
+          glossaryTerms: D.list(o_DetailedGlossaryTerm),
+          items: D.list({ glossaryTerms: D.list(o_DetailedGlossaryTerm) }),
+        },
+      },
+      description: D.secret,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20754,7 +11512,7 @@ export const getListing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetListing",
-}));
+})) as any;
 
 export type GetMetadataGenerationRunError =
   | AccessDeniedException
@@ -20780,8 +11538,12 @@ export const getMetadataGenerationRun: API.OperationMethod<
   GetMetadataGenerationRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMetadataGenerationRunInput,
-  output: GetMetadataGenerationRunOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/metadata-generation-runs/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0, type: D.m({ query: "type" }) },
+    output: { createdAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20792,7 +11554,7 @@ export const getMetadataGenerationRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetadataGenerationRun",
-}));
+})) as any;
 
 export type GetNotebookError =
   | AccessDeniedException
@@ -20810,8 +11572,21 @@ export const getNotebook: API.OperationMethod<
   GetNotebookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetNotebookInput,
-  output: GetNotebookOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/notebooks/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      lockedAt: D.ts,
+      lockExpiresAt: D.ts,
+      metadata: D.map(D.secret),
+      gitMetadata: o_GitMetadata,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20822,7 +11597,7 @@ export const getNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotebook",
-}));
+})) as any;
 
 export type GetNotebookExportError =
   | AccessDeniedException
@@ -20840,8 +11615,16 @@ export const getNotebookExport: API.OperationMethod<
   GetNotebookExportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetNotebookExportInput,
-  output: GetNotebookExportOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/notebook-exports/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      outputLocation: { s3: { uri: D.secret } },
+      completedAt: D.ts,
+      createdAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20852,7 +11635,7 @@ export const getNotebookExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotebookExport",
-}));
+})) as any;
 
 export type GetNotebookRunError =
   | AccessDeniedException
@@ -20870,8 +11653,18 @@ export const getNotebookRun: API.OperationMethod<
   GetNotebookRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetNotebookRunInput,
-  output: GetNotebookRunOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/notebook-runs/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      metadata: D.map(D.secret),
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      startedAt: D.ts,
+      completedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20882,7 +11675,7 @@ export const getNotebookRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotebookRun",
-}));
+})) as any;
 
 export type GetProjectError =
   | AccessDeniedException
@@ -20900,8 +11693,18 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetProjectInput,
-  output: GetProjectOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/projects/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      createdAt: D.ts,
+      lastUpdatedAt: D.ts,
+      userParameters: D.list(o_EnvironmentConfigurationUserParameter),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20912,7 +11715,7 @@ export const getProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProject",
-}));
+})) as any;
 
 export type GetProjectProfileError =
   | AccessDeniedException
@@ -20930,8 +11733,19 @@ export const getProjectProfile: API.OperationMethod<
   GetProjectProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetProjectProfileInput,
-  output: GetProjectProfileOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/project-profiles/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      projectResourceTagsDescription: D.secret,
+      environmentConfigurations: D.list(o_EnvironmentConfiguration),
+      createdAt: D.ts,
+      lastUpdatedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20942,7 +11756,7 @@ export const getProjectProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProjectProfile",
-}));
+})) as any;
 
 export type GetRuleError =
   | AccessDeniedException
@@ -20960,8 +11774,21 @@ export const getRule: API.OperationMethod<
   GetRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRuleInput,
-  output: GetRuleOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/rules/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      revision: D.m({ query: "revision" }),
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      createdAt: D.ts,
+      updatedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -20972,7 +11799,7 @@ export const getRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRule",
-}));
+})) as any;
 
 export type GetSubscriptionError =
   | AccessDeniedException
@@ -20990,8 +11817,17 @@ export const getSubscription: API.OperationMethod<
   GetSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSubscriptionInput,
-  output: GetSubscriptionOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/subscriptions/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      subscribedPrincipal: o_SubscribedPrincipal,
+      subscribedListing: o_SubscribedListing,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21002,7 +11838,7 @@ export const getSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscription",
-}));
+})) as any;
 
 export type GetSubscriptionGrantError =
   | AccessDeniedException
@@ -21020,8 +11856,16 @@ export const getSubscriptionGrant: API.OperationMethod<
   GetSubscriptionGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSubscriptionGrantInput,
-  output: GetSubscriptionGrantOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/subscription-grants/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      assets: D.list(o_SubscribedAsset),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21032,7 +11876,7 @@ export const getSubscriptionGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionGrant",
-}));
+})) as any;
 
 export type GetSubscriptionRequestDetailsError =
   | AccessDeniedException
@@ -21050,8 +11894,20 @@ export const getSubscriptionRequestDetails: API.OperationMethod<
   GetSubscriptionRequestDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSubscriptionRequestDetailsInput,
-  output: GetSubscriptionRequestDetailsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/subscription-requests/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0 },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      requestReason: D.secret,
+      subscribedPrincipals: D.list(o_SubscribedPrincipal),
+      subscribedListings: D.list(o_SubscribedListing),
+      decisionComment: D.secret,
+      metadataForms: D.list(o_FormOutput),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21062,7 +11918,7 @@ export const getSubscriptionRequestDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionRequestDetails",
-}));
+})) as any;
 
 export type GetSubscriptionTargetError =
   | AccessDeniedException
@@ -21080,8 +11936,12 @@ export const getSubscriptionTarget: API.OperationMethod<
   GetSubscriptionTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSubscriptionTargetInput,
-  output: GetSubscriptionTargetOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/subscription-targets/{identifier}",
+    input: { domainIdentifier: 0, environmentIdentifier: 0, identifier: 0 },
+    output: { name: D.secret, createdAt: D.ts, updatedAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21092,7 +11952,7 @@ export const getSubscriptionTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionTarget",
-}));
+})) as any;
 
 export type GetTimeSeriesDataPointError =
   | AccessDeniedException
@@ -21110,8 +11970,18 @@ export const getTimeSeriesDataPoint: API.OperationMethod<
   GetTimeSeriesDataPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTimeSeriesDataPointInput,
-  output: GetTimeSeriesDataPointOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/time-series-data-points/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      entityIdentifier: 0,
+      entityType: 0,
+      identifier: 0,
+      formName: D.m({ query: "formName" }),
+    },
+    output: { form: o_TimeSeriesDataPointFormOutput },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21122,7 +11992,7 @@ export const getTimeSeriesDataPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTimeSeriesDataPoint",
-}));
+})) as any;
 
 export type GetUserProfileError =
   | AccessDeniedException
@@ -21139,8 +12009,17 @@ export const getUserProfile: API.OperationMethod<
   GetUserProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetUserProfileInput,
-  output: GetUserProfileOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/user-profiles/{userIdentifier}",
+    input: {
+      domainIdentifier: 0,
+      userIdentifier: 0,
+      type: D.m({ query: "type" }),
+      sessionName: D.m({ query: "sessionName" }),
+    },
+    output: { details: o_UserProfileDetails },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21150,7 +12029,7 @@ export const getUserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserProfile",
-}));
+})) as any;
 
 export type ListAccountPoolsError =
   | AccessDeniedException
@@ -21168,8 +12047,19 @@ export const listAccountPools: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AccountPoolSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountPoolsInput,
-  output: ListAccountPoolsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/account-pools",
+    input: {
+      domainIdentifier: 0,
+      name: D.m({ query: "name" }),
+      sortBy: D.m({ query: "sortBy" }),
+      sortOrder: D.m({ query: "sortOrder" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { items: D.list({ name: D.secret }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21204,8 +12094,17 @@ export const listAccountsInAccountPool: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AccountInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsInAccountPoolInput,
-  output: ListAccountsInAccountPoolOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/account-pools/{identifier}/accounts",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { items: D.list(o_AccountInfo) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21247,8 +12146,20 @@ export const listAssetFilters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AssetFilterSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAssetFiltersInput,
-  output: ListAssetFiltersOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters",
+    input: {
+      domainIdentifier: 0,
+      assetIdentifier: 0,
+      status: D.m({ query: "status" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: {
+      items: D.list({ name: D.secret, description: D.secret, createdAt: D.ts }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21294,8 +12205,17 @@ export const listAssetRevisions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AssetRevision
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAssetRevisionsInput,
-  output: ListAssetRevisionsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/assets/{identifier}/revisions",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { items: D.list({ createdAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21330,8 +12250,28 @@ export const listConnections: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConnectionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListConnectionsInput,
-  output: ListConnectionsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/connections",
+    input: {
+      domainIdentifier: 0,
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+      sortBy: D.m({ query: "sortBy" }),
+      sortOrder: D.m({ query: "sortOrder" }),
+      name: D.m({ query: "name" }),
+      environmentIdentifier: D.m({ query: "environmentIdentifier" }),
+      projectIdentifier: D.m({ query: "projectIdentifier" }),
+      type: D.m({ query: "type" }),
+      scope: D.m({ query: "scope" }),
+    },
+    output: {
+      items: D.list({
+        physicalEndpoints: D.list(o_PhysicalEndpoint),
+        props: o_ConnectionPropertiesOutput,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21374,8 +12314,17 @@ export const listDataProductRevisions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataProductRevision
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDataProductRevisionsInput,
-  output: ListDataProductRevisionsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/data-products/{identifier}/revisions",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: { items: D.list({ createdAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21413,8 +12362,26 @@ export const listDataSourceRunActivities: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataSourceRunActivity
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDataSourceRunActivitiesInput,
-  output: ListDataSourceRunActivitiesOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/data-source-runs/{identifier}/activities",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      status: D.m({ query: "status" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: {
+      items: D.list({
+        database: D.secret,
+        technicalName: D.secret,
+        technicalDescription: D.secret,
+        createdAt: D.ts,
+        updatedAt: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -21454,8 +12421,25 @@ export const listDataSourceRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataSourceRunSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDataSourceRunsInput,
-  output: ListDataSourceRunsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/data-sources/{dataSourceIdentifier}/runs",
+    input: {
+      domainIdentifier: 0,
+      dataSourceIdentifier: 0,
+      status: D.m({ query: "status" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: {
+      items: D.list({
+        createdAt: D.ts,
+        updatedAt: D.ts,
+        startedAt: D.ts,
+        stoppedAt: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -21495,8 +12479,30 @@ export const listDataSources: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataSourceSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDataSourcesInput,
-  output: ListDataSourcesOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/data-sources",
+    input: {
+      domainIdentifier: 0,
+      projectIdentifier: D.m({ query: "projectIdentifier" }),
+      environmentIdentifier: D.m({ query: "environmentIdentifier" }),
+      connectionIdentifier: D.m({ query: "connectionIdentifier" }),
+      type: D.m({ query: "type" }),
+      status: D.m({ query: "status" }),
+      name: D.m({ query: "name" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: {
+      items: D.list({
+        name: D.secret,
+        lastRunAt: D.ts,
+        createdAt: D.ts,
+        updatedAt: D.ts,
+        description: D.secret,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -21536,8 +12542,23 @@ export const listDomains: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DomainSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDomainsInput,
-  output: ListDomainsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains",
+    input: {
+      status: D.m({ query: "status" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      items: D.list({
+        name: D.secret,
+        description: D.secret,
+        createdAt: D.ts,
+        lastUpdatedAt: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -21574,8 +12595,16 @@ export const listDomainUnitsForParent: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DomainUnitSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDomainUnitsForParentInput,
-  output: ListDomainUnitsForParentOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/domain-units",
+    input: {
+      domainIdentifier: 0,
+      parentDomainUnitIdentifier: D.m({ query: "parentDomainUnitIdentifier" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21609,8 +12638,17 @@ export const listEntityOwners: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OwnerPropertiesOutput
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListEntityOwnersInput,
-  output: ListEntityOwnersOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/owners",
+    input: {
+      domainIdentifier: 0,
+      entityType: 0,
+      entityIdentifier: 0,
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21644,8 +12682,16 @@ export const listEnvironmentActions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EnvironmentActionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListEnvironmentActionsInput,
-  output: ListEnvironmentActionsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions",
+    input: {
+      domainIdentifier: 0,
+      environmentIdentifier: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21679,8 +12725,16 @@ export const listEnvironmentBlueprintConfigurations: API.PaginatedOperationMetho
   Credentials | HttpClient.HttpClient,
   EnvironmentBlueprintConfigurationItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListEnvironmentBlueprintConfigurationsInput,
-  output: ListEnvironmentBlueprintConfigurationsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/environment-blueprint-configurations",
+    input: {
+      domainIdentifier: 0,
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: { items: D.list({ createdAt: D.ts, updatedAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21715,8 +12769,24 @@ export const listEnvironmentBlueprints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EnvironmentBlueprintSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListEnvironmentBlueprintsInput,
-  output: ListEnvironmentBlueprintsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/environment-blueprints",
+    input: {
+      domainIdentifier: 0,
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+      name: D.m({ query: "name" }),
+      managed: D.m({ query: "managed" }),
+    },
+    output: {
+      items: D.list({
+        description: D.secret,
+        createdAt: D.ts,
+        updatedAt: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21751,8 +12821,30 @@ export const listEnvironmentProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EnvironmentProfileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListEnvironmentProfilesInput,
-  output: ListEnvironmentProfilesOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/environment-profiles",
+    input: {
+      domainIdentifier: 0,
+      awsAccountId: D.m({ query: "awsAccountId" }),
+      awsAccountRegion: D.m({ query: "awsAccountRegion" }),
+      environmentBlueprintIdentifier: D.m({
+        query: "environmentBlueprintIdentifier",
+      }),
+      projectIdentifier: D.m({ query: "projectIdentifier" }),
+      name: D.m({ query: "name" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: {
+      items: D.list({
+        createdAt: D.ts,
+        updatedAt: D.ts,
+        name: D.secret,
+        description: D.secret,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21787,8 +12879,37 @@ export const listEnvironments: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EnvironmentSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListEnvironmentsInput,
-  output: ListEnvironmentsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/environments",
+    input: {
+      domainIdentifier: 0,
+      awsAccountId: D.m({ query: "awsAccountId" }),
+      status: D.m({ query: "status" }),
+      awsAccountRegion: D.m({ query: "awsAccountRegion" }),
+      projectIdentifier: D.m({ query: "projectIdentifier" }),
+      environmentProfileIdentifier: D.m({
+        query: "environmentProfileIdentifier",
+      }),
+      environmentBlueprintIdentifier: D.m({
+        query: "environmentBlueprintIdentifier",
+      }),
+      provider: D.m({ query: "provider" }),
+      name: D.m({ query: "name" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      items: D.list({
+        createdAt: D.ts,
+        updatedAt: D.ts,
+        name: D.secret,
+        description: D.secret,
+        environmentConfigurationId: D.secret,
+        environmentConfigurationName: D.secret,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21824,8 +12945,21 @@ export const listJobRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   JobRunSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListJobRunsInput,
-  output: ListJobRunsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/jobs/{jobIdentifier}/runs",
+    input: {
+      domainIdentifier: 0,
+      jobIdentifier: 0,
+      status: D.m({ query: "status" }),
+      sortOrder: D.m({ query: "sortOrder" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: {
+      items: D.list({ createdAt: D.ts, startTime: D.ts, endTime: D.ts }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21860,8 +12994,26 @@ export const listLineageEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LineageEventSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListLineageEventsInput,
-  output: ListLineageEventsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/lineage/events",
+    input: {
+      domainIdentifier: 0,
+      maxResults: D.m({ query: "maxResults" }),
+      timestampAfter: D.m({
+        query: "timestampAfter",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      timestampBefore: D.m({
+        query: "timestampBefore",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      processingStatus: D.m({ query: "processingStatus" }),
+      sortOrder: D.m({ query: "sortOrder" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: { items: D.list({ eventTime: D.ts, createdAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21896,8 +13048,29 @@ export const listLineageNodeHistory: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LineageNodeSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListLineageNodeHistoryInput,
-  output: ListLineageNodeHistoryOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/lineage/nodes/{identifier}/history",
+    input: {
+      domainIdentifier: 0,
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+      identifier: 0,
+      direction: D.m({ query: "direction" }),
+      eventTimestampGTE: D.m({
+        query: "timestampGTE",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      eventTimestampLTE: D.m({
+        query: "timestampLTE",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      sortOrder: D.m({ query: "sortOrder" }),
+    },
+    output: {
+      nodes: D.list({ createdAt: D.ts, updatedAt: D.ts, eventTimestamp: D.ts }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21941,8 +13114,19 @@ export const listMetadataGenerationRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MetadataGenerationRunItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListMetadataGenerationRunsInput,
-  output: ListMetadataGenerationRunsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/metadata-generation-runs",
+    input: {
+      domainIdentifier: 0,
+      status: D.m({ query: "status" }),
+      type: D.m({ query: "type" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      targetIdentifier: D.m({ query: "targetIdentifier" }),
+    },
+    output: { items: D.list({ createdAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -21977,8 +13161,28 @@ export const listNotebookRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   NotebookRunSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListNotebookRunsInput,
-  output: ListNotebookRunsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/notebook-runs",
+    input: {
+      domainIdentifier: 0,
+      owningProjectIdentifier: D.m({ query: "owningProjectIdentifier" }),
+      notebookIdentifier: D.m({ query: "notebookIdentifier" }),
+      status: D.m({ query: "status" }),
+      scheduleIdentifier: D.m({ query: "scheduleIdentifier" }),
+      maxResults: D.m({ query: "maxResults" }),
+      sortOrder: D.m({ query: "sortOrder" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      items: D.list({
+        createdAt: D.ts,
+        updatedAt: D.ts,
+        startedAt: D.ts,
+        completedAt: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22012,8 +13216,27 @@ export const listNotebooks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   NotebookSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListNotebooksInput,
-  output: ListNotebooksOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/notebooks",
+    input: {
+      domainIdentifier: 0,
+      owningProjectIdentifier: D.m({ query: "owningProjectIdentifier" }),
+      maxResults: D.m({ query: "maxResults" }),
+      sortOrder: D.m({ query: "sortOrder" }),
+      sortBy: D.m({ query: "sortBy" }),
+      status: D.m({ query: "status" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      items: D.list({
+        name: D.secret,
+        description: D.secret,
+        createdAt: D.ts,
+        updatedAt: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22047,8 +13270,35 @@ export const listNotifications: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   NotificationOutput
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListNotificationsInput,
-  output: ListNotificationsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/notifications",
+    input: {
+      domainIdentifier: 0,
+      type: D.m({ query: "type" }),
+      afterTimestamp: D.m({
+        query: "afterTimestamp",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      beforeTimestamp: D.m({
+        query: "beforeTimestamp",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      subjects: D.m({ query: "subjects" }),
+      taskStatus: D.m({ query: "taskStatus" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      notifications: D.list({
+        title: D.secret,
+        message: D.secret,
+        actionLink: D.secret,
+        creationTimestamp: D.ts,
+        lastUpdatedTimestamp: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22082,8 +13332,19 @@ export const listPolicyGrants: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PolicyGrantMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPolicyGrantsInput,
-  output: ListPolicyGrantsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/policies/managed/{entityType}/{entityIdentifier}/grants",
+    input: {
+      domainIdentifier: 0,
+      entityType: 0,
+      entityIdentifier: 0,
+      policyType: D.m({ query: "policyType" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: { grantList: D.list({ createdAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22118,8 +13379,18 @@ export const listProjectMemberships: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ProjectMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProjectMembershipsInput,
-  output: ListProjectMembershipsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/projects/{projectIdentifier}/memberships",
+    input: {
+      domainIdentifier: 0,
+      projectIdentifier: 0,
+      sortBy: D.m({ query: "sortBy" }),
+      sortOrder: D.m({ query: "sortOrder" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22154,8 +13425,26 @@ export const listProjectProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ProjectProfileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProjectProfilesInput,
-  output: ListProjectProfilesOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/project-profiles",
+    input: {
+      domainIdentifier: 0,
+      name: D.m({ query: "name" }),
+      sortBy: D.m({ query: "sortBy" }),
+      sortOrder: D.m({ query: "sortOrder" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: {
+      items: D.list({
+        name: D.secret,
+        description: D.secret,
+        createdAt: D.ts,
+        lastUpdatedAt: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22190,8 +13479,27 @@ export const listProjects: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ProjectSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProjectsInput,
-  output: ListProjectsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/projects",
+    input: {
+      domainIdentifier: 0,
+      userIdentifier: D.m({ query: "userIdentifier" }),
+      groupIdentifier: D.m({ query: "groupIdentifier" }),
+      name: D.m({ query: "name" }),
+      projectCategory: D.m({ query: "projectCategory" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: {
+      items: D.list({
+        name: D.secret,
+        description: D.secret,
+        createdAt: D.ts,
+        updatedAt: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22227,8 +13535,24 @@ export const listRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RuleSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRulesInput,
-  output: ListRulesOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/list-rules/{targetType}/{targetIdentifier}",
+    input: {
+      domainIdentifier: 0,
+      targetType: 0,
+      targetIdentifier: 0,
+      ruleType: D.m({ query: "ruleType" }),
+      action: D.m({ query: "ruleAction" }),
+      projectIds: D.m({ query: "projectIds" }),
+      assetTypes: D.m({ query: "assetTypes" }),
+      dataProduct: D.m({ query: "dataProduct" }),
+      includeCascaded: D.m({ query: "includeCascaded" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: { items: D.list({ name: D.secret, updatedAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22264,8 +13588,32 @@ export const listSubscriptionGrants: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SubscriptionGrantSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSubscriptionGrantsInput,
-  output: ListSubscriptionGrantsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/subscription-grants",
+    input: {
+      domainIdentifier: 0,
+      environmentId: D.m({ query: "environmentId" }),
+      subscriptionTargetId: D.m({ query: "subscriptionTargetId" }),
+      subscribedListingId: D.m({ query: "subscribedListingId" }),
+      subscriptionId: D.m({ query: "subscriptionId" }),
+      owningProjectId: D.m({ query: "owningProjectId" }),
+      owningIamPrincipalArn: D.m({ query: "owningIamPrincipalArn" }),
+      owningUserId: D.m({ query: "owningUserId" }),
+      owningGroupId: D.m({ query: "owningGroupId" }),
+      sortBy: D.m({ query: "sortBy" }),
+      sortOrder: D.m({ query: "sortOrder" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      items: D.list({
+        createdAt: D.ts,
+        updatedAt: D.ts,
+        assets: D.list(o_SubscribedAsset),
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22301,8 +13649,35 @@ export const listSubscriptionRequests: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SubscriptionRequestSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSubscriptionRequestsInput,
-  output: ListSubscriptionRequestsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/subscription-requests",
+    input: {
+      domainIdentifier: 0,
+      status: D.m({ query: "status" }),
+      subscribedListingId: D.m({ query: "subscribedListingId" }),
+      owningProjectId: D.m({ query: "owningProjectId" }),
+      owningIamPrincipalArn: D.m({ query: "owningIamPrincipalArn" }),
+      approverProjectId: D.m({ query: "approverProjectId" }),
+      owningUserId: D.m({ query: "owningUserId" }),
+      owningGroupId: D.m({ query: "owningGroupId" }),
+      sortBy: D.m({ query: "sortBy" }),
+      sortOrder: D.m({ query: "sortOrder" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      items: D.list({
+        createdAt: D.ts,
+        updatedAt: D.ts,
+        requestReason: D.secret,
+        subscribedPrincipals: D.list(o_SubscribedPrincipal),
+        subscribedListings: D.list(o_SubscribedListing),
+        decisionComment: D.secret,
+        metadataFormsSummary: D.list({ typeName: D.secret }),
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22338,8 +13713,35 @@ export const listSubscriptions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SubscriptionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSubscriptionsInput,
-  output: ListSubscriptionsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/subscriptions",
+    input: {
+      domainIdentifier: 0,
+      subscriptionRequestIdentifier: D.m({
+        query: "subscriptionRequestIdentifier",
+      }),
+      status: D.m({ query: "status" }),
+      subscribedListingId: D.m({ query: "subscribedListingId" }),
+      owningProjectId: D.m({ query: "owningProjectId" }),
+      owningIamPrincipalArn: D.m({ query: "owningIamPrincipalArn" }),
+      owningUserId: D.m({ query: "owningUserId" }),
+      owningGroupId: D.m({ query: "owningGroupId" }),
+      approverProjectId: D.m({ query: "approverProjectId" }),
+      sortBy: D.m({ query: "sortBy" }),
+      sortOrder: D.m({ query: "sortOrder" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      items: D.list({
+        createdAt: D.ts,
+        updatedAt: D.ts,
+        subscribedPrincipal: o_SubscribedPrincipal,
+        subscribedListing: o_SubscribedListing,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22375,8 +13777,21 @@ export const listSubscriptionTargets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SubscriptionTargetSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSubscriptionTargetsInput,
-  output: ListSubscriptionTargetsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/subscription-targets",
+    input: {
+      domainIdentifier: 0,
+      environmentIdentifier: 0,
+      sortBy: D.m({ query: "sortBy" }),
+      sortOrder: D.m({ query: "sortOrder" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      items: D.list({ name: D.secret, createdAt: D.ts, updatedAt: D.ts }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22409,8 +13824,11 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{resourceArn}",
+    input: { resourceArn: 0 },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -22419,7 +13837,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type ListTimeSeriesDataPointsError =
   | AccessDeniedException
@@ -22438,8 +13856,21 @@ export const listTimeSeriesDataPoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TimeSeriesDataPointSummaryFormOutput
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTimeSeriesDataPointsInput,
-  output: ListTimeSeriesDataPointsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/time-series-data-points",
+    input: {
+      domainIdentifier: 0,
+      entityIdentifier: 0,
+      entityType: 0,
+      formName: D.m({ query: "formName" }),
+      startedAt: D.m({ query: "startedAt", shape: D.tsAs("epoch-seconds") }),
+      endedAt: D.m({ query: "endedAt", shape: D.tsAs("epoch-seconds") }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { items: D.list(o_TimeSeriesDataPointSummaryFormOutput) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22476,8 +13907,15 @@ export const postLineageEvent: API.OperationMethod<
   PostLineageEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PostLineageEventInput,
-  output: PostLineageEventOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/lineage/events",
+    input: {
+      domainIdentifier: 0,
+      event: D.m({ payload: true, shape: D.stream }),
+      clientToken: D.m({ header: "Client-Token", idempotency: true }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -22490,7 +13928,7 @@ export const postLineageEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostLineageEvent",
-}));
+})) as any;
 
 export type PostTimeSeriesDataPointsError =
   | AccessDeniedException
@@ -22510,8 +13948,25 @@ export const postTimeSeriesDataPoints: API.OperationMethod<
   PostTimeSeriesDataPointsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PostTimeSeriesDataPointsInput,
-  output: PostTimeSeriesDataPointsOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/time-series-data-points",
+    input: {
+      domainIdentifier: 0,
+      entityIdentifier: 0,
+      entityType: 0,
+      forms: D.list({
+        formName: 0,
+        typeIdentifier: 0,
+        typeRevision: 0,
+        timestamp: 0,
+        content: 0,
+      }),
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: { forms: D.list(o_TimeSeriesDataPointFormOutput) },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -22524,7 +13979,7 @@ export const postTimeSeriesDataPoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostTimeSeriesDataPoints",
-}));
+})) as any;
 
 export type PutDataExportConfigurationError =
   | AccessDeniedException
@@ -22554,8 +14009,17 @@ export const putDataExportConfiguration: API.OperationMethod<
   PutDataExportConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutDataExportConfigurationInput,
-  output: PutDataExportConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /v2/domains/{domainIdentifier}/data-export-configuration",
+    input: {
+      domainIdentifier: 0,
+      enableExport: 0,
+      encryptionConfiguration: { kmsKeyArn: 0, sseAlgorithm: 0 },
+      clientToken: D.m({ idempotency: true }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -22568,7 +14032,7 @@ export const putDataExportConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDataExportConfiguration",
-}));
+})) as any;
 
 export type PutEnvironmentBlueprintConfigurationError =
   | AccessDeniedException
@@ -22586,8 +14050,35 @@ export const putEnvironmentBlueprintConfiguration: API.OperationMethod<
   PutEnvironmentBlueprintConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutEnvironmentBlueprintConfigurationInput,
-  output: PutEnvironmentBlueprintConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /v2/domains/{domainIdentifier}/environment-blueprint-configurations/{environmentBlueprintIdentifier}",
+    input: {
+      domainIdentifier: 0,
+      environmentBlueprintIdentifier: 0,
+      provisioningRoleArn: 0,
+      manageAccessRoleArn: 0,
+      environmentRolePermissionBoundary: 0,
+      enabledRegions: 0,
+      regionalParameters: 0,
+      resourceConfigurations: D.list({
+        name: 0,
+        description: 0,
+        region: 0,
+        parameters: 0,
+      }),
+      allowUserProvidedConfigurations: 0,
+      globalParameters: 0,
+      provisioningConfigurations: D.list({
+        lakeFormationConfiguration: {
+          locationRegistrationRole: 0,
+          locationRegistrationExcludeS3Locations: 0,
+        },
+      }),
+    },
+    output: { createdAt: D.ts, updatedAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -22598,7 +14089,7 @@ export const putEnvironmentBlueprintConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEnvironmentBlueprintConfiguration",
-}));
+})) as any;
 
 export type QueryGraphError =
   | AccessDeniedException
@@ -22616,8 +14107,39 @@ export const queryGraph: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResultItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: QueryGraphInput,
-  output: QueryGraphOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/graph/query",
+    input: {
+      domainIdentifier: 0,
+      match: D.list({
+        relationPattern: {
+          relationType: 0,
+          relationDirection: 0,
+          maxPathLength: 0,
+        },
+        entityPattern: {
+          entityType: 0,
+          identifier: 0,
+          filters: i_FilterClause,
+        },
+      }),
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+      additionalAttributes: { formNames: 0 },
+    },
+    output: {
+      items: D.list({
+        lineageNode: {
+          createdAt: D.ts,
+          updatedAt: D.ts,
+          eventTimestamp: D.ts,
+          formsOutput: D.list(o_FormOutput),
+        },
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22652,8 +14174,19 @@ export const rejectPredictions: API.OperationMethod<
   RejectPredictionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RejectPredictionsInput,
-  output: RejectPredictionsOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /v2/domains/{domainIdentifier}/assets/{identifier}/reject-predictions",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      revision: D.m({ query: "revision" }),
+      rejectRule: { rule: 0, threshold: 0 },
+      rejectChoices: D.list({ predictionTarget: 0, predictionChoices: 0 }),
+      clientToken: D.m({ idempotency: true }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -22665,7 +14198,7 @@ export const rejectPredictions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectPredictions",
-}));
+})) as any;
 
 export type RejectSubscriptionRequestError =
   | AccessDeniedException
@@ -22684,8 +14217,21 @@ export const rejectSubscriptionRequest: API.OperationMethod<
   RejectSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RejectSubscriptionRequestInput,
-  output: RejectSubscriptionRequestOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /v2/domains/{domainIdentifier}/subscription-requests/{identifier}/reject",
+    input: { domainIdentifier: 0, identifier: 0, decisionComment: 0 },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      requestReason: D.secret,
+      subscribedPrincipals: D.list(o_SubscribedPrincipal),
+      subscribedListings: D.list(o_SubscribedListing),
+      decisionComment: D.secret,
+      metadataForms: D.list(o_FormOutput),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -22697,7 +14243,7 @@ export const rejectSubscriptionRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectSubscriptionRequest",
-}));
+})) as any;
 
 export type RemoveEntityOwnerError =
   | AccessDeniedException
@@ -22715,8 +14261,18 @@ export const removeEntityOwner: API.OperationMethod<
   RemoveEntityOwnerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveEntityOwnerInput,
-  output: RemoveEntityOwnerOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/removeOwner",
+    input: {
+      domainIdentifier: 0,
+      entityType: 0,
+      entityIdentifier: 0,
+      owner: i_OwnerProperties,
+      clientToken: D.m({ idempotency: true }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22727,7 +14283,7 @@ export const removeEntityOwner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveEntityOwner",
-}));
+})) as any;
 
 export type RemovePolicyGrantError =
   | AccessDeniedException
@@ -22744,8 +14300,20 @@ export const removePolicyGrant: API.OperationMethod<
   RemovePolicyGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemovePolicyGrantInput,
-  output: RemovePolicyGrantOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/policies/managed/{entityType}/{entityIdentifier}/removeGrant",
+    input: {
+      domainIdentifier: 0,
+      entityType: 0,
+      entityIdentifier: 0,
+      policyType: 0,
+      principal: i_PolicyGrantPrincipal,
+      grantIdentifier: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22755,7 +14323,7 @@ export const removePolicyGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePolicyGrant",
-}));
+})) as any;
 
 export type RevokeSubscriptionError =
   | AccessDeniedException
@@ -22774,8 +14342,18 @@ export const revokeSubscription: API.OperationMethod<
   RevokeSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RevokeSubscriptionInput,
-  output: RevokeSubscriptionOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /v2/domains/{domainIdentifier}/subscriptions/{identifier}/revoke",
+    input: { domainIdentifier: 0, identifier: 0, retainPermissions: 0 },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      subscribedPrincipal: o_SubscribedPrincipal,
+      subscribedListing: o_SubscribedListing,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -22787,7 +14365,7 @@ export const revokeSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeSubscription",
-}));
+})) as any;
 
 export type SearchError =
   | AccessDeniedException
@@ -22827,8 +14405,59 @@ export const search: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SearchInventoryResultItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: SearchInput,
-  output: SearchOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/search",
+    input: {
+      domainIdentifier: 0,
+      owningProjectIdentifier: 0,
+      maxResults: 0,
+      nextToken: 0,
+      searchScope: 0,
+      searchText: 0,
+      searchIn: D.list(i_SearchInItem),
+      filters: i_FilterClause,
+      sort: i_SearchSort,
+      additionalAttributes: 0,
+    },
+    output: {
+      items: D.list({
+        glossaryItem: {
+          name: D.secret,
+          description: D.secret,
+          createdAt: D.ts,
+          updatedAt: D.ts,
+        },
+        glossaryTermItem: {
+          name: D.secret,
+          shortDescription: D.secret,
+          longDescription: D.secret,
+          createdAt: D.ts,
+          updatedAt: D.ts,
+        },
+        assetItem: {
+          name: D.secret,
+          description: D.secret,
+          createdAt: D.ts,
+          firstRevisionCreatedAt: D.ts,
+          additionalAttributes: {
+            formsOutput: D.list(o_FormOutput),
+            readOnlyFormsOutput: D.list(o_FormOutput),
+            latestTimeSeriesDataPointFormsOutput: D.list(
+              o_TimeSeriesDataPointSummaryFormOutput,
+            ),
+          },
+        },
+        dataProductItem: {
+          name: D.secret,
+          description: D.secret,
+          createdAt: D.ts,
+          firstRevisionCreatedAt: D.ts,
+        },
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22862,8 +14491,19 @@ export const searchGroupProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GroupProfileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: SearchGroupProfilesInput,
-  output: SearchGroupProfilesOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/search-group-profiles",
+    input: {
+      domainIdentifier: 0,
+      groupType: 0,
+      searchText: 0,
+      maxResults: 0,
+      nextToken: 0,
+    },
+    output: { items: D.list({ groupName: D.secret }) },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22909,8 +14549,45 @@ export const searchListings: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SearchResultItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: SearchListingsInput,
-  output: SearchListingsOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/listings/search",
+    input: {
+      domainIdentifier: 0,
+      searchText: 0,
+      searchIn: D.list(i_SearchInItem),
+      maxResults: 0,
+      nextToken: 0,
+      filters: i_FilterClause,
+      aggregations: D.list({ attribute: 0, displayValue: 0 }),
+      sort: i_SearchSort,
+      additionalAttributes: 0,
+    },
+    output: {
+      items: D.list({
+        assetListing: {
+          name: D.secret,
+          description: D.secret,
+          createdAt: D.ts,
+          glossaryTerms: D.list(o_DetailedGlossaryTerm),
+          governedGlossaryTerms: D.list(o_DetailedGlossaryTerm),
+          additionalAttributes: {
+            latestTimeSeriesDataPointForms: D.list(
+              o_TimeSeriesDataPointSummaryFormOutput,
+            ),
+          },
+        },
+        dataProductListing: {
+          name: D.secret,
+          description: D.secret,
+          createdAt: D.ts,
+          glossaryTerms: D.list(o_DetailedGlossaryTerm),
+          items: D.list({ glossaryTerms: D.list(o_DetailedGlossaryTerm) }),
+        },
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22958,8 +14635,43 @@ export const searchTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SearchTypesResultItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: SearchTypesInput,
-  output: SearchTypesOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/types-search",
+    input: {
+      domainIdentifier: 0,
+      maxResults: 0,
+      nextToken: 0,
+      searchScope: 0,
+      searchText: 0,
+      searchIn: D.list(i_SearchInItem),
+      filters: i_FilterClause,
+      sort: i_SearchSort,
+      managed: 0,
+    },
+    output: {
+      items: D.list({
+        assetTypeItem: {
+          description: D.secret,
+          formsOutput: D.map(o_FormEntryOutput),
+          createdAt: D.ts,
+          updatedAt: D.ts,
+        },
+        formTypeItem: {
+          name: D.secret,
+          createdAt: D.ts,
+          description: D.secret,
+          imports: D.list(o_Import),
+        },
+        lineageNodeTypeItem: {
+          createdAt: D.ts,
+          updatedAt: D.ts,
+          formsOutput: D.map(o_FormEntryOutput),
+        },
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -22993,8 +14705,19 @@ export const searchUserProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   UserProfileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: SearchUserProfilesInput,
-  output: SearchUserProfilesOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/search-user-profiles",
+    input: {
+      domainIdentifier: 0,
+      userType: 0,
+      searchText: 0,
+      maxResults: 0,
+      nextToken: 0,
+    },
+    output: { items: D.list({ details: o_UserProfileDetails }) },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -23030,8 +14753,22 @@ export const startDataSourceRun: API.OperationMethod<
   StartDataSourceRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartDataSourceRunInput,
-  output: StartDataSourceRunOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/data-sources/{dataSourceIdentifier}/runs",
+    input: {
+      domainIdentifier: 0,
+      dataSourceIdentifier: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      startedAt: D.ts,
+      stoppedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23044,7 +14781,7 @@ export const startDataSourceRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataSourceRun",
-}));
+})) as any;
 
 export type StartMetadataGenerationRunError =
   | AccessDeniedException
@@ -23076,8 +14813,20 @@ export const startMetadataGenerationRun: API.OperationMethod<
   StartMetadataGenerationRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartMetadataGenerationRunInput,
-  output: StartMetadataGenerationRunOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/metadata-generation-runs",
+    input: {
+      domainIdentifier: 0,
+      type: 0,
+      types: 0,
+      target: { type: 0, identifier: 0, revision: 0 },
+      clientToken: D.m({ idempotency: true }),
+      owningProjectIdentifier: 0,
+    },
+    output: { createdAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23090,7 +14839,7 @@ export const startMetadataGenerationRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetadataGenerationRun",
-}));
+})) as any;
 
 export type StartNotebookExportError =
   | AccessDeniedException
@@ -23110,8 +14859,19 @@ export const startNotebookExport: API.OperationMethod<
   StartNotebookExportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartNotebookExportInput,
-  output: StartNotebookExportOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/notebook-exports",
+    input: {
+      domainIdentifier: 0,
+      notebookIdentifier: 0,
+      owningProjectIdentifier: 0,
+      fileFormat: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: { createdAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23124,7 +14884,7 @@ export const startNotebookExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookExport",
-}));
+})) as any;
 
 export type StartNotebookImportError =
   | AccessDeniedException
@@ -23144,8 +14904,25 @@ export const startNotebookImport: API.OperationMethod<
   StartNotebookImportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartNotebookImportInput,
-  output: StartNotebookImportOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/notebook-imports",
+    input: {
+      domainIdentifier: 0,
+      owningProjectIdentifier: 0,
+      sourceLocation: i_SourceLocation,
+      name: 0,
+      description: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      sourceLocation: o_SourceLocation,
+      createdAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23158,7 +14935,7 @@ export const startNotebookImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookImport",
-}));
+})) as any;
 
 export type StartNotebookRunError =
   | AccessDeniedException
@@ -23178,8 +14955,36 @@ export const startNotebookRun: API.OperationMethod<
   StartNotebookRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartNotebookRunInput,
-  output: StartNotebookRunOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/notebook-runs",
+    input: {
+      domainIdentifier: 0,
+      owningProjectIdentifier: 0,
+      notebookIdentifier: 0,
+      scheduleIdentifier: 0,
+      computeConfiguration: { instanceType: 0, environmentVersion: 0 },
+      networkConfiguration: {
+        networkAccessType: 0,
+        vpcId: 0,
+        subnetIds: 0,
+        securityGroupIds: 0,
+      },
+      timeoutConfiguration: { runTimeoutInMinutes: 0 },
+      triggerSource: { type: 0, name: 0 },
+      metadata: 0,
+      parameters: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: {
+      metadata: D.map(D.secret),
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      startedAt: D.ts,
+      completedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23192,7 +14997,7 @@ export const startNotebookRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookRun",
-}));
+})) as any;
 
 export type StartNotebookSyncError =
   | AccessDeniedException
@@ -23212,8 +15017,36 @@ export const startNotebookSync: API.OperationMethod<
   StartNotebookSyncError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartNotebookSyncInput,
-  output: StartNotebookSyncOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/domains/{domainIdentifier}/notebook-syncs",
+    input: {
+      domainIdentifier: 0,
+      owningProjectIdentifier: 0,
+      sourceLocation: i_SourceLocation,
+      gitMetadata: {
+        connectionId: 0,
+        repository: 0,
+        branch: 0,
+        commitHash: 0,
+        fileName: 0,
+        committedAt: 0,
+        commitMessage: 0,
+      },
+      notebookId: 0,
+      name: 0,
+      description: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: {
+      sourceLocation: o_SourceLocation,
+      gitMetadata: o_GitMetadata,
+      name: D.secret,
+      description: D.secret,
+      createdAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23226,7 +15059,7 @@ export const startNotebookSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookSync",
-}));
+})) as any;
 
 export type StopNotebookRunError =
   | AccessDeniedException
@@ -23245,8 +15078,16 @@ export const stopNotebookRun: API.OperationMethod<
   StopNotebookRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopNotebookRunInput,
-  output: StopNotebookRunOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /v2/domains/{domainIdentifier}/notebook-runs/{identifier}/stop",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23258,7 +15099,7 @@ export const stopNotebookRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopNotebookRun",
-}));
+})) as any;
 
 export type TagResourceError =
   | InternalServerException
@@ -23274,8 +15115,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{resourceArn}",
+    input: { resourceArn: 0, tags: 0 },
+    body: true,
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -23284,7 +15129,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | InternalServerException
@@ -23299,13 +15144,16 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{resourceArn}",
+    input: { resourceArn: 0, tagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateAccountPoolError =
   | AccessDeniedException
@@ -23325,8 +15173,26 @@ export const updateAccountPool: API.OperationMethod<
   UpdateAccountPoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAccountPoolInput,
-  output: UpdateAccountPoolOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/account-pools/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      name: 0,
+      description: 0,
+      resolutionStrategy: 0,
+      accountSource: i_AccountSource,
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      accountSource: o_AccountSource,
+      createdAt: D.ts,
+      lastUpdatedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23339,7 +15205,7 @@ export const updateAccountPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountPool",
-}));
+})) as any;
 
 export type UpdateAssetFilterError =
   | AccessDeniedException
@@ -23366,8 +15232,20 @@ export const updateAssetFilter: API.OperationMethod<
   UpdateAssetFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAssetFilterInput,
-  output: UpdateAssetFilterOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      assetIdentifier: 0,
+      identifier: 0,
+      name: 0,
+      description: 0,
+      configuration: i_AssetFilterConfiguration,
+    },
+    output: { name: D.secret, description: D.secret, createdAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23379,7 +15257,7 @@ export const updateAssetFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssetFilter",
-}));
+})) as any;
 
 export type UpdateConnectionError =
   | AccessDeniedException
@@ -23399,8 +15277,71 @@ export const updateConnection: API.OperationMethod<
   UpdateConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateConnectionInput,
-  output: UpdateConnectionOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/connections/{identifier}",
+    input: {
+      configurations: D.list(i_Configuration),
+      domainIdentifier: 0,
+      identifier: 0,
+      description: 0,
+      awsLocation: i_AwsLocation,
+      props: {
+        athenaProperties: { workgroupName: 0 },
+        glueProperties: {
+          glueConnectionInput: {
+            description: 0,
+            connectionProperties: 0,
+            authenticationConfiguration: i_AuthenticationConfigurationPatch,
+          },
+        },
+        iamProperties: { glueLineageSyncEnabled: 0 },
+        redshiftProperties: {
+          storage: i_RedshiftStorageProperties,
+          databaseName: 0,
+          host: 0,
+          port: 0,
+          credentials: i_RedshiftCredentials,
+          lineageSync: i_RedshiftLineageSyncConfigurationInput,
+        },
+        sparkEmrProperties: {
+          computeArn: 0,
+          instanceProfileArn: 0,
+          javaVirtualEnv: 0,
+          logUri: 0,
+          pythonVirtualEnv: 0,
+          runtimeRole: 0,
+          trustedCertificatesS3Uri: 0,
+          managedEndpointArn: 0,
+        },
+        s3Properties: {
+          s3Uri: 0,
+          s3AccessGrantLocationId: 0,
+          registerS3AccessGrantLocation: 0,
+        },
+        snowflakeProperties: {
+          connectivityPropertiesPatch: {
+            description: 0,
+            connectionProperties: 0,
+            authenticationConfiguration: i_AuthenticationConfigurationPatch,
+          },
+          snowflakeRole: 0,
+          lineageSync: i_LineageSyncInput,
+        },
+        amazonQProperties: { isEnabled: 0, profileArn: 0, authMode: 0 },
+        mlflowProperties: { trackingServerArn: 0 },
+        lakehouseProperties: { glueLineageSyncEnabled: 0 },
+        vpcProperties: { vpcId: 0, subnetIds: 0, securityGroupId: 0 },
+        gitProperties: { codeConnectionArn: 0, defaultBranch: 0 },
+      },
+    },
+    output: {
+      description: D.secret,
+      physicalEndpoints: D.list(o_PhysicalEndpoint),
+      props: o_ConnectionPropertiesOutput,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23413,7 +15354,7 @@ export const updateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnection",
-}));
+})) as any;
 
 export type UpdateDataSourceError =
   | AccessDeniedException
@@ -23433,8 +15374,32 @@ export const updateDataSource: API.OperationMethod<
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDataSourceInput,
-  output: UpdateDataSourceOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/data-sources/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      name: 0,
+      description: 0,
+      enableSetting: 0,
+      publishOnImport: 0,
+      assetFormsInput: D.list(i_FormInput),
+      schedule: i_ScheduleConfiguration,
+      configuration: i_DataSourceConfigurationInput,
+      recommendation: i_RecommendationConfiguration,
+      retainPermissionsOnRevokeFailure: 0,
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      assetFormsOutput: D.list(o_FormOutput),
+      lastRunAt: D.ts,
+      createdAt: D.ts,
+      updatedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23447,7 +15412,7 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
-}));
+})) as any;
 
 export type UpdateDomainError =
   | AccessDeniedException
@@ -23467,8 +15432,21 @@ export const updateDomain: API.OperationMethod<
   UpdateDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDomainInput,
-  output: UpdateDomainOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /v2/domains/{identifier}",
+    input: {
+      identifier: 0,
+      description: 0,
+      singleSignOn: i_SingleSignOn,
+      domainExecutionRole: 0,
+      serviceRole: 0,
+      name: 0,
+      clientToken: D.m({ query: "clientToken", idempotency: true }),
+    },
+    output: { lastUpdatedAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23481,7 +15459,7 @@ export const updateDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomain",
-}));
+})) as any;
 
 export type UpdateDomainUnitError =
   | AccessDeniedException
@@ -23500,8 +15478,18 @@ export const updateDomainUnit: API.OperationMethod<
   UpdateDomainUnitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDomainUnitInput,
-  output: UpdateDomainUnitOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /v2/domains/{domainIdentifier}/domain-units/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0, description: 0, name: 0 },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      createdAt: D.ts,
+      lastUpdatedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23513,7 +15501,7 @@ export const updateDomainUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainUnit",
-}));
+})) as any;
 
 export type UpdateEnvironmentError =
   | AccessDeniedException
@@ -23532,8 +15520,30 @@ export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateEnvironmentInput,
-  output: UpdateEnvironmentOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/environments/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      name: 0,
+      description: 0,
+      glossaryTerms: 0,
+      blueprintVersion: 0,
+      userParameters: D.list(i_EnvironmentParameter),
+      environmentConfigurationName: 0,
+    },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      name: D.secret,
+      description: D.secret,
+      userParameters: D.list(o_CustomParameter),
+      environmentConfigurationId: D.secret,
+      environmentConfigurationName: D.secret,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23545,7 +15555,7 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
-}));
+})) as any;
 
 export type UpdateEnvironmentActionError =
   | AccessDeniedException
@@ -23564,8 +15574,19 @@ export const updateEnvironmentAction: API.OperationMethod<
   UpdateEnvironmentActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateEnvironmentActionInput,
-  output: UpdateEnvironmentActionOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      environmentIdentifier: 0,
+      identifier: 0,
+      parameters: i_ActionParameters,
+      name: 0,
+      description: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23577,7 +15598,7 @@ export const updateEnvironmentAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentAction",
-}));
+})) as any;
 
 export type UpdateEnvironmentBlueprintError =
   | AccessDeniedException
@@ -23597,8 +15618,24 @@ export const updateEnvironmentBlueprint: API.OperationMethod<
   UpdateEnvironmentBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateEnvironmentBlueprintInput,
-  output: UpdateEnvironmentBlueprintOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/environment-blueprints/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      description: 0,
+      provisioningProperties: i_ProvisioningProperties,
+      userParameters: D.list(i_CustomParameter),
+    },
+    output: {
+      description: D.secret,
+      userParameters: D.list(o_CustomParameter),
+      createdAt: D.ts,
+      updatedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23611,7 +15648,7 @@ export const updateEnvironmentBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentBlueprint",
-}));
+})) as any;
 
 export type UpdateEnvironmentProfileError =
   | AccessDeniedException
@@ -23631,8 +15668,27 @@ export const updateEnvironmentProfile: API.OperationMethod<
   UpdateEnvironmentProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateEnvironmentProfileInput,
-  output: UpdateEnvironmentProfileOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/environment-profiles/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      name: 0,
+      description: 0,
+      userParameters: D.list(i_EnvironmentParameter),
+      awsAccountId: 0,
+      awsAccountRegion: 0,
+    },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      name: D.secret,
+      description: D.secret,
+      userParameters: D.list(o_CustomParameter),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23645,7 +15701,7 @@ export const updateEnvironmentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentProfile",
-}));
+})) as any;
 
 export type UpdateGlossaryError =
   | AccessDeniedException
@@ -23674,8 +15730,20 @@ export const updateGlossary: API.OperationMethod<
   UpdateGlossaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateGlossaryInput,
-  output: UpdateGlossaryOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/glossaries/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      name: 0,
+      description: 0,
+      status: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: { name: D.secret, description: D.secret },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23687,7 +15755,7 @@ export const updateGlossary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlossary",
-}));
+})) as any;
 
 export type UpdateGlossaryTermError =
   | AccessDeniedException
@@ -23716,8 +15784,26 @@ export const updateGlossaryTerm: API.OperationMethod<
   UpdateGlossaryTermError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateGlossaryTermInput,
-  output: UpdateGlossaryTermOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/glossary-terms/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      glossaryIdentifier: 0,
+      identifier: 0,
+      name: 0,
+      shortDescription: 0,
+      longDescription: 0,
+      termRelations: i_TermRelations,
+      status: 0,
+    },
+    output: {
+      name: D.secret,
+      shortDescription: D.secret,
+      longDescription: D.secret,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23729,7 +15815,7 @@ export const updateGlossaryTerm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlossaryTerm",
-}));
+})) as any;
 
 export type UpdateGroupProfileError =
   | AccessDeniedException
@@ -23746,8 +15832,13 @@ export const updateGroupProfile: API.OperationMethod<
   UpdateGroupProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateGroupProfileInput,
-  output: UpdateGroupProfileOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /v2/domains/{domainIdentifier}/group-profiles/{groupIdentifier}",
+    input: { domainIdentifier: 0, groupIdentifier: 0, status: 0 },
+    output: { groupName: D.secret },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -23757,7 +15848,7 @@ export const updateGroupProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroupProfile",
-}));
+})) as any;
 
 export type UpdateNotebookError =
   | AccessDeniedException
@@ -23776,8 +15867,36 @@ export const updateNotebook: API.OperationMethod<
   UpdateNotebookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateNotebookInput,
-  output: UpdateNotebookOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/notebooks/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      description: 0,
+      status: 0,
+      name: 0,
+      cellOrder: D.list({}),
+      metadata: 0,
+      parameters: 0,
+      environmentConfiguration: {
+        imageVersion: 0,
+        packageConfig: { packageManager: 0, packageSpecification: 0 },
+      },
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      lockedAt: D.ts,
+      lockExpiresAt: D.ts,
+      metadata: D.map(D.secret),
+      gitMetadata: o_GitMetadata,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23789,7 +15908,7 @@ export const updateNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotebook",
-}));
+})) as any;
 
 export type UpdateProjectError =
   | AccessDeniedException
@@ -23809,8 +15928,33 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateProjectInput,
-  output: UpdateProjectOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/projects/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      name: 0,
+      description: 0,
+      resourceTags: 0,
+      glossaryTerms: 0,
+      domainUnitId: 0,
+      environmentDeploymentDetails: {
+        overallDeploymentStatus: 0,
+        environmentFailureReasons: D.map(D.list({ code: 0, message: 0 })),
+      },
+      userParameters: D.list(i_EnvironmentConfigurationUserParameter),
+      projectProfileVersion: 0,
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      createdAt: D.ts,
+      lastUpdatedAt: D.ts,
+      userParameters: D.list(o_EnvironmentConfigurationUserParameter),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23823,7 +15967,7 @@ export const updateProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
-}));
+})) as any;
 
 export type UpdateProjectProfileError =
   | AccessDeniedException
@@ -23843,8 +15987,31 @@ export const updateProjectProfile: API.OperationMethod<
   UpdateProjectProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateProjectProfileInput,
-  output: UpdateProjectProfileOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/project-profiles/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      name: 0,
+      description: 0,
+      status: 0,
+      projectResourceTags: D.list(i_ResourceTagParameter),
+      allowCustomProjectResourceTags: 0,
+      projectResourceTagsDescription: 0,
+      environmentConfigurations: D.list(i_EnvironmentConfiguration),
+      domainUnitIdentifier: 0,
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      projectResourceTagsDescription: D.secret,
+      environmentConfigurations: D.list(o_EnvironmentConfiguration),
+      createdAt: D.ts,
+      lastUpdatedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23857,7 +16024,7 @@ export const updateProjectProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProjectProfile",
-}));
+})) as any;
 
 export type UpdateRootDomainUnitOwnerError =
   | AccessDeniedException
@@ -23876,8 +16043,17 @@ export const updateRootDomainUnitOwner: API.OperationMethod<
   UpdateRootDomainUnitOwnerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRootDomainUnitOwnerInput,
-  output: UpdateRootDomainUnitOwnerOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/root-domain-unit-owner",
+    input: {
+      domainIdentifier: 0,
+      currentOwner: 0,
+      newOwner: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23889,7 +16065,7 @@ export const updateRootDomainUnitOwner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRootDomainUnitOwner",
-}));
+})) as any;
 
 export type UpdateRuleError =
   | AccessDeniedException
@@ -23909,8 +16085,26 @@ export const updateRule: API.OperationMethod<
   UpdateRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRuleInput,
-  output: UpdateRuleOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/rules/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      name: 0,
+      description: 0,
+      scope: i_RuleScope,
+      detail: i_RuleDetail,
+      includeChildDomainUnits: 0,
+    },
+    output: {
+      name: D.secret,
+      description: D.secret,
+      createdAt: D.ts,
+      updatedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23923,7 +16117,7 @@ export const updateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRule",
-}));
+})) as any;
 
 export type UpdateSubscriptionGrantStatusError =
   | AccessDeniedException
@@ -23942,8 +16136,24 @@ export const updateSubscriptionGrantStatus: API.OperationMethod<
   UpdateSubscriptionGrantStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSubscriptionGrantStatusInput,
-  output: UpdateSubscriptionGrantStatusOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/subscription-grants/{identifier}/status/{assetIdentifier}",
+    input: {
+      domainIdentifier: 0,
+      identifier: 0,
+      assetIdentifier: 0,
+      status: 0,
+      failureCause: { message: 0 },
+      targetName: 0,
+    },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      assets: D.list(o_SubscribedAsset),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23955,7 +16165,7 @@ export const updateSubscriptionGrantStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriptionGrantStatus",
-}));
+})) as any;
 
 export type UpdateSubscriptionRequestError =
   | AccessDeniedException
@@ -23974,8 +16184,21 @@ export const updateSubscriptionRequest: API.OperationMethod<
   UpdateSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSubscriptionRequestInput,
-  output: UpdateSubscriptionRequestOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/subscription-requests/{identifier}",
+    input: { domainIdentifier: 0, identifier: 0, requestReason: 0 },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      requestReason: D.secret,
+      subscribedPrincipals: D.list(o_SubscribedPrincipal),
+      subscribedListings: D.list(o_SubscribedListing),
+      decisionComment: D.secret,
+      metadataForms: D.list(o_FormOutput),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -23987,7 +16210,7 @@ export const updateSubscriptionRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriptionRequest",
-}));
+})) as any;
 
 export type UpdateSubscriptionTargetError =
   | AccessDeniedException
@@ -24006,8 +16229,24 @@ export const updateSubscriptionTarget: API.OperationMethod<
   UpdateSubscriptionTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSubscriptionTargetInput,
-  output: UpdateSubscriptionTargetOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/subscription-targets/{identifier}",
+    input: {
+      domainIdentifier: 0,
+      environmentIdentifier: 0,
+      identifier: 0,
+      name: 0,
+      authorizedPrincipals: 0,
+      applicableAssetTypes: 0,
+      subscriptionTargetConfig: D.list(i_SubscriptionTargetForm),
+      manageAccessRole: 0,
+      provider: 0,
+      subscriptionGrantCreationMode: 0,
+    },
+    output: { name: D.secret, createdAt: D.ts, updatedAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -24019,7 +16258,7 @@ export const updateSubscriptionTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriptionTarget",
-}));
+})) as any;
 
 export type UpdateUserProfileError =
   | AccessDeniedException
@@ -24036,8 +16275,19 @@ export const updateUserProfile: API.OperationMethod<
   UpdateUserProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateUserProfileInput,
-  output: UpdateUserProfileOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /v2/domains/{domainIdentifier}/user-profiles/{userIdentifier}",
+    input: {
+      domainIdentifier: 0,
+      userIdentifier: 0,
+      type: 0,
+      status: 0,
+      sessionName: 0,
+    },
+    output: { details: o_UserProfileDetails },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -24047,4 +16297,318 @@ export const updateUserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserProfile",
-}));
+})) as any;
+
+const i_AcceptedAssetScope: D.LazyStruct = () => ({ assetId: 0, filterIds: 0 });
+const i_AccountSource: D.LazyStruct = () => ({
+  accounts: D.list({ awsAccountId: 0, supportedRegions: 0, awsAccountName: 0 }),
+  customAccountPoolHandler: { lambdaFunctionArn: 0, lambdaExecutionRoleArn: 0 },
+});
+const i_ActionParameters: D.LazyStruct = () => ({ awsConsoleLink: { uri: 0 } });
+const i_AssetFilterConfiguration: D.LazyStruct = () => ({
+  columnConfiguration: { includedColumnNames: 0 },
+  rowConfiguration: { rowFilter: i_RowFilter, sensitive: 0 },
+});
+const i_AssetPermission: D.LazyStruct = () => ({
+  assetId: 0,
+  permissions: { s3: 0 },
+});
+const i_AuthenticationConfigurationInput: D.LazyStruct = () => ({
+  authenticationType: 0,
+  oAuth2Properties: {
+    oAuth2GrantType: 0,
+    oAuth2ClientApplication: {
+      userManagedClientApplicationClientId: 0,
+      aWSManagedClientApplicationReference: 0,
+    },
+    tokenUrl: 0,
+    tokenUrlParametersMap: 0,
+    authorizationCodeProperties: { authorizationCode: 0, redirectUri: 0 },
+    oAuth2Credentials: {
+      userManagedClientApplicationClientSecret: 0,
+      accessToken: 0,
+      refreshToken: 0,
+      jwtToken: 0,
+    },
+  },
+  secretArn: 0,
+  kmsKeyArn: 0,
+  basicAuthenticationCredentials: i_BasicAuthenticationCredentials,
+  customAuthenticationCredentials: 0,
+});
+const i_AuthenticationConfigurationPatch: D.LazyStruct = () => ({
+  secretArn: 0,
+  basicAuthenticationCredentials: i_BasicAuthenticationCredentials,
+});
+const i_AwsLocation: D.LazyStruct = () => ({
+  accessRole: 0,
+  awsAccountId: 0,
+  awsRegion: 0,
+  iamConnectionId: 0,
+});
+const i_Configuration: D.LazyStruct = () => ({
+  classification: 0,
+  properties: 0,
+});
+const i_CustomParameter: D.LazyStruct = () => ({
+  keyName: 0,
+  description: 0,
+  fieldType: 0,
+  defaultValue: 0,
+  isEditable: 0,
+  isOptional: 0,
+  isUpdateSupported: 0,
+});
+const i_DataProductItem: D.LazyStruct = () => ({
+  itemType: 0,
+  identifier: 0,
+  revision: 0,
+  glossaryTerms: 0,
+});
+const i_DataSourceConfigurationInput: D.LazyStruct = () => ({
+  glueRunConfiguration: {
+    dataAccessRole: 0,
+    relationalFilterConfigurations: D.list(i_RelationalFilterConfiguration),
+    autoImportDataQualityResult: 0,
+    catalogName: 0,
+  },
+  redshiftRunConfiguration: {
+    dataAccessRole: 0,
+    relationalFilterConfigurations: D.list(i_RelationalFilterConfiguration),
+    redshiftCredentialConfiguration: { secretManagerArn: 0 },
+    redshiftStorage: {
+      redshiftClusterSource: { clusterName: 0 },
+      redshiftServerlessSource: { workgroupName: 0 },
+    },
+  },
+  sageMakerRunConfiguration: { trackingAssets: 0 },
+});
+const i_EnvironmentConfiguration: D.LazyStruct = () => ({
+  name: 0,
+  id: 0,
+  environmentBlueprintId: 0,
+  description: 0,
+  deploymentMode: 0,
+  configurationParameters: {
+    ssmPath: 0,
+    parameterOverrides: D.list(i_EnvironmentConfigurationParameter),
+    resolvedParameters: D.list(i_EnvironmentConfigurationParameter),
+  },
+  awsAccount: { awsAccountId: 0, awsAccountIdPath: 0 },
+  accountPools: 0,
+  awsRegion: { regionName: 0, regionNamePath: 0 },
+  deploymentOrder: 0,
+});
+const i_EnvironmentConfigurationUserParameter: D.LazyStruct = () => ({
+  environmentId: 0,
+  environmentResolvedAccount: {
+    awsAccountId: 0,
+    regionName: 0,
+    sourceAccountPoolId: 0,
+  },
+  environmentConfigurationName: 0,
+  environmentParameters: D.list(i_EnvironmentParameter),
+});
+const i_EnvironmentParameter: D.LazyStruct = () => ({ name: 0, value: 0 });
+const i_FilterClause: D.LazyStruct = () => ({
+  filter: { attribute: 0, value: 0, intValue: 0, operator: 0 },
+  and: D.list(i_FilterClause),
+  or: D.list(i_FilterClause),
+});
+const i_FormInput: D.LazyStruct = () => ({
+  formName: 0,
+  typeIdentifier: 0,
+  typeRevision: 0,
+  content: 0,
+});
+const i_LineageSyncInput: D.LazyStruct = () => ({
+  timezone: 0,
+  enabled: 0,
+  schedule: 0,
+});
+const i_Member: D.LazyStruct = () => ({
+  userIdentifier: 0,
+  groupIdentifier: 0,
+});
+const i_OwnerProperties: D.LazyStruct = () => ({
+  user: { userIdentifier: 0 },
+  group: { groupIdentifier: 0 },
+});
+const i_PhysicalConnectionRequirements: D.LazyStruct = () => ({
+  subnetId: 0,
+  subnetIdList: 0,
+  securityGroupIdList: 0,
+  availabilityZone: 0,
+});
+const i_PolicyGrantPrincipal: D.LazyStruct = () => ({
+  user: { userIdentifier: 0, allUsersGrantFilter: {} },
+  group: { groupIdentifier: 0 },
+  project: {
+    projectDesignation: 0,
+    projectIdentifier: 0,
+    projectGrantFilter: {
+      domainUnitFilter: { domainUnit: 0, includeChildDomainUnits: 0 },
+    },
+  },
+  domainUnit: {
+    domainUnitDesignation: 0,
+    domainUnitIdentifier: 0,
+    domainUnitGrantFilter: { allDomainUnitsGrantFilter: {} },
+  },
+});
+const i_PredictionConfiguration: D.LazyStruct = () => ({
+  businessNameGeneration: { enabled: 0 },
+});
+const i_ProvisioningProperties: D.LazyStruct = () => ({
+  cloudFormation: { templateUrl: 0 },
+  manual: {},
+});
+const i_RecommendationConfiguration: D.LazyStruct = () => ({
+  enableBusinessNameGeneration: 0,
+});
+const i_RedshiftCredentials: D.LazyStruct = () => ({
+  secretArn: 0,
+  usernamePassword: { password: 0, username: 0 },
+});
+const i_RedshiftLineageSyncConfigurationInput: D.LazyStruct = () => ({
+  enabled: 0,
+  schedule: { schedule: 0 },
+});
+const i_RedshiftStorageProperties: D.LazyStruct = () => ({
+  clusterName: 0,
+  workgroupName: 0,
+});
+const i_ResourceTagParameter: D.LazyStruct = () => ({
+  key: 0,
+  value: 0,
+  isValueEditable: 0,
+});
+const i_RuleDetail: D.LazyStruct = () => ({
+  metadataFormEnforcementDetail: {
+    requiredMetadataForms: D.list({ typeIdentifier: 0, typeRevision: 0 }),
+  },
+  glossaryTermEnforcementDetail: { requiredGlossaryTermIds: 0 },
+});
+const i_RuleScope: D.LazyStruct = () => ({
+  assetType: { selectionMode: 0, specificAssetTypes: 0 },
+  dataProduct: 0,
+  project: { selectionMode: 0, specificProjects: 0 },
+});
+const i_ScheduleConfiguration: D.LazyStruct = () => ({
+  timezone: 0,
+  schedule: 0,
+});
+const i_SearchInItem: D.LazyStruct = () => ({ attribute: 0 });
+const i_SearchSort: D.LazyStruct = () => ({ attribute: 0, order: 0 });
+const i_SingleSignOn: D.LazyStruct = () => ({
+  type: 0,
+  userAssignment: 0,
+  idcInstanceArn: 0,
+});
+const i_SourceLocation: D.LazyStruct = () => ({ s3: 0 });
+const i_SubscriptionTargetForm: D.LazyStruct = () => ({
+  formName: 0,
+  content: 0,
+});
+const i_TermRelations: D.LazyStruct = () => ({ isA: 0, classifies: 0 });
+const i_Unit: D.LazyStruct = () => ({});
+const o_AccountInfo: D.LazyStruct = () => ({ awsAccountName: D.secret });
+const o_AccountSource: D.LazyStruct = () => ({
+  accounts: D.list(o_AccountInfo),
+});
+const o_ConnectionPropertiesOutput: D.LazyStruct = () => ({
+  redshiftProperties: { credentials: { usernamePassword: o_UsernamePassword } },
+  sparkEmrProperties: {
+    credentials: o_UsernamePassword,
+    credentialsExpiration: D.ts,
+  },
+});
+const o_CustomParameter: D.LazyStruct = () => ({ description: D.secret });
+const o_DetailedGlossaryTerm: D.LazyStruct = () => ({
+  name: D.secret,
+  shortDescription: D.secret,
+});
+const o_EnvironmentConfiguration: D.LazyStruct = () => ({
+  name: D.secret,
+  id: D.secret,
+  description: D.secret,
+});
+const o_EnvironmentConfigurationUserParameter: D.LazyStruct = () => ({
+  environmentConfigurationName: D.secret,
+});
+const o_FormEntryOutput: D.LazyStruct = () => ({ typeName: D.secret });
+const o_FormOutput: D.LazyStruct = () => ({ typeName: D.secret });
+const o_GitMetadata: D.LazyStruct = () => ({
+  repository: D.secret,
+  branch: D.secret,
+  committedAt: D.ts,
+  commitMessage: D.secret,
+});
+const o_Import: D.LazyStruct = () => ({ name: D.secret });
+const o_LineageNodeReference: D.LazyStruct = () => ({ eventTimestamp: D.ts });
+const o_PhysicalEndpoint: D.LazyStruct = () => ({
+  glueConnection: {
+    creationTime: D.ts,
+    lastUpdatedTime: D.ts,
+    lastConnectionValidationTime: D.ts,
+  },
+});
+const o_SourceLocation: D.LazyStruct = () => ({ s3: D.secret });
+const o_SubscribedAsset: D.LazyStruct = () => ({
+  grantedTimestamp: D.ts,
+  failureTimestamp: D.ts,
+});
+const o_SubscribedListing: D.LazyStruct = () => ({
+  description: D.secret,
+  item: {
+    assetListing: { glossaryTerms: D.list(o_DetailedGlossaryTerm) },
+    productListing: { glossaryTerms: D.list(o_DetailedGlossaryTerm) },
+  },
+});
+const o_SubscribedPrincipal: D.LazyStruct = () => ({
+  project: { name: D.secret },
+  user: { details: o_UserProfileDetails },
+  group: { name: D.secret },
+});
+const o_TimeSeriesDataPointFormOutput: D.LazyStruct = () => ({
+  timestamp: D.ts,
+});
+const o_TimeSeriesDataPointSummaryFormOutput: D.LazyStruct = () => ({
+  timestamp: D.ts,
+});
+const o_UserProfileDetails: D.LazyStruct = () => ({
+  sso: { username: D.secret, firstName: D.secret, lastName: D.secret },
+});
+const i_BasicAuthenticationCredentials: D.LazyStruct = () => ({
+  userName: 0,
+  password: 0,
+});
+const i_EnvironmentConfigurationParameter: D.LazyStruct = () => ({
+  name: 0,
+  value: 0,
+  isEditable: 0,
+});
+const i_RelationalFilterConfiguration: D.LazyStruct = () => ({
+  databaseName: 0,
+  schemaName: 0,
+  filterExpressions: D.list({ type: 0, expression: 0 }),
+});
+const i_RowFilter: D.LazyStruct = () => ({
+  expression: {
+    equalTo: { columnName: 0, value: 0 },
+    notEqualTo: { columnName: 0, value: 0 },
+    greaterThan: { columnName: 0, value: 0 },
+    lessThan: { columnName: 0, value: 0 },
+    greaterThanOrEqualTo: { columnName: 0, value: 0 },
+    lessThanOrEqualTo: { columnName: 0, value: 0 },
+    isNull: { columnName: 0 },
+    isNotNull: { columnName: 0 },
+    in: { columnName: 0, values: 0 },
+    notIn: { columnName: 0, values: 0 },
+    like: { columnName: 0, value: 0 },
+    notLike: { columnName: 0, value: 0 },
+  },
+  and: D.list(i_RowFilter),
+  or: D.list(i_RowFilter),
+});
+const o_UsernamePassword: D.LazyStruct = () => ({ password: D.secret });

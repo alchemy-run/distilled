@@ -1,205 +1,159 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "AppConfig",
-  serviceShapeName: "AmazonAppConfig",
-});
-const auth = T.AwsAuthSigv4({ name: "appconfig" });
-const ver = T.ServiceVersion("2019-10-09");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://appconfig-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            if (Region === "us-gov-east-1") {
-              return e("https://appconfig.us-gov-east-1.amazonaws.com");
-            }
-            if (Region === "us-gov-west-1") {
-              return e("https://appconfig.us-gov-west-1.amazonaws.com");
-            }
-            return e(
-              `https://appconfig-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://appconfig.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://appconfig.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AmazonAppConfig",
+  version: "2019-10-09",
+  sigv4: "appconfig",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://appconfig-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              if (Region === "us-gov-east-1") {
+                return e("https://appconfig.us-gov-east-1.amazonaws.com");
+              }
+              if (Region === "us-gov-west-1") {
+                return e("https://appconfig.us-gov-west-1.amazonaws.com");
+              }
+              return e(
+                `https://appconfig-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://appconfig.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://appconfig.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class BadRequestException
-  extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "BadRequestException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Reason: S.optional(
-        S.suspend(() => BadRequestReason).annotate({
-          identifier: "BadRequestReason",
-        }),
-      ),
-      Details: S.optional(
-        S.suspend(() => BadRequestDetails).annotate({
-          identifier: "BadRequestDetails",
-        }),
-      ),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly message?: string;
+    readonly Reason?: BadRequestReason;
+    readonly Details?: BadRequestDetails;
+  }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message?: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class PayloadTooLargeException
-  extends /*@__PURE__*/ S.TaggedError<PayloadTooLargeException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "PayloadTooLargeException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Measure: S.optional(
-        S.suspend(() => BytesMeasure).annotate({ identifier: "BytesMeasure" }),
-      ),
-      Limit: S.optional(S.Number),
-      Size: S.optional(S.Number),
-    },
-    T.HttpError(413),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 413 },
+  )<{
+    readonly message?: string;
+    readonly Measure?: BytesMeasure;
+    readonly Limit?: number;
+    readonly Size?: number;
+  }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceName: S.optional(S.String),
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string; readonly ResourceName?: string }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly message?: string }> {}
 export type Name = string;
 export type Description = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface CreateApplicationRequest {
   Name: string;
   Description?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateApplicationRequest",
-}) as any as S.Schema<CreateApplicationRequest>;
 export type Id = string;
 export interface Application {
   Id?: string;
   Name?: string;
   Description?: string;
 }
-export const Application = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-  }),
-).annotate({ identifier: "Application" }) as any as S.Schema<Application>;
 export type LongName = string;
 export type Uri = string;
 export type RoleArn = string;
 export type ValidatorType = "JSON_SCHEMA" | "LAMBDA" | (string & {});
-export const ValidatorType = S.String;
-
 export type StringWithLengthBetween0And32768 =
   | string
   | redacted.Redacted<string>;
@@ -207,11 +161,7 @@ export interface Validator {
   Type: ValidatorType;
   Content: string | redacted.Redacted<string>;
 }
-export const Validator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Type: ValidatorType, Content: SensitiveString }),
-).annotate({ identifier: "Validator" }) as any as S.Schema<Validator>;
 export type ValidatorList = Validator[];
-export const ValidatorList = /*@__PURE__*/ S.Array(Validator);
 export type ConfigurationProfileType = string;
 export type KmsKeyIdentifier = string;
 export interface CreateConfigurationProfileRequest {
@@ -225,33 +175,6 @@ export interface CreateConfigurationProfileRequest {
   Type?: string;
   KmsKeyIdentifier?: string;
 }
-export const CreateConfigurationProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    Name: S.String,
-    Description: S.optional(S.String),
-    LocationUri: S.String,
-    RetrievalRoleArn: S.optional(S.String),
-    Validators: S.optional(ValidatorList),
-    Tags: S.optional(TagMap),
-    Type: S.optional(S.String),
-    KmsKeyIdentifier: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/applications/{ApplicationId}/configurationprofiles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateConfigurationProfileRequest",
-}) as any as S.Schema<CreateConfigurationProfileRequest>;
 export type Arn = string;
 export interface ConfigurationProfile {
   ApplicationId?: string;
@@ -265,30 +188,10 @@ export interface ConfigurationProfile {
   KmsKeyArn?: string;
   KmsKeyIdentifier?: string;
 }
-export const ConfigurationProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    LocationUri: S.optional(S.String),
-    RetrievalRoleArn: S.optional(S.String),
-    Validators: S.optional(ValidatorList),
-    Type: S.optional(S.String),
-    KmsKeyArn: S.optional(S.String),
-    KmsKeyIdentifier: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConfigurationProfile",
-}) as any as S.Schema<ConfigurationProfile>;
 export type MinutesBetween0And24Hours = number;
 export type GrowthFactor = number;
 export type GrowthType = "LINEAR" | "EXPONENTIAL" | (string & {});
-export const GrowthType = S.String;
-
 export type ReplicateTo = "NONE" | "SSM_DOCUMENT" | (string & {});
-export const ReplicateTo = S.String;
-
 export interface CreateDeploymentStrategyRequest {
   Name: string;
   Description?: string;
@@ -299,29 +202,6 @@ export interface CreateDeploymentStrategyRequest {
   ReplicateTo?: ReplicateTo;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateDeploymentStrategyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    DeploymentDurationInMinutes: S.Number,
-    FinalBakeTimeInMinutes: S.optional(S.Number),
-    GrowthFactor: S.Number,
-    GrowthType: S.optional(GrowthType),
-    ReplicateTo: S.optional(ReplicateTo),
-    Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/deploymentstrategies" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDeploymentStrategyRequest",
-}) as any as S.Schema<CreateDeploymentStrategyRequest>;
 export type Percentage = number;
 export interface DeploymentStrategy {
   Id?: string;
@@ -333,30 +213,12 @@ export interface DeploymentStrategy {
   FinalBakeTimeInMinutes?: number;
   ReplicateTo?: ReplicateTo;
 }
-export const DeploymentStrategy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    DeploymentDurationInMinutes: S.optional(S.Number),
-    GrowthType: S.optional(GrowthType),
-    GrowthFactor: S.optional(S.Number),
-    FinalBakeTimeInMinutes: S.optional(S.Number),
-    ReplicateTo: S.optional(ReplicateTo),
-  }),
-).annotate({
-  identifier: "DeploymentStrategy",
-}) as any as S.Schema<DeploymentStrategy>;
 export type StringWithLengthBetween1And2048 = string;
 export interface Monitor {
   AlarmArn: string;
   AlarmRoleArn?: string;
 }
-export const Monitor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AlarmArn: S.String, AlarmRoleArn: S.optional(S.String) }),
-).annotate({ identifier: "Monitor" }) as any as S.Schema<Monitor>;
 export type MonitorList = Monitor[];
-export const MonitorList = /*@__PURE__*/ S.Array(Monitor);
 export interface CreateEnvironmentRequest {
   ApplicationId: string;
   Name: string;
@@ -364,29 +226,6 @@ export interface CreateEnvironmentRequest {
   Monitors?: Monitor[];
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    Name: S.String,
-    Description: S.optional(S.String),
-    Monitors: S.optional(MonitorList),
-    Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/applications/{ApplicationId}/environments",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateEnvironmentRequest",
-}) as any as S.Schema<CreateEnvironmentRequest>;
 export type EnvironmentState =
   | "READY_FOR_DEPLOYMENT"
   | "DEPLOYING"
@@ -394,8 +233,6 @@ export type EnvironmentState =
   | "ROLLED_BACK"
   | "REVERTED"
   | (string & {});
-export const EnvironmentState = S.String;
-
 export interface Environment {
   ApplicationId?: string;
   Id?: string;
@@ -404,16 +241,6 @@ export interface Environment {
   State?: EnvironmentState;
   Monitors?: Monitor[];
 }
-export const Environment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    State: S.optional(EnvironmentState),
-    Monitors: S.optional(MonitorList),
-  }),
-).annotate({ identifier: "Environment" }) as any as S.Schema<Environment>;
 export type Identifier = string;
 export type NameWithReservedAwsPrefix = string;
 export type FlagKey = string;
@@ -421,9 +248,7 @@ export type Weight = number;
 export type AttributeKey = string;
 export type AttributeString = string;
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export type NumberList = number[];
-export const NumberList = /*@__PURE__*/ S.Array(S.Number);
 export type AttributeValue =
   | {
       StringValue: string;
@@ -460,42 +285,17 @@ export type AttributeValue =
       StringArray?: never;
       NumberArray: number[];
     };
-export const AttributeValue = /*@__PURE__*/ S.Union([
-  S.Struct({ StringValue: S.String }),
-  S.Struct({ NumberValue: S.Number }),
-  S.Struct({ BooleanValue: S.Boolean }),
-  S.Struct({ StringArray: StringList }),
-  S.Struct({ NumberArray: NumberList }),
-]);
 export type AttributeValueMap = { [key: string]: AttributeValue | undefined };
-export const AttributeValueMap = /*@__PURE__*/ S.Record(
-  S.String,
-  AttributeValue.pipe(S.optional),
-);
 export interface FlagValue {
   Enabled: boolean;
   AttributeValues?: { [key: string]: AttributeValue | undefined };
 }
-export const FlagValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.Boolean,
-    AttributeValues: S.optional(AttributeValueMap),
-  }),
-).annotate({ identifier: "FlagValue" }) as any as S.Schema<FlagValue>;
 export interface TreatmentInput {
   Weight: number;
   Description?: string;
   FlagValue: FlagValue;
 }
-export const TreatmentInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Weight: S.Number,
-    Description: S.optional(S.String),
-    FlagValue: FlagValue,
-  }),
-).annotate({ identifier: "TreatmentInput" }) as any as S.Schema<TreatmentInput>;
 export type TreatmentInputList = TreatmentInput[];
-export const TreatmentInputList = /*@__PURE__*/ S.Array(TreatmentInput);
 export type Rule = string;
 export interface CreateExperimentDefinitionRequest {
   ApplicationIdentifier: string;
@@ -511,43 +311,11 @@ export interface CreateExperimentDefinitionRequest {
   LaunchCriteria?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateExperimentDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    Name: S.String,
-    ConfigurationProfileIdentifier: S.String,
-    EnvironmentIdentifier: S.String,
-    FlagKey: S.String,
-    Treatments: TreatmentInputList,
-    Control: TreatmentInput,
-    AudienceRule: S.String,
-    Hypothesis: S.optional(S.String),
-    AudienceDescription: S.optional(S.String),
-    LaunchCriteria: S.optional(S.String),
-    Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/applications/{ApplicationIdentifier}/experimentdefinitions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateExperimentDefinitionRequest",
-}) as any as S.Schema<CreateExperimentDefinitionRequest>;
 export type ExperimentDefinitionStatus =
   | "ACTIVE"
   | "IDLE"
   | "ARCHIVED"
   | (string & {});
-export const ExperimentDefinitionStatus = S.String;
-
 export type TreatmentKey = string;
 export interface Treatment {
   Key?: string;
@@ -555,16 +323,7 @@ export interface Treatment {
   Description?: string;
   FlagValue: FlagValue;
 }
-export const Treatment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Key: S.optional(S.String),
-    Weight: S.Number,
-    Description: S.optional(S.String),
-    FlagValue: FlagValue,
-  }),
-).annotate({ identifier: "Treatment" }) as any as S.Schema<Treatment>;
 export type TreatmentList = Treatment[];
-export const TreatmentList = /*@__PURE__*/ S.Array(Treatment);
 export type Iso8601DateTime = Date;
 export interface ExperimentDefinition {
   ApplicationId?: string;
@@ -584,32 +343,6 @@ export interface ExperimentDefinition {
   UpdatedAt?: Date;
   KmsKeyIdentifier?: string;
 }
-export const ExperimentDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Hypothesis: S.optional(S.String),
-    Status: S.optional(ExperimentDefinitionStatus),
-    ConfigurationProfileId: S.optional(S.String),
-    EnvironmentId: S.optional(S.String),
-    FlagKey: S.optional(S.String),
-    AudienceRule: S.optional(S.String),
-    AudienceDescription: S.optional(S.String),
-    LaunchCriteria: S.optional(S.String),
-    Treatments: S.optional(TreatmentList),
-    Control: S.optional(Treatment),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    KmsKeyIdentifier: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExperimentDefinition",
-}) as any as S.Schema<ExperimentDefinition>;
 export type ExtensionOrParameterName = string;
 export type ActionPoint =
   | "PRE_CREATE_HOSTED_CONFIGURATION_VERSION"
@@ -621,46 +354,20 @@ export type ActionPoint =
   | "ON_DEPLOYMENT_COMPLETE"
   | "ON_DEPLOYMENT_ROLLED_BACK"
   | (string & {});
-export const ActionPoint = S.String;
-
 export interface Action {
   Name?: string;
   Description?: string;
   Uri?: string;
   RoleArn?: string;
 }
-export const Action = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    Uri: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
 export type ActionList = Action[];
-export const ActionList = /*@__PURE__*/ S.Array(Action);
 export type ActionsMap = { [key in ActionPoint]?: Action[] };
-export const ActionsMap = /*@__PURE__*/ S.Record(
-  ActionPoint,
-  ActionList.pipe(S.optional),
-);
 export interface Parameter {
   Description?: string;
   Required?: boolean;
   Dynamic?: boolean;
 }
-export const Parameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    Required: S.optional(S.Boolean),
-    Dynamic: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "Parameter" }) as any as S.Schema<Parameter>;
 export type ParameterMap = { [key: string]: Parameter | undefined };
-export const ParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  Parameter.pipe(S.optional),
-);
 export interface CreateExtensionRequest {
   Name: string;
   Description?: string;
@@ -669,29 +376,6 @@ export interface CreateExtensionRequest {
   Tags?: { [key: string]: string | undefined };
   LatestVersionNumber?: number;
 }
-export const CreateExtensionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    Actions: ActionsMap,
-    Parameters: S.optional(ParameterMap),
-    Tags: S.optional(TagMap),
-    LatestVersionNumber: S.optional(S.Number).pipe(
-      T.HttpHeader("Latest-Version-Number"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/extensions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateExtensionRequest",
-}) as any as S.Schema<CreateExtensionRequest>;
 export interface Extension {
   Id?: string;
   Name?: string;
@@ -701,22 +385,7 @@ export interface Extension {
   Actions?: { [key: string]: Action[] | undefined };
   Parameters?: { [key: string]: Parameter | undefined };
 }
-export const Extension = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    VersionNumber: S.optional(S.Number),
-    Arn: S.optional(S.String),
-    Description: S.optional(S.String),
-    Actions: S.optional(ActionsMap),
-    Parameters: S.optional(ParameterMap),
-  }),
-).annotate({ identifier: "Extension" }) as any as S.Schema<Extension>;
 export type ParameterValueMap = { [key: string]: string | undefined };
-export const ParameterValueMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface CreateExtensionAssociationRequest {
   ExtensionIdentifier: string;
   ExtensionVersionNumber?: number;
@@ -724,26 +393,6 @@ export interface CreateExtensionAssociationRequest {
   Parameters?: { [key: string]: string | undefined };
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateExtensionAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExtensionIdentifier: S.String,
-    ExtensionVersionNumber: S.optional(S.Number),
-    ResourceIdentifier: S.String,
-    Parameters: S.optional(ParameterValueMap),
-    Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/extensionassociations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateExtensionAssociationRequest",
-}) as any as S.Schema<CreateExtensionAssociationRequest>;
 export interface ExtensionAssociation {
   Id?: string;
   ExtensionArn?: string;
@@ -752,18 +401,6 @@ export interface ExtensionAssociation {
   Parameters?: { [key: string]: string | undefined };
   ExtensionVersionNumber?: number;
 }
-export const ExtensionAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    ExtensionArn: S.optional(S.String),
-    ResourceArn: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Parameters: S.optional(ParameterValueMap),
-    ExtensionVersionNumber: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ExtensionAssociation",
-}) as any as S.Schema<ExtensionAssociation>;
 export type StringWithLengthBetween1And255 = string;
 export type VersionLabel = string;
 export interface CreateHostedConfigurationVersionRequest {
@@ -775,36 +412,6 @@ export interface CreateHostedConfigurationVersionRequest {
   LatestVersionNumber?: number;
   VersionLabel?: string;
 }
-export const CreateHostedConfigurationVersionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-      ConfigurationProfileId: S.String.pipe(
-        T.HttpLabel("ConfigurationProfileId"),
-      ),
-      Description: S.optional(S.String).pipe(T.HttpHeader("Description")),
-      Content: T.StreamingInput.pipe(T.HttpPayload()),
-      ContentType: S.String.pipe(T.HttpHeader("Content-Type")),
-      LatestVersionNumber: S.optional(S.Number).pipe(
-        T.HttpHeader("Latest-Version-Number"),
-      ),
-      VersionLabel: S.optional(S.String).pipe(T.HttpHeader("VersionLabel")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateHostedConfigurationVersionRequest",
-}) as any as S.Schema<CreateHostedConfigurationVersionRequest>;
 export interface HostedConfigurationVersion {
   ApplicationId?: string;
   ConfigurationProfileId?: string;
@@ -815,345 +422,70 @@ export interface HostedConfigurationVersion {
   VersionLabel?: string;
   KmsKeyArn?: string;
 }
-export const HostedConfigurationVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String).pipe(T.HttpHeader("Application-Id")),
-    ConfigurationProfileId: S.optional(S.String).pipe(
-      T.HttpHeader("Configuration-Profile-Id"),
-    ),
-    VersionNumber: S.optional(S.Number).pipe(T.HttpHeader("Version-Number")),
-    Description: S.optional(S.String).pipe(T.HttpHeader("Description")),
-    Content: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    VersionLabel: S.optional(S.String).pipe(T.HttpHeader("VersionLabel")),
-    KmsKeyArn: S.optional(S.String).pipe(T.HttpHeader("KmsKeyArn")),
-  }),
-).annotate({
-  identifier: "HostedConfigurationVersion",
-}) as any as S.Schema<HostedConfigurationVersion>;
 export interface DeleteApplicationRequest {
   ApplicationId: string;
 }
-export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/applications/{ApplicationId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
 export interface DeleteApplicationResponse {}
-export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteApplicationResponse",
-}) as any as S.Schema<DeleteApplicationResponse>;
 export type DeletionProtectionCheck =
   | "ACCOUNT_DEFAULT"
   | "APPLY"
   | "BYPASS"
   | (string & {});
-export const DeletionProtectionCheck = S.String;
-
 export interface DeleteConfigurationProfileRequest {
   ApplicationId: string;
   ConfigurationProfileId: string;
   DeletionProtectionCheck?: DeletionProtectionCheck;
 }
-export const DeleteConfigurationProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    ConfigurationProfileId: S.String.pipe(
-      T.HttpLabel("ConfigurationProfileId"),
-    ),
-    DeletionProtectionCheck: S.optional(DeletionProtectionCheck).pipe(
-      T.HttpHeader("x-amzn-deletion-protection-check"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteConfigurationProfileRequest",
-}) as any as S.Schema<DeleteConfigurationProfileRequest>;
 export interface DeleteConfigurationProfileResponse {}
-export const DeleteConfigurationProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteConfigurationProfileResponse",
-}) as any as S.Schema<DeleteConfigurationProfileResponse>;
 export type DeploymentStrategyId = string;
 export interface DeleteDeploymentStrategyRequest {
   DeploymentStrategyId: string;
 }
-export const DeleteDeploymentStrategyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeploymentStrategyId: S.String.pipe(T.HttpLabel("DeploymentStrategyId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/deployementstrategies/{DeploymentStrategyId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDeploymentStrategyRequest",
-}) as any as S.Schema<DeleteDeploymentStrategyRequest>;
 export interface DeleteDeploymentStrategyResponse {}
-export const DeleteDeploymentStrategyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteDeploymentStrategyResponse",
-}) as any as S.Schema<DeleteDeploymentStrategyResponse>;
 export interface DeleteEnvironmentRequest {
   EnvironmentId: string;
   ApplicationId: string;
   DeletionProtectionCheck?: DeletionProtectionCheck;
 }
-export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
-    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    DeletionProtectionCheck: S.optional(DeletionProtectionCheck).pipe(
-      T.HttpHeader("x-amzn-deletion-protection-check"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/applications/{ApplicationId}/environments/{EnvironmentId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteEnvironmentRequest",
-}) as any as S.Schema<DeleteEnvironmentRequest>;
 export interface DeleteEnvironmentResponse {}
-export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteEnvironmentResponse",
-}) as any as S.Schema<DeleteEnvironmentResponse>;
 export type DeleteType = "ARCHIVE" | "DESTROY" | (string & {});
-export const DeleteType = S.String;
-
 export interface DeleteExperimentDefinitionRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
   DeleteType?: DeleteType;
 }
-export const DeleteExperimentDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
-    DeleteType: S.optional(DeleteType).pipe(T.HttpQuery("delete_type")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteExperimentDefinitionRequest",
-}) as any as S.Schema<DeleteExperimentDefinitionRequest>;
 export interface DeleteExperimentDefinitionResponse {}
-export const DeleteExperimentDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteExperimentDefinitionResponse",
-}) as any as S.Schema<DeleteExperimentDefinitionResponse>;
 export interface DeleteExtensionRequest {
   ExtensionIdentifier: string;
   VersionNumber?: number;
 }
-export const DeleteExtensionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExtensionIdentifier: S.String.pipe(T.HttpLabel("ExtensionIdentifier")),
-    VersionNumber: S.optional(S.Number).pipe(T.HttpQuery("version")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/extensions/{ExtensionIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteExtensionRequest",
-}) as any as S.Schema<DeleteExtensionRequest>;
 export interface DeleteExtensionResponse {}
-export const DeleteExtensionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteExtensionResponse",
-}) as any as S.Schema<DeleteExtensionResponse>;
 export interface DeleteExtensionAssociationRequest {
   ExtensionAssociationId: string;
 }
-export const DeleteExtensionAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExtensionAssociationId: S.String.pipe(
-      T.HttpLabel("ExtensionAssociationId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/extensionassociations/{ExtensionAssociationId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteExtensionAssociationRequest",
-}) as any as S.Schema<DeleteExtensionAssociationRequest>;
 export interface DeleteExtensionAssociationResponse {}
-export const DeleteExtensionAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteExtensionAssociationResponse",
-}) as any as S.Schema<DeleteExtensionAssociationResponse>;
 export interface DeleteHostedConfigurationVersionRequest {
   ApplicationId: string;
   ConfigurationProfileId: string;
   VersionNumber: number;
 }
-export const DeleteHostedConfigurationVersionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-      ConfigurationProfileId: S.String.pipe(
-        T.HttpLabel("ConfigurationProfileId"),
-      ),
-      VersionNumber: S.Number.pipe(T.HttpLabel("VersionNumber")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteHostedConfigurationVersionRequest",
-}) as any as S.Schema<DeleteHostedConfigurationVersionRequest>;
 export interface DeleteHostedConfigurationVersionResponse {}
-export const DeleteHostedConfigurationVersionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "DeleteHostedConfigurationVersionResponse",
-}) as any as S.Schema<DeleteHostedConfigurationVersionResponse>;
 export interface GetAccountSettingsRequest {}
-export const GetAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/settings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAccountSettingsRequest",
-}) as any as S.Schema<GetAccountSettingsRequest>;
 export type DeletionProtectionDuration = number;
 export interface DeletionProtectionSettings {
   Enabled?: boolean;
   ProtectionPeriodInMinutes?: number;
 }
-export const DeletionProtectionSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    ProtectionPeriodInMinutes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "DeletionProtectionSettings",
-}) as any as S.Schema<DeletionProtectionSettings>;
 export interface VendedMetricsSettings {
   Enabled?: boolean;
 }
-export const VendedMetricsSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Enabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "VendedMetricsSettings",
-}) as any as S.Schema<VendedMetricsSettings>;
 export interface AccountSettings {
   DeletionProtection?: DeletionProtectionSettings;
   VendedMetrics?: VendedMetricsSettings;
 }
-export const AccountSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeletionProtection: S.optional(DeletionProtectionSettings),
-    VendedMetrics: S.optional(VendedMetricsSettings),
-  }),
-).annotate({
-  identifier: "AccountSettings",
-}) as any as S.Schema<AccountSettings>;
 export interface GetApplicationRequest {
   ApplicationId: string;
 }
-export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/applications/{ApplicationId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
 export type StringWithLengthBetween1And64 = string;
 export type Version = string;
 export interface GetConfigurationRequest {
@@ -1163,97 +495,20 @@ export interface GetConfigurationRequest {
   ClientId: string;
   ClientConfigurationVersion?: string;
 }
-export const GetConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Application: S.String.pipe(T.HttpLabel("Application")),
-    Environment: S.String.pipe(T.HttpLabel("Environment")),
-    Configuration: S.String.pipe(T.HttpLabel("Configuration")),
-    ClientId: S.String.pipe(T.HttpQuery("client_id")),
-    ClientConfigurationVersion: S.optional(S.String).pipe(
-      T.HttpQuery("client_configuration_version"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{Application}/environments/{Environment}/configurations/{Configuration}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetConfigurationRequest",
-}) as any as S.Schema<GetConfigurationRequest>;
 export interface Configuration {
   Content?: T.StreamingOutputBody;
   ConfigurationVersion?: string;
   ContentType?: string;
 }
-export const Configuration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Content: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    ConfigurationVersion: S.optional(S.String).pipe(
-      T.HttpHeader("Configuration-Version"),
-    ),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  }),
-).annotate({ identifier: "Configuration" }) as any as S.Schema<Configuration>;
 export interface GetConfigurationProfileRequest {
   ApplicationId: string;
   ConfigurationProfileId: string;
 }
-export const GetConfigurationProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    ConfigurationProfileId: S.String.pipe(
-      T.HttpLabel("ConfigurationProfileId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetConfigurationProfileRequest",
-}) as any as S.Schema<GetConfigurationProfileRequest>;
 export interface GetDeploymentRequest {
   ApplicationId: string;
   EnvironmentId: string;
   DeploymentNumber: number;
 }
-export const GetDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
-    DeploymentNumber: S.Number.pipe(T.HttpLabel("DeploymentNumber")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDeploymentRequest",
-}) as any as S.Schema<GetDeploymentRequest>;
 export type DeploymentState =
   | "BAKING"
   | "VALIDATING"
@@ -1263,8 +518,6 @@ export type DeploymentState =
   | "ROLLED_BACK"
   | "REVERTED"
   | (string & {});
-export const DeploymentState = S.String;
-
 export type DeploymentEventType =
   | "PERCENTAGE_UPDATED"
   | "ROLLBACK_STARTED"
@@ -1274,16 +527,12 @@ export type DeploymentEventType =
   | "DEPLOYMENT_COMPLETED"
   | "REVERT_COMPLETED"
   | (string & {});
-export const DeploymentEventType = S.String;
-
 export type TriggeredBy =
   | "USER"
   | "APPCONFIG"
   | "CLOUDWATCH_ALARM"
   | "INTERNAL_ERROR"
   | (string & {});
-export const TriggeredBy = S.String;
-
 export interface ActionInvocation {
   ExtensionIdentifier?: string;
   ActionName?: string;
@@ -1293,21 +542,7 @@ export interface ActionInvocation {
   ErrorCode?: string;
   InvocationId?: string;
 }
-export const ActionInvocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExtensionIdentifier: S.optional(S.String),
-    ActionName: S.optional(S.String),
-    Uri: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
-    InvocationId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ActionInvocation",
-}) as any as S.Schema<ActionInvocation>;
 export type ActionInvocations = ActionInvocation[];
-export const ActionInvocations = /*@__PURE__*/ S.Array(ActionInvocation);
 export interface DeploymentEvent {
   EventType?: DeploymentEventType;
   TriggeredBy?: TriggeredBy;
@@ -1315,39 +550,14 @@ export interface DeploymentEvent {
   ActionInvocations?: ActionInvocation[];
   OccurredAt?: Date;
 }
-export const DeploymentEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventType: S.optional(DeploymentEventType),
-    TriggeredBy: S.optional(TriggeredBy),
-    Description: S.optional(S.String),
-    ActionInvocations: S.optional(ActionInvocations),
-    OccurredAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "DeploymentEvent",
-}) as any as S.Schema<DeploymentEvent>;
 export type DeploymentEvents = DeploymentEvent[];
-export const DeploymentEvents = /*@__PURE__*/ S.Array(DeploymentEvent);
 export interface AppliedExtension {
   ExtensionId?: string;
   ExtensionAssociationId?: string;
   VersionNumber?: number;
   Parameters?: { [key: string]: string | undefined };
 }
-export const AppliedExtension = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExtensionId: S.optional(S.String),
-    ExtensionAssociationId: S.optional(S.String),
-    VersionNumber: S.optional(S.Number),
-    Parameters: S.optional(ParameterValueMap),
-  }),
-).annotate({
-  identifier: "AppliedExtension",
-}) as any as S.Schema<AppliedExtension>;
 export type AppliedExtensions = AppliedExtension[];
-export const AppliedExtensions = /*@__PURE__*/ S.Array(AppliedExtension);
 export interface Deployment {
   ApplicationId?: string;
   EnvironmentId?: string;
@@ -1372,167 +582,35 @@ export interface Deployment {
   KmsKeyIdentifier?: string;
   VersionLabel?: string;
 }
-export const Deployment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    EnvironmentId: S.optional(S.String),
-    DeploymentStrategyId: S.optional(S.String),
-    ConfigurationProfileId: S.optional(S.String),
-    DeploymentNumber: S.optional(S.Number),
-    ConfigurationName: S.optional(S.String),
-    ConfigurationLocationUri: S.optional(S.String),
-    ConfigurationVersion: S.optional(S.String),
-    Description: S.optional(S.String),
-    DeploymentDurationInMinutes: S.optional(S.Number),
-    GrowthType: S.optional(GrowthType),
-    GrowthFactor: S.optional(S.Number),
-    FinalBakeTimeInMinutes: S.optional(S.Number),
-    State: S.optional(DeploymentState),
-    EventLog: S.optional(DeploymentEvents),
-    PercentageComplete: S.optional(S.Number),
-    StartedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    CompletedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    AppliedExtensions: S.optional(AppliedExtensions),
-    KmsKeyArn: S.optional(S.String),
-    KmsKeyIdentifier: S.optional(S.String),
-    VersionLabel: S.optional(S.String),
-  }),
-).annotate({ identifier: "Deployment" }) as any as S.Schema<Deployment>;
 export interface GetDeploymentStrategyRequest {
   DeploymentStrategyId: string;
 }
-export const GetDeploymentStrategyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeploymentStrategyId: S.String.pipe(T.HttpLabel("DeploymentStrategyId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/deploymentstrategies/{DeploymentStrategyId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDeploymentStrategyRequest",
-}) as any as S.Schema<GetDeploymentStrategyRequest>;
 export interface GetEnvironmentRequest {
   ApplicationId: string;
   EnvironmentId: string;
 }
-export const GetEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{ApplicationId}/environments/{EnvironmentId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEnvironmentRequest",
-}) as any as S.Schema<GetEnvironmentRequest>;
 export interface GetExperimentDefinitionRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
 }
-export const GetExperimentDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetExperimentDefinitionRequest",
-}) as any as S.Schema<GetExperimentDefinitionRequest>;
 export type PositiveInteger = number;
 export interface GetExperimentRunRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
   Run: number;
 }
-export const GetExperimentRunRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
-    Run: S.Number.pipe(T.HttpLabel("Run")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns/{Run}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetExperimentRunRequest",
-}) as any as S.Schema<GetExperimentRunRequest>;
 export type ExperimentRunStatus = "RUNNING" | "DONE" | (string & {});
-export const ExperimentRunStatus = S.String;
-
 export type NullablePercentage = number;
 export type EntityId = string;
 export type TreatmentOverrideMap = { [key: string]: string | undefined };
-export const TreatmentOverrideMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type TreatmentOverrides = {
   Inline: { [key: string]: string | undefined };
 };
-export const TreatmentOverrides = /*@__PURE__*/ S.Union([
-  S.Struct({ Inline: TreatmentOverrideMap }),
-]);
 export interface ExperimentRunResult {
   ExecutiveSummary?: string;
   ReasonsToLaunch?: string;
   ReasonsNotToLaunch?: string;
 }
-export const ExperimentRunResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExecutiveSummary: S.optional(S.String),
-    ReasonsToLaunch: S.optional(S.String),
-    ReasonsNotToLaunch: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExperimentRunResult",
-}) as any as S.Schema<ExperimentRunResult>;
 export interface ExperimentDefinitionSnapshot {
   ApplicationId?: string;
   Id?: string;
@@ -1547,24 +625,6 @@ export interface ExperimentDefinitionSnapshot {
   Treatments?: Treatment[];
   Control?: Treatment;
 }
-export const ExperimentDefinitionSnapshot = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Hypothesis: S.optional(S.String),
-    ConfigurationProfileId: S.optional(S.String),
-    EnvironmentId: S.optional(S.String),
-    FlagKey: S.optional(S.String),
-    AudienceRule: S.optional(S.String),
-    AudienceDescription: S.optional(S.String),
-    LaunchCriteria: S.optional(S.String),
-    Treatments: S.optional(TreatmentList),
-    Control: S.optional(Treatment),
-  }),
-).annotate({
-  identifier: "ExperimentDefinitionSnapshot",
-}) as any as S.Schema<ExperimentDefinitionSnapshot>;
 export interface ExperimentRun {
   ApplicationId?: string;
   ExperimentDefinitionId?: string;
@@ -1579,165 +639,36 @@ export interface ExperimentRun {
   EndedAt?: Date;
   ExperimentDefinitionSnapshot?: ExperimentDefinitionSnapshot;
 }
-export const ExperimentRun = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    ExperimentDefinitionId: S.optional(S.String),
-    Run: S.optional(S.Number),
-    Description: S.optional(S.String),
-    Status: S.optional(ExperimentRunStatus),
-    ExposurePercentage: S.optional(S.Number),
-    TreatmentOverrides: S.optional(TreatmentOverrides),
-    Result: S.optional(ExperimentRunResult),
-    StartedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    ExperimentDefinitionSnapshot: S.optional(ExperimentDefinitionSnapshot),
-  }),
-).annotate({ identifier: "ExperimentRun" }) as any as S.Schema<ExperimentRun>;
 export interface GetExtensionRequest {
   ExtensionIdentifier: string;
   VersionNumber?: number;
 }
-export const GetExtensionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExtensionIdentifier: S.String.pipe(T.HttpLabel("ExtensionIdentifier")),
-    VersionNumber: S.optional(S.Number).pipe(T.HttpQuery("version_number")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/extensions/{ExtensionIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetExtensionRequest",
-}) as any as S.Schema<GetExtensionRequest>;
 export interface GetExtensionAssociationRequest {
   ExtensionAssociationId: string;
 }
-export const GetExtensionAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExtensionAssociationId: S.String.pipe(
-      T.HttpLabel("ExtensionAssociationId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/extensionassociations/{ExtensionAssociationId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetExtensionAssociationRequest",
-}) as any as S.Schema<GetExtensionAssociationRequest>;
 export interface GetHostedConfigurationVersionRequest {
   ApplicationId: string;
   ConfigurationProfileId: string;
   VersionNumber: number;
 }
-export const GetHostedConfigurationVersionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-      ConfigurationProfileId: S.String.pipe(
-        T.HttpLabel("ConfigurationProfileId"),
-      ),
-      VersionNumber: S.Number.pipe(T.HttpLabel("VersionNumber")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetHostedConfigurationVersionRequest",
-}) as any as S.Schema<GetHostedConfigurationVersionRequest>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListApplicationsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListApplicationsRequest",
-}) as any as S.Schema<ListApplicationsRequest>;
 export type ApplicationList = Application[];
-export const ApplicationList = /*@__PURE__*/ S.Array(Application);
 export interface Applications {
   Items?: Application[];
   NextToken?: string;
 }
-export const Applications = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(ApplicationList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "Applications" }) as any as S.Schema<Applications>;
 export interface ListConfigurationProfilesRequest {
   ApplicationId: string;
   MaxResults?: number;
   NextToken?: string;
   Type?: string;
 }
-export const ListConfigurationProfilesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-    Type: S.optional(S.String).pipe(T.HttpQuery("type")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{ApplicationId}/configurationprofiles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListConfigurationProfilesRequest",
-}) as any as S.Schema<ListConfigurationProfilesRequest>;
 export type ValidatorTypeList = ValidatorType[];
-export const ValidatorTypeList = /*@__PURE__*/ S.Array(ValidatorType);
 export interface ConfigurationProfileSummary {
   ApplicationId?: string;
   Id?: string;
@@ -1746,65 +677,18 @@ export interface ConfigurationProfileSummary {
   ValidatorTypes?: ValidatorType[];
   Type?: string;
 }
-export const ConfigurationProfileSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    LocationUri: S.optional(S.String),
-    ValidatorTypes: S.optional(ValidatorTypeList),
-    Type: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConfigurationProfileSummary",
-}) as any as S.Schema<ConfigurationProfileSummary>;
 export type ConfigurationProfileSummaryList = ConfigurationProfileSummary[];
-export const ConfigurationProfileSummaryList = /*@__PURE__*/ S.Array(
-  ConfigurationProfileSummary,
-);
 export interface ConfigurationProfiles {
   Items?: ConfigurationProfileSummary[];
   NextToken?: string;
 }
-export const ConfigurationProfiles = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(ConfigurationProfileSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConfigurationProfiles",
-}) as any as S.Schema<ConfigurationProfiles>;
 export interface ListDeploymentsRequest {
   ApplicationId: string;
   EnvironmentId: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDeploymentsRequest",
-}) as any as S.Schema<ListDeploymentsRequest>;
 export type DeploymentType = "USER" | "MANAGED" | (string & {});
-export const DeploymentType = S.String;
-
 export interface DeploymentSummary {
   DeploymentNumber?: number;
   ConfigurationProfileId?: string;
@@ -1821,115 +705,30 @@ export interface DeploymentSummary {
   VersionLabel?: string;
   Type?: DeploymentType;
 }
-export const DeploymentSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeploymentNumber: S.optional(S.Number),
-    ConfigurationProfileId: S.optional(S.String),
-    ConfigurationName: S.optional(S.String),
-    ConfigurationVersion: S.optional(S.String),
-    DeploymentDurationInMinutes: S.optional(S.Number),
-    GrowthType: S.optional(GrowthType),
-    GrowthFactor: S.optional(S.Number),
-    FinalBakeTimeInMinutes: S.optional(S.Number),
-    State: S.optional(DeploymentState),
-    PercentageComplete: S.optional(S.Number),
-    StartedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    CompletedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    VersionLabel: S.optional(S.String),
-    Type: S.optional(DeploymentType),
-  }),
-).annotate({
-  identifier: "DeploymentSummary",
-}) as any as S.Schema<DeploymentSummary>;
 export type DeploymentList = DeploymentSummary[];
-export const DeploymentList = /*@__PURE__*/ S.Array(DeploymentSummary);
 export interface Deployments {
   Items?: DeploymentSummary[];
   NextToken?: string;
 }
-export const Deployments = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(DeploymentList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "Deployments" }) as any as S.Schema<Deployments>;
 export interface ListDeploymentStrategiesRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListDeploymentStrategiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/deploymentstrategies" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDeploymentStrategiesRequest",
-}) as any as S.Schema<ListDeploymentStrategiesRequest>;
 export type DeploymentStrategyList = DeploymentStrategy[];
-export const DeploymentStrategyList = /*@__PURE__*/ S.Array(DeploymentStrategy);
 export interface DeploymentStrategies {
   Items?: DeploymentStrategy[];
   NextToken?: string;
 }
-export const DeploymentStrategies = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(DeploymentStrategyList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeploymentStrategies",
-}) as any as S.Schema<DeploymentStrategies>;
 export interface ListEnvironmentsRequest {
   ApplicationId: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{ApplicationId}/environments",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListEnvironmentsRequest",
-}) as any as S.Schema<ListEnvironmentsRequest>;
 export type EnvironmentList = Environment[];
-export const EnvironmentList = /*@__PURE__*/ S.Array(Environment);
 export interface Environments {
   Items?: Environment[];
   NextToken?: string;
 }
-export const Environments = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(EnvironmentList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "Environments" }) as any as S.Schema<Environments>;
 export interface ListExperimentDefinitionsRequest {
   ApplicationIdentifier?: string;
   ConfigurationProfileIdentifier?: string;
@@ -1938,33 +737,6 @@ export interface ListExperimentDefinitionsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListExperimentDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("application_identifier"),
-    ),
-    ConfigurationProfileIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("configuration_profile_identifier"),
-    ),
-    EnvironmentIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("environment_identifier"),
-    ),
-    Status: S.optional(ExperimentDefinitionStatus).pipe(T.HttpQuery("status")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/experimentdefinitions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListExperimentDefinitionsRequest",
-}) as any as S.Schema<ListExperimentDefinitionsRequest>;
 export interface ExperimentDefinitionSummary {
   ApplicationId?: string;
   Id?: string;
@@ -1977,42 +749,11 @@ export interface ExperimentDefinitionSummary {
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
-export const ExperimentDefinitionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Hypothesis: S.optional(S.String),
-    Status: S.optional(ExperimentDefinitionStatus),
-    ConfigurationProfileId: S.optional(S.String),
-    EnvironmentId: S.optional(S.String),
-    FlagKey: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "ExperimentDefinitionSummary",
-}) as any as S.Schema<ExperimentDefinitionSummary>;
 export type ExperimentDefinitionList = ExperimentDefinitionSummary[];
-export const ExperimentDefinitionList = /*@__PURE__*/ S.Array(
-  ExperimentDefinitionSummary,
-);
 export interface ExperimentDefinitions {
   Items?: ExperimentDefinitionSummary[];
   NextToken?: string;
 }
-export const ExperimentDefinitions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(ExperimentDefinitionList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExperimentDefinitions",
-}) as any as S.Schema<ExperimentDefinitions>;
 export interface ListExperimentRunEventsRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
@@ -2020,39 +761,12 @@ export interface ListExperimentRunEventsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListExperimentRunEventsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
-    Run: S.Number.pipe(T.HttpLabel("Run")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns/{Run}/events",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListExperimentRunEventsRequest",
-}) as any as S.Schema<ListExperimentRunEventsRequest>;
 export type ExperimentRunEventType =
   | "RUN_STARTED"
   | "EXPOSURE_UPDATED"
   | "OVERRIDES_UPDATED"
   | "RUN_STOPPED"
   | (string & {});
-export const ExperimentRunEventType = S.String;
-
 export interface ExperimentRunEvent {
   Description?: string;
   AssociatedDeployment?: string;
@@ -2062,35 +776,11 @@ export interface ExperimentRunEvent {
   ExposurePercentage?: number;
   TreatmentOverrides?: TreatmentOverrides;
 }
-export const ExperimentRunEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    AssociatedDeployment: S.optional(S.String),
-    EventType: S.optional(ExperimentRunEventType),
-    OccurredAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    TriggeredBy: S.optional(TriggeredBy),
-    ExposurePercentage: S.optional(S.Number),
-    TreatmentOverrides: S.optional(TreatmentOverrides),
-  }),
-).annotate({
-  identifier: "ExperimentRunEvent",
-}) as any as S.Schema<ExperimentRunEvent>;
 export type ExperimentRunEventList = ExperimentRunEvent[];
-export const ExperimentRunEventList = /*@__PURE__*/ S.Array(ExperimentRunEvent);
 export interface ExperimentRunEvents {
   Items?: ExperimentRunEvent[];
   NextToken?: string;
 }
-export const ExperimentRunEvents = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(ExperimentRunEventList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExperimentRunEvents",
-}) as any as S.Schema<ExperimentRunEvents>;
 export interface ListExperimentRunsRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
@@ -2098,31 +788,6 @@ export interface ListExperimentRunsRequest {
   NextToken?: string;
   Status?: ExperimentRunStatus;
 }
-export const ListExperimentRunsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-    Status: S.optional(ExperimentRunStatus).pipe(T.HttpQuery("status")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListExperimentRunsRequest",
-}) as any as S.Schema<ListExperimentRunsRequest>;
 export interface ExperimentRunSummary {
   ExperimentDefinitionId?: string;
   Run?: number;
@@ -2132,36 +797,11 @@ export interface ExperimentRunSummary {
   UpdatedAt?: Date;
   EndedAt?: Date;
 }
-export const ExperimentRunSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExperimentDefinitionId: S.optional(S.String),
-    Run: S.optional(S.Number),
-    Description: S.optional(S.String),
-    Status: S.optional(ExperimentRunStatus),
-    StartedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({
-  identifier: "ExperimentRunSummary",
-}) as any as S.Schema<ExperimentRunSummary>;
 export type ExperimentRunSummaryList = ExperimentRunSummary[];
-export const ExperimentRunSummaryList =
-  /*@__PURE__*/ S.Array(ExperimentRunSummary);
 export interface ExperimentRuns {
   Items?: ExperimentRunSummary[];
   NextToken?: string;
 }
-export const ExperimentRuns = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(ExperimentRunSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "ExperimentRuns" }) as any as S.Schema<ExperimentRuns>;
 export interface ListExtensionAssociationsRequest {
   ResourceIdentifier?: string;
   ExtensionIdentifier?: string;
@@ -2169,86 +809,22 @@ export interface ListExtensionAssociationsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListExtensionAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("resource_identifier"),
-    ),
-    ExtensionIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("extension_identifier"),
-    ),
-    ExtensionVersionNumber: S.optional(S.Number).pipe(
-      T.HttpQuery("extension_version_number"),
-    ),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/extensionassociations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListExtensionAssociationsRequest",
-}) as any as S.Schema<ListExtensionAssociationsRequest>;
 export interface ExtensionAssociationSummary {
   Id?: string;
   ExtensionArn?: string;
   ResourceArn?: string;
 }
-export const ExtensionAssociationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    ExtensionArn: S.optional(S.String),
-    ResourceArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExtensionAssociationSummary",
-}) as any as S.Schema<ExtensionAssociationSummary>;
 export type ExtensionAssociationSummaries = ExtensionAssociationSummary[];
-export const ExtensionAssociationSummaries = /*@__PURE__*/ S.Array(
-  ExtensionAssociationSummary,
-);
 export interface ExtensionAssociations {
   Items?: ExtensionAssociationSummary[];
   NextToken?: string;
 }
-export const ExtensionAssociations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(ExtensionAssociationSummaries),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExtensionAssociations",
-}) as any as S.Schema<ExtensionAssociations>;
 export type QueryName = string;
 export interface ListExtensionsRequest {
   MaxResults?: number;
   NextToken?: string;
   Name?: string;
 }
-export const ListExtensionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-    Name: S.optional(S.String).pipe(T.HttpQuery("name")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/extensions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListExtensionsRequest",
-}) as any as S.Schema<ListExtensionsRequest>;
 export interface ExtensionSummary {
   Id?: string;
   Name?: string;
@@ -2256,29 +832,11 @@ export interface ExtensionSummary {
   Arn?: string;
   Description?: string;
 }
-export const ExtensionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    VersionNumber: S.optional(S.Number),
-    Arn: S.optional(S.String),
-    Description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExtensionSummary",
-}) as any as S.Schema<ExtensionSummary>;
 export type ExtensionSummaries = ExtensionSummary[];
-export const ExtensionSummaries = /*@__PURE__*/ S.Array(ExtensionSummary);
 export interface Extensions {
   Items?: ExtensionSummary[];
   NextToken?: string;
 }
-export const Extensions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(ExtensionSummaries),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "Extensions" }) as any as S.Schema<Extensions>;
 export interface ListHostedConfigurationVersionsRequest {
   ApplicationId: string;
   ConfigurationProfileId: string;
@@ -2286,32 +844,6 @@ export interface ListHostedConfigurationVersionsRequest {
   NextToken?: string;
   VersionLabel?: string;
 }
-export const ListHostedConfigurationVersionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-      ConfigurationProfileId: S.String.pipe(
-        T.HttpLabel("ConfigurationProfileId"),
-      ),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-      VersionLabel: S.optional(S.String).pipe(T.HttpQuery("version_label")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListHostedConfigurationVersionsRequest",
-}) as any as S.Schema<ListHostedConfigurationVersionsRequest>;
 export interface HostedConfigurationVersionSummary {
   ApplicationId?: string;
   ConfigurationProfileId?: string;
@@ -2321,65 +853,20 @@ export interface HostedConfigurationVersionSummary {
   VersionLabel?: string;
   KmsKeyArn?: string;
 }
-export const HostedConfigurationVersionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    ConfigurationProfileId: S.optional(S.String),
-    VersionNumber: S.optional(S.Number),
-    Description: S.optional(S.String),
-    ContentType: S.optional(S.String),
-    VersionLabel: S.optional(S.String),
-    KmsKeyArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "HostedConfigurationVersionSummary",
-}) as any as S.Schema<HostedConfigurationVersionSummary>;
 export type HostedConfigurationVersionSummaryList =
   HostedConfigurationVersionSummary[];
-export const HostedConfigurationVersionSummaryList = /*@__PURE__*/ S.Array(
-  HostedConfigurationVersionSummary,
-);
 export interface HostedConfigurationVersions {
   Items?: HostedConfigurationVersionSummary[];
   NextToken?: string;
 }
-export const HostedConfigurationVersions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(HostedConfigurationVersionSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "HostedConfigurationVersions",
-}) as any as S.Schema<HostedConfigurationVersions>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ResourceTags {
   Tags?: { [key: string]: string | undefined };
 }
-export const ResourceTags = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagMap) }),
-).annotate({ identifier: "ResourceTags" }) as any as S.Schema<ResourceTags>;
 export type DynamicParameterKey = string;
 export type DynamicParameterMap = { [key: string]: string | undefined };
-export const DynamicParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface StartDeploymentRequest {
   ApplicationId: string;
   EnvironmentId: string;
@@ -2392,46 +879,10 @@ export interface StartDeploymentRequest {
   DynamicExtensionParameters?: { [key: string]: string | undefined };
   LatestDeploymentNumber?: number;
 }
-export const StartDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
-    DeploymentStrategyId: S.String,
-    ConfigurationProfileId: S.String,
-    ConfigurationVersion: S.String,
-    Description: S.optional(S.String),
-    Tags: S.optional(TagMap),
-    KmsKeyIdentifier: S.optional(S.String),
-    DynamicExtensionParameters: S.optional(DynamicParameterMap),
-    LatestDeploymentNumber: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartDeploymentRequest",
-}) as any as S.Schema<StartDeploymentRequest>;
 export interface DeploymentParameters {
   DynamicExtensionParameters?: { [key: string]: string | undefined };
   Tags?: { [key: string]: string | undefined };
 }
-export const DeploymentParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DynamicExtensionParameters: S.optional(DynamicParameterMap),
-    Tags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "DeploymentParameters",
-}) as any as S.Schema<DeploymentParameters>;
 export interface StartExperimentRunRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
@@ -2441,61 +892,12 @@ export interface StartExperimentRunRequest {
   Tags?: { [key: string]: string | undefined };
   DeploymentParameters?: DeploymentParameters;
 }
-export const StartExperimentRunRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
-    Description: S.optional(S.String),
-    ExposurePercentage: S.optional(S.Number),
-    TreatmentOverrides: S.optional(TreatmentOverrides),
-    Tags: S.optional(TagMap),
-    DeploymentParameters: S.optional(DeploymentParameters),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartExperimentRunRequest",
-}) as any as S.Schema<StartExperimentRunRequest>;
 export interface StopDeploymentRequest {
   ApplicationId: string;
   EnvironmentId: string;
   DeploymentNumber: number;
   AllowRevert?: boolean;
 }
-export const StopDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
-    DeploymentNumber: S.Number.pipe(T.HttpLabel("DeploymentNumber")),
-    AllowRevert: S.optional(S.Boolean).pipe(T.HttpHeader("Allow-Revert")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopDeploymentRequest",
-}) as any as S.Schema<StopDeploymentRequest>;
 export interface StopExperimentRunRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
@@ -2503,131 +905,26 @@ export interface StopExperimentRunRequest {
   Result?: ExperimentRunResult;
   DeploymentParameters?: DeploymentParameters;
 }
-export const StopExperimentRunRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
-    Run: S.Number.pipe(T.HttpLabel("Run")),
-    Result: S.optional(ExperimentRunResult),
-    DeploymentParameters: S.optional(DeploymentParameters),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns/{Run}/stop",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopExperimentRunRequest",
-}) as any as S.Schema<StopExperimentRunRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAccountSettingsRequest {
   DeletionProtection?: DeletionProtectionSettings;
   VendedMetrics?: VendedMetricsSettings;
 }
-export const UpdateAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeletionProtection: S.optional(DeletionProtectionSettings),
-    VendedMetrics: S.optional(VendedMetricsSettings),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/settings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAccountSettingsRequest",
-}) as any as S.Schema<UpdateAccountSettingsRequest>;
 export interface UpdateApplicationRequest {
   ApplicationId: string;
   Name?: string;
   Description?: string;
 }
-export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/applications/{ApplicationId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateApplicationRequest",
-}) as any as S.Schema<UpdateApplicationRequest>;
 export type KmsKeyIdentifierOrEmpty = string;
 export interface UpdateConfigurationProfileRequest {
   ApplicationId: string;
@@ -2638,33 +935,6 @@ export interface UpdateConfigurationProfileRequest {
   Validators?: Validator[];
   KmsKeyIdentifier?: string;
 }
-export const UpdateConfigurationProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    ConfigurationProfileId: S.String.pipe(
-      T.HttpLabel("ConfigurationProfileId"),
-    ),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    RetrievalRoleArn: S.optional(S.String),
-    Validators: S.optional(ValidatorList),
-    KmsKeyIdentifier: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateConfigurationProfileRequest",
-}) as any as S.Schema<UpdateConfigurationProfileRequest>;
 export interface UpdateDeploymentStrategyRequest {
   DeploymentStrategyId: string;
   Description?: string;
@@ -2673,30 +943,6 @@ export interface UpdateDeploymentStrategyRequest {
   GrowthFactor?: number;
   GrowthType?: GrowthType;
 }
-export const UpdateDeploymentStrategyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeploymentStrategyId: S.String.pipe(T.HttpLabel("DeploymentStrategyId")),
-    Description: S.optional(S.String),
-    DeploymentDurationInMinutes: S.optional(S.Number),
-    FinalBakeTimeInMinutes: S.optional(S.Number),
-    GrowthFactor: S.optional(S.Number),
-    GrowthType: S.optional(GrowthType),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/deploymentstrategies/{DeploymentStrategyId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDeploymentStrategyRequest",
-}) as any as S.Schema<UpdateDeploymentStrategyRequest>;
 export interface UpdateEnvironmentRequest {
   ApplicationId: string;
   EnvironmentId: string;
@@ -2704,29 +950,6 @@ export interface UpdateEnvironmentRequest {
   Description?: string;
   Monitors?: Monitor[];
 }
-export const UpdateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    Monitors: S.optional(MonitorList),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/applications/{ApplicationId}/environments/{EnvironmentId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateEnvironmentRequest",
-}) as any as S.Schema<UpdateEnvironmentRequest>;
 export interface UpdateExperimentDefinitionRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
@@ -2737,34 +960,6 @@ export interface UpdateExperimentDefinitionRequest {
   AudienceDescription?: string;
   LaunchCriteria?: string;
 }
-export const UpdateExperimentDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
-    Treatments: S.optional(TreatmentInputList),
-    Control: S.optional(TreatmentInput),
-    Hypothesis: S.optional(S.String),
-    AudienceRule: S.optional(S.String),
-    AudienceDescription: S.optional(S.String),
-    LaunchCriteria: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateExperimentDefinitionRequest",
-}) as any as S.Schema<UpdateExperimentDefinitionRequest>;
 export interface UpdateExperimentRunRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
@@ -2774,33 +969,6 @@ export interface UpdateExperimentRunRequest {
   TreatmentOverrides?: TreatmentOverrides;
   DeploymentParameters?: DeploymentParameters;
 }
-export const UpdateExperimentRunRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
-    Run: S.Number.pipe(T.HttpLabel("Run")),
-    Description: S.optional(S.String),
-    ExposurePercentage: S.optional(S.Number),
-    TreatmentOverrides: S.optional(TreatmentOverrides),
-    DeploymentParameters: S.optional(DeploymentParameters),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns/{Run}/update",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateExperimentRunRequest",
-}) as any as S.Schema<UpdateExperimentRunRequest>;
 export interface UpdateExtensionRequest {
   ExtensionIdentifier: string;
   Description?: string;
@@ -2808,89 +976,17 @@ export interface UpdateExtensionRequest {
   Parameters?: { [key: string]: Parameter | undefined };
   VersionNumber?: number;
 }
-export const UpdateExtensionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExtensionIdentifier: S.String.pipe(T.HttpLabel("ExtensionIdentifier")),
-    Description: S.optional(S.String),
-    Actions: S.optional(ActionsMap),
-    Parameters: S.optional(ParameterMap),
-    VersionNumber: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/extensions/{ExtensionIdentifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateExtensionRequest",
-}) as any as S.Schema<UpdateExtensionRequest>;
 export interface UpdateExtensionAssociationRequest {
   ExtensionAssociationId: string;
   Parameters?: { [key: string]: string | undefined };
 }
-export const UpdateExtensionAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExtensionAssociationId: S.String.pipe(
-      T.HttpLabel("ExtensionAssociationId"),
-    ),
-    Parameters: S.optional(ParameterValueMap),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/extensionassociations/{ExtensionAssociationId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateExtensionAssociationRequest",
-}) as any as S.Schema<UpdateExtensionAssociationRequest>;
 export interface ValidateConfigurationRequest {
   ApplicationId: string;
   ConfigurationProfileId: string;
   ConfigurationVersion: string;
 }
-export const ValidateConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    ConfigurationProfileId: S.String.pipe(
-      T.HttpLabel("ConfigurationProfileId"),
-    ),
-    ConfigurationVersion: S.String.pipe(T.HttpQuery("configuration_version")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/validators",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ValidateConfigurationRequest",
-}) as any as S.Schema<ValidateConfigurationRequest>;
 export interface ValidateConfigurationResponse {}
-export const ValidateConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ValidateConfigurationResponse",
-}) as any as S.Schema<ValidateConfigurationResponse>;
 export type BadRequestReason = "InvalidConfiguration" | (string & {});
-export const BadRequestReason = S.String;
-
 export interface InvalidConfigurationDetail {
   Constraint?: string;
   Location?: string;
@@ -2898,30 +994,11 @@ export interface InvalidConfigurationDetail {
   Type?: string;
   Value?: string;
 }
-export const InvalidConfigurationDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Constraint: S.optional(S.String),
-    Location: S.optional(S.String),
-    Reason: S.optional(S.String),
-    Type: S.optional(S.String),
-    Value: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "InvalidConfigurationDetail",
-}) as any as S.Schema<InvalidConfigurationDetail>;
 export type InvalidConfigurationDetailList = InvalidConfigurationDetail[];
-export const InvalidConfigurationDetailList = /*@__PURE__*/ S.Array(
-  InvalidConfigurationDetail,
-);
 export type BadRequestDetails = {
   InvalidConfiguration: InvalidConfigurationDetail[];
 };
-export const BadRequestDetails = /*@__PURE__*/ S.Union([
-  S.Struct({ InvalidConfiguration: InvalidConfigurationDetailList }),
-]);
 export type BytesMeasure = "KILOBYTES" | (string & {});
-export const BytesMeasure = S.String;
-
 export type CreateApplicationError =
   | BadRequestException
   | InternalServerException
@@ -2940,8 +1017,12 @@ export const createApplication: API.OperationMethod<
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateApplicationRequest,
-  output: Application,
+  descriptor: {
+    service: svc,
+    http: "POST /applications",
+    input: { Name: 0, Description: 0, Tags: 0 },
+    body: true,
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -2950,7 +1031,7 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
-}));
+})) as any;
 
 export type CreateConfigurationProfileError =
   | BadRequestException
@@ -2995,8 +1076,23 @@ export const createConfigurationProfile: API.OperationMethod<
   CreateConfigurationProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateConfigurationProfileRequest,
-  output: ConfigurationProfile,
+  descriptor: {
+    service: svc,
+    http: "POST /applications/{ApplicationId}/configurationprofiles",
+    input: {
+      ApplicationId: 0,
+      Name: 0,
+      Description: 0,
+      LocationUri: 0,
+      RetrievalRoleArn: 0,
+      Validators: D.list(i_Validator),
+      Tags: 0,
+      Type: 0,
+      KmsKeyIdentifier: 0,
+    },
+    output: { Validators: D.list(o_Validator) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3006,7 +1102,7 @@ export const createConfigurationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationProfile",
-}));
+})) as any;
 
 export type CreateDeploymentStrategyError =
   | BadRequestException
@@ -3025,8 +1121,21 @@ export const createDeploymentStrategy: API.OperationMethod<
   CreateDeploymentStrategyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDeploymentStrategyRequest,
-  output: DeploymentStrategy,
+  descriptor: {
+    service: svc,
+    http: "POST /deploymentstrategies",
+    input: {
+      Name: 0,
+      Description: 0,
+      DeploymentDurationInMinutes: 0,
+      FinalBakeTimeInMinutes: 0,
+      GrowthFactor: 0,
+      GrowthType: 0,
+      ReplicateTo: 0,
+      Tags: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3035,7 +1144,7 @@ export const createDeploymentStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeploymentStrategy",
-}));
+})) as any;
 
 export type CreateEnvironmentError =
   | BadRequestException
@@ -3059,8 +1168,18 @@ export const createEnvironment: API.OperationMethod<
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateEnvironmentRequest,
-  output: Environment,
+  descriptor: {
+    service: svc,
+    http: "POST /applications/{ApplicationId}/environments",
+    input: {
+      ApplicationId: 0,
+      Name: 0,
+      Description: 0,
+      Monitors: D.list(i_Monitor),
+      Tags: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3070,7 +1189,7 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
-}));
+})) as any;
 
 export type CreateExperimentDefinitionError =
   | BadRequestException
@@ -3088,8 +1207,26 @@ export const createExperimentDefinition: API.OperationMethod<
   CreateExperimentDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateExperimentDefinitionRequest,
-  output: ExperimentDefinition,
+  descriptor: {
+    service: svc,
+    http: "POST /applications/{ApplicationIdentifier}/experimentdefinitions",
+    input: {
+      ApplicationIdentifier: 0,
+      Name: 0,
+      ConfigurationProfileIdentifier: 0,
+      EnvironmentIdentifier: 0,
+      FlagKey: 0,
+      Treatments: D.list(i_TreatmentInput),
+      Control: i_TreatmentInput,
+      AudienceRule: 0,
+      Hypothesis: 0,
+      AudienceDescription: 0,
+      LaunchCriteria: 0,
+      Tags: 0,
+    },
+    output: { CreatedAt: D.ts, UpdatedAt: D.ts },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -3100,7 +1237,7 @@ export const createExperimentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExperimentDefinition",
-}));
+})) as any;
 
 export type CreateExtensionError =
   | BadRequestException
@@ -3137,8 +1274,19 @@ export const createExtension: API.OperationMethod<
   CreateExtensionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateExtensionRequest,
-  output: Extension,
+  descriptor: {
+    service: svc,
+    http: "POST /extensions",
+    input: {
+      Name: 0,
+      Description: 0,
+      Actions: D.map(D.list(i_Action)),
+      Parameters: D.map(i_Parameter),
+      Tags: 0,
+      LatestVersionNumber: D.m({ header: "Latest-Version-Number" }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -3148,7 +1296,7 @@ export const createExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExtension",
-}));
+})) as any;
 
 export type CreateExtensionAssociationError =
   | BadRequestException
@@ -3176,8 +1324,18 @@ export const createExtensionAssociation: API.OperationMethod<
   CreateExtensionAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateExtensionAssociationRequest,
-  output: ExtensionAssociation,
+  descriptor: {
+    service: svc,
+    http: "POST /extensionassociations",
+    input: {
+      ExtensionIdentifier: 0,
+      ExtensionVersionNumber: 0,
+      ResourceIdentifier: 0,
+      Parameters: 0,
+      Tags: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3187,7 +1345,7 @@ export const createExtensionAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExtensionAssociation",
-}));
+})) as any;
 
 export type CreateHostedConfigurationVersionError =
   | BadRequestException
@@ -3209,8 +1367,29 @@ export const createHostedConfigurationVersion: API.OperationMethod<
   CreateHostedConfigurationVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateHostedConfigurationVersionRequest,
-  output: HostedConfigurationVersion,
+  descriptor: {
+    service: svc,
+    http: "POST /applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions",
+    input: {
+      ApplicationId: 0,
+      ConfigurationProfileId: 0,
+      Description: D.m({ header: "Description" }),
+      Content: D.m({ payload: true, shape: D.stream }),
+      ContentType: D.m({ header: "Content-Type" }),
+      LatestVersionNumber: D.m({ header: "Latest-Version-Number" }),
+      VersionLabel: D.m({ header: "VersionLabel" }),
+    },
+    output: {
+      ApplicationId: D.m({ header: "Application-Id" }),
+      ConfigurationProfileId: D.m({ header: "Configuration-Profile-Id" }),
+      VersionNumber: D.m({ header: "Version-Number", shape: D.num }),
+      Description: D.m({ header: "Description" }),
+      Content: D.m({ payload: true, shape: D.stream }),
+      ContentType: D.m({ header: "Content-Type" }),
+      VersionLabel: D.m({ header: "VersionLabel" }),
+      KmsKeyArn: D.m({ header: "KmsKeyArn" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -3222,7 +1401,7 @@ export const createHostedConfigurationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHostedConfigurationVersion",
-}));
+})) as any;
 
 export type DeleteApplicationError =
   | BadRequestException
@@ -3238,8 +1417,11 @@ export const deleteApplication: API.OperationMethod<
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteApplicationRequest,
-  output: DeleteApplicationResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /applications/{ApplicationId}",
+    input: { ApplicationId: 0 },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3248,7 +1430,7 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
-}));
+})) as any;
 
 export type DeleteConfigurationProfileError =
   | BadRequestException
@@ -3269,8 +1451,17 @@ export const deleteConfigurationProfile: API.OperationMethod<
   DeleteConfigurationProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteConfigurationProfileRequest,
-  output: DeleteConfigurationProfileResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}",
+    input: {
+      ApplicationId: 0,
+      ConfigurationProfileId: 0,
+      DeletionProtectionCheck: D.m({
+        header: "x-amzn-deletion-protection-check",
+      }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -3280,7 +1471,7 @@ export const deleteConfigurationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationProfile",
-}));
+})) as any;
 
 export type DeleteDeploymentStrategyError =
   | BadRequestException
@@ -3296,8 +1487,11 @@ export const deleteDeploymentStrategy: API.OperationMethod<
   DeleteDeploymentStrategyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDeploymentStrategyRequest,
-  output: DeleteDeploymentStrategyResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /deployementstrategies/{DeploymentStrategyId}",
+    input: { DeploymentStrategyId: 0 },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3306,7 +1500,7 @@ export const deleteDeploymentStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeploymentStrategy",
-}));
+})) as any;
 
 export type DeleteEnvironmentError =
   | BadRequestException
@@ -3326,8 +1520,17 @@ export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEnvironmentRequest,
-  output: DeleteEnvironmentResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /applications/{ApplicationId}/environments/{EnvironmentId}",
+    input: {
+      EnvironmentId: 0,
+      ApplicationId: 0,
+      DeletionProtectionCheck: D.m({
+        header: "x-amzn-deletion-protection-check",
+      }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -3337,7 +1540,7 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
-}));
+})) as any;
 
 export type DeleteExperimentDefinitionError =
   | BadRequestException
@@ -3354,8 +1557,15 @@ export const deleteExperimentDefinition: API.OperationMethod<
   DeleteExperimentDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteExperimentDefinitionRequest,
-  output: DeleteExperimentDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}",
+    input: {
+      ApplicationIdentifier: 0,
+      ExperimentDefinitionIdentifier: 0,
+      DeleteType: D.m({ query: "delete_type" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -3365,7 +1575,7 @@ export const deleteExperimentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExperimentDefinition",
-}));
+})) as any;
 
 export type DeleteExtensionError =
   | BadRequestException
@@ -3382,8 +1592,11 @@ export const deleteExtension: API.OperationMethod<
   DeleteExtensionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteExtensionRequest,
-  output: DeleteExtensionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /extensions/{ExtensionIdentifier}",
+    input: { ExtensionIdentifier: 0, VersionNumber: D.m({ query: "version" }) },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3392,7 +1605,7 @@ export const deleteExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExtension",
-}));
+})) as any;
 
 export type DeleteExtensionAssociationError =
   | BadRequestException
@@ -3409,8 +1622,11 @@ export const deleteExtensionAssociation: API.OperationMethod<
   DeleteExtensionAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteExtensionAssociationRequest,
-  output: DeleteExtensionAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /extensionassociations/{ExtensionAssociationId}",
+    input: { ExtensionAssociationId: 0 },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3419,7 +1635,7 @@ export const deleteExtensionAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExtensionAssociation",
-}));
+})) as any;
 
 export type DeleteHostedConfigurationVersionError =
   | BadRequestException
@@ -3436,8 +1652,11 @@ export const deleteHostedConfigurationVersion: API.OperationMethod<
   DeleteHostedConfigurationVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteHostedConfigurationVersionRequest,
-  output: DeleteHostedConfigurationVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}",
+    input: { ApplicationId: 0, ConfigurationProfileId: 0, VersionNumber: 0 },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3446,7 +1665,7 @@ export const deleteHostedConfigurationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHostedConfigurationVersion",
-}));
+})) as any;
 
 export type GetAccountSettingsError =
   | BadRequestException
@@ -3462,13 +1681,12 @@ export const getAccountSettings: API.OperationMethod<
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccountSettingsRequest,
-  output: AccountSettings,
+  descriptor: { service: svc, http: "GET /settings" },
   errors: [BadRequestException, InternalServerException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
-}));
+})) as any;
 
 export type GetApplicationError =
   | BadRequestException
@@ -3484,8 +1702,11 @@ export const getApplication: API.OperationMethod<
   GetApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetApplicationRequest,
-  output: Application,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{ApplicationId}",
+    input: { ApplicationId: 0 },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3494,7 +1715,7 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
-}));
+})) as any;
 
 export type GetConfigurationError =
   | BadRequestException
@@ -3518,8 +1739,24 @@ export const getConfiguration: API.OperationMethod<
   GetConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetConfigurationRequest,
-  output: Configuration,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{Application}/environments/{Environment}/configurations/{Configuration}",
+    input: {
+      Application: 0,
+      Environment: 0,
+      Configuration: 0,
+      ClientId: D.m({ query: "client_id" }),
+      ClientConfigurationVersion: D.m({
+        query: "client_configuration_version",
+      }),
+    },
+    output: {
+      Content: D.m({ payload: true, shape: D.stream }),
+      ConfigurationVersion: D.m({ header: "Configuration-Version" }),
+      ContentType: D.m({ header: "Content-Type" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3528,7 +1765,7 @@ export const getConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguration",
-}));
+})) as any;
 
 export type GetConfigurationProfileError =
   | BadRequestException
@@ -3544,8 +1781,12 @@ export const getConfigurationProfile: API.OperationMethod<
   GetConfigurationProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetConfigurationProfileRequest,
-  output: ConfigurationProfile,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}",
+    input: { ApplicationId: 0, ConfigurationProfileId: 0 },
+    output: { Validators: D.list(o_Validator) },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3554,7 +1795,7 @@ export const getConfigurationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationProfile",
-}));
+})) as any;
 
 export type GetDeploymentError =
   | BadRequestException
@@ -3570,8 +1811,16 @@ export const getDeployment: API.OperationMethod<
   GetDeploymentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDeploymentRequest,
-  output: Deployment,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}",
+    input: { ApplicationId: 0, EnvironmentId: 0, DeploymentNumber: 0 },
+    output: {
+      EventLog: D.list(o_DeploymentEvent),
+      StartedAt: D.ts,
+      CompletedAt: D.ts,
+    },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3580,7 +1829,7 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
-}));
+})) as any;
 
 export type GetDeploymentStrategyError =
   | BadRequestException
@@ -3600,8 +1849,11 @@ export const getDeploymentStrategy: API.OperationMethod<
   GetDeploymentStrategyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDeploymentStrategyRequest,
-  output: DeploymentStrategy,
+  descriptor: {
+    service: svc,
+    http: "GET /deploymentstrategies/{DeploymentStrategyId}",
+    input: { DeploymentStrategyId: 0 },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3610,7 +1862,7 @@ export const getDeploymentStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentStrategy",
-}));
+})) as any;
 
 export type GetEnvironmentError =
   | BadRequestException
@@ -3631,8 +1883,11 @@ export const getEnvironment: API.OperationMethod<
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEnvironmentRequest,
-  output: Environment,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{ApplicationId}/environments/{EnvironmentId}",
+    input: { ApplicationId: 0, EnvironmentId: 0 },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3641,7 +1896,7 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
-}));
+})) as any;
 
 export type GetExperimentDefinitionError =
   | BadRequestException
@@ -3657,8 +1912,12 @@ export const getExperimentDefinition: API.OperationMethod<
   GetExperimentDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetExperimentDefinitionRequest,
-  output: ExperimentDefinition,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}",
+    input: { ApplicationIdentifier: 0, ExperimentDefinitionIdentifier: 0 },
+    output: { CreatedAt: D.ts, UpdatedAt: D.ts },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3667,7 +1926,7 @@ export const getExperimentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentDefinition",
-}));
+})) as any;
 
 export type GetExperimentRunError =
   | BadRequestException
@@ -3683,8 +1942,16 @@ export const getExperimentRun: API.OperationMethod<
   GetExperimentRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetExperimentRunRequest,
-  output: ExperimentRun,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns/{Run}",
+    input: {
+      ApplicationIdentifier: 0,
+      ExperimentDefinitionIdentifier: 0,
+      Run: 0,
+    },
+    output: { StartedAt: D.ts, UpdatedAt: D.ts, EndedAt: D.ts },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3693,7 +1960,7 @@ export const getExperimentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentRun",
-}));
+})) as any;
 
 export type GetExtensionError =
   | BadRequestException
@@ -3709,8 +1976,14 @@ export const getExtension: API.OperationMethod<
   GetExtensionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetExtensionRequest,
-  output: Extension,
+  descriptor: {
+    service: svc,
+    http: "GET /extensions/{ExtensionIdentifier}",
+    input: {
+      ExtensionIdentifier: 0,
+      VersionNumber: D.m({ query: "version_number" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3719,7 +1992,7 @@ export const getExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExtension",
-}));
+})) as any;
 
 export type GetExtensionAssociationError =
   | BadRequestException
@@ -3737,8 +2010,11 @@ export const getExtensionAssociation: API.OperationMethod<
   GetExtensionAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetExtensionAssociationRequest,
-  output: ExtensionAssociation,
+  descriptor: {
+    service: svc,
+    http: "GET /extensionassociations/{ExtensionAssociationId}",
+    input: { ExtensionAssociationId: 0 },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3747,7 +2023,7 @@ export const getExtensionAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExtensionAssociation",
-}));
+})) as any;
 
 export type GetHostedConfigurationVersionError =
   | BadRequestException
@@ -3763,8 +2039,21 @@ export const getHostedConfigurationVersion: API.OperationMethod<
   GetHostedConfigurationVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetHostedConfigurationVersionRequest,
-  output: HostedConfigurationVersion,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}",
+    input: { ApplicationId: 0, ConfigurationProfileId: 0, VersionNumber: 0 },
+    output: {
+      ApplicationId: D.m({ header: "Application-Id" }),
+      ConfigurationProfileId: D.m({ header: "Configuration-Profile-Id" }),
+      VersionNumber: D.m({ header: "Version-Number", shape: D.num }),
+      Description: D.m({ header: "Description" }),
+      Content: D.m({ payload: true, shape: D.stream }),
+      ContentType: D.m({ header: "Content-Type" }),
+      VersionLabel: D.m({ header: "VersionLabel" }),
+      KmsKeyArn: D.m({ header: "KmsKeyArn" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3773,7 +2062,7 @@ export const getHostedConfigurationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHostedConfigurationVersion",
-}));
+})) as any;
 
 export type ListApplicationsError =
   | BadRequestException
@@ -3789,8 +2078,14 @@ export const listApplications: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Application
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListApplicationsRequest,
-  output: Applications,
+  descriptor: {
+    service: svc,
+    http: "GET /applications",
+    input: {
+      MaxResults: D.m({ query: "max_results" }),
+      NextToken: D.m({ query: "next_token" }),
+    },
+  },
   errors: [BadRequestException, InternalServerException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3818,8 +2113,16 @@ export const listConfigurationProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConfigurationProfileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListConfigurationProfilesRequest,
-  output: ConfigurationProfiles,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{ApplicationId}/configurationprofiles",
+    input: {
+      ApplicationId: 0,
+      MaxResults: D.m({ query: "max_results" }),
+      NextToken: D.m({ query: "next_token" }),
+      Type: D.m({ query: "type" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3851,8 +2154,17 @@ export const listDeployments: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DeploymentSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDeploymentsRequest,
-  output: Deployments,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{ApplicationId}/environments/{EnvironmentId}/deployments",
+    input: {
+      ApplicationId: 0,
+      EnvironmentId: 0,
+      MaxResults: D.m({ query: "max_results" }),
+      NextToken: D.m({ query: "next_token" }),
+    },
+    output: { Items: D.list({ StartedAt: D.ts, CompletedAt: D.ts }) },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3883,8 +2195,14 @@ export const listDeploymentStrategies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DeploymentStrategy
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDeploymentStrategiesRequest,
-  output: DeploymentStrategies,
+  descriptor: {
+    service: svc,
+    http: "GET /deploymentstrategies",
+    input: {
+      MaxResults: D.m({ query: "max_results" }),
+      NextToken: D.m({ query: "next_token" }),
+    },
+  },
   errors: [BadRequestException, InternalServerException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3912,8 +2230,15 @@ export const listEnvironments: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Environment
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListEnvironmentsRequest,
-  output: Environments,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{ApplicationId}/environments",
+    input: {
+      ApplicationId: 0,
+      MaxResults: D.m({ query: "max_results" }),
+      NextToken: D.m({ query: "next_token" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3945,8 +2270,21 @@ export const listExperimentDefinitions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ExperimentDefinitionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListExperimentDefinitionsRequest,
-  output: ExperimentDefinitions,
+  descriptor: {
+    service: svc,
+    http: "GET /experimentdefinitions",
+    input: {
+      ApplicationIdentifier: D.m({ query: "application_identifier" }),
+      ConfigurationProfileIdentifier: D.m({
+        query: "configuration_profile_identifier",
+      }),
+      EnvironmentIdentifier: D.m({ query: "environment_identifier" }),
+      Status: D.m({ query: "status" }),
+      MaxResults: D.m({ query: "max_results" }),
+      NextToken: D.m({ query: "next_token" }),
+    },
+    output: { Items: D.list({ CreatedAt: D.ts, UpdatedAt: D.ts }) },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -3978,8 +2316,18 @@ export const listExperimentRunEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ExperimentRunEvent
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListExperimentRunEventsRequest,
-  output: ExperimentRunEvents,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns/{Run}/events",
+    input: {
+      ApplicationIdentifier: 0,
+      ExperimentDefinitionIdentifier: 0,
+      Run: 0,
+      MaxResults: D.m({ query: "max_results" }),
+      NextToken: D.m({ query: "next_token" }),
+    },
+    output: { Items: D.list({ OccurredAt: D.ts }) },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -4011,8 +2359,20 @@ export const listExperimentRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ExperimentRunSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListExperimentRunsRequest,
-  output: ExperimentRuns,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns",
+    input: {
+      ApplicationIdentifier: 0,
+      ExperimentDefinitionIdentifier: 0,
+      MaxResults: D.m({ query: "max_results" }),
+      NextToken: D.m({ query: "next_token" }),
+      Status: D.m({ query: "status" }),
+    },
+    output: {
+      Items: D.list({ StartedAt: D.ts, UpdatedAt: D.ts, EndedAt: D.ts }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -4045,8 +2405,17 @@ export const listExtensionAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ExtensionAssociationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListExtensionAssociationsRequest,
-  output: ExtensionAssociations,
+  descriptor: {
+    service: svc,
+    http: "GET /extensionassociations",
+    input: {
+      ResourceIdentifier: D.m({ query: "resource_identifier" }),
+      ExtensionIdentifier: D.m({ query: "extension_identifier" }),
+      ExtensionVersionNumber: D.m({ query: "extension_version_number" }),
+      MaxResults: D.m({ query: "max_results" }),
+      NextToken: D.m({ query: "next_token" }),
+    },
+  },
   errors: [BadRequestException, InternalServerException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4075,8 +2444,15 @@ export const listExtensions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ExtensionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListExtensionsRequest,
-  output: Extensions,
+  descriptor: {
+    service: svc,
+    http: "GET /extensions",
+    input: {
+      MaxResults: D.m({ query: "max_results" }),
+      NextToken: D.m({ query: "next_token" }),
+      Name: D.m({ query: "name" }),
+    },
+  },
   errors: [BadRequestException, InternalServerException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4105,8 +2481,17 @@ export const listHostedConfigurationVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   HostedConfigurationVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListHostedConfigurationVersionsRequest,
-  output: HostedConfigurationVersions,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions",
+    input: {
+      ApplicationId: 0,
+      ConfigurationProfileId: 0,
+      MaxResults: D.m({ query: "max_results" }),
+      NextToken: D.m({ query: "next_token" }),
+      VersionLabel: D.m({ query: "version_label" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -4137,8 +2522,11 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ResourceTags,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{ResourceArn}",
+    input: { ResourceArn: 0 },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -4147,7 +2535,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type StartDeploymentError =
   | BadRequestException
@@ -4166,8 +2554,28 @@ export const startDeployment: API.OperationMethod<
   StartDeploymentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartDeploymentRequest,
-  output: Deployment,
+  descriptor: {
+    service: svc,
+    http: "POST /applications/{ApplicationId}/environments/{EnvironmentId}/deployments",
+    input: {
+      ApplicationId: 0,
+      EnvironmentId: 0,
+      DeploymentStrategyId: 0,
+      ConfigurationProfileId: 0,
+      ConfigurationVersion: 0,
+      Description: 0,
+      Tags: 0,
+      KmsKeyIdentifier: 0,
+      DynamicExtensionParameters: 0,
+      LatestDeploymentNumber: 0,
+    },
+    output: {
+      EventLog: D.list(o_DeploymentEvent),
+      StartedAt: D.ts,
+      CompletedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -4177,7 +2585,7 @@ export const startDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeployment",
-}));
+})) as any;
 
 export type StartExperimentRunError =
   | BadRequestException
@@ -4196,8 +2604,21 @@ export const startExperimentRun: API.OperationMethod<
   StartExperimentRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartExperimentRunRequest,
-  output: ExperimentRun,
+  descriptor: {
+    service: svc,
+    http: "POST /applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns",
+    input: {
+      ApplicationIdentifier: 0,
+      ExperimentDefinitionIdentifier: 0,
+      Description: 0,
+      ExposurePercentage: 0,
+      TreatmentOverrides: i_TreatmentOverrides,
+      Tags: 0,
+      DeploymentParameters: i_DeploymentParameters,
+    },
+    output: { StartedAt: D.ts, UpdatedAt: D.ts, EndedAt: D.ts },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -4207,7 +2628,7 @@ export const startExperimentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExperimentRun",
-}));
+})) as any;
 
 export type StopDeploymentError =
   | BadRequestException
@@ -4228,8 +2649,21 @@ export const stopDeployment: API.OperationMethod<
   StopDeploymentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopDeploymentRequest,
-  output: Deployment,
+  descriptor: {
+    service: svc,
+    http: "DELETE /applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}",
+    input: {
+      ApplicationId: 0,
+      EnvironmentId: 0,
+      DeploymentNumber: 0,
+      AllowRevert: D.m({ header: "Allow-Revert" }),
+    },
+    output: {
+      EventLog: D.list(o_DeploymentEvent),
+      StartedAt: D.ts,
+      CompletedAt: D.ts,
+    },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -4238,7 +2672,7 @@ export const stopDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDeployment",
-}));
+})) as any;
 
 export type StopExperimentRunError =
   | BadRequestException
@@ -4255,8 +2689,23 @@ export const stopExperimentRun: API.OperationMethod<
   StopExperimentRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopExperimentRunRequest,
-  output: ExperimentRun,
+  descriptor: {
+    service: svc,
+    http: "PATCH /applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns/{Run}/stop",
+    input: {
+      ApplicationIdentifier: 0,
+      ExperimentDefinitionIdentifier: 0,
+      Run: 0,
+      Result: {
+        ExecutiveSummary: 0,
+        ReasonsToLaunch: 0,
+        ReasonsNotToLaunch: 0,
+      },
+      DeploymentParameters: i_DeploymentParameters,
+    },
+    output: { StartedAt: D.ts, UpdatedAt: D.ts, EndedAt: D.ts },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -4266,7 +2715,7 @@ export const stopExperimentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopExperimentRun",
-}));
+})) as any;
 
 export type TagResourceError =
   | BadRequestException
@@ -4284,8 +2733,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{ResourceArn}",
+    input: { ResourceArn: 0, Tags: 0 },
+    body: true,
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -4294,7 +2747,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | BadRequestException
@@ -4310,8 +2763,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{ResourceArn}",
+    input: { ResourceArn: 0, TagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -4320,7 +2776,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateAccountSettingsError =
   | BadRequestException
@@ -4335,13 +2791,20 @@ export const updateAccountSettings: API.OperationMethod<
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAccountSettingsRequest,
-  output: AccountSettings,
+  descriptor: {
+    service: svc,
+    http: "PATCH /settings",
+    input: {
+      DeletionProtection: { Enabled: 0, ProtectionPeriodInMinutes: 0 },
+      VendedMetrics: { Enabled: 0 },
+    },
+    body: true,
+  },
   errors: [BadRequestException, InternalServerException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
-}));
+})) as any;
 
 export type UpdateApplicationError =
   | BadRequestException
@@ -4357,8 +2820,12 @@ export const updateApplication: API.OperationMethod<
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateApplicationRequest,
-  output: Application,
+  descriptor: {
+    service: svc,
+    http: "PATCH /applications/{ApplicationId}",
+    input: { ApplicationId: 0, Name: 0, Description: 0 },
+    body: true,
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -4367,7 +2834,7 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
-}));
+})) as any;
 
 export type UpdateConfigurationProfileError =
   | BadRequestException
@@ -4383,8 +2850,21 @@ export const updateConfigurationProfile: API.OperationMethod<
   UpdateConfigurationProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateConfigurationProfileRequest,
-  output: ConfigurationProfile,
+  descriptor: {
+    service: svc,
+    http: "PATCH /applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}",
+    input: {
+      ApplicationId: 0,
+      ConfigurationProfileId: 0,
+      Name: 0,
+      Description: 0,
+      RetrievalRoleArn: 0,
+      Validators: D.list(i_Validator),
+      KmsKeyIdentifier: 0,
+    },
+    output: { Validators: D.list(o_Validator) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -4393,7 +2873,7 @@ export const updateConfigurationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationProfile",
-}));
+})) as any;
 
 export type UpdateDeploymentStrategyError =
   | BadRequestException
@@ -4409,8 +2889,19 @@ export const updateDeploymentStrategy: API.OperationMethod<
   UpdateDeploymentStrategyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDeploymentStrategyRequest,
-  output: DeploymentStrategy,
+  descriptor: {
+    service: svc,
+    http: "PATCH /deploymentstrategies/{DeploymentStrategyId}",
+    input: {
+      DeploymentStrategyId: 0,
+      Description: 0,
+      DeploymentDurationInMinutes: 0,
+      FinalBakeTimeInMinutes: 0,
+      GrowthFactor: 0,
+      GrowthType: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -4419,7 +2910,7 @@ export const updateDeploymentStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeploymentStrategy",
-}));
+})) as any;
 
 export type UpdateEnvironmentError =
   | BadRequestException
@@ -4435,8 +2926,18 @@ export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateEnvironmentRequest,
-  output: Environment,
+  descriptor: {
+    service: svc,
+    http: "PATCH /applications/{ApplicationId}/environments/{EnvironmentId}",
+    input: {
+      ApplicationId: 0,
+      EnvironmentId: 0,
+      Name: 0,
+      Description: 0,
+      Monitors: D.list(i_Monitor),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -4445,7 +2946,7 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
-}));
+})) as any;
 
 export type UpdateExperimentDefinitionError =
   | BadRequestException
@@ -4462,8 +2963,22 @@ export const updateExperimentDefinition: API.OperationMethod<
   UpdateExperimentDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateExperimentDefinitionRequest,
-  output: ExperimentDefinition,
+  descriptor: {
+    service: svc,
+    http: "PATCH /applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}",
+    input: {
+      ApplicationIdentifier: 0,
+      ExperimentDefinitionIdentifier: 0,
+      Treatments: D.list(i_TreatmentInput),
+      Control: i_TreatmentInput,
+      Hypothesis: 0,
+      AudienceRule: 0,
+      AudienceDescription: 0,
+      LaunchCriteria: 0,
+    },
+    output: { CreatedAt: D.ts, UpdatedAt: D.ts },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -4473,7 +2988,7 @@ export const updateExperimentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExperimentDefinition",
-}));
+})) as any;
 
 export type UpdateExperimentRunError =
   | BadRequestException
@@ -4490,8 +3005,21 @@ export const updateExperimentRun: API.OperationMethod<
   UpdateExperimentRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateExperimentRunRequest,
-  output: ExperimentRun,
+  descriptor: {
+    service: svc,
+    http: "PATCH /applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns/{Run}/update",
+    input: {
+      ApplicationIdentifier: 0,
+      ExperimentDefinitionIdentifier: 0,
+      Run: 0,
+      Description: 0,
+      ExposurePercentage: 0,
+      TreatmentOverrides: i_TreatmentOverrides,
+      DeploymentParameters: i_DeploymentParameters,
+    },
+    output: { StartedAt: D.ts, UpdatedAt: D.ts, EndedAt: D.ts },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -4501,7 +3029,7 @@ export const updateExperimentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExperimentRun",
-}));
+})) as any;
 
 export type UpdateExtensionError =
   | BadRequestException
@@ -4520,8 +3048,18 @@ export const updateExtension: API.OperationMethod<
   UpdateExtensionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateExtensionRequest,
-  output: Extension,
+  descriptor: {
+    service: svc,
+    http: "PATCH /extensions/{ExtensionIdentifier}",
+    input: {
+      ExtensionIdentifier: 0,
+      Description: 0,
+      Actions: D.map(D.list(i_Action)),
+      Parameters: D.map(i_Parameter),
+      VersionNumber: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -4531,7 +3069,7 @@ export const updateExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExtension",
-}));
+})) as any;
 
 export type UpdateExtensionAssociationError =
   | BadRequestException
@@ -4549,8 +3087,12 @@ export const updateExtensionAssociation: API.OperationMethod<
   UpdateExtensionAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateExtensionAssociationRequest,
-  output: ExtensionAssociation,
+  descriptor: {
+    service: svc,
+    http: "PATCH /extensionassociations/{ExtensionAssociationId}",
+    input: { ExtensionAssociationId: 0, Parameters: 0 },
+    body: true,
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -4559,7 +3101,7 @@ export const updateExtensionAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExtensionAssociation",
-}));
+})) as any;
 
 export type ValidateConfigurationError =
   | BadRequestException
@@ -4575,8 +3117,15 @@ export const validateConfiguration: API.OperationMethod<
   ValidateConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ValidateConfigurationRequest,
-  output: ValidateConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/validators",
+    input: {
+      ApplicationId: 0,
+      ConfigurationProfileId: 0,
+      ConfigurationVersion: D.m({ query: "configuration_version" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalServerException,
@@ -4585,4 +3134,39 @@ export const validateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateConfiguration",
-}));
+})) as any;
+
+const i_Action: D.LazyStruct = () => ({
+  Name: 0,
+  Description: 0,
+  Uri: 0,
+  RoleArn: 0,
+});
+const i_DeploymentParameters: D.LazyStruct = () => ({
+  DynamicExtensionParameters: 0,
+  Tags: 0,
+});
+const i_Monitor: D.LazyStruct = () => ({ AlarmArn: 0, AlarmRoleArn: 0 });
+const i_Parameter: D.LazyStruct = () => ({
+  Description: 0,
+  Required: 0,
+  Dynamic: 0,
+});
+const i_TreatmentInput: D.LazyStruct = () => ({
+  Weight: 0,
+  Description: 0,
+  FlagValue: {
+    Enabled: 0,
+    AttributeValues: D.map({
+      StringValue: 0,
+      NumberValue: 0,
+      BooleanValue: 0,
+      StringArray: 0,
+      NumberArray: 0,
+    }),
+  },
+});
+const i_TreatmentOverrides: D.LazyStruct = () => ({ Inline: 0 });
+const i_Validator: D.LazyStruct = () => ({ Type: 0, Content: 0 });
+const o_DeploymentEvent: D.LazyStruct = () => ({ OccurredAt: D.ts });
+const o_Validator: D.LazyStruct = () => ({ Content: D.secret });

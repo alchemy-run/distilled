@@ -1,1176 +1,1052 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restXmlProtocol } from "../protocols/rest-xml.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
-const ns = T.XmlNamespace("http://cloudfront.amazonaws.com/doc/2020-05-31/");
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "CloudFront",
-  serviceShapeName: "Cloudfront2020_05_31",
-});
-const auth = T.AwsAuthSigv4({ name: "cloudfront" });
-const ver = T.ServiceVersion("2020-05-31");
-const proto = T.AwsProtocolsRestXml();
-const rules = T.EndpointResolver((p, _) => {
-  const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  const _p0 = () => ({
-    authSchemes: [{ name: "sigv4", signingRegion: "us-east-1" }],
-  });
-  const _p1 = () => ({
-    authSchemes: [{ name: "sigv4", signingRegion: "cn-northwest-1" }],
-  });
-  const _p2 = (_0: unknown) => ({
-    authSchemes: [
-      {
-        name: "sigv4",
-        signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}`,
-      },
-    ],
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e("https://cloudfront.global.api.aws", _p0(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e("https://cloudfront-fips.global.api.aws", _p0(), {});
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-cn" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e(
-            "https://cloudfront.cn-northwest-1.amazonaws.com.cn",
-            _p1(),
-            {},
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-cn" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e(
-            "https://cloudfront-fips.cn-northwest-1.amazonaws.com.cn",
-            _p1(),
-            {},
-          );
-        }
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://cloudfront-fips.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-              _p2(PartitionResult),
-              {},
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true && UseDualStack === false) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://cloudfront-fips.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-              _p2(PartitionResult),
-              {},
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseFIPS === false && UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://cloudfront.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-              _p2(PartitionResult),
-              {},
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://cloudfront.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          _p2(PartitionResult),
-          {},
+  target: "Cloudfront2020_05_31",
+  version: "2020-05-31",
+  sigv4: "cloudfront",
+  protocol: restXmlProtocol,
+  xmlns: "http://cloudfront.amazonaws.com/doc/2020-05-31/",
+  rules: (p, _) => {
+    const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    const _p0 = () => ({
+      authSchemes: [{ name: "sigv4", signingRegion: "us-east-1" }],
+    });
+    const _p1 = () => ({
+      authSchemes: [{ name: "sigv4", signingRegion: "cn-northwest-1" }],
+    });
+    const _p2 = (_0: unknown) => ({
+      authSchemes: [
+        {
+          name: "sigv4",
+          signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}`,
+        },
+      ],
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e("https://cloudfront.global.api.aws", _p0(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e("https://cloudfront-fips.global.api.aws", _p0(), {});
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-cn" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e(
+              "https://cloudfront.cn-northwest-1.amazonaws.com.cn",
+              _p1(),
+              {},
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-cn" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e(
+              "https://cloudfront-fips.cn-northwest-1.amazonaws.com.cn",
+              _p1(),
+              {},
+            );
+          }
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://cloudfront-fips.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                _p2(PartitionResult),
+                {},
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true && UseDualStack === false) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://cloudfront-fips.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                _p2(PartitionResult),
+                {},
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseFIPS === false && UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://cloudfront.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                _p2(PartitionResult),
+                {},
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://cloudfront.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            _p2(PartitionResult),
+            {},
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDenied
-  extends /*@__PURE__*/ S.TaggedError<AccessDenied>()(
-    "AccessDenied",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDenied", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class BatchTooLarge
-  extends /*@__PURE__*/ S.TaggedError<BatchTooLarge>()(
-    "BatchTooLarge",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(413),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("BatchTooLarge", ["BadRequestError"], {
+    status: 413,
+  })<{ readonly message?: string }> {}
 export class CachePolicyAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<CachePolicyAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CachePolicyAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class CachePolicyInUse
-  extends /*@__PURE__*/ S.TaggedError<CachePolicyInUse>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CachePolicyInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withDependencyViolationError) {}
+    ["ConflictError", "DependencyViolationError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class CannotChangeImmutablePublicKeyFields
-  extends /*@__PURE__*/ S.TaggedError<CannotChangeImmutablePublicKeyFields>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CannotChangeImmutablePublicKeyFields",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class CannotDeleteEntityWhileInUse
-  extends /*@__PURE__*/ S.TaggedError<CannotDeleteEntityWhileInUse>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CannotDeleteEntityWhileInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withDependencyViolationError) {}
+    ["ConflictError", "DependencyViolationError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class CannotUpdateEntityWhileInUse
-  extends /*@__PURE__*/ S.TaggedError<CannotUpdateEntityWhileInUse>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CannotUpdateEntityWhileInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withDependencyViolationError) {}
+    ["ConflictError", "DependencyViolationError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class CloudFrontOriginAccessIdentityAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<CloudFrontOriginAccessIdentityAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CloudFrontOriginAccessIdentityAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class CloudFrontOriginAccessIdentityInUse
-  extends /*@__PURE__*/ S.TaggedError<CloudFrontOriginAccessIdentityInUse>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CloudFrontOriginAccessIdentityInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withDependencyViolationError) {}
+    ["ConflictError", "DependencyViolationError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class CNAMEAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<CNAMEAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CNAMEAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class ContinuousDeploymentPolicyAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<ContinuousDeploymentPolicyAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ContinuousDeploymentPolicyAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class ContinuousDeploymentPolicyInUse
-  extends /*@__PURE__*/ S.TaggedError<ContinuousDeploymentPolicyInUse>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ContinuousDeploymentPolicyInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withDependencyViolationError) {}
+    ["ConflictError", "DependencyViolationError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class DistributionAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<DistributionAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DistributionAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class DistributionNotDisabled
-  extends /*@__PURE__*/ S.TaggedError<DistributionNotDisabled>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DistributionNotDisabled",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class EntityAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<EntityAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EntityAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class EntityLimitExceeded
-  extends /*@__PURE__*/ S.TaggedError<EntityLimitExceeded>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EntityLimitExceeded",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError, C.withThrottlingError) {}
+    ["BadRequestError", "ThrottlingError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class EntityNotFound
-  extends /*@__PURE__*/ S.TaggedError<EntityNotFound>()(
-    "EntityNotFound",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("EntityNotFound", ["BadRequestError"], {
+    status: 404,
+  })<{ readonly message?: string }> {}
 export class EntitySizeLimitExceeded
-  extends /*@__PURE__*/ S.TaggedError<EntitySizeLimitExceeded>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EntitySizeLimitExceeded",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(413),
-  ).pipe(C.withBadRequestError, C.withThrottlingError) {}
+    ["BadRequestError", "ThrottlingError"],
+    { status: 413 },
+  )<{ readonly message?: string }> {}
 export class FieldLevelEncryptionConfigAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<FieldLevelEncryptionConfigAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "FieldLevelEncryptionConfigAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class FieldLevelEncryptionConfigInUse
-  extends /*@__PURE__*/ S.TaggedError<FieldLevelEncryptionConfigInUse>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "FieldLevelEncryptionConfigInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withDependencyViolationError) {}
+    ["ConflictError", "DependencyViolationError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class FieldLevelEncryptionProfileAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<FieldLevelEncryptionProfileAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "FieldLevelEncryptionProfileAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class FieldLevelEncryptionProfileInUse
-  extends /*@__PURE__*/ S.TaggedError<FieldLevelEncryptionProfileInUse>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "FieldLevelEncryptionProfileInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withDependencyViolationError) {}
+    ["ConflictError", "DependencyViolationError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class FieldLevelEncryptionProfileSizeExceeded
-  extends /*@__PURE__*/ S.TaggedError<FieldLevelEncryptionProfileSizeExceeded>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "FieldLevelEncryptionProfileSizeExceeded",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class FunctionAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<FunctionAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "FunctionAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class FunctionInUse
-  extends /*@__PURE__*/ S.TaggedError<FunctionInUse>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "FunctionInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withDependencyViolationError) {}
+    ["ConflictError", "DependencyViolationError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class FunctionSizeLimitExceeded
-  extends /*@__PURE__*/ S.TaggedError<FunctionSizeLimitExceeded>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "FunctionSizeLimitExceeded",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(413),
-  ).pipe(C.withBadRequestError, C.withThrottlingError) {}
+    ["BadRequestError", "ThrottlingError"],
+    { status: 413 },
+  )<{ readonly message?: string }> {}
 export class IllegalDelete
-  extends /*@__PURE__*/ S.TaggedError<IllegalDelete>()(
-    "IllegalDelete",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("IllegalDelete", ["BadRequestError"], {
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior
-  extends /*@__PURE__*/ S.TaggedError<IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class IllegalOriginAccessConfiguration
-  extends /*@__PURE__*/ S.TaggedError<IllegalOriginAccessConfiguration>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "IllegalOriginAccessConfiguration",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class IllegalUpdate
-  extends /*@__PURE__*/ S.TaggedError<IllegalUpdate>()(
-    "IllegalUpdate",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("IllegalUpdate", ["BadRequestError"], {
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class InconsistentQuantities
-  extends /*@__PURE__*/ S.TaggedError<InconsistentQuantities>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InconsistentQuantities",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidArgument
-  extends /*@__PURE__*/ S.TaggedError<InvalidArgument>()(
-    "InvalidArgument",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidArgument", ["BadRequestError"], {
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class InvalidAssociation
-  extends /*@__PURE__*/ S.TaggedError<InvalidAssociation>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidAssociation",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class InvalidDefaultRootObject
-  extends /*@__PURE__*/ S.TaggedError<InvalidDefaultRootObject>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidDefaultRootObject",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidDomainNameForOriginAccessControl
-  extends /*@__PURE__*/ S.TaggedError<InvalidDomainNameForOriginAccessControl>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidDomainNameForOriginAccessControl",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidErrorCode
-  extends /*@__PURE__*/ S.TaggedError<InvalidErrorCode>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidErrorCode",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidForwardCookies
-  extends /*@__PURE__*/ S.TaggedError<InvalidForwardCookies>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidForwardCookies",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidFunctionAssociation
-  extends /*@__PURE__*/ S.TaggedError<InvalidFunctionAssociation>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidFunctionAssociation",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidGeoRestrictionParameter
-  extends /*@__PURE__*/ S.TaggedError<InvalidGeoRestrictionParameter>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidGeoRestrictionParameter",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidHeadersForS3Origin
-  extends /*@__PURE__*/ S.TaggedError<InvalidHeadersForS3Origin>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidHeadersForS3Origin",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidIfMatchVersion
-  extends /*@__PURE__*/ S.TaggedError<InvalidIfMatchVersion>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidIfMatchVersion",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidLambdaFunctionAssociation
-  extends /*@__PURE__*/ S.TaggedError<InvalidLambdaFunctionAssociation>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidLambdaFunctionAssociation",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidLocationCode
-  extends /*@__PURE__*/ S.TaggedError<InvalidLocationCode>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidLocationCode",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidMinimumProtocolVersion
-  extends /*@__PURE__*/ S.TaggedError<InvalidMinimumProtocolVersion>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidMinimumProtocolVersion",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidOrigin
-  extends /*@__PURE__*/ S.TaggedError<InvalidOrigin>()(
-    "InvalidOrigin",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidOrigin", ["BadRequestError"], {
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class InvalidOriginAccessControl
-  extends /*@__PURE__*/ S.TaggedError<InvalidOriginAccessControl>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidOriginAccessControl",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidOriginAccessIdentity
-  extends /*@__PURE__*/ S.TaggedError<InvalidOriginAccessIdentity>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidOriginAccessIdentity",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidOriginKeepaliveTimeout
-  extends /*@__PURE__*/ S.TaggedError<InvalidOriginKeepaliveTimeout>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidOriginKeepaliveTimeout",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidOriginReadTimeout
-  extends /*@__PURE__*/ S.TaggedError<InvalidOriginReadTimeout>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidOriginReadTimeout",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidProtocolSettings
-  extends /*@__PURE__*/ S.TaggedError<InvalidProtocolSettings>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidProtocolSettings",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidQueryStringParameters
-  extends /*@__PURE__*/ S.TaggedError<InvalidQueryStringParameters>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidQueryStringParameters",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidRelativePath
-  extends /*@__PURE__*/ S.TaggedError<InvalidRelativePath>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidRelativePath",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidRequiredProtocol
-  extends /*@__PURE__*/ S.TaggedError<InvalidRequiredProtocol>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidRequiredProtocol",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidResponseCode
-  extends /*@__PURE__*/ S.TaggedError<InvalidResponseCode>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidResponseCode",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidTagging
-  extends /*@__PURE__*/ S.TaggedError<InvalidTagging>()(
-    "InvalidTagging",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidTagging", ["BadRequestError"], {
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class InvalidTTLOrder
-  extends /*@__PURE__*/ S.TaggedError<InvalidTTLOrder>()(
-    "InvalidTTLOrder",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidTTLOrder", ["BadRequestError"], {
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class InvalidViewerCertificate
-  extends /*@__PURE__*/ S.TaggedError<InvalidViewerCertificate>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidViewerCertificate",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidWebACLId
-  extends /*@__PURE__*/ S.TaggedError<InvalidWebACLId>()(
-    "InvalidWebACLId",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidWebACLId", ["BadRequestError"], {
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class KeyGroupAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<KeyGroupAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "KeyGroupAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class MissingBody
-  extends /*@__PURE__*/ S.TaggedError<MissingBody>()(
-    "MissingBody",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("MissingBody", ["BadRequestError"], {
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class MonitoringSubscriptionAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<MonitoringSubscriptionAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MonitoringSubscriptionAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class NoSuchCachePolicy
-  extends /*@__PURE__*/ S.TaggedError<NoSuchCachePolicy>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchCachePolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class NoSuchCloudFrontOriginAccessIdentity
-  extends /*@__PURE__*/ S.TaggedError<NoSuchCloudFrontOriginAccessIdentity>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchCloudFrontOriginAccessIdentity",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class NoSuchContinuousDeploymentPolicy
-  extends /*@__PURE__*/ S.TaggedError<NoSuchContinuousDeploymentPolicy>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchContinuousDeploymentPolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class NoSuchDistribution
-  extends /*@__PURE__*/ S.TaggedError<NoSuchDistribution>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchDistribution",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class NoSuchFieldLevelEncryptionConfig
-  extends /*@__PURE__*/ S.TaggedError<NoSuchFieldLevelEncryptionConfig>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchFieldLevelEncryptionConfig",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class NoSuchFieldLevelEncryptionProfile
-  extends /*@__PURE__*/ S.TaggedError<NoSuchFieldLevelEncryptionProfile>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchFieldLevelEncryptionProfile",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class NoSuchFunctionExists
-  extends /*@__PURE__*/ S.TaggedError<NoSuchFunctionExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchFunctionExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class NoSuchInvalidation
-  extends /*@__PURE__*/ S.TaggedError<NoSuchInvalidation>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchInvalidation",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class NoSuchMonitoringSubscription
-  extends /*@__PURE__*/ S.TaggedError<NoSuchMonitoringSubscription>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchMonitoringSubscription",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class NoSuchOrigin
-  extends /*@__PURE__*/ S.TaggedError<NoSuchOrigin>()(
-    "NoSuchOrigin",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("NoSuchOrigin", ["BadRequestError"], {
+    status: 404,
+  })<{ readonly message?: string }> {}
 export class NoSuchOriginAccessControl
-  extends /*@__PURE__*/ S.TaggedError<NoSuchOriginAccessControl>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchOriginAccessControl",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class NoSuchOriginRequestPolicy
-  extends /*@__PURE__*/ S.TaggedError<NoSuchOriginRequestPolicy>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchOriginRequestPolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class NoSuchPublicKey
-  extends /*@__PURE__*/ S.TaggedError<NoSuchPublicKey>()(
-    "NoSuchPublicKey",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("NoSuchPublicKey", ["BadRequestError"], {
+    status: 404,
+  })<{ readonly message?: string }> {}
 export class NoSuchRealtimeLogConfig
-  extends /*@__PURE__*/ S.TaggedError<NoSuchRealtimeLogConfig>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchRealtimeLogConfig",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class NoSuchResource
-  extends /*@__PURE__*/ S.TaggedError<NoSuchResource>()(
-    "NoSuchResource",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("NoSuchResource", ["BadRequestError"], {
+    status: 404,
+  })<{ readonly message?: string }> {}
 export class NoSuchResponseHeadersPolicy
-  extends /*@__PURE__*/ S.TaggedError<NoSuchResponseHeadersPolicy>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchResponseHeadersPolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class NoSuchStreamingDistribution
-  extends /*@__PURE__*/ S.TaggedError<NoSuchStreamingDistribution>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchStreamingDistribution",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class OriginAccessControlAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<OriginAccessControlAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "OriginAccessControlAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class OriginAccessControlInUse
-  extends /*@__PURE__*/ S.TaggedError<OriginAccessControlInUse>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "OriginAccessControlInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withDependencyViolationError) {}
+    ["ConflictError", "DependencyViolationError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class OriginRequestPolicyAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<OriginRequestPolicyAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "OriginRequestPolicyAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class OriginRequestPolicyInUse
-  extends /*@__PURE__*/ S.TaggedError<OriginRequestPolicyInUse>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "OriginRequestPolicyInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withDependencyViolationError) {}
+    ["ConflictError", "DependencyViolationError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class PreconditionFailed
-  extends /*@__PURE__*/ S.TaggedError<PreconditionFailed>()(
-    "PreconditionFailed",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(412),
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("PreconditionFailed", [], {
+    status: 412,
+  })<{ readonly message?: string }> {}
 export class PublicKeyAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<PublicKeyAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "PublicKeyAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class PublicKeyInUse
-  extends /*@__PURE__*/ S.TaggedError<PublicKeyInUse>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "PublicKeyInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withDependencyViolationError) {}
+    ["ConflictError", "DependencyViolationError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class QueryArgProfileEmpty
-  extends /*@__PURE__*/ S.TaggedError<QueryArgProfileEmpty>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "QueryArgProfileEmpty",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class RealtimeLogConfigAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<RealtimeLogConfigAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RealtimeLogConfigAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class RealtimeLogConfigInUse
-  extends /*@__PURE__*/ S.TaggedError<RealtimeLogConfigInUse>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RealtimeLogConfigInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError, C.withDependencyViolationError) {}
+    ["BadRequestError", "DependencyViolationError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class RealtimeLogConfigOwnerMismatch
-  extends /*@__PURE__*/ S.TaggedError<RealtimeLogConfigOwnerMismatch>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RealtimeLogConfigOwnerMismatch",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(401),
-  ).pipe(C.withAuthError) {}
+    ["AuthError"],
+    { status: 401 },
+  )<{ readonly message?: string }> {}
 export class ResourceInUse
-  extends /*@__PURE__*/ S.TaggedError<ResourceInUse>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withDependencyViolationError) {}
+    ["ConflictError", "DependencyViolationError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotDisabled
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotDisabled>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotDisabled",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class ResponseHeadersPolicyAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<ResponseHeadersPolicyAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResponseHeadersPolicyAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class ResponseHeadersPolicyInUse
-  extends /*@__PURE__*/ S.TaggedError<ResponseHeadersPolicyInUse>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResponseHeadersPolicyInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withDependencyViolationError) {}
+    ["ConflictError", "DependencyViolationError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class StagingDistributionInUse
-  extends /*@__PURE__*/ S.TaggedError<StagingDistributionInUse>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "StagingDistributionInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withDependencyViolationError) {}
+    ["ConflictError", "DependencyViolationError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class StreamingDistributionAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<StreamingDistributionAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "StreamingDistributionAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class StreamingDistributionNotDisabled
-  extends /*@__PURE__*/ S.TaggedError<StreamingDistributionNotDisabled>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "StreamingDistributionNotDisabled",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class TestFunctionFailed
-  extends /*@__PURE__*/ S.TaggedError<TestFunctionFailed>()(
-    "TestFunctionFailed",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  extends /*@__PURE__*/ TE.TaggedError("TestFunctionFailed", ["ServerError"], {
+    status: 500,
+  })<{ readonly message?: string }> {}
 export class TooLongCSPInResponseHeadersPolicy
-  extends /*@__PURE__*/ S.TaggedError<TooLongCSPInResponseHeadersPolicy>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooLongCSPInResponseHeadersPolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyCacheBehaviors
-  extends /*@__PURE__*/ S.TaggedError<TooManyCacheBehaviors>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyCacheBehaviors",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyCachePolicies
-  extends /*@__PURE__*/ S.TaggedError<TooManyCachePolicies>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyCachePolicies",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyCertificates
-  extends /*@__PURE__*/ S.TaggedError<TooManyCertificates>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyCertificates",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyCloudFrontOriginAccessIdentities
-  extends /*@__PURE__*/ S.TaggedError<TooManyCloudFrontOriginAccessIdentities>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyCloudFrontOriginAccessIdentities",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyContinuousDeploymentPolicies
-  extends /*@__PURE__*/ S.TaggedError<TooManyContinuousDeploymentPolicies>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyContinuousDeploymentPolicies",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyCookieNamesInWhiteList
-  extends /*@__PURE__*/ S.TaggedError<TooManyCookieNamesInWhiteList>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyCookieNamesInWhiteList",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyCookiesInCachePolicy
-  extends /*@__PURE__*/ S.TaggedError<TooManyCookiesInCachePolicy>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyCookiesInCachePolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyCookiesInOriginRequestPolicy
-  extends /*@__PURE__*/ S.TaggedError<TooManyCookiesInOriginRequestPolicy>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyCookiesInOriginRequestPolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyCustomHeadersInResponseHeadersPolicy
-  extends /*@__PURE__*/ S.TaggedError<TooManyCustomHeadersInResponseHeadersPolicy>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyCustomHeadersInResponseHeadersPolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyDistributionCNAMEs
-  extends /*@__PURE__*/ S.TaggedError<TooManyDistributionCNAMEs>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyDistributionCNAMEs",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyDistributions
-  extends /*@__PURE__*/ S.TaggedError<TooManyDistributions>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyDistributions",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyDistributionsAssociatedToCachePolicy
-  extends /*@__PURE__*/ S.TaggedError<TooManyDistributionsAssociatedToCachePolicy>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyDistributionsAssociatedToCachePolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyDistributionsAssociatedToFieldLevelEncryptionConfig
-  extends /*@__PURE__*/ S.TaggedError<TooManyDistributionsAssociatedToFieldLevelEncryptionConfig>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyDistributionsAssociatedToKeyGroup
-  extends /*@__PURE__*/ S.TaggedError<TooManyDistributionsAssociatedToKeyGroup>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyDistributionsAssociatedToKeyGroup",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyDistributionsAssociatedToOriginAccessControl
-  extends /*@__PURE__*/ S.TaggedError<TooManyDistributionsAssociatedToOriginAccessControl>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyDistributionsAssociatedToOriginAccessControl",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyDistributionsAssociatedToOriginRequestPolicy
-  extends /*@__PURE__*/ S.TaggedError<TooManyDistributionsAssociatedToOriginRequestPolicy>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyDistributionsAssociatedToOriginRequestPolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyDistributionsAssociatedToResponseHeadersPolicy
-  extends /*@__PURE__*/ S.TaggedError<TooManyDistributionsAssociatedToResponseHeadersPolicy>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyDistributionsAssociatedToResponseHeadersPolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyDistributionsWithFunctionAssociations
-  extends /*@__PURE__*/ S.TaggedError<TooManyDistributionsWithFunctionAssociations>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyDistributionsWithFunctionAssociations",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyDistributionsWithLambdaAssociations
-  extends /*@__PURE__*/ S.TaggedError<TooManyDistributionsWithLambdaAssociations>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyDistributionsWithLambdaAssociations",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyDistributionsWithSingleFunctionARN
-  extends /*@__PURE__*/ S.TaggedError<TooManyDistributionsWithSingleFunctionARN>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyDistributionsWithSingleFunctionARN",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyFieldLevelEncryptionConfigs
-  extends /*@__PURE__*/ S.TaggedError<TooManyFieldLevelEncryptionConfigs>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyFieldLevelEncryptionConfigs",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyFieldLevelEncryptionContentTypeProfiles
-  extends /*@__PURE__*/ S.TaggedError<TooManyFieldLevelEncryptionContentTypeProfiles>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyFieldLevelEncryptionContentTypeProfiles",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyFieldLevelEncryptionEncryptionEntities
-  extends /*@__PURE__*/ S.TaggedError<TooManyFieldLevelEncryptionEncryptionEntities>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyFieldLevelEncryptionEncryptionEntities",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyFieldLevelEncryptionFieldPatterns
-  extends /*@__PURE__*/ S.TaggedError<TooManyFieldLevelEncryptionFieldPatterns>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyFieldLevelEncryptionFieldPatterns",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyFieldLevelEncryptionProfiles
-  extends /*@__PURE__*/ S.TaggedError<TooManyFieldLevelEncryptionProfiles>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyFieldLevelEncryptionProfiles",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyFieldLevelEncryptionQueryArgProfiles
-  extends /*@__PURE__*/ S.TaggedError<TooManyFieldLevelEncryptionQueryArgProfiles>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyFieldLevelEncryptionQueryArgProfiles",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyFunctionAssociations
-  extends /*@__PURE__*/ S.TaggedError<TooManyFunctionAssociations>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyFunctionAssociations",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyFunctions
-  extends /*@__PURE__*/ S.TaggedError<TooManyFunctions>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyFunctions",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyHeadersInCachePolicy
-  extends /*@__PURE__*/ S.TaggedError<TooManyHeadersInCachePolicy>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyHeadersInCachePolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyHeadersInForwardedValues
-  extends /*@__PURE__*/ S.TaggedError<TooManyHeadersInForwardedValues>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyHeadersInForwardedValues",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyHeadersInOriginRequestPolicy
-  extends /*@__PURE__*/ S.TaggedError<TooManyHeadersInOriginRequestPolicy>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyHeadersInOriginRequestPolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyInvalidationsInProgress
-  extends /*@__PURE__*/ S.TaggedError<TooManyInvalidationsInProgress>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyInvalidationsInProgress",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyKeyGroups
-  extends /*@__PURE__*/ S.TaggedError<TooManyKeyGroups>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyKeyGroups",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyKeyGroupsAssociatedToDistribution
-  extends /*@__PURE__*/ S.TaggedError<TooManyKeyGroupsAssociatedToDistribution>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyKeyGroupsAssociatedToDistribution",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyLambdaFunctionAssociations
-  extends /*@__PURE__*/ S.TaggedError<TooManyLambdaFunctionAssociations>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyLambdaFunctionAssociations",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyOriginAccessControls
-  extends /*@__PURE__*/ S.TaggedError<TooManyOriginAccessControls>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyOriginAccessControls",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyOriginCustomHeaders
-  extends /*@__PURE__*/ S.TaggedError<TooManyOriginCustomHeaders>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyOriginCustomHeaders",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyOriginGroupsPerDistribution
-  extends /*@__PURE__*/ S.TaggedError<TooManyOriginGroupsPerDistribution>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyOriginGroupsPerDistribution",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyOriginRequestPolicies
-  extends /*@__PURE__*/ S.TaggedError<TooManyOriginRequestPolicies>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyOriginRequestPolicies",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyOrigins
-  extends /*@__PURE__*/ S.TaggedError<TooManyOrigins>()(
-    "TooManyOrigins",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("TooManyOrigins", ["BadRequestError"], {
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class TooManyPublicKeys
-  extends /*@__PURE__*/ S.TaggedError<TooManyPublicKeys>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyPublicKeys",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyPublicKeysInKeyGroup
-  extends /*@__PURE__*/ S.TaggedError<TooManyPublicKeysInKeyGroup>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyPublicKeysInKeyGroup",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyQueryStringParameters
-  extends /*@__PURE__*/ S.TaggedError<TooManyQueryStringParameters>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyQueryStringParameters",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyQueryStringsInCachePolicy
-  extends /*@__PURE__*/ S.TaggedError<TooManyQueryStringsInCachePolicy>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyQueryStringsInCachePolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyQueryStringsInOriginRequestPolicy
-  extends /*@__PURE__*/ S.TaggedError<TooManyQueryStringsInOriginRequestPolicy>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyQueryStringsInOriginRequestPolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyRealtimeLogConfigs
-  extends /*@__PURE__*/ S.TaggedError<TooManyRealtimeLogConfigs>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyRealtimeLogConfigs",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyRemoveHeadersInResponseHeadersPolicy
-  extends /*@__PURE__*/ S.TaggedError<TooManyRemoveHeadersInResponseHeadersPolicy>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyRemoveHeadersInResponseHeadersPolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyResponseHeadersPolicies
-  extends /*@__PURE__*/ S.TaggedError<TooManyResponseHeadersPolicies>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyResponseHeadersPolicies",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyStreamingDistributionCNAMEs
-  extends /*@__PURE__*/ S.TaggedError<TooManyStreamingDistributionCNAMEs>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyStreamingDistributionCNAMEs",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyStreamingDistributions
-  extends /*@__PURE__*/ S.TaggedError<TooManyStreamingDistributions>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyStreamingDistributions",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TooManyTrustedSigners
-  extends /*@__PURE__*/ S.TaggedError<TooManyTrustedSigners>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyTrustedSigners",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TrustedKeyGroupDoesNotExist
-  extends /*@__PURE__*/ S.TaggedError<TrustedKeyGroupDoesNotExist>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TrustedKeyGroupDoesNotExist",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class TrustedSignerDoesNotExist
-  extends /*@__PURE__*/ S.TaggedError<TrustedSignerDoesNotExist>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TrustedSignerDoesNotExist",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class UnsupportedOperation
-  extends /*@__PURE__*/ S.TaggedError<UnsupportedOperation>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "UnsupportedOperation",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export interface AssociateAliasRequest {
   TargetDistributionId: string;
   Alias: string;
 }
-export const AssociateAliasRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetDistributionId: S.String.pipe(T.HttpLabel("TargetDistributionId")),
-    Alias: S.String.pipe(T.HttpQuery("Alias")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/distribution/{TargetDistributionId}/associate-alias",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateAliasRequest",
-}) as any as S.Schema<AssociateAliasRequest>;
 export interface AssociateAliasResponse {}
-export const AssociateAliasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AssociateAliasResponse",
-}) as any as S.Schema<AssociateAliasResponse>;
 export interface AssociateDistributionTenantWebACLRequest {
   Id: string;
   WebACLArn: string;
   IfMatch?: string;
 }
-export const AssociateDistributionTenantWebACLRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      WebACLArn: S.String,
-      IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "PUT",
-          uri: "/2020-05-31/distribution-tenant/{Id}/associate-web-acl",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "AssociateDistributionTenantWebACLRequest",
-}) as any as S.Schema<AssociateDistributionTenantWebACLRequest>;
 export interface AssociateDistributionTenantWebACLResult {
   Id?: string;
   WebACLArn?: string;
   ETag?: string;
 }
-export const AssociateDistributionTenantWebACLResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Id: S.optional(S.String),
-      WebACLArn: S.optional(S.String),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-).annotate({
-  identifier: "AssociateDistributionTenantWebACLResult",
-}) as any as S.Schema<AssociateDistributionTenantWebACLResult>;
 export interface AssociateDistributionWebACLRequest {
   Id: string;
   WebACLArn: string;
   IfMatch?: string;
 }
-export const AssociateDistributionWebACLRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    WebACLArn: S.String,
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/distribution/{Id}/associate-web-acl",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateDistributionWebACLRequest",
-}) as any as S.Schema<AssociateDistributionWebACLRequest>;
 export interface AssociateDistributionWebACLResult {
   Id?: string;
   WebACLArn?: string;
   ETag?: string;
 }
-export const AssociateDistributionWebACLResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    WebACLArn: S.optional(S.String),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "AssociateDistributionWebACLResult",
-}) as any as S.Schema<AssociateDistributionWebACLResult>;
 export interface CopyDistributionRequest {
   PrimaryDistributionId: string;
   Staging?: boolean;
@@ -1178,182 +1054,70 @@ export interface CopyDistributionRequest {
   CallerReference: string;
   Enabled?: boolean;
 }
-export const CopyDistributionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PrimaryDistributionId: S.String.pipe(T.HttpLabel("PrimaryDistributionId")),
-    Staging: S.optional(S.Boolean).pipe(T.HttpHeader("Staging")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    CallerReference: S.String,
-    Enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2020-05-31/distribution/{PrimaryDistributionId}/copy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CopyDistributionRequest",
-}) as any as S.Schema<CopyDistributionRequest>;
 export type KeyPairIdList = string[];
-export const KeyPairIdList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("KeyPairId")),
-);
 export interface KeyPairIds {
   Quantity: number;
   Items?: string[];
 }
-export const KeyPairIds = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: S.optional(KeyPairIdList) }),
-).annotate({ identifier: "KeyPairIds" }) as any as S.Schema<KeyPairIds>;
 export interface Signer {
   AwsAccountNumber?: string;
   KeyPairIds?: KeyPairIds;
 }
-export const Signer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AwsAccountNumber: S.optional(S.String),
-    KeyPairIds: S.optional(KeyPairIds),
-  }),
-).annotate({ identifier: "Signer" }) as any as S.Schema<Signer>;
 export type SignerList = Signer[];
-export const SignerList = /*@__PURE__*/ S.Array(
-  Signer.pipe(T.XmlName("Signer")).annotate({ identifier: "Signer" }),
-);
 export interface ActiveTrustedSigners {
   Enabled: boolean;
   Quantity: number;
   Items?: Signer[];
 }
-export const ActiveTrustedSigners = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.Boolean,
-    Quantity: S.Number,
-    Items: S.optional(SignerList),
-  }),
-).annotate({
-  identifier: "ActiveTrustedSigners",
-}) as any as S.Schema<ActiveTrustedSigners>;
 export interface KGKeyPairIds {
   KeyGroupId?: string;
   KeyPairIds?: KeyPairIds;
 }
-export const KGKeyPairIds = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyGroupId: S.optional(S.String),
-    KeyPairIds: S.optional(KeyPairIds),
-  }),
-).annotate({ identifier: "KGKeyPairIds" }) as any as S.Schema<KGKeyPairIds>;
 export type KGKeyPairIdsList = KGKeyPairIds[];
-export const KGKeyPairIdsList = /*@__PURE__*/ S.Array(
-  KGKeyPairIds.pipe(T.XmlName("KeyGroup")).annotate({
-    identifier: "KGKeyPairIds",
-  }),
-);
 export interface ActiveTrustedKeyGroups {
   Enabled: boolean;
   Quantity: number;
   Items?: KGKeyPairIds[];
 }
-export const ActiveTrustedKeyGroups = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.Boolean,
-    Quantity: S.Number,
-    Items: S.optional(KGKeyPairIdsList),
-  }),
-).annotate({
-  identifier: "ActiveTrustedKeyGroups",
-}) as any as S.Schema<ActiveTrustedKeyGroups>;
 export type AliasList = string[];
-export const AliasList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("CNAME")),
-);
 export interface Aliases {
   Quantity: number;
   Items?: string[];
 }
-export const Aliases = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: S.optional(AliasList) }),
-).annotate({ identifier: "Aliases" }) as any as S.Schema<Aliases>;
 export type SensitiveStringType = string | redacted.Redacted<string>;
 export interface OriginCustomHeader {
   HeaderName: string;
   HeaderValue: string | redacted.Redacted<string>;
 }
-export const OriginCustomHeader = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ HeaderName: S.String, HeaderValue: SensitiveString }),
-).annotate({
-  identifier: "OriginCustomHeader",
-}) as any as S.Schema<OriginCustomHeader>;
 export type OriginCustomHeadersList = OriginCustomHeader[];
-export const OriginCustomHeadersList = /*@__PURE__*/ S.Array(
-  OriginCustomHeader.pipe(T.XmlName("OriginCustomHeader")).annotate({
-    identifier: "OriginCustomHeader",
-  }),
-);
 export interface CustomHeaders {
   Quantity: number;
   Items?: OriginCustomHeader[];
 }
-export const CustomHeaders = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: S.optional(OriginCustomHeadersList) }),
-).annotate({ identifier: "CustomHeaders" }) as any as S.Schema<CustomHeaders>;
 export interface S3OriginConfig {
   OriginAccessIdentity?: string;
   OriginReadTimeout?: number;
 }
-export const S3OriginConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginAccessIdentity: S.optional(S.String),
-    OriginReadTimeout: S.optional(S.Number),
-  }),
-).annotate({ identifier: "S3OriginConfig" }) as any as S.Schema<S3OriginConfig>;
 export type OriginProtocolPolicy =
   | "http-only"
   | "match-viewer"
   | "https-only"
   | (string & {});
-export const OriginProtocolPolicy = S.String;
-
 export type SslProtocol =
   | "SSLv3"
   | "TLSv1"
   | "TLSv1.1"
   | "TLSv1.2"
   | (string & {});
-export const SslProtocol = S.String;
-
 export type SslProtocolsList = SslProtocol[];
-export const SslProtocolsList = /*@__PURE__*/ S.Array(
-  SslProtocol.pipe(T.XmlName("SslProtocol")),
-);
 export interface OriginSslProtocols {
   Quantity: number;
   Items: SslProtocol[];
 }
-export const OriginSslProtocols = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: SslProtocolsList }),
-).annotate({
-  identifier: "OriginSslProtocols",
-}) as any as S.Schema<OriginSslProtocols>;
 export type IpAddressType = "ipv4" | "ipv6" | "dualstack" | (string & {});
-export const IpAddressType = S.String;
-
 export interface OriginMtlsConfig {
   ClientCertificateArn: string;
 }
-export const OriginMtlsConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ClientCertificateArn: S.String }),
-).annotate({
-  identifier: "OriginMtlsConfig",
-}) as any as S.Schema<OriginMtlsConfig>;
 export interface CustomOriginConfig {
   HTTPPort: number;
   HTTPSPort: number;
@@ -1364,44 +1128,17 @@ export interface CustomOriginConfig {
   IpAddressType?: IpAddressType;
   OriginMtlsConfig?: OriginMtlsConfig;
 }
-export const CustomOriginConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HTTPPort: S.Number,
-    HTTPSPort: S.Number,
-    OriginProtocolPolicy: OriginProtocolPolicy,
-    OriginSslProtocols: S.optional(OriginSslProtocols),
-    OriginReadTimeout: S.optional(S.Number),
-    OriginKeepaliveTimeout: S.optional(S.Number),
-    IpAddressType: S.optional(IpAddressType),
-    OriginMtlsConfig: S.optional(OriginMtlsConfig),
-  }),
-).annotate({
-  identifier: "CustomOriginConfig",
-}) as any as S.Schema<CustomOriginConfig>;
 export interface VpcOriginConfig {
   VpcOriginId: string;
   OwnerAccountId?: string;
   OriginReadTimeout?: number;
   OriginKeepaliveTimeout?: number;
 }
-export const VpcOriginConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcOriginId: S.String,
-    OwnerAccountId: S.optional(S.String),
-    OriginReadTimeout: S.optional(S.Number),
-    OriginKeepaliveTimeout: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "VpcOriginConfig",
-}) as any as S.Schema<VpcOriginConfig>;
 export type OriginShieldRegion = string;
 export interface OriginShield {
   Enabled: boolean;
   OriginShieldRegion?: string;
 }
-export const OriginShield = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Enabled: S.Boolean, OriginShieldRegion: S.optional(S.String) }),
-).annotate({ identifier: "OriginShield" }) as any as S.Schema<OriginShield>;
 export interface Origin {
   Id: string;
   DomainName: string;
@@ -1416,149 +1153,59 @@ export interface Origin {
   OriginShield?: OriginShield;
   OriginAccessControlId?: string;
 }
-export const Origin = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    DomainName: S.String,
-    OriginPath: S.optional(S.String),
-    CustomHeaders: S.optional(CustomHeaders),
-    S3OriginConfig: S.optional(S3OriginConfig),
-    CustomOriginConfig: S.optional(CustomOriginConfig),
-    VpcOriginConfig: S.optional(VpcOriginConfig),
-    ConnectionAttempts: S.optional(S.Number),
-    ConnectionTimeout: S.optional(S.Number),
-    ResponseCompletionTimeout: S.optional(S.Number),
-    OriginShield: S.optional(OriginShield),
-    OriginAccessControlId: S.optional(S.String),
-  }),
-).annotate({ identifier: "Origin" }) as any as S.Schema<Origin>;
 export type OriginList = Origin[];
-export const OriginList = /*@__PURE__*/ S.Array(
-  Origin.pipe(T.XmlName("Origin")).annotate({ identifier: "Origin" }),
-);
 export interface Origins {
   Quantity: number;
   Items: Origin[];
 }
-export const Origins = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: OriginList }),
-).annotate({ identifier: "Origins" }) as any as S.Schema<Origins>;
 export type StatusCodeList = number[];
-export const StatusCodeList = /*@__PURE__*/ S.Array(
-  S.Number.pipe(T.XmlName("StatusCode")),
-);
 export interface StatusCodes {
   Quantity: number;
   Items: number[];
 }
-export const StatusCodes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: StatusCodeList }),
-).annotate({ identifier: "StatusCodes" }) as any as S.Schema<StatusCodes>;
 export interface OriginGroupFailoverCriteria {
   StatusCodes: StatusCodes;
 }
-export const OriginGroupFailoverCriteria = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ StatusCodes: StatusCodes }),
-).annotate({
-  identifier: "OriginGroupFailoverCriteria",
-}) as any as S.Schema<OriginGroupFailoverCriteria>;
 export interface OriginGroupMember {
   OriginId: string;
 }
-export const OriginGroupMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OriginId: S.String }),
-).annotate({
-  identifier: "OriginGroupMember",
-}) as any as S.Schema<OriginGroupMember>;
 export type OriginGroupMemberList = OriginGroupMember[];
-export const OriginGroupMemberList = /*@__PURE__*/ S.Array(
-  OriginGroupMember.pipe(T.XmlName("OriginGroupMember")).annotate({
-    identifier: "OriginGroupMember",
-  }),
-);
 export interface OriginGroupMembers {
   Quantity: number;
   Items: OriginGroupMember[];
 }
-export const OriginGroupMembers = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: OriginGroupMemberList }),
-).annotate({
-  identifier: "OriginGroupMembers",
-}) as any as S.Schema<OriginGroupMembers>;
 export type OriginGroupSelectionCriteria =
   | "default"
   | "media-quality-based"
   | (string & {});
-export const OriginGroupSelectionCriteria = S.String;
-
 export interface OriginGroup {
   Id: string;
   FailoverCriteria: OriginGroupFailoverCriteria;
   Members: OriginGroupMembers;
   SelectionCriteria?: OriginGroupSelectionCriteria;
 }
-export const OriginGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    FailoverCriteria: OriginGroupFailoverCriteria,
-    Members: OriginGroupMembers,
-    SelectionCriteria: S.optional(OriginGroupSelectionCriteria),
-  }),
-).annotate({ identifier: "OriginGroup" }) as any as S.Schema<OriginGroup>;
 export type OriginGroupList = OriginGroup[];
-export const OriginGroupList = /*@__PURE__*/ S.Array(
-  OriginGroup.pipe(T.XmlName("OriginGroup")).annotate({
-    identifier: "OriginGroup",
-  }),
-);
 export interface OriginGroups {
   Quantity: number;
   Items?: OriginGroup[];
 }
-export const OriginGroups = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: S.optional(OriginGroupList) }),
-).annotate({ identifier: "OriginGroups" }) as any as S.Schema<OriginGroups>;
 export type AwsAccountNumberList = string[];
-export const AwsAccountNumberList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("AwsAccountNumber")),
-);
 export interface TrustedSigners {
   Enabled: boolean;
   Quantity: number;
   Items?: string[];
 }
-export const TrustedSigners = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.Boolean,
-    Quantity: S.Number,
-    Items: S.optional(AwsAccountNumberList),
-  }),
-).annotate({ identifier: "TrustedSigners" }) as any as S.Schema<TrustedSigners>;
 export type TrustedKeyGroupIdList = string[];
-export const TrustedKeyGroupIdList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("KeyGroup")),
-);
 export interface TrustedKeyGroups {
   Enabled: boolean;
   Quantity: number;
   Items?: string[];
 }
-export const TrustedKeyGroups = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.Boolean,
-    Quantity: S.Number,
-    Items: S.optional(TrustedKeyGroupIdList),
-  }),
-).annotate({
-  identifier: "TrustedKeyGroups",
-}) as any as S.Schema<TrustedKeyGroups>;
 export type ViewerProtocolPolicy =
   | "allow-all"
   | "https-only"
   | "redirect-to-https"
   | (string & {});
-export const ViewerProtocolPolicy = S.String;
-
 export type Method =
   | "GET"
   | "HEAD"
@@ -1568,31 +1215,16 @@ export type Method =
   | "OPTIONS"
   | "DELETE"
   | (string & {});
-export const Method = S.String;
-
 export type MethodsList = Method[];
-export const MethodsList = /*@__PURE__*/ S.Array(
-  Method.pipe(T.XmlName("Method")),
-);
 export interface CachedMethods {
   Quantity: number;
   Items: Method[];
 }
-export const CachedMethods = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: MethodsList }),
-).annotate({ identifier: "CachedMethods" }) as any as S.Schema<CachedMethods>;
 export interface AllowedMethods {
   Quantity: number;
   Items: Method[];
   CachedMethods?: CachedMethods;
 }
-export const AllowedMethods = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Quantity: S.Number,
-    Items: MethodsList,
-    CachedMethods: S.optional(CachedMethods),
-  }),
-).annotate({ identifier: "AllowedMethods" }) as any as S.Schema<AllowedMethods>;
 export type LambdaFunctionARN = string;
 export type EventType =
   | "viewer-request"
@@ -1600,137 +1232,55 @@ export type EventType =
   | "origin-request"
   | "origin-response"
   | (string & {});
-export const EventType = S.String;
-
 export interface LambdaFunctionAssociation {
   LambdaFunctionARN: string;
   EventType: EventType;
   IncludeBody?: boolean;
 }
-export const LambdaFunctionAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LambdaFunctionARN: S.String,
-    EventType: EventType,
-    IncludeBody: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "LambdaFunctionAssociation",
-}) as any as S.Schema<LambdaFunctionAssociation>;
 export type LambdaFunctionAssociationList = LambdaFunctionAssociation[];
-export const LambdaFunctionAssociationList = /*@__PURE__*/ S.Array(
-  LambdaFunctionAssociation.pipe(
-    T.XmlName("LambdaFunctionAssociation"),
-  ).annotate({ identifier: "LambdaFunctionAssociation" }),
-);
 export interface LambdaFunctionAssociations {
   Quantity: number;
   Items?: LambdaFunctionAssociation[];
 }
-export const LambdaFunctionAssociations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Quantity: S.Number,
-    Items: S.optional(LambdaFunctionAssociationList),
-  }),
-).annotate({
-  identifier: "LambdaFunctionAssociations",
-}) as any as S.Schema<LambdaFunctionAssociations>;
 export type FunctionARN = string;
 export interface FunctionAssociation {
   FunctionARN: string;
   EventType: EventType;
 }
-export const FunctionAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FunctionARN: S.String, EventType: EventType }),
-).annotate({
-  identifier: "FunctionAssociation",
-}) as any as S.Schema<FunctionAssociation>;
 export type FunctionAssociationList = FunctionAssociation[];
-export const FunctionAssociationList = /*@__PURE__*/ S.Array(
-  FunctionAssociation.pipe(T.XmlName("FunctionAssociation")).annotate({
-    identifier: "FunctionAssociation",
-  }),
-);
 export interface FunctionAssociations {
   Quantity: number;
   Items?: FunctionAssociation[];
 }
-export const FunctionAssociations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: S.optional(FunctionAssociationList) }),
-).annotate({
-  identifier: "FunctionAssociations",
-}) as any as S.Schema<FunctionAssociations>;
 export interface GrpcConfig {
   Enabled: boolean;
 }
-export const GrpcConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Enabled: S.Boolean }),
-).annotate({ identifier: "GrpcConfig" }) as any as S.Schema<GrpcConfig>;
 export type ItemSelection = "none" | "whitelist" | "all" | (string & {});
-export const ItemSelection = S.String;
-
 export type CookieNameList = string[];
-export const CookieNameList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Name")),
-);
 export interface CookieNames {
   Quantity: number;
   Items?: string[];
 }
-export const CookieNames = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: S.optional(CookieNameList) }),
-).annotate({ identifier: "CookieNames" }) as any as S.Schema<CookieNames>;
 export interface CookiePreference {
   Forward: ItemSelection;
   WhitelistedNames?: CookieNames;
 }
-export const CookiePreference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Forward: ItemSelection,
-    WhitelistedNames: S.optional(CookieNames),
-  }),
-).annotate({
-  identifier: "CookiePreference",
-}) as any as S.Schema<CookiePreference>;
 export type HeaderList = string[];
-export const HeaderList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Name")),
-);
 export interface Headers {
   Quantity: number;
   Items?: string[];
 }
-export const Headers = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: S.optional(HeaderList) }),
-).annotate({ identifier: "Headers" }) as any as S.Schema<Headers>;
 export type QueryStringCacheKeysList = string[];
-export const QueryStringCacheKeysList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Name")),
-);
 export interface QueryStringCacheKeys {
   Quantity: number;
   Items?: string[];
 }
-export const QueryStringCacheKeys = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: S.optional(QueryStringCacheKeysList) }),
-).annotate({
-  identifier: "QueryStringCacheKeys",
-}) as any as S.Schema<QueryStringCacheKeys>;
 export interface ForwardedValues {
   QueryString: boolean;
   Cookies: CookiePreference;
   Headers?: Headers;
   QueryStringCacheKeys?: QueryStringCacheKeys;
 }
-export const ForwardedValues = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueryString: S.Boolean,
-    Cookies: CookiePreference,
-    Headers: S.optional(Headers),
-    QueryStringCacheKeys: S.optional(QueryStringCacheKeys),
-  }),
-).annotate({
-  identifier: "ForwardedValues",
-}) as any as S.Schema<ForwardedValues>;
 export interface DefaultCacheBehavior {
   TargetOriginId: string;
   TrustedSigners?: TrustedSigners;
@@ -1752,31 +1302,6 @@ export interface DefaultCacheBehavior {
   DefaultTTL?: number;
   MaxTTL?: number;
 }
-export const DefaultCacheBehavior = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetOriginId: S.String,
-    TrustedSigners: S.optional(TrustedSigners),
-    TrustedKeyGroups: S.optional(TrustedKeyGroups),
-    ViewerProtocolPolicy: ViewerProtocolPolicy,
-    AllowedMethods: S.optional(AllowedMethods),
-    SmoothStreaming: S.optional(S.Boolean),
-    Compress: S.optional(S.Boolean),
-    LambdaFunctionAssociations: S.optional(LambdaFunctionAssociations),
-    FunctionAssociations: S.optional(FunctionAssociations),
-    FieldLevelEncryptionId: S.optional(S.String),
-    RealtimeLogConfigArn: S.optional(S.String),
-    CachePolicyId: S.optional(S.String),
-    OriginRequestPolicyId: S.optional(S.String),
-    ResponseHeadersPolicyId: S.optional(S.String),
-    GrpcConfig: S.optional(GrpcConfig),
-    ForwardedValues: S.optional(ForwardedValues),
-    MinTTL: S.optional(S.Number),
-    DefaultTTL: S.optional(S.Number),
-    MaxTTL: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "DefaultCacheBehavior",
-}) as any as S.Schema<DefaultCacheBehavior>;
 export interface CacheBehavior {
   PathPattern: string;
   TargetOriginId: string;
@@ -1799,74 +1324,22 @@ export interface CacheBehavior {
   DefaultTTL?: number;
   MaxTTL?: number;
 }
-export const CacheBehavior = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PathPattern: S.String,
-    TargetOriginId: S.String,
-    TrustedSigners: S.optional(TrustedSigners),
-    TrustedKeyGroups: S.optional(TrustedKeyGroups),
-    ViewerProtocolPolicy: ViewerProtocolPolicy,
-    AllowedMethods: S.optional(AllowedMethods),
-    SmoothStreaming: S.optional(S.Boolean),
-    Compress: S.optional(S.Boolean),
-    LambdaFunctionAssociations: S.optional(LambdaFunctionAssociations),
-    FunctionAssociations: S.optional(FunctionAssociations),
-    FieldLevelEncryptionId: S.optional(S.String),
-    RealtimeLogConfigArn: S.optional(S.String),
-    CachePolicyId: S.optional(S.String),
-    OriginRequestPolicyId: S.optional(S.String),
-    ResponseHeadersPolicyId: S.optional(S.String),
-    GrpcConfig: S.optional(GrpcConfig),
-    ForwardedValues: S.optional(ForwardedValues),
-    MinTTL: S.optional(S.Number),
-    DefaultTTL: S.optional(S.Number),
-    MaxTTL: S.optional(S.Number),
-  }),
-).annotate({ identifier: "CacheBehavior" }) as any as S.Schema<CacheBehavior>;
 export type CacheBehaviorList = CacheBehavior[];
-export const CacheBehaviorList = /*@__PURE__*/ S.Array(
-  CacheBehavior.pipe(T.XmlName("CacheBehavior")).annotate({
-    identifier: "CacheBehavior",
-  }),
-);
 export interface CacheBehaviors {
   Quantity: number;
   Items?: CacheBehavior[];
 }
-export const CacheBehaviors = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: S.optional(CacheBehaviorList) }),
-).annotate({ identifier: "CacheBehaviors" }) as any as S.Schema<CacheBehaviors>;
 export interface CustomErrorResponse {
   ErrorCode: number;
   ResponsePagePath?: string;
   ResponseCode?: string;
   ErrorCachingMinTTL?: number;
 }
-export const CustomErrorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ErrorCode: S.Number,
-    ResponsePagePath: S.optional(S.String),
-    ResponseCode: S.optional(S.String),
-    ErrorCachingMinTTL: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CustomErrorResponse",
-}) as any as S.Schema<CustomErrorResponse>;
 export type CustomErrorResponseList = CustomErrorResponse[];
-export const CustomErrorResponseList = /*@__PURE__*/ S.Array(
-  CustomErrorResponse.pipe(T.XmlName("CustomErrorResponse")).annotate({
-    identifier: "CustomErrorResponse",
-  }),
-);
 export interface CustomErrorResponses {
   Quantity: number;
   Items?: CustomErrorResponse[];
 }
-export const CustomErrorResponses = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: S.optional(CustomErrorResponseList) }),
-).annotate({
-  identifier: "CustomErrorResponses",
-}) as any as S.Schema<CustomErrorResponses>;
 export type CommentType = string | redacted.Redacted<string>;
 export interface LoggingConfig {
   Enabled?: boolean;
@@ -1874,26 +1347,14 @@ export interface LoggingConfig {
   Bucket?: string;
   Prefix?: string;
 }
-export const LoggingConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    IncludeCookies: S.optional(S.Boolean),
-    Bucket: S.optional(S.String),
-    Prefix: S.optional(S.String),
-  }),
-).annotate({ identifier: "LoggingConfig" }) as any as S.Schema<LoggingConfig>;
 export type PriceClass =
   | "PriceClass_100"
   | "PriceClass_200"
   | "PriceClass_All"
   | "None"
   | (string & {});
-export const PriceClass = S.String;
-
 export type ServerCertificateId = string;
 export type SSLSupportMethod = "sni-only" | "vip" | "static-ip" | (string & {});
-export const SSLSupportMethod = S.String;
-
 export type MinimumProtocolVersion =
   | "SSLv3"
   | "TLSv1"
@@ -1905,11 +1366,7 @@ export type MinimumProtocolVersion =
   | "TLSv1.3_2025"
   | "TLSv1.2_2025"
   | (string & {});
-export const MinimumProtocolVersion = S.String;
-
 export type CertificateSource = "cloudfront" | "iam" | "acm" | (string & {});
-export const CertificateSource = S.String;
-
 export interface ViewerCertificate {
   CloudFrontDefaultCertificate?: boolean;
   IAMCertificateId?: string;
@@ -1919,48 +1376,20 @@ export interface ViewerCertificate {
   Certificate?: string;
   CertificateSource?: CertificateSource;
 }
-export const ViewerCertificate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CloudFrontDefaultCertificate: S.optional(S.Boolean),
-    IAMCertificateId: S.optional(S.String),
-    ACMCertificateArn: S.optional(S.String),
-    SSLSupportMethod: S.optional(SSLSupportMethod),
-    MinimumProtocolVersion: S.optional(MinimumProtocolVersion),
-    Certificate: S.optional(S.String),
-    CertificateSource: S.optional(CertificateSource),
-  }),
-).annotate({
-  identifier: "ViewerCertificate",
-}) as any as S.Schema<ViewerCertificate>;
 export type GeoRestrictionType =
   | "blacklist"
   | "whitelist"
   | "none"
   | (string & {});
-export const GeoRestrictionType = S.String;
-
 export type LocationList = string[];
-export const LocationList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Location")),
-);
 export interface GeoRestriction {
   RestrictionType: GeoRestrictionType;
   Quantity: number;
   Items?: string[];
 }
-export const GeoRestriction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestrictionType: GeoRestrictionType,
-    Quantity: S.Number,
-    Items: S.optional(LocationList),
-  }),
-).annotate({ identifier: "GeoRestriction" }) as any as S.Schema<GeoRestriction>;
 export interface Restrictions {
   GeoRestriction: GeoRestriction;
 }
-export const Restrictions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GeoRestriction: GeoRestriction }),
-).annotate({ identifier: "Restrictions" }) as any as S.Schema<Restrictions>;
 export type HttpVersion =
   | "http1.1"
   | "http2"
@@ -1971,8 +1400,6 @@ export type HttpVersion =
   | "HTTP3"
   | "HTTP2AND3"
   | (string & {});
-export const HttpVersion = S.String;
-
 export type ParameterName = string;
 export type ParameterValue = string;
 export interface StringSchemaConfig {
@@ -1980,91 +1407,39 @@ export interface StringSchemaConfig {
   DefaultValue?: string;
   Required: boolean;
 }
-export const StringSchemaConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Comment: S.optional(SensitiveString),
-    DefaultValue: S.optional(S.String),
-    Required: S.Boolean,
-  }),
-).annotate({
-  identifier: "StringSchemaConfig",
-}) as any as S.Schema<StringSchemaConfig>;
 export interface ParameterDefinitionSchema {
   StringSchema?: StringSchemaConfig;
 }
-export const ParameterDefinitionSchema = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ StringSchema: S.optional(StringSchemaConfig) }),
-).annotate({
-  identifier: "ParameterDefinitionSchema",
-}) as any as S.Schema<ParameterDefinitionSchema>;
 export interface ParameterDefinition {
   Name: string;
   Definition: ParameterDefinitionSchema;
 }
-export const ParameterDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Definition: ParameterDefinitionSchema }),
-).annotate({
-  identifier: "ParameterDefinition",
-}) as any as S.Schema<ParameterDefinition>;
 export type ParameterDefinitions = ParameterDefinition[];
-export const ParameterDefinitions = /*@__PURE__*/ S.Array(ParameterDefinition);
 export interface TenantConfig {
   ParameterDefinitions?: ParameterDefinition[];
 }
-export const TenantConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ParameterDefinitions: S.optional(ParameterDefinitions) }),
-).annotate({ identifier: "TenantConfig" }) as any as S.Schema<TenantConfig>;
 export type ConnectionMode = "direct" | "tenant-only" | (string & {});
-export const ConnectionMode = S.String;
-
 export type ViewerMtlsMode =
   | "required"
   | "optional"
   | "passthrough"
   | (string & {});
-export const ViewerMtlsMode = S.String;
-
 export interface TrustStoreConfig {
   TrustStoreId: string;
   AdvertiseTrustStoreCaNames?: boolean;
   IgnoreCertificateExpiry?: boolean;
 }
-export const TrustStoreConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrustStoreId: S.String,
-    AdvertiseTrustStoreCaNames: S.optional(S.Boolean),
-    IgnoreCertificateExpiry: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "TrustStoreConfig",
-}) as any as S.Schema<TrustStoreConfig>;
 export interface ViewerMtlsConfig {
   Mode?: ViewerMtlsMode;
   TrustStoreConfig?: TrustStoreConfig;
 }
-export const ViewerMtlsConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Mode: S.optional(ViewerMtlsMode),
-    TrustStoreConfig: S.optional(TrustStoreConfig),
-  }),
-).annotate({
-  identifier: "ViewerMtlsConfig",
-}) as any as S.Schema<ViewerMtlsConfig>;
 export type ResourceId = string;
 export interface ConnectionFunctionAssociation {
   Id: string;
 }
-export const ConnectionFunctionAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String }),
-).annotate({
-  identifier: "ConnectionFunctionAssociation",
-}) as any as S.Schema<ConnectionFunctionAssociation>;
 export interface CacheTagConfig {
   HeaderName: string;
 }
-export const CacheTagConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ HeaderName: S.String }),
-).annotate({ identifier: "CacheTagConfig" }) as any as S.Schema<CacheTagConfig>;
 export interface DistributionConfig {
   CallerReference: string;
   Aliases?: Aliases;
@@ -2092,62 +1467,16 @@ export interface DistributionConfig {
   ConnectionFunctionAssociation?: ConnectionFunctionAssociation;
   CacheTagConfig?: CacheTagConfig;
 }
-export const DistributionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CallerReference: S.String,
-    Aliases: S.optional(Aliases),
-    DefaultRootObject: S.optional(S.String),
-    Origins: Origins,
-    OriginGroups: S.optional(OriginGroups),
-    DefaultCacheBehavior: DefaultCacheBehavior,
-    CacheBehaviors: S.optional(CacheBehaviors),
-    CustomErrorResponses: S.optional(CustomErrorResponses),
-    Comment: SensitiveString,
-    Logging: S.optional(LoggingConfig),
-    PriceClass: S.optional(PriceClass),
-    Enabled: S.Boolean,
-    ViewerCertificate: S.optional(ViewerCertificate),
-    Restrictions: S.optional(Restrictions),
-    WebACLId: S.optional(S.String),
-    HttpVersion: S.optional(HttpVersion),
-    IsIPV6Enabled: S.optional(S.Boolean),
-    ContinuousDeploymentPolicyId: S.optional(S.String),
-    Staging: S.optional(S.Boolean),
-    AnycastIpListId: S.optional(S.String),
-    TenantConfig: S.optional(TenantConfig),
-    ConnectionMode: S.optional(ConnectionMode),
-    ViewerMtlsConfig: S.optional(ViewerMtlsConfig),
-    ConnectionFunctionAssociation: S.optional(ConnectionFunctionAssociation),
-    CacheTagConfig: S.optional(CacheTagConfig),
-  }),
-).annotate({
-  identifier: "DistributionConfig",
-}) as any as S.Schema<DistributionConfig>;
 export type ICPRecordalStatus =
   | "APPROVED"
   | "SUSPENDED"
   | "PENDING"
   | (string & {});
-export const ICPRecordalStatus = S.String;
-
 export interface AliasICPRecordal {
   CNAME?: string;
   ICPRecordalStatus?: ICPRecordalStatus;
 }
-export const AliasICPRecordal = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CNAME: S.optional(S.String),
-    ICPRecordalStatus: S.optional(ICPRecordalStatus),
-  }),
-).annotate({
-  identifier: "AliasICPRecordal",
-}) as any as S.Schema<AliasICPRecordal>;
 export type AliasICPRecordals = AliasICPRecordal[];
-export const AliasICPRecordals = /*@__PURE__*/ S.Array(
-  AliasICPRecordal.pipe(T.XmlName("AliasICPRecordal")).annotate({
-    identifier: "AliasICPRecordal",
-  }),
-);
 export interface Distribution {
   Id: string;
   ARN: string;
@@ -2160,36 +1489,11 @@ export interface Distribution {
   DistributionConfig: DistributionConfig;
   AliasICPRecordals?: AliasICPRecordal[];
 }
-export const Distribution = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    ARN: S.String,
-    Status: S.String,
-    LastModifiedTime: T.DateFromString,
-    InProgressInvalidationBatches: S.Number,
-    DomainName: S.String,
-    ActiveTrustedSigners: S.optional(ActiveTrustedSigners),
-    ActiveTrustedKeyGroups: S.optional(ActiveTrustedKeyGroups),
-    DistributionConfig: DistributionConfig,
-    AliasICPRecordals: S.optional(AliasICPRecordals),
-  }),
-).annotate({ identifier: "Distribution" }) as any as S.Schema<Distribution>;
 export interface CopyDistributionResult {
   Distribution?: Distribution;
   Location?: string;
   ETag?: string;
 }
-export const CopyDistributionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Distribution: S.optional(Distribution)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Distribution" }),
-    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CopyDistributionResult",
-}) as any as S.Schema<CopyDistributionResult>;
 export type AnycastIpListName = string;
 export type TagKey = string;
 export type TagValue = string;
@@ -2197,19 +1501,10 @@ export interface Tag {
   Key: string;
   Value?: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.optional(S.String) }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(
-  Tag.pipe(T.XmlName("Tag")).annotate({ identifier: "Tag" }),
-);
 export interface Tags {
   Items?: Tag[];
 }
-export const Tags = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Items: S.optional(TagList) }),
-).annotate({ identifier: "Tags" }) as any as S.Schema<Tags>;
 export type IpamCidrStatus =
   | "provisioned"
   | "failed-provision"
@@ -2224,28 +1519,13 @@ export type IpamCidrStatus =
   | "failed-withdraw"
   | "withdrawing"
   | (string & {});
-export const IpamCidrStatus = S.String;
-
 export interface IpamCidrConfig {
   Cidr: string;
   IpamPoolArn: string;
   AnycastIp?: string;
   Status?: IpamCidrStatus;
 }
-export const IpamCidrConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Cidr: S.String,
-    IpamPoolArn: S.String,
-    AnycastIp: S.optional(S.String),
-    Status: S.optional(IpamCidrStatus),
-  }),
-).annotate({ identifier: "IpamCidrConfig" }) as any as S.Schema<IpamCidrConfig>;
 export type IpamCidrConfigList = IpamCidrConfig[];
-export const IpamCidrConfigList = /*@__PURE__*/ S.Array(
-  IpamCidrConfig.pipe(T.XmlName("IpamCidrConfig")).annotate({
-    identifier: "IpamCidrConfig",
-  }),
-);
 export interface CreateAnycastIpListRequest {
   Name: string;
   IpCount: number;
@@ -2253,38 +1533,11 @@ export interface CreateAnycastIpListRequest {
   IpAddressType?: IpAddressType;
   IpamCidrConfigs?: IpamCidrConfig[];
 }
-export const CreateAnycastIpListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    IpCount: S.Number,
-    Tags: S.optional(Tags),
-    IpAddressType: S.optional(IpAddressType),
-    IpamCidrConfigs: S.optional(IpamCidrConfigList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/anycast-ip-list" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAnycastIpListRequest",
-}) as any as S.Schema<CreateAnycastIpListRequest>;
 export interface IpamConfig {
   Quantity: number;
   IpamCidrConfigs: IpamCidrConfig[];
 }
-export const IpamConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, IpamCidrConfigs: IpamCidrConfigList }),
-).annotate({ identifier: "IpamConfig" }) as any as S.Schema<IpamConfig>;
 export type AnycastIps = string[];
-export const AnycastIps = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("AnycastIp")),
-);
 export interface AnycastIpList {
   Id: string;
   Name: string;
@@ -2296,101 +1549,40 @@ export interface AnycastIpList {
   IpCount: number;
   LastModifiedTime: Date;
 }
-export const AnycastIpList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Name: S.String,
-    Status: S.String,
-    Arn: S.String,
-    IpAddressType: S.optional(IpAddressType),
-    IpamConfig: S.optional(IpamConfig),
-    AnycastIps: AnycastIps,
-    IpCount: S.Number,
-    LastModifiedTime: T.DateFromString,
-  }),
-).annotate({ identifier: "AnycastIpList" }) as any as S.Schema<AnycastIpList>;
 export interface CreateAnycastIpListResult {
   AnycastIpList?: AnycastIpList;
   ETag?: string;
 }
-export const CreateAnycastIpListResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AnycastIpList: S.optional(AnycastIpList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "AnycastIpList" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateAnycastIpListResult",
-}) as any as S.Schema<CreateAnycastIpListResult>;
 export type CachePolicyHeaderBehavior = "none" | "whitelist" | (string & {});
-export const CachePolicyHeaderBehavior = S.String;
-
 export interface CachePolicyHeadersConfig {
   HeaderBehavior: CachePolicyHeaderBehavior;
   Headers?: Headers;
 }
-export const CachePolicyHeadersConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HeaderBehavior: CachePolicyHeaderBehavior,
-    Headers: S.optional(Headers),
-  }),
-).annotate({
-  identifier: "CachePolicyHeadersConfig",
-}) as any as S.Schema<CachePolicyHeadersConfig>;
 export type CachePolicyCookieBehavior =
   | "none"
   | "whitelist"
   | "allExcept"
   | "all"
   | (string & {});
-export const CachePolicyCookieBehavior = S.String;
-
 export interface CachePolicyCookiesConfig {
   CookieBehavior: CachePolicyCookieBehavior;
   Cookies?: CookieNames;
 }
-export const CachePolicyCookiesConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CookieBehavior: CachePolicyCookieBehavior,
-    Cookies: S.optional(CookieNames),
-  }),
-).annotate({
-  identifier: "CachePolicyCookiesConfig",
-}) as any as S.Schema<CachePolicyCookiesConfig>;
 export type CachePolicyQueryStringBehavior =
   | "none"
   | "whitelist"
   | "allExcept"
   | "all"
   | (string & {});
-export const CachePolicyQueryStringBehavior = S.String;
-
 export type QueryStringNamesList = string[];
-export const QueryStringNamesList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Name")),
-);
 export interface QueryStringNames {
   Quantity: number;
   Items?: string[];
 }
-export const QueryStringNames = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: S.optional(QueryStringNamesList) }),
-).annotate({
-  identifier: "QueryStringNames",
-}) as any as S.Schema<QueryStringNames>;
 export interface CachePolicyQueryStringsConfig {
   QueryStringBehavior: CachePolicyQueryStringBehavior;
   QueryStrings?: QueryStringNames;
 }
-export const CachePolicyQueryStringsConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueryStringBehavior: CachePolicyQueryStringBehavior,
-    QueryStrings: S.optional(QueryStringNames),
-  }),
-).annotate({
-  identifier: "CachePolicyQueryStringsConfig",
-}) as any as S.Schema<CachePolicyQueryStringsConfig>;
 export interface ParametersInCacheKeyAndForwardedToOrigin {
   EnableAcceptEncodingGzip: boolean;
   EnableAcceptEncodingBrotli?: boolean;
@@ -2398,18 +1590,6 @@ export interface ParametersInCacheKeyAndForwardedToOrigin {
   CookiesConfig: CachePolicyCookiesConfig;
   QueryStringsConfig: CachePolicyQueryStringsConfig;
 }
-export const ParametersInCacheKeyAndForwardedToOrigin = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EnableAcceptEncodingGzip: S.Boolean,
-      EnableAcceptEncodingBrotli: S.optional(S.Boolean),
-      HeadersConfig: CachePolicyHeadersConfig,
-      CookiesConfig: CachePolicyCookiesConfig,
-      QueryStringsConfig: CachePolicyQueryStringsConfig,
-    }),
-).annotate({
-  identifier: "ParametersInCacheKeyAndForwardedToOrigin",
-}) as any as S.Schema<ParametersInCacheKeyAndForwardedToOrigin>;
 export interface CachePolicyConfig {
   Comment?: string;
   Name: string;
@@ -2418,187 +1598,55 @@ export interface CachePolicyConfig {
   MinTTL: number;
   ParametersInCacheKeyAndForwardedToOrigin?: ParametersInCacheKeyAndForwardedToOrigin;
 }
-export const CachePolicyConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Comment: S.optional(S.String),
-    Name: S.String,
-    DefaultTTL: S.optional(S.Number),
-    MaxTTL: S.optional(S.Number),
-    MinTTL: S.Number,
-    ParametersInCacheKeyAndForwardedToOrigin: S.optional(
-      ParametersInCacheKeyAndForwardedToOrigin,
-    ),
-  }),
-).annotate({
-  identifier: "CachePolicyConfig",
-}) as any as S.Schema<CachePolicyConfig>;
 export interface CreateCachePolicyRequest {
   CachePolicyConfig: CachePolicyConfig;
 }
-export const CreateCachePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CachePolicyConfig: CachePolicyConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("CachePolicyConfig"),
-    ).annotate({ identifier: "CachePolicyConfig" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/cache-policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateCachePolicyRequest",
-}) as any as S.Schema<CreateCachePolicyRequest>;
 export interface CachePolicy {
   Id: string;
   LastModifiedTime: Date;
   CachePolicyConfig: CachePolicyConfig;
 }
-export const CachePolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    LastModifiedTime: T.DateFromString,
-    CachePolicyConfig: CachePolicyConfig,
-  }),
-).annotate({ identifier: "CachePolicy" }) as any as S.Schema<CachePolicy>;
 export interface CreateCachePolicyResult {
   CachePolicy?: CachePolicy;
   Location?: string;
   ETag?: string;
 }
-export const CreateCachePolicyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CachePolicy: S.optional(CachePolicy)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "CachePolicy" }),
-    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateCachePolicyResult",
-}) as any as S.Schema<CreateCachePolicyResult>;
 export interface CloudFrontOriginAccessIdentityConfig {
   CallerReference: string;
   Comment: string;
 }
-export const CloudFrontOriginAccessIdentityConfig = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ CallerReference: S.String, Comment: S.String }),
-).annotate({
-  identifier: "CloudFrontOriginAccessIdentityConfig",
-}) as any as S.Schema<CloudFrontOriginAccessIdentityConfig>;
 export interface CreateCloudFrontOriginAccessIdentityRequest {
   CloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig;
 }
-export const CreateCloudFrontOriginAccessIdentityRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      CloudFrontOriginAccessIdentityConfig:
-        CloudFrontOriginAccessIdentityConfig.pipe(
-          T.HttpPayload(),
-          T.XmlName("CloudFrontOriginAccessIdentityConfig"),
-        ).annotate({ identifier: "CloudFrontOriginAccessIdentityConfig" }),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/2020-05-31/origin-access-identity/cloudfront",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "CreateCloudFrontOriginAccessIdentityRequest",
-  }) as any as S.Schema<CreateCloudFrontOriginAccessIdentityRequest>;
 export interface CloudFrontOriginAccessIdentity {
   Id: string;
   S3CanonicalUserId: string;
   CloudFrontOriginAccessIdentityConfig?: CloudFrontOriginAccessIdentityConfig;
 }
-export const CloudFrontOriginAccessIdentity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    S3CanonicalUserId: S.String,
-    CloudFrontOriginAccessIdentityConfig: S.optional(
-      CloudFrontOriginAccessIdentityConfig,
-    ),
-  }),
-).annotate({
-  identifier: "CloudFrontOriginAccessIdentity",
-}) as any as S.Schema<CloudFrontOriginAccessIdentity>;
 export interface CreateCloudFrontOriginAccessIdentityResult {
   CloudFrontOriginAccessIdentity?: CloudFrontOriginAccessIdentity;
   Location?: string;
   ETag?: string;
 }
-export const CreateCloudFrontOriginAccessIdentityResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      CloudFrontOriginAccessIdentity: S.optional(CloudFrontOriginAccessIdentity)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "CloudFrontOriginAccessIdentity" }),
-      Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "CreateCloudFrontOriginAccessIdentityResult",
-  }) as any as S.Schema<CreateCloudFrontOriginAccessIdentityResult>;
 export type FunctionName = string;
 export type FunctionRuntime =
   | "cloudfront-js-1.0"
   | "cloudfront-js-2.0"
   | (string & {});
-export const FunctionRuntime = S.String;
-
 export type KeyValueStoreARN = string;
 export interface KeyValueStoreAssociation {
   KeyValueStoreARN: string;
 }
-export const KeyValueStoreAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ KeyValueStoreARN: S.String }),
-).annotate({
-  identifier: "KeyValueStoreAssociation",
-}) as any as S.Schema<KeyValueStoreAssociation>;
 export type KeyValueStoreAssociationList = KeyValueStoreAssociation[];
-export const KeyValueStoreAssociationList = /*@__PURE__*/ S.Array(
-  KeyValueStoreAssociation.pipe(T.XmlName("KeyValueStoreAssociation")).annotate(
-    { identifier: "KeyValueStoreAssociation" },
-  ),
-);
 export interface KeyValueStoreAssociations {
   Quantity: number;
   Items?: KeyValueStoreAssociation[];
 }
-export const KeyValueStoreAssociations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Quantity: S.Number,
-    Items: S.optional(KeyValueStoreAssociationList),
-  }),
-).annotate({
-  identifier: "KeyValueStoreAssociations",
-}) as any as S.Schema<KeyValueStoreAssociations>;
 export interface FunctionConfig {
   Comment?: string;
   Runtime: FunctionRuntime;
   KeyValueStoreAssociations?: KeyValueStoreAssociations;
 }
-export const FunctionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Comment: S.optional(S.String),
-    Runtime: FunctionRuntime,
-    KeyValueStoreAssociations: S.optional(KeyValueStoreAssociations),
-  }),
-).annotate({ identifier: "FunctionConfig" }) as any as S.Schema<FunctionConfig>;
 export type FunctionBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface CreateConnectionFunctionRequest {
   Name: string;
@@ -2606,29 +1654,7 @@ export interface CreateConnectionFunctionRequest {
   ConnectionFunctionCode: Uint8Array | redacted.Redacted<Uint8Array>;
   Tags?: Tags;
 }
-export const CreateConnectionFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    ConnectionFunctionConfig: FunctionConfig,
-    ConnectionFunctionCode: SensitiveBlob,
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/connection-function" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateConnectionFunctionRequest",
-}) as any as S.Schema<CreateConnectionFunctionRequest>;
 export type FunctionStage = "DEVELOPMENT" | "LIVE" | (string & {});
-export const FunctionStage = S.String;
-
 export interface ConnectionFunctionSummary {
   Name: string;
   Id: string;
@@ -2639,36 +1665,11 @@ export interface ConnectionFunctionSummary {
   CreatedTime: Date;
   LastModifiedTime: Date;
 }
-export const ConnectionFunctionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Id: S.String,
-    ConnectionFunctionConfig: FunctionConfig,
-    ConnectionFunctionArn: S.String,
-    Status: S.String,
-    Stage: FunctionStage,
-    CreatedTime: T.DateFromString,
-    LastModifiedTime: T.DateFromString,
-  }),
-).annotate({
-  identifier: "ConnectionFunctionSummary",
-}) as any as S.Schema<ConnectionFunctionSummary>;
 export interface CreateConnectionFunctionResult {
   ConnectionFunctionSummary?: ConnectionFunctionSummary;
   Location?: string;
   ETag?: string;
 }
-export const CreateConnectionFunctionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionFunctionSummary: S.optional(ConnectionFunctionSummary)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ConnectionFunctionSummary" }),
-    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateConnectionFunctionResult",
-}) as any as S.Schema<CreateConnectionFunctionResult>;
 export interface CreateConnectionGroupRequest {
   Name: string;
   Ipv6Enabled?: boolean;
@@ -2676,27 +1677,6 @@ export interface CreateConnectionGroupRequest {
   AnycastIpListId?: string;
   Enabled?: boolean;
 }
-export const CreateConnectionGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Ipv6Enabled: S.optional(S.Boolean),
-    Tags: S.optional(Tags),
-    AnycastIpListId: S.optional(S.String),
-    Enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/connection-group" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateConnectionGroupRequest",
-}) as any as S.Schema<CreateConnectionGroupRequest>;
 export interface ConnectionGroup {
   Id?: string;
   Name?: string;
@@ -2711,298 +1691,98 @@ export interface ConnectionGroup {
   Enabled?: boolean;
   IsDefault?: boolean;
 }
-export const ConnectionGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Arn: S.optional(S.String),
-    CreatedTime: S.optional(T.DateFromString),
-    LastModifiedTime: S.optional(T.DateFromString),
-    Tags: S.optional(Tags),
-    Ipv6Enabled: S.optional(S.Boolean),
-    RoutingEndpoint: S.optional(S.String),
-    AnycastIpListId: S.optional(S.String),
-    Status: S.optional(S.String),
-    Enabled: S.optional(S.Boolean),
-    IsDefault: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ConnectionGroup",
-}) as any as S.Schema<ConnectionGroup>;
 export interface CreateConnectionGroupResult {
   ConnectionGroup?: ConnectionGroup;
   ETag?: string;
 }
-export const CreateConnectionGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionGroup: S.optional(ConnectionGroup)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ConnectionGroup" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateConnectionGroupResult",
-}) as any as S.Schema<CreateConnectionGroupResult>;
 export type StagingDistributionDnsNameList = string[];
-export const StagingDistributionDnsNameList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("DnsName")),
-);
 export interface StagingDistributionDnsNames {
   Quantity: number;
   Items?: string[];
 }
-export const StagingDistributionDnsNames = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Quantity: S.Number,
-    Items: S.optional(StagingDistributionDnsNameList),
-  }),
-).annotate({
-  identifier: "StagingDistributionDnsNames",
-}) as any as S.Schema<StagingDistributionDnsNames>;
 export interface SessionStickinessConfig {
   IdleTTL: number;
   MaximumTTL: number;
 }
-export const SessionStickinessConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IdleTTL: S.Number, MaximumTTL: S.Number }),
-).annotate({
-  identifier: "SessionStickinessConfig",
-}) as any as S.Schema<SessionStickinessConfig>;
 export interface ContinuousDeploymentSingleWeightConfig {
   Weight: number;
   SessionStickinessConfig?: SessionStickinessConfig;
 }
-export const ContinuousDeploymentSingleWeightConfig = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Weight: S.Number,
-      SessionStickinessConfig: S.optional(SessionStickinessConfig),
-    }),
-).annotate({
-  identifier: "ContinuousDeploymentSingleWeightConfig",
-}) as any as S.Schema<ContinuousDeploymentSingleWeightConfig>;
 export interface ContinuousDeploymentSingleHeaderConfig {
   Header: string;
   Value: string;
 }
-export const ContinuousDeploymentSingleHeaderConfig = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Header: S.String, Value: S.String }),
-).annotate({
-  identifier: "ContinuousDeploymentSingleHeaderConfig",
-}) as any as S.Schema<ContinuousDeploymentSingleHeaderConfig>;
 export type ContinuousDeploymentPolicyType =
   | "SingleWeight"
   | "SingleHeader"
   | (string & {});
-export const ContinuousDeploymentPolicyType = S.String;
-
 export interface TrafficConfig {
   SingleWeightConfig?: ContinuousDeploymentSingleWeightConfig;
   SingleHeaderConfig?: ContinuousDeploymentSingleHeaderConfig;
   Type: ContinuousDeploymentPolicyType;
 }
-export const TrafficConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SingleWeightConfig: S.optional(ContinuousDeploymentSingleWeightConfig),
-    SingleHeaderConfig: S.optional(ContinuousDeploymentSingleHeaderConfig),
-    Type: ContinuousDeploymentPolicyType,
-  }),
-).annotate({ identifier: "TrafficConfig" }) as any as S.Schema<TrafficConfig>;
 export interface ContinuousDeploymentPolicyConfig {
   StagingDistributionDnsNames: StagingDistributionDnsNames;
   Enabled: boolean;
   TrafficConfig?: TrafficConfig;
 }
-export const ContinuousDeploymentPolicyConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StagingDistributionDnsNames: StagingDistributionDnsNames,
-    Enabled: S.Boolean,
-    TrafficConfig: S.optional(TrafficConfig),
-  }),
-).annotate({
-  identifier: "ContinuousDeploymentPolicyConfig",
-}) as any as S.Schema<ContinuousDeploymentPolicyConfig>;
 export interface CreateContinuousDeploymentPolicyRequest {
   ContinuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig;
 }
-export const CreateContinuousDeploymentPolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ContinuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig.pipe(
-        T.HttpPayload(),
-        T.XmlName("ContinuousDeploymentPolicyConfig"),
-      ).annotate({ identifier: "ContinuousDeploymentPolicyConfig" }),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/2020-05-31/continuous-deployment-policy",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateContinuousDeploymentPolicyRequest",
-}) as any as S.Schema<CreateContinuousDeploymentPolicyRequest>;
 export interface ContinuousDeploymentPolicy {
   Id: string;
   LastModifiedTime: Date;
   ContinuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig;
 }
-export const ContinuousDeploymentPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    LastModifiedTime: T.DateFromString,
-    ContinuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig,
-  }),
-).annotate({
-  identifier: "ContinuousDeploymentPolicy",
-}) as any as S.Schema<ContinuousDeploymentPolicy>;
 export interface CreateContinuousDeploymentPolicyResult {
   ContinuousDeploymentPolicy?: ContinuousDeploymentPolicy;
   Location?: string;
   ETag?: string;
 }
-export const CreateContinuousDeploymentPolicyResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ContinuousDeploymentPolicy: S.optional(ContinuousDeploymentPolicy)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "ContinuousDeploymentPolicy" }),
-      Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-).annotate({
-  identifier: "CreateContinuousDeploymentPolicyResult",
-}) as any as S.Schema<CreateContinuousDeploymentPolicyResult>;
 export interface CreateDistributionRequest {
   DistributionConfig: DistributionConfig;
 }
-export const CreateDistributionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionConfig: DistributionConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("DistributionConfig"),
-    ).annotate({ identifier: "DistributionConfig" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/distribution" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDistributionRequest",
-}) as any as S.Schema<CreateDistributionRequest>;
 export interface CreateDistributionResult {
   Distribution?: Distribution;
   Location?: string;
   ETag?: string;
 }
-export const CreateDistributionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Distribution: S.optional(Distribution)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Distribution" }),
-    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateDistributionResult",
-}) as any as S.Schema<CreateDistributionResult>;
 export interface DomainItem {
   Domain: string;
 }
-export const DomainItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Domain: S.String }),
-).annotate({ identifier: "DomainItem" }) as any as S.Schema<DomainItem>;
 export type DomainList = DomainItem[];
-export const DomainList = /*@__PURE__*/ S.Array(DomainItem);
 export type CustomizationActionType = "override" | "disable" | (string & {});
-export const CustomizationActionType = S.String;
-
 export interface WebAclCustomization {
   Action: CustomizationActionType;
   Arn?: string;
 }
-export const WebAclCustomization = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Action: CustomizationActionType, Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "WebAclCustomization",
-}) as any as S.Schema<WebAclCustomization>;
 export interface Certificate {
   Arn: string;
 }
-export const Certificate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String }),
-).annotate({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
 export interface GeoRestrictionCustomization {
   RestrictionType: GeoRestrictionType;
   Locations?: string[];
 }
-export const GeoRestrictionCustomization = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestrictionType: GeoRestrictionType,
-    Locations: S.optional(LocationList),
-  }),
-).annotate({
-  identifier: "GeoRestrictionCustomization",
-}) as any as S.Schema<GeoRestrictionCustomization>;
 export interface Customizations {
   WebAcl?: WebAclCustomization;
   Certificate?: Certificate;
   GeoRestrictions?: GeoRestrictionCustomization;
 }
-export const Customizations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WebAcl: S.optional(WebAclCustomization),
-    Certificate: S.optional(Certificate),
-    GeoRestrictions: S.optional(GeoRestrictionCustomization),
-  }),
-).annotate({ identifier: "Customizations" }) as any as S.Schema<Customizations>;
 export interface Parameter {
   Name: string;
   Value: string;
 }
-export const Parameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.String }),
-).annotate({ identifier: "Parameter" }) as any as S.Schema<Parameter>;
 export type Parameters = Parameter[];
-export const Parameters = /*@__PURE__*/ S.Array(Parameter);
 export type ValidationTokenHost = "cloudfront" | "self-hosted" | (string & {});
-export const ValidationTokenHost = S.String;
-
 export type CertificateTransparencyLoggingPreference =
   | "enabled"
   | "disabled"
   | (string & {});
-export const CertificateTransparencyLoggingPreference = S.String;
-
 export interface ManagedCertificateRequest {
   ValidationTokenHost: ValidationTokenHost;
   PrimaryDomainName?: string;
   CertificateTransparencyLoggingPreference?: CertificateTransparencyLoggingPreference;
 }
-export const ManagedCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ValidationTokenHost: ValidationTokenHost,
-    PrimaryDomainName: S.optional(S.String),
-    CertificateTransparencyLoggingPreference: S.optional(
-      CertificateTransparencyLoggingPreference,
-    ),
-  }),
-).annotate({
-  identifier: "ManagedCertificateRequest",
-}) as any as S.Schema<ManagedCertificateRequest>;
 export interface CreateDistributionTenantRequest {
   DistributionId: string;
   Name: string;
@@ -3014,43 +1794,12 @@ export interface CreateDistributionTenantRequest {
   ManagedCertificateRequest?: ManagedCertificateRequest;
   Enabled?: boolean;
 }
-export const CreateDistributionTenantRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionId: S.String,
-    Name: S.String,
-    Domains: DomainList,
-    Tags: S.optional(Tags),
-    Customizations: S.optional(Customizations),
-    Parameters: S.optional(Parameters),
-    ConnectionGroupId: S.optional(S.String),
-    ManagedCertificateRequest: S.optional(ManagedCertificateRequest),
-    Enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/distribution-tenant" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDistributionTenantRequest",
-}) as any as S.Schema<CreateDistributionTenantRequest>;
 export type DomainStatus = "active" | "inactive" | (string & {});
-export const DomainStatus = S.String;
-
 export interface DomainResult {
   Domain: string;
   Status?: DomainStatus;
 }
-export const DomainResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Domain: S.String, Status: S.optional(DomainStatus) }),
-).annotate({ identifier: "DomainResult" }) as any as S.Schema<DomainResult>;
 export type DomainResultList = DomainResult[];
-export const DomainResultList = /*@__PURE__*/ S.Array(DomainResult);
 export interface DistributionTenant {
   Id?: string;
   DistributionId?: string;
@@ -3066,649 +1815,189 @@ export interface DistributionTenant {
   Enabled?: boolean;
   Status?: string;
 }
-export const DistributionTenant = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    DistributionId: S.optional(S.String),
-    Name: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Domains: S.optional(DomainResultList),
-    Tags: S.optional(Tags),
-    Customizations: S.optional(Customizations),
-    Parameters: S.optional(Parameters),
-    ConnectionGroupId: S.optional(S.String),
-    CreatedTime: S.optional(T.DateFromString),
-    LastModifiedTime: S.optional(T.DateFromString),
-    Enabled: S.optional(S.Boolean),
-    Status: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DistributionTenant",
-}) as any as S.Schema<DistributionTenant>;
 export interface CreateDistributionTenantResult {
   DistributionTenant?: DistributionTenant;
   ETag?: string;
 }
-export const CreateDistributionTenantResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionTenant: S.optional(DistributionTenant)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "DistributionTenant" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateDistributionTenantResult",
-}) as any as S.Schema<CreateDistributionTenantResult>;
 export interface DistributionConfigWithTags {
   DistributionConfig: DistributionConfig;
   Tags: Tags;
 }
-export const DistributionConfigWithTags = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DistributionConfig: DistributionConfig, Tags: Tags }),
-).annotate({
-  identifier: "DistributionConfigWithTags",
-}) as any as S.Schema<DistributionConfigWithTags>;
 export interface CreateDistributionWithTagsRequest {
   DistributionConfigWithTags: DistributionConfigWithTags;
 }
-export const CreateDistributionWithTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionConfigWithTags: DistributionConfigWithTags.pipe(
-      T.HttpPayload(),
-      T.XmlName("DistributionConfigWithTags"),
-    ).annotate({ identifier: "DistributionConfigWithTags" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/distribution?WithTags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDistributionWithTagsRequest",
-}) as any as S.Schema<CreateDistributionWithTagsRequest>;
 export interface CreateDistributionWithTagsResult {
   Distribution?: Distribution;
   Location?: string;
   ETag?: string;
 }
-export const CreateDistributionWithTagsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Distribution: S.optional(Distribution)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Distribution" }),
-    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateDistributionWithTagsResult",
-}) as any as S.Schema<CreateDistributionWithTagsResult>;
 export interface QueryArgProfile {
   QueryArg: string;
   ProfileId: string;
 }
-export const QueryArgProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ QueryArg: S.String, ProfileId: S.String }),
-).annotate({
-  identifier: "QueryArgProfile",
-}) as any as S.Schema<QueryArgProfile>;
 export type QueryArgProfileList = QueryArgProfile[];
-export const QueryArgProfileList = /*@__PURE__*/ S.Array(
-  QueryArgProfile.pipe(T.XmlName("QueryArgProfile")).annotate({
-    identifier: "QueryArgProfile",
-  }),
-);
 export interface QueryArgProfiles {
   Quantity: number;
   Items?: QueryArgProfile[];
 }
-export const QueryArgProfiles = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: S.optional(QueryArgProfileList) }),
-).annotate({
-  identifier: "QueryArgProfiles",
-}) as any as S.Schema<QueryArgProfiles>;
 export interface QueryArgProfileConfig {
   ForwardWhenQueryArgProfileIsUnknown: boolean;
   QueryArgProfiles?: QueryArgProfiles;
 }
-export const QueryArgProfileConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ForwardWhenQueryArgProfileIsUnknown: S.Boolean,
-    QueryArgProfiles: S.optional(QueryArgProfiles),
-  }),
-).annotate({
-  identifier: "QueryArgProfileConfig",
-}) as any as S.Schema<QueryArgProfileConfig>;
 export type Format = "URLEncoded" | (string & {});
-export const Format = S.String;
-
 export interface ContentTypeProfile {
   Format: Format;
   ProfileId?: string;
   ContentType: string;
 }
-export const ContentTypeProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Format: Format,
-    ProfileId: S.optional(S.String),
-    ContentType: S.String,
-  }),
-).annotate({
-  identifier: "ContentTypeProfile",
-}) as any as S.Schema<ContentTypeProfile>;
 export type ContentTypeProfileList = ContentTypeProfile[];
-export const ContentTypeProfileList = /*@__PURE__*/ S.Array(
-  ContentTypeProfile.pipe(T.XmlName("ContentTypeProfile")).annotate({
-    identifier: "ContentTypeProfile",
-  }),
-);
 export interface ContentTypeProfiles {
   Quantity: number;
   Items?: ContentTypeProfile[];
 }
-export const ContentTypeProfiles = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: S.optional(ContentTypeProfileList) }),
-).annotate({
-  identifier: "ContentTypeProfiles",
-}) as any as S.Schema<ContentTypeProfiles>;
 export interface ContentTypeProfileConfig {
   ForwardWhenContentTypeIsUnknown: boolean;
   ContentTypeProfiles?: ContentTypeProfiles;
 }
-export const ContentTypeProfileConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ForwardWhenContentTypeIsUnknown: S.Boolean,
-    ContentTypeProfiles: S.optional(ContentTypeProfiles),
-  }),
-).annotate({
-  identifier: "ContentTypeProfileConfig",
-}) as any as S.Schema<ContentTypeProfileConfig>;
 export interface FieldLevelEncryptionConfig {
   CallerReference: string;
   Comment?: string;
   QueryArgProfileConfig?: QueryArgProfileConfig;
   ContentTypeProfileConfig?: ContentTypeProfileConfig;
 }
-export const FieldLevelEncryptionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CallerReference: S.String,
-    Comment: S.optional(S.String),
-    QueryArgProfileConfig: S.optional(QueryArgProfileConfig),
-    ContentTypeProfileConfig: S.optional(ContentTypeProfileConfig),
-  }),
-).annotate({
-  identifier: "FieldLevelEncryptionConfig",
-}) as any as S.Schema<FieldLevelEncryptionConfig>;
 export interface CreateFieldLevelEncryptionConfigRequest {
   FieldLevelEncryptionConfig: FieldLevelEncryptionConfig;
 }
-export const CreateFieldLevelEncryptionConfigRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FieldLevelEncryptionConfig: FieldLevelEncryptionConfig.pipe(
-        T.HttpPayload(),
-        T.XmlName("FieldLevelEncryptionConfig"),
-      ).annotate({ identifier: "FieldLevelEncryptionConfig" }),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/2020-05-31/field-level-encryption" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateFieldLevelEncryptionConfigRequest",
-}) as any as S.Schema<CreateFieldLevelEncryptionConfigRequest>;
 export interface FieldLevelEncryption {
   Id: string;
   LastModifiedTime: Date;
   FieldLevelEncryptionConfig: FieldLevelEncryptionConfig;
 }
-export const FieldLevelEncryption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    LastModifiedTime: T.DateFromString,
-    FieldLevelEncryptionConfig: FieldLevelEncryptionConfig,
-  }),
-).annotate({
-  identifier: "FieldLevelEncryption",
-}) as any as S.Schema<FieldLevelEncryption>;
 export interface CreateFieldLevelEncryptionConfigResult {
   FieldLevelEncryption?: FieldLevelEncryption;
   Location?: string;
   ETag?: string;
 }
-export const CreateFieldLevelEncryptionConfigResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FieldLevelEncryption: S.optional(FieldLevelEncryption)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "FieldLevelEncryption" }),
-      Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-).annotate({
-  identifier: "CreateFieldLevelEncryptionConfigResult",
-}) as any as S.Schema<CreateFieldLevelEncryptionConfigResult>;
 export type FieldPatternList = string[];
-export const FieldPatternList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("FieldPattern")),
-);
 export interface FieldPatterns {
   Quantity: number;
   Items?: string[];
 }
-export const FieldPatterns = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: S.optional(FieldPatternList) }),
-).annotate({ identifier: "FieldPatterns" }) as any as S.Schema<FieldPatterns>;
 export interface EncryptionEntity {
   PublicKeyId: string;
   ProviderId: string;
   FieldPatterns: FieldPatterns;
 }
-export const EncryptionEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PublicKeyId: S.String,
-    ProviderId: S.String,
-    FieldPatterns: FieldPatterns,
-  }),
-).annotate({
-  identifier: "EncryptionEntity",
-}) as any as S.Schema<EncryptionEntity>;
 export type EncryptionEntityList = EncryptionEntity[];
-export const EncryptionEntityList = /*@__PURE__*/ S.Array(
-  EncryptionEntity.pipe(T.XmlName("EncryptionEntity")).annotate({
-    identifier: "EncryptionEntity",
-  }),
-);
 export interface EncryptionEntities {
   Quantity: number;
   Items?: EncryptionEntity[];
 }
-export const EncryptionEntities = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: S.optional(EncryptionEntityList) }),
-).annotate({
-  identifier: "EncryptionEntities",
-}) as any as S.Schema<EncryptionEntities>;
 export interface FieldLevelEncryptionProfileConfig {
   Name: string;
   CallerReference: string;
   Comment?: string;
   EncryptionEntities: EncryptionEntities;
 }
-export const FieldLevelEncryptionProfileConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    CallerReference: S.String,
-    Comment: S.optional(S.String),
-    EncryptionEntities: EncryptionEntities,
-  }),
-).annotate({
-  identifier: "FieldLevelEncryptionProfileConfig",
-}) as any as S.Schema<FieldLevelEncryptionProfileConfig>;
 export interface CreateFieldLevelEncryptionProfileRequest {
   FieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig;
 }
-export const CreateFieldLevelEncryptionProfileRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig.pipe(
-        T.HttpPayload(),
-        T.XmlName("FieldLevelEncryptionProfileConfig"),
-      ).annotate({ identifier: "FieldLevelEncryptionProfileConfig" }),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/2020-05-31/field-level-encryption-profile",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateFieldLevelEncryptionProfileRequest",
-}) as any as S.Schema<CreateFieldLevelEncryptionProfileRequest>;
 export interface FieldLevelEncryptionProfile {
   Id: string;
   LastModifiedTime: Date;
   FieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig;
 }
-export const FieldLevelEncryptionProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    LastModifiedTime: T.DateFromString,
-    FieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig,
-  }),
-).annotate({
-  identifier: "FieldLevelEncryptionProfile",
-}) as any as S.Schema<FieldLevelEncryptionProfile>;
 export interface CreateFieldLevelEncryptionProfileResult {
   FieldLevelEncryptionProfile?: FieldLevelEncryptionProfile;
   Location?: string;
   ETag?: string;
 }
-export const CreateFieldLevelEncryptionProfileResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FieldLevelEncryptionProfile: S.optional(FieldLevelEncryptionProfile)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "FieldLevelEncryptionProfile" }),
-      Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-).annotate({
-  identifier: "CreateFieldLevelEncryptionProfileResult",
-}) as any as S.Schema<CreateFieldLevelEncryptionProfileResult>;
 export interface CreateFunctionRequest {
   Name: string;
   FunctionConfig: FunctionConfig;
   FunctionCode: Uint8Array | redacted.Redacted<Uint8Array>;
   Tags?: Tags;
 }
-export const CreateFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    FunctionConfig: FunctionConfig,
-    FunctionCode: SensitiveBlob,
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/function" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateFunctionRequest",
-}) as any as S.Schema<CreateFunctionRequest>;
 export interface FunctionMetadata {
   FunctionARN: string;
   Stage?: FunctionStage;
   CreatedTime?: Date;
   LastModifiedTime: Date;
 }
-export const FunctionMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FunctionARN: S.String,
-    Stage: S.optional(FunctionStage),
-    CreatedTime: S.optional(T.DateFromString),
-    LastModifiedTime: T.DateFromString,
-  }),
-).annotate({
-  identifier: "FunctionMetadata",
-}) as any as S.Schema<FunctionMetadata>;
 export interface FunctionSummary {
   Name: string;
   Status?: string;
   FunctionConfig: FunctionConfig;
   FunctionMetadata: FunctionMetadata;
 }
-export const FunctionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Status: S.optional(S.String),
-    FunctionConfig: FunctionConfig,
-    FunctionMetadata: FunctionMetadata,
-  }),
-).annotate({
-  identifier: "FunctionSummary",
-}) as any as S.Schema<FunctionSummary>;
 export interface CreateFunctionResult {
   FunctionSummary?: FunctionSummary;
   Location?: string;
   ETag?: string;
 }
-export const CreateFunctionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FunctionSummary: S.optional(FunctionSummary)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "FunctionSummary" }),
-    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateFunctionResult",
-}) as any as S.Schema<CreateFunctionResult>;
 export type PathList = string[];
-export const PathList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("Path")));
 export interface Paths {
   Quantity: number;
   Items?: string[];
 }
-export const Paths = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Quantity: S.Number, Items: S.optional(PathList) }),
-).annotate({ identifier: "Paths" }) as any as S.Schema<Paths>;
 export interface InvalidationBatch {
   Paths: Paths;
   CallerReference: string;
 }
-export const InvalidationBatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Paths: Paths, CallerReference: S.String }),
-).annotate({
-  identifier: "InvalidationBatch",
-}) as any as S.Schema<InvalidationBatch>;
 export interface CreateInvalidationRequest {
   DistributionId: string;
   InvalidationBatch: InvalidationBatch;
 }
-export const CreateInvalidationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionId: S.String.pipe(T.HttpLabel("DistributionId")),
-    InvalidationBatch: InvalidationBatch.pipe(
-      T.HttpPayload(),
-      T.XmlName("InvalidationBatch"),
-    ).annotate({ identifier: "InvalidationBatch" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2020-05-31/distribution/{DistributionId}/invalidation",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateInvalidationRequest",
-}) as any as S.Schema<CreateInvalidationRequest>;
 export interface Invalidation {
   Id: string;
   Status: string;
   CreateTime: Date;
   InvalidationBatch: InvalidationBatch;
 }
-export const Invalidation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Status: S.String,
-    CreateTime: T.DateFromString,
-    InvalidationBatch: InvalidationBatch,
-  }),
-).annotate({ identifier: "Invalidation" }) as any as S.Schema<Invalidation>;
 export interface CreateInvalidationResult {
   Location?: string;
   Invalidation?: Invalidation;
 }
-export const CreateInvalidationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    Invalidation: S.optional(Invalidation)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Invalidation" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateInvalidationResult",
-}) as any as S.Schema<CreateInvalidationResult>;
 export interface CreateInvalidationForDistributionTenantRequest {
   Id: string;
   InvalidationBatch: InvalidationBatch;
 }
-export const CreateInvalidationForDistributionTenantRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      InvalidationBatch: InvalidationBatch.pipe(
-        T.HttpPayload(),
-        T.XmlName("InvalidationBatch"),
-      ).annotate({ identifier: "InvalidationBatch" }),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/2020-05-31/distribution-tenant/{Id}/invalidation",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "CreateInvalidationForDistributionTenantRequest",
-  }) as any as S.Schema<CreateInvalidationForDistributionTenantRequest>;
 export interface CreateInvalidationForDistributionTenantResult {
   Location?: string;
   Invalidation?: Invalidation;
 }
-export const CreateInvalidationForDistributionTenantResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-      Invalidation: S.optional(Invalidation)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "Invalidation" }),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "CreateInvalidationForDistributionTenantResult",
-  }) as any as S.Schema<CreateInvalidationForDistributionTenantResult>;
 export type PublicKeyIdList = string[];
-export const PublicKeyIdList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("PublicKey")),
-);
 export interface KeyGroupConfig {
   Name: string;
   Items: string[];
   Comment?: string;
 }
-export const KeyGroupConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Items: PublicKeyIdList,
-    Comment: S.optional(S.String),
-  }),
-).annotate({ identifier: "KeyGroupConfig" }) as any as S.Schema<KeyGroupConfig>;
 export interface CreateKeyGroupRequest {
   KeyGroupConfig: KeyGroupConfig;
 }
-export const CreateKeyGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyGroupConfig: KeyGroupConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("KeyGroupConfig"),
-    ).annotate({ identifier: "KeyGroupConfig" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/key-group" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateKeyGroupRequest",
-}) as any as S.Schema<CreateKeyGroupRequest>;
 export interface KeyGroup {
   Id: string;
   LastModifiedTime: Date;
   KeyGroupConfig: KeyGroupConfig;
 }
-export const KeyGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    LastModifiedTime: T.DateFromString,
-    KeyGroupConfig: KeyGroupConfig,
-  }),
-).annotate({ identifier: "KeyGroup" }) as any as S.Schema<KeyGroup>;
 export interface CreateKeyGroupResult {
   KeyGroup?: KeyGroup;
   Location?: string;
   ETag?: string;
 }
-export const CreateKeyGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyGroup: S.optional(KeyGroup)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "KeyGroup" }),
-    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateKeyGroupResult",
-}) as any as S.Schema<CreateKeyGroupResult>;
 export type KeyValueStoreName = string;
 export type KeyValueStoreComment = string;
 export type ImportSourceType = "S3" | (string & {});
-export const ImportSourceType = S.String;
-
 export interface ImportSource {
   SourceType: ImportSourceType;
   SourceARN: string;
 }
-export const ImportSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SourceType: ImportSourceType, SourceARN: S.String }),
-).annotate({ identifier: "ImportSource" }) as any as S.Schema<ImportSource>;
 export interface CreateKeyValueStoreRequest {
   Name: string;
   Comment?: string;
   ImportSource?: ImportSource;
   Tags?: Tags;
 }
-export const CreateKeyValueStoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Comment: S.optional(S.String),
-    ImportSource: S.optional(ImportSource),
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/key-value-store" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateKeyValueStoreRequest",
-}) as any as S.Schema<CreateKeyValueStoreRequest>;
 export interface KeyValueStore {
   Name: string;
   Id: string;
@@ -3717,121 +2006,43 @@ export interface KeyValueStore {
   Status?: string;
   LastModifiedTime: Date;
 }
-export const KeyValueStore = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Id: S.String,
-    Comment: S.optional(S.String),
-    ARN: S.String,
-    Status: S.optional(S.String),
-    LastModifiedTime: T.DateFromString,
-  }),
-).annotate({ identifier: "KeyValueStore" }) as any as S.Schema<KeyValueStore>;
 export interface CreateKeyValueStoreResult {
   KeyValueStore?: KeyValueStore;
   ETag?: string;
   Location?: string;
 }
-export const CreateKeyValueStoreResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyValueStore: S.optional(KeyValueStore)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "KeyValueStore" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateKeyValueStoreResult",
-}) as any as S.Schema<CreateKeyValueStoreResult>;
 export type RealtimeMetricsSubscriptionStatus =
   | "Enabled"
   | "Disabled"
   | (string & {});
-export const RealtimeMetricsSubscriptionStatus = S.String;
-
 export interface RealtimeMetricsSubscriptionConfig {
   RealtimeMetricsSubscriptionStatus: RealtimeMetricsSubscriptionStatus;
 }
-export const RealtimeMetricsSubscriptionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RealtimeMetricsSubscriptionStatus: RealtimeMetricsSubscriptionStatus,
-  }),
-).annotate({
-  identifier: "RealtimeMetricsSubscriptionConfig",
-}) as any as S.Schema<RealtimeMetricsSubscriptionConfig>;
 export interface MonitoringSubscription {
   RealtimeMetricsSubscriptionConfig?: RealtimeMetricsSubscriptionConfig;
 }
-export const MonitoringSubscription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RealtimeMetricsSubscriptionConfig: S.optional(
-      RealtimeMetricsSubscriptionConfig,
-    ),
-  }),
-).annotate({
-  identifier: "MonitoringSubscription",
-}) as any as S.Schema<MonitoringSubscription>;
 export interface CreateMonitoringSubscriptionRequest {
   DistributionId: string;
   MonitoringSubscription: MonitoringSubscription;
 }
-export const CreateMonitoringSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionId: S.String.pipe(T.HttpLabel("DistributionId")),
-    MonitoringSubscription: MonitoringSubscription.pipe(
-      T.HttpPayload(),
-      T.XmlName("MonitoringSubscription"),
-    ).annotate({ identifier: "MonitoringSubscription" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateMonitoringSubscriptionRequest",
-}) as any as S.Schema<CreateMonitoringSubscriptionRequest>;
 export interface CreateMonitoringSubscriptionResult {
   MonitoringSubscription?: MonitoringSubscription;
 }
-export const CreateMonitoringSubscriptionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MonitoringSubscription: S.optional(MonitoringSubscription)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "MonitoringSubscription" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateMonitoringSubscriptionResult",
-}) as any as S.Schema<CreateMonitoringSubscriptionResult>;
 export type OriginAccessControlSigningProtocols =
   | "sigv4"
   | "sigv4a"
   | (string & {});
-export const OriginAccessControlSigningProtocols = S.String;
-
 export type OriginAccessControlSigningBehaviors =
   | "never"
   | "always"
   | "no-override"
   | (string & {});
-export const OriginAccessControlSigningBehaviors = S.String;
-
 export type OriginAccessControlOriginTypes =
   | "s3"
   | "mediastore"
   | "mediapackagev2"
   | "lambda"
   | (string & {});
-export const OriginAccessControlOriginTypes = S.String;
-
 export interface OriginAccessControlConfig {
   Name: string;
   Description?: string;
@@ -3839,68 +2050,18 @@ export interface OriginAccessControlConfig {
   SigningBehavior: OriginAccessControlSigningBehaviors;
   OriginAccessControlOriginType: OriginAccessControlOriginTypes;
 }
-export const OriginAccessControlConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    SigningProtocol: OriginAccessControlSigningProtocols,
-    SigningBehavior: OriginAccessControlSigningBehaviors,
-    OriginAccessControlOriginType: OriginAccessControlOriginTypes,
-  }),
-).annotate({
-  identifier: "OriginAccessControlConfig",
-}) as any as S.Schema<OriginAccessControlConfig>;
 export interface CreateOriginAccessControlRequest {
   OriginAccessControlConfig: OriginAccessControlConfig;
 }
-export const CreateOriginAccessControlRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginAccessControlConfig: OriginAccessControlConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("OriginAccessControlConfig"),
-    ).annotate({ identifier: "OriginAccessControlConfig" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/origin-access-control" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateOriginAccessControlRequest",
-}) as any as S.Schema<CreateOriginAccessControlRequest>;
 export interface OriginAccessControl {
   Id: string;
   OriginAccessControlConfig?: OriginAccessControlConfig;
 }
-export const OriginAccessControl = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    OriginAccessControlConfig: S.optional(OriginAccessControlConfig),
-  }),
-).annotate({
-  identifier: "OriginAccessControl",
-}) as any as S.Schema<OriginAccessControl>;
 export interface CreateOriginAccessControlResult {
   OriginAccessControl?: OriginAccessControl;
   Location?: string;
   ETag?: string;
 }
-export const CreateOriginAccessControlResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginAccessControl: S.optional(OriginAccessControl)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "OriginAccessControl" }),
-    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateOriginAccessControlResult",
-}) as any as S.Schema<CreateOriginAccessControlResult>;
 export type OriginRequestPolicyHeaderBehavior =
   | "none"
   | "whitelist"
@@ -3908,61 +2069,30 @@ export type OriginRequestPolicyHeaderBehavior =
   | "allViewerAndWhitelistCloudFront"
   | "allExcept"
   | (string & {});
-export const OriginRequestPolicyHeaderBehavior = S.String;
-
 export interface OriginRequestPolicyHeadersConfig {
   HeaderBehavior: OriginRequestPolicyHeaderBehavior;
   Headers?: Headers;
 }
-export const OriginRequestPolicyHeadersConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HeaderBehavior: OriginRequestPolicyHeaderBehavior,
-    Headers: S.optional(Headers),
-  }),
-).annotate({
-  identifier: "OriginRequestPolicyHeadersConfig",
-}) as any as S.Schema<OriginRequestPolicyHeadersConfig>;
 export type OriginRequestPolicyCookieBehavior =
   | "none"
   | "whitelist"
   | "all"
   | "allExcept"
   | (string & {});
-export const OriginRequestPolicyCookieBehavior = S.String;
-
 export interface OriginRequestPolicyCookiesConfig {
   CookieBehavior: OriginRequestPolicyCookieBehavior;
   Cookies?: CookieNames;
 }
-export const OriginRequestPolicyCookiesConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CookieBehavior: OriginRequestPolicyCookieBehavior,
-    Cookies: S.optional(CookieNames),
-  }),
-).annotate({
-  identifier: "OriginRequestPolicyCookiesConfig",
-}) as any as S.Schema<OriginRequestPolicyCookiesConfig>;
 export type OriginRequestPolicyQueryStringBehavior =
   | "none"
   | "whitelist"
   | "all"
   | "allExcept"
   | (string & {});
-export const OriginRequestPolicyQueryStringBehavior = S.String;
-
 export interface OriginRequestPolicyQueryStringsConfig {
   QueryStringBehavior: OriginRequestPolicyQueryStringBehavior;
   QueryStrings?: QueryStringNames;
 }
-export const OriginRequestPolicyQueryStringsConfig = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      QueryStringBehavior: OriginRequestPolicyQueryStringBehavior,
-      QueryStrings: S.optional(QueryStringNames),
-    }),
-).annotate({
-  identifier: "OriginRequestPolicyQueryStringsConfig",
-}) as any as S.Schema<OriginRequestPolicyQueryStringsConfig>;
 export interface OriginRequestPolicyConfig {
   Comment?: string;
   Name: string;
@@ -3970,188 +2100,54 @@ export interface OriginRequestPolicyConfig {
   CookiesConfig: OriginRequestPolicyCookiesConfig;
   QueryStringsConfig: OriginRequestPolicyQueryStringsConfig;
 }
-export const OriginRequestPolicyConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Comment: S.optional(S.String),
-    Name: S.String,
-    HeadersConfig: OriginRequestPolicyHeadersConfig,
-    CookiesConfig: OriginRequestPolicyCookiesConfig,
-    QueryStringsConfig: OriginRequestPolicyQueryStringsConfig,
-  }),
-).annotate({
-  identifier: "OriginRequestPolicyConfig",
-}) as any as S.Schema<OriginRequestPolicyConfig>;
 export interface CreateOriginRequestPolicyRequest {
   OriginRequestPolicyConfig: OriginRequestPolicyConfig;
 }
-export const CreateOriginRequestPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginRequestPolicyConfig: OriginRequestPolicyConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("OriginRequestPolicyConfig"),
-    ).annotate({ identifier: "OriginRequestPolicyConfig" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/origin-request-policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateOriginRequestPolicyRequest",
-}) as any as S.Schema<CreateOriginRequestPolicyRequest>;
 export interface OriginRequestPolicy {
   Id: string;
   LastModifiedTime: Date;
   OriginRequestPolicyConfig: OriginRequestPolicyConfig;
 }
-export const OriginRequestPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    LastModifiedTime: T.DateFromString,
-    OriginRequestPolicyConfig: OriginRequestPolicyConfig,
-  }),
-).annotate({
-  identifier: "OriginRequestPolicy",
-}) as any as S.Schema<OriginRequestPolicy>;
 export interface CreateOriginRequestPolicyResult {
   OriginRequestPolicy?: OriginRequestPolicy;
   Location?: string;
   ETag?: string;
 }
-export const CreateOriginRequestPolicyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginRequestPolicy: S.optional(OriginRequestPolicy)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "OriginRequestPolicy" }),
-    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateOriginRequestPolicyResult",
-}) as any as S.Schema<CreateOriginRequestPolicyResult>;
 export interface PublicKeyConfig {
   CallerReference: string;
   Name: string;
   EncodedKey: string;
   Comment?: string;
 }
-export const PublicKeyConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CallerReference: S.String,
-    Name: S.String,
-    EncodedKey: S.String,
-    Comment: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PublicKeyConfig",
-}) as any as S.Schema<PublicKeyConfig>;
 export interface CreatePublicKeyRequest {
   PublicKeyConfig: PublicKeyConfig;
 }
-export const CreatePublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PublicKeyConfig: PublicKeyConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("PublicKeyConfig"),
-    ).annotate({ identifier: "PublicKeyConfig" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/public-key" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreatePublicKeyRequest",
-}) as any as S.Schema<CreatePublicKeyRequest>;
 export interface PublicKey {
   Id: string;
   CreatedTime: Date;
   PublicKeyConfig: PublicKeyConfig;
 }
-export const PublicKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    CreatedTime: T.DateFromString,
-    PublicKeyConfig: PublicKeyConfig,
-  }),
-).annotate({ identifier: "PublicKey" }) as any as S.Schema<PublicKey>;
 export interface CreatePublicKeyResult {
   PublicKey?: PublicKey;
   Location?: string;
   ETag?: string;
 }
-export const CreatePublicKeyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PublicKey: S.optional(PublicKey)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "PublicKey" }),
-    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreatePublicKeyResult",
-}) as any as S.Schema<CreatePublicKeyResult>;
 export interface KinesisStreamConfig {
   RoleARN: string;
   StreamARN: string;
 }
-export const KinesisStreamConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleARN: S.String, StreamARN: S.String }),
-).annotate({
-  identifier: "KinesisStreamConfig",
-}) as any as S.Schema<KinesisStreamConfig>;
 export interface EndPoint {
   StreamType: string;
   KinesisStreamConfig?: KinesisStreamConfig;
 }
-export const EndPoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamType: S.String,
-    KinesisStreamConfig: S.optional(KinesisStreamConfig),
-  }),
-).annotate({ identifier: "EndPoint" }) as any as S.Schema<EndPoint>;
 export type EndPointList = EndPoint[];
-export const EndPointList = /*@__PURE__*/ S.Array(EndPoint);
 export type FieldList = string[];
-export const FieldList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Field")),
-);
 export interface CreateRealtimeLogConfigRequest {
   EndPoints: EndPoint[];
   Fields: string[];
   Name: string;
   SamplingRate: number;
 }
-export const CreateRealtimeLogConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndPoints: EndPointList,
-    Fields: FieldList,
-    Name: S.String,
-    SamplingRate: S.Number,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/realtime-log-config" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateRealtimeLogConfigRequest",
-}) as any as S.Schema<CreateRealtimeLogConfigRequest>;
 export interface RealtimeLogConfig {
   ARN: string;
   Name: string;
@@ -4159,53 +2155,19 @@ export interface RealtimeLogConfig {
   EndPoints: EndPoint[];
   Fields: string[];
 }
-export const RealtimeLogConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ARN: S.String,
-    Name: S.String,
-    SamplingRate: S.Number,
-    EndPoints: EndPointList,
-    Fields: FieldList,
-  }),
-).annotate({
-  identifier: "RealtimeLogConfig",
-}) as any as S.Schema<RealtimeLogConfig>;
 export interface CreateRealtimeLogConfigResult {
   RealtimeLogConfig?: RealtimeLogConfig;
 }
-export const CreateRealtimeLogConfigResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RealtimeLogConfig: S.optional(RealtimeLogConfig) }).pipe(ns),
-).annotate({
-  identifier: "CreateRealtimeLogConfigResult",
-}) as any as S.Schema<CreateRealtimeLogConfigResult>;
 export type AccessControlAllowOriginsList = string[];
-export const AccessControlAllowOriginsList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Origin")),
-);
 export interface ResponseHeadersPolicyAccessControlAllowOrigins {
   Quantity: number;
   Items: string[];
 }
-export const ResponseHeadersPolicyAccessControlAllowOrigins =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Quantity: S.Number, Items: AccessControlAllowOriginsList }),
-  ).annotate({
-    identifier: "ResponseHeadersPolicyAccessControlAllowOrigins",
-  }) as any as S.Schema<ResponseHeadersPolicyAccessControlAllowOrigins>;
 export type AccessControlAllowHeadersList = string[];
-export const AccessControlAllowHeadersList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Header")),
-);
 export interface ResponseHeadersPolicyAccessControlAllowHeaders {
   Quantity: number;
   Items: string[];
 }
-export const ResponseHeadersPolicyAccessControlAllowHeaders =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Quantity: S.Number, Items: AccessControlAllowHeadersList }),
-  ).annotate({
-    identifier: "ResponseHeadersPolicyAccessControlAllowHeaders",
-  }) as any as S.Schema<ResponseHeadersPolicyAccessControlAllowHeaders>;
 export type ResponseHeadersPolicyAccessControlAllowMethodsValues =
   | "GET"
   | "POST"
@@ -4216,42 +2178,17 @@ export type ResponseHeadersPolicyAccessControlAllowMethodsValues =
   | "HEAD"
   | "ALL"
   | (string & {});
-export const ResponseHeadersPolicyAccessControlAllowMethodsValues = S.String;
-
 export type AccessControlAllowMethodsList =
   ResponseHeadersPolicyAccessControlAllowMethodsValues[];
-export const AccessControlAllowMethodsList = /*@__PURE__*/ S.Array(
-  ResponseHeadersPolicyAccessControlAllowMethodsValues.pipe(
-    T.XmlName("Method"),
-  ),
-);
 export interface ResponseHeadersPolicyAccessControlAllowMethods {
   Quantity: number;
   Items: ResponseHeadersPolicyAccessControlAllowMethodsValues[];
 }
-export const ResponseHeadersPolicyAccessControlAllowMethods =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Quantity: S.Number, Items: AccessControlAllowMethodsList }),
-  ).annotate({
-    identifier: "ResponseHeadersPolicyAccessControlAllowMethods",
-  }) as any as S.Schema<ResponseHeadersPolicyAccessControlAllowMethods>;
 export type AccessControlExposeHeadersList = string[];
-export const AccessControlExposeHeadersList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Header")),
-);
 export interface ResponseHeadersPolicyAccessControlExposeHeaders {
   Quantity: number;
   Items?: string[];
 }
-export const ResponseHeadersPolicyAccessControlExposeHeaders =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Quantity: S.Number,
-      Items: S.optional(AccessControlExposeHeadersList),
-    }),
-  ).annotate({
-    identifier: "ResponseHeadersPolicyAccessControlExposeHeaders",
-  }) as any as S.Schema<ResponseHeadersPolicyAccessControlExposeHeaders>;
 export interface ResponseHeadersPolicyCorsConfig {
   AccessControlAllowOrigins: ResponseHeadersPolicyAccessControlAllowOrigins;
   AccessControlAllowHeaders: ResponseHeadersPolicyAccessControlAllowHeaders;
@@ -4261,49 +2198,17 @@ export interface ResponseHeadersPolicyCorsConfig {
   AccessControlMaxAgeSec?: number;
   OriginOverride: boolean;
 }
-export const ResponseHeadersPolicyCorsConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessControlAllowOrigins: ResponseHeadersPolicyAccessControlAllowOrigins,
-    AccessControlAllowHeaders: ResponseHeadersPolicyAccessControlAllowHeaders,
-    AccessControlAllowMethods: ResponseHeadersPolicyAccessControlAllowMethods,
-    AccessControlAllowCredentials: S.Boolean,
-    AccessControlExposeHeaders: S.optional(
-      ResponseHeadersPolicyAccessControlExposeHeaders,
-    ),
-    AccessControlMaxAgeSec: S.optional(S.Number),
-    OriginOverride: S.Boolean,
-  }),
-).annotate({
-  identifier: "ResponseHeadersPolicyCorsConfig",
-}) as any as S.Schema<ResponseHeadersPolicyCorsConfig>;
 export interface ResponseHeadersPolicyXSSProtection {
   Override: boolean;
   Protection: boolean;
   ModeBlock?: boolean;
   ReportUri?: string;
 }
-export const ResponseHeadersPolicyXSSProtection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Override: S.Boolean,
-    Protection: S.Boolean,
-    ModeBlock: S.optional(S.Boolean),
-    ReportUri: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ResponseHeadersPolicyXSSProtection",
-}) as any as S.Schema<ResponseHeadersPolicyXSSProtection>;
 export type FrameOptionsList = "DENY" | "SAMEORIGIN" | (string & {});
-export const FrameOptionsList = S.String;
-
 export interface ResponseHeadersPolicyFrameOptions {
   Override: boolean;
   FrameOption: FrameOptionsList;
 }
-export const ResponseHeadersPolicyFrameOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Override: S.Boolean, FrameOption: FrameOptionsList }),
-).annotate({
-  identifier: "ResponseHeadersPolicyFrameOptions",
-}) as any as S.Schema<ResponseHeadersPolicyFrameOptions>;
 export type ReferrerPolicyList =
   | "no-referrer"
   | "no-referrer-when-downgrade"
@@ -4314,52 +2219,23 @@ export type ReferrerPolicyList =
   | "strict-origin-when-cross-origin"
   | "unsafe-url"
   | (string & {});
-export const ReferrerPolicyList = S.String;
-
 export interface ResponseHeadersPolicyReferrerPolicy {
   Override: boolean;
   ReferrerPolicy: ReferrerPolicyList;
 }
-export const ResponseHeadersPolicyReferrerPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Override: S.Boolean, ReferrerPolicy: ReferrerPolicyList }),
-).annotate({
-  identifier: "ResponseHeadersPolicyReferrerPolicy",
-}) as any as S.Schema<ResponseHeadersPolicyReferrerPolicy>;
 export interface ResponseHeadersPolicyContentSecurityPolicy {
   Override: boolean;
   ContentSecurityPolicy: string;
 }
-export const ResponseHeadersPolicyContentSecurityPolicy =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Override: S.Boolean, ContentSecurityPolicy: S.String }),
-  ).annotate({
-    identifier: "ResponseHeadersPolicyContentSecurityPolicy",
-  }) as any as S.Schema<ResponseHeadersPolicyContentSecurityPolicy>;
 export interface ResponseHeadersPolicyContentTypeOptions {
   Override: boolean;
 }
-export const ResponseHeadersPolicyContentTypeOptions = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Override: S.Boolean }),
-).annotate({
-  identifier: "ResponseHeadersPolicyContentTypeOptions",
-}) as any as S.Schema<ResponseHeadersPolicyContentTypeOptions>;
 export interface ResponseHeadersPolicyStrictTransportSecurity {
   Override: boolean;
   IncludeSubdomains?: boolean;
   Preload?: boolean;
   AccessControlMaxAgeSec: number;
 }
-export const ResponseHeadersPolicyStrictTransportSecurity =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Override: S.Boolean,
-      IncludeSubdomains: S.optional(S.Boolean),
-      Preload: S.optional(S.Boolean),
-      AccessControlMaxAgeSec: S.Number,
-    }),
-  ).annotate({
-    identifier: "ResponseHeadersPolicyStrictTransportSecurity",
-  }) as any as S.Schema<ResponseHeadersPolicyStrictTransportSecurity>;
 export interface ResponseHeadersPolicySecurityHeadersConfig {
   XSSProtection?: ResponseHeadersPolicyXSSProtection;
   FrameOptions?: ResponseHeadersPolicyFrameOptions;
@@ -4368,92 +2244,31 @@ export interface ResponseHeadersPolicySecurityHeadersConfig {
   ContentTypeOptions?: ResponseHeadersPolicyContentTypeOptions;
   StrictTransportSecurity?: ResponseHeadersPolicyStrictTransportSecurity;
 }
-export const ResponseHeadersPolicySecurityHeadersConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      XSSProtection: S.optional(ResponseHeadersPolicyXSSProtection),
-      FrameOptions: S.optional(ResponseHeadersPolicyFrameOptions),
-      ReferrerPolicy: S.optional(ResponseHeadersPolicyReferrerPolicy),
-      ContentSecurityPolicy: S.optional(
-        ResponseHeadersPolicyContentSecurityPolicy,
-      ),
-      ContentTypeOptions: S.optional(ResponseHeadersPolicyContentTypeOptions),
-      StrictTransportSecurity: S.optional(
-        ResponseHeadersPolicyStrictTransportSecurity,
-      ),
-    }),
-  ).annotate({
-    identifier: "ResponseHeadersPolicySecurityHeadersConfig",
-  }) as any as S.Schema<ResponseHeadersPolicySecurityHeadersConfig>;
 export type SamplingRate = number;
 export interface ResponseHeadersPolicyServerTimingHeadersConfig {
   Enabled: boolean;
   SamplingRate?: number;
 }
-export const ResponseHeadersPolicyServerTimingHeadersConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Enabled: S.Boolean, SamplingRate: S.optional(S.Number) }),
-  ).annotate({
-    identifier: "ResponseHeadersPolicyServerTimingHeadersConfig",
-  }) as any as S.Schema<ResponseHeadersPolicyServerTimingHeadersConfig>;
 export interface ResponseHeadersPolicyCustomHeader {
   Header: string;
   Value: string;
   Override: boolean;
 }
-export const ResponseHeadersPolicyCustomHeader = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Header: S.String, Value: S.String, Override: S.Boolean }),
-).annotate({
-  identifier: "ResponseHeadersPolicyCustomHeader",
-}) as any as S.Schema<ResponseHeadersPolicyCustomHeader>;
 export type ResponseHeadersPolicyCustomHeaderList =
   ResponseHeadersPolicyCustomHeader[];
-export const ResponseHeadersPolicyCustomHeaderList = /*@__PURE__*/ S.Array(
-  ResponseHeadersPolicyCustomHeader.pipe(
-    T.XmlName("ResponseHeadersPolicyCustomHeader"),
-  ).annotate({ identifier: "ResponseHeadersPolicyCustomHeader" }),
-);
 export interface ResponseHeadersPolicyCustomHeadersConfig {
   Quantity: number;
   Items?: ResponseHeadersPolicyCustomHeader[];
 }
-export const ResponseHeadersPolicyCustomHeadersConfig = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Quantity: S.Number,
-      Items: S.optional(ResponseHeadersPolicyCustomHeaderList),
-    }),
-).annotate({
-  identifier: "ResponseHeadersPolicyCustomHeadersConfig",
-}) as any as S.Schema<ResponseHeadersPolicyCustomHeadersConfig>;
 export interface ResponseHeadersPolicyRemoveHeader {
   Header: string;
 }
-export const ResponseHeadersPolicyRemoveHeader = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Header: S.String }),
-).annotate({
-  identifier: "ResponseHeadersPolicyRemoveHeader",
-}) as any as S.Schema<ResponseHeadersPolicyRemoveHeader>;
 export type ResponseHeadersPolicyRemoveHeaderList =
   ResponseHeadersPolicyRemoveHeader[];
-export const ResponseHeadersPolicyRemoveHeaderList = /*@__PURE__*/ S.Array(
-  ResponseHeadersPolicyRemoveHeader.pipe(
-    T.XmlName("ResponseHeadersPolicyRemoveHeader"),
-  ).annotate({ identifier: "ResponseHeadersPolicyRemoveHeader" }),
-);
 export interface ResponseHeadersPolicyRemoveHeadersConfig {
   Quantity: number;
   Items?: ResponseHeadersPolicyRemoveHeader[];
 }
-export const ResponseHeadersPolicyRemoveHeadersConfig = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Quantity: S.Number,
-      Items: S.optional(ResponseHeadersPolicyRemoveHeaderList),
-    }),
-).annotate({
-  identifier: "ResponseHeadersPolicyRemoveHeadersConfig",
-}) as any as S.Schema<ResponseHeadersPolicyRemoveHeadersConfig>;
 export interface ResponseHeadersPolicyConfig {
   Comment?: string;
   Name: string;
@@ -4463,93 +2278,28 @@ export interface ResponseHeadersPolicyConfig {
   CustomHeadersConfig?: ResponseHeadersPolicyCustomHeadersConfig;
   RemoveHeadersConfig?: ResponseHeadersPolicyRemoveHeadersConfig;
 }
-export const ResponseHeadersPolicyConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Comment: S.optional(S.String),
-    Name: S.String,
-    CorsConfig: S.optional(ResponseHeadersPolicyCorsConfig),
-    SecurityHeadersConfig: S.optional(
-      ResponseHeadersPolicySecurityHeadersConfig,
-    ),
-    ServerTimingHeadersConfig: S.optional(
-      ResponseHeadersPolicyServerTimingHeadersConfig,
-    ),
-    CustomHeadersConfig: S.optional(ResponseHeadersPolicyCustomHeadersConfig),
-    RemoveHeadersConfig: S.optional(ResponseHeadersPolicyRemoveHeadersConfig),
-  }),
-).annotate({
-  identifier: "ResponseHeadersPolicyConfig",
-}) as any as S.Schema<ResponseHeadersPolicyConfig>;
 export interface CreateResponseHeadersPolicyRequest {
   ResponseHeadersPolicyConfig: ResponseHeadersPolicyConfig;
 }
-export const CreateResponseHeadersPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResponseHeadersPolicyConfig: ResponseHeadersPolicyConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("ResponseHeadersPolicyConfig"),
-    ).annotate({ identifier: "ResponseHeadersPolicyConfig" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/response-headers-policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateResponseHeadersPolicyRequest",
-}) as any as S.Schema<CreateResponseHeadersPolicyRequest>;
 export interface ResponseHeadersPolicy {
   Id: string;
   LastModifiedTime: Date;
   ResponseHeadersPolicyConfig: ResponseHeadersPolicyConfig;
 }
-export const ResponseHeadersPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    LastModifiedTime: T.DateFromString,
-    ResponseHeadersPolicyConfig: ResponseHeadersPolicyConfig,
-  }),
-).annotate({
-  identifier: "ResponseHeadersPolicy",
-}) as any as S.Schema<ResponseHeadersPolicy>;
 export interface CreateResponseHeadersPolicyResult {
   ResponseHeadersPolicy?: ResponseHeadersPolicy;
   Location?: string;
   ETag?: string;
 }
-export const CreateResponseHeadersPolicyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResponseHeadersPolicy: S.optional(ResponseHeadersPolicy)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ResponseHeadersPolicy" }),
-    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateResponseHeadersPolicyResult",
-}) as any as S.Schema<CreateResponseHeadersPolicyResult>;
 export interface S3Origin {
   DomainName: string;
   OriginAccessIdentity: string;
 }
-export const S3Origin = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainName: S.String, OriginAccessIdentity: S.String }),
-).annotate({ identifier: "S3Origin" }) as any as S.Schema<S3Origin>;
 export interface StreamingLoggingConfig {
   Enabled: boolean;
   Bucket: string;
   Prefix: string;
 }
-export const StreamingLoggingConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Enabled: S.Boolean, Bucket: S.String, Prefix: S.String }),
-).annotate({
-  identifier: "StreamingLoggingConfig",
-}) as any as S.Schema<StreamingLoggingConfig>;
 export interface StreamingDistributionConfig {
   CallerReference: string;
   S3Origin: S3Origin;
@@ -4560,43 +2310,9 @@ export interface StreamingDistributionConfig {
   PriceClass?: PriceClass;
   Enabled: boolean;
 }
-export const StreamingDistributionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CallerReference: S.String,
-    S3Origin: S3Origin,
-    Aliases: S.optional(Aliases),
-    Comment: S.String,
-    Logging: S.optional(StreamingLoggingConfig),
-    TrustedSigners: TrustedSigners,
-    PriceClass: S.optional(PriceClass),
-    Enabled: S.Boolean,
-  }),
-).annotate({
-  identifier: "StreamingDistributionConfig",
-}) as any as S.Schema<StreamingDistributionConfig>;
 export interface CreateStreamingDistributionRequest {
   StreamingDistributionConfig: StreamingDistributionConfig;
 }
-export const CreateStreamingDistributionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamingDistributionConfig: StreamingDistributionConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("StreamingDistributionConfig"),
-    ).annotate({ identifier: "StreamingDistributionConfig" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/streaming-distribution" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateStreamingDistributionRequest",
-}) as any as S.Schema<CreateStreamingDistributionRequest>;
 export interface StreamingDistribution {
   Id: string;
   ARN: string;
@@ -4606,143 +2322,39 @@ export interface StreamingDistribution {
   ActiveTrustedSigners: ActiveTrustedSigners;
   StreamingDistributionConfig: StreamingDistributionConfig;
 }
-export const StreamingDistribution = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    ARN: S.String,
-    Status: S.String,
-    LastModifiedTime: S.optional(T.DateFromString),
-    DomainName: S.String,
-    ActiveTrustedSigners: ActiveTrustedSigners,
-    StreamingDistributionConfig: StreamingDistributionConfig,
-  }),
-).annotate({
-  identifier: "StreamingDistribution",
-}) as any as S.Schema<StreamingDistribution>;
 export interface CreateStreamingDistributionResult {
   StreamingDistribution?: StreamingDistribution;
   Location?: string;
   ETag?: string;
 }
-export const CreateStreamingDistributionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamingDistribution: S.optional(StreamingDistribution)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "StreamingDistribution" }),
-    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateStreamingDistributionResult",
-}) as any as S.Schema<CreateStreamingDistributionResult>;
 export interface StreamingDistributionConfigWithTags {
   StreamingDistributionConfig: StreamingDistributionConfig;
   Tags: Tags;
 }
-export const StreamingDistributionConfigWithTags = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamingDistributionConfig: StreamingDistributionConfig,
-    Tags: Tags,
-  }),
-).annotate({
-  identifier: "StreamingDistributionConfigWithTags",
-}) as any as S.Schema<StreamingDistributionConfigWithTags>;
 export interface CreateStreamingDistributionWithTagsRequest {
   StreamingDistributionConfigWithTags: StreamingDistributionConfigWithTags;
 }
-export const CreateStreamingDistributionWithTagsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      StreamingDistributionConfigWithTags:
-        StreamingDistributionConfigWithTags.pipe(
-          T.HttpPayload(),
-          T.XmlName("StreamingDistributionConfigWithTags"),
-        ).annotate({ identifier: "StreamingDistributionConfigWithTags" }),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/2020-05-31/streaming-distribution?WithTags",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "CreateStreamingDistributionWithTagsRequest",
-  }) as any as S.Schema<CreateStreamingDistributionWithTagsRequest>;
 export interface CreateStreamingDistributionWithTagsResult {
   StreamingDistribution?: StreamingDistribution;
   Location?: string;
   ETag?: string;
 }
-export const CreateStreamingDistributionWithTagsResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      StreamingDistribution: S.optional(StreamingDistribution)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "StreamingDistribution" }),
-      Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "CreateStreamingDistributionWithTagsResult",
-  }) as any as S.Schema<CreateStreamingDistributionWithTagsResult>;
 export interface CaCertificatesBundleS3Location {
   Bucket: string;
   Key: string;
   Region: string;
   Version?: string;
 }
-export const CaCertificatesBundleS3Location = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String,
-    Key: S.String,
-    Region: S.String,
-    Version: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CaCertificatesBundleS3Location",
-}) as any as S.Schema<CaCertificatesBundleS3Location>;
 export type CaCertificatesBundleSource = {
   CaCertificatesBundleS3Location: CaCertificatesBundleS3Location;
 };
-export const CaCertificatesBundleSource = /*@__PURE__*/ S.Union([
-  S.Struct({ CaCertificatesBundleS3Location: CaCertificatesBundleS3Location }),
-]);
 export interface CreateTrustStoreRequest {
   Name: string;
   CaCertificatesBundleSource: CaCertificatesBundleSource;
   UseClientCertificateOCSPEndpoint?: boolean;
   Tags?: Tags;
 }
-export const CreateTrustStoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    CaCertificatesBundleSource: CaCertificatesBundleSource,
-    UseClientCertificateOCSPEndpoint: S.optional(S.Boolean),
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/trust-store" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateTrustStoreRequest",
-}) as any as S.Schema<CreateTrustStoreRequest>;
 export type TrustStoreStatus = "pending" | "active" | "failed" | (string & {});
-export const TrustStoreStatus = S.String;
-
 export interface TrustStore {
   Id?: string;
   Arn?: string;
@@ -4753,32 +2365,10 @@ export interface TrustStore {
   Reason?: string;
   UseClientCertificateOCSPEndpoint?: boolean;
 }
-export const TrustStore = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Status: S.optional(TrustStoreStatus),
-    NumberOfCaCertificates: S.optional(S.Number),
-    LastModifiedTime: S.optional(T.DateFromString),
-    Reason: S.optional(S.String),
-    UseClientCertificateOCSPEndpoint: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "TrustStore" }) as any as S.Schema<TrustStore>;
 export interface CreateTrustStoreResult {
   TrustStore?: TrustStore;
   ETag?: string;
 }
-export const CreateTrustStoreResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrustStore: S.optional(TrustStore)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "TrustStore" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateTrustStoreResult",
-}) as any as S.Schema<CreateTrustStoreResult>;
 export interface VpcOriginEndpointConfig {
   Name: string;
   Arn: string;
@@ -4787,40 +2377,10 @@ export interface VpcOriginEndpointConfig {
   OriginProtocolPolicy: OriginProtocolPolicy;
   OriginSslProtocols?: OriginSslProtocols;
 }
-export const VpcOriginEndpointConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Arn: S.String,
-    HTTPPort: S.Number,
-    HTTPSPort: S.Number,
-    OriginProtocolPolicy: OriginProtocolPolicy,
-    OriginSslProtocols: S.optional(OriginSslProtocols),
-  }),
-).annotate({
-  identifier: "VpcOriginEndpointConfig",
-}) as any as S.Schema<VpcOriginEndpointConfig>;
 export interface CreateVpcOriginRequest {
   VpcOriginEndpointConfig: VpcOriginEndpointConfig;
   Tags?: Tags;
 }
-export const CreateVpcOriginRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcOriginEndpointConfig: VpcOriginEndpointConfig,
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/vpc-origin" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateVpcOriginRequest",
-}) as any as S.Schema<CreateVpcOriginRequest>;
 export interface VpcOrigin {
   Id: string;
   Arn: string;
@@ -4830,1720 +2390,334 @@ export interface VpcOrigin {
   LastModifiedTime: Date;
   VpcOriginEndpointConfig: VpcOriginEndpointConfig;
 }
-export const VpcOrigin = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Arn: S.String,
-    AccountId: S.optional(S.String),
-    Status: S.String,
-    CreatedTime: T.DateFromString,
-    LastModifiedTime: T.DateFromString,
-    VpcOriginEndpointConfig: VpcOriginEndpointConfig,
-  }),
-).annotate({ identifier: "VpcOrigin" }) as any as S.Schema<VpcOrigin>;
 export interface CreateVpcOriginResult {
   VpcOrigin?: VpcOrigin;
   Location?: string;
   ETag?: string;
 }
-export const CreateVpcOriginResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcOrigin: S.optional(VpcOrigin)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "VpcOrigin" }),
-    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateVpcOriginResult",
-}) as any as S.Schema<CreateVpcOriginResult>;
 export interface DeleteAnycastIpListRequest {
   Id: string;
   IfMatch: string;
 }
-export const DeleteAnycastIpListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/2020-05-31/anycast-ip-list/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAnycastIpListRequest",
-}) as any as S.Schema<DeleteAnycastIpListRequest>;
 export interface DeleteAnycastIpListResponse {}
-export const DeleteAnycastIpListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteAnycastIpListResponse",
-}) as any as S.Schema<DeleteAnycastIpListResponse>;
 export interface DeleteCachePolicyRequest {
   Id: string;
   IfMatch?: string;
 }
-export const DeleteCachePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/2020-05-31/cache-policy/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteCachePolicyRequest",
-}) as any as S.Schema<DeleteCachePolicyRequest>;
 export interface DeleteCachePolicyResponse {}
-export const DeleteCachePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteCachePolicyResponse",
-}) as any as S.Schema<DeleteCachePolicyResponse>;
 export interface DeleteCloudFrontOriginAccessIdentityRequest {
   Id: string;
   IfMatch?: string;
 }
-export const DeleteCloudFrontOriginAccessIdentityRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "DELETE",
-          uri: "/2020-05-31/origin-access-identity/cloudfront/{Id}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteCloudFrontOriginAccessIdentityRequest",
-  }) as any as S.Schema<DeleteCloudFrontOriginAccessIdentityRequest>;
 export interface DeleteCloudFrontOriginAccessIdentityResponse {}
-export const DeleteCloudFrontOriginAccessIdentityResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteCloudFrontOriginAccessIdentityResponse",
-  }) as any as S.Schema<DeleteCloudFrontOriginAccessIdentityResponse>;
 export interface DeleteConnectionFunctionRequest {
   Id: string;
   IfMatch: string;
 }
-export const DeleteConnectionFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/2020-05-31/connection-function/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteConnectionFunctionRequest",
-}) as any as S.Schema<DeleteConnectionFunctionRequest>;
 export interface DeleteConnectionFunctionResponse {}
-export const DeleteConnectionFunctionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteConnectionFunctionResponse",
-}) as any as S.Schema<DeleteConnectionFunctionResponse>;
 export interface DeleteConnectionGroupRequest {
   Id: string;
   IfMatch: string;
 }
-export const DeleteConnectionGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/2020-05-31/connection-group/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteConnectionGroupRequest",
-}) as any as S.Schema<DeleteConnectionGroupRequest>;
 export interface DeleteConnectionGroupResponse {}
-export const DeleteConnectionGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteConnectionGroupResponse",
-}) as any as S.Schema<DeleteConnectionGroupResponse>;
 export interface DeleteContinuousDeploymentPolicyRequest {
   Id: string;
   IfMatch?: string;
 }
-export const DeleteContinuousDeploymentPolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "DELETE",
-          uri: "/2020-05-31/continuous-deployment-policy/{Id}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteContinuousDeploymentPolicyRequest",
-}) as any as S.Schema<DeleteContinuousDeploymentPolicyRequest>;
 export interface DeleteContinuousDeploymentPolicyResponse {}
-export const DeleteContinuousDeploymentPolicyResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteContinuousDeploymentPolicyResponse",
-}) as any as S.Schema<DeleteContinuousDeploymentPolicyResponse>;
 export interface DeleteDistributionRequest {
   Id: string;
   IfMatch?: string;
 }
-export const DeleteDistributionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/2020-05-31/distribution/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDistributionRequest",
-}) as any as S.Schema<DeleteDistributionRequest>;
 export interface DeleteDistributionResponse {}
-export const DeleteDistributionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteDistributionResponse",
-}) as any as S.Schema<DeleteDistributionResponse>;
 export interface DeleteDistributionTenantRequest {
   Id: string;
   IfMatch: string;
 }
-export const DeleteDistributionTenantRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/2020-05-31/distribution-tenant/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDistributionTenantRequest",
-}) as any as S.Schema<DeleteDistributionTenantRequest>;
 export interface DeleteDistributionTenantResponse {}
-export const DeleteDistributionTenantResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteDistributionTenantResponse",
-}) as any as S.Schema<DeleteDistributionTenantResponse>;
 export interface DeleteFieldLevelEncryptionConfigRequest {
   Id: string;
   IfMatch?: string;
 }
-export const DeleteFieldLevelEncryptionConfigRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "DELETE",
-          uri: "/2020-05-31/field-level-encryption/{Id}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteFieldLevelEncryptionConfigRequest",
-}) as any as S.Schema<DeleteFieldLevelEncryptionConfigRequest>;
 export interface DeleteFieldLevelEncryptionConfigResponse {}
-export const DeleteFieldLevelEncryptionConfigResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteFieldLevelEncryptionConfigResponse",
-}) as any as S.Schema<DeleteFieldLevelEncryptionConfigResponse>;
 export interface DeleteFieldLevelEncryptionProfileRequest {
   Id: string;
   IfMatch?: string;
 }
-export const DeleteFieldLevelEncryptionProfileRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "DELETE",
-          uri: "/2020-05-31/field-level-encryption-profile/{Id}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteFieldLevelEncryptionProfileRequest",
-}) as any as S.Schema<DeleteFieldLevelEncryptionProfileRequest>;
 export interface DeleteFieldLevelEncryptionProfileResponse {}
-export const DeleteFieldLevelEncryptionProfileResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteFieldLevelEncryptionProfileResponse",
-  }) as any as S.Schema<DeleteFieldLevelEncryptionProfileResponse>;
 export interface DeleteFunctionRequest {
   Name: string;
   IfMatch: string;
 }
-export const DeleteFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/2020-05-31/function/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteFunctionRequest",
-}) as any as S.Schema<DeleteFunctionRequest>;
 export interface DeleteFunctionResponse {}
-export const DeleteFunctionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteFunctionResponse",
-}) as any as S.Schema<DeleteFunctionResponse>;
 export interface DeleteKeyGroupRequest {
   Id: string;
   IfMatch?: string;
 }
-export const DeleteKeyGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/2020-05-31/key-group/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteKeyGroupRequest",
-}) as any as S.Schema<DeleteKeyGroupRequest>;
 export interface DeleteKeyGroupResponse {}
-export const DeleteKeyGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteKeyGroupResponse",
-}) as any as S.Schema<DeleteKeyGroupResponse>;
 export interface DeleteKeyValueStoreRequest {
   Name: string;
   IfMatch: string;
 }
-export const DeleteKeyValueStoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/2020-05-31/key-value-store/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteKeyValueStoreRequest",
-}) as any as S.Schema<DeleteKeyValueStoreRequest>;
 export interface DeleteKeyValueStoreResponse {}
-export const DeleteKeyValueStoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteKeyValueStoreResponse",
-}) as any as S.Schema<DeleteKeyValueStoreResponse>;
 export interface DeleteMonitoringSubscriptionRequest {
   DistributionId: string;
 }
-export const DeleteMonitoringSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionId: S.String.pipe(T.HttpLabel("DistributionId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteMonitoringSubscriptionRequest",
-}) as any as S.Schema<DeleteMonitoringSubscriptionRequest>;
 export interface DeleteMonitoringSubscriptionResult {}
-export const DeleteMonitoringSubscriptionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteMonitoringSubscriptionResult",
-}) as any as S.Schema<DeleteMonitoringSubscriptionResult>;
 export interface DeleteOriginAccessControlRequest {
   Id: string;
   IfMatch?: string;
 }
-export const DeleteOriginAccessControlRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2020-05-31/origin-access-control/{Id}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteOriginAccessControlRequest",
-}) as any as S.Schema<DeleteOriginAccessControlRequest>;
 export interface DeleteOriginAccessControlResponse {}
-export const DeleteOriginAccessControlResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteOriginAccessControlResponse",
-}) as any as S.Schema<DeleteOriginAccessControlResponse>;
 export interface DeleteOriginRequestPolicyRequest {
   Id: string;
   IfMatch?: string;
 }
-export const DeleteOriginRequestPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2020-05-31/origin-request-policy/{Id}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteOriginRequestPolicyRequest",
-}) as any as S.Schema<DeleteOriginRequestPolicyRequest>;
 export interface DeleteOriginRequestPolicyResponse {}
-export const DeleteOriginRequestPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteOriginRequestPolicyResponse",
-}) as any as S.Schema<DeleteOriginRequestPolicyResponse>;
 export interface DeletePublicKeyRequest {
   Id: string;
   IfMatch?: string;
 }
-export const DeletePublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/2020-05-31/public-key/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeletePublicKeyRequest",
-}) as any as S.Schema<DeletePublicKeyRequest>;
 export interface DeletePublicKeyResponse {}
-export const DeletePublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeletePublicKeyResponse",
-}) as any as S.Schema<DeletePublicKeyResponse>;
 export interface DeleteRealtimeLogConfigRequest {
   Name?: string;
   ARN?: string;
 }
-export const DeleteRealtimeLogConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), ARN: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/delete-realtime-log-config" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRealtimeLogConfigRequest",
-}) as any as S.Schema<DeleteRealtimeLogConfigRequest>;
 export interface DeleteRealtimeLogConfigResponse {}
-export const DeleteRealtimeLogConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteRealtimeLogConfigResponse",
-}) as any as S.Schema<DeleteRealtimeLogConfigResponse>;
 export interface DeleteResourcePolicyRequest {
   ResourceArn: string;
 }
-export const DeleteResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/delete-resource-policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteResourcePolicyRequest",
-}) as any as S.Schema<DeleteResourcePolicyRequest>;
 export interface DeleteResourcePolicyResponse {}
-export const DeleteResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteResourcePolicyResponse",
-}) as any as S.Schema<DeleteResourcePolicyResponse>;
 export interface DeleteResponseHeadersPolicyRequest {
   Id: string;
   IfMatch?: string;
 }
-export const DeleteResponseHeadersPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2020-05-31/response-headers-policy/{Id}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteResponseHeadersPolicyRequest",
-}) as any as S.Schema<DeleteResponseHeadersPolicyRequest>;
 export interface DeleteResponseHeadersPolicyResponse {}
-export const DeleteResponseHeadersPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteResponseHeadersPolicyResponse",
-}) as any as S.Schema<DeleteResponseHeadersPolicyResponse>;
 export interface DeleteStreamingDistributionRequest {
   Id: string;
   IfMatch?: string;
 }
-export const DeleteStreamingDistributionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2020-05-31/streaming-distribution/{Id}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteStreamingDistributionRequest",
-}) as any as S.Schema<DeleteStreamingDistributionRequest>;
 export interface DeleteStreamingDistributionResponse {}
-export const DeleteStreamingDistributionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteStreamingDistributionResponse",
-}) as any as S.Schema<DeleteStreamingDistributionResponse>;
 export interface DeleteTrustStoreRequest {
   Id: string;
   IfMatch: string;
 }
-export const DeleteTrustStoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/2020-05-31/trust-store/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteTrustStoreRequest",
-}) as any as S.Schema<DeleteTrustStoreRequest>;
 export interface DeleteTrustStoreResponse {}
-export const DeleteTrustStoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteTrustStoreResponse",
-}) as any as S.Schema<DeleteTrustStoreResponse>;
 export interface DeleteVpcOriginRequest {
   Id: string;
   IfMatch: string;
 }
-export const DeleteVpcOriginRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/2020-05-31/vpc-origin/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteVpcOriginRequest",
-}) as any as S.Schema<DeleteVpcOriginRequest>;
 export interface DeleteVpcOriginResult {
   VpcOrigin?: VpcOrigin;
   ETag?: string;
 }
-export const DeleteVpcOriginResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcOrigin: S.optional(VpcOrigin)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "VpcOrigin" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "DeleteVpcOriginResult",
-}) as any as S.Schema<DeleteVpcOriginResult>;
 export interface DescribeConnectionFunctionRequest {
   Identifier: string;
   Stage?: FunctionStage;
 }
-export const DescribeConnectionFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-    Stage: S.optional(FunctionStage).pipe(T.HttpQuery("Stage")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/connection-function/{Identifier}/describe",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeConnectionFunctionRequest",
-}) as any as S.Schema<DescribeConnectionFunctionRequest>;
 export interface DescribeConnectionFunctionResult {
   ConnectionFunctionSummary?: ConnectionFunctionSummary;
   ETag?: string;
 }
-export const DescribeConnectionFunctionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionFunctionSummary: S.optional(ConnectionFunctionSummary)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ConnectionFunctionSummary" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeConnectionFunctionResult",
-}) as any as S.Schema<DescribeConnectionFunctionResult>;
 export interface DescribeFunctionRequest {
   Name: string;
   Stage?: FunctionStage;
 }
-export const DescribeFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    Stage: S.optional(FunctionStage).pipe(T.HttpQuery("Stage")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/function/{Name}/describe" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeFunctionRequest",
-}) as any as S.Schema<DescribeFunctionRequest>;
 export interface DescribeFunctionResult {
   FunctionSummary?: FunctionSummary;
   ETag?: string;
 }
-export const DescribeFunctionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FunctionSummary: S.optional(FunctionSummary)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "FunctionSummary" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeFunctionResult",
-}) as any as S.Schema<DescribeFunctionResult>;
 export interface DescribeKeyValueStoreRequest {
   Name: string;
 }
-export const DescribeKeyValueStoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/key-value-store/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeKeyValueStoreRequest",
-}) as any as S.Schema<DescribeKeyValueStoreRequest>;
 export interface DescribeKeyValueStoreResult {
   KeyValueStore?: KeyValueStore;
   ETag?: string;
 }
-export const DescribeKeyValueStoreResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyValueStore: S.optional(KeyValueStore)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "KeyValueStore" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeKeyValueStoreResult",
-}) as any as S.Schema<DescribeKeyValueStoreResult>;
 export interface DisassociateDistributionTenantWebACLRequest {
   Id: string;
   IfMatch?: string;
 }
-export const DisassociateDistributionTenantWebACLRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "PUT",
-          uri: "/2020-05-31/distribution-tenant/{Id}/disassociate-web-acl",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisassociateDistributionTenantWebACLRequest",
-  }) as any as S.Schema<DisassociateDistributionTenantWebACLRequest>;
 export interface DisassociateDistributionTenantWebACLResult {
   Id?: string;
   ETag?: string;
 }
-export const DisassociateDistributionTenantWebACLResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.optional(S.String),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DisassociateDistributionTenantWebACLResult",
-  }) as any as S.Schema<DisassociateDistributionTenantWebACLResult>;
 export interface DisassociateDistributionWebACLRequest {
   Id: string;
   IfMatch?: string;
 }
-export const DisassociateDistributionWebACLRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "PUT",
-          uri: "/2020-05-31/distribution/{Id}/disassociate-web-acl",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DisassociateDistributionWebACLRequest",
-}) as any as S.Schema<DisassociateDistributionWebACLRequest>;
 export interface DisassociateDistributionWebACLResult {
   Id?: string;
   ETag?: string;
 }
-export const DisassociateDistributionWebACLResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Id: S.optional(S.String),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-).annotate({
-  identifier: "DisassociateDistributionWebACLResult",
-}) as any as S.Schema<DisassociateDistributionWebACLResult>;
 export interface GetAnycastIpListRequest {
   Id: string;
 }
-export const GetAnycastIpListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/anycast-ip-list/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAnycastIpListRequest",
-}) as any as S.Schema<GetAnycastIpListRequest>;
 export interface GetAnycastIpListResult {
   AnycastIpList?: AnycastIpList;
   ETag?: string;
 }
-export const GetAnycastIpListResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AnycastIpList: S.optional(AnycastIpList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "AnycastIpList" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetAnycastIpListResult",
-}) as any as S.Schema<GetAnycastIpListResult>;
 export interface GetCachePolicyRequest {
   Id: string;
 }
-export const GetCachePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/cache-policy/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetCachePolicyRequest",
-}) as any as S.Schema<GetCachePolicyRequest>;
 export interface GetCachePolicyResult {
   CachePolicy?: CachePolicy;
   ETag?: string;
 }
-export const GetCachePolicyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CachePolicy: S.optional(CachePolicy)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "CachePolicy" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetCachePolicyResult",
-}) as any as S.Schema<GetCachePolicyResult>;
 export interface GetCachePolicyConfigRequest {
   Id: string;
 }
-export const GetCachePolicyConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/cache-policy/{Id}/config" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetCachePolicyConfigRequest",
-}) as any as S.Schema<GetCachePolicyConfigRequest>;
 export interface GetCachePolicyConfigResult {
   CachePolicyConfig?: CachePolicyConfig;
   ETag?: string;
 }
-export const GetCachePolicyConfigResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CachePolicyConfig: S.optional(CachePolicyConfig)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "CachePolicyConfig" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetCachePolicyConfigResult",
-}) as any as S.Schema<GetCachePolicyConfigResult>;
 export interface GetCloudFrontOriginAccessIdentityRequest {
   Id: string;
 }
-export const GetCloudFrontOriginAccessIdentityRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/origin-access-identity/cloudfront/{Id}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetCloudFrontOriginAccessIdentityRequest",
-}) as any as S.Schema<GetCloudFrontOriginAccessIdentityRequest>;
 export interface GetCloudFrontOriginAccessIdentityResult {
   CloudFrontOriginAccessIdentity?: CloudFrontOriginAccessIdentity;
   ETag?: string;
 }
-export const GetCloudFrontOriginAccessIdentityResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      CloudFrontOriginAccessIdentity: S.optional(CloudFrontOriginAccessIdentity)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "CloudFrontOriginAccessIdentity" }),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-).annotate({
-  identifier: "GetCloudFrontOriginAccessIdentityResult",
-}) as any as S.Schema<GetCloudFrontOriginAccessIdentityResult>;
 export interface GetCloudFrontOriginAccessIdentityConfigRequest {
   Id: string;
 }
-export const GetCloudFrontOriginAccessIdentityConfigRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetCloudFrontOriginAccessIdentityConfigRequest",
-  }) as any as S.Schema<GetCloudFrontOriginAccessIdentityConfigRequest>;
 export interface GetCloudFrontOriginAccessIdentityConfigResult {
   CloudFrontOriginAccessIdentityConfig?: CloudFrontOriginAccessIdentityConfig;
   ETag?: string;
 }
-export const GetCloudFrontOriginAccessIdentityConfigResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      CloudFrontOriginAccessIdentityConfig: S.optional(
-        CloudFrontOriginAccessIdentityConfig,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "CloudFrontOriginAccessIdentityConfig" }),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetCloudFrontOriginAccessIdentityConfigResult",
-  }) as any as S.Schema<GetCloudFrontOriginAccessIdentityConfigResult>;
 export interface GetConnectionFunctionRequest {
   Identifier: string;
   Stage?: FunctionStage;
 }
-export const GetConnectionFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-    Stage: S.optional(FunctionStage).pipe(T.HttpQuery("Stage")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/connection-function/{Identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetConnectionFunctionRequest",
-}) as any as S.Schema<GetConnectionFunctionRequest>;
 export interface GetConnectionFunctionResult {
   ConnectionFunctionCode?: T.StreamingOutputBody;
   ETag?: string;
   ContentType?: string;
 }
-export const GetConnectionFunctionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionFunctionCode: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetConnectionFunctionResult",
-}) as any as S.Schema<GetConnectionFunctionResult>;
 export interface GetConnectionGroupRequest {
   Identifier: string;
 }
-export const GetConnectionGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/connection-group/{Identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetConnectionGroupRequest",
-}) as any as S.Schema<GetConnectionGroupRequest>;
 export interface GetConnectionGroupResult {
   ConnectionGroup?: ConnectionGroup;
   ETag?: string;
 }
-export const GetConnectionGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionGroup: S.optional(ConnectionGroup)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ConnectionGroup" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetConnectionGroupResult",
-}) as any as S.Schema<GetConnectionGroupResult>;
 export interface GetConnectionGroupByRoutingEndpointRequest {
   RoutingEndpoint: string;
 }
-export const GetConnectionGroupByRoutingEndpointRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      RoutingEndpoint: S.String.pipe(T.HttpQuery("RoutingEndpoint")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "GET", uri: "/2020-05-31/connection-group" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetConnectionGroupByRoutingEndpointRequest",
-  }) as any as S.Schema<GetConnectionGroupByRoutingEndpointRequest>;
 export interface GetConnectionGroupByRoutingEndpointResult {
   ConnectionGroup?: ConnectionGroup;
   ETag?: string;
 }
-export const GetConnectionGroupByRoutingEndpointResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConnectionGroup: S.optional(ConnectionGroup)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "ConnectionGroup" }),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetConnectionGroupByRoutingEndpointResult",
-  }) as any as S.Schema<GetConnectionGroupByRoutingEndpointResult>;
 export interface GetContinuousDeploymentPolicyRequest {
   Id: string;
 }
-export const GetContinuousDeploymentPolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/continuous-deployment-policy/{Id}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetContinuousDeploymentPolicyRequest",
-}) as any as S.Schema<GetContinuousDeploymentPolicyRequest>;
 export interface GetContinuousDeploymentPolicyResult {
   ContinuousDeploymentPolicy?: ContinuousDeploymentPolicy;
   ETag?: string;
 }
-export const GetContinuousDeploymentPolicyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContinuousDeploymentPolicy: S.optional(ContinuousDeploymentPolicy)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ContinuousDeploymentPolicy" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetContinuousDeploymentPolicyResult",
-}) as any as S.Schema<GetContinuousDeploymentPolicyResult>;
 export interface GetContinuousDeploymentPolicyConfigRequest {
   Id: string;
 }
-export const GetContinuousDeploymentPolicyConfigRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/continuous-deployment-policy/{Id}/config",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetContinuousDeploymentPolicyConfigRequest",
-  }) as any as S.Schema<GetContinuousDeploymentPolicyConfigRequest>;
 export interface GetContinuousDeploymentPolicyConfigResult {
   ContinuousDeploymentPolicyConfig?: ContinuousDeploymentPolicyConfig;
   ETag?: string;
 }
-export const GetContinuousDeploymentPolicyConfigResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ContinuousDeploymentPolicyConfig: S.optional(
-        ContinuousDeploymentPolicyConfig,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "ContinuousDeploymentPolicyConfig" }),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetContinuousDeploymentPolicyConfigResult",
-  }) as any as S.Schema<GetContinuousDeploymentPolicyConfigResult>;
 export interface GetDistributionRequest {
   Id: string;
 }
-export const GetDistributionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/distribution/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDistributionRequest",
-}) as any as S.Schema<GetDistributionRequest>;
 export interface GetDistributionResult {
   Distribution?: Distribution;
   ETag?: string;
 }
-export const GetDistributionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Distribution: S.optional(Distribution)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Distribution" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetDistributionResult",
-}) as any as S.Schema<GetDistributionResult>;
 export interface GetDistributionConfigRequest {
   Id: string;
 }
-export const GetDistributionConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/distribution/{Id}/config" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDistributionConfigRequest",
-}) as any as S.Schema<GetDistributionConfigRequest>;
 export interface GetDistributionConfigResult {
   DistributionConfig?: DistributionConfig;
   ETag?: string;
 }
-export const GetDistributionConfigResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionConfig: S.optional(DistributionConfig)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "DistributionConfig" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetDistributionConfigResult",
-}) as any as S.Schema<GetDistributionConfigResult>;
 export interface GetDistributionTenantRequest {
   Identifier: string;
 }
-export const GetDistributionTenantRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distribution-tenant/{Identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDistributionTenantRequest",
-}) as any as S.Schema<GetDistributionTenantRequest>;
 export interface GetDistributionTenantResult {
   DistributionTenant?: DistributionTenant;
   ETag?: string;
 }
-export const GetDistributionTenantResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionTenant: S.optional(DistributionTenant)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "DistributionTenant" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetDistributionTenantResult",
-}) as any as S.Schema<GetDistributionTenantResult>;
 export interface GetDistributionTenantByDomainRequest {
   Domain: string;
 }
-export const GetDistributionTenantByDomainRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Domain: S.String.pipe(T.HttpQuery("domain")) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "GET", uri: "/2020-05-31/distribution-tenant" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetDistributionTenantByDomainRequest",
-}) as any as S.Schema<GetDistributionTenantByDomainRequest>;
 export interface GetDistributionTenantByDomainResult {
   DistributionTenant?: DistributionTenant;
   ETag?: string;
 }
-export const GetDistributionTenantByDomainResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionTenant: S.optional(DistributionTenant)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "DistributionTenant" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetDistributionTenantByDomainResult",
-}) as any as S.Schema<GetDistributionTenantByDomainResult>;
 export interface GetFieldLevelEncryptionRequest {
   Id: string;
 }
-export const GetFieldLevelEncryptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/field-level-encryption/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetFieldLevelEncryptionRequest",
-}) as any as S.Schema<GetFieldLevelEncryptionRequest>;
 export interface GetFieldLevelEncryptionResult {
   FieldLevelEncryption?: FieldLevelEncryption;
   ETag?: string;
 }
-export const GetFieldLevelEncryptionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FieldLevelEncryption: S.optional(FieldLevelEncryption)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "FieldLevelEncryption" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetFieldLevelEncryptionResult",
-}) as any as S.Schema<GetFieldLevelEncryptionResult>;
 export interface GetFieldLevelEncryptionConfigRequest {
   Id: string;
 }
-export const GetFieldLevelEncryptionConfigRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/field-level-encryption/{Id}/config",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetFieldLevelEncryptionConfigRequest",
-}) as any as S.Schema<GetFieldLevelEncryptionConfigRequest>;
 export interface GetFieldLevelEncryptionConfigResult {
   FieldLevelEncryptionConfig?: FieldLevelEncryptionConfig;
   ETag?: string;
 }
-export const GetFieldLevelEncryptionConfigResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FieldLevelEncryptionConfig: S.optional(FieldLevelEncryptionConfig)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "FieldLevelEncryptionConfig" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetFieldLevelEncryptionConfigResult",
-}) as any as S.Schema<GetFieldLevelEncryptionConfigResult>;
 export interface GetFieldLevelEncryptionProfileRequest {
   Id: string;
 }
-export const GetFieldLevelEncryptionProfileRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/field-level-encryption-profile/{Id}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetFieldLevelEncryptionProfileRequest",
-}) as any as S.Schema<GetFieldLevelEncryptionProfileRequest>;
 export interface GetFieldLevelEncryptionProfileResult {
   FieldLevelEncryptionProfile?: FieldLevelEncryptionProfile;
   ETag?: string;
 }
-export const GetFieldLevelEncryptionProfileResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FieldLevelEncryptionProfile: S.optional(FieldLevelEncryptionProfile)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "FieldLevelEncryptionProfile" }),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-).annotate({
-  identifier: "GetFieldLevelEncryptionProfileResult",
-}) as any as S.Schema<GetFieldLevelEncryptionProfileResult>;
 export interface GetFieldLevelEncryptionProfileConfigRequest {
   Id: string;
 }
-export const GetFieldLevelEncryptionProfileConfigRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/field-level-encryption-profile/{Id}/config",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetFieldLevelEncryptionProfileConfigRequest",
-  }) as any as S.Schema<GetFieldLevelEncryptionProfileConfigRequest>;
 export interface GetFieldLevelEncryptionProfileConfigResult {
   FieldLevelEncryptionProfileConfig?: FieldLevelEncryptionProfileConfig;
   ETag?: string;
 }
-export const GetFieldLevelEncryptionProfileConfigResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      FieldLevelEncryptionProfileConfig: S.optional(
-        FieldLevelEncryptionProfileConfig,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "FieldLevelEncryptionProfileConfig" }),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetFieldLevelEncryptionProfileConfigResult",
-  }) as any as S.Schema<GetFieldLevelEncryptionProfileConfigResult>;
 export interface GetFunctionRequest {
   Name: string;
   Stage?: FunctionStage;
 }
-export const GetFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    Stage: S.optional(FunctionStage).pipe(T.HttpQuery("Stage")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/function/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetFunctionRequest",
-}) as any as S.Schema<GetFunctionRequest>;
 export interface GetFunctionResult {
   FunctionCode?: T.StreamingOutputBody;
   ETag?: string;
   ContentType?: string;
 }
-export const GetFunctionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FunctionCode: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetFunctionResult",
-}) as any as S.Schema<GetFunctionResult>;
 export interface GetInvalidationRequest {
   DistributionId: string;
   Id: string;
 }
-export const GetInvalidationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionId: S.String.pipe(T.HttpLabel("DistributionId")),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distribution/{DistributionId}/invalidation/{Id}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetInvalidationRequest",
-}) as any as S.Schema<GetInvalidationRequest>;
 export interface GetInvalidationResult {
   Invalidation?: Invalidation;
 }
-export const GetInvalidationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Invalidation: S.optional(Invalidation)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Invalidation" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetInvalidationResult",
-}) as any as S.Schema<GetInvalidationResult>;
 export interface GetInvalidationForDistributionTenantRequest {
   DistributionTenantId: string;
   Id: string;
 }
-export const GetInvalidationForDistributionTenantRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DistributionTenantId: S.String.pipe(T.HttpLabel("DistributionTenantId")),
-      Id: S.String.pipe(T.HttpLabel("Id")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/distribution-tenant/{DistributionTenantId}/invalidation/{Id}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetInvalidationForDistributionTenantRequest",
-  }) as any as S.Schema<GetInvalidationForDistributionTenantRequest>;
 export interface GetInvalidationForDistributionTenantResult {
   Invalidation?: Invalidation;
 }
-export const GetInvalidationForDistributionTenantResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Invalidation: S.optional(Invalidation)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "Invalidation" }),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetInvalidationForDistributionTenantResult",
-  }) as any as S.Schema<GetInvalidationForDistributionTenantResult>;
 export interface GetKeyGroupRequest {
   Id: string;
 }
-export const GetKeyGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/key-group/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetKeyGroupRequest",
-}) as any as S.Schema<GetKeyGroupRequest>;
 export interface GetKeyGroupResult {
   KeyGroup?: KeyGroup;
   ETag?: string;
 }
-export const GetKeyGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyGroup: S.optional(KeyGroup)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "KeyGroup" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetKeyGroupResult",
-}) as any as S.Schema<GetKeyGroupResult>;
 export interface GetKeyGroupConfigRequest {
   Id: string;
 }
-export const GetKeyGroupConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/key-group/{Id}/config" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetKeyGroupConfigRequest",
-}) as any as S.Schema<GetKeyGroupConfigRequest>;
 export interface GetKeyGroupConfigResult {
   KeyGroupConfig?: KeyGroupConfig;
   ETag?: string;
 }
-export const GetKeyGroupConfigResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyGroupConfig: S.optional(KeyGroupConfig)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "KeyGroupConfig" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetKeyGroupConfigResult",
-}) as any as S.Schema<GetKeyGroupConfigResult>;
 export interface GetManagedCertificateDetailsRequest {
   Identifier: string;
 }
-export const GetManagedCertificateDetailsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/managed-certificate/{Identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetManagedCertificateDetailsRequest",
-}) as any as S.Schema<GetManagedCertificateDetailsRequest>;
 export type ManagedCertificateStatus =
   | "pending-validation"
   | "issued"
@@ -6553,571 +2727,129 @@ export type ManagedCertificateStatus =
   | "revoked"
   | "failed"
   | (string & {});
-export const ManagedCertificateStatus = S.String;
-
 export interface ValidationTokenDetail {
   Domain: string;
   RedirectTo?: string;
   RedirectFrom?: string;
 }
-export const ValidationTokenDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Domain: S.String,
-    RedirectTo: S.optional(S.String),
-    RedirectFrom: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ValidationTokenDetail",
-}) as any as S.Schema<ValidationTokenDetail>;
 export type ValidationTokenDetailList = ValidationTokenDetail[];
-export const ValidationTokenDetailList = /*@__PURE__*/ S.Array(
-  ValidationTokenDetail,
-);
 export interface ManagedCertificateDetails {
   CertificateArn?: string;
   CertificateStatus?: ManagedCertificateStatus;
   ValidationTokenHost?: ValidationTokenHost;
   ValidationTokenDetails?: ValidationTokenDetail[];
 }
-export const ManagedCertificateDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateArn: S.optional(S.String),
-    CertificateStatus: S.optional(ManagedCertificateStatus),
-    ValidationTokenHost: S.optional(ValidationTokenHost),
-    ValidationTokenDetails: S.optional(ValidationTokenDetailList),
-  }),
-).annotate({
-  identifier: "ManagedCertificateDetails",
-}) as any as S.Schema<ManagedCertificateDetails>;
 export interface GetManagedCertificateDetailsResult {
   ManagedCertificateDetails?: ManagedCertificateDetails;
 }
-export const GetManagedCertificateDetailsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ManagedCertificateDetails: S.optional(ManagedCertificateDetails)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ManagedCertificateDetails" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetManagedCertificateDetailsResult",
-}) as any as S.Schema<GetManagedCertificateDetailsResult>;
 export interface GetMonitoringSubscriptionRequest {
   DistributionId: string;
 }
-export const GetMonitoringSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionId: S.String.pipe(T.HttpLabel("DistributionId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMonitoringSubscriptionRequest",
-}) as any as S.Schema<GetMonitoringSubscriptionRequest>;
 export interface GetMonitoringSubscriptionResult {
   MonitoringSubscription?: MonitoringSubscription;
 }
-export const GetMonitoringSubscriptionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MonitoringSubscription: S.optional(MonitoringSubscription)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "MonitoringSubscription" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetMonitoringSubscriptionResult",
-}) as any as S.Schema<GetMonitoringSubscriptionResult>;
 export interface GetOriginAccessControlRequest {
   Id: string;
 }
-export const GetOriginAccessControlRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/origin-access-control/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetOriginAccessControlRequest",
-}) as any as S.Schema<GetOriginAccessControlRequest>;
 export interface GetOriginAccessControlResult {
   OriginAccessControl?: OriginAccessControl;
   ETag?: string;
 }
-export const GetOriginAccessControlResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginAccessControl: S.optional(OriginAccessControl)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "OriginAccessControl" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetOriginAccessControlResult",
-}) as any as S.Schema<GetOriginAccessControlResult>;
 export interface GetOriginAccessControlConfigRequest {
   Id: string;
 }
-export const GetOriginAccessControlConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/origin-access-control/{Id}/config",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetOriginAccessControlConfigRequest",
-}) as any as S.Schema<GetOriginAccessControlConfigRequest>;
 export interface GetOriginAccessControlConfigResult {
   OriginAccessControlConfig?: OriginAccessControlConfig;
   ETag?: string;
 }
-export const GetOriginAccessControlConfigResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginAccessControlConfig: S.optional(OriginAccessControlConfig)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "OriginAccessControlConfig" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetOriginAccessControlConfigResult",
-}) as any as S.Schema<GetOriginAccessControlConfigResult>;
 export interface GetOriginRequestPolicyRequest {
   Id: string;
 }
-export const GetOriginRequestPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/origin-request-policy/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetOriginRequestPolicyRequest",
-}) as any as S.Schema<GetOriginRequestPolicyRequest>;
 export interface GetOriginRequestPolicyResult {
   OriginRequestPolicy?: OriginRequestPolicy;
   ETag?: string;
 }
-export const GetOriginRequestPolicyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginRequestPolicy: S.optional(OriginRequestPolicy)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "OriginRequestPolicy" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetOriginRequestPolicyResult",
-}) as any as S.Schema<GetOriginRequestPolicyResult>;
 export interface GetOriginRequestPolicyConfigRequest {
   Id: string;
 }
-export const GetOriginRequestPolicyConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/origin-request-policy/{Id}/config",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetOriginRequestPolicyConfigRequest",
-}) as any as S.Schema<GetOriginRequestPolicyConfigRequest>;
 export interface GetOriginRequestPolicyConfigResult {
   OriginRequestPolicyConfig?: OriginRequestPolicyConfig;
   ETag?: string;
 }
-export const GetOriginRequestPolicyConfigResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginRequestPolicyConfig: S.optional(OriginRequestPolicyConfig)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "OriginRequestPolicyConfig" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetOriginRequestPolicyConfigResult",
-}) as any as S.Schema<GetOriginRequestPolicyConfigResult>;
 export interface GetPublicKeyRequest {
   Id: string;
 }
-export const GetPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/public-key/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPublicKeyRequest",
-}) as any as S.Schema<GetPublicKeyRequest>;
 export interface GetPublicKeyResult {
   PublicKey?: PublicKey;
   ETag?: string;
 }
-export const GetPublicKeyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PublicKey: S.optional(PublicKey)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "PublicKey" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetPublicKeyResult",
-}) as any as S.Schema<GetPublicKeyResult>;
 export interface GetPublicKeyConfigRequest {
   Id: string;
 }
-export const GetPublicKeyConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/public-key/{Id}/config" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPublicKeyConfigRequest",
-}) as any as S.Schema<GetPublicKeyConfigRequest>;
 export interface GetPublicKeyConfigResult {
   PublicKeyConfig?: PublicKeyConfig;
   ETag?: string;
 }
-export const GetPublicKeyConfigResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PublicKeyConfig: S.optional(PublicKeyConfig)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "PublicKeyConfig" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetPublicKeyConfigResult",
-}) as any as S.Schema<GetPublicKeyConfigResult>;
 export interface GetRealtimeLogConfigRequest {
   Name?: string;
   ARN?: string;
 }
-export const GetRealtimeLogConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), ARN: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/get-realtime-log-config" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRealtimeLogConfigRequest",
-}) as any as S.Schema<GetRealtimeLogConfigRequest>;
 export interface GetRealtimeLogConfigResult {
   RealtimeLogConfig?: RealtimeLogConfig;
 }
-export const GetRealtimeLogConfigResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RealtimeLogConfig: S.optional(RealtimeLogConfig) }).pipe(ns),
-).annotate({
-  identifier: "GetRealtimeLogConfigResult",
-}) as any as S.Schema<GetRealtimeLogConfigResult>;
 export interface GetResourcePolicyRequest {
   ResourceArn: string;
 }
-export const GetResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/get-resource-policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetResourcePolicyRequest",
-}) as any as S.Schema<GetResourcePolicyRequest>;
 export interface GetResourcePolicyResult {
   ResourceArn?: string;
   PolicyDocument?: string;
 }
-export const GetResourcePolicyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    PolicyDocument: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetResourcePolicyResult",
-}) as any as S.Schema<GetResourcePolicyResult>;
 export interface GetResponseHeadersPolicyRequest {
   Id: string;
 }
-export const GetResponseHeadersPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/response-headers-policy/{Id}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetResponseHeadersPolicyRequest",
-}) as any as S.Schema<GetResponseHeadersPolicyRequest>;
 export interface GetResponseHeadersPolicyResult {
   ResponseHeadersPolicy?: ResponseHeadersPolicy;
   ETag?: string;
 }
-export const GetResponseHeadersPolicyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResponseHeadersPolicy: S.optional(ResponseHeadersPolicy)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ResponseHeadersPolicy" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetResponseHeadersPolicyResult",
-}) as any as S.Schema<GetResponseHeadersPolicyResult>;
 export interface GetResponseHeadersPolicyConfigRequest {
   Id: string;
 }
-export const GetResponseHeadersPolicyConfigRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/response-headers-policy/{Id}/config",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetResponseHeadersPolicyConfigRequest",
-}) as any as S.Schema<GetResponseHeadersPolicyConfigRequest>;
 export interface GetResponseHeadersPolicyConfigResult {
   ResponseHeadersPolicyConfig?: ResponseHeadersPolicyConfig;
   ETag?: string;
 }
-export const GetResponseHeadersPolicyConfigResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ResponseHeadersPolicyConfig: S.optional(ResponseHeadersPolicyConfig)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "ResponseHeadersPolicyConfig" }),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-).annotate({
-  identifier: "GetResponseHeadersPolicyConfigResult",
-}) as any as S.Schema<GetResponseHeadersPolicyConfigResult>;
 export interface GetStreamingDistributionRequest {
   Id: string;
 }
-export const GetStreamingDistributionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/streaming-distribution/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetStreamingDistributionRequest",
-}) as any as S.Schema<GetStreamingDistributionRequest>;
 export interface GetStreamingDistributionResult {
   StreamingDistribution?: StreamingDistribution;
   ETag?: string;
 }
-export const GetStreamingDistributionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamingDistribution: S.optional(StreamingDistribution)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "StreamingDistribution" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetStreamingDistributionResult",
-}) as any as S.Schema<GetStreamingDistributionResult>;
 export interface GetStreamingDistributionConfigRequest {
   Id: string;
 }
-export const GetStreamingDistributionConfigRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/streaming-distribution/{Id}/config",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetStreamingDistributionConfigRequest",
-}) as any as S.Schema<GetStreamingDistributionConfigRequest>;
 export interface GetStreamingDistributionConfigResult {
   StreamingDistributionConfig?: StreamingDistributionConfig;
   ETag?: string;
 }
-export const GetStreamingDistributionConfigResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      StreamingDistributionConfig: S.optional(StreamingDistributionConfig)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "StreamingDistributionConfig" }),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-).annotate({
-  identifier: "GetStreamingDistributionConfigResult",
-}) as any as S.Schema<GetStreamingDistributionConfigResult>;
 export interface GetTrustStoreRequest {
   Identifier: string;
 }
-export const GetTrustStoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/trust-store/{Identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetTrustStoreRequest",
-}) as any as S.Schema<GetTrustStoreRequest>;
 export interface GetTrustStoreResult {
   TrustStore?: TrustStore;
   ETag?: string;
 }
-export const GetTrustStoreResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrustStore: S.optional(TrustStore)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "TrustStore" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetTrustStoreResult",
-}) as any as S.Schema<GetTrustStoreResult>;
 export interface GetVpcOriginRequest {
   Id: string;
 }
-export const GetVpcOriginRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/vpc-origin/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetVpcOriginRequest",
-}) as any as S.Schema<GetVpcOriginRequest>;
 export interface GetVpcOriginResult {
   VpcOrigin?: VpcOrigin;
   ETag?: string;
 }
-export const GetVpcOriginResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcOrigin: S.optional(VpcOrigin)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "VpcOrigin" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetVpcOriginResult",
-}) as any as S.Schema<GetVpcOriginResult>;
 export interface ListAnycastIpListsRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListAnycastIpListsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/anycast-ip-list" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAnycastIpListsRequest",
-}) as any as S.Schema<ListAnycastIpListsRequest>;
 export interface AnycastIpListSummary {
   Id: string;
   Name: string;
@@ -7129,27 +2861,7 @@ export interface AnycastIpListSummary {
   ETag?: string;
   IpamConfig?: IpamConfig;
 }
-export const AnycastIpListSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Name: S.String,
-    Status: S.String,
-    Arn: S.String,
-    IpCount: S.Number,
-    LastModifiedTime: T.DateFromString,
-    IpAddressType: S.optional(IpAddressType),
-    ETag: S.optional(S.String),
-    IpamConfig: S.optional(IpamConfig),
-  }),
-).annotate({
-  identifier: "AnycastIpListSummary",
-}) as any as S.Schema<AnycastIpListSummary>;
 export type AnycastIpListSummaries = AnycastIpListSummary[];
-export const AnycastIpListSummaries = /*@__PURE__*/ S.Array(
-  AnycastIpListSummary.pipe(T.XmlName("AnycastIpListSummary")).annotate({
-    identifier: "AnycastIpListSummary",
-  }),
-);
 export interface AnycastIpListCollection {
   Items?: AnycastIpListSummary[];
   Marker?: string;
@@ -7158,144 +2870,40 @@ export interface AnycastIpListCollection {
   IsTruncated: boolean;
   Quantity: number;
 }
-export const AnycastIpListCollection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(AnycastIpListSummaries),
-    Marker: S.optional(S.String),
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    IsTruncated: S.Boolean,
-    Quantity: S.Number,
-  }),
-).annotate({
-  identifier: "AnycastIpListCollection",
-}) as any as S.Schema<AnycastIpListCollection>;
 export interface ListAnycastIpListsResult {
   AnycastIpLists?: AnycastIpListCollection;
 }
-export const ListAnycastIpListsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AnycastIpLists: S.optional(AnycastIpListCollection)
-      .pipe(T.HttpPayload(), T.XmlName("AnycastIpListCollection"))
-      .annotate({ identifier: "AnycastIpListCollection" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListAnycastIpListsResult",
-}) as any as S.Schema<ListAnycastIpListsResult>;
 export type CachePolicyType = "managed" | "custom" | (string & {});
-export const CachePolicyType = S.String;
-
 export interface ListCachePoliciesRequest {
   Type?: CachePolicyType;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListCachePoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(CachePolicyType).pipe(T.HttpQuery("Type")),
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/cache-policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListCachePoliciesRequest",
-}) as any as S.Schema<ListCachePoliciesRequest>;
 export interface CachePolicySummary {
   Type: CachePolicyType;
   CachePolicy: CachePolicy;
 }
-export const CachePolicySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Type: CachePolicyType, CachePolicy: CachePolicy }),
-).annotate({
-  identifier: "CachePolicySummary",
-}) as any as S.Schema<CachePolicySummary>;
 export type CachePolicySummaryList = CachePolicySummary[];
-export const CachePolicySummaryList = /*@__PURE__*/ S.Array(
-  CachePolicySummary.pipe(T.XmlName("CachePolicySummary")).annotate({
-    identifier: "CachePolicySummary",
-  }),
-);
 export interface CachePolicyList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
   Items?: CachePolicySummary[];
 }
-export const CachePolicyList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    Quantity: S.Number,
-    Items: S.optional(CachePolicySummaryList),
-  }),
-).annotate({
-  identifier: "CachePolicyList",
-}) as any as S.Schema<CachePolicyList>;
 export interface ListCachePoliciesResult {
   CachePolicyList?: CachePolicyList;
 }
-export const ListCachePoliciesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CachePolicyList: S.optional(CachePolicyList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "CachePolicyList" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListCachePoliciesResult",
-}) as any as S.Schema<ListCachePoliciesResult>;
 export interface ListCloudFrontOriginAccessIdentitiesRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListCloudFrontOriginAccessIdentitiesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-      MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/origin-access-identity/cloudfront",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListCloudFrontOriginAccessIdentitiesRequest",
-  }) as any as S.Schema<ListCloudFrontOriginAccessIdentitiesRequest>;
 export interface CloudFrontOriginAccessIdentitySummary {
   Id: string;
   S3CanonicalUserId: string;
   Comment: string;
 }
-export const CloudFrontOriginAccessIdentitySummary = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Id: S.String, S3CanonicalUserId: S.String, Comment: S.String }),
-).annotate({
-  identifier: "CloudFrontOriginAccessIdentitySummary",
-}) as any as S.Schema<CloudFrontOriginAccessIdentitySummary>;
 export type CloudFrontOriginAccessIdentitySummaryList =
   CloudFrontOriginAccessIdentitySummary[];
-export const CloudFrontOriginAccessIdentitySummaryList = /*@__PURE__*/ S.Array(
-  CloudFrontOriginAccessIdentitySummary.pipe(
-    T.XmlName("CloudFrontOriginAccessIdentitySummary"),
-  ).annotate({ identifier: "CloudFrontOriginAccessIdentitySummary" }),
-);
 export interface CloudFrontOriginAccessIdentityList {
   Marker?: string;
   NextMarker?: string;
@@ -7304,33 +2912,9 @@ export interface CloudFrontOriginAccessIdentityList {
   Quantity: number;
   Items?: CloudFrontOriginAccessIdentitySummary[];
 }
-export const CloudFrontOriginAccessIdentityList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    IsTruncated: S.Boolean,
-    Quantity: S.Number,
-    Items: S.optional(CloudFrontOriginAccessIdentitySummaryList),
-  }),
-).annotate({
-  identifier: "CloudFrontOriginAccessIdentityList",
-}) as any as S.Schema<CloudFrontOriginAccessIdentityList>;
 export interface ListCloudFrontOriginAccessIdentitiesResult {
   CloudFrontOriginAccessIdentityList?: CloudFrontOriginAccessIdentityList;
 }
-export const ListCloudFrontOriginAccessIdentitiesResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      CloudFrontOriginAccessIdentityList: S.optional(
-        CloudFrontOriginAccessIdentityList,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "CloudFrontOriginAccessIdentityList" }),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListCloudFrontOriginAccessIdentitiesResult",
-  }) as any as S.Schema<ListCloudFrontOriginAccessIdentitiesResult>;
 export type DistributionIdString = string;
 export type AliasString = string;
 export type ListConflictingAliasesMaxItemsInteger = number;
@@ -7340,148 +2924,39 @@ export interface ListConflictingAliasesRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListConflictingAliasesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionId: S.String.pipe(T.HttpQuery("DistributionId")),
-    Alias: S.String.pipe(T.HttpQuery("Alias")),
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/conflicting-alias" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListConflictingAliasesRequest",
-}) as any as S.Schema<ListConflictingAliasesRequest>;
 export interface ConflictingAlias {
   Alias?: string;
   DistributionId?: string;
   AccountId?: string;
 }
-export const ConflictingAlias = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Alias: S.optional(S.String),
-    DistributionId: S.optional(S.String),
-    AccountId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConflictingAlias",
-}) as any as S.Schema<ConflictingAlias>;
 export type ConflictingAliases = ConflictingAlias[];
-export const ConflictingAliases = /*@__PURE__*/ S.Array(
-  ConflictingAlias.pipe(T.XmlName("ConflictingAlias")).annotate({
-    identifier: "ConflictingAlias",
-  }),
-);
 export interface ConflictingAliasesList {
   NextMarker?: string;
   MaxItems?: number;
   Quantity?: number;
   Items?: ConflictingAlias[];
 }
-export const ConflictingAliasesList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-    Quantity: S.optional(S.Number),
-    Items: S.optional(ConflictingAliases),
-  }),
-).annotate({
-  identifier: "ConflictingAliasesList",
-}) as any as S.Schema<ConflictingAliasesList>;
 export interface ListConflictingAliasesResult {
   ConflictingAliasesList?: ConflictingAliasesList;
 }
-export const ListConflictingAliasesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConflictingAliasesList: S.optional(ConflictingAliasesList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ConflictingAliasesList" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListConflictingAliasesResult",
-}) as any as S.Schema<ListConflictingAliasesResult>;
 export interface ListConnectionFunctionsRequest {
   Marker?: string;
   MaxItems?: number;
   Stage?: FunctionStage;
 }
-export const ListConnectionFunctionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-    Stage: S.optional(FunctionStage),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/connection-functions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListConnectionFunctionsRequest",
-}) as any as S.Schema<ListConnectionFunctionsRequest>;
 export type ConnectionFunctionSummaryList = ConnectionFunctionSummary[];
-export const ConnectionFunctionSummaryList = /*@__PURE__*/ S.Array(
-  ConnectionFunctionSummary.pipe(
-    T.XmlName("ConnectionFunctionSummary"),
-  ).annotate({ identifier: "ConnectionFunctionSummary" }),
-);
 export interface ListConnectionFunctionsResult {
   NextMarker?: string;
   ConnectionFunctions?: ConnectionFunctionSummary[];
 }
-export const ListConnectionFunctionsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    ConnectionFunctions: S.optional(ConnectionFunctionSummaryList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListConnectionFunctionsResult",
-}) as any as S.Schema<ListConnectionFunctionsResult>;
 export interface ConnectionGroupAssociationFilter {
   AnycastIpListId?: string;
 }
-export const ConnectionGroupAssociationFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AnycastIpListId: S.optional(S.String) }),
-).annotate({
-  identifier: "ConnectionGroupAssociationFilter",
-}) as any as S.Schema<ConnectionGroupAssociationFilter>;
 export interface ListConnectionGroupsRequest {
   AssociationFilter?: ConnectionGroupAssociationFilter;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListConnectionGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AssociationFilter: S.optional(ConnectionGroupAssociationFilter),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/connection-groups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListConnectionGroupsRequest",
-}) as any as S.Schema<ListConnectionGroupsRequest>;
 export interface ConnectionGroupSummary {
   Id: string;
   Name: string;
@@ -7495,133 +2970,33 @@ export interface ConnectionGroupSummary {
   Status?: string;
   IsDefault?: boolean;
 }
-export const ConnectionGroupSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Name: S.String,
-    Arn: S.String,
-    RoutingEndpoint: S.String,
-    CreatedTime: T.DateFromString,
-    LastModifiedTime: T.DateFromString,
-    ETag: S.String,
-    AnycastIpListId: S.optional(S.String),
-    Enabled: S.optional(S.Boolean),
-    Status: S.optional(S.String),
-    IsDefault: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ConnectionGroupSummary",
-}) as any as S.Schema<ConnectionGroupSummary>;
 export type ConnectionGroupSummaryList = ConnectionGroupSummary[];
-export const ConnectionGroupSummaryList = /*@__PURE__*/ S.Array(
-  ConnectionGroupSummary.pipe(T.XmlName("ConnectionGroupSummary")).annotate({
-    identifier: "ConnectionGroupSummary",
-  }),
-);
 export interface ListConnectionGroupsResult {
   NextMarker?: string;
   ConnectionGroups?: ConnectionGroupSummary[];
 }
-export const ListConnectionGroupsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    ConnectionGroups: S.optional(ConnectionGroupSummaryList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListConnectionGroupsResult",
-}) as any as S.Schema<ListConnectionGroupsResult>;
 export interface ListContinuousDeploymentPoliciesRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListContinuousDeploymentPoliciesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-      MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/continuous-deployment-policy",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListContinuousDeploymentPoliciesRequest",
-}) as any as S.Schema<ListContinuousDeploymentPoliciesRequest>;
 export interface ContinuousDeploymentPolicySummary {
   ContinuousDeploymentPolicy: ContinuousDeploymentPolicy;
 }
-export const ContinuousDeploymentPolicySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContinuousDeploymentPolicy: ContinuousDeploymentPolicy }),
-).annotate({
-  identifier: "ContinuousDeploymentPolicySummary",
-}) as any as S.Schema<ContinuousDeploymentPolicySummary>;
 export type ContinuousDeploymentPolicySummaryList =
   ContinuousDeploymentPolicySummary[];
-export const ContinuousDeploymentPolicySummaryList = /*@__PURE__*/ S.Array(
-  ContinuousDeploymentPolicySummary.pipe(
-    T.XmlName("ContinuousDeploymentPolicySummary"),
-  ).annotate({ identifier: "ContinuousDeploymentPolicySummary" }),
-);
 export interface ContinuousDeploymentPolicyList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
   Items?: ContinuousDeploymentPolicySummary[];
 }
-export const ContinuousDeploymentPolicyList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    Quantity: S.Number,
-    Items: S.optional(ContinuousDeploymentPolicySummaryList),
-  }),
-).annotate({
-  identifier: "ContinuousDeploymentPolicyList",
-}) as any as S.Schema<ContinuousDeploymentPolicyList>;
 export interface ListContinuousDeploymentPoliciesResult {
   ContinuousDeploymentPolicyList?: ContinuousDeploymentPolicyList;
 }
-export const ListContinuousDeploymentPoliciesResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ContinuousDeploymentPolicyList: S.optional(ContinuousDeploymentPolicyList)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "ContinuousDeploymentPolicyList" }),
-    }).pipe(ns),
-).annotate({
-  identifier: "ListContinuousDeploymentPoliciesResult",
-}) as any as S.Schema<ListContinuousDeploymentPoliciesResult>;
 export interface ListDistributionsRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListDistributionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/distribution" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDistributionsRequest",
-}) as any as S.Schema<ListDistributionsRequest>;
 export interface DistributionSummary {
   Id: string;
   ARN: string;
@@ -7650,44 +3025,7 @@ export interface DistributionSummary {
   ViewerMtlsConfig?: ViewerMtlsConfig;
   ConnectionFunctionAssociation?: ConnectionFunctionAssociation;
 }
-export const DistributionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    ARN: S.String,
-    ETag: S.optional(S.String),
-    Status: S.String,
-    LastModifiedTime: T.DateFromString,
-    DomainName: S.String,
-    Aliases: Aliases,
-    Origins: Origins,
-    OriginGroups: S.optional(OriginGroups),
-    DefaultCacheBehavior: DefaultCacheBehavior,
-    CacheBehaviors: CacheBehaviors,
-    CustomErrorResponses: CustomErrorResponses,
-    Comment: SensitiveString,
-    PriceClass: PriceClass,
-    Enabled: S.Boolean,
-    ViewerCertificate: ViewerCertificate,
-    Restrictions: Restrictions,
-    WebACLId: S.optional(S.String),
-    HttpVersion: HttpVersion,
-    IsIPV6Enabled: S.Boolean,
-    AliasICPRecordals: S.optional(AliasICPRecordals),
-    Staging: S.Boolean,
-    ConnectionMode: S.optional(ConnectionMode),
-    AnycastIpListId: S.optional(S.String),
-    ViewerMtlsConfig: S.optional(ViewerMtlsConfig),
-    ConnectionFunctionAssociation: S.optional(ConnectionFunctionAssociation),
-  }),
-).annotate({
-  identifier: "DistributionSummary",
-}) as any as S.Schema<DistributionSummary>;
 export type DistributionSummaryList = DistributionSummary[];
-export const DistributionSummaryList = /*@__PURE__*/ S.Array(
-  DistributionSummary.pipe(T.XmlName("DistributionSummary")).annotate({
-    identifier: "DistributionSummary",
-  }),
-);
 export interface DistributionList {
   Marker?: string;
   NextMarker?: string;
@@ -7696,103 +3034,23 @@ export interface DistributionList {
   Quantity: number;
   Items?: DistributionSummary[];
 }
-export const DistributionList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    IsTruncated: S.Boolean,
-    Quantity: S.Number,
-    Items: S.optional(DistributionSummaryList),
-  }),
-).annotate({
-  identifier: "DistributionList",
-}) as any as S.Schema<DistributionList>;
 export interface ListDistributionsResult {
   DistributionList?: DistributionList;
 }
-export const ListDistributionsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionList: S.optional(DistributionList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "DistributionList" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDistributionsResult",
-}) as any as S.Schema<ListDistributionsResult>;
 export interface ListDistributionsByAnycastIpListIdRequest {
   Marker?: string;
   MaxItems?: number;
   AnycastIpListId: string;
 }
-export const ListDistributionsByAnycastIpListIdRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-      MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-      AnycastIpListId: S.String.pipe(T.HttpLabel("AnycastIpListId")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/distributionsByAnycastIpListId/{AnycastIpListId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListDistributionsByAnycastIpListIdRequest",
-  }) as any as S.Schema<ListDistributionsByAnycastIpListIdRequest>;
 export interface ListDistributionsByAnycastIpListIdResult {
   DistributionList?: DistributionList;
 }
-export const ListDistributionsByAnycastIpListIdResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DistributionList: S.optional(DistributionList)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "DistributionList" }),
-    }).pipe(ns),
-).annotate({
-  identifier: "ListDistributionsByAnycastIpListIdResult",
-}) as any as S.Schema<ListDistributionsByAnycastIpListIdResult>;
 export interface ListDistributionsByCachePolicyIdRequest {
   Marker?: string;
   MaxItems?: number;
   CachePolicyId: string;
 }
-export const ListDistributionsByCachePolicyIdRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-      MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-      CachePolicyId: S.String.pipe(T.HttpLabel("CachePolicyId")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/distributionsByCachePolicyId/{CachePolicyId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListDistributionsByCachePolicyIdRequest",
-}) as any as S.Schema<ListDistributionsByCachePolicyIdRequest>;
 export type DistributionIdListSummary = string[];
-export const DistributionIdListSummary = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("DistributionId")),
-);
 export interface DistributionIdList {
   Marker?: string;
   NextMarker?: string;
@@ -7801,240 +3059,51 @@ export interface DistributionIdList {
   Quantity: number;
   Items?: string[];
 }
-export const DistributionIdList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    IsTruncated: S.Boolean,
-    Quantity: S.Number,
-    Items: S.optional(DistributionIdListSummary),
-  }),
-).annotate({
-  identifier: "DistributionIdList",
-}) as any as S.Schema<DistributionIdList>;
 export interface ListDistributionsByCachePolicyIdResult {
   DistributionIdList?: DistributionIdList;
 }
-export const ListDistributionsByCachePolicyIdResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DistributionIdList: S.optional(DistributionIdList)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "DistributionIdList" }),
-    }).pipe(ns),
-).annotate({
-  identifier: "ListDistributionsByCachePolicyIdResult",
-}) as any as S.Schema<ListDistributionsByCachePolicyIdResult>;
 export interface ListDistributionsByConnectionFunctionRequest {
   Marker?: string;
   MaxItems?: number;
   ConnectionFunctionIdentifier: string;
 }
-export const ListDistributionsByConnectionFunctionRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-      MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-      ConnectionFunctionIdentifier: S.String.pipe(
-        T.HttpQuery("ConnectionFunctionIdentifier"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/distributionsByConnectionFunction",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListDistributionsByConnectionFunctionRequest",
-  }) as any as S.Schema<ListDistributionsByConnectionFunctionRequest>;
 export interface ListDistributionsByConnectionFunctionResult {
   DistributionList?: DistributionList;
 }
-export const ListDistributionsByConnectionFunctionResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DistributionList: S.optional(DistributionList)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "DistributionList" }),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListDistributionsByConnectionFunctionResult",
-  }) as any as S.Schema<ListDistributionsByConnectionFunctionResult>;
 export interface ListDistributionsByConnectionModeRequest {
   Marker?: string;
   MaxItems?: number;
   ConnectionMode: ConnectionMode;
 }
-export const ListDistributionsByConnectionModeRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-      MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-      ConnectionMode: ConnectionMode.pipe(T.HttpLabel("ConnectionMode")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/distributionsByConnectionMode/{ConnectionMode}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListDistributionsByConnectionModeRequest",
-}) as any as S.Schema<ListDistributionsByConnectionModeRequest>;
 export interface ListDistributionsByConnectionModeResult {
   DistributionList?: DistributionList;
 }
-export const ListDistributionsByConnectionModeResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DistributionList: S.optional(DistributionList)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "DistributionList" }),
-    }).pipe(ns),
-).annotate({
-  identifier: "ListDistributionsByConnectionModeResult",
-}) as any as S.Schema<ListDistributionsByConnectionModeResult>;
 export interface ListDistributionsByKeyGroupRequest {
   Marker?: string;
   MaxItems?: number;
   KeyGroupId: string;
 }
-export const ListDistributionsByKeyGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-    KeyGroupId: S.String.pipe(T.HttpLabel("KeyGroupId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distributionsByKeyGroupId/{KeyGroupId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDistributionsByKeyGroupRequest",
-}) as any as S.Schema<ListDistributionsByKeyGroupRequest>;
 export interface ListDistributionsByKeyGroupResult {
   DistributionIdList?: DistributionIdList;
 }
-export const ListDistributionsByKeyGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionIdList: S.optional(DistributionIdList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "DistributionIdList" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDistributionsByKeyGroupResult",
-}) as any as S.Schema<ListDistributionsByKeyGroupResult>;
 export interface ListDistributionsByOriginRequestPolicyIdRequest {
   Marker?: string;
   MaxItems?: number;
   OriginRequestPolicyId: string;
 }
-export const ListDistributionsByOriginRequestPolicyIdRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-      MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-      OriginRequestPolicyId: S.String.pipe(
-        T.HttpLabel("OriginRequestPolicyId"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/distributionsByOriginRequestPolicyId/{OriginRequestPolicyId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListDistributionsByOriginRequestPolicyIdRequest",
-  }) as any as S.Schema<ListDistributionsByOriginRequestPolicyIdRequest>;
 export interface ListDistributionsByOriginRequestPolicyIdResult {
   DistributionIdList?: DistributionIdList;
 }
-export const ListDistributionsByOriginRequestPolicyIdResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DistributionIdList: S.optional(DistributionIdList)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "DistributionIdList" }),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListDistributionsByOriginRequestPolicyIdResult",
-  }) as any as S.Schema<ListDistributionsByOriginRequestPolicyIdResult>;
 export interface ListDistributionsByOwnedResourceRequest {
   ResourceArn: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListDistributionsByOwnedResourceRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-      Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-      MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/distributionsByOwnedResource/{ResourceArn}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListDistributionsByOwnedResourceRequest",
-}) as any as S.Schema<ListDistributionsByOwnedResourceRequest>;
 export interface DistributionIdOwner {
   DistributionId: string;
   OwnerAccountId: string;
 }
-export const DistributionIdOwner = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DistributionId: S.String, OwnerAccountId: S.String }),
-).annotate({
-  identifier: "DistributionIdOwner",
-}) as any as S.Schema<DistributionIdOwner>;
 export type DistributionIdOwnerItemList = DistributionIdOwner[];
-export const DistributionIdOwnerItemList = /*@__PURE__*/ S.Array(
-  DistributionIdOwner.pipe(T.XmlName("DistributionIdOwner")).annotate({
-    identifier: "DistributionIdOwner",
-  }),
-);
 export interface DistributionIdOwnerList {
   Marker?: string;
   NextMarker?: string;
@@ -8043,270 +3112,59 @@ export interface DistributionIdOwnerList {
   Quantity: number;
   Items?: DistributionIdOwner[];
 }
-export const DistributionIdOwnerList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    IsTruncated: S.Boolean,
-    Quantity: S.Number,
-    Items: S.optional(DistributionIdOwnerItemList),
-  }),
-).annotate({
-  identifier: "DistributionIdOwnerList",
-}) as any as S.Schema<DistributionIdOwnerList>;
 export interface ListDistributionsByOwnedResourceResult {
   DistributionList?: DistributionIdOwnerList;
 }
-export const ListDistributionsByOwnedResourceResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DistributionList: S.optional(DistributionIdOwnerList)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "DistributionIdOwnerList" }),
-    }).pipe(ns),
-).annotate({
-  identifier: "ListDistributionsByOwnedResourceResult",
-}) as any as S.Schema<ListDistributionsByOwnedResourceResult>;
 export interface ListDistributionsByRealtimeLogConfigRequest {
   Marker?: string;
   MaxItems?: number;
   RealtimeLogConfigName?: string;
   RealtimeLogConfigArn?: string;
 }
-export const ListDistributionsByRealtimeLogConfigRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Marker: S.optional(S.String),
-      MaxItems: S.optional(S.Number),
-      RealtimeLogConfigName: S.optional(S.String),
-      RealtimeLogConfigArn: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/2020-05-31/distributionsByRealtimeLogConfig",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListDistributionsByRealtimeLogConfigRequest",
-  }) as any as S.Schema<ListDistributionsByRealtimeLogConfigRequest>;
 export interface ListDistributionsByRealtimeLogConfigResult {
   DistributionList?: DistributionList;
 }
-export const ListDistributionsByRealtimeLogConfigResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DistributionList: S.optional(DistributionList)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "DistributionList" }),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListDistributionsByRealtimeLogConfigResult",
-  }) as any as S.Schema<ListDistributionsByRealtimeLogConfigResult>;
 export interface ListDistributionsByResponseHeadersPolicyIdRequest {
   Marker?: string;
   MaxItems?: number;
   ResponseHeadersPolicyId: string;
 }
-export const ListDistributionsByResponseHeadersPolicyIdRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-      MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-      ResponseHeadersPolicyId: S.String.pipe(
-        T.HttpLabel("ResponseHeadersPolicyId"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/distributionsByResponseHeadersPolicyId/{ResponseHeadersPolicyId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListDistributionsByResponseHeadersPolicyIdRequest",
-  }) as any as S.Schema<ListDistributionsByResponseHeadersPolicyIdRequest>;
 export interface ListDistributionsByResponseHeadersPolicyIdResult {
   DistributionIdList?: DistributionIdList;
 }
-export const ListDistributionsByResponseHeadersPolicyIdResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DistributionIdList: S.optional(DistributionIdList)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "DistributionIdList" }),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListDistributionsByResponseHeadersPolicyIdResult",
-  }) as any as S.Schema<ListDistributionsByResponseHeadersPolicyIdResult>;
 export interface ListDistributionsByTrustStoreRequest {
   TrustStoreIdentifier: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListDistributionsByTrustStoreRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      TrustStoreIdentifier: S.String.pipe(T.HttpQuery("TrustStoreIdentifier")),
-      Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-      MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "GET", uri: "/2020-05-31/distributionsByTrustStore" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListDistributionsByTrustStoreRequest",
-}) as any as S.Schema<ListDistributionsByTrustStoreRequest>;
 export interface ListDistributionsByTrustStoreResult {
   DistributionList?: DistributionList;
 }
-export const ListDistributionsByTrustStoreResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionList: S.optional(DistributionList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "DistributionList" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDistributionsByTrustStoreResult",
-}) as any as S.Schema<ListDistributionsByTrustStoreResult>;
 export interface ListDistributionsByVpcOriginIdRequest {
   Marker?: string;
   MaxItems?: number;
   VpcOriginId: string;
 }
-export const ListDistributionsByVpcOriginIdRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-      MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-      VpcOriginId: S.String.pipe(T.HttpLabel("VpcOriginId")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/distributionsByVpcOriginId/{VpcOriginId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListDistributionsByVpcOriginIdRequest",
-}) as any as S.Schema<ListDistributionsByVpcOriginIdRequest>;
 export interface ListDistributionsByVpcOriginIdResult {
   DistributionIdList?: DistributionIdList;
 }
-export const ListDistributionsByVpcOriginIdResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DistributionIdList: S.optional(DistributionIdList)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "DistributionIdList" }),
-    }).pipe(ns),
-).annotate({
-  identifier: "ListDistributionsByVpcOriginIdResult",
-}) as any as S.Schema<ListDistributionsByVpcOriginIdResult>;
 export interface ListDistributionsByWebACLIdRequest {
   Marker?: string;
   MaxItems?: number;
   WebACLId: string;
 }
-export const ListDistributionsByWebACLIdRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-    WebACLId: S.String.pipe(T.HttpLabel("WebACLId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distributionsByWebACLId/{WebACLId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDistributionsByWebACLIdRequest",
-}) as any as S.Schema<ListDistributionsByWebACLIdRequest>;
 export interface ListDistributionsByWebACLIdResult {
   DistributionList?: DistributionList;
 }
-export const ListDistributionsByWebACLIdResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionList: S.optional(DistributionList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "DistributionList" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDistributionsByWebACLIdResult",
-}) as any as S.Schema<ListDistributionsByWebACLIdResult>;
 export interface DistributionTenantAssociationFilter {
   DistributionId?: string;
   ConnectionGroupId?: string;
 }
-export const DistributionTenantAssociationFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionId: S.optional(S.String),
-    ConnectionGroupId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DistributionTenantAssociationFilter",
-}) as any as S.Schema<DistributionTenantAssociationFilter>;
 export interface ListDistributionTenantsRequest {
   AssociationFilter?: DistributionTenantAssociationFilter;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListDistributionTenantsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AssociationFilter: S.optional(DistributionTenantAssociationFilter),
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/distribution-tenants" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDistributionTenantsRequest",
-}) as any as S.Schema<ListDistributionTenantsRequest>;
 export interface DistributionTenantSummary {
   Id: string;
   DistributionId: string;
@@ -8321,184 +3179,50 @@ export interface DistributionTenantSummary {
   Enabled?: boolean;
   Status?: string;
 }
-export const DistributionTenantSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    DistributionId: S.String,
-    Name: S.String,
-    Arn: S.String,
-    Domains: DomainResultList,
-    ConnectionGroupId: S.optional(S.String),
-    Customizations: S.optional(Customizations),
-    CreatedTime: T.DateFromString,
-    LastModifiedTime: T.DateFromString,
-    ETag: S.String,
-    Enabled: S.optional(S.Boolean),
-    Status: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DistributionTenantSummary",
-}) as any as S.Schema<DistributionTenantSummary>;
 export type DistributionTenantList = DistributionTenantSummary[];
-export const DistributionTenantList = /*@__PURE__*/ S.Array(
-  DistributionTenantSummary.pipe(
-    T.XmlName("DistributionTenantSummary"),
-  ).annotate({ identifier: "DistributionTenantSummary" }),
-);
 export interface ListDistributionTenantsResult {
   NextMarker?: string;
   DistributionTenantList?: DistributionTenantSummary[];
 }
-export const ListDistributionTenantsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    DistributionTenantList: S.optional(DistributionTenantList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDistributionTenantsResult",
-}) as any as S.Schema<ListDistributionTenantsResult>;
 export interface ListDistributionTenantsByCustomizationRequest {
   WebACLArn?: string;
   CertificateArn?: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListDistributionTenantsByCustomizationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      WebACLArn: S.optional(S.String),
-      CertificateArn: S.optional(S.String),
-      Marker: S.optional(S.String),
-      MaxItems: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/2020-05-31/distribution-tenants-by-customization",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListDistributionTenantsByCustomizationRequest",
-  }) as any as S.Schema<ListDistributionTenantsByCustomizationRequest>;
 export interface ListDistributionTenantsByCustomizationResult {
   NextMarker?: string;
   DistributionTenantList?: DistributionTenantSummary[];
 }
-export const ListDistributionTenantsByCustomizationResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      NextMarker: S.optional(S.String),
-      DistributionTenantList: S.optional(DistributionTenantList),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListDistributionTenantsByCustomizationResult",
-  }) as any as S.Schema<ListDistributionTenantsByCustomizationResult>;
 export interface DistributionResourceId {
   DistributionId?: string;
   DistributionTenantId?: string;
 }
-export const DistributionResourceId = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionId: S.optional(S.String),
-    DistributionTenantId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DistributionResourceId",
-}) as any as S.Schema<DistributionResourceId>;
 export interface ListDomainConflictsRequest {
   Domain: string;
   DomainControlValidationResource: DistributionResourceId;
   MaxItems?: number;
   Marker?: string;
 }
-export const ListDomainConflictsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Domain: S.String,
-    DomainControlValidationResource: DistributionResourceId,
-    MaxItems: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/domain-conflicts" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDomainConflictsRequest",
-}) as any as S.Schema<ListDomainConflictsRequest>;
 export type DistributionResourceType =
   | "distribution"
   | "distribution-tenant"
   | (string & {});
-export const DistributionResourceType = S.String;
-
 export interface DomainConflict {
   Domain: string;
   ResourceType: DistributionResourceType;
   ResourceId: string;
   AccountId: string;
 }
-export const DomainConflict = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Domain: S.String,
-    ResourceType: DistributionResourceType,
-    ResourceId: S.String,
-    AccountId: S.String,
-  }),
-).annotate({ identifier: "DomainConflict" }) as any as S.Schema<DomainConflict>;
 export type DomainConflictsList = DomainConflict[];
-export const DomainConflictsList = /*@__PURE__*/ S.Array(
-  DomainConflict.pipe(T.XmlName("DomainConflicts")).annotate({
-    identifier: "DomainConflict",
-  }),
-);
 export interface ListDomainConflictsResult {
   DomainConflicts?: DomainConflict[];
   NextMarker?: string;
 }
-export const ListDomainConflictsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainConflicts: S.optional(DomainConflictsList),
-    NextMarker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDomainConflictsResult",
-}) as any as S.Schema<ListDomainConflictsResult>;
 export interface ListFieldLevelEncryptionConfigsRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListFieldLevelEncryptionConfigsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-      MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "GET", uri: "/2020-05-31/field-level-encryption" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListFieldLevelEncryptionConfigsRequest",
-}) as any as S.Schema<ListFieldLevelEncryptionConfigsRequest>;
 export interface FieldLevelEncryptionSummary {
   Id: string;
   LastModifiedTime: Date;
@@ -8506,78 +3230,20 @@ export interface FieldLevelEncryptionSummary {
   QueryArgProfileConfig?: QueryArgProfileConfig;
   ContentTypeProfileConfig?: ContentTypeProfileConfig;
 }
-export const FieldLevelEncryptionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    LastModifiedTime: T.DateFromString,
-    Comment: S.optional(S.String),
-    QueryArgProfileConfig: S.optional(QueryArgProfileConfig),
-    ContentTypeProfileConfig: S.optional(ContentTypeProfileConfig),
-  }),
-).annotate({
-  identifier: "FieldLevelEncryptionSummary",
-}) as any as S.Schema<FieldLevelEncryptionSummary>;
 export type FieldLevelEncryptionSummaryList = FieldLevelEncryptionSummary[];
-export const FieldLevelEncryptionSummaryList = /*@__PURE__*/ S.Array(
-  FieldLevelEncryptionSummary.pipe(
-    T.XmlName("FieldLevelEncryptionSummary"),
-  ).annotate({ identifier: "FieldLevelEncryptionSummary" }),
-);
 export interface FieldLevelEncryptionList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
   Items?: FieldLevelEncryptionSummary[];
 }
-export const FieldLevelEncryptionList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    Quantity: S.Number,
-    Items: S.optional(FieldLevelEncryptionSummaryList),
-  }),
-).annotate({
-  identifier: "FieldLevelEncryptionList",
-}) as any as S.Schema<FieldLevelEncryptionList>;
 export interface ListFieldLevelEncryptionConfigsResult {
   FieldLevelEncryptionList?: FieldLevelEncryptionList;
 }
-export const ListFieldLevelEncryptionConfigsResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FieldLevelEncryptionList: S.optional(FieldLevelEncryptionList)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "FieldLevelEncryptionList" }),
-    }).pipe(ns),
-).annotate({
-  identifier: "ListFieldLevelEncryptionConfigsResult",
-}) as any as S.Schema<ListFieldLevelEncryptionConfigsResult>;
 export interface ListFieldLevelEncryptionProfilesRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListFieldLevelEncryptionProfilesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-      MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/field-level-encryption-profile",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListFieldLevelEncryptionProfilesRequest",
-}) as any as S.Schema<ListFieldLevelEncryptionProfilesRequest>;
 export interface FieldLevelEncryptionProfileSummary {
   Id: string;
   LastModifiedTime: Date;
@@ -8585,154 +3251,43 @@ export interface FieldLevelEncryptionProfileSummary {
   EncryptionEntities: EncryptionEntities;
   Comment?: string;
 }
-export const FieldLevelEncryptionProfileSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    LastModifiedTime: T.DateFromString,
-    Name: S.String,
-    EncryptionEntities: EncryptionEntities,
-    Comment: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FieldLevelEncryptionProfileSummary",
-}) as any as S.Schema<FieldLevelEncryptionProfileSummary>;
 export type FieldLevelEncryptionProfileSummaryList =
   FieldLevelEncryptionProfileSummary[];
-export const FieldLevelEncryptionProfileSummaryList = /*@__PURE__*/ S.Array(
-  FieldLevelEncryptionProfileSummary.pipe(
-    T.XmlName("FieldLevelEncryptionProfileSummary"),
-  ).annotate({ identifier: "FieldLevelEncryptionProfileSummary" }),
-);
 export interface FieldLevelEncryptionProfileList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
   Items?: FieldLevelEncryptionProfileSummary[];
 }
-export const FieldLevelEncryptionProfileList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    Quantity: S.Number,
-    Items: S.optional(FieldLevelEncryptionProfileSummaryList),
-  }),
-).annotate({
-  identifier: "FieldLevelEncryptionProfileList",
-}) as any as S.Schema<FieldLevelEncryptionProfileList>;
 export interface ListFieldLevelEncryptionProfilesResult {
   FieldLevelEncryptionProfileList?: FieldLevelEncryptionProfileList;
 }
-export const ListFieldLevelEncryptionProfilesResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FieldLevelEncryptionProfileList: S.optional(
-        FieldLevelEncryptionProfileList,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "FieldLevelEncryptionProfileList" }),
-    }).pipe(ns),
-).annotate({
-  identifier: "ListFieldLevelEncryptionProfilesResult",
-}) as any as S.Schema<ListFieldLevelEncryptionProfilesResult>;
 export interface ListFunctionsRequest {
   Marker?: string;
   MaxItems?: number;
   Stage?: FunctionStage;
 }
-export const ListFunctionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-    Stage: S.optional(FunctionStage).pipe(T.HttpQuery("Stage")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/function" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListFunctionsRequest",
-}) as any as S.Schema<ListFunctionsRequest>;
 export type FunctionSummaryList = FunctionSummary[];
-export const FunctionSummaryList = /*@__PURE__*/ S.Array(
-  FunctionSummary.pipe(T.XmlName("FunctionSummary")).annotate({
-    identifier: "FunctionSummary",
-  }),
-);
 export interface FunctionList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
   Items?: FunctionSummary[];
 }
-export const FunctionList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    Quantity: S.Number,
-    Items: S.optional(FunctionSummaryList),
-  }),
-).annotate({ identifier: "FunctionList" }) as any as S.Schema<FunctionList>;
 export interface ListFunctionsResult {
   FunctionList?: FunctionList;
 }
-export const ListFunctionsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FunctionList: S.optional(FunctionList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "FunctionList" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListFunctionsResult",
-}) as any as S.Schema<ListFunctionsResult>;
 export interface ListInvalidationsRequest {
   DistributionId: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListInvalidationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionId: S.String.pipe(T.HttpLabel("DistributionId")),
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distribution/{DistributionId}/invalidation",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListInvalidationsRequest",
-}) as any as S.Schema<ListInvalidationsRequest>;
 export interface InvalidationSummary {
   Id: string;
   CreateTime: Date;
   Status: string;
 }
-export const InvalidationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String, CreateTime: T.DateFromString, Status: S.String }),
-).annotate({
-  identifier: "InvalidationSummary",
-}) as any as S.Schema<InvalidationSummary>;
 export type InvalidationSummaryList = InvalidationSummary[];
-export const InvalidationSummaryList = /*@__PURE__*/ S.Array(
-  InvalidationSummary.pipe(T.XmlName("InvalidationSummary")).annotate({
-    identifier: "InvalidationSummary",
-  }),
-);
 export interface InvalidationList {
   Marker?: string;
   NextMarker?: string;
@@ -8741,213 +3296,53 @@ export interface InvalidationList {
   Quantity: number;
   Items?: InvalidationSummary[];
 }
-export const InvalidationList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    IsTruncated: S.Boolean,
-    Quantity: S.Number,
-    Items: S.optional(InvalidationSummaryList),
-  }),
-).annotate({
-  identifier: "InvalidationList",
-}) as any as S.Schema<InvalidationList>;
 export interface ListInvalidationsResult {
   InvalidationList?: InvalidationList;
 }
-export const ListInvalidationsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InvalidationList: S.optional(InvalidationList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "InvalidationList" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListInvalidationsResult",
-}) as any as S.Schema<ListInvalidationsResult>;
 export interface ListInvalidationsForDistributionTenantRequest {
   Id: string;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListInvalidationsForDistributionTenantRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-      MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2020-05-31/distribution-tenant/{Id}/invalidation",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListInvalidationsForDistributionTenantRequest",
-  }) as any as S.Schema<ListInvalidationsForDistributionTenantRequest>;
 export interface ListInvalidationsForDistributionTenantResult {
   InvalidationList?: InvalidationList;
 }
-export const ListInvalidationsForDistributionTenantResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      InvalidationList: S.optional(InvalidationList)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "InvalidationList" }),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListInvalidationsForDistributionTenantResult",
-  }) as any as S.Schema<ListInvalidationsForDistributionTenantResult>;
 export interface ListKeyGroupsRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListKeyGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/key-group" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListKeyGroupsRequest",
-}) as any as S.Schema<ListKeyGroupsRequest>;
 export interface KeyGroupSummary {
   KeyGroup: KeyGroup;
 }
-export const KeyGroupSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ KeyGroup: KeyGroup }),
-).annotate({
-  identifier: "KeyGroupSummary",
-}) as any as S.Schema<KeyGroupSummary>;
 export type KeyGroupSummaryList = KeyGroupSummary[];
-export const KeyGroupSummaryList = /*@__PURE__*/ S.Array(
-  KeyGroupSummary.pipe(T.XmlName("KeyGroupSummary")).annotate({
-    identifier: "KeyGroupSummary",
-  }),
-);
 export interface KeyGroupList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
   Items?: KeyGroupSummary[];
 }
-export const KeyGroupList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    Quantity: S.Number,
-    Items: S.optional(KeyGroupSummaryList),
-  }),
-).annotate({ identifier: "KeyGroupList" }) as any as S.Schema<KeyGroupList>;
 export interface ListKeyGroupsResult {
   KeyGroupList?: KeyGroupList;
 }
-export const ListKeyGroupsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyGroupList: S.optional(KeyGroupList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "KeyGroupList" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListKeyGroupsResult",
-}) as any as S.Schema<ListKeyGroupsResult>;
 export interface ListKeyValueStoresRequest {
   Marker?: string;
   MaxItems?: number;
   Status?: string;
 }
-export const ListKeyValueStoresRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-    Status: S.optional(S.String).pipe(T.HttpQuery("Status")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/key-value-store" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListKeyValueStoresRequest",
-}) as any as S.Schema<ListKeyValueStoresRequest>;
 export type KeyValueStoreSummaryList = KeyValueStore[];
-export const KeyValueStoreSummaryList = /*@__PURE__*/ S.Array(
-  KeyValueStore.pipe(T.XmlName("KeyValueStore")).annotate({
-    identifier: "KeyValueStore",
-  }),
-);
 export interface KeyValueStoreList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
   Items?: KeyValueStore[];
 }
-export const KeyValueStoreList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    Quantity: S.Number,
-    Items: S.optional(KeyValueStoreSummaryList),
-  }),
-).annotate({
-  identifier: "KeyValueStoreList",
-}) as any as S.Schema<KeyValueStoreList>;
 export interface ListKeyValueStoresResult {
   KeyValueStoreList?: KeyValueStoreList;
 }
-export const ListKeyValueStoresResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyValueStoreList: S.optional(KeyValueStoreList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "KeyValueStoreList" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListKeyValueStoresResult",
-}) as any as S.Schema<ListKeyValueStoresResult>;
 export interface ListOriginAccessControlsRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListOriginAccessControlsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/origin-access-control" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListOriginAccessControlsRequest",
-}) as any as S.Schema<ListOriginAccessControlsRequest>;
 export interface OriginAccessControlSummary {
   Id: string;
   Description?: string;
@@ -8956,24 +3351,7 @@ export interface OriginAccessControlSummary {
   SigningBehavior: OriginAccessControlSigningBehaviors;
   OriginAccessControlOriginType: OriginAccessControlOriginTypes;
 }
-export const OriginAccessControlSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Description: S.optional(S.String),
-    Name: S.String,
-    SigningProtocol: OriginAccessControlSigningProtocols,
-    SigningBehavior: OriginAccessControlSigningBehaviors,
-    OriginAccessControlOriginType: OriginAccessControlOriginTypes,
-  }),
-).annotate({
-  identifier: "OriginAccessControlSummary",
-}) as any as S.Schema<OriginAccessControlSummary>;
 export type OriginAccessControlSummaryList = OriginAccessControlSummary[];
-export const OriginAccessControlSummaryList = /*@__PURE__*/ S.Array(
-  OriginAccessControlSummary.pipe(
-    T.XmlName("OriginAccessControlSummary"),
-  ).annotate({ identifier: "OriginAccessControlSummary" }),
-);
 export interface OriginAccessControlList {
   Marker?: string;
   NextMarker?: string;
@@ -8982,125 +3360,33 @@ export interface OriginAccessControlList {
   Quantity: number;
   Items?: OriginAccessControlSummary[];
 }
-export const OriginAccessControlList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    IsTruncated: S.Boolean,
-    Quantity: S.Number,
-    Items: S.optional(OriginAccessControlSummaryList),
-  }),
-).annotate({
-  identifier: "OriginAccessControlList",
-}) as any as S.Schema<OriginAccessControlList>;
 export interface ListOriginAccessControlsResult {
   OriginAccessControlList?: OriginAccessControlList;
 }
-export const ListOriginAccessControlsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginAccessControlList: S.optional(OriginAccessControlList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "OriginAccessControlList" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListOriginAccessControlsResult",
-}) as any as S.Schema<ListOriginAccessControlsResult>;
 export type OriginRequestPolicyType = "managed" | "custom" | (string & {});
-export const OriginRequestPolicyType = S.String;
-
 export interface ListOriginRequestPoliciesRequest {
   Type?: OriginRequestPolicyType;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListOriginRequestPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(OriginRequestPolicyType).pipe(T.HttpQuery("Type")),
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/origin-request-policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListOriginRequestPoliciesRequest",
-}) as any as S.Schema<ListOriginRequestPoliciesRequest>;
 export interface OriginRequestPolicySummary {
   Type: OriginRequestPolicyType;
   OriginRequestPolicy: OriginRequestPolicy;
 }
-export const OriginRequestPolicySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: OriginRequestPolicyType,
-    OriginRequestPolicy: OriginRequestPolicy,
-  }),
-).annotate({
-  identifier: "OriginRequestPolicySummary",
-}) as any as S.Schema<OriginRequestPolicySummary>;
 export type OriginRequestPolicySummaryList = OriginRequestPolicySummary[];
-export const OriginRequestPolicySummaryList = /*@__PURE__*/ S.Array(
-  OriginRequestPolicySummary.pipe(
-    T.XmlName("OriginRequestPolicySummary"),
-  ).annotate({ identifier: "OriginRequestPolicySummary" }),
-);
 export interface OriginRequestPolicyList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
   Items?: OriginRequestPolicySummary[];
 }
-export const OriginRequestPolicyList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    Quantity: S.Number,
-    Items: S.optional(OriginRequestPolicySummaryList),
-  }),
-).annotate({
-  identifier: "OriginRequestPolicyList",
-}) as any as S.Schema<OriginRequestPolicyList>;
 export interface ListOriginRequestPoliciesResult {
   OriginRequestPolicyList?: OriginRequestPolicyList;
 }
-export const ListOriginRequestPoliciesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginRequestPolicyList: S.optional(OriginRequestPolicyList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "OriginRequestPolicyList" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListOriginRequestPoliciesResult",
-}) as any as S.Schema<ListOriginRequestPoliciesResult>;
 export interface ListPublicKeysRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListPublicKeysRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/public-key" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListPublicKeysRequest",
-}) as any as S.Schema<ListPublicKeysRequest>;
 export interface PublicKeySummary {
   Id: string;
   Name: string;
@@ -9108,73 +3394,21 @@ export interface PublicKeySummary {
   EncodedKey: string;
   Comment?: string;
 }
-export const PublicKeySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Name: S.String,
-    CreatedTime: T.DateFromString,
-    EncodedKey: S.String,
-    Comment: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PublicKeySummary",
-}) as any as S.Schema<PublicKeySummary>;
 export type PublicKeySummaryList = PublicKeySummary[];
-export const PublicKeySummaryList = /*@__PURE__*/ S.Array(
-  PublicKeySummary.pipe(T.XmlName("PublicKeySummary")).annotate({
-    identifier: "PublicKeySummary",
-  }),
-);
 export interface PublicKeyList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
   Items?: PublicKeySummary[];
 }
-export const PublicKeyList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    Quantity: S.Number,
-    Items: S.optional(PublicKeySummaryList),
-  }),
-).annotate({ identifier: "PublicKeyList" }) as any as S.Schema<PublicKeyList>;
 export interface ListPublicKeysResult {
   PublicKeyList?: PublicKeyList;
 }
-export const ListPublicKeysResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PublicKeyList: S.optional(PublicKeyList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "PublicKeyList" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListPublicKeysResult",
-}) as any as S.Schema<ListPublicKeysResult>;
 export interface ListRealtimeLogConfigsRequest {
   MaxItems?: number;
   Marker?: string;
 }
-export const ListRealtimeLogConfigsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/realtime-log-config" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRealtimeLogConfigsRequest",
-}) as any as S.Schema<ListRealtimeLogConfigsRequest>;
 export type RealtimeLogConfigList = RealtimeLogConfig[];
-export const RealtimeLogConfigList = /*@__PURE__*/ S.Array(RealtimeLogConfig);
 export interface RealtimeLogConfigs {
   MaxItems: number;
   Items?: RealtimeLogConfig[];
@@ -9182,124 +3416,33 @@ export interface RealtimeLogConfigs {
   Marker?: string;
   NextMarker?: string;
 }
-export const RealtimeLogConfigs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxItems: S.Number,
-    Items: S.optional(RealtimeLogConfigList),
-    IsTruncated: S.Boolean,
-    Marker: S.optional(S.String),
-    NextMarker: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RealtimeLogConfigs",
-}) as any as S.Schema<RealtimeLogConfigs>;
 export interface ListRealtimeLogConfigsResult {
   RealtimeLogConfigs?: RealtimeLogConfigs;
 }
-export const ListRealtimeLogConfigsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RealtimeLogConfigs: S.optional(RealtimeLogConfigs)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "RealtimeLogConfigs" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListRealtimeLogConfigsResult",
-}) as any as S.Schema<ListRealtimeLogConfigsResult>;
 export type ResponseHeadersPolicyType = "managed" | "custom" | (string & {});
-export const ResponseHeadersPolicyType = S.String;
-
 export interface ListResponseHeadersPoliciesRequest {
   Type?: ResponseHeadersPolicyType;
   Marker?: string;
   MaxItems?: number;
 }
-export const ListResponseHeadersPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(ResponseHeadersPolicyType).pipe(T.HttpQuery("Type")),
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/response-headers-policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListResponseHeadersPoliciesRequest",
-}) as any as S.Schema<ListResponseHeadersPoliciesRequest>;
 export interface ResponseHeadersPolicySummary {
   Type: ResponseHeadersPolicyType;
   ResponseHeadersPolicy: ResponseHeadersPolicy;
 }
-export const ResponseHeadersPolicySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: ResponseHeadersPolicyType,
-    ResponseHeadersPolicy: ResponseHeadersPolicy,
-  }),
-).annotate({
-  identifier: "ResponseHeadersPolicySummary",
-}) as any as S.Schema<ResponseHeadersPolicySummary>;
 export type ResponseHeadersPolicySummaryList = ResponseHeadersPolicySummary[];
-export const ResponseHeadersPolicySummaryList = /*@__PURE__*/ S.Array(
-  ResponseHeadersPolicySummary.pipe(
-    T.XmlName("ResponseHeadersPolicySummary"),
-  ).annotate({ identifier: "ResponseHeadersPolicySummary" }),
-);
 export interface ResponseHeadersPolicyList {
   NextMarker?: string;
   MaxItems: number;
   Quantity: number;
   Items?: ResponseHeadersPolicySummary[];
 }
-export const ResponseHeadersPolicyList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    Quantity: S.Number,
-    Items: S.optional(ResponseHeadersPolicySummaryList),
-  }),
-).annotate({
-  identifier: "ResponseHeadersPolicyList",
-}) as any as S.Schema<ResponseHeadersPolicyList>;
 export interface ListResponseHeadersPoliciesResult {
   ResponseHeadersPolicyList?: ResponseHeadersPolicyList;
 }
-export const ListResponseHeadersPoliciesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResponseHeadersPolicyList: S.optional(ResponseHeadersPolicyList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ResponseHeadersPolicyList" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListResponseHeadersPoliciesResult",
-}) as any as S.Schema<ListResponseHeadersPoliciesResult>;
 export interface ListStreamingDistributionsRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListStreamingDistributionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/streaming-distribution" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListStreamingDistributionsRequest",
-}) as any as S.Schema<ListStreamingDistributionsRequest>;
 export interface StreamingDistributionSummary {
   Id: string;
   ARN: string;
@@ -9313,29 +3456,7 @@ export interface StreamingDistributionSummary {
   PriceClass: PriceClass;
   Enabled: boolean;
 }
-export const StreamingDistributionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    ARN: S.String,
-    Status: S.String,
-    LastModifiedTime: T.DateFromString,
-    DomainName: S.String,
-    S3Origin: S3Origin,
-    Aliases: Aliases,
-    TrustedSigners: TrustedSigners,
-    Comment: S.String,
-    PriceClass: PriceClass,
-    Enabled: S.Boolean,
-  }),
-).annotate({
-  identifier: "StreamingDistributionSummary",
-}) as any as S.Schema<StreamingDistributionSummary>;
 export type StreamingDistributionSummaryList = StreamingDistributionSummary[];
-export const StreamingDistributionSummaryList = /*@__PURE__*/ S.Array(
-  StreamingDistributionSummary.pipe(
-    T.XmlName("StreamingDistributionSummary"),
-  ).annotate({ identifier: "StreamingDistributionSummary" }),
-);
 export interface StreamingDistributionList {
   Marker?: string;
   NextMarker?: string;
@@ -9344,81 +3465,20 @@ export interface StreamingDistributionList {
   Quantity: number;
   Items?: StreamingDistributionSummary[];
 }
-export const StreamingDistributionList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    NextMarker: S.optional(S.String),
-    MaxItems: S.Number,
-    IsTruncated: S.Boolean,
-    Quantity: S.Number,
-    Items: S.optional(StreamingDistributionSummaryList),
-  }),
-).annotate({
-  identifier: "StreamingDistributionList",
-}) as any as S.Schema<StreamingDistributionList>;
 export interface ListStreamingDistributionsResult {
   StreamingDistributionList?: StreamingDistributionList;
 }
-export const ListStreamingDistributionsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamingDistributionList: S.optional(StreamingDistributionList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "StreamingDistributionList" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListStreamingDistributionsResult",
-}) as any as S.Schema<ListStreamingDistributionsResult>;
 export type ResourceARN = string;
 export interface ListTagsForResourceRequest {
   Resource: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Resource: S.String.pipe(T.HttpQuery("Resource")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/tagging" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResult {
   Tags: Tags;
 }
-export const ListTagsForResourceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Tags: Tags.pipe(T.HttpPayload()).annotate({ identifier: "Tags" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForResourceResult",
-}) as any as S.Schema<ListTagsForResourceResult>;
 export interface ListTrustStoresRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListTrustStoresRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/trust-stores" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTrustStoresRequest",
-}) as any as S.Schema<ListTrustStoresRequest>;
 export interface TrustStoreSummary {
   Id: string;
   Arn: string;
@@ -9429,60 +3489,15 @@ export interface TrustStoreSummary {
   Reason?: string;
   ETag: string;
 }
-export const TrustStoreSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Arn: S.String,
-    Name: S.String,
-    Status: TrustStoreStatus,
-    NumberOfCaCertificates: S.Number,
-    LastModifiedTime: T.DateFromString,
-    Reason: S.optional(S.String),
-    ETag: S.String,
-  }),
-).annotate({
-  identifier: "TrustStoreSummary",
-}) as any as S.Schema<TrustStoreSummary>;
 export type TrustStoreList = TrustStoreSummary[];
-export const TrustStoreList = /*@__PURE__*/ S.Array(
-  TrustStoreSummary.pipe(T.XmlName("TrustStoreSummary")).annotate({
-    identifier: "TrustStoreSummary",
-  }),
-);
 export interface ListTrustStoresResult {
   NextMarker?: string;
   TrustStoreList?: TrustStoreSummary[];
 }
-export const ListTrustStoresResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    TrustStoreList: S.optional(TrustStoreList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTrustStoresResult",
-}) as any as S.Schema<ListTrustStoresResult>;
 export interface ListVpcOriginsRequest {
   Marker?: string;
   MaxItems?: number;
 }
-export const ListVpcOriginsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2020-05-31/vpc-origin" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListVpcOriginsRequest",
-}) as any as S.Schema<ListVpcOriginsRequest>;
 export interface VpcOriginSummary {
   Id: string;
   Name: string;
@@ -9493,26 +3508,7 @@ export interface VpcOriginSummary {
   AccountId?: string;
   OriginEndpointArn: string;
 }
-export const VpcOriginSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Name: S.String,
-    Status: S.String,
-    CreatedTime: T.DateFromString,
-    LastModifiedTime: T.DateFromString,
-    Arn: S.String,
-    AccountId: S.optional(S.String),
-    OriginEndpointArn: S.String,
-  }),
-).annotate({
-  identifier: "VpcOriginSummary",
-}) as any as S.Schema<VpcOriginSummary>;
 export type VpcOriginSummaryList = VpcOriginSummary[];
-export const VpcOriginSummaryList = /*@__PURE__*/ S.Array(
-  VpcOriginSummary.pipe(T.XmlName("VpcOriginSummary")).annotate({
-    identifier: "VpcOriginSummary",
-  }),
-);
 export interface VpcOriginList {
   Marker?: string;
   NextMarker?: string;
@@ -9521,156 +3517,35 @@ export interface VpcOriginList {
   Quantity?: number;
   Items?: VpcOriginSummary[];
 }
-export const VpcOriginList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    NextMarker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-    IsTruncated: S.optional(S.Boolean),
-    Quantity: S.optional(S.Number),
-    Items: S.optional(VpcOriginSummaryList),
-  }),
-).annotate({ identifier: "VpcOriginList" }) as any as S.Schema<VpcOriginList>;
 export interface ListVpcOriginsResult {
   VpcOriginList?: VpcOriginList;
 }
-export const ListVpcOriginsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcOriginList: S.optional(VpcOriginList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "VpcOriginList" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListVpcOriginsResult",
-}) as any as S.Schema<ListVpcOriginsResult>;
 export interface PublishConnectionFunctionRequest {
   Id: string;
   IfMatch: string;
 }
-export const PublishConnectionFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2020-05-31/connection-function/{Id}/publish",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PublishConnectionFunctionRequest",
-}) as any as S.Schema<PublishConnectionFunctionRequest>;
 export interface PublishConnectionFunctionResult {
   ConnectionFunctionSummary?: ConnectionFunctionSummary;
 }
-export const PublishConnectionFunctionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionFunctionSummary: S.optional(ConnectionFunctionSummary)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ConnectionFunctionSummary" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "PublishConnectionFunctionResult",
-}) as any as S.Schema<PublishConnectionFunctionResult>;
 export interface PublishFunctionRequest {
   Name: string;
   IfMatch: string;
 }
-export const PublishFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/function/{Name}/publish" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PublishFunctionRequest",
-}) as any as S.Schema<PublishFunctionRequest>;
 export interface PublishFunctionResult {
   FunctionSummary?: FunctionSummary;
 }
-export const PublishFunctionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FunctionSummary: S.optional(FunctionSummary)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "FunctionSummary" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "PublishFunctionResult",
-}) as any as S.Schema<PublishFunctionResult>;
 export interface PutResourcePolicyRequest {
   ResourceArn: string;
   PolicyDocument: string;
 }
-export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, PolicyDocument: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/put-resource-policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutResourcePolicyRequest",
-}) as any as S.Schema<PutResourcePolicyRequest>;
 export interface PutResourcePolicyResult {
   ResourceArn?: string;
 }
-export const PutResourcePolicyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "PutResourcePolicyResult",
-}) as any as S.Schema<PutResourcePolicyResult>;
 export interface TagResourceRequest {
   Resource: string;
   Tags: Tags;
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Resource: S.String.pipe(T.HttpQuery("Resource")),
-    Tags: Tags.pipe(T.HttpPayload(), T.XmlName("Tags")).annotate({
-      identifier: "Tags",
-    }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/tagging?Operation=Tag" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type FunctionEventObject = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface TestConnectionFunctionRequest {
   Id: string;
@@ -9678,31 +3553,7 @@ export interface TestConnectionFunctionRequest {
   Stage?: FunctionStage;
   ConnectionObject: Uint8Array | redacted.Redacted<Uint8Array>;
 }
-export const TestConnectionFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-    Stage: S.optional(FunctionStage),
-    ConnectionObject: SensitiveBlob,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2020-05-31/connection-function/{Id}/test",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TestConnectionFunctionRequest",
-}) as any as S.Schema<TestConnectionFunctionRequest>;
 export type FunctionExecutionLogList = string[];
-export const FunctionExecutionLogList = /*@__PURE__*/ S.Array(S.String);
 export interface ConnectionFunctionTestResult {
   ConnectionFunctionSummary?: ConnectionFunctionSummary;
   ComputeUtilization?: string;
@@ -9710,55 +3561,15 @@ export interface ConnectionFunctionTestResult {
   ConnectionFunctionErrorMessage?: string | redacted.Redacted<string>;
   ConnectionFunctionOutput?: string | redacted.Redacted<string>;
 }
-export const ConnectionFunctionTestResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionFunctionSummary: S.optional(ConnectionFunctionSummary),
-    ComputeUtilization: S.optional(S.String),
-    ConnectionFunctionExecutionLogs: S.optional(FunctionExecutionLogList),
-    ConnectionFunctionErrorMessage: S.optional(SensitiveString),
-    ConnectionFunctionOutput: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "ConnectionFunctionTestResult",
-}) as any as S.Schema<ConnectionFunctionTestResult>;
 export interface TestConnectionFunctionResult {
   ConnectionFunctionTestResult?: ConnectionFunctionTestResult;
 }
-export const TestConnectionFunctionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionFunctionTestResult: S.optional(ConnectionFunctionTestResult)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ConnectionFunctionTestResult" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "TestConnectionFunctionResult",
-}) as any as S.Schema<TestConnectionFunctionResult>;
 export interface TestFunctionRequest {
   Name: string;
   IfMatch: string;
   Stage?: FunctionStage;
   EventObject: Uint8Array | redacted.Redacted<Uint8Array>;
 }
-export const TestFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-    Stage: S.optional(FunctionStage),
-    EventObject: SensitiveBlob,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/function/{Name}/test" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TestFunctionRequest",
-}) as any as S.Schema<TestFunctionRequest>;
 export interface TestResult {
   FunctionSummary?: FunctionSummary;
   ComputeUtilization?: string;
@@ -9766,235 +3577,56 @@ export interface TestResult {
   FunctionErrorMessage?: string | redacted.Redacted<string>;
   FunctionOutput?: string | redacted.Redacted<string>;
 }
-export const TestResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FunctionSummary: S.optional(FunctionSummary),
-    ComputeUtilization: S.optional(S.String),
-    FunctionExecutionLogs: S.optional(FunctionExecutionLogList),
-    FunctionErrorMessage: S.optional(SensitiveString),
-    FunctionOutput: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "TestResult" }) as any as S.Schema<TestResult>;
 export interface TestFunctionResult {
   TestResult?: TestResult;
 }
-export const TestFunctionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TestResult: S.optional(TestResult)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "TestResult" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "TestFunctionResult",
-}) as any as S.Schema<TestFunctionResult>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Key")),
-);
 export interface TagKeys {
   Items?: string[];
 }
-export const TagKeys = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Items: S.optional(TagKeyList) }),
-).annotate({ identifier: "TagKeys" }) as any as S.Schema<TagKeys>;
 export interface UntagResourceRequest {
   Resource: string;
   TagKeys: TagKeys;
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Resource: S.String.pipe(T.HttpQuery("Resource")),
-    TagKeys: TagKeys.pipe(T.HttpPayload(), T.XmlName("TagKeys")).annotate({
-      identifier: "TagKeys",
-    }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/tagging?Operation=Untag" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAnycastIpListRequest {
   Id: string;
   IpAddressType?: IpAddressType;
   IpamCidrConfigs?: IpamCidrConfig[];
   IfMatch: string;
 }
-export const UpdateAnycastIpListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IpAddressType: S.optional(IpAddressType),
-    IpamCidrConfigs: S.optional(IpamCidrConfigList),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/2020-05-31/anycast-ip-list/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAnycastIpListRequest",
-}) as any as S.Schema<UpdateAnycastIpListRequest>;
 export interface UpdateAnycastIpListResult {
   AnycastIpList?: AnycastIpList;
   ETag?: string;
 }
-export const UpdateAnycastIpListResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AnycastIpList: S.optional(AnycastIpList)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "AnycastIpList" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateAnycastIpListResult",
-}) as any as S.Schema<UpdateAnycastIpListResult>;
 export interface UpdateCachePolicyRequest {
   CachePolicyConfig: CachePolicyConfig;
   Id: string;
   IfMatch?: string;
 }
-export const UpdateCachePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CachePolicyConfig: CachePolicyConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("CachePolicyConfig"),
-    ).annotate({ identifier: "CachePolicyConfig" }),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/2020-05-31/cache-policy/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateCachePolicyRequest",
-}) as any as S.Schema<UpdateCachePolicyRequest>;
 export interface UpdateCachePolicyResult {
   CachePolicy?: CachePolicy;
   ETag?: string;
 }
-export const UpdateCachePolicyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CachePolicy: S.optional(CachePolicy)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "CachePolicy" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateCachePolicyResult",
-}) as any as S.Schema<UpdateCachePolicyResult>;
 export interface UpdateCloudFrontOriginAccessIdentityRequest {
   CloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig;
   Id: string;
   IfMatch?: string;
 }
-export const UpdateCloudFrontOriginAccessIdentityRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      CloudFrontOriginAccessIdentityConfig:
-        CloudFrontOriginAccessIdentityConfig.pipe(
-          T.HttpPayload(),
-          T.XmlName("CloudFrontOriginAccessIdentityConfig"),
-        ).annotate({ identifier: "CloudFrontOriginAccessIdentityConfig" }),
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "PUT",
-          uri: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "UpdateCloudFrontOriginAccessIdentityRequest",
-  }) as any as S.Schema<UpdateCloudFrontOriginAccessIdentityRequest>;
 export interface UpdateCloudFrontOriginAccessIdentityResult {
   CloudFrontOriginAccessIdentity?: CloudFrontOriginAccessIdentity;
   ETag?: string;
 }
-export const UpdateCloudFrontOriginAccessIdentityResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      CloudFrontOriginAccessIdentity: S.optional(CloudFrontOriginAccessIdentity)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "CloudFrontOriginAccessIdentity" }),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "UpdateCloudFrontOriginAccessIdentityResult",
-  }) as any as S.Schema<UpdateCloudFrontOriginAccessIdentityResult>;
 export interface UpdateConnectionFunctionRequest {
   Id: string;
   IfMatch: string;
   ConnectionFunctionConfig: FunctionConfig;
   ConnectionFunctionCode: Uint8Array | redacted.Redacted<Uint8Array>;
 }
-export const UpdateConnectionFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-    ConnectionFunctionConfig: FunctionConfig,
-    ConnectionFunctionCode: SensitiveBlob,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/2020-05-31/connection-function/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateConnectionFunctionRequest",
-}) as any as S.Schema<UpdateConnectionFunctionRequest>;
 export interface UpdateConnectionFunctionResult {
   ConnectionFunctionSummary?: ConnectionFunctionSummary;
   ETag?: string;
 }
-export const UpdateConnectionFunctionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionFunctionSummary: S.optional(ConnectionFunctionSummary)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ConnectionFunctionSummary" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateConnectionFunctionResult",
-}) as any as S.Schema<UpdateConnectionFunctionResult>;
 export interface UpdateConnectionGroupRequest {
   Id: string;
   Ipv6Enabled?: boolean;
@@ -10002,128 +3634,28 @@ export interface UpdateConnectionGroupRequest {
   AnycastIpListId?: string;
   Enabled?: boolean;
 }
-export const UpdateConnectionGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    Ipv6Enabled: S.optional(S.Boolean),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-    AnycastIpListId: S.optional(S.String),
-    Enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/2020-05-31/connection-group/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateConnectionGroupRequest",
-}) as any as S.Schema<UpdateConnectionGroupRequest>;
 export interface UpdateConnectionGroupResult {
   ConnectionGroup?: ConnectionGroup;
   ETag?: string;
 }
-export const UpdateConnectionGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionGroup: S.optional(ConnectionGroup)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ConnectionGroup" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateConnectionGroupResult",
-}) as any as S.Schema<UpdateConnectionGroupResult>;
 export interface UpdateContinuousDeploymentPolicyRequest {
   ContinuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig;
   Id: string;
   IfMatch?: string;
 }
-export const UpdateContinuousDeploymentPolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ContinuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig.pipe(
-        T.HttpPayload(),
-        T.XmlName("ContinuousDeploymentPolicyConfig"),
-      ).annotate({ identifier: "ContinuousDeploymentPolicyConfig" }),
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "PUT",
-          uri: "/2020-05-31/continuous-deployment-policy/{Id}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateContinuousDeploymentPolicyRequest",
-}) as any as S.Schema<UpdateContinuousDeploymentPolicyRequest>;
 export interface UpdateContinuousDeploymentPolicyResult {
   ContinuousDeploymentPolicy?: ContinuousDeploymentPolicy;
   ETag?: string;
 }
-export const UpdateContinuousDeploymentPolicyResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ContinuousDeploymentPolicy: S.optional(ContinuousDeploymentPolicy)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "ContinuousDeploymentPolicy" }),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-).annotate({
-  identifier: "UpdateContinuousDeploymentPolicyResult",
-}) as any as S.Schema<UpdateContinuousDeploymentPolicyResult>;
 export interface UpdateDistributionRequest {
   DistributionConfig: DistributionConfig;
   Id: string;
   IfMatch?: string;
 }
-export const UpdateDistributionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionConfig: DistributionConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("DistributionConfig"),
-    ).annotate({ identifier: "DistributionConfig" }),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/2020-05-31/distribution/{Id}/config" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDistributionRequest",
-}) as any as S.Schema<UpdateDistributionRequest>;
 export interface UpdateDistributionResult {
   Distribution?: Distribution;
   ETag?: string;
 }
-export const UpdateDistributionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Distribution: S.optional(Distribution)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Distribution" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateDistributionResult",
-}) as any as S.Schema<UpdateDistributionResult>;
 export interface UpdateDistributionTenantRequest {
   Id: string;
   DistributionId?: string;
@@ -10135,465 +3667,102 @@ export interface UpdateDistributionTenantRequest {
   ManagedCertificateRequest?: ManagedCertificateRequest;
   Enabled?: boolean;
 }
-export const UpdateDistributionTenantRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    DistributionId: S.optional(S.String),
-    Domains: S.optional(DomainList),
-    Customizations: S.optional(Customizations),
-    Parameters: S.optional(Parameters),
-    ConnectionGroupId: S.optional(S.String),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-    ManagedCertificateRequest: S.optional(ManagedCertificateRequest),
-    Enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/2020-05-31/distribution-tenant/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDistributionTenantRequest",
-}) as any as S.Schema<UpdateDistributionTenantRequest>;
 export interface UpdateDistributionTenantResult {
   DistributionTenant?: DistributionTenant;
   ETag?: string;
 }
-export const UpdateDistributionTenantResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionTenant: S.optional(DistributionTenant)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "DistributionTenant" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateDistributionTenantResult",
-}) as any as S.Schema<UpdateDistributionTenantResult>;
 export interface UpdateDistributionWithStagingConfigRequest {
   Id: string;
   StagingDistributionId?: string;
   IfMatch?: string;
 }
-export const UpdateDistributionWithStagingConfigRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      StagingDistributionId: S.optional(S.String).pipe(
-        T.HttpQuery("StagingDistributionId"),
-      ),
-      IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "PUT",
-          uri: "/2020-05-31/distribution/{Id}/promote-staging-config",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "UpdateDistributionWithStagingConfigRequest",
-  }) as any as S.Schema<UpdateDistributionWithStagingConfigRequest>;
 export interface UpdateDistributionWithStagingConfigResult {
   Distribution?: Distribution;
   ETag?: string;
 }
-export const UpdateDistributionWithStagingConfigResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Distribution: S.optional(Distribution)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "Distribution" }),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "UpdateDistributionWithStagingConfigResult",
-  }) as any as S.Schema<UpdateDistributionWithStagingConfigResult>;
 export interface UpdateDomainAssociationRequest {
   Domain: string;
   TargetResource: DistributionResourceId;
   IfMatch?: string;
 }
-export const UpdateDomainAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Domain: S.String,
-    TargetResource: DistributionResourceId,
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/domain-association" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDomainAssociationRequest",
-}) as any as S.Schema<UpdateDomainAssociationRequest>;
 export interface UpdateDomainAssociationResult {
   Domain?: string;
   ResourceId?: string;
   ETag?: string;
 }
-export const UpdateDomainAssociationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Domain: S.optional(S.String),
-    ResourceId: S.optional(S.String),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateDomainAssociationResult",
-}) as any as S.Schema<UpdateDomainAssociationResult>;
 export interface UpdateFieldLevelEncryptionConfigRequest {
   FieldLevelEncryptionConfig: FieldLevelEncryptionConfig;
   Id: string;
   IfMatch?: string;
 }
-export const UpdateFieldLevelEncryptionConfigRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FieldLevelEncryptionConfig: FieldLevelEncryptionConfig.pipe(
-        T.HttpPayload(),
-        T.XmlName("FieldLevelEncryptionConfig"),
-      ).annotate({ identifier: "FieldLevelEncryptionConfig" }),
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "PUT",
-          uri: "/2020-05-31/field-level-encryption/{Id}/config",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateFieldLevelEncryptionConfigRequest",
-}) as any as S.Schema<UpdateFieldLevelEncryptionConfigRequest>;
 export interface UpdateFieldLevelEncryptionConfigResult {
   FieldLevelEncryption?: FieldLevelEncryption;
   ETag?: string;
 }
-export const UpdateFieldLevelEncryptionConfigResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FieldLevelEncryption: S.optional(FieldLevelEncryption)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "FieldLevelEncryption" }),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-).annotate({
-  identifier: "UpdateFieldLevelEncryptionConfigResult",
-}) as any as S.Schema<UpdateFieldLevelEncryptionConfigResult>;
 export interface UpdateFieldLevelEncryptionProfileRequest {
   FieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig;
   Id: string;
   IfMatch?: string;
 }
-export const UpdateFieldLevelEncryptionProfileRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig.pipe(
-        T.HttpPayload(),
-        T.XmlName("FieldLevelEncryptionProfileConfig"),
-      ).annotate({ identifier: "FieldLevelEncryptionProfileConfig" }),
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "PUT",
-          uri: "/2020-05-31/field-level-encryption-profile/{Id}/config",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateFieldLevelEncryptionProfileRequest",
-}) as any as S.Schema<UpdateFieldLevelEncryptionProfileRequest>;
 export interface UpdateFieldLevelEncryptionProfileResult {
   FieldLevelEncryptionProfile?: FieldLevelEncryptionProfile;
   ETag?: string;
 }
-export const UpdateFieldLevelEncryptionProfileResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FieldLevelEncryptionProfile: S.optional(FieldLevelEncryptionProfile)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "FieldLevelEncryptionProfile" }),
-      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    }).pipe(ns),
-).annotate({
-  identifier: "UpdateFieldLevelEncryptionProfileResult",
-}) as any as S.Schema<UpdateFieldLevelEncryptionProfileResult>;
 export interface UpdateFunctionRequest {
   Name: string;
   IfMatch: string;
   FunctionConfig: FunctionConfig;
   FunctionCode: Uint8Array | redacted.Redacted<Uint8Array>;
 }
-export const UpdateFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-    FunctionConfig: FunctionConfig,
-    FunctionCode: SensitiveBlob,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/2020-05-31/function/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateFunctionRequest",
-}) as any as S.Schema<UpdateFunctionRequest>;
 export interface UpdateFunctionResult {
   FunctionSummary?: FunctionSummary;
   ETag?: string;
 }
-export const UpdateFunctionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FunctionSummary: S.optional(FunctionSummary)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "FunctionSummary" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETtag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateFunctionResult",
-}) as any as S.Schema<UpdateFunctionResult>;
 export interface UpdateKeyGroupRequest {
   KeyGroupConfig: KeyGroupConfig;
   Id: string;
   IfMatch?: string;
 }
-export const UpdateKeyGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyGroupConfig: KeyGroupConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("KeyGroupConfig"),
-    ).annotate({ identifier: "KeyGroupConfig" }),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/2020-05-31/key-group/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateKeyGroupRequest",
-}) as any as S.Schema<UpdateKeyGroupRequest>;
 export interface UpdateKeyGroupResult {
   KeyGroup?: KeyGroup;
   ETag?: string;
 }
-export const UpdateKeyGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyGroup: S.optional(KeyGroup)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "KeyGroup" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateKeyGroupResult",
-}) as any as S.Schema<UpdateKeyGroupResult>;
 export interface UpdateKeyValueStoreRequest {
   Name: string;
   Comment: string;
   IfMatch: string;
 }
-export const UpdateKeyValueStoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    Comment: S.String,
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/2020-05-31/key-value-store/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateKeyValueStoreRequest",
-}) as any as S.Schema<UpdateKeyValueStoreRequest>;
 export interface UpdateKeyValueStoreResult {
   KeyValueStore?: KeyValueStore;
   ETag?: string;
 }
-export const UpdateKeyValueStoreResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyValueStore: S.optional(KeyValueStore)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "KeyValueStore" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateKeyValueStoreResult",
-}) as any as S.Schema<UpdateKeyValueStoreResult>;
 export interface UpdateOriginAccessControlRequest {
   OriginAccessControlConfig: OriginAccessControlConfig;
   Id: string;
   IfMatch?: string;
 }
-export const UpdateOriginAccessControlRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginAccessControlConfig: OriginAccessControlConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("OriginAccessControlConfig"),
-    ).annotate({ identifier: "OriginAccessControlConfig" }),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/origin-access-control/{Id}/config",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateOriginAccessControlRequest",
-}) as any as S.Schema<UpdateOriginAccessControlRequest>;
 export interface UpdateOriginAccessControlResult {
   OriginAccessControl?: OriginAccessControl;
   ETag?: string;
 }
-export const UpdateOriginAccessControlResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginAccessControl: S.optional(OriginAccessControl)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "OriginAccessControl" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateOriginAccessControlResult",
-}) as any as S.Schema<UpdateOriginAccessControlResult>;
 export interface UpdateOriginRequestPolicyRequest {
   OriginRequestPolicyConfig: OriginRequestPolicyConfig;
   Id: string;
   IfMatch?: string;
 }
-export const UpdateOriginRequestPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginRequestPolicyConfig: OriginRequestPolicyConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("OriginRequestPolicyConfig"),
-    ).annotate({ identifier: "OriginRequestPolicyConfig" }),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/2020-05-31/origin-request-policy/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateOriginRequestPolicyRequest",
-}) as any as S.Schema<UpdateOriginRequestPolicyRequest>;
 export interface UpdateOriginRequestPolicyResult {
   OriginRequestPolicy?: OriginRequestPolicy;
   ETag?: string;
 }
-export const UpdateOriginRequestPolicyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginRequestPolicy: S.optional(OriginRequestPolicy)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "OriginRequestPolicy" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateOriginRequestPolicyResult",
-}) as any as S.Schema<UpdateOriginRequestPolicyResult>;
 export interface UpdatePublicKeyRequest {
   PublicKeyConfig: PublicKeyConfig;
   Id: string;
   IfMatch?: string;
 }
-export const UpdatePublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PublicKeyConfig: PublicKeyConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("PublicKeyConfig"),
-    ).annotate({ identifier: "PublicKeyConfig" }),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/2020-05-31/public-key/{Id}/config" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdatePublicKeyRequest",
-}) as any as S.Schema<UpdatePublicKeyRequest>;
 export interface UpdatePublicKeyResult {
   PublicKey?: PublicKey;
   ETag?: string;
 }
-export const UpdatePublicKeyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PublicKey: S.optional(PublicKey)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "PublicKey" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdatePublicKeyResult",
-}) as any as S.Schema<UpdatePublicKeyResult>;
 export interface UpdateRealtimeLogConfigRequest {
   EndPoints?: EndPoint[];
   Fields?: string[];
@@ -10601,262 +3770,64 @@ export interface UpdateRealtimeLogConfigRequest {
   ARN?: string;
   SamplingRate?: number;
 }
-export const UpdateRealtimeLogConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndPoints: S.optional(EndPointList),
-    Fields: S.optional(FieldList),
-    Name: S.optional(S.String),
-    ARN: S.optional(S.String),
-    SamplingRate: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/2020-05-31/realtime-log-config" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRealtimeLogConfigRequest",
-}) as any as S.Schema<UpdateRealtimeLogConfigRequest>;
 export interface UpdateRealtimeLogConfigResult {
   RealtimeLogConfig?: RealtimeLogConfig;
 }
-export const UpdateRealtimeLogConfigResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RealtimeLogConfig: S.optional(RealtimeLogConfig) }).pipe(ns),
-).annotate({
-  identifier: "UpdateRealtimeLogConfigResult",
-}) as any as S.Schema<UpdateRealtimeLogConfigResult>;
 export interface UpdateResponseHeadersPolicyRequest {
   ResponseHeadersPolicyConfig: ResponseHeadersPolicyConfig;
   Id: string;
   IfMatch?: string;
 }
-export const UpdateResponseHeadersPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResponseHeadersPolicyConfig: ResponseHeadersPolicyConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("ResponseHeadersPolicyConfig"),
-    ).annotate({ identifier: "ResponseHeadersPolicyConfig" }),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/response-headers-policy/{Id}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateResponseHeadersPolicyRequest",
-}) as any as S.Schema<UpdateResponseHeadersPolicyRequest>;
 export interface UpdateResponseHeadersPolicyResult {
   ResponseHeadersPolicy?: ResponseHeadersPolicy;
   ETag?: string;
 }
-export const UpdateResponseHeadersPolicyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResponseHeadersPolicy: S.optional(ResponseHeadersPolicy)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ResponseHeadersPolicy" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateResponseHeadersPolicyResult",
-}) as any as S.Schema<UpdateResponseHeadersPolicyResult>;
 export interface UpdateStreamingDistributionRequest {
   StreamingDistributionConfig: StreamingDistributionConfig;
   Id: string;
   IfMatch?: string;
 }
-export const UpdateStreamingDistributionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamingDistributionConfig: StreamingDistributionConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("StreamingDistributionConfig"),
-    ).annotate({ identifier: "StreamingDistributionConfig" }),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/streaming-distribution/{Id}/config",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateStreamingDistributionRequest",
-}) as any as S.Schema<UpdateStreamingDistributionRequest>;
 export interface UpdateStreamingDistributionResult {
   StreamingDistribution?: StreamingDistribution;
   ETag?: string;
 }
-export const UpdateStreamingDistributionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamingDistribution: S.optional(StreamingDistribution)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "StreamingDistribution" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateStreamingDistributionResult",
-}) as any as S.Schema<UpdateStreamingDistributionResult>;
 export interface UpdateTrustStoreRequest {
   Id: string;
   CaCertificatesBundleSource?: CaCertificatesBundleSource;
   UseClientCertificateOCSPEndpoint?: boolean;
   IfMatch: string;
 }
-export const UpdateTrustStoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    CaCertificatesBundleSource: S.optional(CaCertificatesBundleSource).pipe(
-      T.HttpPayload(),
-    ),
-    UseClientCertificateOCSPEndpoint: S.optional(S.Boolean).pipe(
-      T.HttpHeader("UseClientCertificateOCSPEndpoint"),
-    ),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/2020-05-31/trust-store/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateTrustStoreRequest",
-}) as any as S.Schema<UpdateTrustStoreRequest>;
 export interface UpdateTrustStoreResult {
   TrustStore?: TrustStore;
   ETag?: string;
 }
-export const UpdateTrustStoreResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrustStore: S.optional(TrustStore)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "TrustStore" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateTrustStoreResult",
-}) as any as S.Schema<UpdateTrustStoreResult>;
 export interface UpdateVpcOriginRequest {
   VpcOriginEndpointConfig: VpcOriginEndpointConfig;
   Id: string;
   IfMatch: string;
 }
-export const UpdateVpcOriginRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcOriginEndpointConfig: VpcOriginEndpointConfig.pipe(
-      T.HttpPayload(),
-      T.XmlName("VpcOriginEndpointConfig"),
-    ).annotate({ identifier: "VpcOriginEndpointConfig" }),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/2020-05-31/vpc-origin/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateVpcOriginRequest",
-}) as any as S.Schema<UpdateVpcOriginRequest>;
 export interface UpdateVpcOriginResult {
   VpcOrigin?: VpcOrigin;
   ETag?: string;
 }
-export const UpdateVpcOriginResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcOrigin: S.optional(VpcOrigin)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "VpcOrigin" }),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateVpcOriginResult",
-}) as any as S.Schema<UpdateVpcOriginResult>;
 export interface VerifyDnsConfigurationRequest {
   Domain?: string;
   Identifier: string;
 }
-export const VerifyDnsConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Domain: S.optional(S.String), Identifier: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2020-05-31/verify-dns-configuration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "VerifyDnsConfigurationRequest",
-}) as any as S.Schema<VerifyDnsConfigurationRequest>;
 export type DnsConfigurationStatus =
   | "valid-configuration"
   | "invalid-configuration"
   | "unknown-configuration"
   | (string & {});
-export const DnsConfigurationStatus = S.String;
-
 export interface DnsConfiguration {
   Domain: string;
   Status: DnsConfigurationStatus;
   Reason?: string;
 }
-export const DnsConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Domain: S.String,
-    Status: DnsConfigurationStatus,
-    Reason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DnsConfiguration",
-}) as any as S.Schema<DnsConfiguration>;
 export type DnsConfigurationList = DnsConfiguration[];
-export const DnsConfigurationList = /*@__PURE__*/ S.Array(
-  DnsConfiguration.pipe(T.XmlName("DnsConfiguration")).annotate({
-    identifier: "DnsConfiguration",
-  }),
-);
 export interface VerifyDnsConfigurationResult {
   DnsConfigurationList?: DnsConfiguration[];
 }
-export const VerifyDnsConfigurationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DnsConfigurationList: S.optional(DnsConfigurationList) }).pipe(ns),
-).annotate({
-  identifier: "VerifyDnsConfigurationResult",
-}) as any as S.Schema<VerifyDnsConfigurationResult>;
 export type AssociateAliasError =
   | AccessDenied
   | IllegalUpdate
@@ -10881,8 +3852,11 @@ export const associateAlias: API.OperationMethod<
   AssociateAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateAliasRequest,
-  output: AssociateAliasResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/distribution/{TargetDistributionId}/associate-alias",
+    input: { TargetDistributionId: 0, Alias: D.m({ query: "Alias" }) },
+  },
   errors: [
     AccessDenied,
     IllegalUpdate,
@@ -10893,7 +3867,7 @@ export const associateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAlias",
-}));
+})) as any;
 
 export type AssociateDistributionTenantWebACLError =
   | AccessDenied
@@ -10912,8 +3886,13 @@ export const associateDistributionTenantWebACL: API.OperationMethod<
   AssociateDistributionTenantWebACLError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateDistributionTenantWebACLRequest,
-  output: AssociateDistributionTenantWebACLResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/distribution-tenant/{Id}/associate-web-acl",
+    input: { Id: 0, WebACLArn: 0, IfMatch: D.m({ header: "If-Match" }) },
+    output: { ETag: D.m({ header: "ETag" }) },
+    body: "AssociateDistributionTenantWebACLRequest",
+  },
   errors: [
     AccessDenied,
     EntityLimitExceeded,
@@ -10925,7 +3904,7 @@ export const associateDistributionTenantWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDistributionTenantWebACL",
-}));
+})) as any;
 
 export type AssociateDistributionWebACLError =
   | AccessDenied
@@ -10944,8 +3923,13 @@ export const associateDistributionWebACL: API.OperationMethod<
   AssociateDistributionWebACLError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateDistributionWebACLRequest,
-  output: AssociateDistributionWebACLResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/distribution/{Id}/associate-web-acl",
+    input: { Id: 0, WebACLArn: 0, IfMatch: D.m({ header: "If-Match" }) },
+    output: { ETag: D.m({ header: "ETag" }) },
+    body: "AssociateDistributionWebACLRequest",
+  },
   errors: [
     AccessDenied,
     EntityLimitExceeded,
@@ -10957,7 +3941,7 @@ export const associateDistributionWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDistributionWebACL",
-}));
+})) as any;
 
 export type CopyDistributionError =
   | AccessDenied
@@ -11044,8 +4028,23 @@ export const copyDistribution: API.OperationMethod<
   CopyDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CopyDistributionRequest,
-  output: CopyDistributionResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/distribution/{PrimaryDistributionId}/copy",
+    input: {
+      PrimaryDistributionId: 0,
+      Staging: D.m({ header: "Staging" }),
+      IfMatch: D.m({ header: "If-Match" }),
+      CallerReference: 0,
+      Enabled: 0,
+    },
+    output: {
+      Distribution: D.m({ payload: true, shape: o_Distribution }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+    body: "CopyDistributionRequest",
+  },
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -11115,7 +4114,7 @@ export const copyDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDistribution",
-}));
+})) as any;
 
 export type CreateAnycastIpListError =
   | AccessDenied
@@ -11134,8 +4133,22 @@ export const createAnycastIpList: API.OperationMethod<
   CreateAnycastIpListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAnycastIpListRequest,
-  output: CreateAnycastIpListResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/anycast-ip-list",
+    input: {
+      Name: 0,
+      IpCount: 0,
+      Tags: i_Tags,
+      IpAddressType: 0,
+      IpamCidrConfigs: D.list(i_IpamCidrConfig, { item: "IpamCidrConfig" }),
+    },
+    output: {
+      AnycastIpList: D.m({ payload: true, shape: o_AnycastIpList }),
+      ETag: D.m({ header: "ETag" }),
+    },
+    body: "CreateAnycastIpListRequest",
+  },
   errors: [
     AccessDenied,
     EntityAlreadyExists,
@@ -11147,7 +4160,7 @@ export const createAnycastIpList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnycastIpList",
-}));
+})) as any;
 
 export type CreateCachePolicyError =
   | AccessDenied
@@ -11180,8 +4193,22 @@ export const createCachePolicy: API.OperationMethod<
   CreateCachePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCachePolicyRequest,
-  output: CreateCachePolicyResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/cache-policy",
+    input: {
+      CachePolicyConfig: D.m({
+        payload: true,
+        wire: "CachePolicyConfig",
+        shape: i_CachePolicyConfig,
+      }),
+    },
+    output: {
+      CachePolicy: D.m({ payload: true, shape: o_CachePolicy }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     CachePolicyAlreadyExists,
@@ -11195,7 +4222,7 @@ export const createCachePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCachePolicy",
-}));
+})) as any;
 
 export type CreateCloudFrontOriginAccessIdentityError =
   | CloudFrontOriginAccessIdentityAlreadyExists
@@ -11213,8 +4240,25 @@ export const createCloudFrontOriginAccessIdentity: API.OperationMethod<
   CreateCloudFrontOriginAccessIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCloudFrontOriginAccessIdentityRequest,
-  output: CreateCloudFrontOriginAccessIdentityResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/origin-access-identity/cloudfront",
+    input: {
+      CloudFrontOriginAccessIdentityConfig: D.m({
+        payload: true,
+        wire: "CloudFrontOriginAccessIdentityConfig",
+        shape: i_CloudFrontOriginAccessIdentityConfig,
+      }),
+    },
+    output: {
+      CloudFrontOriginAccessIdentity: D.m({
+        payload: true,
+        shape: o_CloudFrontOriginAccessIdentity,
+      }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     CloudFrontOriginAccessIdentityAlreadyExists,
     InconsistentQuantities,
@@ -11225,7 +4269,7 @@ export const createCloudFrontOriginAccessIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudFrontOriginAccessIdentity",
-}));
+})) as any;
 
 export type CreateConnectionFunctionError =
   | AccessDenied
@@ -11245,8 +4289,25 @@ export const createConnectionFunction: API.OperationMethod<
   CreateConnectionFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateConnectionFunctionRequest,
-  output: CreateConnectionFunctionResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/connection-function",
+    input: {
+      Name: 0,
+      ConnectionFunctionConfig: i_FunctionConfig,
+      ConnectionFunctionCode: 0,
+      Tags: i_Tags,
+    },
+    output: {
+      ConnectionFunctionSummary: D.m({
+        payload: true,
+        shape: o_ConnectionFunctionSummary,
+      }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+    body: "CreateConnectionFunctionRequest",
+  },
   errors: [
     AccessDenied,
     EntityAlreadyExists,
@@ -11259,7 +4320,7 @@ export const createConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectionFunction",
-}));
+})) as any;
 
 export type CreateConnectionGroupError =
   | AccessDenied
@@ -11278,8 +4339,22 @@ export const createConnectionGroup: API.OperationMethod<
   CreateConnectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateConnectionGroupRequest,
-  output: CreateConnectionGroupResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/connection-group",
+    input: {
+      Name: 0,
+      Ipv6Enabled: 0,
+      Tags: i_Tags,
+      AnycastIpListId: 0,
+      Enabled: 0,
+    },
+    output: {
+      ConnectionGroup: D.m({ payload: true, shape: o_ConnectionGroup }),
+      ETag: D.m({ header: "ETag" }),
+    },
+    body: "CreateConnectionGroupRequest",
+  },
   errors: [
     AccessDenied,
     EntityAlreadyExists,
@@ -11291,7 +4366,7 @@ export const createConnectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectionGroup",
-}));
+})) as any;
 
 export type CreateContinuousDeploymentPolicyError =
   | AccessDenied
@@ -11314,8 +4389,25 @@ export const createContinuousDeploymentPolicy: API.OperationMethod<
   CreateContinuousDeploymentPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateContinuousDeploymentPolicyRequest,
-  output: CreateContinuousDeploymentPolicyResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/continuous-deployment-policy",
+    input: {
+      ContinuousDeploymentPolicyConfig: D.m({
+        payload: true,
+        wire: "ContinuousDeploymentPolicyConfig",
+        shape: i_ContinuousDeploymentPolicyConfig,
+      }),
+    },
+    output: {
+      ContinuousDeploymentPolicy: D.m({
+        payload: true,
+        shape: o_ContinuousDeploymentPolicy,
+      }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     ContinuousDeploymentPolicyAlreadyExists,
@@ -11327,7 +4419,7 @@ export const createContinuousDeploymentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContinuousDeploymentPolicy",
-}));
+})) as any;
 
 export type CreateDistributionError =
   | AccessDenied
@@ -11407,8 +4499,22 @@ export const createDistribution: API.OperationMethod<
   CreateDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDistributionRequest,
-  output: CreateDistributionResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/distribution",
+    input: {
+      DistributionConfig: D.m({
+        payload: true,
+        wire: "DistributionConfig",
+        shape: i_DistributionConfig,
+      }),
+    },
+    output: {
+      Distribution: D.m({ payload: true, shape: o_Distribution }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -11481,7 +4587,7 @@ export const createDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistribution",
-}));
+})) as any;
 
 export type CreateDistributionTenantError =
   | AccessDenied
@@ -11502,8 +4608,26 @@ export const createDistributionTenant: API.OperationMethod<
   CreateDistributionTenantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDistributionTenantRequest,
-  output: CreateDistributionTenantResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/distribution-tenant",
+    input: {
+      DistributionId: 0,
+      Name: 0,
+      Domains: D.list(i_DomainItem),
+      Tags: i_Tags,
+      Customizations: i_Customizations,
+      Parameters: D.list(i_Parameter),
+      ConnectionGroupId: 0,
+      ManagedCertificateRequest: i_ManagedCertificateRequest,
+      Enabled: 0,
+    },
+    output: {
+      DistributionTenant: D.m({ payload: true, shape: o_DistributionTenant }),
+      ETag: D.m({ header: "ETag" }),
+    },
+    body: "CreateDistributionTenantRequest",
+  },
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -11517,7 +4641,7 @@ export const createDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistributionTenant",
-}));
+})) as any;
 
 export type CreateDistributionWithTagsError =
   | AccessDenied
@@ -11601,8 +4725,22 @@ export const createDistributionWithTags: API.OperationMethod<
   CreateDistributionWithTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDistributionWithTagsRequest,
-  output: CreateDistributionWithTagsResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/distribution?WithTags",
+    input: {
+      DistributionConfigWithTags: D.m({
+        payload: true,
+        wire: "DistributionConfigWithTags",
+        shape: { DistributionConfig: i_DistributionConfig, Tags: i_Tags },
+      }),
+    },
+    output: {
+      Distribution: D.m({ payload: true, shape: o_Distribution }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -11675,7 +4813,7 @@ export const createDistributionWithTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistributionWithTags",
-}));
+})) as any;
 
 export type CreateFieldLevelEncryptionConfigError =
   | FieldLevelEncryptionConfigAlreadyExists
@@ -11696,8 +4834,25 @@ export const createFieldLevelEncryptionConfig: API.OperationMethod<
   CreateFieldLevelEncryptionConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFieldLevelEncryptionConfigRequest,
-  output: CreateFieldLevelEncryptionConfigResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/field-level-encryption",
+    input: {
+      FieldLevelEncryptionConfig: D.m({
+        payload: true,
+        wire: "FieldLevelEncryptionConfig",
+        shape: i_FieldLevelEncryptionConfig,
+      }),
+    },
+    output: {
+      FieldLevelEncryption: D.m({
+        payload: true,
+        shape: o_FieldLevelEncryption,
+      }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     FieldLevelEncryptionConfigAlreadyExists,
     InconsistentQuantities,
@@ -11711,7 +4866,7 @@ export const createFieldLevelEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFieldLevelEncryptionConfig",
-}));
+})) as any;
 
 export type CreateFieldLevelEncryptionProfileError =
   | FieldLevelEncryptionProfileAlreadyExists
@@ -11732,8 +4887,25 @@ export const createFieldLevelEncryptionProfile: API.OperationMethod<
   CreateFieldLevelEncryptionProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFieldLevelEncryptionProfileRequest,
-  output: CreateFieldLevelEncryptionProfileResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/field-level-encryption-profile",
+    input: {
+      FieldLevelEncryptionProfileConfig: D.m({
+        payload: true,
+        wire: "FieldLevelEncryptionProfileConfig",
+        shape: i_FieldLevelEncryptionProfileConfig,
+      }),
+    },
+    output: {
+      FieldLevelEncryptionProfile: D.m({
+        payload: true,
+        shape: o_FieldLevelEncryptionProfile,
+      }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     FieldLevelEncryptionProfileAlreadyExists,
     FieldLevelEncryptionProfileSizeExceeded,
@@ -11747,7 +4919,7 @@ export const createFieldLevelEncryptionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFieldLevelEncryptionProfile",
-}));
+})) as any;
 
 export type CreateFunctionError =
   | FunctionAlreadyExists
@@ -11771,8 +4943,22 @@ export const createFunction: API.OperationMethod<
   CreateFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFunctionRequest,
-  output: CreateFunctionResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/function",
+    input: {
+      Name: 0,
+      FunctionConfig: i_FunctionConfig,
+      FunctionCode: 0,
+      Tags: i_Tags,
+    },
+    output: {
+      FunctionSummary: D.m({ payload: true, shape: o_FunctionSummary }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+    body: "CreateFunctionRequest",
+  },
   errors: [
     FunctionAlreadyExists,
     FunctionSizeLimitExceeded,
@@ -11783,7 +4969,7 @@ export const createFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunction",
-}));
+})) as any;
 
 export type CreateInvalidationError =
   | AccessDenied
@@ -11803,8 +4989,22 @@ export const createInvalidation: API.OperationMethod<
   CreateInvalidationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateInvalidationRequest,
-  output: CreateInvalidationResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/distribution/{DistributionId}/invalidation",
+    input: {
+      DistributionId: 0,
+      InvalidationBatch: D.m({
+        payload: true,
+        wire: "InvalidationBatch",
+        shape: i_InvalidationBatch,
+      }),
+    },
+    output: {
+      Location: D.m({ header: "Location" }),
+      Invalidation: D.m({ payload: true, shape: o_Invalidation }),
+    },
+  },
   errors: [
     AccessDenied,
     BatchTooLarge,
@@ -11817,7 +5017,7 @@ export const createInvalidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvalidation",
-}));
+})) as any;
 
 export type CreateInvalidationForDistributionTenantError =
   | AccessDenied
@@ -11837,8 +5037,22 @@ export const createInvalidationForDistributionTenant: API.OperationMethod<
   CreateInvalidationForDistributionTenantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateInvalidationForDistributionTenantRequest,
-  output: CreateInvalidationForDistributionTenantResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/distribution-tenant/{Id}/invalidation",
+    input: {
+      Id: 0,
+      InvalidationBatch: D.m({
+        payload: true,
+        wire: "InvalidationBatch",
+        shape: i_InvalidationBatch,
+      }),
+    },
+    output: {
+      Location: D.m({ header: "Location" }),
+      Invalidation: D.m({ payload: true, shape: o_Invalidation }),
+    },
+  },
   errors: [
     AccessDenied,
     BatchTooLarge,
@@ -11851,7 +5065,7 @@ export const createInvalidationForDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvalidationForDistributionTenant",
-}));
+})) as any;
 
 export type CreateKeyGroupError =
   | InvalidArgument
@@ -11870,8 +5084,22 @@ export const createKeyGroup: API.OperationMethod<
   CreateKeyGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateKeyGroupRequest,
-  output: CreateKeyGroupResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/key-group",
+    input: {
+      KeyGroupConfig: D.m({
+        payload: true,
+        wire: "KeyGroupConfig",
+        shape: i_KeyGroupConfig,
+      }),
+    },
+    output: {
+      KeyGroup: D.m({ payload: true, shape: o_KeyGroup }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     InvalidArgument,
     KeyGroupAlreadyExists,
@@ -11881,7 +5109,7 @@ export const createKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeyGroup",
-}));
+})) as any;
 
 export type CreateKeyValueStoreError =
   | AccessDenied
@@ -11900,8 +5128,22 @@ export const createKeyValueStore: API.OperationMethod<
   CreateKeyValueStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateKeyValueStoreRequest,
-  output: CreateKeyValueStoreResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/key-value-store",
+    input: {
+      Name: 0,
+      Comment: 0,
+      ImportSource: { SourceType: 0, SourceARN: 0 },
+      Tags: i_Tags,
+    },
+    output: {
+      KeyValueStore: D.m({ payload: true, shape: o_KeyValueStore }),
+      ETag: D.m({ header: "ETag" }),
+      Location: D.m({ header: "Location" }),
+    },
+    body: "CreateKeyValueStoreRequest",
+  },
   errors: [
     AccessDenied,
     EntityAlreadyExists,
@@ -11913,7 +5155,7 @@ export const createKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeyValueStore",
-}));
+})) as any;
 
 export type CreateMonitoringSubscriptionError =
   | AccessDenied
@@ -11932,8 +5174,28 @@ export const createMonitoringSubscription: API.OperationMethod<
   CreateMonitoringSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateMonitoringSubscriptionRequest,
-  output: CreateMonitoringSubscriptionResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/distributions/{DistributionId}/monitoring-subscription",
+    input: {
+      DistributionId: 0,
+      MonitoringSubscription: D.m({
+        payload: true,
+        wire: "MonitoringSubscription",
+        shape: {
+          RealtimeMetricsSubscriptionConfig: {
+            RealtimeMetricsSubscriptionStatus: 0,
+          },
+        },
+      }),
+    },
+    output: {
+      MonitoringSubscription: D.m({
+        payload: true,
+        shape: o_MonitoringSubscription,
+      }),
+    },
+  },
   errors: [
     AccessDenied,
     MonitoringSubscriptionAlreadyExists,
@@ -11943,7 +5205,7 @@ export const createMonitoringSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitoringSubscription",
-}));
+})) as any;
 
 export type CreateOriginAccessControlError =
   | InvalidArgument
@@ -11963,8 +5225,22 @@ export const createOriginAccessControl: API.OperationMethod<
   CreateOriginAccessControlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateOriginAccessControlRequest,
-  output: CreateOriginAccessControlResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/origin-access-control",
+    input: {
+      OriginAccessControlConfig: D.m({
+        payload: true,
+        wire: "OriginAccessControlConfig",
+        shape: i_OriginAccessControlConfig,
+      }),
+    },
+    output: {
+      OriginAccessControl: D.m({ payload: true, shape: o_OriginAccessControl }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     InvalidArgument,
     OriginAccessControlAlreadyExists,
@@ -11973,7 +5249,7 @@ export const createOriginAccessControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginAccessControl",
-}));
+})) as any;
 
 export type CreateOriginRequestPolicyError =
   | AccessDenied
@@ -12006,8 +5282,22 @@ export const createOriginRequestPolicy: API.OperationMethod<
   CreateOriginRequestPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateOriginRequestPolicyRequest,
-  output: CreateOriginRequestPolicyResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/origin-request-policy",
+    input: {
+      OriginRequestPolicyConfig: D.m({
+        payload: true,
+        wire: "OriginRequestPolicyConfig",
+        shape: i_OriginRequestPolicyConfig,
+      }),
+    },
+    output: {
+      OriginRequestPolicy: D.m({ payload: true, shape: o_OriginRequestPolicy }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     InconsistentQuantities,
@@ -12021,7 +5311,7 @@ export const createOriginRequestPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginRequestPolicy",
-}));
+})) as any;
 
 export type CreatePublicKeyError =
   | InvalidArgument
@@ -12037,13 +5327,27 @@ export const createPublicKey: API.OperationMethod<
   CreatePublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreatePublicKeyRequest,
-  output: CreatePublicKeyResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/public-key",
+    input: {
+      PublicKeyConfig: D.m({
+        payload: true,
+        wire: "PublicKeyConfig",
+        shape: i_PublicKeyConfig,
+      }),
+    },
+    output: {
+      PublicKey: D.m({ payload: true, shape: o_PublicKey }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [InvalidArgument, PublicKeyAlreadyExists, TooManyPublicKeys],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePublicKey",
-}));
+})) as any;
 
 export type CreateRealtimeLogConfigError =
   | AccessDenied
@@ -12064,8 +5368,18 @@ export const createRealtimeLogConfig: API.OperationMethod<
   CreateRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRealtimeLogConfigRequest,
-  output: CreateRealtimeLogConfigResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/realtime-log-config",
+    input: {
+      EndPoints: D.list(i_EndPoint),
+      Fields: D.list(0, { item: "Field" }),
+      Name: 0,
+      SamplingRate: 0,
+    },
+    output: { RealtimeLogConfig: o_RealtimeLogConfig },
+    body: "CreateRealtimeLogConfigRequest",
+  },
   errors: [
     AccessDenied,
     InvalidArgument,
@@ -12075,7 +5389,7 @@ export const createRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRealtimeLogConfig",
-}));
+})) as any;
 
 export type CreateResponseHeadersPolicyError =
   | AccessDenied
@@ -12102,8 +5416,25 @@ export const createResponseHeadersPolicy: API.OperationMethod<
   CreateResponseHeadersPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateResponseHeadersPolicyRequest,
-  output: CreateResponseHeadersPolicyResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/response-headers-policy",
+    input: {
+      ResponseHeadersPolicyConfig: D.m({
+        payload: true,
+        wire: "ResponseHeadersPolicyConfig",
+        shape: i_ResponseHeadersPolicyConfig,
+      }),
+    },
+    output: {
+      ResponseHeadersPolicy: D.m({
+        payload: true,
+        shape: o_ResponseHeadersPolicy,
+      }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     InconsistentQuantities,
@@ -12117,7 +5448,7 @@ export const createResponseHeadersPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResponseHeadersPolicy",
-}));
+})) as any;
 
 export type CreateStreamingDistributionError =
   | AccessDenied
@@ -12143,8 +5474,25 @@ export const createStreamingDistribution: API.OperationMethod<
   CreateStreamingDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateStreamingDistributionRequest,
-  output: CreateStreamingDistributionResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/streaming-distribution",
+    input: {
+      StreamingDistributionConfig: D.m({
+        payload: true,
+        wire: "StreamingDistributionConfig",
+        shape: i_StreamingDistributionConfig,
+      }),
+    },
+    output: {
+      StreamingDistribution: D.m({
+        payload: true,
+        shape: o_StreamingDistribution,
+      }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -12163,7 +5511,7 @@ export const createStreamingDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamingDistribution",
-}));
+})) as any;
 
 export type CreateStreamingDistributionWithTagsError =
   | AccessDenied
@@ -12190,8 +5538,28 @@ export const createStreamingDistributionWithTags: API.OperationMethod<
   CreateStreamingDistributionWithTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateStreamingDistributionWithTagsRequest,
-  output: CreateStreamingDistributionWithTagsResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/streaming-distribution?WithTags",
+    input: {
+      StreamingDistributionConfigWithTags: D.m({
+        payload: true,
+        wire: "StreamingDistributionConfigWithTags",
+        shape: {
+          StreamingDistributionConfig: i_StreamingDistributionConfig,
+          Tags: i_Tags,
+        },
+      }),
+    },
+    output: {
+      StreamingDistribution: D.m({
+        payload: true,
+        shape: o_StreamingDistribution,
+      }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -12211,7 +5579,7 @@ export const createStreamingDistributionWithTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamingDistributionWithTags",
-}));
+})) as any;
 
 export type CreateTrustStoreError =
   | AccessDenied
@@ -12230,8 +5598,21 @@ export const createTrustStore: API.OperationMethod<
   CreateTrustStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTrustStoreRequest,
-  output: CreateTrustStoreResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/trust-store",
+    input: {
+      Name: 0,
+      CaCertificatesBundleSource: i_CaCertificatesBundleSource,
+      UseClientCertificateOCSPEndpoint: 0,
+      Tags: i_Tags,
+    },
+    output: {
+      TrustStore: D.m({ payload: true, shape: o_TrustStore }),
+      ETag: D.m({ header: "ETag" }),
+    },
+    body: "CreateTrustStoreRequest",
+  },
   errors: [
     AccessDenied,
     EntityAlreadyExists,
@@ -12243,7 +5624,7 @@ export const createTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustStore",
-}));
+})) as any;
 
 export type CreateVpcOriginError =
   | AccessDenied
@@ -12263,8 +5644,17 @@ export const createVpcOrigin: API.OperationMethod<
   CreateVpcOriginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateVpcOriginRequest,
-  output: CreateVpcOriginResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/vpc-origin",
+    input: { VpcOriginEndpointConfig: i_VpcOriginEndpointConfig, Tags: i_Tags },
+    output: {
+      VpcOrigin: D.m({ payload: true, shape: o_VpcOrigin }),
+      Location: D.m({ header: "Location" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+    body: "CreateVpcOriginRequest",
+  },
   errors: [
     AccessDenied,
     EntityAlreadyExists,
@@ -12277,7 +5667,7 @@ export const createVpcOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcOrigin",
-}));
+})) as any;
 
 export type DeleteAnycastIpListError =
   | AccessDenied
@@ -12298,8 +5688,11 @@ export const deleteAnycastIpList: API.OperationMethod<
   DeleteAnycastIpListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAnycastIpListRequest,
-  output: DeleteAnycastIpListResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/anycast-ip-list/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     CannotDeleteEntityWhileInUse,
@@ -12313,7 +5706,7 @@ export const deleteAnycastIpList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnycastIpList",
-}));
+})) as any;
 
 export type DeleteCachePolicyError =
   | AccessDenied
@@ -12336,8 +5729,11 @@ export const deleteCachePolicy: API.OperationMethod<
   DeleteCachePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCachePolicyRequest,
-  output: DeleteCachePolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/cache-policy/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     CachePolicyInUse,
@@ -12349,7 +5745,7 @@ export const deleteCachePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCachePolicy",
-}));
+})) as any;
 
 export type DeleteCloudFrontOriginAccessIdentityError =
   | AccessDenied
@@ -12367,8 +5763,11 @@ export const deleteCloudFrontOriginAccessIdentity: API.OperationMethod<
   DeleteCloudFrontOriginAccessIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCloudFrontOriginAccessIdentityRequest,
-  output: DeleteCloudFrontOriginAccessIdentityResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/origin-access-identity/cloudfront/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     CloudFrontOriginAccessIdentityInUse,
@@ -12379,7 +5778,7 @@ export const deleteCloudFrontOriginAccessIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudFrontOriginAccessIdentity",
-}));
+})) as any;
 
 export type DeleteConnectionFunctionError =
   | AccessDenied
@@ -12399,8 +5798,11 @@ export const deleteConnectionFunction: API.OperationMethod<
   DeleteConnectionFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteConnectionFunctionRequest,
-  output: DeleteConnectionFunctionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/connection-function/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     CannotDeleteEntityWhileInUse,
@@ -12413,7 +5815,7 @@ export const deleteConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectionFunction",
-}));
+})) as any;
 
 export type DeleteConnectionGroupError =
   | AccessDenied
@@ -12432,8 +5834,11 @@ export const deleteConnectionGroup: API.OperationMethod<
   DeleteConnectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteConnectionGroupRequest,
-  output: DeleteConnectionGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/connection-group/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     CannotDeleteEntityWhileInUse,
@@ -12445,7 +5850,7 @@ export const deleteConnectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectionGroup",
-}));
+})) as any;
 
 export type DeleteContinuousDeploymentPolicyError =
   | AccessDenied
@@ -12466,8 +5871,11 @@ export const deleteContinuousDeploymentPolicy: API.OperationMethod<
   DeleteContinuousDeploymentPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteContinuousDeploymentPolicyRequest,
-  output: DeleteContinuousDeploymentPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/continuous-deployment-policy/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     ContinuousDeploymentPolicyInUse,
@@ -12479,7 +5887,7 @@ export const deleteContinuousDeploymentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContinuousDeploymentPolicy",
-}));
+})) as any;
 
 export type DeleteDistributionError =
   | AccessDenied
@@ -12500,8 +5908,11 @@ export const deleteDistribution: API.OperationMethod<
   DeleteDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDistributionRequest,
-  output: DeleteDistributionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/distribution/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     DistributionNotDisabled,
@@ -12513,7 +5924,7 @@ export const deleteDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDistribution",
-}));
+})) as any;
 
 export type DeleteDistributionTenantError =
   | AccessDenied
@@ -12533,8 +5944,11 @@ export const deleteDistributionTenant: API.OperationMethod<
   DeleteDistributionTenantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDistributionTenantRequest,
-  output: DeleteDistributionTenantResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/distribution-tenant/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -12545,7 +5959,7 @@ export const deleteDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDistributionTenant",
-}));
+})) as any;
 
 export type DeleteFieldLevelEncryptionConfigError =
   | AccessDenied
@@ -12563,8 +5977,11 @@ export const deleteFieldLevelEncryptionConfig: API.OperationMethod<
   DeleteFieldLevelEncryptionConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFieldLevelEncryptionConfigRequest,
-  output: DeleteFieldLevelEncryptionConfigResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/field-level-encryption/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     FieldLevelEncryptionConfigInUse,
@@ -12575,7 +5992,7 @@ export const deleteFieldLevelEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFieldLevelEncryptionConfig",
-}));
+})) as any;
 
 export type DeleteFieldLevelEncryptionProfileError =
   | AccessDenied
@@ -12593,8 +6010,11 @@ export const deleteFieldLevelEncryptionProfile: API.OperationMethod<
   DeleteFieldLevelEncryptionProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFieldLevelEncryptionProfileRequest,
-  output: DeleteFieldLevelEncryptionProfileResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/field-level-encryption-profile/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     FieldLevelEncryptionProfileInUse,
@@ -12605,7 +6025,7 @@ export const deleteFieldLevelEncryptionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFieldLevelEncryptionProfile",
-}));
+})) as any;
 
 export type DeleteFunctionError =
   | FunctionInUse
@@ -12627,8 +6047,11 @@ export const deleteFunction: API.OperationMethod<
   DeleteFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFunctionRequest,
-  output: DeleteFunctionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/function/{Name}",
+    input: { Name: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     FunctionInUse,
     InvalidIfMatchVersion,
@@ -12639,7 +6062,7 @@ export const deleteFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunction",
-}));
+})) as any;
 
 export type DeleteKeyGroupError =
   | InvalidIfMatchVersion
@@ -12660,8 +6083,11 @@ export const deleteKeyGroup: API.OperationMethod<
   DeleteKeyGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteKeyGroupRequest,
-  output: DeleteKeyGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/key-group/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     InvalidIfMatchVersion,
     NoSuchResource,
@@ -12671,7 +6097,7 @@ export const deleteKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyGroup",
-}));
+})) as any;
 
 export type DeleteKeyValueStoreError =
   | AccessDenied
@@ -12690,8 +6116,11 @@ export const deleteKeyValueStore: API.OperationMethod<
   DeleteKeyValueStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteKeyValueStoreRequest,
-  output: DeleteKeyValueStoreResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/key-value-store/{Name}",
+    input: { Name: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     CannotDeleteEntityWhileInUse,
@@ -12703,7 +6132,7 @@ export const deleteKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyValueStore",
-}));
+})) as any;
 
 export type DeleteMonitoringSubscriptionError =
   | AccessDenied
@@ -12720,8 +6149,11 @@ export const deleteMonitoringSubscription: API.OperationMethod<
   DeleteMonitoringSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteMonitoringSubscriptionRequest,
-  output: DeleteMonitoringSubscriptionResult,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/distributions/{DistributionId}/monitoring-subscription",
+    input: { DistributionId: 0 },
+  },
   errors: [
     AccessDenied,
     NoSuchDistribution,
@@ -12731,7 +6163,7 @@ export const deleteMonitoringSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitoringSubscription",
-}));
+})) as any;
 
 export type DeleteOriginAccessControlError =
   | AccessDenied
@@ -12751,8 +6183,11 @@ export const deleteOriginAccessControl: API.OperationMethod<
   DeleteOriginAccessControlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteOriginAccessControlRequest,
-  output: DeleteOriginAccessControlResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/origin-access-control/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     InvalidIfMatchVersion,
@@ -12763,7 +6198,7 @@ export const deleteOriginAccessControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginAccessControl",
-}));
+})) as any;
 
 export type DeleteOriginRequestPolicyError =
   | AccessDenied
@@ -12786,8 +6221,11 @@ export const deleteOriginRequestPolicy: API.OperationMethod<
   DeleteOriginRequestPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteOriginRequestPolicyRequest,
-  output: DeleteOriginRequestPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/origin-request-policy/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     IllegalDelete,
@@ -12799,7 +6237,7 @@ export const deleteOriginRequestPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginRequestPolicy",
-}));
+})) as any;
 
 export type DeletePublicKeyError =
   | AccessDenied
@@ -12817,8 +6255,11 @@ export const deletePublicKey: API.OperationMethod<
   DeletePublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeletePublicKeyRequest,
-  output: DeletePublicKeyResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/public-key/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     InvalidIfMatchVersion,
@@ -12829,7 +6270,7 @@ export const deletePublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublicKey",
-}));
+})) as any;
 
 export type DeleteRealtimeLogConfigError =
   | AccessDenied
@@ -12850,8 +6291,12 @@ export const deleteRealtimeLogConfig: API.OperationMethod<
   DeleteRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRealtimeLogConfigRequest,
-  output: DeleteRealtimeLogConfigResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/delete-realtime-log-config",
+    input: { Name: 0, ARN: 0 },
+    body: "DeleteRealtimeLogConfigRequest",
+  },
   errors: [
     AccessDenied,
     InvalidArgument,
@@ -12861,7 +6306,7 @@ export const deleteRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRealtimeLogConfig",
-}));
+})) as any;
 
 export type DeleteResourcePolicyError =
   | AccessDenied
@@ -12880,8 +6325,12 @@ export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResourcePolicyRequest,
-  output: DeleteResourcePolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/delete-resource-policy",
+    input: { ResourceArn: 0 },
+    body: "DeleteResourcePolicyRequest",
+  },
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -12893,7 +6342,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
-}));
+})) as any;
 
 export type DeleteResponseHeadersPolicyError =
   | AccessDenied
@@ -12916,8 +6365,11 @@ export const deleteResponseHeadersPolicy: API.OperationMethod<
   DeleteResponseHeadersPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResponseHeadersPolicyRequest,
-  output: DeleteResponseHeadersPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/response-headers-policy/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     IllegalDelete,
@@ -12929,7 +6381,7 @@ export const deleteResponseHeadersPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResponseHeadersPolicy",
-}));
+})) as any;
 
 export type DeleteStreamingDistributionError =
   | AccessDenied
@@ -12967,8 +6419,11 @@ export const deleteStreamingDistribution: API.OperationMethod<
   DeleteStreamingDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteStreamingDistributionRequest,
-  output: DeleteStreamingDistributionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/streaming-distribution/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     InvalidIfMatchVersion,
@@ -12979,7 +6434,7 @@ export const deleteStreamingDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStreamingDistribution",
-}));
+})) as any;
 
 export type DeleteTrustStoreError =
   | AccessDenied
@@ -12998,8 +6453,11 @@ export const deleteTrustStore: API.OperationMethod<
   DeleteTrustStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTrustStoreRequest,
-  output: DeleteTrustStoreResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/trust-store/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+  },
   errors: [
     AccessDenied,
     CannotDeleteEntityWhileInUse,
@@ -13011,7 +6469,7 @@ export const deleteTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustStore",
-}));
+})) as any;
 
 export type DeleteVpcOriginError =
   | AccessDenied
@@ -13032,8 +6490,15 @@ export const deleteVpcOrigin: API.OperationMethod<
   DeleteVpcOriginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteVpcOriginRequest,
-  output: DeleteVpcOriginResult,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2020-05-31/vpc-origin/{Id}",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+    output: {
+      VpcOrigin: D.m({ payload: true, shape: o_VpcOrigin }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     CannotDeleteEntityWhileInUse,
@@ -13047,7 +6512,7 @@ export const deleteVpcOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcOrigin",
-}));
+})) as any;
 
 export type DescribeConnectionFunctionError =
   | AccessDenied
@@ -13064,13 +6529,23 @@ export const describeConnectionFunction: API.OperationMethod<
   DescribeConnectionFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeConnectionFunctionRequest,
-  output: DescribeConnectionFunctionResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/connection-function/{Identifier}/describe",
+    input: { Identifier: 0, Stage: D.m({ query: "Stage" }) },
+    output: {
+      ConnectionFunctionSummary: D.m({
+        payload: true,
+        shape: o_ConnectionFunctionSummary,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectionFunction",
-}));
+})) as any;
 
 export type DescribeFunctionError =
   | NoSuchFunctionExists
@@ -13087,13 +6562,20 @@ export const describeFunction: API.OperationMethod<
   DescribeFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeFunctionRequest,
-  output: DescribeFunctionResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/function/{Name}/describe",
+    input: { Name: 0, Stage: D.m({ query: "Stage" }) },
+    output: {
+      FunctionSummary: D.m({ payload: true, shape: o_FunctionSummary }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [NoSuchFunctionExists, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFunction",
-}));
+})) as any;
 
 export type DescribeKeyValueStoreError =
   | AccessDenied
@@ -13110,13 +6592,20 @@ export const describeKeyValueStore: API.OperationMethod<
   DescribeKeyValueStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeKeyValueStoreRequest,
-  output: DescribeKeyValueStoreResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/key-value-store/{Name}",
+    input: { Name: 0 },
+    output: {
+      KeyValueStore: D.m({ payload: true, shape: o_KeyValueStore }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKeyValueStore",
-}));
+})) as any;
 
 export type DisassociateDistributionTenantWebACLError =
   | AccessDenied
@@ -13134,8 +6623,12 @@ export const disassociateDistributionTenantWebACL: API.OperationMethod<
   DisassociateDistributionTenantWebACLError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateDistributionTenantWebACLRequest,
-  output: DisassociateDistributionTenantWebACLResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/distribution-tenant/{Id}/disassociate-web-acl",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+    output: { ETag: D.m({ header: "ETag" }) },
+  },
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -13146,7 +6639,7 @@ export const disassociateDistributionTenantWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDistributionTenantWebACL",
-}));
+})) as any;
 
 export type DisassociateDistributionWebACLError =
   | AccessDenied
@@ -13164,8 +6657,12 @@ export const disassociateDistributionWebACL: API.OperationMethod<
   DisassociateDistributionWebACLError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateDistributionWebACLRequest,
-  output: DisassociateDistributionWebACLResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/distribution/{Id}/disassociate-web-acl",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+    output: { ETag: D.m({ header: "ETag" }) },
+  },
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -13176,7 +6673,7 @@ export const disassociateDistributionWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDistributionWebACL",
-}));
+})) as any;
 
 export type GetAnycastIpListError =
   | AccessDenied
@@ -13193,13 +6690,20 @@ export const getAnycastIpList: API.OperationMethod<
   GetAnycastIpListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAnycastIpListRequest,
-  output: GetAnycastIpListResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/anycast-ip-list/{Id}",
+    input: { Id: 0 },
+    output: {
+      AnycastIpList: D.m({ payload: true, shape: o_AnycastIpList }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnycastIpList",
-}));
+})) as any;
 
 export type GetCachePolicyError =
   | AccessDenied
@@ -13220,13 +6724,20 @@ export const getCachePolicy: API.OperationMethod<
   GetCachePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCachePolicyRequest,
-  output: GetCachePolicyResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/cache-policy/{Id}",
+    input: { Id: 0 },
+    output: {
+      CachePolicy: D.m({ payload: true, shape: o_CachePolicy }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchCachePolicy],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCachePolicy",
-}));
+})) as any;
 
 export type GetCachePolicyConfigError =
   | AccessDenied
@@ -13243,13 +6754,20 @@ export const getCachePolicyConfig: API.OperationMethod<
   GetCachePolicyConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCachePolicyConfigRequest,
-  output: GetCachePolicyConfigResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/cache-policy/{Id}/config",
+    input: { Id: 0 },
+    output: {
+      CachePolicyConfig: D.m({ payload: true, shape: o_CachePolicyConfig }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchCachePolicy],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCachePolicyConfig",
-}));
+})) as any;
 
 export type GetCloudFrontOriginAccessIdentityError =
   | AccessDenied
@@ -13264,13 +6782,23 @@ export const getCloudFrontOriginAccessIdentity: API.OperationMethod<
   GetCloudFrontOriginAccessIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCloudFrontOriginAccessIdentityRequest,
-  output: GetCloudFrontOriginAccessIdentityResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/origin-access-identity/cloudfront/{Id}",
+    input: { Id: 0 },
+    output: {
+      CloudFrontOriginAccessIdentity: D.m({
+        payload: true,
+        shape: o_CloudFrontOriginAccessIdentity,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchCloudFrontOriginAccessIdentity],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudFrontOriginAccessIdentity",
-}));
+})) as any;
 
 export type GetCloudFrontOriginAccessIdentityConfigError =
   | AccessDenied
@@ -13285,13 +6813,20 @@ export const getCloudFrontOriginAccessIdentityConfig: API.OperationMethod<
   GetCloudFrontOriginAccessIdentityConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCloudFrontOriginAccessIdentityConfigRequest,
-  output: GetCloudFrontOriginAccessIdentityConfigResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/origin-access-identity/cloudfront/{Id}/config",
+    input: { Id: 0 },
+    output: {
+      CloudFrontOriginAccessIdentityConfig: D.m({ payload: true, shape: {} }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchCloudFrontOriginAccessIdentity],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudFrontOriginAccessIdentityConfig",
-}));
+})) as any;
 
 export type GetConnectionFunctionError =
   | AccessDenied
@@ -13307,13 +6842,21 @@ export const getConnectionFunction: API.OperationMethod<
   GetConnectionFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetConnectionFunctionRequest,
-  output: GetConnectionFunctionResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/connection-function/{Identifier}",
+    input: { Identifier: 0, Stage: D.m({ query: "Stage" }) },
+    output: {
+      ConnectionFunctionCode: D.m({ payload: true, shape: D.stream }),
+      ETag: D.m({ header: "ETag" }),
+      ContentType: D.m({ header: "Content-Type" }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionFunction",
-}));
+})) as any;
 
 export type GetConnectionGroupError =
   | AccessDenied
@@ -13328,13 +6871,20 @@ export const getConnectionGroup: API.OperationMethod<
   GetConnectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetConnectionGroupRequest,
-  output: GetConnectionGroupResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/connection-group/{Identifier}",
+    input: { Identifier: 0 },
+    output: {
+      ConnectionGroup: D.m({ payload: true, shape: o_ConnectionGroup }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionGroup",
-}));
+})) as any;
 
 export type GetConnectionGroupByRoutingEndpointError =
   | AccessDenied
@@ -13349,13 +6899,20 @@ export const getConnectionGroupByRoutingEndpoint: API.OperationMethod<
   GetConnectionGroupByRoutingEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetConnectionGroupByRoutingEndpointRequest,
-  output: GetConnectionGroupByRoutingEndpointResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/connection-group",
+    input: { RoutingEndpoint: D.m({ query: "RoutingEndpoint" }) },
+    output: {
+      ConnectionGroup: D.m({ payload: true, shape: o_ConnectionGroup }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionGroupByRoutingEndpoint",
-}));
+})) as any;
 
 export type GetContinuousDeploymentPolicyError =
   | AccessDenied
@@ -13370,13 +6927,23 @@ export const getContinuousDeploymentPolicy: API.OperationMethod<
   GetContinuousDeploymentPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetContinuousDeploymentPolicyRequest,
-  output: GetContinuousDeploymentPolicyResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/continuous-deployment-policy/{Id}",
+    input: { Id: 0 },
+    output: {
+      ContinuousDeploymentPolicy: D.m({
+        payload: true,
+        shape: o_ContinuousDeploymentPolicy,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchContinuousDeploymentPolicy],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContinuousDeploymentPolicy",
-}));
+})) as any;
 
 export type GetContinuousDeploymentPolicyConfigError =
   | AccessDenied
@@ -13391,13 +6958,23 @@ export const getContinuousDeploymentPolicyConfig: API.OperationMethod<
   GetContinuousDeploymentPolicyConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetContinuousDeploymentPolicyConfigRequest,
-  output: GetContinuousDeploymentPolicyConfigResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/continuous-deployment-policy/{Id}/config",
+    input: { Id: 0 },
+    output: {
+      ContinuousDeploymentPolicyConfig: D.m({
+        payload: true,
+        shape: o_ContinuousDeploymentPolicyConfig,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchContinuousDeploymentPolicy],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContinuousDeploymentPolicyConfig",
-}));
+})) as any;
 
 export type GetDistributionError =
   | AccessDenied
@@ -13412,13 +6989,20 @@ export const getDistribution: API.OperationMethod<
   GetDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDistributionRequest,
-  output: GetDistributionResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distribution/{Id}",
+    input: { Id: 0 },
+    output: {
+      Distribution: D.m({ payload: true, shape: o_Distribution }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchDistribution],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistribution",
-}));
+})) as any;
 
 export type GetDistributionConfigError =
   | AccessDenied
@@ -13433,13 +7017,20 @@ export const getDistributionConfig: API.OperationMethod<
   GetDistributionConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDistributionConfigRequest,
-  output: GetDistributionConfigResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distribution/{Id}/config",
+    input: { Id: 0 },
+    output: {
+      DistributionConfig: D.m({ payload: true, shape: o_DistributionConfig }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchDistribution],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionConfig",
-}));
+})) as any;
 
 export type GetDistributionTenantError =
   | AccessDenied
@@ -13454,13 +7045,20 @@ export const getDistributionTenant: API.OperationMethod<
   GetDistributionTenantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDistributionTenantRequest,
-  output: GetDistributionTenantResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distribution-tenant/{Identifier}",
+    input: { Identifier: 0 },
+    output: {
+      DistributionTenant: D.m({ payload: true, shape: o_DistributionTenant }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionTenant",
-}));
+})) as any;
 
 export type GetDistributionTenantByDomainError =
   | AccessDenied
@@ -13475,13 +7073,20 @@ export const getDistributionTenantByDomain: API.OperationMethod<
   GetDistributionTenantByDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDistributionTenantByDomainRequest,
-  output: GetDistributionTenantByDomainResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distribution-tenant",
+    input: { Domain: D.m({ query: "domain" }) },
+    output: {
+      DistributionTenant: D.m({ payload: true, shape: o_DistributionTenant }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionTenantByDomain",
-}));
+})) as any;
 
 export type GetFieldLevelEncryptionError =
   | AccessDenied
@@ -13496,13 +7101,23 @@ export const getFieldLevelEncryption: API.OperationMethod<
   GetFieldLevelEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetFieldLevelEncryptionRequest,
-  output: GetFieldLevelEncryptionResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/field-level-encryption/{Id}",
+    input: { Id: 0 },
+    output: {
+      FieldLevelEncryption: D.m({
+        payload: true,
+        shape: o_FieldLevelEncryption,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchFieldLevelEncryptionConfig],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryption",
-}));
+})) as any;
 
 export type GetFieldLevelEncryptionConfigError =
   | AccessDenied
@@ -13517,13 +7132,23 @@ export const getFieldLevelEncryptionConfig: API.OperationMethod<
   GetFieldLevelEncryptionConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetFieldLevelEncryptionConfigRequest,
-  output: GetFieldLevelEncryptionConfigResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/field-level-encryption/{Id}/config",
+    input: { Id: 0 },
+    output: {
+      FieldLevelEncryptionConfig: D.m({
+        payload: true,
+        shape: o_FieldLevelEncryptionConfig,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchFieldLevelEncryptionConfig],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryptionConfig",
-}));
+})) as any;
 
 export type GetFieldLevelEncryptionProfileError =
   | AccessDenied
@@ -13538,13 +7163,23 @@ export const getFieldLevelEncryptionProfile: API.OperationMethod<
   GetFieldLevelEncryptionProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetFieldLevelEncryptionProfileRequest,
-  output: GetFieldLevelEncryptionProfileResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/field-level-encryption-profile/{Id}",
+    input: { Id: 0 },
+    output: {
+      FieldLevelEncryptionProfile: D.m({
+        payload: true,
+        shape: o_FieldLevelEncryptionProfile,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchFieldLevelEncryptionProfile],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryptionProfile",
-}));
+})) as any;
 
 export type GetFieldLevelEncryptionProfileConfigError =
   | AccessDenied
@@ -13559,13 +7194,23 @@ export const getFieldLevelEncryptionProfileConfig: API.OperationMethod<
   GetFieldLevelEncryptionProfileConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetFieldLevelEncryptionProfileConfigRequest,
-  output: GetFieldLevelEncryptionProfileConfigResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/field-level-encryption-profile/{Id}/config",
+    input: { Id: 0 },
+    output: {
+      FieldLevelEncryptionProfileConfig: D.m({
+        payload: true,
+        shape: o_FieldLevelEncryptionProfileConfig,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchFieldLevelEncryptionProfile],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryptionProfileConfig",
-}));
+})) as any;
 
 export type GetFunctionError =
   | NoSuchFunctionExists
@@ -13582,13 +7227,21 @@ export const getFunction: API.OperationMethod<
   GetFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetFunctionRequest,
-  output: GetFunctionResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/function/{Name}",
+    input: { Name: 0, Stage: D.m({ query: "Stage" }) },
+    output: {
+      FunctionCode: D.m({ payload: true, shape: D.stream }),
+      ETag: D.m({ header: "ETag" }),
+      ContentType: D.m({ header: "Content-Type" }),
+    },
+  },
   errors: [NoSuchFunctionExists, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunction",
-}));
+})) as any;
 
 export type GetInvalidationError =
   | AccessDenied
@@ -13604,13 +7257,17 @@ export const getInvalidation: API.OperationMethod<
   GetInvalidationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetInvalidationRequest,
-  output: GetInvalidationResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distribution/{DistributionId}/invalidation/{Id}",
+    input: { DistributionId: 0, Id: 0 },
+    output: { Invalidation: D.m({ payload: true, shape: o_Invalidation }) },
+  },
   errors: [AccessDenied, NoSuchDistribution, NoSuchInvalidation],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvalidation",
-}));
+})) as any;
 
 export type GetInvalidationForDistributionTenantError =
   | AccessDenied
@@ -13626,13 +7283,17 @@ export const getInvalidationForDistributionTenant: API.OperationMethod<
   GetInvalidationForDistributionTenantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetInvalidationForDistributionTenantRequest,
-  output: GetInvalidationForDistributionTenantResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distribution-tenant/{DistributionTenantId}/invalidation/{Id}",
+    input: { DistributionTenantId: 0, Id: 0 },
+    output: { Invalidation: D.m({ payload: true, shape: o_Invalidation }) },
+  },
   errors: [AccessDenied, EntityNotFound, NoSuchInvalidation],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvalidationForDistributionTenant",
-}));
+})) as any;
 
 export type GetKeyGroupError = NoSuchResource | CommonErrors;
 /**
@@ -13646,13 +7307,20 @@ export const getKeyGroup: API.OperationMethod<
   GetKeyGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetKeyGroupRequest,
-  output: GetKeyGroupResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/key-group/{Id}",
+    input: { Id: 0 },
+    output: {
+      KeyGroup: D.m({ payload: true, shape: o_KeyGroup }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [NoSuchResource],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyGroup",
-}));
+})) as any;
 
 export type GetKeyGroupConfigError = NoSuchResource | CommonErrors;
 /**
@@ -13666,13 +7334,20 @@ export const getKeyGroupConfig: API.OperationMethod<
   GetKeyGroupConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetKeyGroupConfigRequest,
-  output: GetKeyGroupConfigResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/key-group/{Id}/config",
+    input: { Id: 0 },
+    output: {
+      KeyGroupConfig: D.m({ payload: true, shape: o_KeyGroupConfig }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [NoSuchResource],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyGroupConfig",
-}));
+})) as any;
 
 export type GetManagedCertificateDetailsError =
   | AccessDenied
@@ -13687,13 +7362,22 @@ export const getManagedCertificateDetails: API.OperationMethod<
   GetManagedCertificateDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetManagedCertificateDetailsRequest,
-  output: GetManagedCertificateDetailsResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/managed-certificate/{Identifier}",
+    input: { Identifier: 0 },
+    output: {
+      ManagedCertificateDetails: D.m({
+        payload: true,
+        shape: { ValidationTokenDetails: D.list({}) },
+      }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedCertificateDetails",
-}));
+})) as any;
 
 export type GetMonitoringSubscriptionError =
   | AccessDenied
@@ -13710,8 +7394,17 @@ export const getMonitoringSubscription: API.OperationMethod<
   GetMonitoringSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMonitoringSubscriptionRequest,
-  output: GetMonitoringSubscriptionResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distributions/{DistributionId}/monitoring-subscription",
+    input: { DistributionId: 0 },
+    output: {
+      MonitoringSubscription: D.m({
+        payload: true,
+        shape: o_MonitoringSubscription,
+      }),
+    },
+  },
   errors: [
     AccessDenied,
     NoSuchDistribution,
@@ -13721,7 +7414,7 @@ export const getMonitoringSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMonitoringSubscription",
-}));
+})) as any;
 
 export type GetOriginAccessControlError =
   | AccessDenied
@@ -13736,13 +7429,20 @@ export const getOriginAccessControl: API.OperationMethod<
   GetOriginAccessControlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetOriginAccessControlRequest,
-  output: GetOriginAccessControlResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/origin-access-control/{Id}",
+    input: { Id: 0 },
+    output: {
+      OriginAccessControl: D.m({ payload: true, shape: o_OriginAccessControl }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchOriginAccessControl],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginAccessControl",
-}));
+})) as any;
 
 export type GetOriginAccessControlConfigError =
   | AccessDenied
@@ -13757,13 +7457,20 @@ export const getOriginAccessControlConfig: API.OperationMethod<
   GetOriginAccessControlConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetOriginAccessControlConfigRequest,
-  output: GetOriginAccessControlConfigResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/origin-access-control/{Id}/config",
+    input: { Id: 0 },
+    output: {
+      OriginAccessControlConfig: D.m({ payload: true, shape: {} }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchOriginAccessControl],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginAccessControlConfig",
-}));
+})) as any;
 
 export type GetOriginRequestPolicyError =
   | AccessDenied
@@ -13784,13 +7491,20 @@ export const getOriginRequestPolicy: API.OperationMethod<
   GetOriginRequestPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetOriginRequestPolicyRequest,
-  output: GetOriginRequestPolicyResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/origin-request-policy/{Id}",
+    input: { Id: 0 },
+    output: {
+      OriginRequestPolicy: D.m({ payload: true, shape: o_OriginRequestPolicy }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchOriginRequestPolicy],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginRequestPolicy",
-}));
+})) as any;
 
 export type GetOriginRequestPolicyConfigError =
   | AccessDenied
@@ -13807,13 +7521,23 @@ export const getOriginRequestPolicyConfig: API.OperationMethod<
   GetOriginRequestPolicyConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetOriginRequestPolicyConfigRequest,
-  output: GetOriginRequestPolicyConfigResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/origin-request-policy/{Id}/config",
+    input: { Id: 0 },
+    output: {
+      OriginRequestPolicyConfig: D.m({
+        payload: true,
+        shape: o_OriginRequestPolicyConfig,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchOriginRequestPolicy],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginRequestPolicyConfig",
-}));
+})) as any;
 
 export type GetPublicKeyError = AccessDenied | NoSuchPublicKey | CommonErrors;
 /**
@@ -13825,13 +7549,20 @@ export const getPublicKey: API.OperationMethod<
   GetPublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPublicKeyRequest,
-  output: GetPublicKeyResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/public-key/{Id}",
+    input: { Id: 0 },
+    output: {
+      PublicKey: D.m({ payload: true, shape: o_PublicKey }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchPublicKey],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKey",
-}));
+})) as any;
 
 export type GetPublicKeyConfigError =
   | AccessDenied
@@ -13846,13 +7577,20 @@ export const getPublicKeyConfig: API.OperationMethod<
   GetPublicKeyConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPublicKeyConfigRequest,
-  output: GetPublicKeyConfigResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/public-key/{Id}/config",
+    input: { Id: 0 },
+    output: {
+      PublicKeyConfig: D.m({ payload: true, shape: {} }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchPublicKey],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKeyConfig",
-}));
+})) as any;
 
 export type GetRealtimeLogConfigError =
   | AccessDenied
@@ -13870,13 +7608,18 @@ export const getRealtimeLogConfig: API.OperationMethod<
   GetRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRealtimeLogConfigRequest,
-  output: GetRealtimeLogConfigResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/get-realtime-log-config",
+    input: { Name: 0, ARN: 0 },
+    output: { RealtimeLogConfig: o_RealtimeLogConfig },
+    body: "GetRealtimeLogConfigRequest",
+  },
   errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRealtimeLogConfig",
-}));
+})) as any;
 
 export type GetResourcePolicyError =
   | AccessDenied
@@ -13893,13 +7636,17 @@ export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyRequest,
-  output: GetResourcePolicyResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/get-resource-policy",
+    input: { ResourceArn: 0 },
+    body: "GetResourcePolicyRequest",
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-}));
+})) as any;
 
 export type GetResponseHeadersPolicyError =
   | AccessDenied
@@ -13916,13 +7663,23 @@ export const getResponseHeadersPolicy: API.OperationMethod<
   GetResponseHeadersPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResponseHeadersPolicyRequest,
-  output: GetResponseHeadersPolicyResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/response-headers-policy/{Id}",
+    input: { Id: 0 },
+    output: {
+      ResponseHeadersPolicy: D.m({
+        payload: true,
+        shape: o_ResponseHeadersPolicy,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchResponseHeadersPolicy],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResponseHeadersPolicy",
-}));
+})) as any;
 
 export type GetResponseHeadersPolicyConfigError =
   | AccessDenied
@@ -13939,13 +7696,23 @@ export const getResponseHeadersPolicyConfig: API.OperationMethod<
   GetResponseHeadersPolicyConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResponseHeadersPolicyConfigRequest,
-  output: GetResponseHeadersPolicyConfigResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/response-headers-policy/{Id}/config",
+    input: { Id: 0 },
+    output: {
+      ResponseHeadersPolicyConfig: D.m({
+        payload: true,
+        shape: o_ResponseHeadersPolicyConfig,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchResponseHeadersPolicy],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResponseHeadersPolicyConfig",
-}));
+})) as any;
 
 export type GetStreamingDistributionError =
   | AccessDenied
@@ -13960,13 +7727,23 @@ export const getStreamingDistribution: API.OperationMethod<
   GetStreamingDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetStreamingDistributionRequest,
-  output: GetStreamingDistributionResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/streaming-distribution/{Id}",
+    input: { Id: 0 },
+    output: {
+      StreamingDistribution: D.m({
+        payload: true,
+        shape: o_StreamingDistribution,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchStreamingDistribution],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamingDistribution",
-}));
+})) as any;
 
 export type GetStreamingDistributionConfigError =
   | AccessDenied
@@ -13981,13 +7758,23 @@ export const getStreamingDistributionConfig: API.OperationMethod<
   GetStreamingDistributionConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetStreamingDistributionConfigRequest,
-  output: GetStreamingDistributionConfigResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/streaming-distribution/{Id}/config",
+    input: { Id: 0 },
+    output: {
+      StreamingDistributionConfig: D.m({
+        payload: true,
+        shape: o_StreamingDistributionConfig,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, NoSuchStreamingDistribution],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamingDistributionConfig",
-}));
+})) as any;
 
 export type GetTrustStoreError =
   | AccessDenied
@@ -14003,13 +7790,20 @@ export const getTrustStore: API.OperationMethod<
   GetTrustStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTrustStoreRequest,
-  output: GetTrustStoreResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/trust-store/{Identifier}",
+    input: { Identifier: 0 },
+    output: {
+      TrustStore: D.m({ payload: true, shape: o_TrustStore }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStore",
-}));
+})) as any;
 
 export type GetVpcOriginError =
   | AccessDenied
@@ -14026,13 +7820,20 @@ export const getVpcOrigin: API.OperationMethod<
   GetVpcOriginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetVpcOriginRequest,
-  output: GetVpcOriginResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/vpc-origin/{Id}",
+    input: { Id: 0 },
+    output: {
+      VpcOrigin: D.m({ payload: true, shape: o_VpcOrigin }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcOrigin",
-}));
+})) as any;
 
 export type ListAnycastIpListsError =
   | AccessDenied
@@ -14049,13 +7850,38 @@ export const listAnycastIpLists: API.OperationMethod<
   ListAnycastIpListsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListAnycastIpListsRequest,
-  output: ListAnycastIpListsResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/anycast-ip-list",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      AnycastIpLists: D.m({
+        payload: true,
+        wire: "AnycastIpListCollection",
+        shape: {
+          Items: D.list(
+            {
+              IpCount: D.num,
+              LastModifiedTime: D.ts,
+              IpamConfig: o_IpamConfig,
+            },
+            { item: "AnycastIpListSummary" },
+          ),
+          MaxItems: D.num,
+          IsTruncated: D.bool,
+          Quantity: D.num,
+        },
+      }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAnycastIpLists",
-}));
+})) as any;
 
 export type ListCachePoliciesError =
   | AccessDenied
@@ -14075,13 +7901,33 @@ export const listCachePolicies: API.OperationMethod<
   ListCachePoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListCachePoliciesRequest,
-  output: ListCachePoliciesResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/cache-policy",
+    input: {
+      Type: D.m({ query: "Type" }),
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      CachePolicyList: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          Quantity: D.num,
+          Items: D.list(
+            { CachePolicy: o_CachePolicy },
+            { item: "CachePolicySummary" },
+          ),
+        },
+      }),
+    },
+  },
   errors: [AccessDenied, InvalidArgument, NoSuchCachePolicy],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCachePolicies",
-}));
+})) as any;
 
 export type ListCloudFrontOriginAccessIdentitiesError =
   | InvalidArgument
@@ -14096,8 +7942,25 @@ export const listCloudFrontOriginAccessIdentities: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListCloudFrontOriginAccessIdentitiesRequest,
-  output: ListCloudFrontOriginAccessIdentitiesResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/origin-access-identity/cloudfront",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      CloudFrontOriginAccessIdentityList: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          IsTruncated: D.bool,
+          Quantity: D.num,
+          Items: D.list({}, { item: "CloudFrontOriginAccessIdentitySummary" }),
+        },
+      }),
+    },
+  },
   errors: [InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14133,13 +7996,31 @@ export const listConflictingAliases: API.OperationMethod<
   ListConflictingAliasesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListConflictingAliasesRequest,
-  output: ListConflictingAliasesResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/conflicting-alias",
+    input: {
+      DistributionId: D.m({ query: "DistributionId" }),
+      Alias: D.m({ query: "Alias" }),
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      ConflictingAliasesList: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          Quantity: D.num,
+          Items: D.list({}, { item: "ConflictingAlias" }),
+        },
+      }),
+    },
+  },
   errors: [InvalidArgument, NoSuchDistribution],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConflictingAliases",
-}));
+})) as any;
 
 export type ListConnectionFunctionsError =
   | AccessDenied
@@ -14156,8 +8037,17 @@ export const listConnectionFunctions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConnectionFunctionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListConnectionFunctionsRequest,
-  output: ListConnectionFunctionsResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/connection-functions",
+    input: { Marker: 0, MaxItems: 0, Stage: 0 },
+    output: {
+      ConnectionFunctions: D.list(o_ConnectionFunctionSummary, {
+        item: "ConnectionFunctionSummary",
+      }),
+    },
+    body: "ListConnectionFunctionsRequest",
+  },
   errors: [AccessDenied, InvalidArgument, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14185,8 +8075,27 @@ export const listConnectionGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConnectionGroupSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListConnectionGroupsRequest,
-  output: ListConnectionGroupsResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/connection-groups",
+    input: {
+      AssociationFilter: { AnycastIpListId: 0 },
+      Marker: 0,
+      MaxItems: 0,
+    },
+    output: {
+      ConnectionGroups: D.list(
+        {
+          CreatedTime: D.ts,
+          LastModifiedTime: D.ts,
+          Enabled: D.bool,
+          IsDefault: D.bool,
+        },
+        { item: "ConnectionGroupSummary" },
+      ),
+    },
+    body: "ListConnectionGroupsRequest",
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14215,13 +8124,32 @@ export const listContinuousDeploymentPolicies: API.OperationMethod<
   ListContinuousDeploymentPoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListContinuousDeploymentPoliciesRequest,
-  output: ListContinuousDeploymentPoliciesResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/continuous-deployment-policy",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      ContinuousDeploymentPolicyList: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          Quantity: D.num,
+          Items: D.list(
+            { ContinuousDeploymentPolicy: o_ContinuousDeploymentPolicy },
+            { item: "ContinuousDeploymentPolicySummary" },
+          ),
+        },
+      }),
+    },
+  },
   errors: [AccessDenied, InvalidArgument, NoSuchContinuousDeploymentPolicy],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListContinuousDeploymentPolicies",
-}));
+})) as any;
 
 export type ListDistributionsError = InvalidArgument | CommonErrors;
 /**
@@ -14234,8 +8162,17 @@ export const listDistributions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDistributionsRequest,
-  output: ListDistributionsResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distribution",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      DistributionList: D.m({ payload: true, shape: o_DistributionList }),
+    },
+  },
   errors: [InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14263,13 +8200,23 @@ export const listDistributionsByAnycastIpListId: API.OperationMethod<
   ListDistributionsByAnycastIpListIdError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDistributionsByAnycastIpListIdRequest,
-  output: ListDistributionsByAnycastIpListIdResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distributionsByAnycastIpListId/{AnycastIpListId}",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+      AnycastIpListId: 0,
+    },
+    output: {
+      DistributionList: D.m({ payload: true, shape: o_DistributionList }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByAnycastIpListId",
-}));
+})) as any;
 
 export type ListDistributionsByCachePolicyIdError =
   | AccessDenied
@@ -14287,13 +8234,23 @@ export const listDistributionsByCachePolicyId: API.OperationMethod<
   ListDistributionsByCachePolicyIdError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDistributionsByCachePolicyIdRequest,
-  output: ListDistributionsByCachePolicyIdResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distributionsByCachePolicyId/{CachePolicyId}",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+      CachePolicyId: 0,
+    },
+    output: {
+      DistributionIdList: D.m({ payload: true, shape: o_DistributionIdList }),
+    },
+  },
   errors: [AccessDenied, InvalidArgument, NoSuchCachePolicy],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByCachePolicyId",
-}));
+})) as any;
 
 export type ListDistributionsByConnectionFunctionError =
   | AccessDenied
@@ -14310,8 +8267,20 @@ export const listDistributionsByConnectionFunction: API.PaginatedOperationMethod
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDistributionsByConnectionFunctionRequest,
-  output: ListDistributionsByConnectionFunctionResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distributionsByConnectionFunction",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+      ConnectionFunctionIdentifier: D.m({
+        query: "ConnectionFunctionIdentifier",
+      }),
+    },
+    output: {
+      DistributionList: D.m({ payload: true, shape: o_DistributionList }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14338,8 +8307,18 @@ export const listDistributionsByConnectionMode: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDistributionsByConnectionModeRequest,
-  output: ListDistributionsByConnectionModeResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distributionsByConnectionMode/{ConnectionMode}",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+      ConnectionMode: 0,
+    },
+    output: {
+      DistributionList: D.m({ payload: true, shape: o_DistributionList }),
+    },
+  },
   errors: [AccessDenied, InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14367,13 +8346,23 @@ export const listDistributionsByKeyGroup: API.OperationMethod<
   ListDistributionsByKeyGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDistributionsByKeyGroupRequest,
-  output: ListDistributionsByKeyGroupResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distributionsByKeyGroupId/{KeyGroupId}",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+      KeyGroupId: 0,
+    },
+    output: {
+      DistributionIdList: D.m({ payload: true, shape: o_DistributionIdList }),
+    },
+  },
   errors: [InvalidArgument, NoSuchResource],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByKeyGroup",
-}));
+})) as any;
 
 export type ListDistributionsByOriginRequestPolicyIdError =
   | AccessDenied
@@ -14391,13 +8380,23 @@ export const listDistributionsByOriginRequestPolicyId: API.OperationMethod<
   ListDistributionsByOriginRequestPolicyIdError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDistributionsByOriginRequestPolicyIdRequest,
-  output: ListDistributionsByOriginRequestPolicyIdResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distributionsByOriginRequestPolicyId/{OriginRequestPolicyId}",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+      OriginRequestPolicyId: 0,
+    },
+    output: {
+      DistributionIdList: D.m({ payload: true, shape: o_DistributionIdList }),
+    },
+  },
   errors: [AccessDenied, InvalidArgument, NoSuchOriginRequestPolicy],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByOriginRequestPolicyId",
-}));
+})) as any;
 
 export type ListDistributionsByOwnedResourceError =
   | AccessDenied
@@ -14414,13 +8413,31 @@ export const listDistributionsByOwnedResource: API.OperationMethod<
   ListDistributionsByOwnedResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDistributionsByOwnedResourceRequest,
-  output: ListDistributionsByOwnedResourceResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distributionsByOwnedResource/{ResourceArn}",
+    input: {
+      ResourceArn: 0,
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      DistributionList: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          IsTruncated: D.bool,
+          Quantity: D.num,
+          Items: D.list({}, { item: "DistributionIdOwner" }),
+        },
+      }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByOwnedResource",
-}));
+})) as any;
 
 export type ListDistributionsByRealtimeLogConfigError =
   | InvalidArgument
@@ -14438,13 +8455,25 @@ export const listDistributionsByRealtimeLogConfig: API.OperationMethod<
   ListDistributionsByRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDistributionsByRealtimeLogConfigRequest,
-  output: ListDistributionsByRealtimeLogConfigResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/distributionsByRealtimeLogConfig",
+    input: {
+      Marker: 0,
+      MaxItems: 0,
+      RealtimeLogConfigName: 0,
+      RealtimeLogConfigArn: 0,
+    },
+    output: {
+      DistributionList: D.m({ payload: true, shape: o_DistributionList }),
+    },
+    body: "ListDistributionsByRealtimeLogConfigRequest",
+  },
   errors: [InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByRealtimeLogConfig",
-}));
+})) as any;
 
 export type ListDistributionsByResponseHeadersPolicyIdError =
   | AccessDenied
@@ -14462,13 +8491,23 @@ export const listDistributionsByResponseHeadersPolicyId: API.OperationMethod<
   ListDistributionsByResponseHeadersPolicyIdError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDistributionsByResponseHeadersPolicyIdRequest,
-  output: ListDistributionsByResponseHeadersPolicyIdResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distributionsByResponseHeadersPolicyId/{ResponseHeadersPolicyId}",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+      ResponseHeadersPolicyId: 0,
+    },
+    output: {
+      DistributionIdList: D.m({ payload: true, shape: o_DistributionIdList }),
+    },
+  },
   errors: [AccessDenied, InvalidArgument, NoSuchResponseHeadersPolicy],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByResponseHeadersPolicyId",
-}));
+})) as any;
 
 export type ListDistributionsByTrustStoreError =
   | AccessDenied
@@ -14485,8 +8524,18 @@ export const listDistributionsByTrustStore: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDistributionsByTrustStoreRequest,
-  output: ListDistributionsByTrustStoreResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distributionsByTrustStore",
+    input: {
+      TrustStoreIdentifier: D.m({ query: "TrustStoreIdentifier" }),
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      DistributionList: D.m({ payload: true, shape: o_DistributionList }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14514,13 +8563,23 @@ export const listDistributionsByVpcOriginId: API.OperationMethod<
   ListDistributionsByVpcOriginIdError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDistributionsByVpcOriginIdRequest,
-  output: ListDistributionsByVpcOriginIdResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distributionsByVpcOriginId/{VpcOriginId}",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+      VpcOriginId: 0,
+    },
+    output: {
+      DistributionIdList: D.m({ payload: true, shape: o_DistributionIdList }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByVpcOriginId",
-}));
+})) as any;
 
 export type ListDistributionsByWebACLIdError =
   | InvalidArgument
@@ -14535,13 +8594,23 @@ export const listDistributionsByWebACLId: API.OperationMethod<
   ListDistributionsByWebACLIdError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDistributionsByWebACLIdRequest,
-  output: ListDistributionsByWebACLIdResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distributionsByWebACLId/{WebACLId}",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+      WebACLId: 0,
+    },
+    output: {
+      DistributionList: D.m({ payload: true, shape: o_DistributionList }),
+    },
+  },
   errors: [InvalidArgument, InvalidWebACLId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByWebACLId",
-}));
+})) as any;
 
 export type ListDistributionTenantsError =
   | AccessDenied
@@ -14558,8 +8627,21 @@ export const listDistributionTenants: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DistributionTenantSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDistributionTenantsRequest,
-  output: ListDistributionTenantsResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/distribution-tenants",
+    input: {
+      AssociationFilter: { DistributionId: 0, ConnectionGroupId: 0 },
+      Marker: 0,
+      MaxItems: 0,
+    },
+    output: {
+      DistributionTenantList: D.list(o_DistributionTenantSummary, {
+        item: "DistributionTenantSummary",
+      }),
+    },
+    body: "ListDistributionTenantsRequest",
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14589,8 +8671,17 @@ export const listDistributionTenantsByCustomization: API.PaginatedOperationMetho
   Credentials | HttpClient.HttpClient,
   DistributionTenantSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDistributionTenantsByCustomizationRequest,
-  output: ListDistributionTenantsByCustomizationResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/distribution-tenants-by-customization",
+    input: { WebACLArn: 0, CertificateArn: 0, Marker: 0, MaxItems: 0 },
+    output: {
+      DistributionTenantList: D.list(o_DistributionTenantSummary, {
+        item: "DistributionTenantSummary",
+      }),
+    },
+    body: "ListDistributionTenantsByCustomizationRequest",
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14634,8 +8725,18 @@ export const listDomainConflicts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DomainConflict
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDomainConflictsRequest,
-  output: ListDomainConflictsResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/domain-conflicts",
+    input: {
+      Domain: 0,
+      DomainControlValidationResource: i_DistributionResourceId,
+      MaxItems: 0,
+      Marker: 0,
+    },
+    output: { DomainConflicts: D.list({}, { item: "DomainConflicts" }) },
+    body: "ListDomainConflictsRequest",
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14660,13 +8761,36 @@ export const listFieldLevelEncryptionConfigs: API.OperationMethod<
   ListFieldLevelEncryptionConfigsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListFieldLevelEncryptionConfigsRequest,
-  output: ListFieldLevelEncryptionConfigsResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/field-level-encryption",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      FieldLevelEncryptionList: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          Quantity: D.num,
+          Items: D.list(
+            {
+              LastModifiedTime: D.ts,
+              QueryArgProfileConfig: o_QueryArgProfileConfig,
+              ContentTypeProfileConfig: o_ContentTypeProfileConfig,
+            },
+            { item: "FieldLevelEncryptionSummary" },
+          ),
+        },
+      }),
+    },
+  },
   errors: [InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFieldLevelEncryptionConfigs",
-}));
+})) as any;
 
 export type ListFieldLevelEncryptionProfilesError =
   | InvalidArgument
@@ -14680,13 +8804,35 @@ export const listFieldLevelEncryptionProfiles: API.OperationMethod<
   ListFieldLevelEncryptionProfilesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListFieldLevelEncryptionProfilesRequest,
-  output: ListFieldLevelEncryptionProfilesResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/field-level-encryption-profile",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      FieldLevelEncryptionProfileList: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          Quantity: D.num,
+          Items: D.list(
+            {
+              LastModifiedTime: D.ts,
+              EncryptionEntities: o_EncryptionEntities,
+            },
+            { item: "FieldLevelEncryptionProfileSummary" },
+          ),
+        },
+      }),
+    },
+  },
   errors: [InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFieldLevelEncryptionProfiles",
-}));
+})) as any;
 
 export type ListFunctionsError =
   | InvalidArgument
@@ -14705,13 +8851,30 @@ export const listFunctions: API.OperationMethod<
   ListFunctionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListFunctionsRequest,
-  output: ListFunctionsResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/function",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+      Stage: D.m({ query: "Stage" }),
+    },
+    output: {
+      FunctionList: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          Quantity: D.num,
+          Items: D.list(o_FunctionSummary, { item: "FunctionSummary" }),
+        },
+      }),
+    },
+  },
   errors: [InvalidArgument, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctions",
-}));
+})) as any;
 
 export type ListInvalidationsError =
   | AccessDenied
@@ -14728,8 +8891,18 @@ export const listInvalidations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListInvalidationsRequest,
-  output: ListInvalidationsResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distribution/{DistributionId}/invalidation",
+    input: {
+      DistributionId: 0,
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      InvalidationList: D.m({ payload: true, shape: o_InvalidationList }),
+    },
+  },
   errors: [AccessDenied, InvalidArgument, NoSuchDistribution],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14757,8 +8930,18 @@ export const listInvalidationsForDistributionTenant: API.PaginatedOperationMetho
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListInvalidationsForDistributionTenantRequest,
-  output: ListInvalidationsForDistributionTenantResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/distribution-tenant/{Id}/invalidation",
+    input: {
+      Id: 0,
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      InvalidationList: D.m({ payload: true, shape: o_InvalidationList }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14783,13 +8966,29 @@ export const listKeyGroups: API.OperationMethod<
   ListKeyGroupsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListKeyGroupsRequest,
-  output: ListKeyGroupsResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/key-group",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      KeyGroupList: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          Quantity: D.num,
+          Items: D.list({ KeyGroup: o_KeyGroup }, { item: "KeyGroupSummary" }),
+        },
+      }),
+    },
+  },
   errors: [InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListKeyGroups",
-}));
+})) as any;
 
 export type ListKeyValueStoresError =
   | AccessDenied
@@ -14806,8 +9005,25 @@ export const listKeyValueStores: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListKeyValueStoresRequest,
-  output: ListKeyValueStoresResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/key-value-store",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+      Status: D.m({ query: "Status" }),
+    },
+    output: {
+      KeyValueStoreList: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          Quantity: D.num,
+          Items: D.list(o_KeyValueStore, { item: "KeyValueStore" }),
+        },
+      }),
+    },
+  },
   errors: [AccessDenied, InvalidArgument, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14835,8 +9051,25 @@ export const listOriginAccessControls: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListOriginAccessControlsRequest,
-  output: ListOriginAccessControlsResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/origin-access-control",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      OriginAccessControlList: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          IsTruncated: D.bool,
+          Quantity: D.num,
+          Items: D.list({}, { item: "OriginAccessControlSummary" }),
+        },
+      }),
+    },
+  },
   errors: [InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14867,13 +9100,33 @@ export const listOriginRequestPolicies: API.OperationMethod<
   ListOriginRequestPoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListOriginRequestPoliciesRequest,
-  output: ListOriginRequestPoliciesResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/origin-request-policy",
+    input: {
+      Type: D.m({ query: "Type" }),
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      OriginRequestPolicyList: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          Quantity: D.num,
+          Items: D.list(
+            { OriginRequestPolicy: o_OriginRequestPolicy },
+            { item: "OriginRequestPolicySummary" },
+          ),
+        },
+      }),
+    },
+  },
   errors: [AccessDenied, InvalidArgument, NoSuchOriginRequestPolicy],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOriginRequestPolicies",
-}));
+})) as any;
 
 export type ListPublicKeysError = InvalidArgument | CommonErrors;
 /**
@@ -14886,8 +9139,24 @@ export const listPublicKeys: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPublicKeysRequest,
-  output: ListPublicKeysResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/public-key",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      PublicKeyList: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          Quantity: D.num,
+          Items: D.list({ CreatedTime: D.ts }, { item: "PublicKeySummary" }),
+        },
+      }),
+    },
+  },
   errors: [InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14916,13 +9185,29 @@ export const listRealtimeLogConfigs: API.OperationMethod<
   ListRealtimeLogConfigsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListRealtimeLogConfigsRequest,
-  output: ListRealtimeLogConfigsResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/realtime-log-config",
+    input: {
+      MaxItems: D.m({ query: "MaxItems" }),
+      Marker: D.m({ query: "Marker" }),
+    },
+    output: {
+      RealtimeLogConfigs: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          Items: D.list(o_RealtimeLogConfig),
+          IsTruncated: D.bool,
+        },
+      }),
+    },
+  },
   errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRealtimeLogConfigs",
-}));
+})) as any;
 
 export type ListResponseHeadersPoliciesError =
   | AccessDenied
@@ -14942,13 +9227,33 @@ export const listResponseHeadersPolicies: API.OperationMethod<
   ListResponseHeadersPoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListResponseHeadersPoliciesRequest,
-  output: ListResponseHeadersPoliciesResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/response-headers-policy",
+    input: {
+      Type: D.m({ query: "Type" }),
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      ResponseHeadersPolicyList: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          Quantity: D.num,
+          Items: D.list(
+            { ResponseHeadersPolicy: o_ResponseHeadersPolicy },
+            { item: "ResponseHeadersPolicySummary" },
+          ),
+        },
+      }),
+    },
+  },
   errors: [AccessDenied, InvalidArgument, NoSuchResponseHeadersPolicy],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResponseHeadersPolicies",
-}));
+})) as any;
 
 export type ListStreamingDistributionsError = InvalidArgument | CommonErrors;
 /**
@@ -14961,8 +9266,34 @@ export const listStreamingDistributions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStreamingDistributionsRequest,
-  output: ListStreamingDistributionsResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/streaming-distribution",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      StreamingDistributionList: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          IsTruncated: D.bool,
+          Quantity: D.num,
+          Items: D.list(
+            {
+              LastModifiedTime: D.ts,
+              S3Origin: {},
+              Aliases: o_Aliases,
+              TrustedSigners: o_TrustedSigners,
+              Enabled: D.bool,
+            },
+            { item: "StreamingDistributionSummary" },
+          ),
+        },
+      }),
+    },
+  },
   errors: [InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14990,13 +9321,17 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/tagging",
+    input: { Resource: D.m({ query: "Resource" }) },
+    output: { Tags: D.m({ payload: true, shape: o_Tags }) },
+  },
   errors: [AccessDenied, InvalidArgument, InvalidTagging, NoSuchResource],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type ListTrustStoresError =
   | AccessDenied
@@ -15013,8 +9348,18 @@ export const listTrustStores: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TrustStoreSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTrustStoresRequest,
-  output: ListTrustStoresResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/trust-stores",
+    input: { Marker: 0, MaxItems: 0 },
+    output: {
+      TrustStoreList: D.list(
+        { NumberOfCaCertificates: D.num, LastModifiedTime: D.ts },
+        { item: "TrustStoreSummary" },
+      ),
+    },
+    body: "ListTrustStoresRequest",
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
@@ -15042,13 +9387,33 @@ export const listVpcOrigins: API.OperationMethod<
   ListVpcOriginsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListVpcOriginsRequest,
-  output: ListVpcOriginsResult,
+  descriptor: {
+    service: svc,
+    http: "GET /2020-05-31/vpc-origin",
+    input: {
+      Marker: D.m({ query: "Marker" }),
+      MaxItems: D.m({ query: "MaxItems" }),
+    },
+    output: {
+      VpcOriginList: D.m({
+        payload: true,
+        shape: {
+          MaxItems: D.num,
+          IsTruncated: D.bool,
+          Quantity: D.num,
+          Items: D.list(
+            { CreatedTime: D.ts, LastModifiedTime: D.ts },
+            { item: "VpcOriginSummary" },
+          ),
+        },
+      }),
+    },
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcOrigins",
-}));
+})) as any;
 
 export type PublishConnectionFunctionError =
   | AccessDenied
@@ -15067,8 +9432,17 @@ export const publishConnectionFunction: API.OperationMethod<
   PublishConnectionFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PublishConnectionFunctionRequest,
-  output: PublishConnectionFunctionResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/connection-function/{Id}/publish",
+    input: { Id: 0, IfMatch: D.m({ header: "If-Match" }) },
+    output: {
+      ConnectionFunctionSummary: D.m({
+        payload: true,
+        shape: o_ConnectionFunctionSummary,
+      }),
+    },
+  },
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -15080,7 +9454,7 @@ export const publishConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishConnectionFunction",
-}));
+})) as any;
 
 export type PublishFunctionError =
   | InvalidArgument
@@ -15102,8 +9476,14 @@ export const publishFunction: API.OperationMethod<
   PublishFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PublishFunctionRequest,
-  output: PublishFunctionResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/function/{Name}/publish",
+    input: { Name: 0, IfMatch: D.m({ header: "If-Match" }) },
+    output: {
+      FunctionSummary: D.m({ payload: true, shape: o_FunctionSummary }),
+    },
+  },
   errors: [
     InvalidArgument,
     InvalidIfMatchVersion,
@@ -15114,7 +9494,7 @@ export const publishFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishFunction",
-}));
+})) as any;
 
 export type PutResourcePolicyError =
   | AccessDenied
@@ -15133,8 +9513,12 @@ export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyRequest,
-  output: PutResourcePolicyResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/put-resource-policy",
+    input: { ResourceArn: 0, PolicyDocument: 0 },
+    body: "PutResourcePolicyRequest",
+  },
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -15146,7 +9530,7 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
-}));
+})) as any;
 
 export type TagResourceError =
   | AccessDenied
@@ -15163,13 +9547,19 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/tagging?Operation=Tag",
+    input: {
+      Resource: D.m({ query: "Resource" }),
+      Tags: D.m({ payload: true, wire: "Tags", shape: i_Tags }),
+    },
+  },
   errors: [AccessDenied, InvalidArgument, InvalidTagging, NoSuchResource],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type TestConnectionFunctionError =
   | EntityNotFound
@@ -15188,8 +9578,28 @@ export const testConnectionFunction: API.OperationMethod<
   TestConnectionFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TestConnectionFunctionRequest,
-  output: TestConnectionFunctionResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/connection-function/{Id}/test",
+    input: {
+      Id: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+      Stage: 0,
+      ConnectionObject: 0,
+    },
+    output: {
+      ConnectionFunctionTestResult: D.m({
+        payload: true,
+        shape: {
+          ConnectionFunctionSummary: o_ConnectionFunctionSummary,
+          ConnectionFunctionExecutionLogs: D.list(),
+          ConnectionFunctionErrorMessage: D.secret,
+          ConnectionFunctionOutput: D.secret,
+        },
+      }),
+    },
+    body: "TestConnectionFunctionRequest",
+  },
   errors: [
     EntityNotFound,
     InvalidArgument,
@@ -15201,7 +9611,7 @@ export const testConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestConnectionFunction",
-}));
+})) as any;
 
 export type TestFunctionError =
   | InvalidArgument
@@ -15223,8 +9633,28 @@ export const testFunction: API.OperationMethod<
   TestFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TestFunctionRequest,
-  output: TestFunctionResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/function/{Name}/test",
+    input: {
+      Name: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+      Stage: 0,
+      EventObject: 0,
+    },
+    output: {
+      TestResult: D.m({
+        payload: true,
+        shape: {
+          FunctionSummary: o_FunctionSummary,
+          FunctionExecutionLogs: D.list(),
+          FunctionErrorMessage: D.secret,
+          FunctionOutput: D.secret,
+        },
+      }),
+    },
+    body: "TestFunctionRequest",
+  },
   errors: [
     InvalidArgument,
     InvalidIfMatchVersion,
@@ -15235,7 +9665,7 @@ export const testFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestFunction",
-}));
+})) as any;
 
 export type UntagResourceError =
   | AccessDenied
@@ -15252,13 +9682,23 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/tagging?Operation=Untag",
+    input: {
+      Resource: D.m({ query: "Resource" }),
+      TagKeys: D.m({
+        payload: true,
+        wire: "TagKeys",
+        shape: { Items: D.list(0, { item: "Key" }) },
+      }),
+    },
+  },
   errors: [AccessDenied, InvalidArgument, InvalidTagging, NoSuchResource],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateAnycastIpListError =
   | AccessDenied
@@ -15277,8 +9717,21 @@ export const updateAnycastIpList: API.OperationMethod<
   UpdateAnycastIpListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAnycastIpListRequest,
-  output: UpdateAnycastIpListResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/anycast-ip-list/{Id}",
+    input: {
+      Id: 0,
+      IpAddressType: 0,
+      IpamCidrConfigs: D.list(i_IpamCidrConfig, { item: "IpamCidrConfig" }),
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: {
+      AnycastIpList: D.m({ payload: true, shape: o_AnycastIpList }),
+      ETag: D.m({ header: "ETag" }),
+    },
+    body: "UpdateAnycastIpListRequest",
+  },
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -15290,7 +9743,7 @@ export const updateAnycastIpList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnycastIpList",
-}));
+})) as any;
 
 export type UpdateCachePolicyError =
   | AccessDenied
@@ -15324,8 +9777,23 @@ export const updateCachePolicy: API.OperationMethod<
   UpdateCachePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateCachePolicyRequest,
-  output: UpdateCachePolicyResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/cache-policy/{Id}",
+    input: {
+      CachePolicyConfig: D.m({
+        payload: true,
+        wire: "CachePolicyConfig",
+        shape: i_CachePolicyConfig,
+      }),
+      Id: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: {
+      CachePolicy: D.m({ payload: true, shape: o_CachePolicy }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     CachePolicyAlreadyExists,
@@ -15342,7 +9810,7 @@ export const updateCachePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCachePolicy",
-}));
+})) as any;
 
 export type UpdateCloudFrontOriginAccessIdentityError =
   | AccessDenied
@@ -15363,8 +9831,26 @@ export const updateCloudFrontOriginAccessIdentity: API.OperationMethod<
   UpdateCloudFrontOriginAccessIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateCloudFrontOriginAccessIdentityRequest,
-  output: UpdateCloudFrontOriginAccessIdentityResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/origin-access-identity/cloudfront/{Id}/config",
+    input: {
+      CloudFrontOriginAccessIdentityConfig: D.m({
+        payload: true,
+        wire: "CloudFrontOriginAccessIdentityConfig",
+        shape: i_CloudFrontOriginAccessIdentityConfig,
+      }),
+      Id: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: {
+      CloudFrontOriginAccessIdentity: D.m({
+        payload: true,
+        shape: o_CloudFrontOriginAccessIdentity,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     IllegalUpdate,
@@ -15378,7 +9864,7 @@ export const updateCloudFrontOriginAccessIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudFrontOriginAccessIdentity",
-}));
+})) as any;
 
 export type UpdateConnectionFunctionError =
   | AccessDenied
@@ -15398,8 +9884,24 @@ export const updateConnectionFunction: API.OperationMethod<
   UpdateConnectionFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateConnectionFunctionRequest,
-  output: UpdateConnectionFunctionResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/connection-function/{Id}",
+    input: {
+      Id: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+      ConnectionFunctionConfig: i_FunctionConfig,
+      ConnectionFunctionCode: 0,
+    },
+    output: {
+      ConnectionFunctionSummary: D.m({
+        payload: true,
+        shape: o_ConnectionFunctionSummary,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+    body: "UpdateConnectionFunctionRequest",
+  },
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -15412,7 +9914,7 @@ export const updateConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionFunction",
-}));
+})) as any;
 
 export type UpdateConnectionGroupError =
   | AccessDenied
@@ -15433,8 +9935,22 @@ export const updateConnectionGroup: API.OperationMethod<
   UpdateConnectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateConnectionGroupRequest,
-  output: UpdateConnectionGroupResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/connection-group/{Id}",
+    input: {
+      Id: 0,
+      Ipv6Enabled: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+      AnycastIpListId: 0,
+      Enabled: 0,
+    },
+    output: {
+      ConnectionGroup: D.m({ payload: true, shape: o_ConnectionGroup }),
+      ETag: D.m({ header: "ETag" }),
+    },
+    body: "UpdateConnectionGroupRequest",
+  },
   errors: [
     AccessDenied,
     EntityAlreadyExists,
@@ -15448,7 +9964,7 @@ export const updateConnectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionGroup",
-}));
+})) as any;
 
 export type UpdateContinuousDeploymentPolicyError =
   | AccessDenied
@@ -15476,8 +9992,26 @@ export const updateContinuousDeploymentPolicy: API.OperationMethod<
   UpdateContinuousDeploymentPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateContinuousDeploymentPolicyRequest,
-  output: UpdateContinuousDeploymentPolicyResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/continuous-deployment-policy/{Id}",
+    input: {
+      ContinuousDeploymentPolicyConfig: D.m({
+        payload: true,
+        wire: "ContinuousDeploymentPolicyConfig",
+        shape: i_ContinuousDeploymentPolicyConfig,
+      }),
+      Id: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: {
+      ContinuousDeploymentPolicy: D.m({
+        payload: true,
+        shape: o_ContinuousDeploymentPolicy,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     InconsistentQuantities,
@@ -15490,7 +10024,7 @@ export const updateContinuousDeploymentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContinuousDeploymentPolicy",
-}));
+})) as any;
 
 export type UpdateDistributionError =
   | AccessDenied
@@ -15584,8 +10118,23 @@ export const updateDistribution: API.OperationMethod<
   UpdateDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDistributionRequest,
-  output: UpdateDistributionResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/distribution/{Id}/config",
+    input: {
+      DistributionConfig: D.m({
+        payload: true,
+        wire: "DistributionConfig",
+        shape: i_DistributionConfig,
+      }),
+      Id: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: {
+      Distribution: D.m({ payload: true, shape: o_Distribution }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -15658,7 +10207,7 @@ export const updateDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistribution",
-}));
+})) as any;
 
 export type UpdateDistributionTenantError =
   | AccessDenied
@@ -15680,8 +10229,26 @@ export const updateDistributionTenant: API.OperationMethod<
   UpdateDistributionTenantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDistributionTenantRequest,
-  output: UpdateDistributionTenantResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/distribution-tenant/{Id}",
+    input: {
+      Id: 0,
+      DistributionId: 0,
+      Domains: D.list(i_DomainItem),
+      Customizations: i_Customizations,
+      Parameters: D.list(i_Parameter),
+      ConnectionGroupId: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+      ManagedCertificateRequest: i_ManagedCertificateRequest,
+      Enabled: 0,
+    },
+    output: {
+      DistributionTenant: D.m({ payload: true, shape: o_DistributionTenant }),
+      ETag: D.m({ header: "ETag" }),
+    },
+    body: "UpdateDistributionTenantRequest",
+  },
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -15696,7 +10263,7 @@ export const updateDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistributionTenant",
-}));
+})) as any;
 
 export type UpdateDistributionWithStagingConfigError =
   | AccessDenied
@@ -15780,8 +10347,19 @@ export const updateDistributionWithStagingConfig: API.OperationMethod<
   UpdateDistributionWithStagingConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDistributionWithStagingConfigRequest,
-  output: UpdateDistributionWithStagingConfigResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/distribution/{Id}/promote-staging-config",
+    input: {
+      Id: 0,
+      StagingDistributionId: D.m({ query: "StagingDistributionId" }),
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: {
+      Distribution: D.m({ payload: true, shape: o_Distribution }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -15850,7 +10428,7 @@ export const updateDistributionWithStagingConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistributionWithStagingConfig",
-}));
+})) as any;
 
 export type UpdateDomainAssociationError =
   | AccessDenied
@@ -15875,8 +10453,17 @@ export const updateDomainAssociation: API.OperationMethod<
   UpdateDomainAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDomainAssociationRequest,
-  output: UpdateDomainAssociationResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/domain-association",
+    input: {
+      Domain: 0,
+      TargetResource: i_DistributionResourceId,
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: { ETag: D.m({ header: "ETag" }) },
+    body: "UpdateDomainAssociationRequest",
+  },
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -15888,7 +10475,7 @@ export const updateDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainAssociation",
-}));
+})) as any;
 
 export type UpdateFieldLevelEncryptionConfigError =
   | AccessDenied
@@ -15912,8 +10499,26 @@ export const updateFieldLevelEncryptionConfig: API.OperationMethod<
   UpdateFieldLevelEncryptionConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFieldLevelEncryptionConfigRequest,
-  output: UpdateFieldLevelEncryptionConfigResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/field-level-encryption/{Id}/config",
+    input: {
+      FieldLevelEncryptionConfig: D.m({
+        payload: true,
+        wire: "FieldLevelEncryptionConfig",
+        shape: i_FieldLevelEncryptionConfig,
+      }),
+      Id: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: {
+      FieldLevelEncryption: D.m({
+        payload: true,
+        shape: o_FieldLevelEncryption,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     IllegalUpdate,
@@ -15930,7 +10535,7 @@ export const updateFieldLevelEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFieldLevelEncryptionConfig",
-}));
+})) as any;
 
 export type UpdateFieldLevelEncryptionProfileError =
   | AccessDenied
@@ -15955,8 +10560,26 @@ export const updateFieldLevelEncryptionProfile: API.OperationMethod<
   UpdateFieldLevelEncryptionProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFieldLevelEncryptionProfileRequest,
-  output: UpdateFieldLevelEncryptionProfileResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/field-level-encryption-profile/{Id}/config",
+    input: {
+      FieldLevelEncryptionProfileConfig: D.m({
+        payload: true,
+        wire: "FieldLevelEncryptionProfileConfig",
+        shape: i_FieldLevelEncryptionProfileConfig,
+      }),
+      Id: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: {
+      FieldLevelEncryptionProfile: D.m({
+        payload: true,
+        shape: o_FieldLevelEncryptionProfile,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     FieldLevelEncryptionProfileAlreadyExists,
@@ -15974,7 +10597,7 @@ export const updateFieldLevelEncryptionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFieldLevelEncryptionProfile",
-}));
+})) as any;
 
 export type UpdateFunctionError =
   | FunctionSizeLimitExceeded
@@ -15997,8 +10620,21 @@ export const updateFunction: API.OperationMethod<
   UpdateFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFunctionRequest,
-  output: UpdateFunctionResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/function/{Name}",
+    input: {
+      Name: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+      FunctionConfig: i_FunctionConfig,
+      FunctionCode: 0,
+    },
+    output: {
+      FunctionSummary: D.m({ payload: true, shape: o_FunctionSummary }),
+      ETag: D.m({ header: "ETtag" }),
+    },
+    body: "UpdateFunctionRequest",
+  },
   errors: [
     FunctionSizeLimitExceeded,
     InvalidArgument,
@@ -16010,7 +10646,7 @@ export const updateFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunction",
-}));
+})) as any;
 
 export type UpdateKeyGroupError =
   | InvalidArgument
@@ -16037,8 +10673,23 @@ export const updateKeyGroup: API.OperationMethod<
   UpdateKeyGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateKeyGroupRequest,
-  output: UpdateKeyGroupResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/key-group/{Id}",
+    input: {
+      KeyGroupConfig: D.m({
+        payload: true,
+        wire: "KeyGroupConfig",
+        shape: i_KeyGroupConfig,
+      }),
+      Id: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: {
+      KeyGroup: D.m({ payload: true, shape: o_KeyGroup }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     InvalidArgument,
     InvalidIfMatchVersion,
@@ -16050,7 +10701,7 @@ export const updateKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyGroup",
-}));
+})) as any;
 
 export type UpdateKeyValueStoreError =
   | AccessDenied
@@ -16069,8 +10720,16 @@ export const updateKeyValueStore: API.OperationMethod<
   UpdateKeyValueStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateKeyValueStoreRequest,
-  output: UpdateKeyValueStoreResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/key-value-store/{Name}",
+    input: { Name: 0, Comment: 0, IfMatch: D.m({ header: "If-Match" }) },
+    output: {
+      KeyValueStore: D.m({ payload: true, shape: o_KeyValueStore }),
+      ETag: D.m({ header: "ETag" }),
+    },
+    body: "UpdateKeyValueStoreRequest",
+  },
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -16082,7 +10741,7 @@ export const updateKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyValueStore",
-}));
+})) as any;
 
 export type UpdateOriginAccessControlError =
   | AccessDenied
@@ -16102,8 +10761,23 @@ export const updateOriginAccessControl: API.OperationMethod<
   UpdateOriginAccessControlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateOriginAccessControlRequest,
-  output: UpdateOriginAccessControlResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/origin-access-control/{Id}/config",
+    input: {
+      OriginAccessControlConfig: D.m({
+        payload: true,
+        wire: "OriginAccessControlConfig",
+        shape: i_OriginAccessControlConfig,
+      }),
+      Id: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: {
+      OriginAccessControl: D.m({ payload: true, shape: o_OriginAccessControl }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     IllegalUpdate,
@@ -16116,7 +10790,7 @@ export const updateOriginAccessControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginAccessControl",
-}));
+})) as any;
 
 export type UpdateOriginRequestPolicyError =
   | AccessDenied
@@ -16148,8 +10822,23 @@ export const updateOriginRequestPolicy: API.OperationMethod<
   UpdateOriginRequestPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateOriginRequestPolicyRequest,
-  output: UpdateOriginRequestPolicyResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/origin-request-policy/{Id}",
+    input: {
+      OriginRequestPolicyConfig: D.m({
+        payload: true,
+        wire: "OriginRequestPolicyConfig",
+        shape: i_OriginRequestPolicyConfig,
+      }),
+      Id: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: {
+      OriginRequestPolicy: D.m({ payload: true, shape: o_OriginRequestPolicy }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     IllegalUpdate,
@@ -16166,7 +10855,7 @@ export const updateOriginRequestPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginRequestPolicy",
-}));
+})) as any;
 
 export type UpdatePublicKeyError =
   | AccessDenied
@@ -16186,8 +10875,23 @@ export const updatePublicKey: API.OperationMethod<
   UpdatePublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdatePublicKeyRequest,
-  output: UpdatePublicKeyResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/public-key/{Id}/config",
+    input: {
+      PublicKeyConfig: D.m({
+        payload: true,
+        wire: "PublicKeyConfig",
+        shape: i_PublicKeyConfig,
+      }),
+      Id: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: {
+      PublicKey: D.m({ payload: true, shape: o_PublicKey }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     CannotChangeImmutablePublicKeyFields,
@@ -16200,7 +10904,7 @@ export const updatePublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePublicKey",
-}));
+})) as any;
 
 export type UpdateRealtimeLogConfigError =
   | AccessDenied
@@ -16226,13 +10930,24 @@ export const updateRealtimeLogConfig: API.OperationMethod<
   UpdateRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRealtimeLogConfigRequest,
-  output: UpdateRealtimeLogConfigResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/realtime-log-config",
+    input: {
+      EndPoints: D.list(i_EndPoint),
+      Fields: D.list(0, { item: "Field" }),
+      Name: 0,
+      ARN: 0,
+      SamplingRate: 0,
+    },
+    output: { RealtimeLogConfig: o_RealtimeLogConfig },
+    body: "UpdateRealtimeLogConfigRequest",
+  },
   errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRealtimeLogConfig",
-}));
+})) as any;
 
 export type UpdateResponseHeadersPolicyError =
   | AccessDenied
@@ -16264,8 +10979,26 @@ export const updateResponseHeadersPolicy: API.OperationMethod<
   UpdateResponseHeadersPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateResponseHeadersPolicyRequest,
-  output: UpdateResponseHeadersPolicyResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/response-headers-policy/{Id}",
+    input: {
+      ResponseHeadersPolicyConfig: D.m({
+        payload: true,
+        wire: "ResponseHeadersPolicyConfig",
+        shape: i_ResponseHeadersPolicyConfig,
+      }),
+      Id: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: {
+      ResponseHeadersPolicy: D.m({
+        payload: true,
+        shape: o_ResponseHeadersPolicy,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     IllegalUpdate,
@@ -16282,7 +11015,7 @@ export const updateResponseHeadersPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResponseHeadersPolicy",
-}));
+})) as any;
 
 export type UpdateStreamingDistributionError =
   | AccessDenied
@@ -16309,8 +11042,26 @@ export const updateStreamingDistribution: API.OperationMethod<
   UpdateStreamingDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateStreamingDistributionRequest,
-  output: UpdateStreamingDistributionResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/streaming-distribution/{Id}/config",
+    input: {
+      StreamingDistributionConfig: D.m({
+        payload: true,
+        wire: "StreamingDistributionConfig",
+        shape: i_StreamingDistributionConfig,
+      }),
+      Id: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: {
+      StreamingDistribution: D.m({
+        payload: true,
+        shape: o_StreamingDistribution,
+      }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -16330,7 +11081,7 @@ export const updateStreamingDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamingDistribution",
-}));
+})) as any;
 
 export type UpdateTrustStoreError =
   | AccessDenied
@@ -16348,8 +11099,26 @@ export const updateTrustStore: API.OperationMethod<
   UpdateTrustStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateTrustStoreRequest,
-  output: UpdateTrustStoreResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/trust-store/{Id}",
+    input: {
+      Id: 0,
+      CaCertificatesBundleSource: D.m({
+        payload: true,
+        wire: "CaCertificatesBundleSource",
+        shape: i_CaCertificatesBundleSource,
+      }),
+      UseClientCertificateOCSPEndpoint: D.m({
+        header: "UseClientCertificateOCSPEndpoint",
+      }),
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: {
+      TrustStore: D.m({ payload: true, shape: o_TrustStore }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -16360,7 +11129,7 @@ export const updateTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustStore",
-}));
+})) as any;
 
 export type UpdateVpcOriginError =
   | AccessDenied
@@ -16384,8 +11153,23 @@ export const updateVpcOrigin: API.OperationMethod<
   UpdateVpcOriginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateVpcOriginRequest,
-  output: UpdateVpcOriginResult,
+  descriptor: {
+    service: svc,
+    http: "PUT /2020-05-31/vpc-origin/{Id}",
+    input: {
+      VpcOriginEndpointConfig: D.m({
+        payload: true,
+        wire: "VpcOriginEndpointConfig",
+        shape: i_VpcOriginEndpointConfig,
+      }),
+      Id: 0,
+      IfMatch: D.m({ header: "If-Match" }),
+    },
+    output: {
+      VpcOrigin: D.m({ payload: true, shape: o_VpcOrigin }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [
     AccessDenied,
     CannotUpdateEntityWhileInUse,
@@ -16402,7 +11186,7 @@ export const updateVpcOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcOrigin",
-}));
+})) as any;
 
 export type VerifyDnsConfigurationError =
   | AccessDenied
@@ -16418,10 +11202,949 @@ export const verifyDnsConfiguration: API.OperationMethod<
   VerifyDnsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: VerifyDnsConfigurationRequest,
-  output: VerifyDnsConfigurationResult,
+  descriptor: {
+    service: svc,
+    http: "POST /2020-05-31/verify-dns-configuration",
+    input: { Domain: 0, Identifier: 0 },
+    output: { DnsConfigurationList: D.list({}, { item: "DnsConfiguration" }) },
+    body: "VerifyDnsConfigurationRequest",
+  },
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyDnsConfiguration",
-}));
+})) as any;
+
+const i_CaCertificatesBundleSource: D.LazyStruct = () => ({
+  CaCertificatesBundleS3Location: { Bucket: 0, Key: 0, Region: 0, Version: 0 },
+});
+const i_CachePolicyConfig: D.LazyStruct = () => ({
+  Comment: 0,
+  Name: 0,
+  DefaultTTL: 0,
+  MaxTTL: 0,
+  MinTTL: 0,
+  ParametersInCacheKeyAndForwardedToOrigin: {
+    EnableAcceptEncodingGzip: 0,
+    EnableAcceptEncodingBrotli: 0,
+    HeadersConfig: { HeaderBehavior: 0, Headers: i_Headers },
+    CookiesConfig: { CookieBehavior: 0, Cookies: i_CookieNames },
+    QueryStringsConfig: {
+      QueryStringBehavior: 0,
+      QueryStrings: i_QueryStringNames,
+    },
+  },
+});
+const i_CloudFrontOriginAccessIdentityConfig: D.LazyStruct = () => ({
+  CallerReference: 0,
+  Comment: 0,
+});
+const i_ContinuousDeploymentPolicyConfig: D.LazyStruct = () => ({
+  StagingDistributionDnsNames: {
+    Quantity: 0,
+    Items: D.list(0, { item: "DnsName" }),
+  },
+  Enabled: 0,
+  TrafficConfig: {
+    SingleWeightConfig: {
+      Weight: 0,
+      SessionStickinessConfig: { IdleTTL: 0, MaximumTTL: 0 },
+    },
+    SingleHeaderConfig: { Header: 0, Value: 0 },
+    Type: 0,
+  },
+});
+const i_Customizations: D.LazyStruct = () => ({
+  WebAcl: { Action: 0, Arn: 0 },
+  Certificate: { Arn: 0 },
+  GeoRestrictions: {
+    RestrictionType: 0,
+    Locations: D.list(0, { item: "Location" }),
+  },
+});
+const i_DistributionConfig: D.LazyStruct = () => ({
+  CallerReference: 0,
+  Aliases: i_Aliases,
+  DefaultRootObject: 0,
+  Origins: {
+    Quantity: 0,
+    Items: D.list(
+      {
+        Id: 0,
+        DomainName: 0,
+        OriginPath: 0,
+        CustomHeaders: {
+          Quantity: 0,
+          Items: D.list(
+            { HeaderName: 0, HeaderValue: 0 },
+            { item: "OriginCustomHeader" },
+          ),
+        },
+        S3OriginConfig: { OriginAccessIdentity: 0, OriginReadTimeout: 0 },
+        CustomOriginConfig: {
+          HTTPPort: 0,
+          HTTPSPort: 0,
+          OriginProtocolPolicy: 0,
+          OriginSslProtocols: i_OriginSslProtocols,
+          OriginReadTimeout: 0,
+          OriginKeepaliveTimeout: 0,
+          IpAddressType: 0,
+          OriginMtlsConfig: { ClientCertificateArn: 0 },
+        },
+        VpcOriginConfig: {
+          VpcOriginId: 0,
+          OwnerAccountId: 0,
+          OriginReadTimeout: 0,
+          OriginKeepaliveTimeout: 0,
+        },
+        ConnectionAttempts: 0,
+        ConnectionTimeout: 0,
+        ResponseCompletionTimeout: 0,
+        OriginShield: { Enabled: 0, OriginShieldRegion: 0 },
+        OriginAccessControlId: 0,
+      },
+      { item: "Origin" },
+    ),
+  },
+  OriginGroups: {
+    Quantity: 0,
+    Items: D.list(
+      {
+        Id: 0,
+        FailoverCriteria: {
+          StatusCodes: {
+            Quantity: 0,
+            Items: D.list(0, { item: "StatusCode" }),
+          },
+        },
+        Members: {
+          Quantity: 0,
+          Items: D.list({ OriginId: 0 }, { item: "OriginGroupMember" }),
+        },
+        SelectionCriteria: 0,
+      },
+      { item: "OriginGroup" },
+    ),
+  },
+  DefaultCacheBehavior: {
+    TargetOriginId: 0,
+    TrustedSigners: i_TrustedSigners,
+    TrustedKeyGroups: i_TrustedKeyGroups,
+    ViewerProtocolPolicy: 0,
+    AllowedMethods: i_AllowedMethods,
+    SmoothStreaming: 0,
+    Compress: 0,
+    LambdaFunctionAssociations: i_LambdaFunctionAssociations,
+    FunctionAssociations: i_FunctionAssociations,
+    FieldLevelEncryptionId: 0,
+    RealtimeLogConfigArn: 0,
+    CachePolicyId: 0,
+    OriginRequestPolicyId: 0,
+    ResponseHeadersPolicyId: 0,
+    GrpcConfig: i_GrpcConfig,
+    ForwardedValues: i_ForwardedValues,
+    MinTTL: 0,
+    DefaultTTL: 0,
+    MaxTTL: 0,
+  },
+  CacheBehaviors: {
+    Quantity: 0,
+    Items: D.list(
+      {
+        PathPattern: 0,
+        TargetOriginId: 0,
+        TrustedSigners: i_TrustedSigners,
+        TrustedKeyGroups: i_TrustedKeyGroups,
+        ViewerProtocolPolicy: 0,
+        AllowedMethods: i_AllowedMethods,
+        SmoothStreaming: 0,
+        Compress: 0,
+        LambdaFunctionAssociations: i_LambdaFunctionAssociations,
+        FunctionAssociations: i_FunctionAssociations,
+        FieldLevelEncryptionId: 0,
+        RealtimeLogConfigArn: 0,
+        CachePolicyId: 0,
+        OriginRequestPolicyId: 0,
+        ResponseHeadersPolicyId: 0,
+        GrpcConfig: i_GrpcConfig,
+        ForwardedValues: i_ForwardedValues,
+        MinTTL: 0,
+        DefaultTTL: 0,
+        MaxTTL: 0,
+      },
+      { item: "CacheBehavior" },
+    ),
+  },
+  CustomErrorResponses: {
+    Quantity: 0,
+    Items: D.list(
+      {
+        ErrorCode: 0,
+        ResponsePagePath: 0,
+        ResponseCode: 0,
+        ErrorCachingMinTTL: 0,
+      },
+      { item: "CustomErrorResponse" },
+    ),
+  },
+  Comment: 0,
+  Logging: { Enabled: 0, IncludeCookies: 0, Bucket: 0, Prefix: 0 },
+  PriceClass: 0,
+  Enabled: 0,
+  ViewerCertificate: {
+    CloudFrontDefaultCertificate: 0,
+    IAMCertificateId: 0,
+    ACMCertificateArn: 0,
+    SSLSupportMethod: 0,
+    MinimumProtocolVersion: 0,
+    Certificate: 0,
+    CertificateSource: 0,
+  },
+  Restrictions: {
+    GeoRestriction: {
+      RestrictionType: 0,
+      Quantity: 0,
+      Items: D.list(0, { item: "Location" }),
+    },
+  },
+  WebACLId: 0,
+  HttpVersion: 0,
+  IsIPV6Enabled: 0,
+  ContinuousDeploymentPolicyId: 0,
+  Staging: 0,
+  AnycastIpListId: 0,
+  TenantConfig: {
+    ParameterDefinitions: D.list({
+      Name: 0,
+      Definition: {
+        StringSchema: { Comment: 0, DefaultValue: 0, Required: 0 },
+      },
+    }),
+  },
+  ConnectionMode: 0,
+  ViewerMtlsConfig: {
+    Mode: 0,
+    TrustStoreConfig: {
+      TrustStoreId: 0,
+      AdvertiseTrustStoreCaNames: 0,
+      IgnoreCertificateExpiry: 0,
+    },
+  },
+  ConnectionFunctionAssociation: { Id: 0 },
+  CacheTagConfig: { HeaderName: 0 },
+});
+const i_DistributionResourceId: D.LazyStruct = () => ({
+  DistributionId: 0,
+  DistributionTenantId: 0,
+});
+const i_DomainItem: D.LazyStruct = () => ({ Domain: 0 });
+const i_EndPoint: D.LazyStruct = () => ({
+  StreamType: 0,
+  KinesisStreamConfig: { RoleARN: 0, StreamARN: 0 },
+});
+const i_FieldLevelEncryptionConfig: D.LazyStruct = () => ({
+  CallerReference: 0,
+  Comment: 0,
+  QueryArgProfileConfig: {
+    ForwardWhenQueryArgProfileIsUnknown: 0,
+    QueryArgProfiles: {
+      Quantity: 0,
+      Items: D.list({ QueryArg: 0, ProfileId: 0 }, { item: "QueryArgProfile" }),
+    },
+  },
+  ContentTypeProfileConfig: {
+    ForwardWhenContentTypeIsUnknown: 0,
+    ContentTypeProfiles: {
+      Quantity: 0,
+      Items: D.list(
+        { Format: 0, ProfileId: 0, ContentType: 0 },
+        { item: "ContentTypeProfile" },
+      ),
+    },
+  },
+});
+const i_FieldLevelEncryptionProfileConfig: D.LazyStruct = () => ({
+  Name: 0,
+  CallerReference: 0,
+  Comment: 0,
+  EncryptionEntities: {
+    Quantity: 0,
+    Items: D.list(
+      {
+        PublicKeyId: 0,
+        ProviderId: 0,
+        FieldPatterns: {
+          Quantity: 0,
+          Items: D.list(0, { item: "FieldPattern" }),
+        },
+      },
+      { item: "EncryptionEntity" },
+    ),
+  },
+});
+const i_FunctionConfig: D.LazyStruct = () => ({
+  Comment: 0,
+  Runtime: 0,
+  KeyValueStoreAssociations: {
+    Quantity: 0,
+    Items: D.list(
+      { KeyValueStoreARN: 0 },
+      { item: "KeyValueStoreAssociation" },
+    ),
+  },
+});
+const i_InvalidationBatch: D.LazyStruct = () => ({
+  Paths: { Quantity: 0, Items: D.list(0, { item: "Path" }) },
+  CallerReference: 0,
+});
+const i_IpamCidrConfig: D.LazyStruct = () => ({
+  Cidr: 0,
+  IpamPoolArn: 0,
+  AnycastIp: 0,
+  Status: 0,
+});
+const i_KeyGroupConfig: D.LazyStruct = () => ({
+  Name: 0,
+  Items: D.list(0, { item: "PublicKey" }),
+  Comment: 0,
+});
+const i_ManagedCertificateRequest: D.LazyStruct = () => ({
+  ValidationTokenHost: 0,
+  PrimaryDomainName: 0,
+  CertificateTransparencyLoggingPreference: 0,
+});
+const i_OriginAccessControlConfig: D.LazyStruct = () => ({
+  Name: 0,
+  Description: 0,
+  SigningProtocol: 0,
+  SigningBehavior: 0,
+  OriginAccessControlOriginType: 0,
+});
+const i_OriginRequestPolicyConfig: D.LazyStruct = () => ({
+  Comment: 0,
+  Name: 0,
+  HeadersConfig: { HeaderBehavior: 0, Headers: i_Headers },
+  CookiesConfig: { CookieBehavior: 0, Cookies: i_CookieNames },
+  QueryStringsConfig: {
+    QueryStringBehavior: 0,
+    QueryStrings: i_QueryStringNames,
+  },
+});
+const i_Parameter: D.LazyStruct = () => ({ Name: 0, Value: 0 });
+const i_PublicKeyConfig: D.LazyStruct = () => ({
+  CallerReference: 0,
+  Name: 0,
+  EncodedKey: 0,
+  Comment: 0,
+});
+const i_ResponseHeadersPolicyConfig: D.LazyStruct = () => ({
+  Comment: 0,
+  Name: 0,
+  CorsConfig: {
+    AccessControlAllowOrigins: {
+      Quantity: 0,
+      Items: D.list(0, { item: "Origin" }),
+    },
+    AccessControlAllowHeaders: {
+      Quantity: 0,
+      Items: D.list(0, { item: "Header" }),
+    },
+    AccessControlAllowMethods: {
+      Quantity: 0,
+      Items: D.list(0, { item: "Method" }),
+    },
+    AccessControlAllowCredentials: 0,
+    AccessControlExposeHeaders: {
+      Quantity: 0,
+      Items: D.list(0, { item: "Header" }),
+    },
+    AccessControlMaxAgeSec: 0,
+    OriginOverride: 0,
+  },
+  SecurityHeadersConfig: {
+    XSSProtection: { Override: 0, Protection: 0, ModeBlock: 0, ReportUri: 0 },
+    FrameOptions: { Override: 0, FrameOption: 0 },
+    ReferrerPolicy: { Override: 0, ReferrerPolicy: 0 },
+    ContentSecurityPolicy: { Override: 0, ContentSecurityPolicy: 0 },
+    ContentTypeOptions: { Override: 0 },
+    StrictTransportSecurity: {
+      Override: 0,
+      IncludeSubdomains: 0,
+      Preload: 0,
+      AccessControlMaxAgeSec: 0,
+    },
+  },
+  ServerTimingHeadersConfig: { Enabled: 0, SamplingRate: 0 },
+  CustomHeadersConfig: {
+    Quantity: 0,
+    Items: D.list(
+      { Header: 0, Value: 0, Override: 0 },
+      { item: "ResponseHeadersPolicyCustomHeader" },
+    ),
+  },
+  RemoveHeadersConfig: {
+    Quantity: 0,
+    Items: D.list({ Header: 0 }, { item: "ResponseHeadersPolicyRemoveHeader" }),
+  },
+});
+const i_StreamingDistributionConfig: D.LazyStruct = () => ({
+  CallerReference: 0,
+  S3Origin: { DomainName: 0, OriginAccessIdentity: 0 },
+  Aliases: i_Aliases,
+  Comment: 0,
+  Logging: { Enabled: 0, Bucket: 0, Prefix: 0 },
+  TrustedSigners: i_TrustedSigners,
+  PriceClass: 0,
+  Enabled: 0,
+});
+const i_Tags: D.LazyStruct = () => ({
+  Items: D.list({ Key: 0, Value: 0 }, { item: "Tag" }),
+});
+const i_VpcOriginEndpointConfig: D.LazyStruct = () => ({
+  Name: 0,
+  Arn: 0,
+  HTTPPort: 0,
+  HTTPSPort: 0,
+  OriginProtocolPolicy: 0,
+  OriginSslProtocols: i_OriginSslProtocols,
+});
+const o_Aliases: D.LazyStruct = () => ({
+  Quantity: D.num,
+  Items: D.list(0, { item: "CNAME" }),
+});
+const o_AnycastIpList: D.LazyStruct = () => ({
+  IpamConfig: o_IpamConfig,
+  AnycastIps: D.list(0, { item: "AnycastIp" }),
+  IpCount: D.num,
+  LastModifiedTime: D.ts,
+});
+const o_CachePolicy: D.LazyStruct = () => ({
+  LastModifiedTime: D.ts,
+  CachePolicyConfig: o_CachePolicyConfig,
+});
+const o_CachePolicyConfig: D.LazyStruct = () => ({
+  DefaultTTL: D.num,
+  MaxTTL: D.num,
+  MinTTL: D.num,
+  ParametersInCacheKeyAndForwardedToOrigin: {
+    EnableAcceptEncodingGzip: D.bool,
+    EnableAcceptEncodingBrotli: D.bool,
+    HeadersConfig: { Headers: o_Headers },
+    CookiesConfig: { Cookies: o_CookieNames },
+    QueryStringsConfig: { QueryStrings: o_QueryStringNames },
+  },
+});
+const o_CloudFrontOriginAccessIdentity: D.LazyStruct = () => ({
+  CloudFrontOriginAccessIdentityConfig: {},
+});
+const o_ConnectionFunctionSummary: D.LazyStruct = () => ({
+  ConnectionFunctionConfig: o_FunctionConfig,
+  CreatedTime: D.ts,
+  LastModifiedTime: D.ts,
+});
+const o_ConnectionGroup: D.LazyStruct = () => ({
+  CreatedTime: D.ts,
+  LastModifiedTime: D.ts,
+  Tags: o_Tags,
+  Ipv6Enabled: D.bool,
+  Enabled: D.bool,
+  IsDefault: D.bool,
+});
+const o_ContentTypeProfileConfig: D.LazyStruct = () => ({
+  ForwardWhenContentTypeIsUnknown: D.bool,
+  ContentTypeProfiles: {
+    Quantity: D.num,
+    Items: D.list({}, { item: "ContentTypeProfile" }),
+  },
+});
+const o_ContinuousDeploymentPolicy: D.LazyStruct = () => ({
+  LastModifiedTime: D.ts,
+  ContinuousDeploymentPolicyConfig: o_ContinuousDeploymentPolicyConfig,
+});
+const o_ContinuousDeploymentPolicyConfig: D.LazyStruct = () => ({
+  StagingDistributionDnsNames: {
+    Quantity: D.num,
+    Items: D.list(0, { item: "DnsName" }),
+  },
+  Enabled: D.bool,
+  TrafficConfig: {
+    SingleWeightConfig: {
+      Weight: D.num,
+      SessionStickinessConfig: { IdleTTL: D.num, MaximumTTL: D.num },
+    },
+    SingleHeaderConfig: {},
+  },
+});
+const o_Distribution: D.LazyStruct = () => ({
+  LastModifiedTime: D.ts,
+  InProgressInvalidationBatches: D.num,
+  ActiveTrustedSigners: o_ActiveTrustedSigners,
+  ActiveTrustedKeyGroups: {
+    Enabled: D.bool,
+    Quantity: D.num,
+    Items: D.list({ KeyPairIds: o_KeyPairIds }, { item: "KeyGroup" }),
+  },
+  DistributionConfig: o_DistributionConfig,
+  AliasICPRecordals: D.list({}, { item: "AliasICPRecordal" }),
+});
+const o_DistributionConfig: D.LazyStruct = () => ({
+  Aliases: o_Aliases,
+  Origins: o_Origins,
+  OriginGroups: o_OriginGroups,
+  DefaultCacheBehavior: o_DefaultCacheBehavior,
+  CacheBehaviors: o_CacheBehaviors,
+  CustomErrorResponses: o_CustomErrorResponses,
+  Comment: D.secret,
+  Logging: { Enabled: D.bool, IncludeCookies: D.bool },
+  Enabled: D.bool,
+  ViewerCertificate: o_ViewerCertificate,
+  Restrictions: o_Restrictions,
+  IsIPV6Enabled: D.bool,
+  Staging: D.bool,
+  TenantConfig: {
+    ParameterDefinitions: D.list({
+      Definition: { StringSchema: { Comment: D.secret, Required: D.bool } },
+    }),
+  },
+  ViewerMtlsConfig: o_ViewerMtlsConfig,
+  ConnectionFunctionAssociation: {},
+  CacheTagConfig: {},
+});
+const o_DistributionIdList: D.LazyStruct = () => ({
+  MaxItems: D.num,
+  IsTruncated: D.bool,
+  Quantity: D.num,
+  Items: D.list(0, { item: "DistributionId" }),
+});
+const o_DistributionList: D.LazyStruct = () => ({
+  MaxItems: D.num,
+  IsTruncated: D.bool,
+  Quantity: D.num,
+  Items: D.list(
+    {
+      LastModifiedTime: D.ts,
+      Aliases: o_Aliases,
+      Origins: o_Origins,
+      OriginGroups: o_OriginGroups,
+      DefaultCacheBehavior: o_DefaultCacheBehavior,
+      CacheBehaviors: o_CacheBehaviors,
+      CustomErrorResponses: o_CustomErrorResponses,
+      Comment: D.secret,
+      Enabled: D.bool,
+      ViewerCertificate: o_ViewerCertificate,
+      Restrictions: o_Restrictions,
+      IsIPV6Enabled: D.bool,
+      AliasICPRecordals: D.list({}, { item: "AliasICPRecordal" }),
+      Staging: D.bool,
+      ViewerMtlsConfig: o_ViewerMtlsConfig,
+      ConnectionFunctionAssociation: {},
+    },
+    { item: "DistributionSummary" },
+  ),
+});
+const o_DistributionTenant: D.LazyStruct = () => ({
+  Domains: D.list({}),
+  Tags: o_Tags,
+  Customizations: o_Customizations,
+  Parameters: D.list({}),
+  CreatedTime: D.ts,
+  LastModifiedTime: D.ts,
+  Enabled: D.bool,
+});
+const o_DistributionTenantSummary: D.LazyStruct = () => ({
+  Domains: D.list({}),
+  Customizations: o_Customizations,
+  CreatedTime: D.ts,
+  LastModifiedTime: D.ts,
+  Enabled: D.bool,
+});
+const o_EncryptionEntities: D.LazyStruct = () => ({
+  Quantity: D.num,
+  Items: D.list(
+    {
+      FieldPatterns: {
+        Quantity: D.num,
+        Items: D.list(0, { item: "FieldPattern" }),
+      },
+    },
+    { item: "EncryptionEntity" },
+  ),
+});
+const o_FieldLevelEncryption: D.LazyStruct = () => ({
+  LastModifiedTime: D.ts,
+  FieldLevelEncryptionConfig: o_FieldLevelEncryptionConfig,
+});
+const o_FieldLevelEncryptionConfig: D.LazyStruct = () => ({
+  QueryArgProfileConfig: o_QueryArgProfileConfig,
+  ContentTypeProfileConfig: o_ContentTypeProfileConfig,
+});
+const o_FieldLevelEncryptionProfile: D.LazyStruct = () => ({
+  LastModifiedTime: D.ts,
+  FieldLevelEncryptionProfileConfig: o_FieldLevelEncryptionProfileConfig,
+});
+const o_FieldLevelEncryptionProfileConfig: D.LazyStruct = () => ({
+  EncryptionEntities: o_EncryptionEntities,
+});
+const o_FunctionSummary: D.LazyStruct = () => ({
+  FunctionConfig: o_FunctionConfig,
+  FunctionMetadata: { CreatedTime: D.ts, LastModifiedTime: D.ts },
+});
+const o_Invalidation: D.LazyStruct = () => ({
+  CreateTime: D.ts,
+  InvalidationBatch: {
+    Paths: { Quantity: D.num, Items: D.list(0, { item: "Path" }) },
+  },
+});
+const o_InvalidationList: D.LazyStruct = () => ({
+  MaxItems: D.num,
+  IsTruncated: D.bool,
+  Quantity: D.num,
+  Items: D.list({ CreateTime: D.ts }, { item: "InvalidationSummary" }),
+});
+const o_IpamConfig: D.LazyStruct = () => ({
+  Quantity: D.num,
+  IpamCidrConfigs: D.list({}, { item: "IpamCidrConfig" }),
+});
+const o_KeyGroup: D.LazyStruct = () => ({
+  LastModifiedTime: D.ts,
+  KeyGroupConfig: o_KeyGroupConfig,
+});
+const o_KeyGroupConfig: D.LazyStruct = () => ({
+  Items: D.list(0, { item: "PublicKey" }),
+});
+const o_KeyValueStore: D.LazyStruct = () => ({ LastModifiedTime: D.ts });
+const o_MonitoringSubscription: D.LazyStruct = () => ({
+  RealtimeMetricsSubscriptionConfig: {},
+});
+const o_OriginAccessControl: D.LazyStruct = () => ({
+  OriginAccessControlConfig: {},
+});
+const o_OriginRequestPolicy: D.LazyStruct = () => ({
+  LastModifiedTime: D.ts,
+  OriginRequestPolicyConfig: o_OriginRequestPolicyConfig,
+});
+const o_OriginRequestPolicyConfig: D.LazyStruct = () => ({
+  HeadersConfig: { Headers: o_Headers },
+  CookiesConfig: { Cookies: o_CookieNames },
+  QueryStringsConfig: { QueryStrings: o_QueryStringNames },
+});
+const o_PublicKey: D.LazyStruct = () => ({
+  CreatedTime: D.ts,
+  PublicKeyConfig: {},
+});
+const o_QueryArgProfileConfig: D.LazyStruct = () => ({
+  ForwardWhenQueryArgProfileIsUnknown: D.bool,
+  QueryArgProfiles: {
+    Quantity: D.num,
+    Items: D.list({}, { item: "QueryArgProfile" }),
+  },
+});
+const o_RealtimeLogConfig: D.LazyStruct = () => ({
+  SamplingRate: D.num,
+  EndPoints: D.list({ KinesisStreamConfig: {} }),
+  Fields: D.list(0, { item: "Field" }),
+});
+const o_ResponseHeadersPolicy: D.LazyStruct = () => ({
+  LastModifiedTime: D.ts,
+  ResponseHeadersPolicyConfig: o_ResponseHeadersPolicyConfig,
+});
+const o_ResponseHeadersPolicyConfig: D.LazyStruct = () => ({
+  CorsConfig: {
+    AccessControlAllowOrigins: {
+      Quantity: D.num,
+      Items: D.list(0, { item: "Origin" }),
+    },
+    AccessControlAllowHeaders: {
+      Quantity: D.num,
+      Items: D.list(0, { item: "Header" }),
+    },
+    AccessControlAllowMethods: {
+      Quantity: D.num,
+      Items: D.list(0, { item: "Method" }),
+    },
+    AccessControlAllowCredentials: D.bool,
+    AccessControlExposeHeaders: {
+      Quantity: D.num,
+      Items: D.list(0, { item: "Header" }),
+    },
+    AccessControlMaxAgeSec: D.num,
+    OriginOverride: D.bool,
+  },
+  SecurityHeadersConfig: {
+    XSSProtection: { Override: D.bool, Protection: D.bool, ModeBlock: D.bool },
+    FrameOptions: { Override: D.bool },
+    ReferrerPolicy: { Override: D.bool },
+    ContentSecurityPolicy: { Override: D.bool },
+    ContentTypeOptions: { Override: D.bool },
+    StrictTransportSecurity: {
+      Override: D.bool,
+      IncludeSubdomains: D.bool,
+      Preload: D.bool,
+      AccessControlMaxAgeSec: D.num,
+    },
+  },
+  ServerTimingHeadersConfig: { Enabled: D.bool, SamplingRate: D.num },
+  CustomHeadersConfig: {
+    Quantity: D.num,
+    Items: D.list(
+      { Override: D.bool },
+      { item: "ResponseHeadersPolicyCustomHeader" },
+    ),
+  },
+  RemoveHeadersConfig: {
+    Quantity: D.num,
+    Items: D.list({}, { item: "ResponseHeadersPolicyRemoveHeader" }),
+  },
+});
+const o_StreamingDistribution: D.LazyStruct = () => ({
+  LastModifiedTime: D.ts,
+  ActiveTrustedSigners: o_ActiveTrustedSigners,
+  StreamingDistributionConfig: o_StreamingDistributionConfig,
+});
+const o_StreamingDistributionConfig: D.LazyStruct = () => ({
+  S3Origin: {},
+  Aliases: o_Aliases,
+  Logging: { Enabled: D.bool },
+  TrustedSigners: o_TrustedSigners,
+  Enabled: D.bool,
+});
+const o_Tags: D.LazyStruct = () => ({ Items: D.list({}, { item: "Tag" }) });
+const o_TrustStore: D.LazyStruct = () => ({
+  NumberOfCaCertificates: D.num,
+  LastModifiedTime: D.ts,
+  UseClientCertificateOCSPEndpoint: D.bool,
+});
+const o_TrustedSigners: D.LazyStruct = () => ({
+  Enabled: D.bool,
+  Quantity: D.num,
+  Items: D.list(0, { item: "AwsAccountNumber" }),
+});
+const o_VpcOrigin: D.LazyStruct = () => ({
+  CreatedTime: D.ts,
+  LastModifiedTime: D.ts,
+  VpcOriginEndpointConfig: {
+    HTTPPort: D.num,
+    HTTPSPort: D.num,
+    OriginSslProtocols: o_OriginSslProtocols,
+  },
+});
+const i_Aliases: D.LazyStruct = () => ({
+  Quantity: 0,
+  Items: D.list(0, { item: "CNAME" }),
+});
+const i_AllowedMethods: D.LazyStruct = () => ({
+  Quantity: 0,
+  Items: D.list(0, { item: "Method" }),
+  CachedMethods: { Quantity: 0, Items: D.list(0, { item: "Method" }) },
+});
+const i_CookieNames: D.LazyStruct = () => ({
+  Quantity: 0,
+  Items: D.list(0, { item: "Name" }),
+});
+const i_ForwardedValues: D.LazyStruct = () => ({
+  QueryString: 0,
+  Cookies: { Forward: 0, WhitelistedNames: i_CookieNames },
+  Headers: i_Headers,
+  QueryStringCacheKeys: { Quantity: 0, Items: D.list(0, { item: "Name" }) },
+});
+const i_FunctionAssociations: D.LazyStruct = () => ({
+  Quantity: 0,
+  Items: D.list(
+    { FunctionARN: 0, EventType: 0 },
+    { item: "FunctionAssociation" },
+  ),
+});
+const i_GrpcConfig: D.LazyStruct = () => ({ Enabled: 0 });
+const i_Headers: D.LazyStruct = () => ({
+  Quantity: 0,
+  Items: D.list(0, { item: "Name" }),
+});
+const i_LambdaFunctionAssociations: D.LazyStruct = () => ({
+  Quantity: 0,
+  Items: D.list(
+    { LambdaFunctionARN: 0, EventType: 0, IncludeBody: 0 },
+    { item: "LambdaFunctionAssociation" },
+  ),
+});
+const i_OriginSslProtocols: D.LazyStruct = () => ({
+  Quantity: 0,
+  Items: D.list(0, { item: "SslProtocol" }),
+});
+const i_QueryStringNames: D.LazyStruct = () => ({
+  Quantity: 0,
+  Items: D.list(0, { item: "Name" }),
+});
+const i_TrustedKeyGroups: D.LazyStruct = () => ({
+  Enabled: 0,
+  Quantity: 0,
+  Items: D.list(0, { item: "KeyGroup" }),
+});
+const i_TrustedSigners: D.LazyStruct = () => ({
+  Enabled: 0,
+  Quantity: 0,
+  Items: D.list(0, { item: "AwsAccountNumber" }),
+});
+const o_ActiveTrustedSigners: D.LazyStruct = () => ({
+  Enabled: D.bool,
+  Quantity: D.num,
+  Items: D.list({ KeyPairIds: o_KeyPairIds }, { item: "Signer" }),
+});
+const o_CacheBehaviors: D.LazyStruct = () => ({
+  Quantity: D.num,
+  Items: D.list(
+    {
+      TrustedSigners: o_TrustedSigners,
+      TrustedKeyGroups: o_TrustedKeyGroups,
+      AllowedMethods: o_AllowedMethods,
+      SmoothStreaming: D.bool,
+      Compress: D.bool,
+      LambdaFunctionAssociations: o_LambdaFunctionAssociations,
+      FunctionAssociations: o_FunctionAssociations,
+      GrpcConfig: o_GrpcConfig,
+      ForwardedValues: o_ForwardedValues,
+      MinTTL: D.num,
+      DefaultTTL: D.num,
+      MaxTTL: D.num,
+    },
+    { item: "CacheBehavior" },
+  ),
+});
+const o_CookieNames: D.LazyStruct = () => ({
+  Quantity: D.num,
+  Items: D.list(0, { item: "Name" }),
+});
+const o_CustomErrorResponses: D.LazyStruct = () => ({
+  Quantity: D.num,
+  Items: D.list(
+    { ErrorCode: D.num, ErrorCachingMinTTL: D.num },
+    { item: "CustomErrorResponse" },
+  ),
+});
+const o_Customizations: D.LazyStruct = () => ({
+  WebAcl: {},
+  Certificate: {},
+  GeoRestrictions: { Locations: D.list(0, { item: "Location" }) },
+});
+const o_DefaultCacheBehavior: D.LazyStruct = () => ({
+  TrustedSigners: o_TrustedSigners,
+  TrustedKeyGroups: o_TrustedKeyGroups,
+  AllowedMethods: o_AllowedMethods,
+  SmoothStreaming: D.bool,
+  Compress: D.bool,
+  LambdaFunctionAssociations: o_LambdaFunctionAssociations,
+  FunctionAssociations: o_FunctionAssociations,
+  GrpcConfig: o_GrpcConfig,
+  ForwardedValues: o_ForwardedValues,
+  MinTTL: D.num,
+  DefaultTTL: D.num,
+  MaxTTL: D.num,
+});
+const o_FunctionConfig: D.LazyStruct = () => ({
+  KeyValueStoreAssociations: {
+    Quantity: D.num,
+    Items: D.list({}, { item: "KeyValueStoreAssociation" }),
+  },
+});
+const o_Headers: D.LazyStruct = () => ({
+  Quantity: D.num,
+  Items: D.list(0, { item: "Name" }),
+});
+const o_KeyPairIds: D.LazyStruct = () => ({
+  Quantity: D.num,
+  Items: D.list(0, { item: "KeyPairId" }),
+});
+const o_OriginGroups: D.LazyStruct = () => ({
+  Quantity: D.num,
+  Items: D.list(
+    {
+      FailoverCriteria: {
+        StatusCodes: {
+          Quantity: D.num,
+          Items: D.list(D.num, { item: "StatusCode" }),
+        },
+      },
+      Members: {
+        Quantity: D.num,
+        Items: D.list({}, { item: "OriginGroupMember" }),
+      },
+    },
+    { item: "OriginGroup" },
+  ),
+});
+const o_OriginSslProtocols: D.LazyStruct = () => ({
+  Quantity: D.num,
+  Items: D.list(0, { item: "SslProtocol" }),
+});
+const o_Origins: D.LazyStruct = () => ({
+  Quantity: D.num,
+  Items: D.list(
+    {
+      CustomHeaders: {
+        Quantity: D.num,
+        Items: D.list(
+          { HeaderValue: D.secret },
+          { item: "OriginCustomHeader" },
+        ),
+      },
+      S3OriginConfig: { OriginReadTimeout: D.num },
+      CustomOriginConfig: {
+        HTTPPort: D.num,
+        HTTPSPort: D.num,
+        OriginSslProtocols: o_OriginSslProtocols,
+        OriginReadTimeout: D.num,
+        OriginKeepaliveTimeout: D.num,
+        OriginMtlsConfig: {},
+      },
+      VpcOriginConfig: {
+        OriginReadTimeout: D.num,
+        OriginKeepaliveTimeout: D.num,
+      },
+      ConnectionAttempts: D.num,
+      ConnectionTimeout: D.num,
+      ResponseCompletionTimeout: D.num,
+      OriginShield: { Enabled: D.bool },
+    },
+    { item: "Origin" },
+  ),
+});
+const o_QueryStringNames: D.LazyStruct = () => ({
+  Quantity: D.num,
+  Items: D.list(0, { item: "Name" }),
+});
+const o_Restrictions: D.LazyStruct = () => ({
+  GeoRestriction: { Quantity: D.num, Items: D.list(0, { item: "Location" }) },
+});
+const o_ViewerCertificate: D.LazyStruct = () => ({
+  CloudFrontDefaultCertificate: D.bool,
+});
+const o_ViewerMtlsConfig: D.LazyStruct = () => ({
+  TrustStoreConfig: {
+    AdvertiseTrustStoreCaNames: D.bool,
+    IgnoreCertificateExpiry: D.bool,
+  },
+});
+const o_AllowedMethods: D.LazyStruct = () => ({
+  Quantity: D.num,
+  Items: D.list(0, { item: "Method" }),
+  CachedMethods: { Quantity: D.num, Items: D.list(0, { item: "Method" }) },
+});
+const o_ForwardedValues: D.LazyStruct = () => ({
+  QueryString: D.bool,
+  Cookies: { WhitelistedNames: o_CookieNames },
+  Headers: o_Headers,
+  QueryStringCacheKeys: { Quantity: D.num, Items: D.list(0, { item: "Name" }) },
+});
+const o_FunctionAssociations: D.LazyStruct = () => ({
+  Quantity: D.num,
+  Items: D.list({}, { item: "FunctionAssociation" }),
+});
+const o_GrpcConfig: D.LazyStruct = () => ({ Enabled: D.bool });
+const o_LambdaFunctionAssociations: D.LazyStruct = () => ({
+  Quantity: D.num,
+  Items: D.list({ IncludeBody: D.bool }, { item: "LambdaFunctionAssociation" }),
+});
+const o_TrustedKeyGroups: D.LazyStruct = () => ({
+  Enabled: D.bool,
+  Quantity: D.num,
+  Items: D.list(0, { item: "KeyGroup" }),
+});

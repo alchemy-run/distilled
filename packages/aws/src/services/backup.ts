@@ -1,196 +1,168 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Backup",
-  serviceShapeName: "CryoControllerUserManager",
-});
-const auth = T.AwsAuthSigv4({ name: "backup" });
-const ver = T.ServiceVersion("2018-11-15");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://backup-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://backup-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://backup.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://backup.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "CryoControllerUserManager",
+  version: "2018-11-15",
+  sigv4: "backup",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://backup-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://backup-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://backup.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://backup.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AlreadyExistsException
-  extends /*@__PURE__*/ S.TaggedError<AlreadyExistsException>()(
-    "AlreadyExistsException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      CreatorRequestId: S.optional(S.String),
-      Arn: S.optional(S.String),
-      Type: S.optional(S.String),
-      Context: S.optional(S.String),
-    },
-  ).pipe(C.withAlreadyExistsError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AlreadyExistsException", [
+    "AlreadyExistsError",
+  ])<{
+    readonly Code?: string;
+    readonly message?: string;
+    readonly CreatorRequestId?: string;
+    readonly Arn?: string;
+    readonly Type?: string;
+    readonly Context?: string;
+  }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Type: S.optional(S.String),
-      Context: S.optional(S.String),
-    },
-    T.all(
-      T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{
+    readonly Code?: string;
+    readonly message?: string;
+    readonly Type?: string;
+    readonly Context?: string;
+  }> {}
 export class DependencyFailureException
-  extends /*@__PURE__*/ S.TaggedError<DependencyFailureException>()(
-    "DependencyFailureException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Type: S.optional(S.String),
-      Context: S.optional(S.String),
-    },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("DependencyFailureException")<{
+    readonly Code?: string;
+    readonly message?: string;
+    readonly Type?: string;
+    readonly Context?: string;
+  }> {}
 export class InvalidParameterValueException
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterValueException>()(
-    "InvalidParameterValueException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Type: S.optional(S.String),
-      Context: S.optional(S.String),
-    },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidParameterValueException")<{
+    readonly Code?: string;
+    readonly message?: string;
+    readonly Type?: string;
+    readonly Context?: string;
+  }> {}
 export class InvalidRequestException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
-    "InvalidRequestException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Type: S.optional(S.String),
-      Context: S.optional(S.String),
-    },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidRequestException")<{
+    readonly Code?: string;
+    readonly message?: string;
+    readonly Type?: string;
+    readonly Context?: string;
+  }> {}
 export class InvalidResourceStateException
-  extends /*@__PURE__*/ S.TaggedError<InvalidResourceStateException>()(
-    "InvalidResourceStateException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Type: S.optional(S.String),
-      Context: S.optional(S.String),
-    },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidResourceStateException")<{
+    readonly Code?: string;
+    readonly message?: string;
+    readonly Type?: string;
+    readonly Context?: string;
+  }> {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Type: S.optional(S.String),
-      Context: S.optional(S.String),
-    },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("LimitExceededException")<{
+    readonly Code?: string;
+    readonly message?: string;
+    readonly Type?: string;
+    readonly Context?: string;
+  }> {}
 export class MissingParameterValueException
-  extends /*@__PURE__*/ S.TaggedError<MissingParameterValueException>()(
-    "MissingParameterValueException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Type: S.optional(S.String),
-      Context: S.optional(S.String),
-    },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("MissingParameterValueException")<{
+    readonly Code?: string;
+    readonly message?: string;
+    readonly Type?: string;
+    readonly Context?: string;
+  }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Type: S.optional(S.String),
-      Context: S.optional(S.String),
-    },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("ResourceNotFoundException")<{
+    readonly Code?: string;
+    readonly message?: string;
+    readonly Type?: string;
+    readonly Context?: string;
+  }> {}
 export class ServiceUnavailableException
-  extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
-    "ServiceUnavailableException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Type: S.optional(S.String),
-      Context: S.optional(S.String),
-    },
-  ).pipe(C.withServerError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ServiceUnavailableException", [
+    "ServerError",
+  ])<{
+    readonly Code?: string;
+    readonly message?: string;
+    readonly Type?: string;
+    readonly Context?: string;
+  }> {}
 export type BackupVaultName = string;
 export type ARN = string;
 export type RequesterComment = string | redacted.Redacted<string>;
@@ -199,81 +171,22 @@ export interface AssociateBackupVaultMpaApprovalTeamInput {
   MpaApprovalTeamArn: string;
   RequesterComment?: string | redacted.Redacted<string>;
 }
-export const AssociateBackupVaultMpaApprovalTeamInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-      MpaApprovalTeamArn: S.String,
-      RequesterComment: S.optional(SensitiveString),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/backup-vaults/{BackupVaultName}/mpaApprovalTeam",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "AssociateBackupVaultMpaApprovalTeamInput",
-}) as any as S.Schema<AssociateBackupVaultMpaApprovalTeamInput>;
 export interface AssociateBackupVaultMpaApprovalTeamResponse {}
-export const AssociateBackupVaultMpaApprovalTeamResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "AssociateBackupVaultMpaApprovalTeamResponse",
-  }) as any as S.Schema<AssociateBackupVaultMpaApprovalTeamResponse>;
 export interface CancelLegalHoldInput {
   LegalHoldId: string;
   CancelDescription: string;
   RetainRecordInDays?: number;
 }
-export const CancelLegalHoldInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LegalHoldId: S.String.pipe(T.HttpLabel("LegalHoldId")),
-    CancelDescription: S.String.pipe(T.HttpQuery("cancelDescription")),
-    RetainRecordInDays: S.optional(S.Number).pipe(
-      T.HttpQuery("retainRecordInDays"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/legal-holds/{LegalHoldId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CancelLegalHoldInput",
-}) as any as S.Schema<CancelLegalHoldInput>;
 export interface CancelLegalHoldOutput {}
-export const CancelLegalHoldOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CancelLegalHoldOutput",
-}) as any as S.Schema<CancelLegalHoldOutput>;
 export type AccessPointMetadataMapKeyString = string;
 export type AccessPointMetadataMapValueString = string;
 export type AccessPointMetadataMap = { [key: string]: string | undefined };
-export const AccessPointMetadataMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type AccessPointPolicy = string;
 export type AccessPointName = string;
 export type RecoveryPointArn = string;
 export type TagMapKeyString = string;
 export type TagMapValueString = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface CreateBackupAccessPointRequest {
   AccessPointMetadata?: { [key: string]: string | undefined };
   AccessPointPolicy?: string;
@@ -281,26 +194,6 @@ export interface CreateBackupAccessPointRequest {
   RecoveryPointArn: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateBackupAccessPointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessPointMetadata: S.optional(AccessPointMetadataMap),
-    AccessPointPolicy: S.optional(S.String),
-    Name: S.String,
-    RecoveryPointArn: S.String,
-    Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/backup-access-point/create" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateBackupAccessPointRequest",
-}) as any as S.Schema<CreateBackupAccessPointRequest>;
 export type AccessPointArn = string;
 export type AccessPointStatus =
   | "AVAILABLE"
@@ -311,84 +204,43 @@ export type AccessPointStatus =
   | "EXPIRED"
   | "FAILED"
   | (string & {});
-export const AccessPointStatus = S.String;
-
 export interface CreateBackupAccessPointResponse {
   AccessPointArn: string;
   Status: AccessPointStatus;
 }
-export const CreateBackupAccessPointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccessPointArn: S.String, Status: AccessPointStatus }),
-).annotate({
-  identifier: "CreateBackupAccessPointResponse",
-}) as any as S.Schema<CreateBackupAccessPointResponse>;
 export type BackupPlanName = string;
 export type BackupRuleName = string;
 export type CronExpression = string;
 export type WindowMinutes = number;
 export type LifecycleDeleteAfterEvent = "DELETE_AFTER_COPY" | (string & {});
-export const LifecycleDeleteAfterEvent = S.String;
-
 export interface Lifecycle {
   MoveToColdStorageAfterDays?: number;
   DeleteAfterDays?: number;
   OptInToArchiveForSupportedResources?: boolean;
   DeleteAfterEvent?: LifecycleDeleteAfterEvent;
 }
-export const Lifecycle = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MoveToColdStorageAfterDays: S.optional(S.Number),
-    DeleteAfterDays: S.optional(S.Number),
-    OptInToArchiveForSupportedResources: S.optional(S.Boolean),
-    DeleteAfterEvent: S.optional(LifecycleDeleteAfterEvent),
-  }),
-).annotate({ identifier: "Lifecycle" }) as any as S.Schema<Lifecycle>;
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CopyAction {
   Lifecycle?: Lifecycle;
   DestinationBackupVaultArn: string;
 }
-export const CopyAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Lifecycle: S.optional(Lifecycle),
-    DestinationBackupVaultArn: S.String,
-  }),
-).annotate({ identifier: "CopyAction" }) as any as S.Schema<CopyAction>;
 export type CopyActions = CopyAction[];
-export const CopyActions = /*@__PURE__*/ S.Array(CopyAction);
 export type Timezone = string;
 export type ResourceType = string;
 export type ResourceTypes = string[];
-export const ResourceTypes = /*@__PURE__*/ S.Array(S.String);
 export interface IndexAction {
   ResourceTypes?: string[];
 }
-export const IndexAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceTypes: S.optional(ResourceTypes) }),
-).annotate({ identifier: "IndexAction" }) as any as S.Schema<IndexAction>;
 export type IndexActions = IndexAction[];
-export const IndexActions = /*@__PURE__*/ S.Array(IndexAction);
 export type MalwareScanner = "GUARDDUTY" | (string & {});
-export const MalwareScanner = S.String;
-
 export type ScanMode = "FULL_SCAN" | "INCREMENTAL_SCAN" | (string & {});
-export const ScanMode = S.String;
-
 export interface ScanAction {
   MalwareScanner?: MalwareScanner;
   ScanMode?: ScanMode;
 }
-export const ScanAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MalwareScanner: S.optional(MalwareScanner),
-    ScanMode: S.optional(ScanMode),
-  }),
-).annotate({ identifier: "ScanAction" }) as any as S.Schema<ScanAction>;
 export type ScanActions = ScanAction[];
-export const ScanActions = /*@__PURE__*/ S.Array(ScanAction);
 export interface BackupRuleInput {
   RuleName: string;
   TargetBackupVaultName: string;
@@ -404,104 +256,33 @@ export interface BackupRuleInput {
   IndexActions?: IndexAction[];
   ScanActions?: ScanAction[];
 }
-export const BackupRuleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleName: S.String,
-    TargetBackupVaultName: S.String,
-    TargetLogicallyAirGappedBackupVaultArn: S.optional(S.String),
-    ScheduleExpression: S.optional(S.String),
-    StartWindowMinutes: S.optional(S.Number),
-    CompletionWindowMinutes: S.optional(S.Number),
-    Lifecycle: S.optional(Lifecycle),
-    RecoveryPointTags: S.optional(Tags),
-    CopyActions: S.optional(CopyActions),
-    EnableContinuousBackup: S.optional(S.Boolean),
-    ScheduleExpressionTimezone: S.optional(S.String),
-    IndexActions: S.optional(IndexActions),
-    ScanActions: S.optional(ScanActions),
-  }),
-).annotate({
-  identifier: "BackupRuleInput",
-}) as any as S.Schema<BackupRuleInput>;
 export type BackupRulesInput = BackupRuleInput[];
-export const BackupRulesInput = /*@__PURE__*/ S.Array(BackupRuleInput);
 export type BackupOptionKey = string;
 export type BackupOptionValue = string;
 export type BackupOptions = { [key: string]: string | undefined };
-export const BackupOptions = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface AdvancedBackupSetting {
   ResourceType?: string;
   BackupOptions?: { [key: string]: string | undefined };
 }
-export const AdvancedBackupSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceType: S.optional(S.String),
-    BackupOptions: S.optional(BackupOptions),
-  }),
-).annotate({
-  identifier: "AdvancedBackupSetting",
-}) as any as S.Schema<AdvancedBackupSetting>;
 export type AdvancedBackupSettings = AdvancedBackupSetting[];
-export const AdvancedBackupSettings = /*@__PURE__*/ S.Array(
-  AdvancedBackupSetting,
-);
 export type IAMRoleArn = string;
 export interface ScanSetting {
   MalwareScanner?: MalwareScanner;
   ResourceTypes?: string[];
   ScannerRoleArn?: string;
 }
-export const ScanSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MalwareScanner: S.optional(MalwareScanner),
-    ResourceTypes: S.optional(ResourceTypes),
-    ScannerRoleArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "ScanSetting" }) as any as S.Schema<ScanSetting>;
 export type ScanSettings = ScanSetting[];
-export const ScanSettings = /*@__PURE__*/ S.Array(ScanSetting);
 export interface BackupPlanInput {
   BackupPlanName: string;
   Rules: BackupRuleInput[];
   AdvancedBackupSettings?: AdvancedBackupSetting[];
   ScanSettings?: ScanSetting[];
 }
-export const BackupPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanName: S.String,
-    Rules: BackupRulesInput,
-    AdvancedBackupSettings: S.optional(AdvancedBackupSettings),
-    ScanSettings: S.optional(ScanSettings),
-  }),
-).annotate({
-  identifier: "BackupPlanInput",
-}) as any as S.Schema<BackupPlanInput>;
 export interface CreateBackupPlanInput {
   BackupPlan: BackupPlanInput;
   BackupPlanTags?: { [key: string]: string | undefined };
   CreatorRequestId?: string;
 }
-export const CreateBackupPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlan: BackupPlanInput,
-    BackupPlanTags: S.optional(Tags),
-    CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/backup/plans" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateBackupPlanInput",
-}) as any as S.Schema<CreateBackupPlanInput>;
 export interface CreateBackupPlanOutput {
   BackupPlanId?: string;
   BackupPlanArn?: string;
@@ -509,23 +290,9 @@ export interface CreateBackupPlanOutput {
   VersionId?: string;
   AdvancedBackupSettings?: AdvancedBackupSetting[];
 }
-export const CreateBackupPlanOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanId: S.optional(S.String),
-    BackupPlanArn: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    VersionId: S.optional(S.String),
-    AdvancedBackupSettings: S.optional(AdvancedBackupSettings),
-  }),
-).annotate({
-  identifier: "CreateBackupPlanOutput",
-}) as any as S.Schema<CreateBackupPlanOutput>;
 export type BackupSelectionName = string;
 export type ResourceArns = string[];
-export const ResourceArns = /*@__PURE__*/ S.Array(S.String);
 export type ConditionType = "STRINGEQUALS" | (string & {});
-export const ConditionType = S.String;
-
 export type ConditionKey = string;
 export type ConditionValue = string;
 export interface Condition {
@@ -533,43 +300,18 @@ export interface Condition {
   ConditionKey: string;
   ConditionValue: string;
 }
-export const Condition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConditionType: ConditionType,
-    ConditionKey: S.String,
-    ConditionValue: S.String,
-  }),
-).annotate({ identifier: "Condition" }) as any as S.Schema<Condition>;
 export type ListOfTags = Condition[];
-export const ListOfTags = /*@__PURE__*/ S.Array(Condition);
 export interface ConditionParameter {
   ConditionKey?: string;
   ConditionValue?: string;
 }
-export const ConditionParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConditionKey: S.optional(S.String),
-    ConditionValue: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConditionParameter",
-}) as any as S.Schema<ConditionParameter>;
 export type ConditionParameters = ConditionParameter[];
-export const ConditionParameters = /*@__PURE__*/ S.Array(ConditionParameter);
 export interface Conditions {
   StringEquals?: ConditionParameter[];
   StringNotEquals?: ConditionParameter[];
   StringLike?: ConditionParameter[];
   StringNotLike?: ConditionParameter[];
 }
-export const Conditions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StringEquals: S.optional(ConditionParameters),
-    StringNotEquals: S.optional(ConditionParameters),
-    StringLike: S.optional(ConditionParameters),
-    StringNotLike: S.optional(ConditionParameters),
-  }),
-).annotate({ identifier: "Conditions" }) as any as S.Schema<Conditions>;
 export interface BackupSelection {
   SelectionName: string;
   IamRoleArn: string;
@@ -578,94 +320,27 @@ export interface BackupSelection {
   NotResources?: string[];
   Conditions?: Conditions;
 }
-export const BackupSelection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SelectionName: S.String,
-    IamRoleArn: S.String,
-    Resources: S.optional(ResourceArns),
-    ListOfTags: S.optional(ListOfTags),
-    NotResources: S.optional(ResourceArns),
-    Conditions: S.optional(Conditions),
-  }),
-).annotate({
-  identifier: "BackupSelection",
-}) as any as S.Schema<BackupSelection>;
 export interface CreateBackupSelectionInput {
   BackupPlanId: string;
   BackupSelection: BackupSelection;
   CreatorRequestId?: string;
 }
-export const CreateBackupSelectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")),
-    BackupSelection: BackupSelection,
-    CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/backup/plans/{BackupPlanId}/selections" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateBackupSelectionInput",
-}) as any as S.Schema<CreateBackupSelectionInput>;
 export interface CreateBackupSelectionOutput {
   SelectionId?: string;
   BackupPlanId?: string;
   CreationDate?: Date;
 }
-export const CreateBackupSelectionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SelectionId: S.optional(S.String),
-    BackupPlanId: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "CreateBackupSelectionOutput",
-}) as any as S.Schema<CreateBackupSelectionOutput>;
 export interface CreateBackupVaultInput {
   BackupVaultName: string;
   BackupVaultTags?: { [key: string]: string | undefined };
   EncryptionKeyArn?: string;
   CreatorRequestId?: string;
 }
-export const CreateBackupVaultInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-    BackupVaultTags: S.optional(Tags),
-    EncryptionKeyArn: S.optional(S.String),
-    CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/backup-vaults/{BackupVaultName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateBackupVaultInput",
-}) as any as S.Schema<CreateBackupVaultInput>;
 export interface CreateBackupVaultOutput {
   BackupVaultName?: string;
   BackupVaultArn?: string;
   CreationDate?: Date;
 }
-export const CreateBackupVaultOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.optional(S.String),
-    BackupVaultArn: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "CreateBackupVaultOutput",
-}) as any as S.Schema<CreateBackupVaultOutput>;
 export type FrameworkName = string;
 export type FrameworkDescription = string;
 export type ControlName = string;
@@ -675,55 +350,21 @@ export interface ControlInputParameter {
   ParameterName?: string;
   ParameterValue?: string;
 }
-export const ControlInputParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ParameterName: S.optional(S.String),
-    ParameterValue: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ControlInputParameter",
-}) as any as S.Schema<ControlInputParameter>;
 export type ControlInputParameters = ControlInputParameter[];
-export const ControlInputParameters = /*@__PURE__*/ S.Array(
-  ControlInputParameter,
-);
 export type ComplianceResourceIdList = string[];
-export const ComplianceResourceIdList = /*@__PURE__*/ S.Array(S.String);
 export type ResourceTypeList = string[];
-export const ResourceTypeList = /*@__PURE__*/ S.Array(S.String);
 export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface ControlScope {
   ComplianceResourceIds?: string[];
   ComplianceResourceTypes?: string[];
   Tags?: { [key: string]: string | undefined };
 }
-export const ControlScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ComplianceResourceIds: S.optional(ComplianceResourceIdList),
-    ComplianceResourceTypes: S.optional(ResourceTypeList),
-    Tags: S.optional(StringMap),
-  }),
-).annotate({ identifier: "ControlScope" }) as any as S.Schema<ControlScope>;
 export interface FrameworkControl {
   ControlName: string;
   ControlInputParameters?: ControlInputParameter[];
   ControlScope?: ControlScope;
 }
-export const FrameworkControl = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ControlName: S.String,
-    ControlInputParameters: S.optional(ControlInputParameters),
-    ControlScope: S.optional(ControlScope),
-  }),
-).annotate({
-  identifier: "FrameworkControl",
-}) as any as S.Schema<FrameworkControl>;
 export type FrameworkControls = FrameworkControl[];
-export const FrameworkControls = /*@__PURE__*/ S.Array(FrameworkControl);
 export interface CreateFrameworkInput {
   FrameworkName: string;
   FrameworkDescription?: string;
@@ -731,66 +372,21 @@ export interface CreateFrameworkInput {
   IdempotencyToken?: string;
   FrameworkTags?: { [key: string]: string | undefined };
 }
-export const CreateFrameworkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FrameworkName: S.String,
-    FrameworkDescription: S.optional(S.String),
-    FrameworkControls: FrameworkControls,
-    IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    FrameworkTags: S.optional(StringMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/audit/frameworks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateFrameworkInput",
-}) as any as S.Schema<CreateFrameworkInput>;
 export interface CreateFrameworkOutput {
   FrameworkName?: string;
   FrameworkArn?: string;
 }
-export const CreateFrameworkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FrameworkName: S.optional(S.String),
-    FrameworkArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateFrameworkOutput",
-}) as any as S.Schema<CreateFrameworkOutput>;
 export type VaultNames = string[];
-export const VaultNames = /*@__PURE__*/ S.Array(S.String);
 export type ResourceIdentifiers = string[];
-export const ResourceIdentifiers = /*@__PURE__*/ S.Array(S.String);
 export interface DateRange {
   FromDate: Date;
   ToDate: Date;
 }
-export const DateRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FromDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ToDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({ identifier: "DateRange" }) as any as S.Schema<DateRange>;
 export interface RecoveryPointSelection {
   VaultNames?: string[];
   ResourceIdentifiers?: string[];
   DateRange?: DateRange;
 }
-export const RecoveryPointSelection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VaultNames: S.optional(VaultNames),
-    ResourceIdentifiers: S.optional(ResourceIdentifiers),
-    DateRange: S.optional(DateRange),
-  }),
-).annotate({
-  identifier: "RecoveryPointSelection",
-}) as any as S.Schema<RecoveryPointSelection>;
 export interface CreateLegalHoldInput {
   Title: string;
   Description: string;
@@ -798,34 +394,12 @@ export interface CreateLegalHoldInput {
   RecoveryPointSelection?: RecoveryPointSelection;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateLegalHoldInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Title: S.String,
-    Description: S.String,
-    IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    RecoveryPointSelection: S.optional(RecoveryPointSelection),
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/legal-holds" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateLegalHoldInput",
-}) as any as S.Schema<CreateLegalHoldInput>;
 export type LegalHoldStatus =
   | "CREATING"
   | "ACTIVE"
   | "CANCELING"
   | "CANCELED"
   | (string & {});
-export const LegalHoldStatus = S.String;
-
 export interface CreateLegalHoldOutput {
   Title?: string;
   Status?: LegalHoldStatus;
@@ -835,19 +409,6 @@ export interface CreateLegalHoldOutput {
   CreationDate?: Date;
   RecoveryPointSelection?: RecoveryPointSelection;
 }
-export const CreateLegalHoldOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Title: S.optional(S.String),
-    Status: S.optional(LegalHoldStatus),
-    Description: S.optional(S.String),
-    LegalHoldId: S.optional(S.String),
-    LegalHoldArn: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    RecoveryPointSelection: S.optional(RecoveryPointSelection),
-  }),
-).annotate({
-  identifier: "CreateLegalHoldOutput",
-}) as any as S.Schema<CreateLegalHoldOutput>;
 export interface CreateLogicallyAirGappedBackupVaultInput {
   BackupVaultName: string;
   BackupVaultTags?: { [key: string]: string | undefined };
@@ -856,71 +417,22 @@ export interface CreateLogicallyAirGappedBackupVaultInput {
   MaxRetentionDays: number;
   EncryptionKeyArn?: string;
 }
-export const CreateLogicallyAirGappedBackupVaultInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-      BackupVaultTags: S.optional(Tags),
-      CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
-      MinRetentionDays: S.Number,
-      MaxRetentionDays: S.Number,
-      EncryptionKeyArn: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/logically-air-gapped-backup-vaults/{BackupVaultName}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateLogicallyAirGappedBackupVaultInput",
-}) as any as S.Schema<CreateLogicallyAirGappedBackupVaultInput>;
 export type VaultState = "CREATING" | "AVAILABLE" | "FAILED" | (string & {});
-export const VaultState = S.String;
-
 export interface CreateLogicallyAirGappedBackupVaultOutput {
   BackupVaultName?: string;
   BackupVaultArn?: string;
   CreationDate?: Date;
   VaultState?: VaultState;
 }
-export const CreateLogicallyAirGappedBackupVaultOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      BackupVaultName: S.optional(S.String),
-      BackupVaultArn: S.optional(S.String),
-      CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      VaultState: S.optional(VaultState),
-    }),
-  ).annotate({
-    identifier: "CreateLogicallyAirGappedBackupVaultOutput",
-  }) as any as S.Schema<CreateLogicallyAirGappedBackupVaultOutput>;
 export type ReportPlanName = string;
 export type ReportPlanDescription = string;
 export type FormatList = string[];
-export const FormatList = /*@__PURE__*/ S.Array(S.String);
 export interface ReportDeliveryChannel {
   S3BucketName: string;
   S3KeyPrefix?: string;
   Formats?: string[];
 }
-export const ReportDeliveryChannel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    S3BucketName: S.String,
-    S3KeyPrefix: S.optional(S.String),
-    Formats: S.optional(FormatList),
-  }),
-).annotate({
-  identifier: "ReportDeliveryChannel",
-}) as any as S.Schema<ReportDeliveryChannel>;
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface ReportSetting {
   ReportTemplate: string;
   FrameworkArns?: string[];
@@ -929,16 +441,6 @@ export interface ReportSetting {
   OrganizationUnits?: string[];
   Regions?: string[];
 }
-export const ReportSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportTemplate: S.String,
-    FrameworkArns: S.optional(StringList),
-    NumberOfFrameworks: S.optional(S.Number),
-    Accounts: S.optional(StringList),
-    OrganizationUnits: S.optional(StringList),
-    Regions: S.optional(StringList),
-  }),
-).annotate({ identifier: "ReportSetting" }) as any as S.Schema<ReportSetting>;
 export interface CreateReportPlanInput {
   ReportPlanName: string;
   ReportPlanDescription?: string;
@@ -947,41 +449,11 @@ export interface CreateReportPlanInput {
   ReportPlanTags?: { [key: string]: string | undefined };
   IdempotencyToken?: string;
 }
-export const CreateReportPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportPlanName: S.String,
-    ReportPlanDescription: S.optional(S.String),
-    ReportDeliveryChannel: ReportDeliveryChannel,
-    ReportSetting: ReportSetting,
-    ReportPlanTags: S.optional(StringMap),
-    IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/audit/report-plans" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateReportPlanInput",
-}) as any as S.Schema<CreateReportPlanInput>;
 export interface CreateReportPlanOutput {
   ReportPlanName?: string;
   ReportPlanArn?: string;
   CreationTime?: Date;
 }
-export const CreateReportPlanOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportPlanName: S.optional(S.String),
-    ReportPlanArn: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "CreateReportPlanOutput",
-}) as any as S.Schema<CreateReportPlanOutput>;
 export interface CreateRestoreAccessBackupVaultInput {
   SourceBackupVaultArn: string;
   BackupVaultName?: string;
@@ -989,60 +461,22 @@ export interface CreateRestoreAccessBackupVaultInput {
   CreatorRequestId?: string;
   RequesterComment?: string | redacted.Redacted<string>;
 }
-export const CreateRestoreAccessBackupVaultInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceBackupVaultArn: S.String,
-    BackupVaultName: S.optional(S.String),
-    BackupVaultTags: S.optional(Tags),
-    CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
-    RequesterComment: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/restore-access-backup-vaults" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateRestoreAccessBackupVaultInput",
-}) as any as S.Schema<CreateRestoreAccessBackupVaultInput>;
 export interface CreateRestoreAccessBackupVaultOutput {
   RestoreAccessBackupVaultArn?: string;
   VaultState?: VaultState;
   RestoreAccessBackupVaultName?: string;
   CreationDate?: Date;
 }
-export const CreateRestoreAccessBackupVaultOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RestoreAccessBackupVaultArn: S.optional(S.String),
-      VaultState: S.optional(VaultState),
-      RestoreAccessBackupVaultName: S.optional(S.String),
-      CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    }),
-).annotate({
-  identifier: "CreateRestoreAccessBackupVaultOutput",
-}) as any as S.Schema<CreateRestoreAccessBackupVaultOutput>;
 export type RestoreTestingRecoveryPointSelectionAlgorithm =
   | "LATEST_WITHIN_WINDOW"
   | "RANDOM_WITHIN_WINDOW"
   | (string & {});
-export const RestoreTestingRecoveryPointSelectionAlgorithm = S.String;
-
 export type RestoreTestingRecoveryPointType =
   | "CONTINUOUS"
   | "SNAPSHOT"
   | (string & {});
-export const RestoreTestingRecoveryPointType = S.String;
-
 export type RestoreTestingRecoveryPointTypeList =
   RestoreTestingRecoveryPointType[];
-export const RestoreTestingRecoveryPointTypeList = /*@__PURE__*/ S.Array(
-  RestoreTestingRecoveryPointType,
-);
 export interface RestoreTestingRecoveryPointSelection {
   Algorithm?: RestoreTestingRecoveryPointSelectionAlgorithm;
   ExcludeVaults?: string[];
@@ -1050,18 +484,6 @@ export interface RestoreTestingRecoveryPointSelection {
   RecoveryPointTypes?: RestoreTestingRecoveryPointType[];
   SelectionWindowDays?: number;
 }
-export const RestoreTestingRecoveryPointSelection = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Algorithm: S.optional(RestoreTestingRecoveryPointSelectionAlgorithm),
-      ExcludeVaults: S.optional(StringList),
-      IncludeVaults: S.optional(StringList),
-      RecoveryPointTypes: S.optional(RestoreTestingRecoveryPointTypeList),
-      SelectionWindowDays: S.optional(S.Number),
-    }),
-).annotate({
-  identifier: "RestoreTestingRecoveryPointSelection",
-}) as any as S.Schema<RestoreTestingRecoveryPointSelection>;
 export interface RestoreTestingPlanForCreate {
   RecoveryPointSelection: RestoreTestingRecoveryPointSelection;
   RestoreTestingPlanName: string;
@@ -1069,80 +491,26 @@ export interface RestoreTestingPlanForCreate {
   ScheduleExpressionTimezone?: string;
   StartWindowHours?: number;
 }
-export const RestoreTestingPlanForCreate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecoveryPointSelection: RestoreTestingRecoveryPointSelection,
-    RestoreTestingPlanName: S.String,
-    ScheduleExpression: S.String,
-    ScheduleExpressionTimezone: S.optional(S.String),
-    StartWindowHours: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "RestoreTestingPlanForCreate",
-}) as any as S.Schema<RestoreTestingPlanForCreate>;
 export type SensitiveStringMap = { [key: string]: string | undefined };
-export const SensitiveStringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface CreateRestoreTestingPlanInput {
   CreatorRequestId?: string;
   RestoreTestingPlan: RestoreTestingPlanForCreate;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateRestoreTestingPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreatorRequestId: S.optional(S.String),
-    RestoreTestingPlan: RestoreTestingPlanForCreate,
-    Tags: S.optional(SensitiveStringMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/restore-testing/plans" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateRestoreTestingPlanInput",
-}) as any as S.Schema<CreateRestoreTestingPlanInput>;
 export interface CreateRestoreTestingPlanOutput {
   CreationTime: Date;
   RestoreTestingPlanArn: string;
   RestoreTestingPlanName: string;
 }
-export const CreateRestoreTestingPlanOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    RestoreTestingPlanArn: S.String,
-    RestoreTestingPlanName: S.String,
-  }),
-).annotate({
-  identifier: "CreateRestoreTestingPlanOutput",
-}) as any as S.Schema<CreateRestoreTestingPlanOutput>;
 export interface KeyValue {
   Key: string;
   Value: string;
 }
-export const KeyValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "KeyValue" }) as any as S.Schema<KeyValue>;
 export type KeyValueList = KeyValue[];
-export const KeyValueList = /*@__PURE__*/ S.Array(KeyValue);
 export interface ProtectedResourceConditions {
   StringEquals?: KeyValue[];
   StringNotEquals?: KeyValue[];
 }
-export const ProtectedResourceConditions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StringEquals: S.optional(KeyValueList),
-    StringNotEquals: S.optional(KeyValueList),
-  }),
-).annotate({
-  identifier: "ProtectedResourceConditions",
-}) as any as S.Schema<ProtectedResourceConditions>;
 export interface RestoreTestingSelectionForCreate {
   IamRoleArn: string;
   ProtectedResourceArns?: string[];
@@ -1152,63 +520,17 @@ export interface RestoreTestingSelectionForCreate {
   RestoreTestingSelectionName: string;
   ValidationWindowHours?: number;
 }
-export const RestoreTestingSelectionForCreate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IamRoleArn: S.String,
-    ProtectedResourceArns: S.optional(StringList),
-    ProtectedResourceConditions: S.optional(ProtectedResourceConditions),
-    ProtectedResourceType: S.String,
-    RestoreMetadataOverrides: S.optional(SensitiveStringMap),
-    RestoreTestingSelectionName: S.String,
-    ValidationWindowHours: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "RestoreTestingSelectionForCreate",
-}) as any as S.Schema<RestoreTestingSelectionForCreate>;
 export interface CreateRestoreTestingSelectionInput {
   CreatorRequestId?: string;
   RestoreTestingPlanName: string;
   RestoreTestingSelection: RestoreTestingSelectionForCreate;
 }
-export const CreateRestoreTestingSelectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreatorRequestId: S.optional(S.String),
-    RestoreTestingPlanName: S.String.pipe(
-      T.HttpLabel("RestoreTestingPlanName"),
-    ),
-    RestoreTestingSelection: RestoreTestingSelectionForCreate,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/restore-testing/plans/{RestoreTestingPlanName}/selections",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateRestoreTestingSelectionInput",
-}) as any as S.Schema<CreateRestoreTestingSelectionInput>;
 export interface CreateRestoreTestingSelectionOutput {
   CreationTime: Date;
   RestoreTestingPlanArn: string;
   RestoreTestingPlanName: string;
   RestoreTestingSelectionName: string;
 }
-export const CreateRestoreTestingSelectionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    RestoreTestingPlanArn: S.String,
-    RestoreTestingPlanName: S.String,
-    RestoreTestingSelectionName: S.String,
-  }),
-).annotate({
-  identifier: "CreateRestoreTestingSelectionOutput",
-}) as any as S.Schema<CreateRestoreTestingSelectionOutput>;
 export type TieringConfigurationName = string;
 export type BackupVaultNameOrWildcard = string;
 export type TieringDownSettingsInDays = number;
@@ -1217,460 +539,86 @@ export interface ResourceSelection {
   TieringDownSettingsInDays: number;
   ResourceType: string;
 }
-export const ResourceSelection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Resources: ResourceArns,
-    TieringDownSettingsInDays: S.Number,
-    ResourceType: S.String,
-  }),
-).annotate({
-  identifier: "ResourceSelection",
-}) as any as S.Schema<ResourceSelection>;
 export type ResourceSelections = ResourceSelection[];
-export const ResourceSelections = /*@__PURE__*/ S.Array(ResourceSelection);
 export interface TieringConfigurationInputForCreate {
   TieringConfigurationName: string;
   BackupVaultName: string;
   ResourceSelection: ResourceSelection[];
 }
-export const TieringConfigurationInputForCreate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TieringConfigurationName: S.String,
-    BackupVaultName: S.String,
-    ResourceSelection: ResourceSelections,
-  }),
-).annotate({
-  identifier: "TieringConfigurationInputForCreate",
-}) as any as S.Schema<TieringConfigurationInputForCreate>;
 export type CreatorRequestId = string;
 export interface CreateTieringConfigurationInput {
   TieringConfiguration: TieringConfigurationInputForCreate;
   TieringConfigurationTags?: { [key: string]: string | undefined };
   CreatorRequestId?: string;
 }
-export const CreateTieringConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TieringConfiguration: TieringConfigurationInputForCreate,
-    TieringConfigurationTags: S.optional(Tags),
-    CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/tiering-configurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateTieringConfigurationInput",
-}) as any as S.Schema<CreateTieringConfigurationInput>;
 export interface CreateTieringConfigurationOutput {
   TieringConfigurationArn?: string;
   TieringConfigurationName?: string;
   CreationTime?: Date;
 }
-export const CreateTieringConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TieringConfigurationArn: S.optional(S.String),
-    TieringConfigurationName: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "CreateTieringConfigurationOutput",
-}) as any as S.Schema<CreateTieringConfigurationOutput>;
 export interface DeleteBackupAccessPointInput {
   AccessPointArn: string;
 }
-export const DeleteBackupAccessPointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessPointArn: S.String.pipe(T.HttpLabel("AccessPointArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/backup-access-point/delete/{AccessPointArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBackupAccessPointInput",
-}) as any as S.Schema<DeleteBackupAccessPointInput>;
 export interface DeleteBackupAccessPointResponse {}
-export const DeleteBackupAccessPointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteBackupAccessPointResponse",
-}) as any as S.Schema<DeleteBackupAccessPointResponse>;
 export interface DeleteBackupPlanInput {
   BackupPlanId: string;
 }
-export const DeleteBackupPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/backup/plans/{BackupPlanId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBackupPlanInput",
-}) as any as S.Schema<DeleteBackupPlanInput>;
 export interface DeleteBackupPlanOutput {
   BackupPlanId?: string;
   BackupPlanArn?: string;
   DeletionDate?: Date;
   VersionId?: string;
 }
-export const DeleteBackupPlanOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanId: S.optional(S.String),
-    BackupPlanArn: S.optional(S.String),
-    DeletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    VersionId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteBackupPlanOutput",
-}) as any as S.Schema<DeleteBackupPlanOutput>;
 export interface DeleteBackupSelectionInput {
   BackupPlanId: string;
   SelectionId: string;
 }
-export const DeleteBackupSelectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")),
-    SelectionId: S.String.pipe(T.HttpLabel("SelectionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/backup/plans/{BackupPlanId}/selections/{SelectionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBackupSelectionInput",
-}) as any as S.Schema<DeleteBackupSelectionInput>;
 export interface DeleteBackupSelectionResponse {}
-export const DeleteBackupSelectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteBackupSelectionResponse",
-}) as any as S.Schema<DeleteBackupSelectionResponse>;
 export interface DeleteBackupVaultInput {
   BackupVaultName: string;
 }
-export const DeleteBackupVaultInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/backup-vaults/{BackupVaultName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBackupVaultInput",
-}) as any as S.Schema<DeleteBackupVaultInput>;
 export interface DeleteBackupVaultResponse {}
-export const DeleteBackupVaultResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteBackupVaultResponse",
-}) as any as S.Schema<DeleteBackupVaultResponse>;
 export interface DeleteBackupVaultAccessPolicyInput {
   BackupVaultName: string;
 }
-export const DeleteBackupVaultAccessPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/backup-vaults/{BackupVaultName}/access-policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBackupVaultAccessPolicyInput",
-}) as any as S.Schema<DeleteBackupVaultAccessPolicyInput>;
 export interface DeleteBackupVaultAccessPolicyResponse {}
-export const DeleteBackupVaultAccessPolicyResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "DeleteBackupVaultAccessPolicyResponse",
-}) as any as S.Schema<DeleteBackupVaultAccessPolicyResponse>;
 export interface DeleteBackupVaultLockConfigurationInput {
   BackupVaultName: string;
 }
-export const DeleteBackupVaultLockConfigurationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/backup-vaults/{BackupVaultName}/vault-lock",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteBackupVaultLockConfigurationInput",
-}) as any as S.Schema<DeleteBackupVaultLockConfigurationInput>;
 export interface DeleteBackupVaultLockConfigurationResponse {}
-export const DeleteBackupVaultLockConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DeleteBackupVaultLockConfigurationResponse",
-  }) as any as S.Schema<DeleteBackupVaultLockConfigurationResponse>;
 export interface DeleteBackupVaultNotificationsInput {
   BackupVaultName: string;
 }
-export const DeleteBackupVaultNotificationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/backup-vaults/{BackupVaultName}/notification-configuration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBackupVaultNotificationsInput",
-}) as any as S.Schema<DeleteBackupVaultNotificationsInput>;
 export interface DeleteBackupVaultNotificationsResponse {}
-export const DeleteBackupVaultNotificationsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "DeleteBackupVaultNotificationsResponse",
-}) as any as S.Schema<DeleteBackupVaultNotificationsResponse>;
 export interface DeleteFrameworkInput {
   FrameworkName: string;
 }
-export const DeleteFrameworkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FrameworkName: S.String.pipe(T.HttpLabel("FrameworkName")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/audit/frameworks/{FrameworkName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteFrameworkInput",
-}) as any as S.Schema<DeleteFrameworkInput>;
 export interface DeleteFrameworkResponse {}
-export const DeleteFrameworkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteFrameworkResponse",
-}) as any as S.Schema<DeleteFrameworkResponse>;
 export interface DeleteRecoveryPointInput {
   BackupVaultName: string;
   RecoveryPointArn: string;
 }
-export const DeleteRecoveryPointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-    RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRecoveryPointInput",
-}) as any as S.Schema<DeleteRecoveryPointInput>;
 export interface DeleteRecoveryPointResponse {}
-export const DeleteRecoveryPointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteRecoveryPointResponse",
-}) as any as S.Schema<DeleteRecoveryPointResponse>;
 export interface DeleteReportPlanInput {
   ReportPlanName: string;
 }
-export const DeleteReportPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportPlanName: S.String.pipe(T.HttpLabel("ReportPlanName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/audit/report-plans/{ReportPlanName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteReportPlanInput",
-}) as any as S.Schema<DeleteReportPlanInput>;
 export interface DeleteReportPlanResponse {}
-export const DeleteReportPlanResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteReportPlanResponse",
-}) as any as S.Schema<DeleteReportPlanResponse>;
 export interface DeleteRestoreTestingPlanInput {
   RestoreTestingPlanName: string;
 }
-export const DeleteRestoreTestingPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestoreTestingPlanName: S.String.pipe(
-      T.HttpLabel("RestoreTestingPlanName"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restore-testing/plans/{RestoreTestingPlanName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRestoreTestingPlanInput",
-}) as any as S.Schema<DeleteRestoreTestingPlanInput>;
 export interface DeleteRestoreTestingPlanResponse {}
-export const DeleteRestoreTestingPlanResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteRestoreTestingPlanResponse",
-}) as any as S.Schema<DeleteRestoreTestingPlanResponse>;
 export interface DeleteRestoreTestingSelectionInput {
   RestoreTestingPlanName: string;
   RestoreTestingSelectionName: string;
 }
-export const DeleteRestoreTestingSelectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestoreTestingPlanName: S.String.pipe(
-      T.HttpLabel("RestoreTestingPlanName"),
-    ),
-    RestoreTestingSelectionName: S.String.pipe(
-      T.HttpLabel("RestoreTestingSelectionName"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restore-testing/plans/{RestoreTestingPlanName}/selections/{RestoreTestingSelectionName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRestoreTestingSelectionInput",
-}) as any as S.Schema<DeleteRestoreTestingSelectionInput>;
 export interface DeleteRestoreTestingSelectionResponse {}
-export const DeleteRestoreTestingSelectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "DeleteRestoreTestingSelectionResponse",
-}) as any as S.Schema<DeleteRestoreTestingSelectionResponse>;
 export interface DeleteTieringConfigurationInput {
   TieringConfigurationName: string;
 }
-export const DeleteTieringConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TieringConfigurationName: S.String.pipe(
-      T.HttpLabel("TieringConfigurationName"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/tiering-configurations/{TieringConfigurationName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteTieringConfigurationInput",
-}) as any as S.Schema<DeleteTieringConfigurationInput>;
 export interface DeleteTieringConfigurationOutput {}
-export const DeleteTieringConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteTieringConfigurationOutput",
-}) as any as S.Schema<DeleteTieringConfigurationOutput>;
 export interface DescribeBackupAccessPointInput {
   AccessPointArn: string;
 }
-export const DescribeBackupAccessPointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessPointArn: S.String.pipe(T.HttpLabel("AccessPointArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/backup-access-point/{AccessPointArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeBackupAccessPointInput",
-}) as any as S.Schema<DescribeBackupAccessPointInput>;
 export type BackupVaultArn = string;
 export type ResourceArn = string;
 export interface DescribeBackupAccessPointResponse {
@@ -1686,40 +634,9 @@ export interface DescribeBackupAccessPointResponse {
   Status: AccessPointStatus;
   StatusMessage?: string;
 }
-export const DescribeBackupAccessPointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessPointArn: S.String,
-    AccessPointMetadata: S.optional(AccessPointMetadataMap),
-    BackupVaultArn: S.optional(S.String),
-    BackupVaultName: S.String,
-    CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Name: S.String,
-    RecoveryPointArn: S.String,
-    ResourceArn: S.String,
-    ResourceType: S.String,
-    Status: AccessPointStatus,
-    StatusMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeBackupAccessPointResponse",
-}) as any as S.Schema<DescribeBackupAccessPointResponse>;
 export interface DescribeBackupJobInput {
   BackupJobId: string;
 }
-export const DescribeBackupJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BackupJobId: S.String.pipe(T.HttpLabel("BackupJobId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/backup-jobs/{BackupJobId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeBackupJobInput",
-}) as any as S.Schema<DescribeBackupJobInput>;
 export type AccountId = string;
 export type BackupJobState =
   | "CREATED"
@@ -1732,8 +649,6 @@ export type BackupJobState =
   | "EXPIRED"
   | "PARTIAL"
   | (string & {});
-export const BackupJobState = S.String;
-
 export interface RecoveryPointCreator {
   BackupPlanId?: string;
   BackupPlanArn?: string;
@@ -1744,25 +659,7 @@ export interface RecoveryPointCreator {
   BackupRuleCron?: string;
   BackupRuleTimezone?: string;
 }
-export const RecoveryPointCreator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanId: S.optional(S.String),
-    BackupPlanArn: S.optional(S.String),
-    BackupPlanName: S.optional(S.String),
-    BackupPlanVersion: S.optional(S.String),
-    BackupRuleId: S.optional(S.String),
-    BackupRuleName: S.optional(S.String),
-    BackupRuleCron: S.optional(S.String),
-    BackupRuleTimezone: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RecoveryPointCreator",
-}) as any as S.Schema<RecoveryPointCreator>;
 export type BackupJobChildJobsInState = { [key in BackupJobState]?: number };
-export const BackupJobChildJobsInState = /*@__PURE__*/ S.Record(
-  BackupJobState,
-  S.Number.pipe(S.optional),
-);
 export interface DescribeBackupJobOutput {
   AccountId?: string;
   BackupJobId?: string;
@@ -1797,84 +694,21 @@ export interface DescribeBackupJobOutput {
   InitiationDate?: Date;
   MessageCategory?: string;
 }
-export const DescribeBackupJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    BackupJobId: S.optional(S.String),
-    BackupVaultName: S.optional(S.String),
-    RecoveryPointLifecycle: S.optional(Lifecycle),
-    BackupVaultArn: S.optional(S.String),
-    VaultType: S.optional(S.String),
-    VaultLockState: S.optional(S.String),
-    RecoveryPointArn: S.optional(S.String),
-    EncryptionKeyArn: S.optional(S.String),
-    IsEncrypted: S.optional(S.Boolean),
-    ResourceArn: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(BackupJobState),
-    StatusMessage: S.optional(S.String),
-    PercentDone: S.optional(S.String),
-    BackupSizeInBytes: S.optional(S.Number),
-    IamRoleArn: S.optional(S.String),
-    CreatedBy: S.optional(RecoveryPointCreator),
-    ResourceType: S.optional(S.String),
-    BytesTransferred: S.optional(S.Number),
-    ExpectedCompletionDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    StartBy: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    BackupOptions: S.optional(BackupOptions),
-    BackupType: S.optional(S.String),
-    ParentJobId: S.optional(S.String),
-    IsParent: S.optional(S.Boolean),
-    NumberOfChildJobs: S.optional(S.Number),
-    ChildJobsInState: S.optional(BackupJobChildJobsInState),
-    ResourceName: S.optional(S.String),
-    InitiationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    MessageCategory: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeBackupJobOutput",
-}) as any as S.Schema<DescribeBackupJobOutput>;
 export interface DescribeBackupVaultInput {
   BackupVaultName: string;
   BackupVaultAccountId?: string;
 }
-export const DescribeBackupVaultInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-    BackupVaultAccountId: S.optional(S.String).pipe(
-      T.HttpQuery("backupVaultAccountId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/backup-vaults/{BackupVaultName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeBackupVaultInput",
-}) as any as S.Schema<DescribeBackupVaultInput>;
 export type VaultType =
   | "BACKUP_VAULT"
   | "LOGICALLY_AIR_GAPPED_BACKUP_VAULT"
   | "RESTORE_ACCESS_BACKUP_VAULT"
   | (string & {});
-export const VaultType = S.String;
-
 export type Long2 = number;
 export type MpaSessionStatus =
   | "PENDING"
   | "APPROVED"
   | "FAILED"
   | (string & {});
-export const MpaSessionStatus = S.String;
-
 export interface LatestMpaApprovalTeamUpdate {
   MpaSessionArn?: string;
   Status?: MpaSessionStatus;
@@ -1882,23 +716,10 @@ export interface LatestMpaApprovalTeamUpdate {
   InitiationDate?: Date;
   ExpiryDate?: Date;
 }
-export const LatestMpaApprovalTeamUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MpaSessionArn: S.optional(S.String),
-    Status: S.optional(MpaSessionStatus),
-    StatusMessage: S.optional(S.String),
-    InitiationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ExpiryDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "LatestMpaApprovalTeamUpdate",
-}) as any as S.Schema<LatestMpaApprovalTeamUpdate>;
 export type EncryptionKeyType =
   | "AWS_OWNED_KMS_KEY"
   | "CUSTOMER_MANAGED_KMS_KEY"
   | (string & {});
-export const EncryptionKeyType = S.String;
-
 export interface DescribeBackupVaultOutput {
   BackupVaultName?: string;
   BackupVaultArn?: string;
@@ -1918,46 +739,9 @@ export interface DescribeBackupVaultOutput {
   LatestMpaApprovalTeamUpdate?: LatestMpaApprovalTeamUpdate;
   EncryptionKeyType?: EncryptionKeyType;
 }
-export const DescribeBackupVaultOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.optional(S.String),
-    BackupVaultArn: S.optional(S.String),
-    VaultType: S.optional(VaultType),
-    VaultState: S.optional(VaultState),
-    EncryptionKeyArn: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CreatorRequestId: S.optional(S.String),
-    NumberOfRecoveryPoints: S.optional(S.Number),
-    Locked: S.optional(S.Boolean),
-    MinRetentionDays: S.optional(S.Number),
-    MaxRetentionDays: S.optional(S.Number),
-    LockDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    SourceBackupVaultArn: S.optional(S.String),
-    MpaApprovalTeamArn: S.optional(S.String),
-    MpaSessionArn: S.optional(S.String),
-    LatestMpaApprovalTeamUpdate: S.optional(LatestMpaApprovalTeamUpdate),
-    EncryptionKeyType: S.optional(EncryptionKeyType),
-  }),
-).annotate({
-  identifier: "DescribeBackupVaultOutput",
-}) as any as S.Schema<DescribeBackupVaultOutput>;
 export interface DescribeCopyJobInput {
   CopyJobId: string;
 }
-export const DescribeCopyJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CopyJobId: S.String.pipe(T.HttpLabel("CopyJobId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/copy-jobs/{CopyJobId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeCopyJobInput",
-}) as any as S.Schema<DescribeCopyJobInput>;
 export type CopyJobState =
   | "CREATED"
   | "RUNNING"
@@ -1965,13 +749,7 @@ export type CopyJobState =
   | "FAILED"
   | "PARTIAL"
   | (string & {});
-export const CopyJobState = S.String;
-
 export type CopyJobChildJobsInState = { [key in CopyJobState]?: number };
-export const CopyJobChildJobsInState = /*@__PURE__*/ S.Record(
-  CopyJobState,
-  S.Number.pipe(S.optional),
-);
 export interface CopyJob {
   AccountId?: string;
   CopyJobId?: string;
@@ -2001,62 +779,12 @@ export interface CopyJob {
   ResourceName?: string;
   MessageCategory?: string;
 }
-export const CopyJob = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    CopyJobId: S.optional(S.String),
-    SourceBackupVaultArn: S.optional(S.String),
-    SourceRecoveryPointArn: S.optional(S.String),
-    DestinationBackupVaultArn: S.optional(S.String),
-    DestinationVaultType: S.optional(S.String),
-    DestinationVaultLockState: S.optional(S.String),
-    DestinationRecoveryPointArn: S.optional(S.String),
-    DestinationEncryptionKeyArn: S.optional(S.String),
-    DestinationRecoveryPointLifecycle: S.optional(Lifecycle),
-    ResourceArn: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(CopyJobState),
-    StatusMessage: S.optional(S.String),
-    BackupSizeInBytes: S.optional(S.Number),
-    IamRoleArn: S.optional(S.String),
-    CreatedBy: S.optional(RecoveryPointCreator),
-    CreatedByBackupJobId: S.optional(S.String),
-    ResourceType: S.optional(S.String),
-    ParentJobId: S.optional(S.String),
-    IsParent: S.optional(S.Boolean),
-    CompositeMemberIdentifier: S.optional(S.String),
-    NumberOfChildJobs: S.optional(S.Number),
-    ChildJobsInState: S.optional(CopyJobChildJobsInState),
-    ResourceName: S.optional(S.String),
-    MessageCategory: S.optional(S.String),
-  }),
-).annotate({ identifier: "CopyJob" }) as any as S.Schema<CopyJob>;
 export interface DescribeCopyJobOutput {
   CopyJob?: CopyJob;
 }
-export const DescribeCopyJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CopyJob: S.optional(CopyJob) }),
-).annotate({
-  identifier: "DescribeCopyJobOutput",
-}) as any as S.Schema<DescribeCopyJobOutput>;
 export interface DescribeFrameworkInput {
   FrameworkName: string;
 }
-export const DescribeFrameworkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FrameworkName: S.String.pipe(T.HttpLabel("FrameworkName")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/audit/frameworks/{FrameworkName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeFrameworkInput",
-}) as any as S.Schema<DescribeFrameworkInput>;
 export interface DescribeFrameworkOutput {
   FrameworkName?: string;
   FrameworkArn?: string;
@@ -2067,71 +795,17 @@ export interface DescribeFrameworkOutput {
   FrameworkStatus?: string;
   IdempotencyToken?: string;
 }
-export const DescribeFrameworkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FrameworkName: S.optional(S.String),
-    FrameworkArn: S.optional(S.String),
-    FrameworkDescription: S.optional(S.String),
-    FrameworkControls: S.optional(FrameworkControls),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DeploymentStatus: S.optional(S.String),
-    FrameworkStatus: S.optional(S.String),
-    IdempotencyToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeFrameworkOutput",
-}) as any as S.Schema<DescribeFrameworkOutput>;
 export interface DescribeGlobalSettingsInput {}
-export const DescribeGlobalSettingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/global-settings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeGlobalSettingsInput",
-}) as any as S.Schema<DescribeGlobalSettingsInput>;
 export type GlobalSettingsName = string;
 export type GlobalSettingsValue = string;
 export type GlobalSettings = { [key: string]: string | undefined };
-export const GlobalSettings = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface DescribeGlobalSettingsOutput {
   GlobalSettings?: { [key: string]: string | undefined };
   LastUpdateTime?: Date;
 }
-export const DescribeGlobalSettingsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GlobalSettings: S.optional(GlobalSettings),
-    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "DescribeGlobalSettingsOutput",
-}) as any as S.Schema<DescribeGlobalSettingsOutput>;
 export interface DescribeProtectedResourceInput {
   ResourceArn: string;
 }
-export const DescribeProtectedResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/resources/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeProtectedResourceInput",
-}) as any as S.Schema<DescribeProtectedResourceInput>;
 export interface DescribeProtectedResourceOutput {
   ResourceArn?: string;
   ResourceType?: string;
@@ -2143,53 +817,11 @@ export interface DescribeProtectedResourceOutput {
   LatestRestoreJobCreationDate?: Date;
   LatestRestoreRecoveryPointCreationDate?: Date;
 }
-export const DescribeProtectedResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    ResourceType: S.optional(S.String),
-    LastBackupTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ResourceName: S.optional(S.String),
-    LastBackupVaultArn: S.optional(S.String),
-    LastRecoveryPointArn: S.optional(S.String),
-    LatestRestoreExecutionTimeMinutes: S.optional(S.Number),
-    LatestRestoreJobCreationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LatestRestoreRecoveryPointCreationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "DescribeProtectedResourceOutput",
-}) as any as S.Schema<DescribeProtectedResourceOutput>;
 export interface DescribeRecoveryPointInput {
   BackupVaultName: string;
   RecoveryPointArn: string;
   BackupVaultAccountId?: string;
 }
-export const DescribeRecoveryPointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-    RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
-    BackupVaultAccountId: S.optional(S.String).pipe(
-      T.HttpQuery("backupVaultAccountId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeRecoveryPointInput",
-}) as any as S.Schema<DescribeRecoveryPointInput>;
 export type RecoveryPointStatus =
   | "COMPLETED"
   | "PARTIAL"
@@ -2199,64 +831,32 @@ export type RecoveryPointStatus =
   | "STOPPED"
   | "CREATING"
   | (string & {});
-export const RecoveryPointStatus = S.String;
-
 export interface CalculatedLifecycle {
   MoveToColdStorageAt?: Date;
   DeleteAt?: Date;
 }
-export const CalculatedLifecycle = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MoveToColdStorageAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    DeleteAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "CalculatedLifecycle",
-}) as any as S.Schema<CalculatedLifecycle>;
 export type StorageClass = "WARM" | "COLD" | "DELETED" | (string & {});
-export const StorageClass = S.String;
-
 export type IndexStatus =
   | "PENDING"
   | "ACTIVE"
   | "FAILED"
   | "DELETING"
   | (string & {});
-export const IndexStatus = S.String;
-
 export type ScanJobState =
   | "COMPLETED"
   | "COMPLETED_WITH_ISSUES"
   | "FAILED"
   | "CANCELED"
   | (string & {});
-export const ScanJobState = S.String;
-
 export type ScanFinding = "MALWARE" | (string & {});
-export const ScanFinding = S.String;
-
 export type ScanFindings = ScanFinding[];
-export const ScanFindings = /*@__PURE__*/ S.Array(ScanFinding);
 export interface ScanResult {
   MalwareScanner?: MalwareScanner;
   ScanJobState?: ScanJobState;
   LastScanTimestamp?: Date;
   Findings?: ScanFinding[];
 }
-export const ScanResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MalwareScanner: S.optional(MalwareScanner),
-    ScanJobState: S.optional(ScanJobState),
-    LastScanTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Findings: S.optional(ScanFindings),
-  }),
-).annotate({ identifier: "ScanResult" }) as any as S.Schema<ScanResult>;
 export type ScanResults = ScanResult[];
-export const ScanResults = /*@__PURE__*/ S.Array(ScanResult);
 export interface DescribeRecoveryPointOutput {
   RecoveryPointArn?: string;
   BackupVaultName?: string;
@@ -2288,117 +888,26 @@ export interface DescribeRecoveryPointOutput {
   EncryptionKeyType?: EncryptionKeyType;
   ScanResults?: ScanResult[];
 }
-export const DescribeRecoveryPointOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecoveryPointArn: S.optional(S.String),
-    BackupVaultName: S.optional(S.String),
-    BackupVaultArn: S.optional(S.String),
-    SourceBackupVaultArn: S.optional(S.String),
-    ResourceArn: S.optional(S.String),
-    ResourceType: S.optional(S.String),
-    CreatedBy: S.optional(RecoveryPointCreator),
-    IamRoleArn: S.optional(S.String),
-    Status: S.optional(RecoveryPointStatus),
-    StatusMessage: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    InitiationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    BackupSizeInBytes: S.optional(S.Number),
-    CalculatedLifecycle: S.optional(CalculatedLifecycle),
-    Lifecycle: S.optional(Lifecycle),
-    EncryptionKeyArn: S.optional(S.String),
-    IsEncrypted: S.optional(S.Boolean),
-    StorageClass: S.optional(StorageClass),
-    LastRestoreTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ParentRecoveryPointArn: S.optional(S.String),
-    CompositeMemberIdentifier: S.optional(S.String),
-    IsParent: S.optional(S.Boolean),
-    ResourceName: S.optional(S.String),
-    VaultType: S.optional(VaultType),
-    IndexStatus: S.optional(IndexStatus),
-    IndexStatusMessage: S.optional(S.String),
-    EncryptionKeyType: S.optional(EncryptionKeyType),
-    ScanResults: S.optional(ScanResults),
-  }),
-).annotate({
-  identifier: "DescribeRecoveryPointOutput",
-}) as any as S.Schema<DescribeRecoveryPointOutput>;
 export interface DescribeRegionSettingsInput {}
-export const DescribeRegionSettingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/account-settings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeRegionSettingsInput",
-}) as any as S.Schema<DescribeRegionSettingsInput>;
 export type IsEnabled = boolean;
 export type ResourceTypeOptInPreference = {
   [key: string]: boolean | undefined;
 };
-export const ResourceTypeOptInPreference = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Boolean.pipe(S.optional),
-);
 export type ResourceTypeManagementPreference = {
   [key: string]: boolean | undefined;
 };
-export const ResourceTypeManagementPreference = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Boolean.pipe(S.optional),
-);
 export interface DescribeRegionSettingsOutput {
   ResourceTypeOptInPreference?: { [key: string]: boolean | undefined };
   ResourceTypeManagementPreference?: { [key: string]: boolean | undefined };
 }
-export const DescribeRegionSettingsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceTypeOptInPreference: S.optional(ResourceTypeOptInPreference),
-    ResourceTypeManagementPreference: S.optional(
-      ResourceTypeManagementPreference,
-    ),
-  }),
-).annotate({
-  identifier: "DescribeRegionSettingsOutput",
-}) as any as S.Schema<DescribeRegionSettingsOutput>;
 export type ReportJobId = string;
 export interface DescribeReportJobInput {
   ReportJobId: string;
 }
-export const DescribeReportJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReportJobId: S.String.pipe(T.HttpLabel("ReportJobId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/audit/report-jobs/{ReportJobId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeReportJobInput",
-}) as any as S.Schema<DescribeReportJobInput>;
 export interface ReportDestination {
   S3BucketName?: string;
   S3Keys?: string[];
 }
-export const ReportDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    S3BucketName: S.optional(S.String),
-    S3Keys: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "ReportDestination",
-}) as any as S.Schema<ReportDestination>;
 export interface ReportJob {
   ReportJobId?: string;
   ReportPlanArn?: string;
@@ -2409,45 +918,12 @@ export interface ReportJob {
   StatusMessage?: string;
   ReportDestination?: ReportDestination;
 }
-export const ReportJob = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportJobId: S.optional(S.String),
-    ReportPlanArn: S.optional(S.String),
-    ReportTemplate: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
-    StatusMessage: S.optional(S.String),
-    ReportDestination: S.optional(ReportDestination),
-  }),
-).annotate({ identifier: "ReportJob" }) as any as S.Schema<ReportJob>;
 export interface DescribeReportJobOutput {
   ReportJob?: ReportJob;
 }
-export const DescribeReportJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReportJob: S.optional(ReportJob) }),
-).annotate({
-  identifier: "DescribeReportJobOutput",
-}) as any as S.Schema<DescribeReportJobOutput>;
 export interface DescribeReportPlanInput {
   ReportPlanName: string;
 }
-export const DescribeReportPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportPlanName: S.String.pipe(T.HttpLabel("ReportPlanName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/audit/report-plans/{ReportPlanName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeReportPlanInput",
-}) as any as S.Schema<DescribeReportPlanInput>;
 export interface ReportPlan {
   ReportPlanArn?: string;
   ReportPlanName?: string;
@@ -2459,49 +935,13 @@ export interface ReportPlan {
   LastAttemptedExecutionTime?: Date;
   LastSuccessfulExecutionTime?: Date;
 }
-export const ReportPlan = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportPlanArn: S.optional(S.String),
-    ReportPlanName: S.optional(S.String),
-    ReportPlanDescription: S.optional(S.String),
-    ReportSetting: S.optional(ReportSetting),
-    ReportDeliveryChannel: S.optional(ReportDeliveryChannel),
-    DeploymentStatus: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastAttemptedExecutionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastSuccessfulExecutionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({ identifier: "ReportPlan" }) as any as S.Schema<ReportPlan>;
 export interface DescribeReportPlanOutput {
   ReportPlan?: ReportPlan;
 }
-export const DescribeReportPlanOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReportPlan: S.optional(ReportPlan) }),
-).annotate({
-  identifier: "DescribeReportPlanOutput",
-}) as any as S.Schema<DescribeReportPlanOutput>;
 export type RestoreJobId = string;
 export interface DescribeRestoreJobInput {
   RestoreJobId: string;
 }
-export const DescribeRestoreJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RestoreJobId: S.String.pipe(T.HttpLabel("RestoreJobId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/restore-jobs/{RestoreJobId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeRestoreJobInput",
-}) as any as S.Schema<DescribeRestoreJobInput>;
 export type RestoreJobStatus =
   | "PENDING"
   | "RUNNING"
@@ -2509,31 +949,20 @@ export type RestoreJobStatus =
   | "ABORTED"
   | "FAILED"
   | (string & {});
-export const RestoreJobStatus = S.String;
-
 export interface RestoreJobCreator {
   RestoreTestingPlanArn?: string;
 }
-export const RestoreJobCreator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RestoreTestingPlanArn: S.optional(S.String) }),
-).annotate({
-  identifier: "RestoreJobCreator",
-}) as any as S.Schema<RestoreJobCreator>;
 export type RestoreValidationStatus =
   | "FAILED"
   | "SUCCESSFUL"
   | "TIMED_OUT"
   | "VALIDATING"
   | (string & {});
-export const RestoreValidationStatus = S.String;
-
 export type RestoreDeletionStatus =
   | "DELETING"
   | "FAILED"
   | "SUCCESSFUL"
   | (string & {});
-export const RestoreDeletionStatus = S.String;
-
 export interface DescribeRestoreJobOutput {
   AccountId?: string;
   RestoreJobId?: string;
@@ -2559,84 +988,24 @@ export interface DescribeRestoreJobOutput {
   IsParent?: boolean;
   ParentJobId?: string;
 }
-export const DescribeRestoreJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    RestoreJobId: S.optional(S.String),
-    RecoveryPointArn: S.optional(S.String),
-    SourceResourceArn: S.optional(S.String),
-    BackupVaultArn: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(RestoreJobStatus),
-    StatusMessage: S.optional(S.String),
-    PercentDone: S.optional(S.String),
-    BackupSizeInBytes: S.optional(S.Number),
-    IamRoleArn: S.optional(S.String),
-    ExpectedCompletionTimeMinutes: S.optional(S.Number),
-    CreatedResourceArn: S.optional(S.String),
-    ResourceType: S.optional(S.String),
-    RecoveryPointCreationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    CreatedBy: S.optional(RestoreJobCreator),
-    ValidationStatus: S.optional(RestoreValidationStatus),
-    ValidationStatusMessage: S.optional(S.String),
-    DeletionStatus: S.optional(RestoreDeletionStatus),
-    DeletionStatusMessage: S.optional(S.String),
-    IsParent: S.optional(S.Boolean),
-    ParentJobId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeRestoreJobOutput",
-}) as any as S.Schema<DescribeRestoreJobOutput>;
 export interface DescribeScanJobInput {
   ScanJobId: string;
 }
-export const DescribeScanJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ScanJobId: S.String.pipe(T.HttpLabel("ScanJobId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/scan/jobs/{ScanJobId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeScanJobInput",
-}) as any as S.Schema<DescribeScanJobInput>;
 export interface ScanJobCreator {
   BackupPlanArn: string;
   BackupPlanId: string;
   BackupPlanVersion: string;
   BackupRuleId: string;
 }
-export const ScanJobCreator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanArn: S.String,
-    BackupPlanId: S.String,
-    BackupPlanVersion: S.String,
-    BackupRuleId: S.String,
-  }),
-).annotate({ identifier: "ScanJobCreator" }) as any as S.Schema<ScanJobCreator>;
 export type ScanResourceType = "EBS" | "EC2" | "S3" | (string & {});
-export const ScanResourceType = S.String;
-
 export type ScanResultStatus =
   | "NO_THREATS_FOUND"
   | "THREATS_FOUND"
   | "UNKNOWN"
   | (string & {});
-export const ScanResultStatus = S.String;
-
 export interface ScanResultInfo {
   ScanResultStatus: ScanResultStatus;
 }
-export const ScanResultInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ScanResultStatus: ScanResultStatus }),
-).annotate({ identifier: "ScanResultInfo" }) as any as S.Schema<ScanResultInfo>;
 export type ScanState =
   | "CANCELED"
   | "COMPLETED"
@@ -2645,8 +1014,6 @@ export type ScanState =
   | "FAILED"
   | "RUNNING"
   | (string & {});
-export const ScanState = S.String;
-
 export interface DescribeScanJobOutput {
   AccountId: string;
   BackupVaultArn: string;
@@ -2671,179 +1038,33 @@ export interface DescribeScanJobOutput {
   State: ScanState;
   StatusMessage?: string;
 }
-export const DescribeScanJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.String,
-    BackupVaultArn: S.String,
-    BackupVaultName: S.String,
-    CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ContinuousScanEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ContinuousScanStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    CreatedBy: ScanJobCreator,
-    CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    IamRoleArn: S.String,
-    MalwareScanner: MalwareScanner,
-    RecoveryPointArn: S.String,
-    ResourceArn: S.String,
-    ResourceName: S.String,
-    ResourceType: ScanResourceType,
-    ScanBaseRecoveryPointArn: S.optional(S.String),
-    ScanId: S.optional(S.String),
-    ScanJobId: S.String,
-    ScanMode: ScanMode,
-    ScanResult: S.optional(ScanResultInfo),
-    ScannerRoleArn: S.String,
-    State: ScanState,
-    StatusMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeScanJobOutput",
-}) as any as S.Schema<DescribeScanJobOutput>;
 export interface DisassociateBackupVaultMpaApprovalTeamInput {
   BackupVaultName: string;
   RequesterComment?: string | redacted.Redacted<string>;
 }
-export const DisassociateBackupVaultMpaApprovalTeamInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-      RequesterComment: S.optional(SensitiveString),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/backup-vaults/{BackupVaultName}/mpaApprovalTeam?delete",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisassociateBackupVaultMpaApprovalTeamInput",
-  }) as any as S.Schema<DisassociateBackupVaultMpaApprovalTeamInput>;
 export interface DisassociateBackupVaultMpaApprovalTeamResponse {}
-export const DisassociateBackupVaultMpaApprovalTeamResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DisassociateBackupVaultMpaApprovalTeamResponse",
-  }) as any as S.Schema<DisassociateBackupVaultMpaApprovalTeamResponse>;
 export interface DisassociateRecoveryPointInput {
   BackupVaultName: string;
   RecoveryPointArn: string;
 }
-export const DisassociateRecoveryPointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-    RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/disassociate",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisassociateRecoveryPointInput",
-}) as any as S.Schema<DisassociateRecoveryPointInput>;
 export interface DisassociateRecoveryPointResponse {}
-export const DisassociateRecoveryPointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisassociateRecoveryPointResponse",
-}) as any as S.Schema<DisassociateRecoveryPointResponse>;
 export interface DisassociateRecoveryPointFromParentInput {
   BackupVaultName: string;
   RecoveryPointArn: string;
 }
-export const DisassociateRecoveryPointFromParentInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-      RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/parentAssociation",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DisassociateRecoveryPointFromParentInput",
-}) as any as S.Schema<DisassociateRecoveryPointFromParentInput>;
 export interface DisassociateRecoveryPointFromParentResponse {}
-export const DisassociateRecoveryPointFromParentResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DisassociateRecoveryPointFromParentResponse",
-  }) as any as S.Schema<DisassociateRecoveryPointFromParentResponse>;
 export interface ExportBackupPlanTemplateInput {
   BackupPlanId: string;
 }
-export const ExportBackupPlanTemplateInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/backup/plans/{BackupPlanId}/toTemplate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ExportBackupPlanTemplateInput",
-}) as any as S.Schema<ExportBackupPlanTemplateInput>;
 export interface ExportBackupPlanTemplateOutput {
   BackupPlanTemplateJson?: string;
 }
-export const ExportBackupPlanTemplateOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BackupPlanTemplateJson: S.optional(S.String) }),
-).annotate({
-  identifier: "ExportBackupPlanTemplateOutput",
-}) as any as S.Schema<ExportBackupPlanTemplateOutput>;
 export type MaxScheduledRunsPreview = number;
 export interface GetBackupPlanInput {
   BackupPlanId: string;
   VersionId?: string;
   MaxScheduledRunsPreview?: number;
 }
-export const GetBackupPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    MaxScheduledRunsPreview: S.optional(S.Number).pipe(
-      T.HttpQuery("MaxScheduledRunsPreview"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/backup/plans/{BackupPlanId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBackupPlanInput",
-}) as any as S.Schema<GetBackupPlanInput>;
 export interface BackupRule {
   RuleName: string;
   TargetBackupVaultName: string;
@@ -2860,65 +1081,24 @@ export interface BackupRule {
   IndexActions?: IndexAction[];
   ScanActions?: ScanAction[];
 }
-export const BackupRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleName: S.String,
-    TargetBackupVaultName: S.String,
-    TargetLogicallyAirGappedBackupVaultArn: S.optional(S.String),
-    ScheduleExpression: S.optional(S.String),
-    StartWindowMinutes: S.optional(S.Number),
-    CompletionWindowMinutes: S.optional(S.Number),
-    Lifecycle: S.optional(Lifecycle),
-    RecoveryPointTags: S.optional(Tags),
-    RuleId: S.optional(S.String),
-    CopyActions: S.optional(CopyActions),
-    EnableContinuousBackup: S.optional(S.Boolean),
-    ScheduleExpressionTimezone: S.optional(S.String),
-    IndexActions: S.optional(IndexActions),
-    ScanActions: S.optional(ScanActions),
-  }),
-).annotate({ identifier: "BackupRule" }) as any as S.Schema<BackupRule>;
 export type BackupRules = BackupRule[];
-export const BackupRules = /*@__PURE__*/ S.Array(BackupRule);
 export interface BackupPlan {
   BackupPlanName: string;
   Rules: BackupRule[];
   AdvancedBackupSettings?: AdvancedBackupSetting[];
   ScanSettings?: ScanSetting[];
 }
-export const BackupPlan = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanName: S.String,
-    Rules: BackupRules,
-    AdvancedBackupSettings: S.optional(AdvancedBackupSettings),
-    ScanSettings: S.optional(ScanSettings),
-  }),
-).annotate({ identifier: "BackupPlan" }) as any as S.Schema<BackupPlan>;
 export type RuleExecutionType =
   | "CONTINUOUS"
   | "SNAPSHOTS"
   | "CONTINUOUS_AND_SNAPSHOTS"
   | (string & {});
-export const RuleExecutionType = S.String;
-
 export interface ScheduledPlanExecutionMember {
   ExecutionTime?: Date;
   RuleId?: string;
   RuleExecutionType?: RuleExecutionType;
 }
-export const ScheduledPlanExecutionMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExecutionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    RuleId: S.optional(S.String),
-    RuleExecutionType: S.optional(RuleExecutionType),
-  }),
-).annotate({
-  identifier: "ScheduledPlanExecutionMember",
-}) as any as S.Schema<ScheduledPlanExecutionMember>;
 export type ScheduledRunsPreview = ScheduledPlanExecutionMember[];
-export const ScheduledRunsPreview = /*@__PURE__*/ S.Array(
-  ScheduledPlanExecutionMember,
-);
 export interface GetBackupPlanOutput {
   BackupPlan?: BackupPlan;
   BackupPlanId?: string;
@@ -2931,103 +1111,22 @@ export interface GetBackupPlanOutput {
   AdvancedBackupSettings?: AdvancedBackupSetting[];
   ScheduledRunsPreview?: ScheduledPlanExecutionMember[];
 }
-export const GetBackupPlanOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlan: S.optional(BackupPlan),
-    BackupPlanId: S.optional(S.String),
-    BackupPlanArn: S.optional(S.String),
-    VersionId: S.optional(S.String),
-    CreatorRequestId: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DeletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastExecutionDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    AdvancedBackupSettings: S.optional(AdvancedBackupSettings),
-    ScheduledRunsPreview: S.optional(ScheduledRunsPreview),
-  }),
-).annotate({
-  identifier: "GetBackupPlanOutput",
-}) as any as S.Schema<GetBackupPlanOutput>;
 export interface GetBackupPlanFromJSONInput {
   BackupPlanTemplateJson: string;
 }
-export const GetBackupPlanFromJSONInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BackupPlanTemplateJson: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/backup/template/json/toPlan" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBackupPlanFromJSONInput",
-}) as any as S.Schema<GetBackupPlanFromJSONInput>;
 export interface GetBackupPlanFromJSONOutput {
   BackupPlan?: BackupPlan;
 }
-export const GetBackupPlanFromJSONOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BackupPlan: S.optional(BackupPlan) }),
-).annotate({
-  identifier: "GetBackupPlanFromJSONOutput",
-}) as any as S.Schema<GetBackupPlanFromJSONOutput>;
 export interface GetBackupPlanFromTemplateInput {
   BackupPlanTemplateId: string;
 }
-export const GetBackupPlanFromTemplateInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanTemplateId: S.String.pipe(T.HttpLabel("BackupPlanTemplateId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/backup/template/plans/{BackupPlanTemplateId}/toPlan",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBackupPlanFromTemplateInput",
-}) as any as S.Schema<GetBackupPlanFromTemplateInput>;
 export interface GetBackupPlanFromTemplateOutput {
   BackupPlanDocument?: BackupPlan;
 }
-export const GetBackupPlanFromTemplateOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BackupPlanDocument: S.optional(BackupPlan) }),
-).annotate({
-  identifier: "GetBackupPlanFromTemplateOutput",
-}) as any as S.Schema<GetBackupPlanFromTemplateOutput>;
 export interface GetBackupSelectionInput {
   BackupPlanId: string;
   SelectionId: string;
 }
-export const GetBackupSelectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")),
-    SelectionId: S.String.pipe(T.HttpLabel("SelectionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/backup/plans/{BackupPlanId}/selections/{SelectionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBackupSelectionInput",
-}) as any as S.Schema<GetBackupSelectionInput>;
 export interface GetBackupSelectionOutput {
   BackupSelection?: BackupSelection;
   SelectionId?: string;
@@ -3035,76 +1134,18 @@ export interface GetBackupSelectionOutput {
   CreationDate?: Date;
   CreatorRequestId?: string;
 }
-export const GetBackupSelectionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupSelection: S.optional(BackupSelection),
-    SelectionId: S.optional(S.String),
-    BackupPlanId: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CreatorRequestId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetBackupSelectionOutput",
-}) as any as S.Schema<GetBackupSelectionOutput>;
 export interface GetBackupVaultAccessPolicyInput {
   BackupVaultName: string;
 }
-export const GetBackupVaultAccessPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/backup-vaults/{BackupVaultName}/access-policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBackupVaultAccessPolicyInput",
-}) as any as S.Schema<GetBackupVaultAccessPolicyInput>;
 export type IAMPolicy = string;
 export interface GetBackupVaultAccessPolicyOutput {
   BackupVaultName?: string;
   BackupVaultArn?: string;
   Policy?: string;
 }
-export const GetBackupVaultAccessPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.optional(S.String),
-    BackupVaultArn: S.optional(S.String),
-    Policy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetBackupVaultAccessPolicyOutput",
-}) as any as S.Schema<GetBackupVaultAccessPolicyOutput>;
 export interface GetBackupVaultNotificationsInput {
   BackupVaultName: string;
 }
-export const GetBackupVaultNotificationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/backup-vaults/{BackupVaultName}/notification-configuration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBackupVaultNotificationsInput",
-}) as any as S.Schema<GetBackupVaultNotificationsInput>;
 export type BackupVaultEvent =
   | "BACKUP_JOB_STARTED"
   | "BACKUP_JOB_COMPLETED"
@@ -3137,43 +1178,16 @@ export type BackupVaultEvent =
   | "ACCESS_POINT_EXPIRED"
   | "ACCESS_POINT_DISASSOCIATED"
   | (string & {});
-export const BackupVaultEvent = S.String;
-
 export type BackupVaultEvents = BackupVaultEvent[];
-export const BackupVaultEvents = /*@__PURE__*/ S.Array(BackupVaultEvent);
 export interface GetBackupVaultNotificationsOutput {
   BackupVaultName?: string;
   BackupVaultArn?: string;
   SNSTopicArn?: string;
   BackupVaultEvents?: BackupVaultEvent[];
 }
-export const GetBackupVaultNotificationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.optional(S.String),
-    BackupVaultArn: S.optional(S.String),
-    SNSTopicArn: S.optional(S.String),
-    BackupVaultEvents: S.optional(BackupVaultEvents),
-  }),
-).annotate({
-  identifier: "GetBackupVaultNotificationsOutput",
-}) as any as S.Schema<GetBackupVaultNotificationsOutput>;
 export interface GetLegalHoldInput {
   LegalHoldId: string;
 }
-export const GetLegalHoldInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LegalHoldId: S.String.pipe(T.HttpLabel("LegalHoldId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/legal-holds/{LegalHoldId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLegalHoldInput",
-}) as any as S.Schema<GetLegalHoldInput>;
 export interface GetLegalHoldOutput {
   Title?: string;
   Status?: LegalHoldStatus;
@@ -3186,53 +1200,12 @@ export interface GetLegalHoldOutput {
   RetainRecordUntil?: Date;
   RecoveryPointSelection?: RecoveryPointSelection;
 }
-export const GetLegalHoldOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Title: S.optional(S.String),
-    Status: S.optional(LegalHoldStatus),
-    Description: S.optional(S.String),
-    CancelDescription: S.optional(S.String),
-    LegalHoldId: S.optional(S.String),
-    LegalHoldArn: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CancellationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    RetainRecordUntil: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    RecoveryPointSelection: S.optional(RecoveryPointSelection),
-  }),
-).annotate({
-  identifier: "GetLegalHoldOutput",
-}) as any as S.Schema<GetLegalHoldOutput>;
 export interface GetPITRMalwareScanResultsInput {
   RecoveryPointArn: string;
   BackupVaultName: string;
   ScanEndTime: Date;
   MalwareScanner: MalwareScanner;
 }
-export const GetPITRMalwareScanResultsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecoveryPointArn: S.String.pipe(T.HttpQuery("RecoveryPointArn")),
-    BackupVaultName: S.String.pipe(T.HttpQuery("BackupVaultName")),
-    ScanEndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("ScanEndTime"),
-    ),
-    MalwareScanner: MalwareScanner.pipe(T.HttpQuery("MalwareScanner")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/scan/pitr-malware-scan-results" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPITRMalwareScanResultsInput",
-}) as any as S.Schema<GetPITRMalwareScanResultsInput>;
 export interface GetPITRMalwareScanResultsOutput {
   ScanEndTime: Date;
   ScanResult: ScanResultInfo;
@@ -3240,43 +1213,10 @@ export interface GetPITRMalwareScanResultsOutput {
   ScanId?: string;
   ScanMode?: ScanMode;
 }
-export const GetPITRMalwareScanResultsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScanEndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ScanResult: ScanResultInfo,
-    LastScanJobTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ScanId: S.optional(S.String),
-    ScanMode: S.optional(ScanMode),
-  }),
-).annotate({
-  identifier: "GetPITRMalwareScanResultsOutput",
-}) as any as S.Schema<GetPITRMalwareScanResultsOutput>;
 export interface GetRecoveryPointIndexDetailsInput {
   BackupVaultName: string;
   RecoveryPointArn: string;
 }
-export const GetRecoveryPointIndexDetailsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-    RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/index",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRecoveryPointIndexDetailsInput",
-}) as any as S.Schema<GetRecoveryPointIndexDetailsInput>;
 export interface GetRecoveryPointIndexDetailsOutput {
   RecoveryPointArn?: string;
   BackupVaultArn?: string;
@@ -3288,167 +1228,38 @@ export interface GetRecoveryPointIndexDetailsOutput {
   IndexStatusMessage?: string;
   TotalItemsIndexed?: number;
 }
-export const GetRecoveryPointIndexDetailsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecoveryPointArn: S.optional(S.String),
-    BackupVaultArn: S.optional(S.String),
-    SourceResourceArn: S.optional(S.String),
-    IndexCreationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    IndexDeletionDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    IndexCompletionDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    IndexStatus: S.optional(IndexStatus),
-    IndexStatusMessage: S.optional(S.String),
-    TotalItemsIndexed: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GetRecoveryPointIndexDetailsOutput",
-}) as any as S.Schema<GetRecoveryPointIndexDetailsOutput>;
 export interface GetRecoveryPointRestoreMetadataInput {
   BackupVaultName: string;
   RecoveryPointArn: string;
   BackupVaultAccountId?: string;
 }
-export const GetRecoveryPointRestoreMetadataInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-      RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
-      BackupVaultAccountId: S.optional(S.String).pipe(
-        T.HttpQuery("backupVaultAccountId"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/restore-metadata",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetRecoveryPointRestoreMetadataInput",
-}) as any as S.Schema<GetRecoveryPointRestoreMetadataInput>;
 export type MetadataKey = string;
 export type MetadataValue = string;
 export type Metadata = { [key: string]: string | undefined };
-export const Metadata = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface GetRecoveryPointRestoreMetadataOutput {
   BackupVaultArn?: string;
   RecoveryPointArn?: string;
   RestoreMetadata?: { [key: string]: string | undefined };
   ResourceType?: string;
 }
-export const GetRecoveryPointRestoreMetadataOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BackupVaultArn: S.optional(S.String),
-      RecoveryPointArn: S.optional(S.String),
-      RestoreMetadata: S.optional(Metadata),
-      ResourceType: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GetRecoveryPointRestoreMetadataOutput",
-}) as any as S.Schema<GetRecoveryPointRestoreMetadataOutput>;
 export interface GetRestoreJobMetadataInput {
   RestoreJobId: string;
 }
-export const GetRestoreJobMetadataInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RestoreJobId: S.String.pipe(T.HttpLabel("RestoreJobId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/restore-jobs/{RestoreJobId}/metadata" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRestoreJobMetadataInput",
-}) as any as S.Schema<GetRestoreJobMetadataInput>;
 export interface GetRestoreJobMetadataOutput {
   RestoreJobId?: string;
   Metadata?: { [key: string]: string | undefined };
 }
-export const GetRestoreJobMetadataOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestoreJobId: S.optional(S.String),
-    Metadata: S.optional(Metadata),
-  }),
-).annotate({
-  identifier: "GetRestoreJobMetadataOutput",
-}) as any as S.Schema<GetRestoreJobMetadataOutput>;
 export interface GetRestoreTestingInferredMetadataInput {
   BackupVaultAccountId?: string;
   BackupVaultName: string;
   RecoveryPointArn: string;
 }
-export const GetRestoreTestingInferredMetadataInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BackupVaultAccountId: S.optional(S.String).pipe(
-        T.HttpQuery("BackupVaultAccountId"),
-      ),
-      BackupVaultName: S.String.pipe(T.HttpQuery("BackupVaultName")),
-      RecoveryPointArn: S.String.pipe(T.HttpQuery("RecoveryPointArn")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/restore-testing/inferred-metadata" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetRestoreTestingInferredMetadataInput",
-}) as any as S.Schema<GetRestoreTestingInferredMetadataInput>;
 export interface GetRestoreTestingInferredMetadataOutput {
   InferredMetadata: { [key: string]: string | undefined };
 }
-export const GetRestoreTestingInferredMetadataOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ InferredMetadata: StringMap }),
-).annotate({
-  identifier: "GetRestoreTestingInferredMetadataOutput",
-}) as any as S.Schema<GetRestoreTestingInferredMetadataOutput>;
 export interface GetRestoreTestingPlanInput {
   RestoreTestingPlanName: string;
 }
-export const GetRestoreTestingPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestoreTestingPlanName: S.String.pipe(
-      T.HttpLabel("RestoreTestingPlanName"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restore-testing/plans/{RestoreTestingPlanName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRestoreTestingPlanInput",
-}) as any as S.Schema<GetRestoreTestingPlanInput>;
 export interface RestoreTestingPlanForGet {
   CreationTime: Date;
   CreatorRequestId?: string;
@@ -3461,60 +1272,13 @@ export interface RestoreTestingPlanForGet {
   ScheduleExpressionTimezone?: string;
   StartWindowHours?: number;
 }
-export const RestoreTestingPlanForGet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    CreatorRequestId: S.optional(S.String),
-    LastExecutionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    RecoveryPointSelection: RestoreTestingRecoveryPointSelection,
-    RestoreTestingPlanArn: S.String,
-    RestoreTestingPlanName: S.String,
-    ScheduleExpression: S.String,
-    ScheduleExpressionTimezone: S.optional(S.String),
-    StartWindowHours: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "RestoreTestingPlanForGet",
-}) as any as S.Schema<RestoreTestingPlanForGet>;
 export interface GetRestoreTestingPlanOutput {
   RestoreTestingPlan: RestoreTestingPlanForGet;
 }
-export const GetRestoreTestingPlanOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RestoreTestingPlan: RestoreTestingPlanForGet }),
-).annotate({
-  identifier: "GetRestoreTestingPlanOutput",
-}) as any as S.Schema<GetRestoreTestingPlanOutput>;
 export interface GetRestoreTestingSelectionInput {
   RestoreTestingPlanName: string;
   RestoreTestingSelectionName: string;
 }
-export const GetRestoreTestingSelectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestoreTestingPlanName: S.String.pipe(
-      T.HttpLabel("RestoreTestingPlanName"),
-    ),
-    RestoreTestingSelectionName: S.String.pipe(
-      T.HttpLabel("RestoreTestingSelectionName"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restore-testing/plans/{RestoreTestingPlanName}/selections/{RestoreTestingSelectionName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRestoreTestingSelectionInput",
-}) as any as S.Schema<GetRestoreTestingSelectionInput>;
 export interface RestoreTestingSelectionForGet {
   CreationTime: Date;
   CreatorRequestId?: string;
@@ -3527,77 +1291,16 @@ export interface RestoreTestingSelectionForGet {
   RestoreTestingSelectionName: string;
   ValidationWindowHours?: number;
 }
-export const RestoreTestingSelectionForGet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    CreatorRequestId: S.optional(S.String),
-    IamRoleArn: S.String,
-    ProtectedResourceArns: S.optional(StringList),
-    ProtectedResourceConditions: S.optional(ProtectedResourceConditions),
-    ProtectedResourceType: S.String,
-    RestoreMetadataOverrides: S.optional(SensitiveStringMap),
-    RestoreTestingPlanName: S.String,
-    RestoreTestingSelectionName: S.String,
-    ValidationWindowHours: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "RestoreTestingSelectionForGet",
-}) as any as S.Schema<RestoreTestingSelectionForGet>;
 export interface GetRestoreTestingSelectionOutput {
   RestoreTestingSelection: RestoreTestingSelectionForGet;
 }
-export const GetRestoreTestingSelectionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RestoreTestingSelection: RestoreTestingSelectionForGet }),
-).annotate({
-  identifier: "GetRestoreTestingSelectionOutput",
-}) as any as S.Schema<GetRestoreTestingSelectionOutput>;
 export interface GetSupportedResourceTypesRequest {}
-export const GetSupportedResourceTypesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/supported-resource-types" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSupportedResourceTypesRequest",
-}) as any as S.Schema<GetSupportedResourceTypesRequest>;
 export interface GetSupportedResourceTypesOutput {
   ResourceTypes?: string[];
 }
-export const GetSupportedResourceTypesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceTypes: S.optional(ResourceTypes) }),
-).annotate({
-  identifier: "GetSupportedResourceTypesOutput",
-}) as any as S.Schema<GetSupportedResourceTypesOutput>;
 export interface GetTieringConfigurationInput {
   TieringConfigurationName: string;
 }
-export const GetTieringConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TieringConfigurationName: S.String.pipe(
-      T.HttpLabel("TieringConfigurationName"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/tiering-configurations/{TieringConfigurationName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetTieringConfigurationInput",
-}) as any as S.Schema<GetTieringConfigurationInput>;
 export interface TieringConfiguration {
   TieringConfigurationName: string;
   TieringConfigurationArn?: string;
@@ -3607,51 +1310,14 @@ export interface TieringConfiguration {
   CreationTime?: Date;
   LastUpdatedTime?: Date;
 }
-export const TieringConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TieringConfigurationName: S.String,
-    TieringConfigurationArn: S.optional(S.String),
-    BackupVaultName: S.String,
-    ResourceSelection: ResourceSelections,
-    CreatorRequestId: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "TieringConfiguration",
-}) as any as S.Schema<TieringConfiguration>;
 export interface GetTieringConfigurationOutput {
   TieringConfiguration?: TieringConfiguration;
 }
-export const GetTieringConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TieringConfiguration: S.optional(TieringConfiguration) }),
-).annotate({
-  identifier: "GetTieringConfigurationOutput",
-}) as any as S.Schema<GetTieringConfigurationOutput>;
 export type ListBackupAccessPointsRequestMaxResultsInteger = number;
 export interface ListBackupAccessPointsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListBackupAccessPointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/backup-access-point" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListBackupAccessPointsRequest",
-}) as any as S.Schema<ListBackupAccessPointsRequest>;
 export interface ListAccessPointsMember {
   AccessPointArn: string;
   AccessPointMetadata: { [key: string]: string | undefined };
@@ -3665,37 +1331,11 @@ export interface ListAccessPointsMember {
   Status: AccessPointStatus;
   StatusMessage?: string;
 }
-export const ListAccessPointsMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessPointArn: S.String,
-    AccessPointMetadata: AccessPointMetadataMap,
-    BackupVaultArn: S.optional(S.String),
-    BackupVaultName: S.String,
-    CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Name: S.String,
-    RecoveryPointArn: S.String,
-    ResourceArn: S.String,
-    ResourceType: S.String,
-    Status: AccessPointStatus,
-    StatusMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAccessPointsMember",
-}) as any as S.Schema<ListAccessPointsMember>;
 export type BackupAccessPoints = ListAccessPointsMember[];
-export const BackupAccessPoints = /*@__PURE__*/ S.Array(ListAccessPointsMember);
 export interface ListBackupAccessPointsResponse {
   BackupAccessPoints: ListAccessPointsMember[];
   NextToken?: string;
 }
-export const ListBackupAccessPointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupAccessPoints: BackupAccessPoints,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListBackupAccessPointsResponse",
-}) as any as S.Schema<ListBackupAccessPointsResponse>;
 export type ListBackupAccessPointsByRecoveryPointRequestMaxResultsInteger =
   number;
 export interface ListBackupAccessPointsByRecoveryPointRequest {
@@ -3703,82 +1343,20 @@ export interface ListBackupAccessPointsByRecoveryPointRequest {
   NextToken?: string;
   RecoveryPointArn: string;
 }
-export const ListBackupAccessPointsByRecoveryPointRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-      RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/backup-access-point/recovery-point/{RecoveryPointArn}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListBackupAccessPointsByRecoveryPointRequest",
-  }) as any as S.Schema<ListBackupAccessPointsByRecoveryPointRequest>;
 export interface ListBackupAccessPointsByRecoveryPointResponse {
   BackupAccessPoints: ListAccessPointsMember[];
   NextToken?: string;
 }
-export const ListBackupAccessPointsByRecoveryPointResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      BackupAccessPoints: BackupAccessPoints,
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListBackupAccessPointsByRecoveryPointResponse",
-  }) as any as S.Schema<ListBackupAccessPointsByRecoveryPointResponse>;
 export type ListBackupAccessPointsByResourceRequestMaxResultsInteger = number;
 export interface ListBackupAccessPointsByResourceRequest {
   MaxResults?: number;
   NextToken?: string;
   ResourceArn: string;
 }
-export const ListBackupAccessPointsByResourceRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-      ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/backup-access-point/resource/{ResourceArn}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListBackupAccessPointsByResourceRequest",
-}) as any as S.Schema<ListBackupAccessPointsByResourceRequest>;
 export interface ListBackupAccessPointsByResourceResponse {
   BackupAccessPoints: ListAccessPointsMember[];
   NextToken?: string;
 }
-export const ListBackupAccessPointsByResourceResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BackupAccessPoints: BackupAccessPoints,
-      NextToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "ListBackupAccessPointsByResourceResponse",
-}) as any as S.Schema<ListBackupAccessPointsByResourceResponse>;
 export type MaxResults = number;
 export interface ListBackupJobsInput {
   NextToken?: string;
@@ -3795,46 +1373,6 @@ export interface ListBackupJobsInput {
   ByParentJobId?: string;
   ByMessageCategory?: string;
 }
-export const ListBackupJobsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    ByResourceArn: S.optional(S.String).pipe(T.HttpQuery("resourceArn")),
-    ByState: S.optional(BackupJobState).pipe(T.HttpQuery("state")),
-    ByBackupVaultName: S.optional(S.String).pipe(
-      T.HttpQuery("backupVaultName"),
-    ),
-    ByCreatedBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("createdBefore")),
-    ByCreatedAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("createdAfter")),
-    ByResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
-    ByAccountId: S.optional(S.String).pipe(T.HttpQuery("accountId")),
-    ByCompleteAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("completeAfter")),
-    ByCompleteBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("completeBefore")),
-    ByParentJobId: S.optional(S.String).pipe(T.HttpQuery("parentJobId")),
-    ByMessageCategory: S.optional(S.String).pipe(
-      T.HttpQuery("messageCategory"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/backup-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListBackupJobsInput",
-}) as any as S.Schema<ListBackupJobsInput>;
 export interface BackupJob {
   AccountId?: string;
   BackupJobId?: string;
@@ -3867,56 +1405,11 @@ export interface BackupJob {
   InitiationDate?: Date;
   MessageCategory?: string;
 }
-export const BackupJob = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    BackupJobId: S.optional(S.String),
-    BackupVaultName: S.optional(S.String),
-    BackupVaultArn: S.optional(S.String),
-    VaultType: S.optional(S.String),
-    VaultLockState: S.optional(S.String),
-    RecoveryPointArn: S.optional(S.String),
-    RecoveryPointLifecycle: S.optional(Lifecycle),
-    EncryptionKeyArn: S.optional(S.String),
-    IsEncrypted: S.optional(S.Boolean),
-    ResourceArn: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(BackupJobState),
-    StatusMessage: S.optional(S.String),
-    PercentDone: S.optional(S.String),
-    BackupSizeInBytes: S.optional(S.Number),
-    IamRoleArn: S.optional(S.String),
-    CreatedBy: S.optional(RecoveryPointCreator),
-    ExpectedCompletionDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    StartBy: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ResourceType: S.optional(S.String),
-    BytesTransferred: S.optional(S.Number),
-    BackupOptions: S.optional(BackupOptions),
-    BackupType: S.optional(S.String),
-    ParentJobId: S.optional(S.String),
-    IsParent: S.optional(S.Boolean),
-    ResourceName: S.optional(S.String),
-    InitiationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    MessageCategory: S.optional(S.String),
-  }),
-).annotate({ identifier: "BackupJob" }) as any as S.Schema<BackupJob>;
 export type BackupJobsList = BackupJob[];
-export const BackupJobsList = /*@__PURE__*/ S.Array(BackupJob);
 export interface ListBackupJobsOutput {
   BackupJobs?: BackupJob[];
   NextToken?: string;
 }
-export const ListBackupJobsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupJobs: S.optional(BackupJobsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListBackupJobsOutput",
-}) as any as S.Schema<ListBackupJobsOutput>;
 export type BackupJobStatus =
   | "CREATED"
   | "PENDING"
@@ -3930,16 +1423,12 @@ export type BackupJobStatus =
   | "AGGREGATE_ALL"
   | "ANY"
   | (string & {});
-export const BackupJobStatus = S.String;
-
 export type MessageCategory = string;
 export type AggregationPeriod =
   | "ONE_DAY"
   | "SEVEN_DAYS"
   | "FOURTEEN_DAYS"
   | (string & {});
-export const AggregationPeriod = S.String;
-
 export interface ListBackupJobSummariesInput {
   AccountId?: string;
   State?: BackupJobStatus;
@@ -3949,30 +1438,6 @@ export interface ListBackupJobSummariesInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListBackupJobSummariesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String).pipe(T.HttpQuery("AccountId")),
-    State: S.optional(BackupJobStatus).pipe(T.HttpQuery("State")),
-    ResourceType: S.optional(S.String).pipe(T.HttpQuery("ResourceType")),
-    MessageCategory: S.optional(S.String).pipe(T.HttpQuery("MessageCategory")),
-    AggregationPeriod: S.optional(AggregationPeriod).pipe(
-      T.HttpQuery("AggregationPeriod"),
-    ),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/audit/backup-job-summaries" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListBackupJobSummariesInput",
-}) as any as S.Schema<ListBackupJobSummariesInput>;
 export type Region = string;
 export interface BackupJobSummary {
   Region?: string;
@@ -3984,59 +1449,17 @@ export interface BackupJobSummary {
   StartTime?: Date;
   EndTime?: Date;
 }
-export const BackupJobSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Region: S.optional(S.String),
-    AccountId: S.optional(S.String),
-    State: S.optional(BackupJobStatus),
-    ResourceType: S.optional(S.String),
-    MessageCategory: S.optional(S.String),
-    Count: S.optional(S.Number),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "BackupJobSummary",
-}) as any as S.Schema<BackupJobSummary>;
 export type BackupJobSummaryList = BackupJobSummary[];
-export const BackupJobSummaryList = /*@__PURE__*/ S.Array(BackupJobSummary);
 export interface ListBackupJobSummariesOutput {
   BackupJobSummaries?: BackupJobSummary[];
   AggregationPeriod?: string;
   NextToken?: string;
 }
-export const ListBackupJobSummariesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupJobSummaries: S.optional(BackupJobSummaryList),
-    AggregationPeriod: S.optional(S.String),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListBackupJobSummariesOutput",
-}) as any as S.Schema<ListBackupJobSummariesOutput>;
 export interface ListBackupPlansInput {
   NextToken?: string;
   MaxResults?: number;
   IncludeDeleted?: boolean;
 }
-export const ListBackupPlansInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    IncludeDeleted: S.optional(S.Boolean).pipe(T.HttpQuery("includeDeleted")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/backup/plans" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListBackupPlansInput",
-}) as any as S.Schema<ListBackupPlansInput>;
 export interface BackupPlansListMember {
   BackupPlanArn?: string;
   BackupPlanId?: string;
@@ -4048,148 +1471,39 @@ export interface BackupPlansListMember {
   LastExecutionDate?: Date;
   AdvancedBackupSettings?: AdvancedBackupSetting[];
 }
-export const BackupPlansListMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanArn: S.optional(S.String),
-    BackupPlanId: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DeletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    VersionId: S.optional(S.String),
-    BackupPlanName: S.optional(S.String),
-    CreatorRequestId: S.optional(S.String),
-    LastExecutionDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    AdvancedBackupSettings: S.optional(AdvancedBackupSettings),
-  }),
-).annotate({
-  identifier: "BackupPlansListMember",
-}) as any as S.Schema<BackupPlansListMember>;
 export type BackupPlansList = BackupPlansListMember[];
-export const BackupPlansList = /*@__PURE__*/ S.Array(BackupPlansListMember);
 export interface ListBackupPlansOutput {
   NextToken?: string;
   BackupPlansList?: BackupPlansListMember[];
 }
-export const ListBackupPlansOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    BackupPlansList: S.optional(BackupPlansList),
-  }),
-).annotate({
-  identifier: "ListBackupPlansOutput",
-}) as any as S.Schema<ListBackupPlansOutput>;
 export interface ListBackupPlanTemplatesInput {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListBackupPlanTemplatesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/backup/template/plans" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListBackupPlanTemplatesInput",
-}) as any as S.Schema<ListBackupPlanTemplatesInput>;
 export interface BackupPlanTemplatesListMember {
   BackupPlanTemplateId?: string;
   BackupPlanTemplateName?: string;
 }
-export const BackupPlanTemplatesListMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanTemplateId: S.optional(S.String),
-    BackupPlanTemplateName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BackupPlanTemplatesListMember",
-}) as any as S.Schema<BackupPlanTemplatesListMember>;
 export type BackupPlanTemplatesList = BackupPlanTemplatesListMember[];
-export const BackupPlanTemplatesList = /*@__PURE__*/ S.Array(
-  BackupPlanTemplatesListMember,
-);
 export interface ListBackupPlanTemplatesOutput {
   NextToken?: string;
   BackupPlanTemplatesList?: BackupPlanTemplatesListMember[];
 }
-export const ListBackupPlanTemplatesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    BackupPlanTemplatesList: S.optional(BackupPlanTemplatesList),
-  }),
-).annotate({
-  identifier: "ListBackupPlanTemplatesOutput",
-}) as any as S.Schema<ListBackupPlanTemplatesOutput>;
 export interface ListBackupPlanVersionsInput {
   BackupPlanId: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListBackupPlanVersionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/backup/plans/{BackupPlanId}/versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListBackupPlanVersionsInput",
-}) as any as S.Schema<ListBackupPlanVersionsInput>;
 export type BackupPlanVersionsList = BackupPlansListMember[];
-export const BackupPlanVersionsList = /*@__PURE__*/ S.Array(
-  BackupPlansListMember,
-);
 export interface ListBackupPlanVersionsOutput {
   NextToken?: string;
   BackupPlanVersionsList?: BackupPlansListMember[];
 }
-export const ListBackupPlanVersionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    BackupPlanVersionsList: S.optional(BackupPlanVersionsList),
-  }),
-).annotate({
-  identifier: "ListBackupPlanVersionsOutput",
-}) as any as S.Schema<ListBackupPlanVersionsOutput>;
 export interface ListBackupSelectionsInput {
   BackupPlanId: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListBackupSelectionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/backup/plans/{BackupPlanId}/selections" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListBackupSelectionsInput",
-}) as any as S.Schema<ListBackupSelectionsInput>;
 export interface BackupSelectionsListMember {
   SelectionId?: string;
   SelectionName?: string;
@@ -4198,59 +1512,17 @@ export interface BackupSelectionsListMember {
   CreatorRequestId?: string;
   IamRoleArn?: string;
 }
-export const BackupSelectionsListMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SelectionId: S.optional(S.String),
-    SelectionName: S.optional(S.String),
-    BackupPlanId: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CreatorRequestId: S.optional(S.String),
-    IamRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BackupSelectionsListMember",
-}) as any as S.Schema<BackupSelectionsListMember>;
 export type BackupSelectionsList = BackupSelectionsListMember[];
-export const BackupSelectionsList = /*@__PURE__*/ S.Array(
-  BackupSelectionsListMember,
-);
 export interface ListBackupSelectionsOutput {
   NextToken?: string;
   BackupSelectionsList?: BackupSelectionsListMember[];
 }
-export const ListBackupSelectionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    BackupSelectionsList: S.optional(BackupSelectionsList),
-  }),
-).annotate({
-  identifier: "ListBackupSelectionsOutput",
-}) as any as S.Schema<ListBackupSelectionsOutput>;
 export interface ListBackupVaultsInput {
   ByVaultType?: VaultType;
   ByShared?: boolean;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListBackupVaultsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ByVaultType: S.optional(VaultType).pipe(T.HttpQuery("vaultType")),
-    ByShared: S.optional(S.Boolean).pipe(T.HttpQuery("shared")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/backup-vaults" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListBackupVaultsInput",
-}) as any as S.Schema<ListBackupVaultsInput>;
 export interface BackupVaultListMember {
   BackupVaultName?: string;
   BackupVaultArn?: string;
@@ -4266,39 +1538,11 @@ export interface BackupVaultListMember {
   LockDate?: Date;
   EncryptionKeyType?: EncryptionKeyType;
 }
-export const BackupVaultListMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.optional(S.String),
-    BackupVaultArn: S.optional(S.String),
-    VaultType: S.optional(VaultType),
-    VaultState: S.optional(VaultState),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EncryptionKeyArn: S.optional(S.String),
-    CreatorRequestId: S.optional(S.String),
-    NumberOfRecoveryPoints: S.optional(S.Number),
-    Locked: S.optional(S.Boolean),
-    MinRetentionDays: S.optional(S.Number),
-    MaxRetentionDays: S.optional(S.Number),
-    LockDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EncryptionKeyType: S.optional(EncryptionKeyType),
-  }),
-).annotate({
-  identifier: "BackupVaultListMember",
-}) as any as S.Schema<BackupVaultListMember>;
 export type BackupVaultList = BackupVaultListMember[];
-export const BackupVaultList = /*@__PURE__*/ S.Array(BackupVaultListMember);
 export interface ListBackupVaultsOutput {
   BackupVaultList?: BackupVaultListMember[];
   NextToken?: string;
 }
-export const ListBackupVaultsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultList: S.optional(BackupVaultList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListBackupVaultsOutput",
-}) as any as S.Schema<ListBackupVaultsOutput>;
 export interface ListCopyJobsInput {
   NextToken?: string;
   MaxResults?: number;
@@ -4315,63 +1559,11 @@ export interface ListCopyJobsInput {
   ByMessageCategory?: string;
   BySourceRecoveryPointArn?: string;
 }
-export const ListCopyJobsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    ByResourceArn: S.optional(S.String).pipe(T.HttpQuery("resourceArn")),
-    ByState: S.optional(CopyJobState).pipe(T.HttpQuery("state")),
-    ByCreatedBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("createdBefore")),
-    ByCreatedAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("createdAfter")),
-    ByResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
-    ByDestinationVaultArn: S.optional(S.String).pipe(
-      T.HttpQuery("destinationVaultArn"),
-    ),
-    ByAccountId: S.optional(S.String).pipe(T.HttpQuery("accountId")),
-    ByCompleteBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("completeBefore")),
-    ByCompleteAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("completeAfter")),
-    ByParentJobId: S.optional(S.String).pipe(T.HttpQuery("parentJobId")),
-    ByMessageCategory: S.optional(S.String).pipe(
-      T.HttpQuery("messageCategory"),
-    ),
-    BySourceRecoveryPointArn: S.optional(S.String).pipe(
-      T.HttpQuery("sourceRecoveryPointArn"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/copy-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListCopyJobsInput",
-}) as any as S.Schema<ListCopyJobsInput>;
 export type CopyJobsList = CopyJob[];
-export const CopyJobsList = /*@__PURE__*/ S.Array(CopyJob);
 export interface ListCopyJobsOutput {
   CopyJobs?: CopyJob[];
   NextToken?: string;
 }
-export const ListCopyJobsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CopyJobs: S.optional(CopyJobsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCopyJobsOutput",
-}) as any as S.Schema<ListCopyJobsOutput>;
 export type CopyJobStatus =
   | "CREATED"
   | "RUNNING"
@@ -4385,8 +1577,6 @@ export type CopyJobStatus =
   | "AGGREGATE_ALL"
   | "ANY"
   | (string & {});
-export const CopyJobStatus = S.String;
-
 export interface ListCopyJobSummariesInput {
   AccountId?: string;
   State?: CopyJobStatus;
@@ -4396,30 +1586,6 @@ export interface ListCopyJobSummariesInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListCopyJobSummariesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String).pipe(T.HttpQuery("AccountId")),
-    State: S.optional(CopyJobStatus).pipe(T.HttpQuery("State")),
-    ResourceType: S.optional(S.String).pipe(T.HttpQuery("ResourceType")),
-    MessageCategory: S.optional(S.String).pipe(T.HttpQuery("MessageCategory")),
-    AggregationPeriod: S.optional(AggregationPeriod).pipe(
-      T.HttpQuery("AggregationPeriod"),
-    ),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/audit/copy-job-summaries" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListCopyJobSummariesInput",
-}) as any as S.Schema<ListCopyJobSummariesInput>;
 export interface CopyJobSummary {
   Region?: string;
   AccountId?: string;
@@ -4430,56 +1596,17 @@ export interface CopyJobSummary {
   StartTime?: Date;
   EndTime?: Date;
 }
-export const CopyJobSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Region: S.optional(S.String),
-    AccountId: S.optional(S.String),
-    State: S.optional(CopyJobStatus),
-    ResourceType: S.optional(S.String),
-    MessageCategory: S.optional(S.String),
-    Count: S.optional(S.Number),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "CopyJobSummary" }) as any as S.Schema<CopyJobSummary>;
 export type CopyJobSummaryList = CopyJobSummary[];
-export const CopyJobSummaryList = /*@__PURE__*/ S.Array(CopyJobSummary);
 export interface ListCopyJobSummariesOutput {
   CopyJobSummaries?: CopyJobSummary[];
   AggregationPeriod?: string;
   NextToken?: string;
 }
-export const ListCopyJobSummariesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CopyJobSummaries: S.optional(CopyJobSummaryList),
-    AggregationPeriod: S.optional(S.String),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCopyJobSummariesOutput",
-}) as any as S.Schema<ListCopyJobSummariesOutput>;
 export type MaxFrameworkInputs = number;
 export interface ListFrameworksInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListFrameworksInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/audit/frameworks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListFrameworksInput",
-}) as any as S.Schema<ListFrameworksInput>;
 export interface Framework {
   FrameworkName?: string;
   FrameworkArn?: string;
@@ -4488,30 +1615,11 @@ export interface Framework {
   CreationTime?: Date;
   DeploymentStatus?: string;
 }
-export const Framework = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FrameworkName: S.optional(S.String),
-    FrameworkArn: S.optional(S.String),
-    FrameworkDescription: S.optional(S.String),
-    NumberOfControls: S.optional(S.Number),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DeploymentStatus: S.optional(S.String),
-  }),
-).annotate({ identifier: "Framework" }) as any as S.Schema<Framework>;
 export type FrameworkList = Framework[];
-export const FrameworkList = /*@__PURE__*/ S.Array(Framework);
 export interface ListFrameworksOutput {
   Frameworks?: Framework[];
   NextToken?: string;
 }
-export const ListFrameworksOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Frameworks: S.optional(FrameworkList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListFrameworksOutput",
-}) as any as S.Schema<ListFrameworksOutput>;
 export interface ListIndexedRecoveryPointsInput {
   NextToken?: string;
   MaxResults?: number;
@@ -4521,34 +1629,6 @@ export interface ListIndexedRecoveryPointsInput {
   ResourceType?: string;
   IndexStatus?: IndexStatus;
 }
-export const ListIndexedRecoveryPointsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    SourceResourceArn: S.optional(S.String).pipe(
-      T.HttpQuery("sourceResourceArn"),
-    ),
-    CreatedBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("createdBefore")),
-    CreatedAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("createdAfter")),
-    ResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
-    IndexStatus: S.optional(IndexStatus).pipe(T.HttpQuery("indexStatus")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/indexes/recovery-point" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListIndexedRecoveryPointsInput",
-}) as any as S.Schema<ListIndexedRecoveryPointsInput>;
 export interface IndexedRecoveryPoint {
   RecoveryPointArn?: string;
   SourceResourceArn?: string;
@@ -4560,61 +1640,15 @@ export interface IndexedRecoveryPoint {
   IndexStatusMessage?: string;
   BackupVaultArn?: string;
 }
-export const IndexedRecoveryPoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecoveryPointArn: S.optional(S.String),
-    SourceResourceArn: S.optional(S.String),
-    IamRoleArn: S.optional(S.String),
-    BackupCreationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ResourceType: S.optional(S.String),
-    IndexCreationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    IndexStatus: S.optional(IndexStatus),
-    IndexStatusMessage: S.optional(S.String),
-    BackupVaultArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IndexedRecoveryPoint",
-}) as any as S.Schema<IndexedRecoveryPoint>;
 export type IndexedRecoveryPointList = IndexedRecoveryPoint[];
-export const IndexedRecoveryPointList =
-  /*@__PURE__*/ S.Array(IndexedRecoveryPoint);
 export interface ListIndexedRecoveryPointsOutput {
   IndexedRecoveryPoints?: IndexedRecoveryPoint[];
   NextToken?: string;
 }
-export const ListIndexedRecoveryPointsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IndexedRecoveryPoints: S.optional(IndexedRecoveryPointList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListIndexedRecoveryPointsOutput",
-}) as any as S.Schema<ListIndexedRecoveryPointsOutput>;
 export interface ListLegalHoldsInput {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListLegalHoldsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/legal-holds" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListLegalHoldsInput",
-}) as any as S.Schema<ListLegalHoldsInput>;
 export interface LegalHold {
   Title?: string;
   Status?: LegalHoldStatus;
@@ -4624,54 +1658,15 @@ export interface LegalHold {
   CreationDate?: Date;
   CancellationDate?: Date;
 }
-export const LegalHold = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Title: S.optional(S.String),
-    Status: S.optional(LegalHoldStatus),
-    Description: S.optional(S.String),
-    LegalHoldId: S.optional(S.String),
-    LegalHoldArn: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CancellationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({ identifier: "LegalHold" }) as any as S.Schema<LegalHold>;
 export type LegalHoldsList = LegalHold[];
-export const LegalHoldsList = /*@__PURE__*/ S.Array(LegalHold);
 export interface ListLegalHoldsOutput {
   NextToken?: string;
   LegalHolds?: LegalHold[];
 }
-export const ListLegalHoldsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    LegalHolds: S.optional(LegalHoldsList),
-  }),
-).annotate({
-  identifier: "ListLegalHoldsOutput",
-}) as any as S.Schema<ListLegalHoldsOutput>;
 export interface ListProtectedResourcesInput {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListProtectedResourcesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/resources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListProtectedResourcesInput",
-}) as any as S.Schema<ListProtectedResourcesInput>;
 export interface ProtectedResource {
   ResourceArn?: string;
   ResourceType?: string;
@@ -4680,76 +1675,21 @@ export interface ProtectedResource {
   LastBackupVaultArn?: string;
   LastRecoveryPointArn?: string;
 }
-export const ProtectedResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    ResourceType: S.optional(S.String),
-    LastBackupTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ResourceName: S.optional(S.String),
-    LastBackupVaultArn: S.optional(S.String),
-    LastRecoveryPointArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ProtectedResource",
-}) as any as S.Schema<ProtectedResource>;
 export type ProtectedResourcesList = ProtectedResource[];
-export const ProtectedResourcesList = /*@__PURE__*/ S.Array(ProtectedResource);
 export interface ListProtectedResourcesOutput {
   Results?: ProtectedResource[];
   NextToken?: string;
 }
-export const ListProtectedResourcesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Results: S.optional(ProtectedResourcesList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListProtectedResourcesOutput",
-}) as any as S.Schema<ListProtectedResourcesOutput>;
 export interface ListProtectedResourcesByBackupVaultInput {
   BackupVaultName: string;
   BackupVaultAccountId?: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListProtectedResourcesByBackupVaultInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-      BackupVaultAccountId: S.optional(S.String).pipe(
-        T.HttpQuery("backupVaultAccountId"),
-      ),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/backup-vaults/{BackupVaultName}/resources",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListProtectedResourcesByBackupVaultInput",
-}) as any as S.Schema<ListProtectedResourcesByBackupVaultInput>;
 export interface ListProtectedResourcesByBackupVaultOutput {
   Results?: ProtectedResource[];
   NextToken?: string;
 }
-export const ListProtectedResourcesByBackupVaultOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Results: S.optional(ProtectedResourcesList),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListProtectedResourcesByBackupVaultOutput",
-  }) as any as S.Schema<ListProtectedResourcesByBackupVaultOutput>;
 export interface ListRecoveryPointsByBackupVaultInput {
   BackupVaultName: string;
   BackupVaultAccountId?: string;
@@ -4762,57 +1702,11 @@ export interface ListRecoveryPointsByBackupVaultInput {
   ByCreatedAfter?: Date;
   ByParentRecoveryPointArn?: string;
 }
-export const ListRecoveryPointsByBackupVaultInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-      BackupVaultAccountId: S.optional(S.String).pipe(
-        T.HttpQuery("backupVaultAccountId"),
-      ),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      ByResourceArn: S.optional(S.String).pipe(T.HttpQuery("resourceArn")),
-      ByResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
-      ByBackupPlanId: S.optional(S.String).pipe(T.HttpQuery("backupPlanId")),
-      ByCreatedBefore: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ).pipe(T.HttpQuery("createdBefore")),
-      ByCreatedAfter: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ).pipe(T.HttpQuery("createdAfter")),
-      ByParentRecoveryPointArn: S.optional(S.String).pipe(
-        T.HttpQuery("parentRecoveryPointArn"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/backup-vaults/{BackupVaultName}/recovery-points",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListRecoveryPointsByBackupVaultInput",
-}) as any as S.Schema<ListRecoveryPointsByBackupVaultInput>;
 export interface AggregatedScanResult {
   FailedScan?: boolean;
   Findings?: ScanFinding[];
   LastComputed?: Date;
 }
-export const AggregatedScanResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FailedScan: S.optional(S.Boolean),
-    Findings: S.optional(ScanFindings),
-    LastComputed: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "AggregatedScanResult",
-}) as any as S.Schema<AggregatedScanResult>;
 export interface RecoveryPointByBackupVault {
   RecoveryPointArn?: string;
   BackupVaultName?: string;
@@ -4843,145 +1737,33 @@ export interface RecoveryPointByBackupVault {
   EncryptionKeyType?: EncryptionKeyType;
   AggregatedScanResult?: AggregatedScanResult;
 }
-export const RecoveryPointByBackupVault = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecoveryPointArn: S.optional(S.String),
-    BackupVaultName: S.optional(S.String),
-    BackupVaultArn: S.optional(S.String),
-    SourceBackupVaultArn: S.optional(S.String),
-    ResourceArn: S.optional(S.String),
-    ResourceType: S.optional(S.String),
-    CreatedBy: S.optional(RecoveryPointCreator),
-    IamRoleArn: S.optional(S.String),
-    Status: S.optional(RecoveryPointStatus),
-    StatusMessage: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    InitiationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    BackupSizeInBytes: S.optional(S.Number),
-    CalculatedLifecycle: S.optional(CalculatedLifecycle),
-    Lifecycle: S.optional(Lifecycle),
-    EncryptionKeyArn: S.optional(S.String),
-    IsEncrypted: S.optional(S.Boolean),
-    LastRestoreTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ParentRecoveryPointArn: S.optional(S.String),
-    CompositeMemberIdentifier: S.optional(S.String),
-    IsParent: S.optional(S.Boolean),
-    ResourceName: S.optional(S.String),
-    VaultType: S.optional(VaultType),
-    IndexStatus: S.optional(IndexStatus),
-    IndexStatusMessage: S.optional(S.String),
-    EncryptionKeyType: S.optional(EncryptionKeyType),
-    AggregatedScanResult: S.optional(AggregatedScanResult),
-  }),
-).annotate({
-  identifier: "RecoveryPointByBackupVault",
-}) as any as S.Schema<RecoveryPointByBackupVault>;
 export type RecoveryPointByBackupVaultList = RecoveryPointByBackupVault[];
-export const RecoveryPointByBackupVaultList = /*@__PURE__*/ S.Array(
-  RecoveryPointByBackupVault,
-);
 export interface ListRecoveryPointsByBackupVaultOutput {
   NextToken?: string;
   RecoveryPoints?: RecoveryPointByBackupVault[];
 }
-export const ListRecoveryPointsByBackupVaultOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      RecoveryPoints: S.optional(RecoveryPointByBackupVaultList),
-    }),
-).annotate({
-  identifier: "ListRecoveryPointsByBackupVaultOutput",
-}) as any as S.Schema<ListRecoveryPointsByBackupVaultOutput>;
 export interface ListRecoveryPointsByLegalHoldInput {
   LegalHoldId: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListRecoveryPointsByLegalHoldInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LegalHoldId: S.String.pipe(T.HttpLabel("LegalHoldId")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/legal-holds/{LegalHoldId}/recovery-points",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRecoveryPointsByLegalHoldInput",
-}) as any as S.Schema<ListRecoveryPointsByLegalHoldInput>;
 export interface RecoveryPointMember {
   RecoveryPointArn?: string;
   ResourceArn?: string;
   ResourceType?: string;
   BackupVaultName?: string;
 }
-export const RecoveryPointMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecoveryPointArn: S.optional(S.String),
-    ResourceArn: S.optional(S.String),
-    ResourceType: S.optional(S.String),
-    BackupVaultName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RecoveryPointMember",
-}) as any as S.Schema<RecoveryPointMember>;
 export type RecoveryPointsList = RecoveryPointMember[];
-export const RecoveryPointsList = /*@__PURE__*/ S.Array(RecoveryPointMember);
 export interface ListRecoveryPointsByLegalHoldOutput {
   RecoveryPoints?: RecoveryPointMember[];
   NextToken?: string;
 }
-export const ListRecoveryPointsByLegalHoldOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecoveryPoints: S.optional(RecoveryPointsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRecoveryPointsByLegalHoldOutput",
-}) as any as S.Schema<ListRecoveryPointsByLegalHoldOutput>;
 export interface ListRecoveryPointsByResourceInput {
   ResourceArn: string;
   NextToken?: string;
   MaxResults?: number;
   ManagedByAWSBackupOnly?: boolean;
 }
-export const ListRecoveryPointsByResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    ManagedByAWSBackupOnly: S.optional(S.Boolean).pipe(
-      T.HttpQuery("managedByAWSBackupOnly"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/resources/{ResourceArn}/recovery-points",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRecoveryPointsByResourceInput",
-}) as any as S.Schema<ListRecoveryPointsByResourceInput>;
 export interface RecoveryPointByResource {
   RecoveryPointArn?: string;
   CreationDate?: Date;
@@ -4999,43 +1781,11 @@ export interface RecoveryPointByResource {
   EncryptionKeyType?: EncryptionKeyType;
   AggregatedScanResult?: AggregatedScanResult;
 }
-export const RecoveryPointByResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecoveryPointArn: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(RecoveryPointStatus),
-    StatusMessage: S.optional(S.String),
-    EncryptionKeyArn: S.optional(S.String),
-    BackupSizeBytes: S.optional(S.Number),
-    BackupVaultName: S.optional(S.String),
-    IsParent: S.optional(S.Boolean),
-    ParentRecoveryPointArn: S.optional(S.String),
-    ResourceName: S.optional(S.String),
-    VaultType: S.optional(VaultType),
-    IndexStatus: S.optional(IndexStatus),
-    IndexStatusMessage: S.optional(S.String),
-    EncryptionKeyType: S.optional(EncryptionKeyType),
-    AggregatedScanResult: S.optional(AggregatedScanResult),
-  }),
-).annotate({
-  identifier: "RecoveryPointByResource",
-}) as any as S.Schema<RecoveryPointByResource>;
 export type RecoveryPointByResourceList = RecoveryPointByResource[];
-export const RecoveryPointByResourceList = /*@__PURE__*/ S.Array(
-  RecoveryPointByResource,
-);
 export interface ListRecoveryPointsByResourceOutput {
   NextToken?: string;
   RecoveryPoints?: RecoveryPointByResource[];
 }
-export const ListRecoveryPointsByResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    RecoveryPoints: S.optional(RecoveryPointByResourceList),
-  }),
-).annotate({
-  identifier: "ListRecoveryPointsByResourceOutput",
-}) as any as S.Schema<ListRecoveryPointsByResourceOutput>;
 export interface ListReportJobsInput {
   ByReportPlanName?: string;
   ByCreationBefore?: Date;
@@ -5044,109 +1794,26 @@ export interface ListReportJobsInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListReportJobsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ByReportPlanName: S.optional(S.String).pipe(T.HttpQuery("ReportPlanName")),
-    ByCreationBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("CreationBefore")),
-    ByCreationAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("CreationAfter")),
-    ByStatus: S.optional(S.String).pipe(T.HttpQuery("Status")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/audit/report-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListReportJobsInput",
-}) as any as S.Schema<ListReportJobsInput>;
 export type ReportJobList = ReportJob[];
-export const ReportJobList = /*@__PURE__*/ S.Array(ReportJob);
 export interface ListReportJobsOutput {
   ReportJobs?: ReportJob[];
   NextToken?: string;
 }
-export const ListReportJobsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportJobs: S.optional(ReportJobList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListReportJobsOutput",
-}) as any as S.Schema<ListReportJobsOutput>;
 export interface ListReportPlansInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListReportPlansInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/audit/report-plans" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListReportPlansInput",
-}) as any as S.Schema<ListReportPlansInput>;
 export type ReportPlanList = ReportPlan[];
-export const ReportPlanList = /*@__PURE__*/ S.Array(ReportPlan);
 export interface ListReportPlansOutput {
   ReportPlans?: ReportPlan[];
   NextToken?: string;
 }
-export const ListReportPlansOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportPlans: S.optional(ReportPlanList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListReportPlansOutput",
-}) as any as S.Schema<ListReportPlansOutput>;
 export interface ListRestoreAccessBackupVaultsInput {
   BackupVaultName: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListRestoreAccessBackupVaultsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/logically-air-gapped-backup-vaults/{BackupVaultName}/restore-access-backup-vaults",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRestoreAccessBackupVaultsInput",
-}) as any as S.Schema<ListRestoreAccessBackupVaultsInput>;
 export type MpaRevokeSessionStatus = "PENDING" | "FAILED" | (string & {});
-export const MpaRevokeSessionStatus = S.String;
-
 export interface LatestRevokeRequest {
   MpaSessionArn?: string;
   Status?: MpaRevokeSessionStatus;
@@ -5154,17 +1821,6 @@ export interface LatestRevokeRequest {
   InitiationDate?: Date;
   ExpiryDate?: Date;
 }
-export const LatestRevokeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MpaSessionArn: S.optional(S.String),
-    Status: S.optional(MpaRevokeSessionStatus),
-    StatusMessage: S.optional(S.String),
-    InitiationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ExpiryDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "LatestRevokeRequest",
-}) as any as S.Schema<LatestRevokeRequest>;
 export interface RestoreAccessBackupVaultListMember {
   RestoreAccessBackupVaultArn?: string;
   CreationDate?: Date;
@@ -5172,33 +1828,11 @@ export interface RestoreAccessBackupVaultListMember {
   VaultState?: VaultState;
   LatestRevokeRequest?: LatestRevokeRequest;
 }
-export const RestoreAccessBackupVaultListMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestoreAccessBackupVaultArn: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ApprovalDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    VaultState: S.optional(VaultState),
-    LatestRevokeRequest: S.optional(LatestRevokeRequest),
-  }),
-).annotate({
-  identifier: "RestoreAccessBackupVaultListMember",
-}) as any as S.Schema<RestoreAccessBackupVaultListMember>;
 export type RestoreAccessBackupVaultList = RestoreAccessBackupVaultListMember[];
-export const RestoreAccessBackupVaultList = /*@__PURE__*/ S.Array(
-  RestoreAccessBackupVaultListMember,
-);
 export interface ListRestoreAccessBackupVaultsOutput {
   NextToken?: string;
   RestoreAccessBackupVaults?: RestoreAccessBackupVaultListMember[];
 }
-export const ListRestoreAccessBackupVaultsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    RestoreAccessBackupVaults: S.optional(RestoreAccessBackupVaultList),
-  }),
-).annotate({
-  identifier: "ListRestoreAccessBackupVaultsOutput",
-}) as any as S.Schema<ListRestoreAccessBackupVaultsOutput>;
 export interface ListRestoreJobsInput {
   NextToken?: string;
   MaxResults?: number;
@@ -5212,42 +1846,6 @@ export interface ListRestoreJobsInput {
   ByRestoreTestingPlanArn?: string;
   ByParentJobId?: string;
 }
-export const ListRestoreJobsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    ByAccountId: S.optional(S.String).pipe(T.HttpQuery("accountId")),
-    ByResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
-    ByCreatedBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("createdBefore")),
-    ByCreatedAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("createdAfter")),
-    ByStatus: S.optional(RestoreJobStatus).pipe(T.HttpQuery("status")),
-    ByCompleteBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("completeBefore")),
-    ByCompleteAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("completeAfter")),
-    ByRestoreTestingPlanArn: S.optional(S.String).pipe(
-      T.HttpQuery("restoreTestingPlanArn"),
-    ),
-    ByParentJobId: S.optional(S.String).pipe(T.HttpQuery("parentJobId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/restore-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRestoreJobsInput",
-}) as any as S.Schema<ListRestoreJobsInput>;
 export interface RestoreJobsListMember {
   AccountId?: string;
   RestoreJobId?: string;
@@ -5273,51 +1871,11 @@ export interface RestoreJobsListMember {
   DeletionStatus?: RestoreDeletionStatus;
   DeletionStatusMessage?: string;
 }
-export const RestoreJobsListMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    RestoreJobId: S.optional(S.String),
-    RecoveryPointArn: S.optional(S.String),
-    SourceResourceArn: S.optional(S.String),
-    BackupVaultArn: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(RestoreJobStatus),
-    StatusMessage: S.optional(S.String),
-    PercentDone: S.optional(S.String),
-    BackupSizeInBytes: S.optional(S.Number),
-    IamRoleArn: S.optional(S.String),
-    ExpectedCompletionTimeMinutes: S.optional(S.Number),
-    CreatedResourceArn: S.optional(S.String),
-    ResourceType: S.optional(S.String),
-    RecoveryPointCreationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    IsParent: S.optional(S.Boolean),
-    ParentJobId: S.optional(S.String),
-    CreatedBy: S.optional(RestoreJobCreator),
-    ValidationStatus: S.optional(RestoreValidationStatus),
-    ValidationStatusMessage: S.optional(S.String),
-    DeletionStatus: S.optional(RestoreDeletionStatus),
-    DeletionStatusMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RestoreJobsListMember",
-}) as any as S.Schema<RestoreJobsListMember>;
 export type RestoreJobsList = RestoreJobsListMember[];
-export const RestoreJobsList = /*@__PURE__*/ S.Array(RestoreJobsListMember);
 export interface ListRestoreJobsOutput {
   RestoreJobs?: RestoreJobsListMember[];
   NextToken?: string;
 }
-export const ListRestoreJobsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestoreJobs: S.optional(RestoreJobsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRestoreJobsOutput",
-}) as any as S.Schema<ListRestoreJobsOutput>;
 export interface ListRestoreJobsByProtectedResourceInput {
   ResourceArn: string;
   ByStatus?: RestoreJobStatus;
@@ -5326,45 +1884,10 @@ export interface ListRestoreJobsByProtectedResourceInput {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListRestoreJobsByProtectedResourceInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-      ByStatus: S.optional(RestoreJobStatus).pipe(T.HttpQuery("status")),
-      ByRecoveryPointCreationDateAfter: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ).pipe(T.HttpQuery("recoveryPointCreationDateAfter")),
-      ByRecoveryPointCreationDateBefore: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ).pipe(T.HttpQuery("recoveryPointCreationDateBefore")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/resources/{ResourceArn}/restore-jobs" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListRestoreJobsByProtectedResourceInput",
-}) as any as S.Schema<ListRestoreJobsByProtectedResourceInput>;
 export interface ListRestoreJobsByProtectedResourceOutput {
   RestoreJobs?: RestoreJobsListMember[];
   NextToken?: string;
 }
-export const ListRestoreJobsByProtectedResourceOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RestoreJobs: S.optional(RestoreJobsList),
-      NextToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "ListRestoreJobsByProtectedResourceOutput",
-}) as any as S.Schema<ListRestoreJobsByProtectedResourceOutput>;
 export type RestoreJobState =
   | "CREATED"
   | "PENDING"
@@ -5375,8 +1898,6 @@ export type RestoreJobState =
   | "AGGREGATE_ALL"
   | "ANY"
   | (string & {});
-export const RestoreJobState = S.String;
-
 export interface ListRestoreJobSummariesInput {
   AccountId?: string;
   State?: RestoreJobState;
@@ -5385,29 +1906,6 @@ export interface ListRestoreJobSummariesInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListRestoreJobSummariesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String).pipe(T.HttpQuery("AccountId")),
-    State: S.optional(RestoreJobState).pipe(T.HttpQuery("State")),
-    ResourceType: S.optional(S.String).pipe(T.HttpQuery("ResourceType")),
-    AggregationPeriod: S.optional(AggregationPeriod).pipe(
-      T.HttpQuery("AggregationPeriod"),
-    ),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/audit/restore-job-summaries" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRestoreJobSummariesInput",
-}) as any as S.Schema<ListRestoreJobSummariesInput>;
 export interface RestoreJobSummary {
   Region?: string;
   AccountId?: string;
@@ -5417,57 +1915,17 @@ export interface RestoreJobSummary {
   StartTime?: Date;
   EndTime?: Date;
 }
-export const RestoreJobSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Region: S.optional(S.String),
-    AccountId: S.optional(S.String),
-    State: S.optional(RestoreJobState),
-    ResourceType: S.optional(S.String),
-    Count: S.optional(S.Number),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "RestoreJobSummary",
-}) as any as S.Schema<RestoreJobSummary>;
 export type RestoreJobSummaryList = RestoreJobSummary[];
-export const RestoreJobSummaryList = /*@__PURE__*/ S.Array(RestoreJobSummary);
 export interface ListRestoreJobSummariesOutput {
   RestoreJobSummaries?: RestoreJobSummary[];
   AggregationPeriod?: string;
   NextToken?: string;
 }
-export const ListRestoreJobSummariesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestoreJobSummaries: S.optional(RestoreJobSummaryList),
-    AggregationPeriod: S.optional(S.String),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRestoreJobSummariesOutput",
-}) as any as S.Schema<ListRestoreJobSummariesOutput>;
 export type ListRestoreTestingPlansInputMaxResultsInteger = number;
 export interface ListRestoreTestingPlansInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListRestoreTestingPlansInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/restore-testing/plans" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRestoreTestingPlansInput",
-}) as any as S.Schema<ListRestoreTestingPlansInput>;
 export interface RestoreTestingPlanForList {
   CreationTime: Date;
   LastExecutionTime?: Date;
@@ -5478,67 +1936,17 @@ export interface RestoreTestingPlanForList {
   ScheduleExpressionTimezone?: string;
   StartWindowHours?: number;
 }
-export const RestoreTestingPlanForList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    LastExecutionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    RestoreTestingPlanArn: S.String,
-    RestoreTestingPlanName: S.String,
-    ScheduleExpression: S.String,
-    ScheduleExpressionTimezone: S.optional(S.String),
-    StartWindowHours: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "RestoreTestingPlanForList",
-}) as any as S.Schema<RestoreTestingPlanForList>;
 export type RestoreTestingPlans = RestoreTestingPlanForList[];
-export const RestoreTestingPlans = /*@__PURE__*/ S.Array(
-  RestoreTestingPlanForList,
-);
 export interface ListRestoreTestingPlansOutput {
   NextToken?: string;
   RestoreTestingPlans: RestoreTestingPlanForList[];
 }
-export const ListRestoreTestingPlansOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    RestoreTestingPlans: RestoreTestingPlans,
-  }),
-).annotate({
-  identifier: "ListRestoreTestingPlansOutput",
-}) as any as S.Schema<ListRestoreTestingPlansOutput>;
 export type ListRestoreTestingSelectionsInputMaxResultsInteger = number;
 export interface ListRestoreTestingSelectionsInput {
   MaxResults?: number;
   NextToken?: string;
   RestoreTestingPlanName: string;
 }
-export const ListRestoreTestingSelectionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    RestoreTestingPlanName: S.String.pipe(
-      T.HttpLabel("RestoreTestingPlanName"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restore-testing/plans/{RestoreTestingPlanName}/selections",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRestoreTestingSelectionsInput",
-}) as any as S.Schema<ListRestoreTestingSelectionsInput>;
 export interface RestoreTestingSelectionForList {
   CreationTime: Date;
   IamRoleArn: string;
@@ -5547,34 +1955,11 @@ export interface RestoreTestingSelectionForList {
   RestoreTestingSelectionName: string;
   ValidationWindowHours?: number;
 }
-export const RestoreTestingSelectionForList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    IamRoleArn: S.String,
-    ProtectedResourceType: S.String,
-    RestoreTestingPlanName: S.String,
-    RestoreTestingSelectionName: S.String,
-    ValidationWindowHours: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "RestoreTestingSelectionForList",
-}) as any as S.Schema<RestoreTestingSelectionForList>;
 export type RestoreTestingSelections = RestoreTestingSelectionForList[];
-export const RestoreTestingSelections = /*@__PURE__*/ S.Array(
-  RestoreTestingSelectionForList,
-);
 export interface ListRestoreTestingSelectionsOutput {
   NextToken?: string;
   RestoreTestingSelections: RestoreTestingSelectionForList[];
 }
-export const ListRestoreTestingSelectionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    RestoreTestingSelections: RestoreTestingSelections,
-  }),
-).annotate({
-  identifier: "ListRestoreTestingSelectionsOutput",
-}) as any as S.Schema<ListRestoreTestingSelectionsOutput>;
 export type ListScanJobsInputMaxResultsInteger = number;
 export interface ListScanJobsInput {
   ByAccountId?: string;
@@ -5590,47 +1975,6 @@ export interface ListScanJobsInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListScanJobsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ByAccountId: S.optional(S.String).pipe(T.HttpQuery("ByAccountId")),
-    ByBackupVaultName: S.optional(S.String).pipe(
-      T.HttpQuery("ByBackupVaultName"),
-    ),
-    ByCompleteAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("ByCompleteAfter")),
-    ByCompleteBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("ByCompleteBefore")),
-    ByMalwareScanner: S.optional(MalwareScanner).pipe(
-      T.HttpQuery("ByMalwareScanner"),
-    ),
-    ByRecoveryPointArn: S.optional(S.String).pipe(
-      T.HttpQuery("ByRecoveryPointArn"),
-    ),
-    ByResourceArn: S.optional(S.String).pipe(T.HttpQuery("ByResourceArn")),
-    ByResourceType: S.optional(ScanResourceType).pipe(
-      T.HttpQuery("ByResourceType"),
-    ),
-    ByScanResultStatus: S.optional(ScanResultStatus).pipe(
-      T.HttpQuery("ByScanResultStatus"),
-    ),
-    ByState: S.optional(ScanState).pipe(T.HttpQuery("ByState")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/scan/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListScanJobsInput",
-}) as any as S.Schema<ListScanJobsInput>;
 export interface ScanJob {
   AccountId: string;
   BackupVaultArn: string;
@@ -5655,47 +1999,11 @@ export interface ScanJob {
   State?: ScanState;
   StatusMessage?: string;
 }
-export const ScanJob = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.String,
-    BackupVaultArn: S.String,
-    BackupVaultName: S.String,
-    CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ContinuousScanEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ContinuousScanStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    CreatedBy: ScanJobCreator,
-    CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    IamRoleArn: S.String,
-    MalwareScanner: MalwareScanner,
-    RecoveryPointArn: S.String,
-    ResourceArn: S.String,
-    ResourceName: S.String,
-    ResourceType: ScanResourceType,
-    ScanBaseRecoveryPointArn: S.optional(S.String),
-    ScanId: S.optional(S.String),
-    ScanJobId: S.String,
-    ScanMode: ScanMode,
-    ScanResult: S.optional(ScanResultInfo),
-    ScannerRoleArn: S.String,
-    State: S.optional(ScanState),
-    StatusMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "ScanJob" }) as any as S.Schema<ScanJob>;
 export type ScanJobs = ScanJob[];
-export const ScanJobs = /*@__PURE__*/ S.Array(ScanJob);
 export interface ListScanJobsOutput {
   NextToken?: string;
   ScanJobs: ScanJob[];
 }
-export const ListScanJobsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), ScanJobs: ScanJobs }),
-).annotate({
-  identifier: "ListScanJobsOutput",
-}) as any as S.Schema<ListScanJobsOutput>;
 export type ScanJobStatus =
   | "CREATED"
   | "COMPLETED"
@@ -5706,8 +2014,6 @@ export type ScanJobStatus =
   | "AGGREGATE_ALL"
   | "ANY"
   | (string & {});
-export const ScanJobStatus = S.String;
-
 export interface ListScanJobSummariesInput {
   AccountId?: string;
   ResourceType?: string;
@@ -5718,35 +2024,6 @@ export interface ListScanJobSummariesInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListScanJobSummariesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String).pipe(T.HttpQuery("AccountId")),
-    ResourceType: S.optional(S.String).pipe(T.HttpQuery("ResourceType")),
-    MalwareScanner: S.optional(MalwareScanner).pipe(
-      T.HttpQuery("MalwareScanner"),
-    ),
-    ScanResultStatus: S.optional(ScanResultStatus).pipe(
-      T.HttpQuery("ScanResultStatus"),
-    ),
-    State: S.optional(ScanJobStatus).pipe(T.HttpQuery("State")),
-    AggregationPeriod: S.optional(AggregationPeriod).pipe(
-      T.HttpQuery("AggregationPeriod"),
-    ),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/audit/scan-job-summaries" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListScanJobSummariesInput",
-}) as any as S.Schema<ListScanJobSummariesInput>;
 export interface ScanJobSummary {
   Region?: string;
   AccountId?: string;
@@ -5758,84 +2035,25 @@ export interface ScanJobSummary {
   MalwareScanner?: MalwareScanner;
   ScanResultStatus?: ScanResultStatus;
 }
-export const ScanJobSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Region: S.optional(S.String),
-    AccountId: S.optional(S.String),
-    State: S.optional(ScanJobStatus),
-    ResourceType: S.optional(S.String),
-    Count: S.optional(S.Number),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    MalwareScanner: S.optional(MalwareScanner),
-    ScanResultStatus: S.optional(ScanResultStatus),
-  }),
-).annotate({ identifier: "ScanJobSummary" }) as any as S.Schema<ScanJobSummary>;
 export type ScanJobSummaryList = ScanJobSummary[];
-export const ScanJobSummaryList = /*@__PURE__*/ S.Array(ScanJobSummary);
 export interface ListScanJobSummariesOutput {
   ScanJobSummaries?: ScanJobSummary[];
   AggregationPeriod?: string;
   NextToken?: string;
 }
-export const ListScanJobSummariesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScanJobSummaries: S.optional(ScanJobSummaryList),
-    AggregationPeriod: S.optional(S.String),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListScanJobSummariesOutput",
-}) as any as S.Schema<ListScanJobSummariesOutput>;
 export interface ListTagsInput {
   ResourceArn: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListTagsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "ListTagsInput" }) as any as S.Schema<ListTagsInput>;
 export interface ListTagsOutput {
   NextToken?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const ListTagsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), Tags: S.optional(Tags) }),
-).annotate({ identifier: "ListTagsOutput" }) as any as S.Schema<ListTagsOutput>;
 export interface ListTieringConfigurationsInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListTieringConfigurationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tiering-configurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTieringConfigurationsInput",
-}) as any as S.Schema<ListTieringConfigurationsInput>;
 export interface TieringConfigurationsListMember {
   TieringConfigurationArn?: string;
   TieringConfigurationName?: string;
@@ -5843,203 +2061,42 @@ export interface TieringConfigurationsListMember {
   CreationTime?: Date;
   LastUpdatedTime?: Date;
 }
-export const TieringConfigurationsListMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TieringConfigurationArn: S.optional(S.String),
-    TieringConfigurationName: S.optional(S.String),
-    BackupVaultName: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "TieringConfigurationsListMember",
-}) as any as S.Schema<TieringConfigurationsListMember>;
 export type TieringConfigurationsList = TieringConfigurationsListMember[];
-export const TieringConfigurationsList = /*@__PURE__*/ S.Array(
-  TieringConfigurationsListMember,
-);
 export interface ListTieringConfigurationsOutput {
   TieringConfigurations?: TieringConfigurationsListMember[];
   NextToken?: string;
 }
-export const ListTieringConfigurationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TieringConfigurations: S.optional(TieringConfigurationsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListTieringConfigurationsOutput",
-}) as any as S.Schema<ListTieringConfigurationsOutput>;
 export interface PutBackupVaultAccessPolicyInput {
   BackupVaultName: string;
   Policy?: string;
 }
-export const PutBackupVaultAccessPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-    Policy: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/backup-vaults/{BackupVaultName}/access-policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutBackupVaultAccessPolicyInput",
-}) as any as S.Schema<PutBackupVaultAccessPolicyInput>;
 export interface PutBackupVaultAccessPolicyResponse {}
-export const PutBackupVaultAccessPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutBackupVaultAccessPolicyResponse",
-}) as any as S.Schema<PutBackupVaultAccessPolicyResponse>;
 export interface PutBackupVaultLockConfigurationInput {
   BackupVaultName: string;
   MinRetentionDays?: number;
   MaxRetentionDays?: number;
   ChangeableForDays?: number;
 }
-export const PutBackupVaultLockConfigurationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-      MinRetentionDays: S.optional(S.Number),
-      MaxRetentionDays: S.optional(S.Number),
-      ChangeableForDays: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/backup-vaults/{BackupVaultName}/vault-lock",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "PutBackupVaultLockConfigurationInput",
-}) as any as S.Schema<PutBackupVaultLockConfigurationInput>;
 export interface PutBackupVaultLockConfigurationResponse {}
-export const PutBackupVaultLockConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "PutBackupVaultLockConfigurationResponse",
-}) as any as S.Schema<PutBackupVaultLockConfigurationResponse>;
 export interface PutBackupVaultNotificationsInput {
   BackupVaultName: string;
   SNSTopicArn: string;
   BackupVaultEvents: BackupVaultEvent[];
 }
-export const PutBackupVaultNotificationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-    SNSTopicArn: S.String,
-    BackupVaultEvents: BackupVaultEvents,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/backup-vaults/{BackupVaultName}/notification-configuration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutBackupVaultNotificationsInput",
-}) as any as S.Schema<PutBackupVaultNotificationsInput>;
 export interface PutBackupVaultNotificationsResponse {}
-export const PutBackupVaultNotificationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutBackupVaultNotificationsResponse",
-}) as any as S.Schema<PutBackupVaultNotificationsResponse>;
 export interface PutRestoreValidationResultInput {
   RestoreJobId: string;
   ValidationStatus: RestoreValidationStatus;
   ValidationStatusMessage?: string;
 }
-export const PutRestoreValidationResultInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestoreJobId: S.String.pipe(T.HttpLabel("RestoreJobId")),
-    ValidationStatus: RestoreValidationStatus,
-    ValidationStatusMessage: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/restore-jobs/{RestoreJobId}/validations",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutRestoreValidationResultInput",
-}) as any as S.Schema<PutRestoreValidationResultInput>;
 export interface PutRestoreValidationResultResponse {}
-export const PutRestoreValidationResultResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutRestoreValidationResultResponse",
-}) as any as S.Schema<PutRestoreValidationResultResponse>;
 export interface RevokeRestoreAccessBackupVaultInput {
   BackupVaultName: string;
   RestoreAccessBackupVaultArn: string;
   RequesterComment?: string | redacted.Redacted<string>;
 }
-export const RevokeRestoreAccessBackupVaultInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-    RestoreAccessBackupVaultArn: S.String.pipe(
-      T.HttpLabel("RestoreAccessBackupVaultArn"),
-    ),
-    RequesterComment: S.optional(SensitiveString).pipe(
-      T.HttpQuery("requesterComment"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/logically-air-gapped-backup-vaults/{BackupVaultName}/restore-access-backup-vaults/{RestoreAccessBackupVaultArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RevokeRestoreAccessBackupVaultInput",
-}) as any as S.Schema<RevokeRestoreAccessBackupVaultInput>;
 export interface RevokeRestoreAccessBackupVaultResponse {}
-export const RevokeRestoreAccessBackupVaultResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "RevokeRestoreAccessBackupVaultResponse",
-}) as any as S.Schema<RevokeRestoreAccessBackupVaultResponse>;
 export type Index = "ENABLED" | "DISABLED" | (string & {});
-export const Index = S.String;
-
 export interface StartBackupJobInput {
   BackupVaultName: string;
   LogicallyAirGappedBackupVaultArn?: string;
@@ -6053,48 +2110,12 @@ export interface StartBackupJobInput {
   BackupOptions?: { [key: string]: string | undefined };
   Index?: Index;
 }
-export const StartBackupJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String,
-    LogicallyAirGappedBackupVaultArn: S.optional(S.String),
-    ResourceArn: S.String,
-    IamRoleArn: S.String,
-    IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    StartWindowMinutes: S.optional(S.Number),
-    CompleteWindowMinutes: S.optional(S.Number),
-    Lifecycle: S.optional(Lifecycle),
-    RecoveryPointTags: S.optional(Tags),
-    BackupOptions: S.optional(BackupOptions),
-    Index: S.optional(Index),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/backup-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartBackupJobInput",
-}) as any as S.Schema<StartBackupJobInput>;
 export interface StartBackupJobOutput {
   BackupJobId?: string;
   RecoveryPointArn?: string;
   CreationDate?: Date;
   IsParent?: boolean;
 }
-export const StartBackupJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupJobId: S.optional(S.String),
-    RecoveryPointArn: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    IsParent: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "StartBackupJobOutput",
-}) as any as S.Schema<StartBackupJobOutput>;
 export interface StartCopyJobInput {
   RecoveryPointArn: string;
   SourceBackupVaultName: string;
@@ -6103,70 +2124,18 @@ export interface StartCopyJobInput {
   IdempotencyToken?: string;
   Lifecycle?: Lifecycle;
 }
-export const StartCopyJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecoveryPointArn: S.String,
-    SourceBackupVaultName: S.String,
-    DestinationBackupVaultArn: S.String,
-    IamRoleArn: S.String,
-    IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    Lifecycle: S.optional(Lifecycle),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/copy-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartCopyJobInput",
-}) as any as S.Schema<StartCopyJobInput>;
 export interface StartCopyJobOutput {
   CopyJobId?: string;
   CreationDate?: Date;
   IsParent?: boolean;
 }
-export const StartCopyJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CopyJobId: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    IsParent: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "StartCopyJobOutput",
-}) as any as S.Schema<StartCopyJobOutput>;
 export interface StartReportJobInput {
   ReportPlanName: string;
   IdempotencyToken?: string;
 }
-export const StartReportJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportPlanName: S.String.pipe(T.HttpLabel("ReportPlanName")),
-    IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/audit/report-jobs/{ReportPlanName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartReportJobInput",
-}) as any as S.Schema<StartReportJobInput>;
 export interface StartReportJobOutput {
   ReportJobId?: string;
 }
-export const StartReportJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReportJobId: S.optional(S.String) }),
-).annotate({
-  identifier: "StartReportJobOutput",
-}) as any as S.Schema<StartReportJobOutput>;
 export interface StartRestoreJobInput {
   RecoveryPointArn: string;
   Metadata: { [key: string]: string | undefined };
@@ -6175,35 +2144,9 @@ export interface StartRestoreJobInput {
   ResourceType?: string;
   CopySourceTagsToRestoredResource?: boolean;
 }
-export const StartRestoreJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecoveryPointArn: S.String,
-    Metadata: Metadata,
-    IamRoleArn: S.optional(S.String),
-    IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    ResourceType: S.optional(S.String),
-    CopySourceTagsToRestoredResource: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/restore-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartRestoreJobInput",
-}) as any as S.Schema<StartRestoreJobInput>;
 export interface StartRestoreJobOutput {
   RestoreJobId?: string;
 }
-export const StartRestoreJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RestoreJobId: S.optional(S.String) }),
-).annotate({
-  identifier: "StartRestoreJobOutput",
-}) as any as S.Schema<StartRestoreJobOutput>;
 export interface StartScanJobInput {
   BackupVaultName: string;
   ContinuousScanEndTime?: Date;
@@ -6215,144 +2158,29 @@ export interface StartScanJobInput {
   ScanMode: ScanMode;
   ScannerRoleArn: string;
 }
-export const StartScanJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String,
-    ContinuousScanEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    IamRoleArn: S.String,
-    IdempotencyToken: S.optional(S.String),
-    MalwareScanner: MalwareScanner,
-    RecoveryPointArn: S.String,
-    ScanBaseRecoveryPointArn: S.optional(S.String),
-    ScanMode: ScanMode,
-    ScannerRoleArn: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/scan/job" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartScanJobInput",
-}) as any as S.Schema<StartScanJobInput>;
 export interface StartScanJobOutput {
   CreationDate: Date;
   ScanJobId: string;
 }
-export const StartScanJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ScanJobId: S.String,
-  }),
-).annotate({
-  identifier: "StartScanJobOutput",
-}) as any as S.Schema<StartScanJobOutput>;
 export interface StopBackupJobInput {
   BackupJobId: string;
 }
-export const StopBackupJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BackupJobId: S.String.pipe(T.HttpLabel("BackupJobId")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/backup-jobs/{BackupJobId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopBackupJobInput",
-}) as any as S.Schema<StopBackupJobInput>;
 export interface StopBackupJobResponse {}
-export const StopBackupJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "StopBackupJobResponse",
-}) as any as S.Schema<StopBackupJobResponse>;
 export interface TagResourceInput {
   ResourceArn: string;
   Tags: { [key: string]: string | undefined };
 }
-export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: Tags,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceInput {
   ResourceArn: string;
   TagKeyList: string[];
 }
-export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeyList: TagKeyList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/untag/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateBackupPlanInput {
   BackupPlanId: string;
   BackupPlan: BackupPlanInput;
 }
-export const UpdateBackupPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")),
-    BackupPlan: BackupPlanInput,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/backup/plans/{BackupPlanId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateBackupPlanInput",
-}) as any as S.Schema<UpdateBackupPlanInput>;
 export interface UpdateBackupPlanOutput {
   BackupPlanId?: string;
   BackupPlanArn?: string;
@@ -6361,197 +2189,49 @@ export interface UpdateBackupPlanOutput {
   AdvancedBackupSettings?: AdvancedBackupSetting[];
   ScanSettings?: ScanSetting[];
 }
-export const UpdateBackupPlanOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanId: S.optional(S.String),
-    BackupPlanArn: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    VersionId: S.optional(S.String),
-    AdvancedBackupSettings: S.optional(AdvancedBackupSettings),
-    ScanSettings: S.optional(ScanSettings),
-  }),
-).annotate({
-  identifier: "UpdateBackupPlanOutput",
-}) as any as S.Schema<UpdateBackupPlanOutput>;
 export interface UpdateFrameworkInput {
   FrameworkName: string;
   FrameworkDescription?: string;
   FrameworkControls?: FrameworkControl[];
   IdempotencyToken?: string;
 }
-export const UpdateFrameworkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FrameworkName: S.String.pipe(T.HttpLabel("FrameworkName")),
-    FrameworkDescription: S.optional(S.String),
-    FrameworkControls: S.optional(FrameworkControls),
-    IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/audit/frameworks/{FrameworkName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateFrameworkInput",
-}) as any as S.Schema<UpdateFrameworkInput>;
 export interface UpdateFrameworkOutput {
   FrameworkName?: string;
   FrameworkArn?: string;
   CreationTime?: Date;
 }
-export const UpdateFrameworkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FrameworkName: S.optional(S.String),
-    FrameworkArn: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "UpdateFrameworkOutput",
-}) as any as S.Schema<UpdateFrameworkOutput>;
 export interface UpdateGlobalSettingsInput {
   GlobalSettings?: { [key: string]: string | undefined };
 }
-export const UpdateGlobalSettingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GlobalSettings: S.optional(GlobalSettings) }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/global-settings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateGlobalSettingsInput",
-}) as any as S.Schema<UpdateGlobalSettingsInput>;
 export interface UpdateGlobalSettingsResponse {}
-export const UpdateGlobalSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateGlobalSettingsResponse",
-}) as any as S.Schema<UpdateGlobalSettingsResponse>;
 export interface UpdateRecoveryPointIndexSettingsInput {
   BackupVaultName: string;
   RecoveryPointArn: string;
   IamRoleArn?: string;
   Index: Index;
 }
-export const UpdateRecoveryPointIndexSettingsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-      RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
-      IamRoleArn: S.optional(S.String),
-      Index: Index,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/index",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateRecoveryPointIndexSettingsInput",
-}) as any as S.Schema<UpdateRecoveryPointIndexSettingsInput>;
 export interface UpdateRecoveryPointIndexSettingsOutput {
   BackupVaultName?: string;
   RecoveryPointArn?: string;
   IndexStatus?: IndexStatus;
   Index?: Index;
 }
-export const UpdateRecoveryPointIndexSettingsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BackupVaultName: S.optional(S.String),
-      RecoveryPointArn: S.optional(S.String),
-      IndexStatus: S.optional(IndexStatus),
-      Index: S.optional(Index),
-    }),
-).annotate({
-  identifier: "UpdateRecoveryPointIndexSettingsOutput",
-}) as any as S.Schema<UpdateRecoveryPointIndexSettingsOutput>;
 export interface UpdateRecoveryPointLifecycleInput {
   BackupVaultName: string;
   RecoveryPointArn: string;
   Lifecycle?: Lifecycle;
 }
-export const UpdateRecoveryPointLifecycleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-    RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
-    Lifecycle: S.optional(Lifecycle),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRecoveryPointLifecycleInput",
-}) as any as S.Schema<UpdateRecoveryPointLifecycleInput>;
 export interface UpdateRecoveryPointLifecycleOutput {
   BackupVaultArn?: string;
   RecoveryPointArn?: string;
   Lifecycle?: Lifecycle;
   CalculatedLifecycle?: CalculatedLifecycle;
 }
-export const UpdateRecoveryPointLifecycleOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultArn: S.optional(S.String),
-    RecoveryPointArn: S.optional(S.String),
-    Lifecycle: S.optional(Lifecycle),
-    CalculatedLifecycle: S.optional(CalculatedLifecycle),
-  }),
-).annotate({
-  identifier: "UpdateRecoveryPointLifecycleOutput",
-}) as any as S.Schema<UpdateRecoveryPointLifecycleOutput>;
 export interface UpdateRegionSettingsInput {
   ResourceTypeOptInPreference?: { [key: string]: boolean | undefined };
   ResourceTypeManagementPreference?: { [key: string]: boolean | undefined };
 }
-export const UpdateRegionSettingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceTypeOptInPreference: S.optional(ResourceTypeOptInPreference),
-    ResourceTypeManagementPreference: S.optional(
-      ResourceTypeManagementPreference,
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/account-settings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRegionSettingsInput",
-}) as any as S.Schema<UpdateRegionSettingsInput>;
 export interface UpdateRegionSettingsResponse {}
-export const UpdateRegionSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateRegionSettingsResponse",
-}) as any as S.Schema<UpdateRegionSettingsResponse>;
 export interface UpdateReportPlanInput {
   ReportPlanName: string;
   ReportPlanDescription?: string;
@@ -6559,98 +2239,27 @@ export interface UpdateReportPlanInput {
   ReportSetting?: ReportSetting;
   IdempotencyToken?: string;
 }
-export const UpdateReportPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportPlanName: S.String.pipe(T.HttpLabel("ReportPlanName")),
-    ReportPlanDescription: S.optional(S.String),
-    ReportDeliveryChannel: S.optional(ReportDeliveryChannel),
-    ReportSetting: S.optional(ReportSetting),
-    IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/audit/report-plans/{ReportPlanName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateReportPlanInput",
-}) as any as S.Schema<UpdateReportPlanInput>;
 export interface UpdateReportPlanOutput {
   ReportPlanName?: string;
   ReportPlanArn?: string;
   CreationTime?: Date;
 }
-export const UpdateReportPlanOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportPlanName: S.optional(S.String),
-    ReportPlanArn: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "UpdateReportPlanOutput",
-}) as any as S.Schema<UpdateReportPlanOutput>;
 export interface RestoreTestingPlanForUpdate {
   RecoveryPointSelection?: RestoreTestingRecoveryPointSelection;
   ScheduleExpression?: string;
   ScheduleExpressionTimezone?: string;
   StartWindowHours?: number;
 }
-export const RestoreTestingPlanForUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecoveryPointSelection: S.optional(RestoreTestingRecoveryPointSelection),
-    ScheduleExpression: S.optional(S.String),
-    ScheduleExpressionTimezone: S.optional(S.String),
-    StartWindowHours: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "RestoreTestingPlanForUpdate",
-}) as any as S.Schema<RestoreTestingPlanForUpdate>;
 export interface UpdateRestoreTestingPlanInput {
   RestoreTestingPlan: RestoreTestingPlanForUpdate;
   RestoreTestingPlanName: string;
 }
-export const UpdateRestoreTestingPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestoreTestingPlan: RestoreTestingPlanForUpdate,
-    RestoreTestingPlanName: S.String.pipe(
-      T.HttpLabel("RestoreTestingPlanName"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/restore-testing/plans/{RestoreTestingPlanName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRestoreTestingPlanInput",
-}) as any as S.Schema<UpdateRestoreTestingPlanInput>;
 export interface UpdateRestoreTestingPlanOutput {
   CreationTime: Date;
   RestoreTestingPlanArn: string;
   RestoreTestingPlanName: string;
   UpdateTime: Date;
 }
-export const UpdateRestoreTestingPlanOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    RestoreTestingPlanArn: S.String,
-    RestoreTestingPlanName: S.String,
-    UpdateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "UpdateRestoreTestingPlanOutput",
-}) as any as S.Schema<UpdateRestoreTestingPlanOutput>;
 export interface RestoreTestingSelectionForUpdate {
   IamRoleArn?: string;
   ProtectedResourceArns?: string[];
@@ -6658,47 +2267,11 @@ export interface RestoreTestingSelectionForUpdate {
   RestoreMetadataOverrides?: { [key: string]: string | undefined };
   ValidationWindowHours?: number;
 }
-export const RestoreTestingSelectionForUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IamRoleArn: S.optional(S.String),
-    ProtectedResourceArns: S.optional(StringList),
-    ProtectedResourceConditions: S.optional(ProtectedResourceConditions),
-    RestoreMetadataOverrides: S.optional(SensitiveStringMap),
-    ValidationWindowHours: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "RestoreTestingSelectionForUpdate",
-}) as any as S.Schema<RestoreTestingSelectionForUpdate>;
 export interface UpdateRestoreTestingSelectionInput {
   RestoreTestingPlanName: string;
   RestoreTestingSelection: RestoreTestingSelectionForUpdate;
   RestoreTestingSelectionName: string;
 }
-export const UpdateRestoreTestingSelectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestoreTestingPlanName: S.String.pipe(
-      T.HttpLabel("RestoreTestingPlanName"),
-    ),
-    RestoreTestingSelection: RestoreTestingSelectionForUpdate,
-    RestoreTestingSelectionName: S.String.pipe(
-      T.HttpLabel("RestoreTestingSelectionName"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/restore-testing/plans/{RestoreTestingPlanName}/selections/{RestoreTestingSelectionName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRestoreTestingSelectionInput",
-}) as any as S.Schema<UpdateRestoreTestingSelectionInput>;
 export interface UpdateRestoreTestingSelectionOutput {
   CreationTime: Date;
   RestoreTestingPlanArn: string;
@@ -6706,73 +2279,20 @@ export interface UpdateRestoreTestingSelectionOutput {
   RestoreTestingSelectionName: string;
   UpdateTime: Date;
 }
-export const UpdateRestoreTestingSelectionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    RestoreTestingPlanArn: S.String,
-    RestoreTestingPlanName: S.String,
-    RestoreTestingSelectionName: S.String,
-    UpdateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "UpdateRestoreTestingSelectionOutput",
-}) as any as S.Schema<UpdateRestoreTestingSelectionOutput>;
 export interface TieringConfigurationInputForUpdate {
   ResourceSelection: ResourceSelection[];
   BackupVaultName: string;
 }
-export const TieringConfigurationInputForUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceSelection: ResourceSelections,
-    BackupVaultName: S.String,
-  }),
-).annotate({
-  identifier: "TieringConfigurationInputForUpdate",
-}) as any as S.Schema<TieringConfigurationInputForUpdate>;
 export interface UpdateTieringConfigurationInput {
   TieringConfigurationName: string;
   TieringConfiguration: TieringConfigurationInputForUpdate;
 }
-export const UpdateTieringConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TieringConfigurationName: S.String.pipe(
-      T.HttpLabel("TieringConfigurationName"),
-    ),
-    TieringConfiguration: TieringConfigurationInputForUpdate,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/tiering-configurations/{TieringConfigurationName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateTieringConfigurationInput",
-}) as any as S.Schema<UpdateTieringConfigurationInput>;
 export interface UpdateTieringConfigurationOutput {
   TieringConfigurationArn?: string;
   TieringConfigurationName?: string;
   CreationTime?: Date;
   LastUpdatedTime?: Date;
 }
-export const UpdateTieringConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TieringConfigurationArn: S.optional(S.String),
-    TieringConfigurationName: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "UpdateTieringConfigurationOutput",
-}) as any as S.Schema<UpdateTieringConfigurationOutput>;
 export type AssociateBackupVaultMpaApprovalTeamError =
   | InvalidParameterValueException
   | InvalidRequestException
@@ -6789,8 +2309,12 @@ export const associateBackupVaultMpaApprovalTeam: API.OperationMethod<
   AssociateBackupVaultMpaApprovalTeamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateBackupVaultMpaApprovalTeamInput,
-  output: AssociateBackupVaultMpaApprovalTeamResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /backup-vaults/{BackupVaultName}/mpaApprovalTeam",
+    input: { BackupVaultName: 0, MpaApprovalTeamArn: 0, RequesterComment: 0 },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -6801,7 +2325,7 @@ export const associateBackupVaultMpaApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateBackupVaultMpaApprovalTeam",
-}));
+})) as any;
 
 export type CancelLegalHoldError =
   | InvalidParameterValueException
@@ -6820,8 +2344,15 @@ export const cancelLegalHold: API.OperationMethod<
   CancelLegalHoldError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelLegalHoldInput,
-  output: CancelLegalHoldOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /legal-holds/{LegalHoldId}",
+    input: {
+      LegalHoldId: 0,
+      CancelDescription: D.m({ query: "cancelDescription" }),
+      RetainRecordInDays: D.m({ query: "retainRecordInDays" }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     InvalidResourceStateException,
@@ -6832,7 +2363,7 @@ export const cancelLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelLegalHold",
-}));
+})) as any;
 
 export type CreateBackupAccessPointError =
   | AlreadyExistsException
@@ -6858,8 +2389,18 @@ export const createBackupAccessPoint: API.OperationMethod<
   CreateBackupAccessPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBackupAccessPointRequest,
-  output: CreateBackupAccessPointResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /backup-access-point/create",
+    input: {
+      AccessPointMetadata: 0,
+      AccessPointPolicy: 0,
+      Name: 0,
+      RecoveryPointArn: 0,
+      Tags: 0,
+    },
+    body: true,
+  },
   errors: [
     AlreadyExistsException,
     ConflictException,
@@ -6873,7 +2414,7 @@ export const createBackupAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackupAccessPoint",
-}));
+})) as any;
 
 export type CreateBackupPlanError =
   | AlreadyExistsException
@@ -6896,8 +2437,17 @@ export const createBackupPlan: API.OperationMethod<
   CreateBackupPlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBackupPlanInput,
-  output: CreateBackupPlanOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /backup/plans",
+    input: {
+      BackupPlan: i_BackupPlanInput,
+      BackupPlanTags: 0,
+      CreatorRequestId: D.m({ idempotency: true }),
+    },
+    output: { CreationDate: D.ts },
+    body: true,
+  },
   errors: [
     AlreadyExistsException,
     InvalidParameterValueException,
@@ -6908,7 +2458,7 @@ export const createBackupPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackupPlan",
-}));
+})) as any;
 
 export type CreateBackupSelectionError =
   | AlreadyExistsException
@@ -6927,8 +2477,33 @@ export const createBackupSelection: API.OperationMethod<
   CreateBackupSelectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBackupSelectionInput,
-  output: CreateBackupSelectionOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /backup/plans/{BackupPlanId}/selections",
+    input: {
+      BackupPlanId: 0,
+      BackupSelection: {
+        SelectionName: 0,
+        IamRoleArn: 0,
+        Resources: 0,
+        ListOfTags: D.list({
+          ConditionType: 0,
+          ConditionKey: 0,
+          ConditionValue: 0,
+        }),
+        NotResources: 0,
+        Conditions: {
+          StringEquals: D.list(i_ConditionParameter),
+          StringNotEquals: D.list(i_ConditionParameter),
+          StringLike: D.list(i_ConditionParameter),
+          StringNotLike: D.list(i_ConditionParameter),
+        },
+      },
+      CreatorRequestId: D.m({ idempotency: true }),
+    },
+    output: { CreationDate: D.ts },
+    body: true,
+  },
   errors: [
     AlreadyExistsException,
     InvalidParameterValueException,
@@ -6939,7 +2514,7 @@ export const createBackupSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackupSelection",
-}));
+})) as any;
 
 export type CreateBackupVaultError =
   | AlreadyExistsException
@@ -6962,8 +2537,18 @@ export const createBackupVault: API.OperationMethod<
   CreateBackupVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBackupVaultInput,
-  output: CreateBackupVaultOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /backup-vaults/{BackupVaultName}",
+    input: {
+      BackupVaultName: 0,
+      BackupVaultTags: 0,
+      EncryptionKeyArn: 0,
+      CreatorRequestId: D.m({ idempotency: true }),
+    },
+    output: { CreationDate: D.ts },
+    body: true,
+  },
   errors: [
     AlreadyExistsException,
     InvalidParameterValueException,
@@ -6974,7 +2559,7 @@ export const createBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackupVault",
-}));
+})) as any;
 
 export type CreateFrameworkError =
   | AlreadyExistsException
@@ -6995,8 +2580,18 @@ export const createFramework: API.OperationMethod<
   CreateFrameworkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFrameworkInput,
-  output: CreateFrameworkOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /audit/frameworks",
+    input: {
+      FrameworkName: 0,
+      FrameworkDescription: 0,
+      FrameworkControls: D.list(i_FrameworkControl),
+      IdempotencyToken: D.m({ idempotency: true }),
+      FrameworkTags: 0,
+    },
+    body: true,
+  },
   errors: [
     AlreadyExistsException,
     InvalidParameterValueException,
@@ -7007,7 +2602,7 @@ export const createFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFramework",
-}));
+})) as any;
 
 export type CreateLegalHoldError =
   | InvalidParameterValueException
@@ -7027,8 +2622,26 @@ export const createLegalHold: API.OperationMethod<
   CreateLegalHoldError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLegalHoldInput,
-  output: CreateLegalHoldOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /legal-holds",
+    input: {
+      Title: 0,
+      Description: 0,
+      IdempotencyToken: D.m({ idempotency: true }),
+      RecoveryPointSelection: {
+        VaultNames: 0,
+        ResourceIdentifiers: 0,
+        DateRange: { FromDate: 0, ToDate: 0 },
+      },
+      Tags: 0,
+    },
+    output: {
+      CreationDate: D.ts,
+      RecoveryPointSelection: o_RecoveryPointSelection,
+    },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     LimitExceededException,
@@ -7038,7 +2651,7 @@ export const createLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLegalHold",
-}));
+})) as any;
 
 export type CreateLogicallyAirGappedBackupVaultError =
   | AlreadyExistsException
@@ -7064,8 +2677,20 @@ export const createLogicallyAirGappedBackupVault: API.OperationMethod<
   CreateLogicallyAirGappedBackupVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLogicallyAirGappedBackupVaultInput,
-  output: CreateLogicallyAirGappedBackupVaultOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /logically-air-gapped-backup-vaults/{BackupVaultName}",
+    input: {
+      BackupVaultName: 0,
+      BackupVaultTags: 0,
+      CreatorRequestId: D.m({ idempotency: true }),
+      MinRetentionDays: 0,
+      MaxRetentionDays: 0,
+      EncryptionKeyArn: 0,
+    },
+    output: { CreationDate: D.ts },
+    body: true,
+  },
   errors: [
     AlreadyExistsException,
     InvalidParameterValueException,
@@ -7077,7 +2702,7 @@ export const createLogicallyAirGappedBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLogicallyAirGappedBackupVault",
-}));
+})) as any;
 
 export type CreateReportPlanError =
   | AlreadyExistsException
@@ -7099,8 +2724,20 @@ export const createReportPlan: API.OperationMethod<
   CreateReportPlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateReportPlanInput,
-  output: CreateReportPlanOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /audit/report-plans",
+    input: {
+      ReportPlanName: 0,
+      ReportPlanDescription: 0,
+      ReportDeliveryChannel: i_ReportDeliveryChannel,
+      ReportSetting: i_ReportSetting,
+      ReportPlanTags: 0,
+      IdempotencyToken: D.m({ idempotency: true }),
+    },
+    output: { CreationTime: D.ts },
+    body: true,
+  },
   errors: [
     AlreadyExistsException,
     InvalidParameterValueException,
@@ -7111,7 +2748,7 @@ export const createReportPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReportPlan",
-}));
+})) as any;
 
 export type CreateRestoreAccessBackupVaultError =
   | AlreadyExistsException
@@ -7131,8 +2768,19 @@ export const createRestoreAccessBackupVault: API.OperationMethod<
   CreateRestoreAccessBackupVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRestoreAccessBackupVaultInput,
-  output: CreateRestoreAccessBackupVaultOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /restore-access-backup-vaults",
+    input: {
+      SourceBackupVaultArn: 0,
+      BackupVaultName: 0,
+      BackupVaultTags: 0,
+      CreatorRequestId: D.m({ idempotency: true }),
+      RequesterComment: 0,
+    },
+    output: { CreationDate: D.ts },
+    body: true,
+  },
   errors: [
     AlreadyExistsException,
     InvalidParameterValueException,
@@ -7145,7 +2793,7 @@ export const createRestoreAccessBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRestoreAccessBackupVault",
-}));
+})) as any;
 
 export type CreateRestoreTestingPlanError =
   | AlreadyExistsException
@@ -7168,8 +2816,23 @@ export const createRestoreTestingPlan: API.OperationMethod<
   CreateRestoreTestingPlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRestoreTestingPlanInput,
-  output: CreateRestoreTestingPlanOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /restore-testing/plans",
+    input: {
+      CreatorRequestId: 0,
+      RestoreTestingPlan: {
+        RecoveryPointSelection: i_RestoreTestingRecoveryPointSelection,
+        RestoreTestingPlanName: 0,
+        ScheduleExpression: 0,
+        ScheduleExpressionTimezone: 0,
+        StartWindowHours: 0,
+      },
+      Tags: 0,
+    },
+    output: { CreationTime: D.ts },
+    body: true,
+  },
   errors: [
     AlreadyExistsException,
     ConflictException,
@@ -7181,7 +2844,7 @@ export const createRestoreTestingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRestoreTestingPlan",
-}));
+})) as any;
 
 export type CreateRestoreTestingSelectionError =
   | AlreadyExistsException
@@ -7219,8 +2882,25 @@ export const createRestoreTestingSelection: API.OperationMethod<
   CreateRestoreTestingSelectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRestoreTestingSelectionInput,
-  output: CreateRestoreTestingSelectionOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /restore-testing/plans/{RestoreTestingPlanName}/selections",
+    input: {
+      CreatorRequestId: 0,
+      RestoreTestingPlanName: 0,
+      RestoreTestingSelection: {
+        IamRoleArn: 0,
+        ProtectedResourceArns: 0,
+        ProtectedResourceConditions: i_ProtectedResourceConditions,
+        ProtectedResourceType: 0,
+        RestoreMetadataOverrides: 0,
+        RestoreTestingSelectionName: 0,
+        ValidationWindowHours: 0,
+      },
+    },
+    output: { CreationTime: D.ts },
+    body: true,
+  },
   errors: [
     AlreadyExistsException,
     InvalidParameterValueException,
@@ -7232,7 +2912,7 @@ export const createRestoreTestingSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRestoreTestingSelection",
-}));
+})) as any;
 
 export type CreateTieringConfigurationError =
   | AlreadyExistsException
@@ -7255,8 +2935,21 @@ export const createTieringConfiguration: API.OperationMethod<
   CreateTieringConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTieringConfigurationInput,
-  output: CreateTieringConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /tiering-configurations",
+    input: {
+      TieringConfiguration: {
+        TieringConfigurationName: 0,
+        BackupVaultName: 0,
+        ResourceSelection: D.list(i_ResourceSelection),
+      },
+      TieringConfigurationTags: 0,
+      CreatorRequestId: D.m({ idempotency: true }),
+    },
+    output: { CreationTime: D.ts },
+    body: true,
+  },
   errors: [
     AlreadyExistsException,
     ConflictException,
@@ -7268,7 +2961,7 @@ export const createTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTieringConfiguration",
-}));
+})) as any;
 
 export type DeleteBackupAccessPointError =
   | InvalidParameterValueException
@@ -7290,8 +2983,11 @@ export const deleteBackupAccessPoint: API.OperationMethod<
   DeleteBackupAccessPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBackupAccessPointInput,
-  output: DeleteBackupAccessPointResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /backup-access-point/delete/{AccessPointArn}",
+    input: { AccessPointArn: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -7302,7 +2998,7 @@ export const deleteBackupAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupAccessPoint",
-}));
+})) as any;
 
 export type DeleteBackupPlanError =
   | InvalidParameterValueException
@@ -7322,8 +3018,12 @@ export const deleteBackupPlan: API.OperationMethod<
   DeleteBackupPlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBackupPlanInput,
-  output: DeleteBackupPlanOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /backup/plans/{BackupPlanId}",
+    input: { BackupPlanId: 0 },
+    output: { DeletionDate: D.ts },
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -7334,7 +3034,7 @@ export const deleteBackupPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupPlan",
-}));
+})) as any;
 
 export type DeleteBackupSelectionError =
   | InvalidParameterValueException
@@ -7352,8 +3052,11 @@ export const deleteBackupSelection: API.OperationMethod<
   DeleteBackupSelectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBackupSelectionInput,
-  output: DeleteBackupSelectionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /backup/plans/{BackupPlanId}/selections/{SelectionId}",
+    input: { BackupPlanId: 0, SelectionId: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -7363,7 +3066,7 @@ export const deleteBackupSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupSelection",
-}));
+})) as any;
 
 export type DeleteBackupVaultError =
   | InvalidParameterValueException
@@ -7382,8 +3085,11 @@ export const deleteBackupVault: API.OperationMethod<
   DeleteBackupVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBackupVaultInput,
-  output: DeleteBackupVaultResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /backup-vaults/{BackupVaultName}",
+    input: { BackupVaultName: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -7394,7 +3100,7 @@ export const deleteBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupVault",
-}));
+})) as any;
 
 export type DeleteBackupVaultAccessPolicyError =
   | InvalidParameterValueException
@@ -7411,8 +3117,11 @@ export const deleteBackupVaultAccessPolicy: API.OperationMethod<
   DeleteBackupVaultAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBackupVaultAccessPolicyInput,
-  output: DeleteBackupVaultAccessPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /backup-vaults/{BackupVaultName}/access-policy",
+    input: { BackupVaultName: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -7422,7 +3131,7 @@ export const deleteBackupVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupVaultAccessPolicy",
-}));
+})) as any;
 
 export type DeleteBackupVaultLockConfigurationError =
   | InvalidParameterValueException
@@ -7446,8 +3155,11 @@ export const deleteBackupVaultLockConfiguration: API.OperationMethod<
   DeleteBackupVaultLockConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBackupVaultLockConfigurationInput,
-  output: DeleteBackupVaultLockConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /backup-vaults/{BackupVaultName}/vault-lock",
+    input: { BackupVaultName: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -7458,7 +3170,7 @@ export const deleteBackupVaultLockConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupVaultLockConfiguration",
-}));
+})) as any;
 
 export type DeleteBackupVaultNotificationsError =
   | InvalidParameterValueException
@@ -7475,8 +3187,11 @@ export const deleteBackupVaultNotifications: API.OperationMethod<
   DeleteBackupVaultNotificationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBackupVaultNotificationsInput,
-  output: DeleteBackupVaultNotificationsResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /backup-vaults/{BackupVaultName}/notification-configuration",
+    input: { BackupVaultName: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -7486,7 +3201,7 @@ export const deleteBackupVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupVaultNotifications",
-}));
+})) as any;
 
 export type DeleteFrameworkError =
   | ConflictException
@@ -7504,8 +3219,11 @@ export const deleteFramework: API.OperationMethod<
   DeleteFrameworkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFrameworkInput,
-  output: DeleteFrameworkResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /audit/frameworks/{FrameworkName}",
+    input: { FrameworkName: 0 },
+  },
   errors: [
     ConflictException,
     InvalidParameterValueException,
@@ -7516,7 +3234,7 @@ export const deleteFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFramework",
-}));
+})) as any;
 
 export type DeleteRecoveryPointError =
   | InvalidParameterValueException
@@ -7550,8 +3268,11 @@ export const deleteRecoveryPoint: API.OperationMethod<
   DeleteRecoveryPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRecoveryPointInput,
-  output: DeleteRecoveryPointResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}",
+    input: { BackupVaultName: 0, RecoveryPointArn: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -7563,7 +3284,7 @@ export const deleteRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryPoint",
-}));
+})) as any;
 
 export type DeleteReportPlanError =
   | ConflictException
@@ -7581,8 +3302,11 @@ export const deleteReportPlan: API.OperationMethod<
   DeleteReportPlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteReportPlanInput,
-  output: DeleteReportPlanResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /audit/report-plans/{ReportPlanName}",
+    input: { ReportPlanName: 0 },
+  },
   errors: [
     ConflictException,
     InvalidParameterValueException,
@@ -7593,7 +3317,7 @@ export const deleteReportPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReportPlan",
-}));
+})) as any;
 
 export type DeleteRestoreTestingPlanError =
   | InvalidRequestException
@@ -7611,13 +3335,16 @@ export const deleteRestoreTestingPlan: API.OperationMethod<
   DeleteRestoreTestingPlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRestoreTestingPlanInput,
-  output: DeleteRestoreTestingPlanResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /restore-testing/plans/{RestoreTestingPlanName}",
+    input: { RestoreTestingPlanName: 0 },
+  },
   errors: [InvalidRequestException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRestoreTestingPlan",
-}));
+})) as any;
 
 export type DeleteRestoreTestingSelectionError =
   | ResourceNotFoundException
@@ -7636,13 +3363,16 @@ export const deleteRestoreTestingSelection: API.OperationMethod<
   DeleteRestoreTestingSelectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRestoreTestingSelectionInput,
-  output: DeleteRestoreTestingSelectionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /restore-testing/plans/{RestoreTestingPlanName}/selections/{RestoreTestingSelectionName}",
+    input: { RestoreTestingPlanName: 0, RestoreTestingSelectionName: 0 },
+  },
   errors: [ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRestoreTestingSelection",
-}));
+})) as any;
 
 export type DeleteTieringConfigurationError =
   | InvalidParameterValueException
@@ -7659,8 +3389,11 @@ export const deleteTieringConfiguration: API.OperationMethod<
   DeleteTieringConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTieringConfigurationInput,
-  output: DeleteTieringConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tiering-configurations/{TieringConfigurationName}",
+    input: { TieringConfigurationName: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -7670,7 +3403,7 @@ export const deleteTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTieringConfiguration",
-}));
+})) as any;
 
 export type DescribeBackupAccessPointError =
   | InvalidParameterValueException
@@ -7692,8 +3425,12 @@ export const describeBackupAccessPoint: API.OperationMethod<
   DescribeBackupAccessPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeBackupAccessPointInput,
-  output: DescribeBackupAccessPointResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /backup-access-point/{AccessPointArn}",
+    input: { AccessPointArn: 0 },
+    output: { CreationTime: D.ts },
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -7704,7 +3441,7 @@ export const describeBackupAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackupAccessPoint",
-}));
+})) as any;
 
 export type DescribeBackupJobError =
   | DependencyFailureException
@@ -7722,8 +3459,18 @@ export const describeBackupJob: API.OperationMethod<
   DescribeBackupJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeBackupJobInput,
-  output: DescribeBackupJobOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup-jobs/{BackupJobId}",
+    input: { BackupJobId: 0 },
+    output: {
+      CreationDate: D.ts,
+      CompletionDate: D.ts,
+      ExpectedCompletionDate: D.ts,
+      StartBy: D.ts,
+      InitiationDate: D.ts,
+    },
+  },
   errors: [
     DependencyFailureException,
     InvalidParameterValueException,
@@ -7734,7 +3481,7 @@ export const describeBackupJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackupJob",
-}));
+})) as any;
 
 export type DescribeBackupVaultError =
   | InvalidParameterValueException
@@ -7751,8 +3498,19 @@ export const describeBackupVault: API.OperationMethod<
   DescribeBackupVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeBackupVaultInput,
-  output: DescribeBackupVaultOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup-vaults/{BackupVaultName}",
+    input: {
+      BackupVaultName: 0,
+      BackupVaultAccountId: D.m({ query: "backupVaultAccountId" }),
+    },
+    output: {
+      CreationDate: D.ts,
+      LockDate: D.ts,
+      LatestMpaApprovalTeamUpdate: { InitiationDate: D.ts, ExpiryDate: D.ts },
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -7762,7 +3520,7 @@ export const describeBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackupVault",
-}));
+})) as any;
 
 export type DescribeCopyJobError =
   | InvalidParameterValueException
@@ -7779,8 +3537,12 @@ export const describeCopyJob: API.OperationMethod<
   DescribeCopyJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeCopyJobInput,
-  output: DescribeCopyJobOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /copy-jobs/{CopyJobId}",
+    input: { CopyJobId: 0 },
+    output: { CopyJob: o_CopyJob },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -7790,7 +3552,7 @@ export const describeCopyJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCopyJob",
-}));
+})) as any;
 
 export type DescribeFrameworkError =
   | InvalidParameterValueException
@@ -7807,8 +3569,12 @@ export const describeFramework: API.OperationMethod<
   DescribeFrameworkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeFrameworkInput,
-  output: DescribeFrameworkOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /audit/frameworks/{FrameworkName}",
+    input: { FrameworkName: 0 },
+    output: { CreationTime: D.ts },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -7818,7 +3584,7 @@ export const describeFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFramework",
-}));
+})) as any;
 
 export type DescribeGlobalSettingsError =
   | InvalidRequestException
@@ -7833,13 +3599,17 @@ export const describeGlobalSettings: API.OperationMethod<
   DescribeGlobalSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeGlobalSettingsInput,
-  output: DescribeGlobalSettingsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /global-settings",
+    input: {},
+    output: { LastUpdateTime: D.ts },
+  },
   errors: [InvalidRequestException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGlobalSettings",
-}));
+})) as any;
 
 export type DescribeProtectedResourceError =
   | InvalidParameterValueException
@@ -7858,8 +3628,16 @@ export const describeProtectedResource: API.OperationMethod<
   DescribeProtectedResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeProtectedResourceInput,
-  output: DescribeProtectedResourceOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /resources/{ResourceArn}",
+    input: { ResourceArn: 0 },
+    output: {
+      LastBackupTime: D.ts,
+      LatestRestoreJobCreationDate: D.ts,
+      LatestRestoreRecoveryPointCreationDate: D.ts,
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -7869,7 +3647,7 @@ export const describeProtectedResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProtectedResource",
-}));
+})) as any;
 
 export type DescribeRecoveryPointError =
   | InvalidParameterValueException
@@ -7887,8 +3665,23 @@ export const describeRecoveryPoint: API.OperationMethod<
   DescribeRecoveryPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeRecoveryPointInput,
-  output: DescribeRecoveryPointOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}",
+    input: {
+      BackupVaultName: 0,
+      RecoveryPointArn: 0,
+      BackupVaultAccountId: D.m({ query: "backupVaultAccountId" }),
+    },
+    output: {
+      CreationDate: D.ts,
+      InitiationDate: D.ts,
+      CompletionDate: D.ts,
+      CalculatedLifecycle: o_CalculatedLifecycle,
+      LastRestoreTime: D.ts,
+      ScanResults: D.list({ LastScanTimestamp: D.ts }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -7898,7 +3691,7 @@ export const describeRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecoveryPoint",
-}));
+})) as any;
 
 export type DescribeRegionSettingsError =
   | ServiceUnavailableException
@@ -7916,13 +3709,12 @@ export const describeRegionSettings: API.OperationMethod<
   DescribeRegionSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeRegionSettingsInput,
-  output: DescribeRegionSettingsOutput,
+  descriptor: { service: svc, http: "GET /account-settings", input: {} },
   errors: [ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRegionSettings",
-}));
+})) as any;
 
 export type DescribeReportJobError =
   | MissingParameterValueException
@@ -7939,8 +3731,12 @@ export const describeReportJob: API.OperationMethod<
   DescribeReportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeReportJobInput,
-  output: DescribeReportJobOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /audit/report-jobs/{ReportJobId}",
+    input: { ReportJobId: 0 },
+    output: { ReportJob: o_ReportJob },
+  },
   errors: [
     MissingParameterValueException,
     ResourceNotFoundException,
@@ -7949,7 +3745,7 @@ export const describeReportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReportJob",
-}));
+})) as any;
 
 export type DescribeReportPlanError =
   | InvalidParameterValueException
@@ -7966,8 +3762,12 @@ export const describeReportPlan: API.OperationMethod<
   DescribeReportPlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeReportPlanInput,
-  output: DescribeReportPlanOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /audit/report-plans/{ReportPlanName}",
+    input: { ReportPlanName: 0 },
+    output: { ReportPlan: o_ReportPlan },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -7977,7 +3777,7 @@ export const describeReportPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReportPlan",
-}));
+})) as any;
 
 export type DescribeRestoreJobError =
   | DependencyFailureException
@@ -7995,8 +3795,16 @@ export const describeRestoreJob: API.OperationMethod<
   DescribeRestoreJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeRestoreJobInput,
-  output: DescribeRestoreJobOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /restore-jobs/{RestoreJobId}",
+    input: { RestoreJobId: 0 },
+    output: {
+      CreationDate: D.ts,
+      CompletionDate: D.ts,
+      RecoveryPointCreationDate: D.ts,
+    },
+  },
   errors: [
     DependencyFailureException,
     InvalidParameterValueException,
@@ -8007,7 +3815,7 @@ export const describeRestoreJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRestoreJob",
-}));
+})) as any;
 
 export type DescribeScanJobError =
   | InvalidParameterValueException
@@ -8024,8 +3832,17 @@ export const describeScanJob: API.OperationMethod<
   DescribeScanJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeScanJobInput,
-  output: DescribeScanJobOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /scan/jobs/{ScanJobId}",
+    input: { ScanJobId: 0 },
+    output: {
+      CompletionDate: D.ts,
+      ContinuousScanEndTime: D.ts,
+      ContinuousScanStartTime: D.ts,
+      CreationDate: D.ts,
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8035,7 +3852,7 @@ export const describeScanJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScanJob",
-}));
+})) as any;
 
 export type DisassociateBackupVaultMpaApprovalTeamError =
   | InvalidParameterValueException
@@ -8053,8 +3870,12 @@ export const disassociateBackupVaultMpaApprovalTeam: API.OperationMethod<
   DisassociateBackupVaultMpaApprovalTeamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateBackupVaultMpaApprovalTeamInput,
-  output: DisassociateBackupVaultMpaApprovalTeamResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /backup-vaults/{BackupVaultName}/mpaApprovalTeam?delete",
+    input: { BackupVaultName: 0, RequesterComment: 0 },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -8065,7 +3886,7 @@ export const disassociateBackupVaultMpaApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateBackupVaultMpaApprovalTeam",
-}));
+})) as any;
 
 export type DisassociateRecoveryPointError =
   | InvalidParameterValueException
@@ -8088,8 +3909,11 @@ export const disassociateRecoveryPoint: API.OperationMethod<
   DisassociateRecoveryPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateRecoveryPointInput,
-  output: DisassociateRecoveryPointResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/disassociate",
+    input: { BackupVaultName: 0, RecoveryPointArn: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -8101,7 +3925,7 @@ export const disassociateRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRecoveryPoint",
-}));
+})) as any;
 
 export type DisassociateRecoveryPointFromParentError =
   | InvalidParameterValueException
@@ -8120,8 +3944,11 @@ export const disassociateRecoveryPointFromParent: API.OperationMethod<
   DisassociateRecoveryPointFromParentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateRecoveryPointFromParentInput,
-  output: DisassociateRecoveryPointFromParentResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/parentAssociation",
+    input: { BackupVaultName: 0, RecoveryPointArn: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -8132,7 +3959,7 @@ export const disassociateRecoveryPointFromParent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRecoveryPointFromParent",
-}));
+})) as any;
 
 export type ExportBackupPlanTemplateError =
   | InvalidParameterValueException
@@ -8149,8 +3976,11 @@ export const exportBackupPlanTemplate: API.OperationMethod<
   ExportBackupPlanTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExportBackupPlanTemplateInput,
-  output: ExportBackupPlanTemplateOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup/plans/{BackupPlanId}/toTemplate",
+    input: { BackupPlanId: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8160,7 +3990,7 @@ export const exportBackupPlanTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportBackupPlanTemplate",
-}));
+})) as any;
 
 export type GetBackupPlanError =
   | InvalidParameterValueException
@@ -8178,8 +4008,21 @@ export const getBackupPlan: API.OperationMethod<
   GetBackupPlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBackupPlanInput,
-  output: GetBackupPlanOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup/plans/{BackupPlanId}",
+    input: {
+      BackupPlanId: 0,
+      VersionId: D.m({ query: "versionId" }),
+      MaxScheduledRunsPreview: D.m({ query: "MaxScheduledRunsPreview" }),
+    },
+    output: {
+      CreationDate: D.ts,
+      DeletionDate: D.ts,
+      LastExecutionDate: D.ts,
+      ScheduledRunsPreview: D.list({ ExecutionTime: D.ts }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8189,7 +4032,7 @@ export const getBackupPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupPlan",
-}));
+})) as any;
 
 export type GetBackupPlanFromJSONError =
   | InvalidParameterValueException
@@ -8207,8 +4050,12 @@ export const getBackupPlanFromJSON: API.OperationMethod<
   GetBackupPlanFromJSONError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBackupPlanFromJSONInput,
-  output: GetBackupPlanFromJSONOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /backup/template/json/toPlan",
+    input: { BackupPlanTemplateJson: 0 },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -8219,7 +4066,7 @@ export const getBackupPlanFromJSON: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupPlanFromJSON",
-}));
+})) as any;
 
 export type GetBackupPlanFromTemplateError =
   | InvalidParameterValueException
@@ -8236,8 +4083,11 @@ export const getBackupPlanFromTemplate: API.OperationMethod<
   GetBackupPlanFromTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBackupPlanFromTemplateInput,
-  output: GetBackupPlanFromTemplateOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup/template/plans/{BackupPlanTemplateId}/toPlan",
+    input: { BackupPlanTemplateId: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8247,7 +4097,7 @@ export const getBackupPlanFromTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupPlanFromTemplate",
-}));
+})) as any;
 
 export type GetBackupSelectionError =
   | InvalidParameterValueException
@@ -8265,8 +4115,12 @@ export const getBackupSelection: API.OperationMethod<
   GetBackupSelectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBackupSelectionInput,
-  output: GetBackupSelectionOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup/plans/{BackupPlanId}/selections/{SelectionId}",
+    input: { BackupPlanId: 0, SelectionId: 0 },
+    output: { CreationDate: D.ts },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8276,7 +4130,7 @@ export const getBackupSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupSelection",
-}));
+})) as any;
 
 export type GetBackupVaultAccessPolicyError =
   | InvalidParameterValueException
@@ -8294,8 +4148,11 @@ export const getBackupVaultAccessPolicy: API.OperationMethod<
   GetBackupVaultAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBackupVaultAccessPolicyInput,
-  output: GetBackupVaultAccessPolicyOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup-vaults/{BackupVaultName}/access-policy",
+    input: { BackupVaultName: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8305,7 +4162,7 @@ export const getBackupVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupVaultAccessPolicy",
-}));
+})) as any;
 
 export type GetBackupVaultNotificationsError =
   | InvalidParameterValueException
@@ -8322,8 +4179,11 @@ export const getBackupVaultNotifications: API.OperationMethod<
   GetBackupVaultNotificationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBackupVaultNotificationsInput,
-  output: GetBackupVaultNotificationsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup-vaults/{BackupVaultName}/notification-configuration",
+    input: { BackupVaultName: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8333,7 +4193,7 @@ export const getBackupVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupVaultNotifications",
-}));
+})) as any;
 
 export type GetLegalHoldError =
   | InvalidParameterValueException
@@ -8351,8 +4211,17 @@ export const getLegalHold: API.OperationMethod<
   GetLegalHoldError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLegalHoldInput,
-  output: GetLegalHoldOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /legal-holds/{LegalHoldId}",
+    input: { LegalHoldId: 0 },
+    output: {
+      CreationDate: D.ts,
+      CancellationDate: D.ts,
+      RetainRecordUntil: D.ts,
+      RecoveryPointSelection: o_RecoveryPointSelection,
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8362,7 +4231,7 @@ export const getLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLegalHold",
-}));
+})) as any;
 
 export type GetPITRMalwareScanResultsError =
   | InvalidParameterValueException
@@ -8379,8 +4248,20 @@ export const getPITRMalwareScanResults: API.OperationMethod<
   GetPITRMalwareScanResultsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPITRMalwareScanResultsInput,
-  output: GetPITRMalwareScanResultsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /scan/pitr-malware-scan-results",
+    input: {
+      RecoveryPointArn: D.m({ query: "RecoveryPointArn" }),
+      BackupVaultName: D.m({ query: "BackupVaultName" }),
+      ScanEndTime: D.m({
+        query: "ScanEndTime",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      MalwareScanner: D.m({ query: "MalwareScanner" }),
+    },
+    output: { ScanEndTime: D.ts, LastScanJobTime: D.ts },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8390,7 +4271,7 @@ export const getPITRMalwareScanResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPITRMalwareScanResults",
-}));
+})) as any;
 
 export type GetRecoveryPointIndexDetailsError =
   | InvalidParameterValueException
@@ -8408,8 +4289,16 @@ export const getRecoveryPointIndexDetails: API.OperationMethod<
   GetRecoveryPointIndexDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRecoveryPointIndexDetailsInput,
-  output: GetRecoveryPointIndexDetailsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/index",
+    input: { BackupVaultName: 0, RecoveryPointArn: 0 },
+    output: {
+      IndexCreationDate: D.ts,
+      IndexDeletionDate: D.ts,
+      IndexCompletionDate: D.ts,
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8419,7 +4308,7 @@ export const getRecoveryPointIndexDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPointIndexDetails",
-}));
+})) as any;
 
 export type GetRecoveryPointRestoreMetadataError =
   | InvalidParameterValueException
@@ -8436,8 +4325,15 @@ export const getRecoveryPointRestoreMetadata: API.OperationMethod<
   GetRecoveryPointRestoreMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRecoveryPointRestoreMetadataInput,
-  output: GetRecoveryPointRestoreMetadataOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/restore-metadata",
+    input: {
+      BackupVaultName: 0,
+      RecoveryPointArn: 0,
+      BackupVaultAccountId: D.m({ query: "backupVaultAccountId" }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8447,7 +4343,7 @@ export const getRecoveryPointRestoreMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPointRestoreMetadata",
-}));
+})) as any;
 
 export type GetRestoreJobMetadataError =
   | InvalidParameterValueException
@@ -8464,8 +4360,11 @@ export const getRestoreJobMetadata: API.OperationMethod<
   GetRestoreJobMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRestoreJobMetadataInput,
-  output: GetRestoreJobMetadataOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /restore-jobs/{RestoreJobId}/metadata",
+    input: { RestoreJobId: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8475,7 +4374,7 @@ export const getRestoreJobMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestoreJobMetadata",
-}));
+})) as any;
 
 export type GetRestoreTestingInferredMetadataError =
   | InvalidParameterValueException
@@ -8495,8 +4394,15 @@ export const getRestoreTestingInferredMetadata: API.OperationMethod<
   GetRestoreTestingInferredMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRestoreTestingInferredMetadataInput,
-  output: GetRestoreTestingInferredMetadataOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /restore-testing/inferred-metadata",
+    input: {
+      BackupVaultAccountId: D.m({ query: "BackupVaultAccountId" }),
+      BackupVaultName: D.m({ query: "BackupVaultName" }),
+      RecoveryPointArn: D.m({ query: "RecoveryPointArn" }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8506,7 +4412,7 @@ export const getRestoreTestingInferredMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestoreTestingInferredMetadata",
-}));
+})) as any;
 
 export type GetRestoreTestingPlanError =
   | ResourceNotFoundException
@@ -8523,13 +4429,23 @@ export const getRestoreTestingPlan: API.OperationMethod<
   GetRestoreTestingPlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRestoreTestingPlanInput,
-  output: GetRestoreTestingPlanOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /restore-testing/plans/{RestoreTestingPlanName}",
+    input: { RestoreTestingPlanName: 0 },
+    output: {
+      RestoreTestingPlan: {
+        CreationTime: D.ts,
+        LastExecutionTime: D.ts,
+        LastUpdateTime: D.ts,
+      },
+    },
+  },
   errors: [ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestoreTestingPlan",
-}));
+})) as any;
 
 export type GetRestoreTestingSelectionError =
   | ResourceNotFoundException
@@ -8545,13 +4461,17 @@ export const getRestoreTestingSelection: API.OperationMethod<
   GetRestoreTestingSelectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRestoreTestingSelectionInput,
-  output: GetRestoreTestingSelectionOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /restore-testing/plans/{RestoreTestingPlanName}/selections/{RestoreTestingSelectionName}",
+    input: { RestoreTestingPlanName: 0, RestoreTestingSelectionName: 0 },
+    output: { RestoreTestingSelection: { CreationTime: D.ts } },
+  },
   errors: [ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestoreTestingSelection",
-}));
+})) as any;
 
 export type GetSupportedResourceTypesError =
   | ServiceUnavailableException
@@ -8565,13 +4485,12 @@ export const getSupportedResourceTypes: API.OperationMethod<
   GetSupportedResourceTypesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSupportedResourceTypesRequest,
-  output: GetSupportedResourceTypesOutput,
+  descriptor: { service: svc, http: "GET /supported-resource-types" },
   errors: [ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSupportedResourceTypes",
-}));
+})) as any;
 
 export type GetTieringConfigurationError =
   | InvalidParameterValueException
@@ -8590,8 +4509,14 @@ export const getTieringConfiguration: API.OperationMethod<
   GetTieringConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTieringConfigurationInput,
-  output: GetTieringConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /tiering-configurations/{TieringConfigurationName}",
+    input: { TieringConfigurationName: 0 },
+    output: {
+      TieringConfiguration: { CreationTime: D.ts, LastUpdatedTime: D.ts },
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8601,7 +4526,7 @@ export const getTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTieringConfiguration",
-}));
+})) as any;
 
 export type ListBackupAccessPointsError =
   | InvalidParameterValueException
@@ -8617,8 +4542,15 @@ export const listBackupAccessPoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListAccessPointsMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListBackupAccessPointsRequest,
-  output: ListBackupAccessPointsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /backup-access-point",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { BackupAccessPoints: D.list(o_ListAccessPointsMember) },
+  },
   errors: [InvalidParameterValueException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8648,8 +4580,16 @@ export const listBackupAccessPointsByRecoveryPoint: API.PaginatedOperationMethod
   Credentials | HttpClient.HttpClient,
   ListAccessPointsMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListBackupAccessPointsByRecoveryPointRequest,
-  output: ListBackupAccessPointsByRecoveryPointResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /backup-access-point/recovery-point/{RecoveryPointArn}",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+      RecoveryPointArn: 0,
+    },
+    output: { BackupAccessPoints: D.list(o_ListAccessPointsMember) },
+  },
   errors: [InvalidParameterValueException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8677,8 +4617,16 @@ export const listBackupAccessPointsByResource: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListAccessPointsMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListBackupAccessPointsByResourceRequest,
-  output: ListBackupAccessPointsByResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /backup-access-point/resource/{ResourceArn}",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+      ResourceArn: 0,
+    },
+    output: { BackupAccessPoints: D.list(o_ListAccessPointsMember) },
+  },
   errors: [InvalidParameterValueException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8706,8 +4654,46 @@ export const listBackupJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BackupJob
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListBackupJobsInput,
-  output: ListBackupJobsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup-jobs",
+    input: {
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      ByResourceArn: D.m({ query: "resourceArn" }),
+      ByState: D.m({ query: "state" }),
+      ByBackupVaultName: D.m({ query: "backupVaultName" }),
+      ByCreatedBefore: D.m({
+        query: "createdBefore",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByCreatedAfter: D.m({
+        query: "createdAfter",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByResourceType: D.m({ query: "resourceType" }),
+      ByAccountId: D.m({ query: "accountId" }),
+      ByCompleteAfter: D.m({
+        query: "completeAfter",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByCompleteBefore: D.m({
+        query: "completeBefore",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByParentJobId: D.m({ query: "parentJobId" }),
+      ByMessageCategory: D.m({ query: "messageCategory" }),
+    },
+    output: {
+      BackupJobs: D.list({
+        CreationDate: D.ts,
+        CompletionDate: D.ts,
+        ExpectedCompletionDate: D.ts,
+        StartBy: D.ts,
+        InitiationDate: D.ts,
+      }),
+    },
+  },
   errors: [InvalidParameterValueException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8742,8 +4728,20 @@ export const listBackupJobSummaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListBackupJobSummariesInput,
-  output: ListBackupJobSummariesOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /audit/backup-job-summaries",
+    input: {
+      AccountId: D.m({ query: "AccountId" }),
+      State: D.m({ query: "State" }),
+      ResourceType: D.m({ query: "ResourceType" }),
+      MessageCategory: D.m({ query: "MessageCategory" }),
+      AggregationPeriod: D.m({ query: "AggregationPeriod" }),
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { BackupJobSummaries: D.list({ StartTime: D.ts, EndTime: D.ts }) },
+  },
   errors: [InvalidParameterValueException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8771,8 +4769,16 @@ export const listBackupPlans: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BackupPlansListMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListBackupPlansInput,
-  output: ListBackupPlansOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup/plans",
+    input: {
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      IncludeDeleted: D.m({ query: "includeDeleted" }),
+    },
+    output: { BackupPlansList: D.list(o_BackupPlansListMember) },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8806,8 +4812,14 @@ export const listBackupPlanTemplates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BackupPlanTemplatesListMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListBackupPlanTemplatesInput,
-  output: ListBackupPlanTemplatesOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup/template/plans",
+    input: {
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8842,8 +4854,16 @@ export const listBackupPlanVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BackupPlansListMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListBackupPlanVersionsInput,
-  output: ListBackupPlanVersionsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup/plans/{BackupPlanId}/versions",
+    input: {
+      BackupPlanId: 0,
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+    },
+    output: { BackupPlanVersionsList: D.list(o_BackupPlansListMember) },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8878,8 +4898,16 @@ export const listBackupSelections: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BackupSelectionsListMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListBackupSelectionsInput,
-  output: ListBackupSelectionsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup/plans/{BackupPlanId}/selections",
+    input: {
+      BackupPlanId: 0,
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+    },
+    output: { BackupSelectionsList: D.list({ CreationDate: D.ts }) },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8914,8 +4942,17 @@ export const listBackupVaults: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BackupVaultListMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListBackupVaultsInput,
-  output: ListBackupVaultsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup-vaults",
+    input: {
+      ByVaultType: D.m({ query: "vaultType" }),
+      ByShared: D.m({ query: "shared" }),
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+    },
+    output: { BackupVaultList: D.list({ CreationDate: D.ts, LockDate: D.ts }) },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -8947,8 +4984,39 @@ export const listCopyJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CopyJob
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListCopyJobsInput,
-  output: ListCopyJobsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /copy-jobs",
+    input: {
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      ByResourceArn: D.m({ query: "resourceArn" }),
+      ByState: D.m({ query: "state" }),
+      ByCreatedBefore: D.m({
+        query: "createdBefore",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByCreatedAfter: D.m({
+        query: "createdAfter",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByResourceType: D.m({ query: "resourceType" }),
+      ByDestinationVaultArn: D.m({ query: "destinationVaultArn" }),
+      ByAccountId: D.m({ query: "accountId" }),
+      ByCompleteBefore: D.m({
+        query: "completeBefore",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByCompleteAfter: D.m({
+        query: "completeAfter",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByParentJobId: D.m({ query: "parentJobId" }),
+      ByMessageCategory: D.m({ query: "messageCategory" }),
+      BySourceRecoveryPointArn: D.m({ query: "sourceRecoveryPointArn" }),
+    },
+    output: { CopyJobs: D.list(o_CopyJob) },
+  },
   errors: [InvalidParameterValueException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8983,8 +5051,20 @@ export const listCopyJobSummaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListCopyJobSummariesInput,
-  output: ListCopyJobSummariesOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /audit/copy-job-summaries",
+    input: {
+      AccountId: D.m({ query: "AccountId" }),
+      State: D.m({ query: "State" }),
+      ResourceType: D.m({ query: "ResourceType" }),
+      MessageCategory: D.m({ query: "MessageCategory" }),
+      AggregationPeriod: D.m({ query: "AggregationPeriod" }),
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { CopyJobSummaries: D.list({ StartTime: D.ts, EndTime: D.ts }) },
+  },
   errors: [InvalidParameterValueException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9010,8 +5090,15 @@ export const listFrameworks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFrameworksInput,
-  output: ListFrameworksOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /audit/frameworks",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { Frameworks: D.list({ CreationTime: D.ts }) },
+  },
   errors: [InvalidParameterValueException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9043,8 +5130,31 @@ export const listIndexedRecoveryPoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   IndexedRecoveryPoint
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListIndexedRecoveryPointsInput,
-  output: ListIndexedRecoveryPointsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /indexes/recovery-point",
+    input: {
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      SourceResourceArn: D.m({ query: "sourceResourceArn" }),
+      CreatedBefore: D.m({
+        query: "createdBefore",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      CreatedAfter: D.m({
+        query: "createdAfter",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ResourceType: D.m({ query: "resourceType" }),
+      IndexStatus: D.m({ query: "indexStatus" }),
+    },
+    output: {
+      IndexedRecoveryPoints: D.list({
+        BackupCreationDate: D.ts,
+        IndexCreationDate: D.ts,
+      }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -9075,8 +5185,17 @@ export const listLegalHolds: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LegalHold
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListLegalHoldsInput,
-  output: ListLegalHoldsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /legal-holds",
+    input: {
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+    },
+    output: {
+      LegalHolds: D.list({ CreationDate: D.ts, CancellationDate: D.ts }),
+    },
+  },
   errors: [InvalidParameterValueException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9106,8 +5225,15 @@ export const listProtectedResources: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ProtectedResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProtectedResourcesInput,
-  output: ListProtectedResourcesOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /resources",
+    input: {
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+    },
+    output: { Results: D.list(o_ProtectedResource) },
+  },
   errors: [InvalidParameterValueException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9135,8 +5261,17 @@ export const listProtectedResourcesByBackupVault: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ProtectedResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProtectedResourcesByBackupVaultInput,
-  output: ListProtectedResourcesByBackupVaultOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup-vaults/{BackupVaultName}/resources",
+    input: {
+      BackupVaultName: 0,
+      BackupVaultAccountId: D.m({ query: "backupVaultAccountId" }),
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+    },
+    output: { Results: D.list(o_ProtectedResource) },
+  },
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -9169,8 +5304,38 @@ export const listRecoveryPointsByBackupVault: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RecoveryPointByBackupVault
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRecoveryPointsByBackupVaultInput,
-  output: ListRecoveryPointsByBackupVaultOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /backup-vaults/{BackupVaultName}/recovery-points",
+    input: {
+      BackupVaultName: 0,
+      BackupVaultAccountId: D.m({ query: "backupVaultAccountId" }),
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      ByResourceArn: D.m({ query: "resourceArn" }),
+      ByResourceType: D.m({ query: "resourceType" }),
+      ByBackupPlanId: D.m({ query: "backupPlanId" }),
+      ByCreatedBefore: D.m({
+        query: "createdBefore",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByCreatedAfter: D.m({
+        query: "createdAfter",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByParentRecoveryPointArn: D.m({ query: "parentRecoveryPointArn" }),
+    },
+    output: {
+      RecoveryPoints: D.list({
+        CreationDate: D.ts,
+        InitiationDate: D.ts,
+        CompletionDate: D.ts,
+        CalculatedLifecycle: o_CalculatedLifecycle,
+        LastRestoreTime: D.ts,
+        AggregatedScanResult: o_AggregatedScanResult,
+      }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -9204,8 +5369,15 @@ export const listRecoveryPointsByLegalHold: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RecoveryPointMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRecoveryPointsByLegalHoldInput,
-  output: ListRecoveryPointsByLegalHoldOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /legal-holds/{LegalHoldId}/recovery-points",
+    input: {
+      LegalHoldId: 0,
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -9242,8 +5414,22 @@ export const listRecoveryPointsByResource: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RecoveryPointByResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRecoveryPointsByResourceInput,
-  output: ListRecoveryPointsByResourceOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /resources/{ResourceArn}/recovery-points",
+    input: {
+      ResourceArn: 0,
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      ManagedByAWSBackupOnly: D.m({ query: "managedByAWSBackupOnly" }),
+    },
+    output: {
+      RecoveryPoints: D.list({
+        CreationDate: D.ts,
+        AggregatedScanResult: o_AggregatedScanResult,
+      }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -9276,8 +5462,25 @@ export const listReportJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListReportJobsInput,
-  output: ListReportJobsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /audit/report-jobs",
+    input: {
+      ByReportPlanName: D.m({ query: "ReportPlanName" }),
+      ByCreationBefore: D.m({
+        query: "CreationBefore",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByCreationAfter: D.m({
+        query: "CreationAfter",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByStatus: D.m({ query: "Status" }),
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { ReportJobs: D.list(o_ReportJob) },
+  },
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -9308,8 +5511,15 @@ export const listReportPlans: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListReportPlansInput,
-  output: ListReportPlansOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /audit/report-plans",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { ReportPlans: D.list(o_ReportPlan) },
+  },
   errors: [InvalidParameterValueException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9337,8 +5547,22 @@ export const listRestoreAccessBackupVaults: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RestoreAccessBackupVaultListMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRestoreAccessBackupVaultsInput,
-  output: ListRestoreAccessBackupVaultsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /logically-air-gapped-backup-vaults/{BackupVaultName}/restore-access-backup-vaults",
+    input: {
+      BackupVaultName: 0,
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+    },
+    output: {
+      RestoreAccessBackupVaults: D.list({
+        CreationDate: D.ts,
+        ApprovalDate: D.ts,
+        LatestRevokeRequest: { InitiationDate: D.ts, ExpiryDate: D.ts },
+      }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -9373,8 +5597,36 @@ export const listRestoreJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RestoreJobsListMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRestoreJobsInput,
-  output: ListRestoreJobsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /restore-jobs",
+    input: {
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      ByAccountId: D.m({ query: "accountId" }),
+      ByResourceType: D.m({ query: "resourceType" }),
+      ByCreatedBefore: D.m({
+        query: "createdBefore",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByCreatedAfter: D.m({
+        query: "createdAfter",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByStatus: D.m({ query: "status" }),
+      ByCompleteBefore: D.m({
+        query: "completeBefore",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByCompleteAfter: D.m({
+        query: "completeAfter",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByRestoreTestingPlanArn: D.m({ query: "restoreTestingPlanArn" }),
+      ByParentJobId: D.m({ query: "parentJobId" }),
+    },
+    output: { RestoreJobs: D.list(o_RestoreJobsListMember) },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -9413,8 +5665,25 @@ export const listRestoreJobsByProtectedResource: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RestoreJobsListMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRestoreJobsByProtectedResourceInput,
-  output: ListRestoreJobsByProtectedResourceOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /resources/{ResourceArn}/restore-jobs",
+    input: {
+      ResourceArn: 0,
+      ByStatus: D.m({ query: "status" }),
+      ByRecoveryPointCreationDateAfter: D.m({
+        query: "recoveryPointCreationDateAfter",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByRecoveryPointCreationDateBefore: D.m({
+        query: "recoveryPointCreationDateBefore",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+    },
+    output: { RestoreJobs: D.list(o_RestoreJobsListMember) },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -9454,8 +5723,19 @@ export const listRestoreJobSummaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRestoreJobSummariesInput,
-  output: ListRestoreJobSummariesOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /audit/restore-job-summaries",
+    input: {
+      AccountId: D.m({ query: "AccountId" }),
+      State: D.m({ query: "State" }),
+      ResourceType: D.m({ query: "ResourceType" }),
+      AggregationPeriod: D.m({ query: "AggregationPeriod" }),
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { RestoreJobSummaries: D.list({ StartTime: D.ts, EndTime: D.ts }) },
+  },
   errors: [InvalidParameterValueException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9481,8 +5761,21 @@ export const listRestoreTestingPlans: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RestoreTestingPlanForList
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRestoreTestingPlansInput,
-  output: ListRestoreTestingPlansOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /restore-testing/plans",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: {
+      RestoreTestingPlans: D.list({
+        CreationTime: D.ts,
+        LastExecutionTime: D.ts,
+        LastUpdateTime: D.ts,
+      }),
+    },
+  },
   errors: [InvalidParameterValueException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9511,8 +5804,16 @@ export const listRestoreTestingSelections: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RestoreTestingSelectionForList
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRestoreTestingSelectionsInput,
-  output: ListRestoreTestingSelectionsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /restore-testing/plans/{RestoreTestingPlanName}/selections",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+      RestoreTestingPlanName: 0,
+    },
+    output: { RestoreTestingSelections: D.list({ CreationTime: D.ts }) },
+  },
   errors: [
     InvalidParameterValueException,
     ResourceNotFoundException,
@@ -9543,8 +5844,38 @@ export const listScanJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ScanJob
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListScanJobsInput,
-  output: ListScanJobsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /scan/jobs",
+    input: {
+      ByAccountId: D.m({ query: "ByAccountId" }),
+      ByBackupVaultName: D.m({ query: "ByBackupVaultName" }),
+      ByCompleteAfter: D.m({
+        query: "ByCompleteAfter",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByCompleteBefore: D.m({
+        query: "ByCompleteBefore",
+        shape: D.tsAs("epoch-seconds"),
+      }),
+      ByMalwareScanner: D.m({ query: "ByMalwareScanner" }),
+      ByRecoveryPointArn: D.m({ query: "ByRecoveryPointArn" }),
+      ByResourceArn: D.m({ query: "ByResourceArn" }),
+      ByResourceType: D.m({ query: "ByResourceType" }),
+      ByScanResultStatus: D.m({ query: "ByScanResultStatus" }),
+      ByState: D.m({ query: "ByState" }),
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: {
+      ScanJobs: D.list({
+        CompletionDate: D.ts,
+        ContinuousScanEndTime: D.ts,
+        ContinuousScanStartTime: D.ts,
+        CreationDate: D.ts,
+      }),
+    },
+  },
   errors: [InvalidParameterValueException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9571,8 +5902,21 @@ export const listScanJobSummaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ScanJobSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListScanJobSummariesInput,
-  output: ListScanJobSummariesOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /audit/scan-job-summaries",
+    input: {
+      AccountId: D.m({ query: "AccountId" }),
+      ResourceType: D.m({ query: "ResourceType" }),
+      MalwareScanner: D.m({ query: "MalwareScanner" }),
+      ScanResultStatus: D.m({ query: "ScanResultStatus" }),
+      State: D.m({ query: "State" }),
+      AggregationPeriod: D.m({ query: "AggregationPeriod" }),
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { ScanJobSummaries: D.list({ StartTime: D.ts, EndTime: D.ts }) },
+  },
   errors: [InvalidParameterValueException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9615,8 +5959,15 @@ export const listTags: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTagsInput,
-  output: ListTagsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{ResourceArn}",
+    input: {
+      ResourceArn: 0,
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -9647,8 +5998,20 @@ export const listTieringConfigurations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TieringConfigurationsListMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTieringConfigurationsInput,
-  output: ListTieringConfigurationsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /tiering-configurations",
+    input: {
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      TieringConfigurations: D.list({
+        CreationTime: D.ts,
+        LastUpdatedTime: D.ts,
+      }),
+    },
+  },
   errors: [InvalidParameterValueException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9678,8 +6041,12 @@ export const putBackupVaultAccessPolicy: API.OperationMethod<
   PutBackupVaultAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBackupVaultAccessPolicyInput,
-  output: PutBackupVaultAccessPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /backup-vaults/{BackupVaultName}/access-policy",
+    input: { BackupVaultName: 0, Policy: 0 },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -9689,7 +6056,7 @@ export const putBackupVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBackupVaultAccessPolicy",
-}));
+})) as any;
 
 export type PutBackupVaultLockConfigurationError =
   | InvalidParameterValueException
@@ -9719,8 +6086,17 @@ export const putBackupVaultLockConfiguration: API.OperationMethod<
   PutBackupVaultLockConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBackupVaultLockConfigurationInput,
-  output: PutBackupVaultLockConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /backup-vaults/{BackupVaultName}/vault-lock",
+    input: {
+      BackupVaultName: 0,
+      MinRetentionDays: 0,
+      MaxRetentionDays: 0,
+      ChangeableForDays: 0,
+    },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -9731,7 +6107,7 @@ export const putBackupVaultLockConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBackupVaultLockConfiguration",
-}));
+})) as any;
 
 export type PutBackupVaultNotificationsError =
   | InvalidParameterValueException
@@ -9748,8 +6124,12 @@ export const putBackupVaultNotifications: API.OperationMethod<
   PutBackupVaultNotificationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBackupVaultNotificationsInput,
-  output: PutBackupVaultNotificationsResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /backup-vaults/{BackupVaultName}/notification-configuration",
+    input: { BackupVaultName: 0, SNSTopicArn: 0, BackupVaultEvents: 0 },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -9759,7 +6139,7 @@ export const putBackupVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBackupVaultNotifications",
-}));
+})) as any;
 
 export type PutRestoreValidationResultError =
   | InvalidParameterValueException
@@ -9781,8 +6161,12 @@ export const putRestoreValidationResult: API.OperationMethod<
   PutRestoreValidationResultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutRestoreValidationResultInput,
-  output: PutRestoreValidationResultResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /restore-jobs/{RestoreJobId}/validations",
+    input: { RestoreJobId: 0, ValidationStatus: 0, ValidationStatusMessage: 0 },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -9793,7 +6177,7 @@ export const putRestoreValidationResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRestoreValidationResult",
-}));
+})) as any;
 
 export type RevokeRestoreAccessBackupVaultError =
   | InvalidParameterValueException
@@ -9811,8 +6195,15 @@ export const revokeRestoreAccessBackupVault: API.OperationMethod<
   RevokeRestoreAccessBackupVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RevokeRestoreAccessBackupVaultInput,
-  output: RevokeRestoreAccessBackupVaultResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /logically-air-gapped-backup-vaults/{BackupVaultName}/restore-access-backup-vaults/{RestoreAccessBackupVaultArn}",
+    input: {
+      BackupVaultName: 0,
+      RestoreAccessBackupVaultArn: 0,
+      RequesterComment: D.m({ query: "requesterComment" }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -9823,7 +6214,7 @@ export const revokeRestoreAccessBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeRestoreAccessBackupVault",
-}));
+})) as any;
 
 export type StartBackupJobError =
   | InvalidParameterValueException
@@ -9842,8 +6233,25 @@ export const startBackupJob: API.OperationMethod<
   StartBackupJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartBackupJobInput,
-  output: StartBackupJobOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /backup-jobs",
+    input: {
+      BackupVaultName: 0,
+      LogicallyAirGappedBackupVaultArn: 0,
+      ResourceArn: 0,
+      IamRoleArn: 0,
+      IdempotencyToken: D.m({ idempotency: true }),
+      StartWindowMinutes: 0,
+      CompleteWindowMinutes: 0,
+      Lifecycle: i_Lifecycle,
+      RecoveryPointTags: 0,
+      BackupOptions: 0,
+      Index: 0,
+    },
+    output: { CreationDate: D.ts },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -9855,7 +6263,7 @@ export const startBackupJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBackupJob",
-}));
+})) as any;
 
 export type StartCopyJobError =
   | InvalidParameterValueException
@@ -9880,8 +6288,20 @@ export const startCopyJob: API.OperationMethod<
   StartCopyJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartCopyJobInput,
-  output: StartCopyJobOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /copy-jobs",
+    input: {
+      RecoveryPointArn: 0,
+      SourceBackupVaultName: 0,
+      DestinationBackupVaultArn: 0,
+      IamRoleArn: 0,
+      IdempotencyToken: D.m({ idempotency: true }),
+      Lifecycle: i_Lifecycle,
+    },
+    output: { CreationDate: D.ts },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -9893,7 +6313,7 @@ export const startCopyJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCopyJob",
-}));
+})) as any;
 
 export type StartReportJobError =
   | InvalidParameterValueException
@@ -9910,8 +6330,12 @@ export const startReportJob: API.OperationMethod<
   StartReportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartReportJobInput,
-  output: StartReportJobOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /audit/report-jobs/{ReportPlanName}",
+    input: { ReportPlanName: 0, IdempotencyToken: D.m({ idempotency: true }) },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -9921,7 +6345,7 @@ export const startReportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReportJob",
-}));
+})) as any;
 
 export type StartRestoreJobError =
   | InvalidParameterValueException
@@ -9939,8 +6363,19 @@ export const startRestoreJob: API.OperationMethod<
   StartRestoreJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartRestoreJobInput,
-  output: StartRestoreJobOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /restore-jobs",
+    input: {
+      RecoveryPointArn: 0,
+      Metadata: 0,
+      IamRoleArn: 0,
+      IdempotencyToken: D.m({ idempotency: true }),
+      ResourceType: 0,
+      CopySourceTagsToRestoredResource: 0,
+    },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -9951,7 +6386,7 @@ export const startRestoreJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRestoreJob",
-}));
+})) as any;
 
 export type StartScanJobError =
   | InvalidParameterValueException
@@ -9970,8 +6405,23 @@ export const startScanJob: API.OperationMethod<
   StartScanJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartScanJobInput,
-  output: StartScanJobOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /scan/job",
+    input: {
+      BackupVaultName: 0,
+      ContinuousScanEndTime: 0,
+      IamRoleArn: 0,
+      IdempotencyToken: 0,
+      MalwareScanner: 0,
+      RecoveryPointArn: 0,
+      ScanBaseRecoveryPointArn: 0,
+      ScanMode: 0,
+      ScannerRoleArn: 0,
+    },
+    output: { CreationDate: D.ts },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -9983,7 +6433,7 @@ export const startScanJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartScanJob",
-}));
+})) as any;
 
 export type StopBackupJobError =
   | InvalidParameterValueException
@@ -10021,8 +6471,11 @@ export const stopBackupJob: API.OperationMethod<
   StopBackupJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopBackupJobInput,
-  output: StopBackupJobResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /backup-jobs/{BackupJobId}",
+    input: { BackupJobId: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -10033,7 +6486,7 @@ export const stopBackupJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBackupJob",
-}));
+})) as any;
 
 export type TagResourceError =
   | InvalidParameterValueException
@@ -10051,8 +6504,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{ResourceArn}",
+    input: { ResourceArn: 0, Tags: 0 },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     LimitExceededException,
@@ -10063,7 +6520,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | InvalidParameterValueException
@@ -10085,8 +6542,12 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /untag/{ResourceArn}",
+    input: { ResourceArn: 0, TagKeyList: 0 },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -10096,7 +6557,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateBackupPlanError =
   | InvalidParameterValueException
@@ -10113,8 +6574,13 @@ export const updateBackupPlan: API.OperationMethod<
   UpdateBackupPlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateBackupPlanInput,
-  output: UpdateBackupPlanOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /backup/plans/{BackupPlanId}",
+    input: { BackupPlanId: 0, BackupPlan: i_BackupPlanInput },
+    output: { CreationDate: D.ts },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -10124,7 +6590,7 @@ export const updateBackupPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackupPlan",
-}));
+})) as any;
 
 export type UpdateFrameworkError =
   | AlreadyExistsException
@@ -10144,8 +6610,18 @@ export const updateFramework: API.OperationMethod<
   UpdateFrameworkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFrameworkInput,
-  output: UpdateFrameworkOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /audit/frameworks/{FrameworkName}",
+    input: {
+      FrameworkName: 0,
+      FrameworkDescription: 0,
+      FrameworkControls: D.list(i_FrameworkControl),
+      IdempotencyToken: D.m({ idempotency: true }),
+    },
+    output: { CreationTime: D.ts },
+    body: true,
+  },
   errors: [
     AlreadyExistsException,
     ConflictException,
@@ -10158,7 +6634,7 @@ export const updateFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFramework",
-}));
+})) as any;
 
 export type UpdateGlobalSettingsError =
   | InvalidParameterValueException
@@ -10175,8 +6651,12 @@ export const updateGlobalSettings: API.OperationMethod<
   UpdateGlobalSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateGlobalSettingsInput,
-  output: UpdateGlobalSettingsResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /global-settings",
+    input: { GlobalSettings: 0 },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -10186,7 +6666,7 @@ export const updateGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalSettings",
-}));
+})) as any;
 
 export type UpdateRecoveryPointIndexSettingsError =
   | InvalidParameterValueException
@@ -10206,8 +6686,12 @@ export const updateRecoveryPointIndexSettings: API.OperationMethod<
   UpdateRecoveryPointIndexSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRecoveryPointIndexSettingsInput,
-  output: UpdateRecoveryPointIndexSettingsOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/index",
+    input: { BackupVaultName: 0, RecoveryPointArn: 0, IamRoleArn: 0, Index: 0 },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -10218,7 +6702,7 @@ export const updateRecoveryPointIndexSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPointIndexSettings",
-}));
+})) as any;
 
 export type UpdateRecoveryPointLifecycleError =
   | InvalidParameterValueException
@@ -10254,8 +6738,13 @@ export const updateRecoveryPointLifecycle: API.OperationMethod<
   UpdateRecoveryPointLifecycleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRecoveryPointLifecycleInput,
-  output: UpdateRecoveryPointLifecycleOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}",
+    input: { BackupVaultName: 0, RecoveryPointArn: 0, Lifecycle: i_Lifecycle },
+    output: { CalculatedLifecycle: o_CalculatedLifecycle },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     InvalidRequestException,
@@ -10266,7 +6755,7 @@ export const updateRecoveryPointLifecycle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPointLifecycle",
-}));
+})) as any;
 
 export type UpdateRegionSettingsError =
   | InvalidParameterValueException
@@ -10286,8 +6775,15 @@ export const updateRegionSettings: API.OperationMethod<
   UpdateRegionSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRegionSettingsInput,
-  output: UpdateRegionSettingsResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /account-settings",
+    input: {
+      ResourceTypeOptInPreference: 0,
+      ResourceTypeManagementPreference: 0,
+    },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -10296,7 +6792,7 @@ export const updateRegionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegionSettings",
-}));
+})) as any;
 
 export type UpdateReportPlanError =
   | ConflictException
@@ -10314,8 +6810,19 @@ export const updateReportPlan: API.OperationMethod<
   UpdateReportPlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateReportPlanInput,
-  output: UpdateReportPlanOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /audit/report-plans/{ReportPlanName}",
+    input: {
+      ReportPlanName: 0,
+      ReportPlanDescription: 0,
+      ReportDeliveryChannel: i_ReportDeliveryChannel,
+      ReportSetting: i_ReportSetting,
+      IdempotencyToken: D.m({ idempotency: true }),
+    },
+    output: { CreationTime: D.ts },
+    body: true,
+  },
   errors: [
     ConflictException,
     InvalidParameterValueException,
@@ -10326,7 +6833,7 @@ export const updateReportPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReportPlan",
-}));
+})) as any;
 
 export type UpdateRestoreTestingPlanError =
   | ConflictException
@@ -10358,8 +6865,21 @@ export const updateRestoreTestingPlan: API.OperationMethod<
   UpdateRestoreTestingPlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRestoreTestingPlanInput,
-  output: UpdateRestoreTestingPlanOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /restore-testing/plans/{RestoreTestingPlanName}",
+    input: {
+      RestoreTestingPlan: {
+        RecoveryPointSelection: i_RestoreTestingRecoveryPointSelection,
+        ScheduleExpression: 0,
+        ScheduleExpressionTimezone: 0,
+        StartWindowHours: 0,
+      },
+      RestoreTestingPlanName: 0,
+    },
+    output: { CreationTime: D.ts, UpdateTime: D.ts },
+    body: true,
+  },
   errors: [
     ConflictException,
     InvalidParameterValueException,
@@ -10370,7 +6890,7 @@ export const updateRestoreTestingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRestoreTestingPlan",
-}));
+})) as any;
 
 export type UpdateRestoreTestingSelectionError =
   | ConflictException
@@ -10393,8 +6913,23 @@ export const updateRestoreTestingSelection: API.OperationMethod<
   UpdateRestoreTestingSelectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRestoreTestingSelectionInput,
-  output: UpdateRestoreTestingSelectionOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /restore-testing/plans/{RestoreTestingPlanName}/selections/{RestoreTestingSelectionName}",
+    input: {
+      RestoreTestingPlanName: 0,
+      RestoreTestingSelection: {
+        IamRoleArn: 0,
+        ProtectedResourceArns: 0,
+        ProtectedResourceConditions: i_ProtectedResourceConditions,
+        RestoreMetadataOverrides: 0,
+        ValidationWindowHours: 0,
+      },
+      RestoreTestingSelectionName: 0,
+    },
+    output: { CreationTime: D.ts, UpdateTime: D.ts },
+    body: true,
+  },
   errors: [
     ConflictException,
     InvalidParameterValueException,
@@ -10405,7 +6940,7 @@ export const updateRestoreTestingSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRestoreTestingSelection",
-}));
+})) as any;
 
 export type UpdateTieringConfigurationError =
   | AlreadyExistsException
@@ -10435,8 +6970,19 @@ export const updateTieringConfiguration: API.OperationMethod<
   UpdateTieringConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateTieringConfigurationInput,
-  output: UpdateTieringConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /tiering-configurations/{TieringConfigurationName}",
+    input: {
+      TieringConfigurationName: 0,
+      TieringConfiguration: {
+        ResourceSelection: D.list(i_ResourceSelection),
+        BackupVaultName: 0,
+      },
+    },
+    output: { CreationTime: D.ts, LastUpdatedTime: D.ts },
+    body: true,
+  },
   errors: [
     AlreadyExistsException,
     ConflictException,
@@ -10449,4 +6995,114 @@ export const updateTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTieringConfiguration",
-}));
+})) as any;
+
+const i_BackupPlanInput: D.LazyStruct = () => ({
+  BackupPlanName: 0,
+  Rules: D.list({
+    RuleName: 0,
+    TargetBackupVaultName: 0,
+    TargetLogicallyAirGappedBackupVaultArn: 0,
+    ScheduleExpression: 0,
+    StartWindowMinutes: 0,
+    CompletionWindowMinutes: 0,
+    Lifecycle: i_Lifecycle,
+    RecoveryPointTags: 0,
+    CopyActions: D.list({
+      Lifecycle: i_Lifecycle,
+      DestinationBackupVaultArn: 0,
+    }),
+    EnableContinuousBackup: 0,
+    ScheduleExpressionTimezone: 0,
+    IndexActions: D.list({ ResourceTypes: 0 }),
+    ScanActions: D.list({ MalwareScanner: 0, ScanMode: 0 }),
+  }),
+  AdvancedBackupSettings: D.list({ ResourceType: 0, BackupOptions: 0 }),
+  ScanSettings: D.list({
+    MalwareScanner: 0,
+    ResourceTypes: 0,
+    ScannerRoleArn: 0,
+  }),
+});
+const i_ConditionParameter: D.LazyStruct = () => ({
+  ConditionKey: 0,
+  ConditionValue: 0,
+});
+const i_FrameworkControl: D.LazyStruct = () => ({
+  ControlName: 0,
+  ControlInputParameters: D.list({ ParameterName: 0, ParameterValue: 0 }),
+  ControlScope: {
+    ComplianceResourceIds: 0,
+    ComplianceResourceTypes: 0,
+    Tags: 0,
+  },
+});
+const i_Lifecycle: D.LazyStruct = () => ({
+  MoveToColdStorageAfterDays: 0,
+  DeleteAfterDays: 0,
+  OptInToArchiveForSupportedResources: 0,
+  DeleteAfterEvent: 0,
+});
+const i_ProtectedResourceConditions: D.LazyStruct = () => ({
+  StringEquals: D.list(i_KeyValue),
+  StringNotEquals: D.list(i_KeyValue),
+});
+const i_ReportDeliveryChannel: D.LazyStruct = () => ({
+  S3BucketName: 0,
+  S3KeyPrefix: 0,
+  Formats: 0,
+});
+const i_ReportSetting: D.LazyStruct = () => ({
+  ReportTemplate: 0,
+  FrameworkArns: 0,
+  NumberOfFrameworks: 0,
+  Accounts: 0,
+  OrganizationUnits: 0,
+  Regions: 0,
+});
+const i_ResourceSelection: D.LazyStruct = () => ({
+  Resources: 0,
+  TieringDownSettingsInDays: 0,
+  ResourceType: 0,
+});
+const i_RestoreTestingRecoveryPointSelection: D.LazyStruct = () => ({
+  Algorithm: 0,
+  ExcludeVaults: 0,
+  IncludeVaults: 0,
+  RecoveryPointTypes: 0,
+  SelectionWindowDays: 0,
+});
+const o_AggregatedScanResult: D.LazyStruct = () => ({ LastComputed: D.ts });
+const o_BackupPlansListMember: D.LazyStruct = () => ({
+  CreationDate: D.ts,
+  DeletionDate: D.ts,
+  LastExecutionDate: D.ts,
+});
+const o_CalculatedLifecycle: D.LazyStruct = () => ({
+  MoveToColdStorageAt: D.ts,
+  DeleteAt: D.ts,
+});
+const o_CopyJob: D.LazyStruct = () => ({
+  CreationDate: D.ts,
+  CompletionDate: D.ts,
+});
+const o_ListAccessPointsMember: D.LazyStruct = () => ({ CreationTime: D.ts });
+const o_ProtectedResource: D.LazyStruct = () => ({ LastBackupTime: D.ts });
+const o_RecoveryPointSelection: D.LazyStruct = () => ({
+  DateRange: { FromDate: D.ts, ToDate: D.ts },
+});
+const o_ReportJob: D.LazyStruct = () => ({
+  CreationTime: D.ts,
+  CompletionTime: D.ts,
+});
+const o_ReportPlan: D.LazyStruct = () => ({
+  CreationTime: D.ts,
+  LastAttemptedExecutionTime: D.ts,
+  LastSuccessfulExecutionTime: D.ts,
+});
+const o_RestoreJobsListMember: D.LazyStruct = () => ({
+  CreationDate: D.ts,
+  CompletionDate: D.ts,
+  RecoveryPointCreationDate: D.ts,
+});
+const i_KeyValue: D.LazyStruct = () => ({ Key: 0, Value: 0 });

@@ -47,20 +47,5 @@ export * as Region from "./region.ts";
  */
 export * as Retry from "./retry.ts";
 
-/**
- * Sensitive data schemas for the smithy.api#sensitive trait.
- * Wraps values in Effect's Redacted type to prevent accidental logging.
- *
- * @since 0.0.0
- */
-export * as Sensitive from "./sensitive.ts";
-
-/**
- * Smithy trait annotations for AWS service schemas.
- *
- * @since 0.0.0
- */
-export * as Traits from "./traits.ts";
-
 /** SigV4 signing options, results, and errors. */
 export * as SigV4 from "./sigv4.ts";

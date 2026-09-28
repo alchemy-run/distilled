@@ -1,168 +1,141 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({ sdkId: "OAM", serviceShapeName: "oamservice" });
-const auth = T.AwsAuthSigv4({ name: "oam" });
-const ver = T.ServiceVersion("2022-06-10");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://oam-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://oam-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://oam.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://oam.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+const svc: T.ServiceInfo = {
+  sdkId: "OAM",
+  target: "oamservice",
+  version: "2022-06-10",
+  sigv4: "oam",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://oam-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://oam-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://oam.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://oam.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      amznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
-    },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+    headers: { amznErrorType: "x-amzn-ErrorType" },
+  })<{ readonly message?: string; readonly amznErrorType?: string }> {}
 export class InternalServiceFault
-  extends /*@__PURE__*/ S.TaggedError<InternalServiceFault>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServiceFault",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      amznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
-    },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500, headers: { amznErrorType: "x-amzn-ErrorType" } },
+  )<{ readonly message?: string; readonly amznErrorType?: string }> {}
 export class InvalidParameterException
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidParameterException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      amznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400, headers: { amznErrorType: "x-amzn-ErrorType" } },
+  )<{ readonly message?: string; readonly amznErrorType?: string }> {}
 export class MissingRequiredParameterException
-  extends /*@__PURE__*/ S.TaggedError<MissingRequiredParameterException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MissingRequiredParameterException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      amznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400, headers: { amznErrorType: "x-amzn-ErrorType" } },
+  )<{ readonly message?: string; readonly amznErrorType?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      amznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404, headers: { amznErrorType: "x-amzn-ErrorType" } },
+  )<{ readonly message?: string; readonly amznErrorType?: string }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      amznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
-    },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429, headers: { amznErrorType: "x-amzn-ErrorType" } },
+  )<{ readonly message?: string; readonly amznErrorType?: string }> {}
 export class TooManyRequestsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
-    "TooManyRequestsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+  extends /*@__PURE__*/ TE.TaggedError("TooManyRequestsException", [
+    "ThrottlingError",
+    "RetryableError",
+  ])<{ readonly message?: string }> {}
 export class TooManyTagsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyTagsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export type LabelTemplate = string;
 export type ResourceType =
   | "AWS::CloudWatch::Metric"
@@ -173,48 +146,23 @@ export type ResourceType =
   | "AWS::ApplicationSignals::Service"
   | "AWS::ApplicationSignals::ServiceLevelObjective"
   | (string & {});
-export const ResourceType = S.String;
-
 export type ResourceTypesInput = ResourceType[];
-export const ResourceTypesInput = /*@__PURE__*/ S.Array(ResourceType);
 export type ResourceIdentifier = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMapInput = { [key: string]: string | undefined };
-export const TagMapInput = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type LogsFilter = string;
 export interface LogGroupConfiguration {
   Filter: string;
 }
-export const LogGroupConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Filter: S.String }),
-).annotate({
-  identifier: "LogGroupConfiguration",
-}) as any as S.Schema<LogGroupConfiguration>;
 export type MetricsFilter = string;
 export interface MetricConfiguration {
   Filter: string;
 }
-export const MetricConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Filter: S.String }),
-).annotate({
-  identifier: "MetricConfiguration",
-}) as any as S.Schema<MetricConfiguration>;
 export interface LinkConfiguration {
   LogGroupConfiguration?: LogGroupConfiguration;
   MetricConfiguration?: MetricConfiguration;
 }
-export const LinkConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LogGroupConfiguration: S.optional(LogGroupConfiguration),
-    MetricConfiguration: S.optional(MetricConfiguration),
-  }),
-).annotate({
-  identifier: "LinkConfiguration",
-}) as any as S.Schema<LinkConfiguration>;
 export interface CreateLinkInput {
   LabelTemplate: string;
   ResourceTypes: ResourceType[];
@@ -222,33 +170,8 @@ export interface CreateLinkInput {
   Tags?: { [key: string]: string | undefined };
   LinkConfiguration?: LinkConfiguration;
 }
-export const CreateLinkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LabelTemplate: S.String,
-    ResourceTypes: ResourceTypesInput,
-    SinkIdentifier: S.String,
-    Tags: S.optional(TagMapInput),
-    LinkConfiguration: S.optional(LinkConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateLink" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateLinkInput",
-}) as any as S.Schema<CreateLinkInput>;
 export type ResourceTypesOutput = string[];
-export const ResourceTypesOutput = /*@__PURE__*/ S.Array(S.String);
 export type TagMapOutput = { [key: string]: string | undefined };
-export const TagMapOutput = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface CreateLinkOutput {
   Arn?: string;
   Id?: string;
@@ -259,118 +182,30 @@ export interface CreateLinkOutput {
   Tags?: { [key: string]: string | undefined };
   LinkConfiguration?: LinkConfiguration;
 }
-export const CreateLinkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Id: S.optional(S.String),
-    Label: S.optional(S.String),
-    LabelTemplate: S.optional(S.String),
-    ResourceTypes: S.optional(ResourceTypesOutput),
-    SinkArn: S.optional(S.String),
-    Tags: S.optional(TagMapOutput),
-    LinkConfiguration: S.optional(LinkConfiguration),
-  }),
-).annotate({
-  identifier: "CreateLinkOutput",
-}) as any as S.Schema<CreateLinkOutput>;
 export type SinkName = string;
 export interface CreateSinkInput {
   Name: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateSinkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Tags: S.optional(TagMapInput) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateSink" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateSinkInput",
-}) as any as S.Schema<CreateSinkInput>;
 export interface CreateSinkOutput {
   Arn?: string;
   Id?: string;
   Name?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateSinkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Tags: S.optional(TagMapOutput),
-  }),
-).annotate({
-  identifier: "CreateSinkOutput",
-}) as any as S.Schema<CreateSinkOutput>;
 export interface DeleteLinkInput {
   Identifier: string;
 }
-export const DeleteLinkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identifier: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteLink" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteLinkInput",
-}) as any as S.Schema<DeleteLinkInput>;
 export interface DeleteLinkOutput {}
-export const DeleteLinkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteLinkOutput",
-}) as any as S.Schema<DeleteLinkOutput>;
 export interface DeleteSinkInput {
   Identifier: string;
 }
-export const DeleteSinkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identifier: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteSink" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteSinkInput",
-}) as any as S.Schema<DeleteSinkInput>;
 export interface DeleteSinkOutput {}
-export const DeleteSinkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteSinkOutput",
-}) as any as S.Schema<DeleteSinkOutput>;
 export type IncludeTags = boolean;
 export interface GetLinkInput {
   Identifier: string;
   IncludeTags?: boolean;
 }
-export const GetLinkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identifier: S.String, IncludeTags: S.optional(S.Boolean) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetLink" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetLinkInput" }) as any as S.Schema<GetLinkInput>;
 export interface GetLinkOutput {
   Arn?: string;
   Id?: string;
@@ -381,79 +216,24 @@ export interface GetLinkOutput {
   Tags?: { [key: string]: string | undefined };
   LinkConfiguration?: LinkConfiguration;
 }
-export const GetLinkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Id: S.optional(S.String),
-    Label: S.optional(S.String),
-    LabelTemplate: S.optional(S.String),
-    ResourceTypes: S.optional(ResourceTypesOutput),
-    SinkArn: S.optional(S.String),
-    Tags: S.optional(TagMapOutput),
-    LinkConfiguration: S.optional(LinkConfiguration),
-  }),
-).annotate({ identifier: "GetLinkOutput" }) as any as S.Schema<GetLinkOutput>;
 export interface GetSinkInput {
   Identifier: string;
   IncludeTags?: boolean;
 }
-export const GetSinkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identifier: S.String, IncludeTags: S.optional(S.Boolean) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetSink" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetSinkInput" }) as any as S.Schema<GetSinkInput>;
 export interface GetSinkOutput {
   Arn?: string;
   Id?: string;
   Name?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const GetSinkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Tags: S.optional(TagMapOutput),
-  }),
-).annotate({ identifier: "GetSinkOutput" }) as any as S.Schema<GetSinkOutput>;
 export interface GetSinkPolicyInput {
   SinkIdentifier: string;
 }
-export const GetSinkPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SinkIdentifier: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetSinkPolicy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSinkPolicyInput",
-}) as any as S.Schema<GetSinkPolicyInput>;
 export interface GetSinkPolicyOutput {
   SinkArn?: string;
   SinkId?: string;
   Policy?: string;
 }
-export const GetSinkPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SinkArn: S.optional(S.String),
-    SinkId: S.optional(S.String),
-    Policy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetSinkPolicyOutput",
-}) as any as S.Schema<GetSinkPolicyOutput>;
 export type ListAttachedLinksMaxResults = number;
 export type NextToken = string;
 export interface ListAttachedLinksInput {
@@ -461,71 +241,21 @@ export interface ListAttachedLinksInput {
   NextToken?: string;
   SinkIdentifier: string;
 }
-export const ListAttachedLinksInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    SinkIdentifier: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListAttachedLinks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAttachedLinksInput",
-}) as any as S.Schema<ListAttachedLinksInput>;
 export interface ListAttachedLinksItem {
   Label?: string;
   LinkArn?: string;
   ResourceTypes?: string[];
 }
-export const ListAttachedLinksItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Label: S.optional(S.String),
-    LinkArn: S.optional(S.String),
-    ResourceTypes: S.optional(ResourceTypesOutput),
-  }),
-).annotate({
-  identifier: "ListAttachedLinksItem",
-}) as any as S.Schema<ListAttachedLinksItem>;
 export type ListAttachedLinksItems = ListAttachedLinksItem[];
-export const ListAttachedLinksItems = /*@__PURE__*/ S.Array(
-  ListAttachedLinksItem,
-);
 export interface ListAttachedLinksOutput {
   Items: ListAttachedLinksItem[];
   NextToken?: string;
 }
-export const ListAttachedLinksOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Items: ListAttachedLinksItems, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListAttachedLinksOutput",
-}) as any as S.Schema<ListAttachedLinksOutput>;
 export type ListLinksMaxResults = number;
 export interface ListLinksInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListLinksInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListLinks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "ListLinksInput" }) as any as S.Schema<ListLinksInput>;
 export interface ListLinksItem {
   Arn?: string;
   Id?: string;
@@ -533,209 +263,60 @@ export interface ListLinksItem {
   ResourceTypes?: string[];
   SinkArn?: string;
 }
-export const ListLinksItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Id: S.optional(S.String),
-    Label: S.optional(S.String),
-    ResourceTypes: S.optional(ResourceTypesOutput),
-    SinkArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "ListLinksItem" }) as any as S.Schema<ListLinksItem>;
 export type ListLinksItems = ListLinksItem[];
-export const ListLinksItems = /*@__PURE__*/ S.Array(ListLinksItem);
 export interface ListLinksOutput {
   Items: ListLinksItem[];
   NextToken?: string;
 }
-export const ListLinksOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Items: ListLinksItems, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListLinksOutput",
-}) as any as S.Schema<ListLinksOutput>;
 export type ListSinksMaxResults = number;
 export interface ListSinksInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListSinksInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListSinks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "ListSinksInput" }) as any as S.Schema<ListSinksInput>;
 export interface ListSinksItem {
   Arn?: string;
   Id?: string;
   Name?: string;
 }
-export const ListSinksItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-  }),
-).annotate({ identifier: "ListSinksItem" }) as any as S.Schema<ListSinksItem>;
 export type ListSinksItems = ListSinksItem[];
-export const ListSinksItems = /*@__PURE__*/ S.Array(ListSinksItem);
 export interface ListSinksOutput {
   Items: ListSinksItem[];
   NextToken?: string;
 }
-export const ListSinksOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Items: ListSinksItems, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListSinksOutput",
-}) as any as S.Schema<ListSinksOutput>;
 export type Arn = string;
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
-export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   Tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagMapOutput) }),
-).annotate({
-  identifier: "ListTagsForResourceOutput",
-}) as any as S.Schema<ListTagsForResourceOutput>;
 export type SinkPolicy = string;
 export interface PutSinkPolicyInput {
   SinkIdentifier: string;
   Policy: string;
 }
-export const PutSinkPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SinkIdentifier: S.String, Policy: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/PutSinkPolicy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutSinkPolicyInput",
-}) as any as S.Schema<PutSinkPolicyInput>;
 export interface PutSinkPolicyOutput {
   SinkArn?: string;
   SinkId?: string;
   Policy?: string;
 }
-export const PutSinkPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SinkArn: S.optional(S.String),
-    SinkId: S.optional(S.String),
-    Policy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PutSinkPolicyOutput",
-}) as any as S.Schema<PutSinkPolicyOutput>;
 export interface TagResourceInput {
   ResourceArn: string;
   Tags: { [key: string]: string | undefined };
 }
-export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagMapInput,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceOutput",
-}) as any as S.Schema<TagResourceOutput>;
 export type TagKeys = string[];
-export const TagKeys = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceInput {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceOutput",
-}) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateLinkInput {
   Identifier: string;
   ResourceTypes: ResourceType[];
   LinkConfiguration?: LinkConfiguration;
   IncludeTags?: boolean;
 }
-export const UpdateLinkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Identifier: S.String,
-    ResourceTypes: ResourceTypesInput,
-    LinkConfiguration: S.optional(LinkConfiguration),
-    IncludeTags: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UpdateLink" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateLinkInput",
-}) as any as S.Schema<UpdateLinkInput>;
 export interface UpdateLinkOutput {
   Arn?: string;
   Id?: string;
@@ -746,20 +327,6 @@ export interface UpdateLinkOutput {
   Tags?: { [key: string]: string | undefined };
   LinkConfiguration?: LinkConfiguration;
 }
-export const UpdateLinkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Id: S.optional(S.String),
-    Label: S.optional(S.String),
-    LabelTemplate: S.optional(S.String),
-    ResourceTypes: S.optional(ResourceTypesOutput),
-    SinkArn: S.optional(S.String),
-    Tags: S.optional(TagMapOutput),
-    LinkConfiguration: S.optional(LinkConfiguration),
-  }),
-).annotate({
-  identifier: "UpdateLinkOutput",
-}) as any as S.Schema<UpdateLinkOutput>;
 export type CreateLinkError =
   | ConflictException
   | InternalServiceFault
@@ -785,8 +352,18 @@ export const createLink: API.OperationMethod<
   CreateLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLinkInput,
-  output: CreateLinkOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /CreateLink",
+    input: {
+      LabelTemplate: 0,
+      ResourceTypes: 0,
+      SinkIdentifier: 0,
+      Tags: 0,
+      LinkConfiguration: i_LinkConfiguration,
+    },
+    body: true,
+  },
   errors: [
     ConflictException,
     InternalServiceFault,
@@ -798,7 +375,7 @@ export const createLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLink",
-}));
+})) as any;
 
 export type CreateSinkError =
   | ConflictException
@@ -821,8 +398,12 @@ export const createSink: API.OperationMethod<
   CreateSinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSinkInput,
-  output: CreateSinkOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /CreateSink",
+    input: { Name: 0, Tags: 0 },
+    body: true,
+  },
   errors: [
     ConflictException,
     InternalServiceFault,
@@ -834,7 +415,7 @@ export const createSink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSink",
-}));
+})) as any;
 
 export type DeleteLinkError =
   | InternalServiceFault
@@ -852,8 +433,12 @@ export const deleteLink: API.OperationMethod<
   DeleteLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLinkInput,
-  output: DeleteLinkOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /DeleteLink",
+    input: { Identifier: 0 },
+    body: true,
+  },
   errors: [
     InternalServiceFault,
     InvalidParameterException,
@@ -864,7 +449,7 @@ export const deleteLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLink",
-}));
+})) as any;
 
 export type DeleteSinkError =
   | ConflictException
@@ -883,8 +468,12 @@ export const deleteSink: API.OperationMethod<
   DeleteSinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSinkInput,
-  output: DeleteSinkOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /DeleteSink",
+    input: { Identifier: 0 },
+    body: true,
+  },
   errors: [
     ConflictException,
     InternalServiceFault,
@@ -896,7 +485,7 @@ export const deleteSink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSink",
-}));
+})) as any;
 
 export type GetLinkError =
   | InternalServiceFault
@@ -916,8 +505,12 @@ export const getLink: API.OperationMethod<
   GetLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLinkInput,
-  output: GetLinkOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /GetLink",
+    input: { Identifier: 0, IncludeTags: 0 },
+    body: true,
+  },
   errors: [
     InternalServiceFault,
     InvalidParameterException,
@@ -928,7 +521,7 @@ export const getLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLink",
-}));
+})) as any;
 
 export type GetSinkError =
   | InternalServiceFault
@@ -948,8 +541,12 @@ export const getSink: API.OperationMethod<
   GetSinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSinkInput,
-  output: GetSinkOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /GetSink",
+    input: { Identifier: 0, IncludeTags: 0 },
+    body: true,
+  },
   errors: [
     InternalServiceFault,
     InvalidParameterException,
@@ -960,7 +557,7 @@ export const getSink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSink",
-}));
+})) as any;
 
 export type GetSinkPolicyError =
   | InternalServiceFault
@@ -978,8 +575,12 @@ export const getSinkPolicy: API.OperationMethod<
   GetSinkPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSinkPolicyInput,
-  output: GetSinkPolicyOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /GetSinkPolicy",
+    input: { SinkIdentifier: 0 },
+    body: true,
+  },
   errors: [
     InternalServiceFault,
     InvalidParameterException,
@@ -990,7 +591,7 @@ export const getSinkPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSinkPolicy",
-}));
+})) as any;
 
 export type ListAttachedLinksError =
   | InternalServiceFault
@@ -1013,8 +614,12 @@ export const listAttachedLinks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListAttachedLinksItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAttachedLinksInput,
-  output: ListAttachedLinksOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /ListAttachedLinks",
+    input: { MaxResults: 0, NextToken: 0, SinkIdentifier: 0 },
+    body: true,
+  },
   errors: [
     InternalServiceFault,
     InvalidParameterException,
@@ -1051,8 +656,12 @@ export const listLinks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListLinksItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListLinksInput,
-  output: ListLinksOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /ListLinks",
+    input: { MaxResults: 0, NextToken: 0 },
+    body: true,
+  },
   errors: [
     InternalServiceFault,
     InvalidParameterException,
@@ -1086,8 +695,12 @@ export const listSinks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListSinksItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSinksInput,
-  output: ListSinksOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /ListSinks",
+    input: { MaxResults: 0, NextToken: 0 },
+    body: true,
+  },
   errors: [
     InternalServiceFault,
     InvalidParameterException,
@@ -1119,8 +732,11 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{ResourceArn}",
+    input: { ResourceArn: 0 },
+  },
   errors: [
     ResourceNotFoundException,
     ValidationException,
@@ -1129,7 +745,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type PutSinkPolicyError =
   | InternalServiceFault
@@ -1163,8 +779,12 @@ export const putSinkPolicy: API.OperationMethod<
   PutSinkPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutSinkPolicyInput,
-  output: PutSinkPolicyOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /PutSinkPolicy",
+    input: { SinkIdentifier: 0, Policy: 0 },
+    body: true,
+  },
   errors: [
     InternalServiceFault,
     InvalidParameterException,
@@ -1175,7 +795,7 @@ export const putSinkPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSinkPolicy",
-}));
+})) as any;
 
 export type TagResourceError =
   | ResourceNotFoundException
@@ -1202,8 +822,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /tags/{ResourceArn}",
+    input: { ResourceArn: 0, Tags: 0 },
+    body: true,
+  },
   errors: [
     ResourceNotFoundException,
     TooManyTagsException,
@@ -1213,7 +837,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | ResourceNotFoundException
@@ -1231,8 +855,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{ResourceArn}",
+    input: { ResourceArn: 0, TagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     ResourceNotFoundException,
     ValidationException,
@@ -1241,7 +868,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateLinkError =
   | InternalServiceFault
@@ -1263,8 +890,17 @@ export const updateLink: API.OperationMethod<
   UpdateLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateLinkInput,
-  output: UpdateLinkOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /UpdateLink",
+    input: {
+      Identifier: 0,
+      ResourceTypes: 0,
+      LinkConfiguration: i_LinkConfiguration,
+      IncludeTags: 0,
+    },
+    body: true,
+  },
   errors: [
     InternalServiceFault,
     InvalidParameterException,
@@ -1275,4 +911,9 @@ export const updateLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLink",
-}));
+})) as any;
+
+const i_LinkConfiguration: D.LazyStruct = () => ({
+  LogGroupConfiguration: { Filter: 0 },
+  MetricConfiguration: { Filter: 0 },
+});

@@ -1,392 +1,376 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as stream from "effect/Stream";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
+import type * as stream from "effect/Stream";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveBlob } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "SageMaker Runtime HTTP2",
-  serviceShapeName: "AmazonSageMakerRuntimeHttp2",
-});
-const auth = T.AwsAuthSigv4({ name: "sagemaker" });
-const ver = T.ServiceVersion("2025-10-01");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-cn" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-cn" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-cn" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-cn" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-eusc" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-eusc" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-eusc" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-eusc" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
-          );
-        }
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true && UseDualStack === false) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseFIPS === false && UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AmazonSageMakerRuntimeHttp2",
+  version: "2025-10-01",
+  sigv4: "sagemaker",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-cn" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-cn" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-cn" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-cn" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-eusc" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-eusc" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-eusc" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}:8443`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-eusc" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://runtime-fips.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}:8443`,
+            );
+          }
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true && UseDualStack === false) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseFIPS === false && UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class InputValidationError
-  extends /*@__PURE__*/ S.TaggedError<InputValidationError>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InputValidationError",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ErrorCode: S.optional(S.String),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string; readonly ErrorCode?: string }> {}
 export class InternalServerError
-  extends /*@__PURE__*/ S.TaggedError<InternalServerError>()(
-    "InternalServerError",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ErrorCode: S.optional(S.String),
-    },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InternalServerError", ["ServerError"], {
+    status: 500,
+  })<{ readonly message?: string; readonly ErrorCode?: string }> {}
 export class InternalStreamFailure
-  extends /*@__PURE__*/ S.TaggedError<InternalStreamFailure>()(
-    "InternalStreamFailure",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InternalStreamFailure")<{
+    readonly message?: string;
+  }> {}
 export class ModelError
-  extends /*@__PURE__*/ S.TaggedError<ModelError>()(
-    "ModelError",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      OriginalStatusCode: S.optional(S.Number),
-      OriginalMessage: S.optional(S.String),
-      LogStreamArn: S.optional(S.String),
-      ErrorCode: S.optional(S.String),
-    },
-    T.HttpError(424),
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("ModelError", [], { status: 424 })<{
+    readonly message?: string;
+    readonly OriginalStatusCode?: number;
+    readonly OriginalMessage?: string;
+    readonly LogStreamArn?: string;
+    readonly ErrorCode?: string;
+  }> {}
 export class ModelStreamError
-  extends /*@__PURE__*/ S.TaggedError<ModelStreamError>()("ModelStreamError", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-    ErrorCode: S.optional(S.String),
-  }) {}
+  extends /*@__PURE__*/ TE.TaggedError("ModelStreamError")<{
+    readonly message?: string;
+    readonly ErrorCode?: string;
+  }> {}
 export class ServiceUnavailableError
-  extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableError>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceUnavailableError",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ErrorCode: S.optional(S.String),
-    },
-    T.HttpError(503),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 503 },
+  )<{ readonly message?: string; readonly ErrorCode?: string }> {}
 export type SensitiveBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface RequestPayloadPart {
   Bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
@@ -394,20 +378,7 @@ export interface RequestPayloadPart {
   CompletionState?: string;
   P?: string;
 }
-export const RequestPayloadPart = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bytes: S.optional(SensitiveBlob).pipe(T.EventPayload()),
-    DataType: S.optional(S.String).pipe(T.EventHeader()),
-    CompletionState: S.optional(S.String).pipe(T.EventHeader()),
-    P: S.optional(S.String).pipe(T.EventHeader()),
-  }),
-).annotate({
-  identifier: "RequestPayloadPart",
-}) as any as S.Schema<RequestPayloadPart>;
 export type RequestStreamEvent = { PayloadPart: RequestPayloadPart };
-export const RequestStreamEvent = /*@__PURE__*/ T.InputEventStream(
-  S.Union([S.Struct({ PayloadPart: RequestPayloadPart })]),
-) as any as S.Schema<stream.Stream<RequestStreamEvent, Error, never>>;
 export interface InvokeEndpointWithBidirectionalStreamInput {
   EndpointName: string;
   Body: stream.Stream<RequestStreamEvent, Error, never>;
@@ -415,52 +386,12 @@ export interface InvokeEndpointWithBidirectionalStreamInput {
   ModelInvocationPath?: string;
   ModelQueryString?: string;
 }
-export const InvokeEndpointWithBidirectionalStreamInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      EndpointName: S.String.pipe(T.HttpLabel("EndpointName")),
-      Body: RequestStreamEvent.pipe(T.HttpPayload()),
-      TargetVariant: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-SageMaker-Target-Variant"),
-      ),
-      ModelInvocationPath: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-SageMaker-Model-Invocation-Path"),
-      ),
-      ModelQueryString: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-SageMaker-Model-Query-String"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/endpoints/{EndpointName}/invocations-bidirectional-stream",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "InvokeEndpointWithBidirectionalStreamInput",
-  }) as any as S.Schema<InvokeEndpointWithBidirectionalStreamInput>;
 export interface ResponsePayloadPart {
   Bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
   DataType?: string;
   CompletionState?: string;
   P?: string;
 }
-export const ResponsePayloadPart = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bytes: S.optional(SensitiveBlob).pipe(T.EventPayload()),
-    DataType: S.optional(S.String).pipe(T.EventHeader()),
-    CompletionState: S.optional(S.String).pipe(T.EventHeader()),
-    P: S.optional(S.String).pipe(T.EventHeader()),
-  }),
-).annotate({
-  identifier: "ResponsePayloadPart",
-}) as any as S.Schema<ResponsePayloadPart>;
 export type ResponseStreamEvent =
   | {
       PayloadPart: ResponsePayloadPart;
@@ -477,36 +408,10 @@ export type ResponseStreamEvent =
       ModelStreamError?: never;
       InternalStreamFailure: InternalStreamFailure;
     };
-export const ResponseStreamEvent = /*@__PURE__*/ T.EventStream(
-  S.Union([
-    S.Struct({ PayloadPart: ResponsePayloadPart }),
-    S.Struct({
-      ModelStreamError: S.suspend(() => ModelStreamError).annotate({
-        identifier: "ModelStreamError",
-      }),
-    }),
-    S.Struct({
-      InternalStreamFailure: S.suspend(() => InternalStreamFailure).annotate({
-        identifier: "InternalStreamFailure",
-      }),
-    }),
-  ]),
-) as any as S.Schema<stream.Stream<ResponseStreamEvent, Error, never>>;
 export interface InvokeEndpointWithBidirectionalStreamOutput {
   Body: stream.Stream<ResponseStreamEvent, Error, never>;
   InvokedProductionVariant?: string;
 }
-export const InvokeEndpointWithBidirectionalStreamOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Body: ResponseStreamEvent.pipe(T.HttpPayload()),
-      InvokedProductionVariant: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-Invoked-Production-Variant"),
-      ),
-    }),
-  ).annotate({
-    identifier: "InvokeEndpointWithBidirectionalStreamOutput",
-  }) as any as S.Schema<InvokeEndpointWithBidirectionalStreamOutput>;
 export type InvokeEndpointWithBidirectionalStreamError =
   | InputValidationError
   | InternalServerError
@@ -536,8 +441,41 @@ export const invokeEndpointWithBidirectionalStream: API.OperationMethod<
   InvokeEndpointWithBidirectionalStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: InvokeEndpointWithBidirectionalStreamInput,
-  output: InvokeEndpointWithBidirectionalStreamOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /endpoints/{EndpointName}/invocations-bidirectional-stream",
+    input: {
+      EndpointName: 0,
+      Body: D.m({
+        payload: true,
+        shape: D.events(
+          { PayloadPart: { Bytes: 0, DataType: 0, CompletionState: 0, P: 0 } },
+          { PayloadPart: "Bytes" },
+        ),
+      }),
+      TargetVariant: D.m({ header: "X-Amzn-SageMaker-Target-Variant" }),
+      ModelInvocationPath: D.m({
+        header: "X-Amzn-SageMaker-Model-Invocation-Path",
+      }),
+      ModelQueryString: D.m({ header: "X-Amzn-SageMaker-Model-Query-String" }),
+    },
+    output: {
+      Body: D.m({
+        payload: true,
+        shape: D.events(
+          {
+            PayloadPart: { Bytes: D.secretBlob },
+            ModelStreamError: 0,
+            InternalStreamFailure: 0,
+          },
+          { PayloadPart: "Bytes" },
+        ),
+      }),
+      InvokedProductionVariant: D.m({
+        header: "X-Amzn-Invoked-Production-Variant",
+      }),
+    },
+  },
   errors: [
     InputValidationError,
     InternalServerError,
@@ -549,4 +487,4 @@ export const invokeEndpointWithBidirectionalStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeEndpointWithBidirectionalStream",
-}));
+})) as any;

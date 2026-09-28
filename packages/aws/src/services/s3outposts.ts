@@ -1,136 +1,131 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "S3Outposts",
-  serviceShapeName: "S3Outposts",
-});
-const auth = T.AwsAuthSigv4({ name: "s3-outposts" });
-const ver = T.ServiceVersion("2017-07-25");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://s3-outposts-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://s3-outposts-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://s3-outposts.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://s3-outposts.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "S3Outposts",
+  version: "2017-07-25",
+  sigv4: "s3-outposts",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://s3-outposts-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://s3-outposts-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://s3-outposts.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://s3-outposts.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message?: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class OutpostOfflineException
-  extends /*@__PURE__*/ S.TaggedError<OutpostOfflineException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "OutpostOfflineException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message?: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export type OutpostId = string;
 export type SubnetId = string;
 export type SecurityGroupId = string;
 export type EndpointAccessType = "Private" | "CustomerOwnedIp" | (string & {});
-export const EndpointAccessType = S.String;
-
 export type CustomerOwnedIpv4Pool = string;
 export interface CreateEndpointRequest {
   OutpostId: string;
@@ -139,86 +134,22 @@ export interface CreateEndpointRequest {
   AccessType?: EndpointAccessType;
   CustomerOwnedIpv4Pool?: string;
 }
-export const CreateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OutpostId: S.String,
-    SubnetId: S.String,
-    SecurityGroupId: S.String,
-    AccessType: S.optional(EndpointAccessType),
-    CustomerOwnedIpv4Pool: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/S3Outposts/CreateEndpoint" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateEndpointRequest",
-}) as any as S.Schema<CreateEndpointRequest>;
 export type EndpointArn = string;
 export interface CreateEndpointResult {
   EndpointArn?: string;
 }
-export const CreateEndpointResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EndpointArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateEndpointResult",
-}) as any as S.Schema<CreateEndpointResult>;
 export type EndpointId = string;
 export interface DeleteEndpointRequest {
   EndpointId: string;
   OutpostId: string;
 }
-export const DeleteEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndpointId: S.String.pipe(T.HttpQuery("endpointId")),
-    OutpostId: S.String.pipe(T.HttpQuery("outpostId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/S3Outposts/DeleteEndpoint" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteEndpointRequest",
-}) as any as S.Schema<DeleteEndpointRequest>;
 export interface DeleteEndpointResponse {}
-export const DeleteEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteEndpointResponse",
-}) as any as S.Schema<DeleteEndpointResponse>;
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListEndpointsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/S3Outposts/ListEndpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListEndpointsRequest",
-}) as any as S.Schema<ListEndpointsRequest>;
 export type CidrBlock = string;
 export type EndpointStatus =
   | "Pending"
@@ -227,20 +158,12 @@ export type EndpointStatus =
   | "Create_Failed"
   | "Delete_Failed"
   | (string & {});
-export const EndpointStatus = S.String;
-
 export type CreationTime = Date;
 export type NetworkInterfaceId = string;
 export interface NetworkInterface {
   NetworkInterfaceId?: string;
 }
-export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NetworkInterfaceId: S.optional(S.String) }),
-).annotate({
-  identifier: "NetworkInterface",
-}) as any as S.Schema<NetworkInterface>;
 export type NetworkInterfaces = NetworkInterface[];
-export const NetworkInterfaces = /*@__PURE__*/ S.Array(NetworkInterface);
 export type VpcId = string;
 export type ErrorCode = string;
 export type Message = string;
@@ -248,9 +171,6 @@ export interface FailedReason {
   ErrorCode?: string;
   Message?: string;
 }
-export const FailedReason = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ErrorCode: S.optional(S.String), Message: S.optional(S.String) }),
-).annotate({ identifier: "FailedReason" }) as any as S.Schema<FailedReason>;
 export interface Endpoint {
   EndpointArn?: string;
   OutpostsId?: string;
@@ -265,57 +185,15 @@ export interface Endpoint {
   CustomerOwnedIpv4Pool?: string;
   FailedReason?: FailedReason;
 }
-export const Endpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndpointArn: S.optional(S.String),
-    OutpostsId: S.optional(S.String),
-    CidrBlock: S.optional(S.String),
-    Status: S.optional(EndpointStatus),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    NetworkInterfaces: S.optional(NetworkInterfaces),
-    VpcId: S.optional(S.String),
-    SubnetId: S.optional(S.String),
-    SecurityGroupId: S.optional(S.String),
-    AccessType: S.optional(EndpointAccessType),
-    CustomerOwnedIpv4Pool: S.optional(S.String),
-    FailedReason: S.optional(FailedReason),
-  }),
-).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
 export type Endpoints = Endpoint[];
-export const Endpoints = /*@__PURE__*/ S.Array(Endpoint);
 export interface ListEndpointsResult {
   Endpoints?: Endpoint[];
   NextToken?: string;
 }
-export const ListEndpointsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Endpoints: S.optional(Endpoints),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListEndpointsResult",
-}) as any as S.Schema<ListEndpointsResult>;
 export interface ListOutpostsWithS3Request {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListOutpostsWithS3Request = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/S3Outposts/ListOutpostsWithS3" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListOutpostsWithS3Request",
-}) as any as S.Schema<ListOutpostsWithS3Request>;
 export type OutpostArn = string;
 export type S3OutpostArn = string;
 export type AwsAccountId = string;
@@ -327,61 +205,20 @@ export interface Outpost {
   OwnerId?: string;
   CapacityInBytes?: number;
 }
-export const Outpost = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OutpostArn: S.optional(S.String),
-    S3OutpostArn: S.optional(S.String),
-    OutpostId: S.optional(S.String),
-    OwnerId: S.optional(S.String),
-    CapacityInBytes: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Outpost" }) as any as S.Schema<Outpost>;
 export type Outposts = Outpost[];
-export const Outposts = /*@__PURE__*/ S.Array(Outpost);
 export interface ListOutpostsWithS3Result {
   Outposts?: Outpost[];
   NextToken?: string;
 }
-export const ListOutpostsWithS3Result = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Outposts: S.optional(Outposts), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListOutpostsWithS3Result",
-}) as any as S.Schema<ListOutpostsWithS3Result>;
 export interface ListSharedEndpointsRequest {
   NextToken?: string;
   MaxResults?: number;
   OutpostId: string;
 }
-export const ListSharedEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    OutpostId: S.String.pipe(T.HttpQuery("outpostId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/S3Outposts/ListSharedEndpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSharedEndpointsRequest",
-}) as any as S.Schema<ListSharedEndpointsRequest>;
 export interface ListSharedEndpointsResult {
   Endpoints?: Endpoint[];
   NextToken?: string;
 }
-export const ListSharedEndpointsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Endpoints: S.optional(Endpoints),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSharedEndpointsResult",
-}) as any as S.Schema<ListSharedEndpointsResult>;
 export type ErrorMessage = string;
 export type CreateEndpointError =
   | AccessDeniedException
@@ -409,8 +246,18 @@ export const createEndpoint: API.OperationMethod<
   CreateEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateEndpointRequest,
-  output: CreateEndpointResult,
+  descriptor: {
+    service: svc,
+    http: "POST /S3Outposts/CreateEndpoint",
+    input: {
+      OutpostId: 0,
+      SubnetId: 0,
+      SecurityGroupId: 0,
+      AccessType: 0,
+      CustomerOwnedIpv4Pool: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -423,7 +270,7 @@ export const createEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpoint",
-}));
+})) as any;
 
 export type DeleteEndpointError =
   | AccessDeniedException
@@ -450,8 +297,14 @@ export const deleteEndpoint: API.OperationMethod<
   DeleteEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEndpointRequest,
-  output: DeleteEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /S3Outposts/DeleteEndpoint",
+    input: {
+      EndpointId: D.m({ query: "endpointId" }),
+      OutpostId: D.m({ query: "outpostId" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -463,7 +316,7 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
-}));
+})) as any;
 
 export type ListEndpointsError =
   | AccessDeniedException
@@ -488,8 +341,15 @@ export const listEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Endpoint
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListEndpointsRequest,
-  output: ListEndpointsResult,
+  descriptor: {
+    service: svc,
+    http: "GET /S3Outposts/ListEndpoints",
+    input: {
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+    },
+    output: { Endpoints: D.list(o_Endpoint) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -526,8 +386,14 @@ export const listOutpostsWithS3: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Outpost
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListOutpostsWithS3Request,
-  output: ListOutpostsWithS3Result,
+  descriptor: {
+    service: svc,
+    http: "GET /S3Outposts/ListOutpostsWithS3",
+    input: {
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -568,8 +434,16 @@ export const listSharedEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Endpoint
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSharedEndpointsRequest,
-  output: ListSharedEndpointsResult,
+  descriptor: {
+    service: svc,
+    http: "GET /S3Outposts/ListSharedEndpoints",
+    input: {
+      NextToken: D.m({ query: "nextToken" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      OutpostId: D.m({ query: "outpostId" }),
+    },
+    output: { Endpoints: D.list(o_Endpoint) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -587,3 +461,5 @@ export const listSharedEndpoints: API.PaginatedOperationMethod<
     pageSize: "MaxResults",
   } as const,
 })) as any;
+
+const o_Endpoint: D.LazyStruct = () => ({ CreationTime: D.ts });

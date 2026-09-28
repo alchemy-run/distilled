@@ -1,196 +1,224 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as stream from "effect/Stream";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
+import type * as stream from "effect/Stream";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restXmlProtocol } from "../protocols/rest-xml.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const ns = T.XmlNamespace("http://s3.amazonaws.com/doc/2006-03-01/");
-const svc = T.AwsApiService({ sdkId: "S3", serviceShapeName: "AmazonS3" });
-const auth = T.AwsAuthSigv4({ name: "s3" });
-const ver = T.ServiceVersion("2006-03-01");
-const proto = T.AwsProtocolsRestXml();
-const rules = T.EndpointResolver((p, _) => {
-  const {
-    Bucket,
-    Region,
-    UseFIPS = false,
-    UseDualStack = false,
-    Endpoint,
-    ForcePathStyle = false,
-    Accelerate = false,
-    UseGlobalEndpoint = false,
-    UseObjectLambdaEndpoint,
-    _Key,
-    _Prefix,
-    _CopySource,
-    DisableAccessPoints,
-    DisableMultiRegionAccessPoints = false,
-    UseArnRegion,
-    UseS3ExpressControlEndpoint,
-    DisableS3ExpressSessionAuth,
-  } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  const _p0 = (_0: unknown) => ({
-    backend: "S3Express",
-    authSchemes: [
-      {
-        disableDoubleEncoding: true,
-        name: "sigv4",
-        signingName: "s3express",
-        signingRegion: `${_0}`,
-      },
-    ],
-  });
-  const _p1 = (_0: unknown) => ({
-    backend: "S3Express",
-    authSchemes: [
-      {
-        disableDoubleEncoding: true,
-        name: "sigv4-s3express",
-        signingName: "s3express",
-        signingRegion: `${_0}`,
-      },
-    ],
-  });
-  const _p2 = (_0: unknown) => ({
-    authSchemes: [
-      {
-        disableDoubleEncoding: true,
-        name: "sigv4a",
-        signingName: "s3-outposts",
-        signingRegionSet: ["*"],
-      },
-      {
-        disableDoubleEncoding: true,
-        name: "sigv4",
-        signingName: "s3-outposts",
-        signingRegion: `${_0}`,
-      },
-    ],
-  });
-  const _p3 = () => ({
-    authSchemes: [
-      {
-        disableDoubleEncoding: true,
-        name: "sigv4",
-        signingName: "s3",
-        signingRegion: "us-east-1",
-      },
-    ],
-  });
-  const _p4 = (_0: unknown) => ({
-    authSchemes: [
-      {
-        disableDoubleEncoding: true,
-        name: "sigv4",
-        signingName: "s3",
-        signingRegion: `${_0}`,
-      },
-    ],
-  });
-  const _p5 = (_0: unknown) => ({
-    authSchemes: [
-      {
-        disableDoubleEncoding: true,
-        name: "sigv4",
-        signingName: "s3-object-lambda",
-        signingRegion: `${_.getAttr(_0, "region")}`,
-      },
-    ],
-  });
-  const _p6 = (_0: unknown) => ({
-    authSchemes: [
-      {
-        disableDoubleEncoding: true,
-        name: "sigv4",
-        signingName: "s3",
-        signingRegion: `${_.getAttr(_0, "region")}`,
-      },
-    ],
-  });
-  const _p7 = (_0: unknown) => ({
-    authSchemes: [
-      {
-        disableDoubleEncoding: true,
-        name: "sigv4a",
-        signingName: "s3-outposts",
-        signingRegionSet: ["*"],
-      },
-      {
-        disableDoubleEncoding: true,
-        name: "sigv4",
-        signingName: "s3-outposts",
-        signingRegion: `${_.getAttr(_0, "region")}`,
-      },
-    ],
-  });
-  const _p8 = (_0: unknown) => ({
-    authSchemes: [
-      {
-        disableDoubleEncoding: true,
-        name: "sigv4",
-        signingName: "s3-object-lambda",
-        signingRegion: `${_0}`,
-      },
-    ],
-  });
-  if (Region != null) {
-    if (Accelerate === true && UseFIPS === true) {
-      return err("Accelerate cannot be used with FIPS");
-    }
-    if (UseDualStack === true && Endpoint != null) {
-      return err(
-        "Cannot set dual-stack in combination with a custom endpoint.",
-      );
-    }
-    if (Endpoint != null && UseFIPS === true) {
-      return err("A custom endpoint cannot be combined with FIPS");
-    }
-    if (Endpoint != null && Accelerate === true) {
-      return err("A custom endpoint cannot be combined with S3 Accelerate");
-    }
-    {
-      const partitionResult = _.partition(Region);
-      if (
-        UseFIPS === true &&
-        partitionResult != null &&
-        partitionResult !== false &&
-        _.getAttr(partitionResult, "name") === "aws-cn"
-      ) {
-        return err("Partition does not support FIPS");
-      }
-    }
-    {
-      const bucketSuffix = _.substring(Bucket, 0, 6, true);
-      if (
-        Bucket != null &&
-        bucketSuffix != null &&
-        bucketSuffix !== false &&
-        bucketSuffix === "--x-s3"
-      ) {
-        if (Accelerate === true) {
-          return err("S3Express does not support S3 Accelerate.");
-        }
+const svc: T.ServiceInfo = {
+  sdkId: "S3",
+  target: "AmazonS3",
+  version: "2006-03-01",
+  sigv4: "s3",
+  protocol: restXmlProtocol,
+  xmlns: "http://s3.amazonaws.com/doc/2006-03-01/",
+  rules: (p, _) => {
+    const {
+      Bucket,
+      Region,
+      UseFIPS = false,
+      UseDualStack = false,
+      Endpoint,
+      ForcePathStyle = false,
+      Accelerate = false,
+      UseGlobalEndpoint = false,
+      UseObjectLambdaEndpoint,
+      _Key,
+      _Prefix,
+      _CopySource,
+      DisableAccessPoints,
+      DisableMultiRegionAccessPoints = false,
+      UseArnRegion,
+      UseS3ExpressControlEndpoint,
+      DisableS3ExpressSessionAuth,
+    } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    const _p0 = (_0: unknown) => ({
+      backend: "S3Express",
+      authSchemes: [
         {
-          const url = _.parseURL(Endpoint);
-          if (Endpoint != null && url != null && url !== false) {
-            if (
-              DisableS3ExpressSessionAuth != null &&
-              DisableS3ExpressSessionAuth === true
-            ) {
+          disableDoubleEncoding: true,
+          name: "sigv4",
+          signingName: "s3express",
+          signingRegion: `${_0}`,
+        },
+      ],
+    });
+    const _p1 = (_0: unknown) => ({
+      backend: "S3Express",
+      authSchemes: [
+        {
+          disableDoubleEncoding: true,
+          name: "sigv4-s3express",
+          signingName: "s3express",
+          signingRegion: `${_0}`,
+        },
+      ],
+    });
+    const _p2 = (_0: unknown) => ({
+      authSchemes: [
+        {
+          disableDoubleEncoding: true,
+          name: "sigv4a",
+          signingName: "s3-outposts",
+          signingRegionSet: ["*"],
+        },
+        {
+          disableDoubleEncoding: true,
+          name: "sigv4",
+          signingName: "s3-outposts",
+          signingRegion: `${_0}`,
+        },
+      ],
+    });
+    const _p3 = () => ({
+      authSchemes: [
+        {
+          disableDoubleEncoding: true,
+          name: "sigv4",
+          signingName: "s3",
+          signingRegion: "us-east-1",
+        },
+      ],
+    });
+    const _p4 = (_0: unknown) => ({
+      authSchemes: [
+        {
+          disableDoubleEncoding: true,
+          name: "sigv4",
+          signingName: "s3",
+          signingRegion: `${_0}`,
+        },
+      ],
+    });
+    const _p5 = (_0: unknown) => ({
+      authSchemes: [
+        {
+          disableDoubleEncoding: true,
+          name: "sigv4",
+          signingName: "s3-object-lambda",
+          signingRegion: `${_.getAttr(_0, "region")}`,
+        },
+      ],
+    });
+    const _p6 = (_0: unknown) => ({
+      authSchemes: [
+        {
+          disableDoubleEncoding: true,
+          name: "sigv4",
+          signingName: "s3",
+          signingRegion: `${_.getAttr(_0, "region")}`,
+        },
+      ],
+    });
+    const _p7 = (_0: unknown) => ({
+      authSchemes: [
+        {
+          disableDoubleEncoding: true,
+          name: "sigv4a",
+          signingName: "s3-outposts",
+          signingRegionSet: ["*"],
+        },
+        {
+          disableDoubleEncoding: true,
+          name: "sigv4",
+          signingName: "s3-outposts",
+          signingRegion: `${_.getAttr(_0, "region")}`,
+        },
+      ],
+    });
+    const _p8 = (_0: unknown) => ({
+      authSchemes: [
+        {
+          disableDoubleEncoding: true,
+          name: "sigv4",
+          signingName: "s3-object-lambda",
+          signingRegion: `${_0}`,
+        },
+      ],
+    });
+    if (Region != null) {
+      if (Accelerate === true && UseFIPS === true) {
+        return err("Accelerate cannot be used with FIPS");
+      }
+      if (UseDualStack === true && Endpoint != null) {
+        return err(
+          "Cannot set dual-stack in combination with a custom endpoint.",
+        );
+      }
+      if (Endpoint != null && UseFIPS === true) {
+        return err("A custom endpoint cannot be combined with FIPS");
+      }
+      if (Endpoint != null && Accelerate === true) {
+        return err("A custom endpoint cannot be combined with S3 Accelerate");
+      }
+      {
+        const partitionResult = _.partition(Region);
+        if (
+          UseFIPS === true &&
+          partitionResult != null &&
+          partitionResult !== false &&
+          _.getAttr(partitionResult, "name") === "aws-cn"
+        ) {
+          return err("Partition does not support FIPS");
+        }
+      }
+      {
+        const bucketSuffix = _.substring(Bucket, 0, 6, true);
+        if (
+          Bucket != null &&
+          bucketSuffix != null &&
+          bucketSuffix !== false &&
+          bucketSuffix === "--x-s3"
+        ) {
+          if (Accelerate === true) {
+            return err("S3Express does not support S3 Accelerate.");
+          }
+          {
+            const url = _.parseURL(Endpoint);
+            if (Endpoint != null && url != null && url !== false) {
+              if (
+                DisableS3ExpressSessionAuth != null &&
+                DisableS3ExpressSessionAuth === true
+              ) {
+                if (_.getAttr(url, "isIp") === true) {
+                  {
+                    const uri_encoded_bucket = _.uriEncode(Bucket);
+                    if (
+                      uri_encoded_bucket != null &&
+                      uri_encoded_bucket !== false
+                    ) {
+                      return e(
+                        `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}/${uri_encoded_bucket}${_.getAttr(url, "path")}`,
+                        _p0(Region),
+                        {},
+                      );
+                    }
+                  }
+                }
+                if (_.isVirtualHostableS3Bucket(Bucket, false)) {
+                  return e(
+                    `${_.getAttr(url, "scheme")}://${Bucket}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                    _p0(Region),
+                    {},
+                  );
+                }
+                return err(
+                  "S3Express bucket name is not a valid virtual hostable name.",
+                );
+              }
               if (_.getAttr(url, "isIp") === true) {
                 {
                   const uri_encoded_bucket = _.uriEncode(Bucket);
@@ -200,7 +228,7 @@ const rules = T.EndpointResolver((p, _) => {
                   ) {
                     return e(
                       `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}/${uri_encoded_bucket}${_.getAttr(url, "path")}`,
-                      _p0(Region),
+                      _p1(Region),
                       {},
                     );
                   }
@@ -209,7 +237,7 @@ const rules = T.EndpointResolver((p, _) => {
               if (_.isVirtualHostableS3Bucket(Bucket, false)) {
                 return e(
                   `${_.getAttr(url, "scheme")}://${Bucket}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
-                  _p0(Region),
+                  _p1(Region),
                   {},
                 );
               }
@@ -217,88 +245,314 @@ const rules = T.EndpointResolver((p, _) => {
                 "S3Express bucket name is not a valid virtual hostable name.",
               );
             }
-            if (_.getAttr(url, "isIp") === true) {
-              {
-                const uri_encoded_bucket = _.uriEncode(Bucket);
-                if (
-                  uri_encoded_bucket != null &&
-                  uri_encoded_bucket !== false
-                ) {
-                  return e(
-                    `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}/${uri_encoded_bucket}${_.getAttr(url, "path")}`,
-                    _p1(Region),
-                    {},
-                  );
-                }
-              }
-            }
-            if (_.isVirtualHostableS3Bucket(Bucket, false)) {
-              return e(
-                `${_.getAttr(url, "scheme")}://${Bucket}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
-                _p1(Region),
-                {},
-              );
-            }
-            return err(
-              "S3Express bucket name is not a valid virtual hostable name.",
-            );
           }
-        }
-        if (
-          UseS3ExpressControlEndpoint != null &&
-          UseS3ExpressControlEndpoint === true
-        ) {
-          {
-            const partitionResult = _.partition(Region);
-            if (partitionResult != null && partitionResult !== false) {
-              {
-                const uri_encoded_bucket = _.uriEncode(Bucket);
-                if (
-                  uri_encoded_bucket != null &&
-                  uri_encoded_bucket !== false &&
-                  !(Endpoint != null)
-                ) {
-                  if (UseFIPS === true && UseDualStack === true) {
-                    return e(
-                      `https://s3express-control-fips.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
-                      _p0(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === true && UseDualStack === false) {
-                    return e(
-                      `https://s3express-control-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
-                      _p0(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === true) {
-                    return e(
-                      `https://s3express-control.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
-                      _p0(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === false) {
-                    return e(
-                      `https://s3express-control.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
-                      _p0(Region),
-                      {},
-                    );
+          if (
+            UseS3ExpressControlEndpoint != null &&
+            UseS3ExpressControlEndpoint === true
+          ) {
+            {
+              const partitionResult = _.partition(Region);
+              if (partitionResult != null && partitionResult !== false) {
+                {
+                  const uri_encoded_bucket = _.uriEncode(Bucket);
+                  if (
+                    uri_encoded_bucket != null &&
+                    uri_encoded_bucket !== false &&
+                    !(Endpoint != null)
+                  ) {
+                    if (UseFIPS === true && UseDualStack === true) {
+                      return e(
+                        `https://s3express-control-fips.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
+                        _p0(Region),
+                        {},
+                      );
+                    }
+                    if (UseFIPS === true && UseDualStack === false) {
+                      return e(
+                        `https://s3express-control-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
+                        _p0(Region),
+                        {},
+                      );
+                    }
+                    if (UseFIPS === false && UseDualStack === true) {
+                      return e(
+                        `https://s3express-control.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
+                        _p0(Region),
+                        {},
+                      );
+                    }
+                    if (UseFIPS === false && UseDualStack === false) {
+                      return e(
+                        `https://s3express-control.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
+                        _p0(Region),
+                        {},
+                      );
+                    }
                   }
                 }
               }
             }
           }
-        }
-        if (_.isVirtualHostableS3Bucket(Bucket, false)) {
-          {
-            const partitionResult = _.partition(Region);
-            if (partitionResult != null && partitionResult !== false) {
-              if (
-                DisableS3ExpressSessionAuth != null &&
-                DisableS3ExpressSessionAuth === true
-              ) {
+          if (_.isVirtualHostableS3Bucket(Bucket, false)) {
+            {
+              const partitionResult = _.partition(Region);
+              if (partitionResult != null && partitionResult !== false) {
+                if (
+                  DisableS3ExpressSessionAuth != null &&
+                  DisableS3ExpressSessionAuth === true
+                ) {
+                  {
+                    const s3expressAvailabilityZoneId = _.substring(
+                      Bucket,
+                      6,
+                      14,
+                      true,
+                    );
+                    const s3expressAvailabilityZoneDelim = _.substring(
+                      Bucket,
+                      14,
+                      16,
+                      true,
+                    );
+                    if (
+                      s3expressAvailabilityZoneId != null &&
+                      s3expressAvailabilityZoneId !== false &&
+                      s3expressAvailabilityZoneDelim != null &&
+                      s3expressAvailabilityZoneDelim !== false &&
+                      s3expressAvailabilityZoneDelim === "--"
+                    ) {
+                      if (UseFIPS === true && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === true && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                    }
+                  }
+                  {
+                    const s3expressAvailabilityZoneId = _.substring(
+                      Bucket,
+                      6,
+                      15,
+                      true,
+                    );
+                    const s3expressAvailabilityZoneDelim = _.substring(
+                      Bucket,
+                      15,
+                      17,
+                      true,
+                    );
+                    if (
+                      s3expressAvailabilityZoneId != null &&
+                      s3expressAvailabilityZoneId !== false &&
+                      s3expressAvailabilityZoneDelim != null &&
+                      s3expressAvailabilityZoneDelim !== false &&
+                      s3expressAvailabilityZoneDelim === "--"
+                    ) {
+                      if (UseFIPS === true && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === true && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                    }
+                  }
+                  {
+                    const s3expressAvailabilityZoneId = _.substring(
+                      Bucket,
+                      6,
+                      19,
+                      true,
+                    );
+                    const s3expressAvailabilityZoneDelim = _.substring(
+                      Bucket,
+                      19,
+                      21,
+                      true,
+                    );
+                    if (
+                      s3expressAvailabilityZoneId != null &&
+                      s3expressAvailabilityZoneId !== false &&
+                      s3expressAvailabilityZoneDelim != null &&
+                      s3expressAvailabilityZoneDelim !== false &&
+                      s3expressAvailabilityZoneDelim === "--"
+                    ) {
+                      if (UseFIPS === true && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === true && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                    }
+                  }
+                  {
+                    const s3expressAvailabilityZoneId = _.substring(
+                      Bucket,
+                      6,
+                      20,
+                      true,
+                    );
+                    const s3expressAvailabilityZoneDelim = _.substring(
+                      Bucket,
+                      20,
+                      22,
+                      true,
+                    );
+                    if (
+                      s3expressAvailabilityZoneId != null &&
+                      s3expressAvailabilityZoneId !== false &&
+                      s3expressAvailabilityZoneDelim != null &&
+                      s3expressAvailabilityZoneDelim !== false &&
+                      s3expressAvailabilityZoneDelim === "--"
+                    ) {
+                      if (UseFIPS === true && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === true && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                    }
+                  }
+                  {
+                    const s3expressAvailabilityZoneId = _.substring(
+                      Bucket,
+                      6,
+                      26,
+                      true,
+                    );
+                    const s3expressAvailabilityZoneDelim = _.substring(
+                      Bucket,
+                      26,
+                      28,
+                      true,
+                    );
+                    if (
+                      s3expressAvailabilityZoneId != null &&
+                      s3expressAvailabilityZoneId !== false &&
+                      s3expressAvailabilityZoneDelim != null &&
+                      s3expressAvailabilityZoneDelim !== false &&
+                      s3expressAvailabilityZoneDelim === "--"
+                    ) {
+                      if (UseFIPS === true && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === true && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                    }
+                  }
+                  return err("Unrecognized S3Express bucket name format.");
+                }
                 {
                   const s3expressAvailabilityZoneId = _.substring(
                     Bucket,
@@ -322,28 +576,28 @@ const rules = T.EndpointResolver((p, _) => {
                     if (UseFIPS === true && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === true && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
@@ -372,28 +626,28 @@ const rules = T.EndpointResolver((p, _) => {
                     if (UseFIPS === true && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === true && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
@@ -422,28 +676,28 @@ const rules = T.EndpointResolver((p, _) => {
                     if (UseFIPS === true && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === true && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
@@ -472,28 +726,28 @@ const rules = T.EndpointResolver((p, _) => {
                     if (UseFIPS === true && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === true && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
@@ -522,28 +776,28 @@ const rules = T.EndpointResolver((p, _) => {
                     if (UseFIPS === true && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === true && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
@@ -551,283 +805,57 @@ const rules = T.EndpointResolver((p, _) => {
                 }
                 return err("Unrecognized S3Express bucket name format.");
               }
-              {
-                const s3expressAvailabilityZoneId = _.substring(
-                  Bucket,
-                  6,
-                  14,
-                  true,
-                );
-                const s3expressAvailabilityZoneDelim = _.substring(
-                  Bucket,
-                  14,
-                  16,
-                  true,
-                );
-                if (
-                  s3expressAvailabilityZoneId != null &&
-                  s3expressAvailabilityZoneId !== false &&
-                  s3expressAvailabilityZoneDelim != null &&
-                  s3expressAvailabilityZoneDelim !== false &&
-                  s3expressAvailabilityZoneDelim === "--"
-                ) {
-                  if (UseFIPS === true && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === true && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                }
-              }
-              {
-                const s3expressAvailabilityZoneId = _.substring(
-                  Bucket,
-                  6,
-                  15,
-                  true,
-                );
-                const s3expressAvailabilityZoneDelim = _.substring(
-                  Bucket,
-                  15,
-                  17,
-                  true,
-                );
-                if (
-                  s3expressAvailabilityZoneId != null &&
-                  s3expressAvailabilityZoneId !== false &&
-                  s3expressAvailabilityZoneDelim != null &&
-                  s3expressAvailabilityZoneDelim !== false &&
-                  s3expressAvailabilityZoneDelim === "--"
-                ) {
-                  if (UseFIPS === true && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === true && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                }
-              }
-              {
-                const s3expressAvailabilityZoneId = _.substring(
-                  Bucket,
-                  6,
-                  19,
-                  true,
-                );
-                const s3expressAvailabilityZoneDelim = _.substring(
-                  Bucket,
-                  19,
-                  21,
-                  true,
-                );
-                if (
-                  s3expressAvailabilityZoneId != null &&
-                  s3expressAvailabilityZoneId !== false &&
-                  s3expressAvailabilityZoneDelim != null &&
-                  s3expressAvailabilityZoneDelim !== false &&
-                  s3expressAvailabilityZoneDelim === "--"
-                ) {
-                  if (UseFIPS === true && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === true && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                }
-              }
-              {
-                const s3expressAvailabilityZoneId = _.substring(
-                  Bucket,
-                  6,
-                  20,
-                  true,
-                );
-                const s3expressAvailabilityZoneDelim = _.substring(
-                  Bucket,
-                  20,
-                  22,
-                  true,
-                );
-                if (
-                  s3expressAvailabilityZoneId != null &&
-                  s3expressAvailabilityZoneId !== false &&
-                  s3expressAvailabilityZoneDelim != null &&
-                  s3expressAvailabilityZoneDelim !== false &&
-                  s3expressAvailabilityZoneDelim === "--"
-                ) {
-                  if (UseFIPS === true && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === true && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                }
-              }
-              {
-                const s3expressAvailabilityZoneId = _.substring(
-                  Bucket,
-                  6,
-                  26,
-                  true,
-                );
-                const s3expressAvailabilityZoneDelim = _.substring(
-                  Bucket,
-                  26,
-                  28,
-                  true,
-                );
-                if (
-                  s3expressAvailabilityZoneId != null &&
-                  s3expressAvailabilityZoneId !== false &&
-                  s3expressAvailabilityZoneDelim != null &&
-                  s3expressAvailabilityZoneDelim !== false &&
-                  s3expressAvailabilityZoneDelim === "--"
-                ) {
-                  if (UseFIPS === true && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === true && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                }
-              }
-              return err("Unrecognized S3Express bucket name format.");
             }
           }
+          return err(
+            "S3Express bucket name is not a valid virtual hostable name.",
+          );
         }
-        return err(
-          "S3Express bucket name is not a valid virtual hostable name.",
-        );
       }
-    }
-    {
-      const accessPointSuffix = _.substring(Bucket, 0, 7, true);
-      if (
-        Bucket != null &&
-        accessPointSuffix != null &&
-        accessPointSuffix !== false &&
-        accessPointSuffix === "--xa-s3"
-      ) {
-        if (Accelerate === true) {
-          return err("S3Express does not support S3 Accelerate.");
-        }
-        {
-          const url = _.parseURL(Endpoint);
-          if (Endpoint != null && url != null && url !== false) {
-            if (
-              DisableS3ExpressSessionAuth != null &&
-              DisableS3ExpressSessionAuth === true
-            ) {
+      {
+        const accessPointSuffix = _.substring(Bucket, 0, 7, true);
+        if (
+          Bucket != null &&
+          accessPointSuffix != null &&
+          accessPointSuffix !== false &&
+          accessPointSuffix === "--xa-s3"
+        ) {
+          if (Accelerate === true) {
+            return err("S3Express does not support S3 Accelerate.");
+          }
+          {
+            const url = _.parseURL(Endpoint);
+            if (Endpoint != null && url != null && url !== false) {
+              if (
+                DisableS3ExpressSessionAuth != null &&
+                DisableS3ExpressSessionAuth === true
+              ) {
+                if (_.getAttr(url, "isIp") === true) {
+                  {
+                    const uri_encoded_bucket = _.uriEncode(Bucket);
+                    if (
+                      uri_encoded_bucket != null &&
+                      uri_encoded_bucket !== false
+                    ) {
+                      return e(
+                        `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}/${uri_encoded_bucket}${_.getAttr(url, "path")}`,
+                        _p0(Region),
+                        {},
+                      );
+                    }
+                  }
+                }
+                if (_.isVirtualHostableS3Bucket(Bucket, false)) {
+                  return e(
+                    `${_.getAttr(url, "scheme")}://${Bucket}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                    _p0(Region),
+                    {},
+                  );
+                }
+                return err(
+                  "S3Express bucket name is not a valid virtual hostable name.",
+                );
+              }
               if (_.getAttr(url, "isIp") === true) {
                 {
                   const uri_encoded_bucket = _.uriEncode(Bucket);
@@ -837,7 +865,7 @@ const rules = T.EndpointResolver((p, _) => {
                   ) {
                     return e(
                       `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}/${uri_encoded_bucket}${_.getAttr(url, "path")}`,
-                      _p0(Region),
+                      _p1(Region),
                       {},
                     );
                   }
@@ -846,7 +874,7 @@ const rules = T.EndpointResolver((p, _) => {
               if (_.isVirtualHostableS3Bucket(Bucket, false)) {
                 return e(
                   `${_.getAttr(url, "scheme")}://${Bucket}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
-                  _p0(Region),
+                  _p1(Region),
                   {},
                 );
               }
@@ -854,41 +882,267 @@ const rules = T.EndpointResolver((p, _) => {
                 "S3Express bucket name is not a valid virtual hostable name.",
               );
             }
-            if (_.getAttr(url, "isIp") === true) {
-              {
-                const uri_encoded_bucket = _.uriEncode(Bucket);
-                if (
-                  uri_encoded_bucket != null &&
-                  uri_encoded_bucket !== false
-                ) {
-                  return e(
-                    `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}/${uri_encoded_bucket}${_.getAttr(url, "path")}`,
-                    _p1(Region),
-                    {},
-                  );
-                }
-              }
-            }
-            if (_.isVirtualHostableS3Bucket(Bucket, false)) {
-              return e(
-                `${_.getAttr(url, "scheme")}://${Bucket}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
-                _p1(Region),
-                {},
-              );
-            }
-            return err(
-              "S3Express bucket name is not a valid virtual hostable name.",
-            );
           }
-        }
-        if (_.isVirtualHostableS3Bucket(Bucket, false)) {
-          {
-            const partitionResult = _.partition(Region);
-            if (partitionResult != null && partitionResult !== false) {
-              if (
-                DisableS3ExpressSessionAuth != null &&
-                DisableS3ExpressSessionAuth === true
-              ) {
+          if (_.isVirtualHostableS3Bucket(Bucket, false)) {
+            {
+              const partitionResult = _.partition(Region);
+              if (partitionResult != null && partitionResult !== false) {
+                if (
+                  DisableS3ExpressSessionAuth != null &&
+                  DisableS3ExpressSessionAuth === true
+                ) {
+                  {
+                    const s3expressAvailabilityZoneId = _.substring(
+                      Bucket,
+                      7,
+                      15,
+                      true,
+                    );
+                    const s3expressAvailabilityZoneDelim = _.substring(
+                      Bucket,
+                      15,
+                      17,
+                      true,
+                    );
+                    if (
+                      s3expressAvailabilityZoneId != null &&
+                      s3expressAvailabilityZoneId !== false &&
+                      s3expressAvailabilityZoneDelim != null &&
+                      s3expressAvailabilityZoneDelim !== false &&
+                      s3expressAvailabilityZoneDelim === "--"
+                    ) {
+                      if (UseFIPS === true && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === true && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                    }
+                  }
+                  {
+                    const s3expressAvailabilityZoneId = _.substring(
+                      Bucket,
+                      7,
+                      16,
+                      true,
+                    );
+                    const s3expressAvailabilityZoneDelim = _.substring(
+                      Bucket,
+                      16,
+                      18,
+                      true,
+                    );
+                    if (
+                      s3expressAvailabilityZoneId != null &&
+                      s3expressAvailabilityZoneId !== false &&
+                      s3expressAvailabilityZoneDelim != null &&
+                      s3expressAvailabilityZoneDelim !== false &&
+                      s3expressAvailabilityZoneDelim === "--"
+                    ) {
+                      if (UseFIPS === true && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === true && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                    }
+                  }
+                  {
+                    const s3expressAvailabilityZoneId = _.substring(
+                      Bucket,
+                      7,
+                      20,
+                      true,
+                    );
+                    const s3expressAvailabilityZoneDelim = _.substring(
+                      Bucket,
+                      20,
+                      22,
+                      true,
+                    );
+                    if (
+                      s3expressAvailabilityZoneId != null &&
+                      s3expressAvailabilityZoneId !== false &&
+                      s3expressAvailabilityZoneDelim != null &&
+                      s3expressAvailabilityZoneDelim !== false &&
+                      s3expressAvailabilityZoneDelim === "--"
+                    ) {
+                      if (UseFIPS === true && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === true && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                    }
+                  }
+                  {
+                    const s3expressAvailabilityZoneId = _.substring(
+                      Bucket,
+                      7,
+                      21,
+                      true,
+                    );
+                    const s3expressAvailabilityZoneDelim = _.substring(
+                      Bucket,
+                      21,
+                      23,
+                      true,
+                    );
+                    if (
+                      s3expressAvailabilityZoneId != null &&
+                      s3expressAvailabilityZoneId !== false &&
+                      s3expressAvailabilityZoneDelim != null &&
+                      s3expressAvailabilityZoneDelim !== false &&
+                      s3expressAvailabilityZoneDelim === "--"
+                    ) {
+                      if (UseFIPS === true && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === true && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                    }
+                  }
+                  {
+                    const s3expressAvailabilityZoneId = _.substring(
+                      Bucket,
+                      7,
+                      27,
+                      true,
+                    );
+                    const s3expressAvailabilityZoneDelim = _.substring(
+                      Bucket,
+                      27,
+                      29,
+                      true,
+                    );
+                    if (
+                      s3expressAvailabilityZoneId != null &&
+                      s3expressAvailabilityZoneId !== false &&
+                      s3expressAvailabilityZoneDelim != null &&
+                      s3expressAvailabilityZoneDelim !== false &&
+                      s3expressAvailabilityZoneDelim === "--"
+                    ) {
+                      if (UseFIPS === true && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === true && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === true) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                      if (UseFIPS === false && UseDualStack === false) {
+                        return e(
+                          `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                          _p0(Region),
+                          {},
+                        );
+                      }
+                    }
+                  }
+                  return err("Unrecognized S3Express bucket name format.");
+                }
                 {
                   const s3expressAvailabilityZoneId = _.substring(
                     Bucket,
@@ -912,28 +1166,28 @@ const rules = T.EndpointResolver((p, _) => {
                     if (UseFIPS === true && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === true && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
@@ -962,28 +1216,28 @@ const rules = T.EndpointResolver((p, _) => {
                     if (UseFIPS === true && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === true && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
@@ -1012,28 +1266,28 @@ const rules = T.EndpointResolver((p, _) => {
                     if (UseFIPS === true && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === true && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
@@ -1062,28 +1316,28 @@ const rules = T.EndpointResolver((p, _) => {
                     if (UseFIPS === true && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === true && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
@@ -1112,28 +1366,28 @@ const rules = T.EndpointResolver((p, _) => {
                     if (UseFIPS === true && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === true && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === true) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
                     if (UseFIPS === false && UseDualStack === false) {
                       return e(
                         `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                        _p0(Region),
+                        _p1(Region),
                         {},
                       );
                     }
@@ -1141,1006 +1395,620 @@ const rules = T.EndpointResolver((p, _) => {
                 }
                 return err("Unrecognized S3Express bucket name format.");
               }
-              {
-                const s3expressAvailabilityZoneId = _.substring(
-                  Bucket,
-                  7,
-                  15,
-                  true,
-                );
-                const s3expressAvailabilityZoneDelim = _.substring(
-                  Bucket,
-                  15,
-                  17,
-                  true,
-                );
-                if (
-                  s3expressAvailabilityZoneId != null &&
-                  s3expressAvailabilityZoneId !== false &&
-                  s3expressAvailabilityZoneDelim != null &&
-                  s3expressAvailabilityZoneDelim !== false &&
-                  s3expressAvailabilityZoneDelim === "--"
-                ) {
-                  if (UseFIPS === true && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === true && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                }
-              }
-              {
-                const s3expressAvailabilityZoneId = _.substring(
-                  Bucket,
-                  7,
-                  16,
-                  true,
-                );
-                const s3expressAvailabilityZoneDelim = _.substring(
-                  Bucket,
-                  16,
-                  18,
-                  true,
-                );
-                if (
-                  s3expressAvailabilityZoneId != null &&
-                  s3expressAvailabilityZoneId !== false &&
-                  s3expressAvailabilityZoneDelim != null &&
-                  s3expressAvailabilityZoneDelim !== false &&
-                  s3expressAvailabilityZoneDelim === "--"
-                ) {
-                  if (UseFIPS === true && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === true && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                }
-              }
-              {
-                const s3expressAvailabilityZoneId = _.substring(
-                  Bucket,
-                  7,
-                  20,
-                  true,
-                );
-                const s3expressAvailabilityZoneDelim = _.substring(
-                  Bucket,
-                  20,
-                  22,
-                  true,
-                );
-                if (
-                  s3expressAvailabilityZoneId != null &&
-                  s3expressAvailabilityZoneId !== false &&
-                  s3expressAvailabilityZoneDelim != null &&
-                  s3expressAvailabilityZoneDelim !== false &&
-                  s3expressAvailabilityZoneDelim === "--"
-                ) {
-                  if (UseFIPS === true && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === true && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                }
-              }
-              {
-                const s3expressAvailabilityZoneId = _.substring(
-                  Bucket,
-                  7,
-                  21,
-                  true,
-                );
-                const s3expressAvailabilityZoneDelim = _.substring(
-                  Bucket,
-                  21,
-                  23,
-                  true,
-                );
-                if (
-                  s3expressAvailabilityZoneId != null &&
-                  s3expressAvailabilityZoneId !== false &&
-                  s3expressAvailabilityZoneDelim != null &&
-                  s3expressAvailabilityZoneDelim !== false &&
-                  s3expressAvailabilityZoneDelim === "--"
-                ) {
-                  if (UseFIPS === true && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === true && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                }
-              }
-              {
-                const s3expressAvailabilityZoneId = _.substring(
-                  Bucket,
-                  7,
-                  27,
-                  true,
-                );
-                const s3expressAvailabilityZoneDelim = _.substring(
-                  Bucket,
-                  27,
-                  29,
-                  true,
-                );
-                if (
-                  s3expressAvailabilityZoneId != null &&
-                  s3expressAvailabilityZoneId !== false &&
-                  s3expressAvailabilityZoneDelim != null &&
-                  s3expressAvailabilityZoneDelim !== false &&
-                  s3expressAvailabilityZoneDelim === "--"
-                ) {
-                  if (UseFIPS === true && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === true && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-fips-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === true) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                  if (UseFIPS === false && UseDualStack === false) {
-                    return e(
-                      `https://${Bucket}.s3express-${s3expressAvailabilityZoneId}.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                      _p1(Region),
-                      {},
-                    );
-                  }
-                }
-              }
-              return err("Unrecognized S3Express bucket name format.");
             }
           }
+          return err(
+            "S3Express bucket name is not a valid virtual hostable name.",
+          );
         }
-        return err(
-          "S3Express bucket name is not a valid virtual hostable name.",
-        );
       }
-    }
-    if (
-      !(Bucket != null) &&
-      UseS3ExpressControlEndpoint != null &&
-      UseS3ExpressControlEndpoint === true
-    ) {
-      {
-        const partitionResult = _.partition(Region);
-        if (partitionResult != null && partitionResult !== false) {
-          {
-            const url = _.parseURL(Endpoint);
-            if (Endpoint != null && url != null && url !== false) {
+      if (
+        !(Bucket != null) &&
+        UseS3ExpressControlEndpoint != null &&
+        UseS3ExpressControlEndpoint === true
+      ) {
+        {
+          const partitionResult = _.partition(Region);
+          if (partitionResult != null && partitionResult !== false) {
+            {
+              const url = _.parseURL(Endpoint);
+              if (Endpoint != null && url != null && url !== false) {
+                return e(
+                  `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                  _p0(Region),
+                  {},
+                );
+              }
+            }
+            if (UseFIPS === true && UseDualStack === true) {
               return e(
-                `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                `https://s3express-control-fips.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                _p0(Region),
+                {},
+              );
+            }
+            if (UseFIPS === true && UseDualStack === false) {
+              return e(
+                `https://s3express-control-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                _p0(Region),
+                {},
+              );
+            }
+            if (UseFIPS === false && UseDualStack === true) {
+              return e(
+                `https://s3express-control.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                _p0(Region),
+                {},
+              );
+            }
+            if (UseFIPS === false && UseDualStack === false) {
+              return e(
+                `https://s3express-control.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
                 _p0(Region),
                 {},
               );
             }
           }
-          if (UseFIPS === true && UseDualStack === true) {
-            return e(
-              `https://s3express-control-fips.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-              _p0(Region),
-              {},
-            );
-          }
-          if (UseFIPS === true && UseDualStack === false) {
-            return e(
-              `https://s3express-control-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-              _p0(Region),
-              {},
-            );
-          }
-          if (UseFIPS === false && UseDualStack === true) {
-            return e(
-              `https://s3express-control.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-              _p0(Region),
-              {},
-            );
-          }
-          if (UseFIPS === false && UseDualStack === false) {
-            return e(
-              `https://s3express-control.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-              _p0(Region),
-              {},
-            );
-          }
         }
       }
-    }
-    {
-      const hardwareType = _.substring(Bucket, 49, 50, true);
-      const regionPrefix = _.substring(Bucket, 8, 12, true);
-      const bucketAliasSuffix = _.substring(Bucket, 0, 7, true);
-      const outpostId = _.substring(Bucket, 32, 49, true);
-      const regionPartition = _.partition(Region);
-      if (
-        Bucket != null &&
-        hardwareType != null &&
-        hardwareType !== false &&
-        regionPrefix != null &&
-        regionPrefix !== false &&
-        bucketAliasSuffix != null &&
-        bucketAliasSuffix !== false &&
-        outpostId != null &&
-        outpostId !== false &&
-        regionPartition != null &&
-        regionPartition !== false &&
-        bucketAliasSuffix === "--op-s3"
-      ) {
-        if (_.isValidHostLabel(outpostId, false)) {
-          if (_.isVirtualHostableS3Bucket(Bucket, false)) {
-            if (hardwareType === "e") {
-              if (regionPrefix === "beta") {
-                if (!(Endpoint != null)) {
-                  return err(
-                    "Expected a endpoint to be specified but no endpoint was found",
-                  );
-                }
-                {
-                  const url = _.parseURL(Endpoint);
-                  if (Endpoint != null && url != null && url !== false) {
-                    return e(
-                      `https://${Bucket}.ec2.${_.getAttr(url, "authority")}`,
-                      _p2(Region),
-                      {},
+      {
+        const hardwareType = _.substring(Bucket, 49, 50, true);
+        const regionPrefix = _.substring(Bucket, 8, 12, true);
+        const bucketAliasSuffix = _.substring(Bucket, 0, 7, true);
+        const outpostId = _.substring(Bucket, 32, 49, true);
+        const regionPartition = _.partition(Region);
+        if (
+          Bucket != null &&
+          hardwareType != null &&
+          hardwareType !== false &&
+          regionPrefix != null &&
+          regionPrefix !== false &&
+          bucketAliasSuffix != null &&
+          bucketAliasSuffix !== false &&
+          outpostId != null &&
+          outpostId !== false &&
+          regionPartition != null &&
+          regionPartition !== false &&
+          bucketAliasSuffix === "--op-s3"
+        ) {
+          if (_.isValidHostLabel(outpostId, false)) {
+            if (_.isVirtualHostableS3Bucket(Bucket, false)) {
+              if (hardwareType === "e") {
+                if (regionPrefix === "beta") {
+                  if (!(Endpoint != null)) {
+                    return err(
+                      "Expected a endpoint to be specified but no endpoint was found",
                     );
                   }
-                }
-              }
-              return e(
-                `https://${Bucket}.ec2.s3-outposts.${Region}.${_.getAttr(regionPartition, "dnsSuffix")}`,
-                _p2(Region),
-                {},
-              );
-            }
-            if (hardwareType === "o") {
-              if (regionPrefix === "beta") {
-                if (!(Endpoint != null)) {
-                  return err(
-                    "Expected a endpoint to be specified but no endpoint was found",
-                  );
-                }
-                {
-                  const url = _.parseURL(Endpoint);
-                  if (Endpoint != null && url != null && url !== false) {
-                    return e(
-                      `https://${Bucket}.op-${outpostId}.${_.getAttr(url, "authority")}`,
-                      _p2(Region),
-                      {},
-                    );
+                  {
+                    const url = _.parseURL(Endpoint);
+                    if (Endpoint != null && url != null && url !== false) {
+                      return e(
+                        `https://${Bucket}.ec2.${_.getAttr(url, "authority")}`,
+                        _p2(Region),
+                        {},
+                      );
+                    }
                   }
                 }
+                return e(
+                  `https://${Bucket}.ec2.s3-outposts.${Region}.${_.getAttr(regionPartition, "dnsSuffix")}`,
+                  _p2(Region),
+                  {},
+                );
               }
-              return e(
-                `https://${Bucket}.op-${outpostId}.s3-outposts.${Region}.${_.getAttr(regionPartition, "dnsSuffix")}`,
-                _p2(Region),
-                {},
+              if (hardwareType === "o") {
+                if (regionPrefix === "beta") {
+                  if (!(Endpoint != null)) {
+                    return err(
+                      "Expected a endpoint to be specified but no endpoint was found",
+                    );
+                  }
+                  {
+                    const url = _.parseURL(Endpoint);
+                    if (Endpoint != null && url != null && url !== false) {
+                      return e(
+                        `https://${Bucket}.op-${outpostId}.${_.getAttr(url, "authority")}`,
+                        _p2(Region),
+                        {},
+                      );
+                    }
+                  }
+                }
+                return e(
+                  `https://${Bucket}.op-${outpostId}.s3-outposts.${Region}.${_.getAttr(regionPartition, "dnsSuffix")}`,
+                  _p2(Region),
+                  {},
+                );
+              }
+              return err(
+                `Unrecognized hardware type: "Expected hardware type o or e but got ${hardwareType}"`,
               );
             }
             return err(
-              `Unrecognized hardware type: "Expected hardware type o or e but got ${hardwareType}"`,
+              "Invalid Outposts Bucket alias - it must be a valid bucket name.",
             );
           }
           return err(
-            "Invalid Outposts Bucket alias - it must be a valid bucket name.",
+            "Invalid ARN: The outpost Id must only contain a-z, A-Z, 0-9 and `-`.",
           );
         }
-        return err(
-          "Invalid ARN: The outpost Id must only contain a-z, A-Z, 0-9 and `-`.",
-        );
       }
-    }
-    if (Bucket != null) {
-      if (Endpoint != null && !(_.parseURL(Endpoint) != null)) {
-        return err(`Custom endpoint \`${Endpoint}\` was not a valid URI`);
-      }
-      if (
-        ForcePathStyle === false &&
-        _.isVirtualHostableS3Bucket(Bucket, false)
-      ) {
-        {
-          const partitionResult = _.partition(Region);
-          if (partitionResult != null && partitionResult !== false) {
-            if (_.isValidHostLabel(Region, false)) {
-              if (
-                Accelerate === true &&
-                _.getAttr(partitionResult, "name") === "aws-cn"
-              ) {
-                return err("S3 Accelerate cannot be used in this region");
-              }
-              if (
-                UseDualStack === true &&
-                UseFIPS === true &&
-                Accelerate === false &&
-                !(Endpoint != null) &&
-                Region === "aws-global"
-              ) {
-                return e(
-                  `https://${Bucket}.s3-fips.dualstack.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p3(),
-                  {},
-                );
-              }
-              if (
-                UseDualStack === true &&
-                UseFIPS === true &&
-                Accelerate === false &&
-                !(Endpoint != null) &&
-                !(Region === "aws-global") &&
-                UseGlobalEndpoint === true
-              ) {
-                return e(
-                  `https://${Bucket}.s3-fips.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p4(Region),
-                  {},
-                );
-              }
-              if (
-                UseDualStack === true &&
-                UseFIPS === true &&
-                Accelerate === false &&
-                !(Endpoint != null) &&
-                !(Region === "aws-global") &&
-                UseGlobalEndpoint === false
-              ) {
-                return e(
-                  `https://${Bucket}.s3-fips.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p4(Region),
-                  {},
-                );
-              }
-              if (
-                UseDualStack === false &&
-                UseFIPS === true &&
-                Accelerate === false &&
-                !(Endpoint != null) &&
-                Region === "aws-global"
-              ) {
-                return e(
-                  `https://${Bucket}.s3-fips.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p3(),
-                  {},
-                );
-              }
-              if (
-                UseDualStack === false &&
-                UseFIPS === true &&
-                Accelerate === false &&
-                !(Endpoint != null) &&
-                !(Region === "aws-global") &&
-                UseGlobalEndpoint === true
-              ) {
-                return e(
-                  `https://${Bucket}.s3-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p4(Region),
-                  {},
-                );
-              }
-              if (
-                UseDualStack === false &&
-                UseFIPS === true &&
-                Accelerate === false &&
-                !(Endpoint != null) &&
-                !(Region === "aws-global") &&
-                UseGlobalEndpoint === false
-              ) {
-                return e(
-                  `https://${Bucket}.s3-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p4(Region),
-                  {},
-                );
-              }
-              if (
-                UseDualStack === true &&
-                UseFIPS === false &&
-                Accelerate === true &&
-                !(Endpoint != null) &&
-                Region === "aws-global"
-              ) {
-                return e(
-                  `https://${Bucket}.s3-accelerate.dualstack.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p3(),
-                  {},
-                );
-              }
-              if (
-                UseDualStack === true &&
-                UseFIPS === false &&
-                Accelerate === true &&
-                !(Endpoint != null) &&
-                !(Region === "aws-global") &&
-                UseGlobalEndpoint === true
-              ) {
-                return e(
-                  `https://${Bucket}.s3-accelerate.dualstack.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p4(Region),
-                  {},
-                );
-              }
-              if (
-                UseDualStack === true &&
-                UseFIPS === false &&
-                Accelerate === true &&
-                !(Endpoint != null) &&
-                !(Region === "aws-global") &&
-                UseGlobalEndpoint === false
-              ) {
-                return e(
-                  `https://${Bucket}.s3-accelerate.dualstack.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p4(Region),
-                  {},
-                );
-              }
-              if (
-                UseDualStack === true &&
-                UseFIPS === false &&
-                Accelerate === false &&
-                !(Endpoint != null) &&
-                Region === "aws-global"
-              ) {
-                return e(
-                  `https://${Bucket}.s3.dualstack.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p3(),
-                  {},
-                );
-              }
-              if (
-                UseDualStack === true &&
-                UseFIPS === false &&
-                Accelerate === false &&
-                !(Endpoint != null) &&
-                !(Region === "aws-global") &&
-                UseGlobalEndpoint === true
-              ) {
-                return e(
-                  `https://${Bucket}.s3.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p4(Region),
-                  {},
-                );
-              }
-              if (
-                UseDualStack === true &&
-                UseFIPS === false &&
-                Accelerate === false &&
-                !(Endpoint != null) &&
-                !(Region === "aws-global") &&
-                UseGlobalEndpoint === false
-              ) {
-                return e(
-                  `https://${Bucket}.s3.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p4(Region),
-                  {},
-                );
-              }
-              {
-                const url = _.parseURL(Endpoint);
+      if (Bucket != null) {
+        if (Endpoint != null && !(_.parseURL(Endpoint) != null)) {
+          return err(`Custom endpoint \`${Endpoint}\` was not a valid URI`);
+        }
+        if (
+          ForcePathStyle === false &&
+          _.isVirtualHostableS3Bucket(Bucket, false)
+        ) {
+          {
+            const partitionResult = _.partition(Region);
+            if (partitionResult != null && partitionResult !== false) {
+              if (_.isValidHostLabel(Region, false)) {
                 if (
-                  UseDualStack === false &&
-                  UseFIPS === false &&
+                  Accelerate === true &&
+                  _.getAttr(partitionResult, "name") === "aws-cn"
+                ) {
+                  return err("S3 Accelerate cannot be used in this region");
+                }
+                if (
+                  UseDualStack === true &&
+                  UseFIPS === true &&
                   Accelerate === false &&
-                  Endpoint != null &&
-                  url != null &&
-                  url !== false &&
-                  _.getAttr(url, "isIp") === true &&
+                  !(Endpoint != null) &&
                   Region === "aws-global"
                 ) {
                   return e(
-                    `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "normalizedPath")}${Bucket}`,
+                    `https://${Bucket}.s3-fips.dualstack.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}`,
                     _p3(),
                     {},
                   );
                 }
-              }
-              {
-                const url = _.parseURL(Endpoint);
                 if (
-                  UseDualStack === false &&
-                  UseFIPS === false &&
+                  UseDualStack === true &&
+                  UseFIPS === true &&
                   Accelerate === false &&
-                  Endpoint != null &&
-                  url != null &&
-                  url !== false &&
-                  _.getAttr(url, "isIp") === false &&
-                  Region === "aws-global"
-                ) {
-                  return e(
-                    `${_.getAttr(url, "scheme")}://${Bucket}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
-                    _p3(),
-                    {},
-                  );
-                }
-              }
-              {
-                const url = _.parseURL(Endpoint);
-                if (
-                  UseDualStack === false &&
-                  UseFIPS === false &&
-                  Accelerate === false &&
-                  Endpoint != null &&
-                  url != null &&
-                  url !== false &&
-                  _.getAttr(url, "isIp") === true &&
+                  !(Endpoint != null) &&
                   !(Region === "aws-global") &&
                   UseGlobalEndpoint === true
                 ) {
-                  if (Region === "us-east-1") {
+                  return e(
+                    `https://${Bucket}.s3-fips.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    _p4(Region),
+                    {},
+                  );
+                }
+                if (
+                  UseDualStack === true &&
+                  UseFIPS === true &&
+                  Accelerate === false &&
+                  !(Endpoint != null) &&
+                  !(Region === "aws-global") &&
+                  UseGlobalEndpoint === false
+                ) {
+                  return e(
+                    `https://${Bucket}.s3-fips.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    _p4(Region),
+                    {},
+                  );
+                }
+                if (
+                  UseDualStack === false &&
+                  UseFIPS === true &&
+                  Accelerate === false &&
+                  !(Endpoint != null) &&
+                  Region === "aws-global"
+                ) {
+                  return e(
+                    `https://${Bucket}.s3-fips.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    _p3(),
+                    {},
+                  );
+                }
+                if (
+                  UseDualStack === false &&
+                  UseFIPS === true &&
+                  Accelerate === false &&
+                  !(Endpoint != null) &&
+                  !(Region === "aws-global") &&
+                  UseGlobalEndpoint === true
+                ) {
+                  return e(
+                    `https://${Bucket}.s3-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    _p4(Region),
+                    {},
+                  );
+                }
+                if (
+                  UseDualStack === false &&
+                  UseFIPS === true &&
+                  Accelerate === false &&
+                  !(Endpoint != null) &&
+                  !(Region === "aws-global") &&
+                  UseGlobalEndpoint === false
+                ) {
+                  return e(
+                    `https://${Bucket}.s3-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    _p4(Region),
+                    {},
+                  );
+                }
+                if (
+                  UseDualStack === true &&
+                  UseFIPS === false &&
+                  Accelerate === true &&
+                  !(Endpoint != null) &&
+                  Region === "aws-global"
+                ) {
+                  return e(
+                    `https://${Bucket}.s3-accelerate.dualstack.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    _p3(),
+                    {},
+                  );
+                }
+                if (
+                  UseDualStack === true &&
+                  UseFIPS === false &&
+                  Accelerate === true &&
+                  !(Endpoint != null) &&
+                  !(Region === "aws-global") &&
+                  UseGlobalEndpoint === true
+                ) {
+                  return e(
+                    `https://${Bucket}.s3-accelerate.dualstack.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    _p4(Region),
+                    {},
+                  );
+                }
+                if (
+                  UseDualStack === true &&
+                  UseFIPS === false &&
+                  Accelerate === true &&
+                  !(Endpoint != null) &&
+                  !(Region === "aws-global") &&
+                  UseGlobalEndpoint === false
+                ) {
+                  return e(
+                    `https://${Bucket}.s3-accelerate.dualstack.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    _p4(Region),
+                    {},
+                  );
+                }
+                if (
+                  UseDualStack === true &&
+                  UseFIPS === false &&
+                  Accelerate === false &&
+                  !(Endpoint != null) &&
+                  Region === "aws-global"
+                ) {
+                  return e(
+                    `https://${Bucket}.s3.dualstack.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    _p3(),
+                    {},
+                  );
+                }
+                if (
+                  UseDualStack === true &&
+                  UseFIPS === false &&
+                  Accelerate === false &&
+                  !(Endpoint != null) &&
+                  !(Region === "aws-global") &&
+                  UseGlobalEndpoint === true
+                ) {
+                  return e(
+                    `https://${Bucket}.s3.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    _p4(Region),
+                    {},
+                  );
+                }
+                if (
+                  UseDualStack === true &&
+                  UseFIPS === false &&
+                  Accelerate === false &&
+                  !(Endpoint != null) &&
+                  !(Region === "aws-global") &&
+                  UseGlobalEndpoint === false
+                ) {
+                  return e(
+                    `https://${Bucket}.s3.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    _p4(Region),
+                    {},
+                  );
+                }
+                {
+                  const url = _.parseURL(Endpoint);
+                  if (
+                    UseDualStack === false &&
+                    UseFIPS === false &&
+                    Accelerate === false &&
+                    Endpoint != null &&
+                    url != null &&
+                    url !== false &&
+                    _.getAttr(url, "isIp") === true &&
+                    Region === "aws-global"
+                  ) {
+                    return e(
+                      `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "normalizedPath")}${Bucket}`,
+                      _p3(),
+                      {},
+                    );
+                  }
+                }
+                {
+                  const url = _.parseURL(Endpoint);
+                  if (
+                    UseDualStack === false &&
+                    UseFIPS === false &&
+                    Accelerate === false &&
+                    Endpoint != null &&
+                    url != null &&
+                    url !== false &&
+                    _.getAttr(url, "isIp") === false &&
+                    Region === "aws-global"
+                  ) {
+                    return e(
+                      `${_.getAttr(url, "scheme")}://${Bucket}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                      _p3(),
+                      {},
+                    );
+                  }
+                }
+                {
+                  const url = _.parseURL(Endpoint);
+                  if (
+                    UseDualStack === false &&
+                    UseFIPS === false &&
+                    Accelerate === false &&
+                    Endpoint != null &&
+                    url != null &&
+                    url !== false &&
+                    _.getAttr(url, "isIp") === true &&
+                    !(Region === "aws-global") &&
+                    UseGlobalEndpoint === true
+                  ) {
+                    if (Region === "us-east-1") {
+                      return e(
+                        `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "normalizedPath")}${Bucket}`,
+                        _p4(Region),
+                        {},
+                      );
+                    }
                     return e(
                       `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "normalizedPath")}${Bucket}`,
                       _p4(Region),
                       {},
                     );
                   }
-                  return e(
-                    `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "normalizedPath")}${Bucket}`,
-                    _p4(Region),
-                    {},
-                  );
                 }
-              }
-              {
-                const url = _.parseURL(Endpoint);
-                if (
-                  UseDualStack === false &&
-                  UseFIPS === false &&
-                  Accelerate === false &&
-                  Endpoint != null &&
-                  url != null &&
-                  url !== false &&
-                  _.getAttr(url, "isIp") === false &&
-                  !(Region === "aws-global") &&
-                  UseGlobalEndpoint === true
-                ) {
-                  if (Region === "us-east-1") {
+                {
+                  const url = _.parseURL(Endpoint);
+                  if (
+                    UseDualStack === false &&
+                    UseFIPS === false &&
+                    Accelerate === false &&
+                    Endpoint != null &&
+                    url != null &&
+                    url !== false &&
+                    _.getAttr(url, "isIp") === false &&
+                    !(Region === "aws-global") &&
+                    UseGlobalEndpoint === true
+                  ) {
+                    if (Region === "us-east-1") {
+                      return e(
+                        `${_.getAttr(url, "scheme")}://${Bucket}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                        _p4(Region),
+                        {},
+                      );
+                    }
                     return e(
                       `${_.getAttr(url, "scheme")}://${Bucket}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
                       _p4(Region),
                       {},
                     );
                   }
-                  return e(
-                    `${_.getAttr(url, "scheme")}://${Bucket}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
-                    _p4(Region),
-                    {},
-                  );
                 }
-              }
-              {
-                const url = _.parseURL(Endpoint);
+                {
+                  const url = _.parseURL(Endpoint);
+                  if (
+                    UseDualStack === false &&
+                    UseFIPS === false &&
+                    Accelerate === false &&
+                    Endpoint != null &&
+                    url != null &&
+                    url !== false &&
+                    _.getAttr(url, "isIp") === true &&
+                    !(Region === "aws-global") &&
+                    UseGlobalEndpoint === false
+                  ) {
+                    return e(
+                      `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "normalizedPath")}${Bucket}`,
+                      _p4(Region),
+                      {},
+                    );
+                  }
+                }
+                {
+                  const url = _.parseURL(Endpoint);
+                  if (
+                    UseDualStack === false &&
+                    UseFIPS === false &&
+                    Accelerate === false &&
+                    Endpoint != null &&
+                    url != null &&
+                    url !== false &&
+                    _.getAttr(url, "isIp") === false &&
+                    !(Region === "aws-global") &&
+                    UseGlobalEndpoint === false
+                  ) {
+                    return e(
+                      `${_.getAttr(url, "scheme")}://${Bucket}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                      _p4(Region),
+                      {},
+                    );
+                  }
+                }
                 if (
                   UseDualStack === false &&
                   UseFIPS === false &&
-                  Accelerate === false &&
-                  Endpoint != null &&
-                  url != null &&
-                  url !== false &&
-                  _.getAttr(url, "isIp") === true &&
-                  !(Region === "aws-global") &&
-                  UseGlobalEndpoint === false
+                  Accelerate === true &&
+                  !(Endpoint != null) &&
+                  Region === "aws-global"
                 ) {
                   return e(
-                    `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "normalizedPath")}${Bucket}`,
-                    _p4(Region),
+                    `https://${Bucket}.s3-accelerate.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    _p3(),
                     {},
                   );
                 }
-              }
-              {
-                const url = _.parseURL(Endpoint);
                 if (
                   UseDualStack === false &&
                   UseFIPS === false &&
-                  Accelerate === false &&
-                  Endpoint != null &&
-                  url != null &&
-                  url !== false &&
-                  _.getAttr(url, "isIp") === false &&
+                  Accelerate === true &&
+                  !(Endpoint != null) &&
                   !(Region === "aws-global") &&
-                  UseGlobalEndpoint === false
+                  UseGlobalEndpoint === true
                 ) {
-                  return e(
-                    `${_.getAttr(url, "scheme")}://${Bucket}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
-                    _p4(Region),
-                    {},
-                  );
-                }
-              }
-              if (
-                UseDualStack === false &&
-                UseFIPS === false &&
-                Accelerate === true &&
-                !(Endpoint != null) &&
-                Region === "aws-global"
-              ) {
-                return e(
-                  `https://${Bucket}.s3-accelerate.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p3(),
-                  {},
-                );
-              }
-              if (
-                UseDualStack === false &&
-                UseFIPS === false &&
-                Accelerate === true &&
-                !(Endpoint != null) &&
-                !(Region === "aws-global") &&
-                UseGlobalEndpoint === true
-              ) {
-                if (Region === "us-east-1") {
+                  if (Region === "us-east-1") {
+                    return e(
+                      `https://${Bucket}.s3-accelerate.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                      _p4(Region),
+                      {},
+                    );
+                  }
                   return e(
                     `https://${Bucket}.s3-accelerate.${_.getAttr(partitionResult, "dnsSuffix")}`,
                     _p4(Region),
                     {},
                   );
                 }
-                return e(
-                  `https://${Bucket}.s3-accelerate.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p4(Region),
-                  {},
-                );
-              }
-              if (
-                UseDualStack === false &&
-                UseFIPS === false &&
-                Accelerate === true &&
-                !(Endpoint != null) &&
-                !(Region === "aws-global") &&
-                UseGlobalEndpoint === false
-              ) {
-                return e(
-                  `https://${Bucket}.s3-accelerate.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p4(Region),
-                  {},
-                );
-              }
-              if (
-                UseDualStack === false &&
-                UseFIPS === false &&
-                Accelerate === false &&
-                !(Endpoint != null) &&
-                Region === "aws-global"
-              ) {
-                return e(
-                  `https://${Bucket}.s3.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p3(),
-                  {},
-                );
-              }
-              if (
-                UseDualStack === false &&
-                UseFIPS === false &&
-                Accelerate === false &&
-                !(Endpoint != null) &&
-                !(Region === "aws-global") &&
-                UseGlobalEndpoint === true
-              ) {
-                if (Region === "us-east-1") {
+                if (
+                  UseDualStack === false &&
+                  UseFIPS === false &&
+                  Accelerate === true &&
+                  !(Endpoint != null) &&
+                  !(Region === "aws-global") &&
+                  UseGlobalEndpoint === false
+                ) {
                   return e(
-                    `https://${Bucket}.s3.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    `https://${Bucket}.s3-accelerate.${_.getAttr(partitionResult, "dnsSuffix")}`,
                     _p4(Region),
                     {},
                   );
                 }
-                return e(
-                  `https://${Bucket}.s3.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p4(Region),
-                  {},
-                );
-              }
-              if (
-                UseDualStack === false &&
-                UseFIPS === false &&
-                Accelerate === false &&
-                !(Endpoint != null) &&
-                !(Region === "aws-global") &&
-                UseGlobalEndpoint === false
-              ) {
-                return e(
-                  `https://${Bucket}.s3.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p4(Region),
-                  {},
-                );
-              }
-            }
-            return err("Invalid region: region was not a valid DNS name.");
-          }
-        }
-      }
-      {
-        const url = _.parseURL(Endpoint);
-        if (
-          Endpoint != null &&
-          url != null &&
-          url !== false &&
-          _.getAttr(url, "scheme") === "http" &&
-          _.isVirtualHostableS3Bucket(Bucket, true) &&
-          ForcePathStyle === false &&
-          UseFIPS === false &&
-          UseDualStack === false &&
-          Accelerate === false
-        ) {
-          {
-            const partitionResult = _.partition(Region);
-            if (partitionResult != null && partitionResult !== false) {
-              if (_.isValidHostLabel(Region, false)) {
-                return e(
-                  `${_.getAttr(url, "scheme")}://${Bucket}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
-                  _p4(Region),
-                  {},
-                );
+                if (
+                  UseDualStack === false &&
+                  UseFIPS === false &&
+                  Accelerate === false &&
+                  !(Endpoint != null) &&
+                  Region === "aws-global"
+                ) {
+                  return e(
+                    `https://${Bucket}.s3.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    _p3(),
+                    {},
+                  );
+                }
+                if (
+                  UseDualStack === false &&
+                  UseFIPS === false &&
+                  Accelerate === false &&
+                  !(Endpoint != null) &&
+                  !(Region === "aws-global") &&
+                  UseGlobalEndpoint === true
+                ) {
+                  if (Region === "us-east-1") {
+                    return e(
+                      `https://${Bucket}.s3.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                      _p4(Region),
+                      {},
+                    );
+                  }
+                  return e(
+                    `https://${Bucket}.s3.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    _p4(Region),
+                    {},
+                  );
+                }
+                if (
+                  UseDualStack === false &&
+                  UseFIPS === false &&
+                  Accelerate === false &&
+                  !(Endpoint != null) &&
+                  !(Region === "aws-global") &&
+                  UseGlobalEndpoint === false
+                ) {
+                  return e(
+                    `https://${Bucket}.s3.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    _p4(Region),
+                    {},
+                  );
+                }
               }
               return err("Invalid region: region was not a valid DNS name.");
             }
           }
         }
-      }
-      {
-        const bucketArn = _.parseArn(Bucket);
-        if (
-          ForcePathStyle === false &&
-          bucketArn != null &&
-          bucketArn !== false
-        ) {
-          {
-            const arnType = _.getAttr(bucketArn, "resourceId[0]");
-            if (arnType != null && arnType !== false && !(arnType === "")) {
-              if (_.getAttr(bucketArn, "service") === "s3-object-lambda") {
-                if (arnType === "accesspoint") {
-                  {
-                    const accessPointName = _.getAttr(
-                      bucketArn,
-                      "resourceId[1]",
-                    );
-                    if (
-                      accessPointName != null &&
-                      accessPointName !== false &&
-                      !(accessPointName === "")
-                    ) {
-                      if (UseDualStack === true) {
-                        return err(
-                          "S3 Object Lambda does not support Dual-stack",
-                        );
-                      }
-                      if (Accelerate === true) {
-                        return err(
-                          "S3 Object Lambda does not support S3 Accelerate",
-                        );
-                      }
-                      if (!(_.getAttr(bucketArn, "region") === "")) {
-                        if (
-                          DisableAccessPoints != null &&
-                          DisableAccessPoints === true
-                        ) {
-                          return err(
-                            "Access points are not supported for this operation",
-                          );
-                        }
-                        if (!(_.getAttr(bucketArn, "resourceId[2]") != null)) {
-                          if (
-                            UseArnRegion != null &&
-                            UseArnRegion === false &&
-                            !(_.getAttr(bucketArn, "region") === `${Region}`)
-                          ) {
-                            return err(
-                              `Invalid configuration: region from ARN \`${_.getAttr(bucketArn, "region")}\` does not match client region \`${Region}\` and UseArnRegion is \`false\``,
-                            );
-                          }
-                          {
-                            const bucketPartition = _.partition(
-                              _.getAttr(bucketArn, "region"),
-                            );
-                            if (
-                              bucketPartition != null &&
-                              bucketPartition !== false
-                            ) {
-                              {
-                                const partitionResult = _.partition(Region);
-                                if (
-                                  partitionResult != null &&
-                                  partitionResult !== false
-                                ) {
-                                  if (
-                                    _.getAttr(bucketPartition, "name") ===
-                                    _.getAttr(partitionResult, "name")
-                                  ) {
-                                    if (
-                                      _.isValidHostLabel(
-                                        _.getAttr(bucketArn, "region"),
-                                        true,
-                                      )
-                                    ) {
-                                      if (
-                                        _.getAttr(bucketArn, "accountId") === ""
-                                      ) {
-                                        return err(
-                                          "Invalid ARN: Missing account id",
-                                        );
-                                      }
-                                      if (
-                                        _.isValidHostLabel(
-                                          _.getAttr(bucketArn, "accountId"),
-                                          false,
-                                        )
-                                      ) {
-                                        if (
-                                          _.isValidHostLabel(
-                                            accessPointName,
-                                            false,
-                                          )
-                                        ) {
-                                          {
-                                            const url = _.parseURL(Endpoint);
-                                            if (
-                                              Endpoint != null &&
-                                              url != null &&
-                                              url !== false
-                                            ) {
-                                              return e(
-                                                `${_.getAttr(url, "scheme")}://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
-                                                _p5(bucketArn),
-                                                {},
-                                              );
-                                            }
-                                          }
-                                          if (UseFIPS === true) {
-                                            return e(
-                                              `https://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.s3-object-lambda-fips.${_.getAttr(bucketArn, "region")}.${_.getAttr(bucketPartition, "dnsSuffix")}`,
-                                              _p5(bucketArn),
-                                              {},
-                                            );
-                                          }
-                                          return e(
-                                            `https://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.s3-object-lambda.${_.getAttr(bucketArn, "region")}.${_.getAttr(bucketPartition, "dnsSuffix")}`,
-                                            _p5(bucketArn),
-                                            {},
-                                          );
-                                        }
-                                        return err(
-                                          `Invalid ARN: The access point name may only contain a-z, A-Z, 0-9 and \`-\`. Found: \`${accessPointName}\``,
-                                        );
-                                      }
-                                      return err(
-                                        `Invalid ARN: The account id may only contain a-z, A-Z, 0-9 and \`-\`. Found: \`${_.getAttr(bucketArn, "accountId")}\``,
-                                      );
-                                    }
-                                    return err(
-                                      `Invalid region in ARN: \`${_.getAttr(bucketArn, "region")}\` (invalid DNS name)`,
-                                    );
-                                  }
-                                  return err(
-                                    `Client was configured for partition \`${_.getAttr(partitionResult, "name")}\` but ARN (\`${Bucket}\`) has \`${_.getAttr(bucketPartition, "name")}\``,
-                                  );
-                                }
-                              }
-                            }
-                          }
-                        }
-                        return err(
-                          "Invalid ARN: The ARN may only contain a single resource component after `accesspoint`.",
-                        );
-                      }
-                      return err("Invalid ARN: bucket ARN is missing a region");
-                    }
-                  }
-                  return err(
-                    "Invalid ARN: Expected a resource of the format `accesspoint:<accesspoint name>` but no name was provided",
+        {
+          const url = _.parseURL(Endpoint);
+          if (
+            Endpoint != null &&
+            url != null &&
+            url !== false &&
+            _.getAttr(url, "scheme") === "http" &&
+            _.isVirtualHostableS3Bucket(Bucket, true) &&
+            ForcePathStyle === false &&
+            UseFIPS === false &&
+            UseDualStack === false &&
+            Accelerate === false
+          ) {
+            {
+              const partitionResult = _.partition(Region);
+              if (partitionResult != null && partitionResult !== false) {
+                if (_.isValidHostLabel(Region, false)) {
+                  return e(
+                    `${_.getAttr(url, "scheme")}://${Bucket}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                    _p4(Region),
+                    {},
                   );
                 }
-                return err(
-                  `Invalid ARN: Object Lambda ARNs only support \`accesspoint\` arn types, but found: \`${arnType}\``,
-                );
+                return err("Invalid region: region was not a valid DNS name.");
               }
-              if (arnType === "accesspoint") {
-                {
-                  const accessPointName = _.getAttr(bucketArn, "resourceId[1]");
-                  if (
-                    accessPointName != null &&
-                    accessPointName !== false &&
-                    !(accessPointName === "")
-                  ) {
-                    if (!(_.getAttr(bucketArn, "region") === "")) {
-                      if (arnType === "accesspoint") {
+            }
+          }
+        }
+        {
+          const bucketArn = _.parseArn(Bucket);
+          if (
+            ForcePathStyle === false &&
+            bucketArn != null &&
+            bucketArn !== false
+          ) {
+            {
+              const arnType = _.getAttr(bucketArn, "resourceId[0]");
+              if (arnType != null && arnType !== false && !(arnType === "")) {
+                if (_.getAttr(bucketArn, "service") === "s3-object-lambda") {
+                  if (arnType === "accesspoint") {
+                    {
+                      const accessPointName = _.getAttr(
+                        bucketArn,
+                        "resourceId[1]",
+                      );
+                      if (
+                        accessPointName != null &&
+                        accessPointName !== false &&
+                        !(accessPointName === "")
+                      ) {
+                        if (UseDualStack === true) {
+                          return err(
+                            "S3 Object Lambda does not support Dual-stack",
+                          );
+                        }
+                        if (Accelerate === true) {
+                          return err(
+                            "S3 Object Lambda does not support S3 Accelerate",
+                          );
+                        }
                         if (!(_.getAttr(bucketArn, "region") === "")) {
                           if (
                             DisableAccessPoints != null &&
@@ -2178,7 +2046,7 @@ const rules = T.EndpointResolver((p, _) => {
                                   ) {
                                     if (
                                       _.getAttr(bucketPartition, "name") ===
-                                      `${_.getAttr(partitionResult, "name")}`
+                                      _.getAttr(partitionResult, "name")
                                     ) {
                                       if (
                                         _.isValidHostLabel(
@@ -2187,94 +2055,58 @@ const rules = T.EndpointResolver((p, _) => {
                                         )
                                       ) {
                                         if (
-                                          _.getAttr(bucketArn, "service") ===
-                                          "s3"
+                                          _.getAttr(bucketArn, "accountId") ===
+                                          ""
+                                        ) {
+                                          return err(
+                                            "Invalid ARN: Missing account id",
+                                          );
+                                        }
+                                        if (
+                                          _.isValidHostLabel(
+                                            _.getAttr(bucketArn, "accountId"),
+                                            false,
+                                          )
                                         ) {
                                           if (
                                             _.isValidHostLabel(
-                                              _.getAttr(bucketArn, "accountId"),
+                                              accessPointName,
                                               false,
                                             )
                                           ) {
-                                            if (
-                                              _.isValidHostLabel(
-                                                accessPointName,
-                                                false,
-                                              )
-                                            ) {
-                                              if (Accelerate === true) {
-                                                return err(
-                                                  "Access Points do not support S3 Accelerate",
-                                                );
-                                              }
+                                            {
+                                              const url = _.parseURL(Endpoint);
                                               if (
-                                                UseFIPS === true &&
-                                                UseDualStack === true
+                                                Endpoint != null &&
+                                                url != null &&
+                                                url !== false
                                               ) {
                                                 return e(
-                                                  `https://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.s3-accesspoint-fips.dualstack.${_.getAttr(bucketArn, "region")}.${_.getAttr(bucketPartition, "dnsSuffix")}`,
-                                                  _p6(bucketArn),
-                                                  {},
-                                                );
-                                              }
-                                              if (
-                                                UseFIPS === true &&
-                                                UseDualStack === false
-                                              ) {
-                                                return e(
-                                                  `https://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.s3-accesspoint-fips.${_.getAttr(bucketArn, "region")}.${_.getAttr(bucketPartition, "dnsSuffix")}`,
-                                                  _p6(bucketArn),
-                                                  {},
-                                                );
-                                              }
-                                              if (
-                                                UseFIPS === false &&
-                                                UseDualStack === true
-                                              ) {
-                                                return e(
-                                                  `https://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.s3-accesspoint.dualstack.${_.getAttr(bucketArn, "region")}.${_.getAttr(bucketPartition, "dnsSuffix")}`,
-                                                  _p6(bucketArn),
-                                                  {},
-                                                );
-                                              }
-                                              {
-                                                const url =
-                                                  _.parseURL(Endpoint);
-                                                if (
-                                                  UseFIPS === false &&
-                                                  UseDualStack === false &&
-                                                  Endpoint != null &&
-                                                  url != null &&
-                                                  url !== false
-                                                ) {
-                                                  return e(
-                                                    `${_.getAttr(url, "scheme")}://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
-                                                    _p6(bucketArn),
-                                                    {},
-                                                  );
-                                                }
-                                              }
-                                              if (
-                                                UseFIPS === false &&
-                                                UseDualStack === false
-                                              ) {
-                                                return e(
-                                                  `https://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.s3-accesspoint.${_.getAttr(bucketArn, "region")}.${_.getAttr(bucketPartition, "dnsSuffix")}`,
-                                                  _p6(bucketArn),
+                                                  `${_.getAttr(url, "scheme")}://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                                                  _p5(bucketArn),
                                                   {},
                                                 );
                                               }
                                             }
-                                            return err(
-                                              `Invalid ARN: The access point name may only contain a-z, A-Z, 0-9 and \`-\`. Found: \`${accessPointName}\``,
+                                            if (UseFIPS === true) {
+                                              return e(
+                                                `https://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.s3-object-lambda-fips.${_.getAttr(bucketArn, "region")}.${_.getAttr(bucketPartition, "dnsSuffix")}`,
+                                                _p5(bucketArn),
+                                                {},
+                                              );
+                                            }
+                                            return e(
+                                              `https://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.s3-object-lambda.${_.getAttr(bucketArn, "region")}.${_.getAttr(bucketPartition, "dnsSuffix")}`,
+                                              _p5(bucketArn),
+                                              {},
                                             );
                                           }
                                           return err(
-                                            `Invalid ARN: The account id may only contain a-z, A-Z, 0-9 and \`-\`. Found: \`${_.getAttr(bucketArn, "accountId")}\``,
+                                            `Invalid ARN: The access point name may only contain a-z, A-Z, 0-9 and \`-\`. Found: \`${accessPointName}\``,
                                           );
                                         }
                                         return err(
-                                          `Invalid ARN: The ARN was not for the S3 service, found: ${_.getAttr(bucketArn, "service")}`,
+                                          `Invalid ARN: The account id may only contain a-z, A-Z, 0-9 and \`-\`. Found: \`${_.getAttr(bucketArn, "accountId")}\``,
                                         );
                                       }
                                       return err(
@@ -2293,1028 +2125,1174 @@ const rules = T.EndpointResolver((p, _) => {
                             "Invalid ARN: The ARN may only contain a single resource component after `accesspoint`.",
                           );
                         }
-                      }
-                    }
-                    if (_.isValidHostLabel(accessPointName, true)) {
-                      if (UseDualStack === true) {
-                        return err("S3 MRAP does not support dual-stack");
-                      }
-                      if (UseFIPS === true) {
-                        return err("S3 MRAP does not support FIPS");
-                      }
-                      if (Accelerate === true) {
-                        return err("S3 MRAP does not support S3 Accelerate");
-                      }
-                      if (DisableMultiRegionAccessPoints === true) {
                         return err(
-                          "Invalid configuration: Multi-Region Access Point ARNs are disabled.",
+                          "Invalid ARN: bucket ARN is missing a region",
                         );
                       }
-                      {
-                        const mrapPartition = _.partition(Region);
-                        if (mrapPartition != null && mrapPartition !== false) {
-                          if (
-                            _.getAttr(mrapPartition, "name") ===
-                            _.getAttr(bucketArn, "partition")
-                          ) {
-                            return e(
-                              `https://${accessPointName}.accesspoint.s3-global.${_.getAttr(mrapPartition, "dnsSuffix")}`,
-                              {
-                                authSchemes: [
-                                  {
-                                    disableDoubleEncoding: true,
-                                    name: "sigv4a",
-                                    signingName: "s3",
-                                    signingRegionSet: ["*"],
-                                  },
-                                ],
-                              },
-                              {},
-                            );
-                          }
-                          return err(
-                            `Client was configured for partition \`${_.getAttr(mrapPartition, "name")}\` but bucket referred to partition \`${_.getAttr(bucketArn, "partition")}\``,
-                          );
-                        }
-                      }
                     }
-                    return err("Invalid Access Point Name");
+                    return err(
+                      "Invalid ARN: Expected a resource of the format `accesspoint:<accesspoint name>` but no name was provided",
+                    );
                   }
-                }
-                return err(
-                  "Invalid ARN: Expected a resource of the format `accesspoint:<accesspoint name>` but no name was provided",
-                );
-              }
-              if (_.getAttr(bucketArn, "service") === "s3-outposts") {
-                if (UseDualStack === true) {
-                  return err("S3 Outposts does not support Dual-stack");
-                }
-                if (UseFIPS === true) {
-                  return err("S3 Outposts does not support FIPS");
-                }
-                if (Accelerate === true) {
-                  return err("S3 Outposts does not support S3 Accelerate");
-                }
-                if (_.getAttr(bucketArn, "resourceId[4]") != null) {
                   return err(
-                    "Invalid Arn: Outpost Access Point ARN contains sub resources",
+                    `Invalid ARN: Object Lambda ARNs only support \`accesspoint\` arn types, but found: \`${arnType}\``,
                   );
                 }
-                {
-                  const outpostId = _.getAttr(bucketArn, "resourceId[1]");
-                  if (outpostId != null && outpostId !== false) {
-                    if (_.isValidHostLabel(outpostId, false)) {
-                      if (
-                        UseArnRegion != null &&
-                        UseArnRegion === false &&
-                        !(_.getAttr(bucketArn, "region") === `${Region}`)
-                      ) {
-                        return err(
-                          `Invalid configuration: region from ARN \`${_.getAttr(bucketArn, "region")}\` does not match client region \`${Region}\` and UseArnRegion is \`false\``,
-                        );
-                      }
-                      {
-                        const bucketPartition = _.partition(
-                          _.getAttr(bucketArn, "region"),
-                        );
-                        if (
-                          bucketPartition != null &&
-                          bucketPartition !== false
-                        ) {
-                          {
-                            const partitionResult = _.partition(Region);
+                if (arnType === "accesspoint") {
+                  {
+                    const accessPointName = _.getAttr(
+                      bucketArn,
+                      "resourceId[1]",
+                    );
+                    if (
+                      accessPointName != null &&
+                      accessPointName !== false &&
+                      !(accessPointName === "")
+                    ) {
+                      if (!(_.getAttr(bucketArn, "region") === "")) {
+                        if (arnType === "accesspoint") {
+                          if (!(_.getAttr(bucketArn, "region") === "")) {
                             if (
-                              partitionResult != null &&
-                              partitionResult !== false
+                              DisableAccessPoints != null &&
+                              DisableAccessPoints === true
+                            ) {
+                              return err(
+                                "Access points are not supported for this operation",
+                              );
+                            }
+                            if (
+                              !(_.getAttr(bucketArn, "resourceId[2]") != null)
                             ) {
                               if (
-                                _.getAttr(bucketPartition, "name") ===
-                                _.getAttr(partitionResult, "name")
+                                UseArnRegion != null &&
+                                UseArnRegion === false &&
+                                !(
+                                  _.getAttr(bucketArn, "region") === `${Region}`
+                                )
                               ) {
+                                return err(
+                                  `Invalid configuration: region from ARN \`${_.getAttr(bucketArn, "region")}\` does not match client region \`${Region}\` and UseArnRegion is \`false\``,
+                                );
+                              }
+                              {
+                                const bucketPartition = _.partition(
+                                  _.getAttr(bucketArn, "region"),
+                                );
                                 if (
-                                  _.isValidHostLabel(
-                                    _.getAttr(bucketArn, "region"),
-                                    true,
-                                  )
+                                  bucketPartition != null &&
+                                  bucketPartition !== false
                                 ) {
-                                  if (
-                                    _.isValidHostLabel(
-                                      _.getAttr(bucketArn, "accountId"),
-                                      false,
-                                    )
-                                  ) {
-                                    {
-                                      const outpostType = _.getAttr(
-                                        bucketArn,
-                                        "resourceId[2]",
-                                      );
+                                  {
+                                    const partitionResult = _.partition(Region);
+                                    if (
+                                      partitionResult != null &&
+                                      partitionResult !== false
+                                    ) {
                                       if (
-                                        outpostType != null &&
-                                        outpostType !== false
+                                        _.getAttr(bucketPartition, "name") ===
+                                        `${_.getAttr(partitionResult, "name")}`
                                       ) {
-                                        {
-                                          const accessPointName = _.getAttr(
-                                            bucketArn,
-                                            "resourceId[3]",
-                                          );
+                                        if (
+                                          _.isValidHostLabel(
+                                            _.getAttr(bucketArn, "region"),
+                                            true,
+                                          )
+                                        ) {
                                           if (
-                                            accessPointName != null &&
-                                            accessPointName !== false
+                                            _.getAttr(bucketArn, "service") ===
+                                            "s3"
                                           ) {
-                                            if (outpostType === "accesspoint") {
+                                            if (
+                                              _.isValidHostLabel(
+                                                _.getAttr(
+                                                  bucketArn,
+                                                  "accountId",
+                                                ),
+                                                false,
+                                              )
+                                            ) {
                                               if (
                                                 _.isValidHostLabel(
                                                   accessPointName,
                                                   false,
                                                 )
                                               ) {
+                                                if (Accelerate === true) {
+                                                  return err(
+                                                    "Access Points do not support S3 Accelerate",
+                                                  );
+                                                }
+                                                if (
+                                                  UseFIPS === true &&
+                                                  UseDualStack === true
+                                                ) {
+                                                  return e(
+                                                    `https://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.s3-accesspoint-fips.dualstack.${_.getAttr(bucketArn, "region")}.${_.getAttr(bucketPartition, "dnsSuffix")}`,
+                                                    _p6(bucketArn),
+                                                    {},
+                                                  );
+                                                }
+                                                if (
+                                                  UseFIPS === true &&
+                                                  UseDualStack === false
+                                                ) {
+                                                  return e(
+                                                    `https://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.s3-accesspoint-fips.${_.getAttr(bucketArn, "region")}.${_.getAttr(bucketPartition, "dnsSuffix")}`,
+                                                    _p6(bucketArn),
+                                                    {},
+                                                  );
+                                                }
+                                                if (
+                                                  UseFIPS === false &&
+                                                  UseDualStack === true
+                                                ) {
+                                                  return e(
+                                                    `https://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.s3-accesspoint.dualstack.${_.getAttr(bucketArn, "region")}.${_.getAttr(bucketPartition, "dnsSuffix")}`,
+                                                    _p6(bucketArn),
+                                                    {},
+                                                  );
+                                                }
                                                 {
                                                   const url =
                                                     _.parseURL(Endpoint);
                                                   if (
+                                                    UseFIPS === false &&
+                                                    UseDualStack === false &&
                                                     Endpoint != null &&
                                                     url != null &&
                                                     url !== false
                                                   ) {
                                                     return e(
-                                                      `https://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.${outpostId}.${_.getAttr(url, "authority")}`,
-                                                      _p7(bucketArn),
+                                                      `${_.getAttr(url, "scheme")}://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                                                      _p6(bucketArn),
                                                       {},
                                                     );
                                                   }
                                                 }
-                                                return e(
-                                                  `https://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.${outpostId}.s3-outposts.${_.getAttr(bucketArn, "region")}.${_.getAttr(bucketPartition, "dnsSuffix")}`,
-                                                  _p7(bucketArn),
-                                                  {},
-                                                );
+                                                if (
+                                                  UseFIPS === false &&
+                                                  UseDualStack === false
+                                                ) {
+                                                  return e(
+                                                    `https://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.s3-accesspoint.${_.getAttr(bucketArn, "region")}.${_.getAttr(bucketPartition, "dnsSuffix")}`,
+                                                    _p6(bucketArn),
+                                                    {},
+                                                  );
+                                                }
                                               }
                                               return err(
                                                 `Invalid ARN: The access point name may only contain a-z, A-Z, 0-9 and \`-\`. Found: \`${accessPointName}\``,
                                               );
                                             }
                                             return err(
-                                              `Expected an outpost type \`accesspoint\`, found ${outpostType}`,
+                                              `Invalid ARN: The account id may only contain a-z, A-Z, 0-9 and \`-\`. Found: \`${_.getAttr(bucketArn, "accountId")}\``,
                                             );
                                           }
+                                          return err(
+                                            `Invalid ARN: The ARN was not for the S3 service, found: ${_.getAttr(bucketArn, "service")}`,
+                                          );
                                         }
                                         return err(
-                                          "Invalid ARN: expected an access point name",
+                                          `Invalid region in ARN: \`${_.getAttr(bucketArn, "region")}\` (invalid DNS name)`,
                                         );
                                       }
+                                      return err(
+                                        `Client was configured for partition \`${_.getAttr(partitionResult, "name")}\` but ARN (\`${Bucket}\`) has \`${_.getAttr(bucketPartition, "name")}\``,
+                                      );
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                            return err(
+                              "Invalid ARN: The ARN may only contain a single resource component after `accesspoint`.",
+                            );
+                          }
+                        }
+                      }
+                      if (_.isValidHostLabel(accessPointName, true)) {
+                        if (UseDualStack === true) {
+                          return err("S3 MRAP does not support dual-stack");
+                        }
+                        if (UseFIPS === true) {
+                          return err("S3 MRAP does not support FIPS");
+                        }
+                        if (Accelerate === true) {
+                          return err("S3 MRAP does not support S3 Accelerate");
+                        }
+                        if (DisableMultiRegionAccessPoints === true) {
+                          return err(
+                            "Invalid configuration: Multi-Region Access Point ARNs are disabled.",
+                          );
+                        }
+                        {
+                          const mrapPartition = _.partition(Region);
+                          if (
+                            mrapPartition != null &&
+                            mrapPartition !== false
+                          ) {
+                            if (
+                              _.getAttr(mrapPartition, "name") ===
+                              _.getAttr(bucketArn, "partition")
+                            ) {
+                              return e(
+                                `https://${accessPointName}.accesspoint.s3-global.${_.getAttr(mrapPartition, "dnsSuffix")}`,
+                                {
+                                  authSchemes: [
+                                    {
+                                      disableDoubleEncoding: true,
+                                      name: "sigv4a",
+                                      signingName: "s3",
+                                      signingRegionSet: ["*"],
+                                    },
+                                  ],
+                                },
+                                {},
+                              );
+                            }
+                            return err(
+                              `Client was configured for partition \`${_.getAttr(mrapPartition, "name")}\` but bucket referred to partition \`${_.getAttr(bucketArn, "partition")}\``,
+                            );
+                          }
+                        }
+                      }
+                      return err("Invalid Access Point Name");
+                    }
+                  }
+                  return err(
+                    "Invalid ARN: Expected a resource of the format `accesspoint:<accesspoint name>` but no name was provided",
+                  );
+                }
+                if (_.getAttr(bucketArn, "service") === "s3-outposts") {
+                  if (UseDualStack === true) {
+                    return err("S3 Outposts does not support Dual-stack");
+                  }
+                  if (UseFIPS === true) {
+                    return err("S3 Outposts does not support FIPS");
+                  }
+                  if (Accelerate === true) {
+                    return err("S3 Outposts does not support S3 Accelerate");
+                  }
+                  if (_.getAttr(bucketArn, "resourceId[4]") != null) {
+                    return err(
+                      "Invalid Arn: Outpost Access Point ARN contains sub resources",
+                    );
+                  }
+                  {
+                    const outpostId = _.getAttr(bucketArn, "resourceId[1]");
+                    if (outpostId != null && outpostId !== false) {
+                      if (_.isValidHostLabel(outpostId, false)) {
+                        if (
+                          UseArnRegion != null &&
+                          UseArnRegion === false &&
+                          !(_.getAttr(bucketArn, "region") === `${Region}`)
+                        ) {
+                          return err(
+                            `Invalid configuration: region from ARN \`${_.getAttr(bucketArn, "region")}\` does not match client region \`${Region}\` and UseArnRegion is \`false\``,
+                          );
+                        }
+                        {
+                          const bucketPartition = _.partition(
+                            _.getAttr(bucketArn, "region"),
+                          );
+                          if (
+                            bucketPartition != null &&
+                            bucketPartition !== false
+                          ) {
+                            {
+                              const partitionResult = _.partition(Region);
+                              if (
+                                partitionResult != null &&
+                                partitionResult !== false
+                              ) {
+                                if (
+                                  _.getAttr(bucketPartition, "name") ===
+                                  _.getAttr(partitionResult, "name")
+                                ) {
+                                  if (
+                                    _.isValidHostLabel(
+                                      _.getAttr(bucketArn, "region"),
+                                      true,
+                                    )
+                                  ) {
+                                    if (
+                                      _.isValidHostLabel(
+                                        _.getAttr(bucketArn, "accountId"),
+                                        false,
+                                      )
+                                    ) {
+                                      {
+                                        const outpostType = _.getAttr(
+                                          bucketArn,
+                                          "resourceId[2]",
+                                        );
+                                        if (
+                                          outpostType != null &&
+                                          outpostType !== false
+                                        ) {
+                                          {
+                                            const accessPointName = _.getAttr(
+                                              bucketArn,
+                                              "resourceId[3]",
+                                            );
+                                            if (
+                                              accessPointName != null &&
+                                              accessPointName !== false
+                                            ) {
+                                              if (
+                                                outpostType === "accesspoint"
+                                              ) {
+                                                if (
+                                                  _.isValidHostLabel(
+                                                    accessPointName,
+                                                    false,
+                                                  )
+                                                ) {
+                                                  {
+                                                    const url =
+                                                      _.parseURL(Endpoint);
+                                                    if (
+                                                      Endpoint != null &&
+                                                      url != null &&
+                                                      url !== false
+                                                    ) {
+                                                      return e(
+                                                        `https://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.${outpostId}.${_.getAttr(url, "authority")}`,
+                                                        _p7(bucketArn),
+                                                        {},
+                                                      );
+                                                    }
+                                                  }
+                                                  return e(
+                                                    `https://${accessPointName}-${_.getAttr(bucketArn, "accountId")}.${outpostId}.s3-outposts.${_.getAttr(bucketArn, "region")}.${_.getAttr(bucketPartition, "dnsSuffix")}`,
+                                                    _p7(bucketArn),
+                                                    {},
+                                                  );
+                                                }
+                                                return err(
+                                                  `Invalid ARN: The access point name may only contain a-z, A-Z, 0-9 and \`-\`. Found: \`${accessPointName}\``,
+                                                );
+                                              }
+                                              return err(
+                                                `Expected an outpost type \`accesspoint\`, found ${outpostType}`,
+                                              );
+                                            }
+                                          }
+                                          return err(
+                                            "Invalid ARN: expected an access point name",
+                                          );
+                                        }
+                                      }
+                                      return err(
+                                        "Invalid ARN: Expected a 4-component resource",
+                                      );
                                     }
                                     return err(
-                                      "Invalid ARN: Expected a 4-component resource",
+                                      `Invalid ARN: The account id may only contain a-z, A-Z, 0-9 and \`-\`. Found: \`${_.getAttr(bucketArn, "accountId")}\``,
                                     );
                                   }
                                   return err(
-                                    `Invalid ARN: The account id may only contain a-z, A-Z, 0-9 and \`-\`. Found: \`${_.getAttr(bucketArn, "accountId")}\``,
+                                    `Invalid region in ARN: \`${_.getAttr(bucketArn, "region")}\` (invalid DNS name)`,
                                   );
                                 }
                                 return err(
-                                  `Invalid region in ARN: \`${_.getAttr(bucketArn, "region")}\` (invalid DNS name)`,
+                                  `Client was configured for partition \`${_.getAttr(partitionResult, "name")}\` but ARN (\`${Bucket}\`) has \`${_.getAttr(bucketPartition, "name")}\``,
                                 );
                               }
-                              return err(
-                                `Client was configured for partition \`${_.getAttr(partitionResult, "name")}\` but ARN (\`${Bucket}\`) has \`${_.getAttr(bucketPartition, "name")}\``,
-                              );
                             }
                           }
                         }
                       }
+                      return err(
+                        `Invalid ARN: The outpost Id may only contain a-z, A-Z, 0-9 and \`-\`. Found: \`${outpostId}\``,
+                      );
                     }
-                    return err(
-                      `Invalid ARN: The outpost Id may only contain a-z, A-Z, 0-9 and \`-\`. Found: \`${outpostId}\``,
-                    );
                   }
+                  return err("Invalid ARN: The Outpost Id was not set");
                 }
-                return err("Invalid ARN: The Outpost Id was not set");
+                return err(
+                  `Invalid ARN: Unrecognized format: ${Bucket} (type: ${arnType})`,
+                );
               }
-              return err(
-                `Invalid ARN: Unrecognized format: ${Bucket} (type: ${arnType})`,
-              );
             }
+            return err("Invalid ARN: No ARN type specified");
           }
-          return err("Invalid ARN: No ARN type specified");
         }
-      }
-      {
-        const arnPrefix = _.substring(Bucket, 0, 4, false);
-        if (
-          arnPrefix != null &&
-          arnPrefix !== false &&
-          arnPrefix === "arn:" &&
-          !(_.parseArn(Bucket) != null)
-        ) {
-          return err(`Invalid ARN: \`${Bucket}\` was not a valid ARN`);
+        {
+          const arnPrefix = _.substring(Bucket, 0, 4, false);
+          if (
+            arnPrefix != null &&
+            arnPrefix !== false &&
+            arnPrefix === "arn:" &&
+            !(_.parseArn(Bucket) != null)
+          ) {
+            return err(`Invalid ARN: \`${Bucket}\` was not a valid ARN`);
+          }
         }
-      }
-      if (ForcePathStyle === true && _.parseArn(Bucket)) {
-        return err("Path-style addressing cannot be used with ARN buckets");
-      }
-      {
-        const uri_encoded_bucket = _.uriEncode(Bucket);
-        if (uri_encoded_bucket != null && uri_encoded_bucket !== false) {
-          {
-            const partitionResult = _.partition(Region);
-            if (partitionResult != null && partitionResult !== false) {
-              if (Accelerate === false) {
-                if (
-                  UseDualStack === true &&
-                  !(Endpoint != null) &&
-                  UseFIPS === true &&
-                  Region === "aws-global"
-                ) {
-                  return e(
-                    `https://s3-fips.dualstack.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
-                    _p3(),
-                    {},
-                  );
-                }
-                if (
-                  UseDualStack === true &&
-                  !(Endpoint != null) &&
-                  UseFIPS === true &&
-                  !(Region === "aws-global") &&
-                  UseGlobalEndpoint === true
-                ) {
-                  return e(
-                    `https://s3-fips.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
-                    _p4(Region),
-                    {},
-                  );
-                }
-                if (
-                  UseDualStack === true &&
-                  !(Endpoint != null) &&
-                  UseFIPS === true &&
-                  !(Region === "aws-global") &&
-                  UseGlobalEndpoint === false
-                ) {
-                  return e(
-                    `https://s3-fips.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
-                    _p4(Region),
-                    {},
-                  );
-                }
-                if (
-                  UseDualStack === false &&
-                  !(Endpoint != null) &&
-                  UseFIPS === true &&
-                  Region === "aws-global"
-                ) {
-                  return e(
-                    `https://s3-fips.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
-                    _p3(),
-                    {},
-                  );
-                }
-                if (
-                  UseDualStack === false &&
-                  !(Endpoint != null) &&
-                  UseFIPS === true &&
-                  !(Region === "aws-global") &&
-                  UseGlobalEndpoint === true
-                ) {
-                  return e(
-                    `https://s3-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
-                    _p4(Region),
-                    {},
-                  );
-                }
-                if (
-                  UseDualStack === false &&
-                  !(Endpoint != null) &&
-                  UseFIPS === true &&
-                  !(Region === "aws-global") &&
-                  UseGlobalEndpoint === false
-                ) {
-                  return e(
-                    `https://s3-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
-                    _p4(Region),
-                    {},
-                  );
-                }
-                if (
-                  UseDualStack === true &&
-                  !(Endpoint != null) &&
-                  UseFIPS === false &&
-                  Region === "aws-global"
-                ) {
-                  return e(
-                    `https://s3.dualstack.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
-                    _p3(),
-                    {},
-                  );
-                }
-                if (
-                  UseDualStack === true &&
-                  !(Endpoint != null) &&
-                  UseFIPS === false &&
-                  !(Region === "aws-global") &&
-                  UseGlobalEndpoint === true
-                ) {
-                  return e(
-                    `https://s3.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
-                    _p4(Region),
-                    {},
-                  );
-                }
-                if (
-                  UseDualStack === true &&
-                  !(Endpoint != null) &&
-                  UseFIPS === false &&
-                  !(Region === "aws-global") &&
-                  UseGlobalEndpoint === false
-                ) {
-                  return e(
-                    `https://s3.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
-                    _p4(Region),
-                    {},
-                  );
-                }
-                {
-                  const url = _.parseURL(Endpoint);
+        if (ForcePathStyle === true && _.parseArn(Bucket)) {
+          return err("Path-style addressing cannot be used with ARN buckets");
+        }
+        {
+          const uri_encoded_bucket = _.uriEncode(Bucket);
+          if (uri_encoded_bucket != null && uri_encoded_bucket !== false) {
+            {
+              const partitionResult = _.partition(Region);
+              if (partitionResult != null && partitionResult !== false) {
+                if (Accelerate === false) {
                   if (
-                    UseDualStack === false &&
-                    Endpoint != null &&
-                    url != null &&
-                    url !== false &&
-                    UseFIPS === false &&
+                    UseDualStack === true &&
+                    !(Endpoint != null) &&
+                    UseFIPS === true &&
                     Region === "aws-global"
                   ) {
                     return e(
-                      `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "normalizedPath")}${uri_encoded_bucket}`,
+                      `https://s3-fips.dualstack.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
                       _p3(),
                       {},
                     );
                   }
-                }
-                {
-                  const url = _.parseURL(Endpoint);
+                  if (
+                    UseDualStack === true &&
+                    !(Endpoint != null) &&
+                    UseFIPS === true &&
+                    !(Region === "aws-global") &&
+                    UseGlobalEndpoint === true
+                  ) {
+                    return e(
+                      `https://s3-fips.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
+                      _p4(Region),
+                      {},
+                    );
+                  }
+                  if (
+                    UseDualStack === true &&
+                    !(Endpoint != null) &&
+                    UseFIPS === true &&
+                    !(Region === "aws-global") &&
+                    UseGlobalEndpoint === false
+                  ) {
+                    return e(
+                      `https://s3-fips.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
+                      _p4(Region),
+                      {},
+                    );
+                  }
                   if (
                     UseDualStack === false &&
-                    Endpoint != null &&
-                    url != null &&
-                    url !== false &&
+                    !(Endpoint != null) &&
+                    UseFIPS === true &&
+                    Region === "aws-global"
+                  ) {
+                    return e(
+                      `https://s3-fips.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
+                      _p3(),
+                      {},
+                    );
+                  }
+                  if (
+                    UseDualStack === false &&
+                    !(Endpoint != null) &&
+                    UseFIPS === true &&
+                    !(Region === "aws-global") &&
+                    UseGlobalEndpoint === true
+                  ) {
+                    return e(
+                      `https://s3-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
+                      _p4(Region),
+                      {},
+                    );
+                  }
+                  if (
+                    UseDualStack === false &&
+                    !(Endpoint != null) &&
+                    UseFIPS === true &&
+                    !(Region === "aws-global") &&
+                    UseGlobalEndpoint === false
+                  ) {
+                    return e(
+                      `https://s3-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
+                      _p4(Region),
+                      {},
+                    );
+                  }
+                  if (
+                    UseDualStack === true &&
+                    !(Endpoint != null) &&
+                    UseFIPS === false &&
+                    Region === "aws-global"
+                  ) {
+                    return e(
+                      `https://s3.dualstack.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
+                      _p3(),
+                      {},
+                    );
+                  }
+                  if (
+                    UseDualStack === true &&
+                    !(Endpoint != null) &&
                     UseFIPS === false &&
                     !(Region === "aws-global") &&
                     UseGlobalEndpoint === true
                   ) {
-                    if (Region === "us-east-1") {
+                    return e(
+                      `https://s3.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
+                      _p4(Region),
+                      {},
+                    );
+                  }
+                  if (
+                    UseDualStack === true &&
+                    !(Endpoint != null) &&
+                    UseFIPS === false &&
+                    !(Region === "aws-global") &&
+                    UseGlobalEndpoint === false
+                  ) {
+                    return e(
+                      `https://s3.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
+                      _p4(Region),
+                      {},
+                    );
+                  }
+                  {
+                    const url = _.parseURL(Endpoint);
+                    if (
+                      UseDualStack === false &&
+                      Endpoint != null &&
+                      url != null &&
+                      url !== false &&
+                      UseFIPS === false &&
+                      Region === "aws-global"
+                    ) {
+                      return e(
+                        `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "normalizedPath")}${uri_encoded_bucket}`,
+                        _p3(),
+                        {},
+                      );
+                    }
+                  }
+                  {
+                    const url = _.parseURL(Endpoint);
+                    if (
+                      UseDualStack === false &&
+                      Endpoint != null &&
+                      url != null &&
+                      url !== false &&
+                      UseFIPS === false &&
+                      !(Region === "aws-global") &&
+                      UseGlobalEndpoint === true
+                    ) {
+                      if (Region === "us-east-1") {
+                        return e(
+                          `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "normalizedPath")}${uri_encoded_bucket}`,
+                          _p4(Region),
+                          {},
+                        );
+                      }
                       return e(
                         `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "normalizedPath")}${uri_encoded_bucket}`,
                         _p4(Region),
                         {},
                       );
                     }
+                  }
+                  {
+                    const url = _.parseURL(Endpoint);
+                    if (
+                      UseDualStack === false &&
+                      Endpoint != null &&
+                      url != null &&
+                      url !== false &&
+                      UseFIPS === false &&
+                      !(Region === "aws-global") &&
+                      UseGlobalEndpoint === false
+                    ) {
+                      return e(
+                        `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "normalizedPath")}${uri_encoded_bucket}`,
+                        _p4(Region),
+                        {},
+                      );
+                    }
+                  }
+                  if (
+                    UseDualStack === false &&
+                    !(Endpoint != null) &&
+                    UseFIPS === false &&
+                    Region === "aws-global"
+                  ) {
                     return e(
-                      `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "normalizedPath")}${uri_encoded_bucket}`,
+                      `https://s3.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
+                      _p3(),
+                      {},
+                    );
+                  }
+                  if (
+                    UseDualStack === false &&
+                    !(Endpoint != null) &&
+                    UseFIPS === false &&
+                    !(Region === "aws-global") &&
+                    UseGlobalEndpoint === true
+                  ) {
+                    if (Region === "us-east-1") {
+                      return e(
+                        `https://s3.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
+                        _p4(Region),
+                        {},
+                      );
+                    }
+                    return e(
+                      `https://s3.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
                       _p4(Region),
                       {},
                     );
                   }
-                }
-                {
-                  const url = _.parseURL(Endpoint);
                   if (
                     UseDualStack === false &&
-                    Endpoint != null &&
-                    url != null &&
-                    url !== false &&
+                    !(Endpoint != null) &&
                     UseFIPS === false &&
                     !(Region === "aws-global") &&
                     UseGlobalEndpoint === false
                   ) {
                     return e(
-                      `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "normalizedPath")}${uri_encoded_bucket}`,
+                      `https://s3.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
                       _p4(Region),
                       {},
                     );
                   }
                 }
+                return err(
+                  "Path-style addressing cannot be used with S3 Accelerate",
+                );
+              }
+            }
+          }
+        }
+      }
+      if (UseObjectLambdaEndpoint != null && UseObjectLambdaEndpoint === true) {
+        {
+          const partitionResult = _.partition(Region);
+          if (partitionResult != null && partitionResult !== false) {
+            if (_.isValidHostLabel(Region, true)) {
+              if (UseDualStack === true) {
+                return err("S3 Object Lambda does not support Dual-stack");
+              }
+              if (Accelerate === true) {
+                return err("S3 Object Lambda does not support S3 Accelerate");
+              }
+              {
+                const url = _.parseURL(Endpoint);
+                if (Endpoint != null && url != null && url !== false) {
+                  return e(
+                    `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                    _p8(Region),
+                    {},
+                  );
+                }
+              }
+              if (UseFIPS === true) {
+                return e(
+                  `https://s3-object-lambda-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                  _p8(Region),
+                  {},
+                );
+              }
+              return e(
+                `https://s3-object-lambda.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                _p8(Region),
+                {},
+              );
+            }
+            return err("Invalid region: region was not a valid DNS name.");
+          }
+        }
+      }
+      if (!(Bucket != null)) {
+        {
+          const partitionResult = _.partition(Region);
+          if (partitionResult != null && partitionResult !== false) {
+            if (_.isValidHostLabel(Region, true)) {
+              if (
+                UseFIPS === true &&
+                UseDualStack === true &&
+                !(Endpoint != null) &&
+                Region === "aws-global"
+              ) {
+                return e(
+                  `https://s3-fips.dualstack.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                  _p3(),
+                  {},
+                );
+              }
+              if (
+                UseFIPS === true &&
+                UseDualStack === true &&
+                !(Endpoint != null) &&
+                !(Region === "aws-global") &&
+                UseGlobalEndpoint === true
+              ) {
+                return e(
+                  `https://s3-fips.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                  _p4(Region),
+                  {},
+                );
+              }
+              if (
+                UseFIPS === true &&
+                UseDualStack === true &&
+                !(Endpoint != null) &&
+                !(Region === "aws-global") &&
+                UseGlobalEndpoint === false
+              ) {
+                return e(
+                  `https://s3-fips.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                  _p4(Region),
+                  {},
+                );
+              }
+              if (
+                UseFIPS === true &&
+                UseDualStack === false &&
+                !(Endpoint != null) &&
+                Region === "aws-global"
+              ) {
+                return e(
+                  `https://s3-fips.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                  _p3(),
+                  {},
+                );
+              }
+              if (
+                UseFIPS === true &&
+                UseDualStack === false &&
+                !(Endpoint != null) &&
+                !(Region === "aws-global") &&
+                UseGlobalEndpoint === true
+              ) {
+                return e(
+                  `https://s3-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                  _p4(Region),
+                  {},
+                );
+              }
+              if (
+                UseFIPS === true &&
+                UseDualStack === false &&
+                !(Endpoint != null) &&
+                !(Region === "aws-global") &&
+                UseGlobalEndpoint === false
+              ) {
+                return e(
+                  `https://s3-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                  _p4(Region),
+                  {},
+                );
+              }
+              if (
+                UseFIPS === false &&
+                UseDualStack === true &&
+                !(Endpoint != null) &&
+                Region === "aws-global"
+              ) {
+                return e(
+                  `https://s3.dualstack.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                  _p3(),
+                  {},
+                );
+              }
+              if (
+                UseFIPS === false &&
+                UseDualStack === true &&
+                !(Endpoint != null) &&
+                !(Region === "aws-global") &&
+                UseGlobalEndpoint === true
+              ) {
+                return e(
+                  `https://s3.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                  _p4(Region),
+                  {},
+                );
+              }
+              if (
+                UseFIPS === false &&
+                UseDualStack === true &&
+                !(Endpoint != null) &&
+                !(Region === "aws-global") &&
+                UseGlobalEndpoint === false
+              ) {
+                return e(
+                  `https://s3.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                  _p4(Region),
+                  {},
+                );
+              }
+              {
+                const url = _.parseURL(Endpoint);
                 if (
-                  UseDualStack === false &&
-                  !(Endpoint != null) &&
                   UseFIPS === false &&
+                  UseDualStack === false &&
+                  Endpoint != null &&
+                  url != null &&
+                  url !== false &&
                   Region === "aws-global"
                 ) {
                   return e(
-                    `https://s3.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
+                    `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
                     _p3(),
                     {},
                   );
                 }
+              }
+              {
+                const url = _.parseURL(Endpoint);
                 if (
-                  UseDualStack === false &&
-                  !(Endpoint != null) &&
                   UseFIPS === false &&
+                  UseDualStack === false &&
+                  Endpoint != null &&
+                  url != null &&
+                  url !== false &&
                   !(Region === "aws-global") &&
                   UseGlobalEndpoint === true
                 ) {
                   if (Region === "us-east-1") {
                     return e(
-                      `https://s3.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
+                      `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
                       _p4(Region),
                       {},
                     );
                   }
-                  return e(
-                    `https://s3.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
-                    _p4(Region),
-                    {},
-                  );
-                }
-                if (
-                  UseDualStack === false &&
-                  !(Endpoint != null) &&
-                  UseFIPS === false &&
-                  !(Region === "aws-global") &&
-                  UseGlobalEndpoint === false
-                ) {
-                  return e(
-                    `https://s3.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}/${uri_encoded_bucket}`,
-                    _p4(Region),
-                    {},
-                  );
-                }
-              }
-              return err(
-                "Path-style addressing cannot be used with S3 Accelerate",
-              );
-            }
-          }
-        }
-      }
-    }
-    if (UseObjectLambdaEndpoint != null && UseObjectLambdaEndpoint === true) {
-      {
-        const partitionResult = _.partition(Region);
-        if (partitionResult != null && partitionResult !== false) {
-          if (_.isValidHostLabel(Region, true)) {
-            if (UseDualStack === true) {
-              return err("S3 Object Lambda does not support Dual-stack");
-            }
-            if (Accelerate === true) {
-              return err("S3 Object Lambda does not support S3 Accelerate");
-            }
-            {
-              const url = _.parseURL(Endpoint);
-              if (Endpoint != null && url != null && url !== false) {
-                return e(
-                  `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
-                  _p8(Region),
-                  {},
-                );
-              }
-            }
-            if (UseFIPS === true) {
-              return e(
-                `https://s3-object-lambda-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                _p8(Region),
-                {},
-              );
-            }
-            return e(
-              `https://s3-object-lambda.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-              _p8(Region),
-              {},
-            );
-          }
-          return err("Invalid region: region was not a valid DNS name.");
-        }
-      }
-    }
-    if (!(Bucket != null)) {
-      {
-        const partitionResult = _.partition(Region);
-        if (partitionResult != null && partitionResult !== false) {
-          if (_.isValidHostLabel(Region, true)) {
-            if (
-              UseFIPS === true &&
-              UseDualStack === true &&
-              !(Endpoint != null) &&
-              Region === "aws-global"
-            ) {
-              return e(
-                `https://s3-fips.dualstack.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                _p3(),
-                {},
-              );
-            }
-            if (
-              UseFIPS === true &&
-              UseDualStack === true &&
-              !(Endpoint != null) &&
-              !(Region === "aws-global") &&
-              UseGlobalEndpoint === true
-            ) {
-              return e(
-                `https://s3-fips.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                _p4(Region),
-                {},
-              );
-            }
-            if (
-              UseFIPS === true &&
-              UseDualStack === true &&
-              !(Endpoint != null) &&
-              !(Region === "aws-global") &&
-              UseGlobalEndpoint === false
-            ) {
-              return e(
-                `https://s3-fips.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                _p4(Region),
-                {},
-              );
-            }
-            if (
-              UseFIPS === true &&
-              UseDualStack === false &&
-              !(Endpoint != null) &&
-              Region === "aws-global"
-            ) {
-              return e(
-                `https://s3-fips.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                _p3(),
-                {},
-              );
-            }
-            if (
-              UseFIPS === true &&
-              UseDualStack === false &&
-              !(Endpoint != null) &&
-              !(Region === "aws-global") &&
-              UseGlobalEndpoint === true
-            ) {
-              return e(
-                `https://s3-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                _p4(Region),
-                {},
-              );
-            }
-            if (
-              UseFIPS === true &&
-              UseDualStack === false &&
-              !(Endpoint != null) &&
-              !(Region === "aws-global") &&
-              UseGlobalEndpoint === false
-            ) {
-              return e(
-                `https://s3-fips.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                _p4(Region),
-                {},
-              );
-            }
-            if (
-              UseFIPS === false &&
-              UseDualStack === true &&
-              !(Endpoint != null) &&
-              Region === "aws-global"
-            ) {
-              return e(
-                `https://s3.dualstack.us-east-1.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                _p3(),
-                {},
-              );
-            }
-            if (
-              UseFIPS === false &&
-              UseDualStack === true &&
-              !(Endpoint != null) &&
-              !(Region === "aws-global") &&
-              UseGlobalEndpoint === true
-            ) {
-              return e(
-                `https://s3.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                _p4(Region),
-                {},
-              );
-            }
-            if (
-              UseFIPS === false &&
-              UseDualStack === true &&
-              !(Endpoint != null) &&
-              !(Region === "aws-global") &&
-              UseGlobalEndpoint === false
-            ) {
-              return e(
-                `https://s3.dualstack.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                _p4(Region),
-                {},
-              );
-            }
-            {
-              const url = _.parseURL(Endpoint);
-              if (
-                UseFIPS === false &&
-                UseDualStack === false &&
-                Endpoint != null &&
-                url != null &&
-                url !== false &&
-                Region === "aws-global"
-              ) {
-                return e(
-                  `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
-                  _p3(),
-                  {},
-                );
-              }
-            }
-            {
-              const url = _.parseURL(Endpoint);
-              if (
-                UseFIPS === false &&
-                UseDualStack === false &&
-                Endpoint != null &&
-                url != null &&
-                url !== false &&
-                !(Region === "aws-global") &&
-                UseGlobalEndpoint === true
-              ) {
-                if (Region === "us-east-1") {
                   return e(
                     `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
                     _p4(Region),
                     {},
                   );
                 }
+              }
+              {
+                const url = _.parseURL(Endpoint);
+                if (
+                  UseFIPS === false &&
+                  UseDualStack === false &&
+                  Endpoint != null &&
+                  url != null &&
+                  url !== false &&
+                  !(Region === "aws-global") &&
+                  UseGlobalEndpoint === false
+                ) {
+                  return e(
+                    `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                    _p4(Region),
+                    {},
+                  );
+                }
+              }
+              if (
+                UseFIPS === false &&
+                UseDualStack === false &&
+                !(Endpoint != null) &&
+                Region === "aws-global"
+              ) {
                 return e(
-                  `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                  `https://s3.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                  _p3(),
+                  {},
+                );
+              }
+              if (
+                UseFIPS === false &&
+                UseDualStack === false &&
+                !(Endpoint != null) &&
+                !(Region === "aws-global") &&
+                UseGlobalEndpoint === true
+              ) {
+                if (Region === "us-east-1") {
+                  return e(
+                    `https://s3.${_.getAttr(partitionResult, "dnsSuffix")}`,
+                    _p4(Region),
+                    {},
+                  );
+                }
+                return e(
+                  `https://s3.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
                   _p4(Region),
                   {},
                 );
               }
-            }
-            {
-              const url = _.parseURL(Endpoint);
               if (
                 UseFIPS === false &&
                 UseDualStack === false &&
-                Endpoint != null &&
-                url != null &&
-                url !== false &&
+                !(Endpoint != null) &&
                 !(Region === "aws-global") &&
                 UseGlobalEndpoint === false
               ) {
                 return e(
-                  `${_.getAttr(url, "scheme")}://${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                  `https://s3.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
                   _p4(Region),
                   {},
                 );
               }
             }
-            if (
-              UseFIPS === false &&
-              UseDualStack === false &&
-              !(Endpoint != null) &&
-              Region === "aws-global"
-            ) {
-              return e(
-                `https://s3.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                _p3(),
-                {},
-              );
-            }
-            if (
-              UseFIPS === false &&
-              UseDualStack === false &&
-              !(Endpoint != null) &&
-              !(Region === "aws-global") &&
-              UseGlobalEndpoint === true
-            ) {
-              if (Region === "us-east-1") {
-                return e(
-                  `https://s3.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                  _p4(Region),
-                  {},
-                );
-              }
-              return e(
-                `https://s3.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                _p4(Region),
-                {},
-              );
-            }
-            if (
-              UseFIPS === false &&
-              UseDualStack === false &&
-              !(Endpoint != null) &&
-              !(Region === "aws-global") &&
-              UseGlobalEndpoint === false
-            ) {
-              return e(
-                `https://s3.${Region}.${_.getAttr(partitionResult, "dnsSuffix")}`,
-                _p4(Region),
-                {},
-              );
-            }
+            return err("Invalid region: region was not a valid DNS name.");
           }
-          return err("Invalid region: region was not a valid DNS name.");
         }
       }
     }
-  }
-  return err("A region must be set when sending requests to S3.");
-});
+    return err("A region must be set when sending requests to S3.");
+  },
+};
 
 export class AccessDenied
-  extends /*@__PURE__*/ S.TaggedError<AccessDenied>()(
-    "AccessDenied",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDenied", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class AnnotationLimitExceeded
-  extends /*@__PURE__*/ S.TaggedError<AnnotationLimitExceeded>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "AnnotationLimitExceeded",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError, C.withThrottlingError) {}
+    ["BadRequestError", "ThrottlingError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class AnnotationNameTooLong
-  extends /*@__PURE__*/ S.TaggedError<AnnotationNameTooLong>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "AnnotationNameTooLong",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class BucketAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<BucketAlreadyExists>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "BucketAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class BucketAlreadyOwnedByYou
-  extends /*@__PURE__*/ S.TaggedError<BucketAlreadyOwnedByYou>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "BucketAlreadyOwnedByYou",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class BucketHasAccessPointsAttached
-  extends /*@__PURE__*/ S.TaggedError<BucketHasAccessPointsAttached>()(
-    "BucketHasAccessPointsAttached",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("BucketHasAccessPointsAttached", [
+    "ConflictError",
+  ])<{ readonly message?: string }> {}
 export class BucketNotEmpty
-  extends /*@__PURE__*/ S.TaggedError<BucketNotEmpty>()("BucketNotEmpty", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("BucketNotEmpty", ["ConflictError"])<{
+    readonly message?: string;
+  }> {}
 export class ConditionalRequestConflict
-  extends /*@__PURE__*/ S.TaggedError<ConditionalRequestConflict>()(
-    "ConditionalRequestConflict",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withConflictError, C.withRetryableError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConditionalRequestConflict", [
+    "ConflictError",
+    "RetryableError",
+  ])<{ readonly message?: string }> {}
 export class EncryptionTypeMismatch
-  extends /*@__PURE__*/ S.TaggedError<EncryptionTypeMismatch>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EncryptionTypeMismatch",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class IdempotencyParameterMismatch
-  extends /*@__PURE__*/ S.TaggedError<IdempotencyParameterMismatch>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "IdempotencyParameterMismatch",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class IllegalLocationConstraintException
-  extends /*@__PURE__*/ S.TaggedError<IllegalLocationConstraintException>()(
-    "IllegalLocationConstraintException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("IllegalLocationConstraintException", [
+    "BadRequestError",
+  ])<{ readonly message?: string }> {}
 export class InvalidAnnotationName
-  extends /*@__PURE__*/ S.TaggedError<InvalidAnnotationName>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidAnnotationName",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidArgument
-  extends /*@__PURE__*/ S.TaggedError<InvalidArgument>()("InvalidArgument", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidArgument", ["BadRequestError"])<{
+    readonly message?: string;
+  }> {}
 export class InvalidBucketName
-  extends /*@__PURE__*/ S.TaggedError<InvalidBucketName>()(
-    "InvalidBucketName",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidBucketName", [
+    "BadRequestError",
+  ])<{ readonly message?: string }> {}
 export class InvalidBucketState
-  extends /*@__PURE__*/ S.TaggedError<InvalidBucketState>()(
-    "InvalidBucketState",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidBucketState", [
+    "ConflictError",
+  ])<{ readonly message?: string }> {}
 export class InvalidDigest
-  extends /*@__PURE__*/ S.TaggedError<InvalidDigest>()("InvalidDigest", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidDigest", ["BadRequestError"])<{
+    readonly message?: string;
+  }> {}
 export class InvalidLocationConstraint
-  extends /*@__PURE__*/ S.TaggedError<InvalidLocationConstraint>()(
-    "InvalidLocationConstraint",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidLocationConstraint", [
+    "BadRequestError",
+  ])<{ readonly message?: string }> {}
 export class InvalidObjectState
-  extends /*@__PURE__*/ S.TaggedError<InvalidObjectState>()(
-    "InvalidObjectState",
-    {
-      StorageClass: S.optional(
-        S.suspend(() => StorageClass).annotate({ identifier: "StorageClass" }),
-      ),
-      AccessTier: S.optional(
-        S.suspend(() => IntelligentTieringAccessTier).annotate({
-          identifier: "IntelligentTieringAccessTier",
-        }),
-      ),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidObjectState", ["AuthError"], {
+    status: 403,
+  })<{
+    readonly StorageClass?: StorageClass;
+    readonly AccessTier?: IntelligentTieringAccessTier;
+    readonly message?: string;
+  }> {}
 export class InvalidPrefix
-  extends /*@__PURE__*/ S.TaggedError<InvalidPrefix>()(
-    "InvalidPrefix",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidPrefix", ["BadRequestError"], {
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class InvalidRequest
-  extends /*@__PURE__*/ S.TaggedError<InvalidRequest>()(
-    "InvalidRequest",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidRequest", ["BadRequestError"], {
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class InvalidWriteOffset
-  extends /*@__PURE__*/ S.TaggedError<InvalidWriteOffset>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidWriteOffset",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class MalformedPolicy
-  extends /*@__PURE__*/ S.TaggedError<MalformedPolicy>()("MalformedPolicy", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("MalformedPolicy", ["BadRequestError"])<{
+    readonly message?: string;
+  }> {}
 export class MalformedXML
-  extends /*@__PURE__*/ S.TaggedError<MalformedXML>()("MalformedXML", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("MalformedXML", ["BadRequestError"])<{
+    readonly message?: string;
+  }> {}
 export class MethodNotAllowed
-  extends /*@__PURE__*/ S.TaggedError<MethodNotAllowed>()("MethodNotAllowed", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-    Method: S.optional(S.String),
-    ResourceType: S.optional(S.String),
-    DeleteMarker: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-delete-marker"),
-    ),
-    LastModified: S.optional(S.String).pipe(T.HttpHeader("last-modified")),
-  }) {}
+  extends /*@__PURE__*/ TE.TaggedError("MethodNotAllowed", [], {
+    headers: {
+      DeleteMarker: ["x-amz-delete-marker", "bool"],
+      LastModified: "last-modified",
+    },
+  })<{
+    readonly message?: string;
+    readonly Method?: string;
+    readonly ResourceType?: string;
+    readonly DeleteMarker?: boolean;
+    readonly LastModified?: string;
+  }> {}
 export class NoSuchAnnotation
-  extends /*@__PURE__*/ S.TaggedError<NoSuchAnnotation>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchAnnotation",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class NoSuchBucket
-  extends /*@__PURE__*/ S.TaggedError<NoSuchBucket>()(
-    "NoSuchBucket",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BucketName: S.optional(S.String),
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("NoSuchBucket", ["BadRequestError"], {
+    status: 404,
+  })<{ readonly message?: string; readonly BucketName?: string }> {}
 export class NoSuchBucketPolicy
-  extends /*@__PURE__*/ S.TaggedError<NoSuchBucketPolicy>()(
-    "NoSuchBucketPolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("NoSuchBucketPolicy")<{
+    readonly message?: string;
+  }> {}
 export class NoSuchConfiguration
-  extends /*@__PURE__*/ S.TaggedError<NoSuchConfiguration>()(
-    "NoSuchConfiguration",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("NoSuchConfiguration")<{
+    readonly message?: string;
+  }> {}
 export class NoSuchCORSConfiguration
-  extends /*@__PURE__*/ S.TaggedError<NoSuchCORSConfiguration>()(
-    "NoSuchCORSConfiguration",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("NoSuchCORSConfiguration")<{
+    readonly message?: string;
+  }> {}
 export class NoSuchKey
-  extends /*@__PURE__*/ S.TaggedError<NoSuchKey>()(
-    "NoSuchKey",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("NoSuchKey", ["BadRequestError"], {
+    status: 404,
+  })<{ readonly message?: string }> {}
 export class NoSuchLifecycleConfiguration
-  extends /*@__PURE__*/ S.TaggedError<NoSuchLifecycleConfiguration>()(
-    "NoSuchLifecycleConfiguration",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("NoSuchLifecycleConfiguration")<{
+    readonly message?: string;
+  }> {}
 export class NoSuchPublicAccessBlockConfiguration
-  extends /*@__PURE__*/ S.TaggedError<NoSuchPublicAccessBlockConfiguration>()(
-    "NoSuchPublicAccessBlockConfiguration",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("NoSuchPublicAccessBlockConfiguration")<{
+    readonly message?: string;
+  }> {}
 export class NoSuchTagSet
-  extends /*@__PURE__*/ S.TaggedError<NoSuchTagSet>()("NoSuchTagSet", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }) {}
+  extends /*@__PURE__*/ TE.TaggedError("NoSuchTagSet")<{
+    readonly message?: string;
+  }> {}
 export class NoSuchUpload
-  extends /*@__PURE__*/ S.TaggedError<NoSuchUpload>()(
-    "NoSuchUpload",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("NoSuchUpload", ["BadRequestError"], {
+    status: 404,
+  })<{ readonly message?: string }> {}
 export class NoSuchVersion
-  extends /*@__PURE__*/ S.TaggedError<NoSuchVersion>()("NoSuchVersion", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-    Key: S.optional(S.String),
-    VersionId: S.optional(S.String),
-  }) {}
+  extends /*@__PURE__*/ TE.TaggedError("NoSuchVersion")<{
+    readonly message?: string;
+    readonly Key?: string;
+    readonly VersionId?: string;
+  }> {}
 export class NoSuchWebsiteConfiguration
-  extends /*@__PURE__*/ S.TaggedError<NoSuchWebsiteConfiguration>()(
-    "NoSuchWebsiteConfiguration",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("NoSuchWebsiteConfiguration")<{
+    readonly message?: string;
+  }> {}
 export class NotFound
-  extends /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }) {}
+  extends /*@__PURE__*/ TE.TaggedError("NotFound")<{
+    readonly message?: string;
+  }> {}
 export class ObjectAlreadyInActiveTierError
-  extends /*@__PURE__*/ S.TaggedError<ObjectAlreadyInActiveTierError>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ObjectAlreadyInActiveTierError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+    ["AuthError"],
+    { status: 403 },
+  )<{ readonly message?: string }> {}
 export class ObjectLockConfigurationNotFoundError
-  extends /*@__PURE__*/ S.TaggedError<ObjectLockConfigurationNotFoundError>()(
-    "ObjectLockConfigurationNotFoundError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("ObjectLockConfigurationNotFoundError")<{
+    readonly message?: string;
+  }> {}
 export class ObjectNotInActiveTierError
-  extends /*@__PURE__*/ S.TaggedError<ObjectNotInActiveTierError>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ObjectNotInActiveTierError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+    ["AuthError"],
+    { status: 403 },
+  )<{ readonly message?: string }> {}
 export class OwnershipControlsNotFoundError
-  extends /*@__PURE__*/ S.TaggedError<OwnershipControlsNotFoundError>()(
-    "OwnershipControlsNotFoundError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("OwnershipControlsNotFoundError")<{
+    readonly message?: string;
+  }> {}
 export class ParseError
-  extends /*@__PURE__*/ S.TaggedError<ParseError>()("ParseError", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }) {}
+  extends /*@__PURE__*/ TE.TaggedError("ParseError")<{
+    readonly message?: string;
+  }> {}
 export class PermanentRedirect
-  extends /*@__PURE__*/ S.TaggedError<PermanentRedirect>()(
-    "PermanentRedirect",
-    {
-      BucketRegion: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-bucket-region"),
-      ),
-      Endpoint: S.optional(S.String),
-      Bucket: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("PermanentRedirect", [], {
+    headers: { BucketRegion: "x-amz-bucket-region" },
+  })<{
+    readonly BucketRegion?: string;
+    readonly Endpoint?: string;
+    readonly Bucket?: string;
+    readonly message?: string;
+  }> {}
 export class PreconditionFailed
-  extends /*@__PURE__*/ S.TaggedError<PreconditionFailed>()(
-    "PreconditionFailed",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("PreconditionFailed", [
+    "ConflictError",
+  ])<{ readonly message?: string }> {}
 export class ReplicationConfigurationNotFoundError
-  extends /*@__PURE__*/ S.TaggedError<ReplicationConfigurationNotFoundError>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ReplicationConfigurationNotFoundError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  )<{ readonly message?: string }> {}
 export class RequestError
-  extends /*@__PURE__*/ S.TaggedError<RequestError>()("RequestError", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }) {}
+  extends /*@__PURE__*/ TE.TaggedError("RequestError")<{
+    readonly message?: string;
+  }> {}
 export class RequestLimitExceeded
-  extends /*@__PURE__*/ S.TaggedError<RequestLimitExceeded>()(
-    "RequestLimitExceeded",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withThrottlingError) {}
+  extends /*@__PURE__*/ TE.TaggedError("RequestLimitExceeded", [
+    "ThrottlingError",
+  ])<{ readonly message?: string }> {}
 export class SignatureDoesNotMatch
-  extends /*@__PURE__*/ S.TaggedError<SignatureDoesNotMatch>()(
-    "SignatureDoesNotMatch",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("SignatureDoesNotMatch", ["AuthError"])<{
+    readonly message?: string;
+  }> {}
 export class SlowDown
-  extends /*@__PURE__*/ S.TaggedError<SlowDown>()("SlowDown", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }).pipe(C.withThrottlingError, C.withRetryableError) {}
+  extends /*@__PURE__*/ TE.TaggedError("SlowDown", [
+    "ThrottlingError",
+    "RetryableError",
+  ])<{ readonly message?: string }> {}
 export class TooManyParts
-  extends /*@__PURE__*/ S.TaggedError<TooManyParts>()(
-    "TooManyParts",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("TooManyParts", ["BadRequestError"], {
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class UnsupportedMediaType
-  extends /*@__PURE__*/ S.TaggedError<UnsupportedMediaType>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "UnsupportedMediaType",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(415),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 415 },
+  )<{ readonly message?: string }> {}
 export type BucketName = string;
 export type ObjectKey = string;
 export type MultipartUploadId = string;
 export type RequestPayer = "requester" | (string & {});
-export const RequestPayer = S.String;
-
 export type AccountId = string;
 export type IfMatchInitiatedTime = Date;
 export interface AbortMultipartUploadRequest {
@@ -3325,52 +3303,10 @@ export interface AbortMultipartUploadRequest {
   ExpectedBucketOwner?: string;
   IfMatchInitiatedTime?: Date;
 }
-export const AbortMultipartUploadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    UploadId: S.String.pipe(T.HttpQuery("uploadId")),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    IfMatchInitiatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("x-amz-if-match-initiated-time")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/{Bucket}/{Key+}?x-id=AbortMultipartUpload",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AbortMultipartUploadRequest",
-}) as any as S.Schema<AbortMultipartUploadRequest>;
 export type RequestCharged = "requester" | (string & {});
-export const RequestCharged = S.String;
-
 export interface AbortMultipartUploadOutput {
   RequestCharged?: RequestCharged;
 }
-export const AbortMultipartUploadOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "AbortMultipartUploadOutput",
-}) as any as S.Schema<AbortMultipartUploadOutput>;
 export type ETag = string;
 export type ChecksumCRC32 = string;
 export type ChecksumCRC32C = string;
@@ -3397,40 +3333,11 @@ export interface CompletedPart {
   ChecksumXXHASH128?: string;
   PartNumber?: number;
 }
-export const CompletedPart = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ETag: S.optional(S.String),
-    ChecksumCRC32: S.optional(S.String),
-    ChecksumCRC32C: S.optional(S.String),
-    ChecksumCRC64NVME: S.optional(S.String),
-    ChecksumSHA1: S.optional(S.String),
-    ChecksumSHA256: S.optional(S.String),
-    ChecksumSHA512: S.optional(S.String),
-    ChecksumMD5: S.optional(S.String),
-    ChecksumXXHASH64: S.optional(S.String),
-    ChecksumXXHASH3: S.optional(S.String),
-    ChecksumXXHASH128: S.optional(S.String),
-    PartNumber: S.optional(S.Number),
-  }),
-).annotate({ identifier: "CompletedPart" }) as any as S.Schema<CompletedPart>;
 export type CompletedPartList = CompletedPart[];
-export const CompletedPartList = /*@__PURE__*/ S.Array(CompletedPart);
 export interface CompletedMultipartUpload {
   Parts?: CompletedPart[];
 }
-export const CompletedMultipartUpload = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Parts: S.optional(CompletedPartList).pipe(
-      T.XmlName("Part"),
-      T.XmlFlattened(),
-    ),
-  }),
-).annotate({
-  identifier: "CompletedMultipartUpload",
-}) as any as S.Schema<CompletedMultipartUpload>;
 export type ChecksumType = "COMPOSITE" | "FULL_OBJECT" | (string & {});
-export const ChecksumType = S.String;
-
 export type MpuObjectSize = number;
 export type IfMatch = string;
 export type IfNoneMatch = string;
@@ -3462,79 +3369,6 @@ export interface CompleteMultipartUploadRequest {
   SSECustomerKey?: string | redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
 }
-export const CompleteMultipartUploadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    MultipartUpload: S.optional(CompletedMultipartUpload)
-      .pipe(T.HttpPayload(), T.XmlName("CompleteMultipartUpload"))
-      .annotate({ identifier: "CompletedMultipartUpload" }),
-    UploadId: S.String.pipe(T.HttpQuery("uploadId")),
-    ChecksumCRC32: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32"),
-    ),
-    ChecksumCRC32C: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32c"),
-    ),
-    ChecksumCRC64NVME: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc64nvme"),
-    ),
-    ChecksumSHA1: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha1"),
-    ),
-    ChecksumSHA256: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha256"),
-    ),
-    ChecksumSHA512: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha512"),
-    ),
-    ChecksumMD5: S.optional(S.String).pipe(T.HttpHeader("x-amz-checksum-md5")),
-    ChecksumXXHASH64: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash64"),
-    ),
-    ChecksumXXHASH3: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash3"),
-    ),
-    ChecksumXXHASH128: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash128"),
-    ),
-    ChecksumType: S.optional(ChecksumType).pipe(
-      T.HttpHeader("x-amz-checksum-type"),
-    ),
-    MpuObjectSize: S.optional(S.Number).pipe(
-      T.HttpHeader("x-amz-mp-object-size"),
-    ),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    IfNoneMatch: S.optional(S.String).pipe(T.HttpHeader("If-None-Match")),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKey: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/{Bucket}/{Key+}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CompleteMultipartUploadRequest",
-}) as any as S.Schema<CompleteMultipartUploadRequest>;
 export type Location = string;
 export type Expiration = string;
 export type ServerSideEncryption =
@@ -3544,8 +3378,6 @@ export type ServerSideEncryption =
   | "aws:kms"
   | "aws:kms:dsse"
   | (string & {});
-export const ServerSideEncryption = S.String;
-
 export type ObjectVersionId = string;
 export type SSEKMSKeyId = string | redacted.Redacted<string>;
 export type BucketKeyEnabled = boolean;
@@ -3572,41 +3404,6 @@ export interface CompleteMultipartUploadOutput {
   BucketKeyEnabled?: boolean;
   RequestCharged?: RequestCharged;
 }
-export const CompleteMultipartUploadOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Location: S.optional(S.String),
-    Bucket: S.optional(S.String),
-    Key: S.optional(S.String),
-    Expiration: S.optional(S.String).pipe(T.HttpHeader("x-amz-expiration")),
-    ETag: S.optional(S.String),
-    ChecksumCRC32: S.optional(S.String),
-    ChecksumCRC32C: S.optional(S.String),
-    ChecksumCRC64NVME: S.optional(S.String),
-    ChecksumSHA1: S.optional(S.String),
-    ChecksumSHA256: S.optional(S.String),
-    ChecksumSHA512: S.optional(S.String),
-    ChecksumMD5: S.optional(S.String),
-    ChecksumXXHASH64: S.optional(S.String),
-    ChecksumXXHASH3: S.optional(S.String),
-    ChecksumXXHASH128: S.optional(S.String),
-    ChecksumType: S.optional(ChecksumType),
-    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
-      T.HttpHeader("x-amz-server-side-encryption"),
-    ),
-    VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
-    SSEKMSKeyId: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
-    ),
-    BucketKeyEnabled: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
-    ),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(T.all(T.XmlName("CompleteMultipartUploadResult"), ns)),
-).annotate({
-  identifier: "CompleteMultipartUploadOutput",
-}) as any as S.Schema<CompleteMultipartUploadOutput>;
 export type ObjectCannedACL =
   | "private"
   | "public-read"
@@ -3616,8 +3413,6 @@ export type ObjectCannedACL =
   | "bucket-owner-read"
   | "bucket-owner-full-control"
   | (string & {});
-export const ObjectCannedACL = S.String;
-
 export type CacheControl = string;
 export type ChecksumAlgorithm =
   | "CRC32"
@@ -3631,8 +3426,6 @@ export type ChecksumAlgorithm =
   | "XXHASH3"
   | "XXHASH128"
   | (string & {});
-export const ChecksumAlgorithm = S.String;
-
 export type ContentDisposition = string;
 export type ContentEncoding = string;
 export type ContentLanguage = string;
@@ -3650,19 +3443,9 @@ export type GrantWriteACP = string;
 export type MetadataKey = string;
 export type MetadataValue = string;
 export type Metadata = { [key: string]: string | undefined };
-export const Metadata = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type MetadataDirective = "COPY" | "REPLACE" | (string & {});
-export const MetadataDirective = S.String;
-
 export type TaggingDirective = "COPY" | "REPLACE" | (string & {});
-export const TaggingDirective = S.String;
-
 export type AnnotationDirective = "COPY" | "EXCLUDE" | (string & {});
-export const AnnotationDirective = S.String;
-
 export type StorageClass =
   | "STANDARD"
   | "REDUCED_REDUNDANCY"
@@ -3680,8 +3463,6 @@ export type StorageClass =
   | "AWS_BACKUP_WARM"
   | "AWS_BACKUP_LOW_COST_WARM"
   | (string & {});
-export const StorageClass = S.String;
-
 export type WebsiteRedirectLocation = string;
 export type SSEKMSEncryptionContext = string | redacted.Redacted<string>;
 export type CopySourceSSECustomerAlgorithm = string;
@@ -3689,12 +3470,8 @@ export type CopySourceSSECustomerKey = string | redacted.Redacted<string>;
 export type CopySourceSSECustomerKeyMD5 = string;
 export type TaggingHeader = string;
 export type ObjectLockMode = "GOVERNANCE" | "COMPLIANCE" | (string & {});
-export const ObjectLockMode = S.String;
-
 export type ObjectLockRetainUntilDate = Date;
 export type ObjectLockLegalHoldStatus = "ON" | "OFF" | (string & {});
-export const ObjectLockLegalHoldStatus = S.String;
-
 export interface CopyObjectRequest {
   ACL?: ObjectCannedACL;
   Bucket: string;
@@ -3741,136 +3518,6 @@ export interface CopyObjectRequest {
   ExpectedBucketOwner?: string;
   ExpectedSourceBucketOwner?: string;
 }
-export const CopyObjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ACL: S.optional(ObjectCannedACL).pipe(T.HttpHeader("x-amz-acl")),
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-checksum-algorithm"),
-    ),
-    ContentDisposition: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Disposition"),
-    ),
-    ContentEncoding: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Encoding"),
-    ),
-    ContentLanguage: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Language"),
-    ),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    CopySource: S.String.pipe(
-      T.HttpHeader("x-amz-copy-source"),
-      T.ContextParam("CopySource"),
-    ),
-    CopySourceIfMatch: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-copy-source-if-match"),
-    ),
-    CopySourceIfModifiedSince: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("x-amz-copy-source-if-modified-since")),
-    CopySourceIfNoneMatch: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-copy-source-if-none-match"),
-    ),
-    CopySourceIfUnmodifiedSince: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("x-amz-copy-source-if-unmodified-since")),
-    Expires: S.optional(S.String).pipe(T.HttpHeader("Expires")),
-    GrantFullControl: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-full-control"),
-    ),
-    GrantRead: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-read")),
-    GrantReadACP: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-read-acp"),
-    ),
-    GrantWriteACP: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-write-acp"),
-    ),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    IfNoneMatch: S.optional(S.String).pipe(T.HttpHeader("If-None-Match")),
-    Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    Metadata: S.optional(Metadata).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
-    MetadataDirective: S.optional(MetadataDirective).pipe(
-      T.HttpHeader("x-amz-metadata-directive"),
-    ),
-    TaggingDirective: S.optional(TaggingDirective).pipe(
-      T.HttpHeader("x-amz-tagging-directive"),
-    ),
-    AnnotationDirective: S.optional(AnnotationDirective).pipe(
-      T.HttpHeader("x-amz-object-annotation-directive"),
-    ),
-    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
-      T.HttpHeader("x-amz-server-side-encryption"),
-    ),
-    StorageClass: S.optional(StorageClass).pipe(
-      T.HttpHeader("x-amz-storage-class"),
-    ),
-    WebsiteRedirectLocation: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-website-redirect-location"),
-    ),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKey: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-    SSEKMSKeyId: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
-    ),
-    SSEKMSEncryptionContext: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-context"),
-    ),
-    BucketKeyEnabled: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
-    ),
-    CopySourceSSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader(
-        "x-amz-copy-source-server-side-encryption-customer-algorithm",
-      ),
-    ),
-    CopySourceSSECustomerKey: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-copy-source-server-side-encryption-customer-key"),
-    ),
-    CopySourceSSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-copy-source-server-side-encryption-customer-key-MD5"),
-    ),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    Tagging: S.optional(S.String).pipe(T.HttpHeader("x-amz-tagging")),
-    ObjectLockMode: S.optional(ObjectLockMode).pipe(
-      T.HttpHeader("x-amz-object-lock-mode"),
-    ),
-    ObjectLockRetainUntilDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
-    ObjectLockLegalHoldStatus: S.optional(ObjectLockLegalHoldStatus).pipe(
-      T.HttpHeader("x-amz-object-lock-legal-hold"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    ExpectedSourceBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-source-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?x-id=CopyObject" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ DisableS3ExpressSessionAuth: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "CopyObjectRequest",
-}) as any as S.Schema<CopyObjectRequest>;
 export type LastModified = Date;
 export interface CopyObjectResult {
   ETag?: string;
@@ -3887,25 +3534,6 @@ export interface CopyObjectResult {
   ChecksumXXHASH3?: string;
   ChecksumXXHASH128?: string;
 }
-export const CopyObjectResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ETag: S.optional(S.String),
-    LastModified: S.optional(T.DateFromString),
-    ChecksumType: S.optional(ChecksumType),
-    ChecksumCRC32: S.optional(S.String),
-    ChecksumCRC32C: S.optional(S.String),
-    ChecksumCRC64NVME: S.optional(S.String),
-    ChecksumSHA1: S.optional(S.String),
-    ChecksumSHA256: S.optional(S.String),
-    ChecksumSHA512: S.optional(S.String),
-    ChecksumMD5: S.optional(S.String),
-    ChecksumXXHASH64: S.optional(S.String),
-    ChecksumXXHASH3: S.optional(S.String),
-    ChecksumXXHASH128: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CopyObjectResult",
-}) as any as S.Schema<CopyObjectResult>;
 export type CopySourceVersionId = string;
 export interface CopyObjectOutput {
   CopyObjectResult?: CopyObjectResult;
@@ -3920,49 +3548,12 @@ export interface CopyObjectOutput {
   BucketKeyEnabled?: boolean;
   RequestCharged?: RequestCharged;
 }
-export const CopyObjectOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CopyObjectResult: S.optional(CopyObjectResult)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "CopyObjectResult" }),
-    Expiration: S.optional(S.String).pipe(T.HttpHeader("x-amz-expiration")),
-    CopySourceVersionId: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-copy-source-version-id"),
-    ),
-    VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
-    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
-      T.HttpHeader("x-amz-server-side-encryption"),
-    ),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-    SSEKMSKeyId: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
-    ),
-    SSEKMSEncryptionContext: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-context"),
-    ),
-    BucketKeyEnabled: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
-    ),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "CopyObjectOutput",
-}) as any as S.Schema<CopyObjectOutput>;
 export type BucketCannedACL =
   | "private"
   | "public-read"
   | "public-read-write"
   | "authenticated-read"
   | (string & {});
-export const BucketCannedACL = S.String;
-
 export type BucketLocationConstraint =
   | "af-south-1"
   | "ap-east-1"
@@ -4003,66 +3594,33 @@ export type BucketLocationConstraint =
   | "us-west-1"
   | "us-west-2"
   | (string & {});
-export const BucketLocationConstraint = S.String;
-
 export type LocationType = "AvailabilityZone" | "LocalZone" | (string & {});
-export const LocationType = S.String;
-
 export type LocationNameAsString = string;
 export interface LocationInfo {
   Type?: LocationType;
   Name?: string;
 }
-export const LocationInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Type: S.optional(LocationType), Name: S.optional(S.String) }),
-).annotate({ identifier: "LocationInfo" }) as any as S.Schema<LocationInfo>;
 export type DataRedundancy =
   | "SingleAvailabilityZone"
   | "SingleLocalZone"
   | (string & {});
-export const DataRedundancy = S.String;
-
 export type BucketType = "Directory" | (string & {});
-export const BucketType = S.String;
-
 export interface BucketInfo {
   DataRedundancy?: DataRedundancy;
   Type?: BucketType;
 }
-export const BucketInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataRedundancy: S.optional(DataRedundancy),
-    Type: S.optional(BucketType),
-  }),
-).annotate({ identifier: "BucketInfo" }) as any as S.Schema<BucketInfo>;
 export type Value = string;
 export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagSet = Tag[];
-export const TagSet = /*@__PURE__*/ S.Array(
-  Tag.pipe(T.XmlName("Tag")).annotate({ identifier: "Tag" }),
-);
 export interface CreateBucketConfiguration {
   LocationConstraint?: BucketLocationConstraint;
   Location?: LocationInfo;
   Bucket?: BucketInfo;
   Tags?: Tag[];
 }
-export const CreateBucketConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LocationConstraint: S.optional(BucketLocationConstraint),
-    Location: S.optional(LocationInfo),
-    Bucket: S.optional(BucketInfo),
-    Tags: S.optional(TagSet),
-  }),
-).annotate({
-  identifier: "CreateBucketConfiguration",
-}) as any as S.Schema<CreateBucketConfiguration>;
 export type GrantWrite = string;
 export type ObjectLockEnabledForBucket = boolean;
 export type ObjectOwnership =
@@ -4070,11 +3628,7 @@ export type ObjectOwnership =
   | "ObjectWriter"
   | "BucketOwnerEnforced"
   | (string & {});
-export const ObjectOwnership = S.String;
-
 export type BucketNamespace = "account-regional" | "global" | (string & {});
-export const BucketNamespace = S.String;
-
 export interface CreateBucketRequest {
   ACL?: BucketCannedACL;
   Bucket: string;
@@ -4088,160 +3642,51 @@ export interface CreateBucketRequest {
   ObjectOwnership?: ObjectOwnership;
   BucketNamespace?: BucketNamespace;
 }
-export const CreateBucketRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ACL: S.optional(BucketCannedACL).pipe(T.HttpHeader("x-amz-acl")),
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    CreateBucketConfiguration: S.optional(CreateBucketConfiguration)
-      .pipe(T.HttpPayload(), T.XmlName("CreateBucketConfiguration"))
-      .annotate({ identifier: "CreateBucketConfiguration" }),
-    GrantFullControl: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-full-control"),
-    ),
-    GrantRead: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-read")),
-    GrantReadACP: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-read-acp"),
-    ),
-    GrantWrite: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-write")),
-    GrantWriteACP: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-write-acp"),
-    ),
-    ObjectLockEnabledForBucket: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-bucket-object-lock-enabled"),
-    ),
-    ObjectOwnership: S.optional(ObjectOwnership).pipe(
-      T.HttpHeader("x-amz-object-ownership"),
-    ),
-    BucketNamespace: S.optional(BucketNamespace).pipe(
-      T.HttpHeader("x-amz-bucket-namespace"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({
-        UseS3ExpressControlEndpoint: { value: true },
-        DisableAccessPoints: { value: true },
-      }),
-    ),
-  ),
-).annotate({
-  identifier: "CreateBucketRequest",
-}) as any as S.Schema<CreateBucketRequest>;
 export type S3RegionalOrS3ExpressBucketArnString = string;
 export interface CreateBucketOutput {
   Location?: string;
   BucketArn?: string;
 }
-export const CreateBucketOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    BucketArn: S.optional(S.String).pipe(T.HttpHeader("x-amz-bucket-arn")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateBucketOutput",
-}) as any as S.Schema<CreateBucketOutput>;
 export type ContentMD5 = string;
 export type ExpirationState = "ENABLED" | "DISABLED" | (string & {});
-export const ExpirationState = S.String;
-
 export type RecordExpirationDays = number;
 export interface RecordExpiration {
   Expiration: ExpirationState;
   Days?: number;
 }
-export const RecordExpiration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Expiration: ExpirationState, Days: S.optional(S.Number) }),
-).annotate({
-  identifier: "RecordExpiration",
-}) as any as S.Schema<RecordExpiration>;
 export type TableSseAlgorithm = "aws:kms" | "AES256" | (string & {});
-export const TableSseAlgorithm = S.String;
-
 export type KmsKeyArn = string;
 export interface MetadataTableEncryptionConfiguration {
   SseAlgorithm: TableSseAlgorithm;
   KmsKeyArn?: string;
 }
-export const MetadataTableEncryptionConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SseAlgorithm: TableSseAlgorithm,
-      KmsKeyArn: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "MetadataTableEncryptionConfiguration",
-}) as any as S.Schema<MetadataTableEncryptionConfiguration>;
 export interface JournalTableConfiguration {
   RecordExpiration: RecordExpiration;
   EncryptionConfiguration?: MetadataTableEncryptionConfiguration;
 }
-export const JournalTableConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecordExpiration: RecordExpiration,
-    EncryptionConfiguration: S.optional(MetadataTableEncryptionConfiguration),
-  }),
-).annotate({
-  identifier: "JournalTableConfiguration",
-}) as any as S.Schema<JournalTableConfiguration>;
 export type InventoryConfigurationState =
   | "ENABLED"
   | "DISABLED"
   | (string & {});
-export const InventoryConfigurationState = S.String;
-
 export interface InventoryTableConfiguration {
   ConfigurationState: InventoryConfigurationState;
   EncryptionConfiguration?: MetadataTableEncryptionConfiguration;
 }
-export const InventoryTableConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationState: InventoryConfigurationState,
-    EncryptionConfiguration: S.optional(MetadataTableEncryptionConfiguration),
-  }),
-).annotate({
-  identifier: "InventoryTableConfiguration",
-}) as any as S.Schema<InventoryTableConfiguration>;
 export type AnnotationConfigurationState =
   | "ENABLED"
   | "DISABLED"
   | (string & {});
-export const AnnotationConfigurationState = S.String;
-
 export type Role = string;
 export interface AnnotationTableConfiguration {
   ConfigurationState: AnnotationConfigurationState;
   EncryptionConfiguration?: MetadataTableEncryptionConfiguration;
   Role?: string;
 }
-export const AnnotationTableConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationState: AnnotationConfigurationState,
-    EncryptionConfiguration: S.optional(MetadataTableEncryptionConfiguration),
-    Role: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AnnotationTableConfiguration",
-}) as any as S.Schema<AnnotationTableConfiguration>;
 export interface MetadataConfiguration {
   JournalTableConfiguration: JournalTableConfiguration;
   InventoryTableConfiguration?: InventoryTableConfiguration;
   AnnotationTableConfiguration?: AnnotationTableConfiguration;
 }
-export const MetadataConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    JournalTableConfiguration: JournalTableConfiguration,
-    InventoryTableConfiguration: S.optional(InventoryTableConfiguration),
-    AnnotationTableConfiguration: S.optional(AnnotationTableConfiguration),
-  }),
-).annotate({
-  identifier: "MetadataConfiguration",
-}) as any as S.Schema<MetadataConfiguration>;
 export interface CreateBucketMetadataConfigurationRequest {
   Bucket: string;
   ContentMD5?: string;
@@ -4249,64 +3694,16 @@ export interface CreateBucketMetadataConfigurationRequest {
   MetadataConfiguration: MetadataConfiguration;
   ExpectedBucketOwner?: string;
 }
-export const CreateBucketMetadataConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-      ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-        T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-      ),
-      MetadataConfiguration: MetadataConfiguration.pipe(
-        T.HttpPayload(),
-        T.XmlName("MetadataConfiguration"),
-      ).annotate({ identifier: "MetadataConfiguration" }),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/{Bucket}?metadataConfiguration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.AwsProtocolsHttpChecksum({
-          requestAlgorithmMember: "ChecksumAlgorithm",
-          requestChecksumRequired: true,
-        }),
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "CreateBucketMetadataConfigurationRequest",
-}) as any as S.Schema<CreateBucketMetadataConfigurationRequest>;
 export interface CreateBucketMetadataConfigurationResponse {}
-export const CreateBucketMetadataConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "CreateBucketMetadataConfigurationResponse",
-  }) as any as S.Schema<CreateBucketMetadataConfigurationResponse>;
 export type S3TablesBucketArn = string;
 export type S3TablesName = string;
 export interface S3TablesDestination {
   TableBucketArn: string;
   TableName: string;
 }
-export const S3TablesDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TableBucketArn: S.String, TableName: S.String }),
-).annotate({
-  identifier: "S3TablesDestination",
-}) as any as S.Schema<S3TablesDestination>;
 export interface MetadataTableConfiguration {
   S3TablesDestination: S3TablesDestination;
 }
-export const MetadataTableConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3TablesDestination: S3TablesDestination }),
-).annotate({
-  identifier: "MetadataTableConfiguration",
-}) as any as S.Schema<MetadataTableConfiguration>;
 export interface CreateBucketMetadataTableConfigurationRequest {
   Bucket: string;
   ContentMD5?: string;
@@ -4314,45 +3711,7 @@ export interface CreateBucketMetadataTableConfigurationRequest {
   MetadataTableConfiguration: MetadataTableConfiguration;
   ExpectedBucketOwner?: string;
 }
-export const CreateBucketMetadataTableConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-      ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-        T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-      ),
-      MetadataTableConfiguration: MetadataTableConfiguration.pipe(
-        T.HttpPayload(),
-        T.XmlName("MetadataTableConfiguration"),
-      ).annotate({ identifier: "MetadataTableConfiguration" }),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/{Bucket}?metadataTable" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.AwsProtocolsHttpChecksum({
-          requestAlgorithmMember: "ChecksumAlgorithm",
-          requestChecksumRequired: true,
-        }),
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "CreateBucketMetadataTableConfigurationRequest",
-  }) as any as S.Schema<CreateBucketMetadataTableConfigurationRequest>;
 export interface CreateBucketMetadataTableConfigurationResponse {}
-export const CreateBucketMetadataTableConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "CreateBucketMetadataTableConfigurationResponse",
-  }) as any as S.Schema<CreateBucketMetadataTableConfigurationResponse>;
 export interface CreateMultipartUploadRequest {
   ACL?: ObjectCannedACL;
   Bucket: string;
@@ -4386,97 +3745,6 @@ export interface CreateMultipartUploadRequest {
   ChecksumAlgorithm?: ChecksumAlgorithm;
   ChecksumType?: ChecksumType;
 }
-export const CreateMultipartUploadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ACL: S.optional(ObjectCannedACL).pipe(T.HttpHeader("x-amz-acl")),
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ContentDisposition: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Disposition"),
-    ),
-    ContentEncoding: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Encoding"),
-    ),
-    ContentLanguage: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Language"),
-    ),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    Expires: S.optional(S.String).pipe(T.HttpHeader("Expires")),
-    GrantFullControl: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-full-control"),
-    ),
-    GrantRead: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-read")),
-    GrantReadACP: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-read-acp"),
-    ),
-    GrantWriteACP: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-write-acp"),
-    ),
-    Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    Metadata: S.optional(Metadata).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
-    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
-      T.HttpHeader("x-amz-server-side-encryption"),
-    ),
-    StorageClass: S.optional(StorageClass).pipe(
-      T.HttpHeader("x-amz-storage-class"),
-    ),
-    WebsiteRedirectLocation: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-website-redirect-location"),
-    ),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKey: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-    SSEKMSKeyId: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
-    ),
-    SSEKMSEncryptionContext: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-context"),
-    ),
-    BucketKeyEnabled: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
-    ),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    Tagging: S.optional(S.String).pipe(T.HttpHeader("x-amz-tagging")),
-    ObjectLockMode: S.optional(ObjectLockMode).pipe(
-      T.HttpHeader("x-amz-object-lock-mode"),
-    ),
-    ObjectLockRetainUntilDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
-    ObjectLockLegalHoldStatus: S.optional(ObjectLockLegalHoldStatus).pipe(
-      T.HttpHeader("x-amz-object-lock-legal-hold"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-checksum-algorithm"),
-    ),
-    ChecksumType: S.optional(ChecksumType).pipe(
-      T.HttpHeader("x-amz-checksum-type"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/{Bucket}/{Key+}?uploads" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateMultipartUploadRequest",
-}) as any as S.Schema<CreateMultipartUploadRequest>;
 export type AbortDate = Date;
 export type AbortRuleId = string;
 export interface CreateMultipartUploadOutput {
@@ -4495,49 +3763,7 @@ export interface CreateMultipartUploadOutput {
   ChecksumAlgorithm?: ChecksumAlgorithm;
   ChecksumType?: ChecksumType;
 }
-export const CreateMultipartUploadOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AbortDate: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-      T.HttpHeader("x-amz-abort-date"),
-    ),
-    AbortRuleId: S.optional(S.String).pipe(T.HttpHeader("x-amz-abort-rule-id")),
-    Bucket: S.optional(S.String).pipe(T.XmlName("Bucket")),
-    Key: S.optional(S.String),
-    UploadId: S.optional(S.String),
-    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
-      T.HttpHeader("x-amz-server-side-encryption"),
-    ),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-    SSEKMSKeyId: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
-    ),
-    SSEKMSEncryptionContext: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-context"),
-    ),
-    BucketKeyEnabled: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
-    ),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-checksum-algorithm"),
-    ),
-    ChecksumType: S.optional(ChecksumType).pipe(
-      T.HttpHeader("x-amz-checksum-type"),
-    ),
-  }).pipe(T.all(T.XmlName("InitiateMultipartUploadResult"), ns)),
-).annotate({
-  identifier: "CreateMultipartUploadOutput",
-}) as any as S.Schema<CreateMultipartUploadOutput>;
 export type SessionMode = "ReadOnly" | "ReadWrite" | (string & {});
-export const SessionMode = S.String;
-
 export interface CreateSessionRequest {
   SessionMode?: SessionMode;
   Bucket: string;
@@ -4546,39 +3772,6 @@ export interface CreateSessionRequest {
   SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
 }
-export const CreateSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SessionMode: S.optional(SessionMode).pipe(
-      T.HttpHeader("x-amz-create-session-mode"),
-    ),
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
-      T.HttpHeader("x-amz-server-side-encryption"),
-    ),
-    SSEKMSKeyId: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
-    ),
-    SSEKMSEncryptionContext: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-context"),
-    ),
-    BucketKeyEnabled: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?session" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ DisableS3ExpressSessionAuth: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "CreateSessionRequest",
-}) as any as S.Schema<CreateSessionRequest>;
 export type AccessKeyIdValue = string;
 export type SessionCredentialValue = string | redacted.Redacted<string>;
 export type SessionExpiration = Date;
@@ -4588,16 +3781,6 @@ export interface SessionCredentials {
   SessionToken: string | redacted.Redacted<string>;
   Expiration: Date;
 }
-export const SessionCredentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessKeyId: S.String.pipe(T.XmlName("AccessKeyId")),
-    SecretAccessKey: SensitiveString.pipe(T.XmlName("SecretAccessKey")),
-    SessionToken: SensitiveString.pipe(T.XmlName("SessionToken")),
-    Expiration: T.DateFromString.pipe(T.XmlName("Expiration")),
-  }),
-).annotate({
-  identifier: "SessionCredentials",
-}) as any as S.Schema<SessionCredentials>;
 export interface CreateSessionOutput {
   ServerSideEncryption?: ServerSideEncryption;
   SSEKMSKeyId?: string | redacted.Redacted<string>;
@@ -4605,506 +3788,89 @@ export interface CreateSessionOutput {
   BucketKeyEnabled?: boolean;
   Credentials: SessionCredentials;
 }
-export const CreateSessionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
-      T.HttpHeader("x-amz-server-side-encryption"),
-    ),
-    SSEKMSKeyId: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
-    ),
-    SSEKMSEncryptionContext: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-context"),
-    ),
-    BucketKeyEnabled: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
-    ),
-    Credentials: SessionCredentials.pipe(T.XmlName("Credentials")).annotate({
-      identifier: "SessionCredentials",
-    }),
-  }).pipe(T.all(T.XmlName("CreateSessionResult"), ns)),
-).annotate({
-  identifier: "CreateSessionOutput",
-}) as any as S.Schema<CreateSessionOutput>;
 export interface DeleteBucketRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const DeleteBucketRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/{Bucket}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBucketRequest",
-}) as any as S.Schema<DeleteBucketRequest>;
 export interface DeleteBucketResponse {}
-export const DeleteBucketResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteBucketResponse",
-}) as any as S.Schema<DeleteBucketResponse>;
 export type AnalyticsId = string;
 export interface DeleteBucketAnalyticsConfigurationRequest {
   Bucket: string;
   Id: string;
   ExpectedBucketOwner?: string;
 }
-export const DeleteBucketAnalyticsConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      Id: S.String.pipe(T.HttpQuery("id")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "DELETE", uri: "/{Bucket}?analytics" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteBucketAnalyticsConfigurationRequest",
-  }) as any as S.Schema<DeleteBucketAnalyticsConfigurationRequest>;
 export interface DeleteBucketAnalyticsConfigurationResponse {}
-export const DeleteBucketAnalyticsConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteBucketAnalyticsConfigurationResponse",
-  }) as any as S.Schema<DeleteBucketAnalyticsConfigurationResponse>;
 export interface DeleteBucketCorsRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const DeleteBucketCorsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/{Bucket}?cors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBucketCorsRequest",
-}) as any as S.Schema<DeleteBucketCorsRequest>;
 export interface DeleteBucketCorsResponse {}
-export const DeleteBucketCorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteBucketCorsResponse",
-}) as any as S.Schema<DeleteBucketCorsResponse>;
 export interface DeleteBucketEncryptionRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const DeleteBucketEncryptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/{Bucket}?encryption" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBucketEncryptionRequest",
-}) as any as S.Schema<DeleteBucketEncryptionRequest>;
 export interface DeleteBucketEncryptionResponse {}
-export const DeleteBucketEncryptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteBucketEncryptionResponse",
-}) as any as S.Schema<DeleteBucketEncryptionResponse>;
 export type IntelligentTieringId = string;
 export interface DeleteBucketIntelligentTieringConfigurationRequest {
   Bucket: string;
   Id: string;
   ExpectedBucketOwner?: string;
 }
-export const DeleteBucketIntelligentTieringConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      Id: S.String.pipe(T.HttpQuery("id")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "DELETE", uri: "/{Bucket}?intelligent-tiering" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteBucketIntelligentTieringConfigurationRequest",
-  }) as any as S.Schema<DeleteBucketIntelligentTieringConfigurationRequest>;
 export interface DeleteBucketIntelligentTieringConfigurationResponse {}
-export const DeleteBucketIntelligentTieringConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteBucketIntelligentTieringConfigurationResponse",
-  }) as any as S.Schema<DeleteBucketIntelligentTieringConfigurationResponse>;
 export type InventoryId = string;
 export interface DeleteBucketInventoryConfigurationRequest {
   Bucket: string;
   Id: string;
   ExpectedBucketOwner?: string;
 }
-export const DeleteBucketInventoryConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      Id: S.String.pipe(T.HttpQuery("id")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "DELETE", uri: "/{Bucket}?inventory" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteBucketInventoryConfigurationRequest",
-  }) as any as S.Schema<DeleteBucketInventoryConfigurationRequest>;
 export interface DeleteBucketInventoryConfigurationResponse {}
-export const DeleteBucketInventoryConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteBucketInventoryConfigurationResponse",
-  }) as any as S.Schema<DeleteBucketInventoryConfigurationResponse>;
 export interface DeleteBucketLifecycleRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const DeleteBucketLifecycleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/{Bucket}?lifecycle" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBucketLifecycleRequest",
-}) as any as S.Schema<DeleteBucketLifecycleRequest>;
 export interface DeleteBucketLifecycleResponse {}
-export const DeleteBucketLifecycleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteBucketLifecycleResponse",
-}) as any as S.Schema<DeleteBucketLifecycleResponse>;
 export interface DeleteBucketMetadataConfigurationRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const DeleteBucketMetadataConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "DELETE", uri: "/{Bucket}?metadataConfiguration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "DeleteBucketMetadataConfigurationRequest",
-}) as any as S.Schema<DeleteBucketMetadataConfigurationRequest>;
 export interface DeleteBucketMetadataConfigurationResponse {}
-export const DeleteBucketMetadataConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteBucketMetadataConfigurationResponse",
-  }) as any as S.Schema<DeleteBucketMetadataConfigurationResponse>;
 export interface DeleteBucketMetadataTableConfigurationRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const DeleteBucketMetadataTableConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "DELETE", uri: "/{Bucket}?metadataTable" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteBucketMetadataTableConfigurationRequest",
-  }) as any as S.Schema<DeleteBucketMetadataTableConfigurationRequest>;
 export interface DeleteBucketMetadataTableConfigurationResponse {}
-export const DeleteBucketMetadataTableConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteBucketMetadataTableConfigurationResponse",
-  }) as any as S.Schema<DeleteBucketMetadataTableConfigurationResponse>;
 export type MetricsId = string;
 export interface DeleteBucketMetricsConfigurationRequest {
   Bucket: string;
   Id: string;
   ExpectedBucketOwner?: string;
 }
-export const DeleteBucketMetricsConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      Id: S.String.pipe(T.HttpQuery("id")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "DELETE", uri: "/{Bucket}?metrics" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "DeleteBucketMetricsConfigurationRequest",
-}) as any as S.Schema<DeleteBucketMetricsConfigurationRequest>;
 export interface DeleteBucketMetricsConfigurationResponse {}
-export const DeleteBucketMetricsConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteBucketMetricsConfigurationResponse",
-}) as any as S.Schema<DeleteBucketMetricsConfigurationResponse>;
 export interface DeleteBucketOwnershipControlsRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const DeleteBucketOwnershipControlsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "DELETE", uri: "/{Bucket}?ownershipControls" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "DeleteBucketOwnershipControlsRequest",
-}) as any as S.Schema<DeleteBucketOwnershipControlsRequest>;
 export interface DeleteBucketOwnershipControlsResponse {}
-export const DeleteBucketOwnershipControlsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteBucketOwnershipControlsResponse",
-}) as any as S.Schema<DeleteBucketOwnershipControlsResponse>;
 export interface DeleteBucketPolicyRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const DeleteBucketPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/{Bucket}?policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBucketPolicyRequest",
-}) as any as S.Schema<DeleteBucketPolicyRequest>;
 export interface DeleteBucketPolicyResponse {}
-export const DeleteBucketPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteBucketPolicyResponse",
-}) as any as S.Schema<DeleteBucketPolicyResponse>;
 export interface DeleteBucketReplicationRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const DeleteBucketReplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/{Bucket}?replication" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBucketReplicationRequest",
-}) as any as S.Schema<DeleteBucketReplicationRequest>;
 export interface DeleteBucketReplicationResponse {}
-export const DeleteBucketReplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteBucketReplicationResponse",
-}) as any as S.Schema<DeleteBucketReplicationResponse>;
 export interface DeleteBucketTaggingRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const DeleteBucketTaggingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/{Bucket}?tagging" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBucketTaggingRequest",
-}) as any as S.Schema<DeleteBucketTaggingRequest>;
 export interface DeleteBucketTaggingResponse {}
-export const DeleteBucketTaggingResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteBucketTaggingResponse",
-}) as any as S.Schema<DeleteBucketTaggingResponse>;
 export interface DeleteBucketWebsiteRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const DeleteBucketWebsiteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/{Bucket}?website" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBucketWebsiteRequest",
-}) as any as S.Schema<DeleteBucketWebsiteRequest>;
 export interface DeleteBucketWebsiteResponse {}
-export const DeleteBucketWebsiteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteBucketWebsiteResponse",
-}) as any as S.Schema<DeleteBucketWebsiteResponse>;
 export type MFA = string;
 export type BypassGovernanceRetention = boolean;
 export type IfMatchLastModifiedTime = Date;
@@ -5121,59 +3887,12 @@ export interface DeleteObjectRequest {
   IfMatchLastModifiedTime?: Date;
   IfMatchSize?: number;
 }
-export const DeleteObjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    MFA: S.optional(S.String).pipe(T.HttpHeader("x-amz-mfa")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    BypassGovernanceRetention: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-bypass-governance-retention"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    IfMatchLastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("x-amz-if-match-last-modified-time")),
-    IfMatchSize: S.optional(S.Number).pipe(T.HttpHeader("x-amz-if-match-size")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/{Bucket}/{Key+}?x-id=DeleteObject" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteObjectRequest",
-}) as any as S.Schema<DeleteObjectRequest>;
 export type DeleteMarker = boolean;
 export interface DeleteObjectOutput {
   DeleteMarker?: boolean;
   VersionId?: string;
   RequestCharged?: RequestCharged;
 }
-export const DeleteObjectOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeleteMarker: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-delete-marker"),
-    ),
-    VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "DeleteObjectOutput",
-}) as any as S.Schema<DeleteObjectOutput>;
 export type AnnotationName = string;
 export type ObjectIfMatch = string;
 export interface DeleteObjectAnnotationRequest {
@@ -5185,51 +3904,10 @@ export interface DeleteObjectAnnotationRequest {
   ExpectedBucketOwner?: string;
   ObjectIfMatch?: string;
 }
-export const DeleteObjectAnnotationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    AnnotationName: S.String.pipe(T.HttpQuery("annotationName")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    ObjectIfMatch: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-object-if-match"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/{Bucket}/{Key+}?annotation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteObjectAnnotationRequest",
-}) as any as S.Schema<DeleteObjectAnnotationRequest>;
 export interface DeleteObjectAnnotationOutput {
   ObjectVersionId?: string;
   RequestCharged?: RequestCharged;
 }
-export const DeleteObjectAnnotationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ObjectVersionId: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-object-version-id"),
-    ),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "DeleteObjectAnnotationOutput",
-}) as any as S.Schema<DeleteObjectAnnotationOutput>;
 export type LastModifiedTime = Date;
 export type Size = number;
 export interface ObjectIdentifier {
@@ -5239,30 +3917,12 @@ export interface ObjectIdentifier {
   LastModifiedTime?: Date;
   Size?: number;
 }
-export const ObjectIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Key: S.String,
-    VersionId: S.optional(S.String),
-    ETag: S.optional(S.String),
-    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))),
-    Size: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ObjectIdentifier",
-}) as any as S.Schema<ObjectIdentifier>;
 export type ObjectIdentifierList = ObjectIdentifier[];
-export const ObjectIdentifierList = /*@__PURE__*/ S.Array(ObjectIdentifier);
 export type Quiet = boolean;
 export interface Delete {
   Objects: ObjectIdentifier[];
   Quiet?: boolean;
 }
-export const Delete = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Objects: ObjectIdentifierList.pipe(T.XmlName("Object"), T.XmlFlattened()),
-    Quiet: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "Delete" }) as any as S.Schema<Delete>;
 export interface DeleteObjectsRequest {
   Bucket: string;
   Delete: Delete;
@@ -5272,43 +3932,6 @@ export interface DeleteObjectsRequest {
   ExpectedBucketOwner?: string;
   ChecksumAlgorithm?: ChecksumAlgorithm;
 }
-export const DeleteObjectsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Delete: Delete.pipe(T.HttpPayload(), T.XmlName("Delete")).annotate({
-      identifier: "Delete",
-    }),
-    MFA: S.optional(S.String).pipe(T.HttpHeader("x-amz-mfa")),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    BypassGovernanceRetention: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-bypass-governance-retention"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/{Bucket}?delete" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-    ),
-  ),
-).annotate({
-  identifier: "DeleteObjectsRequest",
-}) as any as S.Schema<DeleteObjectsRequest>;
 export type DeleteMarkerVersionId = string;
 export interface DeletedObject {
   Key?: string;
@@ -5316,16 +3939,7 @@ export interface DeletedObject {
   DeleteMarker?: boolean;
   DeleteMarkerVersionId?: string;
 }
-export const DeletedObject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Key: S.optional(S.String),
-    VersionId: S.optional(S.String),
-    DeleteMarker: S.optional(S.Boolean),
-    DeleteMarkerVersionId: S.optional(S.String),
-  }),
-).annotate({ identifier: "DeletedObject" }) as any as S.Schema<DeletedObject>;
 export type DeletedObjects = DeletedObject[];
-export const DeletedObjects = /*@__PURE__*/ S.Array(DeletedObject);
 export type Code = string;
 export type Message = string;
 export interface Error {
@@ -5334,228 +3948,57 @@ export interface Error {
   Code?: string;
   Message?: string;
 }
-export const Error = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Key: S.optional(S.String),
-    VersionId: S.optional(S.String),
-    Code: S.optional(S.String),
-    Message: S.optional(S.String),
-  }),
-).annotate({ identifier: "Error" }) as any as S.Schema<Error>;
 export type Errors = Error[];
-export const Errors = /*@__PURE__*/ S.Array(Error);
 export interface DeleteObjectsOutput {
   Deleted?: DeletedObject[];
   RequestCharged?: RequestCharged;
   Errors?: Error[];
 }
-export const DeleteObjectsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Deleted: S.optional(DeletedObjects).pipe(T.XmlFlattened()),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-    Errors: S.optional(Errors).pipe(T.XmlName("Error"), T.XmlFlattened()),
-  }).pipe(T.all(T.XmlName("DeleteResult"), ns)),
-).annotate({
-  identifier: "DeleteObjectsOutput",
-}) as any as S.Schema<DeleteObjectsOutput>;
 export interface DeleteObjectTaggingRequest {
   Bucket: string;
   Key: string;
   VersionId?: string;
   ExpectedBucketOwner?: string;
 }
-export const DeleteObjectTaggingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/{Bucket}/{Key+}?tagging" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteObjectTaggingRequest",
-}) as any as S.Schema<DeleteObjectTaggingRequest>;
 export interface DeleteObjectTaggingOutput {
   VersionId?: string;
 }
-export const DeleteObjectTaggingOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
-  }).pipe(ns),
-).annotate({
-  identifier: "DeleteObjectTaggingOutput",
-}) as any as S.Schema<DeleteObjectTaggingOutput>;
 export interface DeletePublicAccessBlockRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const DeletePublicAccessBlockRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/{Bucket}?publicAccessBlock" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "DeletePublicAccessBlockRequest",
-}) as any as S.Schema<DeletePublicAccessBlockRequest>;
 export interface DeletePublicAccessBlockResponse {}
-export const DeletePublicAccessBlockResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeletePublicAccessBlockResponse",
-}) as any as S.Schema<DeletePublicAccessBlockResponse>;
 export interface GetBucketAbacRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketAbacRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?abac" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBucketAbacRequest",
-}) as any as S.Schema<GetBucketAbacRequest>;
 export type BucketAbacStatus = "Enabled" | "Disabled" | (string & {});
-export const BucketAbacStatus = S.String;
-
 export interface AbacStatus {
   Status?: BucketAbacStatus;
 }
-export const AbacStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: S.optional(BucketAbacStatus) }),
-).annotate({ identifier: "AbacStatus" }) as any as S.Schema<AbacStatus>;
 export interface GetBucketAbacOutput {
   AbacStatus?: AbacStatus;
 }
-export const GetBucketAbacOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AbacStatus: S.optional(AbacStatus)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "AbacStatus" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetBucketAbacOutput",
-}) as any as S.Schema<GetBucketAbacOutput>;
 export interface GetBucketAccelerateConfigurationRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
   RequestPayer?: RequestPayer;
 }
-export const GetBucketAccelerateConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-      RequestPayer: S.optional(RequestPayer).pipe(
-        T.HttpHeader("x-amz-request-payer"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "GET", uri: "/{Bucket}?accelerate" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "GetBucketAccelerateConfigurationRequest",
-}) as any as S.Schema<GetBucketAccelerateConfigurationRequest>;
 export type BucketAccelerateStatus = "Enabled" | "Suspended" | (string & {});
-export const BucketAccelerateStatus = S.String;
-
 export interface GetBucketAccelerateConfigurationOutput {
   Status?: BucketAccelerateStatus;
   RequestCharged?: RequestCharged;
 }
-export const GetBucketAccelerateConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Status: S.optional(BucketAccelerateStatus),
-      RequestCharged: S.optional(RequestCharged).pipe(
-        T.HttpHeader("x-amz-request-charged"),
-      ),
-    }).pipe(T.all(T.XmlName("AccelerateConfiguration"), ns)),
-).annotate({
-  identifier: "GetBucketAccelerateConfigurationOutput",
-}) as any as S.Schema<GetBucketAccelerateConfigurationOutput>;
 export interface GetBucketAclRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketAclRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?acl" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetBucketAclRequest",
-}) as any as S.Schema<GetBucketAclRequest>;
 export type DisplayName = string;
 export type ID = string;
 export interface Owner {
   DisplayName?: string;
   ID?: string;
 }
-export const Owner = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DisplayName: S.optional(S.String), ID: S.optional(S.String) }),
-).annotate({ identifier: "Owner" }) as any as S.Schema<Owner>;
 export type EmailAddress = string;
 export type URI = string;
 export type Type =
@@ -5563,8 +4006,6 @@ export type Type =
   | "AmazonCustomerByEmail"
   | "Group"
   | (string & {});
-export const Type = S.String;
-
 export interface Grantee {
   DisplayName?: string;
   EmailAddress?: string;
@@ -5572,15 +4013,6 @@ export interface Grantee {
   URI?: string;
   Type: Type;
 }
-export const Grantee = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DisplayName: S.optional(S.String),
-    EmailAddress: S.optional(S.String),
-    ID: S.optional(S.String),
-    URI: S.optional(S.String),
-    Type: Type.pipe(T.XmlName("xsi:type"), T.XmlAttribute()),
-  }),
-).annotate({ identifier: "Grantee" }) as any as S.Schema<Grantee>;
 export type Permission =
   | "FULL_CONTROL"
   | "WRITE"
@@ -5588,201 +4020,67 @@ export type Permission =
   | "READ"
   | "READ_ACP"
   | (string & {});
-export const Permission = S.String;
-
 export interface Grant {
   Grantee?: Grantee;
   Permission?: Permission;
 }
-export const Grant = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Grantee: S.optional(Grantee),
-    Permission: S.optional(Permission),
-  }),
-).annotate({ identifier: "Grant" }) as any as S.Schema<Grant>;
 export type Grants = Grant[];
-export const Grants = /*@__PURE__*/ S.Array(
-  Grant.pipe(T.XmlName("Grant")).annotate({ identifier: "Grant" }),
-);
 export interface GetBucketAclOutput {
   Owner?: Owner;
   Grants?: Grant[];
 }
-export const GetBucketAclOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Owner: S.optional(Owner),
-    Grants: S.optional(Grants).pipe(T.XmlName("AccessControlList")),
-  }).pipe(T.all(T.XmlName("AccessControlPolicy"), ns)),
-).annotate({
-  identifier: "GetBucketAclOutput",
-}) as any as S.Schema<GetBucketAclOutput>;
 export interface GetBucketAnalyticsConfigurationRequest {
   Bucket: string;
   Id: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketAnalyticsConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      Id: S.String.pipe(T.HttpQuery("id")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/{Bucket}?analytics&x-id=GetBucketAnalyticsConfiguration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "GetBucketAnalyticsConfigurationRequest",
-}) as any as S.Schema<GetBucketAnalyticsConfigurationRequest>;
 export type Prefix = string;
 export interface AnalyticsAndOperator {
   Prefix?: string;
   Tags?: Tag[];
 }
-export const AnalyticsAndOperator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Prefix: S.optional(S.String),
-    Tags: S.optional(TagSet).pipe(T.XmlName("Tag"), T.XmlFlattened()),
-  }),
-).annotate({
-  identifier: "AnalyticsAndOperator",
-}) as any as S.Schema<AnalyticsAndOperator>;
 export type AnalyticsFilter =
   | { Prefix: string; Tag?: never; And?: never }
   | { Prefix?: never; Tag: Tag; And?: never }
   | { Prefix?: never; Tag?: never; And: AnalyticsAndOperator };
-export const AnalyticsFilter = /*@__PURE__*/ S.Union([
-  S.Struct({ Prefix: S.String }),
-  S.Struct({ Tag: Tag }),
-  S.Struct({ And: AnalyticsAndOperator }),
-]);
 export type StorageClassAnalysisSchemaVersion = "V_1" | (string & {});
-export const StorageClassAnalysisSchemaVersion = S.String;
-
 export type AnalyticsS3ExportFileFormat = "CSV" | (string & {});
-export const AnalyticsS3ExportFileFormat = S.String;
-
 export interface AnalyticsS3BucketDestination {
   Format: AnalyticsS3ExportFileFormat;
   BucketAccountId?: string;
   Bucket: string;
   Prefix?: string;
 }
-export const AnalyticsS3BucketDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Format: AnalyticsS3ExportFileFormat,
-    BucketAccountId: S.optional(S.String),
-    Bucket: S.String,
-    Prefix: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AnalyticsS3BucketDestination",
-}) as any as S.Schema<AnalyticsS3BucketDestination>;
 export interface AnalyticsExportDestination {
   S3BucketDestination: AnalyticsS3BucketDestination;
 }
-export const AnalyticsExportDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3BucketDestination: AnalyticsS3BucketDestination }),
-).annotate({
-  identifier: "AnalyticsExportDestination",
-}) as any as S.Schema<AnalyticsExportDestination>;
 export interface StorageClassAnalysisDataExport {
   OutputSchemaVersion: StorageClassAnalysisSchemaVersion;
   Destination: AnalyticsExportDestination;
 }
-export const StorageClassAnalysisDataExport = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OutputSchemaVersion: StorageClassAnalysisSchemaVersion,
-    Destination: AnalyticsExportDestination,
-  }),
-).annotate({
-  identifier: "StorageClassAnalysisDataExport",
-}) as any as S.Schema<StorageClassAnalysisDataExport>;
 export interface StorageClassAnalysis {
   DataExport?: StorageClassAnalysisDataExport;
 }
-export const StorageClassAnalysis = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataExport: S.optional(StorageClassAnalysisDataExport) }),
-).annotate({
-  identifier: "StorageClassAnalysis",
-}) as any as S.Schema<StorageClassAnalysis>;
 export interface AnalyticsConfiguration {
   Id: string;
   Filter?: AnalyticsFilter;
   StorageClassAnalysis: StorageClassAnalysis;
 }
-export const AnalyticsConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Filter: S.optional(AnalyticsFilter),
-    StorageClassAnalysis: StorageClassAnalysis,
-  }),
-).annotate({
-  identifier: "AnalyticsConfiguration",
-}) as any as S.Schema<AnalyticsConfiguration>;
 export interface GetBucketAnalyticsConfigurationOutput {
   AnalyticsConfiguration?: AnalyticsConfiguration;
 }
-export const GetBucketAnalyticsConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AnalyticsConfiguration: S.optional(AnalyticsConfiguration)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "AnalyticsConfiguration" }),
-    }).pipe(ns),
-).annotate({
-  identifier: "GetBucketAnalyticsConfigurationOutput",
-}) as any as S.Schema<GetBucketAnalyticsConfigurationOutput>;
 export interface GetBucketCorsRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketCorsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?cors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetBucketCorsRequest",
-}) as any as S.Schema<GetBucketCorsRequest>;
 export type AllowedHeader = string;
 export type AllowedHeaders = string[];
-export const AllowedHeaders = /*@__PURE__*/ S.Array(S.String);
 export type AllowedMethod = string;
 export type AllowedMethods = string[];
-export const AllowedMethods = /*@__PURE__*/ S.Array(S.String);
 export type AllowedOrigin = string;
 export type AllowedOrigins = string[];
-export const AllowedOrigins = /*@__PURE__*/ S.Array(S.String);
 export type ExposeHeader = string;
 export type ExposeHeaders = string[];
-export const ExposeHeaders = /*@__PURE__*/ S.Array(S.String);
 export type MaxAgeSeconds = number;
 export interface CORSRule {
   ID?: string;
@@ -5792,308 +4090,83 @@ export interface CORSRule {
   ExposeHeaders?: string[];
   MaxAgeSeconds?: number;
 }
-export const CORSRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ID: S.optional(S.String),
-    AllowedHeaders: S.optional(AllowedHeaders).pipe(
-      T.XmlName("AllowedHeader"),
-      T.XmlFlattened(),
-    ),
-    AllowedMethods: AllowedMethods.pipe(
-      T.XmlName("AllowedMethod"),
-      T.XmlFlattened(),
-    ),
-    AllowedOrigins: AllowedOrigins.pipe(
-      T.XmlName("AllowedOrigin"),
-      T.XmlFlattened(),
-    ),
-    ExposeHeaders: S.optional(ExposeHeaders).pipe(
-      T.XmlName("ExposeHeader"),
-      T.XmlFlattened(),
-    ),
-    MaxAgeSeconds: S.optional(S.Number),
-  }),
-).annotate({ identifier: "CORSRule" }) as any as S.Schema<CORSRule>;
 export type CORSRules = CORSRule[];
-export const CORSRules = /*@__PURE__*/ S.Array(CORSRule);
 export interface GetBucketCorsOutput {
   CORSRules?: CORSRule[];
 }
-export const GetBucketCorsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CORSRules: S.optional(CORSRules).pipe(
-      T.XmlName("CORSRule"),
-      T.XmlFlattened(),
-    ),
-  }).pipe(T.all(T.XmlName("CORSConfiguration"), ns)),
-).annotate({
-  identifier: "GetBucketCorsOutput",
-}) as any as S.Schema<GetBucketCorsOutput>;
 export interface GetBucketEncryptionRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketEncryptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?encryption" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetBucketEncryptionRequest",
-}) as any as S.Schema<GetBucketEncryptionRequest>;
 export interface ServerSideEncryptionByDefault {
   SSEAlgorithm: ServerSideEncryption;
   KMSMasterKeyID?: string | redacted.Redacted<string>;
 }
-export const ServerSideEncryptionByDefault = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SSEAlgorithm: ServerSideEncryption,
-    KMSMasterKeyID: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "ServerSideEncryptionByDefault",
-}) as any as S.Schema<ServerSideEncryptionByDefault>;
 export type EncryptionType = "NONE" | "SSE-C" | (string & {});
-export const EncryptionType = S.String;
-
 export type EncryptionTypeList = EncryptionType[];
-export const EncryptionTypeList = /*@__PURE__*/ S.Array(
-  EncryptionType.pipe(T.XmlName("EncryptionType")),
-);
 export interface BlockedEncryptionTypes {
   EncryptionType?: EncryptionType[];
 }
-export const BlockedEncryptionTypes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EncryptionType: S.optional(EncryptionTypeList).pipe(T.XmlFlattened()),
-  }),
-).annotate({
-  identifier: "BlockedEncryptionTypes",
-}) as any as S.Schema<BlockedEncryptionTypes>;
 export interface ServerSideEncryptionRule {
   ApplyServerSideEncryptionByDefault?: ServerSideEncryptionByDefault;
   BucketKeyEnabled?: boolean;
   BlockedEncryptionTypes?: BlockedEncryptionTypes;
 }
-export const ServerSideEncryptionRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplyServerSideEncryptionByDefault: S.optional(
-      ServerSideEncryptionByDefault,
-    ),
-    BucketKeyEnabled: S.optional(S.Boolean),
-    BlockedEncryptionTypes: S.optional(BlockedEncryptionTypes),
-  }),
-).annotate({
-  identifier: "ServerSideEncryptionRule",
-}) as any as S.Schema<ServerSideEncryptionRule>;
 export type ServerSideEncryptionRules = ServerSideEncryptionRule[];
-export const ServerSideEncryptionRules = /*@__PURE__*/ S.Array(
-  ServerSideEncryptionRule,
-);
 export interface ServerSideEncryptionConfiguration {
   Rules: ServerSideEncryptionRule[];
 }
-export const ServerSideEncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Rules: ServerSideEncryptionRules.pipe(T.XmlName("Rule"), T.XmlFlattened()),
-  }),
-).annotate({
-  identifier: "ServerSideEncryptionConfiguration",
-}) as any as S.Schema<ServerSideEncryptionConfiguration>;
 export interface GetBucketEncryptionOutput {
   ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
 }
-export const GetBucketEncryptionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    )
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ServerSideEncryptionConfiguration" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetBucketEncryptionOutput",
-}) as any as S.Schema<GetBucketEncryptionOutput>;
 export interface GetBucketIntelligentTieringConfigurationRequest {
   Bucket: string;
   Id: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketIntelligentTieringConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      Id: S.String.pipe(T.HttpQuery("id")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/{Bucket}?intelligent-tiering&x-id=GetBucketIntelligentTieringConfiguration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "GetBucketIntelligentTieringConfigurationRequest",
-  }) as any as S.Schema<GetBucketIntelligentTieringConfigurationRequest>;
 export interface IntelligentTieringAndOperator {
   Prefix?: string;
   Tags?: Tag[];
 }
-export const IntelligentTieringAndOperator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Prefix: S.optional(S.String),
-    Tags: S.optional(TagSet).pipe(T.XmlName("Tag"), T.XmlFlattened()),
-  }),
-).annotate({
-  identifier: "IntelligentTieringAndOperator",
-}) as any as S.Schema<IntelligentTieringAndOperator>;
 export interface IntelligentTieringFilter {
   Prefix?: string;
   Tag?: Tag;
   And?: IntelligentTieringAndOperator;
 }
-export const IntelligentTieringFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Prefix: S.optional(S.String),
-    Tag: S.optional(Tag),
-    And: S.optional(IntelligentTieringAndOperator),
-  }),
-).annotate({
-  identifier: "IntelligentTieringFilter",
-}) as any as S.Schema<IntelligentTieringFilter>;
 export type IntelligentTieringStatus = "Enabled" | "Disabled" | (string & {});
-export const IntelligentTieringStatus = S.String;
-
 export type IntelligentTieringDays = number;
 export type IntelligentTieringAccessTier =
   | "ARCHIVE_ACCESS"
   | "DEEP_ARCHIVE_ACCESS"
   | (string & {});
-export const IntelligentTieringAccessTier = S.String;
-
 export interface Tiering {
   Days: number;
   AccessTier: IntelligentTieringAccessTier;
 }
-export const Tiering = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Days: S.Number, AccessTier: IntelligentTieringAccessTier }),
-).annotate({ identifier: "Tiering" }) as any as S.Schema<Tiering>;
 export type TieringList = Tiering[];
-export const TieringList = /*@__PURE__*/ S.Array(Tiering);
 export interface IntelligentTieringConfiguration {
   Id: string;
   Filter?: IntelligentTieringFilter;
   Status: IntelligentTieringStatus;
   Tierings: Tiering[];
 }
-export const IntelligentTieringConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Filter: S.optional(IntelligentTieringFilter),
-    Status: IntelligentTieringStatus,
-    Tierings: TieringList.pipe(T.XmlName("Tiering"), T.XmlFlattened()),
-  }),
-).annotate({
-  identifier: "IntelligentTieringConfiguration",
-}) as any as S.Schema<IntelligentTieringConfiguration>;
 export interface GetBucketIntelligentTieringConfigurationOutput {
   IntelligentTieringConfiguration?: IntelligentTieringConfiguration;
 }
-export const GetBucketIntelligentTieringConfigurationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      IntelligentTieringConfiguration: S.optional(
-        IntelligentTieringConfiguration,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "IntelligentTieringConfiguration" }),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetBucketIntelligentTieringConfigurationOutput",
-  }) as any as S.Schema<GetBucketIntelligentTieringConfigurationOutput>;
 export interface GetBucketInventoryConfigurationRequest {
   Bucket: string;
   Id: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketInventoryConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      Id: S.String.pipe(T.HttpQuery("id")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/{Bucket}?inventory&x-id=GetBucketInventoryConfiguration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "GetBucketInventoryConfigurationRequest",
-}) as any as S.Schema<GetBucketInventoryConfigurationRequest>;
 export type InventoryFormat = "CSV" | "ORC" | "Parquet" | (string & {});
-export const InventoryFormat = S.String;
-
 export interface SSES3 {}
-export const SSES3 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.XmlName("SSE-S3")),
-).annotate({ identifier: "SSES3" }) as any as S.Schema<SSES3>;
 export interface SSEKMS {
   KeyId: string | redacted.Redacted<string>;
 }
-export const SSEKMS = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ KeyId: SensitiveString }).pipe(T.XmlName("SSE-KMS")),
-).annotate({ identifier: "SSEKMS" }) as any as S.Schema<SSEKMS>;
 export interface InventoryEncryption {
   SSES3?: SSES3;
   SSEKMS?: SSEKMS;
 }
-export const InventoryEncryption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SSES3: S.optional(SSES3)
-      .pipe(T.XmlName("SSE-S3"))
-      .annotate({ identifier: "SSES3" }),
-    SSEKMS: S.optional(SSEKMS)
-      .pipe(T.XmlName("SSE-KMS"))
-      .annotate({ identifier: "SSEKMS" }),
-  }),
-).annotate({
-  identifier: "InventoryEncryption",
-}) as any as S.Schema<InventoryEncryption>;
 export interface InventoryS3BucketDestination {
   AccountId?: string;
   Bucket: string;
@@ -6101,37 +4174,14 @@ export interface InventoryS3BucketDestination {
   Prefix?: string;
   Encryption?: InventoryEncryption;
 }
-export const InventoryS3BucketDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    Bucket: S.String,
-    Format: InventoryFormat,
-    Prefix: S.optional(S.String),
-    Encryption: S.optional(InventoryEncryption),
-  }),
-).annotate({
-  identifier: "InventoryS3BucketDestination",
-}) as any as S.Schema<InventoryS3BucketDestination>;
 export interface InventoryDestination {
   S3BucketDestination: InventoryS3BucketDestination;
 }
-export const InventoryDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3BucketDestination: InventoryS3BucketDestination }),
-).annotate({
-  identifier: "InventoryDestination",
-}) as any as S.Schema<InventoryDestination>;
 export type IsEnabled = boolean;
 export interface InventoryFilter {
   Prefix: string;
 }
-export const InventoryFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Prefix: S.String }),
-).annotate({
-  identifier: "InventoryFilter",
-}) as any as S.Schema<InventoryFilter>;
 export type InventoryIncludedObjectVersions = "All" | "Current" | (string & {});
-export const InventoryIncludedObjectVersions = S.String;
-
 export type InventoryOptionalField =
   | "Size"
   | "LastModifiedDate"
@@ -6150,23 +4200,11 @@ export type InventoryOptionalField =
   | "ObjectOwner"
   | "LifecycleExpirationDate"
   | (string & {});
-export const InventoryOptionalField = S.String;
-
 export type InventoryOptionalFields = InventoryOptionalField[];
-export const InventoryOptionalFields = /*@__PURE__*/ S.Array(
-  InventoryOptionalField.pipe(T.XmlName("Field")),
-);
 export type InventoryFrequency = "Daily" | "Weekly" | (string & {});
-export const InventoryFrequency = S.String;
-
 export interface InventorySchedule {
   Frequency: InventoryFrequency;
 }
-export const InventorySchedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Frequency: InventoryFrequency }),
-).annotate({
-  identifier: "InventorySchedule",
-}) as any as S.Schema<InventorySchedule>;
 export interface InventoryConfiguration {
   Destination: InventoryDestination;
   IsEnabled: boolean;
@@ -6176,58 +4214,13 @@ export interface InventoryConfiguration {
   OptionalFields?: InventoryOptionalField[];
   Schedule: InventorySchedule;
 }
-export const InventoryConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Destination: InventoryDestination,
-    IsEnabled: S.Boolean,
-    Filter: S.optional(InventoryFilter),
-    Id: S.String,
-    IncludedObjectVersions: InventoryIncludedObjectVersions,
-    OptionalFields: S.optional(InventoryOptionalFields),
-    Schedule: InventorySchedule,
-  }),
-).annotate({
-  identifier: "InventoryConfiguration",
-}) as any as S.Schema<InventoryConfiguration>;
 export interface GetBucketInventoryConfigurationOutput {
   InventoryConfiguration?: InventoryConfiguration;
 }
-export const GetBucketInventoryConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      InventoryConfiguration: S.optional(InventoryConfiguration)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "InventoryConfiguration" }),
-    }).pipe(ns),
-).annotate({
-  identifier: "GetBucketInventoryConfigurationOutput",
-}) as any as S.Schema<GetBucketInventoryConfigurationOutput>;
 export interface GetBucketLifecycleConfigurationRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketLifecycleConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "GET", uri: "/{Bucket}?lifecycle" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "GetBucketLifecycleConfigurationRequest",
-}) as any as S.Schema<GetBucketLifecycleConfigurationRequest>;
 export type Days = number;
 export type ExpiredObjectDeleteMarker = boolean;
 export interface LifecycleExpiration {
@@ -6235,15 +4228,6 @@ export interface LifecycleExpiration {
   Days?: number;
   ExpiredObjectDeleteMarker?: boolean;
 }
-export const LifecycleExpiration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Date: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    Days: S.optional(S.Number),
-    ExpiredObjectDeleteMarker: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "LifecycleExpiration",
-}) as any as S.Schema<LifecycleExpiration>;
 export type ObjectSizeGreaterThanBytes = number;
 export type ObjectSizeLessThanBytes = number;
 export interface LifecycleRuleAndOperator {
@@ -6252,16 +4236,6 @@ export interface LifecycleRuleAndOperator {
   ObjectSizeGreaterThan?: number;
   ObjectSizeLessThan?: number;
 }
-export const LifecycleRuleAndOperator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Prefix: S.optional(S.String),
-    Tags: S.optional(TagSet).pipe(T.XmlName("Tag"), T.XmlFlattened()),
-    ObjectSizeGreaterThan: S.optional(S.Number),
-    ObjectSizeLessThan: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "LifecycleRuleAndOperator",
-}) as any as S.Schema<LifecycleRuleAndOperator>;
 export interface LifecycleRuleFilter {
   Prefix?: string;
   Tag?: Tag;
@@ -6269,20 +4243,7 @@ export interface LifecycleRuleFilter {
   ObjectSizeLessThan?: number;
   And?: LifecycleRuleAndOperator;
 }
-export const LifecycleRuleFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Prefix: S.optional(S.String),
-    Tag: S.optional(Tag),
-    ObjectSizeGreaterThan: S.optional(S.Number),
-    ObjectSizeLessThan: S.optional(S.Number),
-    And: S.optional(LifecycleRuleAndOperator),
-  }),
-).annotate({
-  identifier: "LifecycleRuleFilter",
-}) as any as S.Schema<LifecycleRuleFilter>;
 export type ExpirationStatus = "Enabled" | "Disabled" | (string & {});
-export const ExpirationStatus = S.String;
-
 export type TransitionStorageClass =
   | "GLACIER"
   | "STANDARD_IA"
@@ -6291,62 +4252,27 @@ export type TransitionStorageClass =
   | "DEEP_ARCHIVE"
   | "GLACIER_IR"
   | (string & {});
-export const TransitionStorageClass = S.String;
-
 export interface Transition {
   Date?: Date;
   Days?: number;
   StorageClass?: TransitionStorageClass;
 }
-export const Transition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Date: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    Days: S.optional(S.Number),
-    StorageClass: S.optional(TransitionStorageClass),
-  }),
-).annotate({ identifier: "Transition" }) as any as S.Schema<Transition>;
 export type TransitionList = Transition[];
-export const TransitionList = /*@__PURE__*/ S.Array(Transition);
 export type VersionCount = number;
 export interface NoncurrentVersionTransition {
   NoncurrentDays?: number;
   StorageClass?: TransitionStorageClass;
   NewerNoncurrentVersions?: number;
 }
-export const NoncurrentVersionTransition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NoncurrentDays: S.optional(S.Number),
-    StorageClass: S.optional(TransitionStorageClass),
-    NewerNoncurrentVersions: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "NoncurrentVersionTransition",
-}) as any as S.Schema<NoncurrentVersionTransition>;
 export type NoncurrentVersionTransitionList = NoncurrentVersionTransition[];
-export const NoncurrentVersionTransitionList = /*@__PURE__*/ S.Array(
-  NoncurrentVersionTransition,
-);
 export interface NoncurrentVersionExpiration {
   NoncurrentDays?: number;
   NewerNoncurrentVersions?: number;
 }
-export const NoncurrentVersionExpiration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NoncurrentDays: S.optional(S.Number),
-    NewerNoncurrentVersions: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "NoncurrentVersionExpiration",
-}) as any as S.Schema<NoncurrentVersionExpiration>;
 export type DaysAfterInitiation = number;
 export interface AbortIncompleteMultipartUpload {
   DaysAfterInitiation?: number;
 }
-export const AbortIncompleteMultipartUpload = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DaysAfterInitiation: S.optional(S.Number) }),
-).annotate({
-  identifier: "AbortIncompleteMultipartUpload",
-}) as any as S.Schema<AbortIncompleteMultipartUpload>;
 export interface LifecycleRule {
   Expiration?: LifecycleExpiration;
   ID?: string;
@@ -6358,234 +4284,67 @@ export interface LifecycleRule {
   NoncurrentVersionExpiration?: NoncurrentVersionExpiration;
   AbortIncompleteMultipartUpload?: AbortIncompleteMultipartUpload;
 }
-export const LifecycleRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Expiration: S.optional(LifecycleExpiration),
-    ID: S.optional(S.String),
-    Prefix: S.optional(S.String),
-    Filter: S.optional(LifecycleRuleFilter),
-    Status: ExpirationStatus,
-    Transitions: S.optional(TransitionList).pipe(
-      T.XmlName("Transition"),
-      T.XmlFlattened(),
-    ),
-    NoncurrentVersionTransitions: S.optional(
-      NoncurrentVersionTransitionList,
-    ).pipe(T.XmlName("NoncurrentVersionTransition"), T.XmlFlattened()),
-    NoncurrentVersionExpiration: S.optional(NoncurrentVersionExpiration),
-    AbortIncompleteMultipartUpload: S.optional(AbortIncompleteMultipartUpload),
-  }),
-).annotate({ identifier: "LifecycleRule" }) as any as S.Schema<LifecycleRule>;
 export type LifecycleRules = LifecycleRule[];
-export const LifecycleRules = /*@__PURE__*/ S.Array(LifecycleRule);
 export type TransitionDefaultMinimumObjectSize =
   | "varies_by_storage_class"
   | "all_storage_classes_128K"
   | (string & {});
-export const TransitionDefaultMinimumObjectSize = S.String;
-
 export interface GetBucketLifecycleConfigurationOutput {
   Rules?: LifecycleRule[];
   TransitionDefaultMinimumObjectSize?: TransitionDefaultMinimumObjectSize;
 }
-export const GetBucketLifecycleConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Rules: S.optional(LifecycleRules).pipe(
-        T.XmlName("Rule"),
-        T.XmlFlattened(),
-      ),
-      TransitionDefaultMinimumObjectSize: S.optional(
-        TransitionDefaultMinimumObjectSize,
-      ).pipe(T.HttpHeader("x-amz-transition-default-minimum-object-size")),
-    }).pipe(T.all(T.XmlName("LifecycleConfiguration"), ns)),
-).annotate({
-  identifier: "GetBucketLifecycleConfigurationOutput",
-}) as any as S.Schema<GetBucketLifecycleConfigurationOutput>;
 export interface GetBucketLocationRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketLocationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?location" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetBucketLocationRequest",
-}) as any as S.Schema<GetBucketLocationRequest>;
 export interface GetBucketLocationOutput {
   LocationConstraint?: BucketLocationConstraint;
 }
-export const GetBucketLocationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LocationConstraint: S.optional(BucketLocationConstraint) }).pipe(
-    T.all(T.XmlName("LocationConstraint"), ns, T.S3UnwrappedXmlOutput()),
-  ),
-).annotate({
-  identifier: "GetBucketLocationOutput",
-}) as any as S.Schema<GetBucketLocationOutput>;
 export interface GetBucketLoggingRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketLoggingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?logging" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetBucketLoggingRequest",
-}) as any as S.Schema<GetBucketLoggingRequest>;
 export type TargetBucket = string;
 export type BucketLogsPermission =
   | "FULL_CONTROL"
   | "READ"
   | "WRITE"
   | (string & {});
-export const BucketLogsPermission = S.String;
-
 export interface TargetGrant {
   Grantee?: Grantee;
   Permission?: BucketLogsPermission;
 }
-export const TargetGrant = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Grantee: S.optional(Grantee),
-    Permission: S.optional(BucketLogsPermission),
-  }),
-).annotate({ identifier: "TargetGrant" }) as any as S.Schema<TargetGrant>;
 export type TargetGrants = TargetGrant[];
-export const TargetGrants = /*@__PURE__*/ S.Array(
-  TargetGrant.pipe(T.XmlName("Grant")).annotate({ identifier: "TargetGrant" }),
-);
 export type TargetPrefix = string;
 export interface SimplePrefix {}
-export const SimplePrefix = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.XmlName("SimplePrefix")),
-).annotate({ identifier: "SimplePrefix" }) as any as S.Schema<SimplePrefix>;
 export type PartitionDateSource = "EventTime" | "DeliveryTime" | (string & {});
-export const PartitionDateSource = S.String;
-
 export interface PartitionedPrefix {
   PartitionDateSource?: PartitionDateSource;
 }
-export const PartitionedPrefix = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PartitionDateSource: S.optional(PartitionDateSource) }).pipe(
-    T.XmlName("PartitionedPrefix"),
-  ),
-).annotate({
-  identifier: "PartitionedPrefix",
-}) as any as S.Schema<PartitionedPrefix>;
 export interface TargetObjectKeyFormat {
   SimplePrefix?: SimplePrefix;
   PartitionedPrefix?: PartitionedPrefix;
 }
-export const TargetObjectKeyFormat = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SimplePrefix: S.optional(SimplePrefix)
-      .pipe(T.XmlName("SimplePrefix"))
-      .annotate({ identifier: "SimplePrefix" }),
-    PartitionedPrefix: S.optional(PartitionedPrefix)
-      .pipe(T.XmlName("PartitionedPrefix"))
-      .annotate({ identifier: "PartitionedPrefix" }),
-  }),
-).annotate({
-  identifier: "TargetObjectKeyFormat",
-}) as any as S.Schema<TargetObjectKeyFormat>;
 export interface LoggingEnabled {
   TargetBucket: string;
   TargetGrants?: TargetGrant[];
   TargetPrefix: string;
   TargetObjectKeyFormat?: TargetObjectKeyFormat;
 }
-export const LoggingEnabled = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetBucket: S.String,
-    TargetGrants: S.optional(TargetGrants),
-    TargetPrefix: S.String,
-    TargetObjectKeyFormat: S.optional(TargetObjectKeyFormat),
-  }),
-).annotate({ identifier: "LoggingEnabled" }) as any as S.Schema<LoggingEnabled>;
 export interface GetBucketLoggingOutput {
   LoggingEnabled?: LoggingEnabled;
 }
-export const GetBucketLoggingOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LoggingEnabled: S.optional(LoggingEnabled) }).pipe(
-    T.all(T.XmlName("BucketLoggingStatus"), ns),
-  ),
-).annotate({
-  identifier: "GetBucketLoggingOutput",
-}) as any as S.Schema<GetBucketLoggingOutput>;
 export interface GetBucketMetadataConfigurationRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketMetadataConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "GET", uri: "/{Bucket}?metadataConfiguration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "GetBucketMetadataConfigurationRequest",
-}) as any as S.Schema<GetBucketMetadataConfigurationRequest>;
 export type S3TablesBucketType = "aws" | "customer" | (string & {});
-export const S3TablesBucketType = S.String;
-
 export type S3TablesNamespace = string;
 export interface DestinationResult {
   TableBucketType?: S3TablesBucketType;
   TableBucketArn?: string;
   TableNamespace?: string;
 }
-export const DestinationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TableBucketType: S.optional(S3TablesBucketType),
-    TableBucketArn: S.optional(S.String),
-    TableNamespace: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DestinationResult",
-}) as any as S.Schema<DestinationResult>;
 export type MetadataTableStatus = string;
 export type ErrorCode = string;
 export type ErrorMessage = string;
@@ -6593,12 +4352,6 @@ export interface ErrorDetails {
   ErrorCode?: string;
   ErrorMessage?: string;
 }
-export const ErrorDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ErrorCode: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "ErrorDetails" }) as any as S.Schema<ErrorDetails>;
 export type S3TablesArn = string;
 export interface JournalTableConfigurationResult {
   TableStatus: string;
@@ -6607,17 +4360,6 @@ export interface JournalTableConfigurationResult {
   TableArn?: string;
   RecordExpiration: RecordExpiration;
 }
-export const JournalTableConfigurationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TableStatus: S.String,
-    Error: S.optional(ErrorDetails),
-    TableName: S.String,
-    TableArn: S.optional(S.String),
-    RecordExpiration: RecordExpiration,
-  }),
-).annotate({
-  identifier: "JournalTableConfigurationResult",
-}) as any as S.Schema<JournalTableConfigurationResult>;
 export interface InventoryTableConfigurationResult {
   ConfigurationState: InventoryConfigurationState;
   TableStatus?: string;
@@ -6625,17 +4367,6 @@ export interface InventoryTableConfigurationResult {
   TableName?: string;
   TableArn?: string;
 }
-export const InventoryTableConfigurationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationState: InventoryConfigurationState,
-    TableStatus: S.optional(S.String),
-    Error: S.optional(ErrorDetails),
-    TableName: S.optional(S.String),
-    TableArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "InventoryTableConfigurationResult",
-}) as any as S.Schema<InventoryTableConfigurationResult>;
 export interface AnnotationTableConfigurationResult {
   ConfigurationState: AnnotationConfigurationState;
   TableStatus?: string;
@@ -6644,189 +4375,50 @@ export interface AnnotationTableConfigurationResult {
   TableArn?: string;
   Role?: string;
 }
-export const AnnotationTableConfigurationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationState: AnnotationConfigurationState,
-    TableStatus: S.optional(S.String),
-    Error: S.optional(ErrorDetails),
-    TableName: S.optional(S.String),
-    TableArn: S.optional(S.String),
-    Role: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AnnotationTableConfigurationResult",
-}) as any as S.Schema<AnnotationTableConfigurationResult>;
 export interface MetadataConfigurationResult {
   DestinationResult: DestinationResult;
   JournalTableConfigurationResult?: JournalTableConfigurationResult;
   InventoryTableConfigurationResult?: InventoryTableConfigurationResult;
   AnnotationTableConfigurationResult?: AnnotationTableConfigurationResult;
 }
-export const MetadataConfigurationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DestinationResult: DestinationResult,
-    JournalTableConfigurationResult: S.optional(
-      JournalTableConfigurationResult,
-    ),
-    InventoryTableConfigurationResult: S.optional(
-      InventoryTableConfigurationResult,
-    ),
-    AnnotationTableConfigurationResult: S.optional(
-      AnnotationTableConfigurationResult,
-    ),
-  }),
-).annotate({
-  identifier: "MetadataConfigurationResult",
-}) as any as S.Schema<MetadataConfigurationResult>;
 export interface GetBucketMetadataConfigurationResult {
   MetadataConfigurationResult: MetadataConfigurationResult;
 }
-export const GetBucketMetadataConfigurationResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ MetadataConfigurationResult: MetadataConfigurationResult }),
-).annotate({
-  identifier: "GetBucketMetadataConfigurationResult",
-}) as any as S.Schema<GetBucketMetadataConfigurationResult>;
 export interface GetBucketMetadataConfigurationOutput {
   GetBucketMetadataConfigurationResult?: GetBucketMetadataConfigurationResult;
 }
-export const GetBucketMetadataConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      GetBucketMetadataConfigurationResult: S.optional(
-        GetBucketMetadataConfigurationResult,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "GetBucketMetadataConfigurationResult" }),
-    }).pipe(ns),
-).annotate({
-  identifier: "GetBucketMetadataConfigurationOutput",
-}) as any as S.Schema<GetBucketMetadataConfigurationOutput>;
 export interface GetBucketMetadataTableConfigurationRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketMetadataTableConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "GET", uri: "/{Bucket}?metadataTable" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "GetBucketMetadataTableConfigurationRequest",
-  }) as any as S.Schema<GetBucketMetadataTableConfigurationRequest>;
 export interface S3TablesDestinationResult {
   TableBucketArn: string;
   TableName: string;
   TableArn: string;
   TableNamespace: string;
 }
-export const S3TablesDestinationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TableBucketArn: S.String,
-    TableName: S.String,
-    TableArn: S.String,
-    TableNamespace: S.String,
-  }),
-).annotate({
-  identifier: "S3TablesDestinationResult",
-}) as any as S.Schema<S3TablesDestinationResult>;
 export interface MetadataTableConfigurationResult {
   S3TablesDestinationResult: S3TablesDestinationResult;
 }
-export const MetadataTableConfigurationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3TablesDestinationResult: S3TablesDestinationResult }),
-).annotate({
-  identifier: "MetadataTableConfigurationResult",
-}) as any as S.Schema<MetadataTableConfigurationResult>;
 export interface GetBucketMetadataTableConfigurationResult {
   MetadataTableConfigurationResult: MetadataTableConfigurationResult;
   Status: string;
   Error?: ErrorDetails;
 }
-export const GetBucketMetadataTableConfigurationResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      MetadataTableConfigurationResult: MetadataTableConfigurationResult,
-      Status: S.String,
-      Error: S.optional(ErrorDetails),
-    }),
-  ).annotate({
-    identifier: "GetBucketMetadataTableConfigurationResult",
-  }) as any as S.Schema<GetBucketMetadataTableConfigurationResult>;
 export interface GetBucketMetadataTableConfigurationOutput {
   GetBucketMetadataTableConfigurationResult?: GetBucketMetadataTableConfigurationResult;
 }
-export const GetBucketMetadataTableConfigurationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      GetBucketMetadataTableConfigurationResult: S.optional(
-        GetBucketMetadataTableConfigurationResult,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "GetBucketMetadataTableConfigurationResult" }),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetBucketMetadataTableConfigurationOutput",
-  }) as any as S.Schema<GetBucketMetadataTableConfigurationOutput>;
 export interface GetBucketMetricsConfigurationRequest {
   Bucket: string;
   Id: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketMetricsConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      Id: S.String.pipe(T.HttpQuery("id")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/{Bucket}?metrics&x-id=GetBucketMetricsConfiguration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "GetBucketMetricsConfigurationRequest",
-}) as any as S.Schema<GetBucketMetricsConfigurationRequest>;
 export type AccessPointArn = string;
 export interface MetricsAndOperator {
   Prefix?: string;
   Tags?: Tag[];
   AccessPointArn?: string;
 }
-export const MetricsAndOperator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Prefix: S.optional(S.String),
-    Tags: S.optional(TagSet).pipe(T.XmlName("Tag"), T.XmlFlattened()),
-    AccessPointArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MetricsAndOperator",
-}) as any as S.Schema<MetricsAndOperator>;
 export type MetricsFilter =
   | { Prefix: string; Tag?: never; AccessPointArn?: never; And?: never }
   | { Prefix?: never; Tag: Tag; AccessPointArn?: never; And?: never }
@@ -6837,59 +4429,17 @@ export type MetricsFilter =
       AccessPointArn?: never;
       And: MetricsAndOperator;
     };
-export const MetricsFilter = /*@__PURE__*/ S.Union([
-  S.Struct({ Prefix: S.String }),
-  S.Struct({ Tag: Tag }),
-  S.Struct({ AccessPointArn: S.String }),
-  S.Struct({ And: MetricsAndOperator }),
-]);
 export interface MetricsConfiguration {
   Id: string;
   Filter?: MetricsFilter;
 }
-export const MetricsConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String, Filter: S.optional(MetricsFilter) }),
-).annotate({
-  identifier: "MetricsConfiguration",
-}) as any as S.Schema<MetricsConfiguration>;
 export interface GetBucketMetricsConfigurationOutput {
   MetricsConfiguration?: MetricsConfiguration;
 }
-export const GetBucketMetricsConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MetricsConfiguration: S.optional(MetricsConfiguration)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "MetricsConfiguration" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetBucketMetricsConfigurationOutput",
-}) as any as S.Schema<GetBucketMetricsConfigurationOutput>;
 export interface GetBucketNotificationConfigurationRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketNotificationConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "GET", uri: "/{Bucket}?notification" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "GetBucketNotificationConfigurationRequest",
-  }) as any as S.Schema<GetBucketNotificationConfigurationRequest>;
 export type NotificationId = string;
 export type TopicArn = string;
 export type Event =
@@ -6924,64 +4474,27 @@ export type Event =
   | "s3:ObjectAnnotation:Put"
   | "s3:ObjectAnnotation:Delete"
   | (string & {});
-export const Event = S.String;
-
 export type EventList = Event[];
-export const EventList = /*@__PURE__*/ S.Array(Event);
 export type FilterRuleName = "prefix" | "suffix" | (string & {});
-export const FilterRuleName = S.String;
-
 export type FilterRuleValue = string;
 export interface FilterRule {
   Name?: FilterRuleName;
   Value?: string;
 }
-export const FilterRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(FilterRuleName), Value: S.optional(S.String) }),
-).annotate({ identifier: "FilterRule" }) as any as S.Schema<FilterRule>;
 export type FilterRuleList = FilterRule[];
-export const FilterRuleList = /*@__PURE__*/ S.Array(FilterRule);
 export interface S3KeyFilter {
   FilterRules?: FilterRule[];
 }
-export const S3KeyFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FilterRules: S.optional(FilterRuleList).pipe(
-      T.XmlName("FilterRule"),
-      T.XmlFlattened(),
-    ),
-  }),
-).annotate({ identifier: "S3KeyFilter" }) as any as S.Schema<S3KeyFilter>;
 export interface NotificationConfigurationFilter {
   Key?: S3KeyFilter;
 }
-export const NotificationConfigurationFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Key: S.optional(S3KeyFilter)
-      .pipe(T.XmlName("S3Key"))
-      .annotate({ identifier: "S3KeyFilter" }),
-  }),
-).annotate({
-  identifier: "NotificationConfigurationFilter",
-}) as any as S.Schema<NotificationConfigurationFilter>;
 export interface TopicConfiguration {
   Id?: string;
   TopicArn: string;
   Events: Event[];
   Filter?: NotificationConfigurationFilter;
 }
-export const TopicConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    TopicArn: S.String.pipe(T.XmlName("Topic")),
-    Events: EventList.pipe(T.XmlName("Event"), T.XmlFlattened()),
-    Filter: S.optional(NotificationConfigurationFilter),
-  }),
-).annotate({
-  identifier: "TopicConfiguration",
-}) as any as S.Schema<TopicConfiguration>;
 export type TopicConfigurationList = TopicConfiguration[];
-export const TopicConfigurationList = /*@__PURE__*/ S.Array(TopicConfiguration);
 export type QueueArn = string;
 export interface QueueConfiguration {
   Id?: string;
@@ -6989,18 +4502,7 @@ export interface QueueConfiguration {
   Events: Event[];
   Filter?: NotificationConfigurationFilter;
 }
-export const QueueConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    QueueArn: S.String.pipe(T.XmlName("Queue")),
-    Events: EventList.pipe(T.XmlName("Event"), T.XmlFlattened()),
-    Filter: S.optional(NotificationConfigurationFilter),
-  }),
-).annotate({
-  identifier: "QueueConfiguration",
-}) as any as S.Schema<QueueConfiguration>;
 export type QueueConfigurationList = QueueConfiguration[];
-export const QueueConfigurationList = /*@__PURE__*/ S.Array(QueueConfiguration);
 export type LambdaFunctionArn = string;
 export interface LambdaFunctionConfiguration {
   Id?: string;
@@ -7008,347 +4510,106 @@ export interface LambdaFunctionConfiguration {
   Events: Event[];
   Filter?: NotificationConfigurationFilter;
 }
-export const LambdaFunctionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    LambdaFunctionArn: S.String.pipe(T.XmlName("CloudFunction")),
-    Events: EventList.pipe(T.XmlName("Event"), T.XmlFlattened()),
-    Filter: S.optional(NotificationConfigurationFilter),
-  }),
-).annotate({
-  identifier: "LambdaFunctionConfiguration",
-}) as any as S.Schema<LambdaFunctionConfiguration>;
 export type LambdaFunctionConfigurationList = LambdaFunctionConfiguration[];
-export const LambdaFunctionConfigurationList = /*@__PURE__*/ S.Array(
-  LambdaFunctionConfiguration,
-);
 export interface EventBridgeConfiguration {}
-export const EventBridgeConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "EventBridgeConfiguration",
-}) as any as S.Schema<EventBridgeConfiguration>;
 export interface NotificationConfiguration {
   TopicConfigurations?: TopicConfiguration[];
   QueueConfigurations?: QueueConfiguration[];
   LambdaFunctionConfigurations?: LambdaFunctionConfiguration[];
   EventBridgeConfiguration?: EventBridgeConfiguration;
 }
-export const NotificationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TopicConfigurations: S.optional(TopicConfigurationList).pipe(
-      T.XmlName("TopicConfiguration"),
-      T.XmlFlattened(),
-    ),
-    QueueConfigurations: S.optional(QueueConfigurationList).pipe(
-      T.XmlName("QueueConfiguration"),
-      T.XmlFlattened(),
-    ),
-    LambdaFunctionConfigurations: S.optional(
-      LambdaFunctionConfigurationList,
-    ).pipe(T.XmlName("CloudFunctionConfiguration"), T.XmlFlattened()),
-    EventBridgeConfiguration: S.optional(EventBridgeConfiguration),
-  }).pipe(ns),
-).annotate({
-  identifier: "NotificationConfiguration",
-}) as any as S.Schema<NotificationConfiguration>;
 export interface GetBucketOwnershipControlsRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketOwnershipControlsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?ownershipControls" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetBucketOwnershipControlsRequest",
-}) as any as S.Schema<GetBucketOwnershipControlsRequest>;
 export interface OwnershipControlsRule {
   ObjectOwnership: ObjectOwnership;
 }
-export const OwnershipControlsRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ObjectOwnership: ObjectOwnership }),
-).annotate({
-  identifier: "OwnershipControlsRule",
-}) as any as S.Schema<OwnershipControlsRule>;
 export type OwnershipControlsRules = OwnershipControlsRule[];
-export const OwnershipControlsRules = /*@__PURE__*/ S.Array(
-  OwnershipControlsRule,
-);
 export interface OwnershipControls {
   Rules: OwnershipControlsRule[];
 }
-export const OwnershipControls = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Rules: OwnershipControlsRules.pipe(T.XmlName("Rule"), T.XmlFlattened()),
-  }),
-).annotate({
-  identifier: "OwnershipControls",
-}) as any as S.Schema<OwnershipControls>;
 export interface GetBucketOwnershipControlsOutput {
   OwnershipControls?: OwnershipControls;
 }
-export const GetBucketOwnershipControlsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OwnershipControls: S.optional(OwnershipControls)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "OwnershipControls" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetBucketOwnershipControlsOutput",
-}) as any as S.Schema<GetBucketOwnershipControlsOutput>;
 export interface GetBucketPolicyRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetBucketPolicyRequest",
-}) as any as S.Schema<GetBucketPolicyRequest>;
 export type Policy = string;
 export interface GetBucketPolicyOutput {
   Policy?: string;
 }
-export const GetBucketPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(S.String).pipe(T.HttpPayload()) }).pipe(ns),
-).annotate({
-  identifier: "GetBucketPolicyOutput",
-}) as any as S.Schema<GetBucketPolicyOutput>;
 export interface GetBucketPolicyStatusRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketPolicyStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?policyStatus" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetBucketPolicyStatusRequest",
-}) as any as S.Schema<GetBucketPolicyStatusRequest>;
 export type IsPublic = boolean;
 export interface PolicyStatus {
   IsPublic?: boolean;
 }
-export const PolicyStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IsPublic: S.optional(S.Boolean).pipe(T.XmlName("IsPublic")) }),
-).annotate({ identifier: "PolicyStatus" }) as any as S.Schema<PolicyStatus>;
 export interface GetBucketPolicyStatusOutput {
   PolicyStatus?: PolicyStatus;
 }
-export const GetBucketPolicyStatusOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyStatus: S.optional(PolicyStatus)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "PolicyStatus" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetBucketPolicyStatusOutput",
-}) as any as S.Schema<GetBucketPolicyStatusOutput>;
 export interface GetBucketReplicationRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketReplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?replication" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetBucketReplicationRequest",
-}) as any as S.Schema<GetBucketReplicationRequest>;
 export type Priority = number;
 export interface ReplicationRuleAndOperator {
   Prefix?: string;
   Tags?: Tag[];
 }
-export const ReplicationRuleAndOperator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Prefix: S.optional(S.String),
-    Tags: S.optional(TagSet).pipe(T.XmlName("Tag"), T.XmlFlattened()),
-  }),
-).annotate({
-  identifier: "ReplicationRuleAndOperator",
-}) as any as S.Schema<ReplicationRuleAndOperator>;
 export interface ReplicationRuleFilter {
   Prefix?: string;
   Tag?: Tag;
   And?: ReplicationRuleAndOperator;
 }
-export const ReplicationRuleFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Prefix: S.optional(S.String),
-    Tag: S.optional(Tag),
-    And: S.optional(ReplicationRuleAndOperator),
-  }),
-).annotate({
-  identifier: "ReplicationRuleFilter",
-}) as any as S.Schema<ReplicationRuleFilter>;
 export type ReplicationRuleStatus = "Enabled" | "Disabled" | (string & {});
-export const ReplicationRuleStatus = S.String;
-
 export type SseKmsEncryptedObjectsStatus =
   | "Enabled"
   | "Disabled"
   | (string & {});
-export const SseKmsEncryptedObjectsStatus = S.String;
-
 export interface SseKmsEncryptedObjects {
   Status: SseKmsEncryptedObjectsStatus;
 }
-export const SseKmsEncryptedObjects = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: SseKmsEncryptedObjectsStatus }),
-).annotate({
-  identifier: "SseKmsEncryptedObjects",
-}) as any as S.Schema<SseKmsEncryptedObjects>;
 export type ReplicaModificationsStatus = "Enabled" | "Disabled" | (string & {});
-export const ReplicaModificationsStatus = S.String;
-
 export interface ReplicaModifications {
   Status: ReplicaModificationsStatus;
 }
-export const ReplicaModifications = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: ReplicaModificationsStatus }),
-).annotate({
-  identifier: "ReplicaModifications",
-}) as any as S.Schema<ReplicaModifications>;
 export interface SourceSelectionCriteria {
   SseKmsEncryptedObjects?: SseKmsEncryptedObjects;
   ReplicaModifications?: ReplicaModifications;
 }
-export const SourceSelectionCriteria = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SseKmsEncryptedObjects: S.optional(SseKmsEncryptedObjects),
-    ReplicaModifications: S.optional(ReplicaModifications),
-  }),
-).annotate({
-  identifier: "SourceSelectionCriteria",
-}) as any as S.Schema<SourceSelectionCriteria>;
 export type ExistingObjectReplicationStatus =
   | "Enabled"
   | "Disabled"
   | (string & {});
-export const ExistingObjectReplicationStatus = S.String;
-
 export interface ExistingObjectReplication {
   Status: ExistingObjectReplicationStatus;
 }
-export const ExistingObjectReplication = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: ExistingObjectReplicationStatus }),
-).annotate({
-  identifier: "ExistingObjectReplication",
-}) as any as S.Schema<ExistingObjectReplication>;
 export type OwnerOverride = "Destination" | (string & {});
-export const OwnerOverride = S.String;
-
 export interface AccessControlTranslation {
   Owner: OwnerOverride;
 }
-export const AccessControlTranslation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Owner: OwnerOverride }),
-).annotate({
-  identifier: "AccessControlTranslation",
-}) as any as S.Schema<AccessControlTranslation>;
 export type ReplicaKmsKeyID = string;
 export interface EncryptionConfiguration {
   ReplicaKmsKeyID?: string;
 }
-export const EncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicaKmsKeyID: S.optional(S.String) }),
-).annotate({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
 export type ReplicationTimeStatus = "Enabled" | "Disabled" | (string & {});
-export const ReplicationTimeStatus = S.String;
-
 export type Minutes = number;
 export interface ReplicationTimeValue {
   Minutes?: number;
 }
-export const ReplicationTimeValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Minutes: S.optional(S.Number) }),
-).annotate({
-  identifier: "ReplicationTimeValue",
-}) as any as S.Schema<ReplicationTimeValue>;
 export interface ReplicationTime {
   Status: ReplicationTimeStatus;
   Time: ReplicationTimeValue;
 }
-export const ReplicationTime = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: ReplicationTimeStatus, Time: ReplicationTimeValue }),
-).annotate({
-  identifier: "ReplicationTime",
-}) as any as S.Schema<ReplicationTime>;
 export type MetricsStatus = "Enabled" | "Disabled" | (string & {});
-export const MetricsStatus = S.String;
-
 export interface Metrics {
   Status: MetricsStatus;
   EventThreshold?: ReplicationTimeValue;
 }
-export const Metrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: MetricsStatus,
-    EventThreshold: S.optional(ReplicationTimeValue),
-  }),
-).annotate({ identifier: "Metrics" }) as any as S.Schema<Metrics>;
 export interface Destination {
   Bucket: string;
   Account?: string;
@@ -7358,31 +4619,13 @@ export interface Destination {
   ReplicationTime?: ReplicationTime;
   Metrics?: Metrics;
 }
-export const Destination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String,
-    Account: S.optional(S.String),
-    StorageClass: S.optional(StorageClass),
-    AccessControlTranslation: S.optional(AccessControlTranslation),
-    EncryptionConfiguration: S.optional(EncryptionConfiguration),
-    ReplicationTime: S.optional(ReplicationTime),
-    Metrics: S.optional(Metrics),
-  }),
-).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
 export type DeleteMarkerReplicationStatus =
   | "Enabled"
   | "Disabled"
   | (string & {});
-export const DeleteMarkerReplicationStatus = S.String;
-
 export interface DeleteMarkerReplication {
   Status?: DeleteMarkerReplicationStatus;
 }
-export const DeleteMarkerReplication = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: S.optional(DeleteMarkerReplicationStatus) }),
-).annotate({
-  identifier: "DeleteMarkerReplication",
-}) as any as S.Schema<DeleteMarkerReplication>;
 export interface ReplicationRule {
   ID?: string;
   Priority?: number;
@@ -7394,224 +4637,62 @@ export interface ReplicationRule {
   Destination: Destination;
   DeleteMarkerReplication?: DeleteMarkerReplication;
 }
-export const ReplicationRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ID: S.optional(S.String),
-    Priority: S.optional(S.Number),
-    Prefix: S.optional(S.String),
-    Filter: S.optional(ReplicationRuleFilter),
-    Status: ReplicationRuleStatus,
-    SourceSelectionCriteria: S.optional(SourceSelectionCriteria),
-    ExistingObjectReplication: S.optional(ExistingObjectReplication),
-    Destination: Destination,
-    DeleteMarkerReplication: S.optional(DeleteMarkerReplication),
-  }),
-).annotate({
-  identifier: "ReplicationRule",
-}) as any as S.Schema<ReplicationRule>;
 export type ReplicationRules = ReplicationRule[];
-export const ReplicationRules = /*@__PURE__*/ S.Array(ReplicationRule);
 export interface ReplicationConfiguration {
   Role: string;
   Rules: ReplicationRule[];
 }
-export const ReplicationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Role: S.String,
-    Rules: ReplicationRules.pipe(T.XmlName("Rule"), T.XmlFlattened()),
-  }),
-).annotate({
-  identifier: "ReplicationConfiguration",
-}) as any as S.Schema<ReplicationConfiguration>;
 export interface GetBucketReplicationOutput {
   ReplicationConfiguration?: ReplicationConfiguration;
 }
-export const GetBucketReplicationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationConfiguration: S.optional(ReplicationConfiguration)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ReplicationConfiguration" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetBucketReplicationOutput",
-}) as any as S.Schema<GetBucketReplicationOutput>;
 export interface GetBucketRequestPaymentRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketRequestPaymentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?requestPayment" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetBucketRequestPaymentRequest",
-}) as any as S.Schema<GetBucketRequestPaymentRequest>;
 export type Payer = "Requester" | "BucketOwner" | (string & {});
-export const Payer = S.String;
-
 export interface GetBucketRequestPaymentOutput {
   Payer?: Payer;
 }
-export const GetBucketRequestPaymentOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Payer: S.optional(Payer) }).pipe(
-    T.all(T.XmlName("RequestPaymentConfiguration"), ns),
-  ),
-).annotate({
-  identifier: "GetBucketRequestPaymentOutput",
-}) as any as S.Schema<GetBucketRequestPaymentOutput>;
 export interface GetBucketTaggingRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketTaggingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?tagging" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetBucketTaggingRequest",
-}) as any as S.Schema<GetBucketTaggingRequest>;
 export interface GetBucketTaggingOutput {
   TagSet: Tag[];
 }
-export const GetBucketTaggingOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TagSet: TagSet }).pipe(T.all(T.XmlName("Tagging"), ns)),
-).annotate({
-  identifier: "GetBucketTaggingOutput",
-}) as any as S.Schema<GetBucketTaggingOutput>;
 export interface GetBucketVersioningRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketVersioningRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?versioning" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetBucketVersioningRequest",
-}) as any as S.Schema<GetBucketVersioningRequest>;
 export type BucketVersioningStatus = "Enabled" | "Suspended" | (string & {});
-export const BucketVersioningStatus = S.String;
-
 export type MFADeleteStatus = "Enabled" | "Disabled" | (string & {});
-export const MFADeleteStatus = S.String;
-
 export interface GetBucketVersioningOutput {
   Status?: BucketVersioningStatus;
   MFADelete?: MFADeleteStatus;
 }
-export const GetBucketVersioningOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: S.optional(BucketVersioningStatus),
-    MFADelete: S.optional(MFADeleteStatus).pipe(T.XmlName("MfaDelete")),
-  }).pipe(T.all(T.XmlName("VersioningConfiguration"), ns)),
-).annotate({
-  identifier: "GetBucketVersioningOutput",
-}) as any as S.Schema<GetBucketVersioningOutput>;
 export interface GetBucketWebsiteRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetBucketWebsiteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?website" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetBucketWebsiteRequest",
-}) as any as S.Schema<GetBucketWebsiteRequest>;
 export type HostName = string;
 export type Protocol = "http" | "https" | (string & {});
-export const Protocol = S.String;
-
 export interface RedirectAllRequestsTo {
   HostName: string;
   Protocol?: Protocol;
 }
-export const RedirectAllRequestsTo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ HostName: S.String, Protocol: S.optional(Protocol) }),
-).annotate({
-  identifier: "RedirectAllRequestsTo",
-}) as any as S.Schema<RedirectAllRequestsTo>;
 export type Suffix = string;
 export interface IndexDocument {
   Suffix: string;
 }
-export const IndexDocument = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Suffix: S.String }),
-).annotate({ identifier: "IndexDocument" }) as any as S.Schema<IndexDocument>;
 export interface ErrorDocument {
   Key: string;
 }
-export const ErrorDocument = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String }),
-).annotate({ identifier: "ErrorDocument" }) as any as S.Schema<ErrorDocument>;
 export type HttpErrorCodeReturnedEquals = string;
 export type KeyPrefixEquals = string;
 export interface Condition {
   HttpErrorCodeReturnedEquals?: string;
   KeyPrefixEquals?: string;
 }
-export const Condition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HttpErrorCodeReturnedEquals: S.optional(S.String),
-    KeyPrefixEquals: S.optional(S.String),
-  }),
-).annotate({ identifier: "Condition" }) as any as S.Schema<Condition>;
 export type HttpRedirectCode = string;
 export type ReplaceKeyPrefixWith = string;
 export type ReplaceKeyWith = string;
@@ -7622,44 +4703,17 @@ export interface Redirect {
   ReplaceKeyPrefixWith?: string;
   ReplaceKeyWith?: string;
 }
-export const Redirect = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HostName: S.optional(S.String),
-    HttpRedirectCode: S.optional(S.String),
-    Protocol: S.optional(Protocol),
-    ReplaceKeyPrefixWith: S.optional(S.String),
-    ReplaceKeyWith: S.optional(S.String),
-  }),
-).annotate({ identifier: "Redirect" }) as any as S.Schema<Redirect>;
 export interface RoutingRule {
   Condition?: Condition;
   Redirect: Redirect;
 }
-export const RoutingRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Condition: S.optional(Condition), Redirect: Redirect }),
-).annotate({ identifier: "RoutingRule" }) as any as S.Schema<RoutingRule>;
 export type RoutingRules = RoutingRule[];
-export const RoutingRules = /*@__PURE__*/ S.Array(
-  RoutingRule.pipe(T.XmlName("RoutingRule")).annotate({
-    identifier: "RoutingRule",
-  }),
-);
 export interface GetBucketWebsiteOutput {
   RedirectAllRequestsTo?: RedirectAllRequestsTo;
   IndexDocument?: IndexDocument;
   ErrorDocument?: ErrorDocument;
   RoutingRules?: RoutingRule[];
 }
-export const GetBucketWebsiteOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RedirectAllRequestsTo: S.optional(RedirectAllRequestsTo),
-    IndexDocument: S.optional(IndexDocument),
-    ErrorDocument: S.optional(ErrorDocument),
-    RoutingRules: S.optional(RoutingRules),
-  }).pipe(T.all(T.XmlName("WebsiteConfiguration"), ns)),
-).annotate({
-  identifier: "GetBucketWebsiteOutput",
-}) as any as S.Schema<GetBucketWebsiteOutput>;
 export type IfModifiedSince = Date;
 export type IfUnmodifiedSince = Date;
 export type Range = string;
@@ -7670,8 +4724,6 @@ export type ResponseContentLanguage = string;
 export type ResponseContentType = string;
 export type ResponseExpires = Date;
 export type ChecksumMode = "ENABLED" | (string & {});
-export const ChecksumMode = S.String;
-
 export interface GetObjectRequest {
   Bucket: string;
   IfMatch?: string;
@@ -7695,85 +4747,6 @@ export interface GetObjectRequest {
   ExpectedBucketOwner?: string;
   ChecksumMode?: ChecksumMode;
 }
-export const GetObjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    IfModifiedSince: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("If-Modified-Since")),
-    IfNoneMatch: S.optional(S.String).pipe(T.HttpHeader("If-None-Match")),
-    IfUnmodifiedSince: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("If-Unmodified-Since")),
-    Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    Range: S.optional(S.String).pipe(T.HttpHeader("Range")),
-    ResponseCacheControl: S.optional(S.String).pipe(
-      T.HttpQuery("response-cache-control"),
-    ),
-    ResponseContentDisposition: S.optional(S.String).pipe(
-      T.HttpQuery("response-content-disposition"),
-    ),
-    ResponseContentEncoding: S.optional(S.String).pipe(
-      T.HttpQuery("response-content-encoding"),
-    ),
-    ResponseContentLanguage: S.optional(S.String).pipe(
-      T.HttpQuery("response-content-language"),
-    ),
-    ResponseContentType: S.optional(S.String).pipe(
-      T.HttpQuery("response-content-type"),
-    ),
-    ResponseExpires: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpQuery("response-expires")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKey: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    PartNumber: S.optional(S.Number).pipe(T.HttpQuery("partNumber")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    ChecksumMode: S.optional(ChecksumMode).pipe(
-      T.HttpHeader("x-amz-checksum-mode"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?x-id=GetObject" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        responseAlgorithms: [
-          "CRC64NVME",
-          "CRC32",
-          "CRC32C",
-          "SHA256",
-          "SHA1",
-          "SHA512",
-          "MD5",
-          "XXHASH64",
-          "XXHASH3",
-          "XXHASH128",
-        ],
-      }),
-    ),
-  ),
-).annotate({
-  identifier: "GetObjectRequest",
-}) as any as S.Schema<GetObjectRequest>;
 export type AcceptRanges = string;
 export type Restore = string;
 export type ContentLength = number;
@@ -7786,8 +4759,6 @@ export type ReplicationStatus =
   | "REPLICA"
   | "COMPLETED"
   | (string & {});
-export const ReplicationStatus = S.String;
-
 export type PartsCount = number;
 export type TagCount = number;
 export interface GetObjectOutput {
@@ -7835,109 +4806,6 @@ export interface GetObjectOutput {
   ObjectLockRetainUntilDate?: Date;
   ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus;
 }
-export const GetObjectOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    DeleteMarker: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-delete-marker"),
-    ),
-    AcceptRanges: S.optional(S.String).pipe(T.HttpHeader("accept-ranges")),
-    Expiration: S.optional(S.String).pipe(T.HttpHeader("x-amz-expiration")),
-    Restore: S.optional(S.String).pipe(T.HttpHeader("x-amz-restore")),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-      T.HttpHeader("Last-Modified"),
-    ),
-    ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    ChecksumCRC32: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32"),
-    ),
-    ChecksumCRC32C: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32c"),
-    ),
-    ChecksumCRC64NVME: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc64nvme"),
-    ),
-    ChecksumSHA1: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha1"),
-    ),
-    ChecksumSHA256: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha256"),
-    ),
-    ChecksumSHA512: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha512"),
-    ),
-    ChecksumMD5: S.optional(S.String).pipe(T.HttpHeader("x-amz-checksum-md5")),
-    ChecksumXXHASH64: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash64"),
-    ),
-    ChecksumXXHASH3: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash3"),
-    ),
-    ChecksumXXHASH128: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash128"),
-    ),
-    ChecksumType: S.optional(ChecksumType).pipe(
-      T.HttpHeader("x-amz-checksum-type"),
-    ),
-    MissingMeta: S.optional(S.Number).pipe(T.HttpHeader("x-amz-missing-meta")),
-    VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ContentDisposition: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Disposition"),
-    ),
-    ContentEncoding: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Encoding"),
-    ),
-    ContentLanguage: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Language"),
-    ),
-    ContentRange: S.optional(S.String).pipe(T.HttpHeader("Content-Range")),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    Expires: S.optional(S.String).pipe(T.HttpHeader("Expires")),
-    WebsiteRedirectLocation: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-website-redirect-location"),
-    ),
-    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
-      T.HttpHeader("x-amz-server-side-encryption"),
-    ),
-    Metadata: S.optional(Metadata).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-    SSEKMSKeyId: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
-    ),
-    BucketKeyEnabled: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
-    ),
-    StorageClass: S.optional(StorageClass).pipe(
-      T.HttpHeader("x-amz-storage-class"),
-    ),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-    ReplicationStatus: S.optional(ReplicationStatus).pipe(
-      T.HttpHeader("x-amz-replication-status"),
-    ),
-    PartsCount: S.optional(S.Number).pipe(T.HttpHeader("x-amz-mp-parts-count")),
-    TagCount: S.optional(S.Number).pipe(T.HttpHeader("x-amz-tagging-count")),
-    ObjectLockMode: S.optional(ObjectLockMode).pipe(
-      T.HttpHeader("x-amz-object-lock-mode"),
-    ),
-    ObjectLockRetainUntilDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
-    ObjectLockLegalHoldStatus: S.optional(ObjectLockLegalHoldStatus).pipe(
-      T.HttpHeader("x-amz-object-lock-legal-hold"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetObjectOutput",
-}) as any as S.Schema<GetObjectOutput>;
 export interface GetObjectAclRequest {
   Bucket: string;
   Key: string;
@@ -7945,47 +4813,11 @@ export interface GetObjectAclRequest {
   RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
 }
-export const GetObjectAclRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?acl" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetObjectAclRequest",
-}) as any as S.Schema<GetObjectAclRequest>;
 export interface GetObjectAclOutput {
   Owner?: Owner;
   Grants?: Grant[];
   RequestCharged?: RequestCharged;
 }
-export const GetObjectAclOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Owner: S.optional(Owner),
-    Grants: S.optional(Grants).pipe(T.XmlName("AccessControlList")),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(T.all(T.XmlName("AccessControlPolicy"), ns)),
-).annotate({
-  identifier: "GetObjectAclOutput",
-}) as any as S.Schema<GetObjectAclOutput>;
 export interface GetObjectAnnotationRequest {
   Bucket: string;
   Key: string;
@@ -7995,52 +4827,6 @@ export interface GetObjectAnnotationRequest {
   ExpectedBucketOwner?: string;
   ChecksumMode?: ChecksumMode;
 }
-export const GetObjectAnnotationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    AnnotationName: S.String.pipe(T.HttpQuery("annotationName")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    ChecksumMode: S.optional(ChecksumMode).pipe(
-      T.HttpHeader("x-amz-checksum-mode"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/{Bucket}/{Key+}?annotation&x-id=GetObjectAnnotation",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        responseAlgorithms: [
-          "CRC64NVME",
-          "CRC32",
-          "CRC32C",
-          "SHA256",
-          "SHA1",
-          "SHA512",
-          "MD5",
-          "XXHASH64",
-          "XXHASH3",
-          "XXHASH128",
-        ],
-      }),
-    ),
-  ),
-).annotate({
-  identifier: "GetObjectAnnotationRequest",
-}) as any as S.Schema<GetObjectAnnotationRequest>;
 export interface GetObjectAnnotationOutput {
   AnnotationPayload?: T.StreamingOutputBody;
   ObjectVersionId?: string;
@@ -8062,61 +4848,6 @@ export interface GetObjectAnnotationOutput {
   RequestCharged?: RequestCharged;
   ReplicationStatus?: ReplicationStatus;
 }
-export const GetObjectAnnotationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AnnotationPayload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    ObjectVersionId: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-object-version-id"),
-    ),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-      T.HttpHeader("Last-Modified"),
-    ),
-    ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    ChecksumCRC32: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32"),
-    ),
-    ChecksumCRC32C: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32c"),
-    ),
-    ChecksumCRC64NVME: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc64nvme"),
-    ),
-    ChecksumSHA1: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha1"),
-    ),
-    ChecksumSHA256: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha256"),
-    ),
-    ChecksumSHA512: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha512"),
-    ),
-    ChecksumMD5: S.optional(S.String).pipe(T.HttpHeader("x-amz-checksum-md5")),
-    ChecksumXXHASH64: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash64"),
-    ),
-    ChecksumXXHASH3: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash3"),
-    ),
-    ChecksumXXHASH128: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash128"),
-    ),
-    ChecksumType: S.optional(ChecksumType).pipe(
-      T.HttpHeader("x-amz-checksum-type"),
-    ),
-    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
-      T.HttpHeader("x-amz-server-side-encryption"),
-    ),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-    ReplicationStatus: S.optional(ReplicationStatus).pipe(
-      T.HttpHeader("x-amz-replication-status"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetObjectAnnotationOutput",
-}) as any as S.Schema<GetObjectAnnotationOutput>;
 export type MaxParts = number;
 export type PartNumberMarker = string;
 export type ObjectAttributes =
@@ -8126,10 +4857,7 @@ export type ObjectAttributes =
   | "StorageClass"
   | "ObjectSize"
   | (string & {});
-export const ObjectAttributes = S.String;
-
 export type ObjectAttributesList = ObjectAttributes[];
-export const ObjectAttributesList = /*@__PURE__*/ S.Array(ObjectAttributes);
 export interface GetObjectAttributesRequest {
   Bucket: string;
   Key: string;
@@ -8143,47 +4871,6 @@ export interface GetObjectAttributesRequest {
   ExpectedBucketOwner?: string;
   ObjectAttributes: ObjectAttributes[];
 }
-export const GetObjectAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    MaxParts: S.optional(S.Number).pipe(T.HttpHeader("x-amz-max-parts")),
-    PartNumberMarker: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-part-number-marker"),
-    ),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKey: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    ObjectAttributes: ObjectAttributesList.pipe(
-      T.HttpHeader("x-amz-object-attributes"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?attributes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetObjectAttributesRequest",
-}) as any as S.Schema<GetObjectAttributesRequest>;
 export interface Checksum {
   ChecksumCRC32?: string;
   ChecksumCRC32C?: string;
@@ -8197,21 +4884,6 @@ export interface Checksum {
   ChecksumXXHASH128?: string;
   ChecksumType?: ChecksumType;
 }
-export const Checksum = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChecksumCRC32: S.optional(S.String),
-    ChecksumCRC32C: S.optional(S.String),
-    ChecksumCRC64NVME: S.optional(S.String),
-    ChecksumSHA1: S.optional(S.String),
-    ChecksumSHA256: S.optional(S.String),
-    ChecksumSHA512: S.optional(S.String),
-    ChecksumMD5: S.optional(S.String),
-    ChecksumXXHASH64: S.optional(S.String),
-    ChecksumXXHASH3: S.optional(S.String),
-    ChecksumXXHASH128: S.optional(S.String),
-    ChecksumType: S.optional(ChecksumType),
-  }),
-).annotate({ identifier: "Checksum" }) as any as S.Schema<Checksum>;
 export type NextPartNumberMarker = string;
 export type IsTruncated = boolean;
 export interface ObjectPart {
@@ -8228,24 +4900,7 @@ export interface ObjectPart {
   ChecksumXXHASH3?: string;
   ChecksumXXHASH128?: string;
 }
-export const ObjectPart = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PartNumber: S.optional(S.Number),
-    Size: S.optional(S.Number),
-    ChecksumCRC32: S.optional(S.String),
-    ChecksumCRC32C: S.optional(S.String),
-    ChecksumCRC64NVME: S.optional(S.String),
-    ChecksumSHA1: S.optional(S.String),
-    ChecksumSHA256: S.optional(S.String),
-    ChecksumSHA512: S.optional(S.String),
-    ChecksumMD5: S.optional(S.String),
-    ChecksumXXHASH64: S.optional(S.String),
-    ChecksumXXHASH3: S.optional(S.String),
-    ChecksumXXHASH128: S.optional(S.String),
-  }),
-).annotate({ identifier: "ObjectPart" }) as any as S.Schema<ObjectPart>;
 export type PartsList = ObjectPart[];
-export const PartsList = /*@__PURE__*/ S.Array(ObjectPart);
 export interface GetObjectAttributesParts {
   TotalPartsCount?: number;
   PartNumberMarker?: string;
@@ -8254,18 +4909,6 @@ export interface GetObjectAttributesParts {
   IsTruncated?: boolean;
   Parts?: ObjectPart[];
 }
-export const GetObjectAttributesParts = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TotalPartsCount: S.optional(S.Number).pipe(T.XmlName("PartsCount")),
-    PartNumberMarker: S.optional(S.String),
-    NextPartNumberMarker: S.optional(S.String),
-    MaxParts: S.optional(S.Number),
-    IsTruncated: S.optional(S.Boolean),
-    Parts: S.optional(PartsList).pipe(T.XmlName("Part"), T.XmlFlattened()),
-  }),
-).annotate({
-  identifier: "GetObjectAttributesParts",
-}) as any as S.Schema<GetObjectAttributesParts>;
 export type ObjectSize = number;
 export interface GetObjectAttributesOutput {
   DeleteMarker?: boolean;
@@ -8278,27 +4921,6 @@ export interface GetObjectAttributesOutput {
   StorageClass?: StorageClass;
   ObjectSize?: number;
 }
-export const GetObjectAttributesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeleteMarker: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-delete-marker"),
-    ),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-      T.HttpHeader("Last-Modified"),
-    ),
-    VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-    ETag: S.optional(S.String),
-    Checksum: S.optional(Checksum),
-    ObjectParts: S.optional(GetObjectAttributesParts),
-    StorageClass: S.optional(StorageClass),
-    ObjectSize: S.optional(S.Number),
-  }).pipe(T.all(T.XmlName("GetObjectAttributesResponse"), ns)),
-).annotate({
-  identifier: "GetObjectAttributesOutput",
-}) as any as S.Schema<GetObjectAttributesOutput>;
 export interface GetObjectLegalHoldRequest {
   Bucket: string;
   Key: string;
@@ -8306,129 +4928,37 @@ export interface GetObjectLegalHoldRequest {
   RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
 }
-export const GetObjectLegalHoldRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?legal-hold" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetObjectLegalHoldRequest",
-}) as any as S.Schema<GetObjectLegalHoldRequest>;
 export interface ObjectLockLegalHold {
   Status?: ObjectLockLegalHoldStatus;
 }
-export const ObjectLockLegalHold = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: S.optional(ObjectLockLegalHoldStatus) }),
-).annotate({
-  identifier: "ObjectLockLegalHold",
-}) as any as S.Schema<ObjectLockLegalHold>;
 export interface GetObjectLegalHoldOutput {
   LegalHold?: ObjectLockLegalHold;
 }
-export const GetObjectLegalHoldOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LegalHold: S.optional(ObjectLockLegalHold)
-      .pipe(T.HttpPayload(), T.XmlName("LegalHold"))
-      .annotate({ identifier: "ObjectLockLegalHold" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetObjectLegalHoldOutput",
-}) as any as S.Schema<GetObjectLegalHoldOutput>;
 export interface GetObjectLockConfigurationRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetObjectLockConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?object-lock" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetObjectLockConfigurationRequest",
-}) as any as S.Schema<GetObjectLockConfigurationRequest>;
 export type ObjectLockEnabled = "Enabled" | (string & {});
-export const ObjectLockEnabled = S.String;
-
 export type ObjectLockRetentionMode =
   | "GOVERNANCE"
   | "COMPLIANCE"
   | (string & {});
-export const ObjectLockRetentionMode = S.String;
-
 export type Years = number;
 export interface DefaultRetention {
   Mode?: ObjectLockRetentionMode;
   Days?: number;
   Years?: number;
 }
-export const DefaultRetention = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Mode: S.optional(ObjectLockRetentionMode),
-    Days: S.optional(S.Number),
-    Years: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "DefaultRetention",
-}) as any as S.Schema<DefaultRetention>;
 export interface ObjectLockRule {
   DefaultRetention?: DefaultRetention;
 }
-export const ObjectLockRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DefaultRetention: S.optional(DefaultRetention) }),
-).annotate({ identifier: "ObjectLockRule" }) as any as S.Schema<ObjectLockRule>;
 export interface ObjectLockConfiguration {
   ObjectLockEnabled?: ObjectLockEnabled;
   Rule?: ObjectLockRule;
 }
-export const ObjectLockConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ObjectLockEnabled: S.optional(ObjectLockEnabled),
-    Rule: S.optional(ObjectLockRule),
-  }),
-).annotate({
-  identifier: "ObjectLockConfiguration",
-}) as any as S.Schema<ObjectLockConfiguration>;
 export interface GetObjectLockConfigurationOutput {
   ObjectLockConfiguration?: ObjectLockConfiguration;
 }
-export const GetObjectLockConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ObjectLockConfiguration: S.optional(ObjectLockConfiguration)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "ObjectLockConfiguration" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetObjectLockConfigurationOutput",
-}) as any as S.Schema<GetObjectLockConfigurationOutput>;
 export interface GetObjectRetentionRequest {
   Bucket: string;
   Key: string;
@@ -8436,57 +4966,13 @@ export interface GetObjectRetentionRequest {
   RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
 }
-export const GetObjectRetentionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?retention" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetObjectRetentionRequest",
-}) as any as S.Schema<GetObjectRetentionRequest>;
 export interface ObjectLockRetention {
   Mode?: ObjectLockRetentionMode;
   RetainUntilDate?: Date;
 }
-export const ObjectLockRetention = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Mode: S.optional(ObjectLockRetentionMode),
-    RetainUntilDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "ObjectLockRetention",
-}) as any as S.Schema<ObjectLockRetention>;
 export interface GetObjectRetentionOutput {
   Retention?: ObjectLockRetention;
 }
-export const GetObjectRetentionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Retention: S.optional(ObjectLockRetention)
-      .pipe(T.HttpPayload(), T.XmlName("Retention"))
-      .annotate({ identifier: "ObjectLockRetention" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetObjectRetentionOutput",
-}) as any as S.Schema<GetObjectRetentionOutput>;
 export interface GetObjectTaggingRequest {
   Bucket: string;
   Key: string;
@@ -8494,112 +4980,24 @@ export interface GetObjectTaggingRequest {
   ExpectedBucketOwner?: string;
   RequestPayer?: RequestPayer;
 }
-export const GetObjectTaggingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?tagging" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetObjectTaggingRequest",
-}) as any as S.Schema<GetObjectTaggingRequest>;
 export interface GetObjectTaggingOutput {
   VersionId?: string;
   TagSet?: Tag[];
 }
-export const GetObjectTaggingOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
-    TagSet: S.optional(TagSet),
-  }).pipe(T.all(T.XmlName("Tagging"), ns)),
-).annotate({
-  identifier: "GetObjectTaggingOutput",
-}) as any as S.Schema<GetObjectTaggingOutput>;
 export interface GetObjectTorrentRequest {
   Bucket: string;
   Key: string;
   RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
 }
-export const GetObjectTorrentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?torrent" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetObjectTorrentRequest",
-}) as any as S.Schema<GetObjectTorrentRequest>;
 export interface GetObjectTorrentOutput {
   Body?: T.StreamingOutputBody;
   RequestCharged?: RequestCharged;
 }
-export const GetObjectTorrentOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetObjectTorrentOutput",
-}) as any as S.Schema<GetObjectTorrentOutput>;
 export interface GetPublicAccessBlockRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const GetPublicAccessBlockRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?publicAccessBlock" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetPublicAccessBlockRequest",
-}) as any as S.Schema<GetPublicAccessBlockRequest>;
 export type Setting = boolean;
 export interface PublicAccessBlockConfiguration {
   BlockPublicAcls?: boolean;
@@ -8607,56 +5005,13 @@ export interface PublicAccessBlockConfiguration {
   BlockPublicPolicy?: boolean;
   RestrictPublicBuckets?: boolean;
 }
-export const PublicAccessBlockConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BlockPublicAcls: S.optional(S.Boolean).pipe(T.XmlName("BlockPublicAcls")),
-    IgnorePublicAcls: S.optional(S.Boolean).pipe(T.XmlName("IgnorePublicAcls")),
-    BlockPublicPolicy: S.optional(S.Boolean).pipe(
-      T.XmlName("BlockPublicPolicy"),
-    ),
-    RestrictPublicBuckets: S.optional(S.Boolean).pipe(
-      T.XmlName("RestrictPublicBuckets"),
-    ),
-  }),
-).annotate({
-  identifier: "PublicAccessBlockConfiguration",
-}) as any as S.Schema<PublicAccessBlockConfiguration>;
 export interface GetPublicAccessBlockOutput {
   PublicAccessBlockConfiguration?: PublicAccessBlockConfiguration;
 }
-export const GetPublicAccessBlockOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PublicAccessBlockConfiguration: S.optional(PublicAccessBlockConfiguration)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "PublicAccessBlockConfiguration" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetPublicAccessBlockOutput",
-}) as any as S.Schema<GetPublicAccessBlockOutput>;
 export interface HeadBucketRequest {
   Bucket: string;
   ExpectedBucketOwner?: string;
 }
-export const HeadBucketRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "HEAD", uri: "/{Bucket}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "HeadBucketRequest",
-}) as any as S.Schema<HeadBucketRequest>;
 export type BucketLocationName = string;
 export type Region = string;
 export type AccessPointAlias = boolean;
@@ -8667,25 +5022,6 @@ export interface HeadBucketOutput {
   BucketRegion?: string;
   AccessPointAlias?: boolean;
 }
-export const HeadBucketOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BucketArn: S.optional(S.String).pipe(T.HttpHeader("x-amz-bucket-arn")),
-    BucketLocationType: S.optional(LocationType).pipe(
-      T.HttpHeader("x-amz-bucket-location-type"),
-    ),
-    BucketLocationName: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-bucket-location-name"),
-    ),
-    BucketRegion: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-bucket-region"),
-    ),
-    AccessPointAlias: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-access-point-alias"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "HeadBucketOutput",
-}) as any as S.Schema<HeadBucketOutput>;
 export interface HeadObjectRequest {
   Bucket: string;
   IfMatch?: string;
@@ -8709,77 +5045,10 @@ export interface HeadObjectRequest {
   ExpectedBucketOwner?: string;
   ChecksumMode?: ChecksumMode;
 }
-export const HeadObjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    IfModifiedSince: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("If-Modified-Since")),
-    IfNoneMatch: S.optional(S.String).pipe(T.HttpHeader("If-None-Match")),
-    IfUnmodifiedSince: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("If-Unmodified-Since")),
-    Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    Range: S.optional(S.String).pipe(T.HttpHeader("Range")),
-    ResponseCacheControl: S.optional(S.String).pipe(
-      T.HttpQuery("response-cache-control"),
-    ),
-    ResponseContentDisposition: S.optional(S.String).pipe(
-      T.HttpQuery("response-content-disposition"),
-    ),
-    ResponseContentEncoding: S.optional(S.String).pipe(
-      T.HttpQuery("response-content-encoding"),
-    ),
-    ResponseContentLanguage: S.optional(S.String).pipe(
-      T.HttpQuery("response-content-language"),
-    ),
-    ResponseContentType: S.optional(S.String).pipe(
-      T.HttpQuery("response-content-type"),
-    ),
-    ResponseExpires: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpQuery("response-expires")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKey: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    PartNumber: S.optional(S.Number).pipe(T.HttpQuery("partNumber")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    ChecksumMode: S.optional(ChecksumMode).pipe(
-      T.HttpHeader("x-amz-checksum-mode"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "HEAD", uri: "/{Bucket}/{Key+}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "HeadObjectRequest",
-}) as any as S.Schema<HeadObjectRequest>;
 export type ArchiveStatus =
   | "ARCHIVE_ACCESS"
   | "DEEP_ARCHIVE_ACCESS"
   | (string & {});
-export const ArchiveStatus = S.String;
-
 export interface HeadObjectOutput {
   DeleteMarker?: boolean;
   AcceptRanges?: string;
@@ -8825,340 +5094,57 @@ export interface HeadObjectOutput {
   ObjectLockRetainUntilDate?: Date;
   ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus;
 }
-export const HeadObjectOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeleteMarker: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-delete-marker"),
-    ),
-    AcceptRanges: S.optional(S.String).pipe(T.HttpHeader("accept-ranges")),
-    Expiration: S.optional(S.String).pipe(T.HttpHeader("x-amz-expiration")),
-    Restore: S.optional(S.String).pipe(T.HttpHeader("x-amz-restore")),
-    ArchiveStatus: S.optional(ArchiveStatus).pipe(
-      T.HttpHeader("x-amz-archive-status"),
-    ),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-      T.HttpHeader("Last-Modified"),
-    ),
-    ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
-    ChecksumCRC32: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32"),
-    ),
-    ChecksumCRC32C: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32c"),
-    ),
-    ChecksumCRC64NVME: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc64nvme"),
-    ),
-    ChecksumSHA1: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha1"),
-    ),
-    ChecksumSHA256: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha256"),
-    ),
-    ChecksumSHA512: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha512"),
-    ),
-    ChecksumMD5: S.optional(S.String).pipe(T.HttpHeader("x-amz-checksum-md5")),
-    ChecksumXXHASH64: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash64"),
-    ),
-    ChecksumXXHASH3: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash3"),
-    ),
-    ChecksumXXHASH128: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash128"),
-    ),
-    ChecksumType: S.optional(ChecksumType).pipe(
-      T.HttpHeader("x-amz-checksum-type"),
-    ),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    MissingMeta: S.optional(S.Number).pipe(T.HttpHeader("x-amz-missing-meta")),
-    VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ContentDisposition: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Disposition"),
-    ),
-    ContentEncoding: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Encoding"),
-    ),
-    ContentLanguage: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Language"),
-    ),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    ContentRange: S.optional(S.String).pipe(T.HttpHeader("Content-Range")),
-    Expires: S.optional(S.String).pipe(T.HttpHeader("Expires")),
-    WebsiteRedirectLocation: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-website-redirect-location"),
-    ),
-    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
-      T.HttpHeader("x-amz-server-side-encryption"),
-    ),
-    Metadata: S.optional(Metadata).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-    SSEKMSKeyId: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
-    ),
-    BucketKeyEnabled: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
-    ),
-    StorageClass: S.optional(StorageClass).pipe(
-      T.HttpHeader("x-amz-storage-class"),
-    ),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-    ReplicationStatus: S.optional(ReplicationStatus).pipe(
-      T.HttpHeader("x-amz-replication-status"),
-    ),
-    PartsCount: S.optional(S.Number).pipe(T.HttpHeader("x-amz-mp-parts-count")),
-    TagCount: S.optional(S.Number).pipe(T.HttpHeader("x-amz-tagging-count")),
-    ObjectLockMode: S.optional(ObjectLockMode).pipe(
-      T.HttpHeader("x-amz-object-lock-mode"),
-    ),
-    ObjectLockRetainUntilDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
-    ObjectLockLegalHoldStatus: S.optional(ObjectLockLegalHoldStatus).pipe(
-      T.HttpHeader("x-amz-object-lock-legal-hold"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "HeadObjectOutput",
-}) as any as S.Schema<HeadObjectOutput>;
 export type Token = string;
 export interface ListBucketAnalyticsConfigurationsRequest {
   Bucket: string;
   ContinuationToken?: string;
   ExpectedBucketOwner?: string;
 }
-export const ListBucketAnalyticsConfigurationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ContinuationToken: S.optional(S.String).pipe(
-        T.HttpQuery("continuation-token"),
-      ),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/{Bucket}?analytics&x-id=ListBucketAnalyticsConfigurations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "ListBucketAnalyticsConfigurationsRequest",
-}) as any as S.Schema<ListBucketAnalyticsConfigurationsRequest>;
 export type NextToken = string;
 export type AnalyticsConfigurationList = AnalyticsConfiguration[];
-export const AnalyticsConfigurationList = /*@__PURE__*/ S.Array(
-  AnalyticsConfiguration,
-);
 export interface ListBucketAnalyticsConfigurationsOutput {
   IsTruncated?: boolean;
   ContinuationToken?: string;
   NextContinuationToken?: string;
   AnalyticsConfigurationList?: AnalyticsConfiguration[];
 }
-export const ListBucketAnalyticsConfigurationsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      IsTruncated: S.optional(S.Boolean),
-      ContinuationToken: S.optional(S.String),
-      NextContinuationToken: S.optional(S.String),
-      AnalyticsConfigurationList: S.optional(AnalyticsConfigurationList).pipe(
-        T.XmlName("AnalyticsConfiguration"),
-        T.XmlFlattened(),
-      ),
-    }).pipe(T.all(T.XmlName("ListBucketAnalyticsConfigurationResult"), ns)),
-).annotate({
-  identifier: "ListBucketAnalyticsConfigurationsOutput",
-}) as any as S.Schema<ListBucketAnalyticsConfigurationsOutput>;
 export interface ListBucketIntelligentTieringConfigurationsRequest {
   Bucket: string;
   ContinuationToken?: string;
   ExpectedBucketOwner?: string;
 }
-export const ListBucketIntelligentTieringConfigurationsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ContinuationToken: S.optional(S.String).pipe(
-        T.HttpQuery("continuation-token"),
-      ),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/{Bucket}?intelligent-tiering&x-id=ListBucketIntelligentTieringConfigurations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "ListBucketIntelligentTieringConfigurationsRequest",
-  }) as any as S.Schema<ListBucketIntelligentTieringConfigurationsRequest>;
 export type IntelligentTieringConfigurationList =
   IntelligentTieringConfiguration[];
-export const IntelligentTieringConfigurationList = /*@__PURE__*/ S.Array(
-  IntelligentTieringConfiguration,
-);
 export interface ListBucketIntelligentTieringConfigurationsOutput {
   IsTruncated?: boolean;
   ContinuationToken?: string;
   NextContinuationToken?: string;
   IntelligentTieringConfigurationList?: IntelligentTieringConfiguration[];
 }
-export const ListBucketIntelligentTieringConfigurationsOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      IsTruncated: S.optional(S.Boolean),
-      ContinuationToken: S.optional(S.String),
-      NextContinuationToken: S.optional(S.String),
-      IntelligentTieringConfigurationList: S.optional(
-        IntelligentTieringConfigurationList,
-      ).pipe(T.XmlName("IntelligentTieringConfiguration"), T.XmlFlattened()),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListBucketIntelligentTieringConfigurationsOutput",
-  }) as any as S.Schema<ListBucketIntelligentTieringConfigurationsOutput>;
 export interface ListBucketInventoryConfigurationsRequest {
   Bucket: string;
   ContinuationToken?: string;
   ExpectedBucketOwner?: string;
 }
-export const ListBucketInventoryConfigurationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ContinuationToken: S.optional(S.String).pipe(
-        T.HttpQuery("continuation-token"),
-      ),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/{Bucket}?inventory&x-id=ListBucketInventoryConfigurations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "ListBucketInventoryConfigurationsRequest",
-}) as any as S.Schema<ListBucketInventoryConfigurationsRequest>;
 export type InventoryConfigurationList = InventoryConfiguration[];
-export const InventoryConfigurationList = /*@__PURE__*/ S.Array(
-  InventoryConfiguration,
-);
 export interface ListBucketInventoryConfigurationsOutput {
   ContinuationToken?: string;
   InventoryConfigurationList?: InventoryConfiguration[];
   IsTruncated?: boolean;
   NextContinuationToken?: string;
 }
-export const ListBucketInventoryConfigurationsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ContinuationToken: S.optional(S.String),
-      InventoryConfigurationList: S.optional(InventoryConfigurationList).pipe(
-        T.XmlName("InventoryConfiguration"),
-        T.XmlFlattened(),
-      ),
-      IsTruncated: S.optional(S.Boolean),
-      NextContinuationToken: S.optional(S.String),
-    }).pipe(T.all(T.XmlName("ListInventoryConfigurationsResult"), ns)),
-).annotate({
-  identifier: "ListBucketInventoryConfigurationsOutput",
-}) as any as S.Schema<ListBucketInventoryConfigurationsOutput>;
 export interface ListBucketMetricsConfigurationsRequest {
   Bucket: string;
   ContinuationToken?: string;
   ExpectedBucketOwner?: string;
 }
-export const ListBucketMetricsConfigurationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ContinuationToken: S.optional(S.String).pipe(
-        T.HttpQuery("continuation-token"),
-      ),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/{Bucket}?metrics&x-id=ListBucketMetricsConfigurations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "ListBucketMetricsConfigurationsRequest",
-}) as any as S.Schema<ListBucketMetricsConfigurationsRequest>;
 export type MetricsConfigurationList = MetricsConfiguration[];
-export const MetricsConfigurationList =
-  /*@__PURE__*/ S.Array(MetricsConfiguration);
 export interface ListBucketMetricsConfigurationsOutput {
   IsTruncated?: boolean;
   ContinuationToken?: string;
   NextContinuationToken?: string;
   MetricsConfigurationList?: MetricsConfiguration[];
 }
-export const ListBucketMetricsConfigurationsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      IsTruncated: S.optional(S.Boolean),
-      ContinuationToken: S.optional(S.String),
-      NextContinuationToken: S.optional(S.String),
-      MetricsConfigurationList: S.optional(MetricsConfigurationList).pipe(
-        T.XmlName("MetricsConfiguration"),
-        T.XmlFlattened(),
-      ),
-    }).pipe(T.all(T.XmlName("ListMetricsConfigurationsResult"), ns)),
-).annotate({
-  identifier: "ListBucketMetricsConfigurationsOutput",
-}) as any as S.Schema<ListBucketMetricsConfigurationsOutput>;
 export type MaxBuckets = number;
 export type BucketRegion = string;
 export interface ListBucketsRequest {
@@ -9167,28 +5153,6 @@ export interface ListBucketsRequest {
   Prefix?: string;
   BucketRegion?: string;
 }
-export const ListBucketsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxBuckets: S.optional(S.Number).pipe(T.HttpQuery("max-buckets")),
-    ContinuationToken: S.optional(S.String).pipe(
-      T.HttpQuery("continuation-token"),
-    ),
-    Prefix: S.optional(S.String).pipe(T.HttpQuery("prefix")),
-    BucketRegion: S.optional(S.String).pipe(T.HttpQuery("bucket-region")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/?x-id=ListBuckets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListBucketsRequest",
-}) as any as S.Schema<ListBucketsRequest>;
 export type CreationDate = Date;
 export interface Bucket {
   Name?: string;
@@ -9196,79 +5160,25 @@ export interface Bucket {
   BucketRegion?: string;
   BucketArn?: string;
 }
-export const Bucket = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    CreationDate: S.optional(T.DateFromString),
-    BucketRegion: S.optional(S.String),
-    BucketArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Bucket" }) as any as S.Schema<Bucket>;
 export type Buckets = Bucket[];
-export const Buckets = /*@__PURE__*/ S.Array(
-  Bucket.pipe(T.XmlName("Bucket")).annotate({ identifier: "Bucket" }),
-);
 export interface ListBucketsOutput {
   Buckets?: Bucket[];
   Owner?: Owner;
   ContinuationToken?: string;
   Prefix?: string;
 }
-export const ListBucketsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Buckets: S.optional(Buckets),
-    Owner: S.optional(Owner),
-    ContinuationToken: S.optional(S.String),
-    Prefix: S.optional(S.String),
-  }).pipe(T.all(T.XmlName("ListAllMyBucketsResult"), ns)),
-).annotate({
-  identifier: "ListBucketsOutput",
-}) as any as S.Schema<ListBucketsOutput>;
 export type DirectoryBucketToken = string;
 export type MaxDirectoryBuckets = number;
 export interface ListDirectoryBucketsRequest {
   ContinuationToken?: string;
   MaxDirectoryBuckets?: number;
 }
-export const ListDirectoryBucketsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContinuationToken: S.optional(S.String).pipe(
-      T.HttpQuery("continuation-token"),
-    ),
-    MaxDirectoryBuckets: S.optional(S.Number).pipe(
-      T.HttpQuery("max-directory-buckets"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/?x-id=ListDirectoryBuckets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "ListDirectoryBucketsRequest",
-}) as any as S.Schema<ListDirectoryBucketsRequest>;
 export interface ListDirectoryBucketsOutput {
   Buckets?: Bucket[];
   ContinuationToken?: string;
 }
-export const ListDirectoryBucketsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Buckets: S.optional(Buckets),
-    ContinuationToken: S.optional(S.String),
-  }).pipe(T.all(T.XmlName("ListAllMyDirectoryBucketsResult"), ns)),
-).annotate({
-  identifier: "ListDirectoryBucketsOutput",
-}) as any as S.Schema<ListDirectoryBucketsOutput>;
 export type Delimiter = string;
 export type EncodingType = "url" | (string & {});
-export const EncodingType = S.String;
-
 export type KeyMarker = string;
 export type MaxUploads = number;
 export type UploadIdMarker = string;
@@ -9283,38 +5193,6 @@ export interface ListMultipartUploadsRequest {
   ExpectedBucketOwner?: string;
   RequestPayer?: RequestPayer;
 }
-export const ListMultipartUploadsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Delimiter: S.optional(S.String).pipe(T.HttpQuery("delimiter")),
-    EncodingType: S.optional(EncodingType).pipe(T.HttpQuery("encoding-type")),
-    KeyMarker: S.optional(S.String).pipe(T.HttpQuery("key-marker")),
-    MaxUploads: S.optional(S.Number).pipe(T.HttpQuery("max-uploads")),
-    Prefix: S.optional(S.String).pipe(
-      T.HttpQuery("prefix"),
-      T.ContextParam("Prefix"),
-    ),
-    UploadIdMarker: S.optional(S.String).pipe(T.HttpQuery("upload-id-marker")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?uploads" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListMultipartUploadsRequest",
-}) as any as S.Schema<ListMultipartUploadsRequest>;
 export type NextKeyMarker = string;
 export type NextUploadIdMarker = string;
 export type Initiated = Date;
@@ -9322,9 +5200,6 @@ export interface Initiator {
   ID?: string;
   DisplayName?: string;
 }
-export const Initiator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ID: S.optional(S.String), DisplayName: S.optional(S.String) }),
-).annotate({ identifier: "Initiator" }) as any as S.Schema<Initiator>;
 export interface MultipartUpload {
   UploadId?: string;
   Key?: string;
@@ -9335,30 +5210,11 @@ export interface MultipartUpload {
   ChecksumAlgorithm?: ChecksumAlgorithm;
   ChecksumType?: ChecksumType;
 }
-export const MultipartUpload = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UploadId: S.optional(S.String),
-    Key: S.optional(S.String),
-    Initiated: S.optional(T.DateFromString),
-    StorageClass: S.optional(StorageClass),
-    Owner: S.optional(Owner),
-    Initiator: S.optional(Initiator),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm),
-    ChecksumType: S.optional(ChecksumType),
-  }),
-).annotate({
-  identifier: "MultipartUpload",
-}) as any as S.Schema<MultipartUpload>;
 export type MultipartUploadList = MultipartUpload[];
-export const MultipartUploadList = /*@__PURE__*/ S.Array(MultipartUpload);
 export interface CommonPrefix {
   Prefix?: string;
 }
-export const CommonPrefix = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Prefix: S.optional(S.String) }),
-).annotate({ identifier: "CommonPrefix" }) as any as S.Schema<CommonPrefix>;
 export type CommonPrefixList = CommonPrefix[];
-export const CommonPrefixList = /*@__PURE__*/ S.Array(CommonPrefix);
 export interface ListMultipartUploadsOutput {
   Bucket?: string;
   KeyMarker?: string;
@@ -9374,30 +5230,6 @@ export interface ListMultipartUploadsOutput {
   EncodingType?: EncodingType;
   RequestCharged?: RequestCharged;
 }
-export const ListMultipartUploadsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.optional(S.String),
-    KeyMarker: S.optional(S.String),
-    UploadIdMarker: S.optional(S.String),
-    NextKeyMarker: S.optional(S.String),
-    Prefix: S.optional(S.String),
-    Delimiter: S.optional(S.String),
-    NextUploadIdMarker: S.optional(S.String),
-    MaxUploads: S.optional(S.Number),
-    IsTruncated: S.optional(S.Boolean),
-    Uploads: S.optional(MultipartUploadList).pipe(
-      T.XmlName("Upload"),
-      T.XmlFlattened(),
-    ),
-    CommonPrefixes: S.optional(CommonPrefixList).pipe(T.XmlFlattened()),
-    EncodingType: S.optional(EncodingType),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(T.all(T.XmlName("ListMultipartUploadsResult"), ns)),
-).annotate({
-  identifier: "ListMultipartUploadsOutput",
-}) as any as S.Schema<ListMultipartUploadsOutput>;
 export type MaxAnnotationResults = number;
 export type AnnotationPrefix = string;
 export interface ListObjectAnnotationsRequest {
@@ -9410,45 +5242,7 @@ export interface ListObjectAnnotationsRequest {
   RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
 }
-export const ListObjectAnnotationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    MaxAnnotationResults: S.optional(S.Number).pipe(
-      T.HttpQuery("max-annotation-results"),
-    ),
-    AnnotationPrefix: S.optional(S.String).pipe(
-      T.HttpQuery("annotation-prefix"),
-    ),
-    ContinuationToken: S.optional(S.String).pipe(
-      T.HttpQuery("continuation-token"),
-    ),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/{Bucket}/{Key+}?annotation&x-id=ListObjectAnnotations",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListObjectAnnotationsRequest",
-}) as any as S.Schema<ListObjectAnnotationsRequest>;
 export type ChecksumAlgorithmList = ChecksumAlgorithm[];
-export const ChecksumAlgorithmList = /*@__PURE__*/ S.Array(ChecksumAlgorithm);
 export interface AnnotationEntry {
   AnnotationName: string;
   LastModified: Date;
@@ -9457,24 +5251,7 @@ export interface AnnotationEntry {
   Size: number;
   ReplicationStatus?: ReplicationStatus;
 }
-export const AnnotationEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AnnotationName: S.String,
-    LastModified: T.DateFromString,
-    ETag: S.optional(S.String),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithmList).pipe(T.XmlFlattened()),
-    Size: S.Number,
-    ReplicationStatus: S.optional(ReplicationStatus),
-  }),
-).annotate({
-  identifier: "AnnotationEntry",
-}) as any as S.Schema<AnnotationEntry>;
 export type AnnotationList = AnnotationEntry[];
-export const AnnotationList = /*@__PURE__*/ S.Array(
-  AnnotationEntry.pipe(T.XmlName("AnnotationEntry")).annotate({
-    identifier: "AnnotationEntry",
-  }),
-);
 export type AnnotationCount = number;
 export interface ListObjectAnnotationsOutput {
   Annotations?: AnnotationEntry[];
@@ -9488,35 +5265,10 @@ export interface ListObjectAnnotationsOutput {
   NextContinuationToken?: string;
   RequestCharged?: RequestCharged;
 }
-export const ListObjectAnnotationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Annotations: S.optional(AnnotationList),
-    Bucket: S.optional(S.String),
-    Key: S.optional(S.String),
-    ObjectVersionId: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-object-version-id"),
-    ),
-    AnnotationPrefix: S.optional(S.String),
-    MaxAnnotationResults: S.optional(S.Number),
-    AnnotationCount: S.optional(S.Number),
-    ContinuationToken: S.optional(S.String),
-    NextContinuationToken: S.optional(S.String),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListObjectAnnotationsOutput",
-}) as any as S.Schema<ListObjectAnnotationsOutput>;
 export type Marker = string;
 export type MaxKeys = number;
 export type OptionalObjectAttributes = "RestoreStatus" | (string & {});
-export const OptionalObjectAttributes = S.String;
-
 export type OptionalObjectAttributesList = OptionalObjectAttributes[];
-export const OptionalObjectAttributesList = /*@__PURE__*/ S.Array(
-  OptionalObjectAttributes,
-);
 export interface ListObjectsRequest {
   Bucket: string;
   Delimiter?: string;
@@ -9528,40 +5280,6 @@ export interface ListObjectsRequest {
   ExpectedBucketOwner?: string;
   OptionalObjectAttributes?: OptionalObjectAttributes[];
 }
-export const ListObjectsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Delimiter: S.optional(S.String).pipe(T.HttpQuery("delimiter")),
-    EncodingType: S.optional(EncodingType).pipe(T.HttpQuery("encoding-type")),
-    Marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
-    MaxKeys: S.optional(S.Number).pipe(T.HttpQuery("max-keys")),
-    Prefix: S.optional(S.String).pipe(
-      T.HttpQuery("prefix"),
-      T.ContextParam("Prefix"),
-    ),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    OptionalObjectAttributes: S.optional(OptionalObjectAttributesList).pipe(
-      T.HttpHeader("x-amz-optional-object-attributes"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListObjectsRequest",
-}) as any as S.Schema<ListObjectsRequest>;
 export type NextMarker = string;
 export type ObjectStorageClass =
   | "STANDARD"
@@ -9580,20 +5298,12 @@ export type ObjectStorageClass =
   | "AWS_BACKUP_WARM"
   | "AWS_BACKUP_LOW_COST_WARM"
   | (string & {});
-export const ObjectStorageClass = S.String;
-
 export type IsRestoreInProgress = boolean;
 export type RestoreExpiryDate = Date;
 export interface RestoreStatus {
   IsRestoreInProgress?: boolean;
   RestoreExpiryDate?: Date;
 }
-export const RestoreStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IsRestoreInProgress: S.optional(S.Boolean),
-    RestoreExpiryDate: S.optional(T.DateFromString),
-  }),
-).annotate({ identifier: "RestoreStatus" }) as any as S.Schema<RestoreStatus>;
 export interface Object {
   Key?: string;
   LastModified?: Date;
@@ -9605,21 +5315,7 @@ export interface Object {
   Owner?: Owner;
   RestoreStatus?: RestoreStatus;
 }
-export const Object = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Key: S.optional(S.String),
-    LastModified: S.optional(T.DateFromString),
-    ETag: S.optional(S.String),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithmList).pipe(T.XmlFlattened()),
-    ChecksumType: S.optional(ChecksumType),
-    Size: S.optional(S.Number),
-    StorageClass: S.optional(ObjectStorageClass),
-    Owner: S.optional(Owner),
-    RestoreStatus: S.optional(RestoreStatus),
-  }),
-).annotate({ identifier: "Object" }) as any as S.Schema<Object>;
 export type ObjectList = Object[];
-export const ObjectList = /*@__PURE__*/ S.Array(Object);
 export interface ListObjectsOutput {
   IsTruncated?: boolean;
   Marker?: string;
@@ -9633,25 +5329,6 @@ export interface ListObjectsOutput {
   EncodingType?: EncodingType;
   RequestCharged?: RequestCharged;
 }
-export const ListObjectsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IsTruncated: S.optional(S.Boolean),
-    Marker: S.optional(S.String),
-    NextMarker: S.optional(S.String),
-    Contents: S.optional(ObjectList).pipe(T.XmlFlattened()),
-    Name: S.optional(S.String),
-    Prefix: S.optional(S.String),
-    Delimiter: S.optional(S.String),
-    MaxKeys: S.optional(S.Number),
-    CommonPrefixes: S.optional(CommonPrefixList).pipe(T.XmlFlattened()),
-    EncodingType: S.optional(EncodingType),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(T.all(T.XmlName("ListBucketResult"), ns)),
-).annotate({
-  identifier: "ListObjectsOutput",
-}) as any as S.Schema<ListObjectsOutput>;
 export type FetchOwner = boolean;
 export type StartAfter = string;
 export interface ListObjectsV2Request {
@@ -9667,44 +5344,6 @@ export interface ListObjectsV2Request {
   ExpectedBucketOwner?: string;
   OptionalObjectAttributes?: OptionalObjectAttributes[];
 }
-export const ListObjectsV2Request = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Delimiter: S.optional(S.String).pipe(T.HttpQuery("delimiter")),
-    EncodingType: S.optional(EncodingType).pipe(T.HttpQuery("encoding-type")),
-    MaxKeys: S.optional(S.Number).pipe(T.HttpQuery("max-keys")),
-    Prefix: S.optional(S.String).pipe(
-      T.HttpQuery("prefix"),
-      T.ContextParam("Prefix"),
-    ),
-    ContinuationToken: S.optional(S.String).pipe(
-      T.HttpQuery("continuation-token"),
-    ),
-    FetchOwner: S.optional(S.Boolean).pipe(T.HttpQuery("fetch-owner")),
-    StartAfter: S.optional(S.String).pipe(T.HttpQuery("start-after")),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    OptionalObjectAttributes: S.optional(OptionalObjectAttributesList).pipe(
-      T.HttpHeader("x-amz-optional-object-attributes"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?list-type=2" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListObjectsV2Request",
-}) as any as S.Schema<ListObjectsV2Request>;
 export type KeyCount = number;
 export interface ListObjectsV2Output {
   IsTruncated?: boolean;
@@ -9721,27 +5360,6 @@ export interface ListObjectsV2Output {
   StartAfter?: string;
   RequestCharged?: RequestCharged;
 }
-export const ListObjectsV2Output = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IsTruncated: S.optional(S.Boolean),
-    Contents: S.optional(ObjectList).pipe(T.XmlFlattened()),
-    Name: S.optional(S.String),
-    Prefix: S.optional(S.String),
-    Delimiter: S.optional(S.String),
-    MaxKeys: S.optional(S.Number),
-    CommonPrefixes: S.optional(CommonPrefixList).pipe(T.XmlFlattened()),
-    EncodingType: S.optional(EncodingType),
-    KeyCount: S.optional(S.Number),
-    ContinuationToken: S.optional(S.String),
-    NextContinuationToken: S.optional(S.String),
-    StartAfter: S.optional(S.String),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(T.all(T.XmlName("ListBucketResult"), ns)),
-).annotate({
-  identifier: "ListObjectsV2Output",
-}) as any as S.Schema<ListObjectsV2Output>;
 export type VersionIdMarker = string;
 export interface ListObjectVersionsRequest {
   Bucket: string;
@@ -9755,47 +5373,8 @@ export interface ListObjectVersionsRequest {
   RequestPayer?: RequestPayer;
   OptionalObjectAttributes?: OptionalObjectAttributes[];
 }
-export const ListObjectVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Delimiter: S.optional(S.String).pipe(T.HttpQuery("delimiter")),
-    EncodingType: S.optional(EncodingType).pipe(T.HttpQuery("encoding-type")),
-    KeyMarker: S.optional(S.String).pipe(T.HttpQuery("key-marker")),
-    MaxKeys: S.optional(S.Number).pipe(T.HttpQuery("max-keys")),
-    Prefix: S.optional(S.String).pipe(
-      T.HttpQuery("prefix"),
-      T.ContextParam("Prefix"),
-    ),
-    VersionIdMarker: S.optional(S.String).pipe(
-      T.HttpQuery("version-id-marker"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    OptionalObjectAttributes: S.optional(OptionalObjectAttributesList).pipe(
-      T.HttpHeader("x-amz-optional-object-attributes"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}?versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListObjectVersionsRequest",
-}) as any as S.Schema<ListObjectVersionsRequest>;
 export type NextVersionIdMarker = string;
 export type ObjectVersionStorageClass = "STANDARD" | (string & {});
-export const ObjectVersionStorageClass = S.String;
-
 export type IsLatest = boolean;
 export interface ObjectVersion {
   ETag?: string;
@@ -9810,23 +5389,7 @@ export interface ObjectVersion {
   Owner?: Owner;
   RestoreStatus?: RestoreStatus;
 }
-export const ObjectVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ETag: S.optional(S.String),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithmList).pipe(T.XmlFlattened()),
-    ChecksumType: S.optional(ChecksumType),
-    Size: S.optional(S.Number),
-    StorageClass: S.optional(ObjectVersionStorageClass),
-    Key: S.optional(S.String),
-    VersionId: S.optional(S.String),
-    IsLatest: S.optional(S.Boolean),
-    LastModified: S.optional(T.DateFromString),
-    Owner: S.optional(Owner),
-    RestoreStatus: S.optional(RestoreStatus),
-  }),
-).annotate({ identifier: "ObjectVersion" }) as any as S.Schema<ObjectVersion>;
 export type ObjectVersionList = ObjectVersion[];
-export const ObjectVersionList = /*@__PURE__*/ S.Array(ObjectVersion);
 export interface DeleteMarkerEntry {
   Owner?: Owner;
   Key?: string;
@@ -9834,19 +5397,7 @@ export interface DeleteMarkerEntry {
   IsLatest?: boolean;
   LastModified?: Date;
 }
-export const DeleteMarkerEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Owner: S.optional(Owner),
-    Key: S.optional(S.String),
-    VersionId: S.optional(S.String),
-    IsLatest: S.optional(S.Boolean),
-    LastModified: S.optional(T.DateFromString),
-  }),
-).annotate({
-  identifier: "DeleteMarkerEntry",
-}) as any as S.Schema<DeleteMarkerEntry>;
 export type DeleteMarkers = DeleteMarkerEntry[];
-export const DeleteMarkers = /*@__PURE__*/ S.Array(DeleteMarkerEntry);
 export interface ListObjectVersionsOutput {
   IsTruncated?: boolean;
   KeyMarker?: string;
@@ -9863,34 +5414,6 @@ export interface ListObjectVersionsOutput {
   EncodingType?: EncodingType;
   RequestCharged?: RequestCharged;
 }
-export const ListObjectVersionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IsTruncated: S.optional(S.Boolean),
-    KeyMarker: S.optional(S.String),
-    VersionIdMarker: S.optional(S.String),
-    NextKeyMarker: S.optional(S.String),
-    NextVersionIdMarker: S.optional(S.String),
-    Versions: S.optional(ObjectVersionList).pipe(
-      T.XmlName("Version"),
-      T.XmlFlattened(),
-    ),
-    DeleteMarkers: S.optional(DeleteMarkers).pipe(
-      T.XmlName("DeleteMarker"),
-      T.XmlFlattened(),
-    ),
-    Name: S.optional(S.String),
-    Prefix: S.optional(S.String),
-    Delimiter: S.optional(S.String),
-    MaxKeys: S.optional(S.Number),
-    CommonPrefixes: S.optional(CommonPrefixList).pipe(T.XmlFlattened()),
-    EncodingType: S.optional(EncodingType),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(T.all(T.XmlName("ListVersionsResult"), ns)),
-).annotate({
-  identifier: "ListObjectVersionsOutput",
-}) as any as S.Schema<ListObjectVersionsOutput>;
 export interface ListPartsRequest {
   Bucket: string;
   Key: string;
@@ -9903,44 +5426,6 @@ export interface ListPartsRequest {
   SSECustomerKey?: string | redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
 }
-export const ListPartsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    MaxParts: S.optional(S.Number).pipe(T.HttpQuery("max-parts")),
-    PartNumberMarker: S.optional(S.String).pipe(
-      T.HttpQuery("part-number-marker"),
-    ),
-    UploadId: S.String.pipe(T.HttpQuery("uploadId")),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKey: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{Bucket}/{Key+}?x-id=ListParts" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListPartsRequest",
-}) as any as S.Schema<ListPartsRequest>;
 export interface Part {
   PartNumber?: number;
   LastModified?: Date;
@@ -9957,26 +5442,7 @@ export interface Part {
   ChecksumXXHASH3?: string;
   ChecksumXXHASH128?: string;
 }
-export const Part = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PartNumber: S.optional(S.Number),
-    LastModified: S.optional(T.DateFromString),
-    ETag: S.optional(S.String),
-    Size: S.optional(S.Number),
-    ChecksumCRC32: S.optional(S.String),
-    ChecksumCRC32C: S.optional(S.String),
-    ChecksumCRC64NVME: S.optional(S.String),
-    ChecksumSHA1: S.optional(S.String),
-    ChecksumSHA256: S.optional(S.String),
-    ChecksumSHA512: S.optional(S.String),
-    ChecksumMD5: S.optional(S.String),
-    ChecksumXXHASH64: S.optional(S.String),
-    ChecksumXXHASH3: S.optional(S.String),
-    ChecksumXXHASH128: S.optional(S.String),
-  }),
-).annotate({ identifier: "Part" }) as any as S.Schema<Part>;
 export type Parts = Part[];
-export const Parts = /*@__PURE__*/ S.Array(Part);
 export interface ListPartsOutput {
   AbortDate?: Date;
   AbortRuleId?: string;
@@ -9995,32 +5461,6 @@ export interface ListPartsOutput {
   ChecksumAlgorithm?: ChecksumAlgorithm;
   ChecksumType?: ChecksumType;
 }
-export const ListPartsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AbortDate: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-      T.HttpHeader("x-amz-abort-date"),
-    ),
-    AbortRuleId: S.optional(S.String).pipe(T.HttpHeader("x-amz-abort-rule-id")),
-    Bucket: S.optional(S.String),
-    Key: S.optional(S.String),
-    UploadId: S.optional(S.String),
-    PartNumberMarker: S.optional(S.String),
-    NextPartNumberMarker: S.optional(S.String),
-    MaxParts: S.optional(S.Number),
-    IsTruncated: S.optional(S.Boolean),
-    Parts: S.optional(Parts).pipe(T.XmlName("Part"), T.XmlFlattened()),
-    Initiator: S.optional(Initiator),
-    Owner: S.optional(Owner),
-    StorageClass: S.optional(StorageClass),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm),
-    ChecksumType: S.optional(ChecksumType),
-  }).pipe(T.all(T.XmlName("ListPartsResult"), ns)),
-).annotate({
-  identifier: "ListPartsOutput",
-}) as any as S.Schema<ListPartsOutput>;
 export interface PutBucketAbacRequest {
   Bucket: string;
   ContentMD5?: string;
@@ -10028,107 +5468,21 @@ export interface PutBucketAbacRequest {
   ExpectedBucketOwner?: string;
   AbacStatus: AbacStatus;
 }
-export const PutBucketAbacRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    AbacStatus: AbacStatus.pipe(
-      T.HttpPayload(),
-      T.XmlName("AbacStatus"),
-    ).annotate({ identifier: "AbacStatus" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}?abac" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-      }),
-    ),
-  ),
-).annotate({
-  identifier: "PutBucketAbacRequest",
-}) as any as S.Schema<PutBucketAbacRequest>;
 export interface PutBucketAbacResponse {}
-export const PutBucketAbacResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketAbacResponse",
-}) as any as S.Schema<PutBucketAbacResponse>;
 export interface AccelerateConfiguration {
   Status?: BucketAccelerateStatus;
 }
-export const AccelerateConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: S.optional(BucketAccelerateStatus) }),
-).annotate({
-  identifier: "AccelerateConfiguration",
-}) as any as S.Schema<AccelerateConfiguration>;
 export interface PutBucketAccelerateConfigurationRequest {
   Bucket: string;
   AccelerateConfiguration: AccelerateConfiguration;
   ExpectedBucketOwner?: string;
   ChecksumAlgorithm?: ChecksumAlgorithm;
 }
-export const PutBucketAccelerateConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      AccelerateConfiguration: AccelerateConfiguration.pipe(
-        T.HttpPayload(),
-        T.XmlName("AccelerateConfiguration"),
-      ).annotate({ identifier: "AccelerateConfiguration" }),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-      ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-        T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "PUT", uri: "/{Bucket}?accelerate" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.AwsProtocolsHttpChecksum({
-          requestAlgorithmMember: "ChecksumAlgorithm",
-        }),
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "PutBucketAccelerateConfigurationRequest",
-}) as any as S.Schema<PutBucketAccelerateConfigurationRequest>;
 export interface PutBucketAccelerateConfigurationResponse {}
-export const PutBucketAccelerateConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketAccelerateConfigurationResponse",
-}) as any as S.Schema<PutBucketAccelerateConfigurationResponse>;
 export interface AccessControlPolicy {
   Grants?: Grant[];
   Owner?: Owner;
 }
-export const AccessControlPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Grants: S.optional(Grants).pipe(T.XmlName("AccessControlList")),
-    Owner: S.optional(Owner),
-  }),
-).annotate({
-  identifier: "AccessControlPolicy",
-}) as any as S.Schema<AccessControlPolicy>;
 export interface PutBucketAclRequest {
   ACL?: BucketCannedACL;
   AccessControlPolicy?: AccessControlPolicy;
@@ -10142,105 +5496,17 @@ export interface PutBucketAclRequest {
   GrantWriteACP?: string;
   ExpectedBucketOwner?: string;
 }
-export const PutBucketAclRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ACL: S.optional(BucketCannedACL).pipe(T.HttpHeader("x-amz-acl")),
-    AccessControlPolicy: S.optional(AccessControlPolicy)
-      .pipe(T.HttpPayload(), T.XmlName("AccessControlPolicy"))
-      .annotate({ identifier: "AccessControlPolicy" }),
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    GrantFullControl: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-full-control"),
-    ),
-    GrantRead: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-read")),
-    GrantReadACP: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-read-acp"),
-    ),
-    GrantWrite: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-write")),
-    GrantWriteACP: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-write-acp"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}?acl" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "PutBucketAclRequest",
-}) as any as S.Schema<PutBucketAclRequest>;
 export interface PutBucketAclResponse {}
-export const PutBucketAclResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketAclResponse",
-}) as any as S.Schema<PutBucketAclResponse>;
 export interface PutBucketAnalyticsConfigurationRequest {
   Bucket: string;
   Id: string;
   AnalyticsConfiguration: AnalyticsConfiguration;
   ExpectedBucketOwner?: string;
 }
-export const PutBucketAnalyticsConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      Id: S.String.pipe(T.HttpQuery("id")),
-      AnalyticsConfiguration: AnalyticsConfiguration.pipe(
-        T.HttpPayload(),
-        T.XmlName("AnalyticsConfiguration"),
-      ).annotate({ identifier: "AnalyticsConfiguration" }),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "PUT", uri: "/{Bucket}?analytics" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "PutBucketAnalyticsConfigurationRequest",
-}) as any as S.Schema<PutBucketAnalyticsConfigurationRequest>;
 export interface PutBucketAnalyticsConfigurationResponse {}
-export const PutBucketAnalyticsConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketAnalyticsConfigurationResponse",
-}) as any as S.Schema<PutBucketAnalyticsConfigurationResponse>;
 export interface CORSConfiguration {
   CORSRules: CORSRule[];
 }
-export const CORSConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CORSRules: CORSRules.pipe(T.XmlName("CORSRule"), T.XmlFlattened()),
-  }),
-).annotate({
-  identifier: "CORSConfiguration",
-}) as any as S.Schema<CORSConfiguration>;
 export interface PutBucketCorsRequest {
   Bucket: string;
   CORSConfiguration: CORSConfiguration;
@@ -10248,45 +5514,7 @@ export interface PutBucketCorsRequest {
   ChecksumAlgorithm?: ChecksumAlgorithm;
   ExpectedBucketOwner?: string;
 }
-export const PutBucketCorsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    CORSConfiguration: CORSConfiguration.pipe(
-      T.HttpPayload(),
-      T.XmlName("CORSConfiguration"),
-    ).annotate({ identifier: "CORSConfiguration" }),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}?cors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "PutBucketCorsRequest",
-}) as any as S.Schema<PutBucketCorsRequest>;
 export interface PutBucketCorsResponse {}
-export const PutBucketCorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketCorsResponse",
-}) as any as S.Schema<PutBucketCorsResponse>;
 export interface PutBucketEncryptionRequest {
   Bucket: string;
   ContentMD5?: string;
@@ -10294,130 +5522,24 @@ export interface PutBucketEncryptionRequest {
   ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration;
   ExpectedBucketOwner?: string;
 }
-export const PutBucketEncryptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration.pipe(
-      T.HttpPayload(),
-      T.XmlName("ServerSideEncryptionConfiguration"),
-    ).annotate({ identifier: "ServerSideEncryptionConfiguration" }),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}?encryption" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "PutBucketEncryptionRequest",
-}) as any as S.Schema<PutBucketEncryptionRequest>;
 export interface PutBucketEncryptionResponse {}
-export const PutBucketEncryptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketEncryptionResponse",
-}) as any as S.Schema<PutBucketEncryptionResponse>;
 export interface PutBucketIntelligentTieringConfigurationRequest {
   Bucket: string;
   Id: string;
   ExpectedBucketOwner?: string;
   IntelligentTieringConfiguration: IntelligentTieringConfiguration;
 }
-export const PutBucketIntelligentTieringConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      Id: S.String.pipe(T.HttpQuery("id")),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-      IntelligentTieringConfiguration: IntelligentTieringConfiguration.pipe(
-        T.HttpPayload(),
-        T.XmlName("IntelligentTieringConfiguration"),
-      ).annotate({ identifier: "IntelligentTieringConfiguration" }),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "PUT", uri: "/{Bucket}?intelligent-tiering" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "PutBucketIntelligentTieringConfigurationRequest",
-  }) as any as S.Schema<PutBucketIntelligentTieringConfigurationRequest>;
 export interface PutBucketIntelligentTieringConfigurationResponse {}
-export const PutBucketIntelligentTieringConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "PutBucketIntelligentTieringConfigurationResponse",
-  }) as any as S.Schema<PutBucketIntelligentTieringConfigurationResponse>;
 export interface PutBucketInventoryConfigurationRequest {
   Bucket: string;
   Id: string;
   InventoryConfiguration: InventoryConfiguration;
   ExpectedBucketOwner?: string;
 }
-export const PutBucketInventoryConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      Id: S.String.pipe(T.HttpQuery("id")),
-      InventoryConfiguration: InventoryConfiguration.pipe(
-        T.HttpPayload(),
-        T.XmlName("InventoryConfiguration"),
-      ).annotate({ identifier: "InventoryConfiguration" }),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "PUT", uri: "/{Bucket}?inventory" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "PutBucketInventoryConfigurationRequest",
-}) as any as S.Schema<PutBucketInventoryConfigurationRequest>;
 export interface PutBucketInventoryConfigurationResponse {}
-export const PutBucketInventoryConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketInventoryConfigurationResponse",
-}) as any as S.Schema<PutBucketInventoryConfigurationResponse>;
 export interface BucketLifecycleConfiguration {
   Rules: LifecycleRule[];
 }
-export const BucketLifecycleConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Rules: LifecycleRules.pipe(T.XmlName("Rule"), T.XmlFlattened()) }),
-).annotate({
-  identifier: "BucketLifecycleConfiguration",
-}) as any as S.Schema<BucketLifecycleConfiguration>;
 export interface PutBucketLifecycleConfigurationRequest {
   Bucket: string;
   ChecksumAlgorithm?: ChecksumAlgorithm;
@@ -10425,62 +5547,12 @@ export interface PutBucketLifecycleConfigurationRequest {
   ExpectedBucketOwner?: string;
   TransitionDefaultMinimumObjectSize?: TransitionDefaultMinimumObjectSize;
 }
-export const PutBucketLifecycleConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-        T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-      ),
-      LifecycleConfiguration: S.optional(BucketLifecycleConfiguration)
-        .pipe(T.HttpPayload(), T.XmlName("LifecycleConfiguration"))
-        .annotate({ identifier: "BucketLifecycleConfiguration" }),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-      TransitionDefaultMinimumObjectSize: S.optional(
-        TransitionDefaultMinimumObjectSize,
-      ).pipe(T.HttpHeader("x-amz-transition-default-minimum-object-size")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "PUT", uri: "/{Bucket}?lifecycle" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.AwsProtocolsHttpChecksum({
-          requestAlgorithmMember: "ChecksumAlgorithm",
-          requestChecksumRequired: true,
-        }),
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "PutBucketLifecycleConfigurationRequest",
-}) as any as S.Schema<PutBucketLifecycleConfigurationRequest>;
 export interface PutBucketLifecycleConfigurationOutput {
   TransitionDefaultMinimumObjectSize?: TransitionDefaultMinimumObjectSize;
 }
-export const PutBucketLifecycleConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      TransitionDefaultMinimumObjectSize: S.optional(
-        TransitionDefaultMinimumObjectSize,
-      ).pipe(T.HttpHeader("x-amz-transition-default-minimum-object-size")),
-    }).pipe(ns),
-).annotate({
-  identifier: "PutBucketLifecycleConfigurationOutput",
-}) as any as S.Schema<PutBucketLifecycleConfigurationOutput>;
 export interface BucketLoggingStatus {
   LoggingEnabled?: LoggingEnabled;
 }
-export const BucketLoggingStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LoggingEnabled: S.optional(LoggingEnabled) }),
-).annotate({
-  identifier: "BucketLoggingStatus",
-}) as any as S.Schema<BucketLoggingStatus>;
 export interface PutBucketLoggingRequest {
   Bucket: string;
   BucketLoggingStatus: BucketLoggingStatus;
@@ -10488,84 +5560,14 @@ export interface PutBucketLoggingRequest {
   ChecksumAlgorithm?: ChecksumAlgorithm;
   ExpectedBucketOwner?: string;
 }
-export const PutBucketLoggingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    BucketLoggingStatus: BucketLoggingStatus.pipe(
-      T.HttpPayload(),
-      T.XmlName("BucketLoggingStatus"),
-    ).annotate({ identifier: "BucketLoggingStatus" }),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}?logging" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "PutBucketLoggingRequest",
-}) as any as S.Schema<PutBucketLoggingRequest>;
 export interface PutBucketLoggingResponse {}
-export const PutBucketLoggingResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketLoggingResponse",
-}) as any as S.Schema<PutBucketLoggingResponse>;
 export interface PutBucketMetricsConfigurationRequest {
   Bucket: string;
   Id: string;
   MetricsConfiguration: MetricsConfiguration;
   ExpectedBucketOwner?: string;
 }
-export const PutBucketMetricsConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      Id: S.String.pipe(T.HttpQuery("id")),
-      MetricsConfiguration: MetricsConfiguration.pipe(
-        T.HttpPayload(),
-        T.XmlName("MetricsConfiguration"),
-      ).annotate({ identifier: "MetricsConfiguration" }),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "PUT", uri: "/{Bucket}?metrics" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "PutBucketMetricsConfigurationRequest",
-}) as any as S.Schema<PutBucketMetricsConfigurationRequest>;
 export interface PutBucketMetricsConfigurationResponse {}
-export const PutBucketMetricsConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketMetricsConfigurationResponse",
-}) as any as S.Schema<PutBucketMetricsConfigurationResponse>;
 export type SkipValidation = boolean;
 export interface PutBucketNotificationConfigurationRequest {
   Bucket: string;
@@ -10573,40 +5575,7 @@ export interface PutBucketNotificationConfigurationRequest {
   ExpectedBucketOwner?: string;
   SkipDestinationValidation?: boolean;
 }
-export const PutBucketNotificationConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      NotificationConfiguration: NotificationConfiguration.pipe(
-        T.HttpPayload(),
-        T.XmlName("NotificationConfiguration"),
-      ).annotate({ identifier: "NotificationConfiguration" }),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-      SkipDestinationValidation: S.optional(S.Boolean).pipe(
-        T.HttpHeader("x-amz-skip-destination-validation"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "PUT", uri: "/{Bucket}?notification" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "PutBucketNotificationConfigurationRequest",
-  }) as any as S.Schema<PutBucketNotificationConfigurationRequest>;
 export interface PutBucketNotificationConfigurationResponse {}
-export const PutBucketNotificationConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "PutBucketNotificationConfigurationResponse",
-  }) as any as S.Schema<PutBucketNotificationConfigurationResponse>;
 export interface PutBucketOwnershipControlsRequest {
   Bucket: string;
   ContentMD5?: string;
@@ -10614,45 +5583,7 @@ export interface PutBucketOwnershipControlsRequest {
   OwnershipControls: OwnershipControls;
   ChecksumAlgorithm?: ChecksumAlgorithm;
 }
-export const PutBucketOwnershipControlsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    OwnershipControls: OwnershipControls.pipe(
-      T.HttpPayload(),
-      T.XmlName("OwnershipControls"),
-    ).annotate({ identifier: "OwnershipControls" }),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}?ownershipControls" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "PutBucketOwnershipControlsRequest",
-}) as any as S.Schema<PutBucketOwnershipControlsRequest>;
 export interface PutBucketOwnershipControlsResponse {}
-export const PutBucketOwnershipControlsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketOwnershipControlsResponse",
-}) as any as S.Schema<PutBucketOwnershipControlsResponse>;
 export type ConfirmRemoveSelfBucketAccess = boolean;
 export interface PutBucketPolicyRequest {
   Bucket: string;
@@ -10662,45 +5593,7 @@ export interface PutBucketPolicyRequest {
   Policy: string;
   ExpectedBucketOwner?: string;
 }
-export const PutBucketPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    ConfirmRemoveSelfBucketAccess: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-confirm-remove-self-bucket-access"),
-    ),
-    Policy: S.String.pipe(T.HttpPayload()),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}?policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "PutBucketPolicyRequest",
-}) as any as S.Schema<PutBucketPolicyRequest>;
 export interface PutBucketPolicyResponse {}
-export const PutBucketPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketPolicyResponse",
-}) as any as S.Schema<PutBucketPolicyResponse>;
 export type ObjectLockToken = string;
 export interface PutBucketReplicationRequest {
   Bucket: string;
@@ -10710,56 +5603,10 @@ export interface PutBucketReplicationRequest {
   Token?: string;
   ExpectedBucketOwner?: string;
 }
-export const PutBucketReplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    ReplicationConfiguration: ReplicationConfiguration.pipe(
-      T.HttpPayload(),
-      T.XmlName("ReplicationConfiguration"),
-    ).annotate({ identifier: "ReplicationConfiguration" }),
-    Token: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-bucket-object-lock-token"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}?replication" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "PutBucketReplicationRequest",
-}) as any as S.Schema<PutBucketReplicationRequest>;
 export interface PutBucketReplicationResponse {}
-export const PutBucketReplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketReplicationResponse",
-}) as any as S.Schema<PutBucketReplicationResponse>;
 export interface RequestPaymentConfiguration {
   Payer: Payer;
 }
-export const RequestPaymentConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Payer: Payer }),
-).annotate({
-  identifier: "RequestPaymentConfiguration",
-}) as any as S.Schema<RequestPaymentConfiguration>;
 export interface PutBucketRequestPaymentRequest {
   Bucket: string;
   ContentMD5?: string;
@@ -10767,51 +5614,10 @@ export interface PutBucketRequestPaymentRequest {
   RequestPaymentConfiguration: RequestPaymentConfiguration;
   ExpectedBucketOwner?: string;
 }
-export const PutBucketRequestPaymentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    RequestPaymentConfiguration: RequestPaymentConfiguration.pipe(
-      T.HttpPayload(),
-      T.XmlName("RequestPaymentConfiguration"),
-    ).annotate({ identifier: "RequestPaymentConfiguration" }),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}?requestPayment" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "PutBucketRequestPaymentRequest",
-}) as any as S.Schema<PutBucketRequestPaymentRequest>;
 export interface PutBucketRequestPaymentResponse {}
-export const PutBucketRequestPaymentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketRequestPaymentResponse",
-}) as any as S.Schema<PutBucketRequestPaymentResponse>;
 export interface Tagging {
   TagSet: Tag[];
 }
-export const Tagging = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TagSet: TagSet }),
-).annotate({ identifier: "Tagging" }) as any as S.Schema<Tagging>;
 export interface PutBucketTaggingRequest {
   Bucket: string;
   ContentMD5?: string;
@@ -10819,59 +5625,12 @@ export interface PutBucketTaggingRequest {
   Tagging: Tagging;
   ExpectedBucketOwner?: string;
 }
-export const PutBucketTaggingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    Tagging: Tagging.pipe(T.HttpPayload(), T.XmlName("Tagging")).annotate({
-      identifier: "Tagging",
-    }),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}?tagging" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "PutBucketTaggingRequest",
-}) as any as S.Schema<PutBucketTaggingRequest>;
 export interface PutBucketTaggingResponse {}
-export const PutBucketTaggingResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketTaggingResponse",
-}) as any as S.Schema<PutBucketTaggingResponse>;
 export type MFADelete = "Enabled" | "Disabled" | (string & {});
-export const MFADelete = S.String;
-
 export interface VersioningConfiguration {
   MFADelete?: MFADelete;
   Status?: BucketVersioningStatus;
 }
-export const VersioningConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MFADelete: S.optional(MFADelete).pipe(T.XmlName("MfaDelete")),
-    Status: S.optional(BucketVersioningStatus),
-  }),
-).annotate({
-  identifier: "VersioningConfiguration",
-}) as any as S.Schema<VersioningConfiguration>;
 export interface PutBucketVersioningRequest {
   Bucket: string;
   ContentMD5?: string;
@@ -10880,62 +5639,13 @@ export interface PutBucketVersioningRequest {
   VersioningConfiguration: VersioningConfiguration;
   ExpectedBucketOwner?: string;
 }
-export const PutBucketVersioningRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    MFA: S.optional(S.String).pipe(T.HttpHeader("x-amz-mfa")),
-    VersioningConfiguration: VersioningConfiguration.pipe(
-      T.HttpPayload(),
-      T.XmlName("VersioningConfiguration"),
-    ).annotate({ identifier: "VersioningConfiguration" }),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}?versioning" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "PutBucketVersioningRequest",
-}) as any as S.Schema<PutBucketVersioningRequest>;
 export interface PutBucketVersioningResponse {}
-export const PutBucketVersioningResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketVersioningResponse",
-}) as any as S.Schema<PutBucketVersioningResponse>;
 export interface WebsiteConfiguration {
   ErrorDocument?: ErrorDocument;
   IndexDocument?: IndexDocument;
   RedirectAllRequestsTo?: RedirectAllRequestsTo;
   RoutingRules?: RoutingRule[];
 }
-export const WebsiteConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ErrorDocument: S.optional(ErrorDocument),
-    IndexDocument: S.optional(IndexDocument),
-    RedirectAllRequestsTo: S.optional(RedirectAllRequestsTo),
-    RoutingRules: S.optional(RoutingRules),
-  }),
-).annotate({
-  identifier: "WebsiteConfiguration",
-}) as any as S.Schema<WebsiteConfiguration>;
 export interface PutBucketWebsiteRequest {
   Bucket: string;
   ContentMD5?: string;
@@ -10943,45 +5653,7 @@ export interface PutBucketWebsiteRequest {
   WebsiteConfiguration: WebsiteConfiguration;
   ExpectedBucketOwner?: string;
 }
-export const PutBucketWebsiteRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    WebsiteConfiguration: WebsiteConfiguration.pipe(
-      T.HttpPayload(),
-      T.XmlName("WebsiteConfiguration"),
-    ).annotate({ identifier: "WebsiteConfiguration" }),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}?website" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "PutBucketWebsiteRequest",
-}) as any as S.Schema<PutBucketWebsiteRequest>;
 export interface PutBucketWebsiteResponse {}
-export const PutBucketWebsiteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketWebsiteResponse",
-}) as any as S.Schema<PutBucketWebsiteResponse>;
 export type WriteOffsetBytes = number;
 export interface PutObjectRequest {
   ACL?: ObjectCannedACL;
@@ -11031,133 +5703,6 @@ export interface PutObjectRequest {
   ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus;
   ExpectedBucketOwner?: string;
 }
-export const PutObjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ACL: S.optional(ObjectCannedACL).pipe(T.HttpHeader("x-amz-acl")),
-    Body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ContentDisposition: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Disposition"),
-    ),
-    ContentEncoding: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Encoding"),
-    ),
-    ContentLanguage: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Language"),
-    ),
-    ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    ChecksumCRC32: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32"),
-    ),
-    ChecksumCRC32C: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32c"),
-    ),
-    ChecksumCRC64NVME: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc64nvme"),
-    ),
-    ChecksumSHA1: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha1"),
-    ),
-    ChecksumSHA256: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha256"),
-    ),
-    ChecksumSHA512: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha512"),
-    ),
-    ChecksumMD5: S.optional(S.String).pipe(T.HttpHeader("x-amz-checksum-md5")),
-    ChecksumXXHASH64: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash64"),
-    ),
-    ChecksumXXHASH3: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash3"),
-    ),
-    ChecksumXXHASH128: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash128"),
-    ),
-    Expires: S.optional(S.String).pipe(T.HttpHeader("Expires")),
-    IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    IfNoneMatch: S.optional(S.String).pipe(T.HttpHeader("If-None-Match")),
-    GrantFullControl: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-full-control"),
-    ),
-    GrantRead: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-read")),
-    GrantReadACP: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-read-acp"),
-    ),
-    GrantWriteACP: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-write-acp"),
-    ),
-    Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    WriteOffsetBytes: S.optional(S.Number).pipe(
-      T.HttpHeader("x-amz-write-offset-bytes"),
-    ),
-    Metadata: S.optional(Metadata).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
-    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
-      T.HttpHeader("x-amz-server-side-encryption"),
-    ),
-    StorageClass: S.optional(StorageClass).pipe(
-      T.HttpHeader("x-amz-storage-class"),
-    ),
-    WebsiteRedirectLocation: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-website-redirect-location"),
-    ),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKey: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-    SSEKMSKeyId: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
-    ),
-    SSEKMSEncryptionContext: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-context"),
-    ),
-    BucketKeyEnabled: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
-    ),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    Tagging: S.optional(S.String).pipe(T.HttpHeader("x-amz-tagging")),
-    ObjectLockMode: S.optional(ObjectLockMode).pipe(
-      T.HttpHeader("x-amz-object-lock-mode"),
-    ),
-    ObjectLockRetainUntilDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
-    ObjectLockLegalHoldStatus: S.optional(ObjectLockLegalHoldStatus).pipe(
-      T.HttpHeader("x-amz-object-lock-legal-hold"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?x-id=PutObject" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-      }),
-    ),
-  ),
-).annotate({
-  identifier: "PutObjectRequest",
-}) as any as S.Schema<PutObjectRequest>;
 export interface PutObjectOutput {
   Expiration?: string;
   ETag?: string;
@@ -11182,68 +5727,6 @@ export interface PutObjectOutput {
   Size?: number;
   RequestCharged?: RequestCharged;
 }
-export const PutObjectOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Expiration: S.optional(S.String).pipe(T.HttpHeader("x-amz-expiration")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    ChecksumCRC32: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32"),
-    ),
-    ChecksumCRC32C: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32c"),
-    ),
-    ChecksumCRC64NVME: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc64nvme"),
-    ),
-    ChecksumSHA1: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha1"),
-    ),
-    ChecksumSHA256: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha256"),
-    ),
-    ChecksumSHA512: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha512"),
-    ),
-    ChecksumMD5: S.optional(S.String).pipe(T.HttpHeader("x-amz-checksum-md5")),
-    ChecksumXXHASH64: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash64"),
-    ),
-    ChecksumXXHASH3: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash3"),
-    ),
-    ChecksumXXHASH128: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash128"),
-    ),
-    ChecksumType: S.optional(ChecksumType).pipe(
-      T.HttpHeader("x-amz-checksum-type"),
-    ),
-    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
-      T.HttpHeader("x-amz-server-side-encryption"),
-    ),
-    VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-    SSEKMSKeyId: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
-    ),
-    SSEKMSEncryptionContext: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-context"),
-    ),
-    BucketKeyEnabled: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
-    ),
-    Size: S.optional(S.Number).pipe(T.HttpHeader("x-amz-object-size")),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "PutObjectOutput",
-}) as any as S.Schema<PutObjectOutput>;
 export interface PutObjectAclRequest {
   ACL?: ObjectCannedACL;
   AccessControlPolicy?: AccessControlPolicy;
@@ -11260,66 +5743,9 @@ export interface PutObjectAclRequest {
   VersionId?: string;
   ExpectedBucketOwner?: string;
 }
-export const PutObjectAclRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ACL: S.optional(ObjectCannedACL).pipe(T.HttpHeader("x-amz-acl")),
-    AccessControlPolicy: S.optional(AccessControlPolicy)
-      .pipe(T.HttpPayload(), T.XmlName("AccessControlPolicy"))
-      .annotate({ identifier: "AccessControlPolicy" }),
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    GrantFullControl: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-full-control"),
-    ),
-    GrantRead: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-read")),
-    GrantReadACP: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-read-acp"),
-    ),
-    GrantWrite: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-write")),
-    GrantWriteACP: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-write-acp"),
-    ),
-    Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?acl" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-    ),
-  ),
-).annotate({
-  identifier: "PutObjectAclRequest",
-}) as any as S.Schema<PutObjectAclRequest>;
 export interface PutObjectAclOutput {
   RequestCharged?: RequestCharged;
 }
-export const PutObjectAclOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "PutObjectAclOutput",
-}) as any as S.Schema<PutObjectAclOutput>;
 export interface PutObjectAnnotationRequest {
   Bucket: string;
   Key: string;
@@ -11342,71 +5768,6 @@ export interface PutObjectAnnotationRequest {
   RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
 }
-export const PutObjectAnnotationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    AnnotationName: S.String.pipe(T.HttpQuery("annotationName")),
-    AnnotationPayload: T.StreamingInput.pipe(T.HttpPayload()),
-    ObjectIfMatch: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-object-if-match"),
-    ),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    ChecksumCRC32: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32"),
-    ),
-    ChecksumCRC32C: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32c"),
-    ),
-    ChecksumCRC64NVME: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc64nvme"),
-    ),
-    ChecksumSHA1: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha1"),
-    ),
-    ChecksumSHA256: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha256"),
-    ),
-    ChecksumSHA512: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha512"),
-    ),
-    ChecksumMD5: S.optional(S.String).pipe(T.HttpHeader("x-amz-checksum-md5")),
-    ChecksumXXHASH64: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash64"),
-    ),
-    ChecksumXXHASH3: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash3"),
-    ),
-    ChecksumXXHASH128: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash128"),
-    ),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?annotation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-      }),
-    ),
-  ),
-).annotate({
-  identifier: "PutObjectAnnotationRequest",
-}) as any as S.Schema<PutObjectAnnotationRequest>;
 export interface PutObjectAnnotationOutput {
   Key?: string;
   AnnotationName?: string;
@@ -11426,55 +5787,6 @@ export interface PutObjectAnnotationOutput {
   ServerSideEncryption?: ServerSideEncryption;
   RequestCharged?: RequestCharged;
 }
-export const PutObjectAnnotationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Key: S.optional(S.String),
-    AnnotationName: S.optional(S.String),
-    ObjectVersionId: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-object-version-id"),
-    ),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    ChecksumCRC32: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32"),
-    ),
-    ChecksumCRC32C: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32c"),
-    ),
-    ChecksumCRC64NVME: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc64nvme"),
-    ),
-    ChecksumSHA1: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha1"),
-    ),
-    ChecksumSHA256: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha256"),
-    ),
-    ChecksumSHA512: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha512"),
-    ),
-    ChecksumMD5: S.optional(S.String).pipe(T.HttpHeader("x-amz-checksum-md5")),
-    ChecksumXXHASH64: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash64"),
-    ),
-    ChecksumXXHASH3: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash3"),
-    ),
-    ChecksumXXHASH128: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash128"),
-    ),
-    ChecksumType: S.optional(ChecksumType).pipe(
-      T.HttpHeader("x-amz-checksum-type"),
-    ),
-    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
-      T.HttpHeader("x-amz-server-side-encryption"),
-    ),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "PutObjectAnnotationOutput",
-}) as any as S.Schema<PutObjectAnnotationOutput>;
 export interface PutObjectLegalHoldRequest {
   Bucket: string;
   Key: string;
@@ -11485,54 +5797,9 @@ export interface PutObjectLegalHoldRequest {
   ChecksumAlgorithm?: ChecksumAlgorithm;
   ExpectedBucketOwner?: string;
 }
-export const PutObjectLegalHoldRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    LegalHold: S.optional(ObjectLockLegalHold)
-      .pipe(T.HttpPayload(), T.XmlName("LegalHold"))
-      .annotate({ identifier: "ObjectLockLegalHold" }),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?legal-hold" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-    ),
-  ),
-).annotate({
-  identifier: "PutObjectLegalHoldRequest",
-}) as any as S.Schema<PutObjectLegalHoldRequest>;
 export interface PutObjectLegalHoldOutput {
   RequestCharged?: RequestCharged;
 }
-export const PutObjectLegalHoldOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "PutObjectLegalHoldOutput",
-}) as any as S.Schema<PutObjectLegalHoldOutput>;
 export interface PutObjectLockConfigurationRequest {
   Bucket: string;
   ObjectLockConfiguration?: ObjectLockConfiguration;
@@ -11542,55 +5809,9 @@ export interface PutObjectLockConfigurationRequest {
   ChecksumAlgorithm?: ChecksumAlgorithm;
   ExpectedBucketOwner?: string;
 }
-export const PutObjectLockConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ObjectLockConfiguration: S.optional(ObjectLockConfiguration)
-      .pipe(T.HttpPayload(), T.XmlName("ObjectLockConfiguration"))
-      .annotate({ identifier: "ObjectLockConfiguration" }),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    Token: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-bucket-object-lock-token"),
-    ),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}?object-lock" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-    ),
-  ),
-).annotate({
-  identifier: "PutObjectLockConfigurationRequest",
-}) as any as S.Schema<PutObjectLockConfigurationRequest>;
 export interface PutObjectLockConfigurationOutput {
   RequestCharged?: RequestCharged;
 }
-export const PutObjectLockConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "PutObjectLockConfigurationOutput",
-}) as any as S.Schema<PutObjectLockConfigurationOutput>;
 export interface PutObjectRetentionRequest {
   Bucket: string;
   Key: string;
@@ -11602,57 +5823,9 @@ export interface PutObjectRetentionRequest {
   ChecksumAlgorithm?: ChecksumAlgorithm;
   ExpectedBucketOwner?: string;
 }
-export const PutObjectRetentionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    Retention: S.optional(ObjectLockRetention)
-      .pipe(T.HttpPayload(), T.XmlName("Retention"))
-      .annotate({ identifier: "ObjectLockRetention" }),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    BypassGovernanceRetention: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-bypass-governance-retention"),
-    ),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?retention" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-    ),
-  ),
-).annotate({
-  identifier: "PutObjectRetentionRequest",
-}) as any as S.Schema<PutObjectRetentionRequest>;
 export interface PutObjectRetentionOutput {
   RequestCharged?: RequestCharged;
 }
-export const PutObjectRetentionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "PutObjectRetentionOutput",
-}) as any as S.Schema<PutObjectRetentionOutput>;
 export interface PutObjectTaggingRequest {
   Bucket: string;
   Key: string;
@@ -11663,52 +5836,9 @@ export interface PutObjectTaggingRequest {
   ExpectedBucketOwner?: string;
   RequestPayer?: RequestPayer;
 }
-export const PutObjectTaggingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    Tagging: Tagging.pipe(T.HttpPayload(), T.XmlName("Tagging")).annotate({
-      identifier: "Tagging",
-    }),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?tagging" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-    ),
-  ),
-).annotate({
-  identifier: "PutObjectTaggingRequest",
-}) as any as S.Schema<PutObjectTaggingRequest>;
 export interface PutObjectTaggingOutput {
   VersionId?: string;
 }
-export const PutObjectTaggingOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
-  }).pipe(ns),
-).annotate({
-  identifier: "PutObjectTaggingOutput",
-}) as any as S.Schema<PutObjectTaggingOutput>;
 export interface PutPublicAccessBlockRequest {
   Bucket: string;
   ContentMD5?: string;
@@ -11716,45 +5846,7 @@ export interface PutPublicAccessBlockRequest {
   PublicAccessBlockConfiguration: PublicAccessBlockConfiguration;
   ExpectedBucketOwner?: string;
 }
-export const PutPublicAccessBlockRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    PublicAccessBlockConfiguration: PublicAccessBlockConfiguration.pipe(
-      T.HttpPayload(),
-      T.XmlName("PublicAccessBlockConfiguration"),
-    ).annotate({ identifier: "PublicAccessBlockConfiguration" }),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}?publicAccessBlock" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-      T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "PutPublicAccessBlockRequest",
-}) as any as S.Schema<PutPublicAccessBlockRequest>;
 export interface PutPublicAccessBlockResponse {}
-export const PutPublicAccessBlockResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutPublicAccessBlockResponse",
-}) as any as S.Schema<PutPublicAccessBlockResponse>;
 export type RenameSource = string;
 export type RenameSourceIfMatch = string;
 export type RenameSourceIfNoneMatch = string;
@@ -11775,75 +5867,14 @@ export interface RenameObjectRequest {
   SourceIfUnmodifiedSince?: Date;
   ClientToken?: string;
 }
-export const RenameObjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    RenameSource: S.String.pipe(T.HttpHeader("x-amz-rename-source")),
-    DestinationIfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
-    DestinationIfNoneMatch: S.optional(S.String).pipe(
-      T.HttpHeader("If-None-Match"),
-    ),
-    DestinationIfModifiedSince: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("If-Modified-Since")),
-    DestinationIfUnmodifiedSince: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("If-Unmodified-Since")),
-    SourceIfMatch: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-rename-source-if-match"),
-    ),
-    SourceIfNoneMatch: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-rename-source-if-none-match"),
-    ),
-    SourceIfModifiedSince: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("x-amz-rename-source-if-modified-since")),
-    SourceIfUnmodifiedSince: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("x-amz-rename-source-if-unmodified-since")),
-    ClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-client-token"),
-      T.IdempotencyToken(),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?renameObject" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RenameObjectRequest",
-}) as any as S.Schema<RenameObjectRequest>;
 export interface RenameObjectOutput {}
-export const RenameObjectOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RenameObjectOutput",
-}) as any as S.Schema<RenameObjectOutput>;
 export type Tier = "Standard" | "Bulk" | "Expedited" | (string & {});
-export const Tier = S.String;
-
 export interface GlacierJobParameters {
   Tier: Tier;
 }
-export const GlacierJobParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tier: Tier }),
-).annotate({
-  identifier: "GlacierJobParameters",
-}) as any as S.Schema<GlacierJobParameters>;
 export type RestoreRequestType = "SELECT" | (string & {});
-export const RestoreRequestType = S.String;
-
 export type Description = string;
 export type FileHeaderInfo = "USE" | "IGNORE" | "NONE" | (string & {});
-export const FileHeaderInfo = S.String;
-
 export type Comments = string;
 export type QuoteEscapeCharacter = string;
 export type RecordDelimiter = string;
@@ -11859,56 +5890,21 @@ export interface CSVInput {
   QuoteCharacter?: string;
   AllowQuotedRecordDelimiter?: boolean;
 }
-export const CSVInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileHeaderInfo: S.optional(FileHeaderInfo),
-    Comments: S.optional(S.String),
-    QuoteEscapeCharacter: S.optional(S.String),
-    RecordDelimiter: S.optional(S.String),
-    FieldDelimiter: S.optional(S.String),
-    QuoteCharacter: S.optional(S.String),
-    AllowQuotedRecordDelimiter: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "CSVInput" }) as any as S.Schema<CSVInput>;
 export type CompressionType = "NONE" | "GZIP" | "BZIP2" | (string & {});
-export const CompressionType = S.String;
-
 export type JSONType = "DOCUMENT" | "LINES" | (string & {});
-export const JSONType = S.String;
-
 export interface JSONInput {
   Type?: JSONType;
 }
-export const JSONInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Type: S.optional(JSONType) }),
-).annotate({ identifier: "JSONInput" }) as any as S.Schema<JSONInput>;
 export interface ParquetInput {}
-export const ParquetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({ identifier: "ParquetInput" }) as any as S.Schema<ParquetInput>;
 export interface InputSerialization {
   CSV?: CSVInput;
   CompressionType?: CompressionType;
   JSON?: JSONInput;
   Parquet?: ParquetInput;
 }
-export const InputSerialization = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CSV: S.optional(CSVInput),
-    CompressionType: S.optional(CompressionType),
-    JSON: S.optional(JSONInput),
-    Parquet: S.optional(ParquetInput),
-  }),
-).annotate({
-  identifier: "InputSerialization",
-}) as any as S.Schema<InputSerialization>;
 export type ExpressionType = "SQL" | (string & {});
-export const ExpressionType = S.String;
-
 export type Expression = string;
 export type QuoteFields = "ALWAYS" | "ASNEEDED" | (string & {});
-export const QuoteFields = S.String;
-
 export interface CSVOutput {
   QuoteFields?: QuoteFields;
   QuoteEscapeCharacter?: string;
@@ -11916,46 +5912,19 @@ export interface CSVOutput {
   FieldDelimiter?: string;
   QuoteCharacter?: string;
 }
-export const CSVOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QuoteFields: S.optional(QuoteFields),
-    QuoteEscapeCharacter: S.optional(S.String),
-    RecordDelimiter: S.optional(S.String),
-    FieldDelimiter: S.optional(S.String),
-    QuoteCharacter: S.optional(S.String),
-  }),
-).annotate({ identifier: "CSVOutput" }) as any as S.Schema<CSVOutput>;
 export interface JSONOutput {
   RecordDelimiter?: string;
 }
-export const JSONOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RecordDelimiter: S.optional(S.String) }),
-).annotate({ identifier: "JSONOutput" }) as any as S.Schema<JSONOutput>;
 export interface OutputSerialization {
   CSV?: CSVOutput;
   JSON?: JSONOutput;
 }
-export const OutputSerialization = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CSV: S.optional(CSVOutput), JSON: S.optional(JSONOutput) }),
-).annotate({
-  identifier: "OutputSerialization",
-}) as any as S.Schema<OutputSerialization>;
 export interface SelectParameters {
   InputSerialization: InputSerialization;
   ExpressionType: ExpressionType;
   Expression: string;
   OutputSerialization: OutputSerialization;
 }
-export const SelectParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InputSerialization: InputSerialization,
-    ExpressionType: ExpressionType,
-    Expression: S.String,
-    OutputSerialization: OutputSerialization,
-  }),
-).annotate({
-  identifier: "SelectParameters",
-}) as any as S.Schema<SelectParameters>;
 export type LocationPrefix = string;
 export type KMSContext = string;
 export interface Encryption {
@@ -11963,26 +5932,11 @@ export interface Encryption {
   KMSKeyId?: string | redacted.Redacted<string>;
   KMSContext?: string;
 }
-export const Encryption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EncryptionType: ServerSideEncryption,
-    KMSKeyId: S.optional(SensitiveString),
-    KMSContext: S.optional(S.String),
-  }),
-).annotate({ identifier: "Encryption" }) as any as S.Schema<Encryption>;
 export interface MetadataEntry {
   Name?: string;
   Value?: string;
 }
-export const MetadataEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({ identifier: "MetadataEntry" }) as any as S.Schema<MetadataEntry>;
 export type UserMetadata = MetadataEntry[];
-export const UserMetadata = /*@__PURE__*/ S.Array(
-  MetadataEntry.pipe(T.XmlName("MetadataEntry")).annotate({
-    identifier: "MetadataEntry",
-  }),
-);
 export interface S3Location {
   BucketName: string;
   Prefix: string;
@@ -11993,24 +5947,9 @@ export interface S3Location {
   UserMetadata?: MetadataEntry[];
   StorageClass?: StorageClass;
 }
-export const S3Location = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BucketName: S.String,
-    Prefix: S.String,
-    Encryption: S.optional(Encryption),
-    CannedACL: S.optional(ObjectCannedACL),
-    AccessControlList: S.optional(Grants),
-    Tagging: S.optional(Tagging),
-    UserMetadata: S.optional(UserMetadata),
-    StorageClass: S.optional(StorageClass),
-  }),
-).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export interface OutputLocation {
   S3?: S3Location;
 }
-export const OutputLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3: S.optional(S3Location) }),
-).annotate({ identifier: "OutputLocation" }) as any as S.Schema<OutputLocation>;
 export interface RestoreRequest {
   Days?: number;
   GlacierJobParameters?: GlacierJobParameters;
@@ -12020,17 +5959,6 @@ export interface RestoreRequest {
   SelectParameters?: SelectParameters;
   OutputLocation?: OutputLocation;
 }
-export const RestoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Days: S.optional(S.Number),
-    GlacierJobParameters: S.optional(GlacierJobParameters),
-    Type: S.optional(RestoreRequestType),
-    Tier: S.optional(Tier),
-    Description: S.optional(S.String),
-    SelectParameters: S.optional(SelectParameters),
-    OutputLocation: S.optional(OutputLocation),
-  }),
-).annotate({ identifier: "RestoreRequest" }) as any as S.Schema<RestoreRequest>;
 export interface RestoreObjectRequest {
   Bucket: string;
   Key: string;
@@ -12040,75 +5968,21 @@ export interface RestoreObjectRequest {
   ChecksumAlgorithm?: ChecksumAlgorithm;
   ExpectedBucketOwner?: string;
 }
-export const RestoreObjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    RestoreRequest: S.optional(RestoreRequest)
-      .pipe(T.HttpPayload(), T.XmlName("RestoreRequest"))
-      .annotate({ identifier: "RestoreRequest" }),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/{Bucket}/{Key+}?restore" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-      }),
-    ),
-  ),
-).annotate({
-  identifier: "RestoreObjectRequest",
-}) as any as S.Schema<RestoreObjectRequest>;
 export type RestoreOutputPath = string;
 export interface RestoreObjectOutput {
   RequestCharged?: RequestCharged;
   RestoreOutputPath?: string;
 }
-export const RestoreObjectOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-    RestoreOutputPath: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-restore-output-path"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "RestoreObjectOutput",
-}) as any as S.Schema<RestoreObjectOutput>;
 export type EnableRequestProgress = boolean;
 export interface RequestProgress {
   Enabled?: boolean;
 }
-export const RequestProgress = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Enabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "RequestProgress",
-}) as any as S.Schema<RequestProgress>;
 export type Start = number;
 export type End = number;
 export interface ScanRange {
   Start?: number;
   End?: number;
 }
-export const ScanRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Start: S.optional(S.Number), End: S.optional(S.Number) }),
-).annotate({ identifier: "ScanRange" }) as any as S.Schema<ScanRange>;
 export interface SelectObjectContentRequest {
   Bucket: string;
   Key: string;
@@ -12123,49 +5997,10 @@ export interface SelectObjectContentRequest {
   ScanRange?: ScanRange;
   ExpectedBucketOwner?: string;
 }
-export const SelectObjectContentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKey: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-    Expression: S.String,
-    ExpressionType: ExpressionType,
-    RequestProgress: S.optional(RequestProgress),
-    InputSerialization: InputSerialization,
-    OutputSerialization: OutputSerialization,
-    ScanRange: S.optional(ScanRange),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/{Bucket}/{Key+}?select&select-type=2" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SelectObjectContentRequest",
-}) as any as S.Schema<SelectObjectContentRequest>;
 export type Body = Uint8Array;
 export interface RecordsEvent {
   Payload?: Uint8Array;
 }
-export const RecordsEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Payload: S.optional(T.Blob).pipe(T.EventPayload()) }),
-).annotate({ identifier: "RecordsEvent" }) as any as S.Schema<RecordsEvent>;
 export type BytesScanned = number;
 export type BytesProcessed = number;
 export type BytesReturned = number;
@@ -12174,55 +6009,19 @@ export interface Stats {
   BytesProcessed?: number;
   BytesReturned?: number;
 }
-export const Stats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BytesScanned: S.optional(S.Number),
-    BytesProcessed: S.optional(S.Number),
-    BytesReturned: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Stats" }) as any as S.Schema<Stats>;
 export interface StatsEvent {
   Details?: Stats;
 }
-export const StatsEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Details: S.optional(Stats)
-      .pipe(T.EventPayload())
-      .annotate({ identifier: "Stats" }),
-  }),
-).annotate({ identifier: "StatsEvent" }) as any as S.Schema<StatsEvent>;
 export interface Progress {
   BytesScanned?: number;
   BytesProcessed?: number;
   BytesReturned?: number;
 }
-export const Progress = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BytesScanned: S.optional(S.Number),
-    BytesProcessed: S.optional(S.Number),
-    BytesReturned: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Progress" }) as any as S.Schema<Progress>;
 export interface ProgressEvent {
   Details?: Progress;
 }
-export const ProgressEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Details: S.optional(Progress)
-      .pipe(T.EventPayload())
-      .annotate({ identifier: "Progress" }),
-  }),
-).annotate({ identifier: "ProgressEvent" }) as any as S.Schema<ProgressEvent>;
 export interface ContinuationEvent {}
-export const ContinuationEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ContinuationEvent",
-}) as any as S.Schema<ContinuationEvent>;
 export interface EndEvent {}
-export const EndEvent = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "EndEvent",
-}) as any as S.Schema<EndEvent>;
 export type SelectObjectContentEventStream =
   | {
       Records: RecordsEvent;
@@ -12259,41 +6058,14 @@ export type SelectObjectContentEventStream =
       Cont?: never;
       End: EndEvent;
     };
-export const SelectObjectContentEventStream = /*@__PURE__*/ T.EventStream(
-  S.Union([
-    S.Struct({ Records: RecordsEvent }),
-    S.Struct({ Stats: StatsEvent }),
-    S.Struct({ Progress: ProgressEvent }),
-    S.Struct({ Cont: ContinuationEvent }),
-    S.Struct({ End: EndEvent }),
-  ]),
-) as any as S.Schema<
-  stream.Stream<SelectObjectContentEventStream, Error, never>
->;
 export interface SelectObjectContentOutput {
   Payload?: stream.Stream<SelectObjectContentEventStream, Error, never>;
 }
-export const SelectObjectContentOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Payload: S.optional(SelectObjectContentEventStream).pipe(T.HttpPayload()),
-  }).pipe(ns),
-).annotate({
-  identifier: "SelectObjectContentOutput",
-}) as any as S.Schema<SelectObjectContentOutput>;
 export interface AnnotationTableConfigurationUpdates {
   ConfigurationState: AnnotationConfigurationState;
   EncryptionConfiguration?: MetadataTableEncryptionConfiguration;
   Role?: string;
 }
-export const AnnotationTableConfigurationUpdates = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationState: AnnotationConfigurationState,
-    EncryptionConfiguration: S.optional(MetadataTableEncryptionConfiguration),
-    Role: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AnnotationTableConfigurationUpdates",
-}) as any as S.Schema<AnnotationTableConfigurationUpdates>;
 export interface UpdateBucketMetadataAnnotationTableConfigurationRequest {
   Bucket: string;
   ContentMD5?: string;
@@ -12301,57 +6073,11 @@ export interface UpdateBucketMetadataAnnotationTableConfigurationRequest {
   AnnotationTableConfiguration: AnnotationTableConfigurationUpdates;
   ExpectedBucketOwner?: string;
 }
-export const UpdateBucketMetadataAnnotationTableConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-      ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-        T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-      ),
-      AnnotationTableConfiguration: AnnotationTableConfigurationUpdates.pipe(
-        T.HttpPayload(),
-        T.XmlName("AnnotationTableConfiguration"),
-      ).annotate({ identifier: "AnnotationTableConfigurationUpdates" }),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "PUT", uri: "/{Bucket}?metadataAnnotationTable" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.AwsProtocolsHttpChecksum({
-          requestAlgorithmMember: "ChecksumAlgorithm",
-          requestChecksumRequired: true,
-        }),
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "UpdateBucketMetadataAnnotationTableConfigurationRequest",
-  }) as any as S.Schema<UpdateBucketMetadataAnnotationTableConfigurationRequest>;
 export interface UpdateBucketMetadataAnnotationTableConfigurationResponse {}
-export const UpdateBucketMetadataAnnotationTableConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "UpdateBucketMetadataAnnotationTableConfigurationResponse",
-  }) as any as S.Schema<UpdateBucketMetadataAnnotationTableConfigurationResponse>;
 export interface InventoryTableConfigurationUpdates {
   ConfigurationState: InventoryConfigurationState;
   EncryptionConfiguration?: MetadataTableEncryptionConfiguration;
 }
-export const InventoryTableConfigurationUpdates = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationState: InventoryConfigurationState,
-    EncryptionConfiguration: S.optional(MetadataTableEncryptionConfiguration),
-  }),
-).annotate({
-  identifier: "InventoryTableConfigurationUpdates",
-}) as any as S.Schema<InventoryTableConfigurationUpdates>;
 export interface UpdateBucketMetadataInventoryTableConfigurationRequest {
   Bucket: string;
   ContentMD5?: string;
@@ -12359,53 +6085,10 @@ export interface UpdateBucketMetadataInventoryTableConfigurationRequest {
   InventoryTableConfiguration: InventoryTableConfigurationUpdates;
   ExpectedBucketOwner?: string;
 }
-export const UpdateBucketMetadataInventoryTableConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-      ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-        T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-      ),
-      InventoryTableConfiguration: InventoryTableConfigurationUpdates.pipe(
-        T.HttpPayload(),
-        T.XmlName("InventoryTableConfiguration"),
-      ).annotate({ identifier: "InventoryTableConfigurationUpdates" }),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "PUT", uri: "/{Bucket}?metadataInventoryTable" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.AwsProtocolsHttpChecksum({
-          requestAlgorithmMember: "ChecksumAlgorithm",
-          requestChecksumRequired: true,
-        }),
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "UpdateBucketMetadataInventoryTableConfigurationRequest",
-  }) as any as S.Schema<UpdateBucketMetadataInventoryTableConfigurationRequest>;
 export interface UpdateBucketMetadataInventoryTableConfigurationResponse {}
-export const UpdateBucketMetadataInventoryTableConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "UpdateBucketMetadataInventoryTableConfigurationResponse",
-  }) as any as S.Schema<UpdateBucketMetadataInventoryTableConfigurationResponse>;
 export interface JournalTableConfigurationUpdates {
   RecordExpiration: RecordExpiration;
 }
-export const JournalTableConfigurationUpdates = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RecordExpiration: RecordExpiration }),
-).annotate({
-  identifier: "JournalTableConfigurationUpdates",
-}) as any as S.Schema<JournalTableConfigurationUpdates>;
 export interface UpdateBucketMetadataJournalTableConfigurationRequest {
   Bucket: string;
   ContentMD5?: string;
@@ -12413,66 +6096,13 @@ export interface UpdateBucketMetadataJournalTableConfigurationRequest {
   JournalTableConfiguration: JournalTableConfigurationUpdates;
   ExpectedBucketOwner?: string;
 }
-export const UpdateBucketMetadataJournalTableConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-      ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-        T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-      ),
-      JournalTableConfiguration: JournalTableConfigurationUpdates.pipe(
-        T.HttpPayload(),
-        T.XmlName("JournalTableConfiguration"),
-      ).annotate({ identifier: "JournalTableConfigurationUpdates" }),
-      ExpectedBucketOwner: S.optional(S.String).pipe(
-        T.HttpHeader("x-amz-expected-bucket-owner"),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "PUT", uri: "/{Bucket}?metadataJournalTable" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.AwsProtocolsHttpChecksum({
-          requestAlgorithmMember: "ChecksumAlgorithm",
-          requestChecksumRequired: true,
-        }),
-        T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "UpdateBucketMetadataJournalTableConfigurationRequest",
-  }) as any as S.Schema<UpdateBucketMetadataJournalTableConfigurationRequest>;
 export interface UpdateBucketMetadataJournalTableConfigurationResponse {}
-export const UpdateBucketMetadataJournalTableConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "UpdateBucketMetadataJournalTableConfigurationResponse",
-  }) as any as S.Schema<UpdateBucketMetadataJournalTableConfigurationResponse>;
 export type NonEmptyKmsKeyArnString = string | redacted.Redacted<string>;
 export interface SSEKMSEncryption {
   KMSKeyArn: string | redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
 }
-export const SSEKMSEncryption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KMSKeyArn: SensitiveString,
-    BucketKeyEnabled: S.optional(S.Boolean),
-  }).pipe(T.XmlName("SSE-KMS")),
-).annotate({
-  identifier: "SSEKMSEncryption",
-}) as any as S.Schema<SSEKMSEncryption>;
 export type ObjectEncryption = { SSEKMS: SSEKMSEncryption };
-export const ObjectEncryption = /*@__PURE__*/ S.Union([
-  S.Struct({
-    SSEKMS: SSEKMSEncryption.pipe(T.XmlName("SSE-KMS")).annotate({
-      identifier: "SSEKMSEncryption",
-    }),
-  }),
-]);
 export interface UpdateObjectEncryptionRequest {
   Bucket: string;
   Key: string;
@@ -12483,52 +6113,9 @@ export interface UpdateObjectEncryptionRequest {
   ContentMD5?: string;
   ChecksumAlgorithm?: ChecksumAlgorithm;
 }
-export const UpdateObjectEncryptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-    ObjectEncryption: ObjectEncryption.pipe(T.HttpPayload()),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?encryption" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-        requestChecksumRequired: true,
-      }),
-    ),
-  ),
-).annotate({
-  identifier: "UpdateObjectEncryptionRequest",
-}) as any as S.Schema<UpdateObjectEncryptionRequest>;
 export interface UpdateObjectEncryptionResponse {
   RequestCharged?: RequestCharged;
 }
-export const UpdateObjectEncryptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateObjectEncryptionResponse",
-}) as any as S.Schema<UpdateObjectEncryptionResponse>;
 export interface UploadPartRequest {
   Body?: T.StreamingInputBody;
   Bucket: string;
@@ -12554,78 +6141,6 @@ export interface UploadPartRequest {
   RequestPayer?: RequestPayer;
   ExpectedBucketOwner?: string;
 }
-export const UploadPartRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
-    ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
-    ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(
-      T.HttpHeader("x-amz-sdk-checksum-algorithm"),
-    ),
-    ChecksumCRC32: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32"),
-    ),
-    ChecksumCRC32C: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32c"),
-    ),
-    ChecksumCRC64NVME: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc64nvme"),
-    ),
-    ChecksumSHA1: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha1"),
-    ),
-    ChecksumSHA256: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha256"),
-    ),
-    ChecksumSHA512: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha512"),
-    ),
-    ChecksumMD5: S.optional(S.String).pipe(T.HttpHeader("x-amz-checksum-md5")),
-    ChecksumXXHASH64: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash64"),
-    ),
-    ChecksumXXHASH3: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash3"),
-    ),
-    ChecksumXXHASH128: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash128"),
-    ),
-    Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-    PartNumber: S.Number.pipe(T.HttpQuery("partNumber")),
-    UploadId: S.String.pipe(T.HttpQuery("uploadId")),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKey: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?x-id=UploadPart" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.AwsProtocolsHttpChecksum({
-        requestAlgorithmMember: "ChecksumAlgorithm",
-      }),
-    ),
-  ),
-).annotate({
-  identifier: "UploadPartRequest",
-}) as any as S.Schema<UploadPartRequest>;
 export interface UploadPartOutput {
   ServerSideEncryption?: ServerSideEncryption;
   ETag?: string;
@@ -12645,59 +6160,6 @@ export interface UploadPartOutput {
   BucketKeyEnabled?: boolean;
   RequestCharged?: RequestCharged;
 }
-export const UploadPartOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
-      T.HttpHeader("x-amz-server-side-encryption"),
-    ),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    ChecksumCRC32: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32"),
-    ),
-    ChecksumCRC32C: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc32c"),
-    ),
-    ChecksumCRC64NVME: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-crc64nvme"),
-    ),
-    ChecksumSHA1: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha1"),
-    ),
-    ChecksumSHA256: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha256"),
-    ),
-    ChecksumSHA512: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-sha512"),
-    ),
-    ChecksumMD5: S.optional(S.String).pipe(T.HttpHeader("x-amz-checksum-md5")),
-    ChecksumXXHASH64: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash64"),
-    ),
-    ChecksumXXHASH3: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash3"),
-    ),
-    ChecksumXXHASH128: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-checksum-xxhash128"),
-    ),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-    SSEKMSKeyId: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
-    ),
-    BucketKeyEnabled: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
-    ),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "UploadPartOutput",
-}) as any as S.Schema<UploadPartOutput>;
 export type CopySourceRange = string;
 export interface UploadPartCopyRequest {
   Bucket: string;
@@ -12720,72 +6182,6 @@ export interface UploadPartCopyRequest {
   ExpectedBucketOwner?: string;
   ExpectedSourceBucketOwner?: string;
 }
-export const UploadPartCopyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    CopySource: S.String.pipe(T.HttpHeader("x-amz-copy-source")),
-    CopySourceIfMatch: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-copy-source-if-match"),
-    ),
-    CopySourceIfModifiedSince: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("x-amz-copy-source-if-modified-since")),
-    CopySourceIfNoneMatch: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-copy-source-if-none-match"),
-    ),
-    CopySourceIfUnmodifiedSince: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(T.HttpHeader("x-amz-copy-source-if-unmodified-since")),
-    CopySourceRange: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-copy-source-range"),
-    ),
-    Key: S.String.pipe(T.HttpLabel("Key")),
-    PartNumber: S.Number.pipe(T.HttpQuery("partNumber")),
-    UploadId: S.String.pipe(T.HttpQuery("uploadId")),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKey: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-    CopySourceSSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader(
-        "x-amz-copy-source-server-side-encryption-customer-algorithm",
-      ),
-    ),
-    CopySourceSSECustomerKey: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-copy-source-server-side-encryption-customer-key"),
-    ),
-    CopySourceSSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-copy-source-server-side-encryption-customer-key-MD5"),
-    ),
-    RequestPayer: S.optional(RequestPayer).pipe(
-      T.HttpHeader("x-amz-request-payer"),
-    ),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-expected-bucket-owner"),
-    ),
-    ExpectedSourceBucketOwner: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-source-expected-bucket-owner"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{Bucket}/{Key+}?x-id=UploadPartCopy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ DisableS3ExpressSessionAuth: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "UploadPartCopyRequest",
-}) as any as S.Schema<UploadPartCopyRequest>;
 export interface CopyPartResult {
   ETag?: string;
   LastModified?: Date;
@@ -12800,22 +6196,6 @@ export interface CopyPartResult {
   ChecksumXXHASH3?: string;
   ChecksumXXHASH128?: string;
 }
-export const CopyPartResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ETag: S.optional(S.String),
-    LastModified: S.optional(T.DateFromString),
-    ChecksumCRC32: S.optional(S.String),
-    ChecksumCRC32C: S.optional(S.String),
-    ChecksumCRC64NVME: S.optional(S.String),
-    ChecksumSHA1: S.optional(S.String),
-    ChecksumSHA256: S.optional(S.String),
-    ChecksumSHA512: S.optional(S.String),
-    ChecksumMD5: S.optional(S.String),
-    ChecksumXXHASH64: S.optional(S.String),
-    ChecksumXXHASH3: S.optional(S.String),
-    ChecksumXXHASH128: S.optional(S.String),
-  }),
-).annotate({ identifier: "CopyPartResult" }) as any as S.Schema<CopyPartResult>;
 export interface UploadPartCopyOutput {
   CopySourceVersionId?: string;
   CopyPartResult?: CopyPartResult;
@@ -12826,36 +6206,6 @@ export interface UploadPartCopyOutput {
   BucketKeyEnabled?: boolean;
   RequestCharged?: RequestCharged;
 }
-export const UploadPartCopyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CopySourceVersionId: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-copy-source-version-id"),
-    ),
-    CopyPartResult: S.optional(CopyPartResult)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "CopyPartResult" }),
-    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
-      T.HttpHeader("x-amz-server-side-encryption"),
-    ),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
-    ),
-    SSEKMSKeyId: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
-    ),
-    BucketKeyEnabled: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
-    ),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-request-charged"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "UploadPartCopyOutput",
-}) as any as S.Schema<UploadPartCopyOutput>;
 export type RequestRoute = string;
 export type RequestToken = string;
 export type GetObjectResponseStatusCode = number;
@@ -12907,164 +6257,7 @@ export interface WriteGetObjectResponseRequest {
   VersionId?: string;
   BucketKeyEnabled?: boolean;
 }
-export const WriteGetObjectResponseRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RequestRoute: S.String.pipe(
-      T.HttpHeader("x-amz-request-route"),
-      T.HostLabel(),
-    ),
-    RequestToken: S.String.pipe(T.HttpHeader("x-amz-request-token")),
-    Body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-    StatusCode: S.optional(S.Number).pipe(T.HttpHeader("x-amz-fwd-status")),
-    ErrorCode: S.optional(S.String).pipe(T.HttpHeader("x-amz-fwd-error-code")),
-    ErrorMessage: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-error-message"),
-    ),
-    AcceptRanges: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-accept-ranges"),
-    ),
-    CacheControl: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-Cache-Control"),
-    ),
-    ContentDisposition: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-Content-Disposition"),
-    ),
-    ContentEncoding: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-Content-Encoding"),
-    ),
-    ContentLanguage: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-Content-Language"),
-    ),
-    ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
-    ContentRange: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-Content-Range"),
-    ),
-    ContentType: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-Content-Type"),
-    ),
-    ChecksumCRC32: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-checksum-crc32"),
-    ),
-    ChecksumCRC32C: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-checksum-crc32c"),
-    ),
-    ChecksumCRC64NVME: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-checksum-crc64nvme"),
-    ),
-    ChecksumSHA1: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-checksum-sha1"),
-    ),
-    ChecksumSHA256: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-checksum-sha256"),
-    ),
-    ChecksumSHA512: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-checksum-sha512"),
-    ),
-    ChecksumMD5: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-checksum-md5"),
-    ),
-    ChecksumXXHASH64: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-checksum-xxhash64"),
-    ),
-    ChecksumXXHASH3: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-checksum-xxhash3"),
-    ),
-    ChecksumXXHASH128: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-checksum-xxhash128"),
-    ),
-    DeleteMarker: S.optional(S.Boolean).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-delete-marker"),
-    ),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("x-amz-fwd-header-ETag")),
-    Expires: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-Expires"),
-    ),
-    Expiration: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-expiration"),
-    ),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-      T.HttpHeader("x-amz-fwd-header-Last-Modified"),
-    ),
-    MissingMeta: S.optional(S.Number).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-missing-meta"),
-    ),
-    Metadata: S.optional(Metadata).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
-    ObjectLockMode: S.optional(ObjectLockMode).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-object-lock-mode"),
-    ),
-    ObjectLockLegalHoldStatus: S.optional(ObjectLockLegalHoldStatus).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-object-lock-legal-hold"),
-    ),
-    ObjectLockRetainUntilDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("http-date")),
-    ).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-object-lock-retain-until-date"),
-    ),
-    PartsCount: S.optional(S.Number).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-mp-parts-count"),
-    ),
-    ReplicationStatus: S.optional(ReplicationStatus).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-replication-status"),
-    ),
-    RequestCharged: S.optional(RequestCharged).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-request-charged"),
-    ),
-    Restore: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-restore"),
-    ),
-    ServerSideEncryption: S.optional(ServerSideEncryption).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-server-side-encryption"),
-    ),
-    SSECustomerAlgorithm: S.optional(S.String).pipe(
-      T.HttpHeader(
-        "x-amz-fwd-header-x-amz-server-side-encryption-customer-algorithm",
-      ),
-    ),
-    SSEKMSKeyId: S.optional(SensitiveString).pipe(
-      T.HttpHeader(
-        "x-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id",
-      ),
-    ),
-    SSECustomerKeyMD5: S.optional(S.String).pipe(
-      T.HttpHeader(
-        "x-amz-fwd-header-x-amz-server-side-encryption-customer-key-MD5",
-      ),
-    ),
-    StorageClass: S.optional(StorageClass).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-storage-class"),
-    ),
-    TagCount: S.optional(S.Number).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-tagging-count"),
-    ),
-    VersionId: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-fwd-header-x-amz-version-id"),
-    ),
-    BucketKeyEnabled: S.optional(S.Boolean).pipe(
-      T.HttpHeader(
-        "x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled",
-      ),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/WriteGetObjectResponse" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ UseObjectLambdaEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "WriteGetObjectResponseRequest",
-}) as any as S.Schema<WriteGetObjectResponseRequest>;
 export interface WriteGetObjectResponseResponse {}
-export const WriteGetObjectResponseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "WriteGetObjectResponseResponse",
-}) as any as S.Schema<WriteGetObjectResponseResponse>;
 export type AbortMultipartUploadError =
   | NoSuchUpload
   | RequestLimitExceeded
@@ -13132,8 +6325,19 @@ export const abortMultipartUpload: API.OperationMethod<
   AbortMultipartUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AbortMultipartUploadRequest,
-  output: AbortMultipartUploadOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}/{Key+}?x-id=AbortMultipartUpload",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: D.m({ context: "Key" }),
+      UploadId: D.m({ query: "uploadId" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      IfMatchInitiatedTime: D.m({ header: "x-amz-if-match-initiated-time" }),
+    },
+    output: { RequestCharged: D.m({ header: "x-amz-request-charged" }) },
+  },
   errors: [
     NoSuchUpload,
     RequestLimitExceeded,
@@ -13144,7 +6348,7 @@ export const abortMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortMultipartUpload",
-}));
+})) as any;
 
 export type CompleteMultipartUploadError = NoSuchUpload | CommonErrors;
 /**
@@ -13266,13 +6470,85 @@ export const completeMultipartUpload: API.OperationMethod<
   CompleteMultipartUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CompleteMultipartUploadRequest,
-  output: CompleteMultipartUploadOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /{Bucket}/{Key+}",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: D.m({ context: "Key" }),
+      MultipartUpload: D.m({
+        payload: true,
+        wire: "CompleteMultipartUpload",
+        shape: {
+          Parts: D.m({
+            wire: "Part",
+            shape: D.list(
+              {
+                ETag: 0,
+                ChecksumCRC32: 0,
+                ChecksumCRC32C: 0,
+                ChecksumCRC64NVME: 0,
+                ChecksumSHA1: 0,
+                ChecksumSHA256: 0,
+                ChecksumSHA512: 0,
+                ChecksumMD5: 0,
+                ChecksumXXHASH64: 0,
+                ChecksumXXHASH3: 0,
+                ChecksumXXHASH128: 0,
+                PartNumber: 0,
+              },
+              { flat: true },
+            ),
+          }),
+        },
+      }),
+      UploadId: D.m({ query: "uploadId" }),
+      ChecksumCRC32: D.m({ header: "x-amz-checksum-crc32" }),
+      ChecksumCRC32C: D.m({ header: "x-amz-checksum-crc32c" }),
+      ChecksumCRC64NVME: D.m({ header: "x-amz-checksum-crc64nvme" }),
+      ChecksumSHA1: D.m({ header: "x-amz-checksum-sha1" }),
+      ChecksumSHA256: D.m({ header: "x-amz-checksum-sha256" }),
+      ChecksumSHA512: D.m({ header: "x-amz-checksum-sha512" }),
+      ChecksumMD5: D.m({ header: "x-amz-checksum-md5" }),
+      ChecksumXXHASH64: D.m({ header: "x-amz-checksum-xxhash64" }),
+      ChecksumXXHASH3: D.m({ header: "x-amz-checksum-xxhash3" }),
+      ChecksumXXHASH128: D.m({ header: "x-amz-checksum-xxhash128" }),
+      ChecksumType: D.m({ header: "x-amz-checksum-type" }),
+      MpuObjectSize: D.m({ header: "x-amz-mp-object-size" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      IfMatch: D.m({ header: "If-Match" }),
+      IfNoneMatch: D.m({ header: "If-None-Match" }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKey: D.m({
+        header: "x-amz-server-side-encryption-customer-key",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+    },
+    output: {
+      Expiration: D.m({ header: "x-amz-expiration" }),
+      ServerSideEncryption: D.m({ header: "x-amz-server-side-encryption" }),
+      VersionId: D.m({ header: "x-amz-version-id" }),
+      SSEKMSKeyId: D.m({
+        header: "x-amz-server-side-encryption-aws-kms-key-id",
+        shape: D.secret,
+      }),
+      BucketKeyEnabled: D.m({
+        header: "x-amz-server-side-encryption-bucket-key-enabled",
+        shape: D.bool,
+      }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+    },
+  },
   errors: [NoSuchUpload],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteMultipartUpload",
-}));
+})) as any;
 
 export type CopyObjectError =
   | ObjectNotInActiveTierError
@@ -13451,8 +6727,114 @@ export const copyObject: API.OperationMethod<
   CopyObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CopyObjectRequest,
-  output: CopyObjectOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}/{Key+}?x-id=CopyObject",
+    input: {
+      ACL: D.m({ header: "x-amz-acl" }),
+      Bucket: D.m({ context: "Bucket" }),
+      CacheControl: D.m({ header: "Cache-Control" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-checksum-algorithm" }),
+      ContentDisposition: D.m({ header: "Content-Disposition" }),
+      ContentEncoding: D.m({ header: "Content-Encoding" }),
+      ContentLanguage: D.m({ header: "Content-Language" }),
+      ContentType: D.m({ header: "Content-Type" }),
+      CopySource: D.m({ header: "x-amz-copy-source", context: "CopySource" }),
+      CopySourceIfMatch: D.m({ header: "x-amz-copy-source-if-match" }),
+      CopySourceIfModifiedSince: D.m({
+        header: "x-amz-copy-source-if-modified-since",
+      }),
+      CopySourceIfNoneMatch: D.m({ header: "x-amz-copy-source-if-none-match" }),
+      CopySourceIfUnmodifiedSince: D.m({
+        header: "x-amz-copy-source-if-unmodified-since",
+      }),
+      Expires: D.m({ header: "Expires" }),
+      GrantFullControl: D.m({ header: "x-amz-grant-full-control" }),
+      GrantRead: D.m({ header: "x-amz-grant-read" }),
+      GrantReadACP: D.m({ header: "x-amz-grant-read-acp" }),
+      GrantWriteACP: D.m({ header: "x-amz-grant-write-acp" }),
+      IfMatch: D.m({ header: "If-Match" }),
+      IfNoneMatch: D.m({ header: "If-None-Match" }),
+      Key: D.m({ context: "Key" }),
+      Metadata: D.m({ prefix: "x-amz-meta-" }),
+      MetadataDirective: D.m({ header: "x-amz-metadata-directive" }),
+      TaggingDirective: D.m({ header: "x-amz-tagging-directive" }),
+      AnnotationDirective: D.m({ header: "x-amz-object-annotation-directive" }),
+      ServerSideEncryption: D.m({ header: "x-amz-server-side-encryption" }),
+      StorageClass: D.m({ header: "x-amz-storage-class" }),
+      WebsiteRedirectLocation: D.m({
+        header: "x-amz-website-redirect-location",
+      }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKey: D.m({
+        header: "x-amz-server-side-encryption-customer-key",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      SSEKMSKeyId: D.m({
+        header: "x-amz-server-side-encryption-aws-kms-key-id",
+      }),
+      SSEKMSEncryptionContext: D.m({
+        header: "x-amz-server-side-encryption-context",
+      }),
+      BucketKeyEnabled: D.m({
+        header: "x-amz-server-side-encryption-bucket-key-enabled",
+      }),
+      CopySourceSSECustomerAlgorithm: D.m({
+        header: "x-amz-copy-source-server-side-encryption-customer-algorithm",
+      }),
+      CopySourceSSECustomerKey: D.m({
+        header: "x-amz-copy-source-server-side-encryption-customer-key",
+      }),
+      CopySourceSSECustomerKeyMD5: D.m({
+        header: "x-amz-copy-source-server-side-encryption-customer-key-MD5",
+      }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      Tagging: D.m({ header: "x-amz-tagging" }),
+      ObjectLockMode: D.m({ header: "x-amz-object-lock-mode" }),
+      ObjectLockRetainUntilDate: D.m({
+        header: "x-amz-object-lock-retain-until-date",
+        shape: D.tsAs("date-time"),
+      }),
+      ObjectLockLegalHoldStatus: D.m({
+        header: "x-amz-object-lock-legal-hold",
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      ExpectedSourceBucketOwner: D.m({
+        header: "x-amz-source-expected-bucket-owner",
+      }),
+    },
+    output: {
+      CopyObjectResult: D.m({ payload: true, shape: { LastModified: D.ts } }),
+      Expiration: D.m({ header: "x-amz-expiration" }),
+      CopySourceVersionId: D.m({ header: "x-amz-copy-source-version-id" }),
+      VersionId: D.m({ header: "x-amz-version-id" }),
+      ServerSideEncryption: D.m({ header: "x-amz-server-side-encryption" }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      SSEKMSKeyId: D.m({
+        header: "x-amz-server-side-encryption-aws-kms-key-id",
+        shape: D.secret,
+      }),
+      SSEKMSEncryptionContext: D.m({
+        header: "x-amz-server-side-encryption-context",
+        shape: D.secret,
+      }),
+      BucketKeyEnabled: D.m({
+        header: "x-amz-server-side-encryption-bucket-key-enabled",
+        shape: D.bool,
+      }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+    },
+    staticContext: { DisableS3ExpressSessionAuth: { value: true } },
+  },
   errors: [
     ObjectNotInActiveTierError,
     RequestLimitExceeded,
@@ -13466,7 +6848,7 @@ export const copyObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyObject",
-}));
+})) as any;
 
 export type CreateBucketError =
   | BucketAlreadyExists
@@ -13598,8 +6980,42 @@ export const createBucket: API.OperationMethod<
   CreateBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBucketRequest,
-  output: CreateBucketOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}",
+    input: {
+      ACL: D.m({ header: "x-amz-acl" }),
+      Bucket: D.m({ context: "Bucket" }),
+      CreateBucketConfiguration: D.m({
+        payload: true,
+        wire: "CreateBucketConfiguration",
+        shape: {
+          LocationConstraint: 0,
+          Location: { Type: 0, Name: 0 },
+          Bucket: { DataRedundancy: 0, Type: 0 },
+          Tags: D.list(i_Tag, { item: "Tag" }),
+        },
+      }),
+      GrantFullControl: D.m({ header: "x-amz-grant-full-control" }),
+      GrantRead: D.m({ header: "x-amz-grant-read" }),
+      GrantReadACP: D.m({ header: "x-amz-grant-read-acp" }),
+      GrantWrite: D.m({ header: "x-amz-grant-write" }),
+      GrantWriteACP: D.m({ header: "x-amz-grant-write-acp" }),
+      ObjectLockEnabledForBucket: D.m({
+        header: "x-amz-bucket-object-lock-enabled",
+      }),
+      ObjectOwnership: D.m({ header: "x-amz-object-ownership" }),
+      BucketNamespace: D.m({ header: "x-amz-bucket-namespace" }),
+    },
+    output: {
+      Location: D.m({ header: "Location" }),
+      BucketArn: D.m({ header: "x-amz-bucket-arn" }),
+    },
+    staticContext: {
+      UseS3ExpressControlEndpoint: { value: true },
+      DisableAccessPoints: { value: true },
+    },
+  },
   errors: [
     BucketAlreadyExists,
     BucketAlreadyOwnedByYou,
@@ -13613,7 +7029,7 @@ export const createBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucket",
-}));
+})) as any;
 
 export type CreateBucketMetadataConfigurationError = CommonErrors;
 /**
@@ -13690,13 +7106,45 @@ export const createBucketMetadataConfiguration: API.OperationMethod<
   CreateBucketMetadataConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBucketMetadataConfigurationRequest,
-  output: CreateBucketMetadataConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /{Bucket}?metadataConfiguration",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      MetadataConfiguration: D.m({
+        payload: true,
+        wire: "MetadataConfiguration",
+        shape: {
+          JournalTableConfiguration: {
+            RecordExpiration: i_RecordExpiration,
+            EncryptionConfiguration: i_MetadataTableEncryptionConfiguration,
+          },
+          InventoryTableConfiguration: {
+            ConfigurationState: 0,
+            EncryptionConfiguration: i_MetadataTableEncryptionConfiguration,
+          },
+          AnnotationTableConfiguration: {
+            ConfigurationState: 0,
+            EncryptionConfiguration: i_MetadataTableEncryptionConfiguration,
+            Role: 0,
+          },
+        },
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucketMetadataConfiguration",
-}));
+})) as any;
 
 export type CreateBucketMetadataTableConfigurationError = CommonErrors;
 /**
@@ -13753,13 +7201,31 @@ export const createBucketMetadataTableConfiguration: API.OperationMethod<
   CreateBucketMetadataTableConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBucketMetadataTableConfigurationRequest,
-  output: CreateBucketMetadataTableConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /{Bucket}?metadataTable",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      MetadataTableConfiguration: D.m({
+        payload: true,
+        wire: "MetadataTableConfiguration",
+        shape: { S3TablesDestination: { TableBucketArn: 0, TableName: 0 } },
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucketMetadataTableConfiguration",
-}));
+})) as any;
 
 export type CreateMultipartUploadError =
   | RequestLimitExceeded
@@ -13947,13 +7413,93 @@ export const createMultipartUpload: API.OperationMethod<
   CreateMultipartUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateMultipartUploadRequest,
-  output: CreateMultipartUploadOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /{Bucket}/{Key+}?uploads",
+    input: {
+      ACL: D.m({ header: "x-amz-acl" }),
+      Bucket: D.m({ context: "Bucket" }),
+      CacheControl: D.m({ header: "Cache-Control" }),
+      ContentDisposition: D.m({ header: "Content-Disposition" }),
+      ContentEncoding: D.m({ header: "Content-Encoding" }),
+      ContentLanguage: D.m({ header: "Content-Language" }),
+      ContentType: D.m({ header: "Content-Type" }),
+      Expires: D.m({ header: "Expires" }),
+      GrantFullControl: D.m({ header: "x-amz-grant-full-control" }),
+      GrantRead: D.m({ header: "x-amz-grant-read" }),
+      GrantReadACP: D.m({ header: "x-amz-grant-read-acp" }),
+      GrantWriteACP: D.m({ header: "x-amz-grant-write-acp" }),
+      Key: D.m({ context: "Key" }),
+      Metadata: D.m({ prefix: "x-amz-meta-" }),
+      ServerSideEncryption: D.m({ header: "x-amz-server-side-encryption" }),
+      StorageClass: D.m({ header: "x-amz-storage-class" }),
+      WebsiteRedirectLocation: D.m({
+        header: "x-amz-website-redirect-location",
+      }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKey: D.m({
+        header: "x-amz-server-side-encryption-customer-key",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      SSEKMSKeyId: D.m({
+        header: "x-amz-server-side-encryption-aws-kms-key-id",
+      }),
+      SSEKMSEncryptionContext: D.m({
+        header: "x-amz-server-side-encryption-context",
+      }),
+      BucketKeyEnabled: D.m({
+        header: "x-amz-server-side-encryption-bucket-key-enabled",
+      }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      Tagging: D.m({ header: "x-amz-tagging" }),
+      ObjectLockMode: D.m({ header: "x-amz-object-lock-mode" }),
+      ObjectLockRetainUntilDate: D.m({
+        header: "x-amz-object-lock-retain-until-date",
+        shape: D.tsAs("date-time"),
+      }),
+      ObjectLockLegalHoldStatus: D.m({
+        header: "x-amz-object-lock-legal-hold",
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-checksum-algorithm" }),
+      ChecksumType: D.m({ header: "x-amz-checksum-type" }),
+    },
+    output: {
+      AbortDate: D.m({ header: "x-amz-abort-date", shape: D.ts }),
+      AbortRuleId: D.m({ header: "x-amz-abort-rule-id" }),
+      ServerSideEncryption: D.m({ header: "x-amz-server-side-encryption" }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      SSEKMSKeyId: D.m({
+        header: "x-amz-server-side-encryption-aws-kms-key-id",
+        shape: D.secret,
+      }),
+      SSEKMSEncryptionContext: D.m({
+        header: "x-amz-server-side-encryption-context",
+        shape: D.secret,
+      }),
+      BucketKeyEnabled: D.m({
+        header: "x-amz-server-side-encryption-bucket-key-enabled",
+        shape: D.bool,
+      }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-checksum-algorithm" }),
+      ChecksumType: D.m({ header: "x-amz-checksum-type" }),
+    },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMultipartUpload",
-}));
+})) as any;
 
 export type CreateSessionError = NoSuchBucket | CommonErrors;
 /**
@@ -14057,13 +7603,50 @@ export const createSession: API.OperationMethod<
   CreateSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSessionRequest,
-  output: CreateSessionOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?session",
+    input: {
+      SessionMode: D.m({ header: "x-amz-create-session-mode" }),
+      Bucket: D.m({ context: "Bucket" }),
+      ServerSideEncryption: D.m({ header: "x-amz-server-side-encryption" }),
+      SSEKMSKeyId: D.m({
+        header: "x-amz-server-side-encryption-aws-kms-key-id",
+      }),
+      SSEKMSEncryptionContext: D.m({
+        header: "x-amz-server-side-encryption-context",
+      }),
+      BucketKeyEnabled: D.m({
+        header: "x-amz-server-side-encryption-bucket-key-enabled",
+      }),
+    },
+    output: {
+      ServerSideEncryption: D.m({ header: "x-amz-server-side-encryption" }),
+      SSEKMSKeyId: D.m({
+        header: "x-amz-server-side-encryption-aws-kms-key-id",
+        shape: D.secret,
+      }),
+      SSEKMSEncryptionContext: D.m({
+        header: "x-amz-server-side-encryption-context",
+        shape: D.secret,
+      }),
+      BucketKeyEnabled: D.m({
+        header: "x-amz-server-side-encryption-bucket-key-enabled",
+        shape: D.bool,
+      }),
+      Credentials: {
+        SecretAccessKey: D.secret,
+        SessionToken: D.secret,
+        Expiration: D.ts,
+      },
+    },
+    staticContext: { DisableS3ExpressSessionAuth: { value: true } },
+  },
   errors: [NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSession",
-}));
+})) as any;
 
 export type DeleteBucketError =
   | RequestLimitExceeded
@@ -14114,8 +7697,15 @@ export const deleteBucket: API.OperationMethod<
   DeleteBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBucketRequest,
-  output: DeleteBucketResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -14127,7 +7717,7 @@ export const deleteBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucket",
-}));
+})) as any;
 
 export type DeleteBucketAnalyticsConfigurationError =
   | RequestLimitExceeded
@@ -14164,13 +7754,21 @@ export const deleteBucketAnalyticsConfiguration: API.OperationMethod<
   DeleteBucketAnalyticsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBucketAnalyticsConfigurationRequest,
-  output: DeleteBucketAnalyticsConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}?analytics",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Id: D.m({ query: "id" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketAnalyticsConfiguration",
-}));
+})) as any;
 
 export type DeleteBucketCorsError =
   | RequestLimitExceeded
@@ -14202,13 +7800,20 @@ export const deleteBucketCors: API.OperationMethod<
   DeleteBucketCorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBucketCorsRequest,
-  output: DeleteBucketCorsResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}?cors",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketCors",
-}));
+})) as any;
 
 export type DeleteBucketEncryptionError =
   | RequestLimitExceeded
@@ -14259,13 +7864,20 @@ export const deleteBucketEncryption: API.OperationMethod<
   DeleteBucketEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBucketEncryptionRequest,
-  output: DeleteBucketEncryptionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}?encryption",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketEncryption",
-}));
+})) as any;
 
 export type DeleteBucketIntelligentTieringConfigurationError =
   | RequestLimitExceeded
@@ -14299,13 +7911,21 @@ export const deleteBucketIntelligentTieringConfiguration: API.OperationMethod<
   DeleteBucketIntelligentTieringConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBucketIntelligentTieringConfigurationRequest,
-  output: DeleteBucketIntelligentTieringConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}?intelligent-tiering",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Id: D.m({ query: "id" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketIntelligentTieringConfiguration",
-}));
+})) as any;
 
 export type DeleteBucketInventoryConfigurationError =
   | RequestLimitExceeded
@@ -14363,13 +7983,21 @@ export const deleteBucketInventoryConfiguration: API.OperationMethod<
   DeleteBucketInventoryConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBucketInventoryConfigurationRequest,
-  output: DeleteBucketInventoryConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}?inventory",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Id: D.m({ query: "id" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketInventoryConfiguration",
-}));
+})) as any;
 
 export type DeleteBucketLifecycleError =
   | RequestLimitExceeded
@@ -14431,13 +8059,20 @@ export const deleteBucketLifecycle: API.OperationMethod<
   DeleteBucketLifecycleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBucketLifecycleRequest,
-  output: DeleteBucketLifecycleResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}?lifecycle",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketLifecycle",
-}));
+})) as any;
 
 export type DeleteBucketMetadataConfigurationError =
   | RequestLimitExceeded
@@ -14481,13 +8116,20 @@ export const deleteBucketMetadataConfiguration: API.OperationMethod<
   DeleteBucketMetadataConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBucketMetadataConfigurationRequest,
-  output: DeleteBucketMetadataConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}?metadataConfiguration",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketMetadataConfiguration",
-}));
+})) as any;
 
 export type DeleteBucketMetadataTableConfigurationError =
   | RequestLimitExceeded
@@ -14537,13 +8179,20 @@ export const deleteBucketMetadataTableConfiguration: API.OperationMethod<
   DeleteBucketMetadataTableConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBucketMetadataTableConfigurationRequest,
-  output: DeleteBucketMetadataTableConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}?metadataTable",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketMetadataTableConfiguration",
-}));
+})) as any;
 
 export type DeleteBucketMetricsConfigurationError =
   | RequestLimitExceeded
@@ -14602,13 +8251,21 @@ export const deleteBucketMetricsConfiguration: API.OperationMethod<
   DeleteBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBucketMetricsConfigurationRequest,
-  output: DeleteBucketMetricsConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}?metrics",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Id: D.m({ query: "id" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketMetricsConfiguration",
-}));
+})) as any;
 
 export type DeleteBucketOwnershipControlsError =
   | RequestLimitExceeded
@@ -14639,13 +8296,20 @@ export const deleteBucketOwnershipControls: API.OperationMethod<
   DeleteBucketOwnershipControlsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBucketOwnershipControlsRequest,
-  output: DeleteBucketOwnershipControlsResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}?ownershipControls",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketOwnershipControls",
-}));
+})) as any;
 
 export type DeleteBucketPolicyError =
   | RequestLimitExceeded
@@ -14709,8 +8373,15 @@ export const deleteBucketPolicy: API.OperationMethod<
   DeleteBucketPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBucketPolicyRequest,
-  output: DeleteBucketPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}?policy",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -14721,7 +8392,7 @@ export const deleteBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketPolicy",
-}));
+})) as any;
 
 export type DeleteBucketReplicationError =
   | RequestLimitExceeded
@@ -14757,13 +8428,20 @@ export const deleteBucketReplication: API.OperationMethod<
   DeleteBucketReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBucketReplicationRequest,
-  output: DeleteBucketReplicationResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}?replication",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketReplication",
-}));
+})) as any;
 
 export type DeleteBucketTaggingError =
   | RequestLimitExceeded
@@ -14792,13 +8470,20 @@ export const deleteBucketTagging: API.OperationMethod<
   DeleteBucketTaggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBucketTaggingRequest,
-  output: DeleteBucketTaggingResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}?tagging",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketTagging",
-}));
+})) as any;
 
 export type DeleteBucketWebsiteError =
   | RequestLimitExceeded
@@ -14835,13 +8520,20 @@ export const deleteBucketWebsite: API.OperationMethod<
   DeleteBucketWebsiteError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBucketWebsiteRequest,
-  output: DeleteBucketWebsiteResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}?website",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketWebsite",
-}));
+})) as any;
 
 export type DeleteObjectError =
   | RequestLimitExceeded
@@ -14946,8 +8638,31 @@ export const deleteObject: API.OperationMethod<
   DeleteObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteObjectRequest,
-  output: DeleteObjectOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}/{Key+}?x-id=DeleteObject",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: D.m({ context: "Key" }),
+      MFA: D.m({ header: "x-amz-mfa" }),
+      VersionId: D.m({ query: "versionId" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      BypassGovernanceRetention: D.m({
+        header: "x-amz-bypass-governance-retention",
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      IfMatch: D.m({ header: "If-Match" }),
+      IfMatchLastModifiedTime: D.m({
+        header: "x-amz-if-match-last-modified-time",
+      }),
+      IfMatchSize: D.m({ header: "x-amz-if-match-size" }),
+    },
+    output: {
+      DeleteMarker: D.m({ header: "x-amz-delete-marker", shape: D.bool }),
+      VersionId: D.m({ header: "x-amz-version-id" }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+    },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -14958,7 +8673,7 @@ export const deleteObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObject",
-}));
+})) as any;
 
 export type DeleteObjectAnnotationError =
   | NoSuchBucket
@@ -14994,13 +8709,28 @@ export const deleteObjectAnnotation: API.OperationMethod<
   DeleteObjectAnnotationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteObjectAnnotationRequest,
-  output: DeleteObjectAnnotationOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}/{Key+}?annotation",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: 0,
+      AnnotationName: D.m({ query: "annotationName" }),
+      VersionId: D.m({ query: "versionId" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      ObjectIfMatch: D.m({ header: "x-amz-object-if-match" }),
+    },
+    output: {
+      ObjectVersionId: D.m({ header: "x-amz-object-version-id" }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+    },
+  },
   errors: [NoSuchBucket, NoSuchKey],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObjectAnnotation",
-}));
+})) as any;
 
 export type DeleteObjectsError =
   | RequestLimitExceeded
@@ -15106,13 +8836,54 @@ export const deleteObjects: API.OperationMethod<
   DeleteObjectsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteObjectsRequest,
-  output: DeleteObjectsOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /{Bucket}?delete",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Delete: D.m({
+        payload: true,
+        wire: "Delete",
+        shape: {
+          Objects: D.m({
+            wire: "Object",
+            shape: D.list(
+              {
+                Key: 0,
+                VersionId: 0,
+                ETag: 0,
+                LastModifiedTime: D.tsAs("http-date"),
+                Size: 0,
+              },
+              { flat: true },
+            ),
+          }),
+          Quiet: 0,
+        },
+      }),
+      MFA: D.m({ header: "x-amz-mfa" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      BypassGovernanceRetention: D.m({
+        header: "x-amz-bypass-governance-retention",
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+    },
+    output: {
+      Deleted: D.list({ DeleteMarker: D.bool }, { flat: true }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+      Errors: D.m({ wire: "Error", shape: D.list({}, { flat: true }) }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObjects",
-}));
+})) as any;
 
 export type DeleteObjectTaggingError =
   | RequestLimitExceeded
@@ -15149,8 +8920,17 @@ export const deleteObjectTagging: API.OperationMethod<
   DeleteObjectTaggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteObjectTaggingRequest,
-  output: DeleteObjectTaggingOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}/{Key+}?tagging",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: 0,
+      VersionId: D.m({ query: "versionId" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: { VersionId: D.m({ header: "x-amz-version-id" }) },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -15162,7 +8942,7 @@ export const deleteObjectTagging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObjectTagging",
-}));
+})) as any;
 
 export type DeletePublicAccessBlockError =
   | RequestLimitExceeded
@@ -15198,13 +8978,20 @@ export const deletePublicAccessBlock: API.OperationMethod<
   DeletePublicAccessBlockError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeletePublicAccessBlockRequest,
-  output: DeletePublicAccessBlockResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{Bucket}?publicAccessBlock",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublicAccessBlock",
-}));
+})) as any;
 
 export type GetBucketAbacError =
   | RequestLimitExceeded
@@ -15220,13 +9007,20 @@ export const getBucketAbac: API.OperationMethod<
   GetBucketAbacError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketAbacRequest,
-  output: GetBucketAbacOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?abac",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: { AbacStatus: D.m({ payload: true, shape: {} }) },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAbac",
-}));
+})) as any;
 
 export type GetBucketAccelerateConfigurationError =
   | RequestLimitExceeded
@@ -15269,13 +9063,22 @@ export const getBucketAccelerateConfiguration: API.OperationMethod<
   GetBucketAccelerateConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketAccelerateConfigurationRequest,
-  output: GetBucketAccelerateConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?accelerate",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+    },
+    output: { RequestCharged: D.m({ header: "x-amz-request-charged" }) },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAccelerateConfiguration",
-}));
+})) as any;
 
 export type GetBucketAclError =
   | RequestLimitExceeded
@@ -15316,13 +9119,27 @@ export const getBucketAcl: API.OperationMethod<
   GetBucketAclError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketAclRequest,
-  output: GetBucketAclOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?acl",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      Owner: {},
+      Grants: D.m({
+        wire: "AccessControlList",
+        shape: D.list(o_Grant, { item: "Grant" }),
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAcl",
-}));
+})) as any;
 
 export type GetBucketAnalyticsConfigurationError =
   | RequestLimitExceeded
@@ -15360,13 +9177,27 @@ export const getBucketAnalyticsConfiguration: API.OperationMethod<
   GetBucketAnalyticsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketAnalyticsConfigurationRequest,
-  output: GetBucketAnalyticsConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?analytics&x-id=GetBucketAnalyticsConfiguration",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Id: D.m({ query: "id" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      AnalyticsConfiguration: D.m({
+        payload: true,
+        shape: o_AnalyticsConfiguration,
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchConfiguration],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAnalyticsConfiguration",
-}));
+})) as any;
 
 export type GetBucketCorsError =
   | RequestLimitExceeded
@@ -15407,8 +9238,42 @@ export const getBucketCors: API.OperationMethod<
   GetBucketCorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketCorsRequest,
-  output: GetBucketCorsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?cors",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      CORSRules: D.m({
+        wire: "CORSRule",
+        shape: D.list(
+          {
+            AllowedHeaders: D.m({
+              wire: "AllowedHeader",
+              shape: D.list(0, { flat: true }),
+            }),
+            AllowedMethods: D.m({
+              wire: "AllowedMethod",
+              shape: D.list(0, { flat: true }),
+            }),
+            AllowedOrigins: D.m({
+              wire: "AllowedOrigin",
+              shape: D.list(0, { flat: true }),
+            }),
+            ExposeHeaders: D.m({
+              wire: "ExposeHeader",
+              shape: D.list(0, { flat: true }),
+            }),
+            MaxAgeSeconds: D.num,
+          },
+          { flat: true },
+        ),
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -15419,7 +9284,7 @@ export const getBucketCors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketCors",
-}));
+})) as any;
 
 export type GetBucketEncryptionError =
   | RequestLimitExceeded
@@ -15472,8 +9337,40 @@ export const getBucketEncryption: API.OperationMethod<
   GetBucketEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketEncryptionRequest,
-  output: GetBucketEncryptionOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?encryption",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      ServerSideEncryptionConfiguration: D.m({
+        payload: true,
+        shape: {
+          Rules: D.m({
+            wire: "Rule",
+            shape: D.list(
+              {
+                ApplyServerSideEncryptionByDefault: {
+                  KMSMasterKeyID: D.secret,
+                },
+                BucketKeyEnabled: D.bool,
+                BlockedEncryptionTypes: {
+                  EncryptionType: D.list(0, {
+                    item: "EncryptionType",
+                    flat: true,
+                  }),
+                },
+              },
+              { flat: true },
+            ),
+          }),
+        },
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -15484,7 +9381,7 @@ export const getBucketEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketEncryption",
-}));
+})) as any;
 
 export type GetBucketIntelligentTieringConfigurationError =
   | RequestLimitExceeded
@@ -15519,13 +9416,27 @@ export const getBucketIntelligentTieringConfiguration: API.OperationMethod<
   GetBucketIntelligentTieringConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketIntelligentTieringConfigurationRequest,
-  output: GetBucketIntelligentTieringConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?intelligent-tiering&x-id=GetBucketIntelligentTieringConfiguration",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Id: D.m({ query: "id" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      IntelligentTieringConfiguration: D.m({
+        payload: true,
+        shape: o_IntelligentTieringConfiguration,
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchConfiguration],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketIntelligentTieringConfiguration",
-}));
+})) as any;
 
 export type GetBucketInventoryConfigurationError =
   | RequestLimitExceeded
@@ -15582,13 +9493,27 @@ export const getBucketInventoryConfiguration: API.OperationMethod<
   GetBucketInventoryConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketInventoryConfigurationRequest,
-  output: GetBucketInventoryConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?inventory&x-id=GetBucketInventoryConfiguration",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Id: D.m({ query: "id" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      InventoryConfiguration: D.m({
+        payload: true,
+        shape: o_InventoryConfiguration,
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchConfiguration],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketInventoryConfiguration",
-}));
+})) as any;
 
 export type GetBucketLifecycleConfigurationError =
   | RequestLimitExceeded
@@ -15669,8 +9594,62 @@ export const getBucketLifecycleConfiguration: API.OperationMethod<
   GetBucketLifecycleConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketLifecycleConfigurationRequest,
-  output: GetBucketLifecycleConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?lifecycle",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      Rules: D.m({
+        wire: "Rule",
+        shape: D.list(
+          {
+            Expiration: {
+              Date: D.ts,
+              Days: D.num,
+              ExpiredObjectDeleteMarker: D.bool,
+            },
+            Filter: {
+              Tag: {},
+              ObjectSizeGreaterThan: D.num,
+              ObjectSizeLessThan: D.num,
+              And: {
+                Tags: D.m({
+                  wire: "Tag",
+                  shape: D.list({}, { item: "Tag", flat: true }),
+                }),
+                ObjectSizeGreaterThan: D.num,
+                ObjectSizeLessThan: D.num,
+              },
+            },
+            Transitions: D.m({
+              wire: "Transition",
+              shape: D.list({ Date: D.ts, Days: D.num }, { flat: true }),
+            }),
+            NoncurrentVersionTransitions: D.m({
+              wire: "NoncurrentVersionTransition",
+              shape: D.list(
+                { NoncurrentDays: D.num, NewerNoncurrentVersions: D.num },
+                { flat: true },
+              ),
+            }),
+            NoncurrentVersionExpiration: {
+              NoncurrentDays: D.num,
+              NewerNoncurrentVersions: D.num,
+            },
+            AbortIncompleteMultipartUpload: { DaysAfterInitiation: D.num },
+          },
+          { flat: true },
+        ),
+      }),
+      TransitionDefaultMinimumObjectSize: D.m({
+        header: "x-amz-transition-default-minimum-object-size",
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -15681,7 +9660,7 @@ export const getBucketLifecycleConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketLifecycleConfiguration",
-}));
+})) as any;
 
 export type GetBucketLocationError =
   | RequestLimitExceeded
@@ -15729,13 +9708,21 @@ export const getBucketLocation: API.OperationMethod<
   GetBucketLocationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketLocationRequest,
-  output: GetBucketLocationOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?location",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+    unwrapped: "LocationConstraint",
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketLocation",
-}));
+})) as any;
 
 export type GetBucketLoggingError =
   | RequestLimitExceeded
@@ -15763,13 +9750,26 @@ export const getBucketLogging: API.OperationMethod<
   GetBucketLoggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketLoggingRequest,
-  output: GetBucketLoggingOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?logging",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      LoggingEnabled: {
+        TargetGrants: D.list({ Grantee: o_Grantee }, { item: "Grant" }),
+        TargetObjectKeyFormat: { SimplePrefix: {}, PartitionedPrefix: {} },
+      },
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketLogging",
-}));
+})) as any;
 
 export type GetBucketMetadataConfigurationError =
   | RequestLimitExceeded
@@ -15812,13 +9812,36 @@ export const getBucketMetadataConfiguration: API.OperationMethod<
   GetBucketMetadataConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketMetadataConfigurationRequest,
-  output: GetBucketMetadataConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?metadataConfiguration",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      GetBucketMetadataConfigurationResult: D.m({
+        payload: true,
+        shape: {
+          MetadataConfigurationResult: {
+            DestinationResult: {},
+            JournalTableConfigurationResult: {
+              Error: {},
+              RecordExpiration: { Days: D.num },
+            },
+            InventoryTableConfigurationResult: { Error: {} },
+            AnnotationTableConfigurationResult: { Error: {} },
+          },
+        },
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketMetadataConfiguration",
-}));
+})) as any;
 
 export type GetBucketMetadataTableConfigurationError =
   | RequestLimitExceeded
@@ -15867,13 +9890,29 @@ export const getBucketMetadataTableConfiguration: API.OperationMethod<
   GetBucketMetadataTableConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketMetadataTableConfigurationRequest,
-  output: GetBucketMetadataTableConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?metadataTable",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      GetBucketMetadataTableConfigurationResult: D.m({
+        payload: true,
+        shape: {
+          MetadataTableConfigurationResult: { S3TablesDestinationResult: {} },
+          Error: {},
+        },
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketMetadataTableConfiguration",
-}));
+})) as any;
 
 export type GetBucketMetricsConfigurationError =
   | RequestLimitExceeded
@@ -15934,13 +9973,27 @@ export const getBucketMetricsConfiguration: API.OperationMethod<
   GetBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketMetricsConfigurationRequest,
-  output: GetBucketMetricsConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?metrics&x-id=GetBucketMetricsConfiguration",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Id: D.m({ query: "id" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      MetricsConfiguration: D.m({
+        payload: true,
+        shape: o_MetricsConfiguration,
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchConfiguration],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketMetricsConfiguration",
-}));
+})) as any;
 
 export type GetBucketNotificationConfigurationError =
   | RequestLimitExceeded
@@ -15982,13 +10035,56 @@ export const getBucketNotificationConfiguration: API.OperationMethod<
   GetBucketNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketNotificationConfigurationRequest,
-  output: NotificationConfiguration,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?notification",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      TopicConfigurations: D.m({
+        wire: "TopicConfiguration",
+        shape: D.list(
+          {
+            TopicArn: D.m({ wire: "Topic" }),
+            Events: D.m({ wire: "Event", shape: D.list(0, { flat: true }) }),
+            Filter: o_NotificationConfigurationFilter,
+          },
+          { flat: true },
+        ),
+      }),
+      QueueConfigurations: D.m({
+        wire: "QueueConfiguration",
+        shape: D.list(
+          {
+            QueueArn: D.m({ wire: "Queue" }),
+            Events: D.m({ wire: "Event", shape: D.list(0, { flat: true }) }),
+            Filter: o_NotificationConfigurationFilter,
+          },
+          { flat: true },
+        ),
+      }),
+      LambdaFunctionConfigurations: D.m({
+        wire: "CloudFunctionConfiguration",
+        shape: D.list(
+          {
+            LambdaFunctionArn: D.m({ wire: "CloudFunction" }),
+            Events: D.m({ wire: "Event", shape: D.list(0, { flat: true }) }),
+            Filter: o_NotificationConfigurationFilter,
+          },
+          { flat: true },
+        ),
+      }),
+      EventBridgeConfiguration: {},
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketNotificationConfiguration",
-}));
+})) as any;
 
 export type GetBucketOwnershipControlsError =
   | RequestLimitExceeded
@@ -16030,8 +10126,23 @@ export const getBucketOwnershipControls: API.OperationMethod<
   GetBucketOwnershipControlsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketOwnershipControlsRequest,
-  output: GetBucketOwnershipControlsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?ownershipControls",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      OwnershipControls: D.m({
+        payload: true,
+        shape: {
+          Rules: D.m({ wire: "Rule", shape: D.list({}, { flat: true }) }),
+        },
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -16041,7 +10152,7 @@ export const getBucketOwnershipControls: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketOwnershipControls",
-}));
+})) as any;
 
 export type GetBucketPolicyError =
   | RequestLimitExceeded
@@ -16112,8 +10223,16 @@ export const getBucketPolicy: API.OperationMethod<
   GetBucketPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketPolicyRequest,
-  output: GetBucketPolicyOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?policy",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: { Policy: D.m({ payload: true, shape: D.text }) },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -16125,7 +10244,7 @@ export const getBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketPolicy",
-}));
+})) as any;
 
 export type GetBucketPolicyStatusError =
   | RequestLimitExceeded
@@ -16161,13 +10280,23 @@ export const getBucketPolicyStatus: API.OperationMethod<
   GetBucketPolicyStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketPolicyStatusRequest,
-  output: GetBucketPolicyStatusOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?policyStatus",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      PolicyStatus: D.m({ payload: true, shape: { IsPublic: D.bool } }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketPolicyStatus",
-}));
+})) as any;
 
 export type GetBucketReplicationError =
   | RequestLimitExceeded
@@ -16211,8 +10340,52 @@ export const getBucketReplication: API.OperationMethod<
   GetBucketReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketReplicationRequest,
-  output: GetBucketReplicationOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?replication",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      ReplicationConfiguration: D.m({
+        payload: true,
+        shape: {
+          Rules: D.m({
+            wire: "Rule",
+            shape: D.list(
+              {
+                Priority: D.num,
+                Filter: {
+                  Tag: {},
+                  And: {
+                    Tags: D.m({
+                      wire: "Tag",
+                      shape: D.list({}, { item: "Tag", flat: true }),
+                    }),
+                  },
+                },
+                SourceSelectionCriteria: {
+                  SseKmsEncryptedObjects: {},
+                  ReplicaModifications: {},
+                },
+                ExistingObjectReplication: {},
+                Destination: {
+                  AccessControlTranslation: {},
+                  EncryptionConfiguration: {},
+                  ReplicationTime: { Time: o_ReplicationTimeValue },
+                  Metrics: { EventThreshold: o_ReplicationTimeValue },
+                },
+                DeleteMarkerReplication: {},
+              },
+              { flat: true },
+            ),
+          }),
+        },
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -16222,7 +10395,7 @@ export const getBucketReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketReplication",
-}));
+})) as any;
 
 export type GetBucketRequestPaymentError =
   | RequestLimitExceeded
@@ -16248,13 +10421,20 @@ export const getBucketRequestPayment: API.OperationMethod<
   GetBucketRequestPaymentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketRequestPaymentRequest,
-  output: GetBucketRequestPaymentOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?requestPayment",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketRequestPayment",
-}));
+})) as any;
 
 export type GetBucketTaggingError =
   | RequestLimitExceeded
@@ -16291,8 +10471,16 @@ export const getBucketTagging: API.OperationMethod<
   GetBucketTaggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketTaggingRequest,
-  output: GetBucketTaggingOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?tagging",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: { TagSet: D.list({}, { item: "Tag" }) },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -16303,7 +10491,7 @@ export const getBucketTagging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketTagging",
-}));
+})) as any;
 
 export type GetBucketVersioningError =
   | RequestLimitExceeded
@@ -16338,13 +10526,21 @@ export const getBucketVersioning: API.OperationMethod<
   GetBucketVersioningError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketVersioningRequest,
-  output: GetBucketVersioningOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?versioning",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: { MFADelete: D.m({ wire: "MfaDelete" }) },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketVersioning",
-}));
+})) as any;
 
 export type GetBucketWebsiteError =
   | RequestLimitExceeded
@@ -16378,8 +10574,24 @@ export const getBucketWebsite: API.OperationMethod<
   GetBucketWebsiteError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBucketWebsiteRequest,
-  output: GetBucketWebsiteOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?website",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      RedirectAllRequestsTo: {},
+      IndexDocument: {},
+      ErrorDocument: {},
+      RoutingRules: D.list(
+        { Condition: {}, Redirect: {} },
+        { item: "RoutingRule" },
+      ),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -16390,7 +10602,7 @@ export const getBucketWebsite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketWebsite",
-}));
+})) as any;
 
 export type GetObjectError =
   | InvalidObjectState
@@ -16540,8 +10752,121 @@ export const getObject: API.OperationMethod<
   GetObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetObjectRequest,
-  output: GetObjectOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}/{Key+}?x-id=GetObject",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      IfMatch: D.m({ header: "If-Match" }),
+      IfModifiedSince: D.m({ header: "If-Modified-Since" }),
+      IfNoneMatch: D.m({ header: "If-None-Match" }),
+      IfUnmodifiedSince: D.m({ header: "If-Unmodified-Since" }),
+      Key: D.m({ context: "Key" }),
+      Range: D.m({ header: "Range" }),
+      ResponseCacheControl: D.m({ query: "response-cache-control" }),
+      ResponseContentDisposition: D.m({
+        query: "response-content-disposition",
+      }),
+      ResponseContentEncoding: D.m({ query: "response-content-encoding" }),
+      ResponseContentLanguage: D.m({ query: "response-content-language" }),
+      ResponseContentType: D.m({ query: "response-content-type" }),
+      ResponseExpires: D.m({
+        query: "response-expires",
+        shape: D.tsAs("http-date"),
+      }),
+      VersionId: D.m({ query: "versionId" }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKey: D.m({
+        header: "x-amz-server-side-encryption-customer-key",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      PartNumber: D.m({ query: "partNumber" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      ChecksumMode: D.m({ header: "x-amz-checksum-mode" }),
+    },
+    output: {
+      Body: D.m({ payload: true, shape: D.stream }),
+      DeleteMarker: D.m({ header: "x-amz-delete-marker", shape: D.bool }),
+      AcceptRanges: D.m({ header: "accept-ranges" }),
+      Expiration: D.m({ header: "x-amz-expiration" }),
+      Restore: D.m({ header: "x-amz-restore" }),
+      LastModified: D.m({ header: "Last-Modified", shape: D.ts }),
+      ContentLength: D.m({ header: "Content-Length", shape: D.num }),
+      ETag: D.m({ header: "ETag" }),
+      ChecksumCRC32: D.m({ header: "x-amz-checksum-crc32" }),
+      ChecksumCRC32C: D.m({ header: "x-amz-checksum-crc32c" }),
+      ChecksumCRC64NVME: D.m({ header: "x-amz-checksum-crc64nvme" }),
+      ChecksumSHA1: D.m({ header: "x-amz-checksum-sha1" }),
+      ChecksumSHA256: D.m({ header: "x-amz-checksum-sha256" }),
+      ChecksumSHA512: D.m({ header: "x-amz-checksum-sha512" }),
+      ChecksumMD5: D.m({ header: "x-amz-checksum-md5" }),
+      ChecksumXXHASH64: D.m({ header: "x-amz-checksum-xxhash64" }),
+      ChecksumXXHASH3: D.m({ header: "x-amz-checksum-xxhash3" }),
+      ChecksumXXHASH128: D.m({ header: "x-amz-checksum-xxhash128" }),
+      ChecksumType: D.m({ header: "x-amz-checksum-type" }),
+      MissingMeta: D.m({ header: "x-amz-missing-meta", shape: D.num }),
+      VersionId: D.m({ header: "x-amz-version-id" }),
+      CacheControl: D.m({ header: "Cache-Control" }),
+      ContentDisposition: D.m({ header: "Content-Disposition" }),
+      ContentEncoding: D.m({ header: "Content-Encoding" }),
+      ContentLanguage: D.m({ header: "Content-Language" }),
+      ContentRange: D.m({ header: "Content-Range" }),
+      ContentType: D.m({ header: "Content-Type" }),
+      Expires: D.m({ header: "Expires" }),
+      WebsiteRedirectLocation: D.m({
+        header: "x-amz-website-redirect-location",
+      }),
+      ServerSideEncryption: D.m({ header: "x-amz-server-side-encryption" }),
+      Metadata: D.m({ prefix: "x-amz-meta-" }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      SSEKMSKeyId: D.m({
+        header: "x-amz-server-side-encryption-aws-kms-key-id",
+        shape: D.secret,
+      }),
+      BucketKeyEnabled: D.m({
+        header: "x-amz-server-side-encryption-bucket-key-enabled",
+        shape: D.bool,
+      }),
+      StorageClass: D.m({ header: "x-amz-storage-class" }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+      ReplicationStatus: D.m({ header: "x-amz-replication-status" }),
+      PartsCount: D.m({ header: "x-amz-mp-parts-count", shape: D.num }),
+      TagCount: D.m({ header: "x-amz-tagging-count", shape: D.num }),
+      ObjectLockMode: D.m({ header: "x-amz-object-lock-mode" }),
+      ObjectLockRetainUntilDate: D.m({
+        header: "x-amz-object-lock-retain-until-date",
+        shape: D.ts,
+      }),
+      ObjectLockLegalHoldStatus: D.m({
+        header: "x-amz-object-lock-legal-hold",
+      }),
+    },
+    checksum: {
+      requestValidationModeMember: "ChecksumMode",
+      responseAlgorithms: [
+        "CRC64NVME",
+        "CRC32",
+        "CRC32C",
+        "SHA256",
+        "SHA1",
+        "SHA512",
+        "MD5",
+        "XXHASH64",
+        "XXHASH3",
+        "XXHASH128",
+      ],
+    },
+  },
   errors: [
     InvalidObjectState,
     NoSuchKey,
@@ -16555,7 +10880,7 @@ export const getObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObject",
-}));
+})) as any;
 
 export type GetObjectAclError =
   | NoSuchKey
@@ -16600,8 +10925,25 @@ export const getObjectAcl: API.OperationMethod<
   GetObjectAclError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetObjectAclRequest,
-  output: GetObjectAclOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}/{Key+}?acl",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: D.m({ context: "Key" }),
+      VersionId: D.m({ query: "versionId" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      Owner: {},
+      Grants: D.m({
+        wire: "AccessControlList",
+        shape: D.list(o_Grant, { item: "Grant" }),
+      }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+    },
+  },
   errors: [
     NoSuchKey,
     RequestLimitExceeded,
@@ -16612,7 +10954,7 @@ export const getObjectAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectAcl",
-}));
+})) as any;
 
 export type GetObjectAnnotationError =
   | NoSuchAnnotation
@@ -16644,13 +10986,60 @@ export const getObjectAnnotation: API.OperationMethod<
   GetObjectAnnotationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetObjectAnnotationRequest,
-  output: GetObjectAnnotationOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}/{Key+}?annotation&x-id=GetObjectAnnotation",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: D.m({ context: "Key" }),
+      AnnotationName: D.m({ query: "annotationName" }),
+      VersionId: D.m({ query: "versionId" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      ChecksumMode: D.m({ header: "x-amz-checksum-mode" }),
+    },
+    output: {
+      AnnotationPayload: D.m({ payload: true, shape: D.stream }),
+      ObjectVersionId: D.m({ header: "x-amz-object-version-id" }),
+      LastModified: D.m({ header: "Last-Modified", shape: D.ts }),
+      ContentLength: D.m({ header: "Content-Length", shape: D.num }),
+      ETag: D.m({ header: "ETag" }),
+      ChecksumCRC32: D.m({ header: "x-amz-checksum-crc32" }),
+      ChecksumCRC32C: D.m({ header: "x-amz-checksum-crc32c" }),
+      ChecksumCRC64NVME: D.m({ header: "x-amz-checksum-crc64nvme" }),
+      ChecksumSHA1: D.m({ header: "x-amz-checksum-sha1" }),
+      ChecksumSHA256: D.m({ header: "x-amz-checksum-sha256" }),
+      ChecksumSHA512: D.m({ header: "x-amz-checksum-sha512" }),
+      ChecksumMD5: D.m({ header: "x-amz-checksum-md5" }),
+      ChecksumXXHASH64: D.m({ header: "x-amz-checksum-xxhash64" }),
+      ChecksumXXHASH3: D.m({ header: "x-amz-checksum-xxhash3" }),
+      ChecksumXXHASH128: D.m({ header: "x-amz-checksum-xxhash128" }),
+      ChecksumType: D.m({ header: "x-amz-checksum-type" }),
+      ServerSideEncryption: D.m({ header: "x-amz-server-side-encryption" }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+      ReplicationStatus: D.m({ header: "x-amz-replication-status" }),
+    },
+    checksum: {
+      requestValidationModeMember: "ChecksumMode",
+      responseAlgorithms: [
+        "CRC64NVME",
+        "CRC32",
+        "CRC32C",
+        "SHA256",
+        "SHA1",
+        "SHA512",
+        "MD5",
+        "XXHASH64",
+        "XXHASH3",
+        "XXHASH128",
+      ],
+    },
+  },
   errors: [NoSuchAnnotation, NoSuchBucket, NoSuchKey],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectAnnotation",
-}));
+})) as any;
 
 export type GetObjectAttributesError =
   | NoSuchKey
@@ -16803,13 +11192,51 @@ export const getObjectAttributes: API.OperationMethod<
   GetObjectAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetObjectAttributesRequest,
-  output: GetObjectAttributesOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}/{Key+}?attributes",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: 0,
+      VersionId: D.m({ query: "versionId" }),
+      MaxParts: D.m({ header: "x-amz-max-parts" }),
+      PartNumberMarker: D.m({ header: "x-amz-part-number-marker" }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKey: D.m({
+        header: "x-amz-server-side-encryption-customer-key",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      ObjectAttributes: D.m({ header: "x-amz-object-attributes" }),
+    },
+    output: {
+      DeleteMarker: D.m({ header: "x-amz-delete-marker", shape: D.bool }),
+      LastModified: D.m({ header: "Last-Modified", shape: D.ts }),
+      VersionId: D.m({ header: "x-amz-version-id" }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+      Checksum: {},
+      ObjectParts: {
+        TotalPartsCount: D.m({ wire: "PartsCount", shape: D.num }),
+        MaxParts: D.num,
+        IsTruncated: D.bool,
+        Parts: D.m({
+          wire: "Part",
+          shape: D.list({ PartNumber: D.num, Size: D.num }, { flat: true }),
+        }),
+      },
+      ObjectSize: D.num,
+    },
+  },
   errors: [NoSuchKey, NoSuchVersion, MethodNotAllowed],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectAttributes",
-}));
+})) as any;
 
 export type GetObjectLegalHoldError =
   | RequestLimitExceeded
@@ -16838,8 +11265,18 @@ export const getObjectLegalHold: API.OperationMethod<
   GetObjectLegalHoldError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetObjectLegalHoldRequest,
-  output: GetObjectLegalHoldOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}/{Key+}?legal-hold",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: 0,
+      VersionId: D.m({ query: "versionId" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: { LegalHold: D.m({ payload: true, shape: {} }) },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -16851,7 +11288,7 @@ export const getObjectLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectLegalHold",
-}));
+})) as any;
 
 export type GetObjectLockConfigurationError =
   | RequestLimitExceeded
@@ -16879,8 +11316,20 @@ export const getObjectLockConfiguration: API.OperationMethod<
   GetObjectLockConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetObjectLockConfigurationRequest,
-  output: GetObjectLockConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?object-lock",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      ObjectLockConfiguration: D.m({
+        payload: true,
+        shape: { Rule: { DefaultRetention: { Days: D.num, Years: D.num } } },
+      }),
+    },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -16891,7 +11340,7 @@ export const getObjectLockConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectLockConfiguration",
-}));
+})) as any;
 
 export type GetObjectRetentionError =
   | RequestLimitExceeded
@@ -16920,8 +11369,20 @@ export const getObjectRetention: API.OperationMethod<
   GetObjectRetentionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetObjectRetentionRequest,
-  output: GetObjectRetentionOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}/{Key+}?retention",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: 0,
+      VersionId: D.m({ query: "versionId" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      Retention: D.m({ payload: true, shape: { RetainUntilDate: D.ts } }),
+    },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -16933,7 +11394,7 @@ export const getObjectRetention: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectRetention",
-}));
+})) as any;
 
 export type GetObjectTaggingError =
   | RequestLimitExceeded
@@ -16976,8 +11437,21 @@ export const getObjectTagging: API.OperationMethod<
   GetObjectTaggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetObjectTaggingRequest,
-  output: GetObjectTaggingOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}/{Key+}?tagging",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: 0,
+      VersionId: D.m({ query: "versionId" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+    },
+    output: {
+      VersionId: D.m({ header: "x-amz-version-id" }),
+      TagSet: D.list({}, { item: "Tag" }),
+    },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -16990,7 +11464,7 @@ export const getObjectTagging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectTagging",
-}));
+})) as any;
 
 export type GetObjectTorrentError = CommonErrors;
 /**
@@ -17018,13 +11492,25 @@ export const getObjectTorrent: API.OperationMethod<
   GetObjectTorrentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetObjectTorrentRequest,
-  output: GetObjectTorrentOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}/{Key+}?torrent",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: 0,
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      Body: D.m({ payload: true, shape: D.stream }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+    },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectTorrent",
-}));
+})) as any;
 
 export type GetPublicAccessBlockError =
   | RequestLimitExceeded
@@ -17072,8 +11558,26 @@ export const getPublicAccessBlock: API.OperationMethod<
   GetPublicAccessBlockError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPublicAccessBlockRequest,
-  output: GetPublicAccessBlockOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?publicAccessBlock",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      PublicAccessBlockConfiguration: D.m({
+        payload: true,
+        shape: {
+          BlockPublicAcls: D.bool,
+          IgnorePublicAcls: D.bool,
+          BlockPublicPolicy: D.bool,
+          RestrictPublicBuckets: D.bool,
+        },
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -17084,7 +11588,7 @@ export const getPublicAccessBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicAccessBlock",
-}));
+})) as any;
 
 export type HeadBucketError =
   | NotFound
@@ -17162,13 +11666,29 @@ export const headBucket: API.OperationMethod<
   HeadBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: HeadBucketRequest,
-  output: HeadBucketOutput,
+  descriptor: {
+    service: svc,
+    http: "HEAD /{Bucket}",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      BucketArn: D.m({ header: "x-amz-bucket-arn" }),
+      BucketLocationType: D.m({ header: "x-amz-bucket-location-type" }),
+      BucketLocationName: D.m({ header: "x-amz-bucket-location-name" }),
+      BucketRegion: D.m({ header: "x-amz-bucket-region" }),
+      AccessPointAlias: D.m({
+        header: "x-amz-access-point-alias",
+        shape: D.bool,
+      }),
+    },
+  },
   errors: [NotFound, RequestLimitExceeded, SlowDown, ParseError, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "HeadBucket",
-}));
+})) as any;
 
 export type HeadObjectError =
   | NotFound
@@ -17292,8 +11812,106 @@ export const headObject: API.OperationMethod<
   HeadObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: HeadObjectRequest,
-  output: HeadObjectOutput,
+  descriptor: {
+    service: svc,
+    http: "HEAD /{Bucket}/{Key+}",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      IfMatch: D.m({ header: "If-Match" }),
+      IfModifiedSince: D.m({ header: "If-Modified-Since" }),
+      IfNoneMatch: D.m({ header: "If-None-Match" }),
+      IfUnmodifiedSince: D.m({ header: "If-Unmodified-Since" }),
+      Key: D.m({ context: "Key" }),
+      Range: D.m({ header: "Range" }),
+      ResponseCacheControl: D.m({ query: "response-cache-control" }),
+      ResponseContentDisposition: D.m({
+        query: "response-content-disposition",
+      }),
+      ResponseContentEncoding: D.m({ query: "response-content-encoding" }),
+      ResponseContentLanguage: D.m({ query: "response-content-language" }),
+      ResponseContentType: D.m({ query: "response-content-type" }),
+      ResponseExpires: D.m({
+        query: "response-expires",
+        shape: D.tsAs("http-date"),
+      }),
+      VersionId: D.m({ query: "versionId" }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKey: D.m({
+        header: "x-amz-server-side-encryption-customer-key",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      PartNumber: D.m({ query: "partNumber" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      ChecksumMode: D.m({ header: "x-amz-checksum-mode" }),
+    },
+    output: {
+      DeleteMarker: D.m({ header: "x-amz-delete-marker", shape: D.bool }),
+      AcceptRanges: D.m({ header: "accept-ranges" }),
+      Expiration: D.m({ header: "x-amz-expiration" }),
+      Restore: D.m({ header: "x-amz-restore" }),
+      ArchiveStatus: D.m({ header: "x-amz-archive-status" }),
+      LastModified: D.m({ header: "Last-Modified", shape: D.ts }),
+      ContentLength: D.m({ header: "Content-Length", shape: D.num }),
+      ChecksumCRC32: D.m({ header: "x-amz-checksum-crc32" }),
+      ChecksumCRC32C: D.m({ header: "x-amz-checksum-crc32c" }),
+      ChecksumCRC64NVME: D.m({ header: "x-amz-checksum-crc64nvme" }),
+      ChecksumSHA1: D.m({ header: "x-amz-checksum-sha1" }),
+      ChecksumSHA256: D.m({ header: "x-amz-checksum-sha256" }),
+      ChecksumSHA512: D.m({ header: "x-amz-checksum-sha512" }),
+      ChecksumMD5: D.m({ header: "x-amz-checksum-md5" }),
+      ChecksumXXHASH64: D.m({ header: "x-amz-checksum-xxhash64" }),
+      ChecksumXXHASH3: D.m({ header: "x-amz-checksum-xxhash3" }),
+      ChecksumXXHASH128: D.m({ header: "x-amz-checksum-xxhash128" }),
+      ChecksumType: D.m({ header: "x-amz-checksum-type" }),
+      ETag: D.m({ header: "ETag" }),
+      MissingMeta: D.m({ header: "x-amz-missing-meta", shape: D.num }),
+      VersionId: D.m({ header: "x-amz-version-id" }),
+      CacheControl: D.m({ header: "Cache-Control" }),
+      ContentDisposition: D.m({ header: "Content-Disposition" }),
+      ContentEncoding: D.m({ header: "Content-Encoding" }),
+      ContentLanguage: D.m({ header: "Content-Language" }),
+      ContentType: D.m({ header: "Content-Type" }),
+      ContentRange: D.m({ header: "Content-Range" }),
+      Expires: D.m({ header: "Expires" }),
+      WebsiteRedirectLocation: D.m({
+        header: "x-amz-website-redirect-location",
+      }),
+      ServerSideEncryption: D.m({ header: "x-amz-server-side-encryption" }),
+      Metadata: D.m({ prefix: "x-amz-meta-" }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      SSEKMSKeyId: D.m({
+        header: "x-amz-server-side-encryption-aws-kms-key-id",
+        shape: D.secret,
+      }),
+      BucketKeyEnabled: D.m({
+        header: "x-amz-server-side-encryption-bucket-key-enabled",
+        shape: D.bool,
+      }),
+      StorageClass: D.m({ header: "x-amz-storage-class" }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+      ReplicationStatus: D.m({ header: "x-amz-replication-status" }),
+      PartsCount: D.m({ header: "x-amz-mp-parts-count", shape: D.num }),
+      TagCount: D.m({ header: "x-amz-tagging-count", shape: D.num }),
+      ObjectLockMode: D.m({ header: "x-amz-object-lock-mode" }),
+      ObjectLockRetainUntilDate: D.m({
+        header: "x-amz-object-lock-retain-until-date",
+        shape: D.ts,
+      }),
+      ObjectLockLegalHoldStatus: D.m({
+        header: "x-amz-object-lock-legal-hold",
+      }),
+    },
+  },
   errors: [
     NotFound,
     RequestLimitExceeded,
@@ -17305,7 +11923,7 @@ export const headObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "HeadObject",
-}));
+})) as any;
 
 export type ListBucketAnalyticsConfigurationsError =
   | RequestLimitExceeded
@@ -17350,13 +11968,28 @@ export const listBucketAnalyticsConfigurations: API.OperationMethod<
   ListBucketAnalyticsConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListBucketAnalyticsConfigurationsRequest,
-  output: ListBucketAnalyticsConfigurationsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?analytics&x-id=ListBucketAnalyticsConfigurations",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContinuationToken: D.m({ query: "continuation-token" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      IsTruncated: D.bool,
+      AnalyticsConfigurationList: D.m({
+        wire: "AnalyticsConfiguration",
+        shape: D.list(o_AnalyticsConfiguration, { flat: true }),
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBucketAnalyticsConfigurations",
-}));
+})) as any;
 
 export type ListBucketIntelligentTieringConfigurationsError =
   | RequestLimitExceeded
@@ -17390,13 +12023,28 @@ export const listBucketIntelligentTieringConfigurations: API.OperationMethod<
   ListBucketIntelligentTieringConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListBucketIntelligentTieringConfigurationsRequest,
-  output: ListBucketIntelligentTieringConfigurationsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?intelligent-tiering&x-id=ListBucketIntelligentTieringConfigurations",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContinuationToken: D.m({ query: "continuation-token" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      IsTruncated: D.bool,
+      IntelligentTieringConfigurationList: D.m({
+        wire: "IntelligentTieringConfiguration",
+        shape: D.list(o_IntelligentTieringConfiguration, { flat: true }),
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBucketIntelligentTieringConfigurations",
-}));
+})) as any;
 
 export type ListBucketInventoryConfigurationsError =
   | RequestLimitExceeded
@@ -17459,13 +12107,28 @@ export const listBucketInventoryConfigurations: API.OperationMethod<
   ListBucketInventoryConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListBucketInventoryConfigurationsRequest,
-  output: ListBucketInventoryConfigurationsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?inventory&x-id=ListBucketInventoryConfigurations",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContinuationToken: D.m({ query: "continuation-token" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      InventoryConfigurationList: D.m({
+        wire: "InventoryConfiguration",
+        shape: D.list(o_InventoryConfiguration, { flat: true }),
+      }),
+      IsTruncated: D.bool,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBucketInventoryConfigurations",
-}));
+})) as any;
 
 export type ListBucketMetricsConfigurationsError =
   | RequestLimitExceeded
@@ -17530,13 +12193,28 @@ export const listBucketMetricsConfigurations: API.OperationMethod<
   ListBucketMetricsConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListBucketMetricsConfigurationsRequest,
-  output: ListBucketMetricsConfigurationsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?metrics&x-id=ListBucketMetricsConfigurations",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContinuationToken: D.m({ query: "continuation-token" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      IsTruncated: D.bool,
+      MetricsConfigurationList: D.m({
+        wire: "MetricsConfiguration",
+        shape: D.list(o_MetricsConfiguration, { flat: true }),
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBucketMetricsConfigurations",
-}));
+})) as any;
 
 export type ListBucketsError =
   | RequestLimitExceeded
@@ -17568,8 +12246,17 @@ export const listBuckets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Bucket
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListBucketsRequest,
-  output: ListBucketsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /?x-id=ListBuckets",
+    input: {
+      MaxBuckets: D.m({ query: "max-buckets" }),
+      ContinuationToken: D.m({ query: "continuation-token" }),
+      Prefix: D.m({ query: "prefix" }),
+      BucketRegion: D.m({ query: "bucket-region" }),
+    },
+    output: { Buckets: D.list(o_Bucket, { item: "Bucket" }), Owner: {} },
+  },
   errors: [RequestLimitExceeded, SlowDown, RequestError],
   protocol: AwsProtocol,
   retry: Retry,
@@ -17617,8 +12304,16 @@ export const listDirectoryBuckets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Bucket
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDirectoryBucketsRequest,
-  output: ListDirectoryBucketsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /?x-id=ListDirectoryBuckets",
+    input: {
+      ContinuationToken: D.m({ query: "continuation-token" }),
+      MaxDirectoryBuckets: D.m({ query: "max-directory-buckets" }),
+    },
+    output: { Buckets: D.list(o_Bucket, { item: "Bucket" }) },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -17730,13 +12425,39 @@ export const listMultipartUploads: API.OperationMethod<
   ListMultipartUploadsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListMultipartUploadsRequest,
-  output: ListMultipartUploadsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?uploads",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Delimiter: D.m({ query: "delimiter" }),
+      EncodingType: D.m({ query: "encoding-type" }),
+      KeyMarker: D.m({ query: "key-marker" }),
+      MaxUploads: D.m({ query: "max-uploads" }),
+      Prefix: D.m({ query: "prefix", context: "Prefix" }),
+      UploadIdMarker: D.m({ query: "upload-id-marker" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+    },
+    output: {
+      MaxUploads: D.num,
+      IsTruncated: D.bool,
+      Uploads: D.m({
+        wire: "Upload",
+        shape: D.list(
+          { Initiated: D.ts, Owner: {}, Initiator: {} },
+          { flat: true },
+        ),
+      }),
+      CommonPrefixes: D.list({}, { flat: true }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+    },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMultipartUploads",
-}));
+})) as any;
 
 export type ListObjectAnnotationsError =
   | InvalidPrefix
@@ -17769,8 +12490,34 @@ export const listObjectAnnotations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AnnotationEntry
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListObjectAnnotationsRequest,
-  output: ListObjectAnnotationsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}/{Key+}?annotation&x-id=ListObjectAnnotations",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: 0,
+      VersionId: D.m({ query: "versionId" }),
+      MaxAnnotationResults: D.m({ query: "max-annotation-results" }),
+      AnnotationPrefix: D.m({ query: "annotation-prefix" }),
+      ContinuationToken: D.m({ query: "continuation-token" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      Annotations: D.list(
+        {
+          LastModified: D.ts,
+          ChecksumAlgorithm: D.list(0, { flat: true }),
+          Size: D.num,
+        },
+        { item: "AnnotationEntry" },
+      ),
+      ObjectVersionId: D.m({ header: "x-amz-object-version-id" }),
+      MaxAnnotationResults: D.num,
+      AnnotationCount: D.num,
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+    },
+  },
   errors: [InvalidPrefix, NoSuchBucket, NoSuchKey],
   protocol: AwsProtocol,
   retry: Retry,
@@ -17821,13 +12568,35 @@ export const listObjects: API.OperationMethod<
   ListObjectsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListObjectsRequest,
-  output: ListObjectsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Delimiter: D.m({ query: "delimiter" }),
+      EncodingType: D.m({ query: "encoding-type" }),
+      Marker: D.m({ query: "marker" }),
+      MaxKeys: D.m({ query: "max-keys" }),
+      Prefix: D.m({ query: "prefix", context: "Prefix" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      OptionalObjectAttributes: D.m({
+        header: "x-amz-optional-object-attributes",
+      }),
+    },
+    output: {
+      IsTruncated: D.bool,
+      Contents: D.list(o_Object, { flat: true }),
+      MaxKeys: D.num,
+      CommonPrefixes: D.list({}, { flat: true }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+    },
+  },
   errors: [NoSuchBucket, RequestLimitExceeded, SlowDown, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListObjects",
-}));
+})) as any;
 
 export type ListObjectsV2Error =
   | NoSuchBucket
@@ -17908,8 +12677,33 @@ export const listObjectsV2: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListObjectsV2Request,
-  output: ListObjectsV2Output,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?list-type=2",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Delimiter: D.m({ query: "delimiter" }),
+      EncodingType: D.m({ query: "encoding-type" }),
+      MaxKeys: D.m({ query: "max-keys" }),
+      Prefix: D.m({ query: "prefix", context: "Prefix" }),
+      ContinuationToken: D.m({ query: "continuation-token" }),
+      FetchOwner: D.m({ query: "fetch-owner" }),
+      StartAfter: D.m({ query: "start-after" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      OptionalObjectAttributes: D.m({
+        header: "x-amz-optional-object-attributes",
+      }),
+    },
+    output: {
+      IsTruncated: D.bool,
+      Contents: D.list(o_Object, { flat: true }),
+      MaxKeys: D.num,
+      CommonPrefixes: D.list({}, { flat: true }),
+      KeyCount: D.num,
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+    },
+  },
   errors: [NoSuchBucket, RequestLimitExceeded, SlowDown, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
@@ -17959,13 +12753,56 @@ export const listObjectVersions: API.OperationMethod<
   ListObjectVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListObjectVersionsRequest,
-  output: ListObjectVersionsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}?versions",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Delimiter: D.m({ query: "delimiter" }),
+      EncodingType: D.m({ query: "encoding-type" }),
+      KeyMarker: D.m({ query: "key-marker" }),
+      MaxKeys: D.m({ query: "max-keys" }),
+      Prefix: D.m({ query: "prefix", context: "Prefix" }),
+      VersionIdMarker: D.m({ query: "version-id-marker" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      OptionalObjectAttributes: D.m({
+        header: "x-amz-optional-object-attributes",
+      }),
+    },
+    output: {
+      IsTruncated: D.bool,
+      Versions: D.m({
+        wire: "Version",
+        shape: D.list(
+          {
+            ChecksumAlgorithm: D.list(0, { flat: true }),
+            Size: D.num,
+            IsLatest: D.bool,
+            LastModified: D.ts,
+            Owner: {},
+            RestoreStatus: o_RestoreStatus,
+          },
+          { flat: true },
+        ),
+      }),
+      DeleteMarkers: D.m({
+        wire: "DeleteMarker",
+        shape: D.list(
+          { Owner: {}, IsLatest: D.bool, LastModified: D.ts },
+          { flat: true },
+        ),
+      }),
+      MaxKeys: D.num,
+      CommonPrefixes: D.list({}, { flat: true }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+    },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListObjectVersions",
-}));
+})) as any;
 
 export type ListPartsError =
   | RequestLimitExceeded
@@ -18042,8 +12879,44 @@ export const listParts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Part
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPartsRequest,
-  output: ListPartsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{Bucket}/{Key+}?x-id=ListParts",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: D.m({ context: "Key" }),
+      MaxParts: D.m({ query: "max-parts" }),
+      PartNumberMarker: D.m({ query: "part-number-marker" }),
+      UploadId: D.m({ query: "uploadId" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKey: D.m({
+        header: "x-amz-server-side-encryption-customer-key",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+    },
+    output: {
+      AbortDate: D.m({ header: "x-amz-abort-date", shape: D.ts }),
+      AbortRuleId: D.m({ header: "x-amz-abort-rule-id" }),
+      MaxParts: D.num,
+      IsTruncated: D.bool,
+      Parts: D.m({
+        wire: "Part",
+        shape: D.list(
+          { PartNumber: D.num, LastModified: D.ts, Size: D.num },
+          { flat: true },
+        ),
+      }),
+      Initiator: {},
+      Owner: {},
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+    },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchUpload],
   protocol: AwsProtocol,
   retry: Retry,
@@ -18066,13 +12939,27 @@ export const putBucketAbac: API.OperationMethod<
   PutBucketAbacError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketAbacRequest,
-  output: PutBucketAbacResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?abac",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      AbacStatus: D.m({
+        payload: true,
+        wire: "AbacStatus",
+        shape: { Status: 0 },
+      }),
+    },
+    checksum: { requestAlgorithmMember: "ChecksumAlgorithm" },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketAbac",
-}));
+})) as any;
 
 export type PutBucketAccelerateConfigurationError =
   | RequestLimitExceeded
@@ -18122,13 +13009,27 @@ export const putBucketAccelerateConfiguration: API.OperationMethod<
   PutBucketAccelerateConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketAccelerateConfigurationRequest,
-  output: PutBucketAccelerateConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?accelerate",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      AccelerateConfiguration: D.m({
+        payload: true,
+        wire: "AccelerateConfiguration",
+        shape: { Status: 0 },
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+    },
+    checksum: { requestAlgorithmMember: "ChecksumAlgorithm" },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketAccelerateConfiguration",
-}));
+})) as any;
 
 export type PutBucketAclError =
   | RequestLimitExceeded
@@ -18287,13 +13188,37 @@ export const putBucketAcl: API.OperationMethod<
   PutBucketAclError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketAclRequest,
-  output: PutBucketAclResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?acl",
+    input: {
+      ACL: D.m({ header: "x-amz-acl" }),
+      AccessControlPolicy: D.m({
+        payload: true,
+        wire: "AccessControlPolicy",
+        shape: i_AccessControlPolicy,
+      }),
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      GrantFullControl: D.m({ header: "x-amz-grant-full-control" }),
+      GrantRead: D.m({ header: "x-amz-grant-read" }),
+      GrantReadACP: D.m({ header: "x-amz-grant-read-acp" }),
+      GrantWrite: D.m({ header: "x-amz-grant-write" }),
+      GrantWriteACP: D.m({ header: "x-amz-grant-write-acp" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketAcl",
-}));
+})) as any;
 
 export type PutBucketAnalyticsConfigurationError = CommonErrors;
 /**
@@ -18365,13 +13290,52 @@ export const putBucketAnalyticsConfiguration: API.OperationMethod<
   PutBucketAnalyticsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketAnalyticsConfigurationRequest,
-  output: PutBucketAnalyticsConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?analytics",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Id: D.m({ query: "id" }),
+      AnalyticsConfiguration: D.m({
+        payload: true,
+        wire: "AnalyticsConfiguration",
+        shape: {
+          Id: 0,
+          Filter: {
+            Prefix: 0,
+            Tag: i_Tag,
+            And: {
+              Prefix: 0,
+              Tags: D.m({
+                wire: "Tag",
+                shape: D.list(i_Tag, { item: "Tag", flat: true }),
+              }),
+            },
+          },
+          StorageClassAnalysis: {
+            DataExport: {
+              OutputSchemaVersion: 0,
+              Destination: {
+                S3BucketDestination: {
+                  Format: 0,
+                  BucketAccountId: 0,
+                  Bucket: 0,
+                  Prefix: 0,
+                },
+              },
+            },
+          },
+        },
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketAnalyticsConfiguration",
-}));
+})) as any;
 
 export type PutBucketCorsError =
   | RequestLimitExceeded
@@ -18431,13 +13395,58 @@ export const putBucketCors: API.OperationMethod<
   PutBucketCorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketCorsRequest,
-  output: PutBucketCorsResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?cors",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      CORSConfiguration: D.m({
+        payload: true,
+        wire: "CORSConfiguration",
+        shape: {
+          CORSRules: D.m({
+            wire: "CORSRule",
+            shape: D.list(
+              {
+                ID: 0,
+                AllowedHeaders: D.m({
+                  wire: "AllowedHeader",
+                  shape: D.list(0, { flat: true }),
+                }),
+                AllowedMethods: D.m({
+                  wire: "AllowedMethod",
+                  shape: D.list(0, { flat: true }),
+                }),
+                AllowedOrigins: D.m({
+                  wire: "AllowedOrigin",
+                  shape: D.list(0, { flat: true }),
+                }),
+                ExposeHeaders: D.m({
+                  wire: "ExposeHeader",
+                  shape: D.list(0, { flat: true }),
+                }),
+                MaxAgeSeconds: 0,
+              },
+              { flat: true },
+            ),
+          }),
+        },
+      }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketCors",
-}));
+})) as any;
 
 export type PutBucketEncryptionError =
   | RequestLimitExceeded
@@ -18536,13 +13545,51 @@ export const putBucketEncryption: API.OperationMethod<
   PutBucketEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketEncryptionRequest,
-  output: PutBucketEncryptionResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?encryption",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      ServerSideEncryptionConfiguration: D.m({
+        payload: true,
+        wire: "ServerSideEncryptionConfiguration",
+        shape: {
+          Rules: D.m({
+            wire: "Rule",
+            shape: D.list(
+              {
+                ApplyServerSideEncryptionByDefault: {
+                  SSEAlgorithm: 0,
+                  KMSMasterKeyID: 0,
+                },
+                BucketKeyEnabled: 0,
+                BlockedEncryptionTypes: {
+                  EncryptionType: D.list(0, {
+                    item: "EncryptionType",
+                    flat: true,
+                  }),
+                },
+              },
+              { flat: true },
+            ),
+          }),
+        },
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketEncryption",
-}));
+})) as any;
 
 export type PutBucketIntelligentTieringConfigurationError =
   | RequestLimitExceeded
@@ -18602,13 +13649,44 @@ export const putBucketIntelligentTieringConfiguration: API.OperationMethod<
   PutBucketIntelligentTieringConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketIntelligentTieringConfigurationRequest,
-  output: PutBucketIntelligentTieringConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?intelligent-tiering",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Id: D.m({ query: "id" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      IntelligentTieringConfiguration: D.m({
+        payload: true,
+        wire: "IntelligentTieringConfiguration",
+        shape: {
+          Id: 0,
+          Filter: {
+            Prefix: 0,
+            Tag: i_Tag,
+            And: {
+              Prefix: 0,
+              Tags: D.m({
+                wire: "Tag",
+                shape: D.list(i_Tag, { item: "Tag", flat: true }),
+              }),
+            },
+          },
+          Status: 0,
+          Tierings: D.m({
+            wire: "Tiering",
+            shape: D.list({ Days: 0, AccessTier: 0 }, { flat: true }),
+          }),
+        },
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketIntelligentTieringConfiguration",
-}));
+})) as any;
 
 export type PutBucketInventoryConfigurationError =
   | RequestLimitExceeded
@@ -18711,13 +13789,45 @@ export const putBucketInventoryConfiguration: API.OperationMethod<
   PutBucketInventoryConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketInventoryConfigurationRequest,
-  output: PutBucketInventoryConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?inventory",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Id: D.m({ query: "id" }),
+      InventoryConfiguration: D.m({
+        payload: true,
+        wire: "InventoryConfiguration",
+        shape: {
+          Destination: {
+            S3BucketDestination: {
+              AccountId: 0,
+              Bucket: 0,
+              Format: 0,
+              Prefix: 0,
+              Encryption: {
+                SSES3: D.m({ wire: "SSE-S3", shape: {} }),
+                SSEKMS: D.m({ wire: "SSE-KMS", shape: { KeyId: 0 } }),
+              },
+            },
+          },
+          IsEnabled: 0,
+          Filter: { Prefix: 0 },
+          Id: 0,
+          IncludedObjectVersions: 0,
+          OptionalFields: D.list(0, { item: "Field" }),
+          Schedule: { Frequency: 0 },
+        },
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketInventoryConfiguration",
-}));
+})) as any;
 
 export type PutBucketLifecycleConfigurationError =
   | RequestLimitExceeded
@@ -18829,8 +13939,84 @@ export const putBucketLifecycleConfiguration: API.OperationMethod<
   PutBucketLifecycleConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketLifecycleConfigurationRequest,
-  output: PutBucketLifecycleConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?lifecycle",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      LifecycleConfiguration: D.m({
+        payload: true,
+        wire: "LifecycleConfiguration",
+        shape: {
+          Rules: D.m({
+            wire: "Rule",
+            shape: D.list(
+              {
+                Expiration: { Date: 0, Days: 0, ExpiredObjectDeleteMarker: 0 },
+                ID: 0,
+                Prefix: 0,
+                Filter: {
+                  Prefix: 0,
+                  Tag: i_Tag,
+                  ObjectSizeGreaterThan: 0,
+                  ObjectSizeLessThan: 0,
+                  And: {
+                    Prefix: 0,
+                    Tags: D.m({
+                      wire: "Tag",
+                      shape: D.list(i_Tag, { item: "Tag", flat: true }),
+                    }),
+                    ObjectSizeGreaterThan: 0,
+                    ObjectSizeLessThan: 0,
+                  },
+                },
+                Status: 0,
+                Transitions: D.m({
+                  wire: "Transition",
+                  shape: D.list(
+                    { Date: 0, Days: 0, StorageClass: 0 },
+                    { flat: true },
+                  ),
+                }),
+                NoncurrentVersionTransitions: D.m({
+                  wire: "NoncurrentVersionTransition",
+                  shape: D.list(
+                    {
+                      NoncurrentDays: 0,
+                      StorageClass: 0,
+                      NewerNoncurrentVersions: 0,
+                    },
+                    { flat: true },
+                  ),
+                }),
+                NoncurrentVersionExpiration: {
+                  NoncurrentDays: 0,
+                  NewerNoncurrentVersions: 0,
+                },
+                AbortIncompleteMultipartUpload: { DaysAfterInitiation: 0 },
+              },
+              { flat: true },
+            ),
+          }),
+        },
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      TransitionDefaultMinimumObjectSize: D.m({
+        header: "x-amz-transition-default-minimum-object-size",
+      }),
+    },
+    output: {
+      TransitionDefaultMinimumObjectSize: D.m({
+        header: "x-amz-transition-default-minimum-object-size",
+      }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -18842,7 +14028,7 @@ export const putBucketLifecycleConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketLifecycleConfiguration",
-}));
+})) as any;
 
 export type PutBucketLoggingError =
   | RequestLimitExceeded
@@ -18924,13 +14110,44 @@ export const putBucketLogging: API.OperationMethod<
   PutBucketLoggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketLoggingRequest,
-  output: PutBucketLoggingResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?logging",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      BucketLoggingStatus: D.m({
+        payload: true,
+        wire: "BucketLoggingStatus",
+        shape: {
+          LoggingEnabled: {
+            TargetBucket: 0,
+            TargetGrants: D.list(
+              { Grantee: i_Grantee, Permission: 0 },
+              { item: "Grant" },
+            ),
+            TargetPrefix: 0,
+            TargetObjectKeyFormat: {
+              SimplePrefix: {},
+              PartitionedPrefix: { PartitionDateSource: 0 },
+            },
+          },
+        },
+      }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketLogging",
-}));
+})) as any;
 
 export type PutBucketMetricsConfigurationError =
   | RequestLimitExceeded
@@ -18998,13 +14215,41 @@ export const putBucketMetricsConfiguration: API.OperationMethod<
   PutBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketMetricsConfigurationRequest,
-  output: PutBucketMetricsConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?metrics",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Id: D.m({ query: "id" }),
+      MetricsConfiguration: D.m({
+        payload: true,
+        wire: "MetricsConfiguration",
+        shape: {
+          Id: 0,
+          Filter: {
+            Prefix: 0,
+            Tag: i_Tag,
+            AccessPointArn: 0,
+            And: {
+              Prefix: 0,
+              Tags: D.m({
+                wire: "Tag",
+                shape: D.list(i_Tag, { item: "Tag", flat: true }),
+              }),
+              AccessPointArn: 0,
+            },
+          },
+        },
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketMetricsConfiguration",
-}));
+})) as any;
 
 export type PutBucketNotificationConfigurationError =
   | RequestLimitExceeded
@@ -19070,13 +14315,75 @@ export const putBucketNotificationConfiguration: API.OperationMethod<
   PutBucketNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketNotificationConfigurationRequest,
-  output: PutBucketNotificationConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?notification",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      NotificationConfiguration: D.m({
+        payload: true,
+        wire: "NotificationConfiguration",
+        shape: {
+          TopicConfigurations: D.m({
+            wire: "TopicConfiguration",
+            shape: D.list(
+              {
+                Id: 0,
+                TopicArn: D.m({ wire: "Topic" }),
+                Events: D.m({
+                  wire: "Event",
+                  shape: D.list(0, { flat: true }),
+                }),
+                Filter: i_NotificationConfigurationFilter,
+              },
+              { flat: true },
+            ),
+          }),
+          QueueConfigurations: D.m({
+            wire: "QueueConfiguration",
+            shape: D.list(
+              {
+                Id: 0,
+                QueueArn: D.m({ wire: "Queue" }),
+                Events: D.m({
+                  wire: "Event",
+                  shape: D.list(0, { flat: true }),
+                }),
+                Filter: i_NotificationConfigurationFilter,
+              },
+              { flat: true },
+            ),
+          }),
+          LambdaFunctionConfigurations: D.m({
+            wire: "CloudFunctionConfiguration",
+            shape: D.list(
+              {
+                Id: 0,
+                LambdaFunctionArn: D.m({ wire: "CloudFunction" }),
+                Events: D.m({
+                  wire: "Event",
+                  shape: D.list(0, { flat: true }),
+                }),
+                Filter: i_NotificationConfigurationFilter,
+              },
+              { flat: true },
+            ),
+          }),
+          EventBridgeConfiguration: {},
+        },
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      SkipDestinationValidation: D.m({
+        header: "x-amz-skip-destination-validation",
+      }),
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketNotificationConfiguration",
-}));
+})) as any;
 
 export type PutBucketOwnershipControlsError =
   | RequestLimitExceeded
@@ -19106,13 +14413,36 @@ export const putBucketOwnershipControls: API.OperationMethod<
   PutBucketOwnershipControlsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketOwnershipControlsRequest,
-  output: PutBucketOwnershipControlsResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?ownershipControls",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      OwnershipControls: D.m({
+        payload: true,
+        wire: "OwnershipControls",
+        shape: {
+          Rules: D.m({
+            wire: "Rule",
+            shape: D.list({ ObjectOwnership: 0 }, { flat: true }),
+          }),
+        },
+      }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketOwnershipControls",
-}));
+})) as any;
 
 export type PutBucketPolicyError =
   | RequestLimitExceeded
@@ -19189,8 +14519,25 @@ export const putBucketPolicy: API.OperationMethod<
   PutBucketPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketPolicyRequest,
-  output: PutBucketPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?policy",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      ConfirmRemoveSelfBucketAccess: D.m({
+        header: "x-amz-confirm-remove-self-bucket-access",
+      }),
+      Policy: D.m({ payload: true, wire: "Policy", shape: D.text }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -19206,7 +14553,7 @@ export const putBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketPolicy",
-}));
+})) as any;
 
 export type PutBucketReplicationError =
   | RequestLimitExceeded
@@ -19281,13 +14628,75 @@ export const putBucketReplication: API.OperationMethod<
   PutBucketReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketReplicationRequest,
-  output: PutBucketReplicationResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?replication",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      ReplicationConfiguration: D.m({
+        payload: true,
+        wire: "ReplicationConfiguration",
+        shape: {
+          Role: 0,
+          Rules: D.m({
+            wire: "Rule",
+            shape: D.list(
+              {
+                ID: 0,
+                Priority: 0,
+                Prefix: 0,
+                Filter: {
+                  Prefix: 0,
+                  Tag: i_Tag,
+                  And: {
+                    Prefix: 0,
+                    Tags: D.m({
+                      wire: "Tag",
+                      shape: D.list(i_Tag, { item: "Tag", flat: true }),
+                    }),
+                  },
+                },
+                Status: 0,
+                SourceSelectionCriteria: {
+                  SseKmsEncryptedObjects: { Status: 0 },
+                  ReplicaModifications: { Status: 0 },
+                },
+                ExistingObjectReplication: { Status: 0 },
+                Destination: {
+                  Bucket: 0,
+                  Account: 0,
+                  StorageClass: 0,
+                  AccessControlTranslation: { Owner: 0 },
+                  EncryptionConfiguration: { ReplicaKmsKeyID: 0 },
+                  ReplicationTime: { Status: 0, Time: i_ReplicationTimeValue },
+                  Metrics: {
+                    Status: 0,
+                    EventThreshold: i_ReplicationTimeValue,
+                  },
+                },
+                DeleteMarkerReplication: { Status: 0 },
+              },
+              { flat: true },
+            ),
+          }),
+        },
+      }),
+      Token: D.m({ header: "x-amz-bucket-object-lock-token" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, InvalidRequest, NoSuchBucket],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketReplication",
-}));
+})) as any;
 
 export type PutBucketRequestPaymentError =
   | RequestLimitExceeded
@@ -19317,13 +14726,31 @@ export const putBucketRequestPayment: API.OperationMethod<
   PutBucketRequestPaymentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketRequestPaymentRequest,
-  output: PutBucketRequestPaymentResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?requestPayment",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      RequestPaymentConfiguration: D.m({
+        payload: true,
+        wire: "RequestPaymentConfiguration",
+        shape: { Payer: 0 },
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketRequestPayment",
-}));
+})) as any;
 
 export type PutBucketTaggingError =
   | RequestLimitExceeded
@@ -19379,13 +14806,27 @@ export const putBucketTagging: API.OperationMethod<
   PutBucketTaggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketTaggingRequest,
-  output: PutBucketTaggingResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?tagging",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      Tagging: D.m({ payload: true, wire: "Tagging", shape: i_Tagging }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketTagging",
-}));
+})) as any;
 
 export type PutBucketVersioningError =
   | RequestLimitExceeded
@@ -19442,13 +14883,32 @@ export const putBucketVersioning: API.OperationMethod<
   PutBucketVersioningError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketVersioningRequest,
-  output: PutBucketVersioningResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?versioning",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      MFA: D.m({ header: "x-amz-mfa" }),
+      VersioningConfiguration: D.m({
+        payload: true,
+        wire: "VersioningConfiguration",
+        shape: { MFADelete: D.m({ wire: "MfaDelete" }), Status: 0 },
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketVersioning",
-}));
+})) as any;
 
 export type PutBucketWebsiteError =
   | RequestLimitExceeded
@@ -19533,13 +14993,48 @@ export const putBucketWebsite: API.OperationMethod<
   PutBucketWebsiteError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutBucketWebsiteRequest,
-  output: PutBucketWebsiteResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?website",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      WebsiteConfiguration: D.m({
+        payload: true,
+        wire: "WebsiteConfiguration",
+        shape: {
+          ErrorDocument: { Key: 0 },
+          IndexDocument: { Suffix: 0 },
+          RedirectAllRequestsTo: { HostName: 0, Protocol: 0 },
+          RoutingRules: D.list(
+            {
+              Condition: { HttpErrorCodeReturnedEquals: 0, KeyPrefixEquals: 0 },
+              Redirect: {
+                HostName: 0,
+                HttpRedirectCode: 0,
+                Protocol: 0,
+                ReplaceKeyPrefixWith: 0,
+                ReplaceKeyWith: 0,
+              },
+            },
+            { item: "RoutingRule" },
+          ),
+        },
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketWebsite",
-}));
+})) as any;
 
 export type PutObjectError =
   | EncryptionTypeMismatch
@@ -19682,8 +15177,115 @@ export const putObject: API.OperationMethod<
   PutObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutObjectRequest,
-  output: PutObjectOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}/{Key+}?x-id=PutObject",
+    input: {
+      ACL: D.m({ header: "x-amz-acl" }),
+      Body: D.m({ payload: true, wire: "StreamingBlob", shape: D.stream }),
+      Bucket: D.m({ context: "Bucket" }),
+      CacheControl: D.m({ header: "Cache-Control" }),
+      ContentDisposition: D.m({ header: "Content-Disposition" }),
+      ContentEncoding: D.m({ header: "Content-Encoding" }),
+      ContentLanguage: D.m({ header: "Content-Language" }),
+      ContentLength: D.m({ header: "Content-Length" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ContentType: D.m({ header: "Content-Type" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      ChecksumCRC32: D.m({ header: "x-amz-checksum-crc32" }),
+      ChecksumCRC32C: D.m({ header: "x-amz-checksum-crc32c" }),
+      ChecksumCRC64NVME: D.m({ header: "x-amz-checksum-crc64nvme" }),
+      ChecksumSHA1: D.m({ header: "x-amz-checksum-sha1" }),
+      ChecksumSHA256: D.m({ header: "x-amz-checksum-sha256" }),
+      ChecksumSHA512: D.m({ header: "x-amz-checksum-sha512" }),
+      ChecksumMD5: D.m({ header: "x-amz-checksum-md5" }),
+      ChecksumXXHASH64: D.m({ header: "x-amz-checksum-xxhash64" }),
+      ChecksumXXHASH3: D.m({ header: "x-amz-checksum-xxhash3" }),
+      ChecksumXXHASH128: D.m({ header: "x-amz-checksum-xxhash128" }),
+      Expires: D.m({ header: "Expires" }),
+      IfMatch: D.m({ header: "If-Match" }),
+      IfNoneMatch: D.m({ header: "If-None-Match" }),
+      GrantFullControl: D.m({ header: "x-amz-grant-full-control" }),
+      GrantRead: D.m({ header: "x-amz-grant-read" }),
+      GrantReadACP: D.m({ header: "x-amz-grant-read-acp" }),
+      GrantWriteACP: D.m({ header: "x-amz-grant-write-acp" }),
+      Key: D.m({ context: "Key" }),
+      WriteOffsetBytes: D.m({ header: "x-amz-write-offset-bytes" }),
+      Metadata: D.m({ prefix: "x-amz-meta-" }),
+      ServerSideEncryption: D.m({ header: "x-amz-server-side-encryption" }),
+      StorageClass: D.m({ header: "x-amz-storage-class" }),
+      WebsiteRedirectLocation: D.m({
+        header: "x-amz-website-redirect-location",
+      }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKey: D.m({
+        header: "x-amz-server-side-encryption-customer-key",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      SSEKMSKeyId: D.m({
+        header: "x-amz-server-side-encryption-aws-kms-key-id",
+      }),
+      SSEKMSEncryptionContext: D.m({
+        header: "x-amz-server-side-encryption-context",
+      }),
+      BucketKeyEnabled: D.m({
+        header: "x-amz-server-side-encryption-bucket-key-enabled",
+      }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      Tagging: D.m({ header: "x-amz-tagging" }),
+      ObjectLockMode: D.m({ header: "x-amz-object-lock-mode" }),
+      ObjectLockRetainUntilDate: D.m({
+        header: "x-amz-object-lock-retain-until-date",
+        shape: D.tsAs("date-time"),
+      }),
+      ObjectLockLegalHoldStatus: D.m({
+        header: "x-amz-object-lock-legal-hold",
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      Expiration: D.m({ header: "x-amz-expiration" }),
+      ETag: D.m({ header: "ETag" }),
+      ChecksumCRC32: D.m({ header: "x-amz-checksum-crc32" }),
+      ChecksumCRC32C: D.m({ header: "x-amz-checksum-crc32c" }),
+      ChecksumCRC64NVME: D.m({ header: "x-amz-checksum-crc64nvme" }),
+      ChecksumSHA1: D.m({ header: "x-amz-checksum-sha1" }),
+      ChecksumSHA256: D.m({ header: "x-amz-checksum-sha256" }),
+      ChecksumSHA512: D.m({ header: "x-amz-checksum-sha512" }),
+      ChecksumMD5: D.m({ header: "x-amz-checksum-md5" }),
+      ChecksumXXHASH64: D.m({ header: "x-amz-checksum-xxhash64" }),
+      ChecksumXXHASH3: D.m({ header: "x-amz-checksum-xxhash3" }),
+      ChecksumXXHASH128: D.m({ header: "x-amz-checksum-xxhash128" }),
+      ChecksumType: D.m({ header: "x-amz-checksum-type" }),
+      ServerSideEncryption: D.m({ header: "x-amz-server-side-encryption" }),
+      VersionId: D.m({ header: "x-amz-version-id" }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      SSEKMSKeyId: D.m({
+        header: "x-amz-server-side-encryption-aws-kms-key-id",
+        shape: D.secret,
+      }),
+      SSEKMSEncryptionContext: D.m({
+        header: "x-amz-server-side-encryption-context",
+        shape: D.secret,
+      }),
+      BucketKeyEnabled: D.m({
+        header: "x-amz-server-side-encryption-bucket-key-enabled",
+        shape: D.bool,
+      }),
+      Size: D.m({ header: "x-amz-object-size", shape: D.num }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+    },
+    checksum: { requestAlgorithmMember: "ChecksumAlgorithm" },
+  },
   errors: [
     EncryptionTypeMismatch,
     InvalidRequest,
@@ -19699,7 +15301,7 @@ export const putObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObject",
-}));
+})) as any;
 
 export type PutObjectAclError =
   | NoSuchKey
@@ -19856,13 +15458,40 @@ export const putObjectAcl: API.OperationMethod<
   PutObjectAclError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutObjectAclRequest,
-  output: PutObjectAclOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}/{Key+}?acl",
+    input: {
+      ACL: D.m({ header: "x-amz-acl" }),
+      AccessControlPolicy: D.m({
+        payload: true,
+        wire: "AccessControlPolicy",
+        shape: i_AccessControlPolicy,
+      }),
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      GrantFullControl: D.m({ header: "x-amz-grant-full-control" }),
+      GrantRead: D.m({ header: "x-amz-grant-read" }),
+      GrantReadACP: D.m({ header: "x-amz-grant-read-acp" }),
+      GrantWrite: D.m({ header: "x-amz-grant-write" }),
+      GrantWriteACP: D.m({ header: "x-amz-grant-write-acp" }),
+      Key: D.m({ context: "Key" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      VersionId: D.m({ query: "versionId" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: { RequestCharged: D.m({ header: "x-amz-request-charged" }) },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+  },
   errors: [NoSuchKey, RequestLimitExceeded, SlowDown, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectAcl",
-}));
+})) as any;
 
 export type PutObjectAnnotationError =
   | AnnotationLimitExceeded
@@ -19906,8 +15535,54 @@ export const putObjectAnnotation: API.OperationMethod<
   PutObjectAnnotationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutObjectAnnotationRequest,
-  output: PutObjectAnnotationOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}/{Key+}?annotation",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: D.m({ context: "Key" }),
+      VersionId: D.m({ query: "versionId" }),
+      AnnotationName: D.m({ query: "annotationName" }),
+      AnnotationPayload: D.m({
+        payload: true,
+        wire: "StreamingBlob",
+        shape: D.stream,
+      }),
+      ObjectIfMatch: D.m({ header: "x-amz-object-if-match" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      ChecksumCRC32: D.m({ header: "x-amz-checksum-crc32" }),
+      ChecksumCRC32C: D.m({ header: "x-amz-checksum-crc32c" }),
+      ChecksumCRC64NVME: D.m({ header: "x-amz-checksum-crc64nvme" }),
+      ChecksumSHA1: D.m({ header: "x-amz-checksum-sha1" }),
+      ChecksumSHA256: D.m({ header: "x-amz-checksum-sha256" }),
+      ChecksumSHA512: D.m({ header: "x-amz-checksum-sha512" }),
+      ChecksumMD5: D.m({ header: "x-amz-checksum-md5" }),
+      ChecksumXXHASH64: D.m({ header: "x-amz-checksum-xxhash64" }),
+      ChecksumXXHASH3: D.m({ header: "x-amz-checksum-xxhash3" }),
+      ChecksumXXHASH128: D.m({ header: "x-amz-checksum-xxhash128" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      ObjectVersionId: D.m({ header: "x-amz-object-version-id" }),
+      ETag: D.m({ header: "ETag" }),
+      ChecksumCRC32: D.m({ header: "x-amz-checksum-crc32" }),
+      ChecksumCRC32C: D.m({ header: "x-amz-checksum-crc32c" }),
+      ChecksumCRC64NVME: D.m({ header: "x-amz-checksum-crc64nvme" }),
+      ChecksumSHA1: D.m({ header: "x-amz-checksum-sha1" }),
+      ChecksumSHA256: D.m({ header: "x-amz-checksum-sha256" }),
+      ChecksumSHA512: D.m({ header: "x-amz-checksum-sha512" }),
+      ChecksumMD5: D.m({ header: "x-amz-checksum-md5" }),
+      ChecksumXXHASH64: D.m({ header: "x-amz-checksum-xxhash64" }),
+      ChecksumXXHASH3: D.m({ header: "x-amz-checksum-xxhash3" }),
+      ChecksumXXHASH128: D.m({ header: "x-amz-checksum-xxhash128" }),
+      ChecksumType: D.m({ header: "x-amz-checksum-type" }),
+      ServerSideEncryption: D.m({ header: "x-amz-server-side-encryption" }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+    },
+    checksum: { requestAlgorithmMember: "ChecksumAlgorithm" },
+  },
   errors: [
     AnnotationLimitExceeded,
     AnnotationNameTooLong,
@@ -19920,7 +15595,7 @@ export const putObjectAnnotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectAnnotation",
-}));
+})) as any;
 
 export type PutObjectLegalHoldError =
   | RequestLimitExceeded
@@ -19946,8 +15621,29 @@ export const putObjectLegalHold: API.OperationMethod<
   PutObjectLegalHoldError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutObjectLegalHoldRequest,
-  output: PutObjectLegalHoldOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}/{Key+}?legal-hold",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: 0,
+      LegalHold: D.m({
+        payload: true,
+        wire: "LegalHold",
+        shape: { Status: 0 },
+      }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      VersionId: D.m({ query: "versionId" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: { RequestCharged: D.m({ header: "x-amz-request-charged" }) },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -19960,7 +15656,7 @@ export const putObjectLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectLegalHold",
-}));
+})) as any;
 
 export type PutObjectLockConfigurationError =
   | RequestLimitExceeded
@@ -19994,8 +15690,31 @@ export const putObjectLockConfiguration: API.OperationMethod<
   PutObjectLockConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutObjectLockConfigurationRequest,
-  output: PutObjectLockConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?object-lock",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ObjectLockConfiguration: D.m({
+        payload: true,
+        wire: "ObjectLockConfiguration",
+        shape: {
+          ObjectLockEnabled: 0,
+          Rule: { DefaultRetention: { Mode: 0, Days: 0, Years: 0 } },
+        },
+      }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      Token: D.m({ header: "x-amz-bucket-object-lock-token" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: { RequestCharged: D.m({ header: "x-amz-request-charged" }) },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -20006,7 +15725,7 @@ export const putObjectLockConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectLockConfiguration",
-}));
+})) as any;
 
 export type PutObjectRetentionError =
   | RequestLimitExceeded
@@ -20034,8 +15753,32 @@ export const putObjectRetention: API.OperationMethod<
   PutObjectRetentionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutObjectRetentionRequest,
-  output: PutObjectRetentionOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}/{Key+}?retention",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: 0,
+      Retention: D.m({
+        payload: true,
+        wire: "Retention",
+        shape: { Mode: 0, RetainUntilDate: 0 },
+      }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      VersionId: D.m({ query: "versionId" }),
+      BypassGovernanceRetention: D.m({
+        header: "x-amz-bypass-governance-retention",
+      }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: { RequestCharged: D.m({ header: "x-amz-request-charged" }) },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -20047,7 +15790,7 @@ export const putObjectRetention: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectRetention",
-}));
+})) as any;
 
 export type PutObjectTaggingError =
   | RequestLimitExceeded
@@ -20103,8 +15846,25 @@ export const putObjectTagging: API.OperationMethod<
   PutObjectTaggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutObjectTaggingRequest,
-  output: PutObjectTaggingOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}/{Key+}?tagging",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: 0,
+      VersionId: D.m({ query: "versionId" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      Tagging: D.m({ payload: true, wire: "Tagging", shape: i_Tagging }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+    },
+    output: { VersionId: D.m({ header: "x-amz-version-id" }) },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -20116,7 +15876,7 @@ export const putObjectTagging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectTagging",
-}));
+})) as any;
 
 export type PutPublicAccessBlockError =
   | RequestLimitExceeded
@@ -20160,13 +15920,36 @@ export const putPublicAccessBlock: API.OperationMethod<
   PutPublicAccessBlockError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutPublicAccessBlockRequest,
-  output: PutPublicAccessBlockResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?publicAccessBlock",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      PublicAccessBlockConfiguration: D.m({
+        payload: true,
+        wire: "PublicAccessBlockConfiguration",
+        shape: {
+          BlockPublicAcls: 0,
+          IgnorePublicAcls: 0,
+          BlockPublicPolicy: 0,
+          RestrictPublicBuckets: 0,
+        },
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPublicAccessBlock",
-}));
+})) as any;
 
 export type RenameObjectError = IdempotencyParameterMismatch | CommonErrors;
 /**
@@ -20220,13 +16003,33 @@ export const renameObject: API.OperationMethod<
   RenameObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RenameObjectRequest,
-  output: RenameObjectOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}/{Key+}?renameObject",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: D.m({ context: "Key" }),
+      RenameSource: D.m({ header: "x-amz-rename-source" }),
+      DestinationIfMatch: D.m({ header: "If-Match" }),
+      DestinationIfNoneMatch: D.m({ header: "If-None-Match" }),
+      DestinationIfModifiedSince: D.m({ header: "If-Modified-Since" }),
+      DestinationIfUnmodifiedSince: D.m({ header: "If-Unmodified-Since" }),
+      SourceIfMatch: D.m({ header: "x-amz-rename-source-if-match" }),
+      SourceIfNoneMatch: D.m({ header: "x-amz-rename-source-if-none-match" }),
+      SourceIfModifiedSince: D.m({
+        header: "x-amz-rename-source-if-modified-since",
+      }),
+      SourceIfUnmodifiedSince: D.m({
+        header: "x-amz-rename-source-if-unmodified-since",
+      }),
+      ClientToken: D.m({ header: "x-amz-client-token", idempotency: true }),
+    },
+  },
   errors: [IdempotencyParameterMismatch],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenameObject",
-}));
+})) as any;
 
 export type RestoreObjectError =
   | ObjectAlreadyInActiveTierError
@@ -20384,8 +16187,55 @@ export const restoreObject: API.OperationMethod<
   RestoreObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RestoreObjectRequest,
-  output: RestoreObjectOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /{Bucket}/{Key+}?restore",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: 0,
+      VersionId: D.m({ query: "versionId" }),
+      RestoreRequest: D.m({
+        payload: true,
+        wire: "RestoreRequest",
+        shape: {
+          Days: 0,
+          GlacierJobParameters: { Tier: 0 },
+          Type: 0,
+          Tier: 0,
+          Description: 0,
+          SelectParameters: {
+            InputSerialization: i_InputSerialization,
+            ExpressionType: 0,
+            Expression: 0,
+            OutputSerialization: i_OutputSerialization,
+          },
+          OutputLocation: {
+            S3: {
+              BucketName: 0,
+              Prefix: 0,
+              Encryption: { EncryptionType: 0, KMSKeyId: 0, KMSContext: 0 },
+              CannedACL: 0,
+              AccessControlList: D.list(i_Grant, { item: "Grant" }),
+              Tagging: i_Tagging,
+              UserMetadata: D.list(
+                { Name: 0, Value: 0 },
+                { item: "MetadataEntry" },
+              ),
+              StorageClass: 0,
+            },
+          },
+        },
+      }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+      RestoreOutputPath: D.m({ header: "x-amz-restore-output-path" }),
+    },
+    checksum: { requestAlgorithmMember: "ChecksumAlgorithm" },
+  },
   errors: [
     ObjectAlreadyInActiveTierError,
     RequestLimitExceeded,
@@ -20399,7 +16249,7 @@ export const restoreObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreObject",
-}));
+})) as any;
 
 export type SelectObjectContentError =
   | RequestLimitExceeded
@@ -20503,13 +16353,63 @@ export const selectObjectContent: API.OperationMethod<
   SelectObjectContentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SelectObjectContentRequest,
-  output: SelectObjectContentOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /{Bucket}/{Key+}?select&select-type=2",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: 0,
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKey: D.m({
+        header: "x-amz-server-side-encryption-customer-key",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      Expression: 0,
+      ExpressionType: 0,
+      RequestProgress: { Enabled: 0 },
+      InputSerialization: i_InputSerialization,
+      OutputSerialization: i_OutputSerialization,
+      ScanRange: { Start: 0, End: 0 },
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      Payload: D.m({
+        payload: true,
+        shape: D.events(
+          {
+            Records: { Payload: D.blob },
+            Stats: {
+              Details: {
+                BytesScanned: D.num,
+                BytesProcessed: D.num,
+                BytesReturned: D.num,
+              },
+            },
+            Progress: {
+              Details: {
+                BytesScanned: D.num,
+                BytesProcessed: D.num,
+                BytesReturned: D.num,
+              },
+            },
+            Cont: 0,
+            End: 0,
+          },
+          { Records: "Payload", Stats: "Details", Progress: "Details" },
+        ),
+      }),
+    },
+    body: "SelectObjectContentRequest",
+  },
   errors: [RequestLimitExceeded, SlowDown, PermanentRedirect],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SelectObjectContent",
-}));
+})) as any;
 
 export type UpdateBucketMetadataAnnotationTableConfigurationError =
   CommonErrors;
@@ -20543,13 +16443,35 @@ export const updateBucketMetadataAnnotationTableConfiguration: API.OperationMeth
   UpdateBucketMetadataAnnotationTableConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateBucketMetadataAnnotationTableConfigurationRequest,
-  output: UpdateBucketMetadataAnnotationTableConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?metadataAnnotationTable",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      AnnotationTableConfiguration: D.m({
+        payload: true,
+        wire: "AnnotationTableConfiguration",
+        shape: {
+          ConfigurationState: 0,
+          EncryptionConfiguration: i_MetadataTableEncryptionConfiguration,
+          Role: 0,
+        },
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBucketMetadataAnnotationTableConfiguration",
-}));
+})) as any;
 
 export type UpdateBucketMetadataInventoryTableConfigurationError = CommonErrors;
 /**
@@ -20604,13 +16526,34 @@ export const updateBucketMetadataInventoryTableConfiguration: API.OperationMetho
   UpdateBucketMetadataInventoryTableConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateBucketMetadataInventoryTableConfigurationRequest,
-  output: UpdateBucketMetadataInventoryTableConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?metadataInventoryTable",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      InventoryTableConfiguration: D.m({
+        payload: true,
+        wire: "InventoryTableConfiguration",
+        shape: {
+          ConfigurationState: 0,
+          EncryptionConfiguration: i_MetadataTableEncryptionConfiguration,
+        },
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBucketMetadataInventoryTableConfiguration",
-}));
+})) as any;
 
 export type UpdateBucketMetadataJournalTableConfigurationError = CommonErrors;
 /**
@@ -20643,13 +16586,31 @@ export const updateBucketMetadataJournalTableConfiguration: API.OperationMethod<
   UpdateBucketMetadataJournalTableConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateBucketMetadataJournalTableConfigurationRequest,
-  output: UpdateBucketMetadataJournalTableConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}?metadataJournalTable",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      JournalTableConfiguration: D.m({
+        payload: true,
+        wire: "JournalTableConfiguration",
+        shape: { RecordExpiration: i_RecordExpiration },
+      }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+    staticContext: { UseS3ExpressControlEndpoint: { value: true } },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBucketMetadataJournalTableConfiguration",
-}));
+})) as any;
 
 export type UpdateObjectEncryptionError =
   | AccessDenied
@@ -20771,13 +16732,39 @@ export const updateObjectEncryption: API.OperationMethod<
   UpdateObjectEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateObjectEncryptionRequest,
-  output: UpdateObjectEncryptionResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}/{Key+}?encryption",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      Key: 0,
+      VersionId: D.m({ query: "versionId" }),
+      ObjectEncryption: D.m({
+        payload: true,
+        wire: "ObjectEncryption",
+        shape: {
+          SSEKMS: D.m({
+            wire: "SSE-KMS",
+            shape: { KMSKeyArn: 0, BucketKeyEnabled: 0 },
+          }),
+        },
+      }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+    },
+    output: { RequestCharged: D.m({ header: "x-amz-request-charged" }) },
+    checksum: {
+      requestAlgorithmMember: "ChecksumAlgorithm",
+      requestChecksumRequired: true,
+    },
+  },
   errors: [AccessDenied, InvalidRequest, NoSuchKey],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateObjectEncryption",
-}));
+})) as any;
 
 export type UploadPartError =
   | RequestLimitExceeded
@@ -20932,8 +16919,71 @@ export const uploadPart: API.OperationMethod<
   UploadPartError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UploadPartRequest,
-  output: UploadPartOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}/{Key+}?x-id=UploadPart",
+    input: {
+      Body: D.m({ payload: true, wire: "StreamingBlob", shape: D.stream }),
+      Bucket: D.m({ context: "Bucket" }),
+      ContentLength: D.m({ header: "Content-Length" }),
+      ContentMD5: D.m({ header: "Content-MD5" }),
+      ChecksumAlgorithm: D.m({ header: "x-amz-sdk-checksum-algorithm" }),
+      ChecksumCRC32: D.m({ header: "x-amz-checksum-crc32" }),
+      ChecksumCRC32C: D.m({ header: "x-amz-checksum-crc32c" }),
+      ChecksumCRC64NVME: D.m({ header: "x-amz-checksum-crc64nvme" }),
+      ChecksumSHA1: D.m({ header: "x-amz-checksum-sha1" }),
+      ChecksumSHA256: D.m({ header: "x-amz-checksum-sha256" }),
+      ChecksumSHA512: D.m({ header: "x-amz-checksum-sha512" }),
+      ChecksumMD5: D.m({ header: "x-amz-checksum-md5" }),
+      ChecksumXXHASH64: D.m({ header: "x-amz-checksum-xxhash64" }),
+      ChecksumXXHASH3: D.m({ header: "x-amz-checksum-xxhash3" }),
+      ChecksumXXHASH128: D.m({ header: "x-amz-checksum-xxhash128" }),
+      Key: D.m({ context: "Key" }),
+      PartNumber: D.m({ query: "partNumber" }),
+      UploadId: D.m({ query: "uploadId" }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKey: D.m({
+        header: "x-amz-server-side-encryption-customer-key",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+    },
+    output: {
+      ServerSideEncryption: D.m({ header: "x-amz-server-side-encryption" }),
+      ETag: D.m({ header: "ETag" }),
+      ChecksumCRC32: D.m({ header: "x-amz-checksum-crc32" }),
+      ChecksumCRC32C: D.m({ header: "x-amz-checksum-crc32c" }),
+      ChecksumCRC64NVME: D.m({ header: "x-amz-checksum-crc64nvme" }),
+      ChecksumSHA1: D.m({ header: "x-amz-checksum-sha1" }),
+      ChecksumSHA256: D.m({ header: "x-amz-checksum-sha256" }),
+      ChecksumSHA512: D.m({ header: "x-amz-checksum-sha512" }),
+      ChecksumMD5: D.m({ header: "x-amz-checksum-md5" }),
+      ChecksumXXHASH64: D.m({ header: "x-amz-checksum-xxhash64" }),
+      ChecksumXXHASH3: D.m({ header: "x-amz-checksum-xxhash3" }),
+      ChecksumXXHASH128: D.m({ header: "x-amz-checksum-xxhash128" }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      SSEKMSKeyId: D.m({
+        header: "x-amz-server-side-encryption-aws-kms-key-id",
+        shape: D.secret,
+      }),
+      BucketKeyEnabled: D.m({
+        header: "x-amz-server-side-encryption-bucket-key-enabled",
+        shape: D.bool,
+      }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+    },
+    checksum: { requestAlgorithmMember: "ChecksumAlgorithm" },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -20944,7 +16994,7 @@ export const uploadPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadPart",
-}));
+})) as any;
 
 export type UploadPartCopyError =
   | RequestLimitExceeded
@@ -21122,8 +17172,70 @@ export const uploadPartCopy: API.OperationMethod<
   UploadPartCopyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UploadPartCopyRequest,
-  output: UploadPartCopyOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /{Bucket}/{Key+}?x-id=UploadPartCopy",
+    input: {
+      Bucket: D.m({ context: "Bucket" }),
+      CopySource: D.m({ header: "x-amz-copy-source" }),
+      CopySourceIfMatch: D.m({ header: "x-amz-copy-source-if-match" }),
+      CopySourceIfModifiedSince: D.m({
+        header: "x-amz-copy-source-if-modified-since",
+      }),
+      CopySourceIfNoneMatch: D.m({ header: "x-amz-copy-source-if-none-match" }),
+      CopySourceIfUnmodifiedSince: D.m({
+        header: "x-amz-copy-source-if-unmodified-since",
+      }),
+      CopySourceRange: D.m({ header: "x-amz-copy-source-range" }),
+      Key: 0,
+      PartNumber: D.m({ query: "partNumber" }),
+      UploadId: D.m({ query: "uploadId" }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKey: D.m({
+        header: "x-amz-server-side-encryption-customer-key",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      CopySourceSSECustomerAlgorithm: D.m({
+        header: "x-amz-copy-source-server-side-encryption-customer-algorithm",
+      }),
+      CopySourceSSECustomerKey: D.m({
+        header: "x-amz-copy-source-server-side-encryption-customer-key",
+      }),
+      CopySourceSSECustomerKeyMD5: D.m({
+        header: "x-amz-copy-source-server-side-encryption-customer-key-MD5",
+      }),
+      RequestPayer: D.m({ header: "x-amz-request-payer" }),
+      ExpectedBucketOwner: D.m({ header: "x-amz-expected-bucket-owner" }),
+      ExpectedSourceBucketOwner: D.m({
+        header: "x-amz-source-expected-bucket-owner",
+      }),
+    },
+    output: {
+      CopySourceVersionId: D.m({ header: "x-amz-copy-source-version-id" }),
+      CopyPartResult: D.m({ payload: true, shape: { LastModified: D.ts } }),
+      ServerSideEncryption: D.m({ header: "x-amz-server-side-encryption" }),
+      SSECustomerAlgorithm: D.m({
+        header: "x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header: "x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      SSEKMSKeyId: D.m({
+        header: "x-amz-server-side-encryption-aws-kms-key-id",
+        shape: D.secret,
+      }),
+      BucketKeyEnabled: D.m({
+        header: "x-amz-server-side-encryption-bucket-key-enabled",
+        shape: D.bool,
+      }),
+      RequestCharged: D.m({ header: "x-amz-request-charged" }),
+    },
+    staticContext: { DisableS3ExpressSessionAuth: { value: true } },
+  },
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -21136,7 +17248,7 @@ export const uploadPartCopy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadPartCopy",
-}));
+})) as any;
 
 export type WriteGetObjectResponseError = CommonErrors;
 /**
@@ -21188,11 +17300,237 @@ export const writeGetObjectResponse: API.OperationMethod<
   WriteGetObjectResponseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: WriteGetObjectResponseRequest,
-  output: WriteGetObjectResponseResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /WriteGetObjectResponse",
+    input: {
+      RequestRoute: D.m({ header: "x-amz-request-route" }),
+      RequestToken: D.m({ header: "x-amz-request-token" }),
+      Body: D.m({ payload: true, wire: "StreamingBlob", shape: D.stream }),
+      StatusCode: D.m({ header: "x-amz-fwd-status" }),
+      ErrorCode: D.m({ header: "x-amz-fwd-error-code" }),
+      ErrorMessage: D.m({ header: "x-amz-fwd-error-message" }),
+      AcceptRanges: D.m({ header: "x-amz-fwd-header-accept-ranges" }),
+      CacheControl: D.m({ header: "x-amz-fwd-header-Cache-Control" }),
+      ContentDisposition: D.m({
+        header: "x-amz-fwd-header-Content-Disposition",
+      }),
+      ContentEncoding: D.m({ header: "x-amz-fwd-header-Content-Encoding" }),
+      ContentLanguage: D.m({ header: "x-amz-fwd-header-Content-Language" }),
+      ContentLength: D.m({ header: "Content-Length" }),
+      ContentRange: D.m({ header: "x-amz-fwd-header-Content-Range" }),
+      ContentType: D.m({ header: "x-amz-fwd-header-Content-Type" }),
+      ChecksumCRC32: D.m({ header: "x-amz-fwd-header-x-amz-checksum-crc32" }),
+      ChecksumCRC32C: D.m({ header: "x-amz-fwd-header-x-amz-checksum-crc32c" }),
+      ChecksumCRC64NVME: D.m({
+        header: "x-amz-fwd-header-x-amz-checksum-crc64nvme",
+      }),
+      ChecksumSHA1: D.m({ header: "x-amz-fwd-header-x-amz-checksum-sha1" }),
+      ChecksumSHA256: D.m({ header: "x-amz-fwd-header-x-amz-checksum-sha256" }),
+      ChecksumSHA512: D.m({ header: "x-amz-fwd-header-x-amz-checksum-sha512" }),
+      ChecksumMD5: D.m({ header: "x-amz-fwd-header-x-amz-checksum-md5" }),
+      ChecksumXXHASH64: D.m({
+        header: "x-amz-fwd-header-x-amz-checksum-xxhash64",
+      }),
+      ChecksumXXHASH3: D.m({
+        header: "x-amz-fwd-header-x-amz-checksum-xxhash3",
+      }),
+      ChecksumXXHASH128: D.m({
+        header: "x-amz-fwd-header-x-amz-checksum-xxhash128",
+      }),
+      DeleteMarker: D.m({ header: "x-amz-fwd-header-x-amz-delete-marker" }),
+      ETag: D.m({ header: "x-amz-fwd-header-ETag" }),
+      Expires: D.m({ header: "x-amz-fwd-header-Expires" }),
+      Expiration: D.m({ header: "x-amz-fwd-header-x-amz-expiration" }),
+      LastModified: D.m({ header: "x-amz-fwd-header-Last-Modified" }),
+      MissingMeta: D.m({ header: "x-amz-fwd-header-x-amz-missing-meta" }),
+      Metadata: D.m({ prefix: "x-amz-meta-" }),
+      ObjectLockMode: D.m({
+        header: "x-amz-fwd-header-x-amz-object-lock-mode",
+      }),
+      ObjectLockLegalHoldStatus: D.m({
+        header: "x-amz-fwd-header-x-amz-object-lock-legal-hold",
+      }),
+      ObjectLockRetainUntilDate: D.m({
+        header: "x-amz-fwd-header-x-amz-object-lock-retain-until-date",
+        shape: D.tsAs("date-time"),
+      }),
+      PartsCount: D.m({ header: "x-amz-fwd-header-x-amz-mp-parts-count" }),
+      ReplicationStatus: D.m({
+        header: "x-amz-fwd-header-x-amz-replication-status",
+      }),
+      RequestCharged: D.m({ header: "x-amz-fwd-header-x-amz-request-charged" }),
+      Restore: D.m({ header: "x-amz-fwd-header-x-amz-restore" }),
+      ServerSideEncryption: D.m({
+        header: "x-amz-fwd-header-x-amz-server-side-encryption",
+      }),
+      SSECustomerAlgorithm: D.m({
+        header:
+          "x-amz-fwd-header-x-amz-server-side-encryption-customer-algorithm",
+      }),
+      SSEKMSKeyId: D.m({
+        header: "x-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id",
+      }),
+      SSECustomerKeyMD5: D.m({
+        header:
+          "x-amz-fwd-header-x-amz-server-side-encryption-customer-key-MD5",
+      }),
+      StorageClass: D.m({ header: "x-amz-fwd-header-x-amz-storage-class" }),
+      TagCount: D.m({ header: "x-amz-fwd-header-x-amz-tagging-count" }),
+      VersionId: D.m({ header: "x-amz-fwd-header-x-amz-version-id" }),
+      BucketKeyEnabled: D.m({
+        header:
+          "x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled",
+      }),
+    },
+    staticContext: { UseObjectLambdaEndpoint: { value: true } },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "WriteGetObjectResponse",
   endpointHostPrefix: "{RequestRoute}.",
-}));
+})) as any;
+
+const i_AccessControlPolicy: D.LazyStruct = () => ({
+  Grants: D.m({
+    wire: "AccessControlList",
+    shape: D.list(i_Grant, { item: "Grant" }),
+  }),
+  Owner: { DisplayName: 0, ID: 0 },
+});
+const i_Grant: D.LazyStruct = () => ({ Grantee: i_Grantee, Permission: 0 });
+const i_Grantee: D.LazyStruct = () => ({
+  DisplayName: 0,
+  EmailAddress: 0,
+  ID: 0,
+  URI: 0,
+  Type: D.m({ wire: "xsi:type", attr: true }),
+});
+const i_InputSerialization: D.LazyStruct = () => ({
+  CSV: {
+    FileHeaderInfo: 0,
+    Comments: 0,
+    QuoteEscapeCharacter: 0,
+    RecordDelimiter: 0,
+    FieldDelimiter: 0,
+    QuoteCharacter: 0,
+    AllowQuotedRecordDelimiter: 0,
+  },
+  CompressionType: 0,
+  JSON: { Type: 0 },
+  Parquet: {},
+});
+const i_MetadataTableEncryptionConfiguration: D.LazyStruct = () => ({
+  SseAlgorithm: 0,
+  KmsKeyArn: 0,
+});
+const i_NotificationConfigurationFilter: D.LazyStruct = () => ({
+  Key: D.m({
+    wire: "S3Key",
+    shape: {
+      FilterRules: D.m({
+        wire: "FilterRule",
+        shape: D.list({ Name: 0, Value: 0 }, { flat: true }),
+      }),
+    },
+  }),
+});
+const i_OutputSerialization: D.LazyStruct = () => ({
+  CSV: {
+    QuoteFields: 0,
+    QuoteEscapeCharacter: 0,
+    RecordDelimiter: 0,
+    FieldDelimiter: 0,
+    QuoteCharacter: 0,
+  },
+  JSON: { RecordDelimiter: 0 },
+});
+const i_RecordExpiration: D.LazyStruct = () => ({ Expiration: 0, Days: 0 });
+const i_ReplicationTimeValue: D.LazyStruct = () => ({ Minutes: 0 });
+const i_Tag: D.LazyStruct = () => ({ Key: 0, Value: 0 });
+const i_Tagging: D.LazyStruct = () => ({
+  TagSet: D.list(i_Tag, { item: "Tag" }),
+});
+const o_AnalyticsConfiguration: D.LazyStruct = () => ({
+  Filter: {
+    Tag: {},
+    And: {
+      Tags: D.m({
+        wire: "Tag",
+        shape: D.list({}, { item: "Tag", flat: true }),
+      }),
+    },
+  },
+  StorageClassAnalysis: {
+    DataExport: { Destination: { S3BucketDestination: {} } },
+  },
+});
+const o_Bucket: D.LazyStruct = () => ({ CreationDate: D.ts });
+const o_Grant: D.LazyStruct = () => ({ Grantee: o_Grantee });
+const o_Grantee: D.LazyStruct = () => ({
+  Type: D.m({ wire: "xsi:type", attr: true }),
+});
+const o_IntelligentTieringConfiguration: D.LazyStruct = () => ({
+  Filter: {
+    Tag: {},
+    And: {
+      Tags: D.m({
+        wire: "Tag",
+        shape: D.list({}, { item: "Tag", flat: true }),
+      }),
+    },
+  },
+  Tierings: D.m({
+    wire: "Tiering",
+    shape: D.list({ Days: D.num }, { flat: true }),
+  }),
+});
+const o_InventoryConfiguration: D.LazyStruct = () => ({
+  Destination: {
+    S3BucketDestination: {
+      Encryption: {
+        SSES3: D.m({ wire: "SSE-S3", shape: {} }),
+        SSEKMS: D.m({ wire: "SSE-KMS", shape: { KeyId: D.secret } }),
+      },
+    },
+  },
+  IsEnabled: D.bool,
+  Filter: {},
+  OptionalFields: D.list(0, { item: "Field" }),
+  Schedule: {},
+});
+const o_MetricsConfiguration: D.LazyStruct = () => ({
+  Filter: {
+    Tag: {},
+    And: {
+      Tags: D.m({
+        wire: "Tag",
+        shape: D.list({}, { item: "Tag", flat: true }),
+      }),
+    },
+  },
+});
+const o_NotificationConfigurationFilter: D.LazyStruct = () => ({
+  Key: D.m({
+    wire: "S3Key",
+    shape: {
+      FilterRules: D.m({
+        wire: "FilterRule",
+        shape: D.list({}, { flat: true }),
+      }),
+    },
+  }),
+});
+const o_Object: D.LazyStruct = () => ({
+  LastModified: D.ts,
+  ChecksumAlgorithm: D.list(0, { flat: true }),
+  Size: D.num,
+  Owner: {},
+  RestoreStatus: o_RestoreStatus,
+});
+const o_ReplicationTimeValue: D.LazyStruct = () => ({ Minutes: D.num });
+const o_RestoreStatus: D.LazyStruct = () => ({
+  IsRestoreInProgress: D.bool,
+  RestoreExpiryDate: D.ts,
+});

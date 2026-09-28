@@ -1,48 +1,61 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "EKS Auth",
-  serviceShapeName: "EKSAuthFrontend",
-});
-const auth = T.AwsAuthSigv4({ name: "eks-auth" });
-const ver = T.ServiceVersion("2023-11-26");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+  target: "EKSAuthFrontend",
+  version: "2023-11-26",
+  sigv4: "eks-auth",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+            if (UseFIPS === true) {
+              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                return e(
+                  `https://eks-auth-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                );
+              }
+              return err(
+                "FIPS is enabled but this partition does not support FIPS",
+              );
+            }
+            return e(
+              `https://eks-auth.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
           if (UseFIPS === true) {
             if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
               return e(
-                `https://eks-auth-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                `https://eks-auth-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
               );
             }
             return err(
@@ -50,82 +63,69 @@ const rules = T.EndpointResolver((p, _) => {
             );
           }
           return e(
-            `https://eks-auth.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            `https://eks-auth.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
           );
         }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://eks-auth-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        return e(
-          `https://eks-auth.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
       }
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError, C.withAuthError) {}
+    ["BadRequestError", "AuthError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ExpiredTokenException
-  extends /*@__PURE__*/ S.TaggedError<ExpiredTokenException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ExpiredTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class InvalidParameterException
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidParameterException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidRequestException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidTokenException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTokenException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class ServiceUnavailableException
-  extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceUnavailableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(503),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 503 },
+  )<{ readonly message?: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message?: string }> {}
 export type ClusterName = string;
 export type JwtToken = string | redacted.Redacted<string>;
 export interface AssumeRoleForPodIdentityRequest {
@@ -135,68 +135,24 @@ export interface AssumeRoleForPodIdentityRequest {
   instanceId?: string;
   zone?: string;
 }
-export const AssumeRoleForPodIdentityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
-    token: SensitiveString,
-    eksNodeName: S.optional(S.String),
-    instanceId: S.optional(S.String),
-    zone: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/clusters/{clusterName}/assume-role-for-pod-identity",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssumeRoleForPodIdentityRequest",
-}) as any as S.Schema<AssumeRoleForPodIdentityRequest>;
 export interface Subject {
   namespace: string;
   serviceAccount: string;
 }
-export const Subject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ namespace: S.String, serviceAccount: S.String }),
-).annotate({ identifier: "Subject" }) as any as S.Schema<Subject>;
 export interface PodIdentityAssociation {
   associationArn: string;
   associationId: string;
 }
-export const PodIdentityAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ associationArn: S.String, associationId: S.String }),
-).annotate({
-  identifier: "PodIdentityAssociation",
-}) as any as S.Schema<PodIdentityAssociation>;
 export interface AssumedRoleUser {
   arn: string;
   assumeRoleId: string;
 }
-export const AssumedRoleUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String, assumeRoleId: S.String }),
-).annotate({
-  identifier: "AssumedRoleUser",
-}) as any as S.Schema<AssumedRoleUser>;
 export interface Credentials {
   sessionToken: string | redacted.Redacted<string>;
   secretAccessKey: string | redacted.Redacted<string>;
   accessKeyId: string;
   expiration: Date;
 }
-export const Credentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionToken: SensitiveString,
-    secretAccessKey: SensitiveString,
-    accessKeyId: S.String,
-    expiration: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({ identifier: "Credentials" }) as any as S.Schema<Credentials>;
 export interface AssumeRoleForPodIdentityResponse {
   subject: Subject;
   audience: string;
@@ -204,17 +160,6 @@ export interface AssumeRoleForPodIdentityResponse {
   assumedRoleUser: AssumedRoleUser;
   credentials: Credentials;
 }
-export const AssumeRoleForPodIdentityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subject: Subject,
-    audience: S.String,
-    podIdentityAssociation: PodIdentityAssociation,
-    assumedRoleUser: AssumedRoleUser,
-    credentials: Credentials,
-  }),
-).annotate({
-  identifier: "AssumeRoleForPodIdentityResponse",
-}) as any as S.Schema<AssumeRoleForPodIdentityResponse>;
 export type AssumeRoleForPodIdentityError =
   | AccessDeniedException
   | ExpiredTokenException
@@ -237,8 +182,19 @@ export const assumeRoleForPodIdentity: API.OperationMethod<
   AssumeRoleForPodIdentityError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssumeRoleForPodIdentityRequest,
-  output: AssumeRoleForPodIdentityResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /clusters/{clusterName}/assume-role-for-pod-identity",
+    input: { clusterName: 0, token: 0, eksNodeName: 0, instanceId: 0, zone: 0 },
+    output: {
+      credentials: {
+        sessionToken: D.secret,
+        secretAccessKey: D.secret,
+        expiration: D.ts,
+      },
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ExpiredTokenException,
@@ -253,4 +209,4 @@ export const assumeRoleForPodIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeRoleForPodIdentity",
-}));
+})) as any;

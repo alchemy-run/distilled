@@ -1,145 +1,136 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "NetworkMonitor",
-  serviceShapeName: "NetworkMonitor",
-});
-const auth = T.AwsAuthSigv4({ name: "networkmonitor" });
-const ver = T.ServiceVersion("2023-08-01");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://networkmonitor-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://networkmonitor-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://networkmonitor.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://networkmonitor.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "NetworkMonitor",
+  version: "2023-08-01",
+  sigv4: "networkmonitor",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://networkmonitor-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://networkmonitor-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://networkmonitor.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://networkmonitor.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message?: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(500), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly message?: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(429), T.Retryable({ throttling: true })),
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+    ["ThrottlingError", "RetryableError"],
+    { status: 429 },
+  )<{ readonly message?: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export type ResourceName = string;
 export type Arn = string;
 export type Destination = string;
 export type Port = number;
 export type Protocol = "TCP" | "ICMP" | (string & {});
-export const Protocol = S.String;
-
 export type PacketSize = number;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface CreateMonitorProbeInput {
   sourceArn: string;
   destination: string;
@@ -148,22 +139,7 @@ export interface CreateMonitorProbeInput {
   packetSize?: number;
   probeTags?: { [key: string]: string | undefined };
 }
-export const CreateMonitorProbeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceArn: S.String,
-    destination: S.String,
-    destinationPort: S.optional(S.Number),
-    protocol: Protocol,
-    packetSize: S.optional(S.Number),
-    probeTags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "CreateMonitorProbeInput",
-}) as any as S.Schema<CreateMonitorProbeInput>;
 export type CreateMonitorProbeInputList = CreateMonitorProbeInput[];
-export const CreateMonitorProbeInputList = /*@__PURE__*/ S.Array(
-  CreateMonitorProbeInput,
-);
 export type AggregationPeriod = number;
 export interface CreateMonitorInput {
   monitorName: string;
@@ -172,26 +148,6 @@ export interface CreateMonitorInput {
   clientToken?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateMonitorInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitorName: S.String,
-    probes: S.optional(CreateMonitorProbeInputList),
-    aggregationPeriod: S.optional(S.Number),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/monitors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateMonitorInput",
-}) as any as S.Schema<CreateMonitorInput>;
 export type MonitorArn = string;
 export type MonitorState =
   | "PENDING"
@@ -200,8 +156,6 @@ export type MonitorState =
   | "ERROR"
   | "DELETING"
   | (string & {});
-export const MonitorState = S.String;
-
 export interface CreateMonitorOutput {
   monitorArn: string;
   monitorName: string;
@@ -209,17 +163,6 @@ export interface CreateMonitorOutput {
   aggregationPeriod?: number;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateMonitorOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitorArn: S.String,
-    monitorName: S.String,
-    state: MonitorState,
-    aggregationPeriod: S.optional(S.Number),
-    tags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "CreateMonitorOutput",
-}) as any as S.Schema<CreateMonitorOutput>;
 export interface ProbeInput {
   sourceArn: string;
   destination: string;
@@ -228,45 +171,14 @@ export interface ProbeInput {
   packetSize?: number;
   tags?: { [key: string]: string | undefined };
 }
-export const ProbeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceArn: S.String,
-    destination: S.String,
-    destinationPort: S.optional(S.Number),
-    protocol: Protocol,
-    packetSize: S.optional(S.Number),
-    tags: S.optional(TagMap),
-  }),
-).annotate({ identifier: "ProbeInput" }) as any as S.Schema<ProbeInput>;
 export interface CreateProbeInput {
   monitorName: string;
   probe: ProbeInput;
   clientToken?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateProbeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitorName: S.String.pipe(T.HttpLabel("monitorName")),
-    probe: ProbeInput,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/monitors/{monitorName}/probes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateProbeInput",
-}) as any as S.Schema<CreateProbeInput>;
 export type ProbeId = string;
 export type AddressFamily = "IPV4" | "IPV6" | (string & {});
-export const AddressFamily = S.String;
-
 export type VpcId = string;
 export type ProbeState =
   | "PENDING"
@@ -276,8 +188,6 @@ export type ProbeState =
   | "DELETING"
   | "DELETED"
   | (string & {});
-export const ProbeState = S.String;
-
 export type Iso8601Timestamp = Date;
 export interface CreateProbeOutput {
   probeId?: string;
@@ -294,95 +204,18 @@ export interface CreateProbeOutput {
   modifiedAt?: Date;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateProbeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    probeId: S.optional(S.String),
-    probeArn: S.optional(S.String),
-    sourceArn: S.String,
-    destination: S.String,
-    destinationPort: S.optional(S.Number),
-    protocol: Protocol,
-    packetSize: S.optional(S.Number),
-    addressFamily: S.optional(AddressFamily),
-    vpcId: S.optional(S.String),
-    state: S.optional(ProbeState),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    tags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "CreateProbeOutput",
-}) as any as S.Schema<CreateProbeOutput>;
 export interface DeleteMonitorInput {
   monitorName: string;
 }
-export const DeleteMonitorInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ monitorName: S.String.pipe(T.HttpLabel("monitorName")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/monitors/{monitorName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteMonitorInput",
-}) as any as S.Schema<DeleteMonitorInput>;
 export interface DeleteMonitorOutput {}
-export const DeleteMonitorOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteMonitorOutput",
-}) as any as S.Schema<DeleteMonitorOutput>;
 export interface DeleteProbeInput {
   monitorName: string;
   probeId: string;
 }
-export const DeleteProbeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitorName: S.String.pipe(T.HttpLabel("monitorName")),
-    probeId: S.String.pipe(T.HttpLabel("probeId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/monitors/{monitorName}/probes/{probeId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteProbeInput",
-}) as any as S.Schema<DeleteProbeInput>;
 export interface DeleteProbeOutput {}
-export const DeleteProbeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteProbeOutput",
-}) as any as S.Schema<DeleteProbeOutput>;
 export interface GetMonitorInput {
   monitorName: string;
 }
-export const GetMonitorInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ monitorName: S.String.pipe(T.HttpLabel("monitorName")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/monitors/{monitorName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMonitorInput",
-}) as any as S.Schema<GetMonitorInput>;
 export interface Probe {
   probeId?: string;
   probeArn?: string;
@@ -398,25 +231,7 @@ export interface Probe {
   modifiedAt?: Date;
   tags?: { [key: string]: string | undefined };
 }
-export const Probe = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    probeId: S.optional(S.String),
-    probeArn: S.optional(S.String),
-    sourceArn: S.String,
-    destination: S.String,
-    destinationPort: S.optional(S.Number),
-    protocol: Protocol,
-    packetSize: S.optional(S.Number),
-    addressFamily: S.optional(AddressFamily),
-    vpcId: S.optional(S.String),
-    state: S.optional(ProbeState),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    tags: S.optional(TagMap),
-  }),
-).annotate({ identifier: "Probe" }) as any as S.Schema<Probe>;
 export type ProbeList = Probe[];
-export const ProbeList = /*@__PURE__*/ S.Array(Probe);
 export interface GetMonitorOutput {
   monitorArn: string;
   monitorName: string;
@@ -427,42 +242,10 @@ export interface GetMonitorOutput {
   createdAt: Date;
   modifiedAt: Date;
 }
-export const GetMonitorOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitorArn: S.String,
-    monitorName: S.String,
-    state: MonitorState,
-    aggregationPeriod: S.Number,
-    tags: S.optional(TagMap),
-    probes: S.optional(ProbeList),
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    modifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "GetMonitorOutput",
-}) as any as S.Schema<GetMonitorOutput>;
 export interface GetProbeInput {
   monitorName: string;
   probeId: string;
 }
-export const GetProbeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitorName: S.String.pipe(T.HttpLabel("monitorName")),
-    probeId: S.String.pipe(T.HttpLabel("probeId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/monitors/{monitorName}/probes/{probeId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetProbeInput" }) as any as S.Schema<GetProbeInput>;
 export interface GetProbeOutput {
   probeId?: string;
   probeArn?: string;
@@ -478,23 +261,6 @@ export interface GetProbeOutput {
   modifiedAt?: Date;
   tags?: { [key: string]: string | undefined };
 }
-export const GetProbeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    probeId: S.optional(S.String),
-    probeArn: S.optional(S.String),
-    sourceArn: S.String,
-    destination: S.String,
-    destinationPort: S.optional(S.Number),
-    protocol: Protocol,
-    packetSize: S.optional(S.Number),
-    addressFamily: S.optional(AddressFamily),
-    vpcId: S.optional(S.String),
-    state: S.optional(ProbeState),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    tags: S.optional(TagMap),
-  }),
-).annotate({ identifier: "GetProbeOutput" }) as any as S.Schema<GetProbeOutput>;
 export type PaginationToken = string;
 export type MaxResults = number;
 export interface ListMonitorsInput {
@@ -502,24 +268,6 @@ export interface ListMonitorsInput {
   maxResults?: number;
   state?: string;
 }
-export const ListMonitorsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    state: S.optional(S.String).pipe(T.HttpQuery("state")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/monitors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListMonitorsInput",
-}) as any as S.Schema<ListMonitorsInput>;
 export interface MonitorSummary {
   monitorArn: string;
   monitorName: string;
@@ -527,128 +275,32 @@ export interface MonitorSummary {
   aggregationPeriod?: number;
   tags?: { [key: string]: string | undefined };
 }
-export const MonitorSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitorArn: S.String,
-    monitorName: S.String,
-    state: MonitorState,
-    aggregationPeriod: S.optional(S.Number),
-    tags: S.optional(TagMap),
-  }),
-).annotate({ identifier: "MonitorSummary" }) as any as S.Schema<MonitorSummary>;
 export type MonitorList = MonitorSummary[];
-export const MonitorList = /*@__PURE__*/ S.Array(MonitorSummary);
 export interface ListMonitorsOutput {
   monitors: MonitorSummary[];
   nextToken?: string;
 }
-export const ListMonitorsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ monitors: MonitorList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListMonitorsOutput",
-}) as any as S.Schema<ListMonitorsOutput>;
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
-export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(TagMap) }),
-).annotate({
-  identifier: "ListTagsForResourceOutput",
-}) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceOutput",
-}) as any as S.Schema<TagResourceOutput>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceInput {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceOutput",
-}) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateMonitorInput {
   monitorName: string;
   aggregationPeriod: number;
 }
-export const UpdateMonitorInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitorName: S.String.pipe(T.HttpLabel("monitorName")),
-    aggregationPeriod: S.Number,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/monitors/{monitorName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateMonitorInput",
-}) as any as S.Schema<UpdateMonitorInput>;
 export interface UpdateMonitorOutput {
   monitorArn: string;
   monitorName: string;
@@ -656,17 +308,6 @@ export interface UpdateMonitorOutput {
   aggregationPeriod?: number;
   tags?: { [key: string]: string | undefined };
 }
-export const UpdateMonitorOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitorArn: S.String,
-    monitorName: S.String,
-    state: MonitorState,
-    aggregationPeriod: S.optional(S.Number),
-    tags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "UpdateMonitorOutput",
-}) as any as S.Schema<UpdateMonitorOutput>;
 export interface UpdateProbeInput {
   monitorName: string;
   probeId: string;
@@ -676,31 +317,6 @@ export interface UpdateProbeInput {
   protocol?: Protocol;
   packetSize?: number;
 }
-export const UpdateProbeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitorName: S.String.pipe(T.HttpLabel("monitorName")),
-    probeId: S.String.pipe(T.HttpLabel("probeId")),
-    state: S.optional(ProbeState),
-    destination: S.optional(S.String),
-    destinationPort: S.optional(S.Number),
-    protocol: S.optional(Protocol),
-    packetSize: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/monitors/{monitorName}/probes/{probeId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateProbeInput",
-}) as any as S.Schema<UpdateProbeInput>;
 export interface UpdateProbeOutput {
   probeId?: string;
   probeArn?: string;
@@ -716,25 +332,6 @@ export interface UpdateProbeOutput {
   modifiedAt?: Date;
   tags?: { [key: string]: string | undefined };
 }
-export const UpdateProbeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    probeId: S.optional(S.String),
-    probeArn: S.optional(S.String),
-    sourceArn: S.String,
-    destination: S.String,
-    destinationPort: S.optional(S.Number),
-    protocol: Protocol,
-    packetSize: S.optional(S.Number),
-    addressFamily: S.optional(AddressFamily),
-    vpcId: S.optional(S.String),
-    state: S.optional(ProbeState),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    tags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "UpdateProbeOutput",
-}) as any as S.Schema<UpdateProbeOutput>;
 export type CreateMonitorError =
   | AccessDeniedException
   | ConflictException
@@ -772,8 +369,25 @@ export const createMonitor: API.OperationMethod<
   CreateMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateMonitorInput,
-  output: CreateMonitorOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /monitors",
+    input: {
+      monitorName: 0,
+      probes: D.list({
+        sourceArn: 0,
+        destination: 0,
+        destinationPort: 0,
+        protocol: 0,
+        packetSize: 0,
+        probeTags: 0,
+      }),
+      aggregationPeriod: 0,
+      clientToken: D.m({ idempotency: true }),
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -785,7 +399,7 @@ export const createMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitor",
-}));
+})) as any;
 
 export type CreateProbeError =
   | AccessDeniedException
@@ -808,8 +422,25 @@ export const createProbe: API.OperationMethod<
   CreateProbeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateProbeInput,
-  output: CreateProbeOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /monitors/{monitorName}/probes",
+    input: {
+      monitorName: 0,
+      probe: {
+        sourceArn: 0,
+        destination: 0,
+        destinationPort: 0,
+        protocol: 0,
+        packetSize: 0,
+        tags: 0,
+      },
+      clientToken: D.m({ idempotency: true }),
+      tags: 0,
+    },
+    output: { createdAt: D.ts, modifiedAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -821,7 +452,7 @@ export const createProbe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProbe",
-}));
+})) as any;
 
 export type DeleteMonitorError =
   | AccessDeniedException
@@ -842,8 +473,11 @@ export const deleteMonitor: API.OperationMethod<
   DeleteMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteMonitorInput,
-  output: DeleteMonitorOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /monitors/{monitorName}",
+    input: { monitorName: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -854,7 +488,7 @@ export const deleteMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitor",
-}));
+})) as any;
 
 export type DeleteProbeError =
   | AccessDeniedException
@@ -879,8 +513,11 @@ export const deleteProbe: API.OperationMethod<
   DeleteProbeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteProbeInput,
-  output: DeleteProbeOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /monitors/{monitorName}/probes/{probeId}",
+    input: { monitorName: 0, probeId: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -892,7 +529,7 @@ export const deleteProbe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProbe",
-}));
+})) as any;
 
 export type GetMonitorError =
   | AccessDeniedException
@@ -913,8 +550,16 @@ export const getMonitor: API.OperationMethod<
   GetMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMonitorInput,
-  output: GetMonitorOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /monitors/{monitorName}",
+    input: { monitorName: 0 },
+    output: {
+      probes: D.list({ createdAt: D.ts, modifiedAt: D.ts }),
+      createdAt: D.ts,
+      modifiedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -925,7 +570,7 @@ export const getMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMonitor",
-}));
+})) as any;
 
 export type GetProbeError =
   | AccessDeniedException
@@ -946,8 +591,12 @@ export const getProbe: API.OperationMethod<
   GetProbeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetProbeInput,
-  output: GetProbeOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /monitors/{monitorName}/probes/{probeId}",
+    input: { monitorName: 0, probeId: 0 },
+    output: { createdAt: D.ts, modifiedAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -958,7 +607,7 @@ export const getProbe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProbe",
-}));
+})) as any;
 
 export type ListMonitorsError =
   | AccessDeniedException
@@ -976,8 +625,15 @@ export const listMonitors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MonitorSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListMonitorsInput,
-  output: ListMonitorsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /monitors",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      state: D.m({ query: "state" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1012,8 +668,11 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{resourceArn}",
+    input: { resourceArn: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1025,7 +684,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type TagResourceError =
   | AccessDeniedException
@@ -1044,8 +703,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{resourceArn}",
+    input: { resourceArn: 0, tags: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1057,7 +720,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | AccessDeniedException
@@ -1076,8 +739,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{resourceArn}",
+    input: { resourceArn: 0, tagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1089,7 +755,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateMonitorError =
   | AccessDeniedException
@@ -1111,8 +777,12 @@ export const updateMonitor: API.OperationMethod<
   UpdateMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateMonitorInput,
-  output: UpdateMonitorOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /monitors/{monitorName}",
+    input: { monitorName: 0, aggregationPeriod: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1124,7 +794,7 @@ export const updateMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMonitor",
-}));
+})) as any;
 
 export type UpdateProbeError =
   | AccessDeniedException
@@ -1163,8 +833,21 @@ export const updateProbe: API.OperationMethod<
   UpdateProbeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateProbeInput,
-  output: UpdateProbeOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /monitors/{monitorName}/probes/{probeId}",
+    input: {
+      monitorName: 0,
+      probeId: 0,
+      state: 0,
+      destination: 0,
+      destinationPort: 0,
+      protocol: 0,
+      packetSize: 0,
+    },
+    output: { createdAt: D.ts, modifiedAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1176,4 +859,4 @@ export const updateProbe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProbe",
-}));
+})) as any;

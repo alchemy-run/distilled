@@ -1,167 +1,164 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({ sdkId: "RUM", serviceShapeName: "RUM" });
-const auth = T.AwsAuthSigv4({ name: "rum" });
-const ver = T.ServiceVersion("2018-05-10");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://rum-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://rum-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://rum.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://rum.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+const svc: T.ServiceInfo = {
+  sdkId: "RUM",
+  target: "RUM",
+  version: "2018-05-10",
+  sigv4: "rum",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://rum-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://rum-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://rum.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://rum.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceName: S.String,
-      resourceType: S.optional(S.String),
-    },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{
+    readonly message: string;
+    readonly resourceName: string;
+    readonly resourceType?: string;
+  }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
-    },
-    T.all(T.HttpError(500), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 500, headers: { retryAfterSeconds: ["Retry-After", "num"] } },
+  )<{ readonly message: string; readonly retryAfterSeconds?: number }> {}
 export class InvalidPolicyRevisionIdException
-  extends /*@__PURE__*/ S.TaggedError<InvalidPolicyRevisionIdException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidPolicyRevisionIdException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message: string }> {}
 export class MalformedPolicyDocumentException
-  extends /*@__PURE__*/ S.TaggedError<MalformedPolicyDocumentException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MalformedPolicyDocumentException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message: string }> {}
 export class PolicyNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<PolicyNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "PolicyNotFoundException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message: string }> {}
 export class PolicySizeLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<PolicySizeLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "PolicySizeLimitExceededException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceName: S.String,
-      resourceType: S.optional(S.String),
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{
+    readonly message: string;
+    readonly resourceName: string;
+    readonly resourceType?: string;
+  }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly message: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      serviceCode: S.optional(S.String),
-      quotaCode: S.optional(S.String),
-      retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
-    },
-    T.all(T.HttpError(429), T.Retryable({ throttling: true })),
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+    ["ThrottlingError", "RetryableError"],
+    { status: 429, headers: { retryAfterSeconds: ["Retry-After", "num"] } },
+  )<{
+    readonly message: string;
+    readonly serviceCode?: string;
+    readonly quotaCode?: string;
+    readonly retryAfterSeconds?: number;
+  }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message: string }> {}
 export type AppMonitorName = string;
 export type MetricDestination = string;
 export type DestinationArn = string;
@@ -171,10 +168,6 @@ export type UnitLabel = string;
 export type DimensionKey = string;
 export type DimensionName = string;
 export type DimensionKeysMap = { [key: string]: string | undefined };
-export const DimensionKeysMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type EventPattern = string;
 export type Namespace = string;
 export interface MetricDefinitionRequest {
@@ -185,68 +178,20 @@ export interface MetricDefinitionRequest {
   EventPattern?: string;
   Namespace?: string;
 }
-export const MetricDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    ValueKey: S.optional(S.String),
-    UnitLabel: S.optional(S.String),
-    DimensionKeys: S.optional(DimensionKeysMap),
-    EventPattern: S.optional(S.String),
-    Namespace: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MetricDefinitionRequest",
-}) as any as S.Schema<MetricDefinitionRequest>;
 export type MetricDefinitionsRequest = MetricDefinitionRequest[];
-export const MetricDefinitionsRequest = /*@__PURE__*/ S.Array(
-  MetricDefinitionRequest,
-);
 export interface BatchCreateRumMetricDefinitionsRequest {
   AppMonitorName: string;
   Destination: string;
   DestinationArn?: string;
   MetricDefinitions: MetricDefinitionRequest[];
 }
-export const BatchCreateRumMetricDefinitionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
-      Destination: S.String,
-      DestinationArn: S.optional(S.String),
-      MetricDefinitions: MetricDefinitionsRequest,
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/rummetrics/{AppMonitorName}/metrics" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "BatchCreateRumMetricDefinitionsRequest",
-}) as any as S.Schema<BatchCreateRumMetricDefinitionsRequest>;
 export interface BatchCreateRumMetricDefinitionsError_ {
   MetricDefinition: MetricDefinitionRequest;
   ErrorCode: string;
   ErrorMessage: string;
 }
-export const BatchCreateRumMetricDefinitionsError_ = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MetricDefinition: MetricDefinitionRequest,
-      ErrorCode: S.String,
-      ErrorMessage: S.String,
-    }),
-).annotate({
-  identifier: "BatchCreateRumMetricDefinitionsError",
-}) as any as S.Schema<BatchCreateRumMetricDefinitionsError_>;
 export type BatchCreateRumMetricDefinitionsErrors =
   BatchCreateRumMetricDefinitionsError_[];
-export const BatchCreateRumMetricDefinitionsErrors = /*@__PURE__*/ S.Array(
-  BatchCreateRumMetricDefinitionsError_,
-);
 export type MetricDefinitionId = string;
 export interface MetricDefinition {
   MetricDefinitionId: string;
@@ -257,100 +202,29 @@ export interface MetricDefinition {
   EventPattern?: string;
   Namespace?: string;
 }
-export const MetricDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MetricDefinitionId: S.String,
-    Name: S.String,
-    ValueKey: S.optional(S.String),
-    UnitLabel: S.optional(S.String),
-    DimensionKeys: S.optional(DimensionKeysMap),
-    EventPattern: S.optional(S.String),
-    Namespace: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MetricDefinition",
-}) as any as S.Schema<MetricDefinition>;
 export type MetricDefinitions = MetricDefinition[];
-export const MetricDefinitions = /*@__PURE__*/ S.Array(MetricDefinition);
 export interface BatchCreateRumMetricDefinitionsResponse {
   Errors: BatchCreateRumMetricDefinitionsError_[];
   MetricDefinitions?: MetricDefinition[];
 }
-export const BatchCreateRumMetricDefinitionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Errors: BatchCreateRumMetricDefinitionsErrors,
-      MetricDefinitions: S.optional(MetricDefinitions),
-    }),
-).annotate({
-  identifier: "BatchCreateRumMetricDefinitionsResponse",
-}) as any as S.Schema<BatchCreateRumMetricDefinitionsResponse>;
 export type MetricDefinitionIds = string[];
-export const MetricDefinitionIds = /*@__PURE__*/ S.Array(S.String);
 export interface BatchDeleteRumMetricDefinitionsRequest {
   AppMonitorName: string;
   Destination: string;
   DestinationArn?: string;
   MetricDefinitionIds: string[];
 }
-export const BatchDeleteRumMetricDefinitionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
-      Destination: S.String.pipe(T.HttpQuery("destination")),
-      DestinationArn: S.optional(S.String).pipe(T.HttpQuery("destinationArn")),
-      MetricDefinitionIds: MetricDefinitionIds.pipe(
-        T.HttpQuery("metricDefinitionIds"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/rummetrics/{AppMonitorName}/metrics",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "BatchDeleteRumMetricDefinitionsRequest",
-}) as any as S.Schema<BatchDeleteRumMetricDefinitionsRequest>;
 export interface BatchDeleteRumMetricDefinitionsError_ {
   MetricDefinitionId: string;
   ErrorCode: string;
   ErrorMessage: string;
 }
-export const BatchDeleteRumMetricDefinitionsError_ = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MetricDefinitionId: S.String,
-      ErrorCode: S.String,
-      ErrorMessage: S.String,
-    }),
-).annotate({
-  identifier: "BatchDeleteRumMetricDefinitionsError",
-}) as any as S.Schema<BatchDeleteRumMetricDefinitionsError_>;
 export type BatchDeleteRumMetricDefinitionsErrors =
   BatchDeleteRumMetricDefinitionsError_[];
-export const BatchDeleteRumMetricDefinitionsErrors = /*@__PURE__*/ S.Array(
-  BatchDeleteRumMetricDefinitionsError_,
-);
 export interface BatchDeleteRumMetricDefinitionsResponse {
   Errors: BatchDeleteRumMetricDefinitionsError_[];
   MetricDefinitionIds?: string[];
 }
-export const BatchDeleteRumMetricDefinitionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Errors: BatchDeleteRumMetricDefinitionsErrors,
-      MetricDefinitionIds: S.optional(MetricDefinitionIds),
-    }),
-).annotate({
-  identifier: "BatchDeleteRumMetricDefinitionsResponse",
-}) as any as S.Schema<BatchDeleteRumMetricDefinitionsResponse>;
 export type MaxResultsInteger = number;
 export interface BatchGetRumMetricDefinitionsRequest {
   AppMonitorName: string;
@@ -359,60 +233,23 @@ export interface BatchGetRumMetricDefinitionsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const BatchGetRumMetricDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
-    Destination: S.String.pipe(T.HttpQuery("destination")),
-    DestinationArn: S.optional(S.String).pipe(T.HttpQuery("destinationArn")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/rummetrics/{AppMonitorName}/metrics" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetRumMetricDefinitionsRequest",
-}) as any as S.Schema<BatchGetRumMetricDefinitionsRequest>;
 export interface BatchGetRumMetricDefinitionsResponse {
   MetricDefinitions?: MetricDefinition[];
   NextToken?: string;
 }
-export const BatchGetRumMetricDefinitionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MetricDefinitions: S.optional(MetricDefinitions),
-      NextToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "BatchGetRumMetricDefinitionsResponse",
-}) as any as S.Schema<BatchGetRumMetricDefinitionsResponse>;
 export type AppMonitorDomain = string;
 export type AppMonitorDomainList = string[];
-export const AppMonitorDomainList = /*@__PURE__*/ S.Array(S.String);
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type IdentityPoolId = string;
 export type Url = string;
 export type Pages = string[];
-export const Pages = /*@__PURE__*/ S.Array(S.String);
 export type FavoritePages = string[];
-export const FavoritePages = /*@__PURE__*/ S.Array(S.String);
 export type SessionSampleRate = number;
 export type Arn = string;
 export type Telemetry = string;
 export type Telemetries = string[];
-export const Telemetries = /*@__PURE__*/ S.Array(S.String);
 export interface AppMonitorConfiguration {
   IdentityPoolId?: string;
   ExcludedPages?: string[];
@@ -424,47 +261,19 @@ export interface AppMonitorConfiguration {
   Telemetries?: string[];
   EnableXRay?: boolean;
 }
-export const AppMonitorConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IdentityPoolId: S.optional(S.String),
-    ExcludedPages: S.optional(Pages),
-    IncludedPages: S.optional(Pages),
-    FavoritePages: S.optional(FavoritePages),
-    SessionSampleRate: S.optional(S.Number),
-    GuestRoleArn: S.optional(S.String),
-    AllowCookies: S.optional(S.Boolean),
-    Telemetries: S.optional(Telemetries),
-    EnableXRay: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "AppMonitorConfiguration",
-}) as any as S.Schema<AppMonitorConfiguration>;
 export type CustomEventsStatus = string;
 export interface CustomEvents {
   Status?: string;
 }
-export const CustomEvents = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
-).annotate({ identifier: "CustomEvents" }) as any as S.Schema<CustomEvents>;
 export type DeobfuscationStatus = string;
 export type DeobfuscationS3Uri = string;
 export interface JavaScriptSourceMaps {
   Status: string;
   S3Uri?: string;
 }
-export const JavaScriptSourceMaps = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: S.String, S3Uri: S.optional(S.String) }),
-).annotate({
-  identifier: "JavaScriptSourceMaps",
-}) as any as S.Schema<JavaScriptSourceMaps>;
 export interface DeobfuscationConfiguration {
   JavaScriptSourceMaps?: JavaScriptSourceMaps;
 }
-export const DeobfuscationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ JavaScriptSourceMaps: S.optional(JavaScriptSourceMaps) }),
-).annotate({
-  identifier: "DeobfuscationConfiguration",
-}) as any as S.Schema<DeobfuscationConfiguration>;
 export type AppMonitorPlatform = string;
 export interface CreateAppMonitorRequest {
   Name: string;
@@ -477,161 +286,40 @@ export interface CreateAppMonitorRequest {
   DeobfuscationConfiguration?: DeobfuscationConfiguration;
   Platform?: string;
 }
-export const CreateAppMonitorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Domain: S.optional(S.String),
-    DomainList: S.optional(AppMonitorDomainList),
-    Tags: S.optional(TagMap),
-    AppMonitorConfiguration: S.optional(AppMonitorConfiguration),
-    CwLogEnabled: S.optional(S.Boolean),
-    CustomEvents: S.optional(CustomEvents),
-    DeobfuscationConfiguration: S.optional(DeobfuscationConfiguration),
-    Platform: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/appmonitor" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAppMonitorRequest",
-}) as any as S.Schema<CreateAppMonitorRequest>;
 export type AppMonitorId = string;
 export interface CreateAppMonitorResponse {
   Id?: string;
 }
-export const CreateAppMonitorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateAppMonitorResponse",
-}) as any as S.Schema<CreateAppMonitorResponse>;
 export interface DeleteAppMonitorRequest {
   Name: string;
 }
-export const DeleteAppMonitorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/appmonitor/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAppMonitorRequest",
-}) as any as S.Schema<DeleteAppMonitorRequest>;
 export interface DeleteAppMonitorResponse {}
-export const DeleteAppMonitorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAppMonitorResponse",
-}) as any as S.Schema<DeleteAppMonitorResponse>;
 export type PolicyRevisionId = string;
 export interface DeleteResourcePolicyRequest {
   Name: string;
   PolicyRevisionId?: string;
 }
-export const DeleteResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    PolicyRevisionId: S.optional(S.String).pipe(
-      T.HttpQuery("policyRevisionId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/appmonitor/{Name}/policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteResourcePolicyRequest",
-}) as any as S.Schema<DeleteResourcePolicyRequest>;
 export interface DeleteResourcePolicyResponse {
   PolicyRevisionId?: string;
 }
-export const DeleteResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyRevisionId: S.optional(S.String) }),
-).annotate({
-  identifier: "DeleteResourcePolicyResponse",
-}) as any as S.Schema<DeleteResourcePolicyResponse>;
 export interface DeleteRumMetricsDestinationRequest {
   AppMonitorName: string;
   Destination: string;
   DestinationArn?: string;
 }
-export const DeleteRumMetricsDestinationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
-    Destination: S.String.pipe(T.HttpQuery("destination")),
-    DestinationArn: S.optional(S.String).pipe(T.HttpQuery("destinationArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/rummetrics/{AppMonitorName}/metricsdestination",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRumMetricsDestinationRequest",
-}) as any as S.Schema<DeleteRumMetricsDestinationRequest>;
 export interface DeleteRumMetricsDestinationResponse {}
-export const DeleteRumMetricsDestinationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteRumMetricsDestinationResponse",
-}) as any as S.Schema<DeleteRumMetricsDestinationResponse>;
 export interface GetAppMonitorRequest {
   Name: string;
 }
-export const GetAppMonitorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/appmonitor/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAppMonitorRequest",
-}) as any as S.Schema<GetAppMonitorRequest>;
 export type ISOTimestampString = string;
 export type StateEnum = string;
 export interface CwLog {
   CwLogEnabled?: boolean;
   CwLogGroup?: string;
 }
-export const CwLog = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CwLogEnabled: S.optional(S.Boolean),
-    CwLogGroup: S.optional(S.String),
-  }),
-).annotate({ identifier: "CwLog" }) as any as S.Schema<CwLog>;
 export interface DataStorage {
   CwLog?: CwLog;
 }
-export const DataStorage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CwLog: S.optional(CwLog) }),
-).annotate({ identifier: "DataStorage" }) as any as S.Schema<DataStorage>;
 export interface AppMonitor {
   Name?: string;
   Domain?: string;
@@ -647,55 +335,22 @@ export interface AppMonitor {
   DeobfuscationConfiguration?: DeobfuscationConfiguration;
   Platform?: string;
 }
-export const AppMonitor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Domain: S.optional(S.String),
-    DomainList: S.optional(AppMonitorDomainList),
-    Id: S.optional(S.String),
-    Created: S.optional(S.String),
-    LastModified: S.optional(S.String),
-    Tags: S.optional(TagMap),
-    State: S.optional(S.String),
-    AppMonitorConfiguration: S.optional(AppMonitorConfiguration),
-    DataStorage: S.optional(DataStorage),
-    CustomEvents: S.optional(CustomEvents),
-    DeobfuscationConfiguration: S.optional(DeobfuscationConfiguration),
-    Platform: S.optional(S.String),
-  }),
-).annotate({ identifier: "AppMonitor" }) as any as S.Schema<AppMonitor>;
 export interface GetAppMonitorResponse {
   AppMonitor?: AppMonitor;
 }
-export const GetAppMonitorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AppMonitor: S.optional(AppMonitor) }),
-).annotate({
-  identifier: "GetAppMonitorResponse",
-}) as any as S.Schema<GetAppMonitorResponse>;
 export type QueryTimestamp = number;
 export interface TimeRange {
   After: number;
   Before?: number;
 }
-export const TimeRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ After: S.Number, Before: S.optional(S.Number) }),
-).annotate({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
 export type QueryFilterKey = string;
 export type QueryFilterValue = string;
 export type QueryFilterValueList = string[];
-export const QueryFilterValueList = /*@__PURE__*/ S.Array(S.String);
 export interface QueryFilter {
   Name?: string;
   Values?: string[];
 }
-export const QueryFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Values: S.optional(QueryFilterValueList),
-  }),
-).annotate({ identifier: "QueryFilter" }) as any as S.Schema<QueryFilter>;
 export type QueryFilters = QueryFilter[];
-export const QueryFilters = /*@__PURE__*/ S.Array(QueryFilter);
 export type MaxQueryResults = number;
 export type Token = string;
 export interface GetAppMonitorDataRequest {
@@ -705,91 +360,23 @@ export interface GetAppMonitorDataRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const GetAppMonitorDataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    TimeRange: TimeRange,
-    Filters: S.optional(QueryFilters),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/appmonitor/{Name}/data" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAppMonitorDataRequest",
-}) as any as S.Schema<GetAppMonitorDataRequest>;
 export type EventData = string;
 export type EventDataList = string[];
-export const EventDataList = /*@__PURE__*/ S.Array(S.String);
 export interface GetAppMonitorDataResponse {
   Events?: string[];
   NextToken?: string;
 }
-export const GetAppMonitorDataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Events: S.optional(EventDataList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetAppMonitorDataResponse",
-}) as any as S.Schema<GetAppMonitorDataResponse>;
 export interface GetResourcePolicyRequest {
   Name: string;
 }
-export const GetResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/appmonitor/{Name}/policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetResourcePolicyRequest",
-}) as any as S.Schema<GetResourcePolicyRequest>;
 export interface GetResourcePolicyResponse {
   PolicyDocument?: string;
   PolicyRevisionId?: string;
 }
-export const GetResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyDocument: S.optional(S.String),
-    PolicyRevisionId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetResourcePolicyResponse",
-}) as any as S.Schema<GetResourcePolicyResponse>;
 export interface ListAppMonitorsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListAppMonitorsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/appmonitors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAppMonitorsRequest",
-}) as any as S.Schema<ListAppMonitorsRequest>;
 export interface AppMonitorSummary {
   Name?: string;
   Id?: string;
@@ -798,171 +385,52 @@ export interface AppMonitorSummary {
   State?: string;
   Platform?: string;
 }
-export const AppMonitorSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Id: S.optional(S.String),
-    Created: S.optional(S.String),
-    LastModified: S.optional(S.String),
-    State: S.optional(S.String),
-    Platform: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AppMonitorSummary",
-}) as any as S.Schema<AppMonitorSummary>;
 export type AppMonitorSummaryList = AppMonitorSummary[];
-export const AppMonitorSummaryList = /*@__PURE__*/ S.Array(AppMonitorSummary);
 export interface ListAppMonitorsResponse {
   NextToken?: string;
   AppMonitorSummaries?: AppMonitorSummary[];
 }
-export const ListAppMonitorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    AppMonitorSummaries: S.optional(AppMonitorSummaryList),
-  }),
-).annotate({
-  identifier: "ListAppMonitorsResponse",
-}) as any as S.Schema<ListAppMonitorsResponse>;
 export interface ListRumMetricsDestinationsRequest {
   AppMonitorName: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListRumMetricsDestinationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/rummetrics/{AppMonitorName}/metricsdestination",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRumMetricsDestinationsRequest",
-}) as any as S.Schema<ListRumMetricsDestinationsRequest>;
 export type IamRoleArn = string;
 export interface MetricDestinationSummary {
   Destination?: string;
   DestinationArn?: string;
   IamRoleArn?: string;
 }
-export const MetricDestinationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Destination: S.optional(S.String),
-    DestinationArn: S.optional(S.String),
-    IamRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MetricDestinationSummary",
-}) as any as S.Schema<MetricDestinationSummary>;
 export type MetricDestinationSummaryList = MetricDestinationSummary[];
-export const MetricDestinationSummaryList = /*@__PURE__*/ S.Array(
-  MetricDestinationSummary,
-);
 export interface ListRumMetricsDestinationsResponse {
   Destinations?: MetricDestinationSummary[];
   NextToken?: string;
 }
-export const ListRumMetricsDestinationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Destinations: S.optional(MetricDestinationSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRumMetricsDestinationsResponse",
-}) as any as S.Schema<ListRumMetricsDestinationsResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   ResourceArn: string;
   Tags: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Tags: TagMap }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutResourcePolicyRequest {
   Name: string;
   PolicyDocument: string;
   PolicyRevisionId?: string;
 }
-export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    PolicyDocument: S.String,
-    PolicyRevisionId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/appmonitor/{Name}/policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutResourcePolicyRequest",
-}) as any as S.Schema<PutResourcePolicyRequest>;
 export interface PutResourcePolicyResponse {
   PolicyDocument?: string;
   PolicyRevisionId?: string;
 }
-export const PutResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyDocument: S.optional(S.String),
-    PolicyRevisionId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PutResourcePolicyResponse",
-}) as any as S.Schema<PutResourcePolicyResponse>;
 export interface AppMonitorDetails {
   name?: string;
   id?: string;
   version?: string;
 }
-export const AppMonitorDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    id: S.optional(S.String),
-    version: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AppMonitorDetails",
-}) as any as S.Schema<AppMonitorDetails>;
 export interface UserDetails {
   userId?: string;
   sessionId?: string;
 }
-export const UserDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ userId: S.optional(S.String), sessionId: S.optional(S.String) }),
-).annotate({ identifier: "UserDetails" }) as any as S.Schema<UserDetails>;
 export type JsonValue = string;
 export interface RumEvent {
   id: string;
@@ -971,17 +439,7 @@ export interface RumEvent {
   metadata?: string;
   details: string;
 }
-export const RumEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    type: S.String,
-    metadata: S.optional(S.String),
-    details: S.String,
-  }),
-).annotate({ identifier: "RumEvent" }) as any as S.Schema<RumEvent>;
 export type RumEventList = RumEvent[];
-export const RumEventList = /*@__PURE__*/ S.Array(RumEvent);
 export type Alias = string;
 export interface PutRumEventsRequest {
   Id: string;
@@ -991,123 +449,25 @@ export interface PutRumEventsRequest {
   RumEvents: RumEvent[];
   Alias?: string;
 }
-export const PutRumEventsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    BatchId: S.String,
-    AppMonitorDetails: AppMonitorDetails,
-    UserDetails: UserDetails,
-    RumEvents: RumEventList,
-    Alias: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/appmonitors/{Id}/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutRumEventsRequest",
-}) as any as S.Schema<PutRumEventsRequest>;
 export interface PutRumEventsResponse {}
-export const PutRumEventsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutRumEventsResponse",
-}) as any as S.Schema<PutRumEventsResponse>;
 export interface PutRumMetricsDestinationRequest {
   AppMonitorName: string;
   Destination: string;
   DestinationArn?: string;
   IamRoleArn?: string;
 }
-export const PutRumMetricsDestinationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
-    Destination: S.String,
-    DestinationArn: S.optional(S.String),
-    IamRoleArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/rummetrics/{AppMonitorName}/metricsdestination",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutRumMetricsDestinationRequest",
-}) as any as S.Schema<PutRumMetricsDestinationRequest>;
 export interface PutRumMetricsDestinationResponse {}
-export const PutRumMetricsDestinationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutRumMetricsDestinationResponse",
-}) as any as S.Schema<PutRumMetricsDestinationResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAppMonitorRequest {
   Name: string;
   Domain?: string;
@@ -1117,34 +477,7 @@ export interface UpdateAppMonitorRequest {
   CustomEvents?: CustomEvents;
   DeobfuscationConfiguration?: DeobfuscationConfiguration;
 }
-export const UpdateAppMonitorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    Domain: S.optional(S.String),
-    DomainList: S.optional(AppMonitorDomainList),
-    AppMonitorConfiguration: S.optional(AppMonitorConfiguration),
-    CwLogEnabled: S.optional(S.Boolean),
-    CustomEvents: S.optional(CustomEvents),
-    DeobfuscationConfiguration: S.optional(DeobfuscationConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/appmonitor/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAppMonitorRequest",
-}) as any as S.Schema<UpdateAppMonitorRequest>;
 export interface UpdateAppMonitorResponse {}
-export const UpdateAppMonitorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateAppMonitorResponse",
-}) as any as S.Schema<UpdateAppMonitorResponse>;
 export interface UpdateRumMetricDefinitionRequest {
   AppMonitorName: string;
   Destination: string;
@@ -1152,32 +485,7 @@ export interface UpdateRumMetricDefinitionRequest {
   MetricDefinition: MetricDefinitionRequest;
   MetricDefinitionId: string;
 }
-export const UpdateRumMetricDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
-    Destination: S.String,
-    DestinationArn: S.optional(S.String),
-    MetricDefinition: MetricDefinitionRequest,
-    MetricDefinitionId: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/rummetrics/{AppMonitorName}/metrics" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRumMetricDefinitionRequest",
-}) as any as S.Schema<UpdateRumMetricDefinitionRequest>;
 export interface UpdateRumMetricDefinitionResponse {}
-export const UpdateRumMetricDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateRumMetricDefinitionResponse",
-}) as any as S.Schema<UpdateRumMetricDefinitionResponse>;
 export type BatchCreateRumMetricDefinitionsError =
   | AccessDeniedException
   | ConflictException
@@ -1216,8 +524,17 @@ export const batchCreateRumMetricDefinitions: API.OperationMethod<
   BatchCreateRumMetricDefinitionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchCreateRumMetricDefinitionsRequest,
-  output: BatchCreateRumMetricDefinitionsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /rummetrics/{AppMonitorName}/metrics",
+    input: {
+      AppMonitorName: 0,
+      Destination: 0,
+      DestinationArn: 0,
+      MetricDefinitions: D.list(i_MetricDefinitionRequest),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1230,7 +547,7 @@ export const batchCreateRumMetricDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateRumMetricDefinitions",
-}));
+})) as any;
 
 export type BatchDeleteRumMetricDefinitionsError =
   | AccessDeniedException
@@ -1253,8 +570,16 @@ export const batchDeleteRumMetricDefinitions: API.OperationMethod<
   BatchDeleteRumMetricDefinitionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchDeleteRumMetricDefinitionsRequest,
-  output: BatchDeleteRumMetricDefinitionsResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /rummetrics/{AppMonitorName}/metrics",
+    input: {
+      AppMonitorName: 0,
+      Destination: D.m({ query: "destination" }),
+      DestinationArn: D.m({ query: "destinationArn" }),
+      MetricDefinitionIds: D.m({ query: "metricDefinitionIds" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1266,7 +591,7 @@ export const batchDeleteRumMetricDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteRumMetricDefinitions",
-}));
+})) as any;
 
 export type BatchGetRumMetricDefinitionsError =
   | AccessDeniedException
@@ -1284,8 +609,17 @@ export const batchGetRumMetricDefinitions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MetricDefinition
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: BatchGetRumMetricDefinitionsRequest,
-  output: BatchGetRumMetricDefinitionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /rummetrics/{AppMonitorName}/metrics",
+    input: {
+      AppMonitorName: 0,
+      Destination: D.m({ query: "destination" }),
+      DestinationArn: D.m({ query: "destinationArn" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1325,8 +659,22 @@ export const createAppMonitor: API.OperationMethod<
   CreateAppMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAppMonitorRequest,
-  output: CreateAppMonitorResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /appmonitor",
+    input: {
+      Name: 0,
+      Domain: 0,
+      DomainList: 0,
+      Tags: 0,
+      AppMonitorConfiguration: i_AppMonitorConfiguration,
+      CwLogEnabled: 0,
+      CustomEvents: i_CustomEvents,
+      DeobfuscationConfiguration: i_DeobfuscationConfiguration,
+      Platform: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1339,7 +687,7 @@ export const createAppMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppMonitor",
-}));
+})) as any;
 
 export type DeleteAppMonitorError =
   | AccessDeniedException
@@ -1358,8 +706,11 @@ export const deleteAppMonitor: API.OperationMethod<
   DeleteAppMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAppMonitorRequest,
-  output: DeleteAppMonitorResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /appmonitor/{Name}",
+    input: { Name: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1371,7 +722,7 @@ export const deleteAppMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppMonitor",
-}));
+})) as any;
 
 export type DeleteResourcePolicyError =
   | AccessDeniedException
@@ -1392,8 +743,11 @@ export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResourcePolicyRequest,
-  output: DeleteResourcePolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /appmonitor/{Name}/policy",
+    input: { Name: 0, PolicyRevisionId: D.m({ query: "policyRevisionId" }) },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1407,7 +761,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
-}));
+})) as any;
 
 export type DeleteRumMetricsDestinationError =
   | AccessDeniedException
@@ -1426,8 +780,15 @@ export const deleteRumMetricsDestination: API.OperationMethod<
   DeleteRumMetricsDestinationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRumMetricsDestinationRequest,
-  output: DeleteRumMetricsDestinationResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /rummetrics/{AppMonitorName}/metricsdestination",
+    input: {
+      AppMonitorName: 0,
+      Destination: D.m({ query: "destination" }),
+      DestinationArn: D.m({ query: "destinationArn" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1439,7 +800,7 @@ export const deleteRumMetricsDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRumMetricsDestination",
-}));
+})) as any;
 
 export type GetAppMonitorError =
   | AccessDeniedException
@@ -1457,8 +818,11 @@ export const getAppMonitor: API.OperationMethod<
   GetAppMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAppMonitorRequest,
-  output: GetAppMonitorResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /appmonitor/{Name}",
+    input: { Name: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1469,7 +833,7 @@ export const getAppMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppMonitor",
-}));
+})) as any;
 
 export type GetAppMonitorDataError =
   | AccessDeniedException
@@ -1488,8 +852,18 @@ export const getAppMonitorData: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EventData
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetAppMonitorDataRequest,
-  output: GetAppMonitorDataResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /appmonitor/{Name}/data",
+    input: {
+      Name: 0,
+      TimeRange: { After: 0, Before: 0 },
+      Filters: D.list({ Name: 0, Values: 0 }),
+      MaxResults: 0,
+      NextToken: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1526,8 +900,11 @@ export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyRequest,
-  output: GetResourcePolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /appmonitor/{Name}/policy",
+    input: { Name: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1540,7 +917,7 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-}));
+})) as any;
 
 export type ListAppMonitorsError =
   | AccessDeniedException
@@ -1558,8 +935,14 @@ export const listAppMonitors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AppMonitorSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAppMonitorsRequest,
-  output: ListAppMonitorsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /appmonitors",
+    input: {
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1595,8 +978,15 @@ export const listRumMetricsDestinations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MetricDestinationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRumMetricsDestinationsRequest,
-  output: ListRumMetricsDestinationsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /rummetrics/{AppMonitorName}/metricsdestination",
+    input: {
+      AppMonitorName: 0,
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1628,8 +1018,11 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{ResourceArn}",
+    input: { ResourceArn: 0 },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1638,7 +1031,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type PutResourcePolicyError =
   | AccessDeniedException
@@ -1660,8 +1053,12 @@ export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyRequest,
-  output: PutResourcePolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /appmonitor/{Name}/policy",
+    input: { Name: 0, PolicyDocument: 0, PolicyRevisionId: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1676,7 +1073,7 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
-}));
+})) as any;
 
 export type PutRumEventsError =
   | AccessDeniedException
@@ -1696,8 +1093,25 @@ export const putRumEvents: API.OperationMethod<
   PutRumEventsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutRumEventsRequest,
-  output: PutRumEventsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /appmonitors/{Id}/",
+    input: {
+      Id: 0,
+      BatchId: 0,
+      AppMonitorDetails: { name: 0, id: 0, version: 0 },
+      UserDetails: { userId: 0, sessionId: 0 },
+      RumEvents: D.list({
+        id: 0,
+        timestamp: 0,
+        type: 0,
+        metadata: 0,
+        details: 0,
+      }),
+      Alias: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1709,7 +1123,7 @@ export const putRumEvents: API.OperationMethod<
   retry: Retry,
   operationName: "PutRumEvents",
   endpointHostPrefix: "dataplane.",
-}));
+})) as any;
 
 export type PutRumMetricsDestinationError =
   | AccessDeniedException
@@ -1730,8 +1144,17 @@ export const putRumMetricsDestination: API.OperationMethod<
   PutRumMetricsDestinationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutRumMetricsDestinationRequest,
-  output: PutRumMetricsDestinationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /rummetrics/{AppMonitorName}/metricsdestination",
+    input: {
+      AppMonitorName: 0,
+      Destination: 0,
+      DestinationArn: 0,
+      IamRoleArn: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1743,7 +1166,7 @@ export const putRumMetricsDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRumMetricsDestination",
-}));
+})) as any;
 
 export type TagResourceError =
   | InternalServerException
@@ -1769,8 +1192,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{ResourceArn}",
+    input: { ResourceArn: 0, Tags: 0 },
+    body: true,
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1779,7 +1206,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | InternalServerException
@@ -1795,8 +1222,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{ResourceArn}",
+    input: { ResourceArn: 0, TagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1805,7 +1235,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateAppMonitorError =
   | AccessDeniedException
@@ -1830,8 +1260,20 @@ export const updateAppMonitor: API.OperationMethod<
   UpdateAppMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAppMonitorRequest,
-  output: UpdateAppMonitorResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /appmonitor/{Name}",
+    input: {
+      Name: 0,
+      Domain: 0,
+      DomainList: 0,
+      AppMonitorConfiguration: i_AppMonitorConfiguration,
+      CwLogEnabled: 0,
+      CustomEvents: i_CustomEvents,
+      DeobfuscationConfiguration: i_DeobfuscationConfiguration,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1843,7 +1285,7 @@ export const updateAppMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppMonitor",
-}));
+})) as any;
 
 export type UpdateRumMetricDefinitionError =
   | AccessDeniedException
@@ -1863,8 +1305,18 @@ export const updateRumMetricDefinition: API.OperationMethod<
   UpdateRumMetricDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRumMetricDefinitionRequest,
-  output: UpdateRumMetricDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /rummetrics/{AppMonitorName}/metrics",
+    input: {
+      AppMonitorName: 0,
+      Destination: 0,
+      DestinationArn: 0,
+      MetricDefinition: i_MetricDefinitionRequest,
+      MetricDefinitionId: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1877,4 +1329,28 @@ export const updateRumMetricDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRumMetricDefinition",
-}));
+})) as any;
+
+const i_AppMonitorConfiguration: D.LazyStruct = () => ({
+  IdentityPoolId: 0,
+  ExcludedPages: 0,
+  IncludedPages: 0,
+  FavoritePages: 0,
+  SessionSampleRate: 0,
+  GuestRoleArn: 0,
+  AllowCookies: 0,
+  Telemetries: 0,
+  EnableXRay: 0,
+});
+const i_CustomEvents: D.LazyStruct = () => ({ Status: 0 });
+const i_DeobfuscationConfiguration: D.LazyStruct = () => ({
+  JavaScriptSourceMaps: { Status: 0, S3Uri: 0 },
+});
+const i_MetricDefinitionRequest: D.LazyStruct = () => ({
+  Name: 0,
+  ValueKey: 0,
+  UnitLabel: 0,
+  DimensionKeys: 0,
+  EventPattern: 0,
+  Namespace: 0,
+});

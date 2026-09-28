@@ -1,274 +1,195 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const ns = T.XmlNamespace("http://appsync.amazonaws.com");
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "AppSync",
-  serviceShapeName: "AWSDeepdishControlPlaneService",
-});
-const auth = T.AwsAuthSigv4({ name: "appsync" });
-const ver = T.ServiceVersion("2017-07-25");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://appsync-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://appsync-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://appsync.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://appsync.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AWSDeepdishControlPlaneService",
+  version: "2017-07-25",
+  sigv4: "appsync",
+  protocol: restJson1Protocol,
+  xmlns: "http://appsync.amazonaws.com",
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://appsync-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://appsync-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://appsync.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://appsync.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class ApiKeyLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<ApiKeyLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ApiKeyLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ApiKeyValidityOutOfBoundsException
-  extends /*@__PURE__*/ S.TaggedError<ApiKeyValidityOutOfBoundsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ApiKeyValidityOutOfBoundsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ApiLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<ApiLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ApiLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class BadRequestException
-  extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "BadRequestException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      reason: S.optional(
-        S.suspend(() => BadRequestReason).annotate({
-          identifier: "BadRequestReason",
-        }),
-      ),
-      detail: S.optional(
-        S.suspend(() => BadRequestDetail).annotate({
-          identifier: "BadRequestDetail",
-        }),
-      ),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly message?: string;
+    readonly reason?: BadRequestReason;
+    readonly detail?: BadRequestDetail;
+  }> {}
 export class ConcurrentModificationException
-  extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ConcurrentModificationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message?: string }> {}
 export class GraphQLSchemaException
-  extends /*@__PURE__*/ S.TaggedError<GraphQLSchemaException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "GraphQLSchemaException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InternalFailureException
-  extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalFailureException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message?: string }> {}
 export class NotFoundException
-  extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly message?: string }> {}
 export class UnauthorizedException
-  extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
-    "UnauthorizedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(401),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("UnauthorizedException", ["AuthError"], {
+    status: 401,
+  })<{ readonly message?: string }> {}
 export type DomainName = string;
 export interface AssociateApiRequest {
   domainName: string;
   apiId: string;
 }
-export const AssociateApiRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainName: S.String.pipe(T.HttpLabel("domainName")),
-    apiId: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/v1/domainnames/{domainName}/apiassociation",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateApiRequest",
-}) as any as S.Schema<AssociateApiRequest>;
 export type AssociationStatus =
   | "PROCESSING"
   | "FAILED"
   | "SUCCESS"
   | (string & {});
-export const AssociationStatus = S.String;
-
 export interface ApiAssociation {
   domainName?: string;
   apiId?: string;
   associationStatus?: AssociationStatus;
   deploymentDetail?: string;
 }
-export const ApiAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainName: S.optional(S.String),
-    apiId: S.optional(S.String),
-    associationStatus: S.optional(AssociationStatus),
-    deploymentDetail: S.optional(S.String),
-  }),
-).annotate({ identifier: "ApiAssociation" }) as any as S.Schema<ApiAssociation>;
 export interface AssociateApiResponse {
   apiAssociation?: ApiAssociation;
 }
-export const AssociateApiResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apiAssociation: S.optional(ApiAssociation) }).pipe(ns),
-).annotate({
-  identifier: "AssociateApiResponse",
-}) as any as S.Schema<AssociateApiResponse>;
 export type MergeType = "MANUAL_MERGE" | "AUTO_MERGE" | (string & {});
-export const MergeType = S.String;
-
 export interface SourceApiAssociationConfig {
   mergeType?: MergeType;
 }
-export const SourceApiAssociationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ mergeType: S.optional(MergeType) }),
-).annotate({
-  identifier: "SourceApiAssociationConfig",
-}) as any as S.Schema<SourceApiAssociationConfig>;
 export interface AssociateMergedGraphqlApiRequest {
   sourceApiIdentifier: string;
   mergedApiIdentifier: string;
   description?: string;
   sourceApiAssociationConfig?: SourceApiAssociationConfig;
 }
-export const AssociateMergedGraphqlApiRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceApiIdentifier: S.String.pipe(T.HttpLabel("sourceApiIdentifier")),
-    mergedApiIdentifier: S.String,
-    description: S.optional(S.String),
-    sourceApiAssociationConfig: S.optional(SourceApiAssociationConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/v1/sourceApis/{sourceApiIdentifier}/mergedApiAssociations",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateMergedGraphqlApiRequest",
-}) as any as S.Schema<AssociateMergedGraphqlApiRequest>;
 export type SourceApiAssociationStatus =
   | "MERGE_SCHEDULED"
   | "MERGE_FAILED"
@@ -279,8 +200,6 @@ export type SourceApiAssociationStatus =
   | "DELETION_IN_PROGRESS"
   | "DELETION_FAILED"
   | (string & {});
-export const SourceApiAssociationStatus = S.String;
-
 export interface SourceApiAssociation {
   associationId?: string;
   associationArn?: string;
@@ -294,78 +213,22 @@ export interface SourceApiAssociation {
   sourceApiAssociationStatusDetail?: string;
   lastSuccessfulMergeDate?: Date;
 }
-export const SourceApiAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    associationId: S.optional(S.String),
-    associationArn: S.optional(S.String),
-    sourceApiId: S.optional(S.String),
-    sourceApiArn: S.optional(S.String),
-    mergedApiArn: S.optional(S.String),
-    mergedApiId: S.optional(S.String),
-    description: S.optional(S.String),
-    sourceApiAssociationConfig: S.optional(SourceApiAssociationConfig),
-    sourceApiAssociationStatus: S.optional(SourceApiAssociationStatus),
-    sourceApiAssociationStatusDetail: S.optional(S.String),
-    lastSuccessfulMergeDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "SourceApiAssociation",
-}) as any as S.Schema<SourceApiAssociation>;
 export interface AssociateMergedGraphqlApiResponse {
   sourceApiAssociation?: SourceApiAssociation;
 }
-export const AssociateMergedGraphqlApiResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sourceApiAssociation: S.optional(SourceApiAssociation) }).pipe(ns),
-).annotate({
-  identifier: "AssociateMergedGraphqlApiResponse",
-}) as any as S.Schema<AssociateMergedGraphqlApiResponse>;
 export interface AssociateSourceGraphqlApiRequest {
   mergedApiIdentifier: string;
   sourceApiIdentifier: string;
   description?: string;
   sourceApiAssociationConfig?: SourceApiAssociationConfig;
 }
-export const AssociateSourceGraphqlApiRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
-    sourceApiIdentifier: S.String,
-    description: S.optional(S.String),
-    sourceApiAssociationConfig: S.optional(SourceApiAssociationConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateSourceGraphqlApiRequest",
-}) as any as S.Schema<AssociateSourceGraphqlApiRequest>;
 export interface AssociateSourceGraphqlApiResponse {
   sourceApiAssociation?: SourceApiAssociation;
 }
-export const AssociateSourceGraphqlApiResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sourceApiAssociation: S.optional(SourceApiAssociation) }).pipe(ns),
-).annotate({
-  identifier: "AssociateSourceGraphqlApiResponse",
-}) as any as S.Schema<AssociateSourceGraphqlApiResponse>;
 export type ApiName = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type AuthenticationType =
   | "API_KEY"
   | "AWS_IAM"
@@ -373,75 +236,34 @@ export type AuthenticationType =
   | "OPENID_CONNECT"
   | "AWS_LAMBDA"
   | (string & {});
-export const AuthenticationType = S.String;
-
 export interface CognitoConfig {
   userPoolId: string;
   awsRegion: string;
   appIdClientRegex?: string;
 }
-export const CognitoConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    userPoolId: S.String,
-    awsRegion: S.String,
-    appIdClientRegex: S.optional(S.String),
-  }),
-).annotate({ identifier: "CognitoConfig" }) as any as S.Schema<CognitoConfig>;
 export interface OpenIDConnectConfig {
   issuer: string;
   clientId?: string;
   iatTTL?: number;
   authTTL?: number;
 }
-export const OpenIDConnectConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    issuer: S.String,
-    clientId: S.optional(S.String),
-    iatTTL: S.optional(S.Number),
-    authTTL: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "OpenIDConnectConfig",
-}) as any as S.Schema<OpenIDConnectConfig>;
 export type TTL = number;
 export interface LambdaAuthorizerConfig {
   authorizerResultTtlInSeconds?: number;
   authorizerUri: string;
   identityValidationExpression?: string;
 }
-export const LambdaAuthorizerConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authorizerResultTtlInSeconds: S.optional(S.Number),
-    authorizerUri: S.String,
-    identityValidationExpression: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LambdaAuthorizerConfig",
-}) as any as S.Schema<LambdaAuthorizerConfig>;
 export interface AuthProvider {
   authType: AuthenticationType;
   cognitoConfig?: CognitoConfig;
   openIDConnectConfig?: OpenIDConnectConfig;
   lambdaAuthorizerConfig?: LambdaAuthorizerConfig;
 }
-export const AuthProvider = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authType: AuthenticationType,
-    cognitoConfig: S.optional(CognitoConfig),
-    openIDConnectConfig: S.optional(OpenIDConnectConfig),
-    lambdaAuthorizerConfig: S.optional(LambdaAuthorizerConfig),
-  }),
-).annotate({ identifier: "AuthProvider" }) as any as S.Schema<AuthProvider>;
 export type AuthProviders = AuthProvider[];
-export const AuthProviders = /*@__PURE__*/ S.Array(AuthProvider);
 export interface AuthMode {
   authType: AuthenticationType;
 }
-export const AuthMode = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ authType: AuthenticationType }),
-).annotate({ identifier: "AuthMode" }) as any as S.Schema<AuthMode>;
 export type AuthModes = AuthMode[];
-export const AuthModes = /*@__PURE__*/ S.Array(AuthMode);
 export type EventLogLevel =
   | "NONE"
   | "ERROR"
@@ -449,15 +271,10 @@ export type EventLogLevel =
   | "INFO"
   | "DEBUG"
   | (string & {});
-export const EventLogLevel = S.String;
-
 export interface EventLogConfig {
   logLevel: EventLogLevel;
   cloudWatchLogsRoleArn: string;
 }
-export const EventLogConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ logLevel: EventLogLevel, cloudWatchLogsRoleArn: S.String }),
-).annotate({ identifier: "EventLogConfig" }) as any as S.Schema<EventLogConfig>;
 export interface EventConfig {
   authProviders: AuthProvider[];
   connectionAuthModes: AuthMode[];
@@ -465,47 +282,14 @@ export interface EventConfig {
   defaultSubscribeAuthModes: AuthMode[];
   logConfig?: EventLogConfig;
 }
-export const EventConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authProviders: AuthProviders,
-    connectionAuthModes: AuthModes,
-    defaultPublishAuthModes: AuthModes,
-    defaultSubscribeAuthModes: AuthModes,
-    logConfig: S.optional(EventLogConfig),
-  }),
-).annotate({ identifier: "EventConfig" }) as any as S.Schema<EventConfig>;
 export interface CreateApiRequest {
   name: string;
   ownerContact?: string;
   tags?: { [key: string]: string | undefined };
   eventConfig: EventConfig;
 }
-export const CreateApiRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    ownerContact: S.optional(S.String),
-    tags: S.optional(TagMap),
-    eventConfig: EventConfig,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v2/apis" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateApiRequest",
-}) as any as S.Schema<CreateApiRequest>;
 export type OwnerContact = string;
 export type MapOfStringToString = { [key: string]: string | undefined };
-export const MapOfStringToString = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface Api {
   apiId?: string;
   name?: string;
@@ -518,35 +302,14 @@ export interface Api {
   wafWebAclArn?: string;
   eventConfig?: EventConfig;
 }
-export const Api = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.optional(S.String),
-    name: S.optional(S.String),
-    ownerContact: S.optional(S.String),
-    tags: S.optional(TagMap),
-    dns: S.optional(MapOfStringToString),
-    apiArn: S.optional(S.String),
-    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    xrayEnabled: S.optional(S.Boolean),
-    wafWebAclArn: S.optional(S.String),
-    eventConfig: S.optional(EventConfig),
-  }),
-).annotate({ identifier: "Api" }) as any as S.Schema<Api>;
 export interface CreateApiResponse {
   api?: Api;
 }
-export const CreateApiResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ api: S.optional(Api) }).pipe(ns),
-).annotate({
-  identifier: "CreateApiResponse",
-}) as any as S.Schema<CreateApiResponse>;
 export type ApiCachingBehavior =
   | "FULL_REQUEST_CACHING"
   | "PER_RESOLVER_CACHING"
   | "OPERATION_LEVEL_CACHING"
   | (string & {});
-export const ApiCachingBehavior = S.String;
-
 export type ApiCacheType =
   | "T2_SMALL"
   | "T2_MEDIUM"
@@ -564,11 +327,7 @@ export type ApiCacheType =
   | "LARGE_8X"
   | "LARGE_12X"
   | (string & {});
-export const ApiCacheType = S.String;
-
 export type CacheHealthMetricsConfig = "ENABLED" | "DISABLED" | (string & {});
-export const CacheHealthMetricsConfig = S.String;
-
 export interface CreateApiCacheRequest {
   apiId: string;
   ttl: number;
@@ -578,29 +337,6 @@ export interface CreateApiCacheRequest {
   type: ApiCacheType;
   healthMetricsConfig?: CacheHealthMetricsConfig;
 }
-export const CreateApiCacheRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    ttl: S.Number,
-    transitEncryptionEnabled: S.optional(S.Boolean),
-    atRestEncryptionEnabled: S.optional(S.Boolean),
-    apiCachingBehavior: ApiCachingBehavior,
-    type: ApiCacheType,
-    healthMetricsConfig: S.optional(CacheHealthMetricsConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/ApiCaches" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateApiCacheRequest",
-}) as any as S.Schema<CreateApiCacheRequest>;
 export type ApiCacheStatus =
   | "AVAILABLE"
   | "CREATING"
@@ -608,8 +344,6 @@ export type ApiCacheStatus =
   | "MODIFYING"
   | "FAILED"
   | (string & {});
-export const ApiCacheStatus = S.String;
-
 export interface ApiCache {
   ttl?: number;
   apiCachingBehavior?: ApiCachingBehavior;
@@ -619,112 +353,42 @@ export interface ApiCache {
   status?: ApiCacheStatus;
   healthMetricsConfig?: CacheHealthMetricsConfig;
 }
-export const ApiCache = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ttl: S.optional(S.Number),
-    apiCachingBehavior: S.optional(ApiCachingBehavior),
-    transitEncryptionEnabled: S.optional(S.Boolean),
-    atRestEncryptionEnabled: S.optional(S.Boolean),
-    type: S.optional(ApiCacheType),
-    status: S.optional(ApiCacheStatus),
-    healthMetricsConfig: S.optional(CacheHealthMetricsConfig),
-  }),
-).annotate({ identifier: "ApiCache" }) as any as S.Schema<ApiCache>;
 export interface CreateApiCacheResponse {
   apiCache?: ApiCache;
 }
-export const CreateApiCacheResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apiCache: S.optional(ApiCache) }).pipe(ns),
-).annotate({
-  identifier: "CreateApiCacheResponse",
-}) as any as S.Schema<CreateApiCacheResponse>;
 export interface CreateApiKeyRequest {
   apiId: string;
   description?: string;
   expires?: number;
 }
-export const CreateApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    description: S.optional(S.String),
-    expires: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/apikeys" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateApiKeyRequest",
-}) as any as S.Schema<CreateApiKeyRequest>;
 export interface ApiKey {
   id?: string;
   description?: string;
   expires?: number;
   deletes?: number;
 }
-export const ApiKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    description: S.optional(S.String),
-    expires: S.optional(S.Number),
-    deletes: S.optional(S.Number),
-  }),
-).annotate({ identifier: "ApiKey" }) as any as S.Schema<ApiKey>;
 export interface CreateApiKeyResponse {
   apiKey?: ApiKey;
 }
-export const CreateApiKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apiKey: S.optional(ApiKey) }).pipe(ns),
-).annotate({
-  identifier: "CreateApiKeyResponse",
-}) as any as S.Schema<CreateApiKeyResponse>;
 export type Namespace = string;
 export type Code = string;
 export type HandlerBehavior = "CODE" | "DIRECT" | (string & {});
-export const HandlerBehavior = S.String;
-
 export type InvokeType = "REQUEST_RESPONSE" | "EVENT" | (string & {});
-export const InvokeType = S.String;
-
 export interface LambdaConfig {
   invokeType?: InvokeType;
 }
-export const LambdaConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ invokeType: S.optional(InvokeType) }),
-).annotate({ identifier: "LambdaConfig" }) as any as S.Schema<LambdaConfig>;
 export interface Integration {
   dataSourceName: string;
   lambdaConfig?: LambdaConfig;
 }
-export const Integration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataSourceName: S.String,
-    lambdaConfig: S.optional(LambdaConfig),
-  }),
-).annotate({ identifier: "Integration" }) as any as S.Schema<Integration>;
 export interface HandlerConfig {
   behavior: HandlerBehavior;
   integration: Integration;
 }
-export const HandlerConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ behavior: HandlerBehavior, integration: Integration }),
-).annotate({ identifier: "HandlerConfig" }) as any as S.Schema<HandlerConfig>;
 export interface HandlerConfigs {
   onPublish?: HandlerConfig;
   onSubscribe?: HandlerConfig;
 }
-export const HandlerConfigs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    onPublish: S.optional(HandlerConfig),
-    onSubscribe: S.optional(HandlerConfig),
-  }),
-).annotate({ identifier: "HandlerConfigs" }) as any as S.Schema<HandlerConfigs>;
 export interface CreateChannelNamespaceRequest {
   apiId: string;
   name: string;
@@ -734,29 +398,6 @@ export interface CreateChannelNamespaceRequest {
   tags?: { [key: string]: string | undefined };
   handlerConfigs?: HandlerConfigs;
 }
-export const CreateChannelNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    name: S.String,
-    subscribeAuthModes: S.optional(AuthModes),
-    publishAuthModes: S.optional(AuthModes),
-    codeHandlers: S.optional(S.String),
-    tags: S.optional(TagMap),
-    handlerConfigs: S.optional(HandlerConfigs),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v2/apis/{apiId}/channelNamespaces" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateChannelNamespaceRequest",
-}) as any as S.Schema<CreateChannelNamespaceRequest>;
 export interface ChannelNamespace {
   apiId?: string;
   name?: string;
@@ -769,30 +410,9 @@ export interface ChannelNamespace {
   lastModified?: Date;
   handlerConfigs?: HandlerConfigs;
 }
-export const ChannelNamespace = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.optional(S.String),
-    name: S.optional(S.String),
-    subscribeAuthModes: S.optional(AuthModes),
-    publishAuthModes: S.optional(AuthModes),
-    codeHandlers: S.optional(S.String),
-    tags: S.optional(TagMap),
-    channelNamespaceArn: S.optional(S.String),
-    created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    handlerConfigs: S.optional(HandlerConfigs),
-  }),
-).annotate({
-  identifier: "ChannelNamespace",
-}) as any as S.Schema<ChannelNamespace>;
 export interface CreateChannelNamespaceResponse {
   channelNamespace?: ChannelNamespace;
 }
-export const CreateChannelNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channelNamespace: S.optional(ChannelNamespace) }).pipe(ns),
-).annotate({
-  identifier: "CreateChannelNamespaceResponse",
-}) as any as S.Schema<CreateChannelNamespaceResponse>;
 export type ResourceName = string;
 export type DataSourceType =
   | "AWS_LAMBDA"
@@ -805,22 +425,11 @@ export type DataSourceType =
   | "AMAZON_EVENTBRIDGE"
   | "AMAZON_BEDROCK_RUNTIME"
   | (string & {});
-export const DataSourceType = S.String;
-
 export interface DeltaSyncConfig {
   baseTableTTL?: number;
   deltaSyncTableName?: string;
   deltaSyncTableTTL?: number;
 }
-export const DeltaSyncConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    baseTableTTL: S.optional(S.Number),
-    deltaSyncTableName: S.optional(S.String),
-    deltaSyncTableTTL: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "DeltaSyncConfig",
-}) as any as S.Schema<DeltaSyncConfig>;
 export interface DynamodbDataSourceConfig {
   tableName: string;
   awsRegion: string;
@@ -828,83 +437,31 @@ export interface DynamodbDataSourceConfig {
   deltaSyncConfig?: DeltaSyncConfig;
   versioned?: boolean;
 }
-export const DynamodbDataSourceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tableName: S.String,
-    awsRegion: S.String,
-    useCallerCredentials: S.optional(S.Boolean),
-    deltaSyncConfig: S.optional(DeltaSyncConfig),
-    versioned: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "DynamodbDataSourceConfig",
-}) as any as S.Schema<DynamodbDataSourceConfig>;
 export interface LambdaDataSourceConfig {
   lambdaFunctionArn: string;
 }
-export const LambdaDataSourceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ lambdaFunctionArn: S.String }),
-).annotate({
-  identifier: "LambdaDataSourceConfig",
-}) as any as S.Schema<LambdaDataSourceConfig>;
 export interface ElasticsearchDataSourceConfig {
   endpoint: string;
   awsRegion: string;
 }
-export const ElasticsearchDataSourceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ endpoint: S.String, awsRegion: S.String }),
-).annotate({
-  identifier: "ElasticsearchDataSourceConfig",
-}) as any as S.Schema<ElasticsearchDataSourceConfig>;
 export interface OpenSearchServiceDataSourceConfig {
   endpoint: string;
   awsRegion: string;
 }
-export const OpenSearchServiceDataSourceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ endpoint: S.String, awsRegion: S.String }),
-).annotate({
-  identifier: "OpenSearchServiceDataSourceConfig",
-}) as any as S.Schema<OpenSearchServiceDataSourceConfig>;
 export type AuthorizationType = "AWS_IAM" | (string & {});
-export const AuthorizationType = S.String;
-
 export interface AwsIamConfig {
   signingRegion?: string;
   signingServiceName?: string;
 }
-export const AwsIamConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    signingRegion: S.optional(S.String),
-    signingServiceName: S.optional(S.String),
-  }),
-).annotate({ identifier: "AwsIamConfig" }) as any as S.Schema<AwsIamConfig>;
 export interface AuthorizationConfig {
   authorizationType: AuthorizationType;
   awsIamConfig?: AwsIamConfig;
 }
-export const AuthorizationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authorizationType: AuthorizationType,
-    awsIamConfig: S.optional(AwsIamConfig),
-  }),
-).annotate({
-  identifier: "AuthorizationConfig",
-}) as any as S.Schema<AuthorizationConfig>;
 export interface HttpDataSourceConfig {
   endpoint?: string;
   authorizationConfig?: AuthorizationConfig;
 }
-export const HttpDataSourceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    endpoint: S.optional(S.String),
-    authorizationConfig: S.optional(AuthorizationConfig),
-  }),
-).annotate({
-  identifier: "HttpDataSourceConfig",
-}) as any as S.Schema<HttpDataSourceConfig>;
 export type RelationalDatabaseSourceType = "RDS_HTTP_ENDPOINT" | (string & {});
-export const RelationalDatabaseSourceType = S.String;
-
 export interface RdsHttpEndpointConfig {
   awsRegion?: string;
   dbClusterIdentifier?: string;
@@ -912,43 +469,17 @@ export interface RdsHttpEndpointConfig {
   schema?: string;
   awsSecretStoreArn?: string;
 }
-export const RdsHttpEndpointConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    awsRegion: S.optional(S.String),
-    dbClusterIdentifier: S.optional(S.String),
-    databaseName: S.optional(S.String),
-    schema: S.optional(S.String),
-    awsSecretStoreArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RdsHttpEndpointConfig",
-}) as any as S.Schema<RdsHttpEndpointConfig>;
 export interface RelationalDatabaseDataSourceConfig {
   relationalDatabaseSourceType?: RelationalDatabaseSourceType;
   rdsHttpEndpointConfig?: RdsHttpEndpointConfig;
 }
-export const RelationalDatabaseDataSourceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    relationalDatabaseSourceType: S.optional(RelationalDatabaseSourceType),
-    rdsHttpEndpointConfig: S.optional(RdsHttpEndpointConfig),
-  }),
-).annotate({
-  identifier: "RelationalDatabaseDataSourceConfig",
-}) as any as S.Schema<RelationalDatabaseDataSourceConfig>;
 export interface EventBridgeDataSourceConfig {
   eventBusArn: string;
 }
-export const EventBridgeDataSourceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ eventBusArn: S.String }),
-).annotate({
-  identifier: "EventBridgeDataSourceConfig",
-}) as any as S.Schema<EventBridgeDataSourceConfig>;
 export type DataSourceLevelMetricsConfig =
   | "ENABLED"
   | "DISABLED"
   | (string & {});
-export const DataSourceLevelMetricsConfig = S.String;
-
 export interface CreateDataSourceRequest {
   apiId: string;
   name: string;
@@ -964,35 +495,6 @@ export interface CreateDataSourceRequest {
   eventBridgeConfig?: EventBridgeDataSourceConfig;
   metricsConfig?: DataSourceLevelMetricsConfig;
 }
-export const CreateDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    name: S.String,
-    description: S.optional(S.String),
-    type: DataSourceType,
-    serviceRoleArn: S.optional(S.String),
-    dynamodbConfig: S.optional(DynamodbDataSourceConfig),
-    lambdaConfig: S.optional(LambdaDataSourceConfig),
-    elasticsearchConfig: S.optional(ElasticsearchDataSourceConfig),
-    openSearchServiceConfig: S.optional(OpenSearchServiceDataSourceConfig),
-    httpConfig: S.optional(HttpDataSourceConfig),
-    relationalDatabaseConfig: S.optional(RelationalDatabaseDataSourceConfig),
-    eventBridgeConfig: S.optional(EventBridgeDataSourceConfig),
-    metricsConfig: S.optional(DataSourceLevelMetricsConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/datasources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDataSourceRequest",
-}) as any as S.Schema<CreateDataSourceRequest>;
 export interface DataSource {
   dataSourceArn?: string;
   name?: string;
@@ -1008,31 +510,9 @@ export interface DataSource {
   eventBridgeConfig?: EventBridgeDataSourceConfig;
   metricsConfig?: DataSourceLevelMetricsConfig;
 }
-export const DataSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataSourceArn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    type: S.optional(DataSourceType),
-    serviceRoleArn: S.optional(S.String),
-    dynamodbConfig: S.optional(DynamodbDataSourceConfig),
-    lambdaConfig: S.optional(LambdaDataSourceConfig),
-    elasticsearchConfig: S.optional(ElasticsearchDataSourceConfig),
-    openSearchServiceConfig: S.optional(OpenSearchServiceDataSourceConfig),
-    httpConfig: S.optional(HttpDataSourceConfig),
-    relationalDatabaseConfig: S.optional(RelationalDatabaseDataSourceConfig),
-    eventBridgeConfig: S.optional(EventBridgeDataSourceConfig),
-    metricsConfig: S.optional(DataSourceLevelMetricsConfig),
-  }),
-).annotate({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
 export interface CreateDataSourceResponse {
   dataSource?: DataSource;
 }
-export const CreateDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ dataSource: S.optional(DataSource) }).pipe(ns),
-).annotate({
-  identifier: "CreateDataSourceResponse",
-}) as any as S.Schema<CreateDataSourceResponse>;
 export type CertificateArn = string;
 export type Description = string;
 export interface CreateDomainNameRequest {
@@ -1041,26 +521,6 @@ export interface CreateDomainNameRequest {
   description?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateDomainNameRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainName: S.String,
-    certificateArn: S.String,
-    description: S.optional(S.String),
-    tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/domainnames" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDomainNameRequest",
-}) as any as S.Schema<CreateDomainNameRequest>;
 export interface DomainNameConfig {
   domainName?: string;
   description?: string;
@@ -1070,27 +530,9 @@ export interface DomainNameConfig {
   tags?: { [key: string]: string | undefined };
   domainNameArn?: string;
 }
-export const DomainNameConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainName: S.optional(S.String),
-    description: S.optional(S.String),
-    certificateArn: S.optional(S.String),
-    appsyncDomainName: S.optional(S.String),
-    hostedZoneId: S.optional(S.String),
-    tags: S.optional(TagMap),
-    domainNameArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DomainNameConfig",
-}) as any as S.Schema<DomainNameConfig>;
 export interface CreateDomainNameResponse {
   domainNameConfig?: DomainNameConfig;
 }
-export const CreateDomainNameResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ domainNameConfig: S.optional(DomainNameConfig) }).pipe(ns),
-).annotate({
-  identifier: "CreateDomainNameResponse",
-}) as any as S.Schema<CreateDomainNameResponse>;
 export type MappingTemplate = string;
 export type ConflictHandlerType =
   | "OPTIMISTIC_CONCURRENCY"
@@ -1098,42 +540,21 @@ export type ConflictHandlerType =
   | "AUTOMERGE"
   | "NONE"
   | (string & {});
-export const ConflictHandlerType = S.String;
-
 export type ConflictDetectionType = "VERSION" | "NONE" | (string & {});
-export const ConflictDetectionType = S.String;
-
 export interface LambdaConflictHandlerConfig {
   lambdaConflictHandlerArn?: string;
 }
-export const LambdaConflictHandlerConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ lambdaConflictHandlerArn: S.optional(S.String) }),
-).annotate({
-  identifier: "LambdaConflictHandlerConfig",
-}) as any as S.Schema<LambdaConflictHandlerConfig>;
 export interface SyncConfig {
   conflictHandler?: ConflictHandlerType;
   conflictDetection?: ConflictDetectionType;
   lambdaConflictHandlerConfig?: LambdaConflictHandlerConfig;
 }
-export const SyncConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    conflictHandler: S.optional(ConflictHandlerType),
-    conflictDetection: S.optional(ConflictDetectionType),
-    lambdaConflictHandlerConfig: S.optional(LambdaConflictHandlerConfig),
-  }),
-).annotate({ identifier: "SyncConfig" }) as any as S.Schema<SyncConfig>;
 export type MaxBatchSize = number;
 export type RuntimeName = "APPSYNC_JS" | (string & {});
-export const RuntimeName = S.String;
-
 export interface AppSyncRuntime {
   name: RuntimeName;
   runtimeVersion: string;
 }
-export const AppSyncRuntime = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: RuntimeName, runtimeVersion: S.String }),
-).annotate({ identifier: "AppSyncRuntime" }) as any as S.Schema<AppSyncRuntime>;
 export interface CreateFunctionRequest {
   apiId: string;
   name: string;
@@ -1147,33 +568,6 @@ export interface CreateFunctionRequest {
   runtime?: AppSyncRuntime;
   code?: string;
 }
-export const CreateFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    name: S.String,
-    description: S.optional(S.String),
-    dataSourceName: S.String,
-    requestMappingTemplate: S.optional(S.String),
-    responseMappingTemplate: S.optional(S.String),
-    functionVersion: S.optional(S.String),
-    syncConfig: S.optional(SyncConfig),
-    maxBatchSize: S.optional(S.Number),
-    runtime: S.optional(AppSyncRuntime),
-    code: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/functions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateFunctionRequest",
-}) as any as S.Schema<CreateFunctionRequest>;
 export interface FunctionConfiguration {
   functionId?: string;
   functionArn?: string;
@@ -1188,34 +582,9 @@ export interface FunctionConfiguration {
   runtime?: AppSyncRuntime;
   code?: string;
 }
-export const FunctionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionId: S.optional(S.String),
-    functionArn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    dataSourceName: S.optional(S.String),
-    requestMappingTemplate: S.optional(S.String),
-    responseMappingTemplate: S.optional(S.String),
-    functionVersion: S.optional(S.String),
-    syncConfig: S.optional(SyncConfig),
-    maxBatchSize: S.optional(S.Number),
-    runtime: S.optional(AppSyncRuntime),
-    code: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FunctionConfiguration",
-}) as any as S.Schema<FunctionConfiguration>;
 export interface CreateFunctionResponse {
   functionConfiguration?: FunctionConfiguration;
 }
-export const CreateFunctionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ functionConfiguration: S.optional(FunctionConfiguration) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "CreateFunctionResponse",
-}) as any as S.Schema<CreateFunctionResponse>;
 export type FieldLogLevel =
   | "NONE"
   | "ERROR"
@@ -1223,118 +592,56 @@ export type FieldLogLevel =
   | "INFO"
   | "DEBUG"
   | (string & {});
-export const FieldLogLevel = S.String;
-
 export interface LogConfig {
   fieldLogLevel: FieldLogLevel;
   cloudWatchLogsRoleArn: string;
   excludeVerboseContent?: boolean;
 }
-export const LogConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fieldLogLevel: FieldLogLevel,
-    cloudWatchLogsRoleArn: S.String,
-    excludeVerboseContent: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "LogConfig" }) as any as S.Schema<LogConfig>;
 export type DefaultAction = "ALLOW" | "DENY" | (string & {});
-export const DefaultAction = S.String;
-
 export interface UserPoolConfig {
   userPoolId: string;
   awsRegion: string;
   defaultAction: DefaultAction;
   appIdClientRegex?: string;
 }
-export const UserPoolConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    userPoolId: S.String,
-    awsRegion: S.String,
-    defaultAction: DefaultAction,
-    appIdClientRegex: S.optional(S.String),
-  }),
-).annotate({ identifier: "UserPoolConfig" }) as any as S.Schema<UserPoolConfig>;
 export interface CognitoUserPoolConfig {
   userPoolId: string;
   awsRegion: string;
   appIdClientRegex?: string;
 }
-export const CognitoUserPoolConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    userPoolId: S.String,
-    awsRegion: S.String,
-    appIdClientRegex: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CognitoUserPoolConfig",
-}) as any as S.Schema<CognitoUserPoolConfig>;
 export interface AdditionalAuthenticationProvider {
   authenticationType?: AuthenticationType;
   openIDConnectConfig?: OpenIDConnectConfig;
   userPoolConfig?: CognitoUserPoolConfig;
   lambdaAuthorizerConfig?: LambdaAuthorizerConfig;
 }
-export const AdditionalAuthenticationProvider = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authenticationType: S.optional(AuthenticationType),
-    openIDConnectConfig: S.optional(OpenIDConnectConfig),
-    userPoolConfig: S.optional(CognitoUserPoolConfig),
-    lambdaAuthorizerConfig: S.optional(LambdaAuthorizerConfig),
-  }),
-).annotate({
-  identifier: "AdditionalAuthenticationProvider",
-}) as any as S.Schema<AdditionalAuthenticationProvider>;
 export type AdditionalAuthenticationProviders =
   AdditionalAuthenticationProvider[];
-export const AdditionalAuthenticationProviders = /*@__PURE__*/ S.Array(
-  AdditionalAuthenticationProvider,
-);
 export type GraphQLApiType = "GRAPHQL" | "MERGED" | (string & {});
-export const GraphQLApiType = S.String;
-
 export type GraphQLApiVisibility = "GLOBAL" | "PRIVATE" | (string & {});
-export const GraphQLApiVisibility = S.String;
-
 export type GraphQLApiIntrospectionConfig =
   | "ENABLED"
   | "DISABLED"
   | (string & {});
-export const GraphQLApiIntrospectionConfig = S.String;
-
 export type QueryDepthLimit = number;
 export type ResolverCountLimit = number;
 export type ResolverLevelMetricsBehavior =
   | "FULL_REQUEST_RESOLVER_METRICS"
   | "PER_RESOLVER_METRICS"
   | (string & {});
-export const ResolverLevelMetricsBehavior = S.String;
-
 export type DataSourceLevelMetricsBehavior =
   | "FULL_REQUEST_DATA_SOURCE_METRICS"
   | "PER_DATA_SOURCE_METRICS"
   | (string & {});
-export const DataSourceLevelMetricsBehavior = S.String;
-
 export type OperationLevelMetricsConfig =
   | "ENABLED"
   | "DISABLED"
   | (string & {});
-export const OperationLevelMetricsConfig = S.String;
-
 export interface EnhancedMetricsConfig {
   resolverLevelMetricsBehavior: ResolverLevelMetricsBehavior;
   dataSourceLevelMetricsBehavior: DataSourceLevelMetricsBehavior;
   operationLevelMetricsConfig: OperationLevelMetricsConfig;
 }
-export const EnhancedMetricsConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resolverLevelMetricsBehavior: ResolverLevelMetricsBehavior,
-    dataSourceLevelMetricsBehavior: DataSourceLevelMetricsBehavior,
-    operationLevelMetricsConfig: OperationLevelMetricsConfig,
-  }),
-).annotate({
-  identifier: "EnhancedMetricsConfig",
-}) as any as S.Schema<EnhancedMetricsConfig>;
 export interface CreateGraphqlApiRequest {
   name: string;
   logConfig?: LogConfig;
@@ -1354,41 +661,6 @@ export interface CreateGraphqlApiRequest {
   resolverCountLimit?: number;
   enhancedMetricsConfig?: EnhancedMetricsConfig;
 }
-export const CreateGraphqlApiRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    logConfig: S.optional(LogConfig),
-    authenticationType: AuthenticationType,
-    userPoolConfig: S.optional(UserPoolConfig),
-    openIDConnectConfig: S.optional(OpenIDConnectConfig),
-    tags: S.optional(TagMap),
-    additionalAuthenticationProviders: S.optional(
-      AdditionalAuthenticationProviders,
-    ),
-    xrayEnabled: S.optional(S.Boolean),
-    lambdaAuthorizerConfig: S.optional(LambdaAuthorizerConfig),
-    apiType: S.optional(GraphQLApiType),
-    mergedApiExecutionRoleArn: S.optional(S.String),
-    visibility: S.optional(GraphQLApiVisibility),
-    ownerContact: S.optional(S.String),
-    introspectionConfig: S.optional(GraphQLApiIntrospectionConfig),
-    queryDepthLimit: S.optional(S.Number),
-    resolverCountLimit: S.optional(S.Number),
-    enhancedMetricsConfig: S.optional(EnhancedMetricsConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/apis" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateGraphqlApiRequest",
-}) as any as S.Schema<CreateGraphqlApiRequest>;
 export interface GraphqlApi {
   name?: string;
   apiId?: string;
@@ -1414,66 +686,20 @@ export interface GraphqlApi {
   resolverCountLimit?: number;
   enhancedMetricsConfig?: EnhancedMetricsConfig;
 }
-export const GraphqlApi = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    apiId: S.optional(S.String),
-    authenticationType: S.optional(AuthenticationType),
-    logConfig: S.optional(LogConfig),
-    userPoolConfig: S.optional(UserPoolConfig),
-    openIDConnectConfig: S.optional(OpenIDConnectConfig),
-    arn: S.optional(S.String),
-    uris: S.optional(MapOfStringToString),
-    tags: S.optional(TagMap),
-    additionalAuthenticationProviders: S.optional(
-      AdditionalAuthenticationProviders,
-    ),
-    xrayEnabled: S.optional(S.Boolean),
-    wafWebAclArn: S.optional(S.String),
-    lambdaAuthorizerConfig: S.optional(LambdaAuthorizerConfig),
-    dns: S.optional(MapOfStringToString),
-    visibility: S.optional(GraphQLApiVisibility),
-    apiType: S.optional(GraphQLApiType),
-    mergedApiExecutionRoleArn: S.optional(S.String),
-    owner: S.optional(S.String),
-    ownerContact: S.optional(S.String),
-    introspectionConfig: S.optional(GraphQLApiIntrospectionConfig),
-    queryDepthLimit: S.optional(S.Number),
-    resolverCountLimit: S.optional(S.Number),
-    enhancedMetricsConfig: S.optional(EnhancedMetricsConfig),
-  }),
-).annotate({ identifier: "GraphqlApi" }) as any as S.Schema<GraphqlApi>;
 export interface CreateGraphqlApiResponse {
   graphqlApi?: GraphqlApi;
 }
-export const CreateGraphqlApiResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ graphqlApi: S.optional(GraphqlApi) }).pipe(ns),
-).annotate({
-  identifier: "CreateGraphqlApiResponse",
-}) as any as S.Schema<CreateGraphqlApiResponse>;
 export type ResolverKind = "UNIT" | "PIPELINE" | (string & {});
-export const ResolverKind = S.String;
-
 export type FunctionsIds = string[];
-export const FunctionsIds = /*@__PURE__*/ S.Array(S.String);
 export interface PipelineConfig {
   functions?: string[];
 }
-export const PipelineConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ functions: S.optional(FunctionsIds) }),
-).annotate({ identifier: "PipelineConfig" }) as any as S.Schema<PipelineConfig>;
 export type CachingKeys = string[];
-export const CachingKeys = /*@__PURE__*/ S.Array(S.String);
 export interface CachingConfig {
   ttl: number;
   cachingKeys?: string[];
 }
-export const CachingConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ttl: S.Number, cachingKeys: S.optional(CachingKeys) }),
-).annotate({ identifier: "CachingConfig" }) as any as S.Schema<CachingConfig>;
 export type ResolverLevelMetricsConfig = "ENABLED" | "DISABLED" | (string & {});
-export const ResolverLevelMetricsConfig = S.String;
-
 export interface CreateResolverRequest {
   apiId: string;
   typeName: string;
@@ -1490,39 +716,6 @@ export interface CreateResolverRequest {
   code?: string;
   metricsConfig?: ResolverLevelMetricsConfig;
 }
-export const CreateResolverRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    typeName: S.String.pipe(T.HttpLabel("typeName")),
-    fieldName: S.String,
-    dataSourceName: S.optional(S.String),
-    requestMappingTemplate: S.optional(S.String),
-    responseMappingTemplate: S.optional(S.String),
-    kind: S.optional(ResolverKind),
-    pipelineConfig: S.optional(PipelineConfig),
-    syncConfig: S.optional(SyncConfig),
-    cachingConfig: S.optional(CachingConfig),
-    maxBatchSize: S.optional(S.Number),
-    runtime: S.optional(AppSyncRuntime),
-    code: S.optional(S.String),
-    metricsConfig: S.optional(ResolverLevelMetricsConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/v1/apis/{apiId}/types/{typeName}/resolvers",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateResolverRequest",
-}) as any as S.Schema<CreateResolverRequest>;
 export interface Resolver {
   typeName?: string;
   fieldName?: string;
@@ -1539,59 +732,15 @@ export interface Resolver {
   code?: string;
   metricsConfig?: ResolverLevelMetricsConfig;
 }
-export const Resolver = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    typeName: S.optional(S.String),
-    fieldName: S.optional(S.String),
-    dataSourceName: S.optional(S.String),
-    resolverArn: S.optional(S.String),
-    requestMappingTemplate: S.optional(S.String),
-    responseMappingTemplate: S.optional(S.String),
-    kind: S.optional(ResolverKind),
-    pipelineConfig: S.optional(PipelineConfig),
-    syncConfig: S.optional(SyncConfig),
-    cachingConfig: S.optional(CachingConfig),
-    maxBatchSize: S.optional(S.Number),
-    runtime: S.optional(AppSyncRuntime),
-    code: S.optional(S.String),
-    metricsConfig: S.optional(ResolverLevelMetricsConfig),
-  }),
-).annotate({ identifier: "Resolver" }) as any as S.Schema<Resolver>;
 export interface CreateResolverResponse {
   resolver?: Resolver;
 }
-export const CreateResolverResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resolver: S.optional(Resolver) }).pipe(ns),
-).annotate({
-  identifier: "CreateResolverResponse",
-}) as any as S.Schema<CreateResolverResponse>;
 export type TypeDefinitionFormat = "SDL" | "JSON" | (string & {});
-export const TypeDefinitionFormat = S.String;
-
 export interface CreateTypeRequest {
   apiId: string;
   definition: string;
   format: TypeDefinitionFormat;
 }
-export const CreateTypeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    definition: S.String,
-    format: TypeDefinitionFormat,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/types" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateTypeRequest",
-}) as any as S.Schema<CreateTypeRequest>;
 export interface Type {
   name?: string;
   description?: string;
@@ -1599,397 +748,74 @@ export interface Type {
   definition?: string;
   format?: TypeDefinitionFormat;
 }
-export const Type = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    arn: S.optional(S.String),
-    definition: S.optional(S.String),
-    format: S.optional(TypeDefinitionFormat),
-  }),
-).annotate({ identifier: "Type" }) as any as S.Schema<Type>;
 export interface CreateTypeResponse {
   type?: Type;
 }
-export const CreateTypeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: S.optional(Type) }).pipe(ns),
-).annotate({
-  identifier: "CreateTypeResponse",
-}) as any as S.Schema<CreateTypeResponse>;
 export interface DeleteApiRequest {
   apiId: string;
 }
-export const DeleteApiRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/v2/apis/{apiId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteApiRequest",
-}) as any as S.Schema<DeleteApiRequest>;
 export interface DeleteApiResponse {}
-export const DeleteApiResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteApiResponse",
-}) as any as S.Schema<DeleteApiResponse>;
 export interface DeleteApiCacheRequest {
   apiId: string;
 }
-export const DeleteApiCacheRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/ApiCaches" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteApiCacheRequest",
-}) as any as S.Schema<DeleteApiCacheRequest>;
 export interface DeleteApiCacheResponse {}
-export const DeleteApiCacheResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteApiCacheResponse",
-}) as any as S.Schema<DeleteApiCacheResponse>;
 export interface DeleteApiKeyRequest {
   apiId: string;
   id: string;
 }
-export const DeleteApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    id: S.String.pipe(T.HttpLabel("id")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/apikeys/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteApiKeyRequest",
-}) as any as S.Schema<DeleteApiKeyRequest>;
 export interface DeleteApiKeyResponse {}
-export const DeleteApiKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteApiKeyResponse",
-}) as any as S.Schema<DeleteApiKeyResponse>;
 export interface DeleteChannelNamespaceRequest {
   apiId: string;
   name: string;
 }
-export const DeleteChannelNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    name: S.String.pipe(T.HttpLabel("name")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/v2/apis/{apiId}/channelNamespaces/{name}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteChannelNamespaceRequest",
-}) as any as S.Schema<DeleteChannelNamespaceRequest>;
 export interface DeleteChannelNamespaceResponse {}
-export const DeleteChannelNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteChannelNamespaceResponse",
-}) as any as S.Schema<DeleteChannelNamespaceResponse>;
 export interface DeleteDataSourceRequest {
   apiId: string;
   name: string;
 }
-export const DeleteDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    name: S.String.pipe(T.HttpLabel("name")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/datasources/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDataSourceRequest",
-}) as any as S.Schema<DeleteDataSourceRequest>;
 export interface DeleteDataSourceResponse {}
-export const DeleteDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteDataSourceResponse",
-}) as any as S.Schema<DeleteDataSourceResponse>;
 export interface DeleteDomainNameRequest {
   domainName: string;
 }
-export const DeleteDomainNameRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ domainName: S.String.pipe(T.HttpLabel("domainName")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/v1/domainnames/{domainName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDomainNameRequest",
-}) as any as S.Schema<DeleteDomainNameRequest>;
 export interface DeleteDomainNameResponse {}
-export const DeleteDomainNameResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteDomainNameResponse",
-}) as any as S.Schema<DeleteDomainNameResponse>;
 export interface DeleteFunctionRequest {
   apiId: string;
   functionId: string;
 }
-export const DeleteFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    functionId: S.String.pipe(T.HttpLabel("functionId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apis/{apiId}/functions/{functionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteFunctionRequest",
-}) as any as S.Schema<DeleteFunctionRequest>;
 export interface DeleteFunctionResponse {}
-export const DeleteFunctionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteFunctionResponse",
-}) as any as S.Schema<DeleteFunctionResponse>;
 export interface DeleteGraphqlApiRequest {
   apiId: string;
 }
-export const DeleteGraphqlApiRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteGraphqlApiRequest",
-}) as any as S.Schema<DeleteGraphqlApiRequest>;
 export interface DeleteGraphqlApiResponse {}
-export const DeleteGraphqlApiResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteGraphqlApiResponse",
-}) as any as S.Schema<DeleteGraphqlApiResponse>;
 export interface DeleteResolverRequest {
   apiId: string;
   typeName: string;
   fieldName: string;
 }
-export const DeleteResolverRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    typeName: S.String.pipe(T.HttpLabel("typeName")),
-    fieldName: S.String.pipe(T.HttpLabel("fieldName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteResolverRequest",
-}) as any as S.Schema<DeleteResolverRequest>;
 export interface DeleteResolverResponse {}
-export const DeleteResolverResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteResolverResponse",
-}) as any as S.Schema<DeleteResolverResponse>;
 export interface DeleteTypeRequest {
   apiId: string;
   typeName: string;
 }
-export const DeleteTypeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    typeName: S.String.pipe(T.HttpLabel("typeName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/types/{typeName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteTypeRequest",
-}) as any as S.Schema<DeleteTypeRequest>;
 export interface DeleteTypeResponse {}
-export const DeleteTypeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteTypeResponse",
-}) as any as S.Schema<DeleteTypeResponse>;
 export interface DisassociateApiRequest {
   domainName: string;
 }
-export const DisassociateApiRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ domainName: S.String.pipe(T.HttpLabel("domainName")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/domainnames/{domainName}/apiassociation",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisassociateApiRequest",
-}) as any as S.Schema<DisassociateApiRequest>;
 export interface DisassociateApiResponse {}
-export const DisassociateApiResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DisassociateApiResponse",
-}) as any as S.Schema<DisassociateApiResponse>;
 export interface DisassociateMergedGraphqlApiRequest {
   sourceApiIdentifier: string;
   associationId: string;
 }
-export const DisassociateMergedGraphqlApiRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceApiIdentifier: S.String.pipe(T.HttpLabel("sourceApiIdentifier")),
-    associationId: S.String.pipe(T.HttpLabel("associationId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/sourceApis/{sourceApiIdentifier}/mergedApiAssociations/{associationId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisassociateMergedGraphqlApiRequest",
-}) as any as S.Schema<DisassociateMergedGraphqlApiRequest>;
 export interface DisassociateMergedGraphqlApiResponse {
   sourceApiAssociationStatus?: SourceApiAssociationStatus;
 }
-export const DisassociateMergedGraphqlApiResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      sourceApiAssociationStatus: S.optional(SourceApiAssociationStatus),
-    }).pipe(ns),
-).annotate({
-  identifier: "DisassociateMergedGraphqlApiResponse",
-}) as any as S.Schema<DisassociateMergedGraphqlApiResponse>;
 export interface DisassociateSourceGraphqlApiRequest {
   mergedApiIdentifier: string;
   associationId: string;
 }
-export const DisassociateSourceGraphqlApiRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
-    associationId: S.String.pipe(T.HttpLabel("associationId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisassociateSourceGraphqlApiRequest",
-}) as any as S.Schema<DisassociateSourceGraphqlApiRequest>;
 export interface DisassociateSourceGraphqlApiResponse {
   sourceApiAssociationStatus?: SourceApiAssociationStatus;
 }
-export const DisassociateSourceGraphqlApiResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      sourceApiAssociationStatus: S.optional(SourceApiAssociationStatus),
-    }).pipe(ns),
-).annotate({
-  identifier: "DisassociateSourceGraphqlApiResponse",
-}) as any as S.Schema<DisassociateSourceGraphqlApiResponse>;
 export type Context = string;
 export interface EvaluateCodeRequest {
   runtime: AppSyncRuntime;
@@ -1997,26 +823,6 @@ export interface EvaluateCodeRequest {
   context: string;
   function?: string;
 }
-export const EvaluateCodeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    runtime: AppSyncRuntime,
-    code: S.String,
-    context: S.String,
-    function: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/dataplane-evaluatecode" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "EvaluateCodeRequest",
-}) as any as S.Schema<EvaluateCodeRequest>;
 export type EvaluationResult = string;
 export type ErrorMessage = string;
 export type CodeErrorLine = number;
@@ -2027,43 +833,17 @@ export interface CodeErrorLocation {
   column?: number;
   span?: number;
 }
-export const CodeErrorLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    line: S.optional(S.Number),
-    column: S.optional(S.Number),
-    span: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CodeErrorLocation",
-}) as any as S.Schema<CodeErrorLocation>;
 export interface CodeError {
   errorType?: string;
   value?: string;
   location?: CodeErrorLocation;
 }
-export const CodeError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    errorType: S.optional(S.String),
-    value: S.optional(S.String),
-    location: S.optional(CodeErrorLocation),
-  }),
-).annotate({ identifier: "CodeError" }) as any as S.Schema<CodeError>;
 export type CodeErrors = CodeError[];
-export const CodeErrors = /*@__PURE__*/ S.Array(CodeError);
 export interface EvaluateCodeErrorDetail {
   message?: string;
   codeErrors?: CodeError[];
 }
-export const EvaluateCodeErrorDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.optional(S.String),
-    codeErrors: S.optional(CodeErrors),
-  }),
-).annotate({
-  identifier: "EvaluateCodeErrorDetail",
-}) as any as S.Schema<EvaluateCodeErrorDetail>;
 export type Logs = string[];
-export const Logs = /*@__PURE__*/ S.Array(S.String);
 export type Stash = string;
 export type OutErrors = string;
 export interface EvaluateCodeResponse {
@@ -2073,43 +853,14 @@ export interface EvaluateCodeResponse {
   stash?: string;
   outErrors?: string;
 }
-export const EvaluateCodeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    evaluationResult: S.optional(S.String),
-    error: S.optional(EvaluateCodeErrorDetail),
-    logs: S.optional(Logs),
-    stash: S.optional(S.String),
-    outErrors: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "EvaluateCodeResponse",
-}) as any as S.Schema<EvaluateCodeResponse>;
 export type Template = string;
 export interface EvaluateMappingTemplateRequest {
   template: string;
   context: string;
 }
-export const EvaluateMappingTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ template: S.String, context: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/dataplane-evaluatetemplate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "EvaluateMappingTemplateRequest",
-}) as any as S.Schema<EvaluateMappingTemplateRequest>;
 export interface ErrorDetail {
   message?: string;
 }
-export const ErrorDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ message: S.optional(S.String) }),
-).annotate({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
 export interface EvaluateMappingTemplateResponse {
   evaluationResult?: string;
   error?: ErrorDetail;
@@ -2117,181 +868,42 @@ export interface EvaluateMappingTemplateResponse {
   stash?: string;
   outErrors?: string;
 }
-export const EvaluateMappingTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    evaluationResult: S.optional(S.String),
-    error: S.optional(ErrorDetail),
-    logs: S.optional(Logs),
-    stash: S.optional(S.String),
-    outErrors: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "EvaluateMappingTemplateResponse",
-}) as any as S.Schema<EvaluateMappingTemplateResponse>;
 export interface FlushApiCacheRequest {
   apiId: string;
 }
-export const FlushApiCacheRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/FlushCache" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "FlushApiCacheRequest",
-}) as any as S.Schema<FlushApiCacheRequest>;
 export interface FlushApiCacheResponse {}
-export const FlushApiCacheResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "FlushApiCacheResponse",
-}) as any as S.Schema<FlushApiCacheResponse>;
 export interface GetApiRequest {
   apiId: string;
 }
-export const GetApiRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v2/apis/{apiId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetApiRequest" }) as any as S.Schema<GetApiRequest>;
 export interface GetApiResponse {
   api?: Api;
 }
-export const GetApiResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ api: S.optional(Api) }).pipe(ns),
-).annotate({ identifier: "GetApiResponse" }) as any as S.Schema<GetApiResponse>;
 export interface GetApiAssociationRequest {
   domainName: string;
 }
-export const GetApiAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ domainName: S.String.pipe(T.HttpLabel("domainName")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/v1/domainnames/{domainName}/apiassociation",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetApiAssociationRequest",
-}) as any as S.Schema<GetApiAssociationRequest>;
 export interface GetApiAssociationResponse {
   apiAssociation?: ApiAssociation;
 }
-export const GetApiAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apiAssociation: S.optional(ApiAssociation) }).pipe(ns),
-).annotate({
-  identifier: "GetApiAssociationResponse",
-}) as any as S.Schema<GetApiAssociationResponse>;
 export interface GetApiCacheRequest {
   apiId: string;
 }
-export const GetApiCacheRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/ApiCaches" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetApiCacheRequest",
-}) as any as S.Schema<GetApiCacheRequest>;
 export interface GetApiCacheResponse {
   apiCache?: ApiCache;
 }
-export const GetApiCacheResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apiCache: S.optional(ApiCache) }).pipe(ns),
-).annotate({
-  identifier: "GetApiCacheResponse",
-}) as any as S.Schema<GetApiCacheResponse>;
 export interface GetChannelNamespaceRequest {
   apiId: string;
   name: string;
 }
-export const GetChannelNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    name: S.String.pipe(T.HttpLabel("name")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/v2/apis/{apiId}/channelNamespaces/{name}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetChannelNamespaceRequest",
-}) as any as S.Schema<GetChannelNamespaceRequest>;
 export interface GetChannelNamespaceResponse {
   channelNamespace?: ChannelNamespace;
 }
-export const GetChannelNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channelNamespace: S.optional(ChannelNamespace) }).pipe(ns),
-).annotate({
-  identifier: "GetChannelNamespaceResponse",
-}) as any as S.Schema<GetChannelNamespaceResponse>;
 export interface GetDataSourceRequest {
   apiId: string;
   name: string;
 }
-export const GetDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    name: S.String.pipe(T.HttpLabel("name")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/datasources/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDataSourceRequest",
-}) as any as S.Schema<GetDataSourceRequest>;
 export interface GetDataSourceResponse {
   dataSource?: DataSource;
 }
-export const GetDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ dataSource: S.optional(DataSource) }).pipe(ns),
-).annotate({
-  identifier: "GetDataSourceResponse",
-}) as any as S.Schema<GetDataSourceResponse>;
 export type PaginationToken = string;
 export type MaxResults = number;
 export interface GetDataSourceIntrospectionRequest {
@@ -2300,103 +912,32 @@ export interface GetDataSourceIntrospectionRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const GetDataSourceIntrospectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    introspectionId: S.String.pipe(T.HttpLabel("introspectionId")),
-    includeModelsSDL: S.optional(S.Boolean).pipe(
-      T.HttpQuery("includeModelsSDL"),
-    ),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/v1/datasources/introspections/{introspectionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDataSourceIntrospectionRequest",
-}) as any as S.Schema<GetDataSourceIntrospectionRequest>;
 export type DataSourceIntrospectionStatus =
   | "PROCESSING"
   | "FAILED"
   | "SUCCESS"
   | (string & {});
-export const DataSourceIntrospectionStatus = S.String;
-
 export type DataSourceIntrospectionModelFieldTypeValues = string[];
-export const DataSourceIntrospectionModelFieldTypeValues =
-  /*@__PURE__*/ S.Array(S.String);
 export interface DataSourceIntrospectionModelFieldType {
   kind?: string;
   name?: string;
   type?: DataSourceIntrospectionModelFieldType;
   values?: string[];
 }
-export const DataSourceIntrospectionModelFieldType = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      kind: S.optional(S.String),
-      name: S.optional(S.String),
-      type: S.optional(
-        S.suspend(
-          (): S.Schema<DataSourceIntrospectionModelFieldType> =>
-            DataSourceIntrospectionModelFieldType,
-        ).annotate({ identifier: "DataSourceIntrospectionModelFieldType" }),
-      ),
-      values: S.optional(DataSourceIntrospectionModelFieldTypeValues),
-    }),
-).annotate({
-  identifier: "DataSourceIntrospectionModelFieldType",
-}) as any as S.Schema<DataSourceIntrospectionModelFieldType>;
 export interface DataSourceIntrospectionModelField {
   name?: string;
   type?: DataSourceIntrospectionModelFieldType;
   length?: number;
 }
-export const DataSourceIntrospectionModelField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    type: S.optional(DataSourceIntrospectionModelFieldType),
-    length: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "DataSourceIntrospectionModelField",
-}) as any as S.Schema<DataSourceIntrospectionModelField>;
 export type DataSourceIntrospectionModelFields =
   DataSourceIntrospectionModelField[];
-export const DataSourceIntrospectionModelFields = /*@__PURE__*/ S.Array(
-  DataSourceIntrospectionModelField,
-);
 export type DataSourceIntrospectionModelIndexFields = string[];
-export const DataSourceIntrospectionModelIndexFields = /*@__PURE__*/ S.Array(
-  S.String,
-);
 export interface DataSourceIntrospectionModelIndex {
   name?: string;
   fields?: string[];
 }
-export const DataSourceIntrospectionModelIndex = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    fields: S.optional(DataSourceIntrospectionModelIndexFields),
-  }),
-).annotate({
-  identifier: "DataSourceIntrospectionModelIndex",
-}) as any as S.Schema<DataSourceIntrospectionModelIndex>;
 export type DataSourceIntrospectionModelIndexes =
   DataSourceIntrospectionModelIndex[];
-export const DataSourceIntrospectionModelIndexes = /*@__PURE__*/ S.Array(
-  DataSourceIntrospectionModelIndex,
-);
 export interface DataSourceIntrospectionModel {
   name?: string;
   fields?: DataSourceIntrospectionModelField[];
@@ -2404,262 +945,65 @@ export interface DataSourceIntrospectionModel {
   indexes?: DataSourceIntrospectionModelIndex[];
   sdl?: string;
 }
-export const DataSourceIntrospectionModel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    fields: S.optional(DataSourceIntrospectionModelFields),
-    primaryKey: S.optional(DataSourceIntrospectionModelIndex),
-    indexes: S.optional(DataSourceIntrospectionModelIndexes),
-    sdl: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DataSourceIntrospectionModel",
-}) as any as S.Schema<DataSourceIntrospectionModel>;
 export type DataSourceIntrospectionModels = DataSourceIntrospectionModel[];
-export const DataSourceIntrospectionModels = /*@__PURE__*/ S.Array(
-  DataSourceIntrospectionModel,
-);
 export interface DataSourceIntrospectionResult {
   models?: DataSourceIntrospectionModel[];
   nextToken?: string;
 }
-export const DataSourceIntrospectionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    models: S.optional(DataSourceIntrospectionModels),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DataSourceIntrospectionResult",
-}) as any as S.Schema<DataSourceIntrospectionResult>;
 export interface GetDataSourceIntrospectionResponse {
   introspectionId?: string;
   introspectionStatus?: DataSourceIntrospectionStatus;
   introspectionStatusDetail?: string;
   introspectionResult?: DataSourceIntrospectionResult;
 }
-export const GetDataSourceIntrospectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    introspectionId: S.optional(S.String),
-    introspectionStatus: S.optional(DataSourceIntrospectionStatus),
-    introspectionStatusDetail: S.optional(S.String),
-    introspectionResult: S.optional(DataSourceIntrospectionResult),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetDataSourceIntrospectionResponse",
-}) as any as S.Schema<GetDataSourceIntrospectionResponse>;
 export interface GetDomainNameRequest {
   domainName: string;
 }
-export const GetDomainNameRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ domainName: S.String.pipe(T.HttpLabel("domainName")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/domainnames/{domainName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDomainNameRequest",
-}) as any as S.Schema<GetDomainNameRequest>;
 export interface GetDomainNameResponse {
   domainNameConfig?: DomainNameConfig;
 }
-export const GetDomainNameResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ domainNameConfig: S.optional(DomainNameConfig) }).pipe(ns),
-).annotate({
-  identifier: "GetDomainNameResponse",
-}) as any as S.Schema<GetDomainNameResponse>;
 export interface GetFunctionRequest {
   apiId: string;
   functionId: string;
 }
-export const GetFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    functionId: S.String.pipe(T.HttpLabel("functionId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/functions/{functionId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetFunctionRequest",
-}) as any as S.Schema<GetFunctionRequest>;
 export interface GetFunctionResponse {
   functionConfiguration?: FunctionConfiguration;
 }
-export const GetFunctionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ functionConfiguration: S.optional(FunctionConfiguration) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "GetFunctionResponse",
-}) as any as S.Schema<GetFunctionResponse>;
 export interface GetGraphqlApiRequest {
   apiId: string;
 }
-export const GetGraphqlApiRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/apis/{apiId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetGraphqlApiRequest",
-}) as any as S.Schema<GetGraphqlApiRequest>;
 export interface GetGraphqlApiResponse {
   graphqlApi?: GraphqlApi;
 }
-export const GetGraphqlApiResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ graphqlApi: S.optional(GraphqlApi) }).pipe(ns),
-).annotate({
-  identifier: "GetGraphqlApiResponse",
-}) as any as S.Schema<GetGraphqlApiResponse>;
 export interface GetGraphqlApiEnvironmentVariablesRequest {
   apiId: string;
 }
-export const GetGraphqlApiEnvironmentVariablesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "GET", uri: "/v1/apis/{apiId}/environmentVariables" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetGraphqlApiEnvironmentVariablesRequest",
-}) as any as S.Schema<GetGraphqlApiEnvironmentVariablesRequest>;
 export type EnvironmentVariableKey = string;
 export type EnvironmentVariableValue = string;
 export type EnvironmentVariableMap = { [key: string]: string | undefined };
-export const EnvironmentVariableMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface GetGraphqlApiEnvironmentVariablesResponse {
   environmentVariables?: { [key: string]: string | undefined };
 }
-export const GetGraphqlApiEnvironmentVariablesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ environmentVariables: S.optional(EnvironmentVariableMap) }).pipe(
-      ns,
-    ),
-  ).annotate({
-    identifier: "GetGraphqlApiEnvironmentVariablesResponse",
-  }) as any as S.Schema<GetGraphqlApiEnvironmentVariablesResponse>;
 export type OutputType = "SDL" | "JSON" | (string & {});
-export const OutputType = S.String;
-
 export interface GetIntrospectionSchemaRequest {
   apiId: string;
   format: OutputType;
   includeDirectives?: boolean;
 }
-export const GetIntrospectionSchemaRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    format: OutputType.pipe(T.HttpQuery("format")),
-    includeDirectives: S.optional(S.Boolean).pipe(
-      T.HttpQuery("includeDirectives"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/schema" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetIntrospectionSchemaRequest",
-}) as any as S.Schema<GetIntrospectionSchemaRequest>;
 export interface GetIntrospectionSchemaResponse {
   schema?: T.StreamingOutputBody;
 }
-export const GetIntrospectionSchemaResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    schema: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetIntrospectionSchemaResponse",
-}) as any as S.Schema<GetIntrospectionSchemaResponse>;
 export interface GetResolverRequest {
   apiId: string;
   typeName: string;
   fieldName: string;
 }
-export const GetResolverRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    typeName: S.String.pipe(T.HttpLabel("typeName")),
-    fieldName: S.String.pipe(T.HttpLabel("fieldName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetResolverRequest",
-}) as any as S.Schema<GetResolverRequest>;
 export interface GetResolverResponse {
   resolver?: Resolver;
 }
-export const GetResolverResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resolver: S.optional(Resolver) }).pipe(ns),
-).annotate({
-  identifier: "GetResolverResponse",
-}) as any as S.Schema<GetResolverResponse>;
 export interface GetSchemaCreationStatusRequest {
   apiId: string;
 }
-export const GetSchemaCreationStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apiId: S.String.pipe(T.HttpLabel("apiId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/schemacreation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSchemaCreationStatusRequest",
-}) as any as S.Schema<GetSchemaCreationStatusRequest>;
 export type SchemaStatus =
   | "PROCESSING"
   | "ACTIVE"
@@ -2668,457 +1012,121 @@ export type SchemaStatus =
   | "SUCCESS"
   | "NOT_APPLICABLE"
   | (string & {});
-export const SchemaStatus = S.String;
-
 export interface GetSchemaCreationStatusResponse {
   status?: SchemaStatus;
   details?: string;
 }
-export const GetSchemaCreationStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(SchemaStatus),
-    details: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetSchemaCreationStatusResponse",
-}) as any as S.Schema<GetSchemaCreationStatusResponse>;
 export interface GetSourceApiAssociationRequest {
   mergedApiIdentifier: string;
   associationId: string;
 }
-export const GetSourceApiAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
-    associationId: S.String.pipe(T.HttpLabel("associationId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSourceApiAssociationRequest",
-}) as any as S.Schema<GetSourceApiAssociationRequest>;
 export interface GetSourceApiAssociationResponse {
   sourceApiAssociation?: SourceApiAssociation;
 }
-export const GetSourceApiAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sourceApiAssociation: S.optional(SourceApiAssociation) }).pipe(ns),
-).annotate({
-  identifier: "GetSourceApiAssociationResponse",
-}) as any as S.Schema<GetSourceApiAssociationResponse>;
 export interface GetTypeRequest {
   apiId: string;
   typeName: string;
   format: TypeDefinitionFormat;
 }
-export const GetTypeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    typeName: S.String.pipe(T.HttpLabel("typeName")),
-    format: TypeDefinitionFormat.pipe(T.HttpQuery("format")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/types/{typeName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetTypeRequest" }) as any as S.Schema<GetTypeRequest>;
 export interface GetTypeResponse {
   type?: Type;
 }
-export const GetTypeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: S.optional(Type) }).pipe(ns),
-).annotate({
-  identifier: "GetTypeResponse",
-}) as any as S.Schema<GetTypeResponse>;
 export interface ListApiKeysRequest {
   apiId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListApiKeysRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/apikeys" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListApiKeysRequest",
-}) as any as S.Schema<ListApiKeysRequest>;
 export type ApiKeys = ApiKey[];
-export const ApiKeys = /*@__PURE__*/ S.Array(ApiKey);
 export interface ListApiKeysResponse {
   apiKeys?: ApiKey[];
   nextToken?: string;
 }
-export const ListApiKeysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiKeys: S.optional(ApiKeys),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListApiKeysResponse",
-}) as any as S.Schema<ListApiKeysResponse>;
 export interface ListApisRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListApisRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v2/apis" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListApisRequest",
-}) as any as S.Schema<ListApisRequest>;
 export type Apis = Api[];
-export const Apis = /*@__PURE__*/ S.Array(Api);
 export interface ListApisResponse {
   apis?: Api[];
   nextToken?: string;
 }
-export const ListApisResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apis: S.optional(Apis), nextToken: S.optional(S.String) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "ListApisResponse",
-}) as any as S.Schema<ListApisResponse>;
 export interface ListChannelNamespacesRequest {
   apiId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListChannelNamespacesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v2/apis/{apiId}/channelNamespaces" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListChannelNamespacesRequest",
-}) as any as S.Schema<ListChannelNamespacesRequest>;
 export type ChannelNamespaces = ChannelNamespace[];
-export const ChannelNamespaces = /*@__PURE__*/ S.Array(ChannelNamespace);
 export interface ListChannelNamespacesResponse {
   channelNamespaces?: ChannelNamespace[];
   nextToken?: string;
 }
-export const ListChannelNamespacesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    channelNamespaces: S.optional(ChannelNamespaces),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListChannelNamespacesResponse",
-}) as any as S.Schema<ListChannelNamespacesResponse>;
 export interface ListDataSourcesRequest {
   apiId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListDataSourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/datasources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDataSourcesRequest",
-}) as any as S.Schema<ListDataSourcesRequest>;
 export type DataSources = DataSource[];
-export const DataSources = /*@__PURE__*/ S.Array(DataSource);
 export interface ListDataSourcesResponse {
   dataSources?: DataSource[];
   nextToken?: string;
 }
-export const ListDataSourcesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataSources: S.optional(DataSources),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDataSourcesResponse",
-}) as any as S.Schema<ListDataSourcesResponse>;
 export interface ListDomainNamesRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListDomainNamesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/domainnames" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDomainNamesRequest",
-}) as any as S.Schema<ListDomainNamesRequest>;
 export type DomainNameConfigs = DomainNameConfig[];
-export const DomainNameConfigs = /*@__PURE__*/ S.Array(DomainNameConfig);
 export interface ListDomainNamesResponse {
   domainNameConfigs?: DomainNameConfig[];
   nextToken?: string;
 }
-export const ListDomainNamesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainNameConfigs: S.optional(DomainNameConfigs),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDomainNamesResponse",
-}) as any as S.Schema<ListDomainNamesResponse>;
 export interface ListFunctionsRequest {
   apiId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListFunctionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/functions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListFunctionsRequest",
-}) as any as S.Schema<ListFunctionsRequest>;
 export type Functions = FunctionConfiguration[];
-export const Functions = /*@__PURE__*/ S.Array(FunctionConfiguration);
 export interface ListFunctionsResponse {
   functions?: FunctionConfiguration[];
   nextToken?: string;
 }
-export const ListFunctionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functions: S.optional(Functions),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListFunctionsResponse",
-}) as any as S.Schema<ListFunctionsResponse>;
 export type Ownership = "CURRENT_ACCOUNT" | "OTHER_ACCOUNTS" | (string & {});
-export const Ownership = S.String;
-
 export interface ListGraphqlApisRequest {
   nextToken?: string;
   maxResults?: number;
   apiType?: GraphQLApiType;
   owner?: Ownership;
 }
-export const ListGraphqlApisRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    apiType: S.optional(GraphQLApiType).pipe(T.HttpQuery("apiType")),
-    owner: S.optional(Ownership).pipe(T.HttpQuery("owner")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/apis" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListGraphqlApisRequest",
-}) as any as S.Schema<ListGraphqlApisRequest>;
 export type GraphqlApis = GraphqlApi[];
-export const GraphqlApis = /*@__PURE__*/ S.Array(GraphqlApi);
 export interface ListGraphqlApisResponse {
   graphqlApis?: GraphqlApi[];
   nextToken?: string;
 }
-export const ListGraphqlApisResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    graphqlApis: S.optional(GraphqlApis),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListGraphqlApisResponse",
-}) as any as S.Schema<ListGraphqlApisResponse>;
 export interface ListResolversRequest {
   apiId: string;
   typeName: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListResolversRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    typeName: S.String.pipe(T.HttpLabel("typeName")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/v1/apis/{apiId}/types/{typeName}/resolvers",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListResolversRequest",
-}) as any as S.Schema<ListResolversRequest>;
 export type Resolvers = Resolver[];
-export const Resolvers = /*@__PURE__*/ S.Array(Resolver);
 export interface ListResolversResponse {
   resolvers?: Resolver[];
   nextToken?: string;
 }
-export const ListResolversResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resolvers: S.optional(Resolvers),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListResolversResponse",
-}) as any as S.Schema<ListResolversResponse>;
 export interface ListResolversByFunctionRequest {
   apiId: string;
   functionId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListResolversByFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    functionId: S.String.pipe(T.HttpLabel("functionId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/v1/apis/{apiId}/functions/{functionId}/resolvers",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListResolversByFunctionRequest",
-}) as any as S.Schema<ListResolversByFunctionRequest>;
 export interface ListResolversByFunctionResponse {
   resolvers?: Resolver[];
   nextToken?: string;
 }
-export const ListResolversByFunctionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resolvers: S.optional(Resolvers),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListResolversByFunctionResponse",
-}) as any as S.Schema<ListResolversByFunctionResponse>;
 export interface ListSourceApiAssociationsRequest {
   apiId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListSourceApiAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/sourceApiAssociations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSourceApiAssociationsRequest",
-}) as any as S.Schema<ListSourceApiAssociationsRequest>;
 export interface SourceApiAssociationSummary {
   associationId?: string;
   associationArn?: string;
@@ -3128,102 +1136,29 @@ export interface SourceApiAssociationSummary {
   mergedApiArn?: string;
   description?: string;
 }
-export const SourceApiAssociationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    associationId: S.optional(S.String),
-    associationArn: S.optional(S.String),
-    sourceApiId: S.optional(S.String),
-    sourceApiArn: S.optional(S.String),
-    mergedApiId: S.optional(S.String),
-    mergedApiArn: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SourceApiAssociationSummary",
-}) as any as S.Schema<SourceApiAssociationSummary>;
 export type SourceApiAssociationSummaryList = SourceApiAssociationSummary[];
-export const SourceApiAssociationSummaryList = /*@__PURE__*/ S.Array(
-  SourceApiAssociationSummary,
-);
 export interface ListSourceApiAssociationsResponse {
   sourceApiAssociationSummaries?: SourceApiAssociationSummary[];
   nextToken?: string;
 }
-export const ListSourceApiAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceApiAssociationSummaries: S.optional(SourceApiAssociationSummaryList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListSourceApiAssociationsResponse",
-}) as any as S.Schema<ListSourceApiAssociationsResponse>;
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(TagMap) }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTypesRequest {
   apiId: string;
   format: TypeDefinitionFormat;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListTypesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    format: TypeDefinitionFormat.pipe(T.HttpQuery("format")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/apis/{apiId}/types" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTypesRequest",
-}) as any as S.Schema<ListTypesRequest>;
 export type TypeList = Type[];
-export const TypeList = /*@__PURE__*/ S.Array(Type);
 export interface ListTypesResponse {
   types?: Type[];
   nextToken?: string;
 }
-export const ListTypesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    types: S.optional(TypeList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTypesResponse",
-}) as any as S.Schema<ListTypesResponse>;
 export interface ListTypesByAssociationRequest {
   mergedApiIdentifier: string;
   associationId: string;
@@ -3231,76 +1166,17 @@ export interface ListTypesByAssociationRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListTypesByAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
-    associationId: S.String.pipe(T.HttpLabel("associationId")),
-    format: TypeDefinitionFormat.pipe(T.HttpQuery("format")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}/types",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTypesByAssociationRequest",
-}) as any as S.Schema<ListTypesByAssociationRequest>;
 export interface ListTypesByAssociationResponse {
   types?: Type[];
   nextToken?: string;
 }
-export const ListTypesByAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    types: S.optional(TypeList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTypesByAssociationResponse",
-}) as any as S.Schema<ListTypesByAssociationResponse>;
 export interface PutGraphqlApiEnvironmentVariablesRequest {
   apiId: string;
   environmentVariables: { [key: string]: string | undefined };
 }
-export const PutGraphqlApiEnvironmentVariablesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      apiId: S.String.pipe(T.HttpLabel("apiId")),
-      environmentVariables: EnvironmentVariableMap,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "PUT", uri: "/v1/apis/{apiId}/environmentVariables" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "PutGraphqlApiEnvironmentVariablesRequest",
-}) as any as S.Schema<PutGraphqlApiEnvironmentVariablesRequest>;
 export interface PutGraphqlApiEnvironmentVariablesResponse {
   environmentVariables?: { [key: string]: string | undefined };
 }
-export const PutGraphqlApiEnvironmentVariablesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ environmentVariables: S.optional(EnvironmentVariableMap) }).pipe(
-      ns,
-    ),
-  ).annotate({
-    identifier: "PutGraphqlApiEnvironmentVariablesResponse",
-  }) as any as S.Schema<PutGraphqlApiEnvironmentVariablesResponse>;
 export type RdsDataApiConfigResourceArn = string;
 export type RdsDataApiConfigSecretArn = string;
 export type RdsDataApiConfigDatabaseName = string;
@@ -3309,205 +1185,48 @@ export interface RdsDataApiConfig {
   secretArn: string;
   databaseName: string;
 }
-export const RdsDataApiConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    secretArn: S.String,
-    databaseName: S.String,
-  }),
-).annotate({
-  identifier: "RdsDataApiConfig",
-}) as any as S.Schema<RdsDataApiConfig>;
 export interface StartDataSourceIntrospectionRequest {
   rdsDataApiConfig?: RdsDataApiConfig;
 }
-export const StartDataSourceIntrospectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ rdsDataApiConfig: S.optional(RdsDataApiConfig) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/datasources/introspections" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartDataSourceIntrospectionRequest",
-}) as any as S.Schema<StartDataSourceIntrospectionRequest>;
 export interface StartDataSourceIntrospectionResponse {
   introspectionId?: string;
   introspectionStatus?: DataSourceIntrospectionStatus;
   introspectionStatusDetail?: string;
 }
-export const StartDataSourceIntrospectionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      introspectionId: S.optional(S.String),
-      introspectionStatus: S.optional(DataSourceIntrospectionStatus),
-      introspectionStatusDetail: S.optional(S.String),
-    }).pipe(ns),
-).annotate({
-  identifier: "StartDataSourceIntrospectionResponse",
-}) as any as S.Schema<StartDataSourceIntrospectionResponse>;
 export interface StartSchemaCreationRequest {
   apiId: string;
   definition: Uint8Array;
 }
-export const StartSchemaCreationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    definition: T.Blob,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/schemacreation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartSchemaCreationRequest",
-}) as any as S.Schema<StartSchemaCreationRequest>;
 export interface StartSchemaCreationResponse {
   status?: SchemaStatus;
 }
-export const StartSchemaCreationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.optional(SchemaStatus) }).pipe(ns),
-).annotate({
-  identifier: "StartSchemaCreationResponse",
-}) as any as S.Schema<StartSchemaCreationResponse>;
 export interface StartSchemaMergeRequest {
   associationId: string;
   mergedApiIdentifier: string;
 }
-export const StartSchemaMergeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    associationId: S.String.pipe(T.HttpLabel("associationId")),
-    mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}/merge",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartSchemaMergeRequest",
-}) as any as S.Schema<StartSchemaMergeRequest>;
 export interface StartSchemaMergeResponse {
   sourceApiAssociationStatus?: SourceApiAssociationStatus;
 }
-export const StartSchemaMergeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceApiAssociationStatus: S.optional(SourceApiAssociationStatus),
-  }).pipe(ns),
-).annotate({
-  identifier: "StartSchemaMergeResponse",
-}) as any as S.Schema<StartSchemaMergeResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/v1/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateApiRequest {
   apiId: string;
   name: string;
   ownerContact?: string;
   eventConfig: EventConfig;
 }
-export const UpdateApiRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    name: S.String,
-    ownerContact: S.optional(S.String),
-    eventConfig: EventConfig,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v2/apis/{apiId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateApiRequest",
-}) as any as S.Schema<UpdateApiRequest>;
 export interface UpdateApiResponse {
   api?: Api;
 }
-export const UpdateApiResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ api: S.optional(Api) }).pipe(ns),
-).annotate({
-  identifier: "UpdateApiResponse",
-}) as any as S.Schema<UpdateApiResponse>;
 export interface UpdateApiCacheRequest {
   apiId: string;
   ttl: number;
@@ -3515,69 +1234,18 @@ export interface UpdateApiCacheRequest {
   type: ApiCacheType;
   healthMetricsConfig?: CacheHealthMetricsConfig;
 }
-export const UpdateApiCacheRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    ttl: S.Number,
-    apiCachingBehavior: ApiCachingBehavior,
-    type: ApiCacheType,
-    healthMetricsConfig: S.optional(CacheHealthMetricsConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/ApiCaches/update" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateApiCacheRequest",
-}) as any as S.Schema<UpdateApiCacheRequest>;
 export interface UpdateApiCacheResponse {
   apiCache?: ApiCache;
 }
-export const UpdateApiCacheResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apiCache: S.optional(ApiCache) }).pipe(ns),
-).annotate({
-  identifier: "UpdateApiCacheResponse",
-}) as any as S.Schema<UpdateApiCacheResponse>;
 export interface UpdateApiKeyRequest {
   apiId: string;
   id: string;
   description?: string;
   expires?: number;
 }
-export const UpdateApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    id: S.String.pipe(T.HttpLabel("id")),
-    description: S.optional(S.String),
-    expires: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/apikeys/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateApiKeyRequest",
-}) as any as S.Schema<UpdateApiKeyRequest>;
 export interface UpdateApiKeyResponse {
   apiKey?: ApiKey;
 }
-export const UpdateApiKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apiKey: S.optional(ApiKey) }).pipe(ns),
-).annotate({
-  identifier: "UpdateApiKeyResponse",
-}) as any as S.Schema<UpdateApiKeyResponse>;
 export interface UpdateChannelNamespaceRequest {
   apiId: string;
   name: string;
@@ -3586,39 +1254,9 @@ export interface UpdateChannelNamespaceRequest {
   codeHandlers?: string;
   handlerConfigs?: HandlerConfigs;
 }
-export const UpdateChannelNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    name: S.String.pipe(T.HttpLabel("name")),
-    subscribeAuthModes: S.optional(AuthModes),
-    publishAuthModes: S.optional(AuthModes),
-    codeHandlers: S.optional(S.String),
-    handlerConfigs: S.optional(HandlerConfigs),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/v2/apis/{apiId}/channelNamespaces/{name}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateChannelNamespaceRequest",
-}) as any as S.Schema<UpdateChannelNamespaceRequest>;
 export interface UpdateChannelNamespaceResponse {
   channelNamespace?: ChannelNamespace;
 }
-export const UpdateChannelNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channelNamespace: S.optional(ChannelNamespace) }).pipe(ns),
-).annotate({
-  identifier: "UpdateChannelNamespaceResponse",
-}) as any as S.Schema<UpdateChannelNamespaceResponse>;
 export interface UpdateDataSourceRequest {
   apiId: string;
   name: string;
@@ -3634,73 +1272,16 @@ export interface UpdateDataSourceRequest {
   eventBridgeConfig?: EventBridgeDataSourceConfig;
   metricsConfig?: DataSourceLevelMetricsConfig;
 }
-export const UpdateDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    name: S.String.pipe(T.HttpLabel("name")),
-    description: S.optional(S.String),
-    type: DataSourceType,
-    serviceRoleArn: S.optional(S.String),
-    dynamodbConfig: S.optional(DynamodbDataSourceConfig),
-    lambdaConfig: S.optional(LambdaDataSourceConfig),
-    elasticsearchConfig: S.optional(ElasticsearchDataSourceConfig),
-    openSearchServiceConfig: S.optional(OpenSearchServiceDataSourceConfig),
-    httpConfig: S.optional(HttpDataSourceConfig),
-    relationalDatabaseConfig: S.optional(RelationalDatabaseDataSourceConfig),
-    eventBridgeConfig: S.optional(EventBridgeDataSourceConfig),
-    metricsConfig: S.optional(DataSourceLevelMetricsConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/datasources/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDataSourceRequest",
-}) as any as S.Schema<UpdateDataSourceRequest>;
 export interface UpdateDataSourceResponse {
   dataSource?: DataSource;
 }
-export const UpdateDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ dataSource: S.optional(DataSource) }).pipe(ns),
-).annotate({
-  identifier: "UpdateDataSourceResponse",
-}) as any as S.Schema<UpdateDataSourceResponse>;
 export interface UpdateDomainNameRequest {
   domainName: string;
   description?: string;
 }
-export const UpdateDomainNameRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainName: S.String.pipe(T.HttpLabel("domainName")),
-    description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/domainnames/{domainName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDomainNameRequest",
-}) as any as S.Schema<UpdateDomainNameRequest>;
 export interface UpdateDomainNameResponse {
   domainNameConfig?: DomainNameConfig;
 }
-export const UpdateDomainNameResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ domainNameConfig: S.optional(DomainNameConfig) }).pipe(ns),
-).annotate({
-  identifier: "UpdateDomainNameResponse",
-}) as any as S.Schema<UpdateDomainNameResponse>;
 export interface UpdateFunctionRequest {
   apiId: string;
   name: string;
@@ -3715,47 +1296,9 @@ export interface UpdateFunctionRequest {
   runtime?: AppSyncRuntime;
   code?: string;
 }
-export const UpdateFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    name: S.String,
-    description: S.optional(S.String),
-    functionId: S.String.pipe(T.HttpLabel("functionId")),
-    dataSourceName: S.String,
-    requestMappingTemplate: S.optional(S.String),
-    responseMappingTemplate: S.optional(S.String),
-    functionVersion: S.optional(S.String),
-    syncConfig: S.optional(SyncConfig),
-    maxBatchSize: S.optional(S.Number),
-    runtime: S.optional(AppSyncRuntime),
-    code: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/v1/apis/{apiId}/functions/{functionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateFunctionRequest",
-}) as any as S.Schema<UpdateFunctionRequest>;
 export interface UpdateFunctionResponse {
   functionConfiguration?: FunctionConfiguration;
 }
-export const UpdateFunctionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ functionConfiguration: S.optional(FunctionConfiguration) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "UpdateFunctionResponse",
-}) as any as S.Schema<UpdateFunctionResponse>;
 export interface UpdateGraphqlApiRequest {
   apiId: string;
   name: string;
@@ -3773,47 +1316,9 @@ export interface UpdateGraphqlApiRequest {
   resolverCountLimit?: number;
   enhancedMetricsConfig?: EnhancedMetricsConfig;
 }
-export const UpdateGraphqlApiRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    name: S.String,
-    logConfig: S.optional(LogConfig),
-    authenticationType: AuthenticationType,
-    userPoolConfig: S.optional(UserPoolConfig),
-    openIDConnectConfig: S.optional(OpenIDConnectConfig),
-    additionalAuthenticationProviders: S.optional(
-      AdditionalAuthenticationProviders,
-    ),
-    xrayEnabled: S.optional(S.Boolean),
-    lambdaAuthorizerConfig: S.optional(LambdaAuthorizerConfig),
-    mergedApiExecutionRoleArn: S.optional(S.String),
-    ownerContact: S.optional(S.String),
-    introspectionConfig: S.optional(GraphQLApiIntrospectionConfig),
-    queryDepthLimit: S.optional(S.Number),
-    resolverCountLimit: S.optional(S.Number),
-    enhancedMetricsConfig: S.optional(EnhancedMetricsConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/apis/{apiId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateGraphqlApiRequest",
-}) as any as S.Schema<UpdateGraphqlApiRequest>;
 export interface UpdateGraphqlApiResponse {
   graphqlApi?: GraphqlApi;
 }
-export const UpdateGraphqlApiResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ graphqlApi: S.optional(GraphqlApi) }).pipe(ns),
-).annotate({
-  identifier: "UpdateGraphqlApiResponse",
-}) as any as S.Schema<UpdateGraphqlApiResponse>;
 export interface UpdateResolverRequest {
   apiId: string;
   typeName: string;
@@ -3830,129 +1335,31 @@ export interface UpdateResolverRequest {
   code?: string;
   metricsConfig?: ResolverLevelMetricsConfig;
 }
-export const UpdateResolverRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    typeName: S.String.pipe(T.HttpLabel("typeName")),
-    fieldName: S.String.pipe(T.HttpLabel("fieldName")),
-    dataSourceName: S.optional(S.String),
-    requestMappingTemplate: S.optional(S.String),
-    responseMappingTemplate: S.optional(S.String),
-    kind: S.optional(ResolverKind),
-    pipelineConfig: S.optional(PipelineConfig),
-    syncConfig: S.optional(SyncConfig),
-    cachingConfig: S.optional(CachingConfig),
-    maxBatchSize: S.optional(S.Number),
-    runtime: S.optional(AppSyncRuntime),
-    code: S.optional(S.String),
-    metricsConfig: S.optional(ResolverLevelMetricsConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateResolverRequest",
-}) as any as S.Schema<UpdateResolverRequest>;
 export interface UpdateResolverResponse {
   resolver?: Resolver;
 }
-export const UpdateResolverResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resolver: S.optional(Resolver) }).pipe(ns),
-).annotate({
-  identifier: "UpdateResolverResponse",
-}) as any as S.Schema<UpdateResolverResponse>;
 export interface UpdateSourceApiAssociationRequest {
   associationId: string;
   mergedApiIdentifier: string;
   description?: string;
   sourceApiAssociationConfig?: SourceApiAssociationConfig;
 }
-export const UpdateSourceApiAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    associationId: S.String.pipe(T.HttpLabel("associationId")),
-    mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
-    description: S.optional(S.String),
-    sourceApiAssociationConfig: S.optional(SourceApiAssociationConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateSourceApiAssociationRequest",
-}) as any as S.Schema<UpdateSourceApiAssociationRequest>;
 export interface UpdateSourceApiAssociationResponse {
   sourceApiAssociation?: SourceApiAssociation;
 }
-export const UpdateSourceApiAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sourceApiAssociation: S.optional(SourceApiAssociation) }).pipe(ns),
-).annotate({
-  identifier: "UpdateSourceApiAssociationResponse",
-}) as any as S.Schema<UpdateSourceApiAssociationResponse>;
 export interface UpdateTypeRequest {
   apiId: string;
   typeName: string;
   definition?: string;
   format: TypeDefinitionFormat;
 }
-export const UpdateTypeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiId: S.String.pipe(T.HttpLabel("apiId")),
-    typeName: S.String.pipe(T.HttpLabel("typeName")),
-    definition: S.optional(S.String),
-    format: TypeDefinitionFormat,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/apis/{apiId}/types/{typeName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateTypeRequest",
-}) as any as S.Schema<UpdateTypeRequest>;
 export interface UpdateTypeResponse {
   type?: Type;
 }
-export const UpdateTypeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: S.optional(Type) }).pipe(ns),
-).annotate({
-  identifier: "UpdateTypeResponse",
-}) as any as S.Schema<UpdateTypeResponse>;
 export type BadRequestReason = "CODE_ERROR" | (string & {});
-export const BadRequestReason = S.String;
-
 export interface BadRequestDetail {
   codeErrors?: CodeError[];
 }
-export const BadRequestDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ codeErrors: S.optional(CodeErrors) }),
-).annotate({
-  identifier: "BadRequestDetail",
-}) as any as S.Schema<BadRequestDetail>;
 export type AssociateApiError =
   | AccessDeniedException
   | BadRequestException
@@ -3968,8 +1375,12 @@ export const associateApi: API.OperationMethod<
   AssociateApiError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateApiRequest,
-  output: AssociateApiResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/domainnames/{domainName}/apiassociation",
+    input: { domainName: 0, apiId: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -3979,7 +1390,7 @@ export const associateApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApi",
-}));
+})) as any;
 
 export type AssociateMergedGraphqlApiError =
   | BadRequestException
@@ -3999,8 +1410,18 @@ export const associateMergedGraphqlApi: API.OperationMethod<
   AssociateMergedGraphqlApiError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateMergedGraphqlApiRequest,
-  output: AssociateMergedGraphqlApiResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/sourceApis/{sourceApiIdentifier}/mergedApiAssociations",
+    input: {
+      sourceApiIdentifier: 0,
+      mergedApiIdentifier: 0,
+      description: 0,
+      sourceApiAssociationConfig: i_SourceApiAssociationConfig,
+    },
+    output: { sourceApiAssociation: o_SourceApiAssociation },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4012,7 +1433,7 @@ export const associateMergedGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateMergedGraphqlApi",
-}));
+})) as any;
 
 export type AssociateSourceGraphqlApiError =
   | BadRequestException
@@ -4032,8 +1453,18 @@ export const associateSourceGraphqlApi: API.OperationMethod<
   AssociateSourceGraphqlApiError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateSourceGraphqlApiRequest,
-  output: AssociateSourceGraphqlApiResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations",
+    input: {
+      mergedApiIdentifier: 0,
+      sourceApiIdentifier: 0,
+      description: 0,
+      sourceApiAssociationConfig: i_SourceApiAssociationConfig,
+    },
+    output: { sourceApiAssociation: o_SourceApiAssociation },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4045,7 +1476,7 @@ export const associateSourceGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSourceGraphqlApi",
-}));
+})) as any;
 
 export type CreateApiError =
   | BadRequestException
@@ -4065,8 +1496,13 @@ export const createApi: API.OperationMethod<
   CreateApiError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateApiRequest,
-  output: CreateApiResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/apis",
+    input: { name: 0, ownerContact: 0, tags: 0, eventConfig: i_EventConfig },
+    output: { api: o_Api },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4077,7 +1513,7 @@ export const createApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApi",
-}));
+})) as any;
 
 export type CreateApiCacheError =
   | BadRequestException
@@ -4095,8 +1531,20 @@ export const createApiCache: API.OperationMethod<
   CreateApiCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateApiCacheRequest,
-  output: CreateApiCacheResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/apis/{apiId}/ApiCaches",
+    input: {
+      apiId: 0,
+      ttl: 0,
+      transitEncryptionEnabled: 0,
+      atRestEncryptionEnabled: 0,
+      apiCachingBehavior: 0,
+      type: 0,
+      healthMetricsConfig: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4107,7 +1555,7 @@ export const createApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiCache",
-}));
+})) as any;
 
 export type CreateApiKeyError =
   | ApiKeyLimitExceededException
@@ -4127,8 +1575,12 @@ export const createApiKey: API.OperationMethod<
   CreateApiKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateApiKeyRequest,
-  output: CreateApiKeyResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/apis/{apiId}/apikeys",
+    input: { apiId: 0, description: 0, expires: 0 },
+    body: true,
+  },
   errors: [
     ApiKeyLimitExceededException,
     ApiKeyValidityOutOfBoundsException,
@@ -4141,7 +1593,7 @@ export const createApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiKey",
-}));
+})) as any;
 
 export type CreateChannelNamespaceError =
   | BadRequestException
@@ -4161,8 +1613,21 @@ export const createChannelNamespace: API.OperationMethod<
   CreateChannelNamespaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateChannelNamespaceRequest,
-  output: CreateChannelNamespaceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/apis/{apiId}/channelNamespaces",
+    input: {
+      apiId: 0,
+      name: 0,
+      subscribeAuthModes: D.list(i_AuthMode),
+      publishAuthModes: D.list(i_AuthMode),
+      codeHandlers: 0,
+      tags: 0,
+      handlerConfigs: i_HandlerConfigs,
+    },
+    output: { channelNamespace: o_ChannelNamespace },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4175,7 +1640,7 @@ export const createChannelNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelNamespace",
-}));
+})) as any;
 
 export type CreateDataSourceError =
   | BadRequestException
@@ -4193,8 +1658,26 @@ export const createDataSource: API.OperationMethod<
   CreateDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDataSourceRequest,
-  output: CreateDataSourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/apis/{apiId}/datasources",
+    input: {
+      apiId: 0,
+      name: 0,
+      description: 0,
+      type: 0,
+      serviceRoleArn: 0,
+      dynamodbConfig: i_DynamodbDataSourceConfig,
+      lambdaConfig: i_LambdaDataSourceConfig,
+      elasticsearchConfig: i_ElasticsearchDataSourceConfig,
+      openSearchServiceConfig: i_OpenSearchServiceDataSourceConfig,
+      httpConfig: i_HttpDataSourceConfig,
+      relationalDatabaseConfig: i_RelationalDatabaseDataSourceConfig,
+      eventBridgeConfig: i_EventBridgeDataSourceConfig,
+      metricsConfig: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4205,7 +1688,7 @@ export const createDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSource",
-}));
+})) as any;
 
 export type CreateDomainNameError =
   | AccessDeniedException
@@ -4221,8 +1704,12 @@ export const createDomainName: API.OperationMethod<
   CreateDomainNameError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDomainNameRequest,
-  output: CreateDomainNameResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/domainnames",
+    input: { domainName: 0, certificateArn: 0, description: 0, tags: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4231,7 +1718,7 @@ export const createDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainName",
-}));
+})) as any;
 
 export type CreateFunctionError =
   | BadRequestException
@@ -4252,8 +1739,24 @@ export const createFunction: API.OperationMethod<
   CreateFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFunctionRequest,
-  output: CreateFunctionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/apis/{apiId}/functions",
+    input: {
+      apiId: 0,
+      name: 0,
+      description: 0,
+      dataSourceName: 0,
+      requestMappingTemplate: 0,
+      responseMappingTemplate: 0,
+      functionVersion: 0,
+      syncConfig: i_SyncConfig,
+      maxBatchSize: 0,
+      runtime: i_AppSyncRuntime,
+      code: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4264,7 +1767,7 @@ export const createFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunction",
-}));
+})) as any;
 
 export type CreateGraphqlApiError =
   | ApiLimitExceededException
@@ -4283,8 +1786,32 @@ export const createGraphqlApi: API.OperationMethod<
   CreateGraphqlApiError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateGraphqlApiRequest,
-  output: CreateGraphqlApiResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/apis",
+    input: {
+      name: 0,
+      logConfig: i_LogConfig,
+      authenticationType: 0,
+      userPoolConfig: i_UserPoolConfig,
+      openIDConnectConfig: i_OpenIDConnectConfig,
+      tags: 0,
+      additionalAuthenticationProviders: D.list(
+        i_AdditionalAuthenticationProvider,
+      ),
+      xrayEnabled: 0,
+      lambdaAuthorizerConfig: i_LambdaAuthorizerConfig,
+      apiType: 0,
+      mergedApiExecutionRoleArn: 0,
+      visibility: 0,
+      ownerContact: 0,
+      introspectionConfig: 0,
+      queryDepthLimit: 0,
+      resolverCountLimit: 0,
+      enhancedMetricsConfig: i_EnhancedMetricsConfig,
+    },
+    body: true,
+  },
   errors: [
     ApiLimitExceededException,
     BadRequestException,
@@ -4296,7 +1823,7 @@ export const createGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGraphqlApi",
-}));
+})) as any;
 
 export type CreateResolverError =
   | BadRequestException
@@ -4317,8 +1844,27 @@ export const createResolver: API.OperationMethod<
   CreateResolverError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateResolverRequest,
-  output: CreateResolverResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/apis/{apiId}/types/{typeName}/resolvers",
+    input: {
+      apiId: 0,
+      typeName: 0,
+      fieldName: 0,
+      dataSourceName: 0,
+      requestMappingTemplate: 0,
+      responseMappingTemplate: 0,
+      kind: 0,
+      pipelineConfig: i_PipelineConfig,
+      syncConfig: i_SyncConfig,
+      cachingConfig: i_CachingConfig,
+      maxBatchSize: 0,
+      runtime: i_AppSyncRuntime,
+      code: 0,
+      metricsConfig: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4329,7 +1875,7 @@ export const createResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResolver",
-}));
+})) as any;
 
 export type CreateTypeError =
   | BadRequestException
@@ -4347,8 +1893,12 @@ export const createType: API.OperationMethod<
   CreateTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTypeRequest,
-  output: CreateTypeResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/apis/{apiId}/types",
+    input: { apiId: 0, definition: 0, format: 0 },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4359,7 +1909,7 @@ export const createType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateType",
-}));
+})) as any;
 
 export type DeleteApiError =
   | AccessDeniedException
@@ -4378,8 +1928,11 @@ export const deleteApi: API.OperationMethod<
   DeleteApiError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteApiRequest,
-  output: DeleteApiResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/apis/{apiId}",
+    input: { apiId: 0 },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4391,7 +1944,7 @@ export const deleteApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApi",
-}));
+})) as any;
 
 export type DeleteApiCacheError =
   | BadRequestException
@@ -4409,8 +1962,11 @@ export const deleteApiCache: API.OperationMethod<
   DeleteApiCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteApiCacheRequest,
-  output: DeleteApiCacheResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/apis/{apiId}/ApiCaches",
+    input: { apiId: 0 },
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4421,7 +1977,7 @@ export const deleteApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiCache",
-}));
+})) as any;
 
 export type DeleteApiKeyError =
   | BadRequestException
@@ -4438,8 +1994,11 @@ export const deleteApiKey: API.OperationMethod<
   DeleteApiKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteApiKeyRequest,
-  output: DeleteApiKeyResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/apis/{apiId}/apikeys/{id}",
+    input: { apiId: 0, id: 0 },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -4449,7 +2008,7 @@ export const deleteApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiKey",
-}));
+})) as any;
 
 export type DeleteChannelNamespaceError =
   | AccessDeniedException
@@ -4468,8 +2027,11 @@ export const deleteChannelNamespace: API.OperationMethod<
   DeleteChannelNamespaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteChannelNamespaceRequest,
-  output: DeleteChannelNamespaceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v2/apis/{apiId}/channelNamespaces/{name}",
+    input: { apiId: 0, name: 0 },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4481,7 +2043,7 @@ export const deleteChannelNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelNamespace",
-}));
+})) as any;
 
 export type DeleteDataSourceError =
   | BadRequestException
@@ -4499,8 +2061,11 @@ export const deleteDataSource: API.OperationMethod<
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDataSourceRequest,
-  output: DeleteDataSourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/apis/{apiId}/datasources/{name}",
+    input: { apiId: 0, name: 0 },
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4511,7 +2076,7 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
-}));
+})) as any;
 
 export type DeleteDomainNameError =
   | AccessDeniedException
@@ -4529,8 +2094,11 @@ export const deleteDomainName: API.OperationMethod<
   DeleteDomainNameError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDomainNameRequest,
-  output: DeleteDomainNameResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/domainnames/{domainName}",
+    input: { domainName: 0 },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4541,7 +2109,7 @@ export const deleteDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainName",
-}));
+})) as any;
 
 export type DeleteFunctionError =
   | BadRequestException
@@ -4559,8 +2127,11 @@ export const deleteFunction: API.OperationMethod<
   DeleteFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFunctionRequest,
-  output: DeleteFunctionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/apis/{apiId}/functions/{functionId}",
+    input: { apiId: 0, functionId: 0 },
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4571,7 +2142,7 @@ export const deleteFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunction",
-}));
+})) as any;
 
 export type DeleteGraphqlApiError =
   | AccessDeniedException
@@ -4590,8 +2161,11 @@ export const deleteGraphqlApi: API.OperationMethod<
   DeleteGraphqlApiError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteGraphqlApiRequest,
-  output: DeleteGraphqlApiResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/apis/{apiId}",
+    input: { apiId: 0 },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4603,7 +2177,7 @@ export const deleteGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGraphqlApi",
-}));
+})) as any;
 
 export type DeleteResolverError =
   | BadRequestException
@@ -4621,8 +2195,11 @@ export const deleteResolver: API.OperationMethod<
   DeleteResolverError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResolverRequest,
-  output: DeleteResolverResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}",
+    input: { apiId: 0, typeName: 0, fieldName: 0 },
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4633,7 +2210,7 @@ export const deleteResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResolver",
-}));
+})) as any;
 
 export type DeleteTypeError =
   | BadRequestException
@@ -4651,8 +2228,11 @@ export const deleteType: API.OperationMethod<
   DeleteTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTypeRequest,
-  output: DeleteTypeResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/apis/{apiId}/types/{typeName}",
+    input: { apiId: 0, typeName: 0 },
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4663,7 +2243,7 @@ export const deleteType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteType",
-}));
+})) as any;
 
 export type DisassociateApiError =
   | AccessDeniedException
@@ -4681,8 +2261,11 @@ export const disassociateApi: API.OperationMethod<
   DisassociateApiError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateApiRequest,
-  output: DisassociateApiResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/domainnames/{domainName}/apiassociation",
+    input: { domainName: 0 },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4693,7 +2276,7 @@ export const disassociateApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApi",
-}));
+})) as any;
 
 export type DisassociateMergedGraphqlApiError =
   | BadRequestException
@@ -4712,8 +2295,11 @@ export const disassociateMergedGraphqlApi: API.OperationMethod<
   DisassociateMergedGraphqlApiError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateMergedGraphqlApiRequest,
-  output: DisassociateMergedGraphqlApiResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/sourceApis/{sourceApiIdentifier}/mergedApiAssociations/{associationId}",
+    input: { sourceApiIdentifier: 0, associationId: 0 },
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4724,7 +2310,7 @@ export const disassociateMergedGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMergedGraphqlApi",
-}));
+})) as any;
 
 export type DisassociateSourceGraphqlApiError =
   | BadRequestException
@@ -4743,8 +2329,11 @@ export const disassociateSourceGraphqlApi: API.OperationMethod<
   DisassociateSourceGraphqlApiError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateSourceGraphqlApiRequest,
-  output: DisassociateSourceGraphqlApiResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}",
+    input: { mergedApiIdentifier: 0, associationId: 0 },
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4755,7 +2344,7 @@ export const disassociateSourceGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSourceGraphqlApi",
-}));
+})) as any;
 
 export type EvaluateCodeError =
   | AccessDeniedException
@@ -4776,8 +2365,12 @@ export const evaluateCode: API.OperationMethod<
   EvaluateCodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: EvaluateCodeRequest,
-  output: EvaluateCodeResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/dataplane-evaluatecode",
+    input: { runtime: i_AppSyncRuntime, code: 0, context: 0, function: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4786,7 +2379,7 @@ export const evaluateCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluateCode",
-}));
+})) as any;
 
 export type EvaluateMappingTemplateError =
   | AccessDeniedException
@@ -4810,8 +2403,12 @@ export const evaluateMappingTemplate: API.OperationMethod<
   EvaluateMappingTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: EvaluateMappingTemplateRequest,
-  output: EvaluateMappingTemplateResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/dataplane-evaluatetemplate",
+    input: { template: 0, context: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4820,7 +2417,7 @@ export const evaluateMappingTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluateMappingTemplate",
-}));
+})) as any;
 
 export type FlushApiCacheError =
   | BadRequestException
@@ -4838,8 +2435,11 @@ export const flushApiCache: API.OperationMethod<
   FlushApiCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: FlushApiCacheRequest,
-  output: FlushApiCacheResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/apis/{apiId}/FlushCache",
+    input: { apiId: 0 },
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4850,7 +2450,7 @@ export const flushApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FlushApiCache",
-}));
+})) as any;
 
 export type GetApiError =
   | AccessDeniedException
@@ -4868,8 +2468,12 @@ export const getApi: API.OperationMethod<
   GetApiError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetApiRequest,
-  output: GetApiResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/apis/{apiId}",
+    input: { apiId: 0 },
+    output: { api: o_Api },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4880,7 +2484,7 @@ export const getApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApi",
-}));
+})) as any;
 
 export type GetApiAssociationError =
   | AccessDeniedException
@@ -4897,8 +2501,11 @@ export const getApiAssociation: API.OperationMethod<
   GetApiAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetApiAssociationRequest,
-  output: GetApiAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/domainnames/{domainName}/apiassociation",
+    input: { domainName: 0 },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4908,7 +2515,7 @@ export const getApiAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiAssociation",
-}));
+})) as any;
 
 export type GetApiCacheError =
   | BadRequestException
@@ -4926,8 +2533,11 @@ export const getApiCache: API.OperationMethod<
   GetApiCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetApiCacheRequest,
-  output: GetApiCacheResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis/{apiId}/ApiCaches",
+    input: { apiId: 0 },
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4938,7 +2548,7 @@ export const getApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiCache",
-}));
+})) as any;
 
 export type GetChannelNamespaceError =
   | AccessDeniedException
@@ -4956,8 +2566,12 @@ export const getChannelNamespace: API.OperationMethod<
   GetChannelNamespaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetChannelNamespaceRequest,
-  output: GetChannelNamespaceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/apis/{apiId}/channelNamespaces/{name}",
+    input: { apiId: 0, name: 0 },
+    output: { channelNamespace: o_ChannelNamespace },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4968,7 +2582,7 @@ export const getChannelNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelNamespace",
-}));
+})) as any;
 
 export type GetDataSourceError =
   | BadRequestException
@@ -4986,8 +2600,11 @@ export const getDataSource: API.OperationMethod<
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDataSourceRequest,
-  output: GetDataSourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis/{apiId}/datasources/{name}",
+    input: { apiId: 0, name: 0 },
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -4998,7 +2615,7 @@ export const getDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
-}));
+})) as any;
 
 export type GetDataSourceIntrospectionError =
   | BadRequestException
@@ -5016,13 +2633,21 @@ export const getDataSourceIntrospection: API.OperationMethod<
   GetDataSourceIntrospectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDataSourceIntrospectionRequest,
-  output: GetDataSourceIntrospectionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/datasources/introspections/{introspectionId}",
+    input: {
+      introspectionId: 0,
+      includeModelsSDL: D.m({ query: "includeModelsSDL" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [BadRequestException, InternalFailureException, NotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSourceIntrospection",
-}));
+})) as any;
 
 export type GetDomainNameError =
   | AccessDeniedException
@@ -5039,8 +2664,11 @@ export const getDomainName: API.OperationMethod<
   GetDomainNameError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDomainNameRequest,
-  output: GetDomainNameResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/domainnames/{domainName}",
+    input: { domainName: 0 },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -5050,7 +2678,7 @@ export const getDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainName",
-}));
+})) as any;
 
 export type GetFunctionError =
   | ConcurrentModificationException
@@ -5066,8 +2694,11 @@ export const getFunction: API.OperationMethod<
   GetFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetFunctionRequest,
-  output: GetFunctionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis/{apiId}/functions/{functionId}",
+    input: { apiId: 0, functionId: 0 },
+  },
   errors: [
     ConcurrentModificationException,
     NotFoundException,
@@ -5076,7 +2707,7 @@ export const getFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunction",
-}));
+})) as any;
 
 export type GetGraphqlApiError =
   | AccessDeniedException
@@ -5094,8 +2725,11 @@ export const getGraphqlApi: API.OperationMethod<
   GetGraphqlApiError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetGraphqlApiRequest,
-  output: GetGraphqlApiResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis/{apiId}",
+    input: { apiId: 0 },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -5106,7 +2740,7 @@ export const getGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGraphqlApi",
-}));
+})) as any;
 
 export type GetGraphqlApiEnvironmentVariablesError =
   | AccessDeniedException
@@ -5125,8 +2759,11 @@ export const getGraphqlApiEnvironmentVariables: API.OperationMethod<
   GetGraphqlApiEnvironmentVariablesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetGraphqlApiEnvironmentVariablesRequest,
-  output: GetGraphqlApiEnvironmentVariablesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis/{apiId}/environmentVariables",
+    input: { apiId: 0 },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -5137,7 +2774,7 @@ export const getGraphqlApiEnvironmentVariables: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGraphqlApiEnvironmentVariables",
-}));
+})) as any;
 
 export type GetIntrospectionSchemaError =
   | GraphQLSchemaException
@@ -5154,8 +2791,16 @@ export const getIntrospectionSchema: API.OperationMethod<
   GetIntrospectionSchemaError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetIntrospectionSchemaRequest,
-  output: GetIntrospectionSchemaResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis/{apiId}/schema",
+    input: {
+      apiId: 0,
+      format: D.m({ query: "format" }),
+      includeDirectives: D.m({ query: "includeDirectives" }),
+    },
+    output: { schema: D.m({ payload: true, shape: D.stream }) },
+  },
   errors: [
     GraphQLSchemaException,
     InternalFailureException,
@@ -5165,7 +2810,7 @@ export const getIntrospectionSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntrospectionSchema",
-}));
+})) as any;
 
 export type GetResolverError =
   | ConcurrentModificationException
@@ -5181,8 +2826,11 @@ export const getResolver: API.OperationMethod<
   GetResolverError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResolverRequest,
-  output: GetResolverResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}",
+    input: { apiId: 0, typeName: 0, fieldName: 0 },
+  },
   errors: [
     ConcurrentModificationException,
     NotFoundException,
@@ -5191,7 +2839,7 @@ export const getResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolver",
-}));
+})) as any;
 
 export type GetSchemaCreationStatusError =
   | BadRequestException
@@ -5208,8 +2856,11 @@ export const getSchemaCreationStatus: API.OperationMethod<
   GetSchemaCreationStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSchemaCreationStatusRequest,
-  output: GetSchemaCreationStatusResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis/{apiId}/schemacreation",
+    input: { apiId: 0 },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -5219,7 +2870,7 @@ export const getSchemaCreationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaCreationStatus",
-}));
+})) as any;
 
 export type GetSourceApiAssociationError =
   | BadRequestException
@@ -5236,8 +2887,12 @@ export const getSourceApiAssociation: API.OperationMethod<
   GetSourceApiAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSourceApiAssociationRequest,
-  output: GetSourceApiAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}",
+    input: { mergedApiIdentifier: 0, associationId: 0 },
+    output: { sourceApiAssociation: o_SourceApiAssociation },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -5247,7 +2902,7 @@ export const getSourceApiAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSourceApiAssociation",
-}));
+})) as any;
 
 export type GetTypeError =
   | BadRequestException
@@ -5265,8 +2920,11 @@ export const getType: API.OperationMethod<
   GetTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTypeRequest,
-  output: GetTypeResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis/{apiId}/types/{typeName}",
+    input: { apiId: 0, typeName: 0, format: D.m({ query: "format" }) },
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -5277,7 +2935,7 @@ export const getType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetType",
-}));
+})) as any;
 
 export type ListApiKeysError =
   | BadRequestException
@@ -5300,8 +2958,15 @@ export const listApiKeys: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ApiKey
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListApiKeysRequest,
-  output: ListApiKeysResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis/{apiId}/apikeys",
+    input: {
+      apiId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -5337,8 +3002,15 @@ export const listApis: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Api
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListApisRequest,
-  output: ListApisResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/apis",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { apis: D.list(o_Api) },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -5374,8 +3046,16 @@ export const listChannelNamespaces: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ChannelNamespace
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListChannelNamespacesRequest,
-  output: ListChannelNamespacesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/apis/{apiId}/channelNamespaces",
+    input: {
+      apiId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { channelNamespaces: D.list(o_ChannelNamespace) },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -5409,8 +3089,15 @@ export const listDataSources: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataSource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDataSourcesRequest,
-  output: ListDataSourcesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis/{apiId}/datasources",
+    input: {
+      apiId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -5443,8 +3130,14 @@ export const listDomainNames: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DomainNameConfig
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDomainNamesRequest,
-  output: ListDomainNamesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/domainnames",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -5477,8 +3170,15 @@ export const listFunctions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FunctionConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFunctionsRequest,
-  output: ListFunctionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis/{apiId}/functions",
+    input: {
+      apiId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -5511,8 +3211,16 @@ export const listGraphqlApis: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GraphqlApi
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListGraphqlApisRequest,
-  output: ListGraphqlApisResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      apiType: D.m({ query: "apiType" }),
+      owner: D.m({ query: "owner" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -5545,8 +3253,16 @@ export const listResolvers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Resolver
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListResolversRequest,
-  output: ListResolversResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis/{apiId}/types/{typeName}/resolvers",
+    input: {
+      apiId: 0,
+      typeName: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -5580,8 +3296,16 @@ export const listResolversByFunction: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Resolver
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListResolversByFunctionRequest,
-  output: ListResolversByFunctionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis/{apiId}/functions/{functionId}/resolvers",
+    input: {
+      apiId: 0,
+      functionId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -5615,8 +3339,15 @@ export const listSourceApiAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SourceApiAssociationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSourceApiAssociationsRequest,
-  output: ListSourceApiAssociationsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis/{apiId}/sourceApiAssociations",
+    input: {
+      apiId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -5651,8 +3382,11 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/tags/{resourceArn}",
+    input: { resourceArn: 0 },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -5664,7 +3398,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type ListTypesError =
   | BadRequestException
@@ -5683,8 +3417,16 @@ export const listTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Type
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTypesRequest,
-  output: ListTypesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/apis/{apiId}/types",
+    input: {
+      apiId: 0,
+      format: D.m({ query: "format" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -5720,8 +3462,17 @@ export const listTypesByAssociation: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Type
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTypesByAssociationRequest,
-  output: ListTypesByAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}/types",
+    input: {
+      mergedApiIdentifier: 0,
+      associationId: 0,
+      format: D.m({ query: "format" }),
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -5793,8 +3544,12 @@ export const putGraphqlApiEnvironmentVariables: API.OperationMethod<
   PutGraphqlApiEnvironmentVariablesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutGraphqlApiEnvironmentVariablesRequest,
-  output: PutGraphqlApiEnvironmentVariablesResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /v1/apis/{apiId}/environmentVariables",
+    input: { apiId: 0, environmentVariables: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -5806,7 +3561,7 @@ export const putGraphqlApiEnvironmentVariables: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGraphqlApiEnvironmentVariables",
-}));
+})) as any;
 
 export type StartDataSourceIntrospectionError =
   | BadRequestException
@@ -5824,8 +3579,14 @@ export const startDataSourceIntrospection: API.OperationMethod<
   StartDataSourceIntrospectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartDataSourceIntrospectionRequest,
-  output: StartDataSourceIntrospectionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/datasources/introspections",
+    input: {
+      rdsDataApiConfig: { resourceArn: 0, secretArn: 0, databaseName: 0 },
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -5835,7 +3596,7 @@ export const startDataSourceIntrospection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataSourceIntrospection",
-}));
+})) as any;
 
 export type StartSchemaCreationError =
   | BadRequestException
@@ -5856,8 +3617,12 @@ export const startSchemaCreation: API.OperationMethod<
   StartSchemaCreationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartSchemaCreationRequest,
-  output: StartSchemaCreationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/apis/{apiId}/schemacreation",
+    input: { apiId: 0, definition: 0 },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -5868,7 +3633,7 @@ export const startSchemaCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSchemaCreation",
-}));
+})) as any;
 
 export type StartSchemaMergeError =
   | BadRequestException
@@ -5887,8 +3652,11 @@ export const startSchemaMerge: API.OperationMethod<
   StartSchemaMergeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartSchemaMergeRequest,
-  output: StartSchemaMergeResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}/merge",
+    input: { associationId: 0, mergedApiIdentifier: 0 },
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -5899,7 +3667,7 @@ export const startSchemaMerge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSchemaMerge",
-}));
+})) as any;
 
 export type TagResourceError =
   | AccessDeniedException
@@ -5918,8 +3686,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/tags/{resourceArn}",
+    input: { resourceArn: 0, tags: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -5931,7 +3703,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | AccessDeniedException
@@ -5950,8 +3722,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/tags/{resourceArn}",
+    input: { resourceArn: 0, tagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -5963,7 +3738,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateApiError =
   | AccessDeniedException
@@ -5982,8 +3757,13 @@ export const updateApi: API.OperationMethod<
   UpdateApiError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateApiRequest,
-  output: UpdateApiResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/apis/{apiId}",
+    input: { apiId: 0, name: 0, ownerContact: 0, eventConfig: i_EventConfig },
+    output: { api: o_Api },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -5995,7 +3775,7 @@ export const updateApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApi",
-}));
+})) as any;
 
 export type UpdateApiCacheError =
   | BadRequestException
@@ -6013,8 +3793,18 @@ export const updateApiCache: API.OperationMethod<
   UpdateApiCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateApiCacheRequest,
-  output: UpdateApiCacheResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/apis/{apiId}/ApiCaches/update",
+    input: {
+      apiId: 0,
+      ttl: 0,
+      apiCachingBehavior: 0,
+      type: 0,
+      healthMetricsConfig: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -6025,7 +3815,7 @@ export const updateApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiCache",
-}));
+})) as any;
 
 export type UpdateApiKeyError =
   | ApiKeyValidityOutOfBoundsException
@@ -6044,8 +3834,12 @@ export const updateApiKey: API.OperationMethod<
   UpdateApiKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateApiKeyRequest,
-  output: UpdateApiKeyResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/apis/{apiId}/apikeys/{id}",
+    input: { apiId: 0, id: 0, description: 0, expires: 0 },
+    body: true,
+  },
   errors: [
     ApiKeyValidityOutOfBoundsException,
     BadRequestException,
@@ -6057,7 +3851,7 @@ export const updateApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiKey",
-}));
+})) as any;
 
 export type UpdateChannelNamespaceError =
   | AccessDeniedException
@@ -6076,8 +3870,20 @@ export const updateChannelNamespace: API.OperationMethod<
   UpdateChannelNamespaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateChannelNamespaceRequest,
-  output: UpdateChannelNamespaceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v2/apis/{apiId}/channelNamespaces/{name}",
+    input: {
+      apiId: 0,
+      name: 0,
+      subscribeAuthModes: D.list(i_AuthMode),
+      publishAuthModes: D.list(i_AuthMode),
+      codeHandlers: 0,
+      handlerConfigs: i_HandlerConfigs,
+    },
+    output: { channelNamespace: o_ChannelNamespace },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -6089,7 +3895,7 @@ export const updateChannelNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelNamespace",
-}));
+})) as any;
 
 export type UpdateDataSourceError =
   | BadRequestException
@@ -6107,8 +3913,26 @@ export const updateDataSource: API.OperationMethod<
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDataSourceRequest,
-  output: UpdateDataSourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/apis/{apiId}/datasources/{name}",
+    input: {
+      apiId: 0,
+      name: 0,
+      description: 0,
+      type: 0,
+      serviceRoleArn: 0,
+      dynamodbConfig: i_DynamodbDataSourceConfig,
+      lambdaConfig: i_LambdaDataSourceConfig,
+      elasticsearchConfig: i_ElasticsearchDataSourceConfig,
+      openSearchServiceConfig: i_OpenSearchServiceDataSourceConfig,
+      httpConfig: i_HttpDataSourceConfig,
+      relationalDatabaseConfig: i_RelationalDatabaseDataSourceConfig,
+      eventBridgeConfig: i_EventBridgeDataSourceConfig,
+      metricsConfig: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -6119,7 +3943,7 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
-}));
+})) as any;
 
 export type UpdateDomainNameError =
   | AccessDeniedException
@@ -6137,8 +3961,12 @@ export const updateDomainName: API.OperationMethod<
   UpdateDomainNameError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDomainNameRequest,
-  output: UpdateDomainNameResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/domainnames/{domainName}",
+    input: { domainName: 0, description: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -6149,7 +3977,7 @@ export const updateDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainName",
-}));
+})) as any;
 
 export type UpdateFunctionError =
   | BadRequestException
@@ -6167,8 +3995,25 @@ export const updateFunction: API.OperationMethod<
   UpdateFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFunctionRequest,
-  output: UpdateFunctionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/apis/{apiId}/functions/{functionId}",
+    input: {
+      apiId: 0,
+      name: 0,
+      description: 0,
+      functionId: 0,
+      dataSourceName: 0,
+      requestMappingTemplate: 0,
+      responseMappingTemplate: 0,
+      functionVersion: 0,
+      syncConfig: i_SyncConfig,
+      maxBatchSize: 0,
+      runtime: i_AppSyncRuntime,
+      code: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -6179,7 +4024,7 @@ export const updateFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunction",
-}));
+})) as any;
 
 export type UpdateGraphqlApiError =
   | AccessDeniedException
@@ -6198,8 +4043,30 @@ export const updateGraphqlApi: API.OperationMethod<
   UpdateGraphqlApiError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateGraphqlApiRequest,
-  output: UpdateGraphqlApiResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/apis/{apiId}",
+    input: {
+      apiId: 0,
+      name: 0,
+      logConfig: i_LogConfig,
+      authenticationType: 0,
+      userPoolConfig: i_UserPoolConfig,
+      openIDConnectConfig: i_OpenIDConnectConfig,
+      additionalAuthenticationProviders: D.list(
+        i_AdditionalAuthenticationProvider,
+      ),
+      xrayEnabled: 0,
+      lambdaAuthorizerConfig: i_LambdaAuthorizerConfig,
+      mergedApiExecutionRoleArn: 0,
+      ownerContact: 0,
+      introspectionConfig: 0,
+      queryDepthLimit: 0,
+      resolverCountLimit: 0,
+      enhancedMetricsConfig: i_EnhancedMetricsConfig,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -6211,7 +4078,7 @@ export const updateGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGraphqlApi",
-}));
+})) as any;
 
 export type UpdateResolverError =
   | BadRequestException
@@ -6229,8 +4096,27 @@ export const updateResolver: API.OperationMethod<
   UpdateResolverError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateResolverRequest,
-  output: UpdateResolverResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}",
+    input: {
+      apiId: 0,
+      typeName: 0,
+      fieldName: 0,
+      dataSourceName: 0,
+      requestMappingTemplate: 0,
+      responseMappingTemplate: 0,
+      kind: 0,
+      pipelineConfig: i_PipelineConfig,
+      syncConfig: i_SyncConfig,
+      cachingConfig: i_CachingConfig,
+      maxBatchSize: 0,
+      runtime: i_AppSyncRuntime,
+      code: 0,
+      metricsConfig: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -6241,7 +4127,7 @@ export const updateResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolver",
-}));
+})) as any;
 
 export type UpdateSourceApiAssociationError =
   | BadRequestException
@@ -6259,8 +4145,18 @@ export const updateSourceApiAssociation: API.OperationMethod<
   UpdateSourceApiAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSourceApiAssociationRequest,
-  output: UpdateSourceApiAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}",
+    input: {
+      associationId: 0,
+      mergedApiIdentifier: 0,
+      description: 0,
+      sourceApiAssociationConfig: i_SourceApiAssociationConfig,
+    },
+    output: { sourceApiAssociation: o_SourceApiAssociation },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -6271,7 +4167,7 @@ export const updateSourceApiAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSourceApiAssociation",
-}));
+})) as any;
 
 export type UpdateTypeError =
   | BadRequestException
@@ -6289,8 +4185,12 @@ export const updateType: API.OperationMethod<
   UpdateTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateTypeRequest,
-  output: UpdateTypeResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/apis/{apiId}/types/{typeName}",
+    input: { apiId: 0, typeName: 0, definition: 0, format: 0 },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConcurrentModificationException,
@@ -6301,4 +4201,114 @@ export const updateType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateType",
-}));
+})) as any;
+
+const i_AdditionalAuthenticationProvider: D.LazyStruct = () => ({
+  authenticationType: 0,
+  openIDConnectConfig: i_OpenIDConnectConfig,
+  userPoolConfig: { userPoolId: 0, awsRegion: 0, appIdClientRegex: 0 },
+  lambdaAuthorizerConfig: i_LambdaAuthorizerConfig,
+});
+const i_AppSyncRuntime: D.LazyStruct = () => ({ name: 0, runtimeVersion: 0 });
+const i_AuthMode: D.LazyStruct = () => ({ authType: 0 });
+const i_CachingConfig: D.LazyStruct = () => ({ ttl: 0, cachingKeys: 0 });
+const i_DynamodbDataSourceConfig: D.LazyStruct = () => ({
+  tableName: 0,
+  awsRegion: 0,
+  useCallerCredentials: 0,
+  deltaSyncConfig: {
+    baseTableTTL: 0,
+    deltaSyncTableName: 0,
+    deltaSyncTableTTL: 0,
+  },
+  versioned: 0,
+});
+const i_ElasticsearchDataSourceConfig: D.LazyStruct = () => ({
+  endpoint: 0,
+  awsRegion: 0,
+});
+const i_EnhancedMetricsConfig: D.LazyStruct = () => ({
+  resolverLevelMetricsBehavior: 0,
+  dataSourceLevelMetricsBehavior: 0,
+  operationLevelMetricsConfig: 0,
+});
+const i_EventBridgeDataSourceConfig: D.LazyStruct = () => ({ eventBusArn: 0 });
+const i_EventConfig: D.LazyStruct = () => ({
+  authProviders: D.list({
+    authType: 0,
+    cognitoConfig: { userPoolId: 0, awsRegion: 0, appIdClientRegex: 0 },
+    openIDConnectConfig: i_OpenIDConnectConfig,
+    lambdaAuthorizerConfig: i_LambdaAuthorizerConfig,
+  }),
+  connectionAuthModes: D.list(i_AuthMode),
+  defaultPublishAuthModes: D.list(i_AuthMode),
+  defaultSubscribeAuthModes: D.list(i_AuthMode),
+  logConfig: { logLevel: 0, cloudWatchLogsRoleArn: 0 },
+});
+const i_HandlerConfigs: D.LazyStruct = () => ({
+  onPublish: i_HandlerConfig,
+  onSubscribe: i_HandlerConfig,
+});
+const i_HttpDataSourceConfig: D.LazyStruct = () => ({
+  endpoint: 0,
+  authorizationConfig: {
+    authorizationType: 0,
+    awsIamConfig: { signingRegion: 0, signingServiceName: 0 },
+  },
+});
+const i_LambdaAuthorizerConfig: D.LazyStruct = () => ({
+  authorizerResultTtlInSeconds: 0,
+  authorizerUri: 0,
+  identityValidationExpression: 0,
+});
+const i_LambdaDataSourceConfig: D.LazyStruct = () => ({ lambdaFunctionArn: 0 });
+const i_LogConfig: D.LazyStruct = () => ({
+  fieldLogLevel: 0,
+  cloudWatchLogsRoleArn: 0,
+  excludeVerboseContent: 0,
+});
+const i_OpenIDConnectConfig: D.LazyStruct = () => ({
+  issuer: 0,
+  clientId: 0,
+  iatTTL: 0,
+  authTTL: 0,
+});
+const i_OpenSearchServiceDataSourceConfig: D.LazyStruct = () => ({
+  endpoint: 0,
+  awsRegion: 0,
+});
+const i_PipelineConfig: D.LazyStruct = () => ({ functions: 0 });
+const i_RelationalDatabaseDataSourceConfig: D.LazyStruct = () => ({
+  relationalDatabaseSourceType: 0,
+  rdsHttpEndpointConfig: {
+    awsRegion: 0,
+    dbClusterIdentifier: 0,
+    databaseName: 0,
+    schema: 0,
+    awsSecretStoreArn: 0,
+  },
+});
+const i_SourceApiAssociationConfig: D.LazyStruct = () => ({ mergeType: 0 });
+const i_SyncConfig: D.LazyStruct = () => ({
+  conflictHandler: 0,
+  conflictDetection: 0,
+  lambdaConflictHandlerConfig: { lambdaConflictHandlerArn: 0 },
+});
+const i_UserPoolConfig: D.LazyStruct = () => ({
+  userPoolId: 0,
+  awsRegion: 0,
+  defaultAction: 0,
+  appIdClientRegex: 0,
+});
+const o_Api: D.LazyStruct = () => ({ created: D.ts });
+const o_ChannelNamespace: D.LazyStruct = () => ({
+  created: D.ts,
+  lastModified: D.ts,
+});
+const o_SourceApiAssociation: D.LazyStruct = () => ({
+  lastSuccessfulMergeDate: D.ts,
+});
+const i_HandlerConfig: D.LazyStruct = () => ({
+  behavior: 0,
+  integration: { dataSourceName: 0, lambdaConfig: { invokeType: 0 } },
+});

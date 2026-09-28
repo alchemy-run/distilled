@@ -1,1020 +1,630 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { awsJson1_1Protocol } from "../protocols/aws-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const ns = T.XmlNamespace("http://cloudtrail.amazonaws.com/doc/2013-11-01/");
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "CloudTrail",
-  serviceShapeName: "CloudTrail_20131101",
-});
-const auth = T.AwsAuthSigv4({ name: "cloudtrail" });
-const ver = T.ServiceVersion("2013-11-01");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://cloudtrail-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            if (Region === "us-gov-east-1") {
-              return e("https://cloudtrail.us-gov-east-1.amazonaws.com");
-            }
-            if (Region === "us-gov-west-1") {
-              return e("https://cloudtrail.us-gov-west-1.amazonaws.com");
-            }
-            return e(
-              `https://cloudtrail-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://cloudtrail.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://cloudtrail.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "CloudTrail_20131101",
+  version: "2013-11-01",
+  sigv4: "cloudtrail",
+  protocol: awsJson1_1Protocol,
+  xmlns: "http://cloudtrail.amazonaws.com/doc/2013-11-01/",
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://cloudtrail-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              if (Region === "us-gov-east-1") {
+                return e("https://cloudtrail.us-gov-east-1.amazonaws.com");
+              }
+              if (Region === "us-gov-west-1") {
+                return e("https://cloudtrail.us-gov-west-1.amazonaws.com");
+              }
+              return e(
+                `https://cloudtrail-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://cloudtrail.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://cloudtrail.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ResourceAccessDenied", httpResponseCode: 403 }),
-      T.HttpError(403),
-    ),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    code: "ResourceAccessDenied",
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class AccountHasOngoingImportException
-  extends /*@__PURE__*/ S.TaggedError<AccountHasOngoingImportException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "AccountHasOngoingImportException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "AccountHasOngoingImport",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "AccountHasOngoingImport", status: 400 },
+  )<{ readonly message?: string }> {}
 export class AccountNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<AccountNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "AccountNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "AccountNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "AccountNotFound", status: 404 },
+  )<{ readonly message?: string }> {}
 export class AccountNotRegisteredException
-  extends /*@__PURE__*/ S.TaggedError<AccountNotRegisteredException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "AccountNotRegisteredException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "AccountNotRegistered", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "AccountNotRegistered", status: 400 },
+  )<{ readonly message?: string }> {}
 export class AccountRegisteredException
-  extends /*@__PURE__*/ S.TaggedError<AccountRegisteredException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "AccountRegisteredException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "AccountRegistered", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "AccountRegistered", status: 400 },
+  )<{ readonly message?: string }> {}
 export class CannotDelegateManagementAccountException
-  extends /*@__PURE__*/ S.TaggedError<CannotDelegateManagementAccountException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CannotDelegateManagementAccountException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "CannotDelegateManagementAccount",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "CannotDelegateManagementAccount", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ChannelAlreadyExistsException
-  extends /*@__PURE__*/ S.TaggedError<ChannelAlreadyExistsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ChannelAlreadyExistsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ChannelAlreadyExists", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
+    ["BadRequestError", "AlreadyExistsError"],
+    { code: "ChannelAlreadyExists", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ChannelARNInvalidException
-  extends /*@__PURE__*/ S.TaggedError<ChannelARNInvalidException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ChannelARNInvalidException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ChannelARNInvalid", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ChannelARNInvalid", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ChannelExistsForEDSException
-  extends /*@__PURE__*/ S.TaggedError<ChannelExistsForEDSException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ChannelExistsForEDSException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ChannelExistsForEDS", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ChannelExistsForEDS", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ChannelMaxLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<ChannelMaxLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ChannelMaxLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ChannelMaxLimitExceeded",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ChannelMaxLimitExceeded", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ChannelNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ChannelNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ChannelNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ChannelNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ChannelNotFound", status: 404 },
+  )<{ readonly message?: string }> {}
 export class CloudTrailAccessNotEnabledException
-  extends /*@__PURE__*/ S.TaggedError<CloudTrailAccessNotEnabledException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CloudTrailAccessNotEnabledException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "CloudTrailAccessNotEnabled",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "CloudTrailAccessNotEnabled", status: 400 },
+  )<{ readonly message?: string }> {}
 export class CloudTrailARNInvalidException
-  extends /*@__PURE__*/ S.TaggedError<CloudTrailARNInvalidException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CloudTrailARNInvalidException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "CloudTrailARNInvalid", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "CloudTrailARNInvalid", status: 400 },
+  )<{ readonly message?: string }> {}
 export class CloudTrailInvalidClientTokenIdException
-  extends /*@__PURE__*/ S.TaggedError<CloudTrailInvalidClientTokenIdException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CloudTrailInvalidClientTokenIdException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "CloudTrailInvalidClientTokenId",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "CloudTrailInvalidClientTokenId", status: 400 },
+  )<{ readonly message?: string }> {}
 export class CloudTrailLakeOnboardingClosed
-  extends /*@__PURE__*/ S.TaggedError<CloudTrailLakeOnboardingClosed>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CloudTrailLakeOnboardingClosed",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
-      from: "InvalidParameterException",
-      message: { includes: "no longer accepting new customers" },
-    }),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    {
+      synthetic: {
+        from: "InvalidParameterException",
+        message: { includes: "no longer accepting new customers" },
+      },
+    },
+  )<{ readonly message?: string }> {}
 export class CloudWatchLogsDeliveryUnavailableException
-  extends /*@__PURE__*/ S.TaggedError<CloudWatchLogsDeliveryUnavailableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CloudWatchLogsDeliveryUnavailableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "CloudWatchLogsDeliveryUnavailable",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "CloudWatchLogsDeliveryUnavailable", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ConcurrentModificationException
-  extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ConcurrentModificationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ConcurrentModification",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ConcurrentModification", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message?: string }> {}
 export class DelegatedAdminAccountLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<DelegatedAdminAccountLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DelegatedAdminAccountLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "DelegatedAdminAccountLimitExceeded",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "DelegatedAdminAccountLimitExceeded", status: 400 },
+  )<{ readonly message?: string }> {}
 export class EventDataStoreAlreadyExistsException
-  extends /*@__PURE__*/ S.TaggedError<EventDataStoreAlreadyExistsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EventDataStoreAlreadyExistsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "EventDataStoreAlreadyExists",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
+    ["BadRequestError", "AlreadyExistsError"],
+    { code: "EventDataStoreAlreadyExists", status: 400 },
+  )<{ readonly message?: string }> {}
 export class EventDataStoreARNInvalidException
-  extends /*@__PURE__*/ S.TaggedError<EventDataStoreARNInvalidException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EventDataStoreARNInvalidException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "EventDataStoreARNInvalid",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "EventDataStoreARNInvalid", status: 400 },
+  )<{ readonly message?: string }> {}
 export class EventDataStoreFederationEnabledException
-  extends /*@__PURE__*/ S.TaggedError<EventDataStoreFederationEnabledException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EventDataStoreFederationEnabledException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "EventDataStoreFederationEnabled",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "EventDataStoreFederationEnabled", status: 400 },
+  )<{ readonly message?: string }> {}
 export class EventDataStoreHasOngoingImportException
-  extends /*@__PURE__*/ S.TaggedError<EventDataStoreHasOngoingImportException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EventDataStoreHasOngoingImportException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "EventDataStoreHasOngoingImport",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "EventDataStoreHasOngoingImport", status: 400 },
+  )<{ readonly message?: string }> {}
 export class EventDataStoreMaxLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<EventDataStoreMaxLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EventDataStoreMaxLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "EventDataStoreMaxLimitExceeded",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "EventDataStoreMaxLimitExceeded", status: 400 },
+  )<{ readonly message?: string }> {}
 export class EventDataStoreNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<EventDataStoreNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EventDataStoreNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "EventDataStoreNotFound",
-        httpResponseCode: 404,
-      }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "EventDataStoreNotFound", status: 404 },
+  )<{ readonly message?: string }> {}
 export class EventDataStoreTerminationProtectedException
-  extends /*@__PURE__*/ S.TaggedError<EventDataStoreTerminationProtectedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EventDataStoreTerminationProtectedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "EventDataStoreTerminationProtectedException",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class GenerateResponseException
-  extends /*@__PURE__*/ S.TaggedError<GenerateResponseException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "GenerateResponseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "GenerateResponse", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "GenerateResponse", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ImportNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ImportNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ImportNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ImportNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ImportNotFound", status: 404 },
+  )<{ readonly message?: string }> {}
 export class InactiveEventDataStoreException
-  extends /*@__PURE__*/ S.TaggedError<InactiveEventDataStoreException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InactiveEventDataStoreException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InactiveEventDataStore",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InactiveEventDataStore", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InactiveQueryException
-  extends /*@__PURE__*/ S.TaggedError<InactiveQueryException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InactiveQueryException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InactiveQuery", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InactiveQuery", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InsightNotEnabledException
-  extends /*@__PURE__*/ S.TaggedError<InsightNotEnabledException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InsightNotEnabledException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InsightNotEnabled", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InsightNotEnabled", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InsufficientDependencyServiceAccessPermissionException
-  extends /*@__PURE__*/ S.TaggedError<InsufficientDependencyServiceAccessPermissionException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InsufficientDependencyServiceAccessPermissionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InsufficientDependencyServiceAccessPermission",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InsufficientDependencyServiceAccessPermission", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InsufficientEncryptionPolicyException
-  extends /*@__PURE__*/ S.TaggedError<InsufficientEncryptionPolicyException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InsufficientEncryptionPolicyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InsufficientEncryptionPolicy",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InsufficientEncryptionPolicy", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InsufficientIAMAccessPermissionException
-  extends /*@__PURE__*/ S.TaggedError<InsufficientIAMAccessPermissionException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InsufficientIAMAccessPermissionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InsufficientIAMAccessPermission",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InsufficientIAMAccessPermission", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InsufficientS3BucketPolicyException
-  extends /*@__PURE__*/ S.TaggedError<InsufficientS3BucketPolicyException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InsufficientS3BucketPolicyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InsufficientS3BucketPolicy",
-        httpResponseCode: 403,
-      }),
-      T.HttpError(403),
-    ),
-  ).pipe(C.withAuthError) {}
+    ["AuthError"],
+    { code: "InsufficientS3BucketPolicy", status: 403 },
+  )<{ readonly message?: string }> {}
 export class InsufficientSnsTopicPolicyException
-  extends /*@__PURE__*/ S.TaggedError<InsufficientSnsTopicPolicyException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InsufficientSnsTopicPolicyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InsufficientSnsTopicPolicy",
-        httpResponseCode: 403,
-      }),
-      T.HttpError(403),
-    ),
-  ).pipe(C.withAuthError) {}
+    ["AuthError"],
+    { code: "InsufficientSnsTopicPolicy", status: 403 },
+  )<{ readonly message?: string }> {}
 export class InvalidCloudWatchLogsLogGroupArnException
-  extends /*@__PURE__*/ S.TaggedError<InvalidCloudWatchLogsLogGroupArnException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidCloudWatchLogsLogGroupArnException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidCloudWatchLogsLogGroupArn",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidCloudWatchLogsLogGroupArn", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidCloudWatchLogsRoleArnException
-  extends /*@__PURE__*/ S.TaggedError<InvalidCloudWatchLogsRoleArnException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidCloudWatchLogsRoleArnException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidCloudWatchLogsRoleArn",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidCloudWatchLogsRoleArn", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidDateRangeException
-  extends /*@__PURE__*/ S.TaggedError<InvalidDateRangeException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidDateRangeException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidDateRange", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidDateRange", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidEventCategoryException
-  extends /*@__PURE__*/ S.TaggedError<InvalidEventCategoryException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidEventCategoryException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidEventCategory", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidEventCategory", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidEventDataStoreCategoryException
-  extends /*@__PURE__*/ S.TaggedError<InvalidEventDataStoreCategoryException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidEventDataStoreCategoryException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidEventDataStoreCategory",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidEventDataStoreCategory", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidEventDataStoreStatusException
-  extends /*@__PURE__*/ S.TaggedError<InvalidEventDataStoreStatusException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidEventDataStoreStatusException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidEventDataStoreStatus",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidEventDataStoreStatus", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidEventSelectorsException
-  extends /*@__PURE__*/ S.TaggedError<InvalidEventSelectorsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidEventSelectorsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidEventSelectors", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidEventSelectors", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidHomeRegionException
-  extends /*@__PURE__*/ S.TaggedError<InvalidHomeRegionException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidHomeRegionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidHomeRegion", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidHomeRegion", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidImportSourceException
-  extends /*@__PURE__*/ S.TaggedError<InvalidImportSourceException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidImportSourceException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidImportSource", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidImportSource", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidInsightSelectorsException
-  extends /*@__PURE__*/ S.TaggedError<InvalidInsightSelectorsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidInsightSelectorsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidInsightSelectors",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidInsightSelectors", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidKmsKeyIdException
-  extends /*@__PURE__*/ S.TaggedError<InvalidKmsKeyIdException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidKmsKeyIdException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidKmsKeyId", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidKmsKeyId", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidLookupAttributesException
-  extends /*@__PURE__*/ S.TaggedError<InvalidLookupAttributesException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidLookupAttributesException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidLookupAttributes",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidLookupAttributes", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidMaxResultsException
-  extends /*@__PURE__*/ S.TaggedError<InvalidMaxResultsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidMaxResultsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidMaxResults", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidMaxResults", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidNextTokenException
-  extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidNextTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidNextToken", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidNextToken", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidParameterCombinationException
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterCombinationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidParameterCombinationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidParameterCombinationError",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidParameterCombinationError", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidParameterException
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidParameterException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidParameter", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidParameter", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidQueryStatementException
-  extends /*@__PURE__*/ S.TaggedError<InvalidQueryStatementException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidQueryStatementException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidQueryStatement", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidQueryStatement", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidQueryStatusException
-  extends /*@__PURE__*/ S.TaggedError<InvalidQueryStatusException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidQueryStatusException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidQueryStatus", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidQueryStatus", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidS3BucketNameException
-  extends /*@__PURE__*/ S.TaggedError<InvalidS3BucketNameException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidS3BucketNameException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidS3BucketName", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidS3BucketName", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidS3PrefixException
-  extends /*@__PURE__*/ S.TaggedError<InvalidS3PrefixException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidS3PrefixException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidS3Prefix", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidS3Prefix", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidSnsTopicNameException
-  extends /*@__PURE__*/ S.TaggedError<InvalidSnsTopicNameException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidSnsTopicNameException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidSnsTopicName", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidSnsTopicName", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidSourceException
-  extends /*@__PURE__*/ S.TaggedError<InvalidSourceException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidSourceException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidSource", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidSource", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidTagParameterException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTagParameterException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidTagParameterException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidTagParameter", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidTagParameter", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidTimeRangeException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTimeRangeException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidTimeRangeException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidTimeRange", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidTimeRange", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidTokenException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTokenException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidToken", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidToken", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidTrailNameException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTrailNameException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidTrailNameException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidTrailName", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidTrailName", status: 400 },
+  )<{ readonly message?: string }> {}
 export class KmsException
-  extends /*@__PURE__*/ S.TaggedError<KmsException>()(
-    "KmsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "KmsException", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("KmsException", ["BadRequestError"], {
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class KmsKeyDisabledException
-  extends /*@__PURE__*/ S.TaggedError<KmsKeyDisabledException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "KmsKeyDisabledException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "KmsKeyDisabled", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "KmsKeyDisabled", status: 400 },
+  )<{ readonly message?: string }> {}
 export class KmsKeyNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<KmsKeyNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "KmsKeyNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "KmsKeyNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "KmsKeyNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class MaxConcurrentQueriesException
-  extends /*@__PURE__*/ S.TaggedError<MaxConcurrentQueriesException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MaxConcurrentQueriesException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "MaxConcurrentQueries", httpResponseCode: 429 }),
-      T.HttpError(429),
-    ),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { code: "MaxConcurrentQueries", status: 429 },
+  )<{ readonly message?: string }> {}
 export class MaximumNumberOfTrailsExceededException
-  extends /*@__PURE__*/ S.TaggedError<MaximumNumberOfTrailsExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MaximumNumberOfTrailsExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "MaximumNumberOfTrailsExceeded",
-        httpResponseCode: 403,
-      }),
-      T.HttpError(403),
-    ),
-  ).pipe(C.withAuthError) {}
+    ["AuthError"],
+    { code: "MaximumNumberOfTrailsExceeded", status: 403 },
+  )<{ readonly message?: string }> {}
 export class NoManagementAccountSLRExistsException
-  extends /*@__PURE__*/ S.TaggedError<NoManagementAccountSLRExistsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoManagementAccountSLRExistsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "NoManagementAccountSLRExists",
-        httpResponseCode: 403,
-      }),
-      T.HttpError(403),
-    ),
-  ).pipe(C.withAuthError) {}
+    ["AuthError"],
+    { code: "NoManagementAccountSLRExists", status: 403 },
+  )<{ readonly message?: string }> {}
 export class NotOrganizationManagementAccountException
-  extends /*@__PURE__*/ S.TaggedError<NotOrganizationManagementAccountException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NotOrganizationManagementAccountException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "NotOrganizationManagementAccount",
-        httpResponseCode: 403,
-      }),
-      T.HttpError(403),
-    ),
-  ).pipe(C.withAuthError) {}
+    ["AuthError"],
+    { code: "NotOrganizationManagementAccount", status: 403 },
+  )<{ readonly message?: string }> {}
 export class NotOrganizationMasterAccountException
-  extends /*@__PURE__*/ S.TaggedError<NotOrganizationMasterAccountException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NotOrganizationMasterAccountException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "NotOrganizationMasterAccount",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "NotOrganizationMasterAccount", status: 400 },
+  )<{ readonly message?: string }> {}
 export class OperationNotPermittedException
-  extends /*@__PURE__*/ S.TaggedError<OperationNotPermittedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "OperationNotPermittedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "OperationNotPermitted", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "OperationNotPermitted", status: 400 },
+  )<{ readonly message?: string }> {}
 export class OrganizationNotInAllFeaturesModeException
-  extends /*@__PURE__*/ S.TaggedError<OrganizationNotInAllFeaturesModeException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "OrganizationNotInAllFeaturesModeException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "OrganizationNotInAllFeaturesMode",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "OrganizationNotInAllFeaturesMode", status: 400 },
+  )<{ readonly message?: string }> {}
 export class OrganizationsNotInUseException
-  extends /*@__PURE__*/ S.TaggedError<OrganizationsNotInUseException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "OrganizationsNotInUseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "OrganizationsNotInUse", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "OrganizationsNotInUse", status: 404 },
+  )<{ readonly message?: string }> {}
 export class QueryIdNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<QueryIdNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "QueryIdNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "QueryIdNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "QueryIdNotFound", status: 404 },
+  )<{ readonly message?: string }> {}
 export class ResourceARNNotValidException
-  extends /*@__PURE__*/ S.TaggedError<ResourceARNNotValidException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceARNNotValidException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ResourceARNNotValid", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ResourceARNNotValid", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ResourceNotFound", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ResourcePolicyNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourcePolicyNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourcePolicyNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ResourcePolicyNotFound",
-        httpResponseCode: 404,
-      }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ResourcePolicyNotFound", status: 404 },
+  )<{ readonly message?: string }> {}
 export class ResourcePolicyNotValidException
-  extends /*@__PURE__*/ S.TaggedError<ResourcePolicyNotValidException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourcePolicyNotValidException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ResourcePolicyNotValid",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ResourcePolicyNotValid", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ResourceTypeNotSupportedException
-  extends /*@__PURE__*/ S.TaggedError<ResourceTypeNotSupportedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceTypeNotSupportedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ResourceTypeNotSupported",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ResourceTypeNotSupported", status: 400 },
+  )<{ readonly message?: string }> {}
 export class S3BucketDoesNotExistException
-  extends /*@__PURE__*/ S.TaggedError<S3BucketDoesNotExistException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "S3BucketDoesNotExistException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "S3BucketDoesNotExist", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "S3BucketDoesNotExist", status: 404 },
+  )<{ readonly message?: string }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ServiceQuotaExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ServiceQuotaExceeded", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TagsLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<TagsLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TagsLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TagsLimitExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TagsLimitExceeded", status: 400 },
+  )<{ readonly message?: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
-      T.HttpError(429),
-    ),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message?: string }> {}
 export class TrailAlreadyExistsException
-  extends /*@__PURE__*/ S.TaggedError<TrailAlreadyExistsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TrailAlreadyExistsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TrailAlreadyExists", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
+    ["BadRequestError", "AlreadyExistsError"],
+    { code: "TrailAlreadyExists", status: 400 },
+  )<{ readonly message?: string }> {}
 export class TrailNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<TrailNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TrailNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TrailNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TrailNotFound", status: 404 },
+  )<{ readonly message?: string }> {}
 export class TrailNotProvidedException
-  extends /*@__PURE__*/ S.TaggedError<TrailNotProvidedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TrailNotProvidedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TrailNotProvided", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TrailNotProvided", status: 404 },
+  )<{ readonly message?: string }> {}
 export class UnsupportedOperationException
-  extends /*@__PURE__*/ S.TaggedError<UnsupportedOperationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "UnsupportedOperationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "UnsupportedOperation", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "UnsupportedOperation", status: 400 },
+  )<{ readonly message?: string }> {}
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
   Value?: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.optional(S.String) }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagsList = Tag[];
-export const TagsList = /*@__PURE__*/ S.Array(Tag);
 export interface AddTagsRequest {
   ResourceId: string;
   TagsList: Tag[];
 }
-export const AddTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceId: S.String, TagsList: TagsList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "AddTagsRequest" }) as any as S.Schema<AddTagsRequest>;
 export interface AddTagsResponse {}
-export const AddTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AddTagsResponse",
-}) as any as S.Schema<AddTagsResponse>;
 export type EventDataStoreArn = string;
 export type UUID = string;
 export type AccountId = string;
@@ -1023,25 +633,6 @@ export interface CancelQueryRequest {
   QueryId: string;
   EventDataStoreOwnerAccountId?: string;
 }
-export const CancelQueryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventDataStore: S.optional(S.String),
-    QueryId: S.String,
-    EventDataStoreOwnerAccountId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CancelQueryRequest",
-}) as any as S.Schema<CancelQueryRequest>;
 export type QueryStatus =
   | "QUEUED"
   | "RUNNING"
@@ -1050,66 +641,29 @@ export type QueryStatus =
   | "CANCELLED"
   | "TIMED_OUT"
   | (string & {});
-export const QueryStatus = S.String;
-
 export interface CancelQueryResponse {
   QueryId: string;
   QueryStatus: QueryStatus;
   EventDataStoreOwnerAccountId?: string;
 }
-export const CancelQueryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueryId: S.String,
-    QueryStatus: QueryStatus,
-    EventDataStoreOwnerAccountId: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CancelQueryResponse",
-}) as any as S.Schema<CancelQueryResponse>;
 export type ChannelName = string;
 export type Source = string;
 export type DestinationType =
   | "EVENT_DATA_STORE"
   | "AWS_SERVICE"
   | (string & {});
-export const DestinationType = S.String;
-
 export type Location = string;
 export interface Destination {
   Type: DestinationType;
   Location: string;
 }
-export const Destination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Type: DestinationType, Location: S.String }),
-).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
 export type Destinations = Destination[];
-export const Destinations = /*@__PURE__*/ S.Array(Destination);
 export interface CreateChannelRequest {
   Name: string;
   Source: string;
   Destinations: Destination[];
   Tags?: Tag[];
 }
-export const CreateChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Source: S.String,
-    Destinations: Destinations,
-    Tags: S.optional(TagsList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateChannelRequest",
-}) as any as S.Schema<CreateChannelRequest>;
 export type ChannelArn = string;
 export interface CreateChannelResponse {
   ChannelArn?: string;
@@ -1118,78 +672,33 @@ export interface CreateChannelResponse {
   Destinations?: Destination[];
   Tags?: Tag[];
 }
-export const CreateChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Source: S.optional(S.String),
-    Destinations: S.optional(Destinations),
-    Tags: S.optional(TagsList),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateChannelResponse",
-}) as any as S.Schema<CreateChannelResponse>;
 export type DashboardName = string;
 export type RefreshScheduleFrequencyUnit = "HOURS" | "DAYS" | (string & {});
-export const RefreshScheduleFrequencyUnit = S.String;
-
 export type RefreshScheduleFrequencyValue = number;
 export interface RefreshScheduleFrequency {
   Unit?: RefreshScheduleFrequencyUnit;
   Value?: number;
 }
-export const RefreshScheduleFrequency = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Unit: S.optional(RefreshScheduleFrequencyUnit),
-    Value: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "RefreshScheduleFrequency",
-}) as any as S.Schema<RefreshScheduleFrequency>;
 export type RefreshScheduleStatus = "ENABLED" | "DISABLED" | (string & {});
-export const RefreshScheduleStatus = S.String;
-
 export type TimeOfDay = string;
 export interface RefreshSchedule {
   Frequency?: RefreshScheduleFrequency;
   Status?: RefreshScheduleStatus;
   TimeOfDay?: string;
 }
-export const RefreshSchedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Frequency: S.optional(RefreshScheduleFrequency),
-    Status: S.optional(RefreshScheduleStatus),
-    TimeOfDay: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RefreshSchedule",
-}) as any as S.Schema<RefreshSchedule>;
 export type TerminationProtectionEnabled = boolean;
 export type QueryStatement = string;
 export type QueryParameter = string;
 export type QueryParameters = string[];
-export const QueryParameters = /*@__PURE__*/ S.Array(S.String);
 export type ViewPropertiesKey = string;
 export type ViewPropertiesValue = string;
 export type ViewPropertiesMap = { [key: string]: string | undefined };
-export const ViewPropertiesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface RequestWidget {
   QueryStatement: string;
   QueryParameters?: string[];
   ViewProperties: { [key: string]: string | undefined };
 }
-export const RequestWidget = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueryStatement: S.String,
-    QueryParameters: S.optional(QueryParameters),
-    ViewProperties: ViewPropertiesMap,
-  }),
-).annotate({ identifier: "RequestWidget" }) as any as S.Schema<RequestWidget>;
 export type RequestWidgetList = RequestWidget[];
-export const RequestWidgetList = /*@__PURE__*/ S.Array(RequestWidget);
 export interface CreateDashboardRequest {
   Name: string;
   RefreshSchedule?: RefreshSchedule;
@@ -1197,31 +706,8 @@ export interface CreateDashboardRequest {
   TerminationProtectionEnabled?: boolean;
   Widgets?: RequestWidget[];
 }
-export const CreateDashboardRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    RefreshSchedule: S.optional(RefreshSchedule),
-    TagsList: S.optional(TagsList),
-    TerminationProtectionEnabled: S.optional(S.Boolean),
-    Widgets: S.optional(RequestWidgetList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDashboardRequest",
-}) as any as S.Schema<CreateDashboardRequest>;
 export type DashboardArn = string;
 export type DashboardType = "MANAGED" | "CUSTOM" | (string & {});
-export const DashboardType = S.String;
-
 export type QueryAlias = string;
 export interface Widget {
   QueryAlias?: string;
@@ -1229,16 +715,7 @@ export interface Widget {
   QueryParameters?: string[];
   ViewProperties?: { [key: string]: string | undefined };
 }
-export const Widget = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueryAlias: S.optional(S.String),
-    QueryStatement: S.optional(S.String),
-    QueryParameters: S.optional(QueryParameters),
-    ViewProperties: S.optional(ViewPropertiesMap),
-  }),
-).annotate({ identifier: "Widget" }) as any as S.Schema<Widget>;
 export type WidgetList = Widget[];
-export const WidgetList = /*@__PURE__*/ S.Array(Widget);
 export interface CreateDashboardResponse {
   DashboardArn?: string;
   Name?: string;
@@ -1248,25 +725,11 @@ export interface CreateDashboardResponse {
   RefreshSchedule?: RefreshSchedule;
   TerminationProtectionEnabled?: boolean;
 }
-export const CreateDashboardResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DashboardArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Type: S.optional(DashboardType),
-    Widgets: S.optional(WidgetList),
-    TagsList: S.optional(TagsList),
-    RefreshSchedule: S.optional(RefreshSchedule),
-    TerminationProtectionEnabled: S.optional(S.Boolean),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateDashboardResponse",
-}) as any as S.Schema<CreateDashboardResponse>;
 export type EventDataStoreName = string;
 export type SelectorName = string;
 export type SelectorField = string;
 export type OperatorValue = string;
 export type Operator = string[];
-export const Operator = /*@__PURE__*/ S.Array(S.String);
 export interface AdvancedFieldSelector {
   Field: string;
   Equals?: string[];
@@ -1276,47 +739,18 @@ export interface AdvancedFieldSelector {
   NotStartsWith?: string[];
   NotEndsWith?: string[];
 }
-export const AdvancedFieldSelector = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Field: S.String,
-    Equals: S.optional(Operator),
-    StartsWith: S.optional(Operator),
-    EndsWith: S.optional(Operator),
-    NotEquals: S.optional(Operator),
-    NotStartsWith: S.optional(Operator),
-    NotEndsWith: S.optional(Operator),
-  }),
-).annotate({
-  identifier: "AdvancedFieldSelector",
-}) as any as S.Schema<AdvancedFieldSelector>;
 export type AdvancedFieldSelectors = AdvancedFieldSelector[];
-export const AdvancedFieldSelectors = /*@__PURE__*/ S.Array(
-  AdvancedFieldSelector,
-);
 export interface AdvancedEventSelector {
   Name?: string;
   FieldSelectors: AdvancedFieldSelector[];
 }
-export const AdvancedEventSelector = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    FieldSelectors: AdvancedFieldSelectors,
-  }),
-).annotate({
-  identifier: "AdvancedEventSelector",
-}) as any as S.Schema<AdvancedEventSelector>;
 export type AdvancedEventSelectors = AdvancedEventSelector[];
-export const AdvancedEventSelectors = /*@__PURE__*/ S.Array(
-  AdvancedEventSelector,
-);
 export type RetentionPeriod = number;
 export type EventDataStoreKmsKeyId = string;
 export type BillingMode =
   | "EXTENDABLE_RETENTION_PRICING"
   | "FIXED_RETENTION_PRICING"
   | (string & {});
-export const BillingMode = S.String;
-
 export interface CreateEventDataStoreRequest {
   Name: string;
   AdvancedEventSelectors?: AdvancedEventSelector[];
@@ -1329,32 +763,6 @@ export interface CreateEventDataStoreRequest {
   StartIngestion?: boolean;
   BillingMode?: BillingMode;
 }
-export const CreateEventDataStoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-    MultiRegionEnabled: S.optional(S.Boolean),
-    OrganizationEnabled: S.optional(S.Boolean),
-    RetentionPeriod: S.optional(S.Number),
-    TerminationProtectionEnabled: S.optional(S.Boolean),
-    TagsList: S.optional(TagsList),
-    KmsKeyId: S.optional(S.String),
-    StartIngestion: S.optional(S.Boolean),
-    BillingMode: S.optional(BillingMode),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateEventDataStoreRequest",
-}) as any as S.Schema<CreateEventDataStoreRequest>;
 export type EventDataStoreStatus =
   | "CREATED"
   | "ENABLED"
@@ -1363,8 +771,6 @@ export type EventDataStoreStatus =
   | "STOPPING_INGESTION"
   | "STOPPED_INGESTION"
   | (string & {});
-export const EventDataStoreStatus = S.String;
-
 export interface CreateEventDataStoreResponse {
   EventDataStoreArn?: string;
   Name?: string;
@@ -1380,29 +786,6 @@ export interface CreateEventDataStoreResponse {
   KmsKeyId?: string;
   BillingMode?: BillingMode;
 }
-export const CreateEventDataStoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventDataStoreArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Status: S.optional(EventDataStoreStatus),
-    AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-    MultiRegionEnabled: S.optional(S.Boolean),
-    OrganizationEnabled: S.optional(S.Boolean),
-    RetentionPeriod: S.optional(S.Number),
-    TerminationProtectionEnabled: S.optional(S.Boolean),
-    TagsList: S.optional(TagsList),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    KmsKeyId: S.optional(S.String),
-    BillingMode: S.optional(BillingMode),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateEventDataStoreResponse",
-}) as any as S.Schema<CreateEventDataStoreResponse>;
 export interface CreateTrailRequest {
   Name: string;
   S3BucketName: string;
@@ -1417,34 +800,6 @@ export interface CreateTrailRequest {
   IsOrganizationTrail?: boolean;
   TagsList?: Tag[];
 }
-export const CreateTrailRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    S3BucketName: S.String,
-    S3KeyPrefix: S.optional(S.String),
-    SnsTopicName: S.optional(S.String),
-    IncludeGlobalServiceEvents: S.optional(S.Boolean),
-    IsMultiRegionTrail: S.optional(S.Boolean),
-    EnableLogFileValidation: S.optional(S.Boolean),
-    CloudWatchLogsLogGroupArn: S.optional(S.String),
-    CloudWatchLogsRoleArn: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    IsOrganizationTrail: S.optional(S.Boolean),
-    TagsList: S.optional(TagsList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateTrailRequest",
-}) as any as S.Schema<CreateTrailRequest>;
 export interface CreateTrailResponse {
   Name?: string;
   S3BucketName?: string;
@@ -1460,170 +815,31 @@ export interface CreateTrailResponse {
   KmsKeyId?: string;
   IsOrganizationTrail?: boolean;
 }
-export const CreateTrailResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    S3BucketName: S.optional(S.String),
-    S3KeyPrefix: S.optional(S.String),
-    SnsTopicName: S.optional(S.String),
-    SnsTopicARN: S.optional(S.String),
-    IncludeGlobalServiceEvents: S.optional(S.Boolean),
-    IsMultiRegionTrail: S.optional(S.Boolean),
-    TrailARN: S.optional(S.String),
-    LogFileValidationEnabled: S.optional(S.Boolean),
-    CloudWatchLogsLogGroupArn: S.optional(S.String),
-    CloudWatchLogsRoleArn: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    IsOrganizationTrail: S.optional(S.Boolean),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateTrailResponse",
-}) as any as S.Schema<CreateTrailResponse>;
 export interface DeleteChannelRequest {
   Channel: string;
 }
-export const DeleteChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Channel: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteChannelRequest",
-}) as any as S.Schema<DeleteChannelRequest>;
 export interface DeleteChannelResponse {}
-export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteChannelResponse",
-}) as any as S.Schema<DeleteChannelResponse>;
 export interface DeleteDashboardRequest {
   DashboardId: string;
 }
-export const DeleteDashboardRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DashboardId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDashboardRequest",
-}) as any as S.Schema<DeleteDashboardRequest>;
 export interface DeleteDashboardResponse {}
-export const DeleteDashboardResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteDashboardResponse",
-}) as any as S.Schema<DeleteDashboardResponse>;
 export interface DeleteEventDataStoreRequest {
   EventDataStore: string;
 }
-export const DeleteEventDataStoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EventDataStore: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteEventDataStoreRequest",
-}) as any as S.Schema<DeleteEventDataStoreRequest>;
 export interface DeleteEventDataStoreResponse {}
-export const DeleteEventDataStoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteEventDataStoreResponse",
-}) as any as S.Schema<DeleteEventDataStoreResponse>;
 export type ResourceArn = string;
 export interface DeleteResourcePolicyRequest {
   ResourceArn: string;
 }
-export const DeleteResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteResourcePolicyRequest",
-}) as any as S.Schema<DeleteResourcePolicyRequest>;
 export interface DeleteResourcePolicyResponse {}
-export const DeleteResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteResourcePolicyResponse",
-}) as any as S.Schema<DeleteResourcePolicyResponse>;
 export interface DeleteTrailRequest {
   Name: string;
 }
-export const DeleteTrailRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteTrailRequest",
-}) as any as S.Schema<DeleteTrailRequest>;
 export interface DeleteTrailResponse {}
-export const DeleteTrailResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteTrailResponse",
-}) as any as S.Schema<DeleteTrailResponse>;
 export interface DeregisterOrganizationDelegatedAdminRequest {
   DelegatedAdminAccountId: string;
 }
-export const DeregisterOrganizationDelegatedAdminRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ DelegatedAdminAccountId: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeregisterOrganizationDelegatedAdminRequest",
-  }) as any as S.Schema<DeregisterOrganizationDelegatedAdminRequest>;
 export interface DeregisterOrganizationDelegatedAdminResponse {}
-export const DeregisterOrganizationDelegatedAdminResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeregisterOrganizationDelegatedAdminResponse",
-  }) as any as S.Schema<DeregisterOrganizationDelegatedAdminResponse>;
 export type RefreshId = string;
 export interface DescribeQueryRequest {
   EventDataStore?: string;
@@ -1632,27 +848,6 @@ export interface DescribeQueryRequest {
   RefreshId?: string;
   EventDataStoreOwnerAccountId?: string;
 }
-export const DescribeQueryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventDataStore: S.optional(S.String),
-    QueryId: S.optional(S.String),
-    QueryAlias: S.optional(S.String),
-    RefreshId: S.optional(S.String),
-    EventDataStoreOwnerAccountId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeQueryRequest",
-}) as any as S.Schema<DescribeQueryRequest>;
 export interface QueryStatisticsForDescribeQuery {
   EventsMatched?: number;
   EventsScanned?: number;
@@ -1660,17 +855,6 @@ export interface QueryStatisticsForDescribeQuery {
   ExecutionTimeInMillis?: number;
   CreationTime?: Date;
 }
-export const QueryStatisticsForDescribeQuery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventsMatched: S.optional(S.Number),
-    EventsScanned: S.optional(S.Number),
-    BytesScanned: S.optional(S.Number),
-    ExecutionTimeInMillis: S.optional(S.Number),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "QueryStatisticsForDescribeQuery",
-}) as any as S.Schema<QueryStatisticsForDescribeQuery>;
 export type ErrorMessage = string;
 export type DeliveryS3Uri = string;
 export type DeliveryStatus =
@@ -1684,8 +868,6 @@ export type DeliveryStatus =
   | "CANCELLED"
   | "UNKNOWN"
   | (string & {});
-export const DeliveryStatus = S.String;
-
 export type Prompt = string;
 export interface DescribeQueryResponse {
   QueryId?: string;
@@ -1698,45 +880,11 @@ export interface DescribeQueryResponse {
   Prompt?: string;
   EventDataStoreOwnerAccountId?: string;
 }
-export const DescribeQueryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueryId: S.optional(S.String),
-    QueryString: S.optional(S.String),
-    QueryStatus: S.optional(QueryStatus),
-    QueryStatistics: S.optional(QueryStatisticsForDescribeQuery),
-    ErrorMessage: S.optional(S.String),
-    DeliveryS3Uri: S.optional(S.String),
-    DeliveryStatus: S.optional(DeliveryStatus),
-    Prompt: S.optional(S.String),
-    EventDataStoreOwnerAccountId: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeQueryResponse",
-}) as any as S.Schema<DescribeQueryResponse>;
 export type TrailNameList = string[];
-export const TrailNameList = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeTrailsRequest {
   trailNameList?: string[];
   includeShadowTrails?: boolean;
 }
-export const DescribeTrailsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    trailNameList: S.optional(TrailNameList),
-    includeShadowTrails: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeTrailsRequest",
-}) as any as S.Schema<DescribeTrailsRequest>;
 export interface Trail {
   Name?: string;
   S3BucketName?: string;
@@ -1755,171 +903,50 @@ export interface Trail {
   HasInsightSelectors?: boolean;
   IsOrganizationTrail?: boolean;
 }
-export const Trail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    S3BucketName: S.optional(S.String),
-    S3KeyPrefix: S.optional(S.String),
-    SnsTopicName: S.optional(S.String),
-    SnsTopicARN: S.optional(S.String),
-    IncludeGlobalServiceEvents: S.optional(S.Boolean),
-    IsMultiRegionTrail: S.optional(S.Boolean),
-    HomeRegion: S.optional(S.String),
-    TrailARN: S.optional(S.String),
-    LogFileValidationEnabled: S.optional(S.Boolean),
-    CloudWatchLogsLogGroupArn: S.optional(S.String),
-    CloudWatchLogsRoleArn: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    HasCustomEventSelectors: S.optional(S.Boolean),
-    HasInsightSelectors: S.optional(S.Boolean),
-    IsOrganizationTrail: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "Trail" }) as any as S.Schema<Trail>;
 export type TrailList = Trail[];
-export const TrailList = /*@__PURE__*/ S.Array(Trail);
 export interface DescribeTrailsResponse {
   trailList?: Trail[];
 }
-export const DescribeTrailsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ trailList: S.optional(TrailList) }).pipe(ns),
-).annotate({
-  identifier: "DescribeTrailsResponse",
-}) as any as S.Schema<DescribeTrailsResponse>;
 export interface DisableFederationRequest {
   EventDataStore: string;
 }
-export const DisableFederationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EventDataStore: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisableFederationRequest",
-}) as any as S.Schema<DisableFederationRequest>;
 export type FederationStatus =
   | "ENABLING"
   | "ENABLED"
   | "DISABLING"
   | "DISABLED"
   | (string & {});
-export const FederationStatus = S.String;
-
 export interface DisableFederationResponse {
   EventDataStoreArn?: string;
   FederationStatus?: FederationStatus;
 }
-export const DisableFederationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventDataStoreArn: S.optional(S.String),
-    FederationStatus: S.optional(FederationStatus),
-  }).pipe(ns),
-).annotate({
-  identifier: "DisableFederationResponse",
-}) as any as S.Schema<DisableFederationResponse>;
 export type FederationRoleArn = string;
 export interface EnableFederationRequest {
   EventDataStore: string;
   FederationRoleArn: string;
 }
-export const EnableFederationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EventDataStore: S.String, FederationRoleArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "EnableFederationRequest",
-}) as any as S.Schema<EnableFederationRequest>;
 export interface EnableFederationResponse {
   EventDataStoreArn?: string;
   FederationStatus?: FederationStatus;
   FederationRoleArn?: string;
 }
-export const EnableFederationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventDataStoreArn: S.optional(S.String),
-    FederationStatus: S.optional(FederationStatus),
-    FederationRoleArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "EnableFederationResponse",
-}) as any as S.Schema<EnableFederationResponse>;
 export type EventDataStoreList = string[];
-export const EventDataStoreList = /*@__PURE__*/ S.Array(S.String);
 export interface GenerateQueryRequest {
   EventDataStores: string[];
   Prompt: string;
 }
-export const GenerateQueryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EventDataStores: EventDataStoreList, Prompt: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GenerateQueryRequest",
-}) as any as S.Schema<GenerateQueryRequest>;
 export interface GenerateQueryResponse {
   QueryStatement?: string;
   QueryAlias?: string;
   EventDataStoreOwnerAccountId?: string;
 }
-export const GenerateQueryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueryStatement: S.optional(S.String),
-    QueryAlias: S.optional(S.String),
-    EventDataStoreOwnerAccountId: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GenerateQueryResponse",
-}) as any as S.Schema<GenerateQueryResponse>;
 export interface GetChannelRequest {
   Channel: string;
 }
-export const GetChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Channel: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetChannelRequest",
-}) as any as S.Schema<GetChannelRequest>;
 export interface SourceConfig {
   ApplyToAllRegions?: boolean;
   AdvancedEventSelectors?: AdvancedEventSelector[];
 }
-export const SourceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplyToAllRegions: S.optional(S.Boolean),
-    AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-  }),
-).annotate({ identifier: "SourceConfig" }) as any as S.Schema<SourceConfig>;
 export interface IngestionStatus {
   LatestIngestionSuccessTime?: Date;
   LatestIngestionSuccessEventID?: string;
@@ -1927,21 +954,6 @@ export interface IngestionStatus {
   LatestIngestionAttemptTime?: Date;
   LatestIngestionAttemptEventID?: string;
 }
-export const IngestionStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LatestIngestionSuccessTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LatestIngestionSuccessEventID: S.optional(S.String),
-    LatestIngestionErrorCode: S.optional(S.String),
-    LatestIngestionAttemptTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LatestIngestionAttemptEventID: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IngestionStatus",
-}) as any as S.Schema<IngestionStatus>;
 export interface GetChannelResponse {
   ChannelArn?: string;
   Name?: string;
@@ -1950,36 +962,9 @@ export interface GetChannelResponse {
   Destinations?: Destination[];
   IngestionStatus?: IngestionStatus;
 }
-export const GetChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Source: S.optional(S.String),
-    SourceConfig: S.optional(SourceConfig),
-    Destinations: S.optional(Destinations),
-    IngestionStatus: S.optional(IngestionStatus),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetChannelResponse",
-}) as any as S.Schema<GetChannelResponse>;
 export interface GetDashboardRequest {
   DashboardId: string;
 }
-export const GetDashboardRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DashboardId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDashboardRequest",
-}) as any as S.Schema<GetDashboardRequest>;
 export type DashboardStatus =
   | "CREATING"
   | "CREATED"
@@ -1987,8 +972,6 @@ export type DashboardStatus =
   | "UPDATED"
   | "DELETING"
   | (string & {});
-export const DashboardStatus = S.String;
-
 export interface GetDashboardResponse {
   DashboardArn?: string;
   Type?: DashboardType;
@@ -2001,93 +984,31 @@ export interface GetDashboardResponse {
   LastRefreshFailureReason?: string;
   TerminationProtectionEnabled?: boolean;
 }
-export const GetDashboardResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DashboardArn: S.optional(S.String),
-    Type: S.optional(DashboardType),
-    Status: S.optional(DashboardStatus),
-    Widgets: S.optional(WidgetList),
-    RefreshSchedule: S.optional(RefreshSchedule),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastRefreshId: S.optional(S.String),
-    LastRefreshFailureReason: S.optional(S.String),
-    TerminationProtectionEnabled: S.optional(S.Boolean),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetDashboardResponse",
-}) as any as S.Schema<GetDashboardResponse>;
 export interface GetEventConfigurationRequest {
   TrailName?: string;
   EventDataStore?: string;
 }
-export const GetEventConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrailName: S.optional(S.String),
-    EventDataStore: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEventConfigurationRequest",
-}) as any as S.Schema<GetEventConfigurationRequest>;
 export type MaxEventSize = "Standard" | "Large" | (string & {});
-export const MaxEventSize = S.String;
-
 export type Type = "TagContext" | "RequestContext" | (string & {});
-export const Type = S.String;
-
 export type OperatorTargetListMember = string;
 export type OperatorTargetList = string[];
-export const OperatorTargetList = /*@__PURE__*/ S.Array(S.String);
 export interface ContextKeySelector {
   Type: Type;
   Equals: string[];
 }
-export const ContextKeySelector = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Type: Type, Equals: OperatorTargetList }),
-).annotate({
-  identifier: "ContextKeySelector",
-}) as any as S.Schema<ContextKeySelector>;
 export type ContextKeySelectors = ContextKeySelector[];
-export const ContextKeySelectors = /*@__PURE__*/ S.Array(ContextKeySelector);
 export type Template =
   | "API_ACTIVITY"
   | "RESOURCE_ACCESS"
   | "USER_ACTIONS"
   | (string & {});
-export const Template = S.String;
-
 export type Templates = Template[];
-export const Templates = /*@__PURE__*/ S.Array(Template);
 export type EventCategoryAggregation = "Data" | (string & {});
-export const EventCategoryAggregation = S.String;
-
 export interface AggregationConfiguration {
   Templates: Template[];
   EventCategory: EventCategoryAggregation;
 }
-export const AggregationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Templates: Templates, EventCategory: EventCategoryAggregation }),
-).annotate({
-  identifier: "AggregationConfiguration",
-}) as any as S.Schema<AggregationConfiguration>;
 export type AggregationConfigurations = AggregationConfiguration[];
-export const AggregationConfigurations = /*@__PURE__*/ S.Array(
-  AggregationConfiguration,
-);
 export interface GetEventConfigurationResponse {
   TrailARN?: string;
   EventDataStoreArn?: string;
@@ -2095,46 +1016,16 @@ export interface GetEventConfigurationResponse {
   ContextKeySelectors?: ContextKeySelector[];
   AggregationConfigurations?: AggregationConfiguration[];
 }
-export const GetEventConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrailARN: S.optional(S.String),
-    EventDataStoreArn: S.optional(S.String),
-    MaxEventSize: S.optional(MaxEventSize),
-    ContextKeySelectors: S.optional(ContextKeySelectors),
-    AggregationConfigurations: S.optional(AggregationConfigurations),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetEventConfigurationResponse",
-}) as any as S.Schema<GetEventConfigurationResponse>;
 export interface GetEventDataStoreRequest {
   EventDataStore: string;
 }
-export const GetEventDataStoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EventDataStore: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEventDataStoreRequest",
-}) as any as S.Schema<GetEventDataStoreRequest>;
 export type PartitionKeyName = string;
 export type PartitionKeyType = string;
 export interface PartitionKey {
   Name: string;
   Type: string;
 }
-export const PartitionKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Type: S.String }),
-).annotate({ identifier: "PartitionKey" }) as any as S.Schema<PartitionKey>;
 export type PartitionKeyList = PartitionKey[];
-export const PartitionKeyList = /*@__PURE__*/ S.Array(PartitionKey);
 export interface GetEventDataStoreResponse {
   EventDataStoreArn?: string;
   Name?: string;
@@ -2152,136 +1043,41 @@ export interface GetEventDataStoreResponse {
   FederationRoleArn?: string;
   PartitionKeys?: PartitionKey[];
 }
-export const GetEventDataStoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventDataStoreArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Status: S.optional(EventDataStoreStatus),
-    AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-    MultiRegionEnabled: S.optional(S.Boolean),
-    OrganizationEnabled: S.optional(S.Boolean),
-    RetentionPeriod: S.optional(S.Number),
-    TerminationProtectionEnabled: S.optional(S.Boolean),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    KmsKeyId: S.optional(S.String),
-    BillingMode: S.optional(BillingMode),
-    FederationStatus: S.optional(FederationStatus),
-    FederationRoleArn: S.optional(S.String),
-    PartitionKeys: S.optional(PartitionKeyList),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetEventDataStoreResponse",
-}) as any as S.Schema<GetEventDataStoreResponse>;
 export interface GetEventSelectorsRequest {
   TrailName: string;
 }
-export const GetEventSelectorsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TrailName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEventSelectorsRequest",
-}) as any as S.Schema<GetEventSelectorsRequest>;
 export type ReadWriteType = "ReadOnly" | "WriteOnly" | "All" | (string & {});
-export const ReadWriteType = S.String;
-
 export type DataResourceValues = string[];
-export const DataResourceValues = /*@__PURE__*/ S.Array(S.String);
 export interface DataResource {
   Type?: string;
   Values?: string[];
 }
-export const DataResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(S.String),
-    Values: S.optional(DataResourceValues),
-  }),
-).annotate({ identifier: "DataResource" }) as any as S.Schema<DataResource>;
 export type DataResources = DataResource[];
-export const DataResources = /*@__PURE__*/ S.Array(DataResource);
 export type ExcludeManagementEventSources = string[];
-export const ExcludeManagementEventSources = /*@__PURE__*/ S.Array(S.String);
 export interface EventSelector {
   ReadWriteType?: ReadWriteType;
   IncludeManagementEvents?: boolean;
   DataResources?: DataResource[];
   ExcludeManagementEventSources?: string[];
 }
-export const EventSelector = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReadWriteType: S.optional(ReadWriteType),
-    IncludeManagementEvents: S.optional(S.Boolean),
-    DataResources: S.optional(DataResources),
-    ExcludeManagementEventSources: S.optional(ExcludeManagementEventSources),
-  }),
-).annotate({ identifier: "EventSelector" }) as any as S.Schema<EventSelector>;
 export type EventSelectors = EventSelector[];
-export const EventSelectors = /*@__PURE__*/ S.Array(EventSelector);
 export interface GetEventSelectorsResponse {
   TrailARN?: string;
   EventSelectors?: EventSelector[];
   AdvancedEventSelectors?: AdvancedEventSelector[];
 }
-export const GetEventSelectorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrailARN: S.optional(S.String),
-    EventSelectors: S.optional(EventSelectors),
-    AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetEventSelectorsResponse",
-}) as any as S.Schema<GetEventSelectorsResponse>;
 export interface GetImportRequest {
   ImportId: string;
 }
-export const GetImportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ImportId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetImportRequest",
-}) as any as S.Schema<GetImportRequest>;
 export type ImportDestinations = string[];
-export const ImportDestinations = /*@__PURE__*/ S.Array(S.String);
 export interface S3ImportSource {
   S3LocationUri: string;
   S3BucketRegion: string;
   S3BucketAccessRoleArn: string;
 }
-export const S3ImportSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    S3LocationUri: S.String,
-    S3BucketRegion: S.String,
-    S3BucketAccessRoleArn: S.String,
-  }),
-).annotate({ identifier: "S3ImportSource" }) as any as S.Schema<S3ImportSource>;
 export interface ImportSource {
   S3: S3ImportSource;
 }
-export const ImportSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3: S3ImportSource }),
-).annotate({ identifier: "ImportSource" }) as any as S.Schema<ImportSource>;
 export type ImportStatus =
   | "INITIALIZING"
   | "IN_PROGRESS"
@@ -2289,8 +1085,6 @@ export type ImportStatus =
   | "STOPPED"
   | "COMPLETED"
   | (string & {});
-export const ImportStatus = S.String;
-
 export interface ImportStatistics {
   PrefixesFound?: number;
   PrefixesCompleted?: number;
@@ -2298,17 +1092,6 @@ export interface ImportStatistics {
   EventsCompleted?: number;
   FailedEntries?: number;
 }
-export const ImportStatistics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PrefixesFound: S.optional(S.Number),
-    PrefixesCompleted: S.optional(S.Number),
-    FilesCompleted: S.optional(S.Number),
-    EventsCompleted: S.optional(S.Number),
-    FailedEntries: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ImportStatistics",
-}) as any as S.Schema<ImportStatistics>;
 export interface GetImportResponse {
   ImportId?: string;
   Destinations?: string[];
@@ -2320,88 +1103,27 @@ export interface GetImportResponse {
   UpdatedTimestamp?: Date;
   ImportStatistics?: ImportStatistics;
 }
-export const GetImportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ImportId: S.optional(S.String),
-    Destinations: S.optional(ImportDestinations),
-    ImportSource: S.optional(ImportSource),
-    StartEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ImportStatus: S.optional(ImportStatus),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ImportStatistics: S.optional(ImportStatistics),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetImportResponse",
-}) as any as S.Schema<GetImportResponse>;
 export interface GetInsightSelectorsRequest {
   TrailName?: string;
   EventDataStore?: string;
 }
-export const GetInsightSelectorsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrailName: S.optional(S.String),
-    EventDataStore: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetInsightSelectorsRequest",
-}) as any as S.Schema<GetInsightSelectorsRequest>;
 export type InsightType =
   | "ApiCallRateInsight"
   | "ApiErrorRateInsight"
   | (string & {});
-export const InsightType = S.String;
-
 export type SourceEventCategory = "Management" | "Data" | (string & {});
-export const SourceEventCategory = S.String;
-
 export type SourceEventCategories = SourceEventCategory[];
-export const SourceEventCategories = /*@__PURE__*/ S.Array(SourceEventCategory);
 export interface InsightSelector {
   InsightType?: InsightType;
   EventCategories?: SourceEventCategory[];
 }
-export const InsightSelector = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InsightType: S.optional(InsightType),
-    EventCategories: S.optional(SourceEventCategories),
-  }),
-).annotate({
-  identifier: "InsightSelector",
-}) as any as S.Schema<InsightSelector>;
 export type InsightSelectors = InsightSelector[];
-export const InsightSelectors = /*@__PURE__*/ S.Array(InsightSelector);
 export interface GetInsightSelectorsResponse {
   TrailARN?: string;
   InsightSelectors?: InsightSelector[];
   EventDataStoreArn?: string;
   InsightsDestination?: string;
 }
-export const GetInsightSelectorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrailARN: S.optional(S.String),
-    InsightSelectors: S.optional(InsightSelectors),
-    EventDataStoreArn: S.optional(S.String),
-    InsightsDestination: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetInsightSelectorsResponse",
-}) as any as S.Schema<GetInsightSelectorsResponse>;
 export type PaginationToken = string;
 export type MaxQueryResults = number;
 export interface GetQueryResultsRequest {
@@ -2411,52 +1133,16 @@ export interface GetQueryResultsRequest {
   MaxQueryResults?: number;
   EventDataStoreOwnerAccountId?: string;
 }
-export const GetQueryResultsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventDataStore: S.optional(S.String),
-    QueryId: S.String,
-    NextToken: S.optional(S.String),
-    MaxQueryResults: S.optional(S.Number),
-    EventDataStoreOwnerAccountId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetQueryResultsRequest",
-}) as any as S.Schema<GetQueryResultsRequest>;
 export interface QueryStatistics {
   ResultsCount?: number;
   TotalResultsCount?: number;
   BytesScanned?: number;
 }
-export const QueryStatistics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResultsCount: S.optional(S.Number),
-    TotalResultsCount: S.optional(S.Number),
-    BytesScanned: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "QueryStatistics",
-}) as any as S.Schema<QueryStatistics>;
 export type QueryResultKey = string;
 export type QueryResultValue = string;
 export type QueryResultColumn = { [key: string]: string | undefined };
-export const QueryResultColumn = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type QueryResultRow = { [key: string]: string | undefined }[];
-export const QueryResultRow = /*@__PURE__*/ S.Array(QueryResultColumn);
 export type QueryResultRows = { [key: string]: string | undefined }[][];
-export const QueryResultRows = /*@__PURE__*/ S.Array(QueryResultRow);
 export interface GetQueryResultsResponse {
   QueryStatus?: QueryStatus;
   QueryStatistics?: QueryStatistics;
@@ -2464,94 +1150,24 @@ export interface GetQueryResultsResponse {
   NextToken?: string;
   ErrorMessage?: string;
 }
-export const GetQueryResultsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueryStatus: S.optional(QueryStatus),
-    QueryStatistics: S.optional(QueryStatistics),
-    QueryResultRows: S.optional(QueryResultRows),
-    NextToken: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetQueryResultsResponse",
-}) as any as S.Schema<GetQueryResultsResponse>;
 export interface GetResourcePolicyRequest {
   ResourceArn: string;
 }
-export const GetResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetResourcePolicyRequest",
-}) as any as S.Schema<GetResourcePolicyRequest>;
 export type ResourcePolicy = string;
 export interface GetResourcePolicyResponse {
   ResourceArn?: string;
   ResourcePolicy?: string;
   DelegatedAdminResourcePolicy?: string;
 }
-export const GetResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    ResourcePolicy: S.optional(S.String),
-    DelegatedAdminResourcePolicy: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetResourcePolicyResponse",
-}) as any as S.Schema<GetResourcePolicyResponse>;
 export interface GetTrailRequest {
   Name: string;
 }
-export const GetTrailRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetTrailRequest",
-}) as any as S.Schema<GetTrailRequest>;
 export interface GetTrailResponse {
   Trail?: Trail;
 }
-export const GetTrailResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Trail: S.optional(Trail) }).pipe(ns),
-).annotate({
-  identifier: "GetTrailResponse",
-}) as any as S.Schema<GetTrailResponse>;
 export interface GetTrailStatusRequest {
   Name: string;
 }
-export const GetTrailStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetTrailStatusRequest",
-}) as any as S.Schema<GetTrailStatusRequest>;
 export interface GetTrailStatusResponse {
   IsLogging?: boolean;
   LatestDeliveryError?: string;
@@ -2571,85 +1187,20 @@ export interface GetTrailStatusResponse {
   TimeLoggingStarted?: string;
   TimeLoggingStopped?: string;
 }
-export const GetTrailStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IsLogging: S.optional(S.Boolean),
-    LatestDeliveryError: S.optional(S.String),
-    LatestNotificationError: S.optional(S.String),
-    LatestDeliveryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LatestNotificationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    StartLoggingTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    StopLoggingTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LatestCloudWatchLogsDeliveryError: S.optional(S.String),
-    LatestCloudWatchLogsDeliveryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LatestDigestDeliveryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LatestDigestDeliveryError: S.optional(S.String),
-    LatestDeliveryAttemptTime: S.optional(S.String),
-    LatestNotificationAttemptTime: S.optional(S.String),
-    LatestNotificationAttemptSucceeded: S.optional(S.String),
-    LatestDeliveryAttemptSucceeded: S.optional(S.String),
-    TimeLoggingStarted: S.optional(S.String),
-    TimeLoggingStopped: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetTrailStatusResponse",
-}) as any as S.Schema<GetTrailStatusResponse>;
 export type ListChannelsMaxResultsCount = number;
 export interface ListChannelsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListChannelsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListChannelsRequest",
-}) as any as S.Schema<ListChannelsRequest>;
 export interface Channel {
   ChannelArn?: string;
   Name?: string;
 }
-export const Channel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ChannelArn: S.optional(S.String), Name: S.optional(S.String) }),
-).annotate({ identifier: "Channel" }) as any as S.Schema<Channel>;
 export type Channels = Channel[];
-export const Channels = /*@__PURE__*/ S.Array(Channel);
 export interface ListChannelsResponse {
   Channels?: Channel[];
   NextToken?: string;
 }
-export const ListChannelsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Channels: S.optional(Channels),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListChannelsResponse",
-}) as any as S.Schema<ListChannelsResponse>;
 export type ListDashboardsMaxResultsCount = number;
 export interface ListDashboardsRequest {
   NamePrefix?: string;
@@ -2657,75 +1208,20 @@ export interface ListDashboardsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListDashboardsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NamePrefix: S.optional(S.String),
-    Type: S.optional(DashboardType),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDashboardsRequest",
-}) as any as S.Schema<ListDashboardsRequest>;
 export interface DashboardDetail {
   DashboardArn?: string;
   Type?: DashboardType;
 }
-export const DashboardDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DashboardArn: S.optional(S.String),
-    Type: S.optional(DashboardType),
-  }),
-).annotate({
-  identifier: "DashboardDetail",
-}) as any as S.Schema<DashboardDetail>;
 export type Dashboards = DashboardDetail[];
-export const Dashboards = /*@__PURE__*/ S.Array(DashboardDetail);
 export interface ListDashboardsResponse {
   Dashboards?: DashboardDetail[];
   NextToken?: string;
 }
-export const ListDashboardsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Dashboards: S.optional(Dashboards),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDashboardsResponse",
-}) as any as S.Schema<ListDashboardsResponse>;
 export type ListEventDataStoresMaxResultsCount = number;
 export interface ListEventDataStoresRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListEventDataStoresRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListEventDataStoresRequest",
-}) as any as S.Schema<ListEventDataStoresRequest>;
 export interface EventDataStore {
   EventDataStoreArn?: string;
   Name?: string;
@@ -2738,70 +1234,22 @@ export interface EventDataStore {
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
 }
-export const EventDataStore = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventDataStoreArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    TerminationProtectionEnabled: S.optional(S.Boolean),
-    Status: S.optional(EventDataStoreStatus),
-    AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-    MultiRegionEnabled: S.optional(S.Boolean),
-    OrganizationEnabled: S.optional(S.Boolean),
-    RetentionPeriod: S.optional(S.Number),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({ identifier: "EventDataStore" }) as any as S.Schema<EventDataStore>;
 export type EventDataStores = EventDataStore[];
-export const EventDataStores = /*@__PURE__*/ S.Array(EventDataStore);
 export interface ListEventDataStoresResponse {
   EventDataStores?: EventDataStore[];
   NextToken?: string;
 }
-export const ListEventDataStoresResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventDataStores: S.optional(EventDataStores),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListEventDataStoresResponse",
-}) as any as S.Schema<ListEventDataStoresResponse>;
 export type ListImportFailuresMaxResultsCount = number;
 export interface ListImportFailuresRequest {
   ImportId: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListImportFailuresRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ImportId: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListImportFailuresRequest",
-}) as any as S.Schema<ListImportFailuresRequest>;
 export type ImportFailureStatus =
   | "FAILED"
   | "RETRY"
   | "SUCCEEDED"
   | (string & {});
-export const ImportFailureStatus = S.String;
-
 export interface ImportFailureListItem {
   Location?: string;
   Status?: ImportFailureStatus;
@@ -2809,33 +1257,11 @@ export interface ImportFailureListItem {
   ErrorMessage?: string;
   LastUpdatedTime?: Date;
 }
-export const ImportFailureListItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Location: S.optional(S.String),
-    Status: S.optional(ImportFailureStatus),
-    ErrorType: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "ImportFailureListItem",
-}) as any as S.Schema<ImportFailureListItem>;
 export type ImportFailureList = ImportFailureListItem[];
-export const ImportFailureList = /*@__PURE__*/ S.Array(ImportFailureListItem);
 export interface ListImportFailuresResponse {
   Failures?: ImportFailureListItem[];
   NextToken?: string;
 }
-export const ListImportFailuresResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Failures: S.optional(ImportFailureList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListImportFailuresResponse",
-}) as any as S.Schema<ListImportFailuresResponse>;
 export type ListImportsMaxResultsCount = number;
 export interface ListImportsRequest {
   MaxResults?: number;
@@ -2843,26 +1269,6 @@ export interface ListImportsRequest {
   ImportStatus?: ImportStatus;
   NextToken?: string;
 }
-export const ListImportsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    Destination: S.optional(S.String),
-    ImportStatus: S.optional(ImportStatus),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListImportsRequest",
-}) as any as S.Schema<ListImportsRequest>;
 export interface ImportsListItem {
   ImportId?: string;
   ImportStatus?: ImportStatus;
@@ -2870,53 +1276,21 @@ export interface ImportsListItem {
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
 }
-export const ImportsListItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ImportId: S.optional(S.String),
-    ImportStatus: S.optional(ImportStatus),
-    Destinations: S.optional(ImportDestinations),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "ImportsListItem",
-}) as any as S.Schema<ImportsListItem>;
 export type ImportsList = ImportsListItem[];
-export const ImportsList = /*@__PURE__*/ S.Array(ImportsListItem);
 export interface ListImportsResponse {
   Imports?: ImportsListItem[];
   NextToken?: string;
 }
-export const ListImportsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Imports: S.optional(ImportsList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListImportsResponse",
-}) as any as S.Schema<ListImportsResponse>;
 export type ListInsightsDataType = "InsightsEvents" | (string & {});
-export const ListInsightsDataType = S.String;
-
 export type ListInsightsDataDimensionKey =
   | "EventId"
   | "EventName"
   | "EventSource"
   | (string & {});
-export const ListInsightsDataDimensionKey = S.String;
-
 export type ListInsightsDataDimensionValue = string;
 export type ListInsightsDataDimensions = {
   [key in ListInsightsDataDimensionKey]?: string;
 };
-export const ListInsightsDataDimensions = /*@__PURE__*/ S.Record(
-  ListInsightsDataDimensionKey,
-  S.String.pipe(S.optional),
-);
 export type ListInsightsDataMaxResultsCount = number;
 export interface ListInsightsDataRequest {
   InsightSource: string;
@@ -2927,41 +1301,11 @@ export interface ListInsightsDataRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListInsightsDataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InsightSource: S.String,
-    DataType: ListInsightsDataType,
-    Dimensions: S.optional(ListInsightsDataDimensions),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListInsightsDataRequest",
-}) as any as S.Schema<ListInsightsDataRequest>;
 export interface Resource {
   ResourceType?: string;
   ResourceName?: string;
 }
-export const Resource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceType: S.optional(S.String),
-    ResourceName: S.optional(S.String),
-  }),
-).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type ResourceList = Resource[];
-export const ResourceList = /*@__PURE__*/ S.Array(Resource);
 export interface Event {
   EventId?: string;
   EventName?: string;
@@ -2973,33 +1317,11 @@ export interface Event {
   Resources?: Resource[];
   CloudTrailEvent?: string;
 }
-export const Event = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventId: S.optional(S.String),
-    EventName: S.optional(S.String),
-    ReadOnly: S.optional(S.String),
-    AccessKeyId: S.optional(S.String),
-    EventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EventSource: S.optional(S.String),
-    Username: S.optional(S.String),
-    Resources: S.optional(ResourceList),
-    CloudTrailEvent: S.optional(S.String),
-  }),
-).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
 export type EventsList = Event[];
-export const EventsList = /*@__PURE__*/ S.Array(Event);
 export interface ListInsightsDataResponse {
   Events?: Event[];
   NextToken?: string;
 }
-export const ListInsightsDataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Events: S.optional(EventsList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListInsightsDataResponse",
-}) as any as S.Schema<ListInsightsDataResponse>;
 export type EventSource = string;
 export type EventName = string;
 export type ErrorCode = string;
@@ -3008,8 +1330,6 @@ export type InsightsMetricDataType =
   | "FillWithZeros"
   | "NonZeroData"
   | (string & {});
-export const InsightsMetricDataType = S.String;
-
 export type InsightsMetricMaxResults = number;
 export type InsightsMetricNextToken = string;
 export interface ListInsightsMetricDataRequest {
@@ -3025,39 +1345,8 @@ export interface ListInsightsMetricDataRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListInsightsMetricDataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrailName: S.optional(S.String),
-    EventSource: S.String,
-    EventName: S.String,
-    InsightType: InsightType,
-    ErrorCode: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Period: S.optional(S.Number),
-    DataType: S.optional(InsightsMetricDataType),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListInsightsMetricDataRequest",
-}) as any as S.Schema<ListInsightsMetricDataRequest>;
 export type Timestamps = Date[];
-export const Timestamps = /*@__PURE__*/ S.Array(
-  S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-);
 export type InsightsMetricValues = number[];
-export const InsightsMetricValues = /*@__PURE__*/ S.Array(S.Number);
 export interface ListInsightsMetricDataResponse {
   TrailARN?: string;
   EventSource?: string;
@@ -3068,44 +1357,11 @@ export interface ListInsightsMetricDataResponse {
   Values?: number[];
   NextToken?: string;
 }
-export const ListInsightsMetricDataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrailARN: S.optional(S.String),
-    EventSource: S.optional(S.String),
-    EventName: S.optional(S.String),
-    InsightType: S.optional(InsightType),
-    ErrorCode: S.optional(S.String),
-    Timestamps: S.optional(Timestamps),
-    Values: S.optional(InsightsMetricValues),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListInsightsMetricDataResponse",
-}) as any as S.Schema<ListInsightsMetricDataResponse>;
 export interface ListPublicKeysRequest {
   StartTime?: Date;
   EndTime?: Date;
   NextToken?: string;
 }
-export const ListPublicKeysRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListPublicKeysRequest",
-}) as any as S.Schema<ListPublicKeysRequest>;
 export type ByteBuffer = Uint8Array;
 export interface PublicKey {
   Value?: Uint8Array;
@@ -3113,32 +1369,11 @@ export interface PublicKey {
   ValidityEndTime?: Date;
   Fingerprint?: string;
 }
-export const PublicKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Value: S.optional(T.Blob),
-    ValidityStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ValidityEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Fingerprint: S.optional(S.String),
-  }),
-).annotate({ identifier: "PublicKey" }) as any as S.Schema<PublicKey>;
 export type PublicKeyList = PublicKey[];
-export const PublicKeyList = /*@__PURE__*/ S.Array(PublicKey);
 export interface ListPublicKeysResponse {
   PublicKeyList?: PublicKey[];
   NextToken?: string;
 }
-export const ListPublicKeysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PublicKeyList: S.optional(PublicKeyList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListPublicKeysResponse",
-}) as any as S.Schema<ListPublicKeysResponse>;
 export type ListQueriesMaxResultsCount = number;
 export interface ListQueriesRequest {
   EventDataStore: string;
@@ -3148,146 +1383,43 @@ export interface ListQueriesRequest {
   EndTime?: Date;
   QueryStatus?: QueryStatus;
 }
-export const ListQueriesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventDataStore: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    QueryStatus: S.optional(QueryStatus),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListQueriesRequest",
-}) as any as S.Schema<ListQueriesRequest>;
 export interface Query {
   QueryId?: string;
   QueryStatus?: QueryStatus;
   CreationTime?: Date;
 }
-export const Query = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueryId: S.optional(S.String),
-    QueryStatus: S.optional(QueryStatus),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "Query" }) as any as S.Schema<Query>;
 export type Queries = Query[];
-export const Queries = /*@__PURE__*/ S.Array(Query);
 export interface ListQueriesResponse {
   Queries?: Query[];
   NextToken?: string;
 }
-export const ListQueriesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Queries: S.optional(Queries),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListQueriesResponse",
-}) as any as S.Schema<ListQueriesResponse>;
 export type ResourceIdList = string[];
-export const ResourceIdList = /*@__PURE__*/ S.Array(S.String);
 export interface ListTagsRequest {
   ResourceIdList: string[];
   NextToken?: string;
 }
-export const ListTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceIdList: ResourceIdList,
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsRequest",
-}) as any as S.Schema<ListTagsRequest>;
 export interface ResourceTag {
   ResourceId?: string;
   TagsList?: Tag[];
 }
-export const ResourceTag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceId: S.optional(S.String),
-    TagsList: S.optional(TagsList),
-  }),
-).annotate({ identifier: "ResourceTag" }) as any as S.Schema<ResourceTag>;
 export type ResourceTagList = ResourceTag[];
-export const ResourceTagList = /*@__PURE__*/ S.Array(ResourceTag);
 export interface ListTagsResponse {
   ResourceTagList?: ResourceTag[];
   NextToken?: string;
 }
-export const ListTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceTagList: S.optional(ResourceTagList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTagsResponse",
-}) as any as S.Schema<ListTagsResponse>;
 export interface ListTrailsRequest {
   NextToken?: string;
 }
-export const ListTrailsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTrailsRequest",
-}) as any as S.Schema<ListTrailsRequest>;
 export interface TrailInfo {
   TrailARN?: string;
   Name?: string;
   HomeRegion?: string;
 }
-export const TrailInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrailARN: S.optional(S.String),
-    Name: S.optional(S.String),
-    HomeRegion: S.optional(S.String),
-  }),
-).annotate({ identifier: "TrailInfo" }) as any as S.Schema<TrailInfo>;
 export type Trails = TrailInfo[];
-export const Trails = /*@__PURE__*/ S.Array(TrailInfo);
 export interface ListTrailsResponse {
   Trails?: TrailInfo[];
   NextToken?: string;
 }
-export const ListTrailsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Trails: S.optional(Trails),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTrailsResponse",
-}) as any as S.Schema<ListTrailsResponse>;
 export type LookupAttributeKey =
   | "EventId"
   | "EventName"
@@ -3298,23 +1430,13 @@ export type LookupAttributeKey =
   | "EventSource"
   | "AccessKeyId"
   | (string & {});
-export const LookupAttributeKey = S.String;
-
 export type LookupAttributeValue = string;
 export interface LookupAttribute {
   AttributeKey: LookupAttributeKey;
   AttributeValue: string;
 }
-export const LookupAttribute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AttributeKey: LookupAttributeKey, AttributeValue: S.String }),
-).annotate({
-  identifier: "LookupAttribute",
-}) as any as S.Schema<LookupAttribute>;
 export type LookupAttributesList = LookupAttribute[];
-export const LookupAttributesList = /*@__PURE__*/ S.Array(LookupAttribute);
 export type EventCategory = "insight" | (string & {});
-export const EventCategory = S.String;
-
 export type MaxResults = number;
 export type NextToken = string;
 export interface LookupEventsRequest {
@@ -3325,40 +1447,10 @@ export interface LookupEventsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const LookupEventsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LookupAttributes: S.optional(LookupAttributesList),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EventCategory: S.optional(EventCategory),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "LookupEventsRequest",
-}) as any as S.Schema<LookupEventsRequest>;
 export interface LookupEventsResponse {
   Events?: Event[];
   NextToken?: string;
 }
-export const LookupEventsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Events: S.optional(EventsList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "LookupEventsResponse",
-}) as any as S.Schema<LookupEventsResponse>;
 export interface PutEventConfigurationRequest {
   TrailName?: string;
   EventDataStore?: string;
@@ -3366,27 +1458,6 @@ export interface PutEventConfigurationRequest {
   ContextKeySelectors?: ContextKeySelector[];
   AggregationConfigurations?: AggregationConfiguration[];
 }
-export const PutEventConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrailName: S.optional(S.String),
-    EventDataStore: S.optional(S.String),
-    MaxEventSize: S.optional(MaxEventSize),
-    ContextKeySelectors: S.optional(ContextKeySelectors),
-    AggregationConfigurations: S.optional(AggregationConfigurations),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutEventConfigurationRequest",
-}) as any as S.Schema<PutEventConfigurationRequest>;
 export interface PutEventConfigurationResponse {
   TrailARN?: string;
   EventDataStoreArn?: string;
@@ -3394,197 +1465,49 @@ export interface PutEventConfigurationResponse {
   ContextKeySelectors?: ContextKeySelector[];
   AggregationConfigurations?: AggregationConfiguration[];
 }
-export const PutEventConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrailARN: S.optional(S.String),
-    EventDataStoreArn: S.optional(S.String),
-    MaxEventSize: S.optional(MaxEventSize),
-    ContextKeySelectors: S.optional(ContextKeySelectors),
-    AggregationConfigurations: S.optional(AggregationConfigurations),
-  }).pipe(ns),
-).annotate({
-  identifier: "PutEventConfigurationResponse",
-}) as any as S.Schema<PutEventConfigurationResponse>;
 export interface PutEventSelectorsRequest {
   TrailName: string;
   EventSelectors?: EventSelector[];
   AdvancedEventSelectors?: AdvancedEventSelector[];
 }
-export const PutEventSelectorsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrailName: S.String,
-    EventSelectors: S.optional(EventSelectors),
-    AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutEventSelectorsRequest",
-}) as any as S.Schema<PutEventSelectorsRequest>;
 export interface PutEventSelectorsResponse {
   TrailARN?: string;
   EventSelectors?: EventSelector[];
   AdvancedEventSelectors?: AdvancedEventSelector[];
 }
-export const PutEventSelectorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrailARN: S.optional(S.String),
-    EventSelectors: S.optional(EventSelectors),
-    AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-  }).pipe(ns),
-).annotate({
-  identifier: "PutEventSelectorsResponse",
-}) as any as S.Schema<PutEventSelectorsResponse>;
 export interface PutInsightSelectorsRequest {
   TrailName?: string;
   InsightSelectors: InsightSelector[];
   EventDataStore?: string;
   InsightsDestination?: string;
 }
-export const PutInsightSelectorsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrailName: S.optional(S.String),
-    InsightSelectors: InsightSelectors,
-    EventDataStore: S.optional(S.String),
-    InsightsDestination: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutInsightSelectorsRequest",
-}) as any as S.Schema<PutInsightSelectorsRequest>;
 export interface PutInsightSelectorsResponse {
   TrailARN?: string;
   InsightSelectors?: InsightSelector[];
   EventDataStoreArn?: string;
   InsightsDestination?: string;
 }
-export const PutInsightSelectorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrailARN: S.optional(S.String),
-    InsightSelectors: S.optional(InsightSelectors),
-    EventDataStoreArn: S.optional(S.String),
-    InsightsDestination: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "PutInsightSelectorsResponse",
-}) as any as S.Schema<PutInsightSelectorsResponse>;
 export interface PutResourcePolicyRequest {
   ResourceArn: string;
   ResourcePolicy: string;
 }
-export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, ResourcePolicy: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutResourcePolicyRequest",
-}) as any as S.Schema<PutResourcePolicyRequest>;
 export interface PutResourcePolicyResponse {
   ResourceArn?: string;
   ResourcePolicy?: string;
   DelegatedAdminResourcePolicy?: string;
 }
-export const PutResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    ResourcePolicy: S.optional(S.String),
-    DelegatedAdminResourcePolicy: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "PutResourcePolicyResponse",
-}) as any as S.Schema<PutResourcePolicyResponse>;
 export interface RegisterOrganizationDelegatedAdminRequest {
   MemberAccountId: string;
 }
-export const RegisterOrganizationDelegatedAdminRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ MemberAccountId: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "RegisterOrganizationDelegatedAdminRequest",
-  }) as any as S.Schema<RegisterOrganizationDelegatedAdminRequest>;
 export interface RegisterOrganizationDelegatedAdminResponse {}
-export const RegisterOrganizationDelegatedAdminResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "RegisterOrganizationDelegatedAdminResponse",
-  }) as any as S.Schema<RegisterOrganizationDelegatedAdminResponse>;
 export interface RemoveTagsRequest {
   ResourceId: string;
   TagsList: Tag[];
 }
-export const RemoveTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceId: S.String, TagsList: TagsList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemoveTagsRequest",
-}) as any as S.Schema<RemoveTagsRequest>;
 export interface RemoveTagsResponse {}
-export const RemoveTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RemoveTagsResponse",
-}) as any as S.Schema<RemoveTagsResponse>;
 export interface RestoreEventDataStoreRequest {
   EventDataStore: string;
 }
-export const RestoreEventDataStoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EventDataStore: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RestoreEventDataStoreRequest",
-}) as any as S.Schema<RestoreEventDataStoreRequest>;
 export interface RestoreEventDataStoreResponse {
   EventDataStoreArn?: string;
   Name?: string;
@@ -3599,28 +1522,6 @@ export interface RestoreEventDataStoreResponse {
   KmsKeyId?: string;
   BillingMode?: BillingMode;
 }
-export const RestoreEventDataStoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventDataStoreArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Status: S.optional(EventDataStoreStatus),
-    AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-    MultiRegionEnabled: S.optional(S.Boolean),
-    OrganizationEnabled: S.optional(S.Boolean),
-    RetentionPeriod: S.optional(S.Number),
-    TerminationProtectionEnabled: S.optional(S.Boolean),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    KmsKeyId: S.optional(S.String),
-    BillingMode: S.optional(BillingMode),
-  }).pipe(ns),
-).annotate({
-  identifier: "RestoreEventDataStoreResponse",
-}) as any as S.Schema<RestoreEventDataStoreResponse>;
 export type SearchSampleQueriesSearchPhrase = string;
 export type SearchSampleQueriesMaxResults = number;
 export interface SearchSampleQueriesRequest {
@@ -3628,25 +1529,6 @@ export interface SearchSampleQueriesRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const SearchSampleQueriesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SearchPhrase: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SearchSampleQueriesRequest",
-}) as any as S.Schema<SearchSampleQueriesRequest>;
 export type SampleQueryName = string;
 export type SampleQueryDescription = string;
 export type SampleQuerySQL = string;
@@ -3657,94 +1539,26 @@ export interface SearchSampleQueriesSearchResult {
   SQL?: string;
   Relevance?: number;
 }
-export const SearchSampleQueriesSearchResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    SQL: S.optional(S.String),
-    Relevance: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SearchSampleQueriesSearchResult",
-}) as any as S.Schema<SearchSampleQueriesSearchResult>;
 export type SearchSampleQueriesSearchResults =
   SearchSampleQueriesSearchResult[];
-export const SearchSampleQueriesSearchResults = /*@__PURE__*/ S.Array(
-  SearchSampleQueriesSearchResult,
-);
 export interface SearchSampleQueriesResponse {
   SearchResults?: SearchSampleQueriesSearchResult[];
   NextToken?: string;
 }
-export const SearchSampleQueriesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SearchResults: S.optional(SearchSampleQueriesSearchResults),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "SearchSampleQueriesResponse",
-}) as any as S.Schema<SearchSampleQueriesResponse>;
 export type QueryParameterKey = string;
 export type QueryParameterValue = string;
 export type QueryParameterValues = { [key: string]: string | undefined };
-export const QueryParameterValues = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface StartDashboardRefreshRequest {
   DashboardId: string;
   QueryParameterValues?: { [key: string]: string | undefined };
 }
-export const StartDashboardRefreshRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DashboardId: S.String,
-    QueryParameterValues: S.optional(QueryParameterValues),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartDashboardRefreshRequest",
-}) as any as S.Schema<StartDashboardRefreshRequest>;
 export interface StartDashboardRefreshResponse {
   RefreshId?: string;
 }
-export const StartDashboardRefreshResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RefreshId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "StartDashboardRefreshResponse",
-}) as any as S.Schema<StartDashboardRefreshResponse>;
 export interface StartEventDataStoreIngestionRequest {
   EventDataStore: string;
 }
-export const StartEventDataStoreIngestionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EventDataStore: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartEventDataStoreIngestionRequest",
-}) as any as S.Schema<StartEventDataStoreIngestionRequest>;
 export interface StartEventDataStoreIngestionResponse {}
-export const StartEventDataStoreIngestionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "StartEventDataStoreIngestionResponse",
-}) as any as S.Schema<StartEventDataStoreIngestionResponse>;
 export interface StartImportRequest {
   Destinations?: string[];
   ImportSource?: ImportSource;
@@ -3752,27 +1566,6 @@ export interface StartImportRequest {
   EndEventTime?: Date;
   ImportId?: string;
 }
-export const StartImportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Destinations: S.optional(ImportDestinations),
-    ImportSource: S.optional(ImportSource),
-    StartEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ImportId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartImportRequest",
-}) as any as S.Schema<StartImportRequest>;
 export interface StartImportResponse {
   ImportId?: string;
   Destinations?: string[];
@@ -3783,48 +1576,10 @@ export interface StartImportResponse {
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
 }
-export const StartImportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ImportId: S.optional(S.String),
-    Destinations: S.optional(ImportDestinations),
-    ImportSource: S.optional(ImportSource),
-    StartEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ImportStatus: S.optional(ImportStatus),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "StartImportResponse",
-}) as any as S.Schema<StartImportResponse>;
 export interface StartLoggingRequest {
   Name: string;
 }
-export const StartLoggingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartLoggingRequest",
-}) as any as S.Schema<StartLoggingRequest>;
 export interface StartLoggingResponse {}
-export const StartLoggingResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "StartLoggingResponse",
-}) as any as S.Schema<StartLoggingResponse>;
 export interface StartQueryRequest {
   QueryStatement?: string;
   DeliveryS3Uri?: string;
@@ -3832,81 +1587,17 @@ export interface StartQueryRequest {
   QueryParameters?: string[];
   EventDataStoreOwnerAccountId?: string;
 }
-export const StartQueryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueryStatement: S.optional(S.String),
-    DeliveryS3Uri: S.optional(S.String),
-    QueryAlias: S.optional(S.String),
-    QueryParameters: S.optional(QueryParameters),
-    EventDataStoreOwnerAccountId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartQueryRequest",
-}) as any as S.Schema<StartQueryRequest>;
 export interface StartQueryResponse {
   QueryId?: string;
   EventDataStoreOwnerAccountId?: string;
 }
-export const StartQueryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueryId: S.optional(S.String),
-    EventDataStoreOwnerAccountId: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "StartQueryResponse",
-}) as any as S.Schema<StartQueryResponse>;
 export interface StopEventDataStoreIngestionRequest {
   EventDataStore: string;
 }
-export const StopEventDataStoreIngestionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EventDataStore: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopEventDataStoreIngestionRequest",
-}) as any as S.Schema<StopEventDataStoreIngestionRequest>;
 export interface StopEventDataStoreIngestionResponse {}
-export const StopEventDataStoreIngestionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "StopEventDataStoreIngestionResponse",
-}) as any as S.Schema<StopEventDataStoreIngestionResponse>;
 export interface StopImportRequest {
   ImportId: string;
 }
-export const StopImportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ImportId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopImportRequest",
-}) as any as S.Schema<StopImportRequest>;
 export interface StopImportResponse {
   ImportId?: string;
   ImportSource?: ImportSource;
@@ -3918,115 +1609,27 @@ export interface StopImportResponse {
   EndEventTime?: Date;
   ImportStatistics?: ImportStatistics;
 }
-export const StopImportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ImportId: S.optional(S.String),
-    ImportSource: S.optional(ImportSource),
-    Destinations: S.optional(ImportDestinations),
-    ImportStatus: S.optional(ImportStatus),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    StartEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ImportStatistics: S.optional(ImportStatistics),
-  }).pipe(ns),
-).annotate({
-  identifier: "StopImportResponse",
-}) as any as S.Schema<StopImportResponse>;
 export interface StopLoggingRequest {
   Name: string;
 }
-export const StopLoggingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopLoggingRequest",
-}) as any as S.Schema<StopLoggingRequest>;
 export interface StopLoggingResponse {}
-export const StopLoggingResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "StopLoggingResponse",
-}) as any as S.Schema<StopLoggingResponse>;
 export interface UpdateChannelRequest {
   Channel: string;
   Destinations?: Destination[];
   Name?: string;
 }
-export const UpdateChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Channel: S.String,
-    Destinations: S.optional(Destinations),
-    Name: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateChannelRequest",
-}) as any as S.Schema<UpdateChannelRequest>;
 export interface UpdateChannelResponse {
   ChannelArn?: string;
   Name?: string;
   Source?: string;
   Destinations?: Destination[];
 }
-export const UpdateChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Source: S.optional(S.String),
-    Destinations: S.optional(Destinations),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateChannelResponse",
-}) as any as S.Schema<UpdateChannelResponse>;
 export interface UpdateDashboardRequest {
   DashboardId: string;
   Widgets?: RequestWidget[];
   RefreshSchedule?: RefreshSchedule;
   TerminationProtectionEnabled?: boolean;
 }
-export const UpdateDashboardRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DashboardId: S.String,
-    Widgets: S.optional(RequestWidgetList),
-    RefreshSchedule: S.optional(RefreshSchedule),
-    TerminationProtectionEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDashboardRequest",
-}) as any as S.Schema<UpdateDashboardRequest>;
 export interface UpdateDashboardResponse {
   DashboardArn?: string;
   Name?: string;
@@ -4037,24 +1640,6 @@ export interface UpdateDashboardResponse {
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
 }
-export const UpdateDashboardResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DashboardArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Type: S.optional(DashboardType),
-    Widgets: S.optional(WidgetList),
-    RefreshSchedule: S.optional(RefreshSchedule),
-    TerminationProtectionEnabled: S.optional(S.Boolean),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateDashboardResponse",
-}) as any as S.Schema<UpdateDashboardResponse>;
 export interface UpdateEventDataStoreRequest {
   EventDataStore: string;
   Name?: string;
@@ -4066,31 +1651,6 @@ export interface UpdateEventDataStoreRequest {
   KmsKeyId?: string;
   BillingMode?: BillingMode;
 }
-export const UpdateEventDataStoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventDataStore: S.String,
-    Name: S.optional(S.String),
-    AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-    MultiRegionEnabled: S.optional(S.Boolean),
-    OrganizationEnabled: S.optional(S.Boolean),
-    RetentionPeriod: S.optional(S.Number),
-    TerminationProtectionEnabled: S.optional(S.Boolean),
-    KmsKeyId: S.optional(S.String),
-    BillingMode: S.optional(BillingMode),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateEventDataStoreRequest",
-}) as any as S.Schema<UpdateEventDataStoreRequest>;
 export interface UpdateEventDataStoreResponse {
   EventDataStoreArn?: string;
   Name?: string;
@@ -4107,30 +1667,6 @@ export interface UpdateEventDataStoreResponse {
   FederationStatus?: FederationStatus;
   FederationRoleArn?: string;
 }
-export const UpdateEventDataStoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventDataStoreArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Status: S.optional(EventDataStoreStatus),
-    AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-    MultiRegionEnabled: S.optional(S.Boolean),
-    OrganizationEnabled: S.optional(S.Boolean),
-    RetentionPeriod: S.optional(S.Number),
-    TerminationProtectionEnabled: S.optional(S.Boolean),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    KmsKeyId: S.optional(S.String),
-    BillingMode: S.optional(BillingMode),
-    FederationStatus: S.optional(FederationStatus),
-    FederationRoleArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateEventDataStoreResponse",
-}) as any as S.Schema<UpdateEventDataStoreResponse>;
 export interface UpdateTrailRequest {
   Name: string;
   S3BucketName?: string;
@@ -4144,33 +1680,6 @@ export interface UpdateTrailRequest {
   KmsKeyId?: string;
   IsOrganizationTrail?: boolean;
 }
-export const UpdateTrailRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    S3BucketName: S.optional(S.String),
-    S3KeyPrefix: S.optional(S.String),
-    SnsTopicName: S.optional(S.String),
-    IncludeGlobalServiceEvents: S.optional(S.Boolean),
-    IsMultiRegionTrail: S.optional(S.Boolean),
-    EnableLogFileValidation: S.optional(S.Boolean),
-    CloudWatchLogsLogGroupArn: S.optional(S.String),
-    CloudWatchLogsRoleArn: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    IsOrganizationTrail: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateTrailRequest",
-}) as any as S.Schema<UpdateTrailRequest>;
 export interface UpdateTrailResponse {
   Name?: string;
   S3BucketName?: string;
@@ -4186,25 +1695,6 @@ export interface UpdateTrailResponse {
   KmsKeyId?: string;
   IsOrganizationTrail?: boolean;
 }
-export const UpdateTrailResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    S3BucketName: S.optional(S.String),
-    S3KeyPrefix: S.optional(S.String),
-    SnsTopicName: S.optional(S.String),
-    SnsTopicARN: S.optional(S.String),
-    IncludeGlobalServiceEvents: S.optional(S.Boolean),
-    IsMultiRegionTrail: S.optional(S.Boolean),
-    TrailARN: S.optional(S.String),
-    LogFileValidationEnabled: S.optional(S.Boolean),
-    CloudWatchLogsLogGroupArn: S.optional(S.String),
-    CloudWatchLogsRoleArn: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    IsOrganizationTrail: S.optional(S.Boolean),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateTrailResponse",
-}) as any as S.Schema<UpdateTrailResponse>;
 export type AddTagsError =
   | ChannelARNInvalidException
   | ChannelNotFoundException
@@ -4238,8 +1728,10 @@ export const addTags: API.OperationMethod<
   AddTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddTagsRequest,
-  output: AddTagsResponse,
+  descriptor: {
+    service: svc,
+    input: { ResourceId: 0, TagsList: D.list(i_Tag) },
+  },
   errors: [
     ChannelARNInvalidException,
     ChannelNotFoundException,
@@ -4261,7 +1753,7 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
-}));
+})) as any;
 
 export type CancelQueryError =
   | ConflictException
@@ -4289,8 +1781,10 @@ export const cancelQuery: API.OperationMethod<
   CancelQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelQueryRequest,
-  output: CancelQueryResponse,
+  descriptor: {
+    service: svc,
+    input: { EventDataStore: 0, QueryId: 0, EventDataStoreOwnerAccountId: 0 },
+  },
   errors: [
     ConflictException,
     EventDataStoreARNInvalidException,
@@ -4306,7 +1800,7 @@ export const cancelQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelQuery",
-}));
+})) as any;
 
 export type CreateChannelError =
   | ChannelAlreadyExistsException
@@ -4333,8 +1827,15 @@ export const createChannel: API.OperationMethod<
   CreateChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateChannelRequest,
-  output: CreateChannelResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      Name: 0,
+      Source: 0,
+      Destinations: D.list(i_Destination),
+      Tags: D.list(i_Tag),
+    },
+  },
   errors: [
     ChannelAlreadyExistsException,
     ChannelMaxLimitExceededException,
@@ -4352,7 +1853,7 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
-}));
+})) as any;
 
 export type CreateDashboardError =
   | ConflictException
@@ -4389,8 +1890,16 @@ export const createDashboard: API.OperationMethod<
   CreateDashboardError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDashboardRequest,
-  output: CreateDashboardResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      Name: 0,
+      RefreshSchedule: i_RefreshSchedule,
+      TagsList: D.list(i_Tag),
+      TerminationProtectionEnabled: 0,
+      Widgets: D.list(i_RequestWidget),
+    },
+  },
   errors: [
     ConflictException,
     EventDataStoreNotFoundException,
@@ -4404,7 +1913,7 @@ export const createDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDashboard",
-}));
+})) as any;
 
 export type CreateEventDataStoreError =
   | CloudTrailAccessNotEnabledException
@@ -4437,8 +1946,22 @@ export const createEventDataStore: API.OperationMethod<
   CreateEventDataStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateEventDataStoreRequest,
-  output: CreateEventDataStoreResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      Name: 0,
+      AdvancedEventSelectors: D.list(i_AdvancedEventSelector),
+      MultiRegionEnabled: 0,
+      OrganizationEnabled: 0,
+      RetentionPeriod: 0,
+      TerminationProtectionEnabled: 0,
+      TagsList: D.list(i_Tag),
+      KmsKeyId: 0,
+      StartIngestion: 0,
+      BillingMode: 0,
+    },
+    output: { CreatedTimestamp: D.ts, UpdatedTimestamp: D.ts },
+  },
   errors: [
     CloudTrailAccessNotEnabledException,
     ConflictException,
@@ -4464,7 +1987,7 @@ export const createEventDataStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventDataStore",
-}));
+})) as any;
 
 export type CreateTrailError =
   | CloudTrailAccessNotEnabledException
@@ -4510,8 +2033,23 @@ export const createTrail: API.OperationMethod<
   CreateTrailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTrailRequest,
-  output: CreateTrailResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      Name: 0,
+      S3BucketName: 0,
+      S3KeyPrefix: 0,
+      SnsTopicName: 0,
+      IncludeGlobalServiceEvents: 0,
+      IsMultiRegionTrail: 0,
+      EnableLogFileValidation: 0,
+      CloudWatchLogsLogGroupArn: 0,
+      CloudWatchLogsRoleArn: 0,
+      KmsKeyId: 0,
+      IsOrganizationTrail: 0,
+      TagsList: D.list(i_Tag),
+    },
+  },
   errors: [
     CloudTrailAccessNotEnabledException,
     CloudTrailInvalidClientTokenIdException,
@@ -4550,7 +2088,7 @@ export const createTrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrail",
-}));
+})) as any;
 
 export type DeleteChannelError =
   | ChannelARNInvalidException
@@ -4567,8 +2105,7 @@ export const deleteChannel: API.OperationMethod<
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteChannelRequest,
-  output: DeleteChannelResponse,
+  descriptor: { service: svc, input: { Channel: 0 } },
   errors: [
     ChannelARNInvalidException,
     ChannelNotFoundException,
@@ -4578,7 +2115,7 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
-}));
+})) as any;
 
 export type DeleteDashboardError =
   | ConflictException
@@ -4594,8 +2131,7 @@ export const deleteDashboard: API.OperationMethod<
   DeleteDashboardError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDashboardRequest,
-  output: DeleteDashboardResponse,
+  descriptor: { service: svc, input: { DashboardId: 0 } },
   errors: [
     ConflictException,
     ResourceNotFoundException,
@@ -4604,7 +2140,7 @@ export const deleteDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDashboard",
-}));
+})) as any;
 
 export type DeleteEventDataStoreError =
   | ChannelExistsForEDSException
@@ -4642,8 +2178,7 @@ export const deleteEventDataStore: API.OperationMethod<
   DeleteEventDataStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEventDataStoreRequest,
-  output: DeleteEventDataStoreResponse,
+  descriptor: { service: svc, input: { EventDataStore: 0 } },
   errors: [
     ChannelExistsForEDSException,
     ConflictException,
@@ -4663,7 +2198,7 @@ export const deleteEventDataStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventDataStore",
-}));
+})) as any;
 
 export type DeleteResourcePolicyError =
   | ConflictException
@@ -4683,8 +2218,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResourcePolicyRequest,
-  output: DeleteResourcePolicyResponse,
+  descriptor: { service: svc, input: { ResourceArn: 0 } },
   errors: [
     ConflictException,
     OperationNotPermittedException,
@@ -4697,7 +2231,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
-}));
+})) as any;
 
 export type DeleteTrailError =
   | CloudTrailARNInvalidException
@@ -4733,8 +2267,7 @@ export const deleteTrail: API.OperationMethod<
   DeleteTrailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTrailRequest,
-  output: DeleteTrailResponse,
+  descriptor: { service: svc, input: { Name: 0 } },
   errors: [
     CloudTrailARNInvalidException,
     ConflictException,
@@ -4751,7 +2284,7 @@ export const deleteTrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrail",
-}));
+})) as any;
 
 export type DeregisterOrganizationDelegatedAdminError =
   | AccountNotFoundException
@@ -4776,8 +2309,7 @@ export const deregisterOrganizationDelegatedAdmin: API.OperationMethod<
   DeregisterOrganizationDelegatedAdminError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeregisterOrganizationDelegatedAdminRequest,
-  output: DeregisterOrganizationDelegatedAdminResponse,
+  descriptor: { service: svc, input: { DelegatedAdminAccountId: 0 } },
   errors: [
     AccountNotFoundException,
     AccountNotRegisteredException,
@@ -4794,7 +2326,7 @@ export const deregisterOrganizationDelegatedAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterOrganizationDelegatedAdmin",
-}));
+})) as any;
 
 export type DescribeQueryError =
   | EventDataStoreARNInvalidException
@@ -4822,8 +2354,17 @@ export const describeQuery: API.OperationMethod<
   DescribeQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeQueryRequest,
-  output: DescribeQueryResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      EventDataStore: 0,
+      QueryId: 0,
+      QueryAlias: 0,
+      RefreshId: 0,
+      EventDataStoreOwnerAccountId: 0,
+    },
+    output: { QueryStatistics: { CreationTime: D.ts } },
+  },
   errors: [
     EventDataStoreARNInvalidException,
     EventDataStoreNotFoundException,
@@ -4837,7 +2378,7 @@ export const describeQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQuery",
-}));
+})) as any;
 
 export type DescribeTrailsError =
   | CloudTrailARNInvalidException
@@ -4856,8 +2397,10 @@ export const describeTrails: API.OperationMethod<
   DescribeTrailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeTrailsRequest,
-  output: DescribeTrailsResponse,
+  descriptor: {
+    service: svc,
+    input: { trailNameList: 0, includeShadowTrails: 0 },
+  },
   errors: [
     CloudTrailARNInvalidException,
     InvalidTrailNameException,
@@ -4868,7 +2411,7 @@ export const describeTrails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrails",
-}));
+})) as any;
 
 export type DisableFederationError =
   | AccessDeniedException
@@ -4899,8 +2442,7 @@ export const disableFederation: API.OperationMethod<
   DisableFederationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisableFederationRequest,
-  output: DisableFederationResponse,
+  descriptor: { service: svc, input: { EventDataStore: 0 } },
   errors: [
     AccessDeniedException,
     CloudTrailAccessNotEnabledException,
@@ -4920,7 +2462,7 @@ export const disableFederation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableFederation",
-}));
+})) as any;
 
 export type EnableFederationError =
   | AccessDeniedException
@@ -4959,8 +2501,10 @@ export const enableFederation: API.OperationMethod<
   EnableFederationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: EnableFederationRequest,
-  output: EnableFederationResponse,
+  descriptor: {
+    service: svc,
+    input: { EventDataStore: 0, FederationRoleArn: 0 },
+  },
   errors: [
     AccessDeniedException,
     CloudTrailAccessNotEnabledException,
@@ -4981,7 +2525,7 @@ export const enableFederation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableFederation",
-}));
+})) as any;
 
 export type GenerateQueryError =
   | EventDataStoreARNInvalidException
@@ -5017,8 +2561,7 @@ export const generateQuery: API.OperationMethod<
   GenerateQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GenerateQueryRequest,
-  output: GenerateQueryResponse,
+  descriptor: { service: svc, input: { EventDataStores: 0, Prompt: 0 } },
   errors: [
     EventDataStoreARNInvalidException,
     EventDataStoreNotFoundException,
@@ -5032,7 +2575,7 @@ export const generateQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateQuery",
-}));
+})) as any;
 
 export type GetChannelError =
   | ChannelARNInvalidException
@@ -5049,8 +2592,16 @@ export const getChannel: API.OperationMethod<
   GetChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetChannelRequest,
-  output: GetChannelResponse,
+  descriptor: {
+    service: svc,
+    input: { Channel: 0 },
+    output: {
+      IngestionStatus: {
+        LatestIngestionSuccessTime: D.ts,
+        LatestIngestionAttemptTime: D.ts,
+      },
+    },
+  },
   errors: [
     ChannelARNInvalidException,
     ChannelNotFoundException,
@@ -5060,7 +2611,7 @@ export const getChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannel",
-}));
+})) as any;
 
 export type GetDashboardError =
   | ResourceNotFoundException
@@ -5075,13 +2626,16 @@ export const getDashboard: API.OperationMethod<
   GetDashboardError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDashboardRequest,
-  output: GetDashboardResponse,
+  descriptor: {
+    service: svc,
+    input: { DashboardId: 0 },
+    output: { CreatedTimestamp: D.ts, UpdatedTimestamp: D.ts },
+  },
   errors: [ResourceNotFoundException, UnsupportedOperationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDashboard",
-}));
+})) as any;
 
 export type GetEventConfigurationError =
   | CloudTrailARNInvalidException
@@ -5106,8 +2660,7 @@ export const getEventConfiguration: API.OperationMethod<
   GetEventConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEventConfigurationRequest,
-  output: GetEventConfigurationResponse,
+  descriptor: { service: svc, input: { TrailName: 0, EventDataStore: 0 } },
   errors: [
     CloudTrailARNInvalidException,
     EventDataStoreARNInvalidException,
@@ -5125,7 +2678,7 @@ export const getEventConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventConfiguration",
-}));
+})) as any;
 
 export type GetEventDataStoreError =
   | EventDataStoreARNInvalidException
@@ -5145,8 +2698,11 @@ export const getEventDataStore: API.OperationMethod<
   GetEventDataStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEventDataStoreRequest,
-  output: GetEventDataStoreResponse,
+  descriptor: {
+    service: svc,
+    input: { EventDataStore: 0 },
+    output: { CreatedTimestamp: D.ts, UpdatedTimestamp: D.ts },
+  },
   errors: [
     EventDataStoreARNInvalidException,
     EventDataStoreNotFoundException,
@@ -5158,7 +2714,7 @@ export const getEventDataStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventDataStore",
-}));
+})) as any;
 
 export type GetEventSelectorsError =
   | CloudTrailARNInvalidException
@@ -5198,8 +2754,7 @@ export const getEventSelectors: API.OperationMethod<
   GetEventSelectorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEventSelectorsRequest,
-  output: GetEventSelectorsResponse,
+  descriptor: { service: svc, input: { TrailName: 0 } },
   errors: [
     CloudTrailARNInvalidException,
     InvalidTrailNameException,
@@ -5211,7 +2766,7 @@ export const getEventSelectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventSelectors",
-}));
+})) as any;
 
 export type GetImportError =
   | ImportNotFoundException
@@ -5228,8 +2783,16 @@ export const getImport: API.OperationMethod<
   GetImportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetImportRequest,
-  output: GetImportResponse,
+  descriptor: {
+    service: svc,
+    input: { ImportId: 0 },
+    output: {
+      StartEventTime: D.ts,
+      EndEventTime: D.ts,
+      CreatedTimestamp: D.ts,
+      UpdatedTimestamp: D.ts,
+    },
+  },
   errors: [
     ImportNotFoundException,
     InvalidParameterException,
@@ -5239,7 +2802,7 @@ export const getImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImport",
-}));
+})) as any;
 
 export type GetInsightSelectorsError =
   | CloudTrailARNInvalidException
@@ -5271,8 +2834,7 @@ export const getInsightSelectors: API.OperationMethod<
   GetInsightSelectorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetInsightSelectorsRequest,
-  output: GetInsightSelectorsResponse,
+  descriptor: { service: svc, input: { TrailName: 0, EventDataStore: 0 } },
   errors: [
     CloudTrailARNInvalidException,
     InsightNotEnabledException,
@@ -5288,7 +2850,7 @@ export const getInsightSelectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsightSelectors",
-}));
+})) as any;
 
 export type GetQueryResultsError =
   | EventDataStoreARNInvalidException
@@ -5314,8 +2876,16 @@ export const getQueryResults: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetQueryResultsRequest,
-  output: GetQueryResultsResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      EventDataStore: 0,
+      QueryId: 0,
+      NextToken: 0,
+      MaxQueryResults: 0,
+      EventDataStoreOwnerAccountId: 0,
+    },
+  },
   errors: [
     EventDataStoreARNInvalidException,
     EventDataStoreNotFoundException,
@@ -5352,8 +2922,7 @@ export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyRequest,
-  output: GetResourcePolicyResponse,
+  descriptor: { service: svc, input: { ResourceArn: 0 } },
   errors: [
     OperationNotPermittedException,
     ResourceARNNotValidException,
@@ -5365,7 +2934,7 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-}));
+})) as any;
 
 export type GetTrailError =
   | CloudTrailARNInvalidException
@@ -5383,8 +2952,7 @@ export const getTrail: API.OperationMethod<
   GetTrailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTrailRequest,
-  output: GetTrailResponse,
+  descriptor: { service: svc, input: { Name: 0 } },
   errors: [
     CloudTrailARNInvalidException,
     InvalidTrailNameException,
@@ -5395,7 +2963,7 @@ export const getTrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrail",
-}));
+})) as any;
 
 export type GetTrailStatusError =
   | CloudTrailARNInvalidException
@@ -5417,8 +2985,18 @@ export const getTrailStatus: API.OperationMethod<
   GetTrailStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTrailStatusRequest,
-  output: GetTrailStatusResponse,
+  descriptor: {
+    service: svc,
+    input: { Name: 0 },
+    output: {
+      LatestDeliveryTime: D.ts,
+      LatestNotificationTime: D.ts,
+      StartLoggingTime: D.ts,
+      StopLoggingTime: D.ts,
+      LatestCloudWatchLogsDeliveryTime: D.ts,
+      LatestDigestDeliveryTime: D.ts,
+    },
+  },
   errors: [
     CloudTrailARNInvalidException,
     InvalidTrailNameException,
@@ -5429,7 +3007,7 @@ export const getTrailStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrailStatus",
-}));
+})) as any;
 
 export type ListChannelsError =
   | InvalidNextTokenException
@@ -5446,8 +3024,7 @@ export const listChannels: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListChannelsRequest,
-  output: ListChannelsResponse,
+  descriptor: { service: svc, input: { MaxResults: 0, NextToken: 0 } },
   errors: [
     InvalidNextTokenException,
     OperationNotPermittedException,
@@ -5473,13 +3050,15 @@ export const listDashboards: API.OperationMethod<
   ListDashboardsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDashboardsRequest,
-  output: ListDashboardsResponse,
+  descriptor: {
+    service: svc,
+    input: { NamePrefix: 0, Type: 0, NextToken: 0, MaxResults: 0 },
+  },
   errors: [UnsupportedOperationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDashboards",
-}));
+})) as any;
 
 export type ListEventDataStoresError =
   | InvalidMaxResultsException
@@ -5499,8 +3078,16 @@ export const listEventDataStores: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListEventDataStoresRequest,
-  output: ListEventDataStoresResponse,
+  descriptor: {
+    service: svc,
+    input: { NextToken: 0, MaxResults: 0 },
+    output: {
+      EventDataStores: D.list({
+        CreatedTimestamp: D.ts,
+        UpdatedTimestamp: D.ts,
+      }),
+    },
+  },
   errors: [
     InvalidMaxResultsException,
     InvalidNextTokenException,
@@ -5534,8 +3121,11 @@ export const listImportFailures: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ImportFailureListItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListImportFailuresRequest,
-  output: ListImportFailuresResponse,
+  descriptor: {
+    service: svc,
+    input: { ImportId: 0, MaxResults: 0, NextToken: 0 },
+    output: { Failures: D.list({ LastUpdatedTime: D.ts }) },
+  },
   errors: [
     InvalidNextTokenException,
     InvalidParameterException,
@@ -5571,8 +3161,13 @@ export const listImports: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ImportsListItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListImportsRequest,
-  output: ListImportsResponse,
+  descriptor: {
+    service: svc,
+    input: { MaxResults: 0, Destination: 0, ImportStatus: 0, NextToken: 0 },
+    output: {
+      Imports: D.list({ CreatedTimestamp: D.ts, UpdatedTimestamp: D.ts }),
+    },
+  },
   errors: [
     EventDataStoreARNInvalidException,
     InvalidNextTokenException,
@@ -5621,8 +3216,19 @@ export const listInsightsData: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Event
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListInsightsDataRequest,
-  output: ListInsightsDataResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      InsightSource: 0,
+      DataType: 0,
+      Dimensions: 0,
+      StartTime: 0,
+      EndTime: 0,
+      MaxResults: 0,
+      NextToken: 0,
+    },
+    output: { Events: D.list(o_Event) },
+  },
   errors: [
     InvalidParameterException,
     OperationNotPermittedException,
@@ -5674,8 +3280,23 @@ export const listInsightsMetricData: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListInsightsMetricDataRequest,
-  output: ListInsightsMetricDataResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      TrailName: 0,
+      EventSource: 0,
+      EventName: 0,
+      InsightType: 0,
+      ErrorCode: 0,
+      StartTime: 0,
+      EndTime: 0,
+      Period: 0,
+      DataType: 0,
+      MaxResults: 0,
+      NextToken: 0,
+    },
+    output: { Timestamps: D.list(D.ts) },
+  },
   errors: [
     InvalidParameterException,
     InvalidTrailNameException,
@@ -5715,8 +3336,17 @@ export const listPublicKeys: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PublicKey
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPublicKeysRequest,
-  output: ListPublicKeysResponse,
+  descriptor: {
+    service: svc,
+    input: { StartTime: 0, EndTime: 0, NextToken: 0 },
+    output: {
+      PublicKeyList: D.list({
+        Value: D.blob,
+        ValidityStartTime: D.ts,
+        ValidityEndTime: D.ts,
+      }),
+    },
+  },
   errors: [
     InvalidTimeRangeException,
     InvalidTokenException,
@@ -5762,8 +3392,18 @@ export const listQueries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListQueriesRequest,
-  output: ListQueriesResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      EventDataStore: 0,
+      NextToken: 0,
+      MaxResults: 0,
+      StartTime: 0,
+      EndTime: 0,
+      QueryStatus: 0,
+    },
+    output: { Queries: D.list({ CreationTime: D.ts }) },
+  },
   errors: [
     EventDataStoreARNInvalidException,
     EventDataStoreNotFoundException,
@@ -5811,8 +3451,7 @@ export const listTags: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResourceTag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTagsRequest,
-  output: ListTagsResponse,
+  descriptor: { service: svc, input: { ResourceIdList: 0, NextToken: 0 } },
   errors: [
     ChannelARNInvalidException,
     CloudTrailARNInvalidException,
@@ -5851,8 +3490,7 @@ export const listTrails: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TrailInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTrailsRequest,
-  output: ListTrailsResponse,
+  descriptor: { service: svc, input: { NextToken: 0 } },
   errors: [OperationNotPermittedException, UnsupportedOperationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5920,8 +3558,18 @@ export const lookupEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Event
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: LookupEventsRequest,
-  output: LookupEventsResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      LookupAttributes: D.list({ AttributeKey: 0, AttributeValue: 0 }),
+      StartTime: 0,
+      EndTime: 0,
+      EventCategory: 0,
+      MaxResults: 0,
+      NextToken: 0,
+    },
+    output: { Events: D.list(o_Event) },
+  },
   errors: [
     InvalidEventCategoryException,
     InvalidLookupAttributesException,
@@ -5972,8 +3620,16 @@ export const putEventConfiguration: API.OperationMethod<
   PutEventConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutEventConfigurationRequest,
-  output: PutEventConfigurationResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      TrailName: 0,
+      EventDataStore: 0,
+      MaxEventSize: 0,
+      ContextKeySelectors: D.list({ Type: 0, Equals: 0 }),
+      AggregationConfigurations: D.list({ Templates: 0, EventCategory: 0 }),
+    },
+  },
   errors: [
     CloudTrailARNInvalidException,
     ConflictException,
@@ -5998,7 +3654,7 @@ export const putEventConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEventConfiguration",
-}));
+})) as any;
 
 export type PutEventSelectorsError =
   | CloudTrailARNInvalidException
@@ -6078,8 +3734,19 @@ export const putEventSelectors: API.OperationMethod<
   PutEventSelectorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutEventSelectorsRequest,
-  output: PutEventSelectorsResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      TrailName: 0,
+      EventSelectors: D.list({
+        ReadWriteType: 0,
+        IncludeManagementEvents: 0,
+        DataResources: D.list({ Type: 0, Values: 0 }),
+        ExcludeManagementEventSources: 0,
+      }),
+      AdvancedEventSelectors: D.list(i_AdvancedEventSelector),
+    },
+  },
   errors: [
     CloudTrailARNInvalidException,
     ConflictException,
@@ -6097,7 +3764,7 @@ export const putEventSelectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEventSelectors",
-}));
+})) as any;
 
 export type PutInsightSelectorsError =
   | CloudTrailARNInvalidException
@@ -6152,8 +3819,15 @@ export const putInsightSelectors: API.OperationMethod<
   PutInsightSelectorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutInsightSelectorsRequest,
-  output: PutInsightSelectorsResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      TrailName: 0,
+      InsightSelectors: D.list({ InsightType: 0, EventCategories: 0 }),
+      EventDataStore: 0,
+      InsightsDestination: 0,
+    },
+  },
   errors: [
     CloudTrailARNInvalidException,
     InsufficientEncryptionPolicyException,
@@ -6175,7 +3849,7 @@ export const putInsightSelectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInsightSelectors",
-}));
+})) as any;
 
 export type PutResourcePolicyError =
   | ConflictException
@@ -6197,8 +3871,7 @@ export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyRequest,
-  output: PutResourcePolicyResponse,
+  descriptor: { service: svc, input: { ResourceArn: 0, ResourcePolicy: 0 } },
   errors: [
     ConflictException,
     OperationNotPermittedException,
@@ -6211,7 +3884,7 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
-}));
+})) as any;
 
 export type RegisterOrganizationDelegatedAdminError =
   | AccountNotFoundException
@@ -6238,8 +3911,7 @@ export const registerOrganizationDelegatedAdmin: API.OperationMethod<
   RegisterOrganizationDelegatedAdminError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RegisterOrganizationDelegatedAdminRequest,
-  output: RegisterOrganizationDelegatedAdminResponse,
+  descriptor: { service: svc, input: { MemberAccountId: 0 } },
   errors: [
     AccountNotFoundException,
     AccountRegisteredException,
@@ -6259,7 +3931,7 @@ export const registerOrganizationDelegatedAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterOrganizationDelegatedAdmin",
-}));
+})) as any;
 
 export type RemoveTagsError =
   | ChannelARNInvalidException
@@ -6287,8 +3959,10 @@ export const removeTags: API.OperationMethod<
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveTagsRequest,
-  output: RemoveTagsResponse,
+  descriptor: {
+    service: svc,
+    input: { ResourceId: 0, TagsList: D.list(i_Tag) },
+  },
   errors: [
     ChannelARNInvalidException,
     ChannelNotFoundException,
@@ -6309,7 +3983,7 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
-}));
+})) as any;
 
 export type RestoreEventDataStoreError =
   | CloudTrailAccessNotEnabledException
@@ -6338,8 +4012,11 @@ export const restoreEventDataStore: API.OperationMethod<
   RestoreEventDataStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RestoreEventDataStoreRequest,
-  output: RestoreEventDataStoreResponse,
+  descriptor: {
+    service: svc,
+    input: { EventDataStore: 0 },
+    output: { CreatedTimestamp: D.ts, UpdatedTimestamp: D.ts },
+  },
   errors: [
     CloudTrailAccessNotEnabledException,
     EventDataStoreARNInvalidException,
@@ -6358,7 +4035,7 @@ export const restoreEventDataStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreEventDataStore",
-}));
+})) as any;
 
 export type SearchSampleQueriesError =
   | InvalidParameterException
@@ -6375,8 +4052,10 @@ export const searchSampleQueries: API.OperationMethod<
   SearchSampleQueriesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SearchSampleQueriesRequest,
-  output: SearchSampleQueriesResponse,
+  descriptor: {
+    service: svc,
+    input: { SearchPhrase: 0, MaxResults: 0, NextToken: 0 },
+  },
   errors: [
     InvalidParameterException,
     OperationNotPermittedException,
@@ -6385,7 +4064,7 @@ export const searchSampleQueries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchSampleQueries",
-}));
+})) as any;
 
 export type StartDashboardRefreshError =
   | EventDataStoreNotFoundException
@@ -6406,8 +4085,10 @@ export const startDashboardRefresh: API.OperationMethod<
   StartDashboardRefreshError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartDashboardRefreshRequest,
-  output: StartDashboardRefreshResponse,
+  descriptor: {
+    service: svc,
+    input: { DashboardId: 0, QueryParameterValues: 0 },
+  },
   errors: [
     EventDataStoreNotFoundException,
     InactiveEventDataStoreException,
@@ -6418,7 +4099,7 @@ export const startDashboardRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDashboardRefresh",
-}));
+})) as any;
 
 export type StartEventDataStoreIngestionError =
   | ConflictException
@@ -6443,8 +4124,7 @@ export const startEventDataStoreIngestion: API.OperationMethod<
   StartEventDataStoreIngestionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartEventDataStoreIngestionRequest,
-  output: StartEventDataStoreIngestionResponse,
+  descriptor: { service: svc, input: { EventDataStore: 0 } },
   errors: [
     ConflictException,
     EventDataStoreARNInvalidException,
@@ -6461,7 +4141,7 @@ export const startEventDataStoreIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEventDataStoreIngestion",
-}));
+})) as any;
 
 export type StartImportError =
   | AccountHasOngoingImportException
@@ -6503,8 +4183,24 @@ export const startImport: API.OperationMethod<
   StartImportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartImportRequest,
-  output: StartImportResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      Destinations: 0,
+      ImportSource: {
+        S3: { S3LocationUri: 0, S3BucketRegion: 0, S3BucketAccessRoleArn: 0 },
+      },
+      StartEventTime: 0,
+      EndEventTime: 0,
+      ImportId: 0,
+    },
+    output: {
+      StartEventTime: D.ts,
+      EndEventTime: D.ts,
+      CreatedTimestamp: D.ts,
+      UpdatedTimestamp: D.ts,
+    },
+  },
   errors: [
     AccountHasOngoingImportException,
     EventDataStoreARNInvalidException,
@@ -6522,7 +4218,7 @@ export const startImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImport",
-}));
+})) as any;
 
 export type StartLoggingError =
   | CloudTrailARNInvalidException
@@ -6549,8 +4245,7 @@ export const startLogging: API.OperationMethod<
   StartLoggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartLoggingRequest,
-  output: StartLoggingResponse,
+  descriptor: { service: svc, input: { Name: 0 } },
   errors: [
     CloudTrailARNInvalidException,
     ConflictException,
@@ -6567,7 +4262,7 @@ export const startLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartLogging",
-}));
+})) as any;
 
 export type StartQueryError =
   | EventDataStoreARNInvalidException
@@ -6600,8 +4295,16 @@ export const startQuery: API.OperationMethod<
   StartQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartQueryRequest,
-  output: StartQueryResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      QueryStatement: 0,
+      DeliveryS3Uri: 0,
+      QueryAlias: 0,
+      QueryParameters: 0,
+      EventDataStoreOwnerAccountId: 0,
+    },
+  },
   errors: [
     EventDataStoreARNInvalidException,
     EventDataStoreNotFoundException,
@@ -6621,7 +4324,7 @@ export const startQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQuery",
-}));
+})) as any;
 
 export type StopEventDataStoreIngestionError =
   | ConflictException
@@ -6646,8 +4349,7 @@ export const stopEventDataStoreIngestion: API.OperationMethod<
   StopEventDataStoreIngestionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopEventDataStoreIngestionRequest,
-  output: StopEventDataStoreIngestionResponse,
+  descriptor: { service: svc, input: { EventDataStore: 0 } },
   errors: [
     ConflictException,
     EventDataStoreARNInvalidException,
@@ -6664,7 +4366,7 @@ export const stopEventDataStoreIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEventDataStoreIngestion",
-}));
+})) as any;
 
 export type StopImportError =
   | ImportNotFoundException
@@ -6681,8 +4383,16 @@ export const stopImport: API.OperationMethod<
   StopImportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopImportRequest,
-  output: StopImportResponse,
+  descriptor: {
+    service: svc,
+    input: { ImportId: 0 },
+    output: {
+      CreatedTimestamp: D.ts,
+      UpdatedTimestamp: D.ts,
+      StartEventTime: D.ts,
+      EndEventTime: D.ts,
+    },
+  },
   errors: [
     ImportNotFoundException,
     InvalidParameterException,
@@ -6692,7 +4402,7 @@ export const stopImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopImport",
-}));
+})) as any;
 
 export type StopLoggingError =
   | CloudTrailARNInvalidException
@@ -6722,8 +4432,7 @@ export const stopLogging: API.OperationMethod<
   StopLoggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopLoggingRequest,
-  output: StopLoggingResponse,
+  descriptor: { service: svc, input: { Name: 0 } },
   errors: [
     CloudTrailARNInvalidException,
     ConflictException,
@@ -6740,7 +4449,7 @@ export const stopLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopLogging",
-}));
+})) as any;
 
 export type UpdateChannelError =
   | ChannelAlreadyExistsException
@@ -6763,8 +4472,10 @@ export const updateChannel: API.OperationMethod<
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateChannelRequest,
-  output: UpdateChannelResponse,
+  descriptor: {
+    service: svc,
+    input: { Channel: 0, Destinations: D.list(i_Destination), Name: 0 },
+  },
   errors: [
     ChannelAlreadyExistsException,
     ChannelARNInvalidException,
@@ -6780,7 +4491,7 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
-}));
+})) as any;
 
 export type UpdateDashboardError =
   | ConflictException
@@ -6808,8 +4519,16 @@ export const updateDashboard: API.OperationMethod<
   UpdateDashboardError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDashboardRequest,
-  output: UpdateDashboardResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      DashboardId: 0,
+      Widgets: D.list(i_RequestWidget),
+      RefreshSchedule: i_RefreshSchedule,
+      TerminationProtectionEnabled: 0,
+    },
+    output: { CreatedTimestamp: D.ts, UpdatedTimestamp: D.ts },
+  },
   errors: [
     ConflictException,
     EventDataStoreNotFoundException,
@@ -6823,7 +4542,7 @@ export const updateDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDashboard",
-}));
+})) as any;
 
 export type UpdateEventDataStoreError =
   | CloudTrailAccessNotEnabledException
@@ -6869,8 +4588,21 @@ export const updateEventDataStore: API.OperationMethod<
   UpdateEventDataStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateEventDataStoreRequest,
-  output: UpdateEventDataStoreResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      EventDataStore: 0,
+      Name: 0,
+      AdvancedEventSelectors: D.list(i_AdvancedEventSelector),
+      MultiRegionEnabled: 0,
+      OrganizationEnabled: 0,
+      RetentionPeriod: 0,
+      TerminationProtectionEnabled: 0,
+      KmsKeyId: 0,
+      BillingMode: 0,
+    },
+    output: { CreatedTimestamp: D.ts, UpdatedTimestamp: D.ts },
+  },
   errors: [
     CloudTrailAccessNotEnabledException,
     ConflictException,
@@ -6898,7 +4630,7 @@ export const updateEventDataStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventDataStore",
-}));
+})) as any;
 
 export type UpdateTrailError =
   | CloudTrailAccessNotEnabledException
@@ -6949,8 +4681,22 @@ export const updateTrail: API.OperationMethod<
   UpdateTrailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateTrailRequest,
-  output: UpdateTrailResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      Name: 0,
+      S3BucketName: 0,
+      S3KeyPrefix: 0,
+      SnsTopicName: 0,
+      IncludeGlobalServiceEvents: 0,
+      IsMultiRegionTrail: 0,
+      EnableLogFileValidation: 0,
+      CloudWatchLogsLogGroupArn: 0,
+      CloudWatchLogsRoleArn: 0,
+      KmsKeyId: 0,
+      IsOrganizationTrail: 0,
+    },
+  },
   errors: [
     CloudTrailAccessNotEnabledException,
     CloudTrailARNInvalidException,
@@ -6989,4 +4735,30 @@ export const updateTrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrail",
-}));
+})) as any;
+
+const i_AdvancedEventSelector: D.LazyStruct = () => ({
+  Name: 0,
+  FieldSelectors: D.list({
+    Field: 0,
+    Equals: 0,
+    StartsWith: 0,
+    EndsWith: 0,
+    NotEquals: 0,
+    NotStartsWith: 0,
+    NotEndsWith: 0,
+  }),
+});
+const i_Destination: D.LazyStruct = () => ({ Type: 0, Location: 0 });
+const i_RefreshSchedule: D.LazyStruct = () => ({
+  Frequency: { Unit: 0, Value: 0 },
+  Status: 0,
+  TimeOfDay: 0,
+});
+const i_RequestWidget: D.LazyStruct = () => ({
+  QueryStatement: 0,
+  QueryParameters: 0,
+  ViewProperties: 0,
+});
+const i_Tag: D.LazyStruct = () => ({ Key: 0, Value: 0 });
+const o_Event: D.LazyStruct = () => ({ EventTime: D.ts });

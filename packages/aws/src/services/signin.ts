@@ -1,391 +1,361 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({ sdkId: "Signin", serviceShapeName: "Signin" });
-const auth = T.AwsAuthSigv4({ name: "signin" });
-const ver = T.ServiceVersion("2023-01-01");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const {
-    UseDualStack = false,
-    UseFIPS = false,
-    Endpoint,
-    Region,
-    IsControlPlane,
-    IsOAuthEndpoint,
-  } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  const _p0 = (_0: unknown) => ({
-    authSchemes: [
-      { name: "sigv4", signingName: "signin", signingRegion: `${_0}` },
-    ],
-  });
-  {
-    const PartitionResult = _.partition(Region);
-    if (
-      IsControlPlane != null &&
-      IsControlPlane === true &&
-      Region != null &&
-      PartitionResult != null &&
-      PartitionResult !== false
-    ) {
-      if (_.getAttr(PartitionResult, "name") === "aws") {
-        return e(`https://signin.${Region}.api.aws`, _p0(Region), {});
-      }
-      if (_.getAttr(PartitionResult, "name") === "aws-cn") {
+const svc: T.ServiceInfo = {
+  sdkId: "Signin",
+  target: "Signin",
+  version: "2023-01-01",
+  sigv4: "signin",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const {
+      UseDualStack = false,
+      UseFIPS = false,
+      Endpoint,
+      Region,
+      IsControlPlane,
+      IsOAuthEndpoint,
+    } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    const _p0 = (_0: unknown) => ({
+      authSchemes: [
+        { name: "sigv4", signingName: "signin", signingRegion: `${_0}` },
+      ],
+    });
+    {
+      const PartitionResult = _.partition(Region);
+      if (
+        IsControlPlane != null &&
+        IsControlPlane === true &&
+        Region != null &&
+        PartitionResult != null &&
+        PartitionResult !== false
+      ) {
+        if (_.getAttr(PartitionResult, "name") === "aws") {
+          return e(`https://signin.${Region}.api.aws`, _p0(Region), {});
+        }
+        if (_.getAttr(PartitionResult, "name") === "aws-cn") {
+          return e(
+            `https://signin.${Region}.api.amazonwebservices.com.cn`,
+            _p0(Region),
+            {},
+          );
+        }
         return e(
-          `https://signin.${Region}.api.amazonwebservices.com.cn`,
+          `https://signin.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
           _p0(Region),
           {},
         );
       }
-      return e(
-        `https://signin.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-        _p0(Region),
-        {},
-      );
     }
-  }
-  if (IsOAuthEndpoint != null && IsOAuthEndpoint === true && UseFIPS === true) {
-    return err(
-      "FIPS endpoints are not supported for OAuth operations. Disable FIPS or use a non-OAuth operation.",
-    );
-  }
-  {
-    const PartitionResult = _.partition(Region);
     if (
       IsOAuthEndpoint != null &&
       IsOAuthEndpoint === true &&
-      Region != null &&
-      !(Endpoint != null) &&
-      PartitionResult != null &&
-      PartitionResult !== false &&
-      _.getAttr(PartitionResult, "name") === "aws"
+      UseFIPS === true
     ) {
-      return e(`https://${Region}.oauth.signin.aws`, _p0(Region), {});
+      return err(
+        "FIPS endpoints are not supported for OAuth operations. Disable FIPS or use a non-OAuth operation.",
+      );
     }
-  }
-  {
-    const PartitionResult = _.partition(Region);
-    if (
-      Region != null &&
-      !(Endpoint != null) &&
-      UseFIPS === false &&
-      UseDualStack === false &&
-      PartitionResult != null &&
-      PartitionResult !== false &&
-      _.getAttr(PartitionResult, "name") === "aws"
-    ) {
-      return e(`https://${Region}.signin.aws.amazon.com`);
+    {
+      const PartitionResult = _.partition(Region);
+      if (
+        IsOAuthEndpoint != null &&
+        IsOAuthEndpoint === true &&
+        Region != null &&
+        !(Endpoint != null) &&
+        PartitionResult != null &&
+        PartitionResult !== false &&
+        _.getAttr(PartitionResult, "name") === "aws"
+      ) {
+        return e(`https://${Region}.oauth.signin.aws`, _p0(Region), {});
+      }
     }
-  }
-  {
-    const PartitionResult = _.partition(Region);
-    if (
-      Region != null &&
-      !(Endpoint != null) &&
-      UseFIPS === false &&
-      UseDualStack === false &&
-      PartitionResult != null &&
-      PartitionResult !== false &&
-      _.getAttr(PartitionResult, "name") === "aws-cn"
-    ) {
-      return e(`https://${Region}.signin.amazonaws.cn`);
+    {
+      const PartitionResult = _.partition(Region);
+      if (
+        Region != null &&
+        !(Endpoint != null) &&
+        UseFIPS === false &&
+        UseDualStack === false &&
+        PartitionResult != null &&
+        PartitionResult !== false &&
+        _.getAttr(PartitionResult, "name") === "aws"
+      ) {
+        return e(`https://${Region}.signin.aws.amazon.com`);
+      }
     }
-  }
-  {
-    const PartitionResult = _.partition(Region);
-    if (
-      Region != null &&
-      !(Endpoint != null) &&
-      UseFIPS === false &&
-      UseDualStack === false &&
-      PartitionResult != null &&
-      PartitionResult !== false &&
-      _.getAttr(PartitionResult, "name") === "aws-us-gov"
-    ) {
-      return e(`https://${Region}.signin.amazonaws-us-gov.com`);
+    {
+      const PartitionResult = _.partition(Region);
+      if (
+        Region != null &&
+        !(Endpoint != null) &&
+        UseFIPS === false &&
+        UseDualStack === false &&
+        PartitionResult != null &&
+        PartitionResult !== false &&
+        _.getAttr(PartitionResult, "name") === "aws-cn"
+      ) {
+        return e(`https://${Region}.signin.amazonaws.cn`);
+      }
     }
-  }
-  {
-    const PartitionResult = _.partition(Region);
-    if (
-      Region != null &&
-      !(Endpoint != null) &&
-      UseFIPS === false &&
-      UseDualStack === false &&
-      PartitionResult != null &&
-      PartitionResult !== false &&
-      _.getAttr(PartitionResult, "name") === "aws-iso"
-    ) {
-      return e(`https://${Region}.signin.c2shome.ic.gov`);
+    {
+      const PartitionResult = _.partition(Region);
+      if (
+        Region != null &&
+        !(Endpoint != null) &&
+        UseFIPS === false &&
+        UseDualStack === false &&
+        PartitionResult != null &&
+        PartitionResult !== false &&
+        _.getAttr(PartitionResult, "name") === "aws-us-gov"
+      ) {
+        return e(`https://${Region}.signin.amazonaws-us-gov.com`);
+      }
     }
-  }
-  {
-    const PartitionResult = _.partition(Region);
-    if (
-      Region != null &&
-      !(Endpoint != null) &&
-      UseFIPS === false &&
-      UseDualStack === false &&
-      PartitionResult != null &&
-      PartitionResult !== false &&
-      _.getAttr(PartitionResult, "name") === "aws-iso-b"
-    ) {
-      return e(`https://${Region}.signin.sc2shome.sgov.gov`);
+    {
+      const PartitionResult = _.partition(Region);
+      if (
+        Region != null &&
+        !(Endpoint != null) &&
+        UseFIPS === false &&
+        UseDualStack === false &&
+        PartitionResult != null &&
+        PartitionResult !== false &&
+        _.getAttr(PartitionResult, "name") === "aws-iso"
+      ) {
+        return e(`https://${Region}.signin.c2shome.ic.gov`);
+      }
     }
-  }
-  {
-    const PartitionResult = _.partition(Region);
-    if (
-      Region != null &&
-      !(Endpoint != null) &&
-      UseFIPS === false &&
-      UseDualStack === false &&
-      PartitionResult != null &&
-      PartitionResult !== false &&
-      _.getAttr(PartitionResult, "name") === "aws-iso-f"
-    ) {
-      return e(`https://${Region}.signin.csphome.hci.ic.gov`);
+    {
+      const PartitionResult = _.partition(Region);
+      if (
+        Region != null &&
+        !(Endpoint != null) &&
+        UseFIPS === false &&
+        UseDualStack === false &&
+        PartitionResult != null &&
+        PartitionResult !== false &&
+        _.getAttr(PartitionResult, "name") === "aws-iso-b"
+      ) {
+        return e(`https://${Region}.signin.sc2shome.sgov.gov`);
+      }
     }
-  }
-  {
-    const PartitionResult = _.partition(Region);
-    if (
-      Region != null &&
-      !(Endpoint != null) &&
-      UseFIPS === false &&
-      UseDualStack === false &&
-      PartitionResult != null &&
-      PartitionResult !== false &&
-      _.getAttr(PartitionResult, "name") === "aws-iso-e"
-    ) {
-      return e(`https://${Region}.signin.csphome.adc-e.uk`);
+    {
+      const PartitionResult = _.partition(Region);
+      if (
+        Region != null &&
+        !(Endpoint != null) &&
+        UseFIPS === false &&
+        UseDualStack === false &&
+        PartitionResult != null &&
+        PartitionResult !== false &&
+        _.getAttr(PartitionResult, "name") === "aws-iso-f"
+      ) {
+        return e(`https://${Region}.signin.csphome.hci.ic.gov`);
+      }
     }
-  }
-  {
-    const PartitionResult = _.partition(Region);
-    if (
-      Region != null &&
-      !(Endpoint != null) &&
-      UseFIPS === false &&
-      UseDualStack === false &&
-      PartitionResult != null &&
-      PartitionResult !== false &&
-      _.getAttr(PartitionResult, "name") === "aws-eusc"
-    ) {
-      return e(`https://${Region}.signin.amazonaws-eusc.eu`);
+    {
+      const PartitionResult = _.partition(Region);
+      if (
+        Region != null &&
+        !(Endpoint != null) &&
+        UseFIPS === false &&
+        UseDualStack === false &&
+        PartitionResult != null &&
+        PartitionResult !== false &&
+        _.getAttr(PartitionResult, "name") === "aws-iso-e"
+      ) {
+        return e(`https://${Region}.signin.csphome.adc-e.uk`);
+      }
     }
-  }
-  if (
-    Region != null &&
-    !(Endpoint != null) &&
-    UseFIPS === true &&
-    UseDualStack === false &&
-    Region === "us-gov-west-1"
-  ) {
-    return e("https://signin-fips.amazonaws-us-gov.com");
-  }
-  {
-    const PartitionResult = _.partition(Region);
+    {
+      const PartitionResult = _.partition(Region);
+      if (
+        Region != null &&
+        !(Endpoint != null) &&
+        UseFIPS === false &&
+        UseDualStack === false &&
+        PartitionResult != null &&
+        PartitionResult !== false &&
+        _.getAttr(PartitionResult, "name") === "aws-eusc"
+      ) {
+        return e(`https://${Region}.signin.amazonaws-eusc.eu`);
+      }
+    }
     if (
       Region != null &&
       !(Endpoint != null) &&
       UseFIPS === true &&
       UseDualStack === false &&
-      PartitionResult != null &&
-      PartitionResult !== false &&
-      _.getAttr(PartitionResult, "name") === "aws-us-gov"
+      Region === "us-gov-west-1"
     ) {
-      return e(`https://${Region}.signin-fips.amazonaws-us-gov.com`);
+      return e("https://signin-fips.amazonaws-us-gov.com");
     }
-  }
-  {
-    const PartitionResult = _.partition(Region);
-    if (
-      Region != null &&
-      !(Endpoint != null) &&
-      UseFIPS === false &&
-      UseDualStack === false &&
-      PartitionResult != null &&
-      PartitionResult !== false
-    ) {
-      return e(
-        `https://${Region}.signin.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-      );
-    }
-  }
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
     {
       const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e(`https://${Region}.signin.aws.amazon.com`);
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-cn" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e(`https://${Region}.signin.amazonaws.cn`);
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e(`https://${Region}.signin.amazonaws-us-gov.com`);
-        }
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://signin-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true && UseDualStack === false) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://signin-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseFIPS === false && UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://signin.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
+      if (
+        Region != null &&
+        !(Endpoint != null) &&
+        UseFIPS === true &&
+        UseDualStack === false &&
+        PartitionResult != null &&
+        PartitionResult !== false &&
+        _.getAttr(PartitionResult, "name") === "aws-us-gov"
+      ) {
+        return e(`https://${Region}.signin-fips.amazonaws-us-gov.com`);
+      }
+    }
+    {
+      const PartitionResult = _.partition(Region);
+      if (
+        Region != null &&
+        !(Endpoint != null) &&
+        UseFIPS === false &&
+        UseDualStack === false &&
+        PartitionResult != null &&
+        PartitionResult !== false
+      ) {
         return e(
-          `https://signin.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          `https://${Region}.signin.${_.getAttr(PartitionResult, "dnsSuffix")}`,
         );
       }
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
+        );
+      }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
+    }
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e(`https://${Region}.signin.aws.amazon.com`);
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-cn" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e(`https://${Region}.signin.amazonaws.cn`);
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e(`https://${Region}.signin.amazonaws-us-gov.com`);
+          }
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://signin-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true && UseDualStack === false) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://signin-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseFIPS === false && UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://signin.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://signin.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    {
-      error: S.suspend(() => OAuth2ErrorCode).annotate({
-        identifier: "OAuth2ErrorCode",
-      }),
-      message: S.String.pipe(T.ErrorMessage()),
-    },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"])<{
+    readonly error: OAuth2ErrorCode;
+    readonly message: string;
+  }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    {
-      error: S.suspend(() => OAuth2ErrorCode).annotate({
-        identifier: "OAuth2ErrorCode",
-      }),
-      message: S.String.pipe(T.ErrorMessage()),
-    },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly error: OAuth2ErrorCode; readonly message: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    {
-      error: S.suspend(() => OAuth2ErrorCode).annotate({
-        identifier: "OAuth2ErrorCode",
-      }),
-      message: S.String.pipe(T.ErrorMessage()),
-    },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly error: OAuth2ErrorCode; readonly message: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    {
-      error: S.suspend(() => OAuth2ErrorCode).annotate({
-        identifier: "OAuth2ErrorCode",
-      }),
-      message: S.String.pipe(T.ErrorMessage()),
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly error: OAuth2ErrorCode; readonly message: string }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    {
-      error: S.suspend(() => OAuth2ErrorCode).annotate({
-        identifier: "OAuth2ErrorCode",
-      }),
-      message: S.String.pipe(T.ErrorMessage()),
-    },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly error: OAuth2ErrorCode; readonly message: string }> {}
 export class TooManyRequestsError
-  extends /*@__PURE__*/ S.TaggedError<TooManyRequestsError>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyRequestsError",
-    {
-      error: S.suspend(() => OAuth2ErrorCode).annotate({
-        identifier: "OAuth2ErrorCode",
-      }),
-      message: S.String.pipe(T.ErrorMessage()),
-    },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly error: OAuth2ErrorCode; readonly message: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    {
-      error: S.suspend(() => OAuth2ErrorCode).annotate({
-        identifier: "OAuth2ErrorCode",
-      }),
-      message: S.String.pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly error: OAuth2ErrorCode; readonly message: string }> {}
 export type ClientId = string;
 export type GrantType = string;
 export type AuthorizationCode = string;
@@ -400,52 +370,14 @@ export interface CreateOAuth2TokenRequestBody {
   codeVerifier?: string;
   refreshToken?: string | redacted.Redacted<string>;
 }
-export const CreateOAuth2TokenRequestBody = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientId: S.String,
-    grantType: S.String,
-    code: S.optional(S.String),
-    redirectUri: S.optional(S.String),
-    codeVerifier: S.optional(S.String),
-    refreshToken: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "CreateOAuth2TokenRequestBody",
-}) as any as S.Schema<CreateOAuth2TokenRequestBody>;
 export interface CreateOAuth2TokenRequest {
   tokenInput: CreateOAuth2TokenRequestBody;
 }
-export const CreateOAuth2TokenRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tokenInput: CreateOAuth2TokenRequestBody.pipe(T.HttpPayload()).annotate({
-      identifier: "CreateOAuth2TokenRequestBody",
-    }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/token" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ IsControlPlane: { value: false } }),
-    ),
-  ),
-).annotate({
-  identifier: "CreateOAuth2TokenRequest",
-}) as any as S.Schema<CreateOAuth2TokenRequest>;
 export interface AccessToken {
   accessKeyId: string;
   secretAccessKey: string;
   sessionToken: string;
 }
-export const AccessToken = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessKeyId: S.String,
-    secretAccessKey: S.String,
-    sessionToken: S.String,
-  }),
-).annotate({ identifier: "AccessToken" }) as any as S.Schema<AccessToken>;
 export type TokenType = string;
 export type ExpiresIn = number;
 export type IdToken = string;
@@ -456,54 +388,14 @@ export interface CreateOAuth2TokenResponseBody {
   refreshToken: string | redacted.Redacted<string>;
   idToken?: string;
 }
-export const CreateOAuth2TokenResponseBody = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessToken: AccessToken,
-    tokenType: S.String,
-    expiresIn: S.Number,
-    refreshToken: SensitiveString,
-    idToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateOAuth2TokenResponseBody",
-}) as any as S.Schema<CreateOAuth2TokenResponseBody>;
 export interface CreateOAuth2TokenResponse {
   tokenOutput: CreateOAuth2TokenResponseBody;
 }
-export const CreateOAuth2TokenResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tokenOutput: CreateOAuth2TokenResponseBody.pipe(T.HttpPayload()).annotate({
-      identifier: "CreateOAuth2TokenResponseBody",
-    }),
-  }),
-).annotate({
-  identifier: "CreateOAuth2TokenResponse",
-}) as any as S.Schema<CreateOAuth2TokenResponse>;
 export type ClientCredentialsGrantType = string;
 export interface CreateOAuth2TokenWithIAMRequest {
   grantType: string;
   resource: string;
 }
-export const CreateOAuth2TokenWithIAMRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ grantType: S.String, resource: S.String })
-    .pipe(S.encodeKeys({ grantType: "grant_type" }))
-    .pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/v1/token?x-amz-client-auth-method=iam",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ IsOAuthEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "CreateOAuth2TokenWithIAMRequest",
-}) as any as S.Schema<CreateOAuth2TokenWithIAMRequest>;
 export type OAuthAccessToken = string | redacted.Redacted<string>;
 export type BearerTokenType = string;
 export type TokenExpiresIn = number;
@@ -512,168 +404,39 @@ export interface CreateOAuth2TokenWithIAMResponse {
   tokenType: string;
   expiresIn: number;
 }
-export const CreateOAuth2TokenWithIAMResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessToken: SensitiveString,
-    tokenType: S.String,
-    expiresIn: S.Number,
-  }).pipe(
-    S.encodeKeys({
-      accessToken: "access_token",
-      tokenType: "token_type",
-      expiresIn: "expires_in",
-    }),
-  ),
-).annotate({
-  identifier: "CreateOAuth2TokenWithIAMResponse",
-}) as any as S.Schema<CreateOAuth2TokenWithIAMResponse>;
 export type TargetId = string;
 export interface DeleteConsoleAuthorizationConfigurationInput {
   targetId?: string;
 }
-export const DeleteConsoleAuthorizationConfigurationInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ targetId: S.optional(S.String) }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/delete-console-authorization-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ IsControlPlane: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteConsoleAuthorizationConfigurationInput",
-  }) as any as S.Schema<DeleteConsoleAuthorizationConfigurationInput>;
 export interface DeleteConsoleAuthorizationConfigurationOutput {
   targetId: string;
   scope: string;
   consoleAuthorizationEnabled: boolean;
 }
-export const DeleteConsoleAuthorizationConfigurationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      targetId: S.String,
-      scope: S.String,
-      consoleAuthorizationEnabled: S.Boolean,
-    }),
-  ).annotate({
-    identifier: "DeleteConsoleAuthorizationConfigurationOutput",
-  }) as any as S.Schema<DeleteConsoleAuthorizationConfigurationOutput>;
 export type StatementId = string;
 export type ClientToken = string;
 export interface DeleteResourcePermissionStatementInput {
   statementId: string;
   clientToken?: string;
 }
-export const DeleteResourcePermissionStatementInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      statementId: S.String,
-      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/delete-resource-permission-statement",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ IsControlPlane: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "DeleteResourcePermissionStatementInput",
-}) as any as S.Schema<DeleteResourcePermissionStatementInput>;
 export interface DeleteResourcePermissionStatementOutput {}
-export const DeleteResourcePermissionStatementOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "DeleteResourcePermissionStatementOutput",
-}) as any as S.Schema<DeleteResourcePermissionStatementOutput>;
 export interface GetConsoleAuthorizationConfigurationInput {
   targetId?: string;
 }
-export const GetConsoleAuthorizationConfigurationInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ targetId: S.optional(S.String) }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/get-console-authorization-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ IsControlPlane: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "GetConsoleAuthorizationConfigurationInput",
-  }) as any as S.Schema<GetConsoleAuthorizationConfigurationInput>;
 export interface GetConsoleAuthorizationConfigurationOutput {
   targetId: string;
   scope: string;
   consoleAuthorizationEnabled: boolean;
 }
-export const GetConsoleAuthorizationConfigurationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      targetId: S.String,
-      scope: S.String,
-      consoleAuthorizationEnabled: S.Boolean,
-    }),
-  ).annotate({
-    identifier: "GetConsoleAuthorizationConfigurationOutput",
-  }) as any as S.Schema<GetConsoleAuthorizationConfigurationOutput>;
 export interface GetResourcePolicyInput {}
-export const GetResourcePolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/get-resource-policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ IsControlPlane: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetResourcePolicyInput",
-}) as any as S.Schema<GetResourcePolicyInput>;
 export type Principal = { [key: string]: string | undefined };
-export const Principal = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type PolicyActions = string[];
-export const PolicyActions = /*@__PURE__*/ S.Array(S.String);
 export type ConditionType = string;
 export type ConditionValues = string[];
-export const ConditionValues = /*@__PURE__*/ S.Array(S.String);
 export type Condition = { [key: string]: string[] | undefined };
-export const Condition = /*@__PURE__*/ S.Record(
-  S.String,
-  ConditionValues.pipe(S.optional),
-);
 export type ConditionBlock = {
   [key: string]: { [key: string]: string[] | undefined } | undefined;
 };
-export const ConditionBlock = /*@__PURE__*/ S.Record(
-  S.String,
-  Condition.pipe(S.optional),
-);
 export interface PolicyStatement {
   effect?: string;
   principal?: { [key: string]: string | undefined };
@@ -683,73 +446,20 @@ export interface PolicyStatement {
     [key: string]: { [key: string]: string[] | undefined } | undefined;
   };
 }
-export const PolicyStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    effect: S.optional(S.String),
-    principal: S.optional(Principal),
-    action: S.optional(PolicyActions),
-    resource: S.optional(S.String),
-    condition: S.optional(ConditionBlock),
-  }).pipe(
-    S.encodeKeys({
-      effect: "Effect",
-      principal: "Principal",
-      action: "Action",
-      resource: "Resource",
-      condition: "Condition",
-    }),
-  ),
-).annotate({
-  identifier: "PolicyStatement",
-}) as any as S.Schema<PolicyStatement>;
 export type PolicyStatements = PolicyStatement[];
-export const PolicyStatements = /*@__PURE__*/ S.Array(PolicyStatement);
 export interface SigninResourceBasedPolicy {
   version?: string;
   statement?: PolicyStatement[];
 }
-export const SigninResourceBasedPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    version: S.optional(S.String),
-    statement: S.optional(PolicyStatements),
-  }).pipe(S.encodeKeys({ version: "Version", statement: "Statement" })),
-).annotate({
-  identifier: "SigninResourceBasedPolicy",
-}) as any as S.Schema<SigninResourceBasedPolicy>;
 export interface GetResourcePolicyOutput {
   signinResourceBasedPolicy: SigninResourceBasedPolicy;
 }
-export const GetResourcePolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ signinResourceBasedPolicy: SigninResourceBasedPolicy }),
-).annotate({
-  identifier: "GetResourcePolicyOutput",
-}) as any as S.Schema<GetResourcePolicyOutput>;
 export type IntrospectionToken = string | redacted.Redacted<string>;
 export type TokenTypeHint = string;
 export interface IntrospectOAuth2TokenWithIAMRequest {
   token: string | redacted.Redacted<string>;
   tokenTypeHint?: string;
 }
-export const IntrospectOAuth2TokenWithIAMRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ token: SensitiveString, tokenTypeHint: S.optional(S.String) })
-    .pipe(S.encodeKeys({ tokenTypeHint: "token_type_hint" }))
-    .pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/v1/introspect?x-amz-client-auth-method=iam",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ IsOAuthEndpoint: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "IntrospectOAuth2TokenWithIAMRequest",
-}) as any as S.Schema<IntrospectOAuth2TokenWithIAMRequest>;
 export type IntrospectedTokenType = string;
 export type AccountId = string;
 export interface IntrospectOAuth2TokenWithIAMResponse {
@@ -768,125 +478,31 @@ export interface IntrospectOAuth2TokenWithIAMResponse {
   signinSession?: string;
   resource?: string;
 }
-export const IntrospectOAuth2TokenWithIAMResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      active: S.Boolean,
-      clientId: S.optional(S.String),
-      userId: S.optional(S.String),
-      tokenType: S.optional(S.String),
-      exp: S.optional(S.Number),
-      iat: S.optional(S.Number),
-      nbf: S.optional(S.Number),
-      sub: S.optional(S.String),
-      aud: S.optional(S.String),
-      iss: S.optional(S.String),
-      jti: S.optional(S.String),
-      accountId: S.optional(S.String),
-      signinSession: S.optional(S.String),
-      resource: S.optional(S.String),
-    }).pipe(
-      S.encodeKeys({
-        clientId: "client_id",
-        userId: "user_id",
-        tokenType: "token_type",
-        accountId: "account_id",
-        signinSession: "signin_session",
-      }),
-    ),
-).annotate({
-  identifier: "IntrospectOAuth2TokenWithIAMResponse",
-}) as any as S.Schema<IntrospectOAuth2TokenWithIAMResponse>;
 export type ConsolePermissionMaxResults = number;
 export type NextToken = string;
 export interface ListResourcePermissionStatementsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListResourcePermissionStatementsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      maxResults: S.optional(S.Number),
-      nextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/list-resource-permission-statements" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ IsControlPlane: { value: true } }),
-      ),
-    ),
-).annotate({
-  identifier: "ListResourcePermissionStatementsInput",
-}) as any as S.Schema<ListResourcePermissionStatementsInput>;
 export interface PermissionStatementSummary {
   sid: string;
   condition?: {
     [key: string]: { [key: string]: string[] | undefined } | undefined;
   };
 }
-export const PermissionStatementSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sid: S.String, condition: S.optional(ConditionBlock) }),
-).annotate({
-  identifier: "PermissionStatementSummary",
-}) as any as S.Schema<PermissionStatementSummary>;
 export type PermissionStatementSummaries = PermissionStatementSummary[];
-export const PermissionStatementSummaries = /*@__PURE__*/ S.Array(
-  PermissionStatementSummary,
-);
 export interface ListResourcePermissionStatementsOutput {
   permissionStatements: PermissionStatementSummary[];
   nextToken?: string;
 }
-export const ListResourcePermissionStatementsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      permissionStatements: PermissionStatementSummaries,
-      nextToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "ListResourcePermissionStatementsOutput",
-}) as any as S.Schema<ListResourcePermissionStatementsOutput>;
 export interface PutConsoleAuthorizationConfigurationInput {
   targetId?: string;
 }
-export const PutConsoleAuthorizationConfigurationInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ targetId: S.optional(S.String) }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/put-console-authorization-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ IsControlPlane: { value: true } }),
-      ),
-    ),
-  ).annotate({
-    identifier: "PutConsoleAuthorizationConfigurationInput",
-  }) as any as S.Schema<PutConsoleAuthorizationConfigurationInput>;
 export interface PutConsoleAuthorizationConfigurationOutput {
   targetId: string;
   scope: string;
   consoleAuthorizationEnabled: boolean;
 }
-export const PutConsoleAuthorizationConfigurationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      targetId: S.String,
-      scope: S.String,
-      consoleAuthorizationEnabled: S.Boolean,
-    }),
-  ).annotate({
-    identifier: "PutConsoleAuthorizationConfigurationOutput",
-  }) as any as S.Schema<PutConsoleAuthorizationConfigurationOutput>;
 export type SourceVpc = string;
 export type SourceVpce = string;
 export type VpcSourceIp = string;
@@ -903,66 +519,14 @@ export interface PutResourcePermissionStatementInput {
   excludedPrincipal?: string;
   clientToken?: string;
 }
-export const PutResourcePermissionStatementInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceVpc: S.optional(S.String),
-    signinSourceVpce: S.optional(S.String),
-    consoleSourceVpce: S.optional(S.String),
-    vpcSourceIp: S.optional(S.String),
-    sourceIp: S.optional(S.String),
-    requestedRegion: S.optional(S.String),
-    excludedPrincipal: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/put-resource-permission-statement" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ IsControlPlane: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "PutResourcePermissionStatementInput",
-}) as any as S.Schema<PutResourcePermissionStatementInput>;
 export interface PutResourcePermissionStatementOutput {
   statementId: string;
 }
-export const PutResourcePermissionStatementOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ statementId: S.String }),
-).annotate({
-  identifier: "PutResourcePermissionStatementOutput",
-}) as any as S.Schema<PutResourcePermissionStatementOutput>;
 export type RevocationToken = string | redacted.Redacted<string>;
 export interface RevokeOAuth2TokenWithIAMRequest {
   token: string | redacted.Redacted<string>;
 }
-export const RevokeOAuth2TokenWithIAMRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ token: SensitiveString }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v1/revoke?x-amz-client-auth-method=iam",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ IsOAuthEndpoint: { value: true } }),
-    ),
-  ),
-).annotate({
-  identifier: "RevokeOAuth2TokenWithIAMRequest",
-}) as any as S.Schema<RevokeOAuth2TokenWithIAMRequest>;
 export interface RevokeOAuth2TokenWithIAMResponse {}
-export const RevokeOAuth2TokenWithIAMResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "RevokeOAuth2TokenWithIAMResponse",
-}) as any as S.Schema<RevokeOAuth2TokenWithIAMResponse>;
 export type OAuth2ErrorCode =
   | "TOKEN_EXPIRED"
   | "USER_CREDENTIALS_CHANGED"
@@ -974,8 +538,6 @@ export type OAuth2ErrorCode =
   | "CONFLICT"
   | "SERVICE_QUOTA_EXCEEDED"
   | (string & {});
-export const OAuth2ErrorCode = S.String;
-
 export type CreateOAuth2TokenError =
   | AccessDeniedException
   | InternalServerException
@@ -1018,8 +580,27 @@ export const createOAuth2Token: API.OperationMethod<
   CreateOAuth2TokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateOAuth2TokenRequest,
-  output: CreateOAuth2TokenResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/token",
+    input: {
+      tokenInput: D.m({
+        payload: true,
+        shape: {
+          clientId: 0,
+          grantType: 0,
+          code: 0,
+          redirectUri: 0,
+          codeVerifier: 0,
+          refreshToken: 0,
+        },
+      }),
+    },
+    output: {
+      tokenOutput: D.m({ payload: true, shape: { refreshToken: D.secret } }),
+    },
+    staticContext: { IsControlPlane: { value: false } },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1029,7 +610,7 @@ export const createOAuth2Token: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOAuth2Token",
-}));
+})) as any;
 
 export type CreateOAuth2TokenWithIAMError =
   | AccessDeniedException
@@ -1047,8 +628,18 @@ export const createOAuth2TokenWithIAM: API.OperationMethod<
   CreateOAuth2TokenWithIAMError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateOAuth2TokenWithIAMRequest,
-  output: CreateOAuth2TokenWithIAMResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/token?x-amz-client-auth-method=iam",
+    input: { grantType: D.m({ wire: "grant_type" }), resource: 0 },
+    output: {
+      accessToken: D.m({ wire: "access_token", shape: D.secret }),
+      tokenType: D.m({ wire: "token_type" }),
+      expiresIn: D.m({ wire: "expires_in" }),
+    },
+    staticContext: { IsOAuthEndpoint: { value: true } },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1058,7 +649,7 @@ export const createOAuth2TokenWithIAM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOAuth2TokenWithIAM",
-}));
+})) as any;
 
 export type DeleteConsoleAuthorizationConfigurationError =
   | AccessDeniedException
@@ -1076,8 +667,13 @@ export const deleteConsoleAuthorizationConfiguration: API.OperationMethod<
   DeleteConsoleAuthorizationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteConsoleAuthorizationConfigurationInput,
-  output: DeleteConsoleAuthorizationConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /delete-console-authorization-configuration",
+    input: { targetId: 0 },
+    staticContext: { IsControlPlane: { value: true } },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1088,7 +684,7 @@ export const deleteConsoleAuthorizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConsoleAuthorizationConfiguration",
-}));
+})) as any;
 
 export type DeleteResourcePermissionStatementError =
   | AccessDeniedException
@@ -1106,8 +702,13 @@ export const deleteResourcePermissionStatement: API.OperationMethod<
   DeleteResourcePermissionStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResourcePermissionStatementInput,
-  output: DeleteResourcePermissionStatementOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /delete-resource-permission-statement",
+    input: { statementId: 0, clientToken: D.m({ idempotency: true }) },
+    staticContext: { IsControlPlane: { value: true } },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1118,7 +719,7 @@ export const deleteResourcePermissionStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePermissionStatement",
-}));
+})) as any;
 
 export type GetConsoleAuthorizationConfigurationError =
   | AccessDeniedException
@@ -1136,8 +737,13 @@ export const getConsoleAuthorizationConfiguration: API.OperationMethod<
   GetConsoleAuthorizationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetConsoleAuthorizationConfigurationInput,
-  output: GetConsoleAuthorizationConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /get-console-authorization-configuration",
+    input: { targetId: 0 },
+    staticContext: { IsControlPlane: { value: true } },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1148,7 +754,7 @@ export const getConsoleAuthorizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConsoleAuthorizationConfiguration",
-}));
+})) as any;
 
 export type GetResourcePolicyError =
   | AccessDeniedException
@@ -1165,8 +771,27 @@ export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyInput,
-  output: GetResourcePolicyOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /get-resource-policy",
+    input: {},
+    output: {
+      signinResourceBasedPolicy: {
+        version: D.m({ wire: "Version" }),
+        statement: D.m({
+          wire: "Statement",
+          shape: D.list({
+            effect: D.m({ wire: "Effect" }),
+            principal: D.m({ wire: "Principal" }),
+            action: D.m({ wire: "Action" }),
+            resource: D.m({ wire: "Resource" }),
+            condition: D.m({ wire: "Condition" }),
+          }),
+        }),
+      },
+    },
+    staticContext: { IsControlPlane: { value: true } },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1176,7 +801,7 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-}));
+})) as any;
 
 export type IntrospectOAuth2TokenWithIAMError =
   | AccessDeniedException
@@ -1203,8 +828,20 @@ export const introspectOAuth2TokenWithIAM: API.OperationMethod<
   IntrospectOAuth2TokenWithIAMError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: IntrospectOAuth2TokenWithIAMRequest,
-  output: IntrospectOAuth2TokenWithIAMResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/introspect?x-amz-client-auth-method=iam",
+    input: { token: 0, tokenTypeHint: D.m({ wire: "token_type_hint" }) },
+    output: {
+      clientId: D.m({ wire: "client_id" }),
+      userId: D.m({ wire: "user_id" }),
+      tokenType: D.m({ wire: "token_type" }),
+      accountId: D.m({ wire: "account_id" }),
+      signinSession: D.m({ wire: "signin_session" }),
+    },
+    staticContext: { IsOAuthEndpoint: { value: true } },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1214,7 +851,7 @@ export const introspectOAuth2TokenWithIAM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IntrospectOAuth2TokenWithIAM",
-}));
+})) as any;
 
 export type ListResourcePermissionStatementsError =
   | AccessDeniedException
@@ -1233,8 +870,13 @@ export const listResourcePermissionStatements: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PermissionStatementSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListResourcePermissionStatementsInput,
-  output: ListResourcePermissionStatementsOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /list-resource-permission-statements",
+    input: { maxResults: 0, nextToken: 0 },
+    staticContext: { IsControlPlane: { value: true } },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1270,8 +912,13 @@ export const putConsoleAuthorizationConfiguration: API.OperationMethod<
   PutConsoleAuthorizationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutConsoleAuthorizationConfigurationInput,
-  output: PutConsoleAuthorizationConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /put-console-authorization-configuration",
+    input: { targetId: 0 },
+    staticContext: { IsControlPlane: { value: true } },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1283,7 +930,7 @@ export const putConsoleAuthorizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConsoleAuthorizationConfiguration",
-}));
+})) as any;
 
 export type PutResourcePermissionStatementError =
   | AccessDeniedException
@@ -1302,8 +949,22 @@ export const putResourcePermissionStatement: API.OperationMethod<
   PutResourcePermissionStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutResourcePermissionStatementInput,
-  output: PutResourcePermissionStatementOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /put-resource-permission-statement",
+    input: {
+      sourceVpc: 0,
+      signinSourceVpce: 0,
+      consoleSourceVpce: 0,
+      vpcSourceIp: 0,
+      sourceIp: 0,
+      requestedRegion: 0,
+      excludedPrincipal: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    staticContext: { IsControlPlane: { value: true } },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1315,7 +976,7 @@ export const putResourcePermissionStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePermissionStatement",
-}));
+})) as any;
 
 export type RevokeOAuth2TokenWithIAMError =
   | AccessDeniedException
@@ -1338,8 +999,13 @@ export const revokeOAuth2TokenWithIAM: API.OperationMethod<
   RevokeOAuth2TokenWithIAMError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RevokeOAuth2TokenWithIAMRequest,
-  output: RevokeOAuth2TokenWithIAMResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/revoke?x-amz-client-auth-method=iam",
+    input: { token: 0 },
+    staticContext: { IsOAuthEndpoint: { value: true } },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1349,4 +1015,4 @@ export const revokeOAuth2TokenWithIAM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeOAuth2TokenWithIAM",
-}));
+})) as any;

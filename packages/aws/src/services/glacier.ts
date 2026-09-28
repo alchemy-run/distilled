@@ -1,283 +1,203 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const ns = T.XmlNamespace("http://glacier.amazonaws.com/doc/2012-06-01/");
-const svc = T.AwsApiService({ sdkId: "Glacier", serviceShapeName: "Glacier" });
-const auth = T.AwsAuthSigv4({ name: "glacier" });
-const ver = T.ServiceVersion("2012-06-01");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://glacier-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
-              return e(`https://glacier.${Region}.amazonaws.com`);
-            }
-            return e(
-              `https://glacier-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://glacier.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://glacier.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+const svc: T.ServiceInfo = {
+  sdkId: "Glacier",
+  target: "Glacier",
+  version: "2012-06-01",
+  sigv4: "glacier",
+  protocol: restJson1Protocol,
+  xmlns: "http://glacier.amazonaws.com/doc/2012-06-01/",
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://glacier-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
+                return e(`https://glacier.${Region}.amazonaws.com`);
+              }
+              return e(
+                `https://glacier-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://glacier.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://glacier.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class InsufficientCapacityException
-  extends /*@__PURE__*/ S.TaggedError<InsufficientCapacityException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InsufficientCapacityException",
-    {
-      type: S.optional(S.String),
-      code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly type?: string;
+    readonly code?: string;
+    readonly message?: string;
+  }> {}
 export class InvalidParameterValueException
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterValueException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidParameterValueException",
-    {
-      type: S.optional(S.String),
-      code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly type?: string;
+    readonly code?: string;
+    readonly message?: string;
+  }> {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "LimitExceededException",
-    {
-      type: S.optional(S.String),
-      code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly type?: string;
+    readonly code?: string;
+    readonly message?: string;
+  }> {}
 export class MissingParameterValueException
-  extends /*@__PURE__*/ S.TaggedError<MissingParameterValueException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MissingParameterValueException",
-    {
-      type: S.optional(S.String),
-      code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly type?: string;
+    readonly code?: string;
+    readonly message?: string;
+  }> {}
 export class NoLongerSupportedException
-  extends /*@__PURE__*/ S.TaggedError<NoLongerSupportedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoLongerSupportedException",
-    {
-      type: S.optional(S.String),
-      code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly type?: string;
+    readonly code?: string;
+    readonly message?: string;
+  }> {}
 export class PolicyEnforcedException
-  extends /*@__PURE__*/ S.TaggedError<PolicyEnforcedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "PolicyEnforcedException",
-    {
-      type: S.optional(S.String),
-      code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly type?: string;
+    readonly code?: string;
+    readonly message?: string;
+  }> {}
 export class RequestTimeoutException
-  extends /*@__PURE__*/ S.TaggedError<RequestTimeoutException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RequestTimeoutException",
-    {
-      type: S.optional(S.String),
-      code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(408),
-  ).pipe(C.withTimeoutError) {}
+    ["TimeoutError"],
+    { status: 408 },
+  )<{
+    readonly type?: string;
+    readonly code?: string;
+    readonly message?: string;
+  }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    {
-      type: S.optional(S.String),
-      code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{
+    readonly type?: string;
+    readonly code?: string;
+    readonly message?: string;
+  }> {}
 export class ServiceUnavailableException
-  extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceUnavailableException",
-    {
-      type: S.optional(S.String),
-      code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{
+    readonly type?: string;
+    readonly code?: string;
+    readonly message?: string;
+  }> {}
 export interface AbortMultipartUploadInput {
   accountId: string;
   vaultName: string;
   uploadId: string;
 }
-export const AbortMultipartUploadInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    uploadId: S.String.pipe(T.HttpLabel("uploadId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AbortMultipartUploadInput",
-}) as any as S.Schema<AbortMultipartUploadInput>;
 export interface AbortMultipartUploadResponse {}
-export const AbortMultipartUploadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AbortMultipartUploadResponse",
-}) as any as S.Schema<AbortMultipartUploadResponse>;
 export interface AbortVaultLockInput {
   accountId: string;
   vaultName: string;
 }
-export const AbortVaultLockInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/{accountId}/vaults/{vaultName}/lock-policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AbortVaultLockInput",
-}) as any as S.Schema<AbortVaultLockInput>;
 export interface AbortVaultLockResponse {}
-export const AbortVaultLockResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AbortVaultLockResponse",
-}) as any as S.Schema<AbortVaultLockResponse>;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface AddTagsToVaultInput {
   accountId: string;
   vaultName: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const AddTagsToVaultInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/{accountId}/vaults/{vaultName}/tags?operation=add",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AddTagsToVaultInput",
-}) as any as S.Schema<AddTagsToVaultInput>;
 export interface AddTagsToVaultResponse {}
-export const AddTagsToVaultResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AddTagsToVaultResponse",
-}) as any as S.Schema<AddTagsToVaultResponse>;
 export interface CompleteMultipartUploadInput {
   accountId: string;
   vaultName: string;
@@ -285,269 +205,56 @@ export interface CompleteMultipartUploadInput {
   archiveSize?: string;
   checksum?: string;
 }
-export const CompleteMultipartUploadInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    uploadId: S.String.pipe(T.HttpLabel("uploadId")),
-    archiveSize: S.optional(S.String).pipe(T.HttpHeader("x-amz-archive-size")),
-    checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CompleteMultipartUploadInput",
-}) as any as S.Schema<CompleteMultipartUploadInput>;
 export interface ArchiveCreationOutput {
   location?: string;
   checksum?: string;
   archiveId?: string;
 }
-export const ArchiveCreationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
-    archiveId: S.optional(S.String).pipe(T.HttpHeader("x-amz-archive-id")),
-  }).pipe(ns),
-).annotate({
-  identifier: "ArchiveCreationOutput",
-}) as any as S.Schema<ArchiveCreationOutput>;
 export interface CompleteVaultLockInput {
   accountId: string;
   vaultName: string;
   lockId: string;
 }
-export const CompleteVaultLockInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    lockId: S.String.pipe(T.HttpLabel("lockId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/{accountId}/vaults/{vaultName}/lock-policy/{lockId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CompleteVaultLockInput",
-}) as any as S.Schema<CompleteVaultLockInput>;
 export interface CompleteVaultLockResponse {}
-export const CompleteVaultLockResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CompleteVaultLockResponse",
-}) as any as S.Schema<CompleteVaultLockResponse>;
 export interface CreateVaultInput {
   accountId: string;
   vaultName: string;
 }
-export const CreateVaultInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{accountId}/vaults/{vaultName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateVaultInput",
-}) as any as S.Schema<CreateVaultInput>;
 export interface CreateVaultOutput {
   location?: string;
 }
-export const CreateVaultOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateVaultOutput",
-}) as any as S.Schema<CreateVaultOutput>;
 export interface DeleteArchiveInput {
   accountId: string;
   vaultName: string;
   archiveId: string;
 }
-export const DeleteArchiveInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    archiveId: S.String.pipe(T.HttpLabel("archiveId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/{accountId}/vaults/{vaultName}/archives/{archiveId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteArchiveInput",
-}) as any as S.Schema<DeleteArchiveInput>;
 export interface DeleteArchiveResponse {}
-export const DeleteArchiveResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteArchiveResponse",
-}) as any as S.Schema<DeleteArchiveResponse>;
 export interface DeleteVaultInput {
   accountId: string;
   vaultName: string;
 }
-export const DeleteVaultInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/{accountId}/vaults/{vaultName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteVaultInput",
-}) as any as S.Schema<DeleteVaultInput>;
 export interface DeleteVaultResponse {}
-export const DeleteVaultResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteVaultResponse",
-}) as any as S.Schema<DeleteVaultResponse>;
 export interface DeleteVaultAccessPolicyInput {
   accountId: string;
   vaultName: string;
 }
-export const DeleteVaultAccessPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/{accountId}/vaults/{vaultName}/access-policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteVaultAccessPolicyInput",
-}) as any as S.Schema<DeleteVaultAccessPolicyInput>;
 export interface DeleteVaultAccessPolicyResponse {}
-export const DeleteVaultAccessPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteVaultAccessPolicyResponse",
-}) as any as S.Schema<DeleteVaultAccessPolicyResponse>;
 export interface DeleteVaultNotificationsInput {
   accountId: string;
   vaultName: string;
 }
-export const DeleteVaultNotificationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/{accountId}/vaults/{vaultName}/notification-configuration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteVaultNotificationsInput",
-}) as any as S.Schema<DeleteVaultNotificationsInput>;
 export interface DeleteVaultNotificationsResponse {}
-export const DeleteVaultNotificationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteVaultNotificationsResponse",
-}) as any as S.Schema<DeleteVaultNotificationsResponse>;
 export interface DescribeJobInput {
   accountId: string;
   vaultName: string;
   jobId: string;
 }
-export const DescribeJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/{accountId}/vaults/{vaultName}/jobs/{jobId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeJobInput",
-}) as any as S.Schema<DescribeJobInput>;
 export type ActionCode =
   | "ArchiveRetrieval"
   | "InventoryRetrieval"
   | "Select"
   | (string & {});
-export const ActionCode = S.String;
-
 export type StatusCode = "InProgress" | "Succeeded" | "Failed" | (string & {});
-export const StatusCode = S.String;
-
 export type Size = number;
 export interface InventoryRetrievalJobDescription {
   Format?: string;
@@ -556,20 +263,7 @@ export interface InventoryRetrievalJobDescription {
   Limit?: string;
   Marker?: string;
 }
-export const InventoryRetrievalJobDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Format: S.optional(S.String),
-    StartDate: S.optional(S.String),
-    EndDate: S.optional(S.String),
-    Limit: S.optional(S.String),
-    Marker: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "InventoryRetrievalJobDescription",
-}) as any as S.Schema<InventoryRetrievalJobDescription>;
 export type FileHeaderInfo = "USE" | "IGNORE" | "NONE" | (string & {});
-export const FileHeaderInfo = S.String;
-
 export interface CSVInput {
   FileHeaderInfo?: FileHeaderInfo;
   Comments?: string;
@@ -578,30 +272,11 @@ export interface CSVInput {
   FieldDelimiter?: string;
   QuoteCharacter?: string;
 }
-export const CSVInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileHeaderInfo: S.optional(FileHeaderInfo),
-    Comments: S.optional(S.String),
-    QuoteEscapeCharacter: S.optional(S.String),
-    RecordDelimiter: S.optional(S.String),
-    FieldDelimiter: S.optional(S.String),
-    QuoteCharacter: S.optional(S.String),
-  }),
-).annotate({ identifier: "CSVInput" }) as any as S.Schema<CSVInput>;
 export interface InputSerialization {
   csv?: CSVInput;
 }
-export const InputSerialization = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ csv: S.optional(CSVInput) }),
-).annotate({
-  identifier: "InputSerialization",
-}) as any as S.Schema<InputSerialization>;
 export type ExpressionType = "SQL" | (string & {});
-export const ExpressionType = S.String;
-
 export type QuoteFields = "ALWAYS" | "ASNEEDED" | (string & {});
-export const QuoteFields = S.String;
-
 export interface CSVOutput {
   QuoteFields?: QuoteFields;
   QuoteEscapeCharacter?: string;
@@ -609,54 +284,21 @@ export interface CSVOutput {
   FieldDelimiter?: string;
   QuoteCharacter?: string;
 }
-export const CSVOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QuoteFields: S.optional(QuoteFields),
-    QuoteEscapeCharacter: S.optional(S.String),
-    RecordDelimiter: S.optional(S.String),
-    FieldDelimiter: S.optional(S.String),
-    QuoteCharacter: S.optional(S.String),
-  }),
-).annotate({ identifier: "CSVOutput" }) as any as S.Schema<CSVOutput>;
 export interface OutputSerialization {
   csv?: CSVOutput;
 }
-export const OutputSerialization = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ csv: S.optional(CSVOutput) }),
-).annotate({
-  identifier: "OutputSerialization",
-}) as any as S.Schema<OutputSerialization>;
 export interface SelectParameters {
   InputSerialization?: InputSerialization;
   ExpressionType?: ExpressionType;
   Expression?: string;
   OutputSerialization?: OutputSerialization;
 }
-export const SelectParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InputSerialization: S.optional(InputSerialization),
-    ExpressionType: S.optional(ExpressionType),
-    Expression: S.optional(S.String),
-    OutputSerialization: S.optional(OutputSerialization),
-  }),
-).annotate({
-  identifier: "SelectParameters",
-}) as any as S.Schema<SelectParameters>;
 export type EncryptionType = "aws:kms" | "AES256" | (string & {});
-export const EncryptionType = S.String;
-
 export interface Encryption {
   EncryptionType?: EncryptionType;
   KMSKeyId?: string;
   KMSContext?: string;
 }
-export const Encryption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EncryptionType: S.optional(EncryptionType),
-    KMSKeyId: S.optional(S.String),
-    KMSContext: S.optional(S.String),
-  }),
-).annotate({ identifier: "Encryption" }) as any as S.Schema<Encryption>;
 export type CannedACL =
   | "private"
   | "public-read"
@@ -666,15 +308,11 @@ export type CannedACL =
   | "bucket-owner-read"
   | "bucket-owner-full-control"
   | (string & {});
-export const CannedACL = S.String;
-
 export type Type =
   | "AmazonCustomerByEmail"
   | "CanonicalUser"
   | "Group"
   | (string & {});
-export const Type = S.String;
-
 export interface Grantee {
   Type: Type;
   DisplayName?: string;
@@ -682,15 +320,6 @@ export interface Grantee {
   ID?: string;
   EmailAddress?: string;
 }
-export const Grantee = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: Type,
-    DisplayName: S.optional(S.String),
-    URI: S.optional(S.String),
-    ID: S.optional(S.String),
-    EmailAddress: S.optional(S.String),
-  }),
-).annotate({ identifier: "Grantee" }) as any as S.Schema<Grantee>;
 export type Permission =
   | "FULL_CONTROL"
   | "WRITE"
@@ -698,32 +327,17 @@ export type Permission =
   | "READ"
   | "READ_ACP"
   | (string & {});
-export const Permission = S.String;
-
 export interface Grant {
   Grantee?: Grantee;
   Permission?: Permission;
 }
-export const Grant = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Grantee: S.optional(Grantee),
-    Permission: S.optional(Permission),
-  }),
-).annotate({ identifier: "Grant" }) as any as S.Schema<Grant>;
 export type AccessControlPolicyList = Grant[];
-export const AccessControlPolicyList = /*@__PURE__*/ S.Array(Grant);
 export type Hashmap = { [key: string]: string | undefined };
-export const Hashmap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type StorageClass =
   | "STANDARD"
   | "REDUCED_REDUNDANCY"
   | "STANDARD_IA"
   | (string & {});
-export const StorageClass = S.String;
-
 export interface S3Location {
   BucketName?: string;
   Prefix?: string;
@@ -734,24 +348,9 @@ export interface S3Location {
   UserMetadata?: { [key: string]: string | undefined };
   StorageClass?: StorageClass;
 }
-export const S3Location = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BucketName: S.optional(S.String),
-    Prefix: S.optional(S.String),
-    Encryption: S.optional(Encryption),
-    CannedACL: S.optional(CannedACL),
-    AccessControlList: S.optional(AccessControlPolicyList),
-    Tagging: S.optional(Hashmap),
-    UserMetadata: S.optional(Hashmap),
-    StorageClass: S.optional(StorageClass),
-  }),
-).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export interface OutputLocation {
   S3?: S3Location;
 }
-export const OutputLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3: S.optional(S3Location) }),
-).annotate({ identifier: "OutputLocation" }) as any as S.Schema<OutputLocation>;
 export interface GlacierJobDescription {
   JobId?: string;
   JobDescription?: string;
@@ -775,55 +374,10 @@ export interface GlacierJobDescription {
   SelectParameters?: SelectParameters;
   OutputLocation?: OutputLocation;
 }
-export const GlacierJobDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    JobId: S.optional(S.String),
-    JobDescription: S.optional(S.String),
-    Action: S.optional(ActionCode),
-    ArchiveId: S.optional(S.String),
-    VaultARN: S.optional(S.String),
-    CreationDate: S.optional(S.String),
-    Completed: S.optional(S.Boolean),
-    StatusCode: S.optional(StatusCode),
-    StatusMessage: S.optional(S.String),
-    ArchiveSizeInBytes: S.optional(S.Number),
-    InventorySizeInBytes: S.optional(S.Number),
-    SNSTopic: S.optional(S.String),
-    CompletionDate: S.optional(S.String),
-    SHA256TreeHash: S.optional(S.String),
-    ArchiveSHA256TreeHash: S.optional(S.String),
-    RetrievalByteRange: S.optional(S.String),
-    Tier: S.optional(S.String),
-    InventoryRetrievalParameters: S.optional(InventoryRetrievalJobDescription),
-    JobOutputPath: S.optional(S.String),
-    SelectParameters: S.optional(SelectParameters),
-    OutputLocation: S.optional(OutputLocation),
-  }).pipe(ns),
-).annotate({
-  identifier: "GlacierJobDescription",
-}) as any as S.Schema<GlacierJobDescription>;
 export interface DescribeVaultInput {
   accountId: string;
   vaultName: string;
 }
-export const DescribeVaultInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{accountId}/vaults/{vaultName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeVaultInput",
-}) as any as S.Schema<DescribeVaultInput>;
 export interface DescribeVaultOutput {
   VaultARN?: string;
   VaultName?: string;
@@ -832,95 +386,26 @@ export interface DescribeVaultOutput {
   NumberOfArchives?: number;
   SizeInBytes?: number;
 }
-export const DescribeVaultOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VaultARN: S.optional(S.String),
-    VaultName: S.optional(S.String),
-    CreationDate: S.optional(S.String),
-    LastInventoryDate: S.optional(S.String),
-    NumberOfArchives: S.optional(S.Number),
-    SizeInBytes: S.optional(S.Number),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeVaultOutput",
-}) as any as S.Schema<DescribeVaultOutput>;
 export interface GetDataRetrievalPolicyInput {
   accountId: string;
 }
-export const GetDataRetrievalPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accountId: S.String.pipe(T.HttpLabel("accountId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{accountId}/policies/data-retrieval" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDataRetrievalPolicyInput",
-}) as any as S.Schema<GetDataRetrievalPolicyInput>;
 export interface DataRetrievalRule {
   Strategy?: string;
   BytesPerHour?: number;
 }
-export const DataRetrievalRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Strategy: S.optional(S.String),
-    BytesPerHour: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "DataRetrievalRule",
-}) as any as S.Schema<DataRetrievalRule>;
 export type DataRetrievalRulesList = DataRetrievalRule[];
-export const DataRetrievalRulesList = /*@__PURE__*/ S.Array(DataRetrievalRule);
 export interface DataRetrievalPolicy {
   Rules?: DataRetrievalRule[];
 }
-export const DataRetrievalPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Rules: S.optional(DataRetrievalRulesList) }),
-).annotate({
-  identifier: "DataRetrievalPolicy",
-}) as any as S.Schema<DataRetrievalPolicy>;
 export interface GetDataRetrievalPolicyOutput {
   Policy?: DataRetrievalPolicy;
 }
-export const GetDataRetrievalPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(DataRetrievalPolicy) }).pipe(ns),
-).annotate({
-  identifier: "GetDataRetrievalPolicyOutput",
-}) as any as S.Schema<GetDataRetrievalPolicyOutput>;
 export interface GetJobOutputInput {
   accountId: string;
   vaultName: string;
   jobId: string;
   range?: string;
 }
-export const GetJobOutputInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    range: S.optional(S.String).pipe(T.HttpHeader("Range")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/{accountId}/vaults/{vaultName}/jobs/{jobId}/output",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetJobOutputInput",
-}) as any as S.Schema<GetJobOutputInput>;
 export type Httpstatus = number;
 export interface GetJobOutputOutput {
   body?: T.StreamingOutputBody;
@@ -931,174 +416,44 @@ export interface GetJobOutputOutput {
   contentType?: string;
   archiveDescription?: string;
 }
-export const GetJobOutputOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
-    status: S.optional(S.Number).pipe(T.HttpResponseCode()),
-    contentRange: S.optional(S.String).pipe(T.HttpHeader("Content-Range")),
-    acceptRanges: S.optional(S.String).pipe(T.HttpHeader("Accept-Ranges")),
-    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    archiveDescription: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-archive-description"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetJobOutputOutput",
-}) as any as S.Schema<GetJobOutputOutput>;
 export interface GetVaultAccessPolicyInput {
   accountId: string;
   vaultName: string;
 }
-export const GetVaultAccessPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/{accountId}/vaults/{vaultName}/access-policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetVaultAccessPolicyInput",
-}) as any as S.Schema<GetVaultAccessPolicyInput>;
 export interface VaultAccessPolicy {
   Policy?: string;
 }
-export const VaultAccessPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(S.String) }),
-).annotate({
-  identifier: "VaultAccessPolicy",
-}) as any as S.Schema<VaultAccessPolicy>;
 export interface GetVaultAccessPolicyOutput {
   policy?: VaultAccessPolicy;
 }
-export const GetVaultAccessPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    policy: S.optional(VaultAccessPolicy)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "VaultAccessPolicy" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetVaultAccessPolicyOutput",
-}) as any as S.Schema<GetVaultAccessPolicyOutput>;
 export interface GetVaultLockInput {
   accountId: string;
   vaultName: string;
 }
-export const GetVaultLockInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/{accountId}/vaults/{vaultName}/lock-policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetVaultLockInput",
-}) as any as S.Schema<GetVaultLockInput>;
 export interface GetVaultLockOutput {
   Policy?: string;
   State?: string;
   ExpirationDate?: string;
   CreationDate?: string;
 }
-export const GetVaultLockOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Policy: S.optional(S.String),
-    State: S.optional(S.String),
-    ExpirationDate: S.optional(S.String),
-    CreationDate: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetVaultLockOutput",
-}) as any as S.Schema<GetVaultLockOutput>;
 export interface GetVaultNotificationsInput {
   accountId: string;
   vaultName: string;
 }
-export const GetVaultNotificationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/{accountId}/vaults/{vaultName}/notification-configuration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetVaultNotificationsInput",
-}) as any as S.Schema<GetVaultNotificationsInput>;
 export type NotificationEventList = string[];
-export const NotificationEventList = /*@__PURE__*/ S.Array(S.String);
 export interface VaultNotificationConfig {
   SNSTopic?: string;
   Events?: string[];
 }
-export const VaultNotificationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SNSTopic: S.optional(S.String),
-    Events: S.optional(NotificationEventList),
-  }),
-).annotate({
-  identifier: "VaultNotificationConfig",
-}) as any as S.Schema<VaultNotificationConfig>;
 export interface GetVaultNotificationsOutput {
   vaultNotificationConfig?: VaultNotificationConfig;
 }
-export const GetVaultNotificationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vaultNotificationConfig: S.optional(VaultNotificationConfig)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "VaultNotificationConfig" }),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetVaultNotificationsOutput",
-}) as any as S.Schema<GetVaultNotificationsOutput>;
 export interface InventoryRetrievalJobInput {
   StartDate?: string;
   EndDate?: string;
   Limit?: string;
   Marker?: string;
 }
-export const InventoryRetrievalJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartDate: S.optional(S.String),
-    EndDate: S.optional(S.String),
-    Limit: S.optional(S.String),
-    Marker: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "InventoryRetrievalJobInput",
-}) as any as S.Schema<InventoryRetrievalJobInput>;
 export interface JobParameters {
   Format?: string;
   Type?: string;
@@ -1111,154 +466,37 @@ export interface JobParameters {
   SelectParameters?: SelectParameters;
   OutputLocation?: OutputLocation;
 }
-export const JobParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Format: S.optional(S.String),
-    Type: S.optional(S.String),
-    ArchiveId: S.optional(S.String),
-    Description: S.optional(S.String),
-    SNSTopic: S.optional(S.String),
-    RetrievalByteRange: S.optional(S.String),
-    Tier: S.optional(S.String),
-    InventoryRetrievalParameters: S.optional(InventoryRetrievalJobInput),
-    SelectParameters: S.optional(SelectParameters),
-    OutputLocation: S.optional(OutputLocation),
-  }),
-).annotate({ identifier: "JobParameters" }) as any as S.Schema<JobParameters>;
 export interface InitiateJobInput {
   accountId: string;
   vaultName: string;
   jobParameters?: JobParameters;
 }
-export const InitiateJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    jobParameters: S.optional(JobParameters)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "JobParameters" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/{accountId}/vaults/{vaultName}/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "InitiateJobInput",
-}) as any as S.Schema<InitiateJobInput>;
 export interface InitiateJobOutput {
   location?: string;
   jobId?: string;
   jobOutputPath?: string;
 }
-export const InitiateJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    jobId: S.optional(S.String).pipe(T.HttpHeader("x-amz-job-id")),
-    jobOutputPath: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-job-output-path"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "InitiateJobOutput",
-}) as any as S.Schema<InitiateJobOutput>;
 export interface InitiateMultipartUploadInput {
   accountId: string;
   vaultName: string;
   archiveDescription?: string;
   partSize?: string;
 }
-export const InitiateMultipartUploadInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    archiveDescription: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-archive-description"),
-    ),
-    partSize: S.optional(S.String).pipe(T.HttpHeader("x-amz-part-size")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/{accountId}/vaults/{vaultName}/multipart-uploads",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "InitiateMultipartUploadInput",
-}) as any as S.Schema<InitiateMultipartUploadInput>;
 export interface InitiateMultipartUploadOutput {
   location?: string;
   uploadId?: string;
 }
-export const InitiateMultipartUploadOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    uploadId: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-multipart-upload-id"),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "InitiateMultipartUploadOutput",
-}) as any as S.Schema<InitiateMultipartUploadOutput>;
 export interface VaultLockPolicy {
   Policy?: string;
 }
-export const VaultLockPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(S.String) }),
-).annotate({
-  identifier: "VaultLockPolicy",
-}) as any as S.Schema<VaultLockPolicy>;
 export interface InitiateVaultLockInput {
   accountId: string;
   vaultName: string;
   policy?: VaultLockPolicy;
 }
-export const InitiateVaultLockInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    policy: S.optional(VaultLockPolicy)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "VaultLockPolicy" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/{accountId}/vaults/{vaultName}/lock-policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "InitiateVaultLockInput",
-}) as any as S.Schema<InitiateVaultLockInput>;
 export interface InitiateVaultLockOutput {
   lockId?: string;
 }
-export const InitiateVaultLockOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lockId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lock-id")),
-  }).pipe(ns),
-).annotate({
-  identifier: "InitiateVaultLockOutput",
-}) as any as S.Schema<InitiateVaultLockOutput>;
 export interface ListJobsInput {
   accountId: string;
   vaultName: string;
@@ -1267,66 +505,17 @@ export interface ListJobsInput {
   statuscode?: string;
   completed?: string;
 }
-export const ListJobsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
-    statuscode: S.optional(S.String).pipe(T.HttpQuery("statuscode")),
-    completed: S.optional(S.String).pipe(T.HttpQuery("completed")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{accountId}/vaults/{vaultName}/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "ListJobsInput" }) as any as S.Schema<ListJobsInput>;
 export type JobList = GlacierJobDescription[];
-export const JobList = /*@__PURE__*/ S.Array(GlacierJobDescription);
 export interface ListJobsOutput {
   JobList?: GlacierJobDescription[];
   Marker?: string;
 }
-export const ListJobsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ JobList: S.optional(JobList), Marker: S.optional(S.String) }).pipe(
-    ns,
-  ),
-).annotate({ identifier: "ListJobsOutput" }) as any as S.Schema<ListJobsOutput>;
 export interface ListMultipartUploadsInput {
   accountId: string;
   vaultName: string;
   limit?: number;
   marker?: string;
 }
-export const ListMultipartUploadsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/{accountId}/vaults/{vaultName}/multipart-uploads",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListMultipartUploadsInput",
-}) as any as S.Schema<ListMultipartUploadsInput>;
 export interface UploadListElement {
   MultipartUploadId?: string;
   VaultARN?: string;
@@ -1334,31 +523,11 @@ export interface UploadListElement {
   PartSizeInBytes?: number;
   CreationDate?: string;
 }
-export const UploadListElement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MultipartUploadId: S.optional(S.String),
-    VaultARN: S.optional(S.String),
-    ArchiveDescription: S.optional(S.String),
-    PartSizeInBytes: S.optional(S.Number),
-    CreationDate: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UploadListElement",
-}) as any as S.Schema<UploadListElement>;
 export type UploadsList = UploadListElement[];
-export const UploadsList = /*@__PURE__*/ S.Array(UploadListElement);
 export interface ListMultipartUploadsOutput {
   UploadsList?: UploadListElement[];
   Marker?: string;
 }
-export const ListMultipartUploadsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UploadsList: S.optional(UploadsList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListMultipartUploadsOutput",
-}) as any as S.Schema<ListMultipartUploadsOutput>;
 export interface ListPartsInput {
   accountId: string;
   vaultName: string;
@@ -1366,42 +535,11 @@ export interface ListPartsInput {
   marker?: string;
   limit?: number;
 }
-export const ListPartsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    uploadId: S.String.pipe(T.HttpLabel("uploadId")),
-    marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "ListPartsInput" }) as any as S.Schema<ListPartsInput>;
 export interface PartListElement {
   RangeInBytes?: string;
   SHA256TreeHash?: string;
 }
-export const PartListElement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RangeInBytes: S.optional(S.String),
-    SHA256TreeHash: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PartListElement",
-}) as any as S.Schema<PartListElement>;
 export type PartList = PartListElement[];
-export const PartList = /*@__PURE__*/ S.Array(PartListElement);
 export interface ListPartsOutput {
   MultipartUploadId?: string;
   VaultARN?: string;
@@ -1411,294 +549,65 @@ export interface ListPartsOutput {
   Parts?: PartListElement[];
   Marker?: string;
 }
-export const ListPartsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MultipartUploadId: S.optional(S.String),
-    VaultARN: S.optional(S.String),
-    ArchiveDescription: S.optional(S.String),
-    PartSizeInBytes: S.optional(S.Number),
-    CreationDate: S.optional(S.String),
-    Parts: S.optional(PartList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListPartsOutput",
-}) as any as S.Schema<ListPartsOutput>;
 export interface ListProvisionedCapacityInput {
   accountId: string;
 }
-export const ListProvisionedCapacityInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accountId: S.String.pipe(T.HttpLabel("accountId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{accountId}/provisioned-capacity" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListProvisionedCapacityInput",
-}) as any as S.Schema<ListProvisionedCapacityInput>;
 export interface ProvisionedCapacityDescription {
   CapacityId?: string;
   StartDate?: string;
   ExpirationDate?: string;
 }
-export const ProvisionedCapacityDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CapacityId: S.optional(S.String),
-    StartDate: S.optional(S.String),
-    ExpirationDate: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ProvisionedCapacityDescription",
-}) as any as S.Schema<ProvisionedCapacityDescription>;
 export type ProvisionedCapacityList = ProvisionedCapacityDescription[];
-export const ProvisionedCapacityList = /*@__PURE__*/ S.Array(
-  ProvisionedCapacityDescription,
-);
 export interface ListProvisionedCapacityOutput {
   ProvisionedCapacityList?: ProvisionedCapacityDescription[];
 }
-export const ListProvisionedCapacityOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProvisionedCapacityList: S.optional(ProvisionedCapacityList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListProvisionedCapacityOutput",
-}) as any as S.Schema<ListProvisionedCapacityOutput>;
 export interface ListTagsForVaultInput {
   accountId: string;
   vaultName: string;
 }
-export const ListTagsForVaultInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{accountId}/vaults/{vaultName}/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForVaultInput",
-}) as any as S.Schema<ListTagsForVaultInput>;
 export interface ListTagsForVaultOutput {
   Tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForVaultOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagMap) }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForVaultOutput",
-}) as any as S.Schema<ListTagsForVaultOutput>;
 export interface ListVaultsInput {
   accountId: string;
   marker?: string;
   limit?: number;
 }
-export const ListVaultsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{accountId}/vaults" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListVaultsInput",
-}) as any as S.Schema<ListVaultsInput>;
 export type VaultList = DescribeVaultOutput[];
-export const VaultList = /*@__PURE__*/ S.Array(DescribeVaultOutput);
 export interface ListVaultsOutput {
   VaultList?: DescribeVaultOutput[];
   Marker?: string;
 }
-export const ListVaultsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VaultList: S.optional(VaultList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListVaultsOutput",
-}) as any as S.Schema<ListVaultsOutput>;
 export interface PurchaseProvisionedCapacityInput {
   accountId: string;
 }
-export const PurchaseProvisionedCapacityInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accountId: S.String.pipe(T.HttpLabel("accountId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/{accountId}/provisioned-capacity" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PurchaseProvisionedCapacityInput",
-}) as any as S.Schema<PurchaseProvisionedCapacityInput>;
 export interface PurchaseProvisionedCapacityOutput {
   capacityId?: string;
 }
-export const PurchaseProvisionedCapacityOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    capacityId: S.optional(S.String).pipe(T.HttpHeader("x-amz-capacity-id")),
-  }).pipe(ns),
-).annotate({
-  identifier: "PurchaseProvisionedCapacityOutput",
-}) as any as S.Schema<PurchaseProvisionedCapacityOutput>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface RemoveTagsFromVaultInput {
   accountId: string;
   vaultName: string;
   TagKeys?: string[];
 }
-export const RemoveTagsFromVaultInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    TagKeys: S.optional(TagKeyList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/{accountId}/vaults/{vaultName}/tags?operation=remove",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemoveTagsFromVaultInput",
-}) as any as S.Schema<RemoveTagsFromVaultInput>;
 export interface RemoveTagsFromVaultResponse {}
-export const RemoveTagsFromVaultResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RemoveTagsFromVaultResponse",
-}) as any as S.Schema<RemoveTagsFromVaultResponse>;
 export interface SetDataRetrievalPolicyInput {
   accountId: string;
   Policy?: DataRetrievalPolicy;
 }
-export const SetDataRetrievalPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    Policy: S.optional(DataRetrievalPolicy),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/{accountId}/policies/data-retrieval" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SetDataRetrievalPolicyInput",
-}) as any as S.Schema<SetDataRetrievalPolicyInput>;
 export interface SetDataRetrievalPolicyResponse {}
-export const SetDataRetrievalPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetDataRetrievalPolicyResponse",
-}) as any as S.Schema<SetDataRetrievalPolicyResponse>;
 export interface SetVaultAccessPolicyInput {
   accountId: string;
   vaultName: string;
   policy?: VaultAccessPolicy;
 }
-export const SetVaultAccessPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    policy: S.optional(VaultAccessPolicy)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "VaultAccessPolicy" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/{accountId}/vaults/{vaultName}/access-policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SetVaultAccessPolicyInput",
-}) as any as S.Schema<SetVaultAccessPolicyInput>;
 export interface SetVaultAccessPolicyResponse {}
-export const SetVaultAccessPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetVaultAccessPolicyResponse",
-}) as any as S.Schema<SetVaultAccessPolicyResponse>;
 export interface SetVaultNotificationsInput {
   accountId: string;
   vaultName: string;
   vaultNotificationConfig?: VaultNotificationConfig;
 }
-export const SetVaultNotificationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    vaultNotificationConfig: S.optional(VaultNotificationConfig)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "VaultNotificationConfig" }),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/{accountId}/vaults/{vaultName}/notification-configuration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SetVaultNotificationsInput",
-}) as any as S.Schema<SetVaultNotificationsInput>;
 export interface SetVaultNotificationsResponse {}
-export const SetVaultNotificationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetVaultNotificationsResponse",
-}) as any as S.Schema<SetVaultNotificationsResponse>;
 export interface UploadArchiveInput {
   vaultName: string;
   accountId: string;
@@ -1706,32 +615,6 @@ export interface UploadArchiveInput {
   checksum?: string;
   body?: T.StreamingInputBody;
 }
-export const UploadArchiveInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    archiveDescription: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-archive-description"),
-    ),
-    checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
-    body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/{accountId}/vaults/{vaultName}/archives",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UploadArchiveInput",
-}) as any as S.Schema<UploadArchiveInput>;
 export interface UploadMultipartPartInput {
   accountId: string;
   vaultName: string;
@@ -1740,41 +623,9 @@ export interface UploadMultipartPartInput {
   range?: string;
   body?: T.StreamingInputBody;
 }
-export const UploadMultipartPartInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    uploadId: S.String.pipe(T.HttpLabel("uploadId")),
-    checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
-    range: S.optional(S.String).pipe(T.HttpHeader("Content-Range")),
-    body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UploadMultipartPartInput",
-}) as any as S.Schema<UploadMultipartPartInput>;
 export interface UploadMultipartPartOutput {
   checksum?: string;
 }
-export const UploadMultipartPartOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
-  }).pipe(ns),
-).annotate({
-  identifier: "UploadMultipartPartOutput",
-}) as any as S.Schema<UploadMultipartPartOutput>;
 export type AbortMultipartUploadError =
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -1808,8 +659,11 @@ export const abortMultipartUpload: API.OperationMethod<
   AbortMultipartUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AbortMultipartUploadInput,
-  output: AbortMultipartUploadResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}",
+    input: { accountId: 0, vaultName: 0, uploadId: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -1820,7 +674,7 @@ export const abortMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortMultipartUpload",
-}));
+})) as any;
 
 export type AbortVaultLockError =
   | InvalidParameterValueException
@@ -1853,8 +707,11 @@ export const abortVaultLock: API.OperationMethod<
   AbortVaultLockError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AbortVaultLockInput,
-  output: AbortVaultLockResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{accountId}/vaults/{vaultName}/lock-policy",
+    input: { accountId: 0, vaultName: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -1865,7 +722,7 @@ export const abortVaultLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortVaultLock",
-}));
+})) as any;
 
 export type AddTagsToVaultError =
   | InvalidParameterValueException
@@ -1888,8 +745,12 @@ export const addTagsToVault: API.OperationMethod<
   AddTagsToVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddTagsToVaultInput,
-  output: AddTagsToVaultResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /{accountId}/vaults/{vaultName}/tags?operation=add",
+    input: { accountId: 0, vaultName: 0, Tags: 0 },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     LimitExceededException,
@@ -1901,7 +762,7 @@ export const addTagsToVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToVault",
-}));
+})) as any;
 
 export type CompleteMultipartUploadError =
   | InvalidParameterValueException
@@ -1957,8 +818,22 @@ export const completeMultipartUpload: API.OperationMethod<
   CompleteMultipartUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CompleteMultipartUploadInput,
-  output: ArchiveCreationOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}",
+    input: {
+      accountId: 0,
+      vaultName: 0,
+      uploadId: 0,
+      archiveSize: D.m({ header: "x-amz-archive-size" }),
+      checksum: D.m({ header: "x-amz-sha256-tree-hash" }),
+    },
+    output: {
+      location: D.m({ header: "Location" }),
+      checksum: D.m({ header: "x-amz-sha256-tree-hash" }),
+      archiveId: D.m({ header: "x-amz-archive-id" }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -1969,7 +844,7 @@ export const completeMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteMultipartUpload",
-}));
+})) as any;
 
 export type CompleteVaultLockError =
   | InvalidParameterValueException
@@ -2002,8 +877,11 @@ export const completeVaultLock: API.OperationMethod<
   CompleteVaultLockError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CompleteVaultLockInput,
-  output: CompleteVaultLockResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /{accountId}/vaults/{vaultName}/lock-policy/{lockId}",
+    input: { accountId: 0, vaultName: 0, lockId: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2014,7 +892,7 @@ export const completeVaultLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteVaultLock",
-}));
+})) as any;
 
 export type CreateVaultError =
   | InvalidParameterValueException
@@ -2053,8 +931,12 @@ export const createVault: API.OperationMethod<
   CreateVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateVaultInput,
-  output: CreateVaultOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /{accountId}/vaults/{vaultName}",
+    input: { accountId: 0, vaultName: 0 },
+    output: { location: D.m({ header: "Location" }) },
+  },
   errors: [
     InvalidParameterValueException,
     LimitExceededException,
@@ -2065,7 +947,7 @@ export const createVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVault",
-}));
+})) as any;
 
 export type DeleteArchiveError =
   | InvalidParameterValueException
@@ -2106,8 +988,11 @@ export const deleteArchive: API.OperationMethod<
   DeleteArchiveError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteArchiveInput,
-  output: DeleteArchiveResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{accountId}/vaults/{vaultName}/archives/{archiveId}",
+    input: { accountId: 0, vaultName: 0, archiveId: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2118,7 +1003,7 @@ export const deleteArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArchive",
-}));
+})) as any;
 
 export type DeleteVaultError =
   | InvalidParameterValueException
@@ -2156,8 +1041,11 @@ export const deleteVault: API.OperationMethod<
   DeleteVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteVaultInput,
-  output: DeleteVaultResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{accountId}/vaults/{vaultName}",
+    input: { accountId: 0, vaultName: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2168,7 +1056,7 @@ export const deleteVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVault",
-}));
+})) as any;
 
 export type DeleteVaultAccessPolicyError =
   | InvalidParameterValueException
@@ -2193,8 +1081,11 @@ export const deleteVaultAccessPolicy: API.OperationMethod<
   DeleteVaultAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteVaultAccessPolicyInput,
-  output: DeleteVaultAccessPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{accountId}/vaults/{vaultName}/access-policy",
+    input: { accountId: 0, vaultName: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2205,7 +1096,7 @@ export const deleteVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVaultAccessPolicy",
-}));
+})) as any;
 
 export type DeleteVaultNotificationsError =
   | InvalidParameterValueException
@@ -2236,8 +1127,11 @@ export const deleteVaultNotifications: API.OperationMethod<
   DeleteVaultNotificationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteVaultNotificationsInput,
-  output: DeleteVaultNotificationsResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /{accountId}/vaults/{vaultName}/notification-configuration",
+    input: { accountId: 0, vaultName: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2248,7 +1142,7 @@ export const deleteVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVaultNotifications",
-}));
+})) as any;
 
 export type DescribeJobError =
   | InvalidParameterValueException
@@ -2287,8 +1181,11 @@ export const describeJob: API.OperationMethod<
   DescribeJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeJobInput,
-  output: GlacierJobDescription,
+  descriptor: {
+    service: svc,
+    http: "GET /{accountId}/vaults/{vaultName}/jobs/{jobId}",
+    input: { accountId: 0, vaultName: 0, jobId: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2299,7 +1196,7 @@ export const describeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJob",
-}));
+})) as any;
 
 export type DescribeVaultError =
   | InvalidParameterValueException
@@ -2335,8 +1232,11 @@ export const describeVault: API.OperationMethod<
   DescribeVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeVaultInput,
-  output: DescribeVaultOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{accountId}/vaults/{vaultName}",
+    input: { accountId: 0, vaultName: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2347,7 +1247,7 @@ export const describeVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVault",
-}));
+})) as any;
 
 export type GetDataRetrievalPolicyError =
   | InvalidParameterValueException
@@ -2366,8 +1266,11 @@ export const getDataRetrievalPolicy: API.OperationMethod<
   GetDataRetrievalPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDataRetrievalPolicyInput,
-  output: GetDataRetrievalPolicyOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{accountId}/policies/data-retrieval",
+    input: { accountId: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2377,7 +1280,7 @@ export const getDataRetrievalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataRetrievalPolicy",
-}));
+})) as any;
 
 export type GetJobOutputError =
   | InvalidParameterValueException
@@ -2434,8 +1337,25 @@ export const getJobOutput: API.OperationMethod<
   GetJobOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetJobOutputInput,
-  output: GetJobOutputOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{accountId}/vaults/{vaultName}/jobs/{jobId}/output",
+    input: {
+      accountId: 0,
+      vaultName: 0,
+      jobId: 0,
+      range: D.m({ header: "Range" }),
+    },
+    output: {
+      body: D.m({ payload: true, shape: D.stream }),
+      checksum: D.m({ header: "x-amz-sha256-tree-hash" }),
+      status: D.m({ status: true }),
+      contentRange: D.m({ header: "Content-Range" }),
+      acceptRanges: D.m({ header: "Accept-Ranges" }),
+      contentType: D.m({ header: "Content-Type" }),
+      archiveDescription: D.m({ header: "x-amz-archive-description" }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2446,7 +1366,7 @@ export const getJobOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobOutput",
-}));
+})) as any;
 
 export type GetVaultAccessPolicyError =
   | InvalidParameterValueException
@@ -2469,8 +1389,12 @@ export const getVaultAccessPolicy: API.OperationMethod<
   GetVaultAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetVaultAccessPolicyInput,
-  output: GetVaultAccessPolicyOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{accountId}/vaults/{vaultName}/access-policy",
+    input: { accountId: 0, vaultName: 0 },
+    output: { policy: D.m({ payload: true }) },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2481,7 +1405,7 @@ export const getVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVaultAccessPolicy",
-}));
+})) as any;
 
 export type GetVaultLockError =
   | InvalidParameterValueException
@@ -2521,8 +1445,11 @@ export const getVaultLock: API.OperationMethod<
   GetVaultLockError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetVaultLockInput,
-  output: GetVaultLockOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{accountId}/vaults/{vaultName}/lock-policy",
+    input: { accountId: 0, vaultName: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2533,7 +1460,7 @@ export const getVaultLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVaultLock",
-}));
+})) as any;
 
 export type GetVaultNotificationsError =
   | InvalidParameterValueException
@@ -2567,8 +1494,12 @@ export const getVaultNotifications: API.OperationMethod<
   GetVaultNotificationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetVaultNotificationsInput,
-  output: GetVaultNotificationsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{accountId}/vaults/{vaultName}/notification-configuration",
+    input: { accountId: 0, vaultName: 0 },
+    output: { vaultNotificationConfig: D.m({ payload: true }) },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2579,7 +1510,7 @@ export const getVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVaultNotifications",
-}));
+})) as any;
 
 export type InitiateJobError =
   | InsufficientCapacityException
@@ -2602,8 +1533,81 @@ export const initiateJob: API.OperationMethod<
   InitiateJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: InitiateJobInput,
-  output: InitiateJobOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /{accountId}/vaults/{vaultName}/jobs",
+    input: {
+      accountId: 0,
+      vaultName: 0,
+      jobParameters: D.m({
+        payload: true,
+        shape: {
+          Format: 0,
+          Type: 0,
+          ArchiveId: 0,
+          Description: 0,
+          SNSTopic: 0,
+          RetrievalByteRange: 0,
+          Tier: 0,
+          InventoryRetrievalParameters: {
+            StartDate: 0,
+            EndDate: 0,
+            Limit: 0,
+            Marker: 0,
+          },
+          SelectParameters: {
+            InputSerialization: {
+              csv: {
+                FileHeaderInfo: 0,
+                Comments: 0,
+                QuoteEscapeCharacter: 0,
+                RecordDelimiter: 0,
+                FieldDelimiter: 0,
+                QuoteCharacter: 0,
+              },
+            },
+            ExpressionType: 0,
+            Expression: 0,
+            OutputSerialization: {
+              csv: {
+                QuoteFields: 0,
+                QuoteEscapeCharacter: 0,
+                RecordDelimiter: 0,
+                FieldDelimiter: 0,
+                QuoteCharacter: 0,
+              },
+            },
+          },
+          OutputLocation: {
+            S3: {
+              BucketName: 0,
+              Prefix: 0,
+              Encryption: { EncryptionType: 0, KMSKeyId: 0, KMSContext: 0 },
+              CannedACL: 0,
+              AccessControlList: D.list({
+                Grantee: {
+                  Type: 0,
+                  DisplayName: 0,
+                  URI: 0,
+                  ID: 0,
+                  EmailAddress: 0,
+                },
+                Permission: 0,
+              }),
+              Tagging: 0,
+              UserMetadata: 0,
+              StorageClass: 0,
+            },
+          },
+        },
+      }),
+    },
+    output: {
+      location: D.m({ header: "Location" }),
+      jobId: D.m({ header: "x-amz-job-id" }),
+      jobOutputPath: D.m({ header: "x-amz-job-output-path" }),
+    },
+  },
   errors: [
     InsufficientCapacityException,
     InvalidParameterValueException,
@@ -2616,7 +1620,7 @@ export const initiateJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateJob",
-}));
+})) as any;
 
 export type InitiateMultipartUploadError =
   | InvalidParameterValueException
@@ -2666,8 +1670,20 @@ export const initiateMultipartUpload: API.OperationMethod<
   InitiateMultipartUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: InitiateMultipartUploadInput,
-  output: InitiateMultipartUploadOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /{accountId}/vaults/{vaultName}/multipart-uploads",
+    input: {
+      accountId: 0,
+      vaultName: 0,
+      archiveDescription: D.m({ header: "x-amz-archive-description" }),
+      partSize: D.m({ header: "x-amz-part-size" }),
+    },
+    output: {
+      location: D.m({ header: "Location" }),
+      uploadId: D.m({ header: "x-amz-multipart-upload-id" }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2678,7 +1694,7 @@ export const initiateMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateMultipartUpload",
-}));
+})) as any;
 
 export type InitiateVaultLockError =
   | InvalidParameterValueException
@@ -2727,8 +1743,16 @@ export const initiateVaultLock: API.OperationMethod<
   InitiateVaultLockError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: InitiateVaultLockInput,
-  output: InitiateVaultLockOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /{accountId}/vaults/{vaultName}/lock-policy",
+    input: {
+      accountId: 0,
+      vaultName: 0,
+      policy: D.m({ payload: true, shape: { Policy: 0 } }),
+    },
+    output: { lockId: D.m({ header: "x-amz-lock-id" }) },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2739,7 +1763,7 @@ export const initiateVaultLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateVaultLock",
-}));
+})) as any;
 
 export type ListJobsError =
   | InvalidParameterValueException
@@ -2791,8 +1815,18 @@ export const listJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GlacierJobDescription
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListJobsInput,
-  output: ListJobsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{accountId}/vaults/{vaultName}/jobs",
+    input: {
+      accountId: 0,
+      vaultName: 0,
+      limit: D.m({ query: "limit" }),
+      marker: D.m({ query: "marker" }),
+      statuscode: D.m({ query: "statuscode" }),
+      completed: D.m({ query: "completed" }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2853,8 +1887,16 @@ export const listMultipartUploads: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   UploadListElement
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListMultipartUploadsInput,
-  output: ListMultipartUploadsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{accountId}/vaults/{vaultName}/multipart-uploads",
+    input: {
+      accountId: 0,
+      vaultName: 0,
+      limit: D.m({ query: "limit" }),
+      marker: D.m({ query: "marker" }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2912,8 +1954,17 @@ export const listParts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PartListElement
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPartsInput,
-  output: ListPartsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}",
+    input: {
+      accountId: 0,
+      vaultName: 0,
+      uploadId: 0,
+      marker: D.m({ query: "marker" }),
+      limit: D.m({ query: "limit" }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2948,8 +1999,11 @@ export const listProvisionedCapacity: API.OperationMethod<
   ListProvisionedCapacityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListProvisionedCapacityInput,
-  output: ListProvisionedCapacityOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{accountId}/provisioned-capacity",
+    input: { accountId: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2959,7 +2013,7 @@ export const listProvisionedCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProvisionedCapacity",
-}));
+})) as any;
 
 export type ListTagsForVaultError =
   | InvalidParameterValueException
@@ -2979,8 +2033,11 @@ export const listTagsForVault: API.OperationMethod<
   ListTagsForVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForVaultInput,
-  output: ListTagsForVaultOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{accountId}/vaults/{vaultName}/tags",
+    input: { accountId: 0, vaultName: 0 },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -2991,7 +2048,7 @@ export const listTagsForVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForVault",
-}));
+})) as any;
 
 export type ListVaultsError =
   | InvalidParameterValueException
@@ -3029,8 +2086,15 @@ export const listVaults: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DescribeVaultOutput
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListVaultsInput,
-  output: ListVaultsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /{accountId}/vaults",
+    input: {
+      accountId: 0,
+      marker: D.m({ query: "marker" }),
+      limit: D.m({ query: "limit" }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -3065,8 +2129,12 @@ export const purchaseProvisionedCapacity: API.OperationMethod<
   PurchaseProvisionedCapacityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PurchaseProvisionedCapacityInput,
-  output: PurchaseProvisionedCapacityOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /{accountId}/provisioned-capacity",
+    input: { accountId: 0 },
+    output: { capacityId: D.m({ header: "x-amz-capacity-id" }) },
+  },
   errors: [
     InvalidParameterValueException,
     LimitExceededException,
@@ -3077,7 +2145,7 @@ export const purchaseProvisionedCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseProvisionedCapacity",
-}));
+})) as any;
 
 export type RemoveTagsFromVaultError =
   | InvalidParameterValueException
@@ -3098,8 +2166,12 @@ export const removeTagsFromVault: API.OperationMethod<
   RemoveTagsFromVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveTagsFromVaultInput,
-  output: RemoveTagsFromVaultResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /{accountId}/vaults/{vaultName}/tags?operation=remove",
+    input: { accountId: 0, vaultName: 0, TagKeys: 0 },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -3110,7 +2182,7 @@ export const removeTagsFromVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromVault",
-}));
+})) as any;
 
 export type SetDataRetrievalPolicyError =
   | InvalidParameterValueException
@@ -3133,8 +2205,15 @@ export const setDataRetrievalPolicy: API.OperationMethod<
   SetDataRetrievalPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetDataRetrievalPolicyInput,
-  output: SetDataRetrievalPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{accountId}/policies/data-retrieval",
+    input: {
+      accountId: 0,
+      Policy: { Rules: D.list({ Strategy: 0, BytesPerHour: 0 }) },
+    },
+    body: true,
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -3144,7 +2223,7 @@ export const setDataRetrievalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDataRetrievalPolicy",
-}));
+})) as any;
 
 export type SetVaultAccessPolicyError =
   | InvalidParameterValueException
@@ -3167,8 +2246,15 @@ export const setVaultAccessPolicy: API.OperationMethod<
   SetVaultAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetVaultAccessPolicyInput,
-  output: SetVaultAccessPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{accountId}/vaults/{vaultName}/access-policy",
+    input: {
+      accountId: 0,
+      vaultName: 0,
+      policy: D.m({ payload: true, shape: { Policy: 0 } }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -3179,7 +2265,7 @@ export const setVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetVaultAccessPolicy",
-}));
+})) as any;
 
 export type SetVaultNotificationsError =
   | InvalidParameterValueException
@@ -3227,8 +2313,18 @@ export const setVaultNotifications: API.OperationMethod<
   SetVaultNotificationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetVaultNotificationsInput,
-  output: SetVaultNotificationsResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /{accountId}/vaults/{vaultName}/notification-configuration",
+    input: {
+      accountId: 0,
+      vaultName: 0,
+      vaultNotificationConfig: D.m({
+        payload: true,
+        shape: { SNSTopic: 0, Events: 0 },
+      }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -3239,7 +2335,7 @@ export const setVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetVaultNotifications",
-}));
+})) as any;
 
 export type UploadArchiveError =
   | InvalidParameterValueException
@@ -3290,8 +2386,22 @@ export const uploadArchive: API.OperationMethod<
   UploadArchiveError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UploadArchiveInput,
-  output: ArchiveCreationOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /{accountId}/vaults/{vaultName}/archives",
+    input: {
+      vaultName: 0,
+      accountId: 0,
+      archiveDescription: D.m({ header: "x-amz-archive-description" }),
+      checksum: D.m({ header: "x-amz-sha256-tree-hash" }),
+      body: D.m({ payload: true, shape: D.stream }),
+    },
+    output: {
+      location: D.m({ header: "Location" }),
+      checksum: D.m({ header: "x-amz-sha256-tree-hash" }),
+      archiveId: D.m({ header: "x-amz-archive-id" }),
+    },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -3303,7 +2413,7 @@ export const uploadArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadArchive",
-}));
+})) as any;
 
 export type UploadMultipartPartError =
   | InvalidParameterValueException
@@ -3363,8 +2473,19 @@ export const uploadMultipartPart: API.OperationMethod<
   UploadMultipartPartError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UploadMultipartPartInput,
-  output: UploadMultipartPartOutput,
+  descriptor: {
+    service: svc,
+    http: "PUT /{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}",
+    input: {
+      accountId: 0,
+      vaultName: 0,
+      uploadId: 0,
+      checksum: D.m({ header: "x-amz-sha256-tree-hash" }),
+      range: D.m({ header: "Content-Range" }),
+      body: D.m({ payload: true, shape: D.stream }),
+    },
+    output: { checksum: D.m({ header: "x-amz-sha256-tree-hash" }) },
+  },
   errors: [
     InvalidParameterValueException,
     MissingParameterValueException,
@@ -3376,4 +2497,4 @@ export const uploadMultipartPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadMultipartPart",
-}));
+})) as any;

@@ -1,275 +1,178 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "ConnectParticipant",
-  serviceShapeName: "AmazonConnectParticipantServiceLambda",
-});
-const auth = T.AwsAuthSigv4({ name: "execute-api" });
-const ver = T.ServiceVersion("2018-09-07");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://participant.connect-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
-              return e(`https://participant.connect.${Region}.amazonaws.com`);
-            }
-            return e(
-              `https://participant.connect-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://participant.connect.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://participant.connect.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AmazonConnectParticipantServiceLambda",
+  version: "2018-09-07",
+  sigv4: "execute-api",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://participant.connect-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
+                return e(`https://participant.connect.${Region}.amazonaws.com`);
+              }
+              return e(
+                `https://participant.connect-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://participant.connect.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://participant.connect.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceId: S.optional(S.String),
-      ResourceType: S.optional(
-        S.suspend(() => ResourceType).annotate({ identifier: "ResourceType" }),
-      ),
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{
+    readonly message?: string;
+    readonly ResourceId?: string;
+    readonly ResourceType?: ResourceType;
+  }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly message: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message: string }> {}
 export type SessionId = string;
 export type ParticipantToken = string;
 export interface CancelParticipantAuthenticationRequest {
   SessionId: string;
   ConnectionToken: string;
 }
-export const CancelParticipantAuthenticationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SessionId: S.String,
-      ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/participant/cancel-authentication" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CancelParticipantAuthenticationRequest",
-}) as any as S.Schema<CancelParticipantAuthenticationRequest>;
 export interface CancelParticipantAuthenticationResponse {}
-export const CancelParticipantAuthenticationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "CancelParticipantAuthenticationResponse",
-}) as any as S.Schema<CancelParticipantAuthenticationResponse>;
 export type ArtifactId = string;
 export type AttachmentIdList = string[];
-export const AttachmentIdList = /*@__PURE__*/ S.Array(S.String);
 export type NonEmptyClientToken = string;
 export interface CompleteAttachmentUploadRequest {
   AttachmentIds: string[];
   ClientToken: string;
   ConnectionToken: string;
 }
-export const CompleteAttachmentUploadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttachmentIds: AttachmentIdList,
-    ClientToken: S.String.pipe(T.IdempotencyToken()),
-    ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/participant/complete-attachment-upload",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CompleteAttachmentUploadRequest",
-}) as any as S.Schema<CompleteAttachmentUploadRequest>;
 export interface CompleteAttachmentUploadResponse {}
-export const CompleteAttachmentUploadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CompleteAttachmentUploadResponse",
-}) as any as S.Schema<CompleteAttachmentUploadResponse>;
 export type ConnectionType =
   | "WEBSOCKET"
   | "CONNECTION_CREDENTIALS"
   | "WEBRTC_CONNECTION"
   | (string & {});
-export const ConnectionType = S.String;
-
 export type ConnectionTypeList = ConnectionType[];
-export const ConnectionTypeList = /*@__PURE__*/ S.Array(ConnectionType);
 export interface CreateParticipantConnectionRequest {
   Type?: ConnectionType[];
   ParticipantToken: string;
   ConnectParticipant?: boolean;
 }
-export const CreateParticipantConnectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(ConnectionTypeList),
-    ParticipantToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
-    ConnectParticipant: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/participant/connection" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateParticipantConnectionRequest",
-}) as any as S.Schema<CreateParticipantConnectionRequest>;
 export type PreSignedConnectionUrl = string;
 export type ISO8601Datetime = string;
 export interface Websocket {
   Url?: string;
   ConnectionExpiry?: string;
 }
-export const Websocket = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Url: S.optional(S.String),
-    ConnectionExpiry: S.optional(S.String),
-  }),
-).annotate({ identifier: "Websocket" }) as any as S.Schema<Websocket>;
 export interface ConnectionCredentials {
   ConnectionToken?: string;
   Expiry?: string;
 }
-export const ConnectionCredentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionToken: S.optional(S.String),
-    Expiry: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConnectionCredentials",
-}) as any as S.Schema<ConnectionCredentials>;
 export type AttendeeId = string;
 export type JoinToken = string | redacted.Redacted<string>;
 export interface Attendee {
   AttendeeId?: string;
   JoinToken?: string | redacted.Redacted<string>;
 }
-export const Attendee = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttendeeId: S.optional(S.String),
-    JoinToken: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "Attendee" }) as any as S.Schema<Attendee>;
 export type URI = string;
 export interface WebRTCMediaPlacement {
   AudioHostUrl?: string;
@@ -277,94 +180,33 @@ export interface WebRTCMediaPlacement {
   SignalingUrl?: string;
   EventIngestionUrl?: string;
 }
-export const WebRTCMediaPlacement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AudioHostUrl: S.optional(S.String),
-    AudioFallbackUrl: S.optional(S.String),
-    SignalingUrl: S.optional(S.String),
-    EventIngestionUrl: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "WebRTCMediaPlacement",
-}) as any as S.Schema<WebRTCMediaPlacement>;
 export type MeetingFeatureStatus = "AVAILABLE" | "UNAVAILABLE" | (string & {});
-export const MeetingFeatureStatus = S.String;
-
 export interface AudioFeatures {
   EchoReduction?: MeetingFeatureStatus;
 }
-export const AudioFeatures = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EchoReduction: S.optional(MeetingFeatureStatus) }),
-).annotate({ identifier: "AudioFeatures" }) as any as S.Schema<AudioFeatures>;
 export interface MeetingFeaturesConfiguration {
   Audio?: AudioFeatures;
 }
-export const MeetingFeaturesConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Audio: S.optional(AudioFeatures) }),
-).annotate({
-  identifier: "MeetingFeaturesConfiguration",
-}) as any as S.Schema<MeetingFeaturesConfiguration>;
 export type GuidString = string;
 export interface WebRTCMeeting {
   MediaPlacement?: WebRTCMediaPlacement;
   MeetingFeatures?: MeetingFeaturesConfiguration;
   MeetingId?: string;
 }
-export const WebRTCMeeting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MediaPlacement: S.optional(WebRTCMediaPlacement),
-    MeetingFeatures: S.optional(MeetingFeaturesConfiguration),
-    MeetingId: S.optional(S.String),
-  }),
-).annotate({ identifier: "WebRTCMeeting" }) as any as S.Schema<WebRTCMeeting>;
 export interface WebRTCConnection {
   Attendee?: Attendee;
   Meeting?: WebRTCMeeting;
 }
-export const WebRTCConnection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Attendee: S.optional(Attendee),
-    Meeting: S.optional(WebRTCMeeting),
-  }),
-).annotate({
-  identifier: "WebRTCConnection",
-}) as any as S.Schema<WebRTCConnection>;
 export interface CreateParticipantConnectionResponse {
   Websocket?: Websocket;
   ConnectionCredentials?: ConnectionCredentials;
   WebRTCConnection?: WebRTCConnection;
 }
-export const CreateParticipantConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Websocket: S.optional(Websocket),
-    ConnectionCredentials: S.optional(ConnectionCredentials),
-    WebRTCConnection: S.optional(WebRTCConnection),
-  }),
-).annotate({
-  identifier: "CreateParticipantConnectionResponse",
-}) as any as S.Schema<CreateParticipantConnectionResponse>;
 export type ViewToken = string;
 export interface DescribeViewRequest {
   ViewToken: string;
   ConnectionToken: string;
 }
-export const DescribeViewRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViewToken: S.String.pipe(T.HttpLabel("ViewToken")),
-    ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/participant/views/{ViewToken}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeViewRequest",
-}) as any as S.Schema<DescribeViewRequest>;
 export type ViewId = string;
 export type ARN = string;
 export type ViewName = string | redacted.Redacted<string>;
@@ -373,19 +215,11 @@ export type ViewInputSchema = string | redacted.Redacted<string>;
 export type ViewTemplate = string | redacted.Redacted<string>;
 export type ViewAction = string | redacted.Redacted<string>;
 export type ViewActions = (string | redacted.Redacted<string>)[];
-export const ViewActions = /*@__PURE__*/ S.Array(SensitiveString);
 export interface ViewContent {
   InputSchema?: string | redacted.Redacted<string>;
   Template?: string | redacted.Redacted<string>;
   Actions?: (string | redacted.Redacted<string>)[];
 }
-export const ViewContent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InputSchema: S.optional(SensitiveString),
-    Template: S.optional(SensitiveString),
-    Actions: S.optional(ViewActions),
-  }),
-).annotate({ identifier: "ViewContent" }) as any as S.Schema<ViewContent>;
 export interface View {
   Id?: string;
   Arn?: string;
@@ -393,75 +227,21 @@ export interface View {
   Version?: number;
   Content?: ViewContent;
 }
-export const View = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    Version: S.optional(S.Number),
-    Content: S.optional(ViewContent),
-  }),
-).annotate({ identifier: "View" }) as any as S.Schema<View>;
 export interface DescribeViewResponse {
   View?: View;
 }
-export const DescribeViewResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ View: S.optional(View) }),
-).annotate({
-  identifier: "DescribeViewResponse",
-}) as any as S.Schema<DescribeViewResponse>;
 export type ClientToken = string;
 export interface DisconnectParticipantRequest {
   ClientToken?: string;
   ConnectionToken: string;
 }
-export const DisconnectParticipantRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/participant/disconnect" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisconnectParticipantRequest",
-}) as any as S.Schema<DisconnectParticipantRequest>;
 export interface DisconnectParticipantResponse {}
-export const DisconnectParticipantResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisconnectParticipantResponse",
-}) as any as S.Schema<DisconnectParticipantResponse>;
 export type URLExpiryInSeconds = number;
 export interface GetAttachmentRequest {
   AttachmentId: string;
   ConnectionToken: string;
   UrlExpiryInSeconds?: number;
 }
-export const GetAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttachmentId: S.String,
-    ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
-    UrlExpiryInSeconds: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/participant/attachment" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAttachmentRequest",
-}) as any as S.Schema<GetAttachmentRequest>;
 export type PreSignedAttachmentUrl = string;
 export type AttachmentSizeInBytes = number;
 export interface GetAttachmentResponse {
@@ -469,57 +249,21 @@ export interface GetAttachmentResponse {
   UrlExpiry?: string;
   AttachmentSizeInBytes: number;
 }
-export const GetAttachmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Url: S.optional(S.String),
-    UrlExpiry: S.optional(S.String),
-    AttachmentSizeInBytes: S.Number,
-  }),
-).annotate({
-  identifier: "GetAttachmentResponse",
-}) as any as S.Schema<GetAttachmentResponse>;
 export type RedirectURI = string;
 export interface GetAuthenticationUrlRequest {
   SessionId: string;
   RedirectUri: string;
   ConnectionToken: string;
 }
-export const GetAuthenticationUrlRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SessionId: S.String,
-    RedirectUri: S.String,
-    ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/participant/authentication-url" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAuthenticationUrlRequest",
-}) as any as S.Schema<GetAuthenticationUrlRequest>;
 export type AuthenticationUrl = string;
 export interface GetAuthenticationUrlResponse {
   AuthenticationUrl?: string;
 }
-export const GetAuthenticationUrlResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AuthenticationUrl: S.optional(S.String) }),
-).annotate({
-  identifier: "GetAuthenticationUrlResponse",
-}) as any as S.Schema<GetAuthenticationUrlResponse>;
 export type ContactId = string;
 export type MaxResults = number;
 export type NextToken = string;
 export type ScanDirection = "FORWARD" | "BACKWARD" | (string & {});
-export const ScanDirection = S.String;
-
 export type SortKey = "DESCENDING" | "ASCENDING" | (string & {});
-export const SortKey = S.String;
-
 export type ChatItemId = string;
 export type Instant = string;
 export type MostRecent = number;
@@ -528,13 +272,6 @@ export interface StartPosition {
   AbsoluteTime?: string;
   MostRecent?: number;
 }
-export const StartPosition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    AbsoluteTime: S.optional(S.String),
-    MostRecent: S.optional(S.Number),
-  }),
-).annotate({ identifier: "StartPosition" }) as any as S.Schema<StartPosition>;
 export interface GetTranscriptRequest {
   ContactId?: string;
   MaxResults?: number;
@@ -544,28 +281,6 @@ export interface GetTranscriptRequest {
   StartPosition?: StartPosition;
   ConnectionToken: string;
 }
-export const GetTranscriptRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContactId: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    ScanDirection: S.optional(ScanDirection),
-    SortOrder: S.optional(SortKey),
-    StartPosition: S.optional(StartPosition),
-    ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/participant/transcript" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetTranscriptRequest",
-}) as any as S.Schema<GetTranscriptRequest>;
 export type ChatContent = string;
 export type ChatContentType = string;
 export type ChatItemType =
@@ -582,8 +297,6 @@ export type ChatItemType =
   | "MESSAGE_DELIVERED"
   | "MESSAGE_READ"
   | (string & {});
-export const ChatItemType = S.String;
-
 export type ParticipantId = string;
 export type DisplayName = string;
 export type ParticipantRole =
@@ -593,8 +306,6 @@ export type ParticipantRole =
   | "CUSTOM_BOT"
   | "SUPERVISOR"
   | (string & {});
-export const ParticipantRole = S.String;
-
 export type ContentType = string;
 export type AttachmentName = string;
 export type ArtifactStatus =
@@ -602,59 +313,29 @@ export type ArtifactStatus =
   | "REJECTED"
   | "IN_PROGRESS"
   | (string & {});
-export const ArtifactStatus = S.String;
-
 export interface AttachmentItem {
   ContentType?: string;
   AttachmentId?: string;
   AttachmentName?: string;
   Status?: ArtifactStatus;
 }
-export const AttachmentItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContentType: S.optional(S.String),
-    AttachmentId: S.optional(S.String),
-    AttachmentName: S.optional(S.String),
-    Status: S.optional(ArtifactStatus),
-  }),
-).annotate({ identifier: "AttachmentItem" }) as any as S.Schema<AttachmentItem>;
 export type Attachments = AttachmentItem[];
-export const Attachments = /*@__PURE__*/ S.Array(AttachmentItem);
 export interface Receipt {
   DeliveredTimestamp?: string;
   ReadTimestamp?: string;
   RecipientParticipantId?: string;
 }
-export const Receipt = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeliveredTimestamp: S.optional(S.String),
-    ReadTimestamp: S.optional(S.String),
-    RecipientParticipantId: S.optional(S.String),
-  }),
-).annotate({ identifier: "Receipt" }) as any as S.Schema<Receipt>;
 export type Receipts = Receipt[];
-export const Receipts = /*@__PURE__*/ S.Array(Receipt);
 export type MessageProcessingStatus =
   | "PROCESSING"
   | "FAILED"
   | "REJECTED"
   | (string & {});
-export const MessageProcessingStatus = S.String;
-
 export interface MessageMetadata {
   MessageId?: string;
   Receipts?: Receipt[];
   MessageProcessingStatus?: MessageProcessingStatus;
 }
-export const MessageMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MessageId: S.optional(S.String),
-    Receipts: S.optional(Receipts),
-    MessageProcessingStatus: S.optional(MessageProcessingStatus),
-  }),
-).annotate({
-  identifier: "MessageMetadata",
-}) as any as S.Schema<MessageMetadata>;
 export interface Item {
   AbsoluteTime?: string;
   Content?: string;
@@ -669,119 +350,36 @@ export interface Item {
   RelatedContactId?: string;
   ContactId?: string;
 }
-export const Item = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AbsoluteTime: S.optional(S.String),
-    Content: S.optional(S.String),
-    ContentType: S.optional(S.String),
-    Id: S.optional(S.String),
-    Type: S.optional(ChatItemType),
-    ParticipantId: S.optional(S.String),
-    DisplayName: S.optional(S.String),
-    ParticipantRole: S.optional(ParticipantRole),
-    Attachments: S.optional(Attachments),
-    MessageMetadata: S.optional(MessageMetadata),
-    RelatedContactId: S.optional(S.String),
-    ContactId: S.optional(S.String),
-  }),
-).annotate({ identifier: "Item" }) as any as S.Schema<Item>;
 export type Transcript = Item[];
-export const Transcript = /*@__PURE__*/ S.Array(Item);
 export interface GetTranscriptResponse {
   InitialContactId?: string;
   Transcript?: Item[];
   NextToken?: string;
 }
-export const GetTranscriptResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InitialContactId: S.optional(S.String),
-    Transcript: S.optional(Transcript),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetTranscriptResponse",
-}) as any as S.Schema<GetTranscriptResponse>;
 export interface SendEventRequest {
   ContentType: string;
   Content?: string;
   ClientToken?: string;
   ConnectionToken: string;
 }
-export const SendEventRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContentType: S.String,
-    Content: S.optional(S.String),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/participant/event" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SendEventRequest",
-}) as any as S.Schema<SendEventRequest>;
 export interface SendEventResponse {
   Id?: string;
   AbsoluteTime?: string;
 }
-export const SendEventResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String), AbsoluteTime: S.optional(S.String) }),
-).annotate({
-  identifier: "SendEventResponse",
-}) as any as S.Schema<SendEventResponse>;
 export interface SendMessageRequest {
   ContentType: string;
   Content: string;
   ClientToken?: string;
   ConnectionToken: string;
 }
-export const SendMessageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContentType: S.String,
-    Content: S.String,
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/participant/message" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SendMessageRequest",
-}) as any as S.Schema<SendMessageRequest>;
 export interface MessageProcessingMetadata {
   MessageProcessingStatus?: MessageProcessingStatus;
 }
-export const MessageProcessingMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MessageProcessingStatus: S.optional(MessageProcessingStatus) }),
-).annotate({
-  identifier: "MessageProcessingMetadata",
-}) as any as S.Schema<MessageProcessingMetadata>;
 export interface SendMessageResponse {
   Id?: string;
   AbsoluteTime?: string;
   MessageMetadata?: MessageProcessingMetadata;
 }
-export const SendMessageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    AbsoluteTime: S.optional(S.String),
-    MessageMetadata: S.optional(MessageProcessingMetadata),
-  }),
-).annotate({
-  identifier: "SendMessageResponse",
-}) as any as S.Schema<SendMessageResponse>;
 export interface StartAttachmentUploadRequest {
   ContentType: string;
   AttachmentSizeInBytes: number;
@@ -789,58 +387,19 @@ export interface StartAttachmentUploadRequest {
   ClientToken: string;
   ConnectionToken: string;
 }
-export const StartAttachmentUploadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContentType: S.String,
-    AttachmentSizeInBytes: S.Number,
-    AttachmentName: S.String,
-    ClientToken: S.String.pipe(T.IdempotencyToken()),
-    ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/participant/start-attachment-upload" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartAttachmentUploadRequest",
-}) as any as S.Schema<StartAttachmentUploadRequest>;
 export type UploadMetadataUrl = string;
 export type UploadMetadataSignedHeadersKey = string;
 export type UploadMetadataSignedHeadersValue = string;
 export type UploadMetadataSignedHeaders = { [key: string]: string | undefined };
-export const UploadMetadataSignedHeaders = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface UploadMetadata {
   Url?: string;
   UrlExpiry?: string;
   HeadersToInclude?: { [key: string]: string | undefined };
 }
-export const UploadMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Url: S.optional(S.String),
-    UrlExpiry: S.optional(S.String),
-    HeadersToInclude: S.optional(UploadMetadataSignedHeaders),
-  }),
-).annotate({ identifier: "UploadMetadata" }) as any as S.Schema<UploadMetadata>;
 export interface StartAttachmentUploadResponse {
   AttachmentId?: string;
   UploadMetadata?: UploadMetadata;
 }
-export const StartAttachmentUploadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttachmentId: S.optional(S.String),
-    UploadMetadata: S.optional(UploadMetadata),
-  }),
-).annotate({
-  identifier: "StartAttachmentUploadResponse",
-}) as any as S.Schema<StartAttachmentUploadResponse>;
 export type Message = string;
 export type Reason = string;
 export type ResourceId = string;
@@ -854,8 +413,6 @@ export type ResourceType =
   | "USER"
   | "PHONE_NUMBER"
   | (string & {});
-export const ResourceType = S.String;
-
 export type CancelParticipantAuthenticationError =
   | AccessDeniedException
   | InternalServerException
@@ -881,8 +438,12 @@ export const cancelParticipantAuthentication: API.OperationMethod<
   CancelParticipantAuthenticationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelParticipantAuthenticationRequest,
-  output: CancelParticipantAuthenticationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /participant/cancel-authentication",
+    input: { SessionId: 0, ConnectionToken: D.m({ header: "X-Amz-Bearer" }) },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -892,7 +453,7 @@ export const cancelParticipantAuthentication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelParticipantAuthentication",
-}));
+})) as any;
 
 export type CompleteAttachmentUploadError =
   | AccessDeniedException
@@ -921,8 +482,16 @@ export const completeAttachmentUpload: API.OperationMethod<
   CompleteAttachmentUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CompleteAttachmentUploadRequest,
-  output: CompleteAttachmentUploadResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /participant/complete-attachment-upload",
+    input: {
+      AttachmentIds: 0,
+      ClientToken: D.m({ idempotency: true }),
+      ConnectionToken: D.m({ header: "X-Amz-Bearer" }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -934,7 +503,7 @@ export const completeAttachmentUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteAttachmentUpload",
-}));
+})) as any;
 
 export type CreateParticipantConnectionError =
   | AccessDeniedException
@@ -1014,8 +583,17 @@ export const createParticipantConnection: API.OperationMethod<
   CreateParticipantConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateParticipantConnectionRequest,
-  output: CreateParticipantConnectionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /participant/connection",
+    input: {
+      Type: 0,
+      ParticipantToken: D.m({ header: "X-Amz-Bearer" }),
+      ConnectParticipant: 0,
+    },
+    output: { WebRTCConnection: { Attendee: { JoinToken: D.secret } } },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1025,7 +603,7 @@ export const createParticipantConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParticipantConnection",
-}));
+})) as any;
 
 export type DescribeViewError =
   | AccessDeniedException
@@ -1045,8 +623,21 @@ export const describeView: API.OperationMethod<
   DescribeViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeViewRequest,
-  output: DescribeViewResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /participant/views/{ViewToken}",
+    input: { ViewToken: 0, ConnectionToken: D.m({ header: "X-Amz-Bearer" }) },
+    output: {
+      View: {
+        Name: D.secret,
+        Content: {
+          InputSchema: D.secret,
+          Template: D.secret,
+          Actions: D.list(D.secret),
+        },
+      },
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1057,7 +648,7 @@ export const describeView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeView",
-}));
+})) as any;
 
 export type DisconnectParticipantError =
   | AccessDeniedException
@@ -1082,8 +673,15 @@ export const disconnectParticipant: API.OperationMethod<
   DisconnectParticipantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisconnectParticipantRequest,
-  output: DisconnectParticipantResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /participant/disconnect",
+    input: {
+      ClientToken: D.m({ idempotency: true }),
+      ConnectionToken: D.m({ header: "X-Amz-Bearer" }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1093,7 +691,7 @@ export const disconnectParticipant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectParticipant",
-}));
+})) as any;
 
 export type GetAttachmentError =
   | AccessDeniedException
@@ -1124,8 +722,16 @@ export const getAttachment: API.OperationMethod<
   GetAttachmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAttachmentRequest,
-  output: GetAttachmentResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /participant/attachment",
+    input: {
+      AttachmentId: 0,
+      ConnectionToken: D.m({ header: "X-Amz-Bearer" }),
+      UrlExpiryInSeconds: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1135,7 +741,7 @@ export const getAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttachment",
-}));
+})) as any;
 
 export type GetAuthenticationUrlError =
   | AccessDeniedException
@@ -1167,8 +773,16 @@ export const getAuthenticationUrl: API.OperationMethod<
   GetAuthenticationUrlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAuthenticationUrlRequest,
-  output: GetAuthenticationUrlResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /participant/authentication-url",
+    input: {
+      SessionId: 0,
+      RedirectUri: 0,
+      ConnectionToken: D.m({ header: "X-Amz-Bearer" }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1178,7 +792,7 @@ export const getAuthenticationUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthenticationUrl",
-}));
+})) as any;
 
 export type GetTranscriptError =
   | AccessDeniedException
@@ -1222,8 +836,20 @@ export const getTranscript: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetTranscriptRequest,
-  output: GetTranscriptResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /participant/transcript",
+    input: {
+      ContactId: 0,
+      MaxResults: 0,
+      NextToken: 0,
+      ScanDirection: 0,
+      SortOrder: 0,
+      StartPosition: { Id: 0, AbsoluteTime: 0, MostRecent: 0 },
+      ConnectionToken: D.m({ header: "X-Amz-Bearer" }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1271,8 +897,17 @@ export const sendEvent: API.OperationMethod<
   SendEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SendEventRequest,
-  output: SendEventResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /participant/event",
+    input: {
+      ContentType: 0,
+      Content: 0,
+      ClientToken: D.m({ idempotency: true }),
+      ConnectionToken: D.m({ header: "X-Amz-Bearer" }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1283,7 +918,7 @@ export const sendEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendEvent",
-}));
+})) as any;
 
 export type SendMessageError =
   | AccessDeniedException
@@ -1308,8 +943,17 @@ export const sendMessage: API.OperationMethod<
   SendMessageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SendMessageRequest,
-  output: SendMessageResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /participant/message",
+    input: {
+      ContentType: 0,
+      Content: 0,
+      ClientToken: D.m({ idempotency: true }),
+      ConnectionToken: D.m({ header: "X-Amz-Bearer" }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1319,7 +963,7 @@ export const sendMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMessage",
-}));
+})) as any;
 
 export type StartAttachmentUploadError =
   | AccessDeniedException
@@ -1346,8 +990,18 @@ export const startAttachmentUpload: API.OperationMethod<
   StartAttachmentUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartAttachmentUploadRequest,
-  output: StartAttachmentUploadResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /participant/start-attachment-upload",
+    input: {
+      ContentType: 0,
+      AttachmentSizeInBytes: 0,
+      AttachmentName: 0,
+      ClientToken: D.m({ idempotency: true }),
+      ConnectionToken: D.m({ header: "X-Amz-Bearer" }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1358,4 +1012,4 @@ export const startAttachmentUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAttachmentUpload",
-}));
+})) as any;

@@ -1,197 +1,162 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { awsJson1_0Protocol } from "../protocols/aws-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Route53 Recovery Cluster",
-  serviceShapeName: "ToggleCustomerAPI",
-});
-const auth = T.AwsAuthSigv4({ name: "route53-recovery-cluster" });
-const ver = T.ServiceVersion("2019-12-02");
-const proto = T.AwsProtocolsAwsJson1_0();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://route53-recovery-cluster-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://route53-recovery-cluster-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://route53-recovery-cluster.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://route53-recovery-cluster.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "ToggleCustomerAPI",
+  version: "2019-12-02",
+  sigv4: "route53-recovery-cluster",
+  protocol: awsJson1_0Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://route53-recovery-cluster-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://route53-recovery-cluster-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://route53-recovery-cluster.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://route53-recovery-cluster.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{
+    readonly message: string;
+    readonly resourceId: string;
+    readonly resourceType: string;
+  }> {}
 export class EndpointTemporarilyUnavailableException
-  extends /*@__PURE__*/ S.TaggedError<EndpointTemporarilyUnavailableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EndpointTemporarilyUnavailableException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(503),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 503 },
+  )<{ readonly message: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
-    },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500, headers: { retryAfterSeconds: ["Retry-After", "num"] } },
+  )<{ readonly message: string; readonly retryAfterSeconds?: number }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{
+    readonly message: string;
+    readonly resourceId: string;
+    readonly resourceType: string;
+  }> {}
 export class ServiceLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceLimitExceededException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.optional(S.String),
-      resourceType: S.optional(S.String),
-      limitCode: S.String,
-      serviceCode: S.String,
-    },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{
+    readonly message: string;
+    readonly resourceId?: string;
+    readonly resourceType?: string;
+    readonly limitCode: string;
+    readonly serviceCode: string;
+  }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
-    },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429, headers: { retryAfterSeconds: ["Retry-After", "num"] } },
+  )<{ readonly message: string; readonly retryAfterSeconds?: number }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      reason: S.optional(
-        S.suspend(() => ValidationExceptionReason).annotate({
-          identifier: "ValidationExceptionReason",
-        }),
-      ),
-      fields: S.optional(
-        S.suspend(() => ValidationExceptionFieldList).annotate({
-          identifier: "ValidationExceptionFieldList",
-        }),
-      ),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly message: string;
+    readonly reason?: ValidationExceptionReason;
+    readonly fields?: ValidationExceptionField[];
+  }> {}
 export type Arn = string;
 export interface GetRoutingControlStateRequest {
   RoutingControlArn: string;
 }
-export const GetRoutingControlStateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoutingControlArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetRoutingControlStateRequest",
-}) as any as S.Schema<GetRoutingControlStateRequest>;
 export type RoutingControlState = "On" | "Off" | (string & {});
-export const RoutingControlState = S.String;
-
 export type RoutingControlName = string;
 export interface GetRoutingControlStateResponse {
   RoutingControlArn: string;
   RoutingControlState: RoutingControlState;
   RoutingControlName?: string;
 }
-export const GetRoutingControlStateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoutingControlArn: S.String,
-    RoutingControlState: RoutingControlState,
-    RoutingControlName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetRoutingControlStateResponse",
-}) as any as S.Schema<GetRoutingControlStateResponse>;
 export type PageToken = string;
 export type MaxResults = number;
 export interface ListRoutingControlsRequest {
@@ -199,17 +164,6 @@ export interface ListRoutingControlsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListRoutingControlsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ControlPanelArn: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListRoutingControlsRequest",
-}) as any as S.Schema<ListRoutingControlsRequest>;
 export type ControlPanelName = string;
 export type Owner = string;
 export interface RoutingControl {
@@ -220,90 +174,28 @@ export interface RoutingControl {
   RoutingControlState?: RoutingControlState;
   Owner?: string;
 }
-export const RoutingControl = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ControlPanelArn: S.optional(S.String),
-    ControlPanelName: S.optional(S.String),
-    RoutingControlArn: S.optional(S.String),
-    RoutingControlName: S.optional(S.String),
-    RoutingControlState: S.optional(RoutingControlState),
-    Owner: S.optional(S.String),
-  }),
-).annotate({ identifier: "RoutingControl" }) as any as S.Schema<RoutingControl>;
 export type RoutingControls = RoutingControl[];
-export const RoutingControls = /*@__PURE__*/ S.Array(RoutingControl);
 export interface ListRoutingControlsResponse {
   RoutingControls: RoutingControl[];
   NextToken?: string;
 }
-export const ListRoutingControlsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoutingControls: RoutingControls,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRoutingControlsResponse",
-}) as any as S.Schema<ListRoutingControlsResponse>;
 export type Arns = string[];
-export const Arns = /*@__PURE__*/ S.Array(S.String);
 export interface UpdateRoutingControlStateRequest {
   RoutingControlArn: string;
   RoutingControlState: RoutingControlState;
   SafetyRulesToOverride?: string[];
 }
-export const UpdateRoutingControlStateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoutingControlArn: S.String,
-    RoutingControlState: RoutingControlState,
-    SafetyRulesToOverride: S.optional(Arns),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateRoutingControlStateRequest",
-}) as any as S.Schema<UpdateRoutingControlStateRequest>;
 export interface UpdateRoutingControlStateResponse {}
-export const UpdateRoutingControlStateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateRoutingControlStateResponse",
-}) as any as S.Schema<UpdateRoutingControlStateResponse>;
 export interface UpdateRoutingControlStateEntry {
   RoutingControlArn: string;
   RoutingControlState: RoutingControlState;
 }
-export const UpdateRoutingControlStateEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoutingControlArn: S.String,
-    RoutingControlState: RoutingControlState,
-  }),
-).annotate({
-  identifier: "UpdateRoutingControlStateEntry",
-}) as any as S.Schema<UpdateRoutingControlStateEntry>;
 export type UpdateRoutingControlStateEntries = UpdateRoutingControlStateEntry[];
-export const UpdateRoutingControlStateEntries = /*@__PURE__*/ S.Array(
-  UpdateRoutingControlStateEntry,
-);
 export interface UpdateRoutingControlStatesRequest {
   UpdateRoutingControlStateEntries: UpdateRoutingControlStateEntry[];
   SafetyRulesToOverride?: string[];
 }
-export const UpdateRoutingControlStatesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpdateRoutingControlStateEntries: UpdateRoutingControlStateEntries,
-    SafetyRulesToOverride: S.optional(Arns),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateRoutingControlStatesRequest",
-}) as any as S.Schema<UpdateRoutingControlStatesRequest>;
 export interface UpdateRoutingControlStatesResponse {}
-export const UpdateRoutingControlStatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateRoutingControlStatesResponse",
-}) as any as S.Schema<UpdateRoutingControlStatesResponse>;
 export type RetryAfterSeconds = number;
 export type ValidationExceptionReason =
   | "unknownOperation"
@@ -311,21 +203,11 @@ export type ValidationExceptionReason =
   | "fieldValidationFailed"
   | "other"
   | (string & {});
-export const ValidationExceptionReason = S.String;
-
 export interface ValidationExceptionField {
   name: string;
   message: string;
 }
-export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
 export type GetRoutingControlStateError =
   | AccessDeniedException
   | EndpointTemporarilyUnavailableException
@@ -367,8 +249,7 @@ export const getRoutingControlState: API.OperationMethod<
   GetRoutingControlStateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRoutingControlStateRequest,
-  output: GetRoutingControlStateResponse,
+  descriptor: { service: svc, input: { RoutingControlArn: 0 } },
   errors: [
     AccessDeniedException,
     EndpointTemporarilyUnavailableException,
@@ -380,7 +261,7 @@ export const getRoutingControlState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoutingControlState",
-}));
+})) as any;
 
 export type ListRoutingControlsError =
   | AccessDeniedException
@@ -425,8 +306,10 @@ export const listRoutingControls: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RoutingControl
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRoutingControlsRequest,
-  output: ListRoutingControlsResponse,
+  descriptor: {
+    service: svc,
+    input: { ControlPanelArn: 0, NextToken: 0, MaxResults: 0 },
+  },
   errors: [
     AccessDeniedException,
     EndpointTemporarilyUnavailableException,
@@ -491,8 +374,14 @@ export const updateRoutingControlState: API.OperationMethod<
   UpdateRoutingControlStateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRoutingControlStateRequest,
-  output: UpdateRoutingControlStateResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      RoutingControlArn: 0,
+      RoutingControlState: 0,
+      SafetyRulesToOverride: 0,
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -505,7 +394,7 @@ export const updateRoutingControlState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoutingControlState",
-}));
+})) as any;
 
 export type UpdateRoutingControlStatesError =
   | AccessDeniedException
@@ -553,8 +442,16 @@ export const updateRoutingControlStates: API.OperationMethod<
   UpdateRoutingControlStatesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRoutingControlStatesRequest,
-  output: UpdateRoutingControlStatesResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      UpdateRoutingControlStateEntries: D.list({
+        RoutingControlArn: 0,
+        RoutingControlState: 0,
+      }),
+      SafetyRulesToOverride: 0,
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -568,4 +465,4 @@ export const updateRoutingControlStates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoutingControlStates",
-}));
+})) as any;

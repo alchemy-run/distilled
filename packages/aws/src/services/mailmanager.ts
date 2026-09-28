@@ -1,126 +1,122 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { awsJson1_0Protocol } from "../protocols/aws-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "MailManager",
-  serviceShapeName: "MailManagerSvc",
-});
-const auth = T.AwsAuthSigv4({ name: "ses" });
-const ver = T.ServiceVersion("2023-10-17");
-const proto = T.AwsProtocolsAwsJson1_0();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://mail-manager-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://mail-manager-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://mail-manager.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://mail-manager.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "MailManagerSvc",
+  version: "2023-10-17",
+  sigv4: "ses",
+  protocol: awsJson1_0Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://mail-manager-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://mail-manager-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://mail-manager.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://mail-manager.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly message?: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message?: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export type IdempotencyToken = string;
 export type AddonSubscriptionId = string;
 export type TagKey = string;
@@ -129,128 +125,52 @@ export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface CreateAddonInstanceRequest {
   ClientToken?: string;
   AddonSubscriptionId: string;
   Tags?: Tag[];
 }
-export const CreateAddonInstanceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    AddonSubscriptionId: S.String,
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateAddonInstanceRequest",
-}) as any as S.Schema<CreateAddonInstanceRequest>;
 export type AddonInstanceId = string;
 export interface CreateAddonInstanceResponse {
   AddonInstanceId: string;
 }
-export const CreateAddonInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AddonInstanceId: S.String }),
-).annotate({
-  identifier: "CreateAddonInstanceResponse",
-}) as any as S.Schema<CreateAddonInstanceResponse>;
 export type AddonName = string;
 export interface CreateAddonSubscriptionRequest {
   ClientToken?: string;
   AddonName: string;
   Tags?: Tag[];
 }
-export const CreateAddonSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    AddonName: S.String,
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateAddonSubscriptionRequest",
-}) as any as S.Schema<CreateAddonSubscriptionRequest>;
 export interface CreateAddonSubscriptionResponse {
   AddonSubscriptionId: string;
 }
-export const CreateAddonSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AddonSubscriptionId: S.String }),
-).annotate({
-  identifier: "CreateAddonSubscriptionResponse",
-}) as any as S.Schema<CreateAddonSubscriptionResponse>;
 export type AddressListName = string;
 export interface CreateAddressListRequest {
   ClientToken?: string;
   AddressListName: string;
   Tags?: Tag[];
 }
-export const CreateAddressListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    AddressListName: S.String,
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateAddressListRequest",
-}) as any as S.Schema<CreateAddressListRequest>;
 export type AddressListId = string;
 export interface CreateAddressListResponse {
   AddressListId: string;
 }
-export const CreateAddressListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AddressListId: S.String }),
-).annotate({
-  identifier: "CreateAddressListResponse",
-}) as any as S.Schema<CreateAddressListResponse>;
 export type JobName = string;
 export type ImportDataType = "CSV" | "JSON" | (string & {});
-export const ImportDataType = S.String;
-
 export interface ImportDataFormat {
   ImportDataType: ImportDataType;
 }
-export const ImportDataFormat = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ImportDataType: ImportDataType }),
-).annotate({
-  identifier: "ImportDataFormat",
-}) as any as S.Schema<ImportDataFormat>;
 export interface CreateAddressListImportJobRequest {
   ClientToken?: string;
   AddressListId: string;
   Name: string;
   ImportDataFormat: ImportDataFormat;
 }
-export const CreateAddressListImportJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    AddressListId: S.String,
-    Name: S.String,
-    ImportDataFormat: ImportDataFormat,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateAddressListImportJobRequest",
-}) as any as S.Schema<CreateAddressListImportJobRequest>;
 export type JobId = string;
 export type PreSignedUrl = string | redacted.Redacted<string>;
 export interface CreateAddressListImportJobResponse {
   JobId: string;
   PreSignedUrl: string | redacted.Redacted<string>;
 }
-export const CreateAddressListImportJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ JobId: S.String, PreSignedUrl: SensitiveString }),
-).annotate({
-  identifier: "CreateAddressListImportJobResponse",
-}) as any as S.Schema<CreateAddressListImportJobResponse>;
 export type ArchiveNameString = string;
 export type RetentionPeriod =
   | "THREE_MONTHS"
@@ -270,12 +190,7 @@ export type RetentionPeriod =
   | "TEN_YEARS"
   | "PERMANENT"
   | (string & {});
-export const RetentionPeriod = S.String;
-
 export type ArchiveRetention = { RetentionPeriod: RetentionPeriod };
-export const ArchiveRetention = /*@__PURE__*/ S.Union([
-  S.Struct({ RetentionPeriod: RetentionPeriod }),
-]);
 export type KmsKeyArn = string;
 export interface CreateArchiveRequest {
   ClientToken?: string;
@@ -284,32 +199,12 @@ export interface CreateArchiveRequest {
   KmsKeyArn?: string;
   Tags?: Tag[];
 }
-export const CreateArchiveRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    ArchiveName: S.String,
-    Retention: S.optional(ArchiveRetention),
-    KmsKeyArn: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateArchiveRequest",
-}) as any as S.Schema<CreateArchiveRequest>;
 export type ArchiveIdString = string;
 export interface CreateArchiveResponse {
   ArchiveId: string;
 }
-export const CreateArchiveResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ArchiveId: S.String }),
-).annotate({
-  identifier: "CreateArchiveResponse",
-}) as any as S.Schema<CreateArchiveResponse>;
 export type IngressPointName = string;
 export type IngressPointType = "OPEN" | "AUTH" | "MTLS" | (string & {});
-export const IngressPointType = S.String;
-
 export type RuleSetId = string;
 export type TrafficPolicyId = string;
 export type SmtpPassword = string | redacted.Redacted<string>;
@@ -321,21 +216,9 @@ export interface TrustStore {
   CrlContent?: string | redacted.Redacted<string>;
   KmsKeyArn?: string;
 }
-export const TrustStore = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CAContent: SensitiveString,
-    CrlContent: S.optional(SensitiveString),
-    KmsKeyArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "TrustStore" }) as any as S.Schema<TrustStore>;
 export interface TlsAuthConfiguration {
   TrustStore?: TrustStore;
 }
-export const TlsAuthConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TrustStore: S.optional(TrustStore) }),
-).annotate({
-  identifier: "TlsAuthConfiguration",
-}) as any as S.Schema<TlsAuthConfiguration>;
 export type IngressPointConfiguration =
   | {
       SmtpPassword: string | redacted.Redacted<string>;
@@ -348,31 +231,14 @@ export type IngressPointConfiguration =
       SecretArn?: never;
       TlsAuthConfiguration: TlsAuthConfiguration;
     };
-export const IngressPointConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ SmtpPassword: SensitiveString }),
-  S.Struct({ SecretArn: S.String }),
-  S.Struct({ TlsAuthConfiguration: TlsAuthConfiguration }),
-]);
 export type IpType = "IPV4" | "DUAL_STACK" | (string & {});
-export const IpType = S.String;
-
 export interface PublicNetworkConfiguration {
   IpType: IpType;
 }
-export const PublicNetworkConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IpType: IpType }),
-).annotate({
-  identifier: "PublicNetworkConfiguration",
-}) as any as S.Schema<PublicNetworkConfiguration>;
 export type VpcEndpointId = string;
 export interface PrivateNetworkConfiguration {
   VpcEndpointId: string;
 }
-export const PrivateNetworkConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VpcEndpointId: S.String }),
-).annotate({
-  identifier: "PrivateNetworkConfiguration",
-}) as any as S.Schema<PrivateNetworkConfiguration>;
 export type NetworkConfiguration =
   | {
       PublicNetworkConfiguration: PublicNetworkConfiguration;
@@ -382,13 +248,7 @@ export type NetworkConfiguration =
       PublicNetworkConfiguration?: never;
       PrivateNetworkConfiguration: PrivateNetworkConfiguration;
     };
-export const NetworkConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ PublicNetworkConfiguration: PublicNetworkConfiguration }),
-  S.Struct({ PrivateNetworkConfiguration: PrivateNetworkConfiguration }),
-]);
 export type TlsPolicy = "REQUIRED" | "OPTIONAL" | "FIPS" | (string & {});
-export const TlsPolicy = S.String;
-
 export interface CreateIngressPointRequest {
   ClientToken?: string;
   IngressPointName: string;
@@ -400,48 +260,17 @@ export interface CreateIngressPointRequest {
   TlsPolicy?: TlsPolicy;
   Tags?: Tag[];
 }
-export const CreateIngressPointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    IngressPointName: S.String,
-    Type: IngressPointType,
-    RuleSetId: S.String,
-    TrafficPolicyId: S.String,
-    IngressPointConfiguration: S.optional(IngressPointConfiguration),
-    NetworkConfiguration: S.optional(NetworkConfiguration),
-    TlsPolicy: S.optional(TlsPolicy),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateIngressPointRequest",
-}) as any as S.Schema<CreateIngressPointRequest>;
 export type IngressPointId = string;
 export interface CreateIngressPointResponse {
   IngressPointId: string;
 }
-export const CreateIngressPointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IngressPointId: S.String }),
-).annotate({
-  identifier: "CreateIngressPointResponse",
-}) as any as S.Schema<CreateIngressPointResponse>;
 export type RelayName = string;
 export type RelayServerName = string;
 export type RelayServerPort = number;
 export interface NoAuthentication {}
-export const NoAuthentication = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "NoAuthentication",
-}) as any as S.Schema<NoAuthentication>;
 export type RelayAuthentication =
   | { SecretArn: string; NoAuthentication?: never }
   | { SecretArn?: never; NoAuthentication: NoAuthentication };
-export const RelayAuthentication = /*@__PURE__*/ S.Union([
-  S.Struct({ SecretArn: S.String }),
-  S.Struct({ NoAuthentication: NoAuthentication }),
-]);
 export interface CreateRelayRequest {
   ClientToken?: string;
   RelayName: string;
@@ -450,29 +279,10 @@ export interface CreateRelayRequest {
   Authentication: RelayAuthentication;
   Tags?: Tag[];
 }
-export const CreateRelayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    RelayName: S.String,
-    ServerName: S.String,
-    ServerPort: S.Number,
-    Authentication: RelayAuthentication,
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateRelayRequest",
-}) as any as S.Schema<CreateRelayRequest>;
 export type RelayId = string;
 export interface CreateRelayResponse {
   RelayId: string;
 }
-export const CreateRelayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RelayId: S.String }),
-).annotate({
-  identifier: "CreateRelayResponse",
-}) as any as S.Schema<CreateRelayResponse>;
 export type RuleSetName = string;
 export type RuleName = string;
 export type RuleBooleanEmailAttribute =
@@ -480,17 +290,12 @@ export type RuleBooleanEmailAttribute =
   | "TLS"
   | "TLS_WRAPPED"
   | (string & {});
-export const RuleBooleanEmailAttribute = S.String;
-
 export type AnalyzerArn = string;
 export type ResultField = string;
 export interface Analysis {
   Analyzer: string;
   ResultField: string;
 }
-export const Analysis = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Analyzer: S.String, ResultField: S.String }),
-).annotate({ identifier: "Analysis" }) as any as S.Schema<Analysis>;
 export type RuleAddressListEmailAttribute =
   | "RECIPIENT"
   | "MAIL_FROM"
@@ -499,23 +304,12 @@ export type RuleAddressListEmailAttribute =
   | "TO"
   | "CC"
   | (string & {});
-export const RuleAddressListEmailAttribute = S.String;
-
 export type AddressListArn = string;
 export type RuleAddressListArnList = string[];
-export const RuleAddressListArnList = /*@__PURE__*/ S.Array(S.String);
 export interface RuleIsInAddressList {
   Attribute: RuleAddressListEmailAttribute;
   AddressLists: string[];
 }
-export const RuleIsInAddressList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Attribute: RuleAddressListEmailAttribute,
-    AddressLists: RuleAddressListArnList,
-  }),
-).annotate({
-  identifier: "RuleIsInAddressList",
-}) as any as S.Schema<RuleIsInAddressList>;
 export type RuleBooleanToEvaluate =
   | {
       Attribute: RuleBooleanEmailAttribute;
@@ -528,23 +322,11 @@ export type RuleBooleanToEvaluate =
       Analysis?: never;
       IsInAddressList: RuleIsInAddressList;
     };
-export const RuleBooleanToEvaluate = /*@__PURE__*/ S.Union([
-  S.Struct({ Attribute: RuleBooleanEmailAttribute }),
-  S.Struct({ Analysis: Analysis }),
-  S.Struct({ IsInAddressList: RuleIsInAddressList }),
-]);
 export type RuleBooleanOperator = "IS_TRUE" | "IS_FALSE" | (string & {});
-export const RuleBooleanOperator = S.String;
-
 export interface RuleBooleanExpression {
   Evaluate: RuleBooleanToEvaluate;
   Operator: RuleBooleanOperator;
 }
-export const RuleBooleanExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Evaluate: RuleBooleanToEvaluate, Operator: RuleBooleanOperator }),
-).annotate({
-  identifier: "RuleBooleanExpression",
-}) as any as S.Schema<RuleBooleanExpression>;
 export type RuleStringEmailAttribute =
   | "MAIL_FROM"
   | "HELO"
@@ -555,8 +337,6 @@ export type RuleStringEmailAttribute =
   | "TO"
   | "CC"
   | (string & {});
-export const RuleStringEmailAttribute = S.String;
-
 export type MimeHeaderAttribute = string;
 export type RuleClientCertificateAttribute =
   | "CN"
@@ -568,8 +348,6 @@ export type RuleClientCertificateAttribute =
   | "SAN_REGISTERED_ID"
   | "SERIAL_NUMBER"
   | (string & {});
-export const RuleClientCertificateAttribute = S.String;
-
 export type RuleStringToEvaluate =
   | {
       Attribute: RuleStringEmailAttribute;
@@ -595,12 +373,6 @@ export type RuleStringToEvaluate =
       Analysis?: never;
       ClientCertificateAttribute: RuleClientCertificateAttribute;
     };
-export const RuleStringToEvaluate = /*@__PURE__*/ S.Union([
-  S.Struct({ Attribute: RuleStringEmailAttribute }),
-  S.Struct({ MimeHeaderAttribute: S.String }),
-  S.Struct({ Analysis: Analysis }),
-  S.Struct({ ClientCertificateAttribute: RuleClientCertificateAttribute }),
-]);
 export type RuleStringOperator =
   | "EQUALS"
   | "NOT_EQUALS"
@@ -608,32 +380,15 @@ export type RuleStringOperator =
   | "ENDS_WITH"
   | "CONTAINS"
   | (string & {});
-export const RuleStringOperator = S.String;
-
 export type RuleStringValue = string | redacted.Redacted<string>;
 export type RuleStringList = (string | redacted.Redacted<string>)[];
-export const RuleStringList = /*@__PURE__*/ S.Array(SensitiveString);
 export interface RuleStringExpression {
   Evaluate: RuleStringToEvaluate;
   Operator: RuleStringOperator;
   Values: (string | redacted.Redacted<string>)[];
 }
-export const RuleStringExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Evaluate: RuleStringToEvaluate,
-    Operator: RuleStringOperator,
-    Values: RuleStringList,
-  }),
-).annotate({
-  identifier: "RuleStringExpression",
-}) as any as S.Schema<RuleStringExpression>;
 export type RuleNumberEmailAttribute = "MESSAGE_SIZE" | (string & {});
-export const RuleNumberEmailAttribute = S.String;
-
 export type RuleNumberToEvaluate = { Attribute: RuleNumberEmailAttribute };
-export const RuleNumberToEvaluate = /*@__PURE__*/ S.Union([
-  S.Struct({ Attribute: RuleNumberEmailAttribute }),
-]);
 export type RuleNumberOperator =
   | "EQUALS"
   | "NOT_EQUALS"
@@ -642,106 +397,48 @@ export type RuleNumberOperator =
   | "LESS_THAN_OR_EQUAL"
   | "GREATER_THAN_OR_EQUAL"
   | (string & {});
-export const RuleNumberOperator = S.String;
-
 export interface RuleNumberExpression {
   Evaluate: RuleNumberToEvaluate;
   Operator: RuleNumberOperator;
   Value: number;
 }
-export const RuleNumberExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Evaluate: RuleNumberToEvaluate,
-    Operator: RuleNumberOperator,
-    Value: S.Number,
-  }),
-).annotate({
-  identifier: "RuleNumberExpression",
-}) as any as S.Schema<RuleNumberExpression>;
 export type RuleIpEmailAttribute = "SOURCE_IP" | (string & {});
-export const RuleIpEmailAttribute = S.String;
-
 export type RuleIpToEvaluate = { Attribute: RuleIpEmailAttribute };
-export const RuleIpToEvaluate = /*@__PURE__*/ S.Union([
-  S.Struct({ Attribute: RuleIpEmailAttribute }),
-]);
 export type RuleIpOperator =
   | "CIDR_MATCHES"
   | "NOT_CIDR_MATCHES"
   | (string & {});
-export const RuleIpOperator = S.String;
-
 export type RuleIpStringValue = string;
 export type RuleIpValueList = string[];
-export const RuleIpValueList = /*@__PURE__*/ S.Array(S.String);
 export interface RuleIpExpression {
   Evaluate: RuleIpToEvaluate;
   Operator: RuleIpOperator;
   Values: string[];
 }
-export const RuleIpExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Evaluate: RuleIpToEvaluate,
-    Operator: RuleIpOperator,
-    Values: RuleIpValueList,
-  }),
-).annotate({
-  identifier: "RuleIpExpression",
-}) as any as S.Schema<RuleIpExpression>;
 export type RuleVerdictAttribute = "SPF" | "DKIM" | (string & {});
-export const RuleVerdictAttribute = S.String;
-
 export type RuleVerdictToEvaluate =
   | { Attribute: RuleVerdictAttribute; Analysis?: never }
   | { Attribute?: never; Analysis: Analysis };
-export const RuleVerdictToEvaluate = /*@__PURE__*/ S.Union([
-  S.Struct({ Attribute: RuleVerdictAttribute }),
-  S.Struct({ Analysis: Analysis }),
-]);
 export type RuleVerdictOperator = "EQUALS" | "NOT_EQUALS" | (string & {});
-export const RuleVerdictOperator = S.String;
-
 export type RuleVerdict =
   | "PASS"
   | "FAIL"
   | "GRAY"
   | "PROCESSING_FAILED"
   | (string & {});
-export const RuleVerdict = S.String;
-
 export type RuleVerdictValueList = RuleVerdict[];
-export const RuleVerdictValueList = /*@__PURE__*/ S.Array(RuleVerdict);
 export interface RuleVerdictExpression {
   Evaluate: RuleVerdictToEvaluate;
   Operator: RuleVerdictOperator;
   Values: RuleVerdict[];
 }
-export const RuleVerdictExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Evaluate: RuleVerdictToEvaluate,
-    Operator: RuleVerdictOperator,
-    Values: RuleVerdictValueList,
-  }),
-).annotate({
-  identifier: "RuleVerdictExpression",
-}) as any as S.Schema<RuleVerdictExpression>;
 export type RuleDmarcOperator = "EQUALS" | "NOT_EQUALS" | (string & {});
-export const RuleDmarcOperator = S.String;
-
 export type RuleDmarcPolicy = "NONE" | "QUARANTINE" | "REJECT" | (string & {});
-export const RuleDmarcPolicy = S.String;
-
 export type RuleDmarcValueList = RuleDmarcPolicy[];
-export const RuleDmarcValueList = /*@__PURE__*/ S.Array(RuleDmarcPolicy);
 export interface RuleDmarcExpression {
   Operator: RuleDmarcOperator;
   Values: RuleDmarcPolicy[];
 }
-export const RuleDmarcExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Operator: RuleDmarcOperator, Values: RuleDmarcValueList }),
-).annotate({
-  identifier: "RuleDmarcExpression",
-}) as any as S.Schema<RuleDmarcExpression>;
 export type RuleCondition =
   | {
       BooleanExpression: RuleBooleanExpression;
@@ -791,50 +488,21 @@ export type RuleCondition =
       VerdictExpression?: never;
       DmarcExpression: RuleDmarcExpression;
     };
-export const RuleCondition = /*@__PURE__*/ S.Union([
-  S.Struct({ BooleanExpression: RuleBooleanExpression }),
-  S.Struct({ StringExpression: RuleStringExpression }),
-  S.Struct({ NumberExpression: RuleNumberExpression }),
-  S.Struct({ IpExpression: RuleIpExpression }),
-  S.Struct({ VerdictExpression: RuleVerdictExpression }),
-  S.Struct({ DmarcExpression: RuleDmarcExpression }),
-]);
 export type RuleConditions = RuleCondition[];
-export const RuleConditions = /*@__PURE__*/ S.Array(RuleCondition);
 export interface DropAction {}
-export const DropAction = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DropAction",
-}) as any as S.Schema<DropAction>;
 export type ActionFailurePolicy = "CONTINUE" | "DROP" | (string & {});
-export const ActionFailurePolicy = S.String;
-
 export type IdOrArn = string;
 export type MailFrom = "REPLACE" | "PRESERVE" | (string & {});
-export const MailFrom = S.String;
-
 export interface RelayAction {
   ActionFailurePolicy?: ActionFailurePolicy;
   Relay: string;
   MailFrom?: MailFrom;
 }
-export const RelayAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionFailurePolicy: S.optional(ActionFailurePolicy),
-    Relay: S.String,
-    MailFrom: S.optional(MailFrom),
-  }),
-).annotate({ identifier: "RelayAction" }) as any as S.Schema<RelayAction>;
 export type NameOrArn = string;
 export interface ArchiveAction {
   ActionFailurePolicy?: ActionFailurePolicy;
   TargetArchive: string;
 }
-export const ArchiveAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionFailurePolicy: S.optional(ActionFailurePolicy),
-    TargetArchive: S.String,
-  }),
-).annotate({ identifier: "ArchiveAction" }) as any as S.Schema<ArchiveAction>;
 export type IamRoleArn = string;
 export type S3Bucket = string;
 export type S3Prefix = string;
@@ -846,61 +514,26 @@ export interface S3Action {
   S3Prefix?: string;
   S3SseKmsKeyId?: string;
 }
-export const S3Action = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionFailurePolicy: S.optional(ActionFailurePolicy),
-    RoleArn: S.String,
-    S3Bucket: S.String,
-    S3Prefix: S.optional(S.String),
-    S3SseKmsKeyId: S.optional(S.String),
-  }),
-).annotate({ identifier: "S3Action" }) as any as S.Schema<S3Action>;
 export interface SendAction {
   ActionFailurePolicy?: ActionFailurePolicy;
   RoleArn: string;
 }
-export const SendAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionFailurePolicy: S.optional(ActionFailurePolicy),
-    RoleArn: S.String,
-  }),
-).annotate({ identifier: "SendAction" }) as any as S.Schema<SendAction>;
 export type HeaderName = string;
 export type HeaderValue = string;
 export interface AddHeaderAction {
   HeaderName: string;
   HeaderValue: string;
 }
-export const AddHeaderAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ HeaderName: S.String, HeaderValue: S.String }),
-).annotate({
-  identifier: "AddHeaderAction",
-}) as any as S.Schema<AddHeaderAction>;
 export type EmailAddress = string | redacted.Redacted<string>;
 export type Recipients = (string | redacted.Redacted<string>)[];
-export const Recipients = /*@__PURE__*/ S.Array(SensitiveString);
 export interface ReplaceRecipientAction {
   ReplaceWith?: (string | redacted.Redacted<string>)[];
 }
-export const ReplaceRecipientAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplaceWith: S.optional(Recipients) }),
-).annotate({
-  identifier: "ReplaceRecipientAction",
-}) as any as S.Schema<ReplaceRecipientAction>;
 export interface DeliverToMailboxAction {
   ActionFailurePolicy?: ActionFailurePolicy;
   MailboxArn: string;
   RoleArn: string;
 }
-export const DeliverToMailboxAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionFailurePolicy: S.optional(ActionFailurePolicy),
-    MailboxArn: S.String,
-    RoleArn: S.String,
-  }),
-).annotate({
-  identifier: "DeliverToMailboxAction",
-}) as any as S.Schema<DeliverToMailboxAction>;
 export type QBusinessApplicationId = string;
 export type QBusinessIndexId = string;
 export interface DeliverToQBusinessAction {
@@ -909,23 +542,9 @@ export interface DeliverToQBusinessAction {
   IndexId: string;
   RoleArn: string;
 }
-export const DeliverToQBusinessAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionFailurePolicy: S.optional(ActionFailurePolicy),
-    ApplicationId: S.String,
-    IndexId: S.String,
-    RoleArn: S.String,
-  }),
-).annotate({
-  identifier: "DeliverToQBusinessAction",
-}) as any as S.Schema<DeliverToQBusinessAction>;
 export type SnsTopicArn = string;
 export type SnsNotificationEncoding = "UTF-8" | "BASE64" | (string & {});
-export const SnsNotificationEncoding = S.String;
-
 export type SnsNotificationPayloadType = "HEADERS" | "CONTENT" | (string & {});
-export const SnsNotificationPayloadType = S.String;
-
 export interface SnsAction {
   ActionFailurePolicy?: ActionFailurePolicy;
   TopicArn: string;
@@ -933,15 +552,6 @@ export interface SnsAction {
   Encoding?: SnsNotificationEncoding;
   PayloadType?: SnsNotificationPayloadType;
 }
-export const SnsAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionFailurePolicy: S.optional(ActionFailurePolicy),
-    TopicArn: S.String,
-    RoleArn: S.String,
-    Encoding: S.optional(SnsNotificationEncoding),
-    PayloadType: S.optional(SnsNotificationPayloadType),
-  }),
-).annotate({ identifier: "SnsAction" }) as any as S.Schema<SnsAction>;
 export type StatusCode = string;
 export type SmtpReplyCode = string;
 export type DiagnosticMessage = string | redacted.Redacted<string>;
@@ -955,21 +565,8 @@ export interface BounceAction {
   DiagnosticMessage: string | redacted.Redacted<string>;
   Message?: string | redacted.Redacted<string>;
 }
-export const BounceAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionFailurePolicy: S.optional(ActionFailurePolicy),
-    RoleArn: S.String,
-    Sender: SensitiveString,
-    StatusCode: S.String,
-    SmtpReplyCode: S.String,
-    DiagnosticMessage: SensitiveString,
-    Message: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "BounceAction" }) as any as S.Schema<BounceAction>;
 export type LambdaFunctionArn = string;
 export type LambdaInvocationType = "EVENT" | "REQUEST_RESPONSE" | (string & {});
-export const LambdaInvocationType = S.String;
-
 export type LambdaRetryTimeMinutes = number;
 export interface InvokeLambdaAction {
   ActionFailurePolicy?: ActionFailurePolicy;
@@ -978,17 +575,6 @@ export interface InvokeLambdaAction {
   RoleArn: string;
   RetryTimeMinutes?: number;
 }
-export const InvokeLambdaAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionFailurePolicy: S.optional(ActionFailurePolicy),
-    FunctionArn: S.String,
-    InvocationType: LambdaInvocationType,
-    RoleArn: S.String,
-    RetryTimeMinutes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "InvokeLambdaAction",
-}) as any as S.Schema<InvokeLambdaAction>;
 export type RuleAction =
   | {
       Drop: DropAction;
@@ -1158,84 +744,32 @@ export type RuleAction =
       Bounce?: never;
       InvokeLambda: InvokeLambdaAction;
     };
-export const RuleAction = /*@__PURE__*/ S.Union([
-  S.Struct({ Drop: DropAction }),
-  S.Struct({ Relay: RelayAction }),
-  S.Struct({ Archive: ArchiveAction }),
-  S.Struct({ WriteToS3: S3Action }),
-  S.Struct({ Send: SendAction }),
-  S.Struct({ AddHeader: AddHeaderAction }),
-  S.Struct({ ReplaceRecipient: ReplaceRecipientAction }),
-  S.Struct({ DeliverToMailbox: DeliverToMailboxAction }),
-  S.Struct({ DeliverToQBusiness: DeliverToQBusinessAction }),
-  S.Struct({ PublishToSns: SnsAction }),
-  S.Struct({ Bounce: BounceAction }),
-  S.Struct({ InvokeLambda: InvokeLambdaAction }),
-]);
 export type RuleActions = RuleAction[];
-export const RuleActions = /*@__PURE__*/ S.Array(RuleAction);
 export interface Rule {
   Name?: string;
   Conditions?: RuleCondition[];
   Unless?: RuleCondition[];
   Actions: RuleAction[];
 }
-export const Rule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Conditions: S.optional(RuleConditions),
-    Unless: S.optional(RuleConditions),
-    Actions: RuleActions,
-  }),
-).annotate({ identifier: "Rule" }) as any as S.Schema<Rule>;
 export type Rules = Rule[];
-export const Rules = /*@__PURE__*/ S.Array(Rule);
 export interface CreateRuleSetRequest {
   ClientToken?: string;
   RuleSetName: string;
   Rules: Rule[];
   Tags?: Tag[];
 }
-export const CreateRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    RuleSetName: S.String,
-    Rules: Rules,
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateRuleSetRequest",
-}) as any as S.Schema<CreateRuleSetRequest>;
 export interface CreateRuleSetResponse {
   RuleSetId: string;
 }
-export const CreateRuleSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleSetId: S.String }),
-).annotate({
-  identifier: "CreateRuleSetResponse",
-}) as any as S.Schema<CreateRuleSetResponse>;
 export type TrafficPolicyName = string;
 export type IngressStringEmailAttribute = "RECIPIENT" | (string & {});
-export const IngressStringEmailAttribute = S.String;
-
 export interface IngressAnalysis {
   Analyzer: string;
   ResultField: string;
 }
-export const IngressAnalysis = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Analyzer: S.String, ResultField: S.String }),
-).annotate({
-  identifier: "IngressAnalysis",
-}) as any as S.Schema<IngressAnalysis>;
 export type IngressStringToEvaluate =
   | { Attribute: IngressStringEmailAttribute; Analysis?: never }
   | { Attribute?: never; Analysis: IngressAnalysis };
-export const IngressStringToEvaluate = /*@__PURE__*/ S.Union([
-  S.Struct({ Attribute: IngressStringEmailAttribute }),
-  S.Struct({ Analysis: IngressAnalysis }),
-]);
 export type IngressStringOperator =
   | "EQUALS"
   | "NOT_EQUALS"
@@ -1243,147 +777,60 @@ export type IngressStringOperator =
   | "ENDS_WITH"
   | "CONTAINS"
   | (string & {});
-export const IngressStringOperator = S.String;
-
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface IngressStringExpression {
   Evaluate: IngressStringToEvaluate;
   Operator: IngressStringOperator;
   Values: string[];
 }
-export const IngressStringExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Evaluate: IngressStringToEvaluate,
-    Operator: IngressStringOperator,
-    Values: StringList,
-  }),
-).annotate({
-  identifier: "IngressStringExpression",
-}) as any as S.Schema<IngressStringExpression>;
 export type IngressIpv4Attribute = "SENDER_IP" | (string & {});
-export const IngressIpv4Attribute = S.String;
-
 export type IngressIpToEvaluate = { Attribute: IngressIpv4Attribute };
-export const IngressIpToEvaluate = /*@__PURE__*/ S.Union([
-  S.Struct({ Attribute: IngressIpv4Attribute }),
-]);
 export type IngressIpOperator =
   | "CIDR_MATCHES"
   | "NOT_CIDR_MATCHES"
   | (string & {});
-export const IngressIpOperator = S.String;
-
 export type Ipv4Cidr = string;
 export type Ipv4Cidrs = string[];
-export const Ipv4Cidrs = /*@__PURE__*/ S.Array(S.String);
 export interface IngressIpv4Expression {
   Evaluate: IngressIpToEvaluate;
   Operator: IngressIpOperator;
   Values: string[];
 }
-export const IngressIpv4Expression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Evaluate: IngressIpToEvaluate,
-    Operator: IngressIpOperator,
-    Values: Ipv4Cidrs,
-  }),
-).annotate({
-  identifier: "IngressIpv4Expression",
-}) as any as S.Schema<IngressIpv4Expression>;
 export type IngressIpv6Attribute = "SENDER_IPV6" | (string & {});
-export const IngressIpv6Attribute = S.String;
-
 export type IngressIpv6ToEvaluate = { Attribute: IngressIpv6Attribute };
-export const IngressIpv6ToEvaluate = /*@__PURE__*/ S.Union([
-  S.Struct({ Attribute: IngressIpv6Attribute }),
-]);
 export type Ipv6Cidr = string;
 export type Ipv6Cidrs = string[];
-export const Ipv6Cidrs = /*@__PURE__*/ S.Array(S.String);
 export interface IngressIpv6Expression {
   Evaluate: IngressIpv6ToEvaluate;
   Operator: IngressIpOperator;
   Values: string[];
 }
-export const IngressIpv6Expression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Evaluate: IngressIpv6ToEvaluate,
-    Operator: IngressIpOperator,
-    Values: Ipv6Cidrs,
-  }),
-).annotate({
-  identifier: "IngressIpv6Expression",
-}) as any as S.Schema<IngressIpv6Expression>;
 export type IngressTlsAttribute = "TLS_PROTOCOL" | (string & {});
-export const IngressTlsAttribute = S.String;
-
 export type IngressTlsProtocolToEvaluate = { Attribute: IngressTlsAttribute };
-export const IngressTlsProtocolToEvaluate = /*@__PURE__*/ S.Union([
-  S.Struct({ Attribute: IngressTlsAttribute }),
-]);
 export type IngressTlsProtocolOperator =
   | "MINIMUM_TLS_VERSION"
   | "IS"
   | (string & {});
-export const IngressTlsProtocolOperator = S.String;
-
 export type IngressTlsProtocolAttribute = "TLS1_2" | "TLS1_3" | (string & {});
-export const IngressTlsProtocolAttribute = S.String;
-
 export interface IngressTlsProtocolExpression {
   Evaluate: IngressTlsProtocolToEvaluate;
   Operator: IngressTlsProtocolOperator;
   Value: IngressTlsProtocolAttribute;
 }
-export const IngressTlsProtocolExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Evaluate: IngressTlsProtocolToEvaluate,
-    Operator: IngressTlsProtocolOperator,
-    Value: IngressTlsProtocolAttribute,
-  }),
-).annotate({
-  identifier: "IngressTlsProtocolExpression",
-}) as any as S.Schema<IngressTlsProtocolExpression>;
 export type IngressAddressListEmailAttribute = "RECIPIENT" | (string & {});
-export const IngressAddressListEmailAttribute = S.String;
-
 export type IngressAddressListArnList = string[];
-export const IngressAddressListArnList = /*@__PURE__*/ S.Array(S.String);
 export interface IngressIsInAddressList {
   Attribute: IngressAddressListEmailAttribute;
   AddressLists: string[];
 }
-export const IngressIsInAddressList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Attribute: IngressAddressListEmailAttribute,
-    AddressLists: IngressAddressListArnList,
-  }),
-).annotate({
-  identifier: "IngressIsInAddressList",
-}) as any as S.Schema<IngressIsInAddressList>;
 export type IngressBooleanToEvaluate =
   | { Analysis: IngressAnalysis; IsInAddressList?: never }
   | { Analysis?: never; IsInAddressList: IngressIsInAddressList };
-export const IngressBooleanToEvaluate = /*@__PURE__*/ S.Union([
-  S.Struct({ Analysis: IngressAnalysis }),
-  S.Struct({ IsInAddressList: IngressIsInAddressList }),
-]);
 export type IngressBooleanOperator = "IS_TRUE" | "IS_FALSE" | (string & {});
-export const IngressBooleanOperator = S.String;
-
 export interface IngressBooleanExpression {
   Evaluate: IngressBooleanToEvaluate;
   Operator: IngressBooleanOperator;
 }
-export const IngressBooleanExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Evaluate: IngressBooleanToEvaluate,
-    Operator: IngressBooleanOperator,
-  }),
-).annotate({
-  identifier: "IngressBooleanExpression",
-}) as any as S.Schema<IngressBooleanExpression>;
 export type PolicyCondition =
   | {
       StringExpression: IngressStringExpression;
@@ -1420,29 +867,13 @@ export type PolicyCondition =
       TlsExpression?: never;
       BooleanExpression: IngressBooleanExpression;
     };
-export const PolicyCondition = /*@__PURE__*/ S.Union([
-  S.Struct({ StringExpression: IngressStringExpression }),
-  S.Struct({ IpExpression: IngressIpv4Expression }),
-  S.Struct({ Ipv6Expression: IngressIpv6Expression }),
-  S.Struct({ TlsExpression: IngressTlsProtocolExpression }),
-  S.Struct({ BooleanExpression: IngressBooleanExpression }),
-]);
 export type PolicyConditions = PolicyCondition[];
-export const PolicyConditions = /*@__PURE__*/ S.Array(PolicyCondition);
 export type AcceptAction = "ALLOW" | "DENY" | (string & {});
-export const AcceptAction = S.String;
-
 export interface PolicyStatement {
   Conditions: PolicyCondition[];
   Action: AcceptAction;
 }
-export const PolicyStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Conditions: PolicyConditions, Action: AcceptAction }),
-).annotate({
-  identifier: "PolicyStatement",
-}) as any as S.Schema<PolicyStatement>;
 export type PolicyStatementList = PolicyStatement[];
-export const PolicyStatementList = /*@__PURE__*/ S.Array(PolicyStatement);
 export type MaxMessageSizeBytes = number;
 export interface CreateTrafficPolicyRequest {
   ClientToken?: string;
@@ -1452,185 +883,50 @@ export interface CreateTrafficPolicyRequest {
   MaxMessageSizeBytes?: number;
   Tags?: Tag[];
 }
-export const CreateTrafficPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    TrafficPolicyName: S.String,
-    PolicyStatements: PolicyStatementList,
-    DefaultAction: AcceptAction,
-    MaxMessageSizeBytes: S.optional(S.Number),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateTrafficPolicyRequest",
-}) as any as S.Schema<CreateTrafficPolicyRequest>;
 export interface CreateTrafficPolicyResponse {
   TrafficPolicyId: string;
 }
-export const CreateTrafficPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TrafficPolicyId: S.String }),
-).annotate({
-  identifier: "CreateTrafficPolicyResponse",
-}) as any as S.Schema<CreateTrafficPolicyResponse>;
 export interface DeleteAddonInstanceRequest {
   AddonInstanceId: string;
 }
-export const DeleteAddonInstanceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AddonInstanceId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteAddonInstanceRequest",
-}) as any as S.Schema<DeleteAddonInstanceRequest>;
 export interface DeleteAddonInstanceResponse {}
-export const DeleteAddonInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAddonInstanceResponse",
-}) as any as S.Schema<DeleteAddonInstanceResponse>;
 export interface DeleteAddonSubscriptionRequest {
   AddonSubscriptionId: string;
 }
-export const DeleteAddonSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AddonSubscriptionId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteAddonSubscriptionRequest",
-}) as any as S.Schema<DeleteAddonSubscriptionRequest>;
 export interface DeleteAddonSubscriptionResponse {}
-export const DeleteAddonSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAddonSubscriptionResponse",
-}) as any as S.Schema<DeleteAddonSubscriptionResponse>;
 export interface DeleteAddressListRequest {
   AddressListId: string;
 }
-export const DeleteAddressListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AddressListId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteAddressListRequest",
-}) as any as S.Schema<DeleteAddressListRequest>;
 export interface DeleteAddressListResponse {}
-export const DeleteAddressListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAddressListResponse",
-}) as any as S.Schema<DeleteAddressListResponse>;
 export interface DeleteArchiveRequest {
   ArchiveId: string;
 }
-export const DeleteArchiveRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ArchiveId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteArchiveRequest",
-}) as any as S.Schema<DeleteArchiveRequest>;
 export interface DeleteArchiveResponse {}
-export const DeleteArchiveResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteArchiveResponse",
-}) as any as S.Schema<DeleteArchiveResponse>;
 export interface DeleteIngressPointRequest {
   IngressPointId: string;
 }
-export const DeleteIngressPointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IngressPointId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteIngressPointRequest",
-}) as any as S.Schema<DeleteIngressPointRequest>;
 export interface DeleteIngressPointResponse {}
-export const DeleteIngressPointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteIngressPointResponse",
-}) as any as S.Schema<DeleteIngressPointResponse>;
 export interface DeleteRelayRequest {
   RelayId: string;
 }
-export const DeleteRelayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RelayId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteRelayRequest",
-}) as any as S.Schema<DeleteRelayRequest>;
 export interface DeleteRelayResponse {}
-export const DeleteRelayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteRelayResponse",
-}) as any as S.Schema<DeleteRelayResponse>;
 export interface DeleteRuleSetRequest {
   RuleSetId: string;
 }
-export const DeleteRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleSetId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteRuleSetRequest",
-}) as any as S.Schema<DeleteRuleSetRequest>;
 export interface DeleteRuleSetResponse {}
-export const DeleteRuleSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteRuleSetResponse",
-}) as any as S.Schema<DeleteRuleSetResponse>;
 export interface DeleteTrafficPolicyRequest {
   TrafficPolicyId: string;
 }
-export const DeleteTrafficPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TrafficPolicyId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteTrafficPolicyRequest",
-}) as any as S.Schema<DeleteTrafficPolicyRequest>;
 export interface DeleteTrafficPolicyResponse {}
-export const DeleteTrafficPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteTrafficPolicyResponse",
-}) as any as S.Schema<DeleteTrafficPolicyResponse>;
 export type Address = string | redacted.Redacted<string>;
 export interface DeregisterMemberFromAddressListRequest {
   AddressListId: string;
   Address: string | redacted.Redacted<string>;
 }
-export const DeregisterMemberFromAddressListRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ AddressListId: S.String, Address: SensitiveString }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-).annotate({
-  identifier: "DeregisterMemberFromAddressListRequest",
-}) as any as S.Schema<DeregisterMemberFromAddressListRequest>;
 export interface DeregisterMemberFromAddressListResponse {}
-export const DeregisterMemberFromAddressListResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "DeregisterMemberFromAddressListResponse",
-}) as any as S.Schema<DeregisterMemberFromAddressListResponse>;
 export interface GetAddonInstanceRequest {
   AddonInstanceId: string;
 }
-export const GetAddonInstanceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AddonInstanceId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetAddonInstanceRequest",
-}) as any as S.Schema<GetAddonInstanceRequest>;
 export type AddonInstanceArn = string;
 export interface GetAddonInstanceResponse {
   AddonSubscriptionId?: string;
@@ -1638,55 +934,18 @@ export interface GetAddonInstanceResponse {
   AddonInstanceArn?: string;
   CreatedTimestamp?: Date;
 }
-export const GetAddonInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AddonSubscriptionId: S.optional(S.String),
-    AddonName: S.optional(S.String),
-    AddonInstanceArn: S.optional(S.String),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "GetAddonInstanceResponse",
-}) as any as S.Schema<GetAddonInstanceResponse>;
 export interface GetAddonSubscriptionRequest {
   AddonSubscriptionId: string;
 }
-export const GetAddonSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AddonSubscriptionId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetAddonSubscriptionRequest",
-}) as any as S.Schema<GetAddonSubscriptionRequest>;
 export type AddonSubscriptionArn = string;
 export interface GetAddonSubscriptionResponse {
   AddonName?: string;
   AddonSubscriptionArn?: string;
   CreatedTimestamp?: Date;
 }
-export const GetAddonSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AddonName: S.optional(S.String),
-    AddonSubscriptionArn: S.optional(S.String),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "GetAddonSubscriptionResponse",
-}) as any as S.Schema<GetAddonSubscriptionResponse>;
 export interface GetAddressListRequest {
   AddressListId: string;
 }
-export const GetAddressListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AddressListId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetAddressListRequest",
-}) as any as S.Schema<GetAddressListRequest>;
 export interface GetAddressListResponse {
   AddressListId: string;
   AddressListArn: string;
@@ -1694,27 +953,9 @@ export interface GetAddressListResponse {
   CreatedTimestamp: Date;
   LastUpdatedTimestamp: Date;
 }
-export const GetAddressListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AddressListId: S.String,
-    AddressListArn: S.String,
-    AddressListName: S.String,
-    CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    LastUpdatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "GetAddressListResponse",
-}) as any as S.Schema<GetAddressListResponse>;
 export interface GetAddressListImportJobRequest {
   JobId: string;
 }
-export const GetAddressListImportJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ JobId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetAddressListImportJobRequest",
-}) as any as S.Schema<GetAddressListImportJobRequest>;
 export type ImportJobStatus =
   | "CREATED"
   | "PROCESSING"
@@ -1722,8 +963,6 @@ export type ImportJobStatus =
   | "FAILED"
   | "STOPPED"
   | (string & {});
-export const ImportJobStatus = S.String;
-
 export type JobItemsCount = number;
 export type ErrorMessage = string;
 export interface GetAddressListImportJobResponse {
@@ -1740,40 +979,11 @@ export interface GetAddressListImportJobResponse {
   CompletedTimestamp?: Date;
   Error?: string;
 }
-export const GetAddressListImportJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    JobId: S.String,
-    Name: S.String,
-    Status: ImportJobStatus,
-    PreSignedUrl: SensitiveString,
-    ImportedItemsCount: S.optional(S.Number),
-    FailedItemsCount: S.optional(S.Number),
-    ImportDataFormat: ImportDataFormat,
-    AddressListId: S.String,
-    CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CompletedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Error: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetAddressListImportJobResponse",
-}) as any as S.Schema<GetAddressListImportJobResponse>;
 export interface GetArchiveRequest {
   ArchiveId: string;
 }
-export const GetArchiveRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ArchiveId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetArchiveRequest",
-}) as any as S.Schema<GetArchiveRequest>;
 export type ArchiveArn = string;
 export type ArchiveState = "ACTIVE" | "PENDING_DELETION" | (string & {});
-export const ArchiveState = S.String;
-
 export interface GetArchiveResponse {
   ArchiveId: string;
   ArchiveName: string;
@@ -1784,35 +994,10 @@ export interface GetArchiveResponse {
   LastUpdatedTimestamp?: Date;
   KmsKeyArn?: string;
 }
-export const GetArchiveResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ArchiveId: S.String,
-    ArchiveName: S.String,
-    ArchiveArn: S.String,
-    ArchiveState: ArchiveState,
-    Retention: ArchiveRetention,
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    KmsKeyArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetArchiveResponse",
-}) as any as S.Schema<GetArchiveResponse>;
 export type ExportId = string;
 export interface GetArchiveExportRequest {
   ExportId: string;
 }
-export const GetArchiveExportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ExportId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetArchiveExportRequest",
-}) as any as S.Schema<GetArchiveExportRequest>;
 export type ArchiveId = string;
 export type ArchiveStringEmailAttribute =
   | "TO"
@@ -1822,95 +1007,42 @@ export type ArchiveStringEmailAttribute =
   | "ENVELOPE_TO"
   | "ENVELOPE_FROM"
   | (string & {});
-export const ArchiveStringEmailAttribute = S.String;
-
 export type ArchiveStringToEvaluate = {
   Attribute: ArchiveStringEmailAttribute;
 };
-export const ArchiveStringToEvaluate = /*@__PURE__*/ S.Union([
-  S.Struct({ Attribute: ArchiveStringEmailAttribute }),
-]);
 export type ArchiveStringOperator = "CONTAINS" | (string & {});
-export const ArchiveStringOperator = S.String;
-
 export type StringValue = string;
 export type StringValueList = string[];
-export const StringValueList = /*@__PURE__*/ S.Array(S.String);
 export interface ArchiveStringExpression {
   Evaluate: ArchiveStringToEvaluate;
   Operator: ArchiveStringOperator;
   Values: string[];
 }
-export const ArchiveStringExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Evaluate: ArchiveStringToEvaluate,
-    Operator: ArchiveStringOperator,
-    Values: StringValueList,
-  }),
-).annotate({
-  identifier: "ArchiveStringExpression",
-}) as any as S.Schema<ArchiveStringExpression>;
 export type ArchiveBooleanEmailAttribute = "HAS_ATTACHMENTS" | (string & {});
-export const ArchiveBooleanEmailAttribute = S.String;
-
 export type ArchiveBooleanToEvaluate = {
   Attribute: ArchiveBooleanEmailAttribute;
 };
-export const ArchiveBooleanToEvaluate = /*@__PURE__*/ S.Union([
-  S.Struct({ Attribute: ArchiveBooleanEmailAttribute }),
-]);
 export type ArchiveBooleanOperator = "IS_TRUE" | "IS_FALSE" | (string & {});
-export const ArchiveBooleanOperator = S.String;
-
 export interface ArchiveBooleanExpression {
   Evaluate: ArchiveBooleanToEvaluate;
   Operator: ArchiveBooleanOperator;
 }
-export const ArchiveBooleanExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Evaluate: ArchiveBooleanToEvaluate,
-    Operator: ArchiveBooleanOperator,
-  }),
-).annotate({
-  identifier: "ArchiveBooleanExpression",
-}) as any as S.Schema<ArchiveBooleanExpression>;
 export type ArchiveFilterCondition =
   | { StringExpression: ArchiveStringExpression; BooleanExpression?: never }
   | { StringExpression?: never; BooleanExpression: ArchiveBooleanExpression };
-export const ArchiveFilterCondition = /*@__PURE__*/ S.Union([
-  S.Struct({ StringExpression: ArchiveStringExpression }),
-  S.Struct({ BooleanExpression: ArchiveBooleanExpression }),
-]);
 export type ArchiveFilterConditions = ArchiveFilterCondition[];
-export const ArchiveFilterConditions = /*@__PURE__*/ S.Array(
-  ArchiveFilterCondition,
-);
 export interface ArchiveFilters {
   Include?: ArchiveFilterCondition[];
   Unless?: ArchiveFilterCondition[];
 }
-export const ArchiveFilters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Include: S.optional(ArchiveFilterConditions),
-    Unless: S.optional(ArchiveFilterConditions),
-  }),
-).annotate({ identifier: "ArchiveFilters" }) as any as S.Schema<ArchiveFilters>;
 export type ExportMaxResults = number;
 export type S3Location = string;
 export interface S3ExportDestinationConfiguration {
   S3Location?: string;
 }
-export const S3ExportDestinationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3Location: S.optional(S.String) }),
-).annotate({
-  identifier: "S3ExportDestinationConfiguration",
-}) as any as S.Schema<S3ExportDestinationConfiguration>;
 export type ExportDestinationConfiguration = {
   S3: S3ExportDestinationConfiguration;
 };
-export const ExportDestinationConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ S3: S3ExportDestinationConfiguration }),
-]);
 export type ExportState =
   | "QUEUED"
   | "PREPROCESSING"
@@ -1919,26 +1051,12 @@ export type ExportState =
   | "FAILED"
   | "CANCELLED"
   | (string & {});
-export const ExportState = S.String;
-
 export interface ExportStatus {
   SubmissionTimestamp?: Date;
   CompletionTimestamp?: Date;
   State?: ExportState;
   ErrorMessage?: string;
 }
-export const ExportStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubmissionTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    CompletionTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    State: S.optional(ExportState),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "ExportStatus" }) as any as S.Schema<ExportStatus>;
 export interface GetArchiveExportResponse {
   ArchiveId?: string;
   Filters?: ArchiveFilters;
@@ -1948,30 +1066,10 @@ export interface GetArchiveExportResponse {
   ExportDestinationConfiguration?: ExportDestinationConfiguration;
   Status?: ExportStatus;
 }
-export const GetArchiveExportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ArchiveId: S.optional(S.String),
-    Filters: S.optional(ArchiveFilters),
-    FromTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ToTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    MaxResults: S.optional(S.Number),
-    ExportDestinationConfiguration: S.optional(ExportDestinationConfiguration),
-    Status: S.optional(ExportStatus),
-  }),
-).annotate({
-  identifier: "GetArchiveExportResponse",
-}) as any as S.Schema<GetArchiveExportResponse>;
 export type ArchivedMessageId = string;
 export interface GetArchiveMessageRequest {
   ArchivedMessageId: string;
 }
-export const GetArchiveMessageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ArchivedMessageId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetArchiveMessageRequest",
-}) as any as S.Schema<GetArchiveMessageRequest>;
 export type S3PresignedURL = string;
 export type SenderIpAddress = string | redacted.Redacted<string>;
 export interface Metadata {
@@ -1989,90 +1087,31 @@ export interface Metadata {
   ConfigurationSet?: string;
   SourceArn?: string;
 }
-export const Metadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    IngressPointId: S.optional(S.String),
-    TrafficPolicyId: S.optional(S.String),
-    RuleSetId: S.optional(S.String),
-    SenderHostname: S.optional(S.String),
-    SenderIpAddress: S.optional(SensitiveString),
-    TlsCipherSuite: S.optional(S.String),
-    TlsProtocol: S.optional(S.String),
-    SendingMethod: S.optional(S.String),
-    SourceIdentity: S.optional(S.String),
-    SendingPool: S.optional(S.String),
-    ConfigurationSet: S.optional(S.String),
-    SourceArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Metadata" }) as any as S.Schema<Metadata>;
 export interface Envelope {
   Helo?: string;
   From?: string;
   To?: string[];
 }
-export const Envelope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Helo: S.optional(S.String),
-    From: S.optional(S.String),
-    To: S.optional(StringList),
-  }),
-).annotate({ identifier: "Envelope" }) as any as S.Schema<Envelope>;
 export interface GetArchiveMessageResponse {
   MessageDownloadLink?: string;
   Metadata?: Metadata;
   Envelope?: Envelope;
 }
-export const GetArchiveMessageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MessageDownloadLink: S.optional(S.String),
-    Metadata: S.optional(Metadata),
-    Envelope: S.optional(Envelope),
-  }),
-).annotate({
-  identifier: "GetArchiveMessageResponse",
-}) as any as S.Schema<GetArchiveMessageResponse>;
 export interface GetArchiveMessageContentRequest {
   ArchivedMessageId: string;
 }
-export const GetArchiveMessageContentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ArchivedMessageId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetArchiveMessageContentRequest",
-}) as any as S.Schema<GetArchiveMessageContentRequest>;
 export interface MessageBody {
   Text?: string;
   Html?: string;
   MessageMalformed?: boolean;
 }
-export const MessageBody = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Text: S.optional(S.String),
-    Html: S.optional(S.String),
-    MessageMalformed: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "MessageBody" }) as any as S.Schema<MessageBody>;
 export interface GetArchiveMessageContentResponse {
   Body?: MessageBody;
 }
-export const GetArchiveMessageContentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Body: S.optional(MessageBody) }),
-).annotate({
-  identifier: "GetArchiveMessageContentResponse",
-}) as any as S.Schema<GetArchiveMessageContentResponse>;
 export type SearchId = string;
 export interface GetArchiveSearchRequest {
   SearchId: string;
 }
-export const GetArchiveSearchRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SearchId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetArchiveSearchRequest",
-}) as any as S.Schema<GetArchiveSearchRequest>;
 export type SearchMaxResults = number;
 export type SearchState =
   | "QUEUED"
@@ -2081,26 +1120,12 @@ export type SearchState =
   | "FAILED"
   | "CANCELLED"
   | (string & {});
-export const SearchState = S.String;
-
 export interface SearchStatus {
   SubmissionTimestamp?: Date;
   CompletionTimestamp?: Date;
   State?: SearchState;
   ErrorMessage?: string;
 }
-export const SearchStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubmissionTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    CompletionTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    State: S.optional(SearchState),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "SearchStatus" }) as any as S.Schema<SearchStatus>;
 export interface GetArchiveSearchResponse {
   ArchiveId?: string;
   Filters?: ArchiveFilters;
@@ -2109,30 +1134,10 @@ export interface GetArchiveSearchResponse {
   MaxResults?: number;
   Status?: SearchStatus;
 }
-export const GetArchiveSearchResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ArchiveId: S.optional(S.String),
-    Filters: S.optional(ArchiveFilters),
-    FromTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ToTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    MaxResults: S.optional(S.Number),
-    Status: S.optional(SearchStatus),
-  }),
-).annotate({
-  identifier: "GetArchiveSearchResponse",
-}) as any as S.Schema<GetArchiveSearchResponse>;
 export interface GetArchiveSearchResultsRequest {
   SearchId: string;
 }
-export const GetArchiveSearchResultsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SearchId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetArchiveSearchResultsRequest",
-}) as any as S.Schema<GetArchiveSearchResultsRequest>;
 export type EmailReceivedHeadersList = string[];
-export const EmailReceivedHeadersList = /*@__PURE__*/ S.Array(S.String);
 export interface Row {
   ArchivedMessageId?: string;
   ReceivedTimestamp?: Date;
@@ -2154,58 +1159,15 @@ export interface Row {
   Envelope?: Envelope;
   SourceArn?: string;
 }
-export const Row = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ArchivedMessageId: S.optional(S.String),
-    ReceivedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Date: S.optional(S.String),
-    To: S.optional(S.String),
-    From: S.optional(S.String),
-    Cc: S.optional(S.String),
-    Subject: S.optional(S.String),
-    MessageId: S.optional(S.String),
-    HasAttachments: S.optional(S.Boolean),
-    ReceivedHeaders: S.optional(EmailReceivedHeadersList),
-    InReplyTo: S.optional(S.String),
-    XMailer: S.optional(S.String),
-    XOriginalMailer: S.optional(S.String),
-    XPriority: S.optional(S.String),
-    IngressPointId: S.optional(S.String),
-    SenderHostname: S.optional(S.String),
-    SenderIpAddress: S.optional(SensitiveString),
-    Envelope: S.optional(Envelope),
-    SourceArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Row" }) as any as S.Schema<Row>;
 export type RowsList = Row[];
-export const RowsList = /*@__PURE__*/ S.Array(Row);
 export interface GetArchiveSearchResultsResponse {
   Rows?: Row[];
 }
-export const GetArchiveSearchResultsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Rows: S.optional(RowsList) }),
-).annotate({
-  identifier: "GetArchiveSearchResultsResponse",
-}) as any as S.Schema<GetArchiveSearchResultsResponse>;
 export type TrustStoreResponseOption = "EXCLUDE" | "INCLUDE" | (string & {});
-export const TrustStoreResponseOption = S.String;
-
 export interface GetIngressPointRequest {
   IngressPointId: string;
   IncludeTrustStoreContents?: TrustStoreResponseOption;
 }
-export const GetIngressPointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IngressPointId: S.String,
-    IncludeTrustStoreContents: S.optional(TrustStoreResponseOption),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetIngressPointRequest",
-}) as any as S.Schema<GetIngressPointRequest>;
 export type IngressPointArn = string;
 export type IngressPointStatus =
   | "PROVISIONING"
@@ -2216,41 +1178,17 @@ export type IngressPointStatus =
   | "FAILED"
   | "ASSOCIATED_VPC_ENDPOINT_DOES_NOT_EXIST"
   | (string & {});
-export const IngressPointStatus = S.String;
-
 export type IngressPointARecord = string;
 export interface IngressPointPasswordConfiguration {
   SmtpPasswordVersion?: string;
   PreviousSmtpPasswordVersion?: string;
   PreviousSmtpPasswordExpiryTimestamp?: Date;
 }
-export const IngressPointPasswordConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SmtpPasswordVersion: S.optional(S.String),
-    PreviousSmtpPasswordVersion: S.optional(S.String),
-    PreviousSmtpPasswordExpiryTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "IngressPointPasswordConfiguration",
-}) as any as S.Schema<IngressPointPasswordConfiguration>;
 export interface IngressPointAuthConfiguration {
   IngressPointPasswordConfiguration?: IngressPointPasswordConfiguration;
   SecretArn?: string;
   TlsAuthConfiguration?: TlsAuthConfiguration;
 }
-export const IngressPointAuthConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IngressPointPasswordConfiguration: S.optional(
-      IngressPointPasswordConfiguration,
-    ),
-    SecretArn: S.optional(S.String),
-    TlsAuthConfiguration: S.optional(TlsAuthConfiguration),
-  }),
-).annotate({
-  identifier: "IngressPointAuthConfiguration",
-}) as any as S.Schema<IngressPointAuthConfiguration>;
 export interface GetIngressPointResponse {
   IngressPointId: string;
   IngressPointName: string;
@@ -2266,62 +1204,17 @@ export interface GetIngressPointResponse {
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
 }
-export const GetIngressPointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IngressPointId: S.String,
-    IngressPointName: S.String,
-    IngressPointArn: S.optional(S.String),
-    Status: S.optional(IngressPointStatus),
-    Type: S.optional(IngressPointType),
-    ARecord: S.optional(S.String),
-    RuleSetId: S.optional(S.String),
-    TrafficPolicyId: S.optional(S.String),
-    IngressPointAuthConfiguration: S.optional(IngressPointAuthConfiguration),
-    NetworkConfiguration: S.optional(NetworkConfiguration),
-    TlsPolicy: S.optional(TlsPolicy),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "GetIngressPointResponse",
-}) as any as S.Schema<GetIngressPointResponse>;
 export interface GetMemberOfAddressListRequest {
   AddressListId: string;
   Address: string | redacted.Redacted<string>;
 }
-export const GetMemberOfAddressListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AddressListId: S.String, Address: SensitiveString }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetMemberOfAddressListRequest",
-}) as any as S.Schema<GetMemberOfAddressListRequest>;
 export interface GetMemberOfAddressListResponse {
   Address: string | redacted.Redacted<string>;
   CreatedTimestamp: Date;
 }
-export const GetMemberOfAddressListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Address: SensitiveString,
-    CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "GetMemberOfAddressListResponse",
-}) as any as S.Schema<GetMemberOfAddressListResponse>;
 export interface GetRelayRequest {
   RelayId: string;
 }
-export const GetRelayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RelayId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetRelayRequest",
-}) as any as S.Schema<GetRelayRequest>;
 export type RelayArn = string;
 export interface GetRelayResponse {
   RelayId: string;
@@ -2333,34 +1226,9 @@ export interface GetRelayResponse {
   CreatedTimestamp?: Date;
   LastModifiedTimestamp?: Date;
 }
-export const GetRelayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RelayId: S.String,
-    RelayArn: S.optional(S.String),
-    RelayName: S.optional(S.String),
-    ServerName: S.optional(S.String),
-    ServerPort: S.optional(S.Number),
-    Authentication: S.optional(RelayAuthentication),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "GetRelayResponse",
-}) as any as S.Schema<GetRelayResponse>;
 export interface GetRuleSetRequest {
   RuleSetId: string;
 }
-export const GetRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleSetId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetRuleSetRequest",
-}) as any as S.Schema<GetRuleSetRequest>;
 export type RuleSetArn = string;
 export interface GetRuleSetResponse {
   RuleSetId: string;
@@ -2370,28 +1238,9 @@ export interface GetRuleSetResponse {
   LastModificationDate: Date;
   Rules: Rule[];
 }
-export const GetRuleSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleSetId: S.String,
-    RuleSetArn: S.String,
-    RuleSetName: S.String,
-    CreatedDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    LastModificationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Rules: Rules,
-  }),
-).annotate({
-  identifier: "GetRuleSetResponse",
-}) as any as S.Schema<GetRuleSetResponse>;
 export interface GetTrafficPolicyRequest {
   TrafficPolicyId: string;
 }
-export const GetTrafficPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TrafficPolicyId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetTrafficPolicyRequest",
-}) as any as S.Schema<GetTrafficPolicyRequest>;
 export type TrafficPolicyArn = string;
 export interface GetTrafficPolicyResponse {
   TrafficPolicyName: string;
@@ -2403,40 +1252,12 @@ export interface GetTrafficPolicyResponse {
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
 }
-export const GetTrafficPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrafficPolicyName: S.String,
-    TrafficPolicyId: S.String,
-    TrafficPolicyArn: S.optional(S.String),
-    PolicyStatements: S.optional(PolicyStatementList),
-    MaxMessageSizeBytes: S.optional(S.Number),
-    DefaultAction: S.optional(AcceptAction),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "GetTrafficPolicyResponse",
-}) as any as S.Schema<GetTrafficPolicyResponse>;
 export type PaginationToken = string;
 export type PageSize = number;
 export interface ListAddonInstancesRequest {
   NextToken?: string;
   PageSize?: number;
 }
-export const ListAddonInstancesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListAddonInstancesRequest",
-}) as any as S.Schema<ListAddonInstancesRequest>;
 export interface AddonInstance {
   AddonInstanceId?: string;
   AddonSubscriptionId?: string;
@@ -2444,93 +1265,31 @@ export interface AddonInstance {
   AddonInstanceArn?: string;
   CreatedTimestamp?: Date;
 }
-export const AddonInstance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AddonInstanceId: S.optional(S.String),
-    AddonSubscriptionId: S.optional(S.String),
-    AddonName: S.optional(S.String),
-    AddonInstanceArn: S.optional(S.String),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({ identifier: "AddonInstance" }) as any as S.Schema<AddonInstance>;
 export type AddonInstances = AddonInstance[];
-export const AddonInstances = /*@__PURE__*/ S.Array(AddonInstance);
 export interface ListAddonInstancesResponse {
   AddonInstances?: AddonInstance[];
   NextToken?: string;
 }
-export const ListAddonInstancesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AddonInstances: S.optional(AddonInstances),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAddonInstancesResponse",
-}) as any as S.Schema<ListAddonInstancesResponse>;
 export interface ListAddonSubscriptionsRequest {
   NextToken?: string;
   PageSize?: number;
 }
-export const ListAddonSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListAddonSubscriptionsRequest",
-}) as any as S.Schema<ListAddonSubscriptionsRequest>;
 export interface AddonSubscription {
   AddonSubscriptionId?: string;
   AddonName?: string;
   AddonSubscriptionArn?: string;
   CreatedTimestamp?: Date;
 }
-export const AddonSubscription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AddonSubscriptionId: S.optional(S.String),
-    AddonName: S.optional(S.String),
-    AddonSubscriptionArn: S.optional(S.String),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "AddonSubscription",
-}) as any as S.Schema<AddonSubscription>;
 export type AddonSubscriptions = AddonSubscription[];
-export const AddonSubscriptions = /*@__PURE__*/ S.Array(AddonSubscription);
 export interface ListAddonSubscriptionsResponse {
   AddonSubscriptions?: AddonSubscription[];
   NextToken?: string;
 }
-export const ListAddonSubscriptionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AddonSubscriptions: S.optional(AddonSubscriptions),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAddonSubscriptionsResponse",
-}) as any as S.Schema<ListAddonSubscriptionsResponse>;
 export interface ListAddressListImportJobsRequest {
   AddressListId: string;
   NextToken?: string;
   PageSize?: number;
 }
-export const ListAddressListImportJobsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AddressListId: S.String,
-    NextToken: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListAddressListImportJobsRequest",
-}) as any as S.Schema<ListAddressListImportJobsRequest>;
 export interface ImportJob {
   JobId: string;
   Name: string;
@@ -2545,49 +1304,15 @@ export interface ImportJob {
   CompletedTimestamp?: Date;
   Error?: string;
 }
-export const ImportJob = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    JobId: S.String,
-    Name: S.String,
-    Status: ImportJobStatus,
-    PreSignedUrl: SensitiveString,
-    ImportedItemsCount: S.optional(S.Number),
-    FailedItemsCount: S.optional(S.Number),
-    ImportDataFormat: ImportDataFormat,
-    AddressListId: S.String,
-    CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CompletedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Error: S.optional(S.String),
-  }),
-).annotate({ identifier: "ImportJob" }) as any as S.Schema<ImportJob>;
 export type ImportJobs = ImportJob[];
-export const ImportJobs = /*@__PURE__*/ S.Array(ImportJob);
 export interface ListAddressListImportJobsResponse {
   ImportJobs: ImportJob[];
   NextToken?: string;
 }
-export const ListAddressListImportJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ImportJobs: ImportJobs, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListAddressListImportJobsResponse",
-}) as any as S.Schema<ListAddressListImportJobsResponse>;
 export interface ListAddressListsRequest {
   NextToken?: string;
   PageSize?: number;
 }
-export const ListAddressListsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListAddressListsRequest",
-}) as any as S.Schema<ListAddressListsRequest>;
 export interface AddressList {
   AddressListId: string;
   AddressListArn: string;
@@ -2595,161 +1320,58 @@ export interface AddressList {
   CreatedTimestamp: Date;
   LastUpdatedTimestamp: Date;
 }
-export const AddressList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AddressListId: S.String,
-    AddressListArn: S.String,
-    AddressListName: S.String,
-    CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    LastUpdatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({ identifier: "AddressList" }) as any as S.Schema<AddressList>;
 export type AddressLists = AddressList[];
-export const AddressLists = /*@__PURE__*/ S.Array(AddressList);
 export interface ListAddressListsResponse {
   AddressLists: AddressList[];
   NextToken?: string;
 }
-export const ListAddressListsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AddressLists: AddressLists, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListAddressListsResponse",
-}) as any as S.Schema<ListAddressListsResponse>;
 export interface ListArchiveExportsRequest {
   ArchiveId: string;
   NextToken?: string;
   PageSize?: number;
 }
-export const ListArchiveExportsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ArchiveId: S.String,
-    NextToken: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListArchiveExportsRequest",
-}) as any as S.Schema<ListArchiveExportsRequest>;
 export interface ExportSummary {
   ExportId?: string;
   Status?: ExportStatus;
 }
-export const ExportSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExportId: S.optional(S.String),
-    Status: S.optional(ExportStatus),
-  }),
-).annotate({ identifier: "ExportSummary" }) as any as S.Schema<ExportSummary>;
 export type ExportSummaryList = ExportSummary[];
-export const ExportSummaryList = /*@__PURE__*/ S.Array(ExportSummary);
 export interface ListArchiveExportsResponse {
   Exports?: ExportSummary[];
   NextToken?: string;
 }
-export const ListArchiveExportsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Exports: S.optional(ExportSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListArchiveExportsResponse",
-}) as any as S.Schema<ListArchiveExportsResponse>;
 export interface ListArchivesRequest {
   NextToken?: string;
   PageSize?: number;
 }
-export const ListArchivesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListArchivesRequest",
-}) as any as S.Schema<ListArchivesRequest>;
 export interface Archive {
   ArchiveId: string;
   ArchiveName?: string;
   ArchiveState?: ArchiveState;
   LastUpdatedTimestamp?: Date;
 }
-export const Archive = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ArchiveId: S.String,
-    ArchiveName: S.optional(S.String),
-    ArchiveState: S.optional(ArchiveState),
-    LastUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({ identifier: "Archive" }) as any as S.Schema<Archive>;
 export type ArchivesList = Archive[];
-export const ArchivesList = /*@__PURE__*/ S.Array(Archive);
 export interface ListArchivesResponse {
   Archives: Archive[];
   NextToken?: string;
 }
-export const ListArchivesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Archives: ArchivesList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListArchivesResponse",
-}) as any as S.Schema<ListArchivesResponse>;
 export interface ListArchiveSearchesRequest {
   ArchiveId: string;
   NextToken?: string;
   PageSize?: number;
 }
-export const ListArchiveSearchesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ArchiveId: S.String,
-    NextToken: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListArchiveSearchesRequest",
-}) as any as S.Schema<ListArchiveSearchesRequest>;
 export interface SearchSummary {
   SearchId?: string;
   Status?: SearchStatus;
 }
-export const SearchSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SearchId: S.optional(S.String),
-    Status: S.optional(SearchStatus),
-  }),
-).annotate({ identifier: "SearchSummary" }) as any as S.Schema<SearchSummary>;
 export type SearchSummaryList = SearchSummary[];
-export const SearchSummaryList = /*@__PURE__*/ S.Array(SearchSummary);
 export interface ListArchiveSearchesResponse {
   Searches?: SearchSummary[];
   NextToken?: string;
 }
-export const ListArchiveSearchesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Searches: S.optional(SearchSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListArchiveSearchesResponse",
-}) as any as S.Schema<ListArchiveSearchesResponse>;
 export interface ListIngressPointsRequest {
   PageSize?: number;
   NextToken?: string;
 }
-export const ListIngressPointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PageSize: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListIngressPointsRequest",
-}) as any as S.Schema<ListIngressPointsRequest>;
 export interface IngressPoint {
   IngressPointName: string;
   IngressPointId: string;
@@ -2757,36 +1379,15 @@ export interface IngressPoint {
   Type: IngressPointType;
   ARecord?: string;
 }
-export const IngressPoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IngressPointName: S.String,
-    IngressPointId: S.String,
-    Status: IngressPointStatus,
-    Type: IngressPointType,
-    ARecord: S.optional(S.String),
-  }),
-).annotate({ identifier: "IngressPoint" }) as any as S.Schema<IngressPoint>;
 export type IngressPointsList = IngressPoint[];
-export const IngressPointsList = /*@__PURE__*/ S.Array(IngressPoint);
 export interface ListIngressPointsResponse {
   IngressPoints?: IngressPoint[];
   NextToken?: string;
 }
-export const ListIngressPointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IngressPoints: S.optional(IngressPointsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListIngressPointsResponse",
-}) as any as S.Schema<ListIngressPointsResponse>;
 export type AddressPrefix = string | redacted.Redacted<string>;
 export interface AddressFilter {
   AddressPrefix?: string | redacted.Redacted<string>;
 }
-export const AddressFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AddressPrefix: S.optional(SensitiveString) }),
-).annotate({ identifier: "AddressFilter" }) as any as S.Schema<AddressFilter>;
 export type AddressPageSize = number;
 export interface ListMembersOfAddressListRequest {
   AddressListId: string;
@@ -2794,209 +1395,73 @@ export interface ListMembersOfAddressListRequest {
   NextToken?: string;
   PageSize?: number;
 }
-export const ListMembersOfAddressListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AddressListId: S.String,
-    Filter: S.optional(AddressFilter),
-    NextToken: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListMembersOfAddressListRequest",
-}) as any as S.Schema<ListMembersOfAddressListRequest>;
 export interface SavedAddress {
   Address: string | redacted.Redacted<string>;
   CreatedTimestamp: Date;
 }
-export const SavedAddress = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Address: SensitiveString,
-    CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({ identifier: "SavedAddress" }) as any as S.Schema<SavedAddress>;
 export type SavedAddresses = SavedAddress[];
-export const SavedAddresses = /*@__PURE__*/ S.Array(SavedAddress);
 export interface ListMembersOfAddressListResponse {
   Addresses: SavedAddress[];
   NextToken?: string;
 }
-export const ListMembersOfAddressListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Addresses: SavedAddresses, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListMembersOfAddressListResponse",
-}) as any as S.Schema<ListMembersOfAddressListResponse>;
 export interface ListRelaysRequest {
   PageSize?: number;
   NextToken?: string;
 }
-export const ListRelaysRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PageSize: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListRelaysRequest",
-}) as any as S.Schema<ListRelaysRequest>;
 export interface Relay {
   RelayId?: string;
   RelayName?: string;
   LastModifiedTimestamp?: Date;
 }
-export const Relay = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RelayId: S.optional(S.String),
-    RelayName: S.optional(S.String),
-    LastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({ identifier: "Relay" }) as any as S.Schema<Relay>;
 export type Relays = Relay[];
-export const Relays = /*@__PURE__*/ S.Array(Relay);
 export interface ListRelaysResponse {
   Relays: Relay[];
   NextToken?: string;
 }
-export const ListRelaysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Relays: Relays, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListRelaysResponse",
-}) as any as S.Schema<ListRelaysResponse>;
 export interface ListRuleSetsRequest {
   NextToken?: string;
   PageSize?: number;
 }
-export const ListRuleSetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListRuleSetsRequest",
-}) as any as S.Schema<ListRuleSetsRequest>;
 export interface RuleSet {
   RuleSetId?: string;
   RuleSetName?: string;
   LastModificationDate?: Date;
 }
-export const RuleSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleSetId: S.optional(S.String),
-    RuleSetName: S.optional(S.String),
-    LastModificationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({ identifier: "RuleSet" }) as any as S.Schema<RuleSet>;
 export type RuleSets = RuleSet[];
-export const RuleSets = /*@__PURE__*/ S.Array(RuleSet);
 export interface ListRuleSetsResponse {
   RuleSets: RuleSet[];
   NextToken?: string;
 }
-export const ListRuleSetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleSets: RuleSets, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListRuleSetsResponse",
-}) as any as S.Schema<ListRuleSetsResponse>;
 export type TaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   Tags: Tag[];
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: TagList }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTrafficPoliciesRequest {
   PageSize?: number;
   NextToken?: string;
 }
-export const ListTrafficPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PageSize: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTrafficPoliciesRequest",
-}) as any as S.Schema<ListTrafficPoliciesRequest>;
 export interface TrafficPolicy {
   TrafficPolicyName: string;
   TrafficPolicyId: string;
   DefaultAction: AcceptAction;
 }
-export const TrafficPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrafficPolicyName: S.String,
-    TrafficPolicyId: S.String,
-    DefaultAction: AcceptAction,
-  }),
-).annotate({ identifier: "TrafficPolicy" }) as any as S.Schema<TrafficPolicy>;
 export type TrafficPolicyList = TrafficPolicy[];
-export const TrafficPolicyList = /*@__PURE__*/ S.Array(TrafficPolicy);
 export interface ListTrafficPoliciesResponse {
   TrafficPolicies?: TrafficPolicy[];
   NextToken?: string;
 }
-export const ListTrafficPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrafficPolicies: S.optional(TrafficPolicyList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListTrafficPoliciesResponse",
-}) as any as S.Schema<ListTrafficPoliciesResponse>;
 export interface RegisterMemberToAddressListRequest {
   AddressListId: string;
   Address: string | redacted.Redacted<string>;
 }
-export const RegisterMemberToAddressListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AddressListId: S.String, Address: SensitiveString }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "RegisterMemberToAddressListRequest",
-}) as any as S.Schema<RegisterMemberToAddressListRequest>;
 export interface RegisterMemberToAddressListResponse {}
-export const RegisterMemberToAddressListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "RegisterMemberToAddressListResponse",
-}) as any as S.Schema<RegisterMemberToAddressListResponse>;
 export interface StartAddressListImportJobRequest {
   JobId: string;
 }
-export const StartAddressListImportJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ JobId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StartAddressListImportJobRequest",
-}) as any as S.Schema<StartAddressListImportJobRequest>;
 export interface StartAddressListImportJobResponse {}
-export const StartAddressListImportJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "StartAddressListImportJobResponse",
-}) as any as S.Schema<StartAddressListImportJobResponse>;
 export interface StartArchiveExportRequest {
   ArchiveId: string;
   Filters?: ArchiveFilters;
@@ -3006,29 +1471,9 @@ export interface StartArchiveExportRequest {
   ExportDestinationConfiguration: ExportDestinationConfiguration;
   IncludeMetadata?: boolean;
 }
-export const StartArchiveExportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ArchiveId: S.String,
-    Filters: S.optional(ArchiveFilters),
-    FromTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ToTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    MaxResults: S.optional(S.Number),
-    ExportDestinationConfiguration: ExportDestinationConfiguration,
-    IncludeMetadata: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StartArchiveExportRequest",
-}) as any as S.Schema<StartArchiveExportRequest>;
 export interface StartArchiveExportResponse {
   ExportId?: string;
 }
-export const StartArchiveExportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ExportId: S.optional(S.String) }),
-).annotate({
-  identifier: "StartArchiveExportResponse",
-}) as any as S.Schema<StartArchiveExportResponse>;
 export interface StartArchiveSearchRequest {
   ArchiveId: string;
   Filters?: ArchiveFilters;
@@ -3036,136 +1481,39 @@ export interface StartArchiveSearchRequest {
   ToTimestamp: Date;
   MaxResults: number;
 }
-export const StartArchiveSearchRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ArchiveId: S.String,
-    Filters: S.optional(ArchiveFilters),
-    FromTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ToTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    MaxResults: S.Number,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StartArchiveSearchRequest",
-}) as any as S.Schema<StartArchiveSearchRequest>;
 export interface StartArchiveSearchResponse {
   SearchId?: string;
 }
-export const StartArchiveSearchResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SearchId: S.optional(S.String) }),
-).annotate({
-  identifier: "StartArchiveSearchResponse",
-}) as any as S.Schema<StartArchiveSearchResponse>;
 export interface StopAddressListImportJobRequest {
   JobId: string;
 }
-export const StopAddressListImportJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ JobId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StopAddressListImportJobRequest",
-}) as any as S.Schema<StopAddressListImportJobRequest>;
 export interface StopAddressListImportJobResponse {}
-export const StopAddressListImportJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "StopAddressListImportJobResponse",
-}) as any as S.Schema<StopAddressListImportJobResponse>;
 export interface StopArchiveExportRequest {
   ExportId: string;
 }
-export const StopArchiveExportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ExportId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StopArchiveExportRequest",
-}) as any as S.Schema<StopArchiveExportRequest>;
 export interface StopArchiveExportResponse {}
-export const StopArchiveExportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "StopArchiveExportResponse",
-}) as any as S.Schema<StopArchiveExportResponse>;
 export interface StopArchiveSearchRequest {
   SearchId: string;
 }
-export const StopArchiveSearchRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SearchId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StopArchiveSearchRequest",
-}) as any as S.Schema<StopArchiveSearchRequest>;
 export interface StopArchiveSearchResponse {}
-export const StopArchiveSearchResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "StopArchiveSearchResponse",
-}) as any as S.Schema<StopArchiveSearchResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateArchiveRequest {
   ArchiveId: string;
   ArchiveName?: string;
   Retention?: ArchiveRetention;
 }
-export const UpdateArchiveRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ArchiveId: S.String,
-    ArchiveName: S.optional(S.String),
-    Retention: S.optional(ArchiveRetention),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateArchiveRequest",
-}) as any as S.Schema<UpdateArchiveRequest>;
 export interface UpdateArchiveResponse {}
-export const UpdateArchiveResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateArchiveResponse",
-}) as any as S.Schema<UpdateArchiveResponse>;
 export type IngressPointStatusToUpdate = "ACTIVE" | "CLOSED" | (string & {});
-export const IngressPointStatusToUpdate = S.String;
-
 export interface UpdateIngressPointRequest {
   IngressPointId: string;
   IngressPointName?: string;
@@ -3175,27 +1523,7 @@ export interface UpdateIngressPointRequest {
   IngressPointConfiguration?: IngressPointConfiguration;
   TlsPolicy?: TlsPolicy;
 }
-export const UpdateIngressPointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IngressPointId: S.String,
-    IngressPointName: S.optional(S.String),
-    StatusToUpdate: S.optional(IngressPointStatusToUpdate),
-    RuleSetId: S.optional(S.String),
-    TrafficPolicyId: S.optional(S.String),
-    IngressPointConfiguration: S.optional(IngressPointConfiguration),
-    TlsPolicy: S.optional(TlsPolicy),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateIngressPointRequest",
-}) as any as S.Schema<UpdateIngressPointRequest>;
 export interface UpdateIngressPointResponse {}
-export const UpdateIngressPointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateIngressPointResponse",
-}) as any as S.Schema<UpdateIngressPointResponse>;
 export interface UpdateRelayRequest {
   RelayId: string;
   RelayName?: string;
@@ -3203,47 +1531,13 @@ export interface UpdateRelayRequest {
   ServerPort?: number;
   Authentication?: RelayAuthentication;
 }
-export const UpdateRelayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RelayId: S.String,
-    RelayName: S.optional(S.String),
-    ServerName: S.optional(S.String),
-    ServerPort: S.optional(S.Number),
-    Authentication: S.optional(RelayAuthentication),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateRelayRequest",
-}) as any as S.Schema<UpdateRelayRequest>;
 export interface UpdateRelayResponse {}
-export const UpdateRelayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateRelayResponse",
-}) as any as S.Schema<UpdateRelayResponse>;
 export interface UpdateRuleSetRequest {
   RuleSetId: string;
   RuleSetName?: string;
   Rules?: Rule[];
 }
-export const UpdateRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleSetId: S.String,
-    RuleSetName: S.optional(S.String),
-    Rules: S.optional(Rules),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateRuleSetRequest",
-}) as any as S.Schema<UpdateRuleSetRequest>;
 export interface UpdateRuleSetResponse {}
-export const UpdateRuleSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateRuleSetResponse",
-}) as any as S.Schema<UpdateRuleSetResponse>;
 export interface UpdateTrafficPolicyRequest {
   TrafficPolicyId: string;
   TrafficPolicyName?: string;
@@ -3251,25 +1545,7 @@ export interface UpdateTrafficPolicyRequest {
   DefaultAction?: AcceptAction;
   MaxMessageSizeBytes?: number;
 }
-export const UpdateTrafficPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrafficPolicyId: S.String,
-    TrafficPolicyName: S.optional(S.String),
-    PolicyStatements: S.optional(PolicyStatementList),
-    DefaultAction: S.optional(AcceptAction),
-    MaxMessageSizeBytes: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateTrafficPolicyRequest",
-}) as any as S.Schema<UpdateTrafficPolicyRequest>;
 export interface UpdateTrafficPolicyResponse {}
-export const UpdateTrafficPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateTrafficPolicyResponse",
-}) as any as S.Schema<UpdateTrafficPolicyResponse>;
 export type CreateAddonInstanceError =
   | ConflictException
   | ResourceNotFoundException
@@ -3285,8 +1561,14 @@ export const createAddonInstance: API.OperationMethod<
   CreateAddonInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAddonInstanceRequest,
-  output: CreateAddonInstanceResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ClientToken: D.m({ idempotency: true }),
+      AddonSubscriptionId: 0,
+      Tags: D.list(i_Tag),
+    },
+  },
   errors: [
     ConflictException,
     ResourceNotFoundException,
@@ -3296,7 +1578,7 @@ export const createAddonInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddonInstance",
-}));
+})) as any;
 
 export type CreateAddonSubscriptionError =
   | ConflictException
@@ -3313,8 +1595,14 @@ export const createAddonSubscription: API.OperationMethod<
   CreateAddonSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAddonSubscriptionRequest,
-  output: CreateAddonSubscriptionResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ClientToken: D.m({ idempotency: true }),
+      AddonName: 0,
+      Tags: D.list(i_Tag),
+    },
+  },
   errors: [
     ConflictException,
     ServiceQuotaExceededException,
@@ -3324,7 +1612,7 @@ export const createAddonSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddonSubscription",
-}));
+})) as any;
 
 export type CreateAddressListError =
   | AccessDeniedException
@@ -3342,8 +1630,14 @@ export const createAddressList: API.OperationMethod<
   CreateAddressListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAddressListRequest,
-  output: CreateAddressListResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ClientToken: D.m({ idempotency: true }),
+      AddressListName: 0,
+      Tags: D.list(i_Tag),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3354,7 +1648,7 @@ export const createAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddressList",
-}));
+})) as any;
 
 export type CreateAddressListImportJobError =
   | AccessDeniedException
@@ -3371,8 +1665,16 @@ export const createAddressListImportJob: API.OperationMethod<
   CreateAddressListImportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAddressListImportJobRequest,
-  output: CreateAddressListImportJobResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ClientToken: D.m({ idempotency: true }),
+      AddressListId: 0,
+      Name: 0,
+      ImportDataFormat: { ImportDataType: 0 },
+    },
+    output: { PreSignedUrl: D.secret },
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -3382,7 +1684,7 @@ export const createAddressListImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddressListImportJob",
-}));
+})) as any;
 
 export type CreateArchiveError =
   | AccessDeniedException
@@ -3400,8 +1702,16 @@ export const createArchive: API.OperationMethod<
   CreateArchiveError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateArchiveRequest,
-  output: CreateArchiveResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ClientToken: D.m({ idempotency: true }),
+      ArchiveName: 0,
+      Retention: i_ArchiveRetention,
+      KmsKeyArn: 0,
+      Tags: D.list(i_Tag),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3412,7 +1722,7 @@ export const createArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateArchive",
-}));
+})) as any;
 
 export type CreateIngressPointError =
   | ConflictException
@@ -3428,8 +1738,23 @@ export const createIngressPoint: API.OperationMethod<
   CreateIngressPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateIngressPointRequest,
-  output: CreateIngressPointResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ClientToken: D.m({ idempotency: true }),
+      IngressPointName: 0,
+      Type: 0,
+      RuleSetId: 0,
+      TrafficPolicyId: 0,
+      IngressPointConfiguration: i_IngressPointConfiguration,
+      NetworkConfiguration: {
+        PublicNetworkConfiguration: { IpType: 0 },
+        PrivateNetworkConfiguration: { VpcEndpointId: 0 },
+      },
+      TlsPolicy: 0,
+      Tags: D.list(i_Tag),
+    },
+  },
   errors: [
     ConflictException,
     ServiceQuotaExceededException,
@@ -3438,7 +1763,7 @@ export const createIngressPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIngressPoint",
-}));
+})) as any;
 
 export type CreateRelayError =
   | ConflictException
@@ -3454,8 +1779,17 @@ export const createRelay: API.OperationMethod<
   CreateRelayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRelayRequest,
-  output: CreateRelayResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ClientToken: D.m({ idempotency: true }),
+      RelayName: 0,
+      ServerName: 0,
+      ServerPort: 0,
+      Authentication: i_RelayAuthentication,
+      Tags: D.list(i_Tag),
+    },
+  },
   errors: [
     ConflictException,
     ServiceQuotaExceededException,
@@ -3464,7 +1798,7 @@ export const createRelay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelay",
-}));
+})) as any;
 
 export type CreateRuleSetError =
   | ConflictException
@@ -3480,8 +1814,15 @@ export const createRuleSet: API.OperationMethod<
   CreateRuleSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRuleSetRequest,
-  output: CreateRuleSetResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ClientToken: D.m({ idempotency: true }),
+      RuleSetName: 0,
+      Rules: D.list(i_Rule),
+      Tags: D.list(i_Tag),
+    },
+  },
   errors: [
     ConflictException,
     ServiceQuotaExceededException,
@@ -3490,7 +1831,7 @@ export const createRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleSet",
-}));
+})) as any;
 
 export type CreateTrafficPolicyError =
   | ConflictException
@@ -3506,8 +1847,17 @@ export const createTrafficPolicy: API.OperationMethod<
   CreateTrafficPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTrafficPolicyRequest,
-  output: CreateTrafficPolicyResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ClientToken: D.m({ idempotency: true }),
+      TrafficPolicyName: 0,
+      PolicyStatements: D.list(i_PolicyStatement),
+      DefaultAction: 0,
+      MaxMessageSizeBytes: 0,
+      Tags: D.list(i_Tag),
+    },
+  },
   errors: [
     ConflictException,
     ServiceQuotaExceededException,
@@ -3516,7 +1866,7 @@ export const createTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrafficPolicy",
-}));
+})) as any;
 
 export type DeleteAddonInstanceError =
   | ConflictException
@@ -3531,13 +1881,12 @@ export const deleteAddonInstance: API.OperationMethod<
   DeleteAddonInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAddonInstanceRequest,
-  output: DeleteAddonInstanceResponse,
+  descriptor: { service: svc, input: { AddonInstanceId: 0 } },
   errors: [ConflictException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAddonInstance",
-}));
+})) as any;
 
 export type DeleteAddonSubscriptionError =
   | ConflictException
@@ -3552,13 +1901,12 @@ export const deleteAddonSubscription: API.OperationMethod<
   DeleteAddonSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAddonSubscriptionRequest,
-  output: DeleteAddonSubscriptionResponse,
+  descriptor: { service: svc, input: { AddonSubscriptionId: 0 } },
   errors: [ConflictException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAddonSubscription",
-}));
+})) as any;
 
 export type DeleteAddressListError =
   | AccessDeniedException
@@ -3575,8 +1923,7 @@ export const deleteAddressList: API.OperationMethod<
   DeleteAddressListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAddressListRequest,
-  output: DeleteAddressListResponse,
+  descriptor: { service: svc, input: { AddressListId: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3586,7 +1933,7 @@ export const deleteAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAddressList",
-}));
+})) as any;
 
 export type DeleteArchiveError =
   | AccessDeniedException
@@ -3603,8 +1950,7 @@ export const deleteArchive: API.OperationMethod<
   DeleteArchiveError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteArchiveRequest,
-  output: DeleteArchiveResponse,
+  descriptor: { service: svc, input: { ArchiveId: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3614,7 +1960,7 @@ export const deleteArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArchive",
-}));
+})) as any;
 
 export type DeleteIngressPointError =
   | ConflictException
@@ -3630,13 +1976,12 @@ export const deleteIngressPoint: API.OperationMethod<
   DeleteIngressPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteIngressPointRequest,
-  output: DeleteIngressPointResponse,
+  descriptor: { service: svc, input: { IngressPointId: 0 } },
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIngressPoint",
-}));
+})) as any;
 
 export type DeleteRelayError =
   | ConflictException
@@ -3652,13 +1997,12 @@ export const deleteRelay: API.OperationMethod<
   DeleteRelayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRelayRequest,
-  output: DeleteRelayResponse,
+  descriptor: { service: svc, input: { RelayId: 0 } },
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRelay",
-}));
+})) as any;
 
 export type DeleteRuleSetError =
   | ConflictException
@@ -3673,13 +2017,12 @@ export const deleteRuleSet: API.OperationMethod<
   DeleteRuleSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRuleSetRequest,
-  output: DeleteRuleSetResponse,
+  descriptor: { service: svc, input: { RuleSetId: 0 } },
   errors: [ConflictException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleSet",
-}));
+})) as any;
 
 export type DeleteTrafficPolicyError =
   | ConflictException
@@ -3695,13 +2038,12 @@ export const deleteTrafficPolicy: API.OperationMethod<
   DeleteTrafficPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTrafficPolicyRequest,
-  output: DeleteTrafficPolicyResponse,
+  descriptor: { service: svc, input: { TrafficPolicyId: 0 } },
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrafficPolicy",
-}));
+})) as any;
 
 export type DeregisterMemberFromAddressListError =
   | AccessDeniedException
@@ -3719,8 +2061,7 @@ export const deregisterMemberFromAddressList: API.OperationMethod<
   DeregisterMemberFromAddressListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeregisterMemberFromAddressListRequest,
-  output: DeregisterMemberFromAddressListResponse,
+  descriptor: { service: svc, input: { AddressListId: 0, Address: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3731,7 +2072,7 @@ export const deregisterMemberFromAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterMemberFromAddressList",
-}));
+})) as any;
 
 export type GetAddonInstanceError =
   | ResourceNotFoundException
@@ -3746,13 +2087,16 @@ export const getAddonInstance: API.OperationMethod<
   GetAddonInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAddonInstanceRequest,
-  output: GetAddonInstanceResponse,
+  descriptor: {
+    service: svc,
+    input: { AddonInstanceId: 0 },
+    output: { CreatedTimestamp: D.ts },
+  },
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAddonInstance",
-}));
+})) as any;
 
 export type GetAddonSubscriptionError =
   | ResourceNotFoundException
@@ -3767,13 +2111,16 @@ export const getAddonSubscription: API.OperationMethod<
   GetAddonSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAddonSubscriptionRequest,
-  output: GetAddonSubscriptionResponse,
+  descriptor: {
+    service: svc,
+    input: { AddonSubscriptionId: 0 },
+    output: { CreatedTimestamp: D.ts },
+  },
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAddonSubscription",
-}));
+})) as any;
 
 export type GetAddressListError =
   | AccessDeniedException
@@ -3790,8 +2137,11 @@ export const getAddressList: API.OperationMethod<
   GetAddressListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAddressListRequest,
-  output: GetAddressListResponse,
+  descriptor: {
+    service: svc,
+    input: { AddressListId: 0 },
+    output: { CreatedTimestamp: D.ts, LastUpdatedTimestamp: D.ts },
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -3801,7 +2151,7 @@ export const getAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAddressList",
-}));
+})) as any;
 
 export type GetAddressListImportJobError =
   | AccessDeniedException
@@ -3818,8 +2168,16 @@ export const getAddressListImportJob: API.OperationMethod<
   GetAddressListImportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAddressListImportJobRequest,
-  output: GetAddressListImportJobResponse,
+  descriptor: {
+    service: svc,
+    input: { JobId: 0 },
+    output: {
+      PreSignedUrl: D.secret,
+      CreatedTimestamp: D.ts,
+      StartTimestamp: D.ts,
+      CompletedTimestamp: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -3829,7 +2187,7 @@ export const getAddressListImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAddressListImportJob",
-}));
+})) as any;
 
 export type GetArchiveError =
   | AccessDeniedException
@@ -3846,8 +2204,11 @@ export const getArchive: API.OperationMethod<
   GetArchiveError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetArchiveRequest,
-  output: GetArchiveResponse,
+  descriptor: {
+    service: svc,
+    input: { ArchiveId: 0 },
+    output: { CreatedTimestamp: D.ts, LastUpdatedTimestamp: D.ts },
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -3857,7 +2218,7 @@ export const getArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchive",
-}));
+})) as any;
 
 export type GetArchiveExportError =
   | AccessDeniedException
@@ -3873,13 +2234,16 @@ export const getArchiveExport: API.OperationMethod<
   GetArchiveExportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetArchiveExportRequest,
-  output: GetArchiveExportResponse,
+  descriptor: {
+    service: svc,
+    input: { ExportId: 0 },
+    output: { FromTimestamp: D.ts, ToTimestamp: D.ts, Status: o_ExportStatus },
+  },
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveExport",
-}));
+})) as any;
 
 export type GetArchiveMessageError =
   | AccessDeniedException
@@ -3895,13 +2259,16 @@ export const getArchiveMessage: API.OperationMethod<
   GetArchiveMessageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetArchiveMessageRequest,
-  output: GetArchiveMessageResponse,
+  descriptor: {
+    service: svc,
+    input: { ArchivedMessageId: 0 },
+    output: { Metadata: { Timestamp: D.ts, SenderIpAddress: D.secret } },
+  },
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveMessage",
-}));
+})) as any;
 
 export type GetArchiveMessageContentError =
   | AccessDeniedException
@@ -3917,13 +2284,12 @@ export const getArchiveMessageContent: API.OperationMethod<
   GetArchiveMessageContentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetArchiveMessageContentRequest,
-  output: GetArchiveMessageContentResponse,
+  descriptor: { service: svc, input: { ArchivedMessageId: 0 } },
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveMessageContent",
-}));
+})) as any;
 
 export type GetArchiveSearchError =
   | AccessDeniedException
@@ -3939,13 +2305,16 @@ export const getArchiveSearch: API.OperationMethod<
   GetArchiveSearchError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetArchiveSearchRequest,
-  output: GetArchiveSearchResponse,
+  descriptor: {
+    service: svc,
+    input: { SearchId: 0 },
+    output: { FromTimestamp: D.ts, ToTimestamp: D.ts, Status: o_SearchStatus },
+  },
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveSearch",
-}));
+})) as any;
 
 export type GetArchiveSearchResultsError =
   | AccessDeniedException
@@ -3962,8 +2331,13 @@ export const getArchiveSearchResults: API.OperationMethod<
   GetArchiveSearchResultsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetArchiveSearchResultsRequest,
-  output: GetArchiveSearchResultsResponse,
+  descriptor: {
+    service: svc,
+    input: { SearchId: 0 },
+    output: {
+      Rows: D.list({ ReceivedTimestamp: D.ts, SenderIpAddress: D.secret }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3973,7 +2347,7 @@ export const getArchiveSearchResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveSearchResults",
-}));
+})) as any;
 
 export type GetIngressPointError =
   | ResourceNotFoundException
@@ -3988,13 +2362,27 @@ export const getIngressPoint: API.OperationMethod<
   GetIngressPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetIngressPointRequest,
-  output: GetIngressPointResponse,
+  descriptor: {
+    service: svc,
+    input: { IngressPointId: 0, IncludeTrustStoreContents: 0 },
+    output: {
+      IngressPointAuthConfiguration: {
+        IngressPointPasswordConfiguration: {
+          PreviousSmtpPasswordExpiryTimestamp: D.ts,
+        },
+        TlsAuthConfiguration: {
+          TrustStore: { CAContent: D.secret, CrlContent: D.secret },
+        },
+      },
+      CreatedTimestamp: D.ts,
+      LastUpdatedTimestamp: D.ts,
+    },
+  },
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngressPoint",
-}));
+})) as any;
 
 export type GetMemberOfAddressListError =
   | AccessDeniedException
@@ -4011,8 +2399,11 @@ export const getMemberOfAddressList: API.OperationMethod<
   GetMemberOfAddressListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMemberOfAddressListRequest,
-  output: GetMemberOfAddressListResponse,
+  descriptor: {
+    service: svc,
+    input: { AddressListId: 0, Address: 0 },
+    output: { Address: D.secret, CreatedTimestamp: D.ts },
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -4022,7 +2413,7 @@ export const getMemberOfAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMemberOfAddressList",
-}));
+})) as any;
 
 export type GetRelayError =
   | ResourceNotFoundException
@@ -4037,13 +2428,16 @@ export const getRelay: API.OperationMethod<
   GetRelayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRelayRequest,
-  output: GetRelayResponse,
+  descriptor: {
+    service: svc,
+    input: { RelayId: 0 },
+    output: { CreatedTimestamp: D.ts, LastModifiedTimestamp: D.ts },
+  },
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelay",
-}));
+})) as any;
 
 export type GetRuleSetError =
   | ResourceNotFoundException
@@ -4058,13 +2452,31 @@ export const getRuleSet: API.OperationMethod<
   GetRuleSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRuleSetRequest,
-  output: GetRuleSetResponse,
+  descriptor: {
+    service: svc,
+    input: { RuleSetId: 0 },
+    output: {
+      CreatedDate: D.ts,
+      LastModificationDate: D.ts,
+      Rules: D.list({
+        Conditions: D.list(o_RuleCondition),
+        Unless: D.list(o_RuleCondition),
+        Actions: D.list({
+          ReplaceRecipient: { ReplaceWith: D.list(D.secret) },
+          Bounce: {
+            Sender: D.secret,
+            DiagnosticMessage: D.secret,
+            Message: D.secret,
+          },
+        }),
+      }),
+    },
+  },
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRuleSet",
-}));
+})) as any;
 
 export type GetTrafficPolicyError =
   | ResourceNotFoundException
@@ -4079,13 +2491,16 @@ export const getTrafficPolicy: API.OperationMethod<
   GetTrafficPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTrafficPolicyRequest,
-  output: GetTrafficPolicyResponse,
+  descriptor: {
+    service: svc,
+    input: { TrafficPolicyId: 0 },
+    output: { CreatedTimestamp: D.ts, LastUpdatedTimestamp: D.ts },
+  },
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrafficPolicy",
-}));
+})) as any;
 
 export type ListAddonInstancesError = ValidationException | CommonErrors;
 /**
@@ -4098,8 +2513,11 @@ export const listAddonInstances: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AddonInstance
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAddonInstancesRequest,
-  output: ListAddonInstancesResponse,
+  descriptor: {
+    service: svc,
+    input: { NextToken: 0, PageSize: 0 },
+    output: { AddonInstances: D.list({ CreatedTimestamp: D.ts }) },
+  },
   errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4123,8 +2541,11 @@ export const listAddonSubscriptions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AddonSubscription
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAddonSubscriptionsRequest,
-  output: ListAddonSubscriptionsResponse,
+  descriptor: {
+    service: svc,
+    input: { NextToken: 0, PageSize: 0 },
+    output: { AddonSubscriptions: D.list({ CreatedTimestamp: D.ts }) },
+  },
   errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4153,8 +2574,18 @@ export const listAddressListImportJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ImportJob
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAddressListImportJobsRequest,
-  output: ListAddressListImportJobsResponse,
+  descriptor: {
+    service: svc,
+    input: { AddressListId: 0, NextToken: 0, PageSize: 0 },
+    output: {
+      ImportJobs: D.list({
+        PreSignedUrl: D.secret,
+        CreatedTimestamp: D.ts,
+        StartTimestamp: D.ts,
+        CompletedTimestamp: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -4187,8 +2618,16 @@ export const listAddressLists: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AddressList
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAddressListsRequest,
-  output: ListAddressListsResponse,
+  descriptor: {
+    service: svc,
+    input: { NextToken: 0, PageSize: 0 },
+    output: {
+      AddressLists: D.list({
+        CreatedTimestamp: D.ts,
+        LastUpdatedTimestamp: D.ts,
+      }),
+    },
+  },
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4217,8 +2656,11 @@ export const listArchiveExports: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ExportSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListArchiveExportsRequest,
-  output: ListArchiveExportsResponse,
+  descriptor: {
+    service: svc,
+    input: { ArchiveId: 0, NextToken: 0, PageSize: 0 },
+    output: { Exports: D.list({ Status: o_ExportStatus }) },
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -4251,8 +2693,11 @@ export const listArchives: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Archive
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListArchivesRequest,
-  output: ListArchivesResponse,
+  descriptor: {
+    service: svc,
+    input: { NextToken: 0, PageSize: 0 },
+    output: { Archives: D.list({ LastUpdatedTimestamp: D.ts }) },
+  },
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4281,8 +2726,11 @@ export const listArchiveSearches: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SearchSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListArchiveSearchesRequest,
-  output: ListArchiveSearchesResponse,
+  descriptor: {
+    service: svc,
+    input: { ArchiveId: 0, NextToken: 0, PageSize: 0 },
+    output: { Searches: D.list({ Status: o_SearchStatus }) },
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -4311,8 +2759,7 @@ export const listIngressPoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   IngressPoint
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListIngressPointsRequest,
-  output: ListIngressPointsResponse,
+  descriptor: { service: svc, input: { PageSize: 0, NextToken: 0 } },
   errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4341,8 +2788,18 @@ export const listMembersOfAddressList: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SavedAddress
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListMembersOfAddressListRequest,
-  output: ListMembersOfAddressListResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      AddressListId: 0,
+      Filter: { AddressPrefix: 0 },
+      NextToken: 0,
+      PageSize: 0,
+    },
+    output: {
+      Addresses: D.list({ Address: D.secret, CreatedTimestamp: D.ts }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -4371,8 +2828,11 @@ export const listRelays: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Relay
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRelaysRequest,
-  output: ListRelaysResponse,
+  descriptor: {
+    service: svc,
+    input: { PageSize: 0, NextToken: 0 },
+    output: { Relays: D.list({ LastModifiedTimestamp: D.ts }) },
+  },
   errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4396,8 +2856,11 @@ export const listRuleSets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RuleSet
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRuleSetsRequest,
-  output: ListRuleSetsResponse,
+  descriptor: {
+    service: svc,
+    input: { NextToken: 0, PageSize: 0 },
+    output: { RuleSets: D.list({ LastModificationDate: D.ts }) },
+  },
   errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4423,13 +2886,12 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: { service: svc, input: { ResourceArn: 0 } },
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type ListTrafficPoliciesError = ValidationException | CommonErrors;
 /**
@@ -4442,8 +2904,7 @@ export const listTrafficPolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TrafficPolicy
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTrafficPoliciesRequest,
-  output: ListTrafficPoliciesResponse,
+  descriptor: { service: svc, input: { PageSize: 0, NextToken: 0 } },
   errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4473,8 +2934,7 @@ export const registerMemberToAddressList: API.OperationMethod<
   RegisterMemberToAddressListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RegisterMemberToAddressListRequest,
-  output: RegisterMemberToAddressListResponse,
+  descriptor: { service: svc, input: { AddressListId: 0, Address: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4486,7 +2946,7 @@ export const registerMemberToAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterMemberToAddressList",
-}));
+})) as any;
 
 export type StartAddressListImportJobError =
   | AccessDeniedException
@@ -4505,8 +2965,7 @@ export const startAddressListImportJob: API.OperationMethod<
   StartAddressListImportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartAddressListImportJobRequest,
-  output: StartAddressListImportJobResponse,
+  descriptor: { service: svc, input: { JobId: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4518,7 +2977,7 @@ export const startAddressListImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAddressListImportJob",
-}));
+})) as any;
 
 export type StartArchiveExportError =
   | AccessDeniedException
@@ -4536,8 +2995,18 @@ export const startArchiveExport: API.OperationMethod<
   StartArchiveExportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartArchiveExportRequest,
-  output: StartArchiveExportResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ArchiveId: 0,
+      Filters: i_ArchiveFilters,
+      FromTimestamp: 0,
+      ToTimestamp: 0,
+      MaxResults: 0,
+      ExportDestinationConfiguration: { S3: { S3Location: 0 } },
+      IncludeMetadata: 0,
+    },
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -4548,7 +3017,7 @@ export const startArchiveExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartArchiveExport",
-}));
+})) as any;
 
 export type StartArchiveSearchError =
   | AccessDeniedException
@@ -4567,8 +3036,16 @@ export const startArchiveSearch: API.OperationMethod<
   StartArchiveSearchError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartArchiveSearchRequest,
-  output: StartArchiveSearchResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ArchiveId: 0,
+      Filters: i_ArchiveFilters,
+      FromTimestamp: 0,
+      ToTimestamp: 0,
+      MaxResults: 0,
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4580,7 +3057,7 @@ export const startArchiveSearch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartArchiveSearch",
-}));
+})) as any;
 
 export type StopAddressListImportJobError =
   | AccessDeniedException
@@ -4598,8 +3075,7 @@ export const stopAddressListImportJob: API.OperationMethod<
   StopAddressListImportJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopAddressListImportJobRequest,
-  output: StopAddressListImportJobResponse,
+  descriptor: { service: svc, input: { JobId: 0 } },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4610,7 +3086,7 @@ export const stopAddressListImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAddressListImportJob",
-}));
+})) as any;
 
 export type StopArchiveExportError =
   | AccessDeniedException
@@ -4626,13 +3102,12 @@ export const stopArchiveExport: API.OperationMethod<
   StopArchiveExportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopArchiveExportRequest,
-  output: StopArchiveExportResponse,
+  descriptor: { service: svc, input: { ExportId: 0 } },
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopArchiveExport",
-}));
+})) as any;
 
 export type StopArchiveSearchError =
   | AccessDeniedException
@@ -4648,13 +3123,12 @@ export const stopArchiveSearch: API.OperationMethod<
   StopArchiveSearchError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopArchiveSearchRequest,
-  output: StopArchiveSearchResponse,
+  descriptor: { service: svc, input: { SearchId: 0 } },
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopArchiveSearch",
-}));
+})) as any;
 
 export type TagResourceError =
   | ConflictException
@@ -4671,8 +3145,7 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: { service: svc, input: { ResourceArn: 0, Tags: D.list(i_Tag) } },
   errors: [
     ConflictException,
     ResourceNotFoundException,
@@ -4682,7 +3155,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | ConflictException
@@ -4698,13 +3171,12 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: { service: svc, input: { ResourceArn: 0, TagKeys: 0 } },
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateArchiveError =
   | AccessDeniedException
@@ -4723,8 +3195,10 @@ export const updateArchive: API.OperationMethod<
   UpdateArchiveError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateArchiveRequest,
-  output: UpdateArchiveResponse,
+  descriptor: {
+    service: svc,
+    input: { ArchiveId: 0, ArchiveName: 0, Retention: i_ArchiveRetention },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4736,7 +3210,7 @@ export const updateArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateArchive",
-}));
+})) as any;
 
 export type UpdateIngressPointError =
   | ConflictException
@@ -4752,13 +3226,23 @@ export const updateIngressPoint: API.OperationMethod<
   UpdateIngressPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateIngressPointRequest,
-  output: UpdateIngressPointResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      IngressPointId: 0,
+      IngressPointName: 0,
+      StatusToUpdate: 0,
+      RuleSetId: 0,
+      TrafficPolicyId: 0,
+      IngressPointConfiguration: i_IngressPointConfiguration,
+      TlsPolicy: 0,
+    },
+  },
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIngressPoint",
-}));
+})) as any;
 
 export type UpdateRelayError =
   | ConflictException
@@ -4774,13 +3258,21 @@ export const updateRelay: API.OperationMethod<
   UpdateRelayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRelayRequest,
-  output: UpdateRelayResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      RelayId: 0,
+      RelayName: 0,
+      ServerName: 0,
+      ServerPort: 0,
+      Authentication: i_RelayAuthentication,
+    },
+  },
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelay",
-}));
+})) as any;
 
 export type UpdateRuleSetError =
   | ConflictException
@@ -4796,13 +3288,15 @@ export const updateRuleSet: API.OperationMethod<
   UpdateRuleSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRuleSetRequest,
-  output: UpdateRuleSetResponse,
+  descriptor: {
+    service: svc,
+    input: { RuleSetId: 0, RuleSetName: 0, Rules: D.list(i_Rule) },
+  },
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleSet",
-}));
+})) as any;
 
 export type UpdateTrafficPolicyError =
   | ConflictException
@@ -4818,10 +3312,151 @@ export const updateTrafficPolicy: API.OperationMethod<
   UpdateTrafficPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateTrafficPolicyRequest,
-  output: UpdateTrafficPolicyResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      TrafficPolicyId: 0,
+      TrafficPolicyName: 0,
+      PolicyStatements: D.list(i_PolicyStatement),
+      DefaultAction: 0,
+      MaxMessageSizeBytes: 0,
+    },
+  },
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrafficPolicy",
-}));
+})) as any;
+
+const i_ArchiveFilters: D.LazyStruct = () => ({
+  Include: D.list(i_ArchiveFilterCondition),
+  Unless: D.list(i_ArchiveFilterCondition),
+});
+const i_ArchiveRetention: D.LazyStruct = () => ({ RetentionPeriod: 0 });
+const i_IngressPointConfiguration: D.LazyStruct = () => ({
+  SmtpPassword: 0,
+  SecretArn: 0,
+  TlsAuthConfiguration: {
+    TrustStore: { CAContent: 0, CrlContent: 0, KmsKeyArn: 0 },
+  },
+});
+const i_PolicyStatement: D.LazyStruct = () => ({
+  Conditions: D.list({
+    StringExpression: {
+      Evaluate: { Attribute: 0, Analysis: i_IngressAnalysis },
+      Operator: 0,
+      Values: 0,
+    },
+    IpExpression: { Evaluate: { Attribute: 0 }, Operator: 0, Values: 0 },
+    Ipv6Expression: { Evaluate: { Attribute: 0 }, Operator: 0, Values: 0 },
+    TlsExpression: { Evaluate: { Attribute: 0 }, Operator: 0, Value: 0 },
+    BooleanExpression: {
+      Evaluate: {
+        Analysis: i_IngressAnalysis,
+        IsInAddressList: { Attribute: 0, AddressLists: 0 },
+      },
+      Operator: 0,
+    },
+  }),
+  Action: 0,
+});
+const i_RelayAuthentication: D.LazyStruct = () => ({
+  SecretArn: 0,
+  NoAuthentication: {},
+});
+const i_Rule: D.LazyStruct = () => ({
+  Name: 0,
+  Conditions: D.list(i_RuleCondition),
+  Unless: D.list(i_RuleCondition),
+  Actions: D.list({
+    Drop: {},
+    Relay: { ActionFailurePolicy: 0, Relay: 0, MailFrom: 0 },
+    Archive: { ActionFailurePolicy: 0, TargetArchive: 0 },
+    WriteToS3: {
+      ActionFailurePolicy: 0,
+      RoleArn: 0,
+      S3Bucket: 0,
+      S3Prefix: 0,
+      S3SseKmsKeyId: 0,
+    },
+    Send: { ActionFailurePolicy: 0, RoleArn: 0 },
+    AddHeader: { HeaderName: 0, HeaderValue: 0 },
+    ReplaceRecipient: { ReplaceWith: 0 },
+    DeliverToMailbox: { ActionFailurePolicy: 0, MailboxArn: 0, RoleArn: 0 },
+    DeliverToQBusiness: {
+      ActionFailurePolicy: 0,
+      ApplicationId: 0,
+      IndexId: 0,
+      RoleArn: 0,
+    },
+    PublishToSns: {
+      ActionFailurePolicy: 0,
+      TopicArn: 0,
+      RoleArn: 0,
+      Encoding: 0,
+      PayloadType: 0,
+    },
+    Bounce: {
+      ActionFailurePolicy: 0,
+      RoleArn: 0,
+      Sender: 0,
+      StatusCode: 0,
+      SmtpReplyCode: 0,
+      DiagnosticMessage: 0,
+      Message: 0,
+    },
+    InvokeLambda: {
+      ActionFailurePolicy: 0,
+      FunctionArn: 0,
+      InvocationType: 0,
+      RoleArn: 0,
+      RetryTimeMinutes: 0,
+    },
+  }),
+});
+const i_Tag: D.LazyStruct = () => ({ Key: 0, Value: 0 });
+const o_ExportStatus: D.LazyStruct = () => ({
+  SubmissionTimestamp: D.ts,
+  CompletionTimestamp: D.ts,
+});
+const o_RuleCondition: D.LazyStruct = () => ({
+  StringExpression: { Values: D.list(D.secret) },
+});
+const o_SearchStatus: D.LazyStruct = () => ({
+  SubmissionTimestamp: D.ts,
+  CompletionTimestamp: D.ts,
+});
+const i_ArchiveFilterCondition: D.LazyStruct = () => ({
+  StringExpression: { Evaluate: { Attribute: 0 }, Operator: 0, Values: 0 },
+  BooleanExpression: { Evaluate: { Attribute: 0 }, Operator: 0 },
+});
+const i_IngressAnalysis: D.LazyStruct = () => ({ Analyzer: 0, ResultField: 0 });
+const i_RuleCondition: D.LazyStruct = () => ({
+  BooleanExpression: {
+    Evaluate: {
+      Attribute: 0,
+      Analysis: i_Analysis,
+      IsInAddressList: { Attribute: 0, AddressLists: 0 },
+    },
+    Operator: 0,
+  },
+  StringExpression: {
+    Evaluate: {
+      Attribute: 0,
+      MimeHeaderAttribute: 0,
+      Analysis: i_Analysis,
+      ClientCertificateAttribute: 0,
+    },
+    Operator: 0,
+    Values: 0,
+  },
+  NumberExpression: { Evaluate: { Attribute: 0 }, Operator: 0, Value: 0 },
+  IpExpression: { Evaluate: { Attribute: 0 }, Operator: 0, Values: 0 },
+  VerdictExpression: {
+    Evaluate: { Attribute: 0, Analysis: i_Analysis },
+    Operator: 0,
+    Values: 0,
+  },
+  DmarcExpression: { Operator: 0, Values: 0 },
+});
+const i_Analysis: D.LazyStruct = () => ({ Analyzer: 0, ResultField: 0 });

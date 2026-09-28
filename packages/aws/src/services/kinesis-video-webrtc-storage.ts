@@ -1,161 +1,121 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Kinesis Video WebRTC Storage",
-  serviceShapeName: "AWSAcuityRoutingServiceLambda",
-});
-const auth = T.AwsAuthSigv4({ name: "kinesisvideo" });
-const ver = T.ServiceVersion("2018-05-10");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://kinesisvideo-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://kinesisvideo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://kinesisvideo.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://kinesisvideo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AWSAcuityRoutingServiceLambda",
+  version: "2018-05-10",
+  sigv4: "kinesisvideo",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://kinesisvideo-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://kinesisvideo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://kinesisvideo.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://kinesisvideo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class ClientLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<ClientLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ClientLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidArgumentException
-  extends /*@__PURE__*/ S.TaggedError<InvalidArgumentException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidArgumentException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export type ChannelArn = string;
 export interface JoinStorageSessionInput {
   channelArn: string;
 }
-export const JoinStorageSessionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channelArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/joinStorageSession" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "JoinStorageSessionInput",
-}) as any as S.Schema<JoinStorageSessionInput>;
 export interface JoinStorageSessionResponse {}
-export const JoinStorageSessionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "JoinStorageSessionResponse",
-}) as any as S.Schema<JoinStorageSessionResponse>;
 export type ClientId = string;
 export interface JoinStorageSessionAsViewerInput {
   channelArn: string;
   clientId: string;
 }
-export const JoinStorageSessionAsViewerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channelArn: S.String, clientId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/joinStorageSessionAsViewer" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "JoinStorageSessionAsViewerInput",
-}) as any as S.Schema<JoinStorageSessionAsViewerInput>;
 export interface JoinStorageSessionAsViewerResponse {}
-export const JoinStorageSessionAsViewerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "JoinStorageSessionAsViewerResponse",
-}) as any as S.Schema<JoinStorageSessionAsViewerResponse>;
 export type JoinStorageSessionError =
   | AccessDeniedException
   | ClientLimitExceededException
@@ -213,8 +173,12 @@ export const joinStorageSession: API.OperationMethod<
   JoinStorageSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: JoinStorageSessionInput,
-  output: JoinStorageSessionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /joinStorageSession",
+    input: { channelArn: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ClientLimitExceededException,
@@ -224,7 +188,7 @@ export const joinStorageSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "JoinStorageSession",
-}));
+})) as any;
 
 export type JoinStorageSessionAsViewerError =
   | AccessDeniedException
@@ -257,8 +221,12 @@ export const joinStorageSessionAsViewer: API.OperationMethod<
   JoinStorageSessionAsViewerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: JoinStorageSessionAsViewerInput,
-  output: JoinStorageSessionAsViewerResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /joinStorageSessionAsViewer",
+    input: { channelArn: 0, clientId: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ClientLimitExceededException,
@@ -268,4 +236,4 @@ export const joinStorageSessionAsViewer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "JoinStorageSessionAsViewer",
-}));
+})) as any;

@@ -1,191 +1,164 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({ sdkId: "AIOps", serviceShapeName: "AIOps" });
-const auth = T.AwsAuthSigv4({ name: "aiops" });
-const ver = T.ServiceVersion("2018-05-10");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://aiops-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://aiops-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://aiops.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://aiops.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+const svc: T.ServiceInfo = {
+  sdkId: "AIOps",
+  target: "AIOps",
+  version: "2018-05-10",
+  sigv4: "aiops",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://aiops-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://aiops-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://aiops.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://aiops.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message?: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      resourceId: S.optional(S.String),
-      resourceType: S.optional(S.String),
-      serviceCode: S.optional(S.String),
-      quotaCode: S.optional(S.String),
-    },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{
+    readonly message?: string;
+    readonly resourceId?: string;
+    readonly resourceType?: string;
+    readonly serviceCode?: string;
+    readonly quotaCode?: string;
+  }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message?: string }> {}
 export class UnauthorizedException
-  extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
-    "UnauthorizedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("UnauthorizedException", ["AuthError"])<{
+    readonly message?: string;
+  }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export type StringWithPatternAndLengthLimits = string;
 export type RoleArn = string;
 export type EncryptionConfigurationType =
   | "AWS_OWNED_KEY"
   | "CUSTOMER_MANAGED_KMS_KEY"
   | (string & {});
-export const EncryptionConfigurationType = S.String;
-
 export type KmsKeyId = string;
 export interface EncryptionConfiguration {
   type?: EncryptionConfigurationType;
   kmsKeyId?: string;
 }
-export const EncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(EncryptionConfigurationType),
-    kmsKeyId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
 export type Retention = number;
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type TagKeyBoundaries = string[];
-export const TagKeyBoundaries = /*@__PURE__*/ S.Array(S.String);
 export type SNSTopicArn = string;
 export type ChatConfigurationArn = string;
 export type ChatConfigurationArns = string[];
-export const ChatConfigurationArns = /*@__PURE__*/ S.Array(S.String);
 export type ChatbotNotificationChannel = {
   [key: string]: string[] | undefined;
 };
-export const ChatbotNotificationChannel = /*@__PURE__*/ S.Record(
-  S.String,
-  ChatConfigurationArns.pipe(S.optional),
-);
 export interface CrossAccountConfiguration {
   sourceRoleArn?: string;
 }
-export const CrossAccountConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sourceRoleArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CrossAccountConfiguration",
-}) as any as S.Schema<CrossAccountConfiguration>;
 export type CrossAccountConfigurations = CrossAccountConfiguration[];
-export const CrossAccountConfigurations = /*@__PURE__*/ S.Array(
-  CrossAccountConfiguration,
-);
 export interface CreateInvestigationGroupInput {
   name: string;
   roleArn: string;
@@ -197,107 +170,22 @@ export interface CreateInvestigationGroupInput {
   isCloudTrailEventHistoryEnabled?: boolean;
   crossAccountConfigurations?: CrossAccountConfiguration[];
 }
-export const CreateInvestigationGroupInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    roleArn: S.String,
-    encryptionConfiguration: S.optional(EncryptionConfiguration),
-    retentionInDays: S.optional(S.Number),
-    tags: S.optional(Tags),
-    tagKeyBoundaries: S.optional(TagKeyBoundaries),
-    chatbotNotificationChannel: S.optional(ChatbotNotificationChannel),
-    isCloudTrailEventHistoryEnabled: S.optional(S.Boolean),
-    crossAccountConfigurations: S.optional(CrossAccountConfigurations),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/investigationGroups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateInvestigationGroupInput",
-}) as any as S.Schema<CreateInvestigationGroupInput>;
 export type InvestigationGroupArn = string;
 export interface CreateInvestigationGroupOutput {
   arn?: string;
 }
-export const CreateInvestigationGroupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateInvestigationGroupOutput",
-}) as any as S.Schema<CreateInvestigationGroupOutput>;
 export type InvestigationGroupIdentifier = string;
 export interface DeleteInvestigationGroupRequest {
   identifier: string;
 }
-export const DeleteInvestigationGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/investigationGroups/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteInvestigationGroupRequest",
-}) as any as S.Schema<DeleteInvestigationGroupRequest>;
 export interface DeleteInvestigationGroupResponse {}
-export const DeleteInvestigationGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteInvestigationGroupResponse",
-}) as any as S.Schema<DeleteInvestigationGroupResponse>;
 export interface DeleteInvestigationGroupPolicyRequest {
   identifier: string;
 }
-export const DeleteInvestigationGroupPolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/investigationGroups/{identifier}/policy",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteInvestigationGroupPolicyRequest",
-}) as any as S.Schema<DeleteInvestigationGroupPolicyRequest>;
 export interface DeleteInvestigationGroupPolicyOutput {}
-export const DeleteInvestigationGroupPolicyOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "DeleteInvestigationGroupPolicyOutput",
-}) as any as S.Schema<DeleteInvestigationGroupPolicyOutput>;
 export interface GetInvestigationGroupRequest {
   identifier: string;
 }
-export const GetInvestigationGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/investigationGroups/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetInvestigationGroupRequest",
-}) as any as S.Schema<GetInvestigationGroupRequest>;
 export type IdentifierStringWithPatternAndLengthLimits = string;
 export interface GetInvestigationGroupResponse {
   createdBy?: string;
@@ -314,58 +202,14 @@ export interface GetInvestigationGroupResponse {
   isCloudTrailEventHistoryEnabled?: boolean;
   crossAccountConfigurations?: CrossAccountConfiguration[];
 }
-export const GetInvestigationGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    createdBy: S.optional(S.String),
-    createdAt: S.optional(S.Number),
-    lastModifiedBy: S.optional(S.String),
-    lastModifiedAt: S.optional(S.Number),
-    name: S.optional(S.String),
-    arn: S.optional(S.String),
-    roleArn: S.optional(S.String),
-    encryptionConfiguration: S.optional(EncryptionConfiguration),
-    retentionInDays: S.optional(S.Number),
-    chatbotNotificationChannel: S.optional(ChatbotNotificationChannel),
-    tagKeyBoundaries: S.optional(TagKeyBoundaries),
-    isCloudTrailEventHistoryEnabled: S.optional(S.Boolean),
-    crossAccountConfigurations: S.optional(CrossAccountConfigurations),
-  }),
-).annotate({
-  identifier: "GetInvestigationGroupResponse",
-}) as any as S.Schema<GetInvestigationGroupResponse>;
 export interface GetInvestigationGroupPolicyRequest {
   identifier: string;
 }
-export const GetInvestigationGroupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/investigationGroups/{identifier}/policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetInvestigationGroupPolicyRequest",
-}) as any as S.Schema<GetInvestigationGroupPolicyRequest>;
 export type InvestigationGroupPolicyDocument = string;
 export interface GetInvestigationGroupPolicyResponse {
   investigationGroupArn?: string;
   policy?: string;
 }
-export const GetInvestigationGroupPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    investigationGroupArn: S.optional(S.String),
-    policy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetInvestigationGroupPolicyResponse",
-}) as any as S.Schema<GetInvestigationGroupPolicyResponse>;
 export type SensitiveStringWithLengthLimits =
   | string
   | redacted.Redacted<string>;
@@ -373,161 +217,39 @@ export interface ListInvestigationGroupsInput {
   nextToken?: string | redacted.Redacted<string>;
   maxResults?: number;
 }
-export const ListInvestigationGroupsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(SensitiveString).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/investigationGroups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListInvestigationGroupsInput",
-}) as any as S.Schema<ListInvestigationGroupsInput>;
 export interface ListInvestigationGroupsModel {
   arn?: string;
   name?: string;
 }
-export const ListInvestigationGroupsModel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.optional(S.String), name: S.optional(S.String) }),
-).annotate({
-  identifier: "ListInvestigationGroupsModel",
-}) as any as S.Schema<ListInvestigationGroupsModel>;
 export type InvestigationGroups = ListInvestigationGroupsModel[];
-export const InvestigationGroups = /*@__PURE__*/ S.Array(
-  ListInvestigationGroupsModel,
-);
 export interface ListInvestigationGroupsOutput {
   nextToken?: string | redacted.Redacted<string>;
   investigationGroups?: ListInvestigationGroupsModel[];
 }
-export const ListInvestigationGroupsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(SensitiveString),
-    investigationGroups: S.optional(InvestigationGroups),
-  }),
-).annotate({
-  identifier: "ListInvestigationGroupsOutput",
-}) as any as S.Schema<ListInvestigationGroupsOutput>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceOutput {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(Tags) }),
-).annotate({
-  identifier: "ListTagsForResourceOutput",
-}) as any as S.Schema<ListTagsForResourceOutput>;
 export interface PutInvestigationGroupPolicyRequest {
   identifier: string;
   policy: string;
 }
-export const PutInvestigationGroupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    policy: S.String,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/investigationGroups/{identifier}/policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutInvestigationGroupPolicyRequest",
-}) as any as S.Schema<PutInvestigationGroupPolicyRequest>;
 export interface PutInvestigationGroupPolicyResponse {
   investigationGroupArn?: string;
 }
-export const PutInvestigationGroupPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ investigationGroupArn: S.optional(S.String) }),
-).annotate({
-  identifier: "PutInvestigationGroupPolicyResponse",
-}) as any as S.Schema<PutInvestigationGroupPolicyResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: Tags,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
-export const TagKeys = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateInvestigationGroupRequest {
   identifier: string;
   roleArn?: string;
@@ -537,34 +259,7 @@ export interface UpdateInvestigationGroupRequest {
   isCloudTrailEventHistoryEnabled?: boolean;
   crossAccountConfigurations?: CrossAccountConfiguration[];
 }
-export const UpdateInvestigationGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    roleArn: S.optional(S.String),
-    encryptionConfiguration: S.optional(EncryptionConfiguration),
-    tagKeyBoundaries: S.optional(TagKeyBoundaries),
-    chatbotNotificationChannel: S.optional(ChatbotNotificationChannel),
-    isCloudTrailEventHistoryEnabled: S.optional(S.Boolean),
-    crossAccountConfigurations: S.optional(CrossAccountConfigurations),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/investigationGroups/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateInvestigationGroupRequest",
-}) as any as S.Schema<UpdateInvestigationGroupRequest>;
 export interface UpdateInvestigationGroupOutput {}
-export const UpdateInvestigationGroupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateInvestigationGroupOutput",
-}) as any as S.Schema<UpdateInvestigationGroupOutput>;
 export type CreateInvestigationGroupError =
   | AccessDeniedException
   | ConflictException
@@ -599,8 +294,22 @@ export const createInvestigationGroup: API.OperationMethod<
   CreateInvestigationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateInvestigationGroupInput,
-  output: CreateInvestigationGroupOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /investigationGroups",
+    input: {
+      name: 0,
+      roleArn: 0,
+      encryptionConfiguration: i_EncryptionConfiguration,
+      retentionInDays: 0,
+      tags: 0,
+      tagKeyBoundaries: 0,
+      chatbotNotificationChannel: 0,
+      isCloudTrailEventHistoryEnabled: 0,
+      crossAccountConfigurations: D.list(i_CrossAccountConfiguration),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -613,7 +322,7 @@ export const createInvestigationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvestigationGroup",
-}));
+})) as any;
 
 export type DeleteInvestigationGroupError =
   | AccessDeniedException
@@ -631,8 +340,11 @@ export const deleteInvestigationGroup: API.OperationMethod<
   DeleteInvestigationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteInvestigationGroupRequest,
-  output: DeleteInvestigationGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /investigationGroups/{identifier}",
+    input: { identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -643,7 +355,7 @@ export const deleteInvestigationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvestigationGroup",
-}));
+})) as any;
 
 export type DeleteInvestigationGroupPolicyError =
   | AccessDeniedException
@@ -662,8 +374,11 @@ export const deleteInvestigationGroupPolicy: API.OperationMethod<
   DeleteInvestigationGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteInvestigationGroupPolicyRequest,
-  output: DeleteInvestigationGroupPolicyOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /investigationGroups/{identifier}/policy",
+    input: { identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -675,7 +390,7 @@ export const deleteInvestigationGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvestigationGroupPolicy",
-}));
+})) as any;
 
 export type GetInvestigationGroupError =
   | AccessDeniedException
@@ -693,8 +408,11 @@ export const getInvestigationGroup: API.OperationMethod<
   GetInvestigationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetInvestigationGroupRequest,
-  output: GetInvestigationGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /investigationGroups/{identifier}",
+    input: { identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -705,7 +423,7 @@ export const getInvestigationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvestigationGroup",
-}));
+})) as any;
 
 export type GetInvestigationGroupPolicyError =
   | AccessDeniedException
@@ -724,8 +442,11 @@ export const getInvestigationGroupPolicy: API.OperationMethod<
   GetInvestigationGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetInvestigationGroupPolicyRequest,
-  output: GetInvestigationGroupPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /investigationGroups/{identifier}/policy",
+    input: { identifier: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -737,7 +458,7 @@ export const getInvestigationGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvestigationGroupPolicy",
-}));
+})) as any;
 
 export type ListInvestigationGroupsError =
   | AccessDeniedException
@@ -754,8 +475,15 @@ export const listInvestigationGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListInvestigationGroupsModel
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListInvestigationGroupsInput,
-  output: ListInvestigationGroupsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /investigationGroups",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { nextToken: D.secret },
+  },
   errors: [AccessDeniedException, InternalServerException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -785,8 +513,11 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{resourceArn}",
+    input: { resourceArn: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -798,7 +529,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type PutInvestigationGroupPolicyError =
   | AccessDeniedException
@@ -822,8 +553,12 @@ export const putInvestigationGroupPolicy: API.OperationMethod<
   PutInvestigationGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutInvestigationGroupPolicyRequest,
-  output: PutInvestigationGroupPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /investigationGroups/{identifier}/policy",
+    input: { identifier: 0, policy: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -836,7 +571,7 @@ export const putInvestigationGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInvestigationGroupPolicy",
-}));
+})) as any;
 
 export type TagResourceError =
   | AccessDeniedException
@@ -861,8 +596,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{resourceArn}",
+    input: { resourceArn: 0, tags: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -874,7 +613,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | AccessDeniedException
@@ -893,8 +632,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{resourceArn}",
+    input: { resourceArn: 0, tagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -906,7 +648,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateInvestigationGroupError =
   | AccessDeniedException
@@ -926,8 +668,20 @@ export const updateInvestigationGroup: API.OperationMethod<
   UpdateInvestigationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateInvestigationGroupRequest,
-  output: UpdateInvestigationGroupOutput,
+  descriptor: {
+    service: svc,
+    http: "PATCH /investigationGroups/{identifier}",
+    input: {
+      identifier: 0,
+      roleArn: 0,
+      encryptionConfiguration: i_EncryptionConfiguration,
+      tagKeyBoundaries: 0,
+      chatbotNotificationChannel: 0,
+      isCloudTrailEventHistoryEnabled: 0,
+      crossAccountConfigurations: D.list(i_CrossAccountConfiguration),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -940,4 +694,10 @@ export const updateInvestigationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInvestigationGroup",
-}));
+})) as any;
+
+const i_CrossAccountConfiguration: D.LazyStruct = () => ({ sourceRoleArn: 0 });
+const i_EncryptionConfiguration: D.LazyStruct = () => ({
+  type: 0,
+  kmsKeyId: 0,
+});

@@ -5,7 +5,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
-import type { StreamingInputBody } from "../traits.ts";
+import type { StreamingInputBody } from "./streaming-types.ts";
 
 export const readEffectStreamAsText = <Err>(
   stream: Stream.Stream<Uint8Array, Err>,

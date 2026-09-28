@@ -1,114 +1,113 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Personalize Events",
-  serviceShapeName: "AmazonPersonalizeEvents",
-});
-const auth = T.AwsAuthSigv4({ name: "personalize" });
-const ver = T.ServiceVersion("2018-03-22");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://personalize-events-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://personalize-events-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://personalize-events.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://personalize-events.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AmazonPersonalizeEvents",
+  version: "2018-03-22",
+  sigv4: "personalize",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://personalize-events-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://personalize-events-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://personalize-events.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://personalize-events.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class InvalidInputException
-  extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidInputException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ResourceInUseException
-  extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceInUseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export type StringType = string;
 export type ActionId = string | redacted.Redacted<string>;
 export type UserId = string | redacted.Redacted<string>;
 export type RecommendationId = string;
 export type ActionImpression = (string | redacted.Redacted<string>)[];
-export const ActionImpression = /*@__PURE__*/ S.Array(SensitiveString);
 export type SynthesizedJsonActionInteractionProperties =
   | string
   | redacted.Redacted<string>;
@@ -123,50 +122,12 @@ export interface ActionInteraction {
   impression?: (string | redacted.Redacted<string>)[];
   properties?: string | redacted.Redacted<string>;
 }
-export const ActionInteraction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    actionId: SensitiveString,
-    userId: S.optional(SensitiveString),
-    sessionId: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    eventType: S.String,
-    eventId: S.optional(S.String),
-    recommendationId: S.optional(S.String),
-    impression: S.optional(ActionImpression),
-    properties: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "ActionInteraction",
-}) as any as S.Schema<ActionInteraction>;
 export type ActionInteractionsList = ActionInteraction[];
-export const ActionInteractionsList = /*@__PURE__*/ S.Array(ActionInteraction);
 export interface PutActionInteractionsRequest {
   trackingId: string;
   actionInteractions: ActionInteraction[];
 }
-export const PutActionInteractionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    trackingId: S.String,
-    actionInteractions: ActionInteractionsList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/action-interactions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutActionInteractionsRequest",
-}) as any as S.Schema<PutActionInteractionsRequest>;
 export interface PutActionInteractionsResponse {}
-export const PutActionInteractionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutActionInteractionsResponse",
-}) as any as S.Schema<PutActionInteractionsResponse>;
 export type Arn = string;
 export type SynthesizedJsonActionProperties =
   | string
@@ -175,51 +136,22 @@ export interface Action {
   actionId: string;
   properties?: string | redacted.Redacted<string>;
 }
-export const Action = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ actionId: S.String, properties: S.optional(SensitiveString) }),
-).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
 export type ActionList = Action[];
-export const ActionList = /*@__PURE__*/ S.Array(Action);
 export interface PutActionsRequest {
   datasetArn: string;
   actions: Action[];
 }
-export const PutActionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ datasetArn: S.String, actions: ActionList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/actions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutActionsRequest",
-}) as any as S.Schema<PutActionsRequest>;
 export interface PutActionsResponse {}
-export const PutActionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutActionsResponse",
-}) as any as S.Schema<PutActionsResponse>;
 export type FloatType = number;
 export type ItemId = string | redacted.Redacted<string>;
 export type SynthesizedJsonEventPropertiesJSON =
   | string
   | redacted.Redacted<string>;
 export type Impression = (string | redacted.Redacted<string>)[];
-export const Impression = /*@__PURE__*/ S.Array(SensitiveString);
 export type EventAttributionSource = string;
 export interface MetricAttribution {
   eventAttributionSource: string;
 }
-export const MetricAttribution = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ eventAttributionSource: S.String }),
-).annotate({
-  identifier: "MetricAttribution",
-}) as any as S.Schema<MetricAttribution>;
 export interface Event {
   eventId?: string;
   eventType: string;
@@ -231,120 +163,36 @@ export interface Event {
   impression?: (string | redacted.Redacted<string>)[];
   metricAttribution?: MetricAttribution;
 }
-export const Event = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.optional(S.String),
-    eventType: S.String,
-    eventValue: S.optional(S.Number),
-    itemId: S.optional(SensitiveString),
-    properties: S.optional(SensitiveString),
-    sentAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    recommendationId: S.optional(S.String),
-    impression: S.optional(Impression),
-    metricAttribution: S.optional(MetricAttribution),
-  }),
-).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
 export type EventList = Event[];
-export const EventList = /*@__PURE__*/ S.Array(Event);
 export interface PutEventsRequest {
   trackingId: string;
   userId?: string | redacted.Redacted<string>;
   sessionId: string;
   eventList: Event[];
 }
-export const PutEventsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    trackingId: S.String,
-    userId: S.optional(SensitiveString),
-    sessionId: S.String,
-    eventList: EventList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/events" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutEventsRequest",
-}) as any as S.Schema<PutEventsRequest>;
 export interface PutEventsResponse {}
-export const PutEventsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutEventsResponse",
-}) as any as S.Schema<PutEventsResponse>;
 export type SynthesizedJsonItemProperties = string | redacted.Redacted<string>;
 export interface Item {
   itemId: string;
   properties?: string | redacted.Redacted<string>;
 }
-export const Item = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ itemId: S.String, properties: S.optional(SensitiveString) }),
-).annotate({ identifier: "Item" }) as any as S.Schema<Item>;
 export type ItemList = Item[];
-export const ItemList = /*@__PURE__*/ S.Array(Item);
 export interface PutItemsRequest {
   datasetArn: string;
   items: Item[];
 }
-export const PutItemsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ datasetArn: S.String, items: ItemList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/items" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutItemsRequest",
-}) as any as S.Schema<PutItemsRequest>;
 export interface PutItemsResponse {}
-export const PutItemsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutItemsResponse",
-}) as any as S.Schema<PutItemsResponse>;
 export type SynthesizedJsonUserProperties = string | redacted.Redacted<string>;
 export interface User {
   userId: string;
   properties?: string | redacted.Redacted<string>;
 }
-export const User = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ userId: S.String, properties: S.optional(SensitiveString) }),
-).annotate({ identifier: "User" }) as any as S.Schema<User>;
 export type UserList = User[];
-export const UserList = /*@__PURE__*/ S.Array(User);
 export interface PutUsersRequest {
   datasetArn: string;
   users: User[];
 }
-export const PutUsersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ datasetArn: S.String, users: UserList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/users" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutUsersRequest",
-}) as any as S.Schema<PutUsersRequest>;
 export interface PutUsersResponse {}
-export const PutUsersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutUsersResponse",
-}) as any as S.Schema<PutUsersResponse>;
 export type ErrorMessage = string;
 export type PutActionInteractionsError =
   | InvalidInputException
@@ -364,8 +212,25 @@ export const putActionInteractions: API.OperationMethod<
   PutActionInteractionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutActionInteractionsRequest,
-  output: PutActionInteractionsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /action-interactions",
+    input: {
+      trackingId: 0,
+      actionInteractions: D.list({
+        actionId: 0,
+        userId: 0,
+        sessionId: 0,
+        timestamp: 0,
+        eventType: 0,
+        eventId: 0,
+        recommendationId: 0,
+        impression: 0,
+        properties: 0,
+      }),
+    },
+    body: true,
+  },
   errors: [
     InvalidInputException,
     ResourceInUseException,
@@ -374,7 +239,7 @@ export const putActionInteractions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutActionInteractions",
-}));
+})) as any;
 
 export type PutActionsError =
   | InvalidInputException
@@ -391,8 +256,12 @@ export const putActions: API.OperationMethod<
   PutActionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutActionsRequest,
-  output: PutActionsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /actions",
+    input: { datasetArn: 0, actions: D.list({ actionId: 0, properties: 0 }) },
+    body: true,
+  },
   errors: [
     InvalidInputException,
     ResourceInUseException,
@@ -401,7 +270,7 @@ export const putActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutActions",
-}));
+})) as any;
 
 export type PutEventsError = InvalidInputException | CommonErrors;
 /**
@@ -414,13 +283,32 @@ export const putEvents: API.OperationMethod<
   PutEventsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutEventsRequest,
-  output: PutEventsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /events",
+    input: {
+      trackingId: 0,
+      userId: 0,
+      sessionId: 0,
+      eventList: D.list({
+        eventId: 0,
+        eventType: 0,
+        eventValue: 0,
+        itemId: 0,
+        properties: 0,
+        sentAt: 0,
+        recommendationId: 0,
+        impression: 0,
+        metricAttribution: { eventAttributionSource: 0 },
+      }),
+    },
+    body: true,
+  },
   errors: [InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEvents",
-}));
+})) as any;
 
 export type PutItemsError =
   | InvalidInputException
@@ -437,8 +325,12 @@ export const putItems: API.OperationMethod<
   PutItemsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutItemsRequest,
-  output: PutItemsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /items",
+    input: { datasetArn: 0, items: D.list({ itemId: 0, properties: 0 }) },
+    body: true,
+  },
   errors: [
     InvalidInputException,
     ResourceInUseException,
@@ -447,7 +339,7 @@ export const putItems: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutItems",
-}));
+})) as any;
 
 export type PutUsersError =
   | InvalidInputException
@@ -464,8 +356,12 @@ export const putUsers: API.OperationMethod<
   PutUsersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutUsersRequest,
-  output: PutUsersResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /users",
+    input: { datasetArn: 0, users: D.list({ userId: 0, properties: 0 }) },
+    body: true,
+  },
   errors: [
     InvalidInputException,
     ResourceInUseException,
@@ -474,4 +370,4 @@ export const putUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutUsers",
-}));
+})) as any;

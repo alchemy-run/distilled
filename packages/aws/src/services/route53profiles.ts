@@ -1,150 +1,133 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Route53Profiles",
-  serviceShapeName: "Route53Profiles",
-});
-const auth = T.AwsAuthSigv4({ name: "route53profiles" });
-const ver = T.ServiceVersion("2018-05-10");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://route53profiles-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://route53profiles-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://route53profiles.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://route53profiles.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "Route53Profiles",
+  version: "2018-05-10",
+  sigv4: "route53profiles",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://route53profiles-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://route53profiles-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://route53profiles.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://route53profiles.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"])<{
+    readonly message?: string;
+  }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException")<{
+    readonly message?: string;
+  }> {}
 export class InternalServiceErrorException
-  extends /*@__PURE__*/ S.TaggedError<InternalServiceErrorException>()(
-    "InternalServiceErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InternalServiceErrorException")<{
+    readonly message?: string;
+  }> {}
 export class InvalidNextTokenException
-  extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()(
-    "InvalidNextTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidNextTokenException")<{
+    readonly message?: string;
+  }> {}
 export class InvalidParameterException
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterException>()(
-    "InvalidParameterException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      FieldName: S.optional(S.String),
-    },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidParameterException")<{
+    readonly message: string;
+    readonly FieldName?: string;
+  }> {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceType: S.optional(S.String),
-    },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("LimitExceededException")<{
+    readonly message?: string;
+    readonly ResourceType?: string;
+  }> {}
 export class ResourceExistsException
-  extends /*@__PURE__*/ S.TaggedError<ResourceExistsException>()(
-    "ResourceExistsException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceType: S.optional(S.String),
-    },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("ResourceExistsException")<{
+    readonly message?: string;
+    readonly ResourceType?: string;
+  }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceType: S.optional(S.String),
-    },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("ResourceNotFoundException")<{
+    readonly message?: string;
+    readonly ResourceType?: string;
+  }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
-    "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("ThrottlingException")<{
+    readonly message?: string;
+  }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
-    "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("ValidationException")<{
+    readonly message?: string;
+  }> {}
 export type ResourceId = string;
 export type Name = string;
 export type TagKey = string;
@@ -153,36 +136,13 @@ export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface AssociateProfileRequest {
   ProfileId: string;
   ResourceId: string;
   Name: string;
   Tags?: Tag[];
 }
-export const AssociateProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProfileId: S.String,
-    ResourceId: S.String,
-    Name: S.String,
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/profileassociation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateProfileRequest",
-}) as any as S.Schema<AssociateProfileRequest>;
 export type AccountId = string;
 export type ProfileStatus =
   | "COMPLETE"
@@ -192,8 +152,6 @@ export type ProfileStatus =
   | "DELETED"
   | "FAILED"
   | (string & {});
-export const ProfileStatus = S.String;
-
 export type Rfc3339Timestamp = Date;
 export interface ProfileAssociation {
   Id?: string;
@@ -206,31 +164,9 @@ export interface ProfileAssociation {
   CreationTime?: Date;
   ModificationTime?: Date;
 }
-export const ProfileAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    OwnerId: S.optional(S.String),
-    ProfileId: S.optional(S.String),
-    ResourceId: S.optional(S.String),
-    Status: S.optional(ProfileStatus),
-    StatusMessage: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ModificationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "ProfileAssociation",
-}) as any as S.Schema<ProfileAssociation>;
 export interface AssociateProfileResponse {
   ProfileAssociation?: ProfileAssociation;
 }
-export const AssociateProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ProfileAssociation: S.optional(ProfileAssociation) }),
-).annotate({
-  identifier: "AssociateProfileResponse",
-}) as any as S.Schema<AssociateProfileResponse>;
 export type Arn = string;
 export type ResourceProperties = string;
 export interface AssociateResourceToProfileRequest {
@@ -239,25 +175,6 @@ export interface AssociateResourceToProfileRequest {
   Name: string;
   ResourceProperties?: string;
 }
-export const AssociateResourceToProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProfileId: S.String,
-    ResourceArn: S.String,
-    Name: S.String,
-    ResourceProperties: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/profileresourceassociation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateResourceToProfileRequest",
-}) as any as S.Schema<AssociateResourceToProfileRequest>;
 export interface ProfileResourceAssociation {
   Id?: string;
   Name?: string;
@@ -271,66 +188,20 @@ export interface ProfileResourceAssociation {
   CreationTime?: Date;
   ModificationTime?: Date;
 }
-export const ProfileResourceAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    OwnerId: S.optional(S.String),
-    ProfileId: S.optional(S.String),
-    ResourceArn: S.optional(S.String),
-    ResourceType: S.optional(S.String),
-    ResourceProperties: S.optional(S.String),
-    Status: S.optional(ProfileStatus),
-    StatusMessage: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ModificationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "ProfileResourceAssociation",
-}) as any as S.Schema<ProfileResourceAssociation>;
 export interface AssociateResourceToProfileResponse {
   ProfileResourceAssociation?: ProfileResourceAssociation;
 }
-export const AssociateResourceToProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProfileResourceAssociation: S.optional(ProfileResourceAssociation),
-  }),
-).annotate({
-  identifier: "AssociateResourceToProfileResponse",
-}) as any as S.Schema<AssociateResourceToProfileResponse>;
 export type CreatorRequestId = string;
 export interface CreateProfileRequest {
   Name: string;
   ClientToken: string;
   Tags?: Tag[];
 }
-export const CreateProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    ClientToken: S.String.pipe(T.IdempotencyToken()),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/profile" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateProfileRequest",
-}) as any as S.Schema<CreateProfileRequest>;
 export type ShareStatus =
   | "NOT_SHARED"
   | "SHARED_WITH_ME"
   | "SHARED_BY_ME"
   | (string & {});
-export const ShareStatus = S.String;
-
 export interface Profile {
   Id?: string;
   Arn?: string;
@@ -343,214 +214,47 @@ export interface Profile {
   ModificationTime?: Date;
   ClientToken?: string;
 }
-export const Profile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Name: S.optional(S.String),
-    OwnerId: S.optional(S.String),
-    Status: S.optional(ProfileStatus),
-    StatusMessage: S.optional(S.String),
-    ShareStatus: S.optional(ShareStatus),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ModificationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ClientToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "Profile" }) as any as S.Schema<Profile>;
 export interface CreateProfileResponse {
   Profile?: Profile;
 }
-export const CreateProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Profile: S.optional(Profile) }),
-).annotate({
-  identifier: "CreateProfileResponse",
-}) as any as S.Schema<CreateProfileResponse>;
 export interface DeleteProfileRequest {
   ProfileId: string;
 }
-export const DeleteProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ProfileId: S.String.pipe(T.HttpLabel("ProfileId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/profile/{ProfileId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteProfileRequest",
-}) as any as S.Schema<DeleteProfileRequest>;
 export interface DeleteProfileResponse {
   Profile?: Profile;
 }
-export const DeleteProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Profile: S.optional(Profile) }),
-).annotate({
-  identifier: "DeleteProfileResponse",
-}) as any as S.Schema<DeleteProfileResponse>;
 export interface DisassociateProfileRequest {
   ProfileId: string;
   ResourceId: string;
 }
-export const DisassociateProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
-    ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/profileassociation/Profileid/{ProfileId}/resourceid/{ResourceId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisassociateProfileRequest",
-}) as any as S.Schema<DisassociateProfileRequest>;
 export interface DisassociateProfileResponse {
   ProfileAssociation?: ProfileAssociation;
 }
-export const DisassociateProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ProfileAssociation: S.optional(ProfileAssociation) }),
-).annotate({
-  identifier: "DisassociateProfileResponse",
-}) as any as S.Schema<DisassociateProfileResponse>;
 export interface DisassociateResourceFromProfileRequest {
   ProfileId: string;
   ResourceArn: string;
 }
-export const DisassociateResourceFromProfileRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
-      ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/profileresourceassociation/profileid/{ProfileId}/resourcearn/{ResourceArn}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DisassociateResourceFromProfileRequest",
-}) as any as S.Schema<DisassociateResourceFromProfileRequest>;
 export interface DisassociateResourceFromProfileResponse {
   ProfileResourceAssociation?: ProfileResourceAssociation;
 }
-export const DisassociateResourceFromProfileResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProfileResourceAssociation: S.optional(ProfileResourceAssociation),
-    }),
-).annotate({
-  identifier: "DisassociateResourceFromProfileResponse",
-}) as any as S.Schema<DisassociateResourceFromProfileResponse>;
 export interface GetProfileRequest {
   ProfileId: string;
 }
-export const GetProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ProfileId: S.String.pipe(T.HttpLabel("ProfileId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/profile/{ProfileId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetProfileRequest",
-}) as any as S.Schema<GetProfileRequest>;
 export interface GetProfileResponse {
   Profile?: Profile;
 }
-export const GetProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Profile: S.optional(Profile) }),
-).annotate({
-  identifier: "GetProfileResponse",
-}) as any as S.Schema<GetProfileResponse>;
 export interface GetProfileAssociationRequest {
   ProfileAssociationId: string;
 }
-export const GetProfileAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProfileAssociationId: S.String.pipe(T.HttpLabel("ProfileAssociationId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/profileassociation/{ProfileAssociationId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetProfileAssociationRequest",
-}) as any as S.Schema<GetProfileAssociationRequest>;
 export interface GetProfileAssociationResponse {
   ProfileAssociation?: ProfileAssociation;
 }
-export const GetProfileAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ProfileAssociation: S.optional(ProfileAssociation) }),
-).annotate({
-  identifier: "GetProfileAssociationResponse",
-}) as any as S.Schema<GetProfileAssociationResponse>;
 export interface GetProfileResourceAssociationRequest {
   ProfileResourceAssociationId: string;
 }
-export const GetProfileResourceAssociationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProfileResourceAssociationId: S.String.pipe(
-        T.HttpLabel("ProfileResourceAssociationId"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/profileresourceassociation/{ProfileResourceAssociationId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetProfileResourceAssociationRequest",
-}) as any as S.Schema<GetProfileResourceAssociationRequest>;
 export interface GetProfileResourceAssociationResponse {
   ProfileResourceAssociation?: ProfileResourceAssociation;
 }
-export const GetProfileResourceAssociationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProfileResourceAssociation: S.optional(ProfileResourceAssociation),
-    }),
-).annotate({
-  identifier: "GetProfileResourceAssociationResponse",
-}) as any as S.Schema<GetProfileResourceAssociationResponse>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListProfileAssociationsRequest {
@@ -559,260 +263,63 @@ export interface ListProfileAssociationsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListProfileAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceId: S.optional(S.String).pipe(T.HttpQuery("resourceId")),
-    ProfileId: S.optional(S.String).pipe(T.HttpQuery("profileId")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/profileassociations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListProfileAssociationsRequest",
-}) as any as S.Schema<ListProfileAssociationsRequest>;
 export type ProfileAssociations = ProfileAssociation[];
-export const ProfileAssociations = /*@__PURE__*/ S.Array(ProfileAssociation);
 export interface ListProfileAssociationsResponse {
   ProfileAssociations?: ProfileAssociation[];
   NextToken?: string;
 }
-export const ListProfileAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProfileAssociations: S.optional(ProfileAssociations),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListProfileAssociationsResponse",
-}) as any as S.Schema<ListProfileAssociationsResponse>;
 export interface ListProfileResourceAssociationsRequest {
   ProfileId: string;
   ResourceType?: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListProfileResourceAssociationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
-      ResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/profileresourceassociations/profileid/{ProfileId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListProfileResourceAssociationsRequest",
-}) as any as S.Schema<ListProfileResourceAssociationsRequest>;
 export type ProfileResourceAssociations = ProfileResourceAssociation[];
-export const ProfileResourceAssociations = /*@__PURE__*/ S.Array(
-  ProfileResourceAssociation,
-);
 export interface ListProfileResourceAssociationsResponse {
   ProfileResourceAssociations?: ProfileResourceAssociation[];
   NextToken?: string;
 }
-export const ListProfileResourceAssociationsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProfileResourceAssociations: S.optional(ProfileResourceAssociations),
-      NextToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "ListProfileResourceAssociationsResponse",
-}) as any as S.Schema<ListProfileResourceAssociationsResponse>;
 export interface ListProfilesRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListProfilesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/profiles" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListProfilesRequest",
-}) as any as S.Schema<ListProfilesRequest>;
 export interface ProfileSummary {
   Id?: string;
   Arn?: string;
   Name?: string;
   ShareStatus?: ShareStatus;
 }
-export const ProfileSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Name: S.optional(S.String),
-    ShareStatus: S.optional(ShareStatus),
-  }),
-).annotate({ identifier: "ProfileSummary" }) as any as S.Schema<ProfileSummary>;
 export type ProfileSummaryList = ProfileSummary[];
-export const ProfileSummaryList = /*@__PURE__*/ S.Array(ProfileSummary);
 export interface ListProfilesResponse {
   ProfileSummaries?: ProfileSummary[];
   NextToken?: string;
 }
-export const ListProfilesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProfileSummaries: S.optional(ProfileSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListProfilesResponse",
-}) as any as S.Schema<ListProfilesResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface ListTagsForResourceResponse {
   Tags: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: TagMap }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateProfileResourceAssociationRequest {
   ProfileResourceAssociationId: string;
   Name?: string;
   ResourceProperties?: string;
 }
-export const UpdateProfileResourceAssociationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProfileResourceAssociationId: S.String.pipe(
-        T.HttpLabel("ProfileResourceAssociationId"),
-      ),
-      Name: S.optional(S.String),
-      ResourceProperties: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PATCH",
-          uri: "/profileresourceassociation/{ProfileResourceAssociationId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateProfileResourceAssociationRequest",
-}) as any as S.Schema<UpdateProfileResourceAssociationRequest>;
 export interface UpdateProfileResourceAssociationResponse {
   ProfileResourceAssociation?: ProfileResourceAssociation;
 }
-export const UpdateProfileResourceAssociationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProfileResourceAssociation: S.optional(ProfileResourceAssociation),
-    }),
-).annotate({
-  identifier: "UpdateProfileResourceAssociationResponse",
-}) as any as S.Schema<UpdateProfileResourceAssociationResponse>;
 export type ExceptionMessage = string;
 export type AssociateProfileError =
   | AccessDeniedException
@@ -834,8 +341,13 @@ export const associateProfile: API.OperationMethod<
   AssociateProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateProfileRequest,
-  output: AssociateProfileResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /profileassociation",
+    input: { ProfileId: 0, ResourceId: 0, Name: 0, Tags: D.list(i_Tag) },
+    output: { ProfileAssociation: o_ProfileAssociation },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -849,7 +361,7 @@ export const associateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateProfile",
-}));
+})) as any;
 
 export type AssociateResourceToProfileError =
   | AccessDeniedException
@@ -870,8 +382,13 @@ export const associateResourceToProfile: API.OperationMethod<
   AssociateResourceToProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateResourceToProfileRequest,
-  output: AssociateResourceToProfileResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /profileresourceassociation",
+    input: { ProfileId: 0, ResourceArn: 0, Name: 0, ResourceProperties: 0 },
+    output: { ProfileResourceAssociation: o_ProfileResourceAssociation },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -885,7 +402,7 @@ export const associateResourceToProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResourceToProfile",
-}));
+})) as any;
 
 export type CreateProfileError =
   | AccessDeniedException
@@ -903,8 +420,17 @@ export const createProfile: API.OperationMethod<
   CreateProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateProfileRequest,
-  output: CreateProfileResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /profile",
+    input: {
+      Name: 0,
+      ClientToken: D.m({ idempotency: true }),
+      Tags: D.list(i_Tag),
+    },
+    output: { Profile: o_Profile },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InvalidParameterException,
@@ -915,7 +441,7 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
-}));
+})) as any;
 
 export type DeleteProfileError =
   | AccessDeniedException
@@ -933,8 +459,12 @@ export const deleteProfile: API.OperationMethod<
   DeleteProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteProfileRequest,
-  output: DeleteProfileResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /profile/{ProfileId}",
+    input: { ProfileId: 0 },
+    output: { Profile: o_Profile },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -945,7 +475,7 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
-}));
+})) as any;
 
 export type DisassociateProfileError =
   | AccessDeniedException
@@ -964,8 +494,12 @@ export const disassociateProfile: API.OperationMethod<
   DisassociateProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateProfileRequest,
-  output: DisassociateProfileResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /profileassociation/Profileid/{ProfileId}/resourceid/{ResourceId}",
+    input: { ProfileId: 0, ResourceId: 0 },
+    output: { ProfileAssociation: o_ProfileAssociation },
+  },
   errors: [
     AccessDeniedException,
     InvalidParameterException,
@@ -977,7 +511,7 @@ export const disassociateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateProfile",
-}));
+})) as any;
 
 export type DisassociateResourceFromProfileError =
   | AccessDeniedException
@@ -998,8 +532,12 @@ export const disassociateResourceFromProfile: API.OperationMethod<
   DisassociateResourceFromProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateResourceFromProfileRequest,
-  output: DisassociateResourceFromProfileResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /profileresourceassociation/profileid/{ProfileId}/resourcearn/{ResourceArn}",
+    input: { ProfileId: 0, ResourceArn: 0 },
+    output: { ProfileResourceAssociation: o_ProfileResourceAssociation },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1013,7 +551,7 @@ export const disassociateResourceFromProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResourceFromProfile",
-}));
+})) as any;
 
 export type GetProfileError =
   | AccessDeniedException
@@ -1030,8 +568,12 @@ export const getProfile: API.OperationMethod<
   GetProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetProfileRequest,
-  output: GetProfileResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /profile/{ProfileId}",
+    input: { ProfileId: 0 },
+    output: { Profile: o_Profile },
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -1041,7 +583,7 @@ export const getProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
-}));
+})) as any;
 
 export type GetProfileAssociationError =
   | AccessDeniedException
@@ -1058,8 +600,12 @@ export const getProfileAssociation: API.OperationMethod<
   GetProfileAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetProfileAssociationRequest,
-  output: GetProfileAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /profileassociation/{ProfileAssociationId}",
+    input: { ProfileAssociationId: 0 },
+    output: { ProfileAssociation: o_ProfileAssociation },
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -1069,7 +615,7 @@ export const getProfileAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileAssociation",
-}));
+})) as any;
 
 export type GetProfileResourceAssociationError =
   | AccessDeniedException
@@ -1087,8 +633,12 @@ export const getProfileResourceAssociation: API.OperationMethod<
   GetProfileResourceAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetProfileResourceAssociationRequest,
-  output: GetProfileResourceAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /profileresourceassociation/{ProfileResourceAssociationId}",
+    input: { ProfileResourceAssociationId: 0 },
+    output: { ProfileResourceAssociation: o_ProfileResourceAssociation },
+  },
   errors: [
     AccessDeniedException,
     InvalidParameterException,
@@ -1099,7 +649,7 @@ export const getProfileResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileResourceAssociation",
-}));
+})) as any;
 
 export type ListProfileAssociationsError =
   | AccessDeniedException
@@ -1118,8 +668,17 @@ export const listProfileAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ProfileAssociation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProfileAssociationsRequest,
-  output: ListProfileAssociationsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /profileassociations",
+    input: {
+      ResourceId: D.m({ query: "resourceId" }),
+      ProfileId: D.m({ query: "profileId" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: { ProfileAssociations: D.list(o_ProfileAssociation) },
+  },
   errors: [
     AccessDeniedException,
     InvalidNextTokenException,
@@ -1157,8 +716,19 @@ export const listProfileResourceAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ProfileResourceAssociation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProfileResourceAssociationsRequest,
-  output: ListProfileResourceAssociationsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /profileresourceassociations/profileid/{ProfileId}",
+    input: {
+      ProfileId: 0,
+      ResourceType: D.m({ query: "resourceType" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      ProfileResourceAssociations: D.list(o_ProfileResourceAssociation),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1196,8 +766,14 @@ export const listProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ProfileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProfilesRequest,
-  output: ListProfilesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /profiles",
+    input: {
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InvalidNextTokenException,
@@ -1232,8 +808,11 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{ResourceArn}",
+    input: { ResourceArn: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1244,7 +823,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type TagResourceError =
   | AccessDeniedException
@@ -1261,8 +840,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{ResourceArn}",
+    input: { ResourceArn: 0, Tags: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -1272,7 +855,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | AccessDeniedException
@@ -1290,8 +873,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{ResourceArn}",
+    input: { ResourceArn: 0, TagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1302,7 +888,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateProfileResourceAssociationError =
   | AccessDeniedException
@@ -1323,8 +909,13 @@ export const updateProfileResourceAssociation: API.OperationMethod<
   UpdateProfileResourceAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateProfileResourceAssociationRequest,
-  output: UpdateProfileResourceAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /profileresourceassociation/{ProfileResourceAssociationId}",
+    input: { ProfileResourceAssociationId: 0, Name: 0, ResourceProperties: 0 },
+    output: { ProfileResourceAssociation: o_ProfileResourceAssociation },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1338,4 +929,18 @@ export const updateProfileResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfileResourceAssociation",
-}));
+})) as any;
+
+const i_Tag: D.LazyStruct = () => ({ Key: 0, Value: 0 });
+const o_Profile: D.LazyStruct = () => ({
+  CreationTime: D.ts,
+  ModificationTime: D.ts,
+});
+const o_ProfileAssociation: D.LazyStruct = () => ({
+  CreationTime: D.ts,
+  ModificationTime: D.ts,
+});
+const o_ProfileResourceAssociation: D.LazyStruct = () => ({
+  CreationTime: D.ts,
+  ModificationTime: D.ts,
+});

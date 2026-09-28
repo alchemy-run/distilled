@@ -1,133 +1,114 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "WorkMailMessageFlow",
-  serviceShapeName: "GiraffeMessageInTransitService",
-});
-const auth = T.AwsAuthSigv4({ name: "workmailmessageflow" });
-const ver = T.ServiceVersion("2019-05-01");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://workmailmessageflow-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://workmailmessageflow-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://workmailmessageflow.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://workmailmessageflow.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "GiraffeMessageInTransitService",
+  version: "2019-05-01",
+  sigv4: "workmailmessageflow",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://workmailmessageflow-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://workmailmessageflow-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://workmailmessageflow.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://workmailmessageflow.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class InvalidContentLocation
-  extends /*@__PURE__*/ S.TaggedError<InvalidContentLocation>()(
-    "InvalidContentLocation",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidContentLocation")<{
+    readonly message?: string;
+  }> {}
 export class MessageFrozen
-  extends /*@__PURE__*/ S.TaggedError<MessageFrozen>()("MessageFrozen", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }) {}
+  extends /*@__PURE__*/ TE.TaggedError("MessageFrozen")<{
+    readonly message?: string;
+  }> {}
 export class MessageRejected
-  extends /*@__PURE__*/ S.TaggedError<MessageRejected>()("MessageRejected", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }) {}
+  extends /*@__PURE__*/ TE.TaggedError("MessageRejected")<{
+    readonly message?: string;
+  }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export type MessageIdType = string;
 export interface GetRawMessageContentRequest {
   messageId: string;
 }
-export const GetRawMessageContentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ messageId: S.String.pipe(T.HttpLabel("messageId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/messages/{messageId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRawMessageContentRequest",
-}) as any as S.Schema<GetRawMessageContentRequest>;
 export interface GetRawMessageContentResponse {
   messageContent: T.StreamingOutputBody;
 }
-export const GetRawMessageContentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ messageContent: T.StreamingOutput.pipe(T.HttpPayload()) }),
-).annotate({
-  identifier: "GetRawMessageContentResponse",
-}) as any as S.Schema<GetRawMessageContentResponse>;
 export type S3BucketIdType = string;
 export type S3KeyIdType = string;
 export type S3VersionType = string;
@@ -136,48 +117,14 @@ export interface S3Reference {
   key: string;
   objectVersion?: string;
 }
-export const S3Reference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bucket: S.String,
-    key: S.String,
-    objectVersion: S.optional(S.String),
-  }),
-).annotate({ identifier: "S3Reference" }) as any as S.Schema<S3Reference>;
 export interface RawMessageContent {
   s3Reference: S3Reference;
 }
-export const RawMessageContent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ s3Reference: S3Reference }),
-).annotate({
-  identifier: "RawMessageContent",
-}) as any as S.Schema<RawMessageContent>;
 export interface PutRawMessageContentRequest {
   messageId: string;
   content: RawMessageContent;
 }
-export const PutRawMessageContentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    messageId: S.String.pipe(T.HttpLabel("messageId")),
-    content: RawMessageContent,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/messages/{messageId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutRawMessageContentRequest",
-}) as any as S.Schema<PutRawMessageContentRequest>;
 export interface PutRawMessageContentResponse {}
-export const PutRawMessageContentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutRawMessageContentResponse",
-}) as any as S.Schema<PutRawMessageContentResponse>;
 export type ErrorMessage = string;
 export type GetRawMessageContentError =
   | ResourceNotFoundException
@@ -191,13 +138,17 @@ export const getRawMessageContent: API.OperationMethod<
   GetRawMessageContentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRawMessageContentRequest,
-  output: GetRawMessageContentResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /messages/{messageId}",
+    input: { messageId: 0 },
+    output: { messageContent: D.m({ payload: true, shape: D.stream }) },
+  },
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRawMessageContent",
-}));
+})) as any;
 
 export type PutRawMessageContentError =
   | InvalidContentLocation
@@ -224,8 +175,15 @@ export const putRawMessageContent: API.OperationMethod<
   PutRawMessageContentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutRawMessageContentRequest,
-  output: PutRawMessageContentResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /messages/{messageId}",
+    input: {
+      messageId: 0,
+      content: { s3Reference: { bucket: 0, key: 0, objectVersion: 0 } },
+    },
+    body: true,
+  },
   errors: [
     InvalidContentLocation,
     MessageFrozen,
@@ -235,4 +193,4 @@ export const putRawMessageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRawMessageContent",
-}));
+})) as any;

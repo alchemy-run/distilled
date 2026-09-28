@@ -1,233 +1,164 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Service Catalog AppRegistry",
-  serviceShapeName: "AWS242AppRegistry",
-});
-const auth = T.AwsAuthSigv4({ name: "servicecatalog" });
-const ver = T.ServiceVersion("2020-06-24");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://servicecatalog-appregistry-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
-              return e(
-                `https://servicecatalog-appregistry.${Region}.amazonaws.com`,
-              );
-            }
-            return e(
-              `https://servicecatalog-appregistry-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://servicecatalog-appregistry.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://servicecatalog-appregistry.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AWS242AppRegistry",
+  version: "2020-06-24",
+  sigv4: "servicecatalog",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://servicecatalog-appregistry-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
+                return e(
+                  `https://servicecatalog-appregistry.${Region}.amazonaws.com`,
+                );
+              }
+              return e(
+                `https://servicecatalog-appregistry-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://servicecatalog-appregistry.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://servicecatalog-appregistry.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message?: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly message?: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      serviceCode: S.optional(S.String),
-    },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+    ["ThrottlingError", "RetryableError"],
+    { status: 429 },
+  )<{ readonly message?: string; readonly serviceCode?: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export type ApplicationSpecifier = string;
 export type AttributeGroupSpecifier = string;
 export interface AssociateAttributeGroupRequest {
   application: string;
   attributeGroup: string;
 }
-export const AssociateAttributeGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    application: S.String.pipe(T.HttpLabel("application")),
-    attributeGroup: S.String.pipe(T.HttpLabel("attributeGroup")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/applications/{application}/attribute-groups/{attributeGroup}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateAttributeGroupRequest",
-}) as any as S.Schema<AssociateAttributeGroupRequest>;
 export type ApplicationArn = string;
 export type AttributeGroupArn = string;
 export interface AssociateAttributeGroupResponse {
   applicationArn?: string;
   attributeGroupArn?: string;
 }
-export const AssociateAttributeGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationArn: S.optional(S.String),
-    attributeGroupArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AssociateAttributeGroupResponse",
-}) as any as S.Schema<AssociateAttributeGroupResponse>;
 export type ResourceType = "CFN_STACK" | "RESOURCE_TAG_VALUE" | (string & {});
-export const ResourceType = S.String;
-
 export type ResourceSpecifier = string;
 export type AssociationOption =
   | "APPLY_APPLICATION_TAG"
   | "SKIP_APPLICATION_TAG"
   | (string & {});
-export const AssociationOption = S.String;
-
 export type Options = AssociationOption[];
-export const Options = /*@__PURE__*/ S.Array(AssociationOption);
 export interface AssociateResourceRequest {
   application: string;
   resourceType: ResourceType;
   resource: string;
   options?: AssociationOption[];
 }
-export const AssociateResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    application: S.String.pipe(T.HttpLabel("application")),
-    resourceType: ResourceType.pipe(T.HttpLabel("resourceType")),
-    resource: S.String.pipe(T.HttpLabel("resource")),
-    options: S.optional(Options),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/applications/{application}/resources/{resourceType}/{resource}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateResourceRequest",
-}) as any as S.Schema<AssociateResourceRequest>;
 export type Arn = string;
 export interface AssociateResourceResponse {
   applicationArn?: string;
   resourceArn?: string;
   options?: AssociationOption[];
 }
-export const AssociateResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationArn: S.optional(S.String),
-    resourceArn: S.optional(S.String),
-    options: S.optional(Options),
-  }),
-).annotate({
-  identifier: "AssociateResourceResponse",
-}) as any as S.Schema<AssociateResourceResponse>;
 export type Name = string;
 export type Description = string;
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ClientToken = string;
 export interface CreateApplicationRequest {
   name: string;
@@ -235,31 +166,8 @@ export interface CreateApplicationRequest {
   tags?: { [key: string]: string | undefined };
   clientToken: string;
 }
-export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    tags: S.optional(Tags),
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateApplicationRequest",
-}) as any as S.Schema<CreateApplicationRequest>;
 export type ApplicationId = string;
 export type ApplicationTagDefinition = { [key: string]: string | undefined };
-export const ApplicationTagDefinition = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface Application {
   id?: string;
   arn?: string;
@@ -270,30 +178,9 @@ export interface Application {
   tags?: { [key: string]: string | undefined };
   applicationTag?: { [key: string]: string | undefined };
 }
-export const Application = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    tags: S.optional(Tags),
-    applicationTag: S.optional(ApplicationTagDefinition),
-  }),
-).annotate({ identifier: "Application" }) as any as S.Schema<Application>;
 export interface CreateApplicationResponse {
   application?: Application;
 }
-export const CreateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ application: S.optional(Application) }),
-).annotate({
-  identifier: "CreateApplicationResponse",
-}) as any as S.Schema<CreateApplicationResponse>;
 export type Attributes = string;
 export interface CreateAttributeGroupRequest {
   name: string;
@@ -302,26 +189,6 @@ export interface CreateAttributeGroupRequest {
   tags?: { [key: string]: string | undefined };
   clientToken: string;
 }
-export const CreateAttributeGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    attributes: S.String,
-    tags: S.optional(Tags),
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/attribute-groups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAttributeGroupRequest",
-}) as any as S.Schema<CreateAttributeGroupRequest>;
 export type AttributeGroupId = string;
 export interface AttributeGroup {
   id?: string;
@@ -332,46 +199,12 @@ export interface AttributeGroup {
   lastUpdateTime?: Date;
   tags?: { [key: string]: string | undefined };
 }
-export const AttributeGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    tags: S.optional(Tags),
-  }),
-).annotate({ identifier: "AttributeGroup" }) as any as S.Schema<AttributeGroup>;
 export interface CreateAttributeGroupResponse {
   attributeGroup?: AttributeGroup;
 }
-export const CreateAttributeGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ attributeGroup: S.optional(AttributeGroup) }),
-).annotate({
-  identifier: "CreateAttributeGroupResponse",
-}) as any as S.Schema<CreateAttributeGroupResponse>;
 export interface DeleteApplicationRequest {
   application: string;
 }
-export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ application: S.String.pipe(T.HttpLabel("application")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/applications/{application}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
 export interface ApplicationSummary {
   id?: string;
   arn?: string;
@@ -380,49 +213,12 @@ export interface ApplicationSummary {
   creationTime?: Date;
   lastUpdateTime?: Date;
 }
-export const ApplicationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "ApplicationSummary",
-}) as any as S.Schema<ApplicationSummary>;
 export interface DeleteApplicationResponse {
   application?: ApplicationSummary;
 }
-export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ application: S.optional(ApplicationSummary) }),
-).annotate({
-  identifier: "DeleteApplicationResponse",
-}) as any as S.Schema<DeleteApplicationResponse>;
 export interface DeleteAttributeGroupRequest {
   attributeGroup: string;
 }
-export const DeleteAttributeGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributeGroup: S.String.pipe(T.HttpLabel("attributeGroup")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/attribute-groups/{attributeGroup}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAttributeGroupRequest",
-}) as any as S.Schema<DeleteAttributeGroupRequest>;
 export type CreatedBy = string;
 export interface AttributeGroupSummary {
   id?: string;
@@ -433,122 +229,29 @@ export interface AttributeGroupSummary {
   lastUpdateTime?: Date;
   createdBy?: string;
 }
-export const AttributeGroupSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    createdBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AttributeGroupSummary",
-}) as any as S.Schema<AttributeGroupSummary>;
 export interface DeleteAttributeGroupResponse {
   attributeGroup?: AttributeGroupSummary;
 }
-export const DeleteAttributeGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ attributeGroup: S.optional(AttributeGroupSummary) }),
-).annotate({
-  identifier: "DeleteAttributeGroupResponse",
-}) as any as S.Schema<DeleteAttributeGroupResponse>;
 export interface DisassociateAttributeGroupRequest {
   application: string;
   attributeGroup: string;
 }
-export const DisassociateAttributeGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    application: S.String.pipe(T.HttpLabel("application")),
-    attributeGroup: S.String.pipe(T.HttpLabel("attributeGroup")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/applications/{application}/attribute-groups/{attributeGroup}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisassociateAttributeGroupRequest",
-}) as any as S.Schema<DisassociateAttributeGroupRequest>;
 export interface DisassociateAttributeGroupResponse {
   applicationArn?: string;
   attributeGroupArn?: string;
 }
-export const DisassociateAttributeGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationArn: S.optional(S.String),
-    attributeGroupArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DisassociateAttributeGroupResponse",
-}) as any as S.Schema<DisassociateAttributeGroupResponse>;
 export interface DisassociateResourceRequest {
   application: string;
   resourceType: ResourceType;
   resource: string;
 }
-export const DisassociateResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    application: S.String.pipe(T.HttpLabel("application")),
-    resourceType: ResourceType.pipe(T.HttpLabel("resourceType")),
-    resource: S.String.pipe(T.HttpLabel("resource")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/applications/{application}/resources/{resourceType}/{resource}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisassociateResourceRequest",
-}) as any as S.Schema<DisassociateResourceRequest>;
 export interface DisassociateResourceResponse {
   applicationArn?: string;
   resourceArn?: string;
 }
-export const DisassociateResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationArn: S.optional(S.String),
-    resourceArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DisassociateResourceResponse",
-}) as any as S.Schema<DisassociateResourceResponse>;
 export interface GetApplicationRequest {
   application: string;
 }
-export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ application: S.String.pipe(T.HttpLabel("application")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/applications/{application}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
 export type AssociationCount = number;
 export type ResourceGroupState =
   | "CREATING"
@@ -558,30 +261,15 @@ export type ResourceGroupState =
   | "UPDATE_COMPLETE"
   | "UPDATE_FAILED"
   | (string & {});
-export const ResourceGroupState = S.String;
-
 export interface ResourceGroup {
   state?: ResourceGroupState;
   arn?: string;
   errorMessage?: string;
 }
-export const ResourceGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    state: S.optional(ResourceGroupState),
-    arn: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "ResourceGroup" }) as any as S.Schema<ResourceGroup>;
 export interface Integrations {
   resourceGroup?: ResourceGroup;
   applicationTagResourceGroup?: ResourceGroup;
 }
-export const Integrations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceGroup: S.optional(ResourceGroup),
-    applicationTagResourceGroup: S.optional(ResourceGroup),
-  }),
-).annotate({ identifier: "Integrations" }) as any as S.Schema<Integrations>;
 export interface GetApplicationResponse {
   id?: string;
   arn?: string;
@@ -594,26 +282,6 @@ export interface GetApplicationResponse {
   integrations?: Integrations;
   applicationTag?: { [key: string]: string | undefined };
 }
-export const GetApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    associatedResourceCount: S.optional(S.Number),
-    tags: S.optional(Tags),
-    integrations: S.optional(Integrations),
-    applicationTag: S.optional(ApplicationTagDefinition),
-  }),
-).annotate({
-  identifier: "GetApplicationResponse",
-}) as any as S.Schema<GetApplicationResponse>;
 export type NextToken = string;
 export type ResourceItemStatus =
   | "SUCCESS"
@@ -621,11 +289,7 @@ export type ResourceItemStatus =
   | "IN_PROGRESS"
   | "SKIPPED"
   | (string & {});
-export const ResourceItemStatus = S.String;
-
 export type GetAssociatedResourceFilter = ResourceItemStatus[];
-export const GetAssociatedResourceFilter =
-  /*@__PURE__*/ S.Array(ResourceItemStatus);
 export type MaxResults = number;
 export interface GetAssociatedResourceRequest {
   application: string;
@@ -635,63 +299,20 @@ export interface GetAssociatedResourceRequest {
   resourceTagStatus?: ResourceItemStatus[];
   maxResults?: number;
 }
-export const GetAssociatedResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    application: S.String.pipe(T.HttpLabel("application")),
-    resourceType: ResourceType.pipe(T.HttpLabel("resourceType")),
-    resource: S.String.pipe(T.HttpLabel("resource")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    resourceTagStatus: S.optional(GetAssociatedResourceFilter).pipe(
-      T.HttpQuery("resourceTagStatus"),
-    ),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{application}/resources/{resourceType}/{resource}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAssociatedResourceRequest",
-}) as any as S.Schema<GetAssociatedResourceRequest>;
 export interface ResourceIntegrations {
   resourceGroup?: ResourceGroup;
 }
-export const ResourceIntegrations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceGroup: S.optional(ResourceGroup) }),
-).annotate({
-  identifier: "ResourceIntegrations",
-}) as any as S.Schema<ResourceIntegrations>;
 export interface Resource {
   name?: string;
   arn?: string;
   associationTime?: Date;
   integrations?: ResourceIntegrations;
 }
-export const Resource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    arn: S.optional(S.String),
-    associationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    integrations: S.optional(ResourceIntegrations),
-  }),
-).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type ApplicationTagStatus =
   | "IN_PROGRESS"
   | "SUCCESS"
   | "FAILURE"
   | (string & {});
-export const ApplicationTagStatus = S.String;
-
 export type ResourcesListItemErrorMessage = string;
 export type ResourceItemType = string;
 export interface ResourcesListItem {
@@ -700,67 +321,21 @@ export interface ResourcesListItem {
   status?: string;
   resourceType?: string;
 }
-export const ResourcesListItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    status: S.optional(S.String),
-    resourceType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ResourcesListItem",
-}) as any as S.Schema<ResourcesListItem>;
 export type ResourcesList = ResourcesListItem[];
-export const ResourcesList = /*@__PURE__*/ S.Array(ResourcesListItem);
 export interface ApplicationTagResult {
   applicationTagStatus?: ApplicationTagStatus;
   errorMessage?: string;
   resources?: ResourcesListItem[];
   nextToken?: string;
 }
-export const ApplicationTagResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationTagStatus: S.optional(ApplicationTagStatus),
-    errorMessage: S.optional(S.String),
-    resources: S.optional(ResourcesList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ApplicationTagResult",
-}) as any as S.Schema<ApplicationTagResult>;
 export interface GetAssociatedResourceResponse {
   resource?: Resource;
   options?: AssociationOption[];
   applicationTagResult?: ApplicationTagResult;
 }
-export const GetAssociatedResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resource: S.optional(Resource),
-    options: S.optional(Options),
-    applicationTagResult: S.optional(ApplicationTagResult),
-  }),
-).annotate({
-  identifier: "GetAssociatedResourceResponse",
-}) as any as S.Schema<GetAssociatedResourceResponse>;
 export interface GetAttributeGroupRequest {
   attributeGroup: string;
 }
-export const GetAttributeGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributeGroup: S.String.pipe(T.HttpLabel("attributeGroup")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/attribute-groups/{attributeGroup}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAttributeGroupRequest",
-}) as any as S.Schema<GetAttributeGroupRequest>;
 export interface GetAttributeGroupResponse {
   id?: string;
   arn?: string;
@@ -772,173 +347,44 @@ export interface GetAttributeGroupResponse {
   tags?: { [key: string]: string | undefined };
   createdBy?: string;
 }
-export const GetAttributeGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    attributes: S.optional(S.String),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    tags: S.optional(Tags),
-    createdBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetAttributeGroupResponse",
-}) as any as S.Schema<GetAttributeGroupResponse>;
 export interface GetConfigurationRequest {}
-export const GetConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/configuration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetConfigurationRequest",
-}) as any as S.Schema<GetConfigurationRequest>;
 export type TagKeyConfig = string;
 export interface TagQueryConfiguration {
   tagKey?: string;
 }
-export const TagQueryConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tagKey: S.optional(S.String) }),
-).annotate({
-  identifier: "TagQueryConfiguration",
-}) as any as S.Schema<TagQueryConfiguration>;
 export interface AppRegistryConfiguration {
   tagQueryConfiguration?: TagQueryConfiguration;
 }
-export const AppRegistryConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tagQueryConfiguration: S.optional(TagQueryConfiguration) }),
-).annotate({
-  identifier: "AppRegistryConfiguration",
-}) as any as S.Schema<AppRegistryConfiguration>;
 export interface GetConfigurationResponse {
   configuration?: AppRegistryConfiguration;
 }
-export const GetConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ configuration: S.optional(AppRegistryConfiguration) }),
-).annotate({
-  identifier: "GetConfigurationResponse",
-}) as any as S.Schema<GetConfigurationResponse>;
 export interface ListApplicationsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListApplicationsRequest",
-}) as any as S.Schema<ListApplicationsRequest>;
 export type ApplicationSummaries = ApplicationSummary[];
-export const ApplicationSummaries = /*@__PURE__*/ S.Array(ApplicationSummary);
 export interface ListApplicationsResponse {
   applications?: ApplicationSummary[];
   nextToken?: string;
 }
-export const ListApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applications: S.optional(ApplicationSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListApplicationsResponse",
-}) as any as S.Schema<ListApplicationsResponse>;
 export interface ListAssociatedAttributeGroupsRequest {
   application: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAssociatedAttributeGroupsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      application: S.String.pipe(T.HttpLabel("application")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/applications/{application}/attribute-groups",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListAssociatedAttributeGroupsRequest",
-}) as any as S.Schema<ListAssociatedAttributeGroupsRequest>;
 export type AttributeGroupIds = string[];
-export const AttributeGroupIds = /*@__PURE__*/ S.Array(S.String);
 export interface ListAssociatedAttributeGroupsResponse {
   attributeGroups?: string[];
   nextToken?: string;
 }
-export const ListAssociatedAttributeGroupsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      attributeGroups: S.optional(AttributeGroupIds),
-      nextToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "ListAssociatedAttributeGroupsResponse",
-}) as any as S.Schema<ListAssociatedAttributeGroupsResponse>;
 export interface ListAssociatedResourcesRequest {
   application: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAssociatedResourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    application: S.String.pipe(T.HttpLabel("application")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/applications/{application}/resources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAssociatedResourcesRequest",
-}) as any as S.Schema<ListAssociatedResourcesRequest>;
 export interface ResourceDetails {
   tagValue?: string;
 }
-export const ResourceDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tagValue: S.optional(S.String) }),
-).annotate({
-  identifier: "ResourceDetails",
-}) as any as S.Schema<ResourceDetails>;
 export interface ResourceInfo {
   name?: string;
   arn?: string;
@@ -946,332 +392,84 @@ export interface ResourceInfo {
   resourceDetails?: ResourceDetails;
   options?: AssociationOption[];
 }
-export const ResourceInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    arn: S.optional(S.String),
-    resourceType: S.optional(ResourceType),
-    resourceDetails: S.optional(ResourceDetails),
-    options: S.optional(Options),
-  }),
-).annotate({ identifier: "ResourceInfo" }) as any as S.Schema<ResourceInfo>;
 export type Resources = ResourceInfo[];
-export const Resources = /*@__PURE__*/ S.Array(ResourceInfo);
 export interface ListAssociatedResourcesResponse {
   resources?: ResourceInfo[];
   nextToken?: string;
 }
-export const ListAssociatedResourcesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resources: S.optional(Resources),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAssociatedResourcesResponse",
-}) as any as S.Schema<ListAssociatedResourcesResponse>;
 export interface ListAttributeGroupsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAttributeGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/attribute-groups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAttributeGroupsRequest",
-}) as any as S.Schema<ListAttributeGroupsRequest>;
 export type AttributeGroupSummaries = AttributeGroupSummary[];
-export const AttributeGroupSummaries = /*@__PURE__*/ S.Array(
-  AttributeGroupSummary,
-);
 export interface ListAttributeGroupsResponse {
   attributeGroups?: AttributeGroupSummary[];
   nextToken?: string;
 }
-export const ListAttributeGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributeGroups: S.optional(AttributeGroupSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAttributeGroupsResponse",
-}) as any as S.Schema<ListAttributeGroupsResponse>;
 export interface ListAttributeGroupsForApplicationRequest {
   application: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAttributeGroupsForApplicationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      application: S.String.pipe(T.HttpLabel("application")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/applications/{application}/attribute-group-details",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListAttributeGroupsForApplicationRequest",
-}) as any as S.Schema<ListAttributeGroupsForApplicationRequest>;
 export interface AttributeGroupDetails {
   id?: string;
   arn?: string;
   name?: string;
   createdBy?: string;
 }
-export const AttributeGroupDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    createdBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AttributeGroupDetails",
-}) as any as S.Schema<AttributeGroupDetails>;
 export type AttributeGroupDetailsList = AttributeGroupDetails[];
-export const AttributeGroupDetailsList = /*@__PURE__*/ S.Array(
-  AttributeGroupDetails,
-);
 export interface ListAttributeGroupsForApplicationResponse {
   attributeGroupsDetails?: AttributeGroupDetails[];
   nextToken?: string;
 }
-export const ListAttributeGroupsForApplicationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      attributeGroupsDetails: S.optional(AttributeGroupDetailsList),
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListAttributeGroupsForApplicationResponse",
-  }) as any as S.Schema<ListAttributeGroupsForApplicationResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(Tags) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutConfigurationRequest {
   configuration: AppRegistryConfiguration;
 }
-export const PutConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ configuration: AppRegistryConfiguration }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/configuration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutConfigurationRequest",
-}) as any as S.Schema<PutConfigurationRequest>;
 export interface PutConfigurationResponse {}
-export const PutConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutConfigurationResponse",
-}) as any as S.Schema<PutConfigurationResponse>;
 export interface SyncResourceRequest {
   resourceType: ResourceType;
   resource: string;
 }
-export const SyncResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceType: ResourceType.pipe(T.HttpLabel("resourceType")),
-    resource: S.String.pipe(T.HttpLabel("resource")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/sync/{resourceType}/{resource}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SyncResourceRequest",
-}) as any as S.Schema<SyncResourceRequest>;
 export type SyncAction = "START_SYNC" | "NO_ACTION" | (string & {});
-export const SyncAction = S.String;
-
 export interface SyncResourceResponse {
   applicationArn?: string;
   resourceArn?: string;
   actionTaken?: SyncAction;
 }
-export const SyncResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationArn: S.optional(S.String),
-    resourceArn: S.optional(S.String),
-    actionTaken: S.optional(SyncAction),
-  }),
-).annotate({
-  identifier: "SyncResourceResponse",
-}) as any as S.Schema<SyncResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: Tags,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
-export const TagKeys = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateApplicationRequest {
   application: string;
   name?: string;
   description?: string;
 }
-export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    application: S.String.pipe(T.HttpLabel("application")),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/applications/{application}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateApplicationRequest",
-}) as any as S.Schema<UpdateApplicationRequest>;
 export interface UpdateApplicationResponse {
   application?: Application;
 }
-export const UpdateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ application: S.optional(Application) }),
-).annotate({
-  identifier: "UpdateApplicationResponse",
-}) as any as S.Schema<UpdateApplicationResponse>;
 export interface UpdateAttributeGroupRequest {
   attributeGroup: string;
   name?: string;
   description?: string;
   attributes?: string;
 }
-export const UpdateAttributeGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributeGroup: S.String.pipe(T.HttpLabel("attributeGroup")),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    attributes: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/attribute-groups/{attributeGroup}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAttributeGroupRequest",
-}) as any as S.Schema<UpdateAttributeGroupRequest>;
 export interface UpdateAttributeGroupResponse {
   attributeGroup?: AttributeGroup;
 }
-export const UpdateAttributeGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ attributeGroup: S.optional(AttributeGroup) }),
-).annotate({
-  identifier: "UpdateAttributeGroupResponse",
-}) as any as S.Schema<UpdateAttributeGroupResponse>;
 export type AssociateAttributeGroupError =
   | ConflictException
   | InternalServerException
@@ -1291,8 +489,11 @@ export const associateAttributeGroup: API.OperationMethod<
   AssociateAttributeGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateAttributeGroupRequest,
-  output: AssociateAttributeGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /applications/{application}/attribute-groups/{attributeGroup}",
+    input: { application: 0, attributeGroup: 0 },
+  },
   errors: [
     ConflictException,
     InternalServerException,
@@ -1304,7 +505,7 @@ export const associateAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAttributeGroup",
-}));
+})) as any;
 
 export type AssociateResourceError =
   | ConflictException
@@ -1345,8 +546,12 @@ export const associateResource: API.OperationMethod<
   AssociateResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateResourceRequest,
-  output: AssociateResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /applications/{application}/resources/{resourceType}/{resource}",
+    input: { application: 0, resourceType: 0, resource: 0, options: 0 },
+    body: true,
+  },
   errors: [
     ConflictException,
     InternalServerException,
@@ -1358,7 +563,7 @@ export const associateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResource",
-}));
+})) as any;
 
 export type CreateApplicationError =
   | ConflictException
@@ -1376,8 +581,18 @@ export const createApplication: API.OperationMethod<
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateApplicationRequest,
-  output: CreateApplicationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /applications",
+    input: {
+      name: 0,
+      description: 0,
+      tags: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: { application: o_Application },
+    body: true,
+  },
   errors: [
     ConflictException,
     InternalServerException,
@@ -1388,7 +603,7 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
-}));
+})) as any;
 
 export type CreateAttributeGroupError =
   | ConflictException
@@ -1408,8 +623,19 @@ export const createAttributeGroup: API.OperationMethod<
   CreateAttributeGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAttributeGroupRequest,
-  output: CreateAttributeGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /attribute-groups",
+    input: {
+      name: 0,
+      description: 0,
+      attributes: 0,
+      tags: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: { attributeGroup: o_AttributeGroup },
+    body: true,
+  },
   errors: [
     ConflictException,
     InternalServerException,
@@ -1419,7 +645,7 @@ export const createAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAttributeGroup",
-}));
+})) as any;
 
 export type DeleteApplicationError =
   | InternalServerException
@@ -1435,8 +661,12 @@ export const deleteApplication: API.OperationMethod<
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteApplicationRequest,
-  output: DeleteApplicationResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /applications/{application}",
+    input: { application: 0 },
+    output: { application: o_ApplicationSummary },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1445,7 +675,7 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
-}));
+})) as any;
 
 export type DeleteAttributeGroupError =
   | InternalServerException
@@ -1461,8 +691,12 @@ export const deleteAttributeGroup: API.OperationMethod<
   DeleteAttributeGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAttributeGroupRequest,
-  output: DeleteAttributeGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /attribute-groups/{attributeGroup}",
+    input: { attributeGroup: 0 },
+    output: { attributeGroup: o_AttributeGroupSummary },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1471,7 +705,7 @@ export const deleteAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributeGroup",
-}));
+})) as any;
 
 export type DisassociateAttributeGroupError =
   | InternalServerException
@@ -1487,8 +721,11 @@ export const disassociateAttributeGroup: API.OperationMethod<
   DisassociateAttributeGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateAttributeGroupRequest,
-  output: DisassociateAttributeGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /applications/{application}/attribute-groups/{attributeGroup}",
+    input: { application: 0, attributeGroup: 0 },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1497,7 +734,7 @@ export const disassociateAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAttributeGroup",
-}));
+})) as any;
 
 export type DisassociateResourceError =
   | InternalServerException
@@ -1535,8 +772,11 @@ export const disassociateResource: API.OperationMethod<
   DisassociateResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateResourceRequest,
-  output: DisassociateResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /applications/{application}/resources/{resourceType}/{resource}",
+    input: { application: 0, resourceType: 0, resource: 0 },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1546,7 +786,7 @@ export const disassociateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResource",
-}));
+})) as any;
 
 export type GetApplicationError =
   | ConflictException
@@ -1579,8 +819,12 @@ export const getApplication: API.OperationMethod<
   GetApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetApplicationRequest,
-  output: GetApplicationResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{application}",
+    input: { application: 0 },
+    output: { creationTime: D.ts, lastUpdateTime: D.ts },
+  },
   errors: [
     ConflictException,
     InternalServerException,
@@ -1590,7 +834,7 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
-}));
+})) as any;
 
 export type GetAssociatedResourceError =
   | InternalServerException
@@ -1606,8 +850,19 @@ export const getAssociatedResource: API.OperationMethod<
   GetAssociatedResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAssociatedResourceRequest,
-  output: GetAssociatedResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{application}/resources/{resourceType}/{resource}",
+    input: {
+      application: 0,
+      resourceType: 0,
+      resource: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      resourceTagStatus: D.m({ query: "resourceTagStatus" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { resource: { associationTime: D.ts } },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1616,7 +871,7 @@ export const getAssociatedResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociatedResource",
-}));
+})) as any;
 
 export type GetAttributeGroupError =
   | ConflictException
@@ -1636,8 +891,12 @@ export const getAttributeGroup: API.OperationMethod<
   GetAttributeGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAttributeGroupRequest,
-  output: GetAttributeGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /attribute-groups/{attributeGroup}",
+    input: { attributeGroup: 0 },
+    output: { creationTime: D.ts, lastUpdateTime: D.ts },
+  },
   errors: [
     ConflictException,
     InternalServerException,
@@ -1647,7 +906,7 @@ export const getAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttributeGroup",
-}));
+})) as any;
 
 export type GetConfigurationError = InternalServerException | CommonErrors;
 /**
@@ -1660,13 +919,12 @@ export const getConfiguration: API.OperationMethod<
   GetConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetConfigurationRequest,
-  output: GetConfigurationResponse,
+  descriptor: { service: svc, http: "GET /configuration" },
   errors: [InternalServerException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguration",
-}));
+})) as any;
 
 export type ListApplicationsError =
   | InternalServerException
@@ -1682,8 +940,15 @@ export const listApplications: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ApplicationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListApplicationsRequest,
-  output: ListApplicationsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /applications",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { applications: D.list(o_ApplicationSummary) },
+  },
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1711,8 +976,15 @@ export const listAssociatedAttributeGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AttributeGroupId
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAssociatedAttributeGroupsRequest,
-  output: ListAssociatedAttributeGroupsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{application}/attribute-groups",
+    input: {
+      application: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1759,8 +1031,15 @@ export const listAssociatedResources: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResourceInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAssociatedResourcesRequest,
-  output: ListAssociatedResourcesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{application}/resources",
+    input: {
+      application: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1791,8 +1070,15 @@ export const listAttributeGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AttributeGroupSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAttributeGroupsRequest,
-  output: ListAttributeGroupsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /attribute-groups",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { attributeGroups: D.list(o_AttributeGroupSummary) },
+  },
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1820,8 +1106,15 @@ export const listAttributeGroupsForApplication: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AttributeGroupDetails
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAttributeGroupsForApplicationRequest,
-  output: ListAttributeGroupsForApplicationResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /applications/{application}/attribute-group-details",
+    input: {
+      application: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1852,8 +1145,11 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{resourceArn}",
+    input: { resourceArn: 0 },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1862,7 +1158,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type PutConfigurationError =
   | ConflictException
@@ -1879,13 +1175,17 @@ export const putConfiguration: API.OperationMethod<
   PutConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutConfigurationRequest,
-  output: PutConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /configuration",
+    input: { configuration: { tagQueryConfiguration: { tagKey: 0 } } },
+    body: true,
+  },
   errors: [ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfiguration",
-}));
+})) as any;
 
 export type SyncResourceError =
   | ConflictException
@@ -1905,8 +1205,11 @@ export const syncResource: API.OperationMethod<
   SyncResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SyncResourceRequest,
-  output: SyncResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /sync/{resourceType}/{resource}",
+    input: { resourceType: 0, resource: 0 },
+  },
   errors: [
     ConflictException,
     InternalServerException,
@@ -1917,7 +1220,7 @@ export const syncResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SyncResource",
-}));
+})) as any;
 
 export type TagResourceError =
   | InternalServerException
@@ -1937,8 +1240,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{resourceArn}",
+    input: { resourceArn: 0, tags: 0 },
+    body: true,
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1947,7 +1254,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | InternalServerException
@@ -1965,8 +1272,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{resourceArn}",
+    input: { resourceArn: 0, tagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1975,7 +1285,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateApplicationError =
   | ConflictException
@@ -1993,8 +1303,13 @@ export const updateApplication: API.OperationMethod<
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateApplicationRequest,
-  output: UpdateApplicationResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /applications/{application}",
+    input: { application: 0, name: 0, description: 0 },
+    output: { application: o_Application },
+    body: true,
+  },
   errors: [
     ConflictException,
     InternalServerException,
@@ -2005,7 +1320,7 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
-}));
+})) as any;
 
 export type UpdateAttributeGroupError =
   | ConflictException
@@ -2022,8 +1337,13 @@ export const updateAttributeGroup: API.OperationMethod<
   UpdateAttributeGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAttributeGroupRequest,
-  output: UpdateAttributeGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /attribute-groups/{attributeGroup}",
+    input: { attributeGroup: 0, name: 0, description: 0, attributes: 0 },
+    output: { attributeGroup: o_AttributeGroup },
+    body: true,
+  },
   errors: [
     ConflictException,
     InternalServerException,
@@ -2033,4 +1353,21 @@ export const updateAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAttributeGroup",
-}));
+})) as any;
+
+const o_Application: D.LazyStruct = () => ({
+  creationTime: D.ts,
+  lastUpdateTime: D.ts,
+});
+const o_ApplicationSummary: D.LazyStruct = () => ({
+  creationTime: D.ts,
+  lastUpdateTime: D.ts,
+});
+const o_AttributeGroup: D.LazyStruct = () => ({
+  creationTime: D.ts,
+  lastUpdateTime: D.ts,
+});
+const o_AttributeGroupSummary: D.LazyStruct = () => ({
+  creationTime: D.ts,
+  lastUpdateTime: D.ts,
+});

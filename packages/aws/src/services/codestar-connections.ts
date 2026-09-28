@@ -1,190 +1,187 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { awsJson1_0Protocol } from "../protocols/aws-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "CodeStar connections",
-  serviceShapeName: "CodeStar_connections_20191201",
-});
-const auth = T.AwsAuthSigv4({ name: "codestar-connections" });
-const ver = T.ServiceVersion("2019-12-01");
-const proto = T.AwsProtocolsAwsJson1_0();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://codestar-connections-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://codestar-connections-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://codestar-connections.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://codestar-connections.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "CodeStar_connections_20191201",
+  version: "2019-12-01",
+  sigv4: "codestar-connections",
+  protocol: awsJson1_0Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://codestar-connections-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://codestar-connections-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://codestar-connections.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://codestar-connections.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class ConcurrentModificationException
-  extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ConcurrentModificationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class ConditionalCheckFailedException
-  extends /*@__PURE__*/ S.TaggedError<ConditionalCheckFailedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ConditionalCheckFailedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message?: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(503),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 503 },
+  )<{ readonly message?: string }> {}
 export class InvalidInputException
-  extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidInputException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message?: string }> {}
 export class ResourceAlreadyExistsException
-  extends /*@__PURE__*/ S.TaggedError<ResourceAlreadyExistsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceAlreadyExistsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+    ["ConflictError", "AlreadyExistsError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class ResourceUnavailableException
-  extends /*@__PURE__*/ S.TaggedError<ResourceUnavailableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceUnavailableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class RetryLatestCommitFailedException
-  extends /*@__PURE__*/ S.TaggedError<RetryLatestCommitFailedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RetryLatestCommitFailedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(503),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 503 },
+  )<{ readonly message?: string }> {}
 export class SyncBlockerDoesNotExistException
-  extends /*@__PURE__*/ S.TaggedError<SyncBlockerDoesNotExistException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "SyncBlockerDoesNotExistException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class SyncConfigurationStillExistsException
-  extends /*@__PURE__*/ S.TaggedError<SyncConfigurationStillExistsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "SyncConfigurationStillExistsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message?: string }> {}
 export class UnsupportedOperationException
-  extends /*@__PURE__*/ S.TaggedError<UnsupportedOperationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "UnsupportedOperationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class UnsupportedProviderTypeException
-  extends /*@__PURE__*/ S.TaggedError<UnsupportedProviderTypeException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "UnsupportedProviderTypeException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class UpdateOutOfSyncException
-  extends /*@__PURE__*/ S.TaggedError<UpdateOutOfSyncException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "UpdateOutOfSyncException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export type ProviderType =
   | "Bitbucket"
   | "GitHub"
@@ -192,8 +189,6 @@ export type ProviderType =
   | "GitLab"
   | "GitLabSelfManaged"
   | (string & {});
-export const ProviderType = S.String;
-
 export type ConnectionName = string;
 export type TagKey = string;
 export type TagValue = string;
@@ -201,11 +196,7 @@ export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export type HostArn = string;
 export interface CreateConnectionInput {
   ProviderType?: ProviderType;
@@ -213,37 +204,18 @@ export interface CreateConnectionInput {
   Tags?: Tag[];
   HostArn?: string;
 }
-export const CreateConnectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProviderType: S.optional(ProviderType),
-    ConnectionName: S.String,
-    Tags: S.optional(TagList),
-    HostArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateConnectionInput",
-}) as any as S.Schema<CreateConnectionInput>;
 export type ConnectionArn = string;
 export interface CreateConnectionOutput {
   ConnectionArn: string;
   Tags?: Tag[];
 }
-export const CreateConnectionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ConnectionArn: S.String, Tags: S.optional(TagList) }),
-).annotate({
-  identifier: "CreateConnectionOutput",
-}) as any as S.Schema<CreateConnectionOutput>;
 export type HostName = string;
 export type Url = string;
 export type VpcId = string;
 export type SubnetId = string;
 export type SubnetIds = string[];
-export const SubnetIds = /*@__PURE__*/ S.Array(S.String);
 export type SecurityGroupId = string;
 export type SecurityGroupIds = string[];
-export const SecurityGroupIds = /*@__PURE__*/ S.Array(S.String);
 export type TlsCertificate = string;
 export interface VpcConfiguration {
   VpcId: string;
@@ -251,16 +223,6 @@ export interface VpcConfiguration {
   SecurityGroupIds: string[];
   TlsCertificate?: string;
 }
-export const VpcConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcId: S.String,
-    SubnetIds: SubnetIds,
-    SecurityGroupIds: SecurityGroupIds,
-    TlsCertificate: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VpcConfiguration",
-}) as any as S.Schema<VpcConfiguration>;
 export interface CreateHostInput {
   Name: string;
   ProviderType: ProviderType;
@@ -268,28 +230,10 @@ export interface CreateHostInput {
   VpcConfiguration?: VpcConfiguration;
   Tags?: Tag[];
 }
-export const CreateHostInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    ProviderType: ProviderType,
-    ProviderEndpoint: S.String,
-    VpcConfiguration: S.optional(VpcConfiguration),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateHostInput",
-}) as any as S.Schema<CreateHostInput>;
 export interface CreateHostOutput {
   HostArn?: string;
   Tags?: Tag[];
 }
-export const CreateHostOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ HostArn: S.optional(S.String), Tags: S.optional(TagList) }),
-).annotate({
-  identifier: "CreateHostOutput",
-}) as any as S.Schema<CreateHostOutput>;
 export type OwnerId = string;
 export type RepositoryName = string;
 export type KmsKeyArn = string;
@@ -300,19 +244,6 @@ export interface CreateRepositoryLinkInput {
   EncryptionKeyArn?: string;
   Tags?: Tag[];
 }
-export const CreateRepositoryLinkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionArn: S.String,
-    OwnerId: S.String,
-    RepositoryName: S.String,
-    EncryptionKeyArn: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateRepositoryLinkInput",
-}) as any as S.Schema<CreateRepositoryLinkInput>;
 export type RepositoryLinkArn = string;
 export type RepositoryLinkId = string;
 export interface RepositoryLinkInfo {
@@ -324,43 +255,19 @@ export interface RepositoryLinkInfo {
   RepositoryLinkId: string;
   RepositoryName: string;
 }
-export const RepositoryLinkInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionArn: S.String,
-    EncryptionKeyArn: S.optional(S.String),
-    OwnerId: S.String,
-    ProviderType: ProviderType,
-    RepositoryLinkArn: S.String,
-    RepositoryLinkId: S.String,
-    RepositoryName: S.String,
-  }),
-).annotate({
-  identifier: "RepositoryLinkInfo",
-}) as any as S.Schema<RepositoryLinkInfo>;
 export interface CreateRepositoryLinkOutput {
   RepositoryLinkInfo: RepositoryLinkInfo;
 }
-export const CreateRepositoryLinkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RepositoryLinkInfo: RepositoryLinkInfo }),
-).annotate({
-  identifier: "CreateRepositoryLinkOutput",
-}) as any as S.Schema<CreateRepositoryLinkOutput>;
 export type BranchName = string;
 export type DeploymentFilePath = string;
 export type ResourceName = string;
 export type IamRoleArn = string;
 export type SyncConfigurationType = "CFN_STACK_SYNC" | (string & {});
-export const SyncConfigurationType = S.String;
-
 export type PublishDeploymentStatus = "ENABLED" | "DISABLED" | (string & {});
-export const PublishDeploymentStatus = S.String;
-
 export type TriggerResourceUpdateOn =
   | "ANY_CHANGE"
   | "FILE_CHANGE"
   | (string & {});
-export const TriggerResourceUpdateOn = S.String;
-
 export interface CreateSyncConfigurationInput {
   Branch: string;
   ConfigFile: string;
@@ -371,22 +278,6 @@ export interface CreateSyncConfigurationInput {
   PublishDeploymentStatus?: PublishDeploymentStatus;
   TriggerResourceUpdateOn?: TriggerResourceUpdateOn;
 }
-export const CreateSyncConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Branch: S.String,
-    ConfigFile: S.String,
-    RepositoryLinkId: S.String,
-    ResourceName: S.String,
-    RoleArn: S.String,
-    SyncType: SyncConfigurationType,
-    PublishDeploymentStatus: S.optional(PublishDeploymentStatus),
-    TriggerResourceUpdateOn: S.optional(TriggerResourceUpdateOn),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateSyncConfigurationInput",
-}) as any as S.Schema<CreateSyncConfigurationInput>;
 export interface SyncConfiguration {
   Branch: string;
   ConfigFile?: string;
@@ -400,114 +291,35 @@ export interface SyncConfiguration {
   PublishDeploymentStatus?: PublishDeploymentStatus;
   TriggerResourceUpdateOn?: TriggerResourceUpdateOn;
 }
-export const SyncConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Branch: S.String,
-    ConfigFile: S.optional(S.String),
-    OwnerId: S.String,
-    ProviderType: ProviderType,
-    RepositoryLinkId: S.String,
-    RepositoryName: S.String,
-    ResourceName: S.String,
-    RoleArn: S.String,
-    SyncType: SyncConfigurationType,
-    PublishDeploymentStatus: S.optional(PublishDeploymentStatus),
-    TriggerResourceUpdateOn: S.optional(TriggerResourceUpdateOn),
-  }),
-).annotate({
-  identifier: "SyncConfiguration",
-}) as any as S.Schema<SyncConfiguration>;
 export interface CreateSyncConfigurationOutput {
   SyncConfiguration: SyncConfiguration;
 }
-export const CreateSyncConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SyncConfiguration: SyncConfiguration }),
-).annotate({
-  identifier: "CreateSyncConfigurationOutput",
-}) as any as S.Schema<CreateSyncConfigurationOutput>;
 export interface DeleteConnectionInput {
   ConnectionArn: string;
 }
-export const DeleteConnectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ConnectionArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteConnectionInput",
-}) as any as S.Schema<DeleteConnectionInput>;
 export interface DeleteConnectionOutput {}
-export const DeleteConnectionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteConnectionOutput",
-}) as any as S.Schema<DeleteConnectionOutput>;
 export interface DeleteHostInput {
   HostArn: string;
 }
-export const DeleteHostInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ HostArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteHostInput",
-}) as any as S.Schema<DeleteHostInput>;
 export interface DeleteHostOutput {}
-export const DeleteHostOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteHostOutput",
-}) as any as S.Schema<DeleteHostOutput>;
 export interface DeleteRepositoryLinkInput {
   RepositoryLinkId: string;
 }
-export const DeleteRepositoryLinkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RepositoryLinkId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteRepositoryLinkInput",
-}) as any as S.Schema<DeleteRepositoryLinkInput>;
 export interface DeleteRepositoryLinkOutput {}
-export const DeleteRepositoryLinkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteRepositoryLinkOutput",
-}) as any as S.Schema<DeleteRepositoryLinkOutput>;
 export interface DeleteSyncConfigurationInput {
   SyncType: SyncConfigurationType;
   ResourceName: string;
 }
-export const DeleteSyncConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SyncType: SyncConfigurationType, ResourceName: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteSyncConfigurationInput",
-}) as any as S.Schema<DeleteSyncConfigurationInput>;
 export interface DeleteSyncConfigurationOutput {}
-export const DeleteSyncConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteSyncConfigurationOutput",
-}) as any as S.Schema<DeleteSyncConfigurationOutput>;
 export interface GetConnectionInput {
   ConnectionArn: string;
 }
-export const GetConnectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ConnectionArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetConnectionInput",
-}) as any as S.Schema<GetConnectionInput>;
 export type AccountId = string;
 export type ConnectionStatus =
   | "PENDING"
   | "AVAILABLE"
   | "ERROR"
   | (string & {});
-export const ConnectionStatus = S.String;
-
 export interface Connection {
   ConnectionName?: string;
   ConnectionArn?: string;
@@ -516,32 +328,12 @@ export interface Connection {
   ConnectionStatus?: ConnectionStatus;
   HostArn?: string;
 }
-export const Connection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionName: S.optional(S.String),
-    ConnectionArn: S.optional(S.String),
-    ProviderType: S.optional(ProviderType),
-    OwnerAccountId: S.optional(S.String),
-    ConnectionStatus: S.optional(ConnectionStatus),
-    HostArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Connection" }) as any as S.Schema<Connection>;
 export interface GetConnectionOutput {
   Connection?: Connection;
 }
-export const GetConnectionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Connection: S.optional(Connection) }),
-).annotate({
-  identifier: "GetConnectionOutput",
-}) as any as S.Schema<GetConnectionOutput>;
 export interface GetHostInput {
   HostArn: string;
 }
-export const GetHostInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ HostArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetHostInput" }) as any as S.Schema<GetHostInput>;
 export type HostStatus = string;
 export interface GetHostOutput {
   Name?: string;
@@ -550,49 +342,17 @@ export interface GetHostOutput {
   ProviderEndpoint?: string;
   VpcConfiguration?: VpcConfiguration;
 }
-export const GetHostOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Status: S.optional(S.String),
-    ProviderType: S.optional(ProviderType),
-    ProviderEndpoint: S.optional(S.String),
-    VpcConfiguration: S.optional(VpcConfiguration),
-  }),
-).annotate({ identifier: "GetHostOutput" }) as any as S.Schema<GetHostOutput>;
 export interface GetRepositoryLinkInput {
   RepositoryLinkId: string;
 }
-export const GetRepositoryLinkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RepositoryLinkId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetRepositoryLinkInput",
-}) as any as S.Schema<GetRepositoryLinkInput>;
 export interface GetRepositoryLinkOutput {
   RepositoryLinkInfo: RepositoryLinkInfo;
 }
-export const GetRepositoryLinkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RepositoryLinkInfo: RepositoryLinkInfo }),
-).annotate({
-  identifier: "GetRepositoryLinkOutput",
-}) as any as S.Schema<GetRepositoryLinkOutput>;
 export interface GetRepositorySyncStatusInput {
   Branch: string;
   RepositoryLinkId: string;
   SyncType: SyncConfigurationType;
 }
-export const GetRepositorySyncStatusInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Branch: S.String,
-    RepositoryLinkId: S.String,
-    SyncType: SyncConfigurationType,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetRepositorySyncStatusInput",
-}) as any as S.Schema<GetRepositorySyncStatusInput>;
 export type RepositorySyncStatus =
   | "FAILED"
   | "INITIATED"
@@ -600,8 +360,6 @@ export type RepositorySyncStatus =
   | "SUCCEEDED"
   | "QUEUED"
   | (string & {});
-export const RepositorySyncStatus = S.String;
-
 export type Event = string;
 export type ExternalId = string;
 export type Type = string;
@@ -611,52 +369,19 @@ export interface RepositorySyncEvent {
   Time: Date;
   Type: string;
 }
-export const RepositorySyncEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Event: S.String,
-    ExternalId: S.optional(S.String),
-    Time: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Type: S.String,
-  }),
-).annotate({
-  identifier: "RepositorySyncEvent",
-}) as any as S.Schema<RepositorySyncEvent>;
 export type RepositorySyncEventList = RepositorySyncEvent[];
-export const RepositorySyncEventList =
-  /*@__PURE__*/ S.Array(RepositorySyncEvent);
 export interface RepositorySyncAttempt {
   StartedAt: Date;
   Status: RepositorySyncStatus;
   Events: RepositorySyncEvent[];
 }
-export const RepositorySyncAttempt = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Status: RepositorySyncStatus,
-    Events: RepositorySyncEventList,
-  }),
-).annotate({
-  identifier: "RepositorySyncAttempt",
-}) as any as S.Schema<RepositorySyncAttempt>;
 export interface GetRepositorySyncStatusOutput {
   LatestSync: RepositorySyncAttempt;
 }
-export const GetRepositorySyncStatusOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LatestSync: RepositorySyncAttempt }),
-).annotate({
-  identifier: "GetRepositorySyncStatusOutput",
-}) as any as S.Schema<GetRepositorySyncStatusOutput>;
 export interface GetResourceSyncStatusInput {
   ResourceName: string;
   SyncType: SyncConfigurationType;
 }
-export const GetResourceSyncStatusInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceName: S.String, SyncType: SyncConfigurationType }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetResourceSyncStatusInput",
-}) as any as S.Schema<GetResourceSyncStatusInput>;
 export type Directory = string;
 export type SHA = string;
 export interface Revision {
@@ -667,42 +392,19 @@ export interface Revision {
   ProviderType: ProviderType;
   Sha: string;
 }
-export const Revision = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Branch: S.String,
-    Directory: S.String,
-    OwnerId: S.String,
-    RepositoryName: S.String,
-    ProviderType: ProviderType,
-    Sha: S.String,
-  }),
-).annotate({ identifier: "Revision" }) as any as S.Schema<Revision>;
 export interface ResourceSyncEvent {
   Event: string;
   ExternalId?: string;
   Time: Date;
   Type: string;
 }
-export const ResourceSyncEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Event: S.String,
-    ExternalId: S.optional(S.String),
-    Time: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Type: S.String,
-  }),
-).annotate({
-  identifier: "ResourceSyncEvent",
-}) as any as S.Schema<ResourceSyncEvent>;
 export type ResourceSyncEventList = ResourceSyncEvent[];
-export const ResourceSyncEventList = /*@__PURE__*/ S.Array(ResourceSyncEvent);
 export type ResourceSyncStatus =
   | "FAILED"
   | "INITIATED"
   | "IN_PROGRESS"
   | "SUCCEEDED"
   | (string & {});
-export const ResourceSyncStatus = S.String;
-
 export type Target = string;
 export interface ResourceSyncAttempt {
   Events: ResourceSyncEvent[];
@@ -712,50 +414,18 @@ export interface ResourceSyncAttempt {
   TargetRevision: Revision;
   Target: string;
 }
-export const ResourceSyncAttempt = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Events: ResourceSyncEventList,
-    InitialRevision: Revision,
-    StartedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Status: ResourceSyncStatus,
-    TargetRevision: Revision,
-    Target: S.String,
-  }),
-).annotate({
-  identifier: "ResourceSyncAttempt",
-}) as any as S.Schema<ResourceSyncAttempt>;
 export interface GetResourceSyncStatusOutput {
   DesiredState?: Revision;
   LatestSuccessfulSync?: ResourceSyncAttempt;
   LatestSync: ResourceSyncAttempt;
 }
-export const GetResourceSyncStatusOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DesiredState: S.optional(Revision),
-    LatestSuccessfulSync: S.optional(ResourceSyncAttempt),
-    LatestSync: ResourceSyncAttempt,
-  }),
-).annotate({
-  identifier: "GetResourceSyncStatusOutput",
-}) as any as S.Schema<GetResourceSyncStatusOutput>;
 export interface GetSyncBlockerSummaryInput {
   SyncType: SyncConfigurationType;
   ResourceName: string;
 }
-export const GetSyncBlockerSummaryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SyncType: SyncConfigurationType, ResourceName: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetSyncBlockerSummaryInput",
-}) as any as S.Schema<GetSyncBlockerSummaryInput>;
 export type Id = string;
 export type BlockerType = "AUTOMATED" | (string & {});
-export const BlockerType = S.String;
-
 export type BlockerStatus = "ACTIVE" | "RESOLVED" | (string & {});
-export const BlockerStatus = S.String;
-
 export type CreatedReason = string;
 export type SyncBlockerContextKey = string;
 export type SyncBlockerContextValue = string;
@@ -763,13 +433,7 @@ export interface SyncBlockerContext {
   Key: string;
   Value: string;
 }
-export const SyncBlockerContext = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({
-  identifier: "SyncBlockerContext",
-}) as any as S.Schema<SyncBlockerContext>;
 export type SyncBlockerContextList = SyncBlockerContext[];
-export const SyncBlockerContextList = /*@__PURE__*/ S.Array(SyncBlockerContext);
 export type ResolvedReason = string;
 export interface SyncBlocker {
   Id: string;
@@ -781,61 +445,22 @@ export interface SyncBlocker {
   ResolvedReason?: string;
   ResolvedAt?: Date;
 }
-export const SyncBlocker = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Type: BlockerType,
-    Status: BlockerStatus,
-    CreatedReason: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Contexts: S.optional(SyncBlockerContextList),
-    ResolvedReason: S.optional(S.String),
-    ResolvedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "SyncBlocker" }) as any as S.Schema<SyncBlocker>;
 export type LatestSyncBlockerList = SyncBlocker[];
-export const LatestSyncBlockerList = /*@__PURE__*/ S.Array(SyncBlocker);
 export interface SyncBlockerSummary {
   ResourceName: string;
   ParentResourceName?: string;
   LatestBlockers?: SyncBlocker[];
 }
-export const SyncBlockerSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceName: S.String,
-    ParentResourceName: S.optional(S.String),
-    LatestBlockers: S.optional(LatestSyncBlockerList),
-  }),
-).annotate({
-  identifier: "SyncBlockerSummary",
-}) as any as S.Schema<SyncBlockerSummary>;
 export interface GetSyncBlockerSummaryOutput {
   SyncBlockerSummary: SyncBlockerSummary;
 }
-export const GetSyncBlockerSummaryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SyncBlockerSummary: SyncBlockerSummary }),
-).annotate({
-  identifier: "GetSyncBlockerSummaryOutput",
-}) as any as S.Schema<GetSyncBlockerSummaryOutput>;
 export interface GetSyncConfigurationInput {
   SyncType: SyncConfigurationType;
   ResourceName: string;
 }
-export const GetSyncConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SyncType: SyncConfigurationType, ResourceName: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetSyncConfigurationInput",
-}) as any as S.Schema<GetSyncConfigurationInput>;
 export interface GetSyncConfigurationOutput {
   SyncConfiguration: SyncConfiguration;
 }
-export const GetSyncConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SyncConfiguration: SyncConfiguration }),
-).annotate({
-  identifier: "GetSyncConfigurationOutput",
-}) as any as S.Schema<GetSyncConfigurationOutput>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListConnectionsInput {
@@ -844,44 +469,15 @@ export interface ListConnectionsInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListConnectionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProviderTypeFilter: S.optional(ProviderType),
-    HostArnFilter: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListConnectionsInput",
-}) as any as S.Schema<ListConnectionsInput>;
 export type ConnectionList = Connection[];
-export const ConnectionList = /*@__PURE__*/ S.Array(Connection);
 export interface ListConnectionsOutput {
   Connections?: Connection[];
   NextToken?: string;
 }
-export const ListConnectionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Connections: S.optional(ConnectionList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListConnectionsOutput",
-}) as any as S.Schema<ListConnectionsOutput>;
 export interface ListHostsInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListHostsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListHostsInput" }) as any as S.Schema<ListHostsInput>;
 export type HostStatusMessage = string;
 export interface Host {
   Name?: string;
@@ -892,71 +488,25 @@ export interface Host {
   Status?: string;
   StatusMessage?: string;
 }
-export const Host = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    HostArn: S.optional(S.String),
-    ProviderType: S.optional(ProviderType),
-    ProviderEndpoint: S.optional(S.String),
-    VpcConfiguration: S.optional(VpcConfiguration),
-    Status: S.optional(S.String),
-    StatusMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "Host" }) as any as S.Schema<Host>;
 export type HostList = Host[];
-export const HostList = /*@__PURE__*/ S.Array(Host);
 export interface ListHostsOutput {
   Hosts?: Host[];
   NextToken?: string;
 }
-export const ListHostsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Hosts: S.optional(HostList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListHostsOutput",
-}) as any as S.Schema<ListHostsOutput>;
 export type SharpNextToken = string;
 export interface ListRepositoryLinksInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListRepositoryLinksInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListRepositoryLinksInput",
-}) as any as S.Schema<ListRepositoryLinksInput>;
 export type RepositoryLinkList = RepositoryLinkInfo[];
-export const RepositoryLinkList = /*@__PURE__*/ S.Array(RepositoryLinkInfo);
 export interface ListRepositoryLinksOutput {
   RepositoryLinks: RepositoryLinkInfo[];
   NextToken?: string;
 }
-export const ListRepositoryLinksOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RepositoryLinks: RepositoryLinkList,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRepositoryLinksOutput",
-}) as any as S.Schema<ListRepositoryLinksOutput>;
 export interface ListRepositorySyncDefinitionsInput {
   RepositoryLinkId: string;
   SyncType: SyncConfigurationType;
 }
-export const ListRepositorySyncDefinitionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RepositoryLinkId: S.String,
-    SyncType: SyncConfigurationType,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListRepositorySyncDefinitionsInput",
-}) as any as S.Schema<ListRepositorySyncDefinitionsInput>;
 export type Parent = string;
 export interface RepositorySyncDefinition {
   Branch: string;
@@ -964,197 +514,65 @@ export interface RepositorySyncDefinition {
   Parent: string;
   Target: string;
 }
-export const RepositorySyncDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Branch: S.String,
-    Directory: S.String,
-    Parent: S.String,
-    Target: S.String,
-  }),
-).annotate({
-  identifier: "RepositorySyncDefinition",
-}) as any as S.Schema<RepositorySyncDefinition>;
 export type RepositorySyncDefinitionList = RepositorySyncDefinition[];
-export const RepositorySyncDefinitionList = /*@__PURE__*/ S.Array(
-  RepositorySyncDefinition,
-);
 export interface ListRepositorySyncDefinitionsOutput {
   RepositorySyncDefinitions: RepositorySyncDefinition[];
   NextToken?: string;
 }
-export const ListRepositorySyncDefinitionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RepositorySyncDefinitions: RepositorySyncDefinitionList,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRepositorySyncDefinitionsOutput",
-}) as any as S.Schema<ListRepositorySyncDefinitionsOutput>;
 export interface ListSyncConfigurationsInput {
   MaxResults?: number;
   NextToken?: string;
   RepositoryLinkId: string;
   SyncType: SyncConfigurationType;
 }
-export const ListSyncConfigurationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    RepositoryLinkId: S.String,
-    SyncType: SyncConfigurationType,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListSyncConfigurationsInput",
-}) as any as S.Schema<ListSyncConfigurationsInput>;
 export type SyncConfigurationList = SyncConfiguration[];
-export const SyncConfigurationList = /*@__PURE__*/ S.Array(SyncConfiguration);
 export interface ListSyncConfigurationsOutput {
   SyncConfigurations: SyncConfiguration[];
   NextToken?: string;
 }
-export const ListSyncConfigurationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SyncConfigurations: SyncConfigurationList,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSyncConfigurationsOutput",
-}) as any as S.Schema<ListSyncConfigurationsOutput>;
 export type AmazonResourceName = string;
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
-export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   Tags?: Tag[];
 }
-export const ListTagsForResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }),
-).annotate({
-  identifier: "ListTagsForResourceOutput",
-}) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   ResourceArn: string;
   Tags: Tag[];
 }
-export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceOutput",
-}) as any as S.Schema<TagResourceOutput>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceInput {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceOutput",
-}) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateHostInput {
   HostArn: string;
   ProviderEndpoint?: string;
   VpcConfiguration?: VpcConfiguration;
 }
-export const UpdateHostInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HostArn: S.String,
-    ProviderEndpoint: S.optional(S.String),
-    VpcConfiguration: S.optional(VpcConfiguration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateHostInput",
-}) as any as S.Schema<UpdateHostInput>;
 export interface UpdateHostOutput {}
-export const UpdateHostOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateHostOutput",
-}) as any as S.Schema<UpdateHostOutput>;
 export interface UpdateRepositoryLinkInput {
   ConnectionArn?: string;
   EncryptionKeyArn?: string;
   RepositoryLinkId: string;
 }
-export const UpdateRepositoryLinkInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionArn: S.optional(S.String),
-    EncryptionKeyArn: S.optional(S.String),
-    RepositoryLinkId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateRepositoryLinkInput",
-}) as any as S.Schema<UpdateRepositoryLinkInput>;
 export interface UpdateRepositoryLinkOutput {
   RepositoryLinkInfo: RepositoryLinkInfo;
 }
-export const UpdateRepositoryLinkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RepositoryLinkInfo: RepositoryLinkInfo }),
-).annotate({
-  identifier: "UpdateRepositoryLinkOutput",
-}) as any as S.Schema<UpdateRepositoryLinkOutput>;
 export interface UpdateSyncBlockerInput {
   Id: string;
   SyncType: SyncConfigurationType;
   ResourceName: string;
   ResolvedReason: string;
 }
-export const UpdateSyncBlockerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    SyncType: SyncConfigurationType,
-    ResourceName: S.String,
-    ResolvedReason: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateSyncBlockerInput",
-}) as any as S.Schema<UpdateSyncBlockerInput>;
 export interface UpdateSyncBlockerOutput {
   ResourceName: string;
   ParentResourceName?: string;
   SyncBlocker: SyncBlocker;
 }
-export const UpdateSyncBlockerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceName: S.String,
-    ParentResourceName: S.optional(S.String),
-    SyncBlocker: SyncBlocker,
-  }),
-).annotate({
-  identifier: "UpdateSyncBlockerOutput",
-}) as any as S.Schema<UpdateSyncBlockerOutput>;
 export interface UpdateSyncConfigurationInput {
   Branch?: string;
   ConfigFile?: string;
@@ -1165,30 +583,9 @@ export interface UpdateSyncConfigurationInput {
   PublishDeploymentStatus?: PublishDeploymentStatus;
   TriggerResourceUpdateOn?: TriggerResourceUpdateOn;
 }
-export const UpdateSyncConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Branch: S.optional(S.String),
-    ConfigFile: S.optional(S.String),
-    RepositoryLinkId: S.optional(S.String),
-    ResourceName: S.String,
-    RoleArn: S.optional(S.String),
-    SyncType: SyncConfigurationType,
-    PublishDeploymentStatus: S.optional(PublishDeploymentStatus),
-    TriggerResourceUpdateOn: S.optional(TriggerResourceUpdateOn),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateSyncConfigurationInput",
-}) as any as S.Schema<UpdateSyncConfigurationInput>;
 export interface UpdateSyncConfigurationOutput {
   SyncConfiguration: SyncConfiguration;
 }
-export const UpdateSyncConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SyncConfiguration: SyncConfiguration }),
-).annotate({
-  identifier: "UpdateSyncConfigurationOutput",
-}) as any as S.Schema<UpdateSyncConfigurationOutput>;
 export type ErrorMessage = string;
 export type CreateConnectionError =
   | LimitExceededException
@@ -1206,8 +603,15 @@ export const createConnection: API.OperationMethod<
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateConnectionInput,
-  output: CreateConnectionOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      ProviderType: 0,
+      ConnectionName: 0,
+      Tags: D.list(i_Tag),
+      HostArn: 0,
+    },
+  },
   errors: [
     LimitExceededException,
     ResourceNotFoundException,
@@ -1216,7 +620,7 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
-}));
+})) as any;
 
 export type CreateHostError = LimitExceededException | CommonErrors;
 /**
@@ -1234,13 +638,21 @@ export const createHost: API.OperationMethod<
   CreateHostError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateHostInput,
-  output: CreateHostOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      Name: 0,
+      ProviderType: 0,
+      ProviderEndpoint: 0,
+      VpcConfiguration: i_VpcConfiguration,
+      Tags: D.list(i_Tag),
+    },
+  },
   errors: [LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHost",
-}));
+})) as any;
 
 export type CreateRepositoryLinkError =
   | AccessDeniedException
@@ -1260,8 +672,16 @@ export const createRepositoryLink: API.OperationMethod<
   CreateRepositoryLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRepositoryLinkInput,
-  output: CreateRepositoryLinkOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      ConnectionArn: 0,
+      OwnerId: 0,
+      RepositoryName: 0,
+      EncryptionKeyArn: 0,
+      Tags: D.list(i_Tag),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -1274,7 +694,7 @@ export const createRepositoryLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepositoryLink",
-}));
+})) as any;
 
 export type CreateSyncConfigurationError =
   | AccessDeniedException
@@ -1296,8 +716,19 @@ export const createSyncConfiguration: API.OperationMethod<
   CreateSyncConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSyncConfigurationInput,
-  output: CreateSyncConfigurationOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      Branch: 0,
+      ConfigFile: 0,
+      RepositoryLinkId: 0,
+      ResourceName: 0,
+      RoleArn: 0,
+      SyncType: 0,
+      PublishDeploymentStatus: 0,
+      TriggerResourceUpdateOn: 0,
+    },
+  },
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -1310,7 +741,7 @@ export const createSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSyncConfiguration",
-}));
+})) as any;
 
 export type DeleteConnectionError = ResourceNotFoundException | CommonErrors;
 /**
@@ -1322,13 +753,12 @@ export const deleteConnection: API.OperationMethod<
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteConnectionInput,
-  output: DeleteConnectionOutput,
+  descriptor: { service: svc, input: { ConnectionArn: 0 } },
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
-}));
+})) as any;
 
 export type DeleteHostError =
   | ResourceNotFoundException
@@ -1345,13 +775,12 @@ export const deleteHost: API.OperationMethod<
   DeleteHostError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteHostInput,
-  output: DeleteHostOutput,
+  descriptor: { service: svc, input: { HostArn: 0 } },
   errors: [ResourceNotFoundException, ResourceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHost",
-}));
+})) as any;
 
 export type DeleteRepositoryLinkError =
   | AccessDeniedException
@@ -1372,8 +801,7 @@ export const deleteRepositoryLink: API.OperationMethod<
   DeleteRepositoryLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRepositoryLinkInput,
-  output: DeleteRepositoryLinkOutput,
+  descriptor: { service: svc, input: { RepositoryLinkId: 0 } },
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -1387,7 +815,7 @@ export const deleteRepositoryLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepositoryLink",
-}));
+})) as any;
 
 export type DeleteSyncConfigurationError =
   | AccessDeniedException
@@ -1406,8 +834,7 @@ export const deleteSyncConfiguration: API.OperationMethod<
   DeleteSyncConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSyncConfigurationInput,
-  output: DeleteSyncConfigurationOutput,
+  descriptor: { service: svc, input: { SyncType: 0, ResourceName: 0 } },
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -1419,7 +846,7 @@ export const deleteSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSyncConfiguration",
-}));
+})) as any;
 
 export type GetConnectionError =
   | ResourceNotFoundException
@@ -1434,13 +861,12 @@ export const getConnection: API.OperationMethod<
   GetConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetConnectionInput,
-  output: GetConnectionOutput,
+  descriptor: { service: svc, input: { ConnectionArn: 0 } },
   errors: [ResourceNotFoundException, ResourceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
-}));
+})) as any;
 
 export type GetHostError =
   | ResourceNotFoundException
@@ -1456,13 +882,12 @@ export const getHost: API.OperationMethod<
   GetHostError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetHostInput,
-  output: GetHostOutput,
+  descriptor: { service: svc, input: { HostArn: 0 } },
   errors: [ResourceNotFoundException, ResourceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHost",
-}));
+})) as any;
 
 export type GetRepositoryLinkError =
   | AccessDeniedException
@@ -1482,8 +907,7 @@ export const getRepositoryLink: API.OperationMethod<
   GetRepositoryLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRepositoryLinkInput,
-  output: GetRepositoryLinkOutput,
+  descriptor: { service: svc, input: { RepositoryLinkId: 0 } },
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -1495,7 +919,7 @@ export const getRepositoryLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryLink",
-}));
+})) as any;
 
 export type GetRepositorySyncStatusError =
   | AccessDeniedException
@@ -1514,8 +938,11 @@ export const getRepositorySyncStatus: API.OperationMethod<
   GetRepositorySyncStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRepositorySyncStatusInput,
-  output: GetRepositorySyncStatusOutput,
+  descriptor: {
+    service: svc,
+    input: { Branch: 0, RepositoryLinkId: 0, SyncType: 0 },
+    output: { LatestSync: { StartedAt: D.ts, Events: D.list({ Time: D.ts }) } },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1526,7 +953,7 @@ export const getRepositorySyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositorySyncStatus",
-}));
+})) as any;
 
 export type GetResourceSyncStatusError =
   | AccessDeniedException
@@ -1545,8 +972,14 @@ export const getResourceSyncStatus: API.OperationMethod<
   GetResourceSyncStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResourceSyncStatusInput,
-  output: GetResourceSyncStatusOutput,
+  descriptor: {
+    service: svc,
+    input: { ResourceName: 0, SyncType: 0 },
+    output: {
+      LatestSuccessfulSync: o_ResourceSyncAttempt,
+      LatestSync: o_ResourceSyncAttempt,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1557,7 +990,7 @@ export const getResourceSyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSyncStatus",
-}));
+})) as any;
 
 export type GetSyncBlockerSummaryError =
   | AccessDeniedException
@@ -1575,8 +1008,11 @@ export const getSyncBlockerSummary: API.OperationMethod<
   GetSyncBlockerSummaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSyncBlockerSummaryInput,
-  output: GetSyncBlockerSummaryOutput,
+  descriptor: {
+    service: svc,
+    input: { SyncType: 0, ResourceName: 0 },
+    output: { SyncBlockerSummary: { LatestBlockers: D.list(o_SyncBlocker) } },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1587,7 +1023,7 @@ export const getSyncBlockerSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSyncBlockerSummary",
-}));
+})) as any;
 
 export type GetSyncConfigurationError =
   | AccessDeniedException
@@ -1605,8 +1041,7 @@ export const getSyncConfiguration: API.OperationMethod<
   GetSyncConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSyncConfigurationInput,
-  output: GetSyncConfigurationOutput,
+  descriptor: { service: svc, input: { SyncType: 0, ResourceName: 0 } },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1617,7 +1052,7 @@ export const getSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSyncConfiguration",
-}));
+})) as any;
 
 export type ListConnectionsError = ResourceNotFoundException | CommonErrors;
 /**
@@ -1630,8 +1065,15 @@ export const listConnections: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListConnectionsInput,
-  output: ListConnectionsOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      ProviderTypeFilter: 0,
+      HostArnFilter: 0,
+      MaxResults: 0,
+      NextToken: 0,
+    },
+  },
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1654,8 +1096,7 @@ export const listHosts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListHostsInput,
-  output: ListHostsOutput,
+  descriptor: { service: svc, input: { MaxResults: 0, NextToken: 0 } },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1685,8 +1126,7 @@ export const listRepositoryLinks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRepositoryLinksInput,
-  output: ListRepositoryLinksOutput,
+  descriptor: { service: svc, input: { MaxResults: 0, NextToken: 0 } },
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -1721,8 +1161,7 @@ export const listRepositorySyncDefinitions: API.OperationMethod<
   ListRepositorySyncDefinitionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListRepositorySyncDefinitionsInput,
-  output: ListRepositorySyncDefinitionsOutput,
+  descriptor: { service: svc, input: { RepositoryLinkId: 0, SyncType: 0 } },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1733,7 +1172,7 @@ export const listRepositorySyncDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRepositorySyncDefinitions",
-}));
+})) as any;
 
 export type ListSyncConfigurationsError =
   | AccessDeniedException
@@ -1752,8 +1191,10 @@ export const listSyncConfigurations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSyncConfigurationsInput,
-  output: ListSyncConfigurationsOutput,
+  descriptor: {
+    service: svc,
+    input: { MaxResults: 0, NextToken: 0, RepositoryLinkId: 0, SyncType: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1781,13 +1222,12 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
+  descriptor: { service: svc, input: { ResourceArn: 0 } },
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type TagResourceError =
   | LimitExceededException
@@ -1803,13 +1243,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
+  descriptor: { service: svc, input: { ResourceArn: 0, Tags: D.list(i_Tag) } },
   errors: [LimitExceededException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
 /**
@@ -1821,13 +1260,12 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
+  descriptor: { service: svc, input: { ResourceArn: 0, TagKeys: 0 } },
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateHostError =
   | ConflictException
@@ -1844,8 +1282,14 @@ export const updateHost: API.OperationMethod<
   UpdateHostError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateHostInput,
-  output: UpdateHostOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      HostArn: 0,
+      ProviderEndpoint: 0,
+      VpcConfiguration: i_VpcConfiguration,
+    },
+  },
   errors: [
     ConflictException,
     ResourceNotFoundException,
@@ -1855,7 +1299,7 @@ export const updateHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHost",
-}));
+})) as any;
 
 export type UpdateRepositoryLinkError =
   | AccessDeniedException
@@ -1877,8 +1321,10 @@ export const updateRepositoryLink: API.OperationMethod<
   UpdateRepositoryLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRepositoryLinkInput,
-  output: UpdateRepositoryLinkOutput,
+  descriptor: {
+    service: svc,
+    input: { ConnectionArn: 0, EncryptionKeyArn: 0, RepositoryLinkId: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConditionalCheckFailedException,
@@ -1891,7 +1337,7 @@ export const updateRepositoryLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepositoryLink",
-}));
+})) as any;
 
 export type UpdateSyncBlockerError =
   | AccessDeniedException
@@ -1911,8 +1357,11 @@ export const updateSyncBlocker: API.OperationMethod<
   UpdateSyncBlockerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSyncBlockerInput,
-  output: UpdateSyncBlockerOutput,
+  descriptor: {
+    service: svc,
+    input: { Id: 0, SyncType: 0, ResourceName: 0, ResolvedReason: 0 },
+    output: { SyncBlocker: o_SyncBlocker },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1925,7 +1374,7 @@ export const updateSyncBlocker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSyncBlocker",
-}));
+})) as any;
 
 export type UpdateSyncConfigurationError =
   | AccessDeniedException
@@ -1945,8 +1394,19 @@ export const updateSyncConfiguration: API.OperationMethod<
   UpdateSyncConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSyncConfigurationInput,
-  output: UpdateSyncConfigurationOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      Branch: 0,
+      ConfigFile: 0,
+      RepositoryLinkId: 0,
+      ResourceName: 0,
+      RoleArn: 0,
+      SyncType: 0,
+      PublishDeploymentStatus: 0,
+      TriggerResourceUpdateOn: 0,
+    },
+  },
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -1959,4 +1419,20 @@ export const updateSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSyncConfiguration",
-}));
+})) as any;
+
+const i_Tag: D.LazyStruct = () => ({ Key: 0, Value: 0 });
+const i_VpcConfiguration: D.LazyStruct = () => ({
+  VpcId: 0,
+  SubnetIds: 0,
+  SecurityGroupIds: 0,
+  TlsCertificate: 0,
+});
+const o_ResourceSyncAttempt: D.LazyStruct = () => ({
+  Events: D.list({ Time: D.ts }),
+  StartedAt: D.ts,
+});
+const o_SyncBlocker: D.LazyStruct = () => ({
+  CreatedAt: D.ts,
+  ResolvedAt: D.ts,
+});

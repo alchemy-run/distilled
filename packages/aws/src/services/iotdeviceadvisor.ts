@@ -1,112 +1,113 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "IotDeviceAdvisor",
-  serviceShapeName: "IotSenateService",
-});
-const auth = T.AwsAuthSigv4({ name: "iotdeviceadvisor" });
-const ver = T.ServiceVersion("2020-09-18");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://api.iotdeviceadvisor-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://api.iotdeviceadvisor-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://api.iotdeviceadvisor.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://api.iotdeviceadvisor.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "IotSenateService",
+  version: "2020-09-18",
+  sigv4: "iotdeviceadvisor",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://api.iotdeviceadvisor-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://api.iotdeviceadvisor-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://api.iotdeviceadvisor.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://api.iotdeviceadvisor.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export type SuiteDefinitionName = string;
 export type AmazonResourceName = string;
 export interface DeviceUnderTest {
@@ -114,17 +115,7 @@ export interface DeviceUnderTest {
   certificateArn?: string;
   deviceRoleArn?: string;
 }
-export const DeviceUnderTest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    thingArn: S.optional(S.String),
-    certificateArn: S.optional(S.String),
-    deviceRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeviceUnderTest",
-}) as any as S.Schema<DeviceUnderTest>;
 export type DeviceUnderTestList = DeviceUnderTest[];
-export const DeviceUnderTestList = /*@__PURE__*/ S.Array(DeviceUnderTest);
 export type IntendedForQualificationBoolean = boolean;
 export type IsLongDurationTestBoolean = boolean;
 export type RootGroup = string;
@@ -134,8 +125,6 @@ export type Protocol =
   | "MqttV3_1_1_OverWebSocket"
   | "MqttV5_OverWebSocket"
   | (string & {});
-export const Protocol = S.String;
-
 export interface SuiteDefinitionConfiguration {
   suiteDefinitionName?: string;
   devices?: DeviceUnderTest[];
@@ -145,50 +134,15 @@ export interface SuiteDefinitionConfiguration {
   devicePermissionRoleArn?: string;
   protocol?: Protocol;
 }
-export const SuiteDefinitionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionName: S.optional(S.String),
-    devices: S.optional(DeviceUnderTestList),
-    intendedForQualification: S.optional(S.Boolean),
-    isLongDurationTest: S.optional(S.Boolean),
-    rootGroup: S.optional(S.String),
-    devicePermissionRoleArn: S.optional(S.String),
-    protocol: S.optional(Protocol),
-  }),
-).annotate({
-  identifier: "SuiteDefinitionConfiguration",
-}) as any as S.Schema<SuiteDefinitionConfiguration>;
 export type String128 = string;
 export type String256 = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type ClientToken = string;
 export interface CreateSuiteDefinitionRequest {
   suiteDefinitionConfiguration?: SuiteDefinitionConfiguration;
   tags?: { [key: string]: string | undefined };
   clientToken?: string;
 }
-export const CreateSuiteDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionConfiguration: S.optional(SuiteDefinitionConfiguration),
-    tags: S.optional(TagMap),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/suiteDefinitions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateSuiteDefinitionRequest",
-}) as any as S.Schema<CreateSuiteDefinitionRequest>;
 export type UUID = string;
 export interface CreateSuiteDefinitionResponse {
   suiteDefinitionId?: string;
@@ -196,110 +150,29 @@ export interface CreateSuiteDefinitionResponse {
   suiteDefinitionName?: string;
   createdAt?: Date;
 }
-export const CreateSuiteDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionId: S.optional(S.String),
-    suiteDefinitionArn: S.optional(S.String),
-    suiteDefinitionName: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "CreateSuiteDefinitionResponse",
-}) as any as S.Schema<CreateSuiteDefinitionResponse>;
 export interface DeleteSuiteDefinitionRequest {
   suiteDefinitionId: string;
 }
-export const DeleteSuiteDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionId: S.String.pipe(T.HttpLabel("suiteDefinitionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/suiteDefinitions/{suiteDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteSuiteDefinitionRequest",
-}) as any as S.Schema<DeleteSuiteDefinitionRequest>;
 export interface DeleteSuiteDefinitionResponse {}
-export const DeleteSuiteDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteSuiteDefinitionResponse",
-}) as any as S.Schema<DeleteSuiteDefinitionResponse>;
 export type AuthenticationMethod =
   | "X509ClientCertificate"
   | "SignatureVersion4"
   | (string & {});
-export const AuthenticationMethod = S.String;
-
 export interface GetEndpointRequest {
   thingArn?: string;
   certificateArn?: string;
   deviceRoleArn?: string;
   authenticationMethod?: AuthenticationMethod;
 }
-export const GetEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    thingArn: S.optional(S.String).pipe(T.HttpQuery("thingArn")),
-    certificateArn: S.optional(S.String).pipe(T.HttpQuery("certificateArn")),
-    deviceRoleArn: S.optional(S.String).pipe(T.HttpQuery("deviceRoleArn")),
-    authenticationMethod: S.optional(AuthenticationMethod).pipe(
-      T.HttpQuery("authenticationMethod"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/endpoint" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEndpointRequest",
-}) as any as S.Schema<GetEndpointRequest>;
 export type Endpoint = string;
 export interface GetEndpointResponse {
   endpoint?: string;
 }
-export const GetEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ endpoint: S.optional(S.String) }),
-).annotate({
-  identifier: "GetEndpointResponse",
-}) as any as S.Schema<GetEndpointResponse>;
 export type SuiteDefinitionVersion = string;
 export interface GetSuiteDefinitionRequest {
   suiteDefinitionId: string;
   suiteDefinitionVersion?: string;
 }
-export const GetSuiteDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionId: S.String.pipe(T.HttpLabel("suiteDefinitionId")),
-    suiteDefinitionVersion: S.optional(S.String).pipe(
-      T.HttpQuery("suiteDefinitionVersion"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/suiteDefinitions/{suiteDefinitionId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSuiteDefinitionRequest",
-}) as any as S.Schema<GetSuiteDefinitionRequest>;
 export interface GetSuiteDefinitionResponse {
   suiteDefinitionId?: string;
   suiteDefinitionArn?: string;
@@ -314,61 +187,17 @@ export interface GetSuiteDefinitionResponse {
   lastModifiedAt?: Date;
   tags?: { [key: string]: string | undefined };
 }
-export const GetSuiteDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionId: S.optional(S.String),
-    suiteDefinitionArn: S.optional(S.String),
-    suiteDefinitionVersion: S.optional(S.String),
-    latestVersion: S.optional(S.String),
-    suiteDefinitionConfiguration: S.optional(SuiteDefinitionConfiguration),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    tags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "GetSuiteDefinitionResponse",
-}) as any as S.Schema<GetSuiteDefinitionResponse>;
 export interface GetSuiteRunRequest {
   suiteDefinitionId: string;
   suiteRunId: string;
 }
-export const GetSuiteRunRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionId: S.String.pipe(T.HttpLabel("suiteDefinitionId")),
-    suiteRunId: S.String.pipe(T.HttpLabel("suiteRunId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns/{suiteRunId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSuiteRunRequest",
-}) as any as S.Schema<GetSuiteRunRequest>;
 export type SelectedTestList = string[];
-export const SelectedTestList = /*@__PURE__*/ S.Array(S.String);
 export type ParallelRun = boolean;
 export interface SuiteRunConfiguration {
   primaryDevice?: DeviceUnderTest;
   selectedTestList?: string[];
   parallelRun?: boolean;
 }
-export const SuiteRunConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    primaryDevice: S.optional(DeviceUnderTest),
-    selectedTestList: S.optional(SelectedTestList),
-    parallelRun: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "SuiteRunConfiguration",
-}) as any as S.Schema<SuiteRunConfiguration>;
 export type GroupName = string;
 export type TestCaseDefinitionName = string;
 export type Status =
@@ -382,15 +211,11 @@ export type Status =
   | "PASS_WITH_WARNINGS"
   | "ERROR"
   | (string & {});
-export const Status = S.String;
-
 export type LogUrl = string;
 export type Warnings = string;
 export type Failure = string;
 export type TestCaseScenarioId = string;
 export type TestCaseScenarioType = "Advanced" | "Basic" | (string & {});
-export const TestCaseScenarioType = S.String;
-
 export type TestCaseScenarioStatus =
   | "PASS"
   | "FAIL"
@@ -402,8 +227,6 @@ export type TestCaseScenarioStatus =
   | "PASS_WITH_WARNINGS"
   | "ERROR"
   | (string & {});
-export const TestCaseScenarioStatus = S.String;
-
 export type SystemMessage = string;
 export interface TestCaseScenario {
   testCaseScenarioId?: string;
@@ -412,19 +235,7 @@ export interface TestCaseScenario {
   failure?: string;
   systemMessage?: string;
 }
-export const TestCaseScenario = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    testCaseScenarioId: S.optional(S.String),
-    testCaseScenarioType: S.optional(TestCaseScenarioType),
-    status: S.optional(TestCaseScenarioStatus),
-    failure: S.optional(S.String),
-    systemMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TestCaseScenario",
-}) as any as S.Schema<TestCaseScenario>;
 export type TestCaseScenariosList = TestCaseScenario[];
-export const TestCaseScenariosList = /*@__PURE__*/ S.Array(TestCaseScenario);
 export interface TestCaseRun {
   testCaseRunId?: string;
   testCaseDefinitionId?: string;
@@ -437,42 +248,16 @@ export interface TestCaseRun {
   failure?: string;
   testScenarios?: TestCaseScenario[];
 }
-export const TestCaseRun = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    testCaseRunId: S.optional(S.String),
-    testCaseDefinitionId: S.optional(S.String),
-    testCaseDefinitionName: S.optional(S.String),
-    status: S.optional(Status),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    logUrl: S.optional(S.String),
-    warnings: S.optional(S.String),
-    failure: S.optional(S.String),
-    testScenarios: S.optional(TestCaseScenariosList),
-  }),
-).annotate({ identifier: "TestCaseRun" }) as any as S.Schema<TestCaseRun>;
 export type TestCaseRuns = TestCaseRun[];
-export const TestCaseRuns = /*@__PURE__*/ S.Array(TestCaseRun);
 export interface GroupResult {
   groupId?: string;
   groupName?: string;
   tests?: TestCaseRun[];
 }
-export const GroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    groupId: S.optional(S.String),
-    groupName: S.optional(S.String),
-    tests: S.optional(TestCaseRuns),
-  }),
-).annotate({ identifier: "GroupResult" }) as any as S.Schema<GroupResult>;
 export type GroupResultList = GroupResult[];
-export const GroupResultList = /*@__PURE__*/ S.Array(GroupResult);
 export interface TestResult {
   groups?: GroupResult[];
 }
-export const TestResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ groups: S.optional(GroupResultList) }),
-).annotate({ identifier: "TestResult" }) as any as S.Schema<TestResult>;
 export type SuiteRunStatus =
   | "PASS"
   | "FAIL"
@@ -484,8 +269,6 @@ export type SuiteRunStatus =
   | "PASS_WITH_WARNINGS"
   | "ERROR"
   | (string & {});
-export const SuiteRunStatus = S.String;
-
 export type ErrorReason = string;
 export interface GetSuiteRunResponse {
   suiteDefinitionId?: string;
@@ -502,79 +285,20 @@ export interface GetSuiteRunResponse {
   errorReason?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const GetSuiteRunResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionId: S.optional(S.String),
-    suiteDefinitionVersion: S.optional(S.String),
-    suiteRunId: S.optional(S.String),
-    suiteRunArn: S.optional(S.String),
-    suiteRunConfiguration: S.optional(SuiteRunConfiguration),
-    testResult: S.optional(TestResult),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(SuiteRunStatus),
-    errorReason: S.optional(S.String),
-    tags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "GetSuiteRunResponse",
-}) as any as S.Schema<GetSuiteRunResponse>;
 export interface GetSuiteRunReportRequest {
   suiteDefinitionId: string;
   suiteRunId: string;
 }
-export const GetSuiteRunReportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionId: S.String.pipe(T.HttpLabel("suiteDefinitionId")),
-    suiteRunId: S.String.pipe(T.HttpLabel("suiteRunId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns/{suiteRunId}/report",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSuiteRunReportRequest",
-}) as any as S.Schema<GetSuiteRunReportRequest>;
 export type QualificationReportDownloadUrl = string;
 export interface GetSuiteRunReportResponse {
   qualificationReportDownloadUrl?: string;
 }
-export const GetSuiteRunReportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ qualificationReportDownloadUrl: S.optional(S.String) }),
-).annotate({
-  identifier: "GetSuiteRunReportResponse",
-}) as any as S.Schema<GetSuiteRunReportResponse>;
 export type MaxResults = number;
 export type Token = string;
 export interface ListSuiteDefinitionsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListSuiteDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/suiteDefinitions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSuiteDefinitionsRequest",
-}) as any as S.Schema<ListSuiteDefinitionsRequest>;
 export interface SuiteDefinitionInformation {
   suiteDefinitionId?: string;
   suiteDefinitionName?: string;
@@ -584,64 +308,17 @@ export interface SuiteDefinitionInformation {
   protocol?: Protocol;
   createdAt?: Date;
 }
-export const SuiteDefinitionInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionId: S.optional(S.String),
-    suiteDefinitionName: S.optional(S.String),
-    defaultDevices: S.optional(DeviceUnderTestList),
-    intendedForQualification: S.optional(S.Boolean),
-    isLongDurationTest: S.optional(S.Boolean),
-    protocol: S.optional(Protocol),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "SuiteDefinitionInformation",
-}) as any as S.Schema<SuiteDefinitionInformation>;
 export type SuiteDefinitionInformationList = SuiteDefinitionInformation[];
-export const SuiteDefinitionInformationList = /*@__PURE__*/ S.Array(
-  SuiteDefinitionInformation,
-);
 export interface ListSuiteDefinitionsResponse {
   suiteDefinitionInformationList?: SuiteDefinitionInformation[];
   nextToken?: string;
 }
-export const ListSuiteDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionInformationList: S.optional(SuiteDefinitionInformationList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSuiteDefinitionsResponse",
-}) as any as S.Schema<ListSuiteDefinitionsResponse>;
 export interface ListSuiteRunsRequest {
   suiteDefinitionId?: string;
   suiteDefinitionVersion?: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const ListSuiteRunsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionId: S.optional(S.String).pipe(
-      T.HttpQuery("suiteDefinitionId"),
-    ),
-    suiteDefinitionVersion: S.optional(S.String).pipe(
-      T.HttpQuery("suiteDefinitionVersion"),
-    ),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/suiteRuns" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSuiteRunsRequest",
-}) as any as S.Schema<ListSuiteRunsRequest>;
 export type SuiteRunResultCount = number;
 export interface SuiteRunInformation {
   suiteDefinitionId?: string;
@@ -655,212 +332,49 @@ export interface SuiteRunInformation {
   passed?: number;
   failed?: number;
 }
-export const SuiteRunInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionId: S.optional(S.String),
-    suiteDefinitionVersion: S.optional(S.String),
-    suiteDefinitionName: S.optional(S.String),
-    suiteRunId: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    endAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(SuiteRunStatus),
-    passed: S.optional(S.Number),
-    failed: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SuiteRunInformation",
-}) as any as S.Schema<SuiteRunInformation>;
 export type SuiteRunsList = SuiteRunInformation[];
-export const SuiteRunsList = /*@__PURE__*/ S.Array(SuiteRunInformation);
 export interface ListSuiteRunsResponse {
   suiteRunsList?: SuiteRunInformation[];
   nextToken?: string;
 }
-export const ListSuiteRunsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteRunsList: S.optional(SuiteRunsList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSuiteRunsResponse",
-}) as any as S.Schema<ListSuiteRunsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(TagMap) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface StartSuiteRunRequest {
   suiteDefinitionId: string;
   suiteDefinitionVersion?: string;
   suiteRunConfiguration?: SuiteRunConfiguration;
   tags?: { [key: string]: string | undefined };
 }
-export const StartSuiteRunRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionId: S.String.pipe(T.HttpLabel("suiteDefinitionId")),
-    suiteDefinitionVersion: S.optional(S.String),
-    suiteRunConfiguration: S.optional(SuiteRunConfiguration),
-    tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartSuiteRunRequest",
-}) as any as S.Schema<StartSuiteRunRequest>;
 export interface StartSuiteRunResponse {
   suiteRunId?: string;
   suiteRunArn?: string;
   createdAt?: Date;
   endpoint?: string;
 }
-export const StartSuiteRunResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteRunId: S.optional(S.String),
-    suiteRunArn: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    endpoint: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "StartSuiteRunResponse",
-}) as any as S.Schema<StartSuiteRunResponse>;
 export interface StopSuiteRunRequest {
   suiteDefinitionId: string;
   suiteRunId: string;
 }
-export const StopSuiteRunRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionId: S.String.pipe(T.HttpLabel("suiteDefinitionId")),
-    suiteRunId: S.String.pipe(T.HttpLabel("suiteRunId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns/{suiteRunId}/stop",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopSuiteRunRequest",
-}) as any as S.Schema<StopSuiteRunRequest>;
 export interface StopSuiteRunResponse {}
-export const StopSuiteRunResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "StopSuiteRunResponse",
-}) as any as S.Schema<StopSuiteRunResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags?: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys?: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: S.optional(TagKeyList).pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateSuiteDefinitionRequest {
   suiteDefinitionId: string;
   suiteDefinitionConfiguration?: SuiteDefinitionConfiguration;
 }
-export const UpdateSuiteDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionId: S.String.pipe(T.HttpLabel("suiteDefinitionId")),
-    suiteDefinitionConfiguration: S.optional(SuiteDefinitionConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/suiteDefinitions/{suiteDefinitionId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateSuiteDefinitionRequest",
-}) as any as S.Schema<UpdateSuiteDefinitionRequest>;
 export interface UpdateSuiteDefinitionResponse {
   suiteDefinitionId?: string;
   suiteDefinitionArn?: string;
@@ -869,18 +383,6 @@ export interface UpdateSuiteDefinitionResponse {
   createdAt?: Date;
   lastUpdatedAt?: Date;
 }
-export const UpdateSuiteDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionId: S.optional(S.String),
-    suiteDefinitionArn: S.optional(S.String),
-    suiteDefinitionName: S.optional(S.String),
-    suiteDefinitionVersion: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "UpdateSuiteDefinitionResponse",
-}) as any as S.Schema<UpdateSuiteDefinitionResponse>;
 export type Message = string;
 export type CreateSuiteDefinitionError =
   | InternalServerException
@@ -897,13 +399,22 @@ export const createSuiteDefinition: API.OperationMethod<
   CreateSuiteDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSuiteDefinitionRequest,
-  output: CreateSuiteDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /suiteDefinitions",
+    input: {
+      suiteDefinitionConfiguration: i_SuiteDefinitionConfiguration,
+      tags: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    output: { createdAt: D.ts },
+    body: true,
+  },
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSuiteDefinition",
-}));
+})) as any;
 
 export type DeleteSuiteDefinitionError =
   | InternalServerException
@@ -920,13 +431,16 @@ export const deleteSuiteDefinition: API.OperationMethod<
   DeleteSuiteDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSuiteDefinitionRequest,
-  output: DeleteSuiteDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /suiteDefinitions/{suiteDefinitionId}",
+    input: { suiteDefinitionId: 0 },
+  },
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSuiteDefinition",
-}));
+})) as any;
 
 export type GetEndpointError =
   | InternalServerException
@@ -942,8 +456,16 @@ export const getEndpoint: API.OperationMethod<
   GetEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEndpointRequest,
-  output: GetEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /endpoint",
+    input: {
+      thingArn: D.m({ query: "thingArn" }),
+      certificateArn: D.m({ query: "certificateArn" }),
+      deviceRoleArn: D.m({ query: "deviceRoleArn" }),
+      authenticationMethod: D.m({ query: "authenticationMethod" }),
+    },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -952,7 +474,7 @@ export const getEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEndpoint",
-}));
+})) as any;
 
 export type GetSuiteDefinitionError =
   | InternalServerException
@@ -970,8 +492,15 @@ export const getSuiteDefinition: API.OperationMethod<
   GetSuiteDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSuiteDefinitionRequest,
-  output: GetSuiteDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /suiteDefinitions/{suiteDefinitionId}",
+    input: {
+      suiteDefinitionId: 0,
+      suiteDefinitionVersion: D.m({ query: "suiteDefinitionVersion" }),
+    },
+    output: { createdAt: D.ts, lastModifiedAt: D.ts },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -980,7 +509,7 @@ export const getSuiteDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuiteDefinition",
-}));
+})) as any;
 
 export type GetSuiteRunError =
   | InternalServerException
@@ -998,8 +527,18 @@ export const getSuiteRun: API.OperationMethod<
   GetSuiteRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSuiteRunRequest,
-  output: GetSuiteRunResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /suiteDefinitions/{suiteDefinitionId}/suiteRuns/{suiteRunId}",
+    input: { suiteDefinitionId: 0, suiteRunId: 0 },
+    output: {
+      testResult: {
+        groups: D.list({ tests: D.list({ startTime: D.ts, endTime: D.ts }) }),
+      },
+      startTime: D.ts,
+      endTime: D.ts,
+    },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1008,7 +547,7 @@ export const getSuiteRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuiteRun",
-}));
+})) as any;
 
 export type GetSuiteRunReportError =
   | InternalServerException
@@ -1026,8 +565,11 @@ export const getSuiteRunReport: API.OperationMethod<
   GetSuiteRunReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSuiteRunReportRequest,
-  output: GetSuiteRunReportResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /suiteDefinitions/{suiteDefinitionId}/suiteRuns/{suiteRunId}/report",
+    input: { suiteDefinitionId: 0, suiteRunId: 0 },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1036,7 +578,7 @@ export const getSuiteRunReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuiteRunReport",
-}));
+})) as any;
 
 export type ListSuiteDefinitionsError =
   | InternalServerException
@@ -1054,8 +596,15 @@ export const listSuiteDefinitions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSuiteDefinitionsRequest,
-  output: ListSuiteDefinitionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /suiteDefinitions",
+    input: {
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: { suiteDefinitionInformationList: D.list({ createdAt: D.ts }) },
+  },
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1084,8 +633,19 @@ export const listSuiteRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSuiteRunsRequest,
-  output: ListSuiteRunsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /suiteRuns",
+    input: {
+      suiteDefinitionId: D.m({ query: "suiteDefinitionId" }),
+      suiteDefinitionVersion: D.m({ query: "suiteDefinitionVersion" }),
+      maxResults: D.m({ query: "maxResults" }),
+      nextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      suiteRunsList: D.list({ createdAt: D.ts, startedAt: D.ts, endAt: D.ts }),
+    },
+  },
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1113,8 +673,11 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{resourceArn}",
+    input: { resourceArn: 0 },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1123,7 +686,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type StartSuiteRunError =
   | ConflictException
@@ -1141,13 +704,27 @@ export const startSuiteRun: API.OperationMethod<
   StartSuiteRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartSuiteRunRequest,
-  output: StartSuiteRunResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /suiteDefinitions/{suiteDefinitionId}/suiteRuns",
+    input: {
+      suiteDefinitionId: 0,
+      suiteDefinitionVersion: 0,
+      suiteRunConfiguration: {
+        primaryDevice: i_DeviceUnderTest,
+        selectedTestList: 0,
+        parallelRun: 0,
+      },
+      tags: 0,
+    },
+    output: { createdAt: D.ts },
+    body: true,
+  },
   errors: [ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSuiteRun",
-}));
+})) as any;
 
 export type StopSuiteRunError =
   | InternalServerException
@@ -1165,8 +742,11 @@ export const stopSuiteRun: API.OperationMethod<
   StopSuiteRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopSuiteRunRequest,
-  output: StopSuiteRunResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /suiteDefinitions/{suiteDefinitionId}/suiteRuns/{suiteRunId}/stop",
+    input: { suiteDefinitionId: 0, suiteRunId: 0 },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1175,7 +755,7 @@ export const stopSuiteRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSuiteRun",
-}));
+})) as any;
 
 export type TagResourceError =
   | InternalServerException
@@ -1193,8 +773,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{resourceArn}",
+    input: { resourceArn: 0, tags: 0 },
+    body: true,
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1203,7 +787,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | InternalServerException
@@ -1221,8 +805,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{resourceArn}",
+    input: { resourceArn: 0, tagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1231,7 +818,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateSuiteDefinitionError =
   | InternalServerException
@@ -1248,10 +835,33 @@ export const updateSuiteDefinition: API.OperationMethod<
   UpdateSuiteDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSuiteDefinitionRequest,
-  output: UpdateSuiteDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /suiteDefinitions/{suiteDefinitionId}",
+    input: {
+      suiteDefinitionId: 0,
+      suiteDefinitionConfiguration: i_SuiteDefinitionConfiguration,
+    },
+    output: { createdAt: D.ts, lastUpdatedAt: D.ts },
+    body: true,
+  },
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSuiteDefinition",
-}));
+})) as any;
+
+const i_DeviceUnderTest: D.LazyStruct = () => ({
+  thingArn: 0,
+  certificateArn: 0,
+  deviceRoleArn: 0,
+});
+const i_SuiteDefinitionConfiguration: D.LazyStruct = () => ({
+  suiteDefinitionName: 0,
+  devices: D.list(i_DeviceUnderTest),
+  intendedForQualification: 0,
+  isLongDurationTest: 0,
+  rootGroup: 0,
+  devicePermissionRoleArn: 0,
+  protocol: 0,
+});

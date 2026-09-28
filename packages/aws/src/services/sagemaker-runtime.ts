@@ -1,156 +1,139 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as stream from "effect/Stream";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
+import type * as stream from "effect/Stream";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "SageMaker Runtime",
-  serviceShapeName: "AmazonSageMakerRuntime",
-});
-const auth = T.AwsAuthSigv4({ name: "sagemaker" });
-const ver = T.ServiceVersion("2017-05-13");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            if (_.getAttr(PartitionResult, "name") === "aws") {
-              return e(
-                `https://runtime-fips.sagemaker.${Region}.amazonaws.com`,
-              );
-            }
-            if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
-              return e(`https://runtime.sagemaker.${Region}.amazonaws.com`);
-            }
-            return e(
-              `https://runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AmazonSageMakerRuntime",
+  version: "2017-05-13",
+  sigv4: "sagemaker",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              if (_.getAttr(PartitionResult, "name") === "aws") {
+                return e(
+                  `https://runtime-fips.sagemaker.${Region}.amazonaws.com`,
+                );
+              }
+              if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
+                return e(`https://runtime.sagemaker.${Region}.amazonaws.com`);
+              }
+              return e(
+                `https://runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class InternalDependencyException
-  extends /*@__PURE__*/ S.TaggedError<InternalDependencyException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalDependencyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(530),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 530 },
+  )<{ readonly message?: string }> {}
 export class InternalFailure
-  extends /*@__PURE__*/ S.TaggedError<InternalFailure>()(
-    "InternalFailure",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InternalFailure", ["ServerError"], {
+    status: 500,
+  })<{ readonly message?: string }> {}
 export class InternalStreamFailure
-  extends /*@__PURE__*/ S.TaggedError<InternalStreamFailure>()(
-    "InternalStreamFailure",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InternalStreamFailure")<{
+    readonly message?: string;
+  }> {}
 export class ModelError
-  extends /*@__PURE__*/ S.TaggedError<ModelError>()(
-    "ModelError",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      OriginalStatusCode: S.optional(S.Number),
-      OriginalMessage: S.optional(S.String),
-      LogStreamArn: S.optional(S.String),
-    },
-    T.HttpError(424),
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("ModelError", [], { status: 424 })<{
+    readonly message?: string;
+    readonly OriginalStatusCode?: number;
+    readonly OriginalMessage?: string;
+    readonly LogStreamArn?: string;
+  }> {}
 export class ModelNotReadyException
-  extends /*@__PURE__*/ S.TaggedError<ModelNotReadyException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ModelNotReadyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ModelNotReadyException",
-        httpResponseCode: 429,
-      }),
-      T.HttpError(429),
-    ),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message?: string }> {}
 export class ModelStreamError
-  extends /*@__PURE__*/ S.TaggedError<ModelStreamError>()("ModelStreamError", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-    ErrorCode: S.optional(S.String),
-  }) {}
+  extends /*@__PURE__*/ TE.TaggedError("ModelStreamError")<{
+    readonly message?: string;
+    readonly ErrorCode?: string;
+  }> {}
 export class ServiceUnavailable
-  extends /*@__PURE__*/ S.TaggedError<ServiceUnavailable>()(
-    "ServiceUnavailable",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ServiceUnavailable", ["ServerError"], {
+    status: 503,
+  })<{ readonly message?: string }> {}
 export class ValidationError
-  extends /*@__PURE__*/ S.TaggedError<ValidationError>()(
-    "ValidationError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ValidationError", ["BadRequestError"], {
+    status: 400,
+  })<{ readonly message?: string }> {}
 export type EndpointName = string;
 export type Header = string;
 export type CustomAttributesHeader = string | redacted.Redacted<string>;
@@ -177,52 +160,6 @@ export interface InvokeEndpointInput {
   SessionId?: string;
   PrefixAwareId?: string;
 }
-export const InvokeEndpointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndpointName: S.String.pipe(T.HttpLabel("EndpointName")),
-    Body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    Accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
-    CustomAttributes: S.optional(SensitiveString).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
-    ),
-    TargetModel: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Target-Model"),
-    ),
-    TargetVariant: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Target-Variant"),
-    ),
-    TargetContainerHostname: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Target-Container-Hostname"),
-    ),
-    InferenceId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Inference-Id"),
-    ),
-    EnableExplanations: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Enable-Explanations"),
-    ),
-    InferenceComponentName: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Inference-Component"),
-    ),
-    SessionId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Session-Id"),
-    ),
-    PrefixAwareId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Prefix-Aware-Id"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/endpoints/{EndpointName}/invocations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "InvokeEndpointInput",
-}) as any as S.Schema<InvokeEndpointInput>;
 export type NewSessionResponseHeader = string;
 export type SessionIdHeader = string;
 export interface InvokeEndpointOutput {
@@ -233,26 +170,6 @@ export interface InvokeEndpointOutput {
   NewSessionId?: string;
   ClosedSessionId?: string;
 }
-export const InvokeEndpointOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    InvokedProductionVariant: S.optional(S.String).pipe(
-      T.HttpHeader("x-Amzn-Invoked-Production-Variant"),
-    ),
-    CustomAttributes: S.optional(SensitiveString).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
-    ),
-    NewSessionId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-New-Session-Id"),
-    ),
-    ClosedSessionId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Closed-Session-Id"),
-    ),
-  }),
-).annotate({
-  identifier: "InvokeEndpointOutput",
-}) as any as S.Schema<InvokeEndpointOutput>;
 export type InputLocationHeader = string;
 export type S3OutputPathExtensionHeader = string;
 export type FilenameHeader = string;
@@ -271,69 +188,11 @@ export interface InvokeEndpointAsyncInput {
   InvocationTimeoutSeconds?: number;
   Body?: T.StreamingInputBody;
 }
-export const InvokeEndpointAsyncInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndpointName: S.String.pipe(T.HttpLabel("EndpointName")),
-    ContentType: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Content-Type"),
-    ),
-    Accept: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-SageMaker-Accept")),
-    CustomAttributes: S.optional(SensitiveString).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
-    ),
-    InferenceId: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Inference-Id"),
-    ),
-    InputLocation: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-InputLocation"),
-    ),
-    S3OutputPathExtension: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-S3OutputPathExtension"),
-    ),
-    Filename: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-Filename"),
-    ),
-    RequestTTLSeconds: S.optional(S.Number).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-RequestTTLSeconds"),
-    ),
-    InvocationTimeoutSeconds: S.optional(S.Number).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-InvocationTimeoutSeconds"),
-    ),
-    Body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/endpoints/{EndpointName}/async-invocations",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "InvokeEndpointAsyncInput",
-}) as any as S.Schema<InvokeEndpointAsyncInput>;
 export interface InvokeEndpointAsyncOutput {
   InferenceId?: string;
   OutputLocation?: string;
   FailureLocation?: string;
 }
-export const InvokeEndpointAsyncOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InferenceId: S.optional(S.String),
-    OutputLocation: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-OutputLocation"),
-    ),
-    FailureLocation: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-SageMaker-FailureLocation"),
-    ),
-  }),
-).annotate({
-  identifier: "InvokeEndpointAsyncOutput",
-}) as any as S.Schema<InvokeEndpointAsyncOutput>;
 export interface InvokeEndpointWithResponseStreamInput {
   EndpointName: string;
   Body?: T.StreamingInputBody;
@@ -347,59 +206,10 @@ export interface InvokeEndpointWithResponseStreamInput {
   SessionId?: string;
   PrefixAwareId?: string;
 }
-export const InvokeEndpointWithResponseStreamInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EndpointName: S.String.pipe(T.HttpLabel("EndpointName")),
-      Body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-      ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-      Accept: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-SageMaker-Accept"),
-      ),
-      CustomAttributes: S.optional(SensitiveString).pipe(
-        T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
-      ),
-      TargetVariant: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-SageMaker-Target-Variant"),
-      ),
-      TargetContainerHostname: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-SageMaker-Target-Container-Hostname"),
-      ),
-      InferenceId: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-SageMaker-Inference-Id"),
-      ),
-      InferenceComponentName: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-SageMaker-Inference-Component"),
-      ),
-      SessionId: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-SageMaker-Session-Id"),
-      ),
-      PrefixAwareId: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-SageMaker-Prefix-Aware-Id"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/endpoints/{EndpointName}/invocations-response-stream",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "InvokeEndpointWithResponseStreamInput",
-}) as any as S.Schema<InvokeEndpointWithResponseStreamInput>;
 export type PartBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface PayloadPart {
   Bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
 }
-export const PayloadPart = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Bytes: S.optional(SensitiveBlob).pipe(T.EventPayload()) }),
-).annotate({ identifier: "PayloadPart" }) as any as S.Schema<PayloadPart>;
 export type Message = string;
 export type ErrorCode = string;
 export type ResponseStream =
@@ -418,44 +228,12 @@ export type ResponseStream =
       ModelStreamError?: never;
       InternalStreamFailure: InternalStreamFailure;
     };
-export const ResponseStream = /*@__PURE__*/ T.EventStream(
-  S.Union([
-    S.Struct({ PayloadPart: PayloadPart }),
-    S.Struct({
-      ModelStreamError: S.suspend(() => ModelStreamError).annotate({
-        identifier: "ModelStreamError",
-      }),
-    }),
-    S.Struct({
-      InternalStreamFailure: S.suspend(() => InternalStreamFailure).annotate({
-        identifier: "InternalStreamFailure",
-      }),
-    }),
-  ]),
-) as any as S.Schema<stream.Stream<ResponseStream, Error, never>>;
 export interface InvokeEndpointWithResponseStreamOutput {
   Body: stream.Stream<ResponseStream, Error, never>;
   ContentType?: string;
   InvokedProductionVariant?: string;
   CustomAttributes?: string | redacted.Redacted<string>;
 }
-export const InvokeEndpointWithResponseStreamOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Body: ResponseStream.pipe(T.HttpPayload()),
-      ContentType: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-SageMaker-Content-Type"),
-      ),
-      InvokedProductionVariant: S.optional(S.String).pipe(
-        T.HttpHeader("x-Amzn-Invoked-Production-Variant"),
-      ),
-      CustomAttributes: S.optional(SensitiveString).pipe(
-        T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
-      ),
-    }),
-).annotate({
-  identifier: "InvokeEndpointWithResponseStreamOutput",
-}) as any as S.Schema<InvokeEndpointWithResponseStreamOutput>;
 export type StatusCode = number;
 export type LogStreamArn = string;
 export type InvokeEndpointError =
@@ -496,8 +274,44 @@ export const invokeEndpoint: API.OperationMethod<
   InvokeEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: InvokeEndpointInput,
-  output: InvokeEndpointOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /endpoints/{EndpointName}/invocations",
+    input: {
+      EndpointName: 0,
+      Body: D.m({ payload: true, shape: D.stream }),
+      ContentType: D.m({ header: "Content-Type" }),
+      Accept: D.m({ header: "Accept" }),
+      CustomAttributes: D.m({ header: "X-Amzn-SageMaker-Custom-Attributes" }),
+      TargetModel: D.m({ header: "X-Amzn-SageMaker-Target-Model" }),
+      TargetVariant: D.m({ header: "X-Amzn-SageMaker-Target-Variant" }),
+      TargetContainerHostname: D.m({
+        header: "X-Amzn-SageMaker-Target-Container-Hostname",
+      }),
+      InferenceId: D.m({ header: "X-Amzn-SageMaker-Inference-Id" }),
+      EnableExplanations: D.m({
+        header: "X-Amzn-SageMaker-Enable-Explanations",
+      }),
+      InferenceComponentName: D.m({
+        header: "X-Amzn-SageMaker-Inference-Component",
+      }),
+      SessionId: D.m({ header: "X-Amzn-SageMaker-Session-Id" }),
+      PrefixAwareId: D.m({ header: "X-Amzn-SageMaker-Prefix-Aware-Id" }),
+    },
+    output: {
+      Body: D.m({ payload: true, shape: D.stream }),
+      ContentType: D.m({ header: "Content-Type" }),
+      InvokedProductionVariant: D.m({
+        header: "x-Amzn-Invoked-Production-Variant",
+      }),
+      CustomAttributes: D.m({
+        header: "X-Amzn-SageMaker-Custom-Attributes",
+        shape: D.secret,
+      }),
+      NewSessionId: D.m({ header: "X-Amzn-SageMaker-New-Session-Id" }),
+      ClosedSessionId: D.m({ header: "X-Amzn-SageMaker-Closed-Session-Id" }),
+    },
+  },
   errors: [
     InternalDependencyException,
     InternalFailure,
@@ -509,7 +323,7 @@ export const invokeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeEndpoint",
-}));
+})) as any;
 
 export type InvokeEndpointAsyncError =
   | InternalFailure
@@ -539,13 +353,36 @@ export const invokeEndpointAsync: API.OperationMethod<
   InvokeEndpointAsyncError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: InvokeEndpointAsyncInput,
-  output: InvokeEndpointAsyncOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /endpoints/{EndpointName}/async-invocations",
+    input: {
+      EndpointName: 0,
+      ContentType: D.m({ header: "X-Amzn-SageMaker-Content-Type" }),
+      Accept: D.m({ header: "X-Amzn-SageMaker-Accept" }),
+      CustomAttributes: D.m({ header: "X-Amzn-SageMaker-Custom-Attributes" }),
+      InferenceId: D.m({ header: "X-Amzn-SageMaker-Inference-Id" }),
+      InputLocation: D.m({ header: "X-Amzn-SageMaker-InputLocation" }),
+      S3OutputPathExtension: D.m({
+        header: "X-Amzn-SageMaker-S3OutputPathExtension",
+      }),
+      Filename: D.m({ header: "X-Amzn-SageMaker-Filename" }),
+      RequestTTLSeconds: D.m({ header: "X-Amzn-SageMaker-RequestTTLSeconds" }),
+      InvocationTimeoutSeconds: D.m({
+        header: "X-Amzn-SageMaker-InvocationTimeoutSeconds",
+      }),
+      Body: D.m({ payload: true, shape: D.stream }),
+    },
+    output: {
+      OutputLocation: D.m({ header: "X-Amzn-SageMaker-OutputLocation" }),
+      FailureLocation: D.m({ header: "X-Amzn-SageMaker-FailureLocation" }),
+    },
+  },
   errors: [InternalFailure, ServiceUnavailable, ValidationError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeEndpointAsync",
-}));
+})) as any;
 
 export type InvokeEndpointWithResponseStreamError =
   | InternalFailure
@@ -587,8 +424,48 @@ export const invokeEndpointWithResponseStream: API.OperationMethod<
   InvokeEndpointWithResponseStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: InvokeEndpointWithResponseStreamInput,
-  output: InvokeEndpointWithResponseStreamOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /endpoints/{EndpointName}/invocations-response-stream",
+    input: {
+      EndpointName: 0,
+      Body: D.m({ payload: true, shape: D.stream }),
+      ContentType: D.m({ header: "Content-Type" }),
+      Accept: D.m({ header: "X-Amzn-SageMaker-Accept" }),
+      CustomAttributes: D.m({ header: "X-Amzn-SageMaker-Custom-Attributes" }),
+      TargetVariant: D.m({ header: "X-Amzn-SageMaker-Target-Variant" }),
+      TargetContainerHostname: D.m({
+        header: "X-Amzn-SageMaker-Target-Container-Hostname",
+      }),
+      InferenceId: D.m({ header: "X-Amzn-SageMaker-Inference-Id" }),
+      InferenceComponentName: D.m({
+        header: "X-Amzn-SageMaker-Inference-Component",
+      }),
+      SessionId: D.m({ header: "X-Amzn-SageMaker-Session-Id" }),
+      PrefixAwareId: D.m({ header: "X-Amzn-SageMaker-Prefix-Aware-Id" }),
+    },
+    output: {
+      Body: D.m({
+        payload: true,
+        shape: D.events(
+          {
+            PayloadPart: { Bytes: D.secretBlob },
+            ModelStreamError: 0,
+            InternalStreamFailure: 0,
+          },
+          { PayloadPart: "Bytes" },
+        ),
+      }),
+      ContentType: D.m({ header: "X-Amzn-SageMaker-Content-Type" }),
+      InvokedProductionVariant: D.m({
+        header: "x-Amzn-Invoked-Production-Variant",
+      }),
+      CustomAttributes: D.m({
+        header: "X-Amzn-SageMaker-Custom-Attributes",
+        shape: D.secret,
+      }),
+    },
+  },
   errors: [
     InternalFailure,
     InternalStreamFailure,
@@ -600,4 +477,4 @@ export const invokeEndpointWithResponseStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeEndpointWithResponseStream",
-}));
+})) as any;

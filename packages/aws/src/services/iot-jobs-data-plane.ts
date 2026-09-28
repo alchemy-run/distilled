@@ -1,160 +1,153 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "IoT Jobs Data Plane",
-  serviceShapeName: "IotLaserThingJobManagerExternalService",
-});
-const auth = T.AwsAuthSigv4({ name: "iot-jobs-data" });
-const ver = T.ServiceVersion("2017-09-29");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://data.jobs.iot-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://data.jobs.iot-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://data.jobs.iot.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://data.jobs.iot.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "IotLaserThingJobManagerExternalService",
+  version: "2017-09-29",
+  sigv4: "iot-jobs-data",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://data.jobs.iot-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://data.jobs.iot-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://data.jobs.iot.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://data.jobs.iot.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class CertificateValidationException
-  extends /*@__PURE__*/ S.TaggedError<CertificateValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CertificateValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      resourceId: S.optional(S.String),
-    },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message?: string; readonly resourceId?: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class InvalidRequestException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidStateTransitionException
-  extends /*@__PURE__*/ S.TaggedError<InvalidStateTransitionException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidStateTransitionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+    ["ConflictError"],
+    { status: 409 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly message?: string }> {}
 export class ServiceUnavailableException
-  extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceUnavailableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(503),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 503 },
+  )<{ readonly message?: string }> {}
 export class TerminalStateException
-  extends /*@__PURE__*/ S.TaggedError<TerminalStateException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TerminalStateException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(410),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 410 },
+  )<{ readonly message?: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      payload: S.optional(T.Blob),
-    },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message?: string; readonly payload?: Uint8Array }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export type DescribeJobExecutionJobId = string;
 export type ThingName = string;
 export type IncludeJobDocument = boolean;
@@ -165,27 +158,6 @@ export interface DescribeJobExecutionRequest {
   includeJobDocument?: boolean;
   executionNumber?: number;
 }
-export const DescribeJobExecutionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    thingName: S.String.pipe(T.HttpLabel("thingName")),
-    includeJobDocument: S.optional(S.Boolean).pipe(
-      T.HttpQuery("includeJobDocument"),
-    ),
-    executionNumber: S.optional(S.Number).pipe(T.HttpQuery("executionNumber")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/things/{thingName}/jobs/{jobId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeJobExecutionRequest",
-}) as any as S.Schema<DescribeJobExecutionRequest>;
 export type JobId = string;
 export type JobExecutionStatus =
   | "QUEUED"
@@ -197,15 +169,9 @@ export type JobExecutionStatus =
   | "REMOVED"
   | "CANCELED"
   | (string & {});
-export const JobExecutionStatus = S.String;
-
 export type DetailsKey = string;
 export type DetailsValue = string;
 export type DetailsMap = { [key: string]: string | undefined };
-export const DetailsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type QueuedAt = number;
 export type StartedAt = number;
 export type LastUpdatedAt = number;
@@ -225,46 +191,12 @@ export interface JobExecution {
   executionNumber?: number;
   jobDocument?: string;
 }
-export const JobExecution = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.optional(S.String),
-    thingName: S.optional(S.String),
-    status: S.optional(JobExecutionStatus),
-    statusDetails: S.optional(DetailsMap),
-    queuedAt: S.optional(S.Number),
-    startedAt: S.optional(S.Number),
-    lastUpdatedAt: S.optional(S.Number),
-    approximateSecondsBeforeTimedOut: S.optional(S.Number),
-    versionNumber: S.optional(S.Number),
-    executionNumber: S.optional(S.Number),
-    jobDocument: S.optional(S.String),
-  }),
-).annotate({ identifier: "JobExecution" }) as any as S.Schema<JobExecution>;
 export interface DescribeJobExecutionResponse {
   execution?: JobExecution;
 }
-export const DescribeJobExecutionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ execution: S.optional(JobExecution) }),
-).annotate({
-  identifier: "DescribeJobExecutionResponse",
-}) as any as S.Schema<DescribeJobExecutionResponse>;
 export interface GetPendingJobExecutionsRequest {
   thingName: string;
 }
-export const GetPendingJobExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ thingName: S.String.pipe(T.HttpLabel("thingName")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/things/{thingName}/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPendingJobExecutionsRequest",
-}) as any as S.Schema<GetPendingJobExecutionsRequest>;
 export interface JobExecutionSummary {
   jobId?: string;
   queuedAt?: number;
@@ -273,33 +205,11 @@ export interface JobExecutionSummary {
   versionNumber?: number;
   executionNumber?: number;
 }
-export const JobExecutionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.optional(S.String),
-    queuedAt: S.optional(S.Number),
-    startedAt: S.optional(S.Number),
-    lastUpdatedAt: S.optional(S.Number),
-    versionNumber: S.optional(S.Number),
-    executionNumber: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "JobExecutionSummary",
-}) as any as S.Schema<JobExecutionSummary>;
 export type JobExecutionSummaryList = JobExecutionSummary[];
-export const JobExecutionSummaryList =
-  /*@__PURE__*/ S.Array(JobExecutionSummary);
 export interface GetPendingJobExecutionsResponse {
   inProgressJobs?: JobExecutionSummary[];
   queuedJobs?: JobExecutionSummary[];
 }
-export const GetPendingJobExecutionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    inProgressJobs: S.optional(JobExecutionSummaryList),
-    queuedJobs: S.optional(JobExecutionSummaryList),
-  }),
-).annotate({
-  identifier: "GetPendingJobExecutionsResponse",
-}) as any as S.Schema<GetPendingJobExecutionsResponse>;
 export type TargetArn = string;
 export type CommandArn = string;
 export type CommandParameterName = string;
@@ -319,26 +229,9 @@ export interface CommandParameterValue {
   BIN?: Uint8Array;
   UL?: string;
 }
-export const CommandParameterValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    S: S.optional(S.String),
-    B: S.optional(S.Boolean),
-    I: S.optional(S.Number),
-    L: S.optional(S.Number),
-    D: S.optional(S.Number),
-    BIN: S.optional(T.Blob),
-    UL: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CommandParameterValue",
-}) as any as S.Schema<CommandParameterValue>;
 export type CommandExecutionParameterMap = {
   [key: string]: CommandParameterValue | undefined;
 };
-export const CommandExecutionParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  CommandParameterValue.pipe(S.optional),
-);
 export type CommandExecutionTimeoutInSeconds = number;
 export type ClientRequestTokenV2 = string;
 export interface StartCommandExecutionRequest {
@@ -348,67 +241,19 @@ export interface StartCommandExecutionRequest {
   executionTimeoutSeconds?: number;
   clientToken?: string;
 }
-export const StartCommandExecutionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    targetArn: S.String,
-    commandArn: S.String,
-    parameters: S.optional(CommandExecutionParameterMap),
-    executionTimeoutSeconds: S.optional(S.Number),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/command-executions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartCommandExecutionRequest",
-}) as any as S.Schema<StartCommandExecutionRequest>;
 export type CommandExecutionId = string;
 export interface StartCommandExecutionResponse {
   executionId?: string;
 }
-export const StartCommandExecutionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ executionId: S.optional(S.String) }),
-).annotate({
-  identifier: "StartCommandExecutionResponse",
-}) as any as S.Schema<StartCommandExecutionResponse>;
 export type StepTimeoutInMinutes = number;
 export interface StartNextPendingJobExecutionRequest {
   thingName: string;
   statusDetails?: { [key: string]: string | undefined };
   stepTimeoutInMinutes?: number;
 }
-export const StartNextPendingJobExecutionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    thingName: S.String.pipe(T.HttpLabel("thingName")),
-    statusDetails: S.optional(DetailsMap),
-    stepTimeoutInMinutes: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/things/{thingName}/jobs/$next" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartNextPendingJobExecutionRequest",
-}) as any as S.Schema<StartNextPendingJobExecutionRequest>;
 export interface StartNextPendingJobExecutionResponse {
   execution?: JobExecution;
 }
-export const StartNextPendingJobExecutionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ execution: S.optional(JobExecution) }),
-).annotate({
-  identifier: "StartNextPendingJobExecutionResponse",
-}) as any as S.Schema<StartNextPendingJobExecutionResponse>;
 export type ExpectedVersion = number;
 export type IncludeExecutionState = boolean;
 export interface UpdateJobExecutionRequest {
@@ -422,56 +267,15 @@ export interface UpdateJobExecutionRequest {
   includeJobDocument?: boolean;
   executionNumber?: number;
 }
-export const UpdateJobExecutionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    thingName: S.String.pipe(T.HttpLabel("thingName")),
-    status: JobExecutionStatus,
-    statusDetails: S.optional(DetailsMap),
-    stepTimeoutInMinutes: S.optional(S.Number),
-    expectedVersion: S.optional(S.Number),
-    includeJobExecutionState: S.optional(S.Boolean),
-    includeJobDocument: S.optional(S.Boolean),
-    executionNumber: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/things/{thingName}/jobs/{jobId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateJobExecutionRequest",
-}) as any as S.Schema<UpdateJobExecutionRequest>;
 export interface JobExecutionState {
   status?: JobExecutionStatus;
   statusDetails?: { [key: string]: string | undefined };
   versionNumber?: number;
 }
-export const JobExecutionState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(JobExecutionStatus),
-    statusDetails: S.optional(DetailsMap),
-    versionNumber: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "JobExecutionState",
-}) as any as S.Schema<JobExecutionState>;
 export interface UpdateJobExecutionResponse {
   executionState?: JobExecutionState;
   jobDocument?: string;
 }
-export const UpdateJobExecutionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    executionState: S.optional(JobExecutionState),
-    jobDocument: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateJobExecutionResponse",
-}) as any as S.Schema<UpdateJobExecutionResponse>;
 export type ErrorMessage = string;
 export type BinaryBlob = Uint8Array;
 export type ResourceId = string;
@@ -494,8 +298,16 @@ export const describeJobExecution: API.OperationMethod<
   DescribeJobExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeJobExecutionRequest,
-  output: DescribeJobExecutionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /things/{thingName}/jobs/{jobId}",
+    input: {
+      jobId: 0,
+      thingName: 0,
+      includeJobDocument: D.m({ query: "includeJobDocument" }),
+      executionNumber: D.m({ query: "executionNumber" }),
+    },
+  },
   errors: [
     CertificateValidationException,
     InvalidRequestException,
@@ -507,7 +319,7 @@ export const describeJobExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobExecution",
-}));
+})) as any;
 
 export type GetPendingJobExecutionsError =
   | CertificateValidationException
@@ -527,8 +339,11 @@ export const getPendingJobExecutions: API.OperationMethod<
   GetPendingJobExecutionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPendingJobExecutionsRequest,
-  output: GetPendingJobExecutionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /things/{thingName}/jobs",
+    input: { thingName: 0 },
+  },
   errors: [
     CertificateValidationException,
     InvalidRequestException,
@@ -539,7 +354,7 @@ export const getPendingJobExecutions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPendingJobExecutions",
-}));
+})) as any;
 
 export type StartCommandExecutionError =
   | ConflictException
@@ -559,8 +374,18 @@ export const startCommandExecution: API.OperationMethod<
   StartCommandExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartCommandExecutionRequest,
-  output: StartCommandExecutionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /command-executions",
+    input: {
+      targetArn: 0,
+      commandArn: 0,
+      parameters: D.map({ S: 0, B: 0, I: 0, L: 0, D: 0, BIN: 0, UL: 0 }),
+      executionTimeoutSeconds: 0,
+      clientToken: D.m({ idempotency: true }),
+    },
+    body: true,
+  },
   errors: [
     ConflictException,
     InternalServerException,
@@ -572,7 +397,7 @@ export const startCommandExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCommandExecution",
-}));
+})) as any;
 
 export type StartNextPendingJobExecutionError =
   | CertificateValidationException
@@ -593,8 +418,12 @@ export const startNextPendingJobExecution: API.OperationMethod<
   StartNextPendingJobExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartNextPendingJobExecutionRequest,
-  output: StartNextPendingJobExecutionResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /things/{thingName}/jobs/$next",
+    input: { thingName: 0, statusDetails: 0, stepTimeoutInMinutes: 0 },
+    body: true,
+  },
   errors: [
     CertificateValidationException,
     InvalidRequestException,
@@ -605,7 +434,7 @@ export const startNextPendingJobExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNextPendingJobExecution",
-}));
+})) as any;
 
 export type UpdateJobExecutionError =
   | CertificateValidationException
@@ -626,8 +455,22 @@ export const updateJobExecution: API.OperationMethod<
   UpdateJobExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateJobExecutionRequest,
-  output: UpdateJobExecutionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /things/{thingName}/jobs/{jobId}",
+    input: {
+      jobId: 0,
+      thingName: 0,
+      status: 0,
+      statusDetails: 0,
+      stepTimeoutInMinutes: 0,
+      expectedVersion: 0,
+      includeJobExecutionState: 0,
+      includeJobDocument: 0,
+      executionNumber: 0,
+    },
+    body: true,
+  },
   errors: [
     CertificateValidationException,
     InvalidRequestException,
@@ -639,4 +482,4 @@ export const updateJobExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJobExecution",
-}));
+})) as any;

@@ -1,611 +1,218 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
-import * as stream from "effect/Stream";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as stream from "effect/Stream";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { awsJson1_1Protocol } from "../protocols/aws-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const ns = T.XmlNamespace("http://kinesis.amazonaws.com/doc/2013-12-02");
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Kinesis",
-  serviceShapeName: "Kinesis_20131202",
-});
-const auth = T.AwsAuthSigv4({ name: "kinesis" });
-const ver = T.ServiceVersion("2013-12-02");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
-  const {
-    Region,
-    UseDualStack = false,
-    UseFIPS = false,
-    Endpoint,
-    OperationType,
-    StreamId,
-    StreamARN,
-    ConsumerARN,
-    ResourceARN,
-    AccountId,
-    AccountIdEndpointMode,
-  } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  const _p0 = () => ({ metricValues: ["O"] });
-  {
-    const StreamIdDelimiterValue = _.substring(StreamId, 20, 21, false);
-    const StreamIdDelimiterReversedValue = _.substring(StreamId, 3, 4, true);
-    const StreamIdPrefixValue = _.substring(StreamId, 0, 20, false);
-    const StreamIdSuffixValue = _.substring(StreamId, 21, 24, false);
-    const PartitionResult = _.partition(Region);
-    if (
-      StreamId != null &&
-      StreamIdDelimiterValue != null &&
-      StreamIdDelimiterValue !== false &&
-      StreamIdDelimiterValue === "-" &&
-      StreamIdDelimiterReversedValue != null &&
-      StreamIdDelimiterReversedValue !== false &&
-      StreamIdDelimiterReversedValue === "-" &&
-      StreamIdPrefixValue != null &&
-      StreamIdPrefixValue !== false &&
-      StreamIdSuffixValue != null &&
-      StreamIdSuffixValue !== false &&
-      Region != null &&
-      PartitionResult != null &&
-      PartitionResult !== false &&
-      !(_.getAttr(PartitionResult, "name") === "aws-iso") &&
-      !(_.getAttr(PartitionResult, "name") === "aws-iso-b")
-    ) {
-      if (OperationType != null) {
-        {
-          const HttpsCustomEndpointDelimiterValue = _.substring(
-            Endpoint,
-            15,
-            16,
-            false,
-          );
-          const HttpsEndpointDelimiterValue = _.substring(
-            Endpoint,
-            20,
-            21,
-            false,
-          );
-          const HttpsCustomEndpointSuffixValue = _.substring(
-            Endpoint,
-            15,
-            20,
-            false,
-          );
-          if (
-            Endpoint != null &&
-            HttpsCustomEndpointDelimiterValue != null &&
-            HttpsCustomEndpointDelimiterValue !== false &&
-            HttpsCustomEndpointDelimiterValue === "-" &&
-            HttpsEndpointDelimiterValue != null &&
-            HttpsEndpointDelimiterValue !== false &&
-            HttpsEndpointDelimiterValue === "." &&
-            HttpsCustomEndpointSuffixValue != null &&
-            HttpsCustomEndpointSuffixValue !== false
-          ) {
-            if (UseFIPS === true && UseDualStack === true) {
-              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-                if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
-                  return e(
-                    `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-                  );
-                }
-                return err(
-                  "DualStack is enabled, but this partition does not support DualStack.",
-                );
-              }
-              return err(
-                "FIPS is enabled, but this partition does not support FIPS.",
-              );
-            }
-            if (UseFIPS === true) {
-              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-                return e(
-                  `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-                );
-              }
-              return err(
-                "FIPS is enabled but this partition does not support FIPS",
-              );
-            }
-            if (UseDualStack === true) {
-              if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
-                return e(
-                  `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-                );
-              }
-              return err(
-                "DualStack is enabled but this partition does not support DualStack",
-              );
-            }
-            return e(
-              `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-        }
-        {
-          const PlainCustomEndpointDelimiterValue = _.substring(
-            Endpoint,
-            7,
-            8,
-            false,
-          );
-          const PlainEndpointDelimiterValue = _.substring(
-            Endpoint,
-            12,
-            13,
-            false,
-          );
-          const PlainCustomEndpointSuffixValue = _.substring(
-            Endpoint,
-            7,
-            12,
-            false,
-          );
-          if (
-            Endpoint != null &&
-            PlainCustomEndpointDelimiterValue != null &&
-            PlainCustomEndpointDelimiterValue !== false &&
-            PlainCustomEndpointDelimiterValue === "-" &&
-            PlainEndpointDelimiterValue != null &&
-            PlainEndpointDelimiterValue !== false &&
-            PlainEndpointDelimiterValue === "." &&
-            PlainCustomEndpointSuffixValue != null &&
-            PlainCustomEndpointSuffixValue !== false
-          ) {
-            if (UseFIPS === true && UseDualStack === true) {
-              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-                if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
-                  return e(
-                    `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-                  );
-                }
-                return err(
-                  "DualStack is enabled, but this partition does not support DualStack.",
-                );
-              }
-              return err(
-                "FIPS is enabled, but this partition does not support FIPS.",
-              );
-            }
-            if (UseFIPS === true) {
-              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-                return e(
-                  `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-                );
-              }
-              return err(
-                "FIPS is enabled but this partition does not support FIPS",
-              );
-            }
-            if (UseDualStack === true) {
-              if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
-                return e(
-                  `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-                );
-              }
-              return err(
-                "DualStack is enabled but this partition does not support DualStack",
-              );
-            }
-            return e(
-              `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-        }
-        if (UseFIPS === true && UseDualStack === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
-              return e(
-                `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-              );
-            }
-            return err(
-              "DualStack is enabled, but this partition does not support DualStack.",
-            );
-          }
-          return err(
-            "FIPS is enabled, but this partition does not support FIPS.",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
-            return e(
-              `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
-      }
-      return err(
-        "Operation Type is not set. Please contact service team for resolution.",
-      );
-    }
-  }
-  {
-    const PartitionResult = _.partition(Region);
-    if (
-      StreamARN != null &&
-      !(Endpoint != null) &&
-      Region != null &&
-      PartitionResult != null &&
-      PartitionResult !== false &&
-      !(_.getAttr(PartitionResult, "name") === "aws-iso") &&
-      !(_.getAttr(PartitionResult, "name") === "aws-iso-b")
-    ) {
-      {
-        const arn = _.parseArn(StreamARN);
-        if (arn != null && arn !== false) {
-          if (_.isValidHostLabel(_.getAttr(arn, "accountId"), false)) {
-            if (_.isValidHostLabel(_.getAttr(arn, "region"), false)) {
-              if (_.getAttr(arn, "service") === "kinesis") {
-                {
-                  const arnType = _.getAttr(arn, "resourceId[0]");
-                  if (
-                    arnType != null &&
-                    arnType !== false &&
-                    !(arnType === "")
-                  ) {
-                    if (arnType === "stream") {
-                      if (
-                        _.getAttr(PartitionResult, "name") ===
-                        `${_.getAttr(arn, "partition")}`
-                      ) {
-                        if (OperationType != null) {
-                          if (UseFIPS === true && UseDualStack === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
-                              if (
-                                _.getAttr(
-                                  PartitionResult,
-                                  "supportsDualStack",
-                                ) === true
-                              ) {
-                                return e(
-                                  `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-                                );
-                              }
-                              return err(
-                                "DualStack is enabled, but this partition does not support DualStack.",
-                              );
-                            }
-                            return err(
-                              "FIPS is enabled, but this partition does not support FIPS.",
-                            );
-                          }
-                          if (UseFIPS === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
-                              return e(
-                                `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-                              );
-                            }
-                            return err(
-                              "FIPS is enabled but this partition does not support FIPS",
-                            );
-                          }
-                          if (UseDualStack === true) {
-                            if (
-                              _.getAttr(
-                                PartitionResult,
-                                "supportsDualStack",
-                              ) === true
-                            ) {
-                              return e(
-                                `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-                              );
-                            }
-                            return err(
-                              "DualStack is enabled but this partition does not support DualStack",
-                            );
-                          }
-                          return e(
-                            `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-                          );
-                        }
-                        return err(
-                          "Operation Type is not set. Please contact service team for resolution.",
-                        );
-                      }
-                      return err(
-                        `Partition: ${_.getAttr(arn, "partition")} from ARN doesn't match with partition name: ${_.getAttr(PartitionResult, "name")}.`,
-                      );
-                    }
-                    return err(
-                      `Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`,
-                    );
-                  }
-                }
-                return err("Invalid ARN: No ARN type specified");
-              }
-              return err(
-                `Invalid ARN: The ARN was not for the Kinesis service, found: ${_.getAttr(arn, "service")}.`,
-              );
-            }
-            return err("Invalid ARN: Invalid region.");
-          }
-          return err("Invalid ARN: Invalid account id.");
-        }
-      }
-      return err("Invalid ARN: Failed to parse ARN.");
-    }
-  }
-  {
-    const PartitionResult = _.partition(Region);
-    if (
-      ConsumerARN != null &&
-      !(Endpoint != null) &&
-      Region != null &&
-      PartitionResult != null &&
-      PartitionResult !== false &&
-      !(_.getAttr(PartitionResult, "name") === "aws-iso") &&
-      !(_.getAttr(PartitionResult, "name") === "aws-iso-b")
-    ) {
-      {
-        const arn = _.parseArn(ConsumerARN);
-        if (arn != null && arn !== false) {
-          if (_.isValidHostLabel(_.getAttr(arn, "accountId"), false)) {
-            if (_.isValidHostLabel(_.getAttr(arn, "region"), false)) {
-              if (_.getAttr(arn, "service") === "kinesis") {
-                {
-                  const arnType = _.getAttr(arn, "resourceId[0]");
-                  if (
-                    arnType != null &&
-                    arnType !== false &&
-                    !(arnType === "")
-                  ) {
-                    if (arnType === "stream") {
-                      if (
-                        _.getAttr(PartitionResult, "name") ===
-                        `${_.getAttr(arn, "partition")}`
-                      ) {
-                        if (OperationType != null) {
-                          if (UseFIPS === true && UseDualStack === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
-                              if (
-                                _.getAttr(
-                                  PartitionResult,
-                                  "supportsDualStack",
-                                ) === true
-                              ) {
-                                return e(
-                                  `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-                                );
-                              }
-                              return err(
-                                "DualStack is enabled, but this partition does not support DualStack.",
-                              );
-                            }
-                            return err(
-                              "FIPS is enabled, but this partition does not support FIPS.",
-                            );
-                          }
-                          if (UseFIPS === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
-                              return e(
-                                `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-                              );
-                            }
-                            return err(
-                              "FIPS is enabled but this partition does not support FIPS",
-                            );
-                          }
-                          if (UseDualStack === true) {
-                            if (
-                              _.getAttr(
-                                PartitionResult,
-                                "supportsDualStack",
-                              ) === true
-                            ) {
-                              return e(
-                                `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-                              );
-                            }
-                            return err(
-                              "DualStack is enabled but this partition does not support DualStack",
-                            );
-                          }
-                          return e(
-                            `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-                          );
-                        }
-                        return err(
-                          "Operation Type is not set. Please contact service team for resolution.",
-                        );
-                      }
-                      return err(
-                        `Partition: ${_.getAttr(arn, "partition")} from ARN doesn't match with partition name: ${_.getAttr(PartitionResult, "name")}.`,
-                      );
-                    }
-                    return err(
-                      `Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`,
-                    );
-                  }
-                }
-                return err("Invalid ARN: No ARN type specified");
-              }
-              return err(
-                `Invalid ARN: The ARN was not for the Kinesis service, found: ${_.getAttr(arn, "service")}.`,
-              );
-            }
-            return err("Invalid ARN: Invalid region.");
-          }
-          return err("Invalid ARN: Invalid account id.");
-        }
-      }
-      return err("Invalid ARN: Failed to parse ARN.");
-    }
-  }
-  {
-    const PartitionResult = _.partition(Region);
-    if (
-      ResourceARN != null &&
-      !(Endpoint != null) &&
-      Region != null &&
-      PartitionResult != null &&
-      PartitionResult !== false &&
-      !(_.getAttr(PartitionResult, "name") === "aws-iso") &&
-      !(_.getAttr(PartitionResult, "name") === "aws-iso-b")
-    ) {
-      {
-        const arn = _.parseArn(ResourceARN);
-        if (arn != null && arn !== false) {
-          if (_.isValidHostLabel(_.getAttr(arn, "accountId"), false)) {
-            if (_.isValidHostLabel(_.getAttr(arn, "region"), false)) {
-              if (_.getAttr(arn, "service") === "kinesis") {
-                {
-                  const arnType = _.getAttr(arn, "resourceId[0]");
-                  if (
-                    arnType != null &&
-                    arnType !== false &&
-                    !(arnType === "")
-                  ) {
-                    if (arnType === "stream") {
-                      if (
-                        _.getAttr(PartitionResult, "name") ===
-                        `${_.getAttr(arn, "partition")}`
-                      ) {
-                        if (OperationType != null) {
-                          if (UseFIPS === true && UseDualStack === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
-                              if (
-                                _.getAttr(
-                                  PartitionResult,
-                                  "supportsDualStack",
-                                ) === true
-                              ) {
-                                return e(
-                                  `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-                                );
-                              }
-                              return err(
-                                "DualStack is enabled, but this partition does not support DualStack.",
-                              );
-                            }
-                            return err(
-                              "FIPS is enabled, but this partition does not support FIPS.",
-                            );
-                          }
-                          if (UseFIPS === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
-                              return e(
-                                `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-                              );
-                            }
-                            return err(
-                              "FIPS is enabled but this partition does not support FIPS",
-                            );
-                          }
-                          if (UseDualStack === true) {
-                            if (
-                              _.getAttr(
-                                PartitionResult,
-                                "supportsDualStack",
-                              ) === true
-                            ) {
-                              return e(
-                                `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-                              );
-                            }
-                            return err(
-                              "DualStack is enabled but this partition does not support DualStack",
-                            );
-                          }
-                          return e(
-                            `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-                          );
-                        }
-                        return err(
-                          "Operation Type is not set. Please contact service team for resolution.",
-                        );
-                      }
-                      return err(
-                        `Partition: ${_.getAttr(arn, "partition")} from ARN doesn't match with partition name: ${_.getAttr(PartitionResult, "name")}.`,
-                      );
-                    }
-                    return err(
-                      `Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`,
-                    );
-                  }
-                }
-                return err("Invalid ARN: No ARN type specified");
-              }
-              return err(
-                `Invalid ARN: The ARN was not for the Kinesis service, found: ${_.getAttr(arn, "service")}.`,
-              );
-            }
-            return err("Invalid ARN: Invalid region.");
-          }
-          return err("Invalid ARN: Invalid account id.");
-        }
-      }
-      return err("Invalid ARN: Failed to parse ARN.");
-    }
-  }
-  {
-    const PartitionResult = _.partition(Region);
-    if (
-      !(Endpoint != null) &&
-      AccountIdEndpointMode != null &&
-      !(AccountIdEndpointMode === "disabled") &&
-      AccountId != null &&
-      Region != null &&
-      PartitionResult != null &&
-      PartitionResult !== false &&
-      !(_.getAttr(PartitionResult, "name") === "aws-iso") &&
-      !(_.getAttr(PartitionResult, "name") === "aws-iso-b")
-    ) {
-      if (_.isValidHostLabel(AccountId, false)) {
+  target: "Kinesis_20131202",
+  version: "2013-12-02",
+  sigv4: "kinesis",
+  protocol: awsJson1_1Protocol,
+  xmlns: "http://kinesis.amazonaws.com/doc/2013-12-02",
+  rules: (p, _) => {
+    const {
+      Region,
+      UseDualStack = false,
+      UseFIPS = false,
+      Endpoint,
+      OperationType,
+      StreamId,
+      StreamARN,
+      ConsumerARN,
+      ResourceARN,
+      AccountId,
+      AccountIdEndpointMode,
+    } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    const _p0 = () => ({ metricValues: ["O"] });
+    {
+      const StreamIdDelimiterValue = _.substring(StreamId, 20, 21, false);
+      const StreamIdDelimiterReversedValue = _.substring(StreamId, 3, 4, true);
+      const StreamIdPrefixValue = _.substring(StreamId, 0, 20, false);
+      const StreamIdSuffixValue = _.substring(StreamId, 21, 24, false);
+      const PartitionResult = _.partition(Region);
+      if (
+        StreamId != null &&
+        StreamIdDelimiterValue != null &&
+        StreamIdDelimiterValue !== false &&
+        StreamIdDelimiterValue === "-" &&
+        StreamIdDelimiterReversedValue != null &&
+        StreamIdDelimiterReversedValue !== false &&
+        StreamIdDelimiterReversedValue === "-" &&
+        StreamIdPrefixValue != null &&
+        StreamIdPrefixValue !== false &&
+        StreamIdSuffixValue != null &&
+        StreamIdSuffixValue !== false &&
+        Region != null &&
+        PartitionResult != null &&
+        PartitionResult !== false &&
+        !(_.getAttr(PartitionResult, "name") === "aws-iso") &&
+        !(_.getAttr(PartitionResult, "name") === "aws-iso-b")
+      ) {
         if (OperationType != null) {
+          {
+            const HttpsCustomEndpointDelimiterValue = _.substring(
+              Endpoint,
+              15,
+              16,
+              false,
+            );
+            const HttpsEndpointDelimiterValue = _.substring(
+              Endpoint,
+              20,
+              21,
+              false,
+            );
+            const HttpsCustomEndpointSuffixValue = _.substring(
+              Endpoint,
+              15,
+              20,
+              false,
+            );
+            if (
+              Endpoint != null &&
+              HttpsCustomEndpointDelimiterValue != null &&
+              HttpsCustomEndpointDelimiterValue !== false &&
+              HttpsCustomEndpointDelimiterValue === "-" &&
+              HttpsEndpointDelimiterValue != null &&
+              HttpsEndpointDelimiterValue !== false &&
+              HttpsEndpointDelimiterValue === "." &&
+              HttpsCustomEndpointSuffixValue != null &&
+              HttpsCustomEndpointSuffixValue !== false
+            ) {
+              if (UseFIPS === true && UseDualStack === true) {
+                if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                  if (
+                    _.getAttr(PartitionResult, "supportsDualStack") === true
+                  ) {
+                    return e(
+                      `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                    );
+                  }
+                  return err(
+                    "DualStack is enabled, but this partition does not support DualStack.",
+                  );
+                }
+                return err(
+                  "FIPS is enabled, but this partition does not support FIPS.",
+                );
+              }
+              if (UseFIPS === true) {
+                if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                  return e(
+                    `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                  );
+                }
+                return err(
+                  "FIPS is enabled but this partition does not support FIPS",
+                );
+              }
+              if (UseDualStack === true) {
+                if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                  return e(
+                    `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                  );
+                }
+                return err(
+                  "DualStack is enabled but this partition does not support DualStack",
+                );
+              }
+              return e(
+                `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+          }
+          {
+            const PlainCustomEndpointDelimiterValue = _.substring(
+              Endpoint,
+              7,
+              8,
+              false,
+            );
+            const PlainEndpointDelimiterValue = _.substring(
+              Endpoint,
+              12,
+              13,
+              false,
+            );
+            const PlainCustomEndpointSuffixValue = _.substring(
+              Endpoint,
+              7,
+              12,
+              false,
+            );
+            if (
+              Endpoint != null &&
+              PlainCustomEndpointDelimiterValue != null &&
+              PlainCustomEndpointDelimiterValue !== false &&
+              PlainCustomEndpointDelimiterValue === "-" &&
+              PlainEndpointDelimiterValue != null &&
+              PlainEndpointDelimiterValue !== false &&
+              PlainEndpointDelimiterValue === "." &&
+              PlainCustomEndpointSuffixValue != null &&
+              PlainCustomEndpointSuffixValue !== false
+            ) {
+              if (UseFIPS === true && UseDualStack === true) {
+                if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                  if (
+                    _.getAttr(PartitionResult, "supportsDualStack") === true
+                  ) {
+                    return e(
+                      `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                    );
+                  }
+                  return err(
+                    "DualStack is enabled, but this partition does not support DualStack.",
+                  );
+                }
+                return err(
+                  "FIPS is enabled, but this partition does not support FIPS.",
+                );
+              }
+              if (UseFIPS === true) {
+                if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                  return e(
+                    `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                  );
+                }
+                return err(
+                  "FIPS is enabled but this partition does not support FIPS",
+                );
+              }
+              if (UseDualStack === true) {
+                if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                  return e(
+                    `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                  );
+                }
+                return err(
+                  "DualStack is enabled but this partition does not support DualStack",
+                );
+              }
+              return e(
+                `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+          }
           if (UseFIPS === true && UseDualStack === true) {
             if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
               if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
                 return e(
-                  `https://${AccountId}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-                  _p0(),
-                  {},
+                  `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                 );
               }
               return err(
@@ -619,9 +226,7 @@ const rules = T.EndpointResolver((p, _) => {
           if (UseFIPS === true) {
             if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
               return e(
-                `https://${AccountId}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-                _p0(),
-                {},
+                `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
               );
             }
             return err(
@@ -631,9 +236,7 @@ const rules = T.EndpointResolver((p, _) => {
           if (UseDualStack === true) {
             if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
               return e(
-                `https://${AccountId}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-                _p0(),
-                {},
+                `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
               );
             }
             return err(
@@ -641,190 +244,578 @@ const rules = T.EndpointResolver((p, _) => {
             );
           }
           return e(
-            `https://${AccountId}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            _p0(),
-            {},
+            `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
           );
         }
         return err(
           "Operation Type is not set. Please contact service team for resolution.",
         );
       }
-      return err("Invalid account id.");
     }
-  }
-  {
-    const PartitionResult = _.partition(Region);
-    if (
-      !(Endpoint != null) &&
-      AccountIdEndpointMode != null &&
-      AccountIdEndpointMode === "required" &&
-      Region != null &&
-      PartitionResult != null &&
-      PartitionResult !== false
-    ) {
+    {
+      const PartitionResult = _.partition(Region);
       if (
+        StreamARN != null &&
+        !(Endpoint != null) &&
+        Region != null &&
+        PartitionResult != null &&
+        PartitionResult !== false &&
         !(_.getAttr(PartitionResult, "name") === "aws-iso") &&
         !(_.getAttr(PartitionResult, "name") === "aws-iso-b")
       ) {
-        return err(
-          "AccountIdEndpointMode is required but no AccountID was provided or able to be loaded",
-        );
+        {
+          const arn = _.parseArn(StreamARN);
+          if (arn != null && arn !== false) {
+            if (_.isValidHostLabel(_.getAttr(arn, "accountId"), false)) {
+              if (_.isValidHostLabel(_.getAttr(arn, "region"), false)) {
+                if (_.getAttr(arn, "service") === "kinesis") {
+                  {
+                    const arnType = _.getAttr(arn, "resourceId[0]");
+                    if (
+                      arnType != null &&
+                      arnType !== false &&
+                      !(arnType === "")
+                    ) {
+                      if (arnType === "stream") {
+                        if (
+                          _.getAttr(PartitionResult, "name") ===
+                          `${_.getAttr(arn, "partition")}`
+                        ) {
+                          if (OperationType != null) {
+                            if (UseFIPS === true && UseDualStack === true) {
+                              if (
+                                _.getAttr(PartitionResult, "supportsFIPS") ===
+                                true
+                              ) {
+                                if (
+                                  _.getAttr(
+                                    PartitionResult,
+                                    "supportsDualStack",
+                                  ) === true
+                                ) {
+                                  return e(
+                                    `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                  );
+                                }
+                                return err(
+                                  "DualStack is enabled, but this partition does not support DualStack.",
+                                );
+                              }
+                              return err(
+                                "FIPS is enabled, but this partition does not support FIPS.",
+                              );
+                            }
+                            if (UseFIPS === true) {
+                              if (
+                                _.getAttr(PartitionResult, "supportsFIPS") ===
+                                true
+                              ) {
+                                return e(
+                                  `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                                );
+                              }
+                              return err(
+                                "FIPS is enabled but this partition does not support FIPS",
+                              );
+                            }
+                            if (UseDualStack === true) {
+                              if (
+                                _.getAttr(
+                                  PartitionResult,
+                                  "supportsDualStack",
+                                ) === true
+                              ) {
+                                return e(
+                                  `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                );
+                              }
+                              return err(
+                                "DualStack is enabled but this partition does not support DualStack",
+                              );
+                            }
+                            return e(
+                              `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                            );
+                          }
+                          return err(
+                            "Operation Type is not set. Please contact service team for resolution.",
+                          );
+                        }
+                        return err(
+                          `Partition: ${_.getAttr(arn, "partition")} from ARN doesn't match with partition name: ${_.getAttr(PartitionResult, "name")}.`,
+                        );
+                      }
+                      return err(
+                        `Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`,
+                      );
+                    }
+                  }
+                  return err("Invalid ARN: No ARN type specified");
+                }
+                return err(
+                  `Invalid ARN: The ARN was not for the Kinesis service, found: ${_.getAttr(arn, "service")}.`,
+                );
+              }
+              return err("Invalid ARN: Invalid region.");
+            }
+            return err("Invalid ARN: Invalid account id.");
+          }
+        }
+        return err("Invalid ARN: Failed to parse ARN.");
       }
-      return err(
-        "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition",
-      );
     }
-  }
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
     {
       const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+      if (
+        ConsumerARN != null &&
+        !(Endpoint != null) &&
+        Region != null &&
+        PartitionResult != null &&
+        PartitionResult !== false &&
+        !(_.getAttr(PartitionResult, "name") === "aws-iso") &&
+        !(_.getAttr(PartitionResult, "name") === "aws-iso-b")
+      ) {
+        {
+          const arn = _.parseArn(ConsumerARN);
+          if (arn != null && arn !== false) {
+            if (_.isValidHostLabel(_.getAttr(arn, "accountId"), false)) {
+              if (_.isValidHostLabel(_.getAttr(arn, "region"), false)) {
+                if (_.getAttr(arn, "service") === "kinesis") {
+                  {
+                    const arnType = _.getAttr(arn, "resourceId[0]");
+                    if (
+                      arnType != null &&
+                      arnType !== false &&
+                      !(arnType === "")
+                    ) {
+                      if (arnType === "stream") {
+                        if (
+                          _.getAttr(PartitionResult, "name") ===
+                          `${_.getAttr(arn, "partition")}`
+                        ) {
+                          if (OperationType != null) {
+                            if (UseFIPS === true && UseDualStack === true) {
+                              if (
+                                _.getAttr(PartitionResult, "supportsFIPS") ===
+                                true
+                              ) {
+                                if (
+                                  _.getAttr(
+                                    PartitionResult,
+                                    "supportsDualStack",
+                                  ) === true
+                                ) {
+                                  return e(
+                                    `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                  );
+                                }
+                                return err(
+                                  "DualStack is enabled, but this partition does not support DualStack.",
+                                );
+                              }
+                              return err(
+                                "FIPS is enabled, but this partition does not support FIPS.",
+                              );
+                            }
+                            if (UseFIPS === true) {
+                              if (
+                                _.getAttr(PartitionResult, "supportsFIPS") ===
+                                true
+                              ) {
+                                return e(
+                                  `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                                );
+                              }
+                              return err(
+                                "FIPS is enabled but this partition does not support FIPS",
+                              );
+                            }
+                            if (UseDualStack === true) {
+                              if (
+                                _.getAttr(
+                                  PartitionResult,
+                                  "supportsDualStack",
+                                ) === true
+                              ) {
+                                return e(
+                                  `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                );
+                              }
+                              return err(
+                                "DualStack is enabled but this partition does not support DualStack",
+                              );
+                            }
+                            return e(
+                              `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                            );
+                          }
+                          return err(
+                            "Operation Type is not set. Please contact service team for resolution.",
+                          );
+                        }
+                        return err(
+                          `Partition: ${_.getAttr(arn, "partition")} from ARN doesn't match with partition name: ${_.getAttr(PartitionResult, "name")}.`,
+                        );
+                      }
+                      return err(
+                        `Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`,
+                      );
+                    }
+                  }
+                  return err("Invalid ARN: No ARN type specified");
+                }
+                return err(
+                  `Invalid ARN: The ARN was not for the Kinesis service, found: ${_.getAttr(arn, "service")}.`,
+                );
+              }
+              return err("Invalid ARN: Invalid region.");
+            }
+            return err("Invalid ARN: Invalid account id.");
           }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
         }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
-              return e(`https://kinesis.${Region}.amazonaws.com`);
+        return err("Invalid ARN: Failed to parse ARN.");
+      }
+    }
+    {
+      const PartitionResult = _.partition(Region);
+      if (
+        ResourceARN != null &&
+        !(Endpoint != null) &&
+        Region != null &&
+        PartitionResult != null &&
+        PartitionResult !== false &&
+        !(_.getAttr(PartitionResult, "name") === "aws-iso") &&
+        !(_.getAttr(PartitionResult, "name") === "aws-iso-b")
+      ) {
+        {
+          const arn = _.parseArn(ResourceARN);
+          if (arn != null && arn !== false) {
+            if (_.isValidHostLabel(_.getAttr(arn, "accountId"), false)) {
+              if (_.isValidHostLabel(_.getAttr(arn, "region"), false)) {
+                if (_.getAttr(arn, "service") === "kinesis") {
+                  {
+                    const arnType = _.getAttr(arn, "resourceId[0]");
+                    if (
+                      arnType != null &&
+                      arnType !== false &&
+                      !(arnType === "")
+                    ) {
+                      if (arnType === "stream") {
+                        if (
+                          _.getAttr(PartitionResult, "name") ===
+                          `${_.getAttr(arn, "partition")}`
+                        ) {
+                          if (OperationType != null) {
+                            if (UseFIPS === true && UseDualStack === true) {
+                              if (
+                                _.getAttr(PartitionResult, "supportsFIPS") ===
+                                true
+                              ) {
+                                if (
+                                  _.getAttr(
+                                    PartitionResult,
+                                    "supportsDualStack",
+                                  ) === true
+                                ) {
+                                  return e(
+                                    `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                  );
+                                }
+                                return err(
+                                  "DualStack is enabled, but this partition does not support DualStack.",
+                                );
+                              }
+                              return err(
+                                "FIPS is enabled, but this partition does not support FIPS.",
+                              );
+                            }
+                            if (UseFIPS === true) {
+                              if (
+                                _.getAttr(PartitionResult, "supportsFIPS") ===
+                                true
+                              ) {
+                                return e(
+                                  `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                                );
+                              }
+                              return err(
+                                "FIPS is enabled but this partition does not support FIPS",
+                              );
+                            }
+                            if (UseDualStack === true) {
+                              if (
+                                _.getAttr(
+                                  PartitionResult,
+                                  "supportsDualStack",
+                                ) === true
+                              ) {
+                                return e(
+                                  `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                );
+                              }
+                              return err(
+                                "DualStack is enabled but this partition does not support DualStack",
+                              );
+                            }
+                            return e(
+                              `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                            );
+                          }
+                          return err(
+                            "Operation Type is not set. Please contact service team for resolution.",
+                          );
+                        }
+                        return err(
+                          `Partition: ${_.getAttr(arn, "partition")} from ARN doesn't match with partition name: ${_.getAttr(PartitionResult, "name")}.`,
+                        );
+                      }
+                      return err(
+                        `Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`,
+                      );
+                    }
+                  }
+                  return err("Invalid ARN: No ARN type specified");
+                }
+                return err(
+                  `Invalid ARN: The ARN was not for the Kinesis service, found: ${_.getAttr(arn, "service")}.`,
+                );
+              }
+              return err("Invalid ARN: Invalid region.");
+            }
+            return err("Invalid ARN: Invalid account id.");
+          }
+        }
+        return err("Invalid ARN: Failed to parse ARN.");
+      }
+    }
+    {
+      const PartitionResult = _.partition(Region);
+      if (
+        !(Endpoint != null) &&
+        AccountIdEndpointMode != null &&
+        !(AccountIdEndpointMode === "disabled") &&
+        AccountId != null &&
+        Region != null &&
+        PartitionResult != null &&
+        PartitionResult !== false &&
+        !(_.getAttr(PartitionResult, "name") === "aws-iso") &&
+        !(_.getAttr(PartitionResult, "name") === "aws-iso-b")
+      ) {
+        if (_.isValidHostLabel(AccountId, false)) {
+          if (OperationType != null) {
+            if (UseFIPS === true && UseDualStack === true) {
+              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                  return e(
+                    `https://${AccountId}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                    _p0(),
+                    {},
+                  );
+                }
+                return err(
+                  "DualStack is enabled, but this partition does not support DualStack.",
+                );
+              }
+              return err(
+                "FIPS is enabled, but this partition does not support FIPS.",
+              );
+            }
+            if (UseFIPS === true) {
+              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                return e(
+                  `https://${AccountId}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                  _p0(),
+                  {},
+                );
+              }
+              return err(
+                "FIPS is enabled but this partition does not support FIPS",
+              );
+            }
+            if (UseDualStack === true) {
+              if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                return e(
+                  `https://${AccountId}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                  _p0(),
+                  {},
+                );
+              }
+              return err(
+                "DualStack is enabled but this partition does not support DualStack",
+              );
             }
             return e(
-              `https://kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              `https://${AccountId}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              _p0(),
+              {},
             );
           }
           return err(
-            "FIPS is enabled but this partition does not support FIPS",
+            "Operation Type is not set. Please contact service team for resolution.",
           );
         }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
+        return err("Invalid account id.");
+      }
+    }
+    {
+      const PartitionResult = _.partition(Region);
+      if (
+        !(Endpoint != null) &&
+        AccountIdEndpointMode != null &&
+        AccountIdEndpointMode === "required" &&
+        Region != null &&
+        PartitionResult != null &&
+        PartitionResult !== false
+      ) {
+        if (
+          !(_.getAttr(PartitionResult, "name") === "aws-iso") &&
+          !(_.getAttr(PartitionResult, "name") === "aws-iso-b")
+        ) {
           return err(
-            "DualStack is enabled but this partition does not support DualStack",
+            "AccountIdEndpointMode is required but no AccountID was provided or able to be loaded",
           );
         }
-        return e(
-          `https://kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+        return err(
+          "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition",
         );
       }
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
+        );
+      }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
+    }
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
+                return e(`https://kinesis.${Region}.amazonaws.com`);
+              }
+              return e(
+                `https://kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"])<{
+    readonly message?: string;
+  }> {}
 export class ExpiredIteratorException
-  extends /*@__PURE__*/ S.TaggedError<ExpiredIteratorException>()(
-    "ExpiredIteratorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ExpiredIteratorException", [
+    "BadRequestError",
+  ])<{ readonly message?: string }> {}
 export class ExpiredNextTokenException
-  extends /*@__PURE__*/ S.TaggedError<ExpiredNextTokenException>()(
-    "ExpiredNextTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ExpiredNextTokenException", [
+    "BadRequestError",
+  ])<{ readonly message?: string }> {}
 export class InternalFailureException
-  extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()(
-    "InternalFailureException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withServerError, C.withRetryableError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InternalFailureException", [
+    "ServerError",
+    "RetryableError",
+  ])<{ readonly message?: string }> {}
 export class InvalidArgumentException
-  extends /*@__PURE__*/ S.TaggedError<InvalidArgumentException>()(
-    "InvalidArgumentException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidArgumentException", [
+    "BadRequestError",
+  ])<{ readonly message?: string }> {}
 export class KMSAccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<KMSAccessDeniedException>()(
-    "KMSAccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("KMSAccessDeniedException", [
+    "AuthError",
+  ])<{ readonly message?: string }> {}
 export class KMSDisabledException
-  extends /*@__PURE__*/ S.TaggedError<KMSDisabledException>()(
-    "KMSDisabledException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("KMSDisabledException", [
+    "BadRequestError",
+  ])<{ readonly message?: string }> {}
 export class KMSInvalidStateException
-  extends /*@__PURE__*/ S.TaggedError<KMSInvalidStateException>()(
-    "KMSInvalidStateException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("KMSInvalidStateException", [
+    "BadRequestError",
+  ])<{ readonly message?: string }> {}
 export class KMSNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<KMSNotFoundException>()(
-    "KMSNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("KMSNotFoundException", [
+    "BadRequestError",
+  ])<{ readonly message?: string }> {}
 export class KMSOptInRequired
-  extends /*@__PURE__*/ S.TaggedError<KMSOptInRequired>()("KMSOptInRequired", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-  }).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("KMSOptInRequired", [
+    "BadRequestError",
+  ])<{ readonly message?: string }> {}
 export class KMSThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<KMSThrottlingException>()(
-    "KMSThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+  extends /*@__PURE__*/ TE.TaggedError("KMSThrottlingException", [
+    "ThrottlingError",
+    "RetryableError",
+  ])<{ readonly message?: string }> {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withQuotaError, C.withRetryableError) {}
+  extends /*@__PURE__*/ TE.TaggedError("LimitExceededException", [
+    "QuotaError",
+    "RetryableError",
+  ])<{ readonly message?: string }> {}
 export class ProvisionedThroughputExceededException
-  extends /*@__PURE__*/ S.TaggedError<ProvisionedThroughputExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ProvisionedThroughputExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+    ["ThrottlingError", "RetryableError"],
+  )<{ readonly message?: string }> {}
 export class ResourceInUseException
-  extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()(
-    "ResourceInUseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withConflictError, C.withRetryableError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ResourceInUseException", [
+    "ConflictError",
+    "RetryableError",
+  ])<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withNotFoundError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ResourceNotFoundException", [
+    "NotFoundError",
+  ])<{ readonly message?: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
-    "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ValidationException", [
+    "BadRequestError",
+  ])<{ readonly message?: string }> {}
 export type StreamName = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type StreamARN = string;
 export type StreamId = string;
 export interface AddTagsToStreamInput {
@@ -833,45 +824,12 @@ export interface AddTagsToStreamInput {
   StreamARN?: string;
   StreamId?: string;
 }
-export const AddTagsToStreamInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    Tags: TagMap,
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "AddTagsToStreamInput",
-}) as any as S.Schema<AddTagsToStreamInput>;
 export interface AddTagsToStreamResponse {}
-export const AddTagsToStreamResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AddTagsToStreamResponse",
-}) as any as S.Schema<AddTagsToStreamResponse>;
 export type PositiveIntegerObject = number;
 export type StreamMode = "PROVISIONED" | "ON_DEMAND" | (string & {});
-export const StreamMode = S.String;
-
 export interface StreamModeDetails {
   StreamMode: StreamMode;
 }
-export const StreamModeDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ StreamMode: StreamMode }),
-).annotate({
-  identifier: "StreamModeDetails",
-}) as any as S.Schema<StreamModeDetails>;
 export type NaturalIntegerObject = number;
 export type MaxRecordSizeInKiB = number;
 export interface CreateStreamInput {
@@ -882,35 +840,7 @@ export interface CreateStreamInput {
   WarmThroughputMiBps?: number;
   MaxRecordSizeInKiB?: number;
 }
-export const CreateStreamInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.String,
-    ShardCount: S.optional(S.Number),
-    StreamModeDetails: S.optional(StreamModeDetails),
-    Tags: S.optional(TagMap),
-    WarmThroughputMiBps: S.optional(S.Number),
-    MaxRecordSizeInKiB: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "CreateStreamInput",
-}) as any as S.Schema<CreateStreamInput>;
 export interface CreateStreamResponse {}
-export const CreateStreamResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateStreamResponse",
-}) as any as S.Schema<CreateStreamResponse>;
 export type RetentionPeriodHours = number;
 export interface DecreaseStreamRetentionPeriodInput {
   StreamName?: string;
@@ -918,96 +848,20 @@ export interface DecreaseStreamRetentionPeriodInput {
   StreamARN?: string;
   StreamId?: string;
 }
-export const DecreaseStreamRetentionPeriodInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    RetentionPeriodHours: S.Number,
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "DecreaseStreamRetentionPeriodInput",
-}) as any as S.Schema<DecreaseStreamRetentionPeriodInput>;
 export interface DecreaseStreamRetentionPeriodResponse {}
-export const DecreaseStreamRetentionPeriodResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DecreaseStreamRetentionPeriodResponse",
-}) as any as S.Schema<DecreaseStreamRetentionPeriodResponse>;
 export type ResourceARN = string;
 export interface DeleteResourcePolicyInput {
   ResourceARN: string;
   StreamId?: string;
 }
-export const DeleteResourcePolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "DeleteResourcePolicyInput",
-}) as any as S.Schema<DeleteResourcePolicyInput>;
 export interface DeleteResourcePolicyResponse {}
-export const DeleteResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteResourcePolicyResponse",
-}) as any as S.Schema<DeleteResourcePolicyResponse>;
 export interface DeleteStreamInput {
   StreamName?: string;
   EnforceConsumerDeletion?: boolean;
   StreamARN?: string;
   StreamId?: string;
 }
-export const DeleteStreamInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    EnforceConsumerDeletion: S.optional(S.Boolean),
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "DeleteStreamInput",
-}) as any as S.Schema<DeleteStreamInput>;
 export interface DeleteStreamResponse {}
-export const DeleteStreamResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteStreamResponse",
-}) as any as S.Schema<DeleteStreamResponse>;
 export type ConsumerName = string;
 export type ConsumerARN = string;
 export interface DeregisterStreamConsumerInput {
@@ -1016,105 +870,23 @@ export interface DeregisterStreamConsumerInput {
   ConsumerARN?: string;
   StreamId?: string;
 }
-export const DeregisterStreamConsumerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    ConsumerName: S.optional(S.String),
-    ConsumerARN: S.optional(S.String).pipe(T.ContextParam("ConsumerARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "DeregisterStreamConsumerInput",
-}) as any as S.Schema<DeregisterStreamConsumerInput>;
 export interface DeregisterStreamConsumerResponse {}
-export const DeregisterStreamConsumerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeregisterStreamConsumerResponse",
-}) as any as S.Schema<DeregisterStreamConsumerResponse>;
 export interface DescribeAccountSettingsInput {}
-export const DescribeAccountSettingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "DescribeAccountSettingsInput",
-}) as any as S.Schema<DescribeAccountSettingsInput>;
 export type MinimumThroughputBillingCommitmentOutputStatus =
   | "ENABLED"
   | "DISABLED"
   | "ENABLED_UNTIL_EARLIEST_ALLOWED_END"
   | (string & {});
-export const MinimumThroughputBillingCommitmentOutputStatus = S.String;
-
 export interface MinimumThroughputBillingCommitmentOutput {
   Status: MinimumThroughputBillingCommitmentOutputStatus;
   StartedAt?: Date;
   EndedAt?: Date;
   EarliestAllowedEndAt?: Date;
 }
-export const MinimumThroughputBillingCommitmentOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Status: MinimumThroughputBillingCommitmentOutputStatus,
-      StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      EarliestAllowedEndAt: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-    }),
-).annotate({
-  identifier: "MinimumThroughputBillingCommitmentOutput",
-}) as any as S.Schema<MinimumThroughputBillingCommitmentOutput>;
 export interface DescribeAccountSettingsOutput {
   MinimumThroughputBillingCommitment?: MinimumThroughputBillingCommitmentOutput;
 }
-export const DescribeAccountSettingsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MinimumThroughputBillingCommitment: S.optional(
-      MinimumThroughputBillingCommitmentOutput,
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeAccountSettingsOutput",
-}) as any as S.Schema<DescribeAccountSettingsOutput>;
 export interface DescribeLimitsInput {}
-export const DescribeLimitsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "DescribeLimitsInput",
-}) as any as S.Schema<DescribeLimitsInput>;
 export type ShardCountObject = number;
 export type OnDemandStreamCountObject = number;
 export type OnDemandStreamCountLimitObject = number;
@@ -1124,16 +896,6 @@ export interface DescribeLimitsOutput {
   OnDemandStreamCount: number;
   OnDemandStreamCountLimit: number;
 }
-export const DescribeLimitsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ShardLimit: S.Number,
-    OpenShardCount: S.Number,
-    OnDemandStreamCount: S.Number,
-    OnDemandStreamCountLimit: S.Number,
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeLimitsOutput",
-}) as any as S.Schema<DescribeLimitsOutput>;
 export type DescribeStreamInputLimit = number;
 export type ShardId = string;
 export interface DescribeStreamInput {
@@ -1143,57 +905,22 @@ export interface DescribeStreamInput {
   StreamARN?: string;
   StreamId?: string;
 }
-export const DescribeStreamInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    ExclusiveStartShardId: S.optional(S.String),
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "DescribeStreamInput",
-}) as any as S.Schema<DescribeStreamInput>;
 export type StreamStatus =
   | "CREATING"
   | "DELETING"
   | "ACTIVE"
   | "UPDATING"
   | (string & {});
-export const StreamStatus = S.String;
-
 export type HashKey = string;
 export interface HashKeyRange {
   StartingHashKey: string;
   EndingHashKey: string;
 }
-export const HashKeyRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ StartingHashKey: S.String, EndingHashKey: S.String }),
-).annotate({ identifier: "HashKeyRange" }) as any as S.Schema<HashKeyRange>;
 export type SequenceNumber = string;
 export interface SequenceNumberRange {
   StartingSequenceNumber: string;
   EndingSequenceNumber?: string;
 }
-export const SequenceNumberRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartingSequenceNumber: S.String,
-    EndingSequenceNumber: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SequenceNumberRange",
-}) as any as S.Schema<SequenceNumberRange>;
 export interface Shard {
   ShardId: string;
   ParentShardId?: string;
@@ -1201,17 +928,7 @@ export interface Shard {
   HashKeyRange: HashKeyRange;
   SequenceNumberRange: SequenceNumberRange;
 }
-export const Shard = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ShardId: S.String,
-    ParentShardId: S.optional(S.String),
-    AdjacentParentShardId: S.optional(S.String),
-    HashKeyRange: HashKeyRange,
-    SequenceNumberRange: SequenceNumberRange,
-  }),
-).annotate({ identifier: "Shard" }) as any as S.Schema<Shard>;
 export type ShardList = Shard[];
-export const ShardList = /*@__PURE__*/ S.Array(Shard);
 export type MetricsName =
   | "IncomingBytes"
   | "IncomingRecords"
@@ -1222,23 +939,12 @@ export type MetricsName =
   | "IteratorAgeMilliseconds"
   | "ALL"
   | (string & {});
-export const MetricsName = S.String;
-
 export type MetricsNameList = MetricsName[];
-export const MetricsNameList = /*@__PURE__*/ S.Array(MetricsName);
 export interface EnhancedMetrics {
   ShardLevelMetrics?: MetricsName[];
 }
-export const EnhancedMetrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ShardLevelMetrics: S.optional(MetricsNameList) }),
-).annotate({
-  identifier: "EnhancedMetrics",
-}) as any as S.Schema<EnhancedMetrics>;
 export type EnhancedMonitoringList = EnhancedMetrics[];
-export const EnhancedMonitoringList = /*@__PURE__*/ S.Array(EnhancedMetrics);
 export type EncryptionType = "NONE" | "KMS" | (string & {});
-export const EncryptionType = S.String;
-
 export type KeyId = string;
 export interface StreamDescription {
   StreamName: string;
@@ -1253,61 +959,16 @@ export interface StreamDescription {
   EncryptionType?: EncryptionType;
   KeyId?: string;
 }
-export const StreamDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.String,
-    StreamARN: S.String,
-    StreamStatus: StreamStatus,
-    StreamModeDetails: S.optional(StreamModeDetails),
-    Shards: ShardList,
-    HasMoreShards: S.Boolean,
-    RetentionPeriodHours: S.Number,
-    StreamCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    EnhancedMonitoring: EnhancedMonitoringList,
-    EncryptionType: S.optional(EncryptionType),
-    KeyId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "StreamDescription",
-}) as any as S.Schema<StreamDescription>;
 export interface DescribeStreamOutput {
   StreamDescription: StreamDescription;
 }
-export const DescribeStreamOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ StreamDescription: StreamDescription }).pipe(ns),
-).annotate({
-  identifier: "DescribeStreamOutput",
-}) as any as S.Schema<DescribeStreamOutput>;
 export interface DescribeStreamConsumerInput {
   StreamARN?: string;
   ConsumerName?: string;
   ConsumerARN?: string;
   StreamId?: string;
 }
-export const DescribeStreamConsumerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    ConsumerName: S.optional(S.String),
-    ConsumerARN: S.optional(S.String).pipe(T.ContextParam("ConsumerARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "DescribeStreamConsumerInput",
-}) as any as S.Schema<DescribeStreamConsumerInput>;
 export type ConsumerStatus = "CREATING" | "DELETING" | "ACTIVE" | (string & {});
-export const ConsumerStatus = S.String;
-
 export interface ConsumerDescription {
   ConsumerName: string;
   ConsumerARN: string;
@@ -1315,63 +976,19 @@ export interface ConsumerDescription {
   ConsumerCreationTimestamp: Date;
   StreamARN: string;
 }
-export const ConsumerDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConsumerName: S.String,
-    ConsumerARN: S.String,
-    ConsumerStatus: ConsumerStatus,
-    ConsumerCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    StreamARN: S.String,
-  }),
-).annotate({
-  identifier: "ConsumerDescription",
-}) as any as S.Schema<ConsumerDescription>;
 export interface DescribeStreamConsumerOutput {
   ConsumerDescription: ConsumerDescription;
 }
-export const DescribeStreamConsumerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ConsumerDescription: ConsumerDescription }).pipe(ns),
-).annotate({
-  identifier: "DescribeStreamConsumerOutput",
-}) as any as S.Schema<DescribeStreamConsumerOutput>;
 export interface DescribeStreamSummaryInput {
   StreamName?: string;
   StreamARN?: string;
   StreamId?: string;
 }
-export const DescribeStreamSummaryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "DescribeStreamSummaryInput",
-}) as any as S.Schema<DescribeStreamSummaryInput>;
 export type ConsumerCountObject = number;
 export interface WarmThroughputObject {
   TargetMiBps?: number;
   CurrentMiBps?: number;
 }
-export const WarmThroughputObject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetMiBps: S.optional(S.Number),
-    CurrentMiBps: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "WarmThroughputObject",
-}) as any as S.Schema<WarmThroughputObject>;
 export interface StreamDescriptionSummary {
   StreamName: string;
   StreamARN: string;
@@ -1388,104 +1005,27 @@ export interface StreamDescriptionSummary {
   WarmThroughput?: WarmThroughputObject;
   MaxRecordSizeInKiB?: number;
 }
-export const StreamDescriptionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.String,
-    StreamARN: S.String,
-    StreamId: S.optional(S.String),
-    StreamStatus: StreamStatus,
-    StreamModeDetails: S.optional(StreamModeDetails),
-    RetentionPeriodHours: S.Number,
-    StreamCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    EnhancedMonitoring: EnhancedMonitoringList,
-    EncryptionType: S.optional(EncryptionType),
-    KeyId: S.optional(S.String),
-    OpenShardCount: S.optional(S.Number),
-    ConsumerCount: S.optional(S.Number),
-    WarmThroughput: S.optional(WarmThroughputObject),
-    MaxRecordSizeInKiB: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "StreamDescriptionSummary",
-}) as any as S.Schema<StreamDescriptionSummary>;
 export interface DescribeStreamSummaryOutput {
   StreamDescriptionSummary: StreamDescriptionSummary;
 }
-export const DescribeStreamSummaryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ StreamDescriptionSummary: StreamDescriptionSummary }).pipe(ns),
-).annotate({
-  identifier: "DescribeStreamSummaryOutput",
-}) as any as S.Schema<DescribeStreamSummaryOutput>;
 export interface DisableEnhancedMonitoringInput {
   StreamName?: string;
   ShardLevelMetrics: MetricsName[];
   StreamARN?: string;
   StreamId?: string;
 }
-export const DisableEnhancedMonitoringInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    ShardLevelMetrics: MetricsNameList,
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "DisableEnhancedMonitoringInput",
-}) as any as S.Schema<DisableEnhancedMonitoringInput>;
 export interface EnhancedMonitoringOutput {
   StreamName?: string;
   CurrentShardLevelMetrics?: MetricsName[];
   DesiredShardLevelMetrics?: MetricsName[];
   StreamARN?: string;
 }
-export const EnhancedMonitoringOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    CurrentShardLevelMetrics: S.optional(MetricsNameList),
-    DesiredShardLevelMetrics: S.optional(MetricsNameList),
-    StreamARN: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "EnhancedMonitoringOutput",
-}) as any as S.Schema<EnhancedMonitoringOutput>;
 export interface EnableEnhancedMonitoringInput {
   StreamName?: string;
   ShardLevelMetrics: MetricsName[];
   StreamARN?: string;
   StreamId?: string;
 }
-export const EnableEnhancedMonitoringInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    ShardLevelMetrics: MetricsNameList,
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "EnableEnhancedMonitoringInput",
-}) as any as S.Schema<EnableEnhancedMonitoringInput>;
 export type ShardIterator = string;
 export type GetRecordsInputLimit = number;
 export interface GetRecordsInput {
@@ -1494,27 +1034,6 @@ export interface GetRecordsInput {
   StreamARN?: string;
   StreamId?: string;
 }
-export const GetRecordsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ShardIterator: S.String,
-    Limit: S.optional(S.Number),
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "data" } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetRecordsInput",
-}) as any as S.Schema<GetRecordsInput>;
 export type Data = Uint8Array;
 export type PartitionKey = string;
 export interface Record {
@@ -1524,84 +1043,29 @@ export interface Record {
   PartitionKey: string;
   EncryptionType?: EncryptionType;
 }
-export const Record = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SequenceNumber: S.String,
-    ApproximateArrivalTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Data: T.Blob,
-    PartitionKey: S.String,
-    EncryptionType: S.optional(EncryptionType),
-  }),
-).annotate({ identifier: "Record" }) as any as S.Schema<Record>;
 export type RecordList = Record[];
-export const RecordList = /*@__PURE__*/ S.Array(Record);
 export type MillisBehindLatest = number;
 export type ShardIdList = string[];
-export const ShardIdList = /*@__PURE__*/ S.Array(S.String);
 export interface ChildShard {
   ShardId: string;
   ParentShards: string[];
   HashKeyRange: HashKeyRange;
 }
-export const ChildShard = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ShardId: S.String,
-    ParentShards: ShardIdList,
-    HashKeyRange: HashKeyRange,
-  }),
-).annotate({ identifier: "ChildShard" }) as any as S.Schema<ChildShard>;
 export type ChildShardList = ChildShard[];
-export const ChildShardList = /*@__PURE__*/ S.Array(ChildShard);
 export interface GetRecordsOutput {
   Records: Record[];
   NextShardIterator?: string;
   MillisBehindLatest?: number;
   ChildShards?: ChildShard[];
 }
-export const GetRecordsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Records: RecordList,
-    NextShardIterator: S.optional(S.String),
-    MillisBehindLatest: S.optional(S.Number),
-    ChildShards: S.optional(ChildShardList),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetRecordsOutput",
-}) as any as S.Schema<GetRecordsOutput>;
 export interface GetResourcePolicyInput {
   ResourceARN: string;
   StreamId?: string;
 }
-export const GetResourcePolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetResourcePolicyInput",
-}) as any as S.Schema<GetResourcePolicyInput>;
 export type Policy = string;
 export interface GetResourcePolicyOutput {
   Policy: string;
 }
-export const GetResourcePolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.String }).pipe(ns),
-).annotate({
-  identifier: "GetResourcePolicyOutput",
-}) as any as S.Schema<GetResourcePolicyOutput>;
 export type ShardIteratorType =
   | "AT_SEQUENCE_NUMBER"
   | "AFTER_SEQUENCE_NUMBER"
@@ -1609,8 +1073,6 @@ export type ShardIteratorType =
   | "LATEST"
   | "AT_TIMESTAMP"
   | (string & {});
-export const ShardIteratorType = S.String;
-
 export interface GetShardIteratorInput {
   StreamName?: string;
   ShardId: string;
@@ -1620,71 +1082,16 @@ export interface GetShardIteratorInput {
   StreamARN?: string;
   StreamId?: string;
 }
-export const GetShardIteratorInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    ShardId: S.String,
-    ShardIteratorType: ShardIteratorType,
-    StartingSequenceNumber: S.optional(S.String),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "data" } }),
-    ),
-  ),
-).annotate({
-  identifier: "GetShardIteratorInput",
-}) as any as S.Schema<GetShardIteratorInput>;
 export interface GetShardIteratorOutput {
   ShardIterator?: string;
 }
-export const GetShardIteratorOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ShardIterator: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetShardIteratorOutput",
-}) as any as S.Schema<GetShardIteratorOutput>;
 export interface IncreaseStreamRetentionPeriodInput {
   StreamName?: string;
   RetentionPeriodHours: number;
   StreamARN?: string;
   StreamId?: string;
 }
-export const IncreaseStreamRetentionPeriodInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    RetentionPeriodHours: S.Number,
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "IncreaseStreamRetentionPeriodInput",
-}) as any as S.Schema<IncreaseStreamRetentionPeriodInput>;
 export interface IncreaseStreamRetentionPeriodResponse {}
-export const IncreaseStreamRetentionPeriodResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "IncreaseStreamRetentionPeriodResponse",
-}) as any as S.Schema<IncreaseStreamRetentionPeriodResponse>;
 export type NextToken = string;
 export type ListShardsInputLimit = number;
 export type ShardFilterType =
@@ -1695,20 +1102,11 @@ export type ShardFilterType =
   | "AT_TIMESTAMP"
   | "FROM_TIMESTAMP"
   | (string & {});
-export const ShardFilterType = S.String;
-
 export interface ShardFilter {
   Type: ShardFilterType;
   ShardId?: string;
   Timestamp?: Date;
 }
-export const ShardFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: ShardFilterType,
-    ShardId: S.optional(S.String),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "ShardFilter" }) as any as S.Schema<ShardFilter>;
 export interface ListShardsInput {
   StreamName?: string;
   NextToken?: string;
@@ -1719,45 +1117,10 @@ export interface ListShardsInput {
   StreamARN?: string;
   StreamId?: string;
 }
-export const ListShardsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    ExclusiveStartShardId: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    StreamCreationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ShardFilter: S.optional(ShardFilter),
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "ListShardsInput",
-}) as any as S.Schema<ListShardsInput>;
 export interface ListShardsOutput {
   Shards?: Shard[];
   NextToken?: string;
 }
-export const ListShardsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Shards: S.optional(ShardList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListShardsOutput",
-}) as any as S.Schema<ListShardsOutput>;
 export type ListStreamConsumersInputLimit = number;
 export interface ListStreamConsumersInput {
   StreamARN: string;
@@ -1766,86 +1129,24 @@ export interface ListStreamConsumersInput {
   StreamCreationTimestamp?: Date;
   StreamId?: string;
 }
-export const ListStreamConsumersInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamARN: S.String.pipe(T.ContextParam("StreamARN")),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    StreamCreationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "ListStreamConsumersInput",
-}) as any as S.Schema<ListStreamConsumersInput>;
 export interface Consumer {
   ConsumerName: string;
   ConsumerARN: string;
   ConsumerStatus: ConsumerStatus;
   ConsumerCreationTimestamp: Date;
 }
-export const Consumer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConsumerName: S.String,
-    ConsumerARN: S.String,
-    ConsumerStatus: ConsumerStatus,
-    ConsumerCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({ identifier: "Consumer" }) as any as S.Schema<Consumer>;
 export type ConsumerList = Consumer[];
-export const ConsumerList = /*@__PURE__*/ S.Array(Consumer);
 export interface ListStreamConsumersOutput {
   Consumers?: Consumer[];
   NextToken?: string;
 }
-export const ListStreamConsumersOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Consumers: S.optional(ConsumerList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListStreamConsumersOutput",
-}) as any as S.Schema<ListStreamConsumersOutput>;
 export type ListStreamsInputLimit = number;
 export interface ListStreamsInput {
   Limit?: number;
   ExclusiveStartStreamName?: string;
   NextToken?: string;
 }
-export const ListStreamsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Limit: S.optional(S.Number),
-    ExclusiveStartStreamName: S.optional(S.String),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "ListStreamsInput",
-}) as any as S.Schema<ListStreamsInput>;
 export type StreamNameList = string[];
-export const StreamNameList = /*@__PURE__*/ S.Array(S.String);
 export interface StreamSummary {
   StreamName: string;
   StreamARN: string;
@@ -1853,75 +1154,25 @@ export interface StreamSummary {
   StreamModeDetails?: StreamModeDetails;
   StreamCreationTimestamp?: Date;
 }
-export const StreamSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.String,
-    StreamARN: S.String,
-    StreamStatus: StreamStatus,
-    StreamModeDetails: S.optional(StreamModeDetails),
-    StreamCreationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({ identifier: "StreamSummary" }) as any as S.Schema<StreamSummary>;
 export type StreamSummaryList = StreamSummary[];
-export const StreamSummaryList = /*@__PURE__*/ S.Array(StreamSummary);
 export interface ListStreamsOutput {
   StreamNames: string[];
   HasMoreStreams: boolean;
   NextToken?: string;
   StreamSummaries?: StreamSummary[];
 }
-export const ListStreamsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamNames: StreamNameList,
-    HasMoreStreams: S.Boolean,
-    NextToken: S.optional(S.String),
-    StreamSummaries: S.optional(StreamSummaryList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListStreamsOutput",
-}) as any as S.Schema<ListStreamsOutput>;
 export interface ListTagsForResourceInput {
   ResourceARN: string;
   StreamId?: string;
 }
-export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
 export interface Tag {
   Key: string;
   Value?: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.optional(S.String) }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface ListTagsForResourceOutput {
   Tags?: Tag[];
 }
-export const ListTagsForResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForResourceOutput",
-}) as any as S.Schema<ListTagsForResourceOutput>;
 export type ListTagsForStreamInputLimit = number;
 export interface ListTagsForStreamInput {
   StreamName?: string;
@@ -1930,37 +1181,10 @@ export interface ListTagsForStreamInput {
   StreamARN?: string;
   StreamId?: string;
 }
-export const ListTagsForStreamInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    ExclusiveStartTagKey: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForStreamInput",
-}) as any as S.Schema<ListTagsForStreamInput>;
 export interface ListTagsForStreamOutput {
   Tags: Tag[];
   HasMoreTags: boolean;
 }
-export const ListTagsForStreamOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: TagList, HasMoreTags: S.Boolean }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForStreamOutput",
-}) as any as S.Schema<ListTagsForStreamOutput>;
 export interface MergeShardsInput {
   StreamName?: string;
   ShardToMerge: string;
@@ -1968,34 +1192,7 @@ export interface MergeShardsInput {
   StreamARN?: string;
   StreamId?: string;
 }
-export const MergeShardsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    ShardToMerge: S.String,
-    AdjacentShardToMerge: S.String,
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "MergeShardsInput",
-}) as any as S.Schema<MergeShardsInput>;
 export interface MergeShardsResponse {}
-export const MergeShardsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "MergeShardsResponse",
-}) as any as S.Schema<MergeShardsResponse>;
 export interface PutRecordInput {
   StreamName?: string;
   Data: Uint8Array;
@@ -2005,87 +1202,23 @@ export interface PutRecordInput {
   StreamARN?: string;
   StreamId?: string;
 }
-export const PutRecordInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    Data: T.Blob,
-    PartitionKey: S.String,
-    ExplicitHashKey: S.optional(S.String),
-    SequenceNumberForOrdering: S.optional(S.String),
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "data" } }),
-    ),
-  ),
-).annotate({ identifier: "PutRecordInput" }) as any as S.Schema<PutRecordInput>;
 export interface PutRecordOutput {
   ShardId: string;
   SequenceNumber: string;
   EncryptionType?: EncryptionType;
 }
-export const PutRecordOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ShardId: S.String,
-    SequenceNumber: S.String,
-    EncryptionType: S.optional(EncryptionType),
-  }).pipe(ns),
-).annotate({
-  identifier: "PutRecordOutput",
-}) as any as S.Schema<PutRecordOutput>;
 export interface PutRecordsRequestEntry {
   Data: Uint8Array;
   ExplicitHashKey?: string;
   PartitionKey: string;
 }
-export const PutRecordsRequestEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Data: T.Blob,
-    ExplicitHashKey: S.optional(S.String),
-    PartitionKey: S.String,
-  }),
-).annotate({
-  identifier: "PutRecordsRequestEntry",
-}) as any as S.Schema<PutRecordsRequestEntry>;
 export type PutRecordsRequestEntryList = PutRecordsRequestEntry[];
-export const PutRecordsRequestEntryList = /*@__PURE__*/ S.Array(
-  PutRecordsRequestEntry,
-);
 export interface PutRecordsInput {
   Records: PutRecordsRequestEntry[];
   StreamName?: string;
   StreamARN?: string;
   StreamId?: string;
 }
-export const PutRecordsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Records: PutRecordsRequestEntryList,
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "data" } }),
-    ),
-  ),
-).annotate({
-  identifier: "PutRecordsInput",
-}) as any as S.Schema<PutRecordsInput>;
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface PutRecordsResultEntry {
@@ -2094,135 +1227,35 @@ export interface PutRecordsResultEntry {
   ErrorCode?: string;
   ErrorMessage?: string;
 }
-export const PutRecordsResultEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SequenceNumber: S.optional(S.String),
-    ShardId: S.optional(S.String),
-    ErrorCode: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PutRecordsResultEntry",
-}) as any as S.Schema<PutRecordsResultEntry>;
 export type PutRecordsResultEntryList = PutRecordsResultEntry[];
-export const PutRecordsResultEntryList = /*@__PURE__*/ S.Array(
-  PutRecordsResultEntry,
-);
 export interface PutRecordsOutput {
   FailedRecordCount?: number;
   Records: PutRecordsResultEntry[];
   EncryptionType?: EncryptionType;
 }
-export const PutRecordsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FailedRecordCount: S.optional(S.Number),
-    Records: PutRecordsResultEntryList,
-    EncryptionType: S.optional(EncryptionType),
-  }).pipe(ns),
-).annotate({
-  identifier: "PutRecordsOutput",
-}) as any as S.Schema<PutRecordsOutput>;
 export interface PutResourcePolicyInput {
   ResourceARN: string;
   StreamId?: string;
   Policy: string;
 }
-export const PutResourcePolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-    Policy: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "PutResourcePolicyInput",
-}) as any as S.Schema<PutResourcePolicyInput>;
 export interface PutResourcePolicyResponse {}
-export const PutResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutResourcePolicyResponse",
-}) as any as S.Schema<PutResourcePolicyResponse>;
 export interface RegisterStreamConsumerInput {
   StreamARN: string;
   ConsumerName: string;
   StreamId?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const RegisterStreamConsumerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamARN: S.String.pipe(T.ContextParam("StreamARN")),
-    ConsumerName: S.String,
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-    Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "RegisterStreamConsumerInput",
-}) as any as S.Schema<RegisterStreamConsumerInput>;
 export interface RegisterStreamConsumerOutput {
   Consumer: Consumer;
 }
-export const RegisterStreamConsumerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Consumer: Consumer }).pipe(ns),
-).annotate({
-  identifier: "RegisterStreamConsumerOutput",
-}) as any as S.Schema<RegisterStreamConsumerOutput>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface RemoveTagsFromStreamInput {
   StreamName?: string;
   TagKeys: string[];
   StreamARN?: string;
   StreamId?: string;
 }
-export const RemoveTagsFromStreamInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    TagKeys: TagKeyList,
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "RemoveTagsFromStreamInput",
-}) as any as S.Schema<RemoveTagsFromStreamInput>;
 export interface RemoveTagsFromStreamResponse {}
-export const RemoveTagsFromStreamResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RemoveTagsFromStreamResponse",
-}) as any as S.Schema<RemoveTagsFromStreamResponse>;
 export interface SplitShardInput {
   StreamName?: string;
   ShardToSplit: string;
@@ -2230,34 +1263,7 @@ export interface SplitShardInput {
   StreamARN?: string;
   StreamId?: string;
 }
-export const SplitShardInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    ShardToSplit: S.String,
-    NewStartingHashKey: S.String,
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "SplitShardInput",
-}) as any as S.Schema<SplitShardInput>;
 export interface SplitShardResponse {}
-export const SplitShardResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SplitShardResponse",
-}) as any as S.Schema<SplitShardResponse>;
 export interface StartStreamEncryptionInput {
   StreamName?: string;
   EncryptionType: EncryptionType;
@@ -2265,34 +1271,7 @@ export interface StartStreamEncryptionInput {
   StreamARN?: string;
   StreamId?: string;
 }
-export const StartStreamEncryptionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    EncryptionType: EncryptionType,
-    KeyId: S.String,
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "StartStreamEncryptionInput",
-}) as any as S.Schema<StartStreamEncryptionInput>;
 export interface StartStreamEncryptionResponse {}
-export const StartStreamEncryptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "StartStreamEncryptionResponse",
-}) as any as S.Schema<StartStreamEncryptionResponse>;
 export interface StopStreamEncryptionInput {
   StreamName?: string;
   EncryptionType: EncryptionType;
@@ -2300,91 +1279,24 @@ export interface StopStreamEncryptionInput {
   StreamARN?: string;
   StreamId?: string;
 }
-export const StopStreamEncryptionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    EncryptionType: EncryptionType,
-    KeyId: S.String,
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "StopStreamEncryptionInput",
-}) as any as S.Schema<StopStreamEncryptionInput>;
 export interface StopStreamEncryptionResponse {}
-export const StopStreamEncryptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "StopStreamEncryptionResponse",
-}) as any as S.Schema<StopStreamEncryptionResponse>;
 export interface StartingPosition {
   Type: ShardIteratorType;
   SequenceNumber?: string;
   Timestamp?: Date;
 }
-export const StartingPosition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: ShardIteratorType,
-    SequenceNumber: S.optional(S.String),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "StartingPosition",
-}) as any as S.Schema<StartingPosition>;
 export interface SubscribeToShardInput {
   ConsumerARN: string;
   StreamId?: string;
   ShardId: string;
   StartingPosition: StartingPosition;
 }
-export const SubscribeToShardInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConsumerARN: S.String.pipe(T.ContextParam("ConsumerARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-    ShardId: S.String,
-    StartingPosition: StartingPosition,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "data" } }),
-    ),
-  ),
-).annotate({
-  identifier: "SubscribeToShardInput",
-}) as any as S.Schema<SubscribeToShardInput>;
 export interface SubscribeToShardEvent {
   Records: Record[];
   ContinuationSequenceNumber: string;
   MillisBehindLatest: number;
   ChildShards?: ChildShard[];
 }
-export const SubscribeToShardEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Records: RecordList,
-    ContinuationSequenceNumber: S.String,
-    MillisBehindLatest: S.Number,
-    ChildShards: S.optional(ChildShardList),
-  }),
-).annotate({
-  identifier: "SubscribeToShardEvent",
-}) as any as S.Schema<SubscribeToShardEvent>;
 export type SubscribeToShardEventStream =
   | {
       SubscribeToShardEvent: SubscribeToShardEvent;
@@ -2506,207 +1418,41 @@ export type SubscribeToShardEventStream =
       KMSThrottlingException?: never;
       InternalFailureException: InternalFailureException;
     };
-export const SubscribeToShardEventStream = /*@__PURE__*/ T.EventStream(
-  S.Union([
-    S.Struct({ SubscribeToShardEvent: SubscribeToShardEvent }),
-    S.Struct({
-      ResourceNotFoundException: S.suspend(
-        () => ResourceNotFoundException,
-      ).annotate({ identifier: "ResourceNotFoundException" }),
-    }),
-    S.Struct({
-      ResourceInUseException: S.suspend(() => ResourceInUseException).annotate({
-        identifier: "ResourceInUseException",
-      }),
-    }),
-    S.Struct({
-      KMSDisabledException: S.suspend(() => KMSDisabledException).annotate({
-        identifier: "KMSDisabledException",
-      }),
-    }),
-    S.Struct({
-      KMSInvalidStateException: S.suspend(
-        () => KMSInvalidStateException,
-      ).annotate({ identifier: "KMSInvalidStateException" }),
-    }),
-    S.Struct({
-      KMSAccessDeniedException: S.suspend(
-        () => KMSAccessDeniedException,
-      ).annotate({ identifier: "KMSAccessDeniedException" }),
-    }),
-    S.Struct({
-      KMSNotFoundException: S.suspend(() => KMSNotFoundException).annotate({
-        identifier: "KMSNotFoundException",
-      }),
-    }),
-    S.Struct({
-      KMSOptInRequired: S.suspend(() => KMSOptInRequired).annotate({
-        identifier: "KMSOptInRequired",
-      }),
-    }),
-    S.Struct({
-      KMSThrottlingException: S.suspend(() => KMSThrottlingException).annotate({
-        identifier: "KMSThrottlingException",
-      }),
-    }),
-    S.Struct({
-      InternalFailureException: S.suspend(
-        () => InternalFailureException,
-      ).annotate({ identifier: "InternalFailureException" }),
-    }),
-  ]),
-) as any as S.Schema<stream.Stream<SubscribeToShardEventStream, Error, never>>;
 export interface SubscribeToShardOutput {
   EventStream: stream.Stream<SubscribeToShardEventStream, Error, never>;
 }
-export const SubscribeToShardOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EventStream: SubscribeToShardEventStream }).pipe(ns),
-).annotate({
-  identifier: "SubscribeToShardOutput",
-}) as any as S.Schema<SubscribeToShardOutput>;
 export interface TagResourceInput {
   Tags: { [key: string]: string | undefined };
   ResourceARN: string;
   StreamId?: string;
 }
-export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Tags: TagMap,
-    ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceInput {
   TagKeys: string[];
   ResourceARN: string;
   StreamId?: string;
 }
-export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TagKeys: TagKeyList,
-    ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export type MinimumThroughputBillingCommitmentInputStatus =
   | "ENABLED"
   | "DISABLED"
   | (string & {});
-export const MinimumThroughputBillingCommitmentInputStatus = S.String;
-
 export interface MinimumThroughputBillingCommitmentInput {
   Status: MinimumThroughputBillingCommitmentInputStatus;
 }
-export const MinimumThroughputBillingCommitmentInput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Status: MinimumThroughputBillingCommitmentInputStatus }),
-).annotate({
-  identifier: "MinimumThroughputBillingCommitmentInput",
-}) as any as S.Schema<MinimumThroughputBillingCommitmentInput>;
 export interface UpdateAccountSettingsInput {
   MinimumThroughputBillingCommitment: MinimumThroughputBillingCommitmentInput;
 }
-export const UpdateAccountSettingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MinimumThroughputBillingCommitment: MinimumThroughputBillingCommitmentInput,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAccountSettingsInput",
-}) as any as S.Schema<UpdateAccountSettingsInput>;
 export interface UpdateAccountSettingsOutput {
   MinimumThroughputBillingCommitment?: MinimumThroughputBillingCommitmentOutput;
 }
-export const UpdateAccountSettingsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MinimumThroughputBillingCommitment: S.optional(
-      MinimumThroughputBillingCommitmentOutput,
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateAccountSettingsOutput",
-}) as any as S.Schema<UpdateAccountSettingsOutput>;
 export interface UpdateMaxRecordSizeInput {
   StreamARN?: string;
   StreamId?: string;
   MaxRecordSizeInKiB: number;
 }
-export const UpdateMaxRecordSizeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-    MaxRecordSizeInKiB: S.Number,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "UpdateMaxRecordSizeInput",
-}) as any as S.Schema<UpdateMaxRecordSizeInput>;
 export interface UpdateMaxRecordSizeResponse {}
-export const UpdateMaxRecordSizeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateMaxRecordSizeResponse",
-}) as any as S.Schema<UpdateMaxRecordSizeResponse>;
 export type ScalingType = "UNIFORM_SCALING" | (string & {});
-export const ScalingType = S.String;
-
 export interface UpdateShardCountInput {
   StreamName?: string;
   TargetShardCount: number;
@@ -2714,118 +1460,30 @@ export interface UpdateShardCountInput {
   StreamARN?: string;
   StreamId?: string;
 }
-export const UpdateShardCountInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    TargetShardCount: S.Number,
-    ScalingType: ScalingType,
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "UpdateShardCountInput",
-}) as any as S.Schema<UpdateShardCountInput>;
 export interface UpdateShardCountOutput {
   StreamName?: string;
   CurrentShardCount?: number;
   TargetShardCount?: number;
   StreamARN?: string;
 }
-export const UpdateShardCountOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    CurrentShardCount: S.optional(S.Number),
-    TargetShardCount: S.optional(S.Number),
-    StreamARN: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateShardCountOutput",
-}) as any as S.Schema<UpdateShardCountOutput>;
 export interface UpdateStreamModeInput {
   StreamARN: string;
   StreamId?: string;
   StreamModeDetails: StreamModeDetails;
   WarmThroughputMiBps?: number;
 }
-export const UpdateStreamModeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamARN: S.String.pipe(T.ContextParam("StreamARN")),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-    StreamModeDetails: StreamModeDetails,
-    WarmThroughputMiBps: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "UpdateStreamModeInput",
-}) as any as S.Schema<UpdateStreamModeInput>;
 export interface UpdateStreamModeResponse {}
-export const UpdateStreamModeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateStreamModeResponse",
-}) as any as S.Schema<UpdateStreamModeResponse>;
 export interface UpdateStreamWarmThroughputInput {
   StreamARN?: string;
   StreamName?: string;
   StreamId?: string;
   WarmThroughputMiBps: number;
 }
-export const UpdateStreamWarmThroughputInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
-    StreamName: S.optional(S.String),
-    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-    WarmThroughputMiBps: S.Number,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ OperationType: { value: "control" } }),
-    ),
-  ),
-).annotate({
-  identifier: "UpdateStreamWarmThroughputInput",
-}) as any as S.Schema<UpdateStreamWarmThroughputInput>;
 export interface UpdateStreamWarmThroughputOutput {
   StreamARN?: string;
   StreamName?: string;
   WarmThroughput?: WarmThroughputObject;
 }
-export const UpdateStreamWarmThroughputOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamARN: S.optional(S.String),
-    StreamName: S.optional(S.String),
-    WarmThroughput: S.optional(WarmThroughputObject),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateStreamWarmThroughputOutput",
-}) as any as S.Schema<UpdateStreamWarmThroughputOutput>;
 export type AddTagsToStreamError =
   | AccessDeniedException
   | InvalidArgumentException
@@ -2853,8 +1511,16 @@ export const addTagsToStream: API.OperationMethod<
   AddTagsToStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddTagsToStreamInput,
-  output: AddTagsToStreamResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      Tags: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -2865,7 +1531,7 @@ export const addTagsToStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToStream",
-}));
+})) as any;
 
 export type CreateStreamError =
   | InvalidArgumentException
@@ -2920,8 +1586,18 @@ export const createStream: API.OperationMethod<
   CreateStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateStreamInput,
-  output: CreateStreamResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      ShardCount: 0,
+      StreamModeDetails: i_StreamModeDetails,
+      Tags: 0,
+      WarmThroughputMiBps: 0,
+      MaxRecordSizeInKiB: 0,
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     InvalidArgumentException,
     LimitExceededException,
@@ -2931,7 +1607,7 @@ export const createStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStream",
-}));
+})) as any;
 
 export type DecreaseStreamRetentionPeriodError =
   | AccessDeniedException
@@ -2959,8 +1635,16 @@ export const decreaseStreamRetentionPeriod: API.OperationMethod<
   DecreaseStreamRetentionPeriodError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DecreaseStreamRetentionPeriodInput,
-  output: DecreaseStreamRetentionPeriodResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      RetentionPeriodHours: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -2971,7 +1655,7 @@ export const decreaseStreamRetentionPeriod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseStreamRetentionPeriod",
-}));
+})) as any;
 
 export type DeleteResourcePolicyError =
   | AccessDeniedException
@@ -2993,8 +1677,14 @@ export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResourcePolicyInput,
-  output: DeleteResourcePolicyResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ResourceARN: D.m({ context: "ResourceARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3005,7 +1695,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
-}));
+})) as any;
 
 export type DeleteStreamError =
   | AccessDeniedException
@@ -3048,8 +1738,16 @@ export const deleteStream: API.OperationMethod<
   DeleteStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteStreamInput,
-  output: DeleteStreamResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      EnforceConsumerDeletion: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3060,7 +1758,7 @@ export const deleteStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStream",
-}));
+})) as any;
 
 export type DeregisterStreamConsumerError =
   | InvalidArgumentException
@@ -3084,8 +1782,16 @@ export const deregisterStreamConsumer: API.OperationMethod<
   DeregisterStreamConsumerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeregisterStreamConsumerInput,
-  output: DeregisterStreamConsumerResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamARN: D.m({ context: "StreamARN" }),
+      ConsumerName: 0,
+      ConsumerARN: D.m({ context: "ConsumerARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     InvalidArgumentException,
     LimitExceededException,
@@ -3094,7 +1800,7 @@ export const deregisterStreamConsumer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterStreamConsumer",
-}));
+})) as any;
 
 export type DescribeAccountSettingsError =
   | LimitExceededException
@@ -3110,13 +1816,20 @@ export const describeAccountSettings: API.OperationMethod<
   DescribeAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeAccountSettingsInput,
-  output: DescribeAccountSettingsOutput,
+  descriptor: {
+    service: svc,
+    input: {},
+    output: {
+      MinimumThroughputBillingCommitment:
+        o_MinimumThroughputBillingCommitmentOutput,
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountSettings",
-}));
+})) as any;
 
 export type DescribeLimitsError = LimitExceededException | CommonErrors;
 /**
@@ -3133,13 +1846,16 @@ export const describeLimits: API.OperationMethod<
   DescribeLimitsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeLimitsInput,
-  output: DescribeLimitsOutput,
+  descriptor: {
+    service: svc,
+    input: {},
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLimits",
-}));
+})) as any;
 
 export type DescribeStreamError =
   | AccessDeniedException
@@ -3182,8 +1898,18 @@ export const describeStream: API.OperationMethod<
   DescribeStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeStreamInput,
-  output: DescribeStreamOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      Limit: 0,
+      ExclusiveStartShardId: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    output: { StreamDescription: { StreamCreationTimestamp: D.ts } },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3193,7 +1919,7 @@ export const describeStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStream",
-}));
+})) as any;
 
 export type DescribeStreamConsumerError =
   | InvalidArgumentException
@@ -3219,8 +1945,17 @@ export const describeStreamConsumer: API.OperationMethod<
   DescribeStreamConsumerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeStreamConsumerInput,
-  output: DescribeStreamConsumerOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamARN: D.m({ context: "StreamARN" }),
+      ConsumerName: 0,
+      ConsumerARN: D.m({ context: "ConsumerARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    output: { ConsumerDescription: { ConsumerCreationTimestamp: D.ts } },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     InvalidArgumentException,
     LimitExceededException,
@@ -3229,7 +1964,7 @@ export const describeStreamConsumer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamConsumer",
-}));
+})) as any;
 
 export type DescribeStreamSummaryError =
   | AccessDeniedException
@@ -3258,8 +1993,16 @@ export const describeStreamSummary: API.OperationMethod<
   DescribeStreamSummaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeStreamSummaryInput,
-  output: DescribeStreamSummaryOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    output: { StreamDescriptionSummary: { StreamCreationTimestamp: D.ts } },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3269,7 +2012,7 @@ export const describeStreamSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamSummary",
-}));
+})) as any;
 
 export type DisableEnhancedMonitoringError =
   | AccessDeniedException
@@ -3291,8 +2034,16 @@ export const disableEnhancedMonitoring: API.OperationMethod<
   DisableEnhancedMonitoringError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisableEnhancedMonitoringInput,
-  output: EnhancedMonitoringOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      ShardLevelMetrics: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3303,7 +2054,7 @@ export const disableEnhancedMonitoring: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableEnhancedMonitoring",
-}));
+})) as any;
 
 export type EnableEnhancedMonitoringError =
   | AccessDeniedException
@@ -3325,8 +2076,16 @@ export const enableEnhancedMonitoring: API.OperationMethod<
   EnableEnhancedMonitoringError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: EnableEnhancedMonitoringInput,
-  output: EnhancedMonitoringOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      ShardLevelMetrics: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3337,7 +2096,7 @@ export const enableEnhancedMonitoring: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableEnhancedMonitoring",
-}));
+})) as any;
 
 export type GetRecordsError =
   | AccessDeniedException
@@ -3423,8 +2182,17 @@ export const getRecords: API.OperationMethod<
   GetRecordsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRecordsInput,
-  output: GetRecordsOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      ShardIterator: 0,
+      Limit: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    output: { Records: D.list(o_Record) },
+    staticContext: { OperationType: { value: "data" } },
+  },
   errors: [
     AccessDeniedException,
     ExpiredIteratorException,
@@ -3442,7 +2210,7 @@ export const getRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecords",
-}));
+})) as any;
 
 export type GetResourcePolicyError =
   | AccessDeniedException
@@ -3464,8 +2232,14 @@ export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyInput,
-  output: GetResourcePolicyOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      ResourceARN: D.m({ context: "ResourceARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3476,7 +2250,7 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-}));
+})) as any;
 
 export type GetShardIteratorError =
   | AccessDeniedException
@@ -3536,8 +2310,19 @@ export const getShardIterator: API.OperationMethod<
   GetShardIteratorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetShardIteratorInput,
-  output: GetShardIteratorOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      ShardId: 0,
+      ShardIteratorType: 0,
+      StartingSequenceNumber: 0,
+      Timestamp: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "data" } },
+  },
   errors: [
     AccessDeniedException,
     InternalFailureException,
@@ -3548,7 +2333,7 @@ export const getShardIterator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetShardIterator",
-}));
+})) as any;
 
 export type IncreaseStreamRetentionPeriodError =
   | AccessDeniedException
@@ -3579,8 +2364,16 @@ export const increaseStreamRetentionPeriod: API.OperationMethod<
   IncreaseStreamRetentionPeriodError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: IncreaseStreamRetentionPeriodInput,
-  output: IncreaseStreamRetentionPeriodResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      RetentionPeriodHours: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3591,7 +2384,7 @@ export const increaseStreamRetentionPeriod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IncreaseStreamRetentionPeriod",
-}));
+})) as any;
 
 export type ListShardsError =
   | AccessDeniedException
@@ -3624,8 +2417,20 @@ export const listShards: API.OperationMethod<
   ListShardsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListShardsInput,
-  output: ListShardsOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      NextToken: 0,
+      ExclusiveStartShardId: 0,
+      MaxResults: 0,
+      StreamCreationTimestamp: 0,
+      ShardFilter: { Type: 0, ShardId: 0, Timestamp: 0 },
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     ExpiredNextTokenException,
@@ -3637,7 +2442,7 @@ export const listShards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListShards",
-}));
+})) as any;
 
 export type ListStreamConsumersError =
   | ExpiredNextTokenException
@@ -3659,8 +2464,18 @@ export const listStreamConsumers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStreamConsumersInput,
-  output: ListStreamConsumersOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamARN: D.m({ context: "StreamARN" }),
+      NextToken: 0,
+      MaxResults: 0,
+      StreamCreationTimestamp: 0,
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    output: { Consumers: D.list(o_Consumer) },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     ExpiredNextTokenException,
     InvalidArgumentException,
@@ -3710,8 +2525,12 @@ export const listStreams: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStreamsInput,
-  output: ListStreamsOutput,
+  descriptor: {
+    service: svc,
+    input: { Limit: 0, ExclusiveStartStreamName: 0, NextToken: 0 },
+    output: { StreamSummaries: D.list({ StreamCreationTimestamp: D.ts }) },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     ExpiredNextTokenException,
     InvalidArgumentException,
@@ -3745,8 +2564,14 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      ResourceARN: D.m({ context: "ResourceARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3757,7 +2582,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type ListTagsForStreamError =
   | AccessDeniedException
@@ -3779,8 +2604,17 @@ export const listTagsForStream: API.OperationMethod<
   ListTagsForStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForStreamInput,
-  output: ListTagsForStreamOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      ExclusiveStartTagKey: 0,
+      Limit: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3790,7 +2624,7 @@ export const listTagsForStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForStream",
-}));
+})) as any;
 
 export type MergeShardsError =
   | AccessDeniedException
@@ -3853,8 +2687,17 @@ export const mergeShards: API.OperationMethod<
   MergeShardsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: MergeShardsInput,
-  output: MergeShardsResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      ShardToMerge: 0,
+      AdjacentShardToMerge: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3866,7 +2709,7 @@ export const mergeShards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeShards",
-}));
+})) as any;
 
 export type PutRecordError =
   | AccessDeniedException
@@ -3935,8 +2778,19 @@ export const putRecord: API.OperationMethod<
   PutRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutRecordInput,
-  output: PutRecordOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      Data: 0,
+      PartitionKey: 0,
+      ExplicitHashKey: 0,
+      SequenceNumberForOrdering: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "data" } },
+  },
   errors: [
     AccessDeniedException,
     InternalFailureException,
@@ -3953,7 +2807,7 @@ export const putRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecord",
-}));
+})) as any;
 
 export type PutRecordsError =
   | AccessDeniedException
@@ -4045,8 +2899,16 @@ export const putRecords: API.OperationMethod<
   PutRecordsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutRecordsInput,
-  output: PutRecordsOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      Records: D.list({ Data: 0, ExplicitHashKey: 0, PartitionKey: 0 }),
+      StreamName: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "data" } },
+  },
   errors: [
     AccessDeniedException,
     InternalFailureException,
@@ -4063,7 +2925,7 @@ export const putRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecords",
-}));
+})) as any;
 
 export type PutResourcePolicyError =
   | AccessDeniedException
@@ -4093,8 +2955,15 @@ export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyInput,
-  output: PutResourcePolicyResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ResourceARN: D.m({ context: "ResourceARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+      Policy: 0,
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -4105,7 +2974,7 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
-}));
+})) as any;
 
 export type RegisterStreamConsumerError =
   | InvalidArgumentException
@@ -4140,8 +3009,17 @@ export const registerStreamConsumer: API.OperationMethod<
   RegisterStreamConsumerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RegisterStreamConsumerInput,
-  output: RegisterStreamConsumerOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamARN: D.m({ context: "StreamARN" }),
+      ConsumerName: 0,
+      StreamId: D.m({ context: "StreamId" }),
+      Tags: 0,
+    },
+    output: { Consumer: o_Consumer },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     InvalidArgumentException,
     LimitExceededException,
@@ -4151,7 +3029,7 @@ export const registerStreamConsumer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterStreamConsumer",
-}));
+})) as any;
 
 export type RemoveTagsFromStreamError =
   | AccessDeniedException
@@ -4179,8 +3057,16 @@ export const removeTagsFromStream: API.OperationMethod<
   RemoveTagsFromStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveTagsFromStreamInput,
-  output: RemoveTagsFromStreamResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      TagKeys: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -4191,7 +3077,7 @@ export const removeTagsFromStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromStream",
-}));
+})) as any;
 
 export type SplitShardError =
   | AccessDeniedException
@@ -4260,8 +3146,17 @@ export const splitShard: API.OperationMethod<
   SplitShardError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SplitShardInput,
-  output: SplitShardResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      ShardToSplit: 0,
+      NewStartingHashKey: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -4273,7 +3168,7 @@ export const splitShard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SplitShard",
-}));
+})) as any;
 
 export type StartStreamEncryptionError =
   | AccessDeniedException
@@ -4319,8 +3214,17 @@ export const startStreamEncryption: API.OperationMethod<
   StartStreamEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartStreamEncryptionInput,
-  output: StartStreamEncryptionResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      EncryptionType: 0,
+      KeyId: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -4337,7 +3241,7 @@ export const startStreamEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartStreamEncryption",
-}));
+})) as any;
 
 export type StopStreamEncryptionError =
   | AccessDeniedException
@@ -4376,8 +3280,17 @@ export const stopStreamEncryption: API.OperationMethod<
   StopStreamEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopStreamEncryptionInput,
-  output: StopStreamEncryptionResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      EncryptionType: 0,
+      KeyId: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -4388,7 +3301,7 @@ export const stopStreamEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopStreamEncryption",
-}));
+})) as any;
 
 export type SubscribeToShardError =
   | AccessDeniedException
@@ -4432,8 +3345,30 @@ export const subscribeToShard: API.OperationMethod<
   SubscribeToShardError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SubscribeToShardInput,
-  output: SubscribeToShardOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      ConsumerARN: D.m({ context: "ConsumerARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+      ShardId: 0,
+      StartingPosition: { Type: 0, SequenceNumber: 0, Timestamp: 0 },
+    },
+    output: {
+      EventStream: D.events({
+        SubscribeToShardEvent: { Records: D.list(o_Record) },
+        ResourceNotFoundException: 0,
+        ResourceInUseException: 0,
+        KMSDisabledException: 0,
+        KMSInvalidStateException: 0,
+        KMSAccessDeniedException: 0,
+        KMSNotFoundException: 0,
+        KMSOptInRequired: 0,
+        KMSThrottlingException: 0,
+        InternalFailureException: 0,
+      }),
+    },
+    staticContext: { OperationType: { value: "data" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -4444,7 +3379,7 @@ export const subscribeToShard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubscribeToShard",
-}));
+})) as any;
 
 export type TagResourceError =
   | AccessDeniedException
@@ -4462,8 +3397,15 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      Tags: 0,
+      ResourceARN: D.m({ context: "ResourceARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -4474,7 +3416,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | AccessDeniedException
@@ -4492,8 +3434,15 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      TagKeys: 0,
+      ResourceARN: D.m({ context: "ResourceARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -4504,7 +3453,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateAccountSettingsError =
   | InvalidArgumentException
@@ -4528,8 +3477,15 @@ export const updateAccountSettings: API.OperationMethod<
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAccountSettingsInput,
-  output: UpdateAccountSettingsOutput,
+  descriptor: {
+    service: svc,
+    input: { MinimumThroughputBillingCommitment: { Status: 0 } },
+    output: {
+      MinimumThroughputBillingCommitment:
+        o_MinimumThroughputBillingCommitmentOutput,
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     InvalidArgumentException,
     LimitExceededException,
@@ -4538,7 +3494,7 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
-}));
+})) as any;
 
 export type UpdateMaxRecordSizeError =
   | AccessDeniedException
@@ -4557,8 +3513,15 @@ export const updateMaxRecordSize: API.OperationMethod<
   UpdateMaxRecordSizeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateMaxRecordSizeInput,
-  output: UpdateMaxRecordSizeResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+      MaxRecordSizeInKiB: 0,
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -4570,7 +3533,7 @@ export const updateMaxRecordSize: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaxRecordSize",
-}));
+})) as any;
 
 export type UpdateShardCountError =
   | AccessDeniedException
@@ -4635,8 +3598,17 @@ export const updateShardCount: API.OperationMethod<
   UpdateShardCountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateShardCountInput,
-  output: UpdateShardCountOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamName: 0,
+      TargetShardCount: 0,
+      ScalingType: 0,
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -4648,7 +3620,7 @@ export const updateShardCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateShardCount",
-}));
+})) as any;
 
 export type UpdateStreamModeError =
   | InvalidArgumentException
@@ -4670,8 +3642,16 @@ export const updateStreamMode: API.OperationMethod<
   UpdateStreamModeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateStreamModeInput,
-  output: UpdateStreamModeResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamId: D.m({ context: "StreamId" }),
+      StreamModeDetails: i_StreamModeDetails,
+      WarmThroughputMiBps: 0,
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     InvalidArgumentException,
     LimitExceededException,
@@ -4682,7 +3662,7 @@ export const updateStreamMode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamMode",
-}));
+})) as any;
 
 export type UpdateStreamWarmThroughputError =
   | AccessDeniedException
@@ -4718,8 +3698,16 @@ export const updateStreamWarmThroughput: API.OperationMethod<
   UpdateStreamWarmThroughputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateStreamWarmThroughputInput,
-  output: UpdateStreamWarmThroughputOutput,
+  descriptor: {
+    service: svc,
+    input: {
+      StreamARN: D.m({ context: "StreamARN" }),
+      StreamName: 0,
+      StreamId: D.m({ context: "StreamId" }),
+      WarmThroughputMiBps: 0,
+    },
+    staticContext: { OperationType: { value: "control" } },
+  },
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -4731,4 +3719,16 @@ export const updateStreamWarmThroughput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamWarmThroughput",
-}));
+})) as any;
+
+const i_StreamModeDetails: D.LazyStruct = () => ({ StreamMode: 0 });
+const o_Consumer: D.LazyStruct = () => ({ ConsumerCreationTimestamp: D.ts });
+const o_MinimumThroughputBillingCommitmentOutput: D.LazyStruct = () => ({
+  StartedAt: D.ts,
+  EndedAt: D.ts,
+  EarliestAllowedEndAt: D.ts,
+});
+const o_Record: D.LazyStruct = () => ({
+  ApproximateArrivalTimestamp: D.ts,
+  Data: D.blob,
+});

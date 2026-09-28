@@ -1,211 +1,168 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "deadline",
-  serviceShapeName: "Deadline",
-});
-const auth = T.AwsAuthSigv4({ name: "deadline" });
-const ver = T.ServiceVersion("2023-10-12");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://deadline-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://deadline-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://deadline.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://deadline.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "Deadline",
+  version: "2023-10-12",
+  sigv4: "deadline",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://deadline-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://deadline-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://deadline.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://deadline.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      context: S.optional(
-        S.suspend(() => ExceptionContext).annotate({
-          identifier: "ExceptionContext",
-        }),
-      ),
-    },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{
+    readonly message: string;
+    readonly context?: { [key: string]: string | undefined };
+  }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      reason: S.suspend(() => ConflictExceptionReason).annotate({
-        identifier: "ConflictExceptionReason",
-      }),
-      resourceId: S.String,
-      resourceType: S.String,
-      context: S.optional(
-        S.suspend(() => ExceptionContext).annotate({
-          identifier: "ExceptionContext",
-        }),
-      ),
-    },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{
+    readonly message: string;
+    readonly reason: ConflictExceptionReason;
+    readonly resourceId: string;
+    readonly resourceType: string;
+    readonly context?: { [key: string]: string | undefined };
+  }> {}
 export class InternalServerErrorException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerErrorException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerErrorException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
-    },
-    T.all(T.HttpError(500), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 500, headers: { retryAfterSeconds: ["Retry-After", "num"] } },
+  )<{ readonly message: string; readonly retryAfterSeconds?: number }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
-    "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withServerError, C.withRetryableError) {}
+  extends /*@__PURE__*/ TE.TaggedError("InternalServerException", [
+    "ServerError",
+    "RetryableError",
+  ])<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-      context: S.optional(
-        S.suspend(() => ExceptionContext).annotate({
-          identifier: "ExceptionContext",
-        }),
-      ),
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{
+    readonly message: string;
+    readonly resourceId: string;
+    readonly resourceType: string;
+    readonly context?: { [key: string]: string | undefined };
+  }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      reason: S.suspend(() => ServiceQuotaExceededExceptionReason).annotate({
-        identifier: "ServiceQuotaExceededExceptionReason",
-      }),
-      resourceType: S.String,
-      serviceCode: S.String,
-      quotaCode: S.String,
-      resourceId: S.optional(S.String),
-      context: S.optional(
-        S.suspend(() => ExceptionContext).annotate({
-          identifier: "ExceptionContext",
-        }),
-      ),
-    },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{
+    readonly message: string;
+    readonly reason: ServiceQuotaExceededExceptionReason;
+    readonly resourceType: string;
+    readonly serviceCode: string;
+    readonly quotaCode: string;
+    readonly resourceId?: string;
+    readonly context?: { [key: string]: string | undefined };
+  }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      serviceCode: S.optional(S.String),
-      quotaCode: S.optional(S.String),
-      retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
-      context: S.optional(
-        S.suspend(() => ExceptionContext).annotate({
-          identifier: "ExceptionContext",
-        }),
-      ),
-    },
-    T.all(T.HttpError(429), T.Retryable({ throttling: true })),
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+    ["ThrottlingError", "RetryableError"],
+    { status: 429, headers: { retryAfterSeconds: ["Retry-After", "num"] } },
+  )<{
+    readonly message: string;
+    readonly serviceCode?: string;
+    readonly quotaCode?: string;
+    readonly retryAfterSeconds?: number;
+    readonly context?: { [key: string]: string | undefined };
+  }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      reason: S.suspend(() => ValidationExceptionReason).annotate({
-        identifier: "ValidationExceptionReason",
-      }),
-      fieldList: S.optional(
-        S.suspend(() => ValidationExceptionFieldList).annotate({
-          identifier: "ValidationExceptionFieldList",
-        }),
-      ),
-      context: S.optional(
-        S.suspend(() => ExceptionContext).annotate({
-          identifier: "ExceptionContext",
-        }),
-      ),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly message: string;
+    readonly reason: ValidationExceptionReason;
+    readonly fieldList?: ValidationExceptionField[];
+    readonly context?: { [key: string]: string | undefined };
+  }> {}
 export type FarmId = string;
 export type DeadlinePrincipalType = "USER" | "GROUP" | (string & {});
-export const DeadlinePrincipalType = S.String;
-
 export type IdentityStoreId = string;
 export type MembershipLevel =
   | "VIEWER"
@@ -213,8 +170,6 @@ export type MembershipLevel =
   | "OWNER"
   | "MANAGER"
   | (string & {});
-export const MembershipLevel = S.String;
-
 export type IdentityCenterPrincipalId = string;
 export type Region = string;
 export interface AssociateMemberToFarmRequest {
@@ -225,36 +180,7 @@ export interface AssociateMemberToFarmRequest {
   principalId: string;
   identityCenterRegion?: string;
 }
-export const AssociateMemberToFarmRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    principalType: DeadlinePrincipalType,
-    identityStoreId: S.String,
-    membershipLevel: MembershipLevel,
-    principalId: S.String.pipe(T.HttpLabel("principalId")),
-    identityCenterRegion: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2023-10-12/farms/{farmId}/members/{principalId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateMemberToFarmRequest",
-}) as any as S.Schema<AssociateMemberToFarmRequest>;
 export interface AssociateMemberToFarmResponse {}
-export const AssociateMemberToFarmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AssociateMemberToFarmResponse",
-}) as any as S.Schema<AssociateMemberToFarmResponse>;
 export type FleetId = string;
 export interface AssociateMemberToFleetRequest {
   farmId: string;
@@ -265,37 +191,7 @@ export interface AssociateMemberToFleetRequest {
   principalId: string;
   identityCenterRegion?: string;
 }
-export const AssociateMemberToFleetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    principalType: DeadlinePrincipalType,
-    identityStoreId: S.String,
-    membershipLevel: MembershipLevel,
-    principalId: S.String.pipe(T.HttpLabel("principalId")),
-    identityCenterRegion: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/members/{principalId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateMemberToFleetRequest",
-}) as any as S.Schema<AssociateMemberToFleetRequest>;
 export interface AssociateMemberToFleetResponse {}
-export const AssociateMemberToFleetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AssociateMemberToFleetResponse",
-}) as any as S.Schema<AssociateMemberToFleetResponse>;
 export type QueueId = string;
 export type JobId = string;
 export interface AssociateMemberToJobRequest {
@@ -308,38 +204,7 @@ export interface AssociateMemberToJobRequest {
   principalId: string;
   identityCenterRegion?: string;
 }
-export const AssociateMemberToJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    principalType: DeadlinePrincipalType,
-    identityStoreId: S.String,
-    membershipLevel: MembershipLevel,
-    principalId: S.String.pipe(T.HttpLabel("principalId")),
-    identityCenterRegion: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/members/{principalId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateMemberToJobRequest",
-}) as any as S.Schema<AssociateMemberToJobRequest>;
 export interface AssociateMemberToJobResponse {}
-export const AssociateMemberToJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AssociateMemberToJobResponse",
-}) as any as S.Schema<AssociateMemberToJobResponse>;
 export interface AssociateMemberToQueueRequest {
   farmId: string;
   queueId: string;
@@ -349,61 +214,11 @@ export interface AssociateMemberToQueueRequest {
   principalId: string;
   identityCenterRegion?: string;
 }
-export const AssociateMemberToQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    principalType: DeadlinePrincipalType,
-    identityStoreId: S.String,
-    membershipLevel: MembershipLevel,
-    principalId: S.String.pipe(T.HttpLabel("principalId")),
-    identityCenterRegion: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/members/{principalId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateMemberToQueueRequest",
-}) as any as S.Schema<AssociateMemberToQueueRequest>;
 export interface AssociateMemberToQueueResponse {}
-export const AssociateMemberToQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AssociateMemberToQueueResponse",
-}) as any as S.Schema<AssociateMemberToQueueResponse>;
 export interface AssumeFleetRoleForReadRequest {
   farmId: string;
   fleetId: string;
 }
-export const AssumeFleetRoleForReadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/read-roles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssumeFleetRoleForReadRequest",
-}) as any as S.Schema<AssumeFleetRoleForReadRequest>;
 export type AccessKeyId = string | redacted.Redacted<string>;
 export type SecretAccessKey = string | redacted.Redacted<string>;
 export type SessionToken = string | redacted.Redacted<string>;
@@ -413,188 +228,50 @@ export interface AwsCredentials {
   sessionToken: string | redacted.Redacted<string>;
   expiration: Date;
 }
-export const AwsCredentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessKeyId: SensitiveString,
-    secretAccessKey: SensitiveString,
-    sessionToken: SensitiveString,
-    expiration: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({ identifier: "AwsCredentials" }) as any as S.Schema<AwsCredentials>;
 export interface AssumeFleetRoleForReadResponse {
   credentials: AwsCredentials;
 }
-export const AssumeFleetRoleForReadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ credentials: AwsCredentials }),
-).annotate({
-  identifier: "AssumeFleetRoleForReadResponse",
-}) as any as S.Schema<AssumeFleetRoleForReadResponse>;
 export type WorkerId = string;
 export interface AssumeFleetRoleForWorkerRequest {
   farmId: string;
   fleetId: string;
   workerId: string;
 }
-export const AssumeFleetRoleForWorkerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    workerId: S.String.pipe(T.HttpLabel("workerId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/workers/{workerId}/fleet-roles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssumeFleetRoleForWorkerRequest",
-}) as any as S.Schema<AssumeFleetRoleForWorkerRequest>;
 export interface AssumeFleetRoleForWorkerResponse {
   credentials: AwsCredentials;
 }
-export const AssumeFleetRoleForWorkerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ credentials: AwsCredentials }),
-).annotate({
-  identifier: "AssumeFleetRoleForWorkerResponse",
-}) as any as S.Schema<AssumeFleetRoleForWorkerResponse>;
 export interface AssumeQueueRoleForReadRequest {
   farmId: string;
   queueId: string;
 }
-export const AssumeQueueRoleForReadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/read-roles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssumeQueueRoleForReadRequest",
-}) as any as S.Schema<AssumeQueueRoleForReadRequest>;
 export interface AssumeQueueRoleForReadResponse {
   credentials: AwsCredentials;
 }
-export const AssumeQueueRoleForReadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ credentials: AwsCredentials }),
-).annotate({
-  identifier: "AssumeQueueRoleForReadResponse",
-}) as any as S.Schema<AssumeQueueRoleForReadResponse>;
 export interface AssumeQueueRoleForUserRequest {
   farmId: string;
   queueId: string;
 }
-export const AssumeQueueRoleForUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/user-roles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssumeQueueRoleForUserRequest",
-}) as any as S.Schema<AssumeQueueRoleForUserRequest>;
 export interface AssumeQueueRoleForUserResponse {
   credentials: AwsCredentials;
 }
-export const AssumeQueueRoleForUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ credentials: AwsCredentials }),
-).annotate({
-  identifier: "AssumeQueueRoleForUserResponse",
-}) as any as S.Schema<AssumeQueueRoleForUserResponse>;
 export interface AssumeQueueRoleForWorkerRequest {
   farmId: string;
   fleetId: string;
   workerId: string;
   queueId: string;
 }
-export const AssumeQueueRoleForWorkerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    workerId: S.String.pipe(T.HttpLabel("workerId")),
-    queueId: S.String.pipe(T.HttpQuery("queueId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/workers/{workerId}/queue-roles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssumeQueueRoleForWorkerRequest",
-}) as any as S.Schema<AssumeQueueRoleForWorkerRequest>;
 export interface AssumeQueueRoleForWorkerResponse {
   credentials?: AwsCredentials;
 }
-export const AssumeQueueRoleForWorkerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ credentials: S.optional(AwsCredentials) }),
-).annotate({
-  identifier: "AssumeQueueRoleForWorkerResponse",
-}) as any as S.Schema<AssumeQueueRoleForWorkerResponse>;
 export interface BatchGetJobIdentifier {
   farmId: string;
   queueId: string;
   jobId: string;
 }
-export const BatchGetJobIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ farmId: S.String, queueId: S.String, jobId: S.String }),
-).annotate({
-  identifier: "BatchGetJobIdentifier",
-}) as any as S.Schema<BatchGetJobIdentifier>;
 export type BatchGetJobIdentifiers = BatchGetJobIdentifier[];
-export const BatchGetJobIdentifiers = /*@__PURE__*/ S.Array(
-  BatchGetJobIdentifier,
-);
 export interface BatchGetJobRequest {
   identifiers: BatchGetJobIdentifier[];
 }
-export const BatchGetJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifiers: BatchGetJobIdentifiers }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/batch-get-job" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetJobRequest",
-}) as any as S.Schema<BatchGetJobRequest>;
 export type JobName = string;
 export type JobLifecycleStatus =
   | "CREATE_IN_PROGRESS"
@@ -607,8 +284,6 @@ export type JobLifecycleStatus =
   | "UPDATE_SUCCEEDED"
   | "ARCHIVED"
   | (string & {});
-export const JobLifecycleStatus = S.String;
-
 export type JobPriority = number;
 export type CreatedAt = Date;
 export type CreatedBy = string;
@@ -630,8 +305,6 @@ export type TaskRunStatus =
   | "SUCCEEDED"
   | "NOT_COMPATIBLE"
   | (string & {});
-export const TaskRunStatus = S.String;
-
 export type JobTargetTaskRunStatus =
   | "READY"
   | "FAILED"
@@ -640,13 +313,7 @@ export type JobTargetTaskRunStatus =
   | "SUSPENDED"
   | "PENDING"
   | (string & {});
-export const JobTargetTaskRunStatus = S.String;
-
 export type TaskRunStatusCounts = { [key in TaskRunStatus]?: number };
-export const TaskRunStatusCounts = /*@__PURE__*/ S.Record(
-  TaskRunStatus,
-  S.Number.pipe(S.optional),
-);
 export type TaskFailureRetryCount = number;
 export type StorageProfileId = string;
 export type MaxFailedTasksCount = number;
@@ -660,23 +327,10 @@ export type JobParameter =
   | { int?: never; float: string; string?: never; path?: never }
   | { int?: never; float?: never; string: string; path?: never }
   | { int?: never; float?: never; string?: never; path: string };
-export const JobParameter = /*@__PURE__*/ S.Union([
-  S.Struct({ int: S.String }),
-  S.Struct({ float: S.String }),
-  S.Struct({ string: S.String }),
-  S.Struct({ path: S.String }),
-]);
 export type JobParameters = { [key: string]: JobParameter | undefined };
-export const JobParameters = /*@__PURE__*/ S.Record(
-  S.String,
-  JobParameter.pipe(S.optional),
-);
 export type FileSystemLocationName = string;
 export type PathFormat = "windows" | "posix" | (string & {});
-export const PathFormat = S.String;
-
 export type OutputRelativeDirectoriesList = string[];
-export const OutputRelativeDirectoriesList = /*@__PURE__*/ S.Array(S.String);
 export interface ManifestProperties {
   fileSystemLocationName?: string;
   rootPath: string;
@@ -685,33 +339,12 @@ export interface ManifestProperties {
   inputManifestPath?: string;
   inputManifestHash?: string;
 }
-export const ManifestProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fileSystemLocationName: S.optional(S.String),
-    rootPath: S.String,
-    rootPathFormat: PathFormat,
-    outputRelativeDirectories: S.optional(OutputRelativeDirectoriesList),
-    inputManifestPath: S.optional(S.String),
-    inputManifestHash: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ManifestProperties",
-}) as any as S.Schema<ManifestProperties>;
 export type ManifestPropertiesList = ManifestProperties[];
-export const ManifestPropertiesList = /*@__PURE__*/ S.Array(ManifestProperties);
 export type JobAttachmentsFileSystem = "COPIED" | "VIRTUAL" | (string & {});
-export const JobAttachmentsFileSystem = S.String;
-
 export interface Attachments {
   manifests: ManifestProperties[];
   fileSystem?: JobAttachmentsFileSystem;
 }
-export const Attachments = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    manifests: ManifestPropertiesList,
-    fileSystem: S.optional(JobAttachmentsFileSystem),
-  }),
-).annotate({ identifier: "Attachments" }) as any as S.Schema<Attachments>;
 export type JobDescription = string | redacted.Redacted<string>;
 export type MaxWorkerCount = number;
 export interface BatchGetJobItem {
@@ -741,43 +374,7 @@ export interface BatchGetJobItem {
   maxWorkerCount?: number;
   sourceJobId?: string;
 }
-export const BatchGetJobItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    name: S.String,
-    lifecycleStatus: JobLifecycleStatus,
-    lifecycleStatusMessage: S.String,
-    priority: S.Number,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    taskRunStatus: S.optional(TaskRunStatus),
-    targetTaskRunStatus: S.optional(JobTargetTaskRunStatus),
-    taskRunStatusCounts: S.optional(TaskRunStatusCounts),
-    taskFailureRetryCount: S.optional(S.Number),
-    storageProfileId: S.optional(S.String),
-    maxFailedTasksCount: S.optional(S.Number),
-    maxRetriesPerTask: S.optional(S.Number),
-    parameters: S.optional(JobParameters),
-    attachments: S.optional(Attachments),
-    description: S.optional(SensitiveString),
-    maxWorkerCount: S.optional(S.Number),
-    sourceJobId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BatchGetJobItem",
-}) as any as S.Schema<BatchGetJobItem>;
 export type BatchGetJobItems = BatchGetJobItem[];
-export const BatchGetJobItems = /*@__PURE__*/ S.Array(BatchGetJobItem);
 export type BatchGetJobErrorCode =
   | "InternalServerErrorException"
   | "ResourceNotFoundException"
@@ -785,8 +382,6 @@ export type BatchGetJobErrorCode =
   | "AccessDeniedException"
   | "ThrottlingException"
   | (string & {});
-export const BatchGetJobErrorCode = S.String;
-
 export interface BatchGetJobError_ {
   farmId: string;
   queueId: string;
@@ -794,64 +389,27 @@ export interface BatchGetJobError_ {
   code: BatchGetJobErrorCode;
   message: string;
 }
-export const BatchGetJobError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    code: BatchGetJobErrorCode,
-    message: S.String,
-  }),
-).annotate({
-  identifier: "BatchGetJobError",
-}) as any as S.Schema<BatchGetJobError_>;
 export type BatchGetJobErrors = BatchGetJobError_[];
-export const BatchGetJobErrors = /*@__PURE__*/ S.Array(BatchGetJobError_);
 export interface BatchGetJobResponse {
   jobs: BatchGetJobItem[];
   errors: BatchGetJobError_[];
 }
-export const BatchGetJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobs: BatchGetJobItems, errors: BatchGetJobErrors }),
-).annotate({
-  identifier: "BatchGetJobResponse",
-}) as any as S.Schema<BatchGetJobResponse>;
 export interface JobDetailsIdentifiers {
   jobId: string;
 }
-export const JobDetailsIdentifiers = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobId: S.String }),
-).annotate({
-  identifier: "JobDetailsIdentifiers",
-}) as any as S.Schema<JobDetailsIdentifiers>;
 export interface JobAttachmentDetailsIdentifiers {
   jobId: string;
 }
-export const JobAttachmentDetailsIdentifiers = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobId: S.String }),
-).annotate({
-  identifier: "JobAttachmentDetailsIdentifiers",
-}) as any as S.Schema<JobAttachmentDetailsIdentifiers>;
 export type StepId = string;
 export interface StepDetailsIdentifiers {
   jobId: string;
   stepId: string;
 }
-export const StepDetailsIdentifiers = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobId: S.String, stepId: S.String }),
-).annotate({
-  identifier: "StepDetailsIdentifiers",
-}) as any as S.Schema<StepDetailsIdentifiers>;
 export type EnvironmentId = string;
 export interface EnvironmentDetailsIdentifiers {
   jobId: string;
   environmentId: string;
 }
-export const EnvironmentDetailsIdentifiers = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobId: S.String, environmentId: S.String }),
-).annotate({
-  identifier: "EnvironmentDetailsIdentifiers",
-}) as any as S.Schema<EnvironmentDetailsIdentifiers>;
 export type JobEntityIdentifiersUnion =
   | {
       jobDetails: JobDetailsIdentifiers;
@@ -877,104 +435,43 @@ export type JobEntityIdentifiersUnion =
       stepDetails?: never;
       environmentDetails: EnvironmentDetailsIdentifiers;
     };
-export const JobEntityIdentifiersUnion = /*@__PURE__*/ S.Union([
-  S.Struct({ jobDetails: JobDetailsIdentifiers }),
-  S.Struct({ jobAttachmentDetails: JobAttachmentDetailsIdentifiers }),
-  S.Struct({ stepDetails: StepDetailsIdentifiers }),
-  S.Struct({ environmentDetails: EnvironmentDetailsIdentifiers }),
-]);
 export type JobEntityIdentifiers = JobEntityIdentifiersUnion[];
-export const JobEntityIdentifiers = /*@__PURE__*/ S.Array(
-  JobEntityIdentifiersUnion,
-);
 export interface BatchGetJobEntityRequest {
   farmId: string;
   fleetId: string;
   workerId: string;
   identifiers: JobEntityIdentifiersUnion[];
 }
-export const BatchGetJobEntityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    workerId: S.String.pipe(T.HttpLabel("workerId")),
-    identifiers: JobEntityIdentifiers,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/workers/{workerId}/batchGetJobEntity",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetJobEntityRequest",
-}) as any as S.Schema<BatchGetJobEntityRequest>;
 export type S3BucketName = string;
 export type S3Prefix = string;
 export interface JobDetailsJobAttachmentSettings {
   s3BucketName: string;
   rootPrefix: string;
 }
-export const JobDetailsJobAttachmentSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ s3BucketName: S.String, rootPrefix: S.String }),
-).annotate({
-  identifier: "JobDetailsJobAttachmentSettings",
-}) as any as S.Schema<JobDetailsJobAttachmentSettings>;
 export interface PosixUser {
   user: string;
   group: string;
 }
-export const PosixUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ user: S.String, group: S.String }),
-).annotate({ identifier: "PosixUser" }) as any as S.Schema<PosixUser>;
 export interface WindowsUser {
   user: string;
   passwordArn: string;
 }
-export const WindowsUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ user: S.String, passwordArn: S.String }),
-).annotate({ identifier: "WindowsUser" }) as any as S.Schema<WindowsUser>;
 export type RunAs =
   | "QUEUE_CONFIGURED_USER"
   | "WORKER_AGENT_USER"
   | (string & {});
-export const RunAs = S.String;
-
 export interface JobRunAsUser {
   posix?: PosixUser;
   windows?: WindowsUser;
   runAs: RunAs;
 }
-export const JobRunAsUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    posix: S.optional(PosixUser),
-    windows: S.optional(WindowsUser),
-    runAs: RunAs,
-  }),
-).annotate({ identifier: "JobRunAsUser" }) as any as S.Schema<JobRunAsUser>;
 export type IamRoleArn = string;
 export interface PathMappingRule {
   sourcePathFormat: PathFormat;
   sourcePath: string;
   destinationPath: string;
 }
-export const PathMappingRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourcePathFormat: PathFormat,
-    sourcePath: S.String,
-    destinationPath: S.String,
-  }),
-).annotate({
-  identifier: "PathMappingRule",
-}) as any as S.Schema<PathMappingRule>;
 export type PathMappingRules = PathMappingRule[];
-export const PathMappingRules = /*@__PURE__*/ S.Array(PathMappingRule);
 export interface JobDetailsEntity {
   jobId: string;
   jobAttachmentSettings?: JobDetailsJobAttachmentSettings;
@@ -985,32 +482,12 @@ export interface JobDetailsEntity {
   schemaVersion: string;
   pathMappingRules?: PathMappingRule[];
 }
-export const JobDetailsEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.String,
-    jobAttachmentSettings: S.optional(JobDetailsJobAttachmentSettings),
-    jobRunAsUser: S.optional(JobRunAsUser),
-    logGroupName: S.String,
-    queueRoleArn: S.optional(S.String),
-    parameters: S.optional(JobParameters),
-    schemaVersion: S.String,
-    pathMappingRules: S.optional(PathMappingRules),
-  }),
-).annotate({
-  identifier: "JobDetailsEntity",
-}) as any as S.Schema<JobDetailsEntity>;
 export interface JobAttachmentDetailsEntity {
   jobId: string;
   attachments: Attachments;
 }
-export const JobAttachmentDetailsEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobId: S.String, attachments: Attachments }),
-).annotate({
-  identifier: "JobAttachmentDetailsEntity",
-}) as any as S.Schema<JobAttachmentDetailsEntity>;
 export type Document = unknown;
 export type DependenciesList = string[];
-export const DependenciesList = /*@__PURE__*/ S.Array(S.String);
 export interface StepDetailsEntity {
   jobId: string;
   stepId: string;
@@ -1018,33 +495,12 @@ export interface StepDetailsEntity {
   template: any;
   dependencies: string[];
 }
-export const StepDetailsEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.String,
-    stepId: S.String,
-    schemaVersion: S.String,
-    template: S.Any,
-    dependencies: DependenciesList,
-  }),
-).annotate({
-  identifier: "StepDetailsEntity",
-}) as any as S.Schema<StepDetailsEntity>;
 export interface EnvironmentDetailsEntity {
   jobId: string;
   environmentId: string;
   schemaVersion: string;
   template: any;
 }
-export const EnvironmentDetailsEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.String,
-    environmentId: S.String,
-    schemaVersion: S.String,
-    template: S.Any,
-  }),
-).annotate({
-  identifier: "EnvironmentDetailsEntity",
-}) as any as S.Schema<EnvironmentDetailsEntity>;
 export type JobEntity =
   | {
       jobDetails: JobDetailsEntity;
@@ -1070,14 +526,7 @@ export type JobEntity =
       stepDetails?: never;
       environmentDetails: EnvironmentDetailsEntity;
     };
-export const JobEntity = /*@__PURE__*/ S.Union([
-  S.Struct({ jobDetails: JobDetailsEntity }),
-  S.Struct({ jobAttachmentDetails: JobAttachmentDetailsEntity }),
-  S.Struct({ stepDetails: StepDetailsEntity }),
-  S.Struct({ environmentDetails: EnvironmentDetailsEntity }),
-]);
 export type BatchGetJobEntityList = JobEntity[];
-export const BatchGetJobEntityList = /*@__PURE__*/ S.Array(JobEntity);
 export type JobEntityErrorCode =
   | "AccessDeniedException"
   | "InternalServerException"
@@ -1086,60 +535,28 @@ export type JobEntityErrorCode =
   | "MaxPayloadSizeExceeded"
   | "ConflictException"
   | (string & {});
-export const JobEntityErrorCode = S.String;
-
 export interface JobDetailsError {
   jobId: string;
   code: JobEntityErrorCode;
   message: string;
 }
-export const JobDetailsError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobId: S.String, code: JobEntityErrorCode, message: S.String }),
-).annotate({
-  identifier: "JobDetailsError",
-}) as any as S.Schema<JobDetailsError>;
 export interface JobAttachmentDetailsError {
   jobId: string;
   code: JobEntityErrorCode;
   message: string;
 }
-export const JobAttachmentDetailsError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobId: S.String, code: JobEntityErrorCode, message: S.String }),
-).annotate({
-  identifier: "JobAttachmentDetailsError",
-}) as any as S.Schema<JobAttachmentDetailsError>;
 export interface StepDetailsError {
   jobId: string;
   stepId: string;
   code: JobEntityErrorCode;
   message: string;
 }
-export const StepDetailsError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.String,
-    stepId: S.String,
-    code: JobEntityErrorCode,
-    message: S.String,
-  }),
-).annotate({
-  identifier: "StepDetailsError",
-}) as any as S.Schema<StepDetailsError>;
 export interface EnvironmentDetailsError {
   jobId: string;
   environmentId: string;
   code: JobEntityErrorCode;
   message: string;
 }
-export const EnvironmentDetailsError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.String,
-    environmentId: S.String,
-    code: JobEntityErrorCode,
-    message: S.String,
-  }),
-).annotate({
-  identifier: "EnvironmentDetailsError",
-}) as any as S.Schema<EnvironmentDetailsError>;
 export type GetJobEntityError =
   | {
       jobDetails: JobDetailsError;
@@ -1165,26 +582,11 @@ export type GetJobEntityError =
       stepDetails?: never;
       environmentDetails: EnvironmentDetailsError;
     };
-export const GetJobEntityError = /*@__PURE__*/ S.Union([
-  S.Struct({ jobDetails: JobDetailsError }),
-  S.Struct({ jobAttachmentDetails: JobAttachmentDetailsError }),
-  S.Struct({ stepDetails: StepDetailsError }),
-  S.Struct({ environmentDetails: EnvironmentDetailsError }),
-]);
 export type BatchGetJobEntityErrors = GetJobEntityError[];
-export const BatchGetJobEntityErrors = /*@__PURE__*/ S.Array(GetJobEntityError);
 export interface BatchGetJobEntityResponse {
   entities: JobEntity[];
   errors: GetJobEntityError[];
 }
-export const BatchGetJobEntityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entities: BatchGetJobEntityList,
-    errors: BatchGetJobEntityErrors,
-  }),
-).annotate({
-  identifier: "BatchGetJobEntityResponse",
-}) as any as S.Schema<BatchGetJobEntityResponse>;
 export type SessionId = string;
 export interface BatchGetSessionIdentifier {
   farmId: string;
@@ -1192,37 +594,10 @@ export interface BatchGetSessionIdentifier {
   jobId: string;
   sessionId: string;
 }
-export const BatchGetSessionIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    sessionId: S.String,
-  }),
-).annotate({
-  identifier: "BatchGetSessionIdentifier",
-}) as any as S.Schema<BatchGetSessionIdentifier>;
 export type BatchGetSessionIdentifiers = BatchGetSessionIdentifier[];
-export const BatchGetSessionIdentifiers = /*@__PURE__*/ S.Array(
-  BatchGetSessionIdentifier,
-);
 export interface BatchGetSessionRequest {
   identifiers: BatchGetSessionIdentifier[];
 }
-export const BatchGetSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifiers: BatchGetSessionIdentifiers }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/batch-get-session" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetSessionRequest",
-}) as any as S.Schema<BatchGetSessionRequest>;
 export type SessionLifecycleStatus =
   | "STARTED"
   | "UPDATE_IN_PROGRESS"
@@ -1230,22 +605,10 @@ export type SessionLifecycleStatus =
   | "UPDATE_FAILED"
   | "ENDED"
   | (string & {});
-export const SessionLifecycleStatus = S.String;
-
 export type SessionLifecycleTargetStatus = "ENDED" | (string & {});
-export const SessionLifecycleTargetStatus = S.String;
-
 export type LogDriver = string;
 export type LogOptions = { [key: string]: string | undefined };
-export const LogOptions = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type LogParameters = { [key: string]: string | undefined };
-export const LogParameters = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type LogError = string;
 export interface LogConfiguration {
   logDriver: string;
@@ -1253,32 +616,14 @@ export interface LogConfiguration {
   parameters?: { [key: string]: string | undefined };
   error?: string;
 }
-export const LogConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    logDriver: S.String,
-    options: S.optional(LogOptions),
-    parameters: S.optional(LogParameters),
-    error: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LogConfiguration",
-}) as any as S.Schema<LogConfiguration>;
 export type IpV4Address = string;
 export type IpV4Addresses = string[];
-export const IpV4Addresses = /*@__PURE__*/ S.Array(S.String);
 export type IpV6Address = string;
 export type IpV6Addresses = string[];
-export const IpV6Addresses = /*@__PURE__*/ S.Array(S.String);
 export interface IpAddresses {
   ipV4Addresses?: string[];
   ipV6Addresses?: string[];
 }
-export const IpAddresses = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ipV4Addresses: S.optional(IpV4Addresses),
-    ipV6Addresses: S.optional(IpV6Addresses),
-  }),
-).annotate({ identifier: "IpAddresses" }) as any as S.Schema<IpAddresses>;
 export type HostName = string;
 export type InstanceType = string;
 export interface HostPropertiesResponse {
@@ -1287,16 +632,6 @@ export interface HostPropertiesResponse {
   ec2InstanceArn?: string;
   ec2InstanceType?: string;
 }
-export const HostPropertiesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ipAddresses: S.optional(IpAddresses),
-    hostName: S.optional(S.String),
-    ec2InstanceArn: S.optional(S.String),
-    ec2InstanceType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "HostPropertiesResponse",
-}) as any as S.Schema<HostPropertiesResponse>;
 export interface BatchGetSessionItem {
   farmId: string;
   queueId: string;
@@ -1314,38 +649,12 @@ export interface BatchGetSessionItem {
   hostProperties?: HostPropertiesResponse;
   workerLog?: LogConfiguration;
 }
-export const BatchGetSessionItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    sessionId: S.String,
-    fleetId: S.String,
-    workerId: S.String,
-    startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    lifecycleStatus: SessionLifecycleStatus,
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    targetLifecycleStatus: S.optional(SessionLifecycleTargetStatus),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    log: LogConfiguration,
-    hostProperties: S.optional(HostPropertiesResponse),
-    workerLog: S.optional(LogConfiguration),
-  }),
-).annotate({
-  identifier: "BatchGetSessionItem",
-}) as any as S.Schema<BatchGetSessionItem>;
 export type BatchGetSessionItems = BatchGetSessionItem[];
-export const BatchGetSessionItems = /*@__PURE__*/ S.Array(BatchGetSessionItem);
 export type BatchGetSessionErrorCode =
   | "InternalServerErrorException"
   | "ResourceNotFoundException"
   | "ValidationException"
   | (string & {});
-export const BatchGetSessionErrorCode = S.String;
-
 export interface BatchGetSessionError_ {
   farmId: string;
   queueId: string;
@@ -1354,31 +663,11 @@ export interface BatchGetSessionError_ {
   code: BatchGetSessionErrorCode;
   message: string;
 }
-export const BatchGetSessionError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    sessionId: S.String,
-    code: BatchGetSessionErrorCode,
-    message: S.String,
-  }),
-).annotate({
-  identifier: "BatchGetSessionError",
-}) as any as S.Schema<BatchGetSessionError_>;
 export type BatchGetSessionErrors = BatchGetSessionError_[];
-export const BatchGetSessionErrors = /*@__PURE__*/ S.Array(
-  BatchGetSessionError_,
-);
 export interface BatchGetSessionResponse {
   sessions: BatchGetSessionItem[];
   errors: BatchGetSessionError_[];
 }
-export const BatchGetSessionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sessions: BatchGetSessionItems, errors: BatchGetSessionErrors }),
-).annotate({
-  identifier: "BatchGetSessionResponse",
-}) as any as S.Schema<BatchGetSessionResponse>;
 export type SessionActionId = string;
 export interface BatchGetSessionActionIdentifier {
   farmId: string;
@@ -1386,38 +675,11 @@ export interface BatchGetSessionActionIdentifier {
   jobId: string;
   sessionActionId: string;
 }
-export const BatchGetSessionActionIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    sessionActionId: S.String,
-  }),
-).annotate({
-  identifier: "BatchGetSessionActionIdentifier",
-}) as any as S.Schema<BatchGetSessionActionIdentifier>;
 export type BatchGetSessionActionIdentifiers =
   BatchGetSessionActionIdentifier[];
-export const BatchGetSessionActionIdentifiers = /*@__PURE__*/ S.Array(
-  BatchGetSessionActionIdentifier,
-);
 export interface BatchGetSessionActionRequest {
   identifiers: BatchGetSessionActionIdentifier[];
 }
-export const BatchGetSessionActionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifiers: BatchGetSessionActionIdentifiers }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/batch-get-session-action" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetSessionActionRequest",
-}) as any as S.Schema<BatchGetSessionActionRequest>;
 export type SessionActionStatus =
   | "ASSIGNED"
   | "RUNNING"
@@ -1431,26 +693,13 @@ export type SessionActionStatus =
   | "RECLAIMING"
   | "RECLAIMED"
   | (string & {});
-export const SessionActionStatus = S.String;
-
 export type SessionActionProgressPercent = number;
 export interface TaskRunManifestPropertiesResponse {
   outputManifestPath?: string;
   outputManifestHash?: string;
 }
-export const TaskRunManifestPropertiesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    outputManifestPath: S.optional(S.String),
-    outputManifestHash: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TaskRunManifestPropertiesResponse",
-}) as any as S.Schema<TaskRunManifestPropertiesResponse>;
 export type TaskRunManifestPropertiesListResponse =
   TaskRunManifestPropertiesResponse[];
-export const TaskRunManifestPropertiesListResponse = /*@__PURE__*/ S.Array(
-  TaskRunManifestPropertiesResponse,
-);
 export type ProcessExitCode = number;
 export type SessionActionProgressMessage = string | redacted.Redacted<string>;
 export type LimitId = string;
@@ -1459,27 +708,13 @@ export interface AcquiredLimit {
   limitId: string;
   count: number;
 }
-export const AcquiredLimit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ limitId: S.String, count: S.Number }),
-).annotate({ identifier: "AcquiredLimit" }) as any as S.Schema<AcquiredLimit>;
 export type AcquiredLimits = AcquiredLimit[];
-export const AcquiredLimits = /*@__PURE__*/ S.Array(AcquiredLimit);
 export interface EnvironmentEnterSessionActionDefinition {
   environmentId: string;
 }
-export const EnvironmentEnterSessionActionDefinition = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ environmentId: S.String }),
-).annotate({
-  identifier: "EnvironmentEnterSessionActionDefinition",
-}) as any as S.Schema<EnvironmentEnterSessionActionDefinition>;
 export interface EnvironmentExitSessionActionDefinition {
   environmentId: string;
 }
-export const EnvironmentExitSessionActionDefinition = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ environmentId: S.String }),
-).annotate({
-  identifier: "EnvironmentExitSessionActionDefinition",
-}) as any as S.Schema<EnvironmentExitSessionActionDefinition>;
 export type TaskId = string;
 export type TaskParameterValue =
   | {
@@ -1517,41 +752,15 @@ export type TaskParameterValue =
       path?: never;
       chunkInt: string;
     };
-export const TaskParameterValue = /*@__PURE__*/ S.Union([
-  S.Struct({ int: S.String }),
-  S.Struct({ float: S.String }),
-  S.Struct({ string: S.String }),
-  S.Struct({ path: S.String }),
-  S.Struct({ chunkInt: S.String }),
-]);
 export type TaskParameters = { [key: string]: TaskParameterValue | undefined };
-export const TaskParameters = /*@__PURE__*/ S.Record(
-  S.String,
-  TaskParameterValue.pipe(S.optional),
-);
 export interface TaskRunSessionActionDefinition {
   taskId?: string;
   stepId: string;
   parameters: { [key: string]: TaskParameterValue | undefined };
 }
-export const TaskRunSessionActionDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    taskId: S.optional(S.String),
-    stepId: S.String,
-    parameters: TaskParameters,
-  }),
-).annotate({
-  identifier: "TaskRunSessionActionDefinition",
-}) as any as S.Schema<TaskRunSessionActionDefinition>;
 export interface SyncInputJobAttachmentsSessionActionDefinition {
   stepId?: string;
 }
-export const SyncInputJobAttachmentsSessionActionDefinition =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ stepId: S.optional(S.String) }),
-  ).annotate({
-    identifier: "SyncInputJobAttachmentsSessionActionDefinition",
-  }) as any as S.Schema<SyncInputJobAttachmentsSessionActionDefinition>;
 export type SessionActionDefinition =
   | {
       envEnter: EnvironmentEnterSessionActionDefinition;
@@ -1577,14 +786,6 @@ export type SessionActionDefinition =
       taskRun?: never;
       syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinition;
     };
-export const SessionActionDefinition = /*@__PURE__*/ S.Union([
-  S.Struct({ envEnter: EnvironmentEnterSessionActionDefinition }),
-  S.Struct({ envExit: EnvironmentExitSessionActionDefinition }),
-  S.Struct({ taskRun: TaskRunSessionActionDefinition }),
-  S.Struct({
-    syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinition,
-  }),
-]);
 export interface BatchGetSessionActionItem {
   farmId: string;
   queueId: string;
@@ -1602,42 +803,12 @@ export interface BatchGetSessionActionItem {
   acquiredLimits?: AcquiredLimit[];
   definition: SessionActionDefinition;
 }
-export const BatchGetSessionActionItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    sessionActionId: S.String,
-    status: SessionActionStatus,
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    workerUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    progressPercent: S.optional(S.Number),
-    manifests: S.optional(TaskRunManifestPropertiesListResponse),
-    sessionId: S.String,
-    processExitCode: S.optional(S.Number),
-    progressMessage: S.optional(SensitiveString),
-    acquiredLimits: S.optional(AcquiredLimits),
-    definition: SessionActionDefinition,
-  }),
-).annotate({
-  identifier: "BatchGetSessionActionItem",
-}) as any as S.Schema<BatchGetSessionActionItem>;
 export type BatchGetSessionActionItems = BatchGetSessionActionItem[];
-export const BatchGetSessionActionItems = /*@__PURE__*/ S.Array(
-  BatchGetSessionActionItem,
-);
 export type BatchGetSessionActionErrorCode =
   | "InternalServerErrorException"
   | "ResourceNotFoundException"
   | "ValidationException"
   | (string & {});
-export const BatchGetSessionActionErrorCode = S.String;
-
 export interface BatchGetSessionActionError_ {
   farmId: string;
   queueId: string;
@@ -1646,71 +817,21 @@ export interface BatchGetSessionActionError_ {
   code: BatchGetSessionActionErrorCode;
   message: string;
 }
-export const BatchGetSessionActionError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    sessionActionId: S.String,
-    code: BatchGetSessionActionErrorCode,
-    message: S.String,
-  }),
-).annotate({
-  identifier: "BatchGetSessionActionError",
-}) as any as S.Schema<BatchGetSessionActionError_>;
 export type BatchGetSessionActionErrors = BatchGetSessionActionError_[];
-export const BatchGetSessionActionErrors = /*@__PURE__*/ S.Array(
-  BatchGetSessionActionError_,
-);
 export interface BatchGetSessionActionResponse {
   sessionActions: BatchGetSessionActionItem[];
   errors: BatchGetSessionActionError_[];
 }
-export const BatchGetSessionActionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionActions: BatchGetSessionActionItems,
-    errors: BatchGetSessionActionErrors,
-  }),
-).annotate({
-  identifier: "BatchGetSessionActionResponse",
-}) as any as S.Schema<BatchGetSessionActionResponse>;
 export interface BatchGetStepIdentifier {
   farmId: string;
   queueId: string;
   jobId: string;
   stepId: string;
 }
-export const BatchGetStepIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    stepId: S.String,
-  }),
-).annotate({
-  identifier: "BatchGetStepIdentifier",
-}) as any as S.Schema<BatchGetStepIdentifier>;
 export type BatchGetStepIdentifiers = BatchGetStepIdentifier[];
-export const BatchGetStepIdentifiers = /*@__PURE__*/ S.Array(
-  BatchGetStepIdentifier,
-);
 export interface BatchGetStepRequest {
   identifiers: BatchGetStepIdentifier[];
 }
-export const BatchGetStepRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifiers: BatchGetStepIdentifiers }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/batch-get-step" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetStepRequest",
-}) as any as S.Schema<BatchGetStepRequest>;
 export type StepName = string;
 export type StepLifecycleStatus =
   | "CREATE_COMPLETE"
@@ -1718,8 +839,6 @@ export type StepLifecycleStatus =
   | "UPDATE_FAILED"
   | "UPDATE_SUCCEEDED"
   | (string & {});
-export const StepLifecycleStatus = S.String;
-
 export type StepTargetTaskRunStatus =
   | "READY"
   | "FAILED"
@@ -1728,46 +847,21 @@ export type StepTargetTaskRunStatus =
   | "SUSPENDED"
   | "PENDING"
   | (string & {});
-export const StepTargetTaskRunStatus = S.String;
-
 export interface DependencyCounts {
   dependenciesResolved: number;
   dependenciesUnresolved: number;
   consumersResolved: number;
   consumersUnresolved: number;
 }
-export const DependencyCounts = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dependenciesResolved: S.Number,
-    dependenciesUnresolved: S.Number,
-    consumersResolved: S.Number,
-    consumersUnresolved: S.Number,
-  }),
-).annotate({
-  identifier: "DependencyCounts",
-}) as any as S.Schema<DependencyCounts>;
 export type AttributeCapabilityName = string;
 export type AttributeCapabilityValue = string;
 export type ListAttributeCapabilityValue = string[];
-export const ListAttributeCapabilityValue = /*@__PURE__*/ S.Array(S.String);
 export interface StepAttributeCapability {
   name: string;
   anyOf?: string[];
   allOf?: string[];
 }
-export const StepAttributeCapability = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    anyOf: S.optional(ListAttributeCapabilityValue),
-    allOf: S.optional(ListAttributeCapabilityValue),
-  }),
-).annotate({
-  identifier: "StepAttributeCapability",
-}) as any as S.Schema<StepAttributeCapability>;
 export type StepAttributeCapabilities = StepAttributeCapability[];
-export const StepAttributeCapabilities = /*@__PURE__*/ S.Array(
-  StepAttributeCapability,
-);
 export type AmountCapabilityName = string;
 export interface StepAmountCapability {
   name: string;
@@ -1775,31 +869,11 @@ export interface StepAmountCapability {
   max?: number;
   value?: number;
 }
-export const StepAmountCapability = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    min: S.optional(S.Number),
-    max: S.optional(S.Number),
-    value: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "StepAmountCapability",
-}) as any as S.Schema<StepAmountCapability>;
 export type StepAmountCapabilities = StepAmountCapability[];
-export const StepAmountCapabilities =
-  /*@__PURE__*/ S.Array(StepAmountCapability);
 export interface StepRequiredCapabilities {
   attributes: StepAttributeCapability[];
   amounts: StepAmountCapability[];
 }
-export const StepRequiredCapabilities = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributes: StepAttributeCapabilities,
-    amounts: StepAmountCapabilities,
-  }),
-).annotate({
-  identifier: "StepRequiredCapabilities",
-}) as any as S.Schema<StepRequiredCapabilities>;
 export type StepParameterName = string;
 export type StepParameterType =
   | "INT"
@@ -1808,52 +882,25 @@ export type StepParameterType =
   | "PATH"
   | "CHUNK_INT"
   | (string & {});
-export const StepParameterType = S.String;
-
 export type DefaultTaskCount = number;
 export type TargetRuntimeSeconds = number;
 export type RangeConstraint = "CONTIGUOUS" | "NONCONTIGUOUS" | (string & {});
-export const RangeConstraint = S.String;
-
 export interface StepParameterChunks {
   defaultTaskCount: number;
   targetRuntimeSeconds?: number;
   rangeConstraint: RangeConstraint;
 }
-export const StepParameterChunks = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    defaultTaskCount: S.Number,
-    targetRuntimeSeconds: S.optional(S.Number),
-    rangeConstraint: RangeConstraint,
-  }),
-).annotate({
-  identifier: "StepParameterChunks",
-}) as any as S.Schema<StepParameterChunks>;
 export interface StepParameter {
   name: string;
   type: StepParameterType;
   chunks?: StepParameterChunks;
 }
-export const StepParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    type: StepParameterType,
-    chunks: S.optional(StepParameterChunks),
-  }),
-).annotate({ identifier: "StepParameter" }) as any as S.Schema<StepParameter>;
 export type StepParameterList = StepParameter[];
-export const StepParameterList = /*@__PURE__*/ S.Array(StepParameter);
 export type CombinationExpression = string;
 export interface ParameterSpace {
   parameters: StepParameter[];
   combination?: string;
 }
-export const ParameterSpace = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    parameters: StepParameterList,
-    combination: S.optional(S.String),
-  }),
-).annotate({ identifier: "ParameterSpace" }) as any as S.Schema<ParameterSpace>;
 export type StepDescription = string | redacted.Redacted<string>;
 export interface BatchGetStepItem {
   farmId: string;
@@ -1878,39 +925,7 @@ export interface BatchGetStepItem {
   parameterSpace?: ParameterSpace;
   description?: string | redacted.Redacted<string>;
 }
-export const BatchGetStepItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    stepId: S.String,
-    name: S.String,
-    lifecycleStatus: StepLifecycleStatus,
-    lifecycleStatusMessage: S.optional(S.String),
-    taskRunStatus: TaskRunStatus,
-    taskRunStatusCounts: TaskRunStatusCounts,
-    taskFailureRetryCount: S.optional(S.Number),
-    targetTaskRunStatus: S.optional(StepTargetTaskRunStatus),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    dependencyCounts: S.optional(DependencyCounts),
-    requiredCapabilities: S.optional(StepRequiredCapabilities),
-    parameterSpace: S.optional(ParameterSpace),
-    description: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "BatchGetStepItem",
-}) as any as S.Schema<BatchGetStepItem>;
 export type BatchGetStepItems = BatchGetStepItem[];
-export const BatchGetStepItems = /*@__PURE__*/ S.Array(BatchGetStepItem);
 export type BatchGetStepErrorCode =
   | "InternalServerErrorException"
   | "ResourceNotFoundException"
@@ -1918,8 +933,6 @@ export type BatchGetStepErrorCode =
   | "AccessDeniedException"
   | "ThrottlingException"
   | (string & {});
-export const BatchGetStepErrorCode = S.String;
-
 export interface BatchGetStepError_ {
   farmId: string;
   queueId: string;
@@ -1928,29 +941,11 @@ export interface BatchGetStepError_ {
   code: BatchGetStepErrorCode;
   message: string;
 }
-export const BatchGetStepError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    stepId: S.String,
-    code: BatchGetStepErrorCode,
-    message: S.String,
-  }),
-).annotate({
-  identifier: "BatchGetStepError",
-}) as any as S.Schema<BatchGetStepError_>;
 export type BatchGetStepErrors = BatchGetStepError_[];
-export const BatchGetStepErrors = /*@__PURE__*/ S.Array(BatchGetStepError_);
 export interface BatchGetStepResponse {
   steps: BatchGetStepItem[];
   errors: BatchGetStepError_[];
 }
-export const BatchGetStepResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ steps: BatchGetStepItems, errors: BatchGetStepErrors }),
-).annotate({
-  identifier: "BatchGetStepResponse",
-}) as any as S.Schema<BatchGetStepResponse>;
 export interface BatchGetTaskIdentifier {
   farmId: string;
   queueId: string;
@@ -1958,38 +953,10 @@ export interface BatchGetTaskIdentifier {
   stepId: string;
   taskId: string;
 }
-export const BatchGetTaskIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    stepId: S.String,
-    taskId: S.String,
-  }),
-).annotate({
-  identifier: "BatchGetTaskIdentifier",
-}) as any as S.Schema<BatchGetTaskIdentifier>;
 export type BatchGetTaskIdentifiers = BatchGetTaskIdentifier[];
-export const BatchGetTaskIdentifiers = /*@__PURE__*/ S.Array(
-  BatchGetTaskIdentifier,
-);
 export interface BatchGetTaskRequest {
   identifiers: BatchGetTaskIdentifier[];
 }
-export const BatchGetTaskRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifiers: BatchGetTaskIdentifiers }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/batch-get-task" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetTaskRequest",
-}) as any as S.Schema<BatchGetTaskRequest>;
 export type TaskTargetRunStatus =
   | "READY"
   | "FAILED"
@@ -1998,8 +965,6 @@ export type TaskTargetRunStatus =
   | "SUSPENDED"
   | "PENDING"
   | (string & {});
-export const TaskTargetRunStatus = S.String;
-
 export type TaskRetryCount = number;
 export interface BatchGetTaskItem {
   farmId: string;
@@ -2019,34 +984,7 @@ export interface BatchGetTaskItem {
   latestSessionActionId?: string;
   parameters?: { [key: string]: TaskParameterValue | undefined };
 }
-export const BatchGetTaskItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    stepId: S.String,
-    taskId: S.String,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    runStatus: TaskRunStatus,
-    targetRunStatus: S.optional(TaskTargetRunStatus),
-    failureRetryCount: S.optional(S.Number),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    latestSessionActionId: S.optional(S.String),
-    parameters: S.optional(TaskParameters),
-  }),
-).annotate({
-  identifier: "BatchGetTaskItem",
-}) as any as S.Schema<BatchGetTaskItem>;
 export type BatchGetTaskItems = BatchGetTaskItem[];
-export const BatchGetTaskItems = /*@__PURE__*/ S.Array(BatchGetTaskItem);
 export type BatchGetTaskErrorCode =
   | "InternalServerErrorException"
   | "ResourceNotFoundException"
@@ -2054,8 +992,6 @@ export type BatchGetTaskErrorCode =
   | "AccessDeniedException"
   | "ThrottlingException"
   | (string & {});
-export const BatchGetTaskErrorCode = S.String;
-
 export interface BatchGetTaskError_ {
   farmId: string;
   queueId: string;
@@ -2065,61 +1001,20 @@ export interface BatchGetTaskError_ {
   code: BatchGetTaskErrorCode;
   message: string;
 }
-export const BatchGetTaskError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    stepId: S.String,
-    taskId: S.String,
-    code: BatchGetTaskErrorCode,
-    message: S.String,
-  }),
-).annotate({
-  identifier: "BatchGetTaskError",
-}) as any as S.Schema<BatchGetTaskError_>;
 export type BatchGetTaskErrors = BatchGetTaskError_[];
-export const BatchGetTaskErrors = /*@__PURE__*/ S.Array(BatchGetTaskError_);
 export interface BatchGetTaskResponse {
   tasks: BatchGetTaskItem[];
   errors: BatchGetTaskError_[];
 }
-export const BatchGetTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tasks: BatchGetTaskItems, errors: BatchGetTaskErrors }),
-).annotate({
-  identifier: "BatchGetTaskResponse",
-}) as any as S.Schema<BatchGetTaskResponse>;
 export interface BatchGetWorkerIdentifier {
   farmId: string;
   fleetId: string;
   workerId: string;
 }
-export const BatchGetWorkerIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ farmId: S.String, fleetId: S.String, workerId: S.String }),
-).annotate({
-  identifier: "BatchGetWorkerIdentifier",
-}) as any as S.Schema<BatchGetWorkerIdentifier>;
 export type BatchGetWorkerIdentifiers = BatchGetWorkerIdentifier[];
-export const BatchGetWorkerIdentifiers = /*@__PURE__*/ S.Array(
-  BatchGetWorkerIdentifier,
-);
 export interface BatchGetWorkerRequest {
   identifiers: BatchGetWorkerIdentifier[];
 }
-export const BatchGetWorkerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifiers: BatchGetWorkerIdentifiers }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/batch-get-worker" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetWorkerRequest",
-}) as any as S.Schema<BatchGetWorkerRequest>;
 export type WorkerStatus =
   | "CREATED"
   | "STARTED"
@@ -2130,8 +1025,6 @@ export type WorkerStatus =
   | "RUNNING"
   | "IDLE"
   | (string & {});
-export const WorkerStatus = S.String;
-
 export interface BatchGetWorkerItem {
   farmId: string;
   fleetId: string;
@@ -2144,33 +1037,12 @@ export interface BatchGetWorkerItem {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const BatchGetWorkerItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    fleetId: S.String,
-    workerId: S.String,
-    hostProperties: S.optional(HostPropertiesResponse),
-    status: WorkerStatus,
-    log: S.optional(LogConfiguration),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BatchGetWorkerItem",
-}) as any as S.Schema<BatchGetWorkerItem>;
 export type BatchGetWorkerItems = BatchGetWorkerItem[];
-export const BatchGetWorkerItems = /*@__PURE__*/ S.Array(BatchGetWorkerItem);
 export type BatchGetWorkerErrorCode =
   | "InternalServerErrorException"
   | "ResourceNotFoundException"
   | "ValidationException"
   | (string & {});
-export const BatchGetWorkerErrorCode = S.String;
-
 export interface BatchGetWorkerError_ {
   farmId: string;
   fleetId: string;
@@ -2178,32 +1050,13 @@ export interface BatchGetWorkerError_ {
   code: BatchGetWorkerErrorCode;
   message: string;
 }
-export const BatchGetWorkerError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    fleetId: S.String,
-    workerId: S.String,
-    code: BatchGetWorkerErrorCode,
-    message: S.String,
-  }),
-).annotate({
-  identifier: "BatchGetWorkerError",
-}) as any as S.Schema<BatchGetWorkerError_>;
 export type BatchGetWorkerErrors = BatchGetWorkerError_[];
-export const BatchGetWorkerErrors = /*@__PURE__*/ S.Array(BatchGetWorkerError_);
 export interface BatchGetWorkerResponse {
   workers: BatchGetWorkerItem[];
   errors: BatchGetWorkerError_[];
 }
-export const BatchGetWorkerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ workers: BatchGetWorkerItems, errors: BatchGetWorkerErrors }),
-).annotate({
-  identifier: "BatchGetWorkerResponse",
-}) as any as S.Schema<BatchGetWorkerResponse>;
 export type ClientToken = string;
 export type UpdateJobLifecycleStatus = "ARCHIVED" | (string & {});
-export const UpdateJobLifecycleStatus = S.String;
-
 export type JobDescriptionOverride = string | redacted.Redacted<string>;
 export interface BatchUpdateJobItem {
   farmId: string;
@@ -2218,49 +1071,11 @@ export interface BatchUpdateJobItem {
   name?: string;
   description?: string | redacted.Redacted<string>;
 }
-export const BatchUpdateJobItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    targetTaskRunStatus: S.optional(JobTargetTaskRunStatus),
-    priority: S.optional(S.Number),
-    maxFailedTasksCount: S.optional(S.Number),
-    maxRetriesPerTask: S.optional(S.Number),
-    lifecycleStatus: S.optional(UpdateJobLifecycleStatus),
-    maxWorkerCount: S.optional(S.Number),
-    name: S.optional(S.String),
-    description: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "BatchUpdateJobItem",
-}) as any as S.Schema<BatchUpdateJobItem>;
 export type BatchUpdateJobItems = BatchUpdateJobItem[];
-export const BatchUpdateJobItems = /*@__PURE__*/ S.Array(BatchUpdateJobItem);
 export interface BatchUpdateJobRequest {
   clientToken?: string;
   jobs: BatchUpdateJobItem[];
 }
-export const BatchUpdateJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    jobs: BatchUpdateJobItems,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/2023-10-12/batch-update-job" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchUpdateJobRequest",
-}) as any as S.Schema<BatchUpdateJobRequest>;
 export type BatchUpdateJobErrorCode =
   | "ConflictException"
   | "InternalServerErrorException"
@@ -2269,8 +1084,6 @@ export type BatchUpdateJobErrorCode =
   | "AccessDeniedException"
   | "ThrottlingException"
   | (string & {});
-export const BatchUpdateJobErrorCode = S.String;
-
 export interface BatchUpdateJobError_ {
   farmId: string;
   queueId: string;
@@ -2278,27 +1091,10 @@ export interface BatchUpdateJobError_ {
   code: BatchUpdateJobErrorCode;
   message: string;
 }
-export const BatchUpdateJobError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    code: BatchUpdateJobErrorCode,
-    message: S.String,
-  }),
-).annotate({
-  identifier: "BatchUpdateJobError",
-}) as any as S.Schema<BatchUpdateJobError_>;
 export type BatchUpdateJobErrors = BatchUpdateJobError_[];
-export const BatchUpdateJobErrors = /*@__PURE__*/ S.Array(BatchUpdateJobError_);
 export interface BatchUpdateJobResponse {
   errors: BatchUpdateJobError_[];
 }
-export const BatchUpdateJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ errors: BatchUpdateJobErrors }),
-).annotate({
-  identifier: "BatchUpdateJobResponse",
-}) as any as S.Schema<BatchUpdateJobResponse>;
 export interface BatchUpdateTaskItem {
   farmId: string;
   queueId: string;
@@ -2307,44 +1103,11 @@ export interface BatchUpdateTaskItem {
   taskId: string;
   targetRunStatus: TaskTargetRunStatus;
 }
-export const BatchUpdateTaskItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    stepId: S.String,
-    taskId: S.String,
-    targetRunStatus: TaskTargetRunStatus,
-  }),
-).annotate({
-  identifier: "BatchUpdateTaskItem",
-}) as any as S.Schema<BatchUpdateTaskItem>;
 export type BatchUpdateTaskItems = BatchUpdateTaskItem[];
-export const BatchUpdateTaskItems = /*@__PURE__*/ S.Array(BatchUpdateTaskItem);
 export interface BatchUpdateTaskRequest {
   clientToken?: string;
   tasks: BatchUpdateTaskItem[];
 }
-export const BatchUpdateTaskRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    tasks: BatchUpdateTaskItems,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/2023-10-12/batch-update-task" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchUpdateTaskRequest",
-}) as any as S.Schema<BatchUpdateTaskRequest>;
 export type BatchUpdateTaskErrorCode =
   | "ConflictException"
   | "InternalServerErrorException"
@@ -2353,8 +1116,6 @@ export type BatchUpdateTaskErrorCode =
   | "AccessDeniedException"
   | "ThrottlingException"
   | (string & {});
-export const BatchUpdateTaskErrorCode = S.String;
-
 export interface BatchUpdateTaskError_ {
   farmId: string;
   queueId: string;
@@ -2364,128 +1125,48 @@ export interface BatchUpdateTaskError_ {
   code: BatchUpdateTaskErrorCode;
   message: string;
 }
-export const BatchUpdateTaskError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    stepId: S.String,
-    taskId: S.String,
-    code: BatchUpdateTaskErrorCode,
-    message: S.String,
-  }),
-).annotate({
-  identifier: "BatchUpdateTaskError",
-}) as any as S.Schema<BatchUpdateTaskError_>;
 export type BatchUpdateTaskErrors = BatchUpdateTaskError_[];
-export const BatchUpdateTaskErrors = /*@__PURE__*/ S.Array(
-  BatchUpdateTaskError_,
-);
 export interface BatchUpdateTaskResponse {
   errors: BatchUpdateTaskError_[];
 }
-export const BatchUpdateTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ errors: BatchUpdateTaskErrors }),
-).annotate({
-  identifier: "BatchUpdateTaskResponse",
-}) as any as S.Schema<BatchUpdateTaskResponse>;
 export type S3Key = string;
 export interface S3Location {
   bucketName: string;
   key: string;
 }
-export const S3Location = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucketName: S.String, key: S.String }),
-).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export interface CopyJobTemplateRequest {
   farmId: string;
   queueId: string;
   jobId: string;
   targetS3Location: S3Location;
 }
-export const CopyJobTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    targetS3Location: S3Location,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/template",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CopyJobTemplateRequest",
-}) as any as S.Schema<CopyJobTemplateRequest>;
 export type JobTemplateType = "JSON" | "YAML" | (string & {});
-export const JobTemplateType = S.String;
-
 export interface CopyJobTemplateResponse {
   templateType: JobTemplateType;
 }
-export const CopyJobTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ templateType: JobTemplateType }),
-).annotate({
-  identifier: "CopyJobTemplateResponse",
-}) as any as S.Schema<CopyJobTemplateResponse>;
 export type ResourceName = string;
 export type Description = string | redacted.Redacted<string>;
 export type UsageTrackingResource = { queueId: string };
-export const UsageTrackingResource = /*@__PURE__*/ S.Union([
-  S.Struct({ queueId: S.String }),
-]);
 export type ConsumedUsageLimit = number;
 export type BudgetActionType =
   | "STOP_SCHEDULING_AND_COMPLETE_TASKS"
   | "STOP_SCHEDULING_AND_CANCEL_TASKS"
   | (string & {});
-export const BudgetActionType = S.String;
-
 export type ThresholdPercentage = number;
 export interface BudgetActionToAdd {
   type: BudgetActionType;
   thresholdPercentage: number;
   description?: string | redacted.Redacted<string>;
 }
-export const BudgetActionToAdd = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: BudgetActionType,
-    thresholdPercentage: S.Number,
-    description: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "BudgetActionToAdd",
-}) as any as S.Schema<BudgetActionToAdd>;
 export type BudgetActionsToAdd = BudgetActionToAdd[];
-export const BudgetActionsToAdd = /*@__PURE__*/ S.Array(BudgetActionToAdd);
 export type StartsAt = Date;
 export type EndsAt = Date;
 export interface FixedBudgetSchedule {
   startTime: Date;
   endTime: Date;
 }
-export const FixedBudgetSchedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({
-  identifier: "FixedBudgetSchedule",
-}) as any as S.Schema<FixedBudgetSchedule>;
 export type BudgetSchedule = { fixed: FixedBudgetSchedule };
-export const BudgetSchedule = /*@__PURE__*/ S.Union([
-  S.Struct({ fixed: FixedBudgetSchedule }),
-]);
 export type Tags = { [key: string]: string | undefined };
-export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateBudgetRequest {
   farmId: string;
   displayName: string;
@@ -2497,42 +1178,10 @@ export interface CreateBudgetRequest {
   schedule: BudgetSchedule;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateBudgetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    displayName: S.String,
-    description: S.optional(SensitiveString),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    usageTrackingResource: UsageTrackingResource,
-    approximateDollarLimit: S.Number,
-    actions: BudgetActionsToAdd,
-    schedule: BudgetSchedule,
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/budgets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateBudgetRequest",
-}) as any as S.Schema<CreateBudgetRequest>;
 export type BudgetId = string;
 export interface CreateBudgetResponse {
   budgetId: string;
 }
-export const CreateBudgetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ budgetId: S.String }),
-).annotate({
-  identifier: "CreateBudgetResponse",
-}) as any as S.Schema<CreateBudgetResponse>;
 export type KmsKeyArn = string;
 export type CostScaleFactor = number;
 export interface CreateFarmRequest {
@@ -2543,138 +1192,57 @@ export interface CreateFarmRequest {
   costScaleFactor?: number;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateFarmRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    displayName: S.String,
-    description: S.optional(SensitiveString),
-    kmsKeyArn: S.optional(S.String),
-    costScaleFactor: S.optional(S.Number),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/farms" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateFarmRequest",
-}) as any as S.Schema<CreateFarmRequest>;
 export interface CreateFarmResponse {
   farmId: string;
 }
-export const CreateFarmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ farmId: S.String }),
-).annotate({
-  identifier: "CreateFarmResponse",
-}) as any as S.Schema<CreateFarmResponse>;
 export type MinZeroMaxInteger = number;
 export type AutoScalingMode =
   | "NO_SCALING"
   | "EVENT_BASED_AUTO_SCALING"
   | (string & {});
-export const AutoScalingMode = S.String;
-
 export interface CustomerManagedAutoScalingConfiguration {
   standbyWorkerCount?: number;
   workerIdleDurationSeconds?: number;
   scaleOutWorkersPerMinute?: number;
 }
-export const CustomerManagedAutoScalingConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      standbyWorkerCount: S.optional(S.Number),
-      workerIdleDurationSeconds: S.optional(S.Number),
-      scaleOutWorkersPerMinute: S.optional(S.Number),
-    }),
-).annotate({
-  identifier: "CustomerManagedAutoScalingConfiguration",
-}) as any as S.Schema<CustomerManagedAutoScalingConfiguration>;
 export type MinOneMaxTenThousand = number;
 export interface VCpuCountRange {
   min: number;
   max?: number;
 }
-export const VCpuCountRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ min: S.Number, max: S.optional(S.Number) }),
-).annotate({ identifier: "VCpuCountRange" }) as any as S.Schema<VCpuCountRange>;
 export type MemoryAmountMiB = number;
 export interface MemoryMiBRange {
   min: number;
   max?: number;
 }
-export const MemoryMiBRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ min: S.Number, max: S.optional(S.Number) }),
-).annotate({ identifier: "MemoryMiBRange" }) as any as S.Schema<MemoryMiBRange>;
 export type AcceleratorType = "gpu" | (string & {});
-export const AcceleratorType = S.String;
-
 export type AcceleratorTypes = AcceleratorType[];
-export const AcceleratorTypes = /*@__PURE__*/ S.Array(AcceleratorType);
 export interface AcceleratorCountRange {
   min: number;
   max?: number;
 }
-export const AcceleratorCountRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ min: S.Number, max: S.optional(S.Number) }),
-).annotate({
-  identifier: "AcceleratorCountRange",
-}) as any as S.Schema<AcceleratorCountRange>;
 export interface AcceleratorTotalMemoryMiBRange {
   min: number;
   max?: number;
 }
-export const AcceleratorTotalMemoryMiBRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ min: S.Number, max: S.optional(S.Number) }),
-).annotate({
-  identifier: "AcceleratorTotalMemoryMiBRange",
-}) as any as S.Schema<AcceleratorTotalMemoryMiBRange>;
 export type CustomerManagedFleetOperatingSystemFamily =
   | "WINDOWS"
   | "LINUX"
   | "MACOS"
   | (string & {});
-export const CustomerManagedFleetOperatingSystemFamily = S.String;
-
 export type CpuArchitectureType = "x86_64" | "arm64" | (string & {});
-export const CpuArchitectureType = S.String;
-
 export interface FleetAmountCapability {
   name: string;
   min: number;
   max?: number;
 }
-export const FleetAmountCapability = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, min: S.Number, max: S.optional(S.Number) }),
-).annotate({
-  identifier: "FleetAmountCapability",
-}) as any as S.Schema<FleetAmountCapability>;
 export type CustomFleetAmountCapabilities = FleetAmountCapability[];
-export const CustomFleetAmountCapabilities = /*@__PURE__*/ S.Array(
-  FleetAmountCapability,
-);
 export type AttributeCapabilityValuesList = string[];
-export const AttributeCapabilityValuesList = /*@__PURE__*/ S.Array(S.String);
 export interface FleetAttributeCapability {
   name: string;
   values: string[];
 }
-export const FleetAttributeCapability = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, values: AttributeCapabilityValuesList }),
-).annotate({
-  identifier: "FleetAttributeCapability",
-}) as any as S.Schema<FleetAttributeCapability>;
 export type CustomFleetAttributeCapabilities = FleetAttributeCapability[];
-export const CustomFleetAttributeCapabilities = /*@__PURE__*/ S.Array(
-  FleetAttributeCapability,
-);
 export interface CustomerManagedWorkerCapabilities {
   vCpuCount: VCpuCountRange;
   memoryMiB: MemoryMiBRange;
@@ -2686,27 +1254,10 @@ export interface CustomerManagedWorkerCapabilities {
   customAmounts?: FleetAmountCapability[];
   customAttributes?: FleetAttributeCapability[];
 }
-export const CustomerManagedWorkerCapabilities = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vCpuCount: VCpuCountRange,
-    memoryMiB: MemoryMiBRange,
-    acceleratorTypes: S.optional(AcceleratorTypes),
-    acceleratorCount: S.optional(AcceleratorCountRange),
-    acceleratorTotalMemoryMiB: S.optional(AcceleratorTotalMemoryMiBRange),
-    osFamily: CustomerManagedFleetOperatingSystemFamily,
-    cpuArchitectureType: CpuArchitectureType,
-    customAmounts: S.optional(CustomFleetAmountCapabilities),
-    customAttributes: S.optional(CustomFleetAttributeCapabilities),
-  }),
-).annotate({
-  identifier: "CustomerManagedWorkerCapabilities",
-}) as any as S.Schema<CustomerManagedWorkerCapabilities>;
 export type TagPropagationMode =
   | "NO_PROPAGATION"
   | "PROPAGATE_TAGS_TO_WORKERS_AT_LAUNCH"
   | (string & {});
-export const TagPropagationMode = S.String;
-
 export interface CustomerManagedFleetConfiguration {
   mode: AutoScalingMode;
   autoScalingConfiguration?: CustomerManagedAutoScalingConfiguration;
@@ -2714,25 +1265,10 @@ export interface CustomerManagedFleetConfiguration {
   storageProfileId?: string;
   tagPropagationMode?: TagPropagationMode;
 }
-export const CustomerManagedFleetConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mode: AutoScalingMode,
-    autoScalingConfiguration: S.optional(
-      CustomerManagedAutoScalingConfiguration,
-    ),
-    workerCapabilities: CustomerManagedWorkerCapabilities,
-    storageProfileId: S.optional(S.String),
-    tagPropagationMode: S.optional(TagPropagationMode),
-  }),
-).annotate({
-  identifier: "CustomerManagedFleetConfiguration",
-}) as any as S.Schema<CustomerManagedFleetConfiguration>;
 export type ServiceManagedFleetOperatingSystemFamily =
   | "WINDOWS"
   | "LINUX"
   | (string & {});
-export const ServiceManagedFleetOperatingSystemFamily = S.String;
-
 export type EbsIops = number;
 export type EbsThroughputMiB = number;
 export interface Ec2EbsVolume {
@@ -2740,13 +1276,6 @@ export interface Ec2EbsVolume {
   iops?: number;
   throughputMiB?: number;
 }
-export const Ec2EbsVolume = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sizeGiB: S.optional(S.Number),
-    iops: S.optional(S.Number),
-    throughputMiB: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Ec2EbsVolume" }) as any as S.Schema<Ec2EbsVolume>;
 export type AcceleratorName =
   | "t4"
   | "a10g"
@@ -2754,35 +1283,17 @@ export type AcceleratorName =
   | "l40s"
   | "rtx-pro-server-6000"
   | (string & {});
-export const AcceleratorName = S.String;
-
 export type AcceleratorRuntime = string;
 export interface AcceleratorSelection {
   name: AcceleratorName;
   runtime?: string;
 }
-export const AcceleratorSelection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: AcceleratorName, runtime: S.optional(S.String) }),
-).annotate({
-  identifier: "AcceleratorSelection",
-}) as any as S.Schema<AcceleratorSelection>;
 export type AcceleratorSelections = AcceleratorSelection[];
-export const AcceleratorSelections =
-  /*@__PURE__*/ S.Array(AcceleratorSelection);
 export interface AcceleratorCapabilities {
   selections: AcceleratorSelection[];
   count?: AcceleratorCountRange;
 }
-export const AcceleratorCapabilities = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    selections: AcceleratorSelections,
-    count: S.optional(AcceleratorCountRange),
-  }),
-).annotate({
-  identifier: "AcceleratorCapabilities",
-}) as any as S.Schema<AcceleratorCapabilities>;
 export type InstanceTypes = string[];
-export const InstanceTypes = /*@__PURE__*/ S.Array(S.String);
 export interface ServiceManagedEc2InstanceCapabilities {
   vCpuCount: VCpuCountRange;
   memoryMiB: MemoryMiBRange;
@@ -2795,51 +1306,19 @@ export interface ServiceManagedEc2InstanceCapabilities {
   customAmounts?: FleetAmountCapability[];
   customAttributes?: FleetAttributeCapability[];
 }
-export const ServiceManagedEc2InstanceCapabilities = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      vCpuCount: VCpuCountRange,
-      memoryMiB: MemoryMiBRange,
-      osFamily: ServiceManagedFleetOperatingSystemFamily,
-      cpuArchitectureType: CpuArchitectureType,
-      rootEbsVolume: S.optional(Ec2EbsVolume),
-      acceleratorCapabilities: S.optional(AcceleratorCapabilities),
-      allowedInstanceTypes: S.optional(InstanceTypes),
-      excludedInstanceTypes: S.optional(InstanceTypes),
-      customAmounts: S.optional(CustomFleetAmountCapabilities),
-      customAttributes: S.optional(CustomFleetAttributeCapabilities),
-    }),
-).annotate({
-  identifier: "ServiceManagedEc2InstanceCapabilities",
-}) as any as S.Schema<ServiceManagedEc2InstanceCapabilities>;
 export type Ec2MarketType =
   | "on-demand"
   | "spot"
   | "wait-and-save"
   | (string & {});
-export const Ec2MarketType = S.String;
-
 export interface ServiceManagedEc2InstanceMarketOptions {
   type: Ec2MarketType;
 }
-export const ServiceManagedEc2InstanceMarketOptions = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ type: Ec2MarketType }),
-).annotate({
-  identifier: "ServiceManagedEc2InstanceMarketOptions",
-}) as any as S.Schema<ServiceManagedEc2InstanceMarketOptions>;
 export type VpcResourceConfigurationArn = string;
 export type VpcResourceConfigurationArns = string[];
-export const VpcResourceConfigurationArns = /*@__PURE__*/ S.Array(S.String);
 export interface VpcConfiguration {
   resourceConfigurationArns?: string[];
 }
-export const VpcConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceConfigurationArns: S.optional(VpcResourceConfigurationArns),
-  }),
-).annotate({
-  identifier: "VpcConfiguration",
-}) as any as S.Schema<VpcConfiguration>;
 export type PersistentVolumeSizeGiB = number;
 export type PersistentVolumeIops = number;
 export type PersistentVolumeThroughputMiB = number;
@@ -2852,33 +1331,12 @@ export interface PersistentVolumeConfiguration {
   mountPath: string;
   lastUsedTtlHours?: number;
 }
-export const PersistentVolumeConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sizeGiB: S.optional(S.Number),
-    iops: S.optional(S.Number),
-    throughputMiB: S.optional(S.Number),
-    mountPath: S.String,
-    lastUsedTtlHours: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "PersistentVolumeConfiguration",
-}) as any as S.Schema<PersistentVolumeConfiguration>;
 export type ServiceManagedEc2WorkerIdleDurationSeconds = number;
 export interface ServiceManagedEc2AutoScalingConfiguration {
   standbyWorkerCount?: number;
   workerIdleDurationSeconds?: number;
   scaleOutWorkersPerMinute?: number;
 }
-export const ServiceManagedEc2AutoScalingConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      standbyWorkerCount: S.optional(S.Number),
-      workerIdleDurationSeconds: S.optional(S.Number),
-      scaleOutWorkersPerMinute: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "ServiceManagedEc2AutoScalingConfiguration",
-  }) as any as S.Schema<ServiceManagedEc2AutoScalingConfiguration>;
 export interface ServiceManagedEc2FleetConfiguration {
   instanceCapabilities: ServiceManagedEc2InstanceCapabilities;
   instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions;
@@ -2887,20 +1345,6 @@ export interface ServiceManagedEc2FleetConfiguration {
   persistentVolumeConfiguration?: PersistentVolumeConfiguration;
   autoScalingConfiguration?: ServiceManagedEc2AutoScalingConfiguration;
 }
-export const ServiceManagedEc2FleetConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceCapabilities: ServiceManagedEc2InstanceCapabilities,
-    instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions,
-    vpcConfiguration: S.optional(VpcConfiguration),
-    storageProfileId: S.optional(S.String),
-    persistentVolumeConfiguration: S.optional(PersistentVolumeConfiguration),
-    autoScalingConfiguration: S.optional(
-      ServiceManagedEc2AutoScalingConfiguration,
-    ),
-  }),
-).annotate({
-  identifier: "ServiceManagedEc2FleetConfiguration",
-}) as any as S.Schema<ServiceManagedEc2FleetConfiguration>;
 export type FleetConfiguration =
   | {
       customerManaged: CustomerManagedFleetConfiguration;
@@ -2910,24 +1354,12 @@ export type FleetConfiguration =
       customerManaged?: never;
       serviceManagedEc2: ServiceManagedEc2FleetConfiguration;
     };
-export const FleetConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ customerManaged: CustomerManagedFleetConfiguration }),
-  S.Struct({ serviceManagedEc2: ServiceManagedEc2FleetConfiguration }),
-]);
 export type HostConfigurationScript = string | redacted.Redacted<string>;
 export type HostConfigurationScriptTimeoutSeconds = number;
 export interface HostConfiguration {
   scriptBody: string | redacted.Redacted<string>;
   scriptTimeoutSeconds?: number;
 }
-export const HostConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scriptBody: SensitiveString,
-    scriptTimeoutSeconds: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "HostConfiguration",
-}) as any as S.Schema<HostConfiguration>;
 export interface CreateFleetRequest {
   farmId: string;
   clientToken?: string;
@@ -2940,49 +1372,14 @@ export interface CreateFleetRequest {
   tags?: { [key: string]: string | undefined };
   hostConfiguration?: HostConfiguration;
 }
-export const CreateFleetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    displayName: S.String,
-    description: S.optional(SensitiveString),
-    roleArn: S.String,
-    minWorkerCount: S.optional(S.Number),
-    maxWorkerCount: S.Number,
-    configuration: FleetConfiguration,
-    tags: S.optional(Tags),
-    hostConfiguration: S.optional(HostConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/fleets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateFleetRequest",
-}) as any as S.Schema<CreateFleetRequest>;
 export interface CreateFleetResponse {
   fleetId: string;
 }
-export const CreateFleetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ fleetId: S.String }),
-).annotate({
-  identifier: "CreateFleetResponse",
-}) as any as S.Schema<CreateFleetResponse>;
 export type JobTemplate = string | redacted.Redacted<string>;
 export type CreateJobTargetTaskRunStatus =
   | "READY"
   | "SUSPENDED"
   | (string & {});
-export const CreateJobTargetTaskRunStatus = S.String;
-
 export interface CreateJobRequest {
   farmId: string;
   queueId: string;
@@ -3002,59 +1399,14 @@ export interface CreateJobRequest {
   descriptionOverride?: string | redacted.Redacted<string>;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    template: S.optional(SensitiveString),
-    templateType: S.optional(JobTemplateType),
-    priority: S.Number,
-    parameters: S.optional(JobParameters),
-    attachments: S.optional(Attachments),
-    storageProfileId: S.optional(S.String),
-    targetTaskRunStatus: S.optional(CreateJobTargetTaskRunStatus),
-    maxFailedTasksCount: S.optional(S.Number),
-    maxRetriesPerTask: S.optional(S.Number),
-    maxWorkerCount: S.optional(S.Number),
-    sourceJobId: S.optional(S.String),
-    nameOverride: S.optional(S.String),
-    descriptionOverride: S.optional(SensitiveString),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateJobRequest",
-}) as any as S.Schema<CreateJobRequest>;
 export interface CreateJobResponse {
   jobId: string;
 }
-export const CreateJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobId: S.String }),
-).annotate({
-  identifier: "CreateJobResponse",
-}) as any as S.Schema<CreateJobResponse>;
 export type VpcId = string;
 export type SubnetId = string;
 export type SubnetIdList = string[];
-export const SubnetIdList = /*@__PURE__*/ S.Array(S.String);
 export type SecurityGroupId = string;
 export type SecurityGroupIdList = string[];
-export const SecurityGroupIdList = /*@__PURE__*/ S.Array(S.String);
 export interface CreateLicenseEndpointRequest {
   clientToken?: string;
   vpcId: string;
@@ -3062,38 +1414,10 @@ export interface CreateLicenseEndpointRequest {
   securityGroupIds: string[];
   tags?: { [key: string]: string | undefined };
 }
-export const CreateLicenseEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    vpcId: S.String,
-    subnetIds: SubnetIdList,
-    securityGroupIds: SecurityGroupIdList,
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/license-endpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateLicenseEndpointRequest",
-}) as any as S.Schema<CreateLicenseEndpointRequest>;
 export type LicenseEndpointId = string;
 export interface CreateLicenseEndpointResponse {
   licenseEndpointId: string;
 }
-export const CreateLicenseEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ licenseEndpointId: S.String }),
-).annotate({
-  identifier: "CreateLicenseEndpointResponse",
-}) as any as S.Schema<CreateLicenseEndpointResponse>;
 export type AmountRequirementName = string;
 export type MaxCount = number;
 export interface CreateLimitRequest {
@@ -3104,38 +1428,9 @@ export interface CreateLimitRequest {
   maxCount: number;
   description?: string | redacted.Redacted<string>;
 }
-export const CreateLimitRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    displayName: S.String,
-    amountRequirementName: S.String,
-    maxCount: S.Number,
-    description: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/limits" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateLimitRequest",
-}) as any as S.Schema<CreateLimitRequest>;
 export interface CreateLimitResponse {
   limitId: string;
 }
-export const CreateLimitResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ limitId: S.String }),
-).annotate({
-  identifier: "CreateLimitResponse",
-}) as any as S.Schema<CreateLimitResponse>;
 export type IdentityCenterInstanceArn = string;
 export type Subdomain = string;
 export interface CreateMonitorRequest {
@@ -3147,107 +1442,40 @@ export interface CreateMonitorRequest {
   roleArn: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateMonitorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    displayName: S.String,
-    identityCenterInstanceArn: S.String,
-    identityCenterRegion: S.optional(S.String),
-    subdomain: S.String,
-    roleArn: S.String,
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/monitors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateMonitorRequest",
-}) as any as S.Schema<CreateMonitorRequest>;
 export type MonitorId = string;
 export type IdentityCenterApplicationArn = string;
 export interface CreateMonitorResponse {
   monitorId: string;
   identityCenterApplicationArn: string;
 }
-export const CreateMonitorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ monitorId: S.String, identityCenterApplicationArn: S.String }),
-).annotate({
-  identifier: "CreateMonitorResponse",
-}) as any as S.Schema<CreateMonitorResponse>;
 export type DefaultQueueBudgetAction =
   | "NONE"
   | "STOP_SCHEDULING_AND_COMPLETE_TASKS"
   | "STOP_SCHEDULING_AND_CANCEL_TASKS"
   | (string & {});
-export const DefaultQueueBudgetAction = S.String;
-
 export interface JobAttachmentSettings {
   s3BucketName: string;
   rootPrefix: string;
 }
-export const JobAttachmentSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ s3BucketName: S.String, rootPrefix: S.String }),
-).annotate({
-  identifier: "JobAttachmentSettings",
-}) as any as S.Schema<JobAttachmentSettings>;
 export type RequiredFileSystemLocationNames = string[];
-export const RequiredFileSystemLocationNames = /*@__PURE__*/ S.Array(S.String);
 export type AllowedStorageProfileIds = string[];
-export const AllowedStorageProfileIds = /*@__PURE__*/ S.Array(S.String);
 export interface PriorityFifoSchedulingConfiguration {}
-export const PriorityFifoSchedulingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PriorityFifoSchedulingConfiguration",
-}) as any as S.Schema<PriorityFifoSchedulingConfiguration>;
 export type SchedulingRenderingTaskBuffer = number;
 export interface PriorityBalancedSchedulingConfiguration {
   renderingTaskBuffer?: number;
 }
-export const PriorityBalancedSchedulingConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ renderingTaskBuffer: S.optional(S.Number) }),
-).annotate({
-  identifier: "PriorityBalancedSchedulingConfiguration",
-}) as any as S.Schema<PriorityBalancedSchedulingConfiguration>;
 export type SchedulingPriorityWeight = number;
 export type SchedulingErrorWeight = number;
 export type SchedulingSubmissionTimeWeight = number;
 export type SchedulingRenderingTaskWeight = number;
 export interface SchedulingMaxPriorityOverrideAlwaysScheduleFirst {}
-export const SchedulingMaxPriorityOverrideAlwaysScheduleFirst =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "SchedulingMaxPriorityOverrideAlwaysScheduleFirst",
-  }) as any as S.Schema<SchedulingMaxPriorityOverrideAlwaysScheduleFirst>;
 export type SchedulingMaxPriorityOverride = {
   alwaysScheduleFirst: SchedulingMaxPriorityOverrideAlwaysScheduleFirst;
 };
-export const SchedulingMaxPriorityOverride = /*@__PURE__*/ S.Union([
-  S.Struct({
-    alwaysScheduleFirst: SchedulingMaxPriorityOverrideAlwaysScheduleFirst,
-  }),
-]);
 export interface SchedulingMinPriorityOverrideAlwaysScheduleLast {}
-export const SchedulingMinPriorityOverrideAlwaysScheduleLast =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "SchedulingMinPriorityOverrideAlwaysScheduleLast",
-  }) as any as S.Schema<SchedulingMinPriorityOverrideAlwaysScheduleLast>;
 export type SchedulingMinPriorityOverride = {
   alwaysScheduleLast: SchedulingMinPriorityOverrideAlwaysScheduleLast;
 };
-export const SchedulingMinPriorityOverride = /*@__PURE__*/ S.Union([
-  S.Struct({
-    alwaysScheduleLast: SchedulingMinPriorityOverrideAlwaysScheduleLast,
-  }),
-]);
 export interface WeightedBalancedSchedulingConfiguration {
   priorityWeight?: number;
   errorWeight?: number;
@@ -3257,20 +1485,6 @@ export interface WeightedBalancedSchedulingConfiguration {
   maxPriorityOverride?: SchedulingMaxPriorityOverride;
   minPriorityOverride?: SchedulingMinPriorityOverride;
 }
-export const WeightedBalancedSchedulingConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      priorityWeight: S.optional(S.Number),
-      errorWeight: S.optional(S.Number),
-      submissionTimeWeight: S.optional(S.Number),
-      renderingTaskWeight: S.optional(S.Number),
-      renderingTaskBuffer: S.optional(S.Number),
-      maxPriorityOverride: S.optional(SchedulingMaxPriorityOverride),
-      minPriorityOverride: S.optional(SchedulingMinPriorityOverride),
-    }),
-).annotate({
-  identifier: "WeightedBalancedSchedulingConfiguration",
-}) as any as S.Schema<WeightedBalancedSchedulingConfiguration>;
 export type SchedulingConfiguration =
   | {
       priorityFifo: PriorityFifoSchedulingConfiguration;
@@ -3287,11 +1501,6 @@ export type SchedulingConfiguration =
       priorityBalanced?: never;
       weightedBalanced: WeightedBalancedSchedulingConfiguration;
     };
-export const SchedulingConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ priorityFifo: PriorityFifoSchedulingConfiguration }),
-  S.Struct({ priorityBalanced: PriorityBalancedSchedulingConfiguration }),
-  S.Struct({ weightedBalanced: WeightedBalancedSchedulingConfiguration }),
-]);
 export interface CreateQueueRequest {
   farmId: string;
   clientToken?: string;
@@ -3306,50 +1515,11 @@ export interface CreateQueueRequest {
   tags?: { [key: string]: string | undefined };
   schedulingConfiguration?: SchedulingConfiguration;
 }
-export const CreateQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    displayName: S.String,
-    description: S.optional(SensitiveString),
-    defaultBudgetAction: S.optional(DefaultQueueBudgetAction),
-    jobAttachmentSettings: S.optional(JobAttachmentSettings),
-    roleArn: S.optional(S.String),
-    jobRunAsUser: S.optional(JobRunAsUser),
-    requiredFileSystemLocationNames: S.optional(
-      RequiredFileSystemLocationNames,
-    ),
-    allowedStorageProfileIds: S.optional(AllowedStorageProfileIds),
-    tags: S.optional(Tags),
-    schedulingConfiguration: S.optional(SchedulingConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/queues" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateQueueRequest",
-}) as any as S.Schema<CreateQueueRequest>;
 export interface CreateQueueResponse {
   queueId: string;
 }
-export const CreateQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ queueId: S.String }),
-).annotate({
-  identifier: "CreateQueueResponse",
-}) as any as S.Schema<CreateQueueResponse>;
 export type Priority = number;
 export type EnvironmentTemplateType = "JSON" | "YAML" | (string & {});
-export const EnvironmentTemplateType = S.String;
-
 export type EnvironmentTemplate = string | redacted.Redacted<string>;
 export interface CreateQueueEnvironmentRequest {
   farmId: string;
@@ -3359,129 +1529,34 @@ export interface CreateQueueEnvironmentRequest {
   templateType: EnvironmentTemplateType;
   template: string | redacted.Redacted<string>;
 }
-export const CreateQueueEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    priority: S.Number,
-    templateType: EnvironmentTemplateType,
-    template: SensitiveString,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/environments",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateQueueEnvironmentRequest",
-}) as any as S.Schema<CreateQueueEnvironmentRequest>;
 export type QueueEnvironmentId = string;
 export interface CreateQueueEnvironmentResponse {
   queueEnvironmentId: string;
 }
-export const CreateQueueEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ queueEnvironmentId: S.String }),
-).annotate({
-  identifier: "CreateQueueEnvironmentResponse",
-}) as any as S.Schema<CreateQueueEnvironmentResponse>;
 export interface CreateQueueFleetAssociationRequest {
   farmId: string;
   queueId: string;
   fleetId: string;
 }
-export const CreateQueueFleetAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String,
-    fleetId: S.String,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2023-10-12/farms/{farmId}/queue-fleet-associations",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateQueueFleetAssociationRequest",
-}) as any as S.Schema<CreateQueueFleetAssociationRequest>;
 export interface CreateQueueFleetAssociationResponse {}
-export const CreateQueueFleetAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CreateQueueFleetAssociationResponse",
-}) as any as S.Schema<CreateQueueFleetAssociationResponse>;
 export interface CreateQueueLimitAssociationRequest {
   farmId: string;
   queueId: string;
   limitId: string;
 }
-export const CreateQueueLimitAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String,
-    limitId: S.String,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2023-10-12/farms/{farmId}/queue-limit-associations",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateQueueLimitAssociationRequest",
-}) as any as S.Schema<CreateQueueLimitAssociationRequest>;
 export interface CreateQueueLimitAssociationResponse {}
-export const CreateQueueLimitAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CreateQueueLimitAssociationResponse",
-}) as any as S.Schema<CreateQueueLimitAssociationResponse>;
 export type StorageProfileOperatingSystemFamily =
   | "WINDOWS"
   | "LINUX"
   | "MACOS"
   | (string & {});
-export const StorageProfileOperatingSystemFamily = S.String;
-
 export type FileSystemLocationType = "SHARED" | "LOCAL" | (string & {});
-export const FileSystemLocationType = S.String;
-
 export interface FileSystemLocation {
   name: string;
   path: string;
   type: FileSystemLocationType;
 }
-export const FileSystemLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, path: S.String, type: FileSystemLocationType }),
-).annotate({
-  identifier: "FileSystemLocation",
-}) as any as S.Schema<FileSystemLocation>;
 export type FileSystemLocationsList = FileSystemLocation[];
-export const FileSystemLocationsList =
-  /*@__PURE__*/ S.Array(FileSystemLocation);
 export interface CreateStorageProfileRequest {
   farmId: string;
   clientToken?: string;
@@ -3489,52 +1564,13 @@ export interface CreateStorageProfileRequest {
   osFamily: StorageProfileOperatingSystemFamily;
   fileSystemLocations?: FileSystemLocation[];
 }
-export const CreateStorageProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    displayName: S.String,
-    osFamily: StorageProfileOperatingSystemFamily,
-    fileSystemLocations: S.optional(FileSystemLocationsList),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2023-10-12/farms/{farmId}/storage-profiles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateStorageProfileRequest",
-}) as any as S.Schema<CreateStorageProfileRequest>;
 export interface CreateStorageProfileResponse {
   storageProfileId: string;
 }
-export const CreateStorageProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ storageProfileId: S.String }),
-).annotate({
-  identifier: "CreateStorageProfileResponse",
-}) as any as S.Schema<CreateStorageProfileResponse>;
 export interface HostPropertiesRequest {
   ipAddresses?: IpAddresses;
   hostName?: string;
 }
-export const HostPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ipAddresses: S.optional(IpAddresses),
-    hostName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "HostPropertiesRequest",
-}) as any as S.Schema<HostPropertiesRequest>;
 export interface CreateWorkerRequest {
   farmId: string;
   fleetId: string;
@@ -3542,639 +1578,122 @@ export interface CreateWorkerRequest {
   clientToken?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateWorkerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    hostProperties: S.optional(HostPropertiesRequest),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/workers",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateWorkerRequest",
-}) as any as S.Schema<CreateWorkerRequest>;
 export interface CreateWorkerResponse {
   workerId: string;
 }
-export const CreateWorkerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ workerId: S.String }),
-).annotate({
-  identifier: "CreateWorkerResponse",
-}) as any as S.Schema<CreateWorkerResponse>;
 export interface DeleteBudgetRequest {
   farmId: string;
   budgetId: string;
 }
-export const DeleteBudgetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    budgetId: S.String.pipe(T.HttpLabel("budgetId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/budgets/{budgetId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBudgetRequest",
-}) as any as S.Schema<DeleteBudgetRequest>;
 export interface DeleteBudgetResponse {}
-export const DeleteBudgetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteBudgetResponse",
-}) as any as S.Schema<DeleteBudgetResponse>;
 export interface DeleteFarmRequest {
   farmId: string;
 }
-export const DeleteFarmRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ farmId: S.String.pipe(T.HttpLabel("farmId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/2023-10-12/farms/{farmId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteFarmRequest",
-}) as any as S.Schema<DeleteFarmRequest>;
 export interface DeleteFarmResponse {}
-export const DeleteFarmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteFarmResponse",
-}) as any as S.Schema<DeleteFarmResponse>;
 export interface DeleteFleetRequest {
   farmId: string;
   fleetId: string;
   clientToken?: string;
 }
-export const DeleteFleetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteFleetRequest",
-}) as any as S.Schema<DeleteFleetRequest>;
 export interface DeleteFleetResponse {}
-export const DeleteFleetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteFleetResponse",
-}) as any as S.Schema<DeleteFleetResponse>;
 export interface DeleteLicenseEndpointRequest {
   licenseEndpointId: string;
 }
-export const DeleteLicenseEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/license-endpoints/{licenseEndpointId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteLicenseEndpointRequest",
-}) as any as S.Schema<DeleteLicenseEndpointRequest>;
 export interface DeleteLicenseEndpointResponse {}
-export const DeleteLicenseEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteLicenseEndpointResponse",
-}) as any as S.Schema<DeleteLicenseEndpointResponse>;
 export interface DeleteLimitRequest {
   farmId: string;
   limitId: string;
 }
-export const DeleteLimitRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    limitId: S.String.pipe(T.HttpLabel("limitId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/limits/{limitId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteLimitRequest",
-}) as any as S.Schema<DeleteLimitRequest>;
 export interface DeleteLimitResponse {}
-export const DeleteLimitResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteLimitResponse",
-}) as any as S.Schema<DeleteLimitResponse>;
 export type MeteredProductId = string;
 export interface DeleteMeteredProductRequest {
   licenseEndpointId: string;
   productId: string;
 }
-export const DeleteMeteredProductRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")),
-    productId: S.String.pipe(T.HttpLabel("productId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/license-endpoints/{licenseEndpointId}/metered-products/{productId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteMeteredProductRequest",
-}) as any as S.Schema<DeleteMeteredProductRequest>;
 export interface DeleteMeteredProductResponse {}
-export const DeleteMeteredProductResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteMeteredProductResponse",
-}) as any as S.Schema<DeleteMeteredProductResponse>;
 export interface DeleteMonitorRequest {
   monitorId: string;
 }
-export const DeleteMonitorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ monitorId: S.String.pipe(T.HttpLabel("monitorId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/2023-10-12/monitors/{monitorId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteMonitorRequest",
-}) as any as S.Schema<DeleteMonitorRequest>;
 export interface DeleteMonitorResponse {}
-export const DeleteMonitorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteMonitorResponse",
-}) as any as S.Schema<DeleteMonitorResponse>;
 export interface DeleteQueueRequest {
   farmId: string;
   queueId: string;
 }
-export const DeleteQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteQueueRequest",
-}) as any as S.Schema<DeleteQueueRequest>;
 export interface DeleteQueueResponse {}
-export const DeleteQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteQueueResponse",
-}) as any as S.Schema<DeleteQueueResponse>;
 export interface DeleteQueueEnvironmentRequest {
   farmId: string;
   queueId: string;
   queueEnvironmentId: string;
 }
-export const DeleteQueueEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    queueEnvironmentId: S.String.pipe(T.HttpLabel("queueEnvironmentId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/environments/{queueEnvironmentId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteQueueEnvironmentRequest",
-}) as any as S.Schema<DeleteQueueEnvironmentRequest>;
 export interface DeleteQueueEnvironmentResponse {}
-export const DeleteQueueEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteQueueEnvironmentResponse",
-}) as any as S.Schema<DeleteQueueEnvironmentResponse>;
 export interface DeleteQueueFleetAssociationRequest {
   farmId: string;
   queueId: string;
   fleetId: string;
 }
-export const DeleteQueueFleetAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/queue-fleet-associations/{queueId}/{fleetId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteQueueFleetAssociationRequest",
-}) as any as S.Schema<DeleteQueueFleetAssociationRequest>;
 export interface DeleteQueueFleetAssociationResponse {}
-export const DeleteQueueFleetAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteQueueFleetAssociationResponse",
-}) as any as S.Schema<DeleteQueueFleetAssociationResponse>;
 export interface DeleteQueueLimitAssociationRequest {
   farmId: string;
   queueId: string;
   limitId: string;
 }
-export const DeleteQueueLimitAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    limitId: S.String.pipe(T.HttpLabel("limitId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/queue-limit-associations/{queueId}/{limitId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteQueueLimitAssociationRequest",
-}) as any as S.Schema<DeleteQueueLimitAssociationRequest>;
 export interface DeleteQueueLimitAssociationResponse {}
-export const DeleteQueueLimitAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteQueueLimitAssociationResponse",
-}) as any as S.Schema<DeleteQueueLimitAssociationResponse>;
 export interface DeleteStorageProfileRequest {
   farmId: string;
   storageProfileId: string;
 }
-export const DeleteStorageProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    storageProfileId: S.String.pipe(T.HttpLabel("storageProfileId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/storage-profiles/{storageProfileId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteStorageProfileRequest",
-}) as any as S.Schema<DeleteStorageProfileRequest>;
 export interface DeleteStorageProfileResponse {}
-export const DeleteStorageProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteStorageProfileResponse",
-}) as any as S.Schema<DeleteStorageProfileResponse>;
 export type VolumeId = string;
 export interface DeleteVolumeRequest {
   farmId: string;
   fleetId: string;
   volumeId: string;
 }
-export const DeleteVolumeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    volumeId: S.String.pipe(T.HttpLabel("volumeId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/volumes/{volumeId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteVolumeRequest",
-}) as any as S.Schema<DeleteVolumeRequest>;
 export interface DeleteVolumeResponse {}
-export const DeleteVolumeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteVolumeResponse",
-}) as any as S.Schema<DeleteVolumeResponse>;
 export interface DeleteWorkerRequest {
   farmId: string;
   fleetId: string;
   workerId: string;
 }
-export const DeleteWorkerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    workerId: S.String.pipe(T.HttpLabel("workerId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/workers/{workerId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteWorkerRequest",
-}) as any as S.Schema<DeleteWorkerRequest>;
 export interface DeleteWorkerResponse {}
-export const DeleteWorkerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteWorkerResponse",
-}) as any as S.Schema<DeleteWorkerResponse>;
 export interface DisassociateMemberFromFarmRequest {
   farmId: string;
   principalId: string;
 }
-export const DisassociateMemberFromFarmRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    principalId: S.String.pipe(T.HttpLabel("principalId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/members/{principalId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisassociateMemberFromFarmRequest",
-}) as any as S.Schema<DisassociateMemberFromFarmRequest>;
 export interface DisassociateMemberFromFarmResponse {}
-export const DisassociateMemberFromFarmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisassociateMemberFromFarmResponse",
-}) as any as S.Schema<DisassociateMemberFromFarmResponse>;
 export interface DisassociateMemberFromFleetRequest {
   farmId: string;
   fleetId: string;
   principalId: string;
 }
-export const DisassociateMemberFromFleetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    principalId: S.String.pipe(T.HttpLabel("principalId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/members/{principalId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisassociateMemberFromFleetRequest",
-}) as any as S.Schema<DisassociateMemberFromFleetRequest>;
 export interface DisassociateMemberFromFleetResponse {}
-export const DisassociateMemberFromFleetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisassociateMemberFromFleetResponse",
-}) as any as S.Schema<DisassociateMemberFromFleetResponse>;
 export interface DisassociateMemberFromJobRequest {
   farmId: string;
   queueId: string;
   jobId: string;
   principalId: string;
 }
-export const DisassociateMemberFromJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    principalId: S.String.pipe(T.HttpLabel("principalId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/members/{principalId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisassociateMemberFromJobRequest",
-}) as any as S.Schema<DisassociateMemberFromJobRequest>;
 export interface DisassociateMemberFromJobResponse {}
-export const DisassociateMemberFromJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisassociateMemberFromJobResponse",
-}) as any as S.Schema<DisassociateMemberFromJobResponse>;
 export interface DisassociateMemberFromQueueRequest {
   farmId: string;
   queueId: string;
   principalId: string;
 }
-export const DisassociateMemberFromQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    principalId: S.String.pipe(T.HttpLabel("principalId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/members/{principalId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisassociateMemberFromQueueRequest",
-}) as any as S.Schema<DisassociateMemberFromQueueRequest>;
 export interface DisassociateMemberFromQueueResponse {}
-export const DisassociateMemberFromQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisassociateMemberFromQueueResponse",
-}) as any as S.Schema<DisassociateMemberFromQueueResponse>;
 export interface GetBudgetRequest {
   farmId: string;
   budgetId: string;
 }
-export const GetBudgetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    budgetId: S.String.pipe(T.HttpLabel("budgetId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/budgets/{budgetId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBudgetRequest",
-}) as any as S.Schema<GetBudgetRequest>;
 export type BudgetStatus = "ACTIVE" | "INACTIVE" | (string & {});
-export const BudgetStatus = S.String;
-
 export interface ConsumedUsages {
   approximateDollarUsage: number;
 }
-export const ConsumedUsages = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ approximateDollarUsage: S.Number }),
-).annotate({ identifier: "ConsumedUsages" }) as any as S.Schema<ConsumedUsages>;
 export interface ResponseBudgetAction {
   type: BudgetActionType;
   thresholdPercentage: number;
   description?: string | redacted.Redacted<string>;
 }
-export const ResponseBudgetAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: BudgetActionType,
-    thresholdPercentage: S.Number,
-    description: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "ResponseBudgetAction",
-}) as any as S.Schema<ResponseBudgetAction>;
 export type ResponseBudgetActionList = ResponseBudgetAction[];
-export const ResponseBudgetActionList =
-  /*@__PURE__*/ S.Array(ResponseBudgetAction);
 export interface GetBudgetResponse {
   budgetId: string;
   usageTrackingResource: UsageTrackingResource;
@@ -4191,45 +1710,9 @@ export interface GetBudgetResponse {
   schedule: BudgetSchedule;
   queueStoppedAt?: Date;
 }
-export const GetBudgetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    budgetId: S.String,
-    usageTrackingResource: UsageTrackingResource,
-    status: BudgetStatus,
-    displayName: S.String,
-    approximateDollarLimit: S.Number,
-    usages: ConsumedUsages,
-    createdBy: S.String,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedBy: S.optional(S.String),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    description: S.optional(SensitiveString),
-    actions: ResponseBudgetActionList,
-    schedule: BudgetSchedule,
-    queueStoppedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "GetBudgetResponse",
-}) as any as S.Schema<GetBudgetResponse>;
 export interface GetFarmRequest {
   farmId: string;
 }
-export const GetFarmRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ farmId: S.String.pipe(T.HttpLabel("farmId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetFarmRequest" }) as any as S.Schema<GetFarmRequest>;
 export interface GetFarmResponse {
   farmId: string;
   displayName: string;
@@ -4241,47 +1724,10 @@ export interface GetFarmResponse {
   description?: string | redacted.Redacted<string>;
   costScaleFactor: number;
 }
-export const GetFarmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    displayName: S.String,
-    kmsKeyArn: S.optional(S.String),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    costScaleFactor: S.Number,
-  }),
-).annotate({
-  identifier: "GetFarmResponse",
-}) as any as S.Schema<GetFarmResponse>;
 export interface GetFleetRequest {
   farmId: string;
   fleetId: string;
 }
-export const GetFleetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetFleetRequest",
-}) as any as S.Schema<GetFleetRequest>;
 export type FleetStatus =
   | "ACTIVE"
   | "CREATE_IN_PROGRESS"
@@ -4290,35 +1736,17 @@ export type FleetStatus =
   | "UPDATE_FAILED"
   | "SUSPENDED"
   | (string & {});
-export const FleetStatus = S.String;
-
 export type AutoScalingStatus =
   | "GROWING"
   | "STEADY"
   | "SHRINKING"
   | (string & {});
-export const AutoScalingStatus = S.String;
-
 export type FleetAmountCapabilities = FleetAmountCapability[];
-export const FleetAmountCapabilities = /*@__PURE__*/ S.Array(
-  FleetAmountCapability,
-);
 export type FleetAttributeCapabilities = FleetAttributeCapability[];
-export const FleetAttributeCapabilities = /*@__PURE__*/ S.Array(
-  FleetAttributeCapability,
-);
 export interface FleetCapabilities {
   amounts?: FleetAmountCapability[];
   attributes?: FleetAttributeCapability[];
 }
-export const FleetCapabilities = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    amounts: S.optional(FleetAmountCapabilities),
-    attributes: S.optional(FleetAttributeCapabilities),
-  }),
-).annotate({
-  identifier: "FleetCapabilities",
-}) as any as S.Schema<FleetCapabilities>;
 export interface GetFleetResponse {
   fleetId: string;
   farmId: string;
@@ -4340,57 +1768,11 @@ export interface GetFleetResponse {
   capabilities?: FleetCapabilities;
   roleArn: string;
 }
-export const GetFleetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fleetId: S.String,
-    farmId: S.String,
-    displayName: S.String,
-    status: FleetStatus,
-    statusMessage: S.optional(S.String),
-    autoScalingStatus: S.optional(AutoScalingStatus),
-    targetWorkerCount: S.optional(S.Number),
-    workerCount: S.Number,
-    minWorkerCount: S.Number,
-    maxWorkerCount: S.Number,
-    configuration: FleetConfiguration,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    hostConfiguration: S.optional(HostConfiguration),
-    capabilities: S.optional(FleetCapabilities),
-    roleArn: S.String,
-  }),
-).annotate({
-  identifier: "GetFleetResponse",
-}) as any as S.Schema<GetFleetResponse>;
 export interface GetJobRequest {
   farmId: string;
   queueId: string;
   jobId: string;
 }
-export const GetJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetJobRequest" }) as any as S.Schema<GetJobRequest>;
 export interface GetJobResponse {
   jobId: string;
   name: string;
@@ -4416,67 +1798,15 @@ export interface GetJobResponse {
   maxWorkerCount?: number;
   sourceJobId?: string;
 }
-export const GetJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.String,
-    name: S.String,
-    lifecycleStatus: JobLifecycleStatus,
-    lifecycleStatusMessage: S.String,
-    priority: S.Number,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    taskRunStatus: S.optional(TaskRunStatus),
-    targetTaskRunStatus: S.optional(JobTargetTaskRunStatus),
-    taskRunStatusCounts: S.optional(TaskRunStatusCounts),
-    taskFailureRetryCount: S.optional(S.Number),
-    storageProfileId: S.optional(S.String),
-    maxFailedTasksCount: S.optional(S.Number),
-    maxRetriesPerTask: S.optional(S.Number),
-    parameters: S.optional(JobParameters),
-    attachments: S.optional(Attachments),
-    description: S.optional(SensitiveString),
-    maxWorkerCount: S.optional(S.Number),
-    sourceJobId: S.optional(S.String),
-  }),
-).annotate({ identifier: "GetJobResponse" }) as any as S.Schema<GetJobResponse>;
 export interface GetLicenseEndpointRequest {
   licenseEndpointId: string;
 }
-export const GetLicenseEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/license-endpoints/{licenseEndpointId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLicenseEndpointRequest",
-}) as any as S.Schema<GetLicenseEndpointRequest>;
 export type LicenseEndpointStatus =
   | "CREATE_IN_PROGRESS"
   | "DELETE_IN_PROGRESS"
   | "READY"
   | "NOT_READY"
   | (string & {});
-export const LicenseEndpointStatus = S.String;
-
 export type StatusMessage = string;
 export type DnsName = string;
 export interface GetLicenseEndpointResponse {
@@ -4488,43 +1818,10 @@ export interface GetLicenseEndpointResponse {
   subnetIds?: string[];
   securityGroupIds?: string[];
 }
-export const GetLicenseEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    licenseEndpointId: S.String,
-    status: LicenseEndpointStatus,
-    statusMessage: S.String,
-    vpcId: S.optional(S.String),
-    dnsName: S.optional(S.String),
-    subnetIds: S.optional(SubnetIdList),
-    securityGroupIds: S.optional(SecurityGroupIdList),
-  }),
-).annotate({
-  identifier: "GetLicenseEndpointResponse",
-}) as any as S.Schema<GetLicenseEndpointResponse>;
 export interface GetLimitRequest {
   farmId: string;
   limitId: string;
 }
-export const GetLimitRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    limitId: S.String.pipe(T.HttpLabel("limitId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/limits/{limitId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLimitRequest",
-}) as any as S.Schema<GetLimitRequest>;
 export interface GetLimitResponse {
   farmId: string;
   limitId: string;
@@ -4538,42 +1835,9 @@ export interface GetLimitResponse {
   maxCount: number;
   description?: string | redacted.Redacted<string>;
 }
-export const GetLimitResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    limitId: S.String,
-    currentCount: S.Number,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    displayName: S.String,
-    amountRequirementName: S.String,
-    maxCount: S.Number,
-    description: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "GetLimitResponse",
-}) as any as S.Schema<GetLimitResponse>;
 export interface GetMonitorRequest {
   monitorId: string;
 }
-export const GetMonitorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ monitorId: S.String.pipe(T.HttpLabel("monitorId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2023-10-12/monitors/{monitorId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMonitorRequest",
-}) as any as S.Schema<GetMonitorRequest>;
 export type Url = string;
 export interface GetMonitorResponse {
   monitorId: string;
@@ -4589,98 +1853,28 @@ export interface GetMonitorResponse {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const GetMonitorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitorId: S.String,
-    displayName: S.String,
-    subdomain: S.String,
-    url: S.String,
-    roleArn: S.String,
-    identityCenterInstanceArn: S.String,
-    identityCenterRegion: S.optional(S.String),
-    identityCenterApplicationArn: S.String,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetMonitorResponse",
-}) as any as S.Schema<GetMonitorResponse>;
 export interface GetMonitorSettingsRequest {
   monitorId: string;
 }
-export const GetMonitorSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ monitorId: S.String.pipe(T.HttpLabel("monitorId")) }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/monitors/{monitorId}/settings",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMonitorSettingsRequest",
-}) as any as S.Schema<GetMonitorSettingsRequest>;
 export type SettingKey = string;
 export type SettingValue = string;
 export type SettingsMap = { [key: string]: string | undefined };
-export const SettingsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface GetMonitorSettingsResponse {
   settings: { [key: string]: string | undefined };
 }
-export const GetMonitorSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ settings: SettingsMap }),
-).annotate({
-  identifier: "GetMonitorSettingsResponse",
-}) as any as S.Schema<GetMonitorSettingsResponse>;
 export interface GetQueueRequest {
   farmId: string;
   queueId: string;
 }
-export const GetQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetQueueRequest",
-}) as any as S.Schema<GetQueueRequest>;
 export type QueueStatus =
   | "IDLE"
   | "SCHEDULING"
   | "SCHEDULING_BLOCKED"
   | (string & {});
-export const QueueStatus = S.String;
-
 export type QueueBlockedReason =
   | "NO_BUDGET_CONFIGURED"
   | "BUDGET_THRESHOLD_REACHED"
   | (string & {});
-export const QueueBlockedReason = S.String;
-
 export interface GetQueueResponse {
   farmId: string;
   queueId: string;
@@ -4700,59 +1894,11 @@ export interface GetQueueResponse {
   jobRunAsUser?: JobRunAsUser;
   schedulingConfiguration?: SchedulingConfiguration;
 }
-export const GetQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    displayName: S.String,
-    status: QueueStatus,
-    defaultBudgetAction: DefaultQueueBudgetAction,
-    blockedReason: S.optional(QueueBlockedReason),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    jobAttachmentSettings: S.optional(JobAttachmentSettings),
-    roleArn: S.optional(S.String),
-    requiredFileSystemLocationNames: S.optional(
-      RequiredFileSystemLocationNames,
-    ),
-    allowedStorageProfileIds: S.optional(AllowedStorageProfileIds),
-    jobRunAsUser: S.optional(JobRunAsUser),
-    schedulingConfiguration: S.optional(SchedulingConfiguration),
-  }),
-).annotate({
-  identifier: "GetQueueResponse",
-}) as any as S.Schema<GetQueueResponse>;
 export interface GetQueueEnvironmentRequest {
   farmId: string;
   queueId: string;
   queueEnvironmentId: string;
 }
-export const GetQueueEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    queueEnvironmentId: S.String.pipe(T.HttpLabel("queueEnvironmentId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/environments/{queueEnvironmentId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetQueueEnvironmentRequest",
-}) as any as S.Schema<GetQueueEnvironmentRequest>;
 export type EnvironmentName = string;
 export interface GetQueueEnvironmentResponse {
   queueEnvironmentId: string;
@@ -4765,57 +1911,17 @@ export interface GetQueueEnvironmentResponse {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const GetQueueEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queueEnvironmentId: S.String,
-    name: S.String,
-    priority: S.Number,
-    templateType: EnvironmentTemplateType,
-    template: SensitiveString,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetQueueEnvironmentResponse",
-}) as any as S.Schema<GetQueueEnvironmentResponse>;
 export interface GetQueueFleetAssociationRequest {
   farmId: string;
   queueId: string;
   fleetId: string;
 }
-export const GetQueueFleetAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queue-fleet-associations/{queueId}/{fleetId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetQueueFleetAssociationRequest",
-}) as any as S.Schema<GetQueueFleetAssociationRequest>;
 export type QueueFleetAssociationStatus =
   | "ACTIVE"
   | "STOP_SCHEDULING_AND_COMPLETE_TASKS"
   | "STOP_SCHEDULING_AND_CANCEL_TASKS"
   | "STOPPED"
   | (string & {});
-export const QueueFleetAssociationStatus = S.String;
-
 export interface GetQueueFleetAssociationResponse {
   queueId: string;
   fleetId: string;
@@ -4825,55 +1931,17 @@ export interface GetQueueFleetAssociationResponse {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const GetQueueFleetAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queueId: S.String,
-    fleetId: S.String,
-    status: QueueFleetAssociationStatus,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetQueueFleetAssociationResponse",
-}) as any as S.Schema<GetQueueFleetAssociationResponse>;
 export interface GetQueueLimitAssociationRequest {
   farmId: string;
   queueId: string;
   limitId: string;
 }
-export const GetQueueLimitAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    limitId: S.String.pipe(T.HttpLabel("limitId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queue-limit-associations/{queueId}/{limitId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetQueueLimitAssociationRequest",
-}) as any as S.Schema<GetQueueLimitAssociationRequest>;
 export type QueueLimitAssociationStatus =
   | "ACTIVE"
   | "STOP_LIMIT_USAGE_AND_COMPLETE_TASKS"
   | "STOP_LIMIT_USAGE_AND_CANCEL_TASKS"
   | "STOPPED"
   | (string & {});
-export const QueueLimitAssociationStatus = S.String;
-
 export interface GetQueueLimitAssociationResponse {
   queueId: string;
   limitId: string;
@@ -4883,49 +1951,12 @@ export interface GetQueueLimitAssociationResponse {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const GetQueueLimitAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queueId: S.String,
-    limitId: S.String,
-    status: QueueLimitAssociationStatus,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetQueueLimitAssociationResponse",
-}) as any as S.Schema<GetQueueLimitAssociationResponse>;
 export interface GetSessionRequest {
   farmId: string;
   queueId: string;
   jobId: string;
   sessionId: string;
 }
-export const GetSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/sessions/{sessionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSessionRequest",
-}) as any as S.Schema<GetSessionRequest>;
 export interface GetSessionResponse {
   sessionId: string;
   fleetId: string;
@@ -4940,54 +1971,12 @@ export interface GetSessionResponse {
   hostProperties?: HostPropertiesResponse;
   workerLog?: LogConfiguration;
 }
-export const GetSessionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionId: S.String,
-    fleetId: S.String,
-    workerId: S.String,
-    startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    lifecycleStatus: SessionLifecycleStatus,
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    targetLifecycleStatus: S.optional(SessionLifecycleTargetStatus),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    log: LogConfiguration,
-    hostProperties: S.optional(HostPropertiesResponse),
-    workerLog: S.optional(LogConfiguration),
-  }),
-).annotate({
-  identifier: "GetSessionResponse",
-}) as any as S.Schema<GetSessionResponse>;
 export interface GetSessionActionRequest {
   farmId: string;
   queueId: string;
   jobId: string;
   sessionActionId: string;
 }
-export const GetSessionActionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    sessionActionId: S.String.pipe(T.HttpLabel("sessionActionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/session-actions/{sessionActionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSessionActionRequest",
-}) as any as S.Schema<GetSessionActionRequest>;
 export interface GetSessionActionResponse {
   sessionActionId: string;
   status: SessionActionStatus;
@@ -5002,28 +1991,6 @@ export interface GetSessionActionResponse {
   acquiredLimits?: AcquiredLimit[];
   definition: SessionActionDefinition;
 }
-export const GetSessionActionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionActionId: S.String,
-    status: SessionActionStatus,
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    workerUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    progressPercent: S.optional(S.Number),
-    manifests: S.optional(TaskRunManifestPropertiesListResponse),
-    sessionId: S.String,
-    processExitCode: S.optional(S.Number),
-    progressMessage: S.optional(SensitiveString),
-    acquiredLimits: S.optional(AcquiredLimits),
-    definition: SessionActionDefinition,
-  }),
-).annotate({
-  identifier: "GetSessionActionResponse",
-}) as any as S.Schema<GetSessionActionResponse>;
 export type NextToken = string;
 export type MaxResults = number;
 export type AggregationId = string;
@@ -5033,37 +2000,12 @@ export interface GetSessionsStatisticsAggregationRequest {
   maxResults?: number;
   aggregationId: string;
 }
-export const GetSessionsStatisticsAggregationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      farmId: S.String.pipe(T.HttpLabel("farmId")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      aggregationId: S.String.pipe(T.HttpQuery("aggregationId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/2023-10-12/farms/{farmId}/sessions-statistics-aggregation",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetSessionsStatisticsAggregationRequest",
-}) as any as S.Schema<GetSessionsStatisticsAggregationRequest>;
 export type UserId = string;
 export type UsageType =
   | "COMPUTE"
   | "LICENSE"
   | "PERSISTENT_VOLUME"
   | (string & {});
-export const UsageType = S.String;
-
 export type LicenseProduct = string;
 export interface Stats {
   min?: number;
@@ -5071,14 +2013,6 @@ export interface Stats {
   avg?: number;
   sum?: number;
 }
-export const Stats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    min: S.optional(S.Number),
-    max: S.optional(S.Number),
-    avg: S.optional(S.Number),
-    sum: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Stats" }) as any as S.Schema<Stats>;
 export interface Statistics {
   queueId?: string;
   fleetId?: string;
@@ -5094,80 +2028,25 @@ export interface Statistics {
   aggregationStartTime?: Date;
   aggregationEndTime?: Date;
 }
-export const Statistics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queueId: S.optional(S.String),
-    fleetId: S.optional(S.String),
-    jobId: S.optional(S.String),
-    jobName: S.optional(S.String),
-    userId: S.optional(S.String),
-    usageType: S.optional(UsageType),
-    licenseProduct: S.optional(S.String),
-    instanceType: S.optional(S.String),
-    count: S.Number,
-    costInUsd: Stats,
-    runtimeInSeconds: Stats,
-    aggregationStartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    aggregationEndTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({ identifier: "Statistics" }) as any as S.Schema<Statistics>;
 export type StatisticsList = Statistics[];
-export const StatisticsList = /*@__PURE__*/ S.Array(Statistics);
 export type SessionsStatisticsAggregationStatus =
   | "IN_PROGRESS"
   | "TIMEOUT"
   | "FAILED"
   | "COMPLETED"
   | (string & {});
-export const SessionsStatisticsAggregationStatus = S.String;
-
 export interface GetSessionsStatisticsAggregationResponse {
   statistics?: Statistics[];
   status: SessionsStatisticsAggregationStatus;
   statusMessage?: string;
   nextToken?: string;
 }
-export const GetSessionsStatisticsAggregationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      statistics: S.optional(StatisticsList),
-      status: SessionsStatisticsAggregationStatus,
-      statusMessage: S.optional(S.String),
-      nextToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GetSessionsStatisticsAggregationResponse",
-}) as any as S.Schema<GetSessionsStatisticsAggregationResponse>;
 export interface GetStepRequest {
   farmId: string;
   queueId: string;
   jobId: string;
   stepId: string;
 }
-export const GetStepRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    stepId: S.String.pipe(T.HttpLabel("stepId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/steps/{stepId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetStepRequest" }) as any as S.Schema<GetStepRequest>;
 export interface GetStepResponse {
   stepId: string;
   name: string;
@@ -5188,58 +2067,10 @@ export interface GetStepResponse {
   parameterSpace?: ParameterSpace;
   description?: string | redacted.Redacted<string>;
 }
-export const GetStepResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stepId: S.String,
-    name: S.String,
-    lifecycleStatus: StepLifecycleStatus,
-    lifecycleStatusMessage: S.optional(S.String),
-    taskRunStatus: TaskRunStatus,
-    taskRunStatusCounts: TaskRunStatusCounts,
-    taskFailureRetryCount: S.optional(S.Number),
-    targetTaskRunStatus: S.optional(StepTargetTaskRunStatus),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    dependencyCounts: S.optional(DependencyCounts),
-    requiredCapabilities: S.optional(StepRequiredCapabilities),
-    parameterSpace: S.optional(ParameterSpace),
-    description: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "GetStepResponse",
-}) as any as S.Schema<GetStepResponse>;
 export interface GetStorageProfileRequest {
   farmId: string;
   storageProfileId: string;
 }
-export const GetStorageProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    storageProfileId: S.String.pipe(T.HttpLabel("storageProfileId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/storage-profiles/{storageProfileId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetStorageProfileRequest",
-}) as any as S.Schema<GetStorageProfileRequest>;
 export interface GetStorageProfileResponse {
   storageProfileId: string;
   displayName: string;
@@ -5250,64 +2081,17 @@ export interface GetStorageProfileResponse {
   updatedBy?: string;
   fileSystemLocations?: FileSystemLocation[];
 }
-export const GetStorageProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storageProfileId: S.String,
-    displayName: S.String,
-    osFamily: StorageProfileOperatingSystemFamily,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    fileSystemLocations: S.optional(FileSystemLocationsList),
-  }),
-).annotate({
-  identifier: "GetStorageProfileResponse",
-}) as any as S.Schema<GetStorageProfileResponse>;
 export interface GetStorageProfileForQueueRequest {
   farmId: string;
   queueId: string;
   storageProfileId: string;
 }
-export const GetStorageProfileForQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    storageProfileId: S.String.pipe(T.HttpLabel("storageProfileId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/storage-profiles/{storageProfileId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetStorageProfileForQueueRequest",
-}) as any as S.Schema<GetStorageProfileForQueueRequest>;
 export interface GetStorageProfileForQueueResponse {
   storageProfileId: string;
   displayName: string;
   osFamily: StorageProfileOperatingSystemFamily;
   fileSystemLocations?: FileSystemLocation[];
 }
-export const GetStorageProfileForQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storageProfileId: S.String,
-    displayName: S.String,
-    osFamily: StorageProfileOperatingSystemFamily,
-    fileSystemLocations: S.optional(FileSystemLocationsList),
-  }),
-).annotate({
-  identifier: "GetStorageProfileForQueueResponse",
-}) as any as S.Schema<GetStorageProfileForQueueResponse>;
 export interface GetTaskRequest {
   farmId: string;
   queueId: string;
@@ -5315,27 +2099,6 @@ export interface GetTaskRequest {
   stepId: string;
   taskId: string;
 }
-export const GetTaskRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    stepId: S.String.pipe(T.HttpLabel("stepId")),
-    taskId: S.String.pipe(T.HttpLabel("taskId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/steps/{stepId}/tasks/{taskId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetTaskRequest" }) as any as S.Schema<GetTaskRequest>;
 export interface GetTaskResponse {
   taskId: string;
   createdAt: Date;
@@ -5350,54 +2113,11 @@ export interface GetTaskResponse {
   latestSessionActionId?: string;
   parameters?: { [key: string]: TaskParameterValue | undefined };
 }
-export const GetTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    taskId: S.String,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    runStatus: TaskRunStatus,
-    targetRunStatus: S.optional(TaskTargetRunStatus),
-    failureRetryCount: S.optional(S.Number),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    latestSessionActionId: S.optional(S.String),
-    parameters: S.optional(TaskParameters),
-  }),
-).annotate({
-  identifier: "GetTaskResponse",
-}) as any as S.Schema<GetTaskResponse>;
 export interface GetVolumeRequest {
   farmId: string;
   fleetId: string;
   volumeId: string;
 }
-export const GetVolumeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    volumeId: S.String.pipe(T.HttpLabel("volumeId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/volumes/{volumeId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetVolumeRequest",
-}) as any as S.Schema<GetVolumeRequest>;
 export type VolumeState =
   | "PENDING_CREATION"
   | "PENDING_ATTACHMENT"
@@ -5405,11 +2125,7 @@ export type VolumeState =
   | "AVAILABLE"
   | "PENDING_DELETION"
   | (string & {});
-export const VolumeState = S.String;
-
 export type EbsVolumeType = "gp3" | (string & {});
-export const EbsVolumeType = S.String;
-
 export interface GetVolumeResponse {
   volumeId: string;
   farmId: string;
@@ -5426,58 +2142,11 @@ export interface GetVolumeResponse {
   lastReleasedAt?: Date;
   expiresAt?: Date;
 }
-export const GetVolumeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    volumeId: S.String,
-    farmId: S.String,
-    fleetId: S.String,
-    state: VolumeState,
-    sizeGiB: S.Number,
-    availabilityZoneId: S.String,
-    attachedWorkerId: S.optional(S.String),
-    volumeType: EbsVolumeType,
-    iops: S.optional(S.Number),
-    throughputMiB: S.optional(S.Number),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    lastAssignedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastReleasedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    expiresAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "GetVolumeResponse",
-}) as any as S.Schema<GetVolumeResponse>;
 export interface GetWorkerRequest {
   farmId: string;
   fleetId: string;
   workerId: string;
 }
-export const GetWorkerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    workerId: S.String.pipe(T.HttpLabel("workerId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/workers/{workerId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetWorkerRequest",
-}) as any as S.Schema<GetWorkerRequest>;
 export interface GetWorkerResponse {
   farmId: string;
   fleetId: string;
@@ -5490,45 +2159,10 @@ export interface GetWorkerResponse {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const GetWorkerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    fleetId: S.String,
-    workerId: S.String,
-    hostProperties: S.optional(HostPropertiesResponse),
-    status: WorkerStatus,
-    log: S.optional(LogConfiguration),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetWorkerResponse",
-}) as any as S.Schema<GetWorkerResponse>;
 export interface ListAvailableMeteredProductsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAvailableMeteredProductsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2023-10-12/metered-products" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAvailableMeteredProductsRequest",
-}) as any as S.Schema<ListAvailableMeteredProductsRequest>;
 export type BoundedString = string;
 export type PortNumber = number;
 export interface MeteredProductSummary {
@@ -5537,58 +2171,17 @@ export interface MeteredProductSummary {
   vendor: string;
   port: number;
 }
-export const MeteredProductSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    productId: S.String,
-    family: S.String,
-    vendor: S.String,
-    port: S.Number,
-  }),
-).annotate({
-  identifier: "MeteredProductSummary",
-}) as any as S.Schema<MeteredProductSummary>;
 export type MeteredProductSummaryList = MeteredProductSummary[];
-export const MeteredProductSummaryList = /*@__PURE__*/ S.Array(
-  MeteredProductSummary,
-);
 export interface ListAvailableMeteredProductsResponse {
   meteredProducts: MeteredProductSummary[];
   nextToken?: string;
 }
-export const ListAvailableMeteredProductsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      meteredProducts: MeteredProductSummaryList,
-      nextToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "ListAvailableMeteredProductsResponse",
-}) as any as S.Schema<ListAvailableMeteredProductsResponse>;
 export interface ListBudgetsRequest {
   farmId: string;
   nextToken?: string;
   maxResults?: number;
   status?: BudgetStatus;
 }
-export const ListBudgetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    status: S.optional(BudgetStatus).pipe(T.HttpQuery("status")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/budgets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListBudgetsRequest",
-}) as any as S.Schema<ListBudgetsRequest>;
 export interface BudgetSummary {
   budgetId: string;
   usageTrackingResource: UsageTrackingResource;
@@ -5602,57 +2195,16 @@ export interface BudgetSummary {
   updatedAt?: Date;
   description?: string | redacted.Redacted<string>;
 }
-export const BudgetSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    budgetId: S.String,
-    usageTrackingResource: UsageTrackingResource,
-    status: BudgetStatus,
-    displayName: S.String,
-    approximateDollarLimit: S.Number,
-    usages: ConsumedUsages,
-    createdBy: S.String,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedBy: S.optional(S.String),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    description: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "BudgetSummary" }) as any as S.Schema<BudgetSummary>;
 export type BudgetSummaries = BudgetSummary[];
-export const BudgetSummaries = /*@__PURE__*/ S.Array(BudgetSummary);
 export interface ListBudgetsResponse {
   budgets: BudgetSummary[];
   nextToken?: string;
 }
-export const ListBudgetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ budgets: BudgetSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListBudgetsResponse",
-}) as any as S.Schema<ListBudgetsResponse>;
 export interface ListFarmMembersRequest {
   farmId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListFarmMembersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/members" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListFarmMembersRequest",
-}) as any as S.Schema<ListFarmMembersRequest>;
 export interface FarmMember {
   farmId: string;
   principalId: string;
@@ -5660,49 +2212,16 @@ export interface FarmMember {
   identityStoreId: string;
   membershipLevel: MembershipLevel;
 }
-export const FarmMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    principalId: S.String,
-    principalType: DeadlinePrincipalType,
-    identityStoreId: S.String,
-    membershipLevel: MembershipLevel,
-  }),
-).annotate({ identifier: "FarmMember" }) as any as S.Schema<FarmMember>;
 export type FarmMembers = FarmMember[];
-export const FarmMembers = /*@__PURE__*/ S.Array(FarmMember);
 export interface ListFarmMembersResponse {
   members: FarmMember[];
   nextToken?: string;
 }
-export const ListFarmMembersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ members: FarmMembers, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListFarmMembersResponse",
-}) as any as S.Schema<ListFarmMembersResponse>;
 export interface ListFarmsRequest {
   nextToken?: string;
   maxResults?: number;
   principalId?: string;
 }
-export const ListFarmsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    principalId: S.optional(S.String).pipe(T.HttpQuery("principalId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2023-10-12/farms" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListFarmsRequest",
-}) as any as S.Schema<ListFarmsRequest>;
 export interface FarmSummary {
   farmId: string;
   displayName: string;
@@ -5712,58 +2231,17 @@ export interface FarmSummary {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const FarmSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    displayName: S.String,
-    kmsKeyArn: S.optional(S.String),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({ identifier: "FarmSummary" }) as any as S.Schema<FarmSummary>;
 export type FarmSummaries = FarmSummary[];
-export const FarmSummaries = /*@__PURE__*/ S.Array(FarmSummary);
 export interface ListFarmsResponse {
   farms: FarmSummary[];
   nextToken?: string;
 }
-export const ListFarmsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ farms: FarmSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListFarmsResponse",
-}) as any as S.Schema<ListFarmsResponse>;
 export interface ListFleetMembersRequest {
   farmId: string;
   fleetId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListFleetMembersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/members",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListFleetMembersRequest",
-}) as any as S.Schema<ListFleetMembersRequest>;
 export interface FleetMember {
   farmId: string;
   fleetId: string;
@@ -5772,27 +2250,11 @@ export interface FleetMember {
   identityStoreId: string;
   membershipLevel: MembershipLevel;
 }
-export const FleetMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    fleetId: S.String,
-    principalId: S.String,
-    principalType: DeadlinePrincipalType,
-    identityStoreId: S.String,
-    membershipLevel: MembershipLevel,
-  }),
-).annotate({ identifier: "FleetMember" }) as any as S.Schema<FleetMember>;
 export type FleetMembers = FleetMember[];
-export const FleetMembers = /*@__PURE__*/ S.Array(FleetMember);
 export interface ListFleetMembersResponse {
   members: FleetMember[];
   nextToken?: string;
 }
-export const ListFleetMembersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ members: FleetMembers, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListFleetMembersResponse",
-}) as any as S.Schema<ListFleetMembersResponse>;
 export interface ListFleetsRequest {
   farmId: string;
   nextToken?: string;
@@ -5801,27 +2263,6 @@ export interface ListFleetsRequest {
   displayName?: string;
   status?: FleetStatus;
 }
-export const ListFleetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    principalId: S.optional(S.String).pipe(T.HttpQuery("principalId")),
-    displayName: S.optional(S.String).pipe(T.HttpQuery("displayName")),
-    status: S.optional(FleetStatus).pipe(T.HttpQuery("status")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/fleets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListFleetsRequest",
-}) as any as S.Schema<ListFleetsRequest>;
 export interface FleetSummary {
   fleetId: string;
   farmId: string;
@@ -5839,38 +2280,11 @@ export interface FleetSummary {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const FleetSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fleetId: S.String,
-    farmId: S.String,
-    displayName: S.String,
-    status: FleetStatus,
-    statusMessage: S.optional(S.String),
-    autoScalingStatus: S.optional(AutoScalingStatus),
-    targetWorkerCount: S.optional(S.Number),
-    workerCount: S.Number,
-    minWorkerCount: S.Number,
-    maxWorkerCount: S.Number,
-    configuration: FleetConfiguration,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({ identifier: "FleetSummary" }) as any as S.Schema<FleetSummary>;
 export type FleetSummaries = FleetSummary[];
-export const FleetSummaries = /*@__PURE__*/ S.Array(FleetSummary);
 export interface ListFleetsResponse {
   fleets: FleetSummary[];
   nextToken?: string;
 }
-export const ListFleetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ fleets: FleetSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListFleetsResponse",
-}) as any as S.Schema<ListFleetsResponse>;
 export interface ListJobMembersRequest {
   farmId: string;
   queueId: string;
@@ -5878,29 +2292,6 @@ export interface ListJobMembersRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListJobMembersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/members",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListJobMembersRequest",
-}) as any as S.Schema<ListJobMembersRequest>;
 export interface JobMember {
   farmId: string;
   queueId: string;
@@ -5910,28 +2301,11 @@ export interface JobMember {
   identityStoreId: string;
   membershipLevel: MembershipLevel;
 }
-export const JobMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    principalId: S.String,
-    principalType: DeadlinePrincipalType,
-    identityStoreId: S.String,
-    membershipLevel: MembershipLevel,
-  }),
-).annotate({ identifier: "JobMember" }) as any as S.Schema<JobMember>;
 export type JobMembers = JobMember[];
-export const JobMembers = /*@__PURE__*/ S.Array(JobMember);
 export interface ListJobMembersResponse {
   members: JobMember[];
   nextToken?: string;
 }
-export const ListJobMembersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ members: JobMembers, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListJobMembersResponse",
-}) as any as S.Schema<ListJobMembersResponse>;
 export interface ListJobParameterDefinitionsRequest {
   farmId: string;
   queueId: string;
@@ -5939,44 +2313,12 @@ export interface ListJobParameterDefinitionsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListJobParameterDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/parameter-definitions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListJobParameterDefinitionsRequest",
-}) as any as S.Schema<ListJobParameterDefinitionsRequest>;
 export type JobParameterDefinition = unknown;
 export type JobParameterDefinitions = any[];
-export const JobParameterDefinitions = /*@__PURE__*/ S.Array(S.Any);
 export interface ListJobParameterDefinitionsResponse {
   jobParameterDefinitions: any[];
   nextToken?: string;
 }
-export const ListJobParameterDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobParameterDefinitions: JobParameterDefinitions,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListJobParameterDefinitionsResponse",
-}) as any as S.Schema<ListJobParameterDefinitionsResponse>;
 export interface ListJobsRequest {
   farmId: string;
   queueId: string;
@@ -5984,29 +2326,6 @@ export interface ListJobsRequest {
   maxResults?: number;
   principalId?: string;
 }
-export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    principalId: S.optional(S.String).pipe(T.HttpQuery("principalId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
 export interface JobSummary {
   jobId: string;
   name: string;
@@ -6028,120 +2347,31 @@ export interface JobSummary {
   maxWorkerCount?: number;
   sourceJobId?: string;
 }
-export const JobSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.String,
-    name: S.String,
-    lifecycleStatus: JobLifecycleStatus,
-    lifecycleStatusMessage: S.String,
-    priority: S.Number,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    taskRunStatus: S.optional(TaskRunStatus),
-    targetTaskRunStatus: S.optional(JobTargetTaskRunStatus),
-    taskRunStatusCounts: S.optional(TaskRunStatusCounts),
-    taskFailureRetryCount: S.optional(S.Number),
-    maxFailedTasksCount: S.optional(S.Number),
-    maxRetriesPerTask: S.optional(S.Number),
-    maxWorkerCount: S.optional(S.Number),
-    sourceJobId: S.optional(S.String),
-  }),
-).annotate({ identifier: "JobSummary" }) as any as S.Schema<JobSummary>;
 export type JobSummaries = JobSummary[];
-export const JobSummaries = /*@__PURE__*/ S.Array(JobSummary);
 export interface ListJobsResponse {
   jobs: JobSummary[];
   nextToken?: string;
 }
-export const ListJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobs: JobSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListJobsResponse",
-}) as any as S.Schema<ListJobsResponse>;
 export interface ListLicenseEndpointsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListLicenseEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2023-10-12/license-endpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListLicenseEndpointsRequest",
-}) as any as S.Schema<ListLicenseEndpointsRequest>;
 export interface LicenseEndpointSummary {
   licenseEndpointId?: string;
   status?: LicenseEndpointStatus;
   statusMessage?: string;
   vpcId?: string;
 }
-export const LicenseEndpointSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    licenseEndpointId: S.optional(S.String),
-    status: S.optional(LicenseEndpointStatus),
-    statusMessage: S.optional(S.String),
-    vpcId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LicenseEndpointSummary",
-}) as any as S.Schema<LicenseEndpointSummary>;
 export type LicenseEndpointSummaries = LicenseEndpointSummary[];
-export const LicenseEndpointSummaries = /*@__PURE__*/ S.Array(
-  LicenseEndpointSummary,
-);
 export interface ListLicenseEndpointsResponse {
   licenseEndpoints: LicenseEndpointSummary[];
   nextToken?: string;
 }
-export const ListLicenseEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    licenseEndpoints: LicenseEndpointSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListLicenseEndpointsResponse",
-}) as any as S.Schema<ListLicenseEndpointsResponse>;
 export interface ListLimitsRequest {
   farmId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListLimitsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/limits" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListLimitsRequest",
-}) as any as S.Schema<ListLimitsRequest>;
 export interface LimitSummary {
   farmId: string;
   limitId: string;
@@ -6154,92 +2384,24 @@ export interface LimitSummary {
   amountRequirementName: string;
   maxCount: number;
 }
-export const LimitSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    limitId: S.String,
-    currentCount: S.Number,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    displayName: S.String,
-    amountRequirementName: S.String,
-    maxCount: S.Number,
-  }),
-).annotate({ identifier: "LimitSummary" }) as any as S.Schema<LimitSummary>;
 export type LimitSummaries = LimitSummary[];
-export const LimitSummaries = /*@__PURE__*/ S.Array(LimitSummary);
 export interface ListLimitsResponse {
   limits: LimitSummary[];
   nextToken?: string;
 }
-export const ListLimitsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ limits: LimitSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListLimitsResponse",
-}) as any as S.Schema<ListLimitsResponse>;
 export interface ListMeteredProductsRequest {
   licenseEndpointId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListMeteredProductsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/license-endpoints/{licenseEndpointId}/metered-products",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListMeteredProductsRequest",
-}) as any as S.Schema<ListMeteredProductsRequest>;
 export interface ListMeteredProductsResponse {
   meteredProducts: MeteredProductSummary[];
   nextToken?: string;
 }
-export const ListMeteredProductsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    meteredProducts: MeteredProductSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListMeteredProductsResponse",
-}) as any as S.Schema<ListMeteredProductsResponse>;
 export interface ListMonitorsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListMonitorsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2023-10-12/monitors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListMonitorsRequest",
-}) as any as S.Schema<ListMonitorsRequest>;
 export interface MonitorSummary {
   monitorId: string;
   displayName: string;
@@ -6254,93 +2416,27 @@ export interface MonitorSummary {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const MonitorSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitorId: S.String,
-    displayName: S.String,
-    subdomain: S.String,
-    url: S.String,
-    roleArn: S.String,
-    identityCenterInstanceArn: S.String,
-    identityCenterRegion: S.optional(S.String),
-    identityCenterApplicationArn: S.String,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({ identifier: "MonitorSummary" }) as any as S.Schema<MonitorSummary>;
 export type MonitorSummaries = MonitorSummary[];
-export const MonitorSummaries = /*@__PURE__*/ S.Array(MonitorSummary);
 export interface ListMonitorsResponse {
   monitors: MonitorSummary[];
   nextToken?: string;
 }
-export const ListMonitorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ monitors: MonitorSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListMonitorsResponse",
-}) as any as S.Schema<ListMonitorsResponse>;
 export interface ListQueueEnvironmentsRequest {
   farmId: string;
   queueId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListQueueEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/environments",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListQueueEnvironmentsRequest",
-}) as any as S.Schema<ListQueueEnvironmentsRequest>;
 export interface QueueEnvironmentSummary {
   queueEnvironmentId: string;
   name: string;
   priority: number;
 }
-export const QueueEnvironmentSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queueEnvironmentId: S.String,
-    name: S.String,
-    priority: S.Number,
-  }),
-).annotate({
-  identifier: "QueueEnvironmentSummary",
-}) as any as S.Schema<QueueEnvironmentSummary>;
 export type QueueEnvironmentSummaries = QueueEnvironmentSummary[];
-export const QueueEnvironmentSummaries = /*@__PURE__*/ S.Array(
-  QueueEnvironmentSummary,
-);
 export interface ListQueueEnvironmentsResponse {
   environments: QueueEnvironmentSummary[];
   nextToken?: string;
 }
-export const ListQueueEnvironmentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    environments: QueueEnvironmentSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListQueueEnvironmentsResponse",
-}) as any as S.Schema<ListQueueEnvironmentsResponse>;
 export interface ListQueueFleetAssociationsRequest {
   farmId: string;
   nextToken?: string;
@@ -6348,29 +2444,6 @@ export interface ListQueueFleetAssociationsRequest {
   queueId?: string;
   fleetId?: string;
 }
-export const ListQueueFleetAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    queueId: S.optional(S.String).pipe(T.HttpQuery("queueId")),
-    fleetId: S.optional(S.String).pipe(T.HttpQuery("fleetId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queue-fleet-associations",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListQueueFleetAssociationsRequest",
-}) as any as S.Schema<ListQueueFleetAssociationsRequest>;
 export interface QueueFleetAssociationSummary {
   queueId: string;
   fleetId: string;
@@ -6380,37 +2453,11 @@ export interface QueueFleetAssociationSummary {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const QueueFleetAssociationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queueId: S.String,
-    fleetId: S.String,
-    status: QueueFleetAssociationStatus,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "QueueFleetAssociationSummary",
-}) as any as S.Schema<QueueFleetAssociationSummary>;
 export type QueueFleetAssociationSummaries = QueueFleetAssociationSummary[];
-export const QueueFleetAssociationSummaries = /*@__PURE__*/ S.Array(
-  QueueFleetAssociationSummary,
-);
 export interface ListQueueFleetAssociationsResponse {
   queueFleetAssociations: QueueFleetAssociationSummary[];
   nextToken?: string;
 }
-export const ListQueueFleetAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queueFleetAssociations: QueueFleetAssociationSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListQueueFleetAssociationsResponse",
-}) as any as S.Schema<ListQueueFleetAssociationsResponse>;
 export interface ListQueueLimitAssociationsRequest {
   farmId: string;
   nextToken?: string;
@@ -6418,29 +2465,6 @@ export interface ListQueueLimitAssociationsRequest {
   queueId?: string;
   limitId?: string;
 }
-export const ListQueueLimitAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    queueId: S.optional(S.String).pipe(T.HttpQuery("queueId")),
-    limitId: S.optional(S.String).pipe(T.HttpQuery("limitId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queue-limit-associations",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListQueueLimitAssociationsRequest",
-}) as any as S.Schema<ListQueueLimitAssociationsRequest>;
 export interface QueueLimitAssociationSummary {
   queueId: string;
   limitId: string;
@@ -6450,65 +2474,17 @@ export interface QueueLimitAssociationSummary {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const QueueLimitAssociationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queueId: S.String,
-    limitId: S.String,
-    status: QueueLimitAssociationStatus,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "QueueLimitAssociationSummary",
-}) as any as S.Schema<QueueLimitAssociationSummary>;
 export type QueueLimitAssociationSummaries = QueueLimitAssociationSummary[];
-export const QueueLimitAssociationSummaries = /*@__PURE__*/ S.Array(
-  QueueLimitAssociationSummary,
-);
 export interface ListQueueLimitAssociationsResponse {
   queueLimitAssociations: QueueLimitAssociationSummary[];
   nextToken?: string;
 }
-export const ListQueueLimitAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queueLimitAssociations: QueueLimitAssociationSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListQueueLimitAssociationsResponse",
-}) as any as S.Schema<ListQueueLimitAssociationsResponse>;
 export interface ListQueueMembersRequest {
   farmId: string;
   queueId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListQueueMembersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/members",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListQueueMembersRequest",
-}) as any as S.Schema<ListQueueMembersRequest>;
 export interface QueueMember {
   farmId: string;
   queueId: string;
@@ -6517,27 +2493,11 @@ export interface QueueMember {
   identityStoreId: string;
   membershipLevel: MembershipLevel;
 }
-export const QueueMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    principalId: S.String,
-    principalType: DeadlinePrincipalType,
-    identityStoreId: S.String,
-    membershipLevel: MembershipLevel,
-  }),
-).annotate({ identifier: "QueueMember" }) as any as S.Schema<QueueMember>;
 export type QueueMemberList = QueueMember[];
-export const QueueMemberList = /*@__PURE__*/ S.Array(QueueMember);
 export interface ListQueueMembersResponse {
   members: QueueMember[];
   nextToken?: string;
 }
-export const ListQueueMembersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ members: QueueMemberList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListQueueMembersResponse",
-}) as any as S.Schema<ListQueueMembersResponse>;
 export interface ListQueuesRequest {
   farmId: string;
   nextToken?: string;
@@ -6545,26 +2505,6 @@ export interface ListQueuesRequest {
   principalId?: string;
   status?: QueueStatus;
 }
-export const ListQueuesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    principalId: S.optional(S.String).pipe(T.HttpQuery("principalId")),
-    status: S.optional(QueueStatus).pipe(T.HttpQuery("status")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/queues" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListQueuesRequest",
-}) as any as S.Schema<ListQueuesRequest>;
 export interface QueueSummary {
   farmId: string;
   queueId: string;
@@ -6577,33 +2517,11 @@ export interface QueueSummary {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const QueueSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    displayName: S.String,
-    status: QueueStatus,
-    defaultBudgetAction: DefaultQueueBudgetAction,
-    blockedReason: S.optional(QueueBlockedReason),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({ identifier: "QueueSummary" }) as any as S.Schema<QueueSummary>;
 export type QueueSummaries = QueueSummary[];
-export const QueueSummaries = /*@__PURE__*/ S.Array(QueueSummary);
 export interface ListQueuesResponse {
   queues: QueueSummary[];
   nextToken?: string;
 }
-export const ListQueuesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ queues: QueueSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListQueuesResponse",
-}) as any as S.Schema<ListQueuesResponse>;
 export interface ListSessionActionsRequest {
   farmId: string;
   queueId: string;
@@ -6613,69 +2531,20 @@ export interface ListSessionActionsRequest {
   sessionId?: string;
   taskId?: string;
 }
-export const ListSessionActionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    sessionId: S.optional(S.String).pipe(T.HttpQuery("sessionId")),
-    taskId: S.optional(S.String).pipe(T.HttpQuery("taskId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/session-actions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSessionActionsRequest",
-}) as any as S.Schema<ListSessionActionsRequest>;
 export interface EnvironmentEnterSessionActionDefinitionSummary {
   environmentId: string;
 }
-export const EnvironmentEnterSessionActionDefinitionSummary =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ environmentId: S.String })).annotate(
-    { identifier: "EnvironmentEnterSessionActionDefinitionSummary" },
-  ) as any as S.Schema<EnvironmentEnterSessionActionDefinitionSummary>;
 export interface EnvironmentExitSessionActionDefinitionSummary {
   environmentId: string;
 }
-export const EnvironmentExitSessionActionDefinitionSummary =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ environmentId: S.String })).annotate(
-    { identifier: "EnvironmentExitSessionActionDefinitionSummary" },
-  ) as any as S.Schema<EnvironmentExitSessionActionDefinitionSummary>;
 export interface TaskRunSessionActionDefinitionSummary {
   taskId?: string;
   stepId: string;
   parameters?: { [key: string]: TaskParameterValue | undefined };
 }
-export const TaskRunSessionActionDefinitionSummary = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      taskId: S.optional(S.String),
-      stepId: S.String,
-      parameters: S.optional(TaskParameters),
-    }),
-).annotate({
-  identifier: "TaskRunSessionActionDefinitionSummary",
-}) as any as S.Schema<TaskRunSessionActionDefinitionSummary>;
 export interface SyncInputJobAttachmentsSessionActionDefinitionSummary {
   stepId?: string;
 }
-export const SyncInputJobAttachmentsSessionActionDefinitionSummary =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ stepId: S.optional(S.String) }),
-  ).annotate({
-    identifier: "SyncInputJobAttachmentsSessionActionDefinitionSummary",
-  }) as any as S.Schema<SyncInputJobAttachmentsSessionActionDefinitionSummary>;
 export type SessionActionDefinitionSummary =
   | {
       envEnter: EnvironmentEnterSessionActionDefinitionSummary;
@@ -6701,15 +2570,6 @@ export type SessionActionDefinitionSummary =
       taskRun?: never;
       syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinitionSummary;
     };
-export const SessionActionDefinitionSummary = /*@__PURE__*/ S.Union([
-  S.Struct({ envEnter: EnvironmentEnterSessionActionDefinitionSummary }),
-  S.Struct({ envExit: EnvironmentExitSessionActionDefinitionSummary }),
-  S.Struct({ taskRun: TaskRunSessionActionDefinitionSummary }),
-  S.Struct({
-    syncInputJobAttachments:
-      SyncInputJobAttachmentsSessionActionDefinitionSummary,
-  }),
-]);
 export interface SessionActionSummary {
   sessionActionId: string;
   status: SessionActionStatus;
@@ -6720,39 +2580,11 @@ export interface SessionActionSummary {
   manifests?: TaskRunManifestPropertiesResponse[];
   definition: SessionActionDefinitionSummary;
 }
-export const SessionActionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionActionId: S.String,
-    status: SessionActionStatus,
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    workerUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    progressPercent: S.optional(S.Number),
-    manifests: S.optional(TaskRunManifestPropertiesListResponse),
-    definition: SessionActionDefinitionSummary,
-  }),
-).annotate({
-  identifier: "SessionActionSummary",
-}) as any as S.Schema<SessionActionSummary>;
 export type SessionActionSummaries = SessionActionSummary[];
-export const SessionActionSummaries =
-  /*@__PURE__*/ S.Array(SessionActionSummary);
 export interface ListSessionActionsResponse {
   sessionActions: SessionActionSummary[];
   nextToken?: string;
 }
-export const ListSessionActionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionActions: SessionActionSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSessionActionsResponse",
-}) as any as S.Schema<ListSessionActionsResponse>;
 export interface ListSessionsRequest {
   farmId: string;
   queueId: string;
@@ -6760,29 +2592,6 @@ export interface ListSessionsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListSessionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/sessions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSessionsRequest",
-}) as any as S.Schema<ListSessionsRequest>;
 export interface SessionSummary {
   sessionId: string;
   fleetId: string;
@@ -6794,32 +2603,11 @@ export interface SessionSummary {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const SessionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionId: S.String,
-    fleetId: S.String,
-    workerId: S.String,
-    startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    lifecycleStatus: SessionLifecycleStatus,
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    targetLifecycleStatus: S.optional(SessionLifecycleTargetStatus),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({ identifier: "SessionSummary" }) as any as S.Schema<SessionSummary>;
 export type SessionSummaries = SessionSummary[];
-export const SessionSummaries = /*@__PURE__*/ S.Array(SessionSummary);
 export interface ListSessionsResponse {
   sessions: SessionSummary[];
   nextToken?: string;
 }
-export const ListSessionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sessions: SessionSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListSessionsResponse",
-}) as any as S.Schema<ListSessionsResponse>;
 export interface ListSessionsForWorkerRequest {
   farmId: string;
   fleetId: string;
@@ -6827,29 +2615,6 @@ export interface ListSessionsForWorkerRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListSessionsForWorkerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    workerId: S.String.pipe(T.HttpLabel("workerId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/workers/{workerId}/sessions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSessionsForWorkerRequest",
-}) as any as S.Schema<ListSessionsForWorkerRequest>;
 export interface WorkerSessionSummary {
   sessionId: string;
   queueId: string;
@@ -6859,34 +2624,11 @@ export interface WorkerSessionSummary {
   endedAt?: Date;
   targetLifecycleStatus?: SessionLifecycleTargetStatus;
 }
-export const WorkerSessionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    lifecycleStatus: SessionLifecycleStatus,
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    targetLifecycleStatus: S.optional(SessionLifecycleTargetStatus),
-  }),
-).annotate({
-  identifier: "WorkerSessionSummary",
-}) as any as S.Schema<WorkerSessionSummary>;
 export type ListSessionsForWorkerSummaries = WorkerSessionSummary[];
-export const ListSessionsForWorkerSummaries =
-  /*@__PURE__*/ S.Array(WorkerSessionSummary);
 export interface ListSessionsForWorkerResponse {
   sessions: WorkerSessionSummary[];
   nextToken?: string;
 }
-export const ListSessionsForWorkerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessions: ListSessionsForWorkerSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSessionsForWorkerResponse",
-}) as any as S.Schema<ListSessionsForWorkerResponse>;
 export interface ListStepConsumersRequest {
   farmId: string;
   queueId: string;
@@ -6895,54 +2637,19 @@ export interface ListStepConsumersRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListStepConsumersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    stepId: S.String.pipe(T.HttpLabel("stepId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/steps/{stepId}/consumers",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListStepConsumersRequest",
-}) as any as S.Schema<ListStepConsumersRequest>;
 export type DependencyConsumerResolutionStatus =
   | "RESOLVED"
   | "UNRESOLVED"
   | (string & {});
-export const DependencyConsumerResolutionStatus = S.String;
-
 export interface StepConsumer {
   stepId: string;
   status: DependencyConsumerResolutionStatus;
 }
-export const StepConsumer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ stepId: S.String, status: DependencyConsumerResolutionStatus }),
-).annotate({ identifier: "StepConsumer" }) as any as S.Schema<StepConsumer>;
 export type StepConsumers = StepConsumer[];
-export const StepConsumers = /*@__PURE__*/ S.Array(StepConsumer);
 export interface ListStepConsumersResponse {
   consumers: StepConsumer[];
   nextToken?: string;
 }
-export const ListStepConsumersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ consumers: StepConsumers, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListStepConsumersResponse",
-}) as any as S.Schema<ListStepConsumersResponse>;
 export interface ListStepDependenciesRequest {
   farmId: string;
   queueId: string;
@@ -6951,48 +2658,15 @@ export interface ListStepDependenciesRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListStepDependenciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    stepId: S.String.pipe(T.HttpLabel("stepId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/steps/{stepId}/dependencies",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListStepDependenciesRequest",
-}) as any as S.Schema<ListStepDependenciesRequest>;
 export interface StepDependency {
   stepId: string;
   status: DependencyConsumerResolutionStatus;
 }
-export const StepDependency = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ stepId: S.String, status: DependencyConsumerResolutionStatus }),
-).annotate({ identifier: "StepDependency" }) as any as S.Schema<StepDependency>;
 export type StepDependencies = StepDependency[];
-export const StepDependencies = /*@__PURE__*/ S.Array(StepDependency);
 export interface ListStepDependenciesResponse {
   dependencies: StepDependency[];
   nextToken?: string;
 }
-export const ListStepDependenciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ dependencies: StepDependencies, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListStepDependenciesResponse",
-}) as any as S.Schema<ListStepDependenciesResponse>;
 export interface ListStepsRequest {
   farmId: string;
   queueId: string;
@@ -7000,29 +2674,6 @@ export interface ListStepsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListStepsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/steps",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListStepsRequest",
-}) as any as S.Schema<ListStepsRequest>;
 export interface StepSummary {
   stepId: string;
   name: string;
@@ -7040,161 +2691,42 @@ export interface StepSummary {
   endedAt?: Date;
   dependencyCounts?: DependencyCounts;
 }
-export const StepSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stepId: S.String,
-    name: S.String,
-    lifecycleStatus: StepLifecycleStatus,
-    lifecycleStatusMessage: S.optional(S.String),
-    taskRunStatus: TaskRunStatus,
-    taskRunStatusCounts: TaskRunStatusCounts,
-    taskFailureRetryCount: S.optional(S.Number),
-    targetTaskRunStatus: S.optional(StepTargetTaskRunStatus),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    dependencyCounts: S.optional(DependencyCounts),
-  }),
-).annotate({ identifier: "StepSummary" }) as any as S.Schema<StepSummary>;
 export type StepSummaries = StepSummary[];
-export const StepSummaries = /*@__PURE__*/ S.Array(StepSummary);
 export interface ListStepsResponse {
   steps: StepSummary[];
   nextToken?: string;
 }
-export const ListStepsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ steps: StepSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListStepsResponse",
-}) as any as S.Schema<ListStepsResponse>;
 export interface ListStorageProfilesRequest {
   farmId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListStorageProfilesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/storage-profiles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListStorageProfilesRequest",
-}) as any as S.Schema<ListStorageProfilesRequest>;
 export interface StorageProfileSummary {
   storageProfileId: string;
   displayName: string;
   osFamily: StorageProfileOperatingSystemFamily;
 }
-export const StorageProfileSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storageProfileId: S.String,
-    displayName: S.String,
-    osFamily: StorageProfileOperatingSystemFamily,
-  }),
-).annotate({
-  identifier: "StorageProfileSummary",
-}) as any as S.Schema<StorageProfileSummary>;
 export type StorageProfileSummaries = StorageProfileSummary[];
-export const StorageProfileSummaries = /*@__PURE__*/ S.Array(
-  StorageProfileSummary,
-);
 export interface ListStorageProfilesResponse {
   storageProfiles: StorageProfileSummary[];
   nextToken?: string;
 }
-export const ListStorageProfilesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storageProfiles: StorageProfileSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListStorageProfilesResponse",
-}) as any as S.Schema<ListStorageProfilesResponse>;
 export interface ListStorageProfilesForQueueRequest {
   farmId: string;
   queueId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListStorageProfilesForQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/storage-profiles",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListStorageProfilesForQueueRequest",
-}) as any as S.Schema<ListStorageProfilesForQueueRequest>;
 export interface ListStorageProfilesForQueueResponse {
   storageProfiles: StorageProfileSummary[];
   nextToken?: string;
 }
-export const ListStorageProfilesForQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storageProfiles: StorageProfileSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListStorageProfilesForQueueResponse",
-}) as any as S.Schema<ListStorageProfilesForQueueResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2023-10-12/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(Tags) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTasksRequest {
   farmId: string;
   queueId: string;
@@ -7203,30 +2735,6 @@ export interface ListTasksRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListTasksRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    stepId: S.String.pipe(T.HttpLabel("stepId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/steps/{stepId}/tasks",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTasksRequest",
-}) as any as S.Schema<ListTasksRequest>;
 export interface TaskSummary {
   taskId: string;
   createdAt: Date;
@@ -7241,65 +2749,17 @@ export interface TaskSummary {
   latestSessionActionId?: string;
   parameters?: { [key: string]: TaskParameterValue | undefined };
 }
-export const TaskSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    taskId: S.String,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    runStatus: TaskRunStatus,
-    targetRunStatus: S.optional(TaskTargetRunStatus),
-    failureRetryCount: S.optional(S.Number),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    latestSessionActionId: S.optional(S.String),
-    parameters: S.optional(TaskParameters),
-  }),
-).annotate({ identifier: "TaskSummary" }) as any as S.Schema<TaskSummary>;
 export type TaskSummaries = TaskSummary[];
-export const TaskSummaries = /*@__PURE__*/ S.Array(TaskSummary);
 export interface ListTasksResponse {
   tasks: TaskSummary[];
   nextToken?: string;
 }
-export const ListTasksResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tasks: TaskSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListTasksResponse",
-}) as any as S.Schema<ListTasksResponse>;
 export interface ListVolumesRequest {
   farmId: string;
   fleetId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListVolumesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/volumes",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListVolumesRequest",
-}) as any as S.Schema<ListVolumesRequest>;
 export interface VolumeSummary {
   volumeId: string;
   farmId: string;
@@ -7309,56 +2769,17 @@ export interface VolumeSummary {
   availabilityZoneId: string;
   attachedWorkerId?: string;
 }
-export const VolumeSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    volumeId: S.String,
-    farmId: S.String,
-    fleetId: S.String,
-    state: VolumeState,
-    sizeGiB: S.Number,
-    availabilityZoneId: S.String,
-    attachedWorkerId: S.optional(S.String),
-  }),
-).annotate({ identifier: "VolumeSummary" }) as any as S.Schema<VolumeSummary>;
 export type VolumeSummaries = VolumeSummary[];
-export const VolumeSummaries = /*@__PURE__*/ S.Array(VolumeSummary);
 export interface ListVolumesResponse {
   volumes: VolumeSummary[];
   nextToken?: string;
 }
-export const ListVolumesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ volumes: VolumeSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListVolumesResponse",
-}) as any as S.Schema<ListVolumesResponse>;
 export interface ListWorkersRequest {
   farmId: string;
   fleetId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListWorkersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/workers",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListWorkersRequest",
-}) as any as S.Schema<ListWorkersRequest>;
 export interface WorkerSummary {
   farmId: string;
   fleetId: string;
@@ -7371,63 +2792,16 @@ export interface WorkerSummary {
   updatedAt?: Date;
   updatedBy?: string;
 }
-export const WorkerSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    fleetId: S.String,
-    workerId: S.String,
-    hostProperties: S.optional(HostPropertiesResponse),
-    status: WorkerStatus,
-    log: S.optional(LogConfiguration),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-  }),
-).annotate({ identifier: "WorkerSummary" }) as any as S.Schema<WorkerSummary>;
 export type WorkerSummaries = WorkerSummary[];
-export const WorkerSummaries = /*@__PURE__*/ S.Array(WorkerSummary);
 export interface ListWorkersResponse {
   workers: WorkerSummary[];
   nextToken?: string;
 }
-export const ListWorkersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ workers: WorkerSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListWorkersResponse",
-}) as any as S.Schema<ListWorkersResponse>;
 export interface PutMeteredProductRequest {
   licenseEndpointId: string;
   productId: string;
 }
-export const PutMeteredProductRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")),
-    productId: S.String.pipe(T.HttpLabel("productId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2023-10-12/license-endpoints/{licenseEndpointId}/metered-products/{productId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutMeteredProductRequest",
-}) as any as S.Schema<PutMeteredProductRequest>;
 export interface PutMeteredProductResponse {}
-export const PutMeteredProductResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutMeteredProductResponse",
-}) as any as S.Schema<PutMeteredProductResponse>;
 export type ComparisonOperator =
   | "EQUAL"
   | "NOT_EQUAL"
@@ -7438,76 +2812,35 @@ export type ComparisonOperator =
   | "ANY_EQUALS"
   | "ALL_NOT_EQUALS"
   | (string & {});
-export const ComparisonOperator = S.String;
-
 export interface DateTimeFilterExpression {
   name: string;
   operator: ComparisonOperator;
   dateTime: Date;
 }
-export const DateTimeFilterExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    operator: ComparisonOperator,
-    dateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({
-  identifier: "DateTimeFilterExpression",
-}) as any as S.Schema<DateTimeFilterExpression>;
 export type ParameterValue = string;
 export interface ParameterFilterExpression {
   name: string;
   operator: ComparisonOperator;
   value: string;
 }
-export const ParameterFilterExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, operator: ComparisonOperator, value: S.String }),
-).annotate({
-  identifier: "ParameterFilterExpression",
-}) as any as S.Schema<ParameterFilterExpression>;
 export type SearchTerm = string;
 export type SearchTermMatchingType = "FUZZY_MATCH" | "CONTAINS" | (string & {});
-export const SearchTermMatchingType = S.String;
-
 export interface SearchTermFilterExpression {
   searchTerm: string;
   matchType?: SearchTermMatchingType;
 }
-export const SearchTermFilterExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    searchTerm: S.String,
-    matchType: S.optional(SearchTermMatchingType),
-  }),
-).annotate({
-  identifier: "SearchTermFilterExpression",
-}) as any as S.Schema<SearchTermFilterExpression>;
 export type StringFilter = string;
 export interface StringFilterExpression {
   name: string;
   operator: ComparisonOperator;
   value: string;
 }
-export const StringFilterExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, operator: ComparisonOperator, value: S.String }),
-).annotate({
-  identifier: "StringFilterExpression",
-}) as any as S.Schema<StringFilterExpression>;
 export type StringFilterList = string[];
-export const StringFilterList = /*@__PURE__*/ S.Array(S.String);
 export interface StringListFilterExpression {
   name: string;
   operator: ComparisonOperator;
   values: string[];
 }
-export const StringListFilterExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    operator: ComparisonOperator,
-    values: StringFilterList,
-  }),
-).annotate({
-  identifier: "StringListFilterExpression",
-}) as any as S.Schema<StringListFilterExpression>;
 export type SearchFilterExpression =
   | {
       dateTimeFilter: DateTimeFilterExpression;
@@ -7557,69 +2890,24 @@ export type SearchFilterExpression =
       stringListFilter?: never;
       groupFilter: SearchGroupedFilterExpressions;
     };
-export const SearchFilterExpression = /*@__PURE__*/ S.Union([
-  S.Struct({ dateTimeFilter: DateTimeFilterExpression }),
-  S.Struct({ parameterFilter: ParameterFilterExpression }),
-  S.Struct({ searchTermFilter: SearchTermFilterExpression }),
-  S.Struct({ stringFilter: StringFilterExpression }),
-  S.Struct({ stringListFilter: StringListFilterExpression }),
-  S.Struct({
-    groupFilter: S.suspend(
-      (): S.Schema<SearchGroupedFilterExpressions> =>
-        SearchGroupedFilterExpressions,
-    ).annotate({ identifier: "SearchGroupedFilterExpressions" }),
-  }),
-]) as any as S.Schema<SearchFilterExpression>;
 export type SearchFilterExpressions = SearchFilterExpression[];
-export const SearchFilterExpressions = /*@__PURE__*/ S.Array(
-  S.suspend(() => SearchFilterExpression).annotate({
-    identifier: "SearchFilterExpression",
-  }),
-) as any as S.Schema<SearchFilterExpressions>;
 export type LogicalOperator = "AND" | "OR" | (string & {});
-export const LogicalOperator = S.String;
-
 export interface SearchGroupedFilterExpressions {
   filters: SearchFilterExpression[];
   operator: LogicalOperator;
 }
-export const SearchGroupedFilterExpressions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filters: S.suspend(() => SearchFilterExpressions).annotate({
-      identifier: "SearchFilterExpressions",
-    }),
-    operator: LogicalOperator,
-  }),
-).annotate({
-  identifier: "SearchGroupedFilterExpressions",
-}) as any as S.Schema<SearchGroupedFilterExpressions>;
 export interface UserJobsFirst {
   userIdentityId: string;
 }
-export const UserJobsFirst = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ userIdentityId: S.String }),
-).annotate({ identifier: "UserJobsFirst" }) as any as S.Schema<UserJobsFirst>;
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
-export const SortOrder = S.String;
-
 export interface FieldSortExpression {
   sortOrder: SortOrder;
   name: string;
 }
-export const FieldSortExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sortOrder: SortOrder, name: S.String }),
-).annotate({
-  identifier: "FieldSortExpression",
-}) as any as S.Schema<FieldSortExpression>;
 export interface ParameterSortExpression {
   sortOrder: SortOrder;
   name: string;
 }
-export const ParameterSortExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sortOrder: SortOrder, name: S.String }),
-).annotate({
-  identifier: "ParameterSortExpression",
-}) as any as S.Schema<ParameterSortExpression>;
 export type SearchSortExpression =
   | { userJobsFirst: UserJobsFirst; fieldSort?: never; parameterSort?: never }
   | {
@@ -7632,16 +2920,8 @@ export type SearchSortExpression =
       fieldSort?: never;
       parameterSort: ParameterSortExpression;
     };
-export const SearchSortExpression = /*@__PURE__*/ S.Union([
-  S.Struct({ userJobsFirst: UserJobsFirst }),
-  S.Struct({ fieldSort: FieldSortExpression }),
-  S.Struct({ parameterSort: ParameterSortExpression }),
-]);
 export type SearchSortExpressions = SearchSortExpression[];
-export const SearchSortExpressions =
-  /*@__PURE__*/ S.Array(SearchSortExpression);
 export type QueueIds = string[];
-export const QueueIds = /*@__PURE__*/ S.Array(S.String);
 export interface SearchJobsRequest {
   farmId: string;
   filterExpressions?: SearchGroupedFilterExpressions;
@@ -7650,27 +2930,6 @@ export interface SearchJobsRequest {
   pageSize?: number;
   queueIds: string[];
 }
-export const SearchJobsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    filterExpressions: S.optional(SearchGroupedFilterExpressions),
-    sortExpressions: S.optional(SearchSortExpressions),
-    itemOffset: S.Number,
-    pageSize: S.optional(S.Number),
-    queueIds: QueueIds,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/search/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SearchJobsRequest",
-}) as any as S.Schema<SearchJobsRequest>;
 export interface JobSearchSummary {
   jobId?: string;
   queueId?: string;
@@ -7694,41 +2953,7 @@ export interface JobSearchSummary {
   maxWorkerCount?: number;
   sourceJobId?: string;
 }
-export const JobSearchSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.optional(S.String),
-    queueId: S.optional(S.String),
-    name: S.optional(S.String),
-    lifecycleStatus: S.optional(JobLifecycleStatus),
-    lifecycleStatusMessage: S.optional(S.String),
-    taskRunStatus: S.optional(TaskRunStatus),
-    targetTaskRunStatus: S.optional(JobTargetTaskRunStatus),
-    taskRunStatusCounts: S.optional(TaskRunStatusCounts),
-    taskFailureRetryCount: S.optional(S.Number),
-    priority: S.optional(S.Number),
-    maxFailedTasksCount: S.optional(S.Number),
-    maxRetriesPerTask: S.optional(S.Number),
-    createdBy: S.optional(S.String),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    jobParameters: S.optional(JobParameters),
-    maxWorkerCount: S.optional(S.Number),
-    sourceJobId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "JobSearchSummary",
-}) as any as S.Schema<JobSearchSummary>;
 export type JobSearchSummaries = JobSearchSummary[];
-export const JobSearchSummaries = /*@__PURE__*/ S.Array(JobSearchSummary);
 export type NextItemOffset = number;
 export type TotalResults = number;
 export interface SearchJobsResponse {
@@ -7736,15 +2961,6 @@ export interface SearchJobsResponse {
   nextItemOffset?: number;
   totalResults: number;
 }
-export const SearchJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobs: JobSearchSummaries,
-    nextItemOffset: S.optional(S.Number),
-    totalResults: S.Number,
-  }),
-).annotate({
-  identifier: "SearchJobsResponse",
-}) as any as S.Schema<SearchJobsResponse>;
 export interface SearchStepsRequest {
   farmId: string;
   filterExpressions?: SearchGroupedFilterExpressions;
@@ -7754,31 +2970,6 @@ export interface SearchStepsRequest {
   queueIds: string[];
   jobId?: string;
 }
-export const SearchStepsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    filterExpressions: S.optional(SearchGroupedFilterExpressions),
-    sortExpressions: S.optional(SearchSortExpressions),
-    itemOffset: S.Number,
-    pageSize: S.optional(S.Number),
-    queueIds: QueueIds,
-    jobId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2023-10-12/farms/{farmId}/search/steps",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SearchStepsRequest",
-}) as any as S.Schema<SearchStepsRequest>;
 export interface StepSearchSummary {
   stepId?: string;
   jobId?: string;
@@ -7798,51 +2989,12 @@ export interface StepSearchSummary {
   updatedBy?: string;
   parameterSpace?: ParameterSpace;
 }
-export const StepSearchSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stepId: S.optional(S.String),
-    jobId: S.optional(S.String),
-    queueId: S.optional(S.String),
-    name: S.optional(S.String),
-    lifecycleStatus: S.optional(StepLifecycleStatus),
-    lifecycleStatusMessage: S.optional(S.String),
-    taskRunStatus: S.optional(TaskRunStatus),
-    targetTaskRunStatus: S.optional(StepTargetTaskRunStatus),
-    taskRunStatusCounts: S.optional(TaskRunStatusCounts),
-    taskFailureRetryCount: S.optional(S.Number),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    createdBy: S.optional(S.String),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    parameterSpace: S.optional(ParameterSpace),
-  }),
-).annotate({
-  identifier: "StepSearchSummary",
-}) as any as S.Schema<StepSearchSummary>;
 export type StepSearchSummaries = StepSearchSummary[];
-export const StepSearchSummaries = /*@__PURE__*/ S.Array(StepSearchSummary);
 export interface SearchStepsResponse {
   steps: StepSearchSummary[];
   nextItemOffset?: number;
   totalResults: number;
 }
-export const SearchStepsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    steps: StepSearchSummaries,
-    nextItemOffset: S.optional(S.Number),
-    totalResults: S.Number,
-  }),
-).annotate({
-  identifier: "SearchStepsResponse",
-}) as any as S.Schema<SearchStepsResponse>;
 export interface SearchTasksRequest {
   farmId: string;
   filterExpressions?: SearchGroupedFilterExpressions;
@@ -7852,31 +3004,6 @@ export interface SearchTasksRequest {
   queueIds: string[];
   jobId?: string;
 }
-export const SearchTasksRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    filterExpressions: S.optional(SearchGroupedFilterExpressions),
-    sortExpressions: S.optional(SearchSortExpressions),
-    itemOffset: S.Number,
-    pageSize: S.optional(S.Number),
-    queueIds: QueueIds,
-    jobId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2023-10-12/farms/{farmId}/search/tasks",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SearchTasksRequest",
-}) as any as S.Schema<SearchTasksRequest>;
 export interface TaskSearchSummary {
   taskId?: string;
   stepId?: string;
@@ -7892,47 +3019,13 @@ export interface TaskSearchSummary {
   updatedBy?: string;
   latestSessionActionId?: string;
 }
-export const TaskSearchSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    taskId: S.optional(S.String),
-    stepId: S.optional(S.String),
-    jobId: S.optional(S.String),
-    queueId: S.optional(S.String),
-    runStatus: S.optional(TaskRunStatus),
-    targetRunStatus: S.optional(TaskTargetRunStatus),
-    parameters: S.optional(TaskParameters),
-    failureRetryCount: S.optional(S.Number),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    latestSessionActionId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TaskSearchSummary",
-}) as any as S.Schema<TaskSearchSummary>;
 export type TaskSearchSummaries = TaskSearchSummary[];
-export const TaskSearchSummaries = /*@__PURE__*/ S.Array(TaskSearchSummary);
 export interface SearchTasksResponse {
   tasks: TaskSearchSummary[];
   nextItemOffset?: number;
   totalResults: number;
 }
-export const SearchTasksResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tasks: TaskSearchSummaries,
-    nextItemOffset: S.optional(S.Number),
-    totalResults: S.Number,
-  }),
-).annotate({
-  identifier: "SearchTasksResponse",
-}) as any as S.Schema<SearchTasksResponse>;
 export type FleetIds = string[];
-export const FleetIds = /*@__PURE__*/ S.Array(S.String);
 export interface SearchWorkersRequest {
   farmId: string;
   filterExpressions?: SearchGroupedFilterExpressions;
@@ -7941,30 +3034,6 @@ export interface SearchWorkersRequest {
   pageSize?: number;
   fleetIds: string[];
 }
-export const SearchWorkersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    filterExpressions: S.optional(SearchGroupedFilterExpressions),
-    sortExpressions: S.optional(SearchSortExpressions),
-    itemOffset: S.Number,
-    pageSize: S.optional(S.Number),
-    fleetIds: FleetIds,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2023-10-12/farms/{farmId}/search/workers",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SearchWorkersRequest",
-}) as any as S.Schema<SearchWorkersRequest>;
 export interface WorkerSearchSummary {
   fleetId?: string;
   workerId?: string;
@@ -7975,51 +3044,17 @@ export interface WorkerSearchSummary {
   updatedBy?: string;
   updatedAt?: Date;
 }
-export const WorkerSearchSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fleetId: S.optional(S.String),
-    workerId: S.optional(S.String),
-    status: S.optional(WorkerStatus),
-    hostProperties: S.optional(HostPropertiesResponse),
-    createdBy: S.optional(S.String),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedBy: S.optional(S.String),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "WorkerSearchSummary",
-}) as any as S.Schema<WorkerSearchSummary>;
 export type WorkerSearchSummaries = WorkerSearchSummary[];
-export const WorkerSearchSummaries = /*@__PURE__*/ S.Array(WorkerSearchSummary);
 export interface SearchWorkersResponse {
   workers: WorkerSearchSummary[];
   nextItemOffset?: number;
   totalResults: number;
 }
-export const SearchWorkersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    workers: WorkerSearchSummaries,
-    nextItemOffset: S.optional(S.Number),
-    totalResults: S.Number,
-  }),
-).annotate({
-  identifier: "SearchWorkersResponse",
-}) as any as S.Schema<SearchWorkersResponse>;
 export type SessionsStatisticsResources =
   | { queueIds: string[]; fleetIds?: never }
   | { queueIds?: never; fleetIds: string[] };
-export const SessionsStatisticsResources = /*@__PURE__*/ S.Union([
-  S.Struct({ queueIds: QueueIds }),
-  S.Struct({ fleetIds: FleetIds }),
-]);
 export type Timezone = string;
 export type Period = "HOURLY" | "DAILY" | "WEEKLY" | "MONTHLY" | (string & {});
-export const Period = S.String;
-
 export type UsageGroupByField =
   | "QUEUE_ID"
   | "FLEET_ID"
@@ -8029,15 +3064,9 @@ export type UsageGroupByField =
   | "INSTANCE_TYPE"
   | "LICENSE_PRODUCT"
   | (string & {});
-export const UsageGroupByField = S.String;
-
 export type UsageGroupBy = UsageGroupByField[];
-export const UsageGroupBy = /*@__PURE__*/ S.Array(UsageGroupByField);
 export type UsageStatistic = "SUM" | "MIN" | "MAX" | "AVG" | (string & {});
-export const UsageStatistic = S.String;
-
 export type UsageStatistics = UsageStatistic[];
-export const UsageStatistics = /*@__PURE__*/ S.Array(UsageStatistic);
 export interface StartSessionsStatisticsAggregationRequest {
   farmId: string;
   resourceIds: SessionsStatisticsResources;
@@ -8048,108 +3077,25 @@ export interface StartSessionsStatisticsAggregationRequest {
   groupBy: UsageGroupByField[];
   statistics: UsageStatistic[];
 }
-export const StartSessionsStatisticsAggregationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      farmId: S.String.pipe(T.HttpLabel("farmId")),
-      resourceIds: SessionsStatisticsResources,
-      startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      timezone: S.optional(S.String),
-      period: S.optional(Period),
-      groupBy: UsageGroupBy,
-      statistics: UsageStatistics,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/2023-10-12/farms/{farmId}/sessions-statistics-aggregation",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "StartSessionsStatisticsAggregationRequest",
-  }) as any as S.Schema<StartSessionsStatisticsAggregationRequest>;
 export interface StartSessionsStatisticsAggregationResponse {
   aggregationId: string;
 }
-export const StartSessionsStatisticsAggregationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ aggregationId: S.String })).annotate(
-    { identifier: "StartSessionsStatisticsAggregationResponse" },
-  ) as any as S.Schema<StartSessionsStatisticsAggregationResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags?: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: StringList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/2023-10-12/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface BudgetActionToRemove {
   type: BudgetActionType;
   thresholdPercentage: number;
 }
-export const BudgetActionToRemove = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: BudgetActionType, thresholdPercentage: S.Number }),
-).annotate({
-  identifier: "BudgetActionToRemove",
-}) as any as S.Schema<BudgetActionToRemove>;
 export type BudgetActionsToRemove = BudgetActionToRemove[];
-export const BudgetActionsToRemove =
-  /*@__PURE__*/ S.Array(BudgetActionToRemove);
 export interface UpdateBudgetRequest {
   farmId: string;
   budgetId: string;
@@ -8162,74 +3108,14 @@ export interface UpdateBudgetRequest {
   actionsToRemove?: BudgetActionToRemove[];
   schedule?: BudgetSchedule;
 }
-export const UpdateBudgetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    budgetId: S.String.pipe(T.HttpLabel("budgetId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    displayName: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    status: S.optional(BudgetStatus),
-    approximateDollarLimit: S.optional(S.Number),
-    actionsToAdd: S.optional(BudgetActionsToAdd),
-    actionsToRemove: S.optional(BudgetActionsToRemove),
-    schedule: S.optional(BudgetSchedule),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/budgets/{budgetId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateBudgetRequest",
-}) as any as S.Schema<UpdateBudgetRequest>;
 export interface UpdateBudgetResponse {}
-export const UpdateBudgetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateBudgetResponse",
-}) as any as S.Schema<UpdateBudgetResponse>;
 export interface UpdateFarmRequest {
   farmId: string;
   displayName?: string;
   description?: string | redacted.Redacted<string>;
   costScaleFactor?: number;
 }
-export const UpdateFarmRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    displayName: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    costScaleFactor: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/2023-10-12/farms/{farmId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateFarmRequest",
-}) as any as S.Schema<UpdateFarmRequest>;
 export interface UpdateFarmResponse {}
-export const UpdateFarmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateFarmResponse",
-}) as any as S.Schema<UpdateFarmResponse>;
 export interface UpdateFleetRequest {
   farmId: string;
   fleetId: string;
@@ -8242,43 +3128,7 @@ export interface UpdateFleetRequest {
   configuration?: FleetConfiguration;
   hostConfiguration?: HostConfiguration;
 }
-export const UpdateFleetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    displayName: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    roleArn: S.optional(S.String),
-    minWorkerCount: S.optional(S.Number),
-    maxWorkerCount: S.optional(S.Number),
-    configuration: S.optional(FleetConfiguration),
-    hostConfiguration: S.optional(HostConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateFleetRequest",
-}) as any as S.Schema<UpdateFleetRequest>;
 export interface UpdateFleetResponse {}
-export const UpdateFleetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateFleetResponse",
-}) as any as S.Schema<UpdateFleetResponse>;
 export interface UpdateJobRequest {
   farmId: string;
   queueId: string;
@@ -8293,45 +3143,7 @@ export interface UpdateJobRequest {
   name?: string;
   description?: string | redacted.Redacted<string>;
 }
-export const UpdateJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    targetTaskRunStatus: S.optional(JobTargetTaskRunStatus),
-    priority: S.optional(S.Number),
-    maxFailedTasksCount: S.optional(S.Number),
-    maxRetriesPerTask: S.optional(S.Number),
-    lifecycleStatus: S.optional(UpdateJobLifecycleStatus),
-    maxWorkerCount: S.optional(S.Number),
-    name: S.optional(S.String),
-    description: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateJobRequest",
-}) as any as S.Schema<UpdateJobRequest>;
 export interface UpdateJobResponse {}
-export const UpdateJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateJobResponse",
-}) as any as S.Schema<UpdateJobResponse>;
 export interface UpdateLimitRequest {
   farmId: string;
   limitId: string;
@@ -8339,96 +3151,19 @@ export interface UpdateLimitRequest {
   description?: string | redacted.Redacted<string>;
   maxCount?: number;
 }
-export const UpdateLimitRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    limitId: S.String.pipe(T.HttpLabel("limitId")),
-    displayName: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    maxCount: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/limits/{limitId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateLimitRequest",
-}) as any as S.Schema<UpdateLimitRequest>;
 export interface UpdateLimitResponse {}
-export const UpdateLimitResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateLimitResponse",
-}) as any as S.Schema<UpdateLimitResponse>;
 export interface UpdateMonitorRequest {
   monitorId: string;
   subdomain?: string;
   displayName?: string;
   roleArn?: string;
 }
-export const UpdateMonitorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitorId: S.String.pipe(T.HttpLabel("monitorId")),
-    subdomain: S.optional(S.String),
-    displayName: S.optional(S.String),
-    roleArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/2023-10-12/monitors/{monitorId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateMonitorRequest",
-}) as any as S.Schema<UpdateMonitorRequest>;
 export interface UpdateMonitorResponse {}
-export const UpdateMonitorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateMonitorResponse",
-}) as any as S.Schema<UpdateMonitorResponse>;
 export interface UpdateMonitorSettingsRequest {
   monitorId: string;
   settings: { [key: string]: string | undefined };
 }
-export const UpdateMonitorSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitorId: S.String.pipe(T.HttpLabel("monitorId")),
-    settings: SettingsMap,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/monitors/{monitorId}/settings",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateMonitorSettingsRequest",
-}) as any as S.Schema<UpdateMonitorSettingsRequest>;
 export interface UpdateMonitorSettingsResponse {}
-export const UpdateMonitorSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateMonitorSettingsResponse",
-}) as any as S.Schema<UpdateMonitorSettingsResponse>;
 export interface UpdateQueueRequest {
   farmId: string;
   queueId: string;
@@ -8445,51 +3180,7 @@ export interface UpdateQueueRequest {
   allowedStorageProfileIdsToRemove?: string[];
   schedulingConfiguration?: SchedulingConfiguration;
 }
-export const UpdateQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    displayName: S.optional(S.String),
-    description: S.optional(SensitiveString),
-    defaultBudgetAction: S.optional(DefaultQueueBudgetAction),
-    jobAttachmentSettings: S.optional(JobAttachmentSettings),
-    roleArn: S.optional(S.String),
-    jobRunAsUser: S.optional(JobRunAsUser),
-    requiredFileSystemLocationNamesToAdd: S.optional(
-      RequiredFileSystemLocationNames,
-    ),
-    requiredFileSystemLocationNamesToRemove: S.optional(
-      RequiredFileSystemLocationNames,
-    ),
-    allowedStorageProfileIdsToAdd: S.optional(AllowedStorageProfileIds),
-    allowedStorageProfileIdsToRemove: S.optional(AllowedStorageProfileIds),
-    schedulingConfiguration: S.optional(SchedulingConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateQueueRequest",
-}) as any as S.Schema<UpdateQueueRequest>;
 export interface UpdateQueueResponse {}
-export const UpdateQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateQueueResponse",
-}) as any as S.Schema<UpdateQueueResponse>;
 export interface UpdateQueueEnvironmentRequest {
   farmId: string;
   queueId: string;
@@ -8499,122 +3190,31 @@ export interface UpdateQueueEnvironmentRequest {
   templateType?: EnvironmentTemplateType;
   template?: string | redacted.Redacted<string>;
 }
-export const UpdateQueueEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    queueEnvironmentId: S.String.pipe(T.HttpLabel("queueEnvironmentId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    priority: S.optional(S.Number),
-    templateType: S.optional(EnvironmentTemplateType),
-    template: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/environments/{queueEnvironmentId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateQueueEnvironmentRequest",
-}) as any as S.Schema<UpdateQueueEnvironmentRequest>;
 export interface UpdateQueueEnvironmentResponse {}
-export const UpdateQueueEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateQueueEnvironmentResponse",
-}) as any as S.Schema<UpdateQueueEnvironmentResponse>;
 export type UpdateQueueFleetAssociationStatus =
   | "ACTIVE"
   | "STOP_SCHEDULING_AND_COMPLETE_TASKS"
   | "STOP_SCHEDULING_AND_CANCEL_TASKS"
   | (string & {});
-export const UpdateQueueFleetAssociationStatus = S.String;
-
 export interface UpdateQueueFleetAssociationRequest {
   farmId: string;
   queueId: string;
   fleetId: string;
   status: UpdateQueueFleetAssociationStatus;
 }
-export const UpdateQueueFleetAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    status: UpdateQueueFleetAssociationStatus,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/queue-fleet-associations/{queueId}/{fleetId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateQueueFleetAssociationRequest",
-}) as any as S.Schema<UpdateQueueFleetAssociationRequest>;
 export interface UpdateQueueFleetAssociationResponse {}
-export const UpdateQueueFleetAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateQueueFleetAssociationResponse",
-}) as any as S.Schema<UpdateQueueFleetAssociationResponse>;
 export type UpdateQueueLimitAssociationStatus =
   | "ACTIVE"
   | "STOP_LIMIT_USAGE_AND_COMPLETE_TASKS"
   | "STOP_LIMIT_USAGE_AND_CANCEL_TASKS"
   | (string & {});
-export const UpdateQueueLimitAssociationStatus = S.String;
-
 export interface UpdateQueueLimitAssociationRequest {
   farmId: string;
   queueId: string;
   limitId: string;
   status: UpdateQueueLimitAssociationStatus;
 }
-export const UpdateQueueLimitAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    limitId: S.String.pipe(T.HttpLabel("limitId")),
-    status: UpdateQueueLimitAssociationStatus,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/queue-limit-associations/{queueId}/{limitId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateQueueLimitAssociationRequest",
-}) as any as S.Schema<UpdateQueueLimitAssociationRequest>;
 export interface UpdateQueueLimitAssociationResponse {}
-export const UpdateQueueLimitAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateQueueLimitAssociationResponse",
-}) as any as S.Schema<UpdateQueueLimitAssociationResponse>;
 export interface UpdateSessionRequest {
   farmId: string;
   queueId: string;
@@ -8623,39 +3223,7 @@ export interface UpdateSessionRequest {
   clientToken?: string;
   targetLifecycleStatus: SessionLifecycleTargetStatus;
 }
-export const UpdateSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    targetLifecycleStatus: SessionLifecycleTargetStatus,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/sessions/{sessionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateSessionRequest",
-}) as any as S.Schema<UpdateSessionRequest>;
 export interface UpdateSessionResponse {}
-export const UpdateSessionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateSessionResponse",
-}) as any as S.Schema<UpdateSessionResponse>;
 export interface UpdateStepRequest {
   farmId: string;
   queueId: string;
@@ -8664,39 +3232,7 @@ export interface UpdateStepRequest {
   clientToken?: string;
   targetTaskRunStatus: StepTargetTaskRunStatus;
 }
-export const UpdateStepRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    stepId: S.String.pipe(T.HttpLabel("stepId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    targetTaskRunStatus: StepTargetTaskRunStatus,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/steps/{stepId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateStepRequest",
-}) as any as S.Schema<UpdateStepRequest>;
 export interface UpdateStepResponse {}
-export const UpdateStepResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateStepResponse",
-}) as any as S.Schema<UpdateStepResponse>;
 export interface UpdateStorageProfileRequest {
   farmId: string;
   storageProfileId: string;
@@ -8706,40 +3242,7 @@ export interface UpdateStorageProfileRequest {
   fileSystemLocationsToAdd?: FileSystemLocation[];
   fileSystemLocationsToRemove?: FileSystemLocation[];
 }
-export const UpdateStorageProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    storageProfileId: S.String.pipe(T.HttpLabel("storageProfileId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    displayName: S.optional(S.String),
-    osFamily: S.optional(StorageProfileOperatingSystemFamily),
-    fileSystemLocationsToAdd: S.optional(FileSystemLocationsList),
-    fileSystemLocationsToRemove: S.optional(FileSystemLocationsList),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/storage-profiles/{storageProfileId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateStorageProfileRequest",
-}) as any as S.Schema<UpdateStorageProfileRequest>;
 export interface UpdateStorageProfileResponse {}
-export const UpdateStorageProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateStorageProfileResponse",
-}) as any as S.Schema<UpdateStorageProfileResponse>;
 export interface UpdateTaskRequest {
   farmId: string;
   queueId: string;
@@ -8749,85 +3252,26 @@ export interface UpdateTaskRequest {
   clientToken?: string;
   targetRunStatus: TaskTargetRunStatus;
 }
-export const UpdateTaskRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    queueId: S.String.pipe(T.HttpLabel("queueId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    stepId: S.String.pipe(T.HttpLabel("stepId")),
-    taskId: S.String.pipe(T.HttpLabel("taskId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amz-Client-Token"),
-      T.IdempotencyToken(),
-    ),
-    targetRunStatus: TaskTargetRunStatus,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/steps/{stepId}/tasks/{taskId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateTaskRequest",
-}) as any as S.Schema<UpdateTaskRequest>;
 export interface UpdateTaskResponse {}
-export const UpdateTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateTaskResponse",
-}) as any as S.Schema<UpdateTaskResponse>;
 export type UpdatedWorkerStatus =
   | "STARTED"
   | "STOPPING"
   | "STOPPED"
   | (string & {});
-export const UpdatedWorkerStatus = S.String;
-
 export interface WorkerAmountCapability {
   name: string;
   value: number;
 }
-export const WorkerAmountCapability = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, value: S.Number }),
-).annotate({
-  identifier: "WorkerAmountCapability",
-}) as any as S.Schema<WorkerAmountCapability>;
 export type WorkerAmountCapabilityList = WorkerAmountCapability[];
-export const WorkerAmountCapabilityList = /*@__PURE__*/ S.Array(
-  WorkerAmountCapability,
-);
 export interface WorkerAttributeCapability {
   name: string;
   values: string[];
 }
-export const WorkerAttributeCapability = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, values: AttributeCapabilityValuesList }),
-).annotate({
-  identifier: "WorkerAttributeCapability",
-}) as any as S.Schema<WorkerAttributeCapability>;
 export type WorkerAttributeCapabilityList = WorkerAttributeCapability[];
-export const WorkerAttributeCapabilityList = /*@__PURE__*/ S.Array(
-  WorkerAttributeCapability,
-);
 export interface WorkerCapabilities {
   amounts: WorkerAmountCapability[];
   attributes: WorkerAttributeCapability[];
 }
-export const WorkerCapabilities = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    amounts: WorkerAmountCapabilityList,
-    attributes: WorkerAttributeCapabilityList,
-  }),
-).annotate({
-  identifier: "WorkerCapabilities",
-}) as any as S.Schema<WorkerCapabilities>;
 export interface UpdateWorkerRequest {
   farmId: string;
   fleetId: string;
@@ -8836,42 +3280,10 @@ export interface UpdateWorkerRequest {
   capabilities?: WorkerCapabilities;
   hostProperties?: HostPropertiesRequest;
 }
-export const UpdateWorkerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    workerId: S.String.pipe(T.HttpLabel("workerId")),
-    status: S.optional(UpdatedWorkerStatus),
-    capabilities: S.optional(WorkerCapabilities),
-    hostProperties: S.optional(HostPropertiesRequest),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/workers/{workerId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateWorkerRequest",
-}) as any as S.Schema<UpdateWorkerRequest>;
 export interface UpdateWorkerResponse {
   log?: LogConfiguration;
   hostConfiguration?: HostConfiguration;
 }
-export const UpdateWorkerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    log: S.optional(LogConfiguration),
-    hostConfiguration: S.optional(HostConfiguration),
-  }),
-).annotate({
-  identifier: "UpdateWorkerResponse",
-}) as any as S.Schema<UpdateWorkerResponse>;
 export type CompletedStatus =
   | "SUCCEEDED"
   | "FAILED"
@@ -8879,25 +3291,12 @@ export type CompletedStatus =
   | "CANCELED"
   | "NEVER_ATTEMPTED"
   | (string & {});
-export const CompletedStatus = S.String;
-
 export interface TaskRunManifestPropertiesRequest {
   outputManifestPath?: string;
   outputManifestHash?: string;
 }
-export const TaskRunManifestPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    outputManifestPath: S.optional(S.String),
-    outputManifestHash: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TaskRunManifestPropertiesRequest",
-}) as any as S.Schema<TaskRunManifestPropertiesRequest>;
 export type TaskRunManifestPropertiesListRequest =
   TaskRunManifestPropertiesRequest[];
-export const TaskRunManifestPropertiesListRequest = /*@__PURE__*/ S.Array(
-  TaskRunManifestPropertiesRequest,
-);
 export interface UpdatedSessionActionInfo {
   completedStatus?: CompletedStatus;
   processExitCode?: number;
@@ -8908,31 +3307,9 @@ export interface UpdatedSessionActionInfo {
   progressPercent?: number;
   manifests?: TaskRunManifestPropertiesRequest[];
 }
-export const UpdatedSessionActionInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    completedStatus: S.optional(CompletedStatus),
-    processExitCode: S.optional(S.Number),
-    progressMessage: S.optional(SensitiveString),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    progressPercent: S.optional(S.Number),
-    manifests: S.optional(TaskRunManifestPropertiesListRequest),
-  }),
-).annotate({
-  identifier: "UpdatedSessionActionInfo",
-}) as any as S.Schema<UpdatedSessionActionInfo>;
 export type UpdatedSessionActions = {
   [key: string]: UpdatedSessionActionInfo | undefined;
 };
-export const UpdatedSessionActions = /*@__PURE__*/ S.Record(
-  S.String,
-  UpdatedSessionActionInfo.pipe(S.optional),
-);
 export interface UpdateWorkerScheduleRequest {
   farmId: string;
   fleetId: string;
@@ -8941,66 +3318,20 @@ export interface UpdateWorkerScheduleRequest {
     [key: string]: UpdatedSessionActionInfo | undefined;
   };
 }
-export const UpdateWorkerScheduleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String.pipe(T.HttpLabel("farmId")),
-    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-    workerId: S.String.pipe(T.HttpLabel("workerId")),
-    updatedSessionActions: S.optional(UpdatedSessionActions),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/workers/{workerId}/schedule",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateWorkerScheduleRequest",
-}) as any as S.Schema<UpdateWorkerScheduleRequest>;
 export interface AssignedEnvironmentEnterSessionActionDefinition {
   environmentId: string;
 }
-export const AssignedEnvironmentEnterSessionActionDefinition =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ environmentId: S.String })).annotate(
-    { identifier: "AssignedEnvironmentEnterSessionActionDefinition" },
-  ) as any as S.Schema<AssignedEnvironmentEnterSessionActionDefinition>;
 export interface AssignedEnvironmentExitSessionActionDefinition {
   environmentId: string;
 }
-export const AssignedEnvironmentExitSessionActionDefinition =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ environmentId: S.String })).annotate(
-    { identifier: "AssignedEnvironmentExitSessionActionDefinition" },
-  ) as any as S.Schema<AssignedEnvironmentExitSessionActionDefinition>;
 export interface AssignedTaskRunSessionActionDefinition {
   taskId?: string;
   stepId: string;
   parameters: { [key: string]: TaskParameterValue | undefined };
 }
-export const AssignedTaskRunSessionActionDefinition = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      taskId: S.optional(S.String),
-      stepId: S.String,
-      parameters: TaskParameters,
-    }),
-).annotate({
-  identifier: "AssignedTaskRunSessionActionDefinition",
-}) as any as S.Schema<AssignedTaskRunSessionActionDefinition>;
 export interface AssignedSyncInputJobAttachmentsSessionActionDefinition {
   stepId?: string;
 }
-export const AssignedSyncInputJobAttachmentsSessionActionDefinition =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ stepId: S.optional(S.String) }),
-  ).annotate({
-    identifier: "AssignedSyncInputJobAttachmentsSessionActionDefinition",
-  }) as any as S.Schema<AssignedSyncInputJobAttachmentsSessionActionDefinition>;
 export type AssignedSessionActionDefinition =
   | {
       envEnter: AssignedEnvironmentEnterSessionActionDefinition;
@@ -9026,62 +3357,21 @@ export type AssignedSessionActionDefinition =
       taskRun?: never;
       syncInputJobAttachments: AssignedSyncInputJobAttachmentsSessionActionDefinition;
     };
-export const AssignedSessionActionDefinition = /*@__PURE__*/ S.Union([
-  S.Struct({ envEnter: AssignedEnvironmentEnterSessionActionDefinition }),
-  S.Struct({ envExit: AssignedEnvironmentExitSessionActionDefinition }),
-  S.Struct({ taskRun: AssignedTaskRunSessionActionDefinition }),
-  S.Struct({
-    syncInputJobAttachments:
-      AssignedSyncInputJobAttachmentsSessionActionDefinition,
-  }),
-]);
 export interface AssignedSessionAction {
   sessionActionId: string;
   definition: AssignedSessionActionDefinition;
 }
-export const AssignedSessionAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionActionId: S.String,
-    definition: AssignedSessionActionDefinition,
-  }),
-).annotate({
-  identifier: "AssignedSessionAction",
-}) as any as S.Schema<AssignedSessionAction>;
 export type AssignedSessionActions = AssignedSessionAction[];
-export const AssignedSessionActions = /*@__PURE__*/ S.Array(
-  AssignedSessionAction,
-);
 export interface AssignedSession {
   queueId: string;
   jobId: string;
   sessionActions: AssignedSessionAction[];
   logConfiguration: LogConfiguration;
 }
-export const AssignedSession = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queueId: S.String,
-    jobId: S.String,
-    sessionActions: AssignedSessionActions,
-    logConfiguration: LogConfiguration,
-  }),
-).annotate({
-  identifier: "AssignedSession",
-}) as any as S.Schema<AssignedSession>;
 export type AssignedSessions = { [key: string]: AssignedSession | undefined };
-export const AssignedSessions = /*@__PURE__*/ S.Record(
-  S.String,
-  AssignedSession.pipe(S.optional),
-);
 export type SessionActionIdList = string[];
-export const SessionActionIdList = /*@__PURE__*/ S.Array(S.String);
 export type CancelSessionActions = { [key: string]: string[] | undefined };
-export const CancelSessionActions = /*@__PURE__*/ S.Record(
-  S.String,
-  SessionActionIdList.pipe(S.optional),
-);
 export type DesiredWorkerStatus = "STOPPED" | (string & {});
-export const DesiredWorkerStatus = S.String;
-
 export type UpdateWorkerScheduleInterval = number;
 export interface UpdateWorkerScheduleResponse {
   assignedSessions: { [key: string]: AssignedSession | undefined };
@@ -9089,49 +3379,23 @@ export interface UpdateWorkerScheduleResponse {
   desiredWorkerStatus?: DesiredWorkerStatus;
   updateIntervalSeconds: number;
 }
-export const UpdateWorkerScheduleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    assignedSessions: AssignedSessions,
-    cancelSessionActions: CancelSessionActions,
-    desiredWorkerStatus: S.optional(DesiredWorkerStatus),
-    updateIntervalSeconds: S.Number,
-  }),
-).annotate({
-  identifier: "UpdateWorkerScheduleResponse",
-}) as any as S.Schema<UpdateWorkerScheduleResponse>;
 export type ExceptionContext = { [key: string]: string | undefined };
-export const ExceptionContext = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type ServiceQuotaExceededExceptionReason =
   | "SERVICE_QUOTA_EXCEEDED_EXCEPTION"
   | "KMS_KEY_LIMIT_EXCEEDED"
   | "DEPENDENCY_LIMIT_EXCEEDED"
   | (string & {});
-export const ServiceQuotaExceededExceptionReason = S.String;
-
 export type ValidationExceptionReason =
   | "UNKNOWN_OPERATION"
   | "CANNOT_PARSE"
   | "FIELD_VALIDATION_FAILED"
   | "OTHER"
   | (string & {});
-export const ValidationExceptionReason = S.String;
-
 export interface ValidationExceptionField {
   name: string;
   message: string;
 }
-export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
 export type ConflictExceptionReason =
   | "CONFLICT_EXCEPTION"
   | "CONCURRENT_MODIFICATION"
@@ -9139,8 +3403,6 @@ export type ConflictExceptionReason =
   | "RESOURCE_IN_USE"
   | "STATUS_CONFLICT"
   | (string & {});
-export const ConflictExceptionReason = S.String;
-
 export type AssociateMemberToFarmError =
   | AccessDeniedException
   | InternalServerErrorException
@@ -9158,8 +3420,19 @@ export const associateMemberToFarm: API.OperationMethod<
   AssociateMemberToFarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateMemberToFarmRequest,
-  output: AssociateMemberToFarmResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /2023-10-12/farms/{farmId}/members/{principalId}",
+    input: {
+      farmId: 0,
+      principalType: 0,
+      identityStoreId: 0,
+      membershipLevel: 0,
+      principalId: 0,
+      identityCenterRegion: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9172,7 +3445,7 @@ export const associateMemberToFarm: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateMemberToFarm",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type AssociateMemberToFleetError =
   | AccessDeniedException
@@ -9191,8 +3464,20 @@ export const associateMemberToFleet: API.OperationMethod<
   AssociateMemberToFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateMemberToFleetRequest,
-  output: AssociateMemberToFleetResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /2023-10-12/farms/{farmId}/fleets/{fleetId}/members/{principalId}",
+    input: {
+      farmId: 0,
+      fleetId: 0,
+      principalType: 0,
+      identityStoreId: 0,
+      membershipLevel: 0,
+      principalId: 0,
+      identityCenterRegion: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9205,7 +3490,7 @@ export const associateMemberToFleet: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateMemberToFleet",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type AssociateMemberToJobError =
   | AccessDeniedException
@@ -9224,8 +3509,21 @@ export const associateMemberToJob: API.OperationMethod<
   AssociateMemberToJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateMemberToJobRequest,
-  output: AssociateMemberToJobResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/members/{principalId}",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      jobId: 0,
+      principalType: 0,
+      identityStoreId: 0,
+      membershipLevel: 0,
+      principalId: 0,
+      identityCenterRegion: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9238,7 +3536,7 @@ export const associateMemberToJob: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateMemberToJob",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type AssociateMemberToQueueError =
   | AccessDeniedException
@@ -9257,8 +3555,20 @@ export const associateMemberToQueue: API.OperationMethod<
   AssociateMemberToQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateMemberToQueueRequest,
-  output: AssociateMemberToQueueResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /2023-10-12/farms/{farmId}/queues/{queueId}/members/{principalId}",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      principalType: 0,
+      identityStoreId: 0,
+      membershipLevel: 0,
+      principalId: 0,
+      identityCenterRegion: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9271,7 +3581,7 @@ export const associateMemberToQueue: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateMemberToQueue",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type AssumeFleetRoleForReadError =
   | AccessDeniedException
@@ -9289,8 +3599,12 @@ export const assumeFleetRoleForRead: API.OperationMethod<
   AssumeFleetRoleForReadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssumeFleetRoleForReadRequest,
-  output: AssumeFleetRoleForReadResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/fleets/{fleetId}/read-roles",
+    input: { farmId: 0, fleetId: 0 },
+    output: { credentials: o_AwsCredentials },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9302,7 +3616,7 @@ export const assumeFleetRoleForRead: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeFleetRoleForRead",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type AssumeFleetRoleForWorkerError =
   | AccessDeniedException
@@ -9321,8 +3635,12 @@ export const assumeFleetRoleForWorker: API.OperationMethod<
   AssumeFleetRoleForWorkerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssumeFleetRoleForWorkerRequest,
-  output: AssumeFleetRoleForWorkerResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/fleets/{fleetId}/workers/{workerId}/fleet-roles",
+    input: { farmId: 0, fleetId: 0, workerId: 0 },
+    output: { credentials: o_AwsCredentials },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9335,7 +3653,7 @@ export const assumeFleetRoleForWorker: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeFleetRoleForWorker",
   endpointHostPrefix: "scheduling.",
-}));
+})) as any;
 
 export type AssumeQueueRoleForReadError =
   | AccessDeniedException
@@ -9353,8 +3671,12 @@ export const assumeQueueRoleForRead: API.OperationMethod<
   AssumeQueueRoleForReadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssumeQueueRoleForReadRequest,
-  output: AssumeQueueRoleForReadResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/read-roles",
+    input: { farmId: 0, queueId: 0 },
+    output: { credentials: o_AwsCredentials },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9366,7 +3688,7 @@ export const assumeQueueRoleForRead: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeQueueRoleForRead",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type AssumeQueueRoleForUserError =
   | AccessDeniedException
@@ -9384,8 +3706,12 @@ export const assumeQueueRoleForUser: API.OperationMethod<
   AssumeQueueRoleForUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssumeQueueRoleForUserRequest,
-  output: AssumeQueueRoleForUserResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/user-roles",
+    input: { farmId: 0, queueId: 0 },
+    output: { credentials: o_AwsCredentials },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9397,7 +3723,7 @@ export const assumeQueueRoleForUser: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeQueueRoleForUser",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type AssumeQueueRoleForWorkerError =
   | AccessDeniedException
@@ -9416,8 +3742,17 @@ export const assumeQueueRoleForWorker: API.OperationMethod<
   AssumeQueueRoleForWorkerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssumeQueueRoleForWorkerRequest,
-  output: AssumeQueueRoleForWorkerResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/fleets/{fleetId}/workers/{workerId}/queue-roles",
+    input: {
+      farmId: 0,
+      fleetId: 0,
+      workerId: 0,
+      queueId: D.m({ query: "queueId" }),
+    },
+    output: { credentials: o_AwsCredentials },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9430,7 +3765,7 @@ export const assumeQueueRoleForWorker: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeQueueRoleForWorker",
   endpointHostPrefix: "scheduling.",
-}));
+})) as any;
 
 export type BatchGetJobError =
   | AccessDeniedException
@@ -9449,8 +3784,21 @@ export const batchGetJob: API.OperationMethod<
   BatchGetJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetJobRequest,
-  output: BatchGetJobResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/batch-get-job",
+    input: { identifiers: D.list({ farmId: 0, queueId: 0, jobId: 0 }) },
+    output: {
+      jobs: D.list({
+        createdAt: D.ts,
+        updatedAt: D.ts,
+        startedAt: D.ts,
+        endedAt: D.ts,
+        description: D.secret,
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9461,7 +3809,7 @@ export const batchGetJob: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetJob",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type BatchGetJobEntityError =
   | AccessDeniedException
@@ -9479,8 +3827,22 @@ export const batchGetJobEntity: API.OperationMethod<
   BatchGetJobEntityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetJobEntityRequest,
-  output: BatchGetJobEntityResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/farms/{farmId}/fleets/{fleetId}/workers/{workerId}/batchGetJobEntity",
+    input: {
+      farmId: 0,
+      fleetId: 0,
+      workerId: 0,
+      identifiers: D.list({
+        jobDetails: { jobId: 0 },
+        jobAttachmentDetails: { jobId: 0 },
+        stepDetails: { jobId: 0, stepId: 0 },
+        environmentDetails: { jobId: 0, environmentId: 0 },
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9492,7 +3854,7 @@ export const batchGetJobEntity: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetJobEntity",
   endpointHostPrefix: "scheduling.",
-}));
+})) as any;
 
 export type BatchGetSessionError =
   | AccessDeniedException
@@ -9511,8 +3873,17 @@ export const batchGetSession: API.OperationMethod<
   BatchGetSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetSessionRequest,
-  output: BatchGetSessionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/batch-get-session",
+    input: {
+      identifiers: D.list({ farmId: 0, queueId: 0, jobId: 0, sessionId: 0 }),
+    },
+    output: {
+      sessions: D.list({ startedAt: D.ts, endedAt: D.ts, updatedAt: D.ts }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9523,7 +3894,7 @@ export const batchGetSession: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetSession",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type BatchGetSessionActionError =
   | AccessDeniedException
@@ -9542,8 +3913,27 @@ export const batchGetSessionAction: API.OperationMethod<
   BatchGetSessionActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetSessionActionRequest,
-  output: BatchGetSessionActionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/batch-get-session-action",
+    input: {
+      identifiers: D.list({
+        farmId: 0,
+        queueId: 0,
+        jobId: 0,
+        sessionActionId: 0,
+      }),
+    },
+    output: {
+      sessionActions: D.list({
+        startedAt: D.ts,
+        endedAt: D.ts,
+        workerUpdatedAt: D.ts,
+        progressMessage: D.secret,
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9554,7 +3944,7 @@ export const batchGetSessionAction: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetSessionAction",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type BatchGetStepError =
   | AccessDeniedException
@@ -9573,8 +3963,23 @@ export const batchGetStep: API.OperationMethod<
   BatchGetStepError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetStepRequest,
-  output: BatchGetStepResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/batch-get-step",
+    input: {
+      identifiers: D.list({ farmId: 0, queueId: 0, jobId: 0, stepId: 0 }),
+    },
+    output: {
+      steps: D.list({
+        createdAt: D.ts,
+        updatedAt: D.ts,
+        startedAt: D.ts,
+        endedAt: D.ts,
+        description: D.secret,
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9585,7 +3990,7 @@ export const batchGetStep: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetStep",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type BatchGetTaskError =
   | AccessDeniedException
@@ -9604,8 +4009,28 @@ export const batchGetTask: API.OperationMethod<
   BatchGetTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetTaskRequest,
-  output: BatchGetTaskResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/batch-get-task",
+    input: {
+      identifiers: D.list({
+        farmId: 0,
+        queueId: 0,
+        jobId: 0,
+        stepId: 0,
+        taskId: 0,
+      }),
+    },
+    output: {
+      tasks: D.list({
+        createdAt: D.ts,
+        startedAt: D.ts,
+        endedAt: D.ts,
+        updatedAt: D.ts,
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9616,7 +4041,7 @@ export const batchGetTask: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetTask",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type BatchGetWorkerError =
   | AccessDeniedException
@@ -9635,8 +4060,13 @@ export const batchGetWorker: API.OperationMethod<
   BatchGetWorkerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetWorkerRequest,
-  output: BatchGetWorkerResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/batch-get-worker",
+    input: { identifiers: D.list({ farmId: 0, fleetId: 0, workerId: 0 }) },
+    output: { workers: D.list({ createdAt: D.ts, updatedAt: D.ts }) },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9647,7 +4077,7 @@ export const batchGetWorker: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetWorker",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type BatchUpdateJobError =
   | AccessDeniedException
@@ -9670,8 +4100,27 @@ export const batchUpdateJob: API.OperationMethod<
   BatchUpdateJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchUpdateJobRequest,
-  output: BatchUpdateJobResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/batch-update-job",
+    input: {
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      jobs: D.list({
+        farmId: 0,
+        queueId: 0,
+        jobId: 0,
+        targetTaskRunStatus: 0,
+        priority: 0,
+        maxFailedTasksCount: 0,
+        maxRetriesPerTask: 0,
+        lifecycleStatus: 0,
+        maxWorkerCount: 0,
+        name: 0,
+        description: 0,
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9682,7 +4131,7 @@ export const batchUpdateJob: API.OperationMethod<
   retry: Retry,
   operationName: "BatchUpdateJob",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type BatchUpdateTaskError =
   | AccessDeniedException
@@ -9701,8 +4150,22 @@ export const batchUpdateTask: API.OperationMethod<
   BatchUpdateTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchUpdateTaskRequest,
-  output: BatchUpdateTaskResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/batch-update-task",
+    input: {
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      tasks: D.list({
+        farmId: 0,
+        queueId: 0,
+        jobId: 0,
+        stepId: 0,
+        taskId: 0,
+        targetRunStatus: 0,
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9713,7 +4176,7 @@ export const batchUpdateTask: API.OperationMethod<
   retry: Retry,
   operationName: "BatchUpdateTask",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type CopyJobTemplateError =
   | AccessDeniedException
@@ -9731,8 +4194,17 @@ export const copyJobTemplate: API.OperationMethod<
   CopyJobTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CopyJobTemplateRequest,
-  output: CopyJobTemplateResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/template",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      jobId: 0,
+      targetS3Location: { bucketName: 0, key: 0 },
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9744,7 +4216,7 @@ export const copyJobTemplate: API.OperationMethod<
   retry: Retry,
   operationName: "CopyJobTemplate",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type CreateBudgetError =
   | AccessDeniedException
@@ -9764,8 +4236,22 @@ export const createBudget: API.OperationMethod<
   CreateBudgetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBudgetRequest,
-  output: CreateBudgetResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/farms/{farmId}/budgets",
+    input: {
+      farmId: 0,
+      displayName: 0,
+      description: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      usageTrackingResource: { queueId: 0 },
+      approximateDollarLimit: 0,
+      actions: D.list(i_BudgetActionToAdd),
+      schedule: i_BudgetSchedule,
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9779,7 +4265,7 @@ export const createBudget: API.OperationMethod<
   retry: Retry,
   operationName: "CreateBudget",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type CreateFarmError =
   | AccessDeniedException
@@ -9798,8 +4284,19 @@ export const createFarm: API.OperationMethod<
   CreateFarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFarmRequest,
-  output: CreateFarmResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/farms",
+    input: {
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      displayName: 0,
+      description: 0,
+      kmsKeyArn: 0,
+      costScaleFactor: 0,
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9812,7 +4309,7 @@ export const createFarm: API.OperationMethod<
   retry: Retry,
   operationName: "CreateFarm",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type CreateFleetError =
   | AccessDeniedException
@@ -9832,8 +4329,23 @@ export const createFleet: API.OperationMethod<
   CreateFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFleetRequest,
-  output: CreateFleetResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/farms/{farmId}/fleets",
+    input: {
+      farmId: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      displayName: 0,
+      description: 0,
+      roleArn: 0,
+      minWorkerCount: 0,
+      maxWorkerCount: 0,
+      configuration: i_FleetConfiguration,
+      tags: 0,
+      hostConfiguration: i_HostConfiguration,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9847,7 +4359,7 @@ export const createFleet: API.OperationMethod<
   retry: Retry,
   operationName: "CreateFleet",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type CreateJobError =
   | AccessDeniedException
@@ -9866,8 +4378,40 @@ export const createJob: API.OperationMethod<
   CreateJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateJobRequest,
-  output: CreateJobResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/farms/{farmId}/queues/{queueId}/jobs",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      template: 0,
+      templateType: 0,
+      priority: 0,
+      parameters: D.map({ int: 0, float: 0, string: 0, path: 0 }),
+      attachments: {
+        manifests: D.list({
+          fileSystemLocationName: 0,
+          rootPath: 0,
+          rootPathFormat: 0,
+          outputRelativeDirectories: 0,
+          inputManifestPath: 0,
+          inputManifestHash: 0,
+        }),
+        fileSystem: 0,
+      },
+      storageProfileId: 0,
+      targetTaskRunStatus: 0,
+      maxFailedTasksCount: 0,
+      maxRetriesPerTask: 0,
+      maxWorkerCount: 0,
+      sourceJobId: 0,
+      nameOverride: 0,
+      descriptionOverride: 0,
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9880,7 +4424,7 @@ export const createJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateJob",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type CreateLicenseEndpointError =
   | AccessDeniedException
@@ -9899,8 +4443,18 @@ export const createLicenseEndpoint: API.OperationMethod<
   CreateLicenseEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLicenseEndpointRequest,
-  output: CreateLicenseEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/license-endpoints",
+    input: {
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      vpcId: 0,
+      subnetIds: 0,
+      securityGroupIds: 0,
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9913,7 +4467,7 @@ export const createLicenseEndpoint: API.OperationMethod<
   retry: Retry,
   operationName: "CreateLicenseEndpoint",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type CreateLimitError =
   | AccessDeniedException
@@ -9934,8 +4488,19 @@ export const createLimit: API.OperationMethod<
   CreateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLimitRequest,
-  output: CreateLimitResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/farms/{farmId}/limits",
+    input: {
+      farmId: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      displayName: 0,
+      amountRequirementName: 0,
+      maxCount: 0,
+      description: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9948,7 +4513,7 @@ export const createLimit: API.OperationMethod<
   retry: Retry,
   operationName: "CreateLimit",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type CreateMonitorError =
   | AccessDeniedException
@@ -9967,8 +4532,20 @@ export const createMonitor: API.OperationMethod<
   CreateMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateMonitorRequest,
-  output: CreateMonitorResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/monitors",
+    input: {
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      displayName: 0,
+      identityCenterInstanceArn: 0,
+      identityCenterRegion: 0,
+      subdomain: 0,
+      roleArn: 0,
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -9981,7 +4558,7 @@ export const createMonitor: API.OperationMethod<
   retry: Retry,
   operationName: "CreateMonitor",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type CreateQueueError =
   | AccessDeniedException
@@ -10001,8 +4578,25 @@ export const createQueue: API.OperationMethod<
   CreateQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateQueueRequest,
-  output: CreateQueueResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/farms/{farmId}/queues",
+    input: {
+      farmId: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      displayName: 0,
+      description: 0,
+      defaultBudgetAction: 0,
+      jobAttachmentSettings: i_JobAttachmentSettings,
+      roleArn: 0,
+      jobRunAsUser: i_JobRunAsUser,
+      requiredFileSystemLocationNames: 0,
+      allowedStorageProfileIds: 0,
+      tags: 0,
+      schedulingConfiguration: i_SchedulingConfiguration,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10016,7 +4610,7 @@ export const createQueue: API.OperationMethod<
   retry: Retry,
   operationName: "CreateQueue",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type CreateQueueEnvironmentError =
   | AccessDeniedException
@@ -10035,8 +4629,19 @@ export const createQueueEnvironment: API.OperationMethod<
   CreateQueueEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateQueueEnvironmentRequest,
-  output: CreateQueueEnvironmentResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/farms/{farmId}/queues/{queueId}/environments",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      priority: 0,
+      templateType: 0,
+      template: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10049,7 +4654,7 @@ export const createQueueEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "CreateQueueEnvironment",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type CreateQueueFleetAssociationError =
   | AccessDeniedException
@@ -10067,8 +4672,12 @@ export const createQueueFleetAssociation: API.OperationMethod<
   CreateQueueFleetAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateQueueFleetAssociationRequest,
-  output: CreateQueueFleetAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /2023-10-12/farms/{farmId}/queue-fleet-associations",
+    input: { farmId: 0, queueId: 0, fleetId: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10080,7 +4689,7 @@ export const createQueueFleetAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "CreateQueueFleetAssociation",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type CreateQueueLimitAssociationError =
   | AccessDeniedException
@@ -10098,8 +4707,12 @@ export const createQueueLimitAssociation: API.OperationMethod<
   CreateQueueLimitAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateQueueLimitAssociationRequest,
-  output: CreateQueueLimitAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /2023-10-12/farms/{farmId}/queue-limit-associations",
+    input: { farmId: 0, queueId: 0, limitId: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10111,7 +4724,7 @@ export const createQueueLimitAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "CreateQueueLimitAssociation",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type CreateStorageProfileError =
   | AccessDeniedException
@@ -10131,8 +4744,18 @@ export const createStorageProfile: API.OperationMethod<
   CreateStorageProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateStorageProfileRequest,
-  output: CreateStorageProfileResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/farms/{farmId}/storage-profiles",
+    input: {
+      farmId: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      displayName: 0,
+      osFamily: 0,
+      fileSystemLocations: D.list(i_FileSystemLocation),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10146,7 +4769,7 @@ export const createStorageProfile: API.OperationMethod<
   retry: Retry,
   operationName: "CreateStorageProfile",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type CreateWorkerError =
   | AccessDeniedException
@@ -10167,8 +4790,18 @@ export const createWorker: API.OperationMethod<
   CreateWorkerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateWorkerRequest,
-  output: CreateWorkerResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/farms/{farmId}/fleets/{fleetId}/workers",
+    input: {
+      farmId: 0,
+      fleetId: 0,
+      hostProperties: i_HostPropertiesRequest,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10181,7 +4814,7 @@ export const createWorker: API.OperationMethod<
   retry: Retry,
   operationName: "CreateWorker",
   endpointHostPrefix: "scheduling.",
-}));
+})) as any;
 
 export type DeleteBudgetError =
   | AccessDeniedException
@@ -10200,8 +4833,11 @@ export const deleteBudget: API.OperationMethod<
   DeleteBudgetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBudgetRequest,
-  output: DeleteBudgetResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/farms/{farmId}/budgets/{budgetId}",
+    input: { farmId: 0, budgetId: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10214,7 +4850,7 @@ export const deleteBudget: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteBudget",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DeleteFarmError =
   | AccessDeniedException
@@ -10233,8 +4869,11 @@ export const deleteFarm: API.OperationMethod<
   DeleteFarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFarmRequest,
-  output: DeleteFarmResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/farms/{farmId}",
+    input: { farmId: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10247,7 +4886,7 @@ export const deleteFarm: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteFarm",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DeleteFleetError =
   | AccessDeniedException
@@ -10266,8 +4905,15 @@ export const deleteFleet: API.OperationMethod<
   DeleteFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFleetRequest,
-  output: DeleteFleetResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/farms/{farmId}/fleets/{fleetId}",
+    input: {
+      farmId: 0,
+      fleetId: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10280,7 +4926,7 @@ export const deleteFleet: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteFleet",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DeleteLicenseEndpointError =
   | AccessDeniedException
@@ -10299,8 +4945,11 @@ export const deleteLicenseEndpoint: API.OperationMethod<
   DeleteLicenseEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLicenseEndpointRequest,
-  output: DeleteLicenseEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/license-endpoints/{licenseEndpointId}",
+    input: { licenseEndpointId: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10313,7 +4962,7 @@ export const deleteLicenseEndpoint: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteLicenseEndpoint",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DeleteLimitError =
   | AccessDeniedException
@@ -10330,8 +4979,11 @@ export const deleteLimit: API.OperationMethod<
   DeleteLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLimitRequest,
-  output: DeleteLimitResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/farms/{farmId}/limits/{limitId}",
+    input: { farmId: 0, limitId: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10342,7 +4994,7 @@ export const deleteLimit: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteLimit",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DeleteMeteredProductError =
   | AccessDeniedException
@@ -10360,8 +5012,11 @@ export const deleteMeteredProduct: API.OperationMethod<
   DeleteMeteredProductError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteMeteredProductRequest,
-  output: DeleteMeteredProductResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/license-endpoints/{licenseEndpointId}/metered-products/{productId}",
+    input: { licenseEndpointId: 0, productId: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10373,7 +5028,7 @@ export const deleteMeteredProduct: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteMeteredProduct",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DeleteMonitorError =
   | AccessDeniedException
@@ -10392,8 +5047,11 @@ export const deleteMonitor: API.OperationMethod<
   DeleteMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteMonitorRequest,
-  output: DeleteMonitorResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/monitors/{monitorId}",
+    input: { monitorId: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10406,7 +5064,7 @@ export const deleteMonitor: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteMonitor",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DeleteQueueError =
   | AccessDeniedException
@@ -10427,8 +5085,11 @@ export const deleteQueue: API.OperationMethod<
   DeleteQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteQueueRequest,
-  output: DeleteQueueResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/farms/{farmId}/queues/{queueId}",
+    input: { farmId: 0, queueId: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10441,7 +5102,7 @@ export const deleteQueue: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteQueue",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DeleteQueueEnvironmentError =
   | AccessDeniedException
@@ -10458,8 +5119,11 @@ export const deleteQueueEnvironment: API.OperationMethod<
   DeleteQueueEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteQueueEnvironmentRequest,
-  output: DeleteQueueEnvironmentResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/farms/{farmId}/queues/{queueId}/environments/{queueEnvironmentId}",
+    input: { farmId: 0, queueId: 0, queueEnvironmentId: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10470,7 +5134,7 @@ export const deleteQueueEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteQueueEnvironment",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DeleteQueueFleetAssociationError =
   | AccessDeniedException
@@ -10489,8 +5153,11 @@ export const deleteQueueFleetAssociation: API.OperationMethod<
   DeleteQueueFleetAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteQueueFleetAssociationRequest,
-  output: DeleteQueueFleetAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/farms/{farmId}/queue-fleet-associations/{queueId}/{fleetId}",
+    input: { farmId: 0, queueId: 0, fleetId: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10503,7 +5170,7 @@ export const deleteQueueFleetAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteQueueFleetAssociation",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DeleteQueueLimitAssociationError =
   | AccessDeniedException
@@ -10522,8 +5189,11 @@ export const deleteQueueLimitAssociation: API.OperationMethod<
   DeleteQueueLimitAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteQueueLimitAssociationRequest,
-  output: DeleteQueueLimitAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/farms/{farmId}/queue-limit-associations/{queueId}/{limitId}",
+    input: { farmId: 0, queueId: 0, limitId: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10536,7 +5206,7 @@ export const deleteQueueLimitAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteQueueLimitAssociation",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DeleteStorageProfileError =
   | AccessDeniedException
@@ -10555,8 +5225,11 @@ export const deleteStorageProfile: API.OperationMethod<
   DeleteStorageProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteStorageProfileRequest,
-  output: DeleteStorageProfileResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/farms/{farmId}/storage-profiles/{storageProfileId}",
+    input: { farmId: 0, storageProfileId: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10569,7 +5242,7 @@ export const deleteStorageProfile: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteStorageProfile",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DeleteVolumeError =
   | AccessDeniedException
@@ -10588,8 +5261,11 @@ export const deleteVolume: API.OperationMethod<
   DeleteVolumeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteVolumeRequest,
-  output: DeleteVolumeResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/farms/{farmId}/fleets/{fleetId}/volumes/{volumeId}",
+    input: { farmId: 0, fleetId: 0, volumeId: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10602,7 +5278,7 @@ export const deleteVolume: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteVolume",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DeleteWorkerError =
   | AccessDeniedException
@@ -10621,8 +5297,11 @@ export const deleteWorker: API.OperationMethod<
   DeleteWorkerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteWorkerRequest,
-  output: DeleteWorkerResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/farms/{farmId}/fleets/{fleetId}/workers/{workerId}",
+    input: { farmId: 0, fleetId: 0, workerId: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10635,7 +5314,7 @@ export const deleteWorker: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteWorker",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DisassociateMemberFromFarmError =
   | AccessDeniedException
@@ -10653,8 +5332,11 @@ export const disassociateMemberFromFarm: API.OperationMethod<
   DisassociateMemberFromFarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateMemberFromFarmRequest,
-  output: DisassociateMemberFromFarmResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/farms/{farmId}/members/{principalId}",
+    input: { farmId: 0, principalId: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10666,7 +5348,7 @@ export const disassociateMemberFromFarm: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateMemberFromFarm",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DisassociateMemberFromFleetError =
   | AccessDeniedException
@@ -10685,8 +5367,11 @@ export const disassociateMemberFromFleet: API.OperationMethod<
   DisassociateMemberFromFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateMemberFromFleetRequest,
-  output: DisassociateMemberFromFleetResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/farms/{farmId}/fleets/{fleetId}/members/{principalId}",
+    input: { farmId: 0, fleetId: 0, principalId: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10699,7 +5384,7 @@ export const disassociateMemberFromFleet: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateMemberFromFleet",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DisassociateMemberFromJobError =
   | AccessDeniedException
@@ -10717,8 +5402,11 @@ export const disassociateMemberFromJob: API.OperationMethod<
   DisassociateMemberFromJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateMemberFromJobRequest,
-  output: DisassociateMemberFromJobResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/members/{principalId}",
+    input: { farmId: 0, queueId: 0, jobId: 0, principalId: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10730,7 +5418,7 @@ export const disassociateMemberFromJob: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateMemberFromJob",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type DisassociateMemberFromQueueError =
   | AccessDeniedException
@@ -10749,8 +5437,11 @@ export const disassociateMemberFromQueue: API.OperationMethod<
   DisassociateMemberFromQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateMemberFromQueueRequest,
-  output: DisassociateMemberFromQueueResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/farms/{farmId}/queues/{queueId}/members/{principalId}",
+    input: { farmId: 0, queueId: 0, principalId: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10763,7 +5454,7 @@ export const disassociateMemberFromQueue: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateMemberFromQueue",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetBudgetError =
   | AccessDeniedException
@@ -10781,8 +5472,19 @@ export const getBudget: API.OperationMethod<
   GetBudgetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBudgetRequest,
-  output: GetBudgetResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/budgets/{budgetId}",
+    input: { farmId: 0, budgetId: 0 },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      description: D.secret,
+      actions: D.list({ description: D.secret }),
+      schedule: { fixed: { startTime: D.ts, endTime: D.ts } },
+      queueStoppedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10794,7 +5496,7 @@ export const getBudget: API.OperationMethod<
   retry: Retry,
   operationName: "GetBudget",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetFarmError =
   | AccessDeniedException
@@ -10812,8 +5514,12 @@ export const getFarm: API.OperationMethod<
   GetFarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetFarmRequest,
-  output: GetFarmResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}",
+    input: { farmId: 0 },
+    output: { createdAt: D.ts, updatedAt: D.ts, description: D.secret },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10825,7 +5531,7 @@ export const getFarm: API.OperationMethod<
   retry: Retry,
   operationName: "GetFarm",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetFleetError =
   | AccessDeniedException
@@ -10843,8 +5549,17 @@ export const getFleet: API.OperationMethod<
   GetFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetFleetRequest,
-  output: GetFleetResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/fleets/{fleetId}",
+    input: { farmId: 0, fleetId: 0 },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      description: D.secret,
+      hostConfiguration: o_HostConfiguration,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10856,7 +5571,7 @@ export const getFleet: API.OperationMethod<
   retry: Retry,
   operationName: "GetFleet",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetJobError =
   | AccessDeniedException
@@ -10874,8 +5589,18 @@ export const getJob: API.OperationMethod<
   GetJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetJobRequest,
-  output: GetJobResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}",
+    input: { farmId: 0, queueId: 0, jobId: 0 },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      startedAt: D.ts,
+      endedAt: D.ts,
+      description: D.secret,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10887,7 +5612,7 @@ export const getJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetJob",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetLicenseEndpointError =
   | AccessDeniedException
@@ -10905,8 +5630,11 @@ export const getLicenseEndpoint: API.OperationMethod<
   GetLicenseEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLicenseEndpointRequest,
-  output: GetLicenseEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/license-endpoints/{licenseEndpointId}",
+    input: { licenseEndpointId: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10918,7 +5646,7 @@ export const getLicenseEndpoint: API.OperationMethod<
   retry: Retry,
   operationName: "GetLicenseEndpoint",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetLimitError =
   | AccessDeniedException
@@ -10936,8 +5664,12 @@ export const getLimit: API.OperationMethod<
   GetLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLimitRequest,
-  output: GetLimitResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/limits/{limitId}",
+    input: { farmId: 0, limitId: 0 },
+    output: { createdAt: D.ts, updatedAt: D.ts, description: D.secret },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10949,7 +5681,7 @@ export const getLimit: API.OperationMethod<
   retry: Retry,
   operationName: "GetLimit",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetMonitorError =
   | AccessDeniedException
@@ -10967,8 +5699,12 @@ export const getMonitor: API.OperationMethod<
   GetMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMonitorRequest,
-  output: GetMonitorResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/monitors/{monitorId}",
+    input: { monitorId: 0 },
+    output: { createdAt: D.ts, updatedAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -10980,7 +5716,7 @@ export const getMonitor: API.OperationMethod<
   retry: Retry,
   operationName: "GetMonitor",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetMonitorSettingsError =
   | AccessDeniedException
@@ -10998,8 +5734,11 @@ export const getMonitorSettings: API.OperationMethod<
   GetMonitorSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMonitorSettingsRequest,
-  output: GetMonitorSettingsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/monitors/{monitorId}/settings",
+    input: { monitorId: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11011,7 +5750,7 @@ export const getMonitorSettings: API.OperationMethod<
   retry: Retry,
   operationName: "GetMonitorSettings",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetQueueError =
   | AccessDeniedException
@@ -11029,8 +5768,12 @@ export const getQueue: API.OperationMethod<
   GetQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetQueueRequest,
-  output: GetQueueResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}",
+    input: { farmId: 0, queueId: 0 },
+    output: { createdAt: D.ts, updatedAt: D.ts, description: D.secret },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11042,7 +5785,7 @@ export const getQueue: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueue",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetQueueEnvironmentError =
   | AccessDeniedException
@@ -11060,8 +5803,12 @@ export const getQueueEnvironment: API.OperationMethod<
   GetQueueEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetQueueEnvironmentRequest,
-  output: GetQueueEnvironmentResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/environments/{queueEnvironmentId}",
+    input: { farmId: 0, queueId: 0, queueEnvironmentId: 0 },
+    output: { template: D.secret, createdAt: D.ts, updatedAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11073,7 +5820,7 @@ export const getQueueEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueueEnvironment",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetQueueFleetAssociationError =
   | AccessDeniedException
@@ -11091,8 +5838,12 @@ export const getQueueFleetAssociation: API.OperationMethod<
   GetQueueFleetAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetQueueFleetAssociationRequest,
-  output: GetQueueFleetAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queue-fleet-associations/{queueId}/{fleetId}",
+    input: { farmId: 0, queueId: 0, fleetId: 0 },
+    output: { createdAt: D.ts, updatedAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11104,7 +5855,7 @@ export const getQueueFleetAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueueFleetAssociation",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetQueueLimitAssociationError =
   | AccessDeniedException
@@ -11122,8 +5873,12 @@ export const getQueueLimitAssociation: API.OperationMethod<
   GetQueueLimitAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetQueueLimitAssociationRequest,
-  output: GetQueueLimitAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queue-limit-associations/{queueId}/{limitId}",
+    input: { farmId: 0, queueId: 0, limitId: 0 },
+    output: { createdAt: D.ts, updatedAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11135,7 +5890,7 @@ export const getQueueLimitAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueueLimitAssociation",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetSessionError =
   | AccessDeniedException
@@ -11153,8 +5908,12 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSessionRequest,
-  output: GetSessionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/sessions/{sessionId}",
+    input: { farmId: 0, queueId: 0, jobId: 0, sessionId: 0 },
+    output: { startedAt: D.ts, endedAt: D.ts, updatedAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11166,7 +5925,7 @@ export const getSession: API.OperationMethod<
   retry: Retry,
   operationName: "GetSession",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetSessionActionError =
   | AccessDeniedException
@@ -11184,8 +5943,17 @@ export const getSessionAction: API.OperationMethod<
   GetSessionActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSessionActionRequest,
-  output: GetSessionActionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/session-actions/{sessionActionId}",
+    input: { farmId: 0, queueId: 0, jobId: 0, sessionActionId: 0 },
+    output: {
+      startedAt: D.ts,
+      endedAt: D.ts,
+      workerUpdatedAt: D.ts,
+      progressMessage: D.secret,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11197,7 +5965,7 @@ export const getSessionAction: API.OperationMethod<
   retry: Retry,
   operationName: "GetSessionAction",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetSessionsStatisticsAggregationError =
   | AccessDeniedException
@@ -11216,8 +5984,22 @@ export const getSessionsStatisticsAggregation: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Statistics
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetSessionsStatisticsAggregationRequest,
-  output: GetSessionsStatisticsAggregationResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/sessions-statistics-aggregation",
+    input: {
+      farmId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      aggregationId: D.m({ query: "aggregationId" }),
+    },
+    output: {
+      statistics: D.list({
+        aggregationStartTime: D.ts,
+        aggregationEndTime: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11253,8 +6035,18 @@ export const getStep: API.OperationMethod<
   GetStepError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetStepRequest,
-  output: GetStepResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/steps/{stepId}",
+    input: { farmId: 0, queueId: 0, jobId: 0, stepId: 0 },
+    output: {
+      createdAt: D.ts,
+      updatedAt: D.ts,
+      startedAt: D.ts,
+      endedAt: D.ts,
+      description: D.secret,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11266,7 +6058,7 @@ export const getStep: API.OperationMethod<
   retry: Retry,
   operationName: "GetStep",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetStorageProfileError =
   | AccessDeniedException
@@ -11284,8 +6076,12 @@ export const getStorageProfile: API.OperationMethod<
   GetStorageProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetStorageProfileRequest,
-  output: GetStorageProfileResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/storage-profiles/{storageProfileId}",
+    input: { farmId: 0, storageProfileId: 0 },
+    output: { createdAt: D.ts, updatedAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11297,7 +6093,7 @@ export const getStorageProfile: API.OperationMethod<
   retry: Retry,
   operationName: "GetStorageProfile",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetStorageProfileForQueueError =
   | AccessDeniedException
@@ -11315,8 +6111,11 @@ export const getStorageProfileForQueue: API.OperationMethod<
   GetStorageProfileForQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetStorageProfileForQueueRequest,
-  output: GetStorageProfileForQueueResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/storage-profiles/{storageProfileId}",
+    input: { farmId: 0, queueId: 0, storageProfileId: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11328,7 +6127,7 @@ export const getStorageProfileForQueue: API.OperationMethod<
   retry: Retry,
   operationName: "GetStorageProfileForQueue",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetTaskError =
   | AccessDeniedException
@@ -11346,8 +6145,17 @@ export const getTask: API.OperationMethod<
   GetTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTaskRequest,
-  output: GetTaskResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/steps/{stepId}/tasks/{taskId}",
+    input: { farmId: 0, queueId: 0, jobId: 0, stepId: 0, taskId: 0 },
+    output: {
+      createdAt: D.ts,
+      startedAt: D.ts,
+      endedAt: D.ts,
+      updatedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11359,7 +6167,7 @@ export const getTask: API.OperationMethod<
   retry: Retry,
   operationName: "GetTask",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetVolumeError =
   | AccessDeniedException
@@ -11377,8 +6185,17 @@ export const getVolume: API.OperationMethod<
   GetVolumeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetVolumeRequest,
-  output: GetVolumeResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/fleets/{fleetId}/volumes/{volumeId}",
+    input: { farmId: 0, fleetId: 0, volumeId: 0 },
+    output: {
+      createdAt: D.ts,
+      lastAssignedAt: D.ts,
+      lastReleasedAt: D.ts,
+      expiresAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11390,7 +6207,7 @@ export const getVolume: API.OperationMethod<
   retry: Retry,
   operationName: "GetVolume",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type GetWorkerError =
   | AccessDeniedException
@@ -11408,8 +6225,12 @@ export const getWorker: API.OperationMethod<
   GetWorkerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetWorkerRequest,
-  output: GetWorkerResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/fleets/{fleetId}/workers/{workerId}",
+    input: { farmId: 0, fleetId: 0, workerId: 0 },
+    output: { createdAt: D.ts, updatedAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11421,7 +6242,7 @@ export const getWorker: API.OperationMethod<
   retry: Retry,
   operationName: "GetWorker",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type ListAvailableMeteredProductsError =
   | InternalServerErrorException
@@ -11437,8 +6258,14 @@ export const listAvailableMeteredProducts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MeteredProductSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAvailableMeteredProductsRequest,
-  output: ListAvailableMeteredProductsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/metered-products",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [InternalServerErrorException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11469,8 +6296,23 @@ export const listBudgets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BudgetSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListBudgetsRequest,
-  output: ListBudgetsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/budgets",
+    input: {
+      farmId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      status: D.m({ query: "status" }),
+    },
+    output: {
+      budgets: D.list({
+        createdAt: D.ts,
+        updatedAt: D.ts,
+        description: D.secret,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11507,8 +6349,15 @@ export const listFarmMembers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FarmMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFarmMembersRequest,
-  output: ListFarmMembersResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/members",
+    input: {
+      farmId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11544,8 +6393,16 @@ export const listFarms: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FarmSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFarmsRequest,
-  output: ListFarmsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      principalId: D.m({ query: "principalId" }),
+    },
+    output: { farms: D.list({ createdAt: D.ts, updatedAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11581,8 +6438,16 @@ export const listFleetMembers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FleetMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFleetMembersRequest,
-  output: ListFleetMembersResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/fleets/{fleetId}/members",
+    input: {
+      farmId: 0,
+      fleetId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11619,8 +6484,19 @@ export const listFleets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FleetSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFleetsRequest,
-  output: ListFleetsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/fleets",
+    input: {
+      farmId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      principalId: D.m({ query: "principalId" }),
+      displayName: D.m({ query: "displayName" }),
+      status: D.m({ query: "status" }),
+    },
+    output: { fleets: D.list({ createdAt: D.ts, updatedAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11657,8 +6533,17 @@ export const listJobMembers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   JobMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListJobMembersRequest,
-  output: ListJobMembersResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/members",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      jobId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11695,8 +6580,17 @@ export const listJobParameterDefinitions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListJobParameterDefinitionsRequest,
-  output: ListJobParameterDefinitionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/parameter-definitions",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      jobId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11733,8 +6627,25 @@ export const listJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   JobSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListJobsRequest,
-  output: ListJobsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/jobs",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      principalId: D.m({ query: "principalId" }),
+    },
+    output: {
+      jobs: D.list({
+        createdAt: D.ts,
+        updatedAt: D.ts,
+        startedAt: D.ts,
+        endedAt: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11771,8 +6682,14 @@ export const listLicenseEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LicenseEndpointSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListLicenseEndpointsRequest,
-  output: ListLicenseEndpointsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/license-endpoints",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11809,8 +6726,16 @@ export const listLimits: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LimitSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListLimitsRequest,
-  output: ListLimitsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/limits",
+    input: {
+      farmId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { limits: D.list({ createdAt: D.ts, updatedAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11847,8 +6772,15 @@ export const listMeteredProducts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MeteredProductSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListMeteredProductsRequest,
-  output: ListMeteredProductsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/license-endpoints/{licenseEndpointId}/metered-products",
+    input: {
+      licenseEndpointId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11884,8 +6816,15 @@ export const listMonitors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MonitorSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListMonitorsRequest,
-  output: ListMonitorsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/monitors",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { monitors: D.list({ createdAt: D.ts, updatedAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11921,8 +6860,16 @@ export const listQueueEnvironments: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   QueueEnvironmentSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListQueueEnvironmentsRequest,
-  output: ListQueueEnvironmentsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/environments",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11958,8 +6905,20 @@ export const listQueueFleetAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   QueueFleetAssociationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListQueueFleetAssociationsRequest,
-  output: ListQueueFleetAssociationsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queue-fleet-associations",
+    input: {
+      farmId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      queueId: D.m({ query: "queueId" }),
+      fleetId: D.m({ query: "fleetId" }),
+    },
+    output: {
+      queueFleetAssociations: D.list({ createdAt: D.ts, updatedAt: D.ts }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -11994,8 +6953,20 @@ export const listQueueLimitAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   QueueLimitAssociationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListQueueLimitAssociationsRequest,
-  output: ListQueueLimitAssociationsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queue-limit-associations",
+    input: {
+      farmId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      queueId: D.m({ query: "queueId" }),
+      limitId: D.m({ query: "limitId" }),
+    },
+    output: {
+      queueLimitAssociations: D.list({ createdAt: D.ts, updatedAt: D.ts }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12031,8 +7002,16 @@ export const listQueueMembers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   QueueMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListQueueMembersRequest,
-  output: ListQueueMembersResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/members",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12069,8 +7048,18 @@ export const listQueues: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   QueueSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListQueuesRequest,
-  output: ListQueuesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues",
+    input: {
+      farmId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      principalId: D.m({ query: "principalId" }),
+      status: D.m({ query: "status" }),
+    },
+    output: { queues: D.list({ createdAt: D.ts, updatedAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12107,8 +7096,26 @@ export const listSessionActions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SessionActionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSessionActionsRequest,
-  output: ListSessionActionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/session-actions",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      jobId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+      sessionId: D.m({ query: "sessionId" }),
+      taskId: D.m({ query: "taskId" }),
+    },
+    output: {
+      sessionActions: D.list({
+        startedAt: D.ts,
+        endedAt: D.ts,
+        workerUpdatedAt: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12145,8 +7152,20 @@ export const listSessions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SessionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSessionsRequest,
-  output: ListSessionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/sessions",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      jobId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: {
+      sessions: D.list({ startedAt: D.ts, endedAt: D.ts, updatedAt: D.ts }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12183,8 +7202,18 @@ export const listSessionsForWorker: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   WorkerSessionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSessionsForWorkerRequest,
-  output: ListSessionsForWorkerResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/fleets/{fleetId}/workers/{workerId}/sessions",
+    input: {
+      farmId: 0,
+      fleetId: 0,
+      workerId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { sessions: D.list({ startedAt: D.ts, endedAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12221,8 +7250,18 @@ export const listStepConsumers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   StepConsumer
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStepConsumersRequest,
-  output: ListStepConsumersResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/steps/{stepId}/consumers",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      jobId: 0,
+      stepId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12259,8 +7298,18 @@ export const listStepDependencies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   StepDependency
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStepDependenciesRequest,
-  output: ListStepDependenciesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/steps/{stepId}/dependencies",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      jobId: 0,
+      stepId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12297,8 +7346,25 @@ export const listSteps: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   StepSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStepsRequest,
-  output: ListStepsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/steps",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      jobId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: {
+      steps: D.list({
+        createdAt: D.ts,
+        updatedAt: D.ts,
+        startedAt: D.ts,
+        endedAt: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12335,8 +7401,15 @@ export const listStorageProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   StorageProfileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStorageProfilesRequest,
-  output: ListStorageProfilesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/storage-profiles",
+    input: {
+      farmId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12373,8 +7446,16 @@ export const listStorageProfilesForQueue: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   StorageProfileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStorageProfilesForQueueRequest,
-  output: ListStorageProfilesForQueueResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/storage-profiles",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12410,8 +7491,11 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/tags/{resourceArn}",
+    input: { resourceArn: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12423,7 +7507,7 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type ListTasksError =
   | AccessDeniedException
@@ -12442,8 +7526,26 @@ export const listTasks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TaskSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTasksRequest,
-  output: ListTasksResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/steps/{stepId}/tasks",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      jobId: 0,
+      stepId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: {
+      tasks: D.list({
+        createdAt: D.ts,
+        startedAt: D.ts,
+        endedAt: D.ts,
+        updatedAt: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12480,8 +7582,16 @@ export const listVolumes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   VolumeSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListVolumesRequest,
-  output: ListVolumesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/fleets/{fleetId}/volumes",
+    input: {
+      farmId: 0,
+      fleetId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12518,8 +7628,17 @@ export const listWorkers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   WorkerSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListWorkersRequest,
-  output: ListWorkersResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /2023-10-12/farms/{farmId}/fleets/{fleetId}/workers",
+    input: {
+      farmId: 0,
+      fleetId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+    output: { workers: D.list({ createdAt: D.ts, updatedAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12555,8 +7674,11 @@ export const putMeteredProduct: API.OperationMethod<
   PutMeteredProductError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutMeteredProductRequest,
-  output: PutMeteredProductResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /2023-10-12/license-endpoints/{licenseEndpointId}/metered-products/{productId}",
+    input: { licenseEndpointId: 0, productId: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12568,7 +7690,7 @@ export const putMeteredProduct: API.OperationMethod<
   retry: Retry,
   operationName: "PutMeteredProduct",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type SearchJobsError =
   | AccessDeniedException
@@ -12586,8 +7708,27 @@ export const searchJobs: API.OperationMethod<
   SearchJobsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SearchJobsRequest,
-  output: SearchJobsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/farms/{farmId}/search/jobs",
+    input: {
+      farmId: 0,
+      filterExpressions: i_SearchGroupedFilterExpressions,
+      sortExpressions: D.list(i_SearchSortExpression),
+      itemOffset: 0,
+      pageSize: 0,
+      queueIds: 0,
+    },
+    output: {
+      jobs: D.list({
+        createdAt: D.ts,
+        endedAt: D.ts,
+        startedAt: D.ts,
+        updatedAt: D.ts,
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12599,7 +7740,7 @@ export const searchJobs: API.OperationMethod<
   retry: Retry,
   operationName: "SearchJobs",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type SearchStepsError =
   | AccessDeniedException
@@ -12617,8 +7758,28 @@ export const searchSteps: API.OperationMethod<
   SearchStepsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SearchStepsRequest,
-  output: SearchStepsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/farms/{farmId}/search/steps",
+    input: {
+      farmId: 0,
+      filterExpressions: i_SearchGroupedFilterExpressions,
+      sortExpressions: D.list(i_SearchSortExpression),
+      itemOffset: 0,
+      pageSize: 0,
+      queueIds: 0,
+      jobId: 0,
+    },
+    output: {
+      steps: D.list({
+        createdAt: D.ts,
+        startedAt: D.ts,
+        endedAt: D.ts,
+        updatedAt: D.ts,
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12630,7 +7791,7 @@ export const searchSteps: API.OperationMethod<
   retry: Retry,
   operationName: "SearchSteps",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type SearchTasksError =
   | AccessDeniedException
@@ -12648,8 +7809,23 @@ export const searchTasks: API.OperationMethod<
   SearchTasksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SearchTasksRequest,
-  output: SearchTasksResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/farms/{farmId}/search/tasks",
+    input: {
+      farmId: 0,
+      filterExpressions: i_SearchGroupedFilterExpressions,
+      sortExpressions: D.list(i_SearchSortExpression),
+      itemOffset: 0,
+      pageSize: 0,
+      queueIds: 0,
+      jobId: 0,
+    },
+    output: {
+      tasks: D.list({ startedAt: D.ts, endedAt: D.ts, updatedAt: D.ts }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12661,7 +7837,7 @@ export const searchTasks: API.OperationMethod<
   retry: Retry,
   operationName: "SearchTasks",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type SearchWorkersError =
   | AccessDeniedException
@@ -12679,8 +7855,20 @@ export const searchWorkers: API.OperationMethod<
   SearchWorkersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SearchWorkersRequest,
-  output: SearchWorkersResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/farms/{farmId}/search/workers",
+    input: {
+      farmId: 0,
+      filterExpressions: i_SearchGroupedFilterExpressions,
+      sortExpressions: D.list(i_SearchSortExpression),
+      itemOffset: 0,
+      pageSize: 0,
+      fleetIds: 0,
+    },
+    output: { workers: D.list({ createdAt: D.ts, updatedAt: D.ts }) },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12692,7 +7880,7 @@ export const searchWorkers: API.OperationMethod<
   retry: Retry,
   operationName: "SearchWorkers",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type StartSessionsStatisticsAggregationError =
   | AccessDeniedException
@@ -12710,8 +7898,21 @@ export const startSessionsStatisticsAggregation: API.OperationMethod<
   StartSessionsStatisticsAggregationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartSessionsStatisticsAggregationRequest,
-  output: StartSessionsStatisticsAggregationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/farms/{farmId}/sessions-statistics-aggregation",
+    input: {
+      farmId: 0,
+      resourceIds: { queueIds: 0, fleetIds: 0 },
+      startTime: D.tsAs("date-time"),
+      endTime: D.tsAs("date-time"),
+      timezone: 0,
+      period: 0,
+      groupBy: 0,
+      statistics: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12723,7 +7924,7 @@ export const startSessionsStatisticsAggregation: API.OperationMethod<
   retry: Retry,
   operationName: "StartSessionsStatisticsAggregation",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type TagResourceError =
   | AccessDeniedException
@@ -12742,8 +7943,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /2023-10-12/tags/{resourceArn}",
+    input: { resourceArn: 0, tags: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12756,7 +7961,7 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UntagResourceError =
   | AccessDeniedException
@@ -12775,8 +7980,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /2023-10-12/tags/{resourceArn}",
+    input: { resourceArn: 0, tagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12789,7 +7997,7 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UpdateBudgetError =
   | AccessDeniedException
@@ -12809,8 +8017,23 @@ export const updateBudget: API.OperationMethod<
   UpdateBudgetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateBudgetRequest,
-  output: UpdateBudgetResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/farms/{farmId}/budgets/{budgetId}",
+    input: {
+      farmId: 0,
+      budgetId: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      displayName: 0,
+      description: 0,
+      status: 0,
+      approximateDollarLimit: 0,
+      actionsToAdd: D.list(i_BudgetActionToAdd),
+      actionsToRemove: D.list({ type: 0, thresholdPercentage: 0 }),
+      schedule: i_BudgetSchedule,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12824,7 +8047,7 @@ export const updateBudget: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateBudget",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UpdateFarmError =
   | AccessDeniedException
@@ -12843,8 +8066,12 @@ export const updateFarm: API.OperationMethod<
   UpdateFarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFarmRequest,
-  output: UpdateFarmResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/farms/{farmId}",
+    input: { farmId: 0, displayName: 0, description: 0, costScaleFactor: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12857,7 +8084,7 @@ export const updateFarm: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateFarm",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UpdateFleetError =
   | AccessDeniedException
@@ -12876,8 +8103,23 @@ export const updateFleet: API.OperationMethod<
   UpdateFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFleetRequest,
-  output: UpdateFleetResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/farms/{farmId}/fleets/{fleetId}",
+    input: {
+      farmId: 0,
+      fleetId: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      displayName: 0,
+      description: 0,
+      roleArn: 0,
+      minWorkerCount: 0,
+      maxWorkerCount: 0,
+      configuration: i_FleetConfiguration,
+      hostConfiguration: i_HostConfiguration,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12890,7 +8132,7 @@ export const updateFleet: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateFleet",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UpdateJobError =
   | AccessDeniedException
@@ -12913,8 +8155,25 @@ export const updateJob: API.OperationMethod<
   UpdateJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateJobRequest,
-  output: UpdateJobResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      jobId: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      targetTaskRunStatus: 0,
+      priority: 0,
+      maxFailedTasksCount: 0,
+      maxRetriesPerTask: 0,
+      lifecycleStatus: 0,
+      maxWorkerCount: 0,
+      name: 0,
+      description: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12927,7 +8186,7 @@ export const updateJob: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateJob",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UpdateLimitError =
   | AccessDeniedException
@@ -12945,8 +8204,18 @@ export const updateLimit: API.OperationMethod<
   UpdateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateLimitRequest,
-  output: UpdateLimitResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/farms/{farmId}/limits/{limitId}",
+    input: {
+      farmId: 0,
+      limitId: 0,
+      displayName: 0,
+      description: 0,
+      maxCount: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12958,7 +8227,7 @@ export const updateLimit: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateLimit",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UpdateMonitorError =
   | AccessDeniedException
@@ -12977,8 +8246,12 @@ export const updateMonitor: API.OperationMethod<
   UpdateMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateMonitorRequest,
-  output: UpdateMonitorResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/monitors/{monitorId}",
+    input: { monitorId: 0, subdomain: 0, displayName: 0, roleArn: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -12991,7 +8264,7 @@ export const updateMonitor: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateMonitor",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UpdateMonitorSettingsError =
   | AccessDeniedException
@@ -13009,8 +8282,12 @@ export const updateMonitorSettings: API.OperationMethod<
   UpdateMonitorSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateMonitorSettingsRequest,
-  output: UpdateMonitorSettingsResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/monitors/{monitorId}/settings",
+    input: { monitorId: 0, settings: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -13022,7 +8299,7 @@ export const updateMonitorSettings: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateMonitorSettings",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UpdateQueueError =
   | AccessDeniedException
@@ -13040,8 +8317,27 @@ export const updateQueue: API.OperationMethod<
   UpdateQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateQueueRequest,
-  output: UpdateQueueResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/farms/{farmId}/queues/{queueId}",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      displayName: 0,
+      description: 0,
+      defaultBudgetAction: 0,
+      jobAttachmentSettings: i_JobAttachmentSettings,
+      roleArn: 0,
+      jobRunAsUser: i_JobRunAsUser,
+      requiredFileSystemLocationNamesToAdd: 0,
+      requiredFileSystemLocationNamesToRemove: 0,
+      allowedStorageProfileIdsToAdd: 0,
+      allowedStorageProfileIdsToRemove: 0,
+      schedulingConfiguration: i_SchedulingConfiguration,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -13053,7 +8349,7 @@ export const updateQueue: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateQueue",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UpdateQueueEnvironmentError =
   | AccessDeniedException
@@ -13071,8 +8367,20 @@ export const updateQueueEnvironment: API.OperationMethod<
   UpdateQueueEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateQueueEnvironmentRequest,
-  output: UpdateQueueEnvironmentResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/farms/{farmId}/queues/{queueId}/environments/{queueEnvironmentId}",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      queueEnvironmentId: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      priority: 0,
+      templateType: 0,
+      template: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -13084,7 +8392,7 @@ export const updateQueueEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateQueueEnvironment",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UpdateQueueFleetAssociationError =
   | AccessDeniedException
@@ -13102,8 +8410,12 @@ export const updateQueueFleetAssociation: API.OperationMethod<
   UpdateQueueFleetAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateQueueFleetAssociationRequest,
-  output: UpdateQueueFleetAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/farms/{farmId}/queue-fleet-associations/{queueId}/{fleetId}",
+    input: { farmId: 0, queueId: 0, fleetId: 0, status: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -13115,7 +8427,7 @@ export const updateQueueFleetAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateQueueFleetAssociation",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UpdateQueueLimitAssociationError =
   | AccessDeniedException
@@ -13133,8 +8445,12 @@ export const updateQueueLimitAssociation: API.OperationMethod<
   UpdateQueueLimitAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateQueueLimitAssociationRequest,
-  output: UpdateQueueLimitAssociationResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/farms/{farmId}/queue-limit-associations/{queueId}/{limitId}",
+    input: { farmId: 0, queueId: 0, limitId: 0, status: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -13146,7 +8462,7 @@ export const updateQueueLimitAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateQueueLimitAssociation",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UpdateSessionError =
   | AccessDeniedException
@@ -13165,8 +8481,19 @@ export const updateSession: API.OperationMethod<
   UpdateSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSessionRequest,
-  output: UpdateSessionResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/sessions/{sessionId}",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      jobId: 0,
+      sessionId: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      targetLifecycleStatus: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13179,7 +8506,7 @@ export const updateSession: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateSession",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UpdateStepError =
   | AccessDeniedException
@@ -13198,8 +8525,19 @@ export const updateStep: API.OperationMethod<
   UpdateStepError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateStepRequest,
-  output: UpdateStepResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/steps/{stepId}",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      jobId: 0,
+      stepId: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      targetTaskRunStatus: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13212,7 +8550,7 @@ export const updateStep: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateStep",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UpdateStorageProfileError =
   | AccessDeniedException
@@ -13231,8 +8569,20 @@ export const updateStorageProfile: API.OperationMethod<
   UpdateStorageProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateStorageProfileRequest,
-  output: UpdateStorageProfileResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/farms/{farmId}/storage-profiles/{storageProfileId}",
+    input: {
+      farmId: 0,
+      storageProfileId: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      displayName: 0,
+      osFamily: 0,
+      fileSystemLocationsToAdd: D.list(i_FileSystemLocation),
+      fileSystemLocationsToRemove: D.list(i_FileSystemLocation),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -13245,7 +8595,7 @@ export const updateStorageProfile: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateStorageProfile",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UpdateTaskError =
   | AccessDeniedException
@@ -13264,8 +8614,20 @@ export const updateTask: API.OperationMethod<
   UpdateTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateTaskRequest,
-  output: UpdateTaskResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/steps/{stepId}/tasks/{taskId}",
+    input: {
+      farmId: 0,
+      queueId: 0,
+      jobId: 0,
+      stepId: 0,
+      taskId: 0,
+      clientToken: D.m({ header: "X-Amz-Client-Token", idempotency: true }),
+      targetRunStatus: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13278,7 +8640,7 @@ export const updateTask: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateTask",
   endpointHostPrefix: "management.",
-}));
+})) as any;
 
 export type UpdateWorkerError =
   | AccessDeniedException
@@ -13297,8 +8659,23 @@ export const updateWorker: API.OperationMethod<
   UpdateWorkerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateWorkerRequest,
-  output: UpdateWorkerResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/farms/{farmId}/fleets/{fleetId}/workers/{workerId}",
+    input: {
+      farmId: 0,
+      fleetId: 0,
+      workerId: 0,
+      status: 0,
+      capabilities: {
+        amounts: D.list({ name: 0, value: 0 }),
+        attributes: D.list({ name: 0, values: 0 }),
+      },
+      hostProperties: i_HostPropertiesRequest,
+    },
+    output: { hostConfiguration: o_HostConfiguration },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13311,7 +8688,7 @@ export const updateWorker: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorker",
   endpointHostPrefix: "scheduling.",
-}));
+})) as any;
 
 export type UpdateWorkerScheduleError =
   | AccessDeniedException
@@ -13330,8 +8707,26 @@ export const updateWorkerSchedule: API.OperationMethod<
   UpdateWorkerScheduleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateWorkerScheduleRequest,
-  output: UpdateWorkerScheduleResponse,
+  descriptor: {
+    service: svc,
+    http: "PATCH /2023-10-12/farms/{farmId}/fleets/{fleetId}/workers/{workerId}/schedule",
+    input: {
+      farmId: 0,
+      fleetId: 0,
+      workerId: 0,
+      updatedSessionActions: D.map({
+        completedStatus: 0,
+        processExitCode: 0,
+        progressMessage: 0,
+        startedAt: D.tsAs("date-time"),
+        endedAt: D.tsAs("date-time"),
+        updatedAt: D.tsAs("date-time"),
+        progressPercent: 0,
+        manifests: D.list({ outputManifestPath: 0, outputManifestHash: 0 }),
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -13344,4 +8739,135 @@ export const updateWorkerSchedule: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorkerSchedule",
   endpointHostPrefix: "scheduling.",
-}));
+})) as any;
+
+const i_BudgetActionToAdd: D.LazyStruct = () => ({
+  type: 0,
+  thresholdPercentage: 0,
+  description: 0,
+});
+const i_BudgetSchedule: D.LazyStruct = () => ({
+  fixed: { startTime: D.tsAs("date-time"), endTime: D.tsAs("date-time") },
+});
+const i_FileSystemLocation: D.LazyStruct = () => ({
+  name: 0,
+  path: 0,
+  type: 0,
+});
+const i_FleetConfiguration: D.LazyStruct = () => ({
+  customerManaged: {
+    mode: 0,
+    autoScalingConfiguration: {
+      standbyWorkerCount: 0,
+      workerIdleDurationSeconds: 0,
+      scaleOutWorkersPerMinute: 0,
+    },
+    workerCapabilities: {
+      vCpuCount: i_VCpuCountRange,
+      memoryMiB: i_MemoryMiBRange,
+      acceleratorTypes: 0,
+      acceleratorCount: i_AcceleratorCountRange,
+      acceleratorTotalMemoryMiB: { min: 0, max: 0 },
+      osFamily: 0,
+      cpuArchitectureType: 0,
+      customAmounts: D.list(i_FleetAmountCapability),
+      customAttributes: D.list(i_FleetAttributeCapability),
+    },
+    storageProfileId: 0,
+    tagPropagationMode: 0,
+  },
+  serviceManagedEc2: {
+    instanceCapabilities: {
+      vCpuCount: i_VCpuCountRange,
+      memoryMiB: i_MemoryMiBRange,
+      osFamily: 0,
+      cpuArchitectureType: 0,
+      rootEbsVolume: { sizeGiB: 0, iops: 0, throughputMiB: 0 },
+      acceleratorCapabilities: {
+        selections: D.list({ name: 0, runtime: 0 }),
+        count: i_AcceleratorCountRange,
+      },
+      allowedInstanceTypes: 0,
+      excludedInstanceTypes: 0,
+      customAmounts: D.list(i_FleetAmountCapability),
+      customAttributes: D.list(i_FleetAttributeCapability),
+    },
+    instanceMarketOptions: { type: 0 },
+    vpcConfiguration: { resourceConfigurationArns: 0 },
+    storageProfileId: 0,
+    persistentVolumeConfiguration: {
+      sizeGiB: 0,
+      iops: 0,
+      throughputMiB: 0,
+      mountPath: 0,
+      lastUsedTtlHours: 0,
+    },
+    autoScalingConfiguration: {
+      standbyWorkerCount: 0,
+      workerIdleDurationSeconds: 0,
+      scaleOutWorkersPerMinute: 0,
+    },
+  },
+});
+const i_HostConfiguration: D.LazyStruct = () => ({
+  scriptBody: 0,
+  scriptTimeoutSeconds: 0,
+});
+const i_HostPropertiesRequest: D.LazyStruct = () => ({
+  ipAddresses: { ipV4Addresses: 0, ipV6Addresses: 0 },
+  hostName: 0,
+});
+const i_JobAttachmentSettings: D.LazyStruct = () => ({
+  s3BucketName: 0,
+  rootPrefix: 0,
+});
+const i_JobRunAsUser: D.LazyStruct = () => ({
+  posix: { user: 0, group: 0 },
+  windows: { user: 0, passwordArn: 0 },
+  runAs: 0,
+});
+const i_SchedulingConfiguration: D.LazyStruct = () => ({
+  priorityFifo: {},
+  priorityBalanced: { renderingTaskBuffer: 0 },
+  weightedBalanced: {
+    priorityWeight: 0,
+    errorWeight: 0,
+    submissionTimeWeight: 0,
+    renderingTaskWeight: 0,
+    renderingTaskBuffer: 0,
+    maxPriorityOverride: { alwaysScheduleFirst: {} },
+    minPriorityOverride: { alwaysScheduleLast: {} },
+  },
+});
+const i_SearchGroupedFilterExpressions: D.LazyStruct = () => ({
+  filters: D.list({
+    dateTimeFilter: { name: 0, operator: 0, dateTime: D.tsAs("date-time") },
+    parameterFilter: { name: 0, operator: 0, value: 0 },
+    searchTermFilter: { searchTerm: 0, matchType: 0 },
+    stringFilter: { name: 0, operator: 0, value: 0 },
+    stringListFilter: { name: 0, operator: 0, values: 0 },
+    groupFilter: i_SearchGroupedFilterExpressions,
+  }),
+  operator: 0,
+});
+const i_SearchSortExpression: D.LazyStruct = () => ({
+  userJobsFirst: { userIdentityId: 0 },
+  fieldSort: { sortOrder: 0, name: 0 },
+  parameterSort: { sortOrder: 0, name: 0 },
+});
+const o_AwsCredentials: D.LazyStruct = () => ({
+  accessKeyId: D.secret,
+  secretAccessKey: D.secret,
+  sessionToken: D.secret,
+  expiration: D.ts,
+});
+const o_HostConfiguration: D.LazyStruct = () => ({ scriptBody: D.secret });
+const i_AcceleratorCountRange: D.LazyStruct = () => ({ min: 0, max: 0 });
+const i_FleetAmountCapability: D.LazyStruct = () => ({
+  name: 0,
+  min: 0,
+  max: 0,
+});
+const i_FleetAttributeCapability: D.LazyStruct = () => ({ name: 0, values: 0 });
+const i_MemoryMiBRange: D.LazyStruct = () => ({ min: 0, max: 0 });
+const i_VCpuCountRange: D.LazyStruct = () => ({ min: 0, max: 0 });

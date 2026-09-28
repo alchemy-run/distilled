@@ -1,150 +1,132 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "MediaPackageV2",
-  serviceShapeName: "mediapackagev2",
-});
-const auth = T.AwsAuthSigv4({ name: "mediapackagev2" });
-const ver = T.ServiceVersion("2022-12-25");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://mediapackagev2-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://mediapackagev2-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://mediapackagev2.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://mediapackagev2.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "mediapackagev2",
+  version: "2022-12-25",
+  sigv4: "mediapackagev2",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://mediapackagev2-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://mediapackagev2-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://mediapackagev2.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://mediapackagev2.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ConflictExceptionType: S.optional(
-        S.suspend(() => ConflictExceptionType).annotate({
-          identifier: "ConflictExceptionType",
-        }),
-      ),
-    },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{
+    readonly message?: string;
+    readonly ConflictExceptionType?: ConflictExceptionType;
+  }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceTypeNotFound: S.optional(
-        S.suspend(() => ResourceTypeNotFound).annotate({
-          identifier: "ResourceTypeNotFound",
-        }),
-      ),
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{
+    readonly message?: string;
+    readonly ResourceTypeNotFound?: ResourceTypeNotFound;
+  }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{ readonly message?: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message?: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
-    "ValidationException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ValidationExceptionType: S.optional(
-        S.suspend(() => ValidationExceptionType).annotate({
-          identifier: "ValidationExceptionType",
-        }),
-      ),
-    },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("ValidationException")<{
+    readonly message?: string;
+    readonly ValidationExceptionType?: ValidationExceptionType;
+  }> {}
 export type ResourceName = string;
 export type EntityTag = string;
 export interface CancelHarvestJobRequest {
@@ -154,73 +136,24 @@ export interface CancelHarvestJobRequest {
   HarvestJobName: string;
   ETag?: string;
 }
-export const CancelHarvestJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
-    HarvestJobName: S.String.pipe(T.HttpLabel("HarvestJobName")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("x-amzn-update-if-match")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/harvestJob/{HarvestJobName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CancelHarvestJobRequest",
-}) as any as S.Schema<CancelHarvestJobRequest>;
 export interface CancelHarvestJobResponse {}
-export const CancelHarvestJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CancelHarvestJobResponse",
-}) as any as S.Schema<CancelHarvestJobResponse>;
 export type IdempotencyToken = string;
 export type InputType = "HLS" | "CMAF" | (string & {});
-export const InputType = S.String;
-
 export type ResourceDescription = string;
 export interface InputSwitchConfiguration {
   MQCSInputSwitching?: boolean;
   PreferredInput?: number;
 }
-export const InputSwitchConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MQCSInputSwitching: S.optional(S.Boolean),
-    PreferredInput: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "InputSwitchConfiguration",
-}) as any as S.Schema<InputSwitchConfiguration>;
 export interface OutputHeaderConfiguration {
   PublishMQCS?: boolean;
 }
-export const OutputHeaderConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PublishMQCS: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "OutputHeaderConfiguration",
-}) as any as S.Schema<OutputHeaderConfiguration>;
 export type OutputLockingMode =
   | "EPOCH_LOCKED"
   | "NON_EPOCH_LOCKED"
   | (string & {});
-export const OutputLockingMode = S.String;
-
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface CreateChannelRequest {
   ChannelGroupName: string;
   ChannelName: string;
@@ -232,47 +165,11 @@ export interface CreateChannelRequest {
   OutputLockingMode?: OutputLockingMode;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String,
-    ClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("x-amzn-client-token"),
-      T.IdempotencyToken(),
-    ),
-    InputType: S.optional(InputType),
-    Description: S.optional(S.String),
-    InputSwitchConfiguration: S.optional(InputSwitchConfiguration),
-    OutputHeaderConfiguration: S.optional(OutputHeaderConfiguration),
-    OutputLockingMode: S.optional(OutputLockingMode),
-    Tags: S.optional(TagMap),
-  })
-    .pipe(S.encodeKeys({ Tags: "tags" }))
-    .pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/channelGroup/{ChannelGroupName}/channel",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateChannelRequest",
-}) as any as S.Schema<CreateChannelRequest>;
 export interface IngestEndpoint {
   Id?: string;
   Url?: string;
 }
-export const IngestEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String), Url: S.optional(S.String) }),
-).annotate({ identifier: "IngestEndpoint" }) as any as S.Schema<IngestEndpoint>;
 export type IngestEndpointList = IngestEndpoint[];
-export const IngestEndpointList = /*@__PURE__*/ S.Array(IngestEndpoint);
 export interface CreateChannelResponse {
   Arn: string;
   ChannelName: string;
@@ -288,55 +185,12 @@ export interface CreateChannelResponse {
   OutputHeaderConfiguration?: OutputHeaderConfiguration;
   OutputLockingMode?: OutputLockingMode;
 }
-export const CreateChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    ChannelName: S.String,
-    ChannelGroupName: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Description: S.optional(S.String),
-    IngestEndpoints: S.optional(IngestEndpointList),
-    InputType: S.optional(InputType),
-    ETag: S.optional(S.String),
-    Tags: S.optional(TagMap),
-    InputSwitchConfiguration: S.optional(InputSwitchConfiguration),
-    OutputHeaderConfiguration: S.optional(OutputHeaderConfiguration),
-    OutputLockingMode: S.optional(OutputLockingMode),
-  }),
-).annotate({
-  identifier: "CreateChannelResponse",
-}) as any as S.Schema<CreateChannelResponse>;
 export interface CreateChannelGroupRequest {
   ChannelGroupName: string;
   ClientToken?: string;
   Description?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateChannelGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String,
-    ClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("x-amzn-client-token"),
-      T.IdempotencyToken(),
-    ),
-    Description: S.optional(S.String),
-    Tags: S.optional(TagMap),
-  })
-    .pipe(S.encodeKeys({ Tags: "tags" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/channelGroup" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateChannelGroupRequest",
-}) as any as S.Schema<CreateChannelGroupRequest>;
 export interface CreateChannelGroupResponse {
   ChannelGroupName: string;
   Arn: string;
@@ -347,99 +201,37 @@ export interface CreateChannelGroupResponse {
   Description?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateChannelGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String,
-    Arn: S.String,
-    EgressDomain: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ETag: S.optional(S.String),
-    Description: S.optional(S.String),
-    Tags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "CreateChannelGroupResponse",
-}) as any as S.Schema<CreateChannelGroupResponse>;
 export interface HarvestedHlsManifest {
   ManifestName: string;
 }
-export const HarvestedHlsManifest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ManifestName: S.String }),
-).annotate({
-  identifier: "HarvestedHlsManifest",
-}) as any as S.Schema<HarvestedHlsManifest>;
 export type HarvestedHlsManifestsList = HarvestedHlsManifest[];
-export const HarvestedHlsManifestsList =
-  /*@__PURE__*/ S.Array(HarvestedHlsManifest);
 export interface HarvestedDashManifest {
   ManifestName: string;
 }
-export const HarvestedDashManifest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ManifestName: S.String }),
-).annotate({
-  identifier: "HarvestedDashManifest",
-}) as any as S.Schema<HarvestedDashManifest>;
 export type HarvestedDashManifestsList = HarvestedDashManifest[];
-export const HarvestedDashManifestsList = /*@__PURE__*/ S.Array(
-  HarvestedDashManifest,
-);
 export interface HarvestedLowLatencyHlsManifest {
   ManifestName: string;
 }
-export const HarvestedLowLatencyHlsManifest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ManifestName: S.String }),
-).annotate({
-  identifier: "HarvestedLowLatencyHlsManifest",
-}) as any as S.Schema<HarvestedLowLatencyHlsManifest>;
 export type HarvestedLowLatencyHlsManifestsList =
   HarvestedLowLatencyHlsManifest[];
-export const HarvestedLowLatencyHlsManifestsList = /*@__PURE__*/ S.Array(
-  HarvestedLowLatencyHlsManifest,
-);
 export interface HarvestedManifests {
   HlsManifests?: HarvestedHlsManifest[];
   DashManifests?: HarvestedDashManifest[];
   LowLatencyHlsManifests?: HarvestedLowLatencyHlsManifest[];
 }
-export const HarvestedManifests = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HlsManifests: S.optional(HarvestedHlsManifestsList),
-    DashManifests: S.optional(HarvestedDashManifestsList),
-    LowLatencyHlsManifests: S.optional(HarvestedLowLatencyHlsManifestsList),
-  }),
-).annotate({
-  identifier: "HarvestedManifests",
-}) as any as S.Schema<HarvestedManifests>;
 export interface HarvesterScheduleConfiguration {
   StartTime: Date;
   EndTime: Date;
 }
-export const HarvesterScheduleConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "HarvesterScheduleConfiguration",
-}) as any as S.Schema<HarvesterScheduleConfiguration>;
 export type S3BucketName = string;
 export type S3DestinationPath = string;
 export interface S3DestinationConfig {
   BucketName: string;
   DestinationPath: string;
 }
-export const S3DestinationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BucketName: S.String, DestinationPath: S.String }),
-).annotate({
-  identifier: "S3DestinationConfig",
-}) as any as S.Schema<S3DestinationConfig>;
 export interface Destination {
   S3Destination: S3DestinationConfig;
 }
-export const Destination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3Destination: S3DestinationConfig }),
-).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
 export interface CreateHarvestJobRequest {
   ChannelGroupName: string;
   ChannelName: string;
@@ -452,37 +244,6 @@ export interface CreateHarvestJobRequest {
   HarvestJobName?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateHarvestJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
-    Description: S.optional(S.String),
-    HarvestedManifests: HarvestedManifests,
-    ScheduleConfiguration: HarvesterScheduleConfiguration,
-    Destination: Destination,
-    ClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("x-amzn-client-token"),
-      T.IdempotencyToken(),
-    ),
-    HarvestJobName: S.optional(S.String),
-    Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/harvestJob",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateHarvestJobRequest",
-}) as any as S.Schema<CreateHarvestJobRequest>;
 export type HarvestJobStatus =
   | "QUEUED"
   | "IN_PROGRESS"
@@ -490,8 +251,6 @@ export type HarvestJobStatus =
   | "COMPLETED"
   | "FAILED"
   | (string & {});
-export const HarvestJobStatus = S.String;
-
 export interface CreateHarvestJobResponse {
   ChannelGroupName: string;
   ChannelName: string;
@@ -509,30 +268,7 @@ export interface CreateHarvestJobResponse {
   ETag?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateHarvestJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String,
-    ChannelName: S.String,
-    OriginEndpointName: S.String,
-    Destination: Destination,
-    HarvestJobName: S.String,
-    HarvestedManifests: HarvestedManifests,
-    Description: S.optional(S.String),
-    ScheduleConfiguration: HarvesterScheduleConfiguration,
-    Arn: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Status: HarvestJobStatus,
-    ErrorMessage: S.optional(S.String),
-    ETag: S.optional(S.String),
-    Tags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "CreateHarvestJobResponse",
-}) as any as S.Schema<CreateHarvestJobResponse>;
 export type ContainerType = "TS" | "CMAF" | "ISM" | (string & {});
-export const ContainerType = S.String;
-
 export type ScteFilter =
   | "SPLICE_INSERT"
   | "BREAK"
@@ -554,13 +290,8 @@ export type ScteFilter =
   | "CONTENT_IDENTIFICATION"
   | "CALL_AD_SERVER"
   | (string & {});
-export const ScteFilter = S.String;
-
 export type ScteFilterList = ScteFilter[];
-export const ScteFilterList = /*@__PURE__*/ S.Array(ScteFilter);
 export type ScteInSegments = "NONE" | "ALL" | "MATCHES_FILTER" | (string & {});
-export const ScteInSegments = S.String;
-
 export type CustomAdType =
   | "PROGRAM"
   | "CHAPTER"
@@ -568,45 +299,20 @@ export type CustomAdType =
   | "ALTERNATE_CONTENT_OPPORTUNITY"
   | "NETWORK"
   | (string & {});
-export const CustomAdType = S.String;
-
 export type CustomAdTypeList = CustomAdType[];
-export const CustomAdTypeList = /*@__PURE__*/ S.Array(CustomAdType);
 export interface Scte {
   ScteFilter?: ScteFilter[];
   ScteInSegments?: ScteInSegments;
   CustomAdTypes?: CustomAdType[];
 }
-export const Scte = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScteFilter: S.optional(ScteFilterList),
-    ScteInSegments: S.optional(ScteInSegments),
-    CustomAdTypes: S.optional(CustomAdTypeList),
-  }),
-).annotate({ identifier: "Scte" }) as any as S.Schema<Scte>;
 export type TsEncryptionMethod = "AES_128" | "SAMPLE_AES" | (string & {});
-export const TsEncryptionMethod = S.String;
-
 export type CmafEncryptionMethod = "CENC" | "CBCS" | (string & {});
-export const CmafEncryptionMethod = S.String;
-
 export type IsmEncryptionMethod = "CENC" | (string & {});
-export const IsmEncryptionMethod = S.String;
-
 export interface EncryptionMethod {
   TsEncryptionMethod?: TsEncryptionMethod;
   CmafEncryptionMethod?: CmafEncryptionMethod;
   IsmEncryptionMethod?: IsmEncryptionMethod;
 }
-export const EncryptionMethod = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TsEncryptionMethod: S.optional(TsEncryptionMethod),
-    CmafEncryptionMethod: S.optional(CmafEncryptionMethod),
-    IsmEncryptionMethod: S.optional(IsmEncryptionMethod),
-  }),
-).annotate({
-  identifier: "EncryptionMethod",
-}) as any as S.Schema<EncryptionMethod>;
 export type PresetSpeke20Audio =
   | "PRESET_AUDIO_1"
   | "PRESET_AUDIO_2"
@@ -614,8 +320,6 @@ export type PresetSpeke20Audio =
   | "SHARED"
   | "UNENCRYPTED"
   | (string & {});
-export const PresetSpeke20Audio = S.String;
-
 export type PresetSpeke20Video =
   | "PRESET_VIDEO_1"
   | "PRESET_VIDEO_2"
@@ -628,20 +332,10 @@ export type PresetSpeke20Video =
   | "SHARED"
   | "UNENCRYPTED"
   | (string & {});
-export const PresetSpeke20Video = S.String;
-
 export interface EncryptionContractConfiguration {
   PresetSpeke20Audio: PresetSpeke20Audio;
   PresetSpeke20Video: PresetSpeke20Video;
 }
-export const EncryptionContractConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PresetSpeke20Audio: PresetSpeke20Audio,
-    PresetSpeke20Video: PresetSpeke20Video,
-  }),
-).annotate({
-  identifier: "EncryptionContractConfiguration",
-}) as any as S.Schema<EncryptionContractConfiguration>;
 export type DrmSystem =
   | "CLEAR_KEY_AES_128"
   | "FAIRPLAY"
@@ -649,10 +343,7 @@ export type DrmSystem =
   | "WIDEVINE"
   | "IRDETO"
   | (string & {});
-export const DrmSystem = S.String;
-
 export type DrmSystems = DrmSystem[];
-export const DrmSystems = /*@__PURE__*/ S.Array(DrmSystem);
 export interface SpekeKeyProvider {
   EncryptionContractConfiguration: EncryptionContractConfiguration;
   ResourceId: string;
@@ -661,18 +352,6 @@ export interface SpekeKeyProvider {
   Url: string;
   CertificateArn?: string;
 }
-export const SpekeKeyProvider = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EncryptionContractConfiguration: EncryptionContractConfiguration,
-    ResourceId: S.String,
-    DrmSystems: DrmSystems,
-    RoleArn: S.String,
-    Url: S.String,
-    CertificateArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SpekeKeyProvider",
-}) as any as S.Schema<SpekeKeyProvider>;
 export interface Encryption {
   ConstantInitializationVector?: string;
   EncryptionMethod: EncryptionMethod;
@@ -680,21 +359,10 @@ export interface Encryption {
   CmafExcludeSegmentDrmMetadata?: boolean;
   SpekeKeyProvider: SpekeKeyProvider;
 }
-export const Encryption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConstantInitializationVector: S.optional(S.String),
-    EncryptionMethod: EncryptionMethod,
-    KeyRotationIntervalSeconds: S.optional(S.Number),
-    CmafExcludeSegmentDrmMetadata: S.optional(S.Boolean),
-    SpekeKeyProvider: SpekeKeyProvider,
-  }),
-).annotate({ identifier: "Encryption" }) as any as S.Schema<Encryption>;
 export type OutputTimestampMode =
   | "PASSTHROUGH"
   | "REBASED_TO_CHANNEL_START"
   | (string & {});
-export const OutputTimestampMode = S.String;
-
 export interface Segment {
   SegmentDurationSeconds?: number;
   SegmentName?: string;
@@ -705,42 +373,17 @@ export interface Segment {
   Encryption?: Encryption;
   OutputTimestampMode?: OutputTimestampMode;
 }
-export const Segment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SegmentDurationSeconds: S.optional(S.Number),
-    SegmentName: S.optional(S.String),
-    TsUseAudioRenditionGroup: S.optional(S.Boolean),
-    IncludeIframeOnlyStreams: S.optional(S.Boolean),
-    TsIncludeDvbSubtitles: S.optional(S.Boolean),
-    Scte: S.optional(Scte),
-    Encryption: S.optional(Encryption),
-    OutputTimestampMode: S.optional(OutputTimestampMode),
-  }),
-).annotate({ identifier: "Segment" }) as any as S.Schema<Segment>;
 export type ManifestName = string;
 export type AdMarkerHls = "DATERANGE" | "SCTE35_ENHANCED" | (string & {});
-export const AdMarkerHls = S.String;
-
 export type ScteInManifests = "ALL" | "MATCHES_FILTER" | (string & {});
-export const ScteInManifests = S.String;
-
 export interface ScteHls {
   AdMarkerHls?: AdMarkerHls;
   ScteInManifests?: ScteInManifests;
 }
-export const ScteHls = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AdMarkerHls: S.optional(AdMarkerHls),
-    ScteInManifests: S.optional(ScteInManifests),
-  }),
-).annotate({ identifier: "ScteHls" }) as any as S.Schema<ScteHls>;
 export interface StartTag {
   TimeOffset: number;
   Precise?: boolean;
 }
-export const StartTag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TimeOffset: S.Number, Precise: S.optional(S.Boolean) }),
-).annotate({ identifier: "StartTag" }) as any as S.Schema<StartTag>;
 export interface FilterConfiguration {
   ManifestFilter?: string;
   DrmSettings?: string;
@@ -749,21 +392,7 @@ export interface FilterConfiguration {
   TimeDelaySeconds?: number;
   ClipStartTime?: Date;
 }
-export const FilterConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ManifestFilter: S.optional(S.String),
-    DrmSettings: S.optional(S.String),
-    Start: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    End: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    TimeDelaySeconds: S.optional(S.Number),
-    ClipStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "FilterConfiguration",
-}) as any as S.Schema<FilterConfiguration>;
 export type UriPathType = "LEAF" | "ROOT" | (string & {});
-export const UriPathType = S.String;
-
 export interface CreateHlsManifestConfiguration {
   ManifestName: string;
   ChildManifestName?: string;
@@ -775,25 +404,7 @@ export interface CreateHlsManifestConfiguration {
   UrlEncodeChildManifest?: boolean;
   UriPathType?: UriPathType;
 }
-export const CreateHlsManifestConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ManifestName: S.String,
-    ChildManifestName: S.optional(S.String),
-    ScteHls: S.optional(ScteHls),
-    StartTag: S.optional(StartTag),
-    ManifestWindowSeconds: S.optional(S.Number),
-    ProgramDateTimeIntervalSeconds: S.optional(S.Number),
-    FilterConfiguration: S.optional(FilterConfiguration),
-    UrlEncodeChildManifest: S.optional(S.Boolean),
-    UriPathType: S.optional(UriPathType),
-  }),
-).annotate({
-  identifier: "CreateHlsManifestConfiguration",
-}) as any as S.Schema<CreateHlsManifestConfiguration>;
 export type CreateHlsManifests = CreateHlsManifestConfiguration[];
-export const CreateHlsManifests = /*@__PURE__*/ S.Array(
-  CreateHlsManifestConfiguration,
-);
 export interface CreateLowLatencyHlsManifestConfiguration {
   ManifestName: string;
   ChildManifestName?: string;
@@ -805,30 +416,9 @@ export interface CreateLowLatencyHlsManifestConfiguration {
   UrlEncodeChildManifest?: boolean;
   UriPathType?: UriPathType;
 }
-export const CreateLowLatencyHlsManifestConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ManifestName: S.String,
-      ChildManifestName: S.optional(S.String),
-      ScteHls: S.optional(ScteHls),
-      StartTag: S.optional(StartTag),
-      ManifestWindowSeconds: S.optional(S.Number),
-      ProgramDateTimeIntervalSeconds: S.optional(S.Number),
-      FilterConfiguration: S.optional(FilterConfiguration),
-      UrlEncodeChildManifest: S.optional(S.Boolean),
-      UriPathType: S.optional(UriPathType),
-    }),
-).annotate({
-  identifier: "CreateLowLatencyHlsManifestConfiguration",
-}) as any as S.Schema<CreateLowLatencyHlsManifestConfiguration>;
 export type CreateLowLatencyHlsManifests =
   CreateLowLatencyHlsManifestConfiguration[];
-export const CreateLowLatencyHlsManifests = /*@__PURE__*/ S.Array(
-  CreateLowLatencyHlsManifestConfiguration,
-);
 export type DashSegmentTemplateFormat = "NUMBER_WITH_TIMELINE" | (string & {});
-export const DashSegmentTemplateFormat = S.String;
-
 export type DashPeriodTrigger =
   | "AVAILS"
   | "DRM_KEY_ROTATION"
@@ -836,65 +426,32 @@ export type DashPeriodTrigger =
   | "SOURCE_DISRUPTIONS"
   | "NONE"
   | (string & {});
-export const DashPeriodTrigger = S.String;
-
 export type DashPeriodTriggers = DashPeriodTrigger[];
-export const DashPeriodTriggers = /*@__PURE__*/ S.Array(DashPeriodTrigger);
 export type AdMarkerDash = "BINARY" | "XML" | (string & {});
-export const AdMarkerDash = S.String;
-
 export interface ScteDash {
   AdMarkerDash?: AdMarkerDash;
   ScteInManifests?: ScteInManifests;
 }
-export const ScteDash = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AdMarkerDash: S.optional(AdMarkerDash),
-    ScteInManifests: S.optional(ScteInManifests),
-  }),
-).annotate({ identifier: "ScteDash" }) as any as S.Schema<ScteDash>;
 export type DashDrmSignaling = "INDIVIDUAL" | "REFERENCED" | (string & {});
-export const DashDrmSignaling = S.String;
-
 export type DashUtcTimingMode =
   | "HTTP_HEAD"
   | "HTTP_ISO"
   | "HTTP_XSDATE"
   | "UTC_DIRECT"
   | (string & {});
-export const DashUtcTimingMode = S.String;
-
 export interface DashUtcTiming {
   TimingMode?: DashUtcTimingMode;
   TimingSource?: string;
 }
-export const DashUtcTiming = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TimingMode: S.optional(DashUtcTimingMode),
-    TimingSource: S.optional(S.String),
-  }),
-).annotate({ identifier: "DashUtcTiming" }) as any as S.Schema<DashUtcTiming>;
 export type DashProfile = "DVB_DASH" | (string & {});
-export const DashProfile = S.String;
-
 export type DashProfiles = DashProfile[];
-export const DashProfiles = /*@__PURE__*/ S.Array(DashProfile);
 export interface DashBaseUrl {
   Url: string;
   ServiceLocation?: string;
   DvbPriority?: number;
   DvbWeight?: number;
 }
-export const DashBaseUrl = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Url: S.String,
-    ServiceLocation: S.optional(S.String),
-    DvbPriority: S.optional(S.Number),
-    DvbWeight: S.optional(S.Number),
-  }),
-).annotate({ identifier: "DashBaseUrl" }) as any as S.Schema<DashBaseUrl>;
 export type DashBaseUrls = DashBaseUrl[];
-export const DashBaseUrls = /*@__PURE__*/ S.Array(DashBaseUrl);
 export interface DashProgramInformation {
   Title?: string;
   Source?: string;
@@ -902,89 +459,32 @@ export interface DashProgramInformation {
   LanguageCode?: string;
   MoreInformationUrl?: string;
 }
-export const DashProgramInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Title: S.optional(S.String),
-    Source: S.optional(S.String),
-    Copyright: S.optional(S.String),
-    LanguageCode: S.optional(S.String),
-    MoreInformationUrl: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DashProgramInformation",
-}) as any as S.Schema<DashProgramInformation>;
 export interface DashDvbFontDownload {
   Url?: string;
   MimeType?: string;
   FontFamily?: string;
 }
-export const DashDvbFontDownload = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Url: S.optional(S.String),
-    MimeType: S.optional(S.String),
-    FontFamily: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DashDvbFontDownload",
-}) as any as S.Schema<DashDvbFontDownload>;
 export interface DashDvbMetricsReporting {
   ReportingUrl: string;
   Probability?: number;
 }
-export const DashDvbMetricsReporting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReportingUrl: S.String, Probability: S.optional(S.Number) }),
-).annotate({
-  identifier: "DashDvbMetricsReporting",
-}) as any as S.Schema<DashDvbMetricsReporting>;
 export type DashDvbErrorMetrics = DashDvbMetricsReporting[];
-export const DashDvbErrorMetrics = /*@__PURE__*/ S.Array(
-  DashDvbMetricsReporting,
-);
 export interface DashDvbSettings {
   FontDownload?: DashDvbFontDownload;
   ErrorMetrics?: DashDvbMetricsReporting[];
 }
-export const DashDvbSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FontDownload: S.optional(DashDvbFontDownload),
-    ErrorMetrics: S.optional(DashDvbErrorMetrics),
-  }),
-).annotate({
-  identifier: "DashDvbSettings",
-}) as any as S.Schema<DashDvbSettings>;
 export type DashCompactness = "STANDARD" | "NONE" | (string & {});
-export const DashCompactness = S.String;
-
 export type DashAudioTimelinePattern = "NONE" | "PATTERNED" | (string & {});
-export const DashAudioTimelinePattern = S.String;
-
 export type DashTtmlProfile = "IMSC_1" | "EBU_TT_D_101" | (string & {});
-export const DashTtmlProfile = S.String;
-
 export interface DashTtmlConfiguration {
   TtmlProfile: DashTtmlProfile;
 }
-export const DashTtmlConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TtmlProfile: DashTtmlProfile }),
-).annotate({
-  identifier: "DashTtmlConfiguration",
-}) as any as S.Schema<DashTtmlConfiguration>;
 export interface DashSubtitleConfiguration {
   TtmlConfiguration?: DashTtmlConfiguration;
 }
-export const DashSubtitleConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TtmlConfiguration: S.optional(DashTtmlConfiguration) }),
-).annotate({
-  identifier: "DashSubtitleConfiguration",
-}) as any as S.Schema<DashSubtitleConfiguration>;
 export type DashAvailabilityStartTimeConfiguration = {
   FixedAvailabilityStartTime: Date;
 };
-export const DashAvailabilityStartTimeConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({
-    FixedAvailabilityStartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-]);
 export interface CreateDashManifestConfiguration {
   ManifestName: string;
   ManifestWindowSeconds?: number;
@@ -1007,87 +507,27 @@ export interface CreateDashManifestConfiguration {
   UriPathType?: UriPathType;
   AvailabilityStartTimeConfiguration?: DashAvailabilityStartTimeConfiguration;
 }
-export const CreateDashManifestConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ManifestName: S.String,
-    ManifestWindowSeconds: S.optional(S.Number),
-    FilterConfiguration: S.optional(FilterConfiguration),
-    MinUpdatePeriodSeconds: S.optional(S.Number),
-    MinBufferTimeSeconds: S.optional(S.Number),
-    SuggestedPresentationDelaySeconds: S.optional(S.Number),
-    SegmentTemplateFormat: S.optional(DashSegmentTemplateFormat),
-    PeriodTriggers: S.optional(DashPeriodTriggers),
-    ScteDash: S.optional(ScteDash),
-    DrmSignaling: S.optional(DashDrmSignaling),
-    UtcTiming: S.optional(DashUtcTiming),
-    Profiles: S.optional(DashProfiles),
-    BaseUrls: S.optional(DashBaseUrls),
-    ProgramInformation: S.optional(DashProgramInformation),
-    DvbSettings: S.optional(DashDvbSettings),
-    Compactness: S.optional(DashCompactness),
-    AudioTimelinePattern: S.optional(DashAudioTimelinePattern),
-    SubtitleConfiguration: S.optional(DashSubtitleConfiguration),
-    UriPathType: S.optional(UriPathType),
-    AvailabilityStartTimeConfiguration: S.optional(
-      DashAvailabilityStartTimeConfiguration,
-    ),
-  }),
-).annotate({
-  identifier: "CreateDashManifestConfiguration",
-}) as any as S.Schema<CreateDashManifestConfiguration>;
 export type CreateDashManifests = CreateDashManifestConfiguration[];
-export const CreateDashManifests = /*@__PURE__*/ S.Array(
-  CreateDashManifestConfiguration,
-);
 export type MssManifestLayout = "FULL" | "COMPACT" | (string & {});
-export const MssManifestLayout = S.String;
-
 export interface CreateMssManifestConfiguration {
   ManifestName: string;
   ManifestWindowSeconds?: number;
   FilterConfiguration?: FilterConfiguration;
   ManifestLayout?: MssManifestLayout;
 }
-export const CreateMssManifestConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ManifestName: S.String,
-    ManifestWindowSeconds: S.optional(S.Number),
-    FilterConfiguration: S.optional(FilterConfiguration),
-    ManifestLayout: S.optional(MssManifestLayout),
-  }),
-).annotate({
-  identifier: "CreateMssManifestConfiguration",
-}) as any as S.Schema<CreateMssManifestConfiguration>;
 export type CreateMssManifests = CreateMssManifestConfiguration[];
-export const CreateMssManifests = /*@__PURE__*/ S.Array(
-  CreateMssManifestConfiguration,
-);
 export type EndpointErrorCondition =
   | "STALE_MANIFEST"
   | "INCOMPLETE_MANIFEST"
   | "MISSING_DRM_KEY"
   | "SLATE_INPUT"
   | (string & {});
-export const EndpointErrorCondition = S.String;
-
 export type EndpointErrorConditions = EndpointErrorCondition[];
-export const EndpointErrorConditions = /*@__PURE__*/ S.Array(
-  EndpointErrorCondition,
-);
 export interface ForceEndpointErrorConfiguration {
   EndpointErrorConditions?: EndpointErrorCondition[];
 }
-export const ForceEndpointErrorConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EndpointErrorConditions: S.optional(EndpointErrorConditions) }),
-).annotate({
-  identifier: "ForceEndpointErrorConfiguration",
-}) as any as S.Schema<ForceEndpointErrorConfiguration>;
 export type UriSeparator = "UNDERSCORE" | "HYPHEN" | (string & {});
-export const UriSeparator = S.String;
-
 export type StreamNameOutputMode = "INDEX" | "PASSTHROUGH_NAME" | (string & {});
-export const StreamNameOutputMode = S.String;
-
 export interface CreateOriginEndpointRequest {
   ChannelGroupName: string;
   ChannelName: string;
@@ -1106,45 +546,6 @@ export interface CreateOriginEndpointRequest {
   StreamNameOutputMode?: StreamNameOutputMode;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateOriginEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-    OriginEndpointName: S.String,
-    ContainerType: ContainerType,
-    Segment: S.optional(Segment),
-    ClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("x-amzn-client-token"),
-      T.IdempotencyToken(),
-    ),
-    Description: S.optional(S.String),
-    StartoverWindowSeconds: S.optional(S.Number),
-    HlsManifests: S.optional(CreateHlsManifests),
-    LowLatencyHlsManifests: S.optional(CreateLowLatencyHlsManifests),
-    DashManifests: S.optional(CreateDashManifests),
-    MssManifests: S.optional(CreateMssManifests),
-    ForceEndpointErrorConfiguration: S.optional(
-      ForceEndpointErrorConfiguration,
-    ),
-    UriSeparator: S.optional(UriSeparator),
-    StreamNameOutputMode: S.optional(StreamNameOutputMode),
-    Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateOriginEndpointRequest",
-}) as any as S.Schema<CreateOriginEndpointRequest>;
 export interface GetHlsManifestConfiguration {
   ManifestName: string;
   Url: string;
@@ -1157,26 +558,7 @@ export interface GetHlsManifestConfiguration {
   UrlEncodeChildManifest?: boolean;
   UriPathType?: UriPathType;
 }
-export const GetHlsManifestConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ManifestName: S.String,
-    Url: S.String,
-    ChildManifestName: S.optional(S.String),
-    ManifestWindowSeconds: S.optional(S.Number),
-    ProgramDateTimeIntervalSeconds: S.optional(S.Number),
-    ScteHls: S.optional(ScteHls),
-    FilterConfiguration: S.optional(FilterConfiguration),
-    StartTag: S.optional(StartTag),
-    UrlEncodeChildManifest: S.optional(S.Boolean),
-    UriPathType: S.optional(UriPathType),
-  }),
-).annotate({
-  identifier: "GetHlsManifestConfiguration",
-}) as any as S.Schema<GetHlsManifestConfiguration>;
 export type GetHlsManifests = GetHlsManifestConfiguration[];
-export const GetHlsManifests = /*@__PURE__*/ S.Array(
-  GetHlsManifestConfiguration,
-);
 export interface GetLowLatencyHlsManifestConfiguration {
   ManifestName: string;
   Url: string;
@@ -1189,27 +571,7 @@ export interface GetLowLatencyHlsManifestConfiguration {
   UrlEncodeChildManifest?: boolean;
   UriPathType?: UriPathType;
 }
-export const GetLowLatencyHlsManifestConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ManifestName: S.String,
-      Url: S.String,
-      ChildManifestName: S.optional(S.String),
-      ManifestWindowSeconds: S.optional(S.Number),
-      ProgramDateTimeIntervalSeconds: S.optional(S.Number),
-      ScteHls: S.optional(ScteHls),
-      FilterConfiguration: S.optional(FilterConfiguration),
-      StartTag: S.optional(StartTag),
-      UrlEncodeChildManifest: S.optional(S.Boolean),
-      UriPathType: S.optional(UriPathType),
-    }),
-).annotate({
-  identifier: "GetLowLatencyHlsManifestConfiguration",
-}) as any as S.Schema<GetLowLatencyHlsManifestConfiguration>;
 export type GetLowLatencyHlsManifests = GetLowLatencyHlsManifestConfiguration[];
-export const GetLowLatencyHlsManifests = /*@__PURE__*/ S.Array(
-  GetLowLatencyHlsManifestConfiguration,
-);
 export interface GetDashManifestConfiguration {
   ManifestName: string;
   Url: string;
@@ -1233,39 +595,7 @@ export interface GetDashManifestConfiguration {
   UriPathType?: UriPathType;
   AvailabilityStartTimeConfiguration?: DashAvailabilityStartTimeConfiguration;
 }
-export const GetDashManifestConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ManifestName: S.String,
-    Url: S.String,
-    ManifestWindowSeconds: S.optional(S.Number),
-    FilterConfiguration: S.optional(FilterConfiguration),
-    MinUpdatePeriodSeconds: S.optional(S.Number),
-    MinBufferTimeSeconds: S.optional(S.Number),
-    SuggestedPresentationDelaySeconds: S.optional(S.Number),
-    SegmentTemplateFormat: S.optional(DashSegmentTemplateFormat),
-    PeriodTriggers: S.optional(DashPeriodTriggers),
-    ScteDash: S.optional(ScteDash),
-    DrmSignaling: S.optional(DashDrmSignaling),
-    UtcTiming: S.optional(DashUtcTiming),
-    Profiles: S.optional(DashProfiles),
-    BaseUrls: S.optional(DashBaseUrls),
-    ProgramInformation: S.optional(DashProgramInformation),
-    DvbSettings: S.optional(DashDvbSettings),
-    Compactness: S.optional(DashCompactness),
-    AudioTimelinePattern: S.optional(DashAudioTimelinePattern),
-    SubtitleConfiguration: S.optional(DashSubtitleConfiguration),
-    UriPathType: S.optional(UriPathType),
-    AvailabilityStartTimeConfiguration: S.optional(
-      DashAvailabilityStartTimeConfiguration,
-    ),
-  }),
-).annotate({
-  identifier: "GetDashManifestConfiguration",
-}) as any as S.Schema<GetDashManifestConfiguration>;
 export type GetDashManifests = GetDashManifestConfiguration[];
-export const GetDashManifests = /*@__PURE__*/ S.Array(
-  GetDashManifestConfiguration,
-);
 export interface GetMssManifestConfiguration {
   ManifestName: string;
   Url: string;
@@ -1273,21 +603,7 @@ export interface GetMssManifestConfiguration {
   ManifestWindowSeconds?: number;
   ManifestLayout?: MssManifestLayout;
 }
-export const GetMssManifestConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ManifestName: S.String,
-    Url: S.String,
-    FilterConfiguration: S.optional(FilterConfiguration),
-    ManifestWindowSeconds: S.optional(S.Number),
-    ManifestLayout: S.optional(MssManifestLayout),
-  }),
-).annotate({
-  identifier: "GetMssManifestConfiguration",
-}) as any as S.Schema<GetMssManifestConfiguration>;
 export type GetMssManifests = GetMssManifestConfiguration[];
-export const GetMssManifests = /*@__PURE__*/ S.Array(
-  GetMssManifestConfiguration,
-);
 export interface CreateOriginEndpointResponse {
   Arn: string;
   ChannelGroupName: string;
@@ -1309,206 +625,36 @@ export interface CreateOriginEndpointResponse {
   ETag?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateOriginEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    ChannelGroupName: S.String,
-    ChannelName: S.String,
-    OriginEndpointName: S.String,
-    ContainerType: ContainerType,
-    Segment: Segment,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Description: S.optional(S.String),
-    StartoverWindowSeconds: S.optional(S.Number),
-    HlsManifests: S.optional(GetHlsManifests),
-    LowLatencyHlsManifests: S.optional(GetLowLatencyHlsManifests),
-    DashManifests: S.optional(GetDashManifests),
-    MssManifests: S.optional(GetMssManifests),
-    ForceEndpointErrorConfiguration: S.optional(
-      ForceEndpointErrorConfiguration,
-    ),
-    UriSeparator: S.optional(UriSeparator),
-    StreamNameOutputMode: S.optional(StreamNameOutputMode),
-    ETag: S.optional(S.String),
-    Tags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "CreateOriginEndpointResponse",
-}) as any as S.Schema<CreateOriginEndpointResponse>;
 export interface DeleteChannelRequest {
   ChannelGroupName: string;
   ChannelName: string;
 }
-export const DeleteChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteChannelRequest",
-}) as any as S.Schema<DeleteChannelRequest>;
 export interface DeleteChannelResponse {}
-export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteChannelResponse",
-}) as any as S.Schema<DeleteChannelResponse>;
 export interface DeleteChannelGroupRequest {
   ChannelGroupName: string;
 }
-export const DeleteChannelGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/channelGroup/{ChannelGroupName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteChannelGroupRequest",
-}) as any as S.Schema<DeleteChannelGroupRequest>;
 export interface DeleteChannelGroupResponse {}
-export const DeleteChannelGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteChannelGroupResponse",
-}) as any as S.Schema<DeleteChannelGroupResponse>;
 export interface DeleteChannelPolicyRequest {
   ChannelGroupName: string;
   ChannelName: string;
 }
-export const DeleteChannelPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteChannelPolicyRequest",
-}) as any as S.Schema<DeleteChannelPolicyRequest>;
 export interface DeleteChannelPolicyResponse {}
-export const DeleteChannelPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteChannelPolicyResponse",
-}) as any as S.Schema<DeleteChannelPolicyResponse>;
 export interface DeleteOriginEndpointRequest {
   ChannelGroupName: string;
   ChannelName: string;
   OriginEndpointName: string;
 }
-export const DeleteOriginEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteOriginEndpointRequest",
-}) as any as S.Schema<DeleteOriginEndpointRequest>;
 export interface DeleteOriginEndpointResponse {}
-export const DeleteOriginEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteOriginEndpointResponse",
-}) as any as S.Schema<DeleteOriginEndpointResponse>;
 export interface DeleteOriginEndpointPolicyRequest {
   ChannelGroupName: string;
   ChannelName: string;
   OriginEndpointName: string;
 }
-export const DeleteOriginEndpointPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteOriginEndpointPolicyRequest",
-}) as any as S.Schema<DeleteOriginEndpointPolicyRequest>;
 export interface DeleteOriginEndpointPolicyResponse {}
-export const DeleteOriginEndpointPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteOriginEndpointPolicyResponse",
-}) as any as S.Schema<DeleteOriginEndpointPolicyResponse>;
 export interface GetChannelRequest {
   ChannelGroupName: string;
   ChannelName: string;
 }
-export const GetChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetChannelRequest",
-}) as any as S.Schema<GetChannelRequest>;
 export interface GetChannelResponse {
   Arn: string;
   ChannelName: string;
@@ -1525,45 +671,9 @@ export interface GetChannelResponse {
   OutputHeaderConfiguration?: OutputHeaderConfiguration;
   OutputLockingMode?: OutputLockingMode;
 }
-export const GetChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    ChannelName: S.String,
-    ChannelGroupName: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ResetAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Description: S.optional(S.String),
-    IngestEndpoints: S.optional(IngestEndpointList),
-    InputType: S.optional(InputType),
-    ETag: S.optional(S.String),
-    Tags: S.optional(TagMap),
-    InputSwitchConfiguration: S.optional(InputSwitchConfiguration),
-    OutputHeaderConfiguration: S.optional(OutputHeaderConfiguration),
-    OutputLockingMode: S.optional(OutputLockingMode),
-  }),
-).annotate({
-  identifier: "GetChannelResponse",
-}) as any as S.Schema<GetChannelResponse>;
 export interface GetChannelGroupRequest {
   ChannelGroupName: string;
 }
-export const GetChannelGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/channelGroup/{ChannelGroupName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetChannelGroupRequest",
-}) as any as S.Schema<GetChannelGroupRequest>;
 export interface GetChannelGroupResponse {
   ChannelGroupName: string;
   Arn: string;
@@ -1574,87 +684,22 @@ export interface GetChannelGroupResponse {
   ETag?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const GetChannelGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String,
-    Arn: S.String,
-    EgressDomain: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Description: S.optional(S.String),
-    ETag: S.optional(S.String),
-    Tags: S.optional(TagMap),
-  }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "GetChannelGroupResponse",
-}) as any as S.Schema<GetChannelGroupResponse>;
 export interface GetChannelPolicyRequest {
   ChannelGroupName: string;
   ChannelName: string;
 }
-export const GetChannelPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetChannelPolicyRequest",
-}) as any as S.Schema<GetChannelPolicyRequest>;
 export type PolicyText = string;
 export interface GetChannelPolicyResponse {
   ChannelGroupName: string;
   ChannelName: string;
   Policy: string;
 }
-export const GetChannelPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String,
-    ChannelName: S.String,
-    Policy: S.String,
-  }),
-).annotate({
-  identifier: "GetChannelPolicyResponse",
-}) as any as S.Schema<GetChannelPolicyResponse>;
 export interface GetHarvestJobRequest {
   ChannelGroupName: string;
   ChannelName: string;
   OriginEndpointName: string;
   HarvestJobName: string;
 }
-export const GetHarvestJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
-    HarvestJobName: S.String.pipe(T.HttpLabel("HarvestJobName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/harvestJob/{HarvestJobName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetHarvestJobRequest",
-}) as any as S.Schema<GetHarvestJobRequest>;
 export interface GetHarvestJobResponse {
   ChannelGroupName: string;
   ChannelName: string;
@@ -1672,53 +717,11 @@ export interface GetHarvestJobResponse {
   ETag?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const GetHarvestJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String,
-    ChannelName: S.String,
-    OriginEndpointName: S.String,
-    Destination: Destination,
-    HarvestJobName: S.String,
-    HarvestedManifests: HarvestedManifests,
-    Description: S.optional(S.String),
-    ScheduleConfiguration: HarvesterScheduleConfiguration,
-    Arn: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Status: HarvestJobStatus,
-    ErrorMessage: S.optional(S.String),
-    ETag: S.optional(S.String),
-    Tags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "GetHarvestJobResponse",
-}) as any as S.Schema<GetHarvestJobResponse>;
 export interface GetOriginEndpointRequest {
   ChannelGroupName: string;
   ChannelName: string;
   OriginEndpointName: string;
 }
-export const GetOriginEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetOriginEndpointRequest",
-}) as any as S.Schema<GetOriginEndpointRequest>;
 export interface GetOriginEndpointResponse {
   Arn: string;
   ChannelGroupName: string;
@@ -1741,75 +744,17 @@ export interface GetOriginEndpointResponse {
   ETag?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const GetOriginEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    ChannelGroupName: S.String,
-    ChannelName: S.String,
-    OriginEndpointName: S.String,
-    ContainerType: ContainerType,
-    Segment: Segment,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ResetAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Description: S.optional(S.String),
-    StartoverWindowSeconds: S.optional(S.Number),
-    HlsManifests: S.optional(GetHlsManifests),
-    LowLatencyHlsManifests: S.optional(GetLowLatencyHlsManifests),
-    DashManifests: S.optional(GetDashManifests),
-    MssManifests: S.optional(GetMssManifests),
-    ForceEndpointErrorConfiguration: S.optional(
-      ForceEndpointErrorConfiguration,
-    ),
-    UriSeparator: S.optional(UriSeparator),
-    StreamNameOutputMode: S.optional(StreamNameOutputMode),
-    ETag: S.optional(S.String),
-    Tags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "GetOriginEndpointResponse",
-}) as any as S.Schema<GetOriginEndpointResponse>;
 export interface GetOriginEndpointPolicyRequest {
   ChannelGroupName: string;
   ChannelName: string;
   OriginEndpointName: string;
 }
-export const GetOriginEndpointPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetOriginEndpointPolicyRequest",
-}) as any as S.Schema<GetOriginEndpointPolicyRequest>;
 export type CdnIdentifierSecretArn = string;
 export type CdnIdentifierSecretArns = string[];
-export const CdnIdentifierSecretArns = /*@__PURE__*/ S.Array(S.String);
 export interface CdnAuthConfiguration {
   CdnIdentifierSecretArns: string[];
   SecretsRoleArn: string;
 }
-export const CdnAuthConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CdnIdentifierSecretArns: CdnIdentifierSecretArns,
-    SecretsRoleArn: S.String,
-  }),
-).annotate({
-  identifier: "CdnAuthConfiguration",
-}) as any as S.Schema<CdnAuthConfiguration>;
 export interface GetOriginEndpointPolicyResponse {
   ChannelGroupName: string;
   ChannelName: string;
@@ -1817,39 +762,11 @@ export interface GetOriginEndpointPolicyResponse {
   Policy: string;
   CdnAuthConfiguration?: CdnAuthConfiguration;
 }
-export const GetOriginEndpointPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String,
-    ChannelName: S.String,
-    OriginEndpointName: S.String,
-    Policy: S.String,
-    CdnAuthConfiguration: S.optional(CdnAuthConfiguration),
-  }),
-).annotate({
-  identifier: "GetOriginEndpointPolicyResponse",
-}) as any as S.Schema<GetOriginEndpointPolicyResponse>;
 export type ListResourceMaxResults = number;
 export interface ListChannelGroupsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListChannelGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/channelGroup" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListChannelGroupsRequest",
-}) as any as S.Schema<ListChannelGroupsRequest>;
 export interface ChannelGroupListConfiguration {
   ChannelGroupName: string;
   Arn: string;
@@ -1857,59 +774,16 @@ export interface ChannelGroupListConfiguration {
   ModifiedAt: Date;
   Description?: string;
 }
-export const ChannelGroupListConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String,
-    Arn: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ChannelGroupListConfiguration",
-}) as any as S.Schema<ChannelGroupListConfiguration>;
 export type ChannelGroupsList = ChannelGroupListConfiguration[];
-export const ChannelGroupsList = /*@__PURE__*/ S.Array(
-  ChannelGroupListConfiguration,
-);
 export interface ListChannelGroupsResponse {
   Items?: ChannelGroupListConfiguration[];
   NextToken?: string;
 }
-export const ListChannelGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(ChannelGroupsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListChannelGroupsResponse",
-}) as any as S.Schema<ListChannelGroupsResponse>;
 export interface ListChannelsRequest {
   ChannelGroupName: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListChannelsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channelGroup/{ChannelGroupName}/channel",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListChannelsRequest",
-}) as any as S.Schema<ListChannelsRequest>;
 export interface ChannelListConfiguration {
   Arn: string;
   ChannelName: string;
@@ -1920,31 +794,11 @@ export interface ChannelListConfiguration {
   InputType?: InputType;
   OutputLockingMode?: OutputLockingMode;
 }
-export const ChannelListConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    ChannelName: S.String,
-    ChannelGroupName: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Description: S.optional(S.String),
-    InputType: S.optional(InputType),
-    OutputLockingMode: S.optional(OutputLockingMode),
-  }),
-).annotate({
-  identifier: "ChannelListConfiguration",
-}) as any as S.Schema<ChannelListConfiguration>;
 export type ChannelList = ChannelListConfiguration[];
-export const ChannelList = /*@__PURE__*/ S.Array(ChannelListConfiguration);
 export interface ListChannelsResponse {
   Items?: ChannelListConfiguration[];
   NextToken?: string;
 }
-export const ListChannelsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Items: S.optional(ChannelList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListChannelsResponse",
-}) as any as S.Schema<ListChannelsResponse>;
 export interface ListHarvestJobsRequest {
   ChannelGroupName: string;
   ChannelName?: string;
@@ -1953,32 +807,6 @@ export interface ListHarvestJobsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListHarvestJobsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.optional(S.String).pipe(T.HttpQuery("channelName")),
-    OriginEndpointName: S.optional(S.String).pipe(
-      T.HttpQuery("originEndpointName"),
-    ),
-    Status: S.optional(HarvestJobStatus).pipe(T.HttpQuery("includeStatus")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channelGroup/{ChannelGroupName}/harvestJob",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListHarvestJobsRequest",
-}) as any as S.Schema<ListHarvestJobsRequest>;
 export interface HarvestJob {
   ChannelGroupName: string;
   ChannelName: string;
@@ -1995,130 +823,40 @@ export interface HarvestJob {
   ErrorMessage?: string;
   ETag?: string;
 }
-export const HarvestJob = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String,
-    ChannelName: S.String,
-    OriginEndpointName: S.String,
-    Destination: Destination,
-    HarvestJobName: S.String,
-    HarvestedManifests: HarvestedManifests,
-    Description: S.optional(S.String),
-    ScheduleConfiguration: HarvesterScheduleConfiguration,
-    Arn: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Status: HarvestJobStatus,
-    ErrorMessage: S.optional(S.String),
-    ETag: S.optional(S.String),
-  }),
-).annotate({ identifier: "HarvestJob" }) as any as S.Schema<HarvestJob>;
 export type HarvestJobsList = HarvestJob[];
-export const HarvestJobsList = /*@__PURE__*/ S.Array(HarvestJob);
 export interface ListHarvestJobsResponse {
   Items?: HarvestJob[];
   NextToken?: string;
 }
-export const ListHarvestJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(HarvestJobsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListHarvestJobsResponse",
-}) as any as S.Schema<ListHarvestJobsResponse>;
 export interface ListOriginEndpointsRequest {
   ChannelGroupName: string;
   ChannelName: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListOriginEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListOriginEndpointsRequest",
-}) as any as S.Schema<ListOriginEndpointsRequest>;
 export interface ListHlsManifestConfiguration {
   ManifestName: string;
   ChildManifestName?: string;
   Url?: string;
 }
-export const ListHlsManifestConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ManifestName: S.String,
-    ChildManifestName: S.optional(S.String),
-    Url: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListHlsManifestConfiguration",
-}) as any as S.Schema<ListHlsManifestConfiguration>;
 export type ListHlsManifests = ListHlsManifestConfiguration[];
-export const ListHlsManifests = /*@__PURE__*/ S.Array(
-  ListHlsManifestConfiguration,
-);
 export interface ListLowLatencyHlsManifestConfiguration {
   ManifestName: string;
   ChildManifestName?: string;
   Url?: string;
 }
-export const ListLowLatencyHlsManifestConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ManifestName: S.String,
-      ChildManifestName: S.optional(S.String),
-      Url: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "ListLowLatencyHlsManifestConfiguration",
-}) as any as S.Schema<ListLowLatencyHlsManifestConfiguration>;
 export type ListLowLatencyHlsManifests =
   ListLowLatencyHlsManifestConfiguration[];
-export const ListLowLatencyHlsManifests = /*@__PURE__*/ S.Array(
-  ListLowLatencyHlsManifestConfiguration,
-);
 export interface ListDashManifestConfiguration {
   ManifestName: string;
   Url?: string;
 }
-export const ListDashManifestConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ManifestName: S.String, Url: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDashManifestConfiguration",
-}) as any as S.Schema<ListDashManifestConfiguration>;
 export type ListDashManifests = ListDashManifestConfiguration[];
-export const ListDashManifests = /*@__PURE__*/ S.Array(
-  ListDashManifestConfiguration,
-);
 export interface ListMssManifestConfiguration {
   ManifestName: string;
   Url?: string;
 }
-export const ListMssManifestConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ManifestName: S.String, Url: S.optional(S.String) }),
-).annotate({
-  identifier: "ListMssManifestConfiguration",
-}) as any as S.Schema<ListMssManifestConfiguration>;
 export type ListMssManifests = ListMssManifestConfiguration[];
-export const ListMssManifests = /*@__PURE__*/ S.Array(
-  ListMssManifestConfiguration,
-);
 export interface OriginEndpointListConfiguration {
   Arn: string;
   ChannelGroupName: string;
@@ -2136,103 +874,24 @@ export interface OriginEndpointListConfiguration {
   UriSeparator?: UriSeparator;
   StreamNameOutputMode?: StreamNameOutputMode;
 }
-export const OriginEndpointListConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    ChannelGroupName: S.String,
-    ChannelName: S.String,
-    OriginEndpointName: S.String,
-    ContainerType: ContainerType,
-    Description: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    HlsManifests: S.optional(ListHlsManifests),
-    LowLatencyHlsManifests: S.optional(ListLowLatencyHlsManifests),
-    DashManifests: S.optional(ListDashManifests),
-    MssManifests: S.optional(ListMssManifests),
-    ForceEndpointErrorConfiguration: S.optional(
-      ForceEndpointErrorConfiguration,
-    ),
-    UriSeparator: S.optional(UriSeparator),
-    StreamNameOutputMode: S.optional(StreamNameOutputMode),
-  }),
-).annotate({
-  identifier: "OriginEndpointListConfiguration",
-}) as any as S.Schema<OriginEndpointListConfiguration>;
 export type OriginEndpointsList = OriginEndpointListConfiguration[];
-export const OriginEndpointsList = /*@__PURE__*/ S.Array(
-  OriginEndpointListConfiguration,
-);
 export interface ListOriginEndpointsResponse {
   Items?: OriginEndpointListConfiguration[];
   NextToken?: string;
 }
-export const ListOriginEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(OriginEndpointsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListOriginEndpointsResponse",
-}) as any as S.Schema<ListOriginEndpointsResponse>;
 export type TagArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagMap) }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutChannelPolicyRequest {
   ChannelGroupName: string;
   ChannelName: string;
   Policy: string;
 }
-export const PutChannelPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-    Policy: S.String,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutChannelPolicyRequest",
-}) as any as S.Schema<PutChannelPolicyRequest>;
 export interface PutChannelPolicyResponse {}
-export const PutChannelPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutChannelPolicyResponse",
-}) as any as S.Schema<PutChannelPolicyResponse>;
 export interface PutOriginEndpointPolicyRequest {
   ChannelGroupName: string;
   ChannelName: string;
@@ -2240,101 +899,22 @@ export interface PutOriginEndpointPolicyRequest {
   Policy: string;
   CdnAuthConfiguration?: CdnAuthConfiguration;
 }
-export const PutOriginEndpointPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
-    Policy: S.String,
-    CdnAuthConfiguration: S.optional(CdnAuthConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/policy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutOriginEndpointPolicyRequest",
-}) as any as S.Schema<PutOriginEndpointPolicyRequest>;
 export interface PutOriginEndpointPolicyResponse {}
-export const PutOriginEndpointPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutOriginEndpointPolicyResponse",
-}) as any as S.Schema<PutOriginEndpointPolicyResponse>;
 export interface ResetChannelStateRequest {
   ChannelGroupName: string;
   ChannelName: string;
 }
-export const ResetChannelStateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/reset",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ResetChannelStateRequest",
-}) as any as S.Schema<ResetChannelStateRequest>;
 export interface ResetChannelStateResponse {
   ChannelGroupName: string;
   ChannelName: string;
   Arn: string;
   ResetAt: Date;
 }
-export const ResetChannelStateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String,
-    ChannelName: S.String,
-    Arn: S.String,
-    ResetAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "ResetChannelStateResponse",
-}) as any as S.Schema<ResetChannelStateResponse>;
 export interface ResetOriginEndpointStateRequest {
   ChannelGroupName: string;
   ChannelName: string;
   OriginEndpointName: string;
 }
-export const ResetOriginEndpointStateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/reset",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ResetOriginEndpointStateRequest",
-}) as any as S.Schema<ResetOriginEndpointStateRequest>;
 export interface ResetOriginEndpointStateResponse {
   ChannelGroupName: string;
   ChannelName: string;
@@ -2342,75 +922,17 @@ export interface ResetOriginEndpointStateResponse {
   Arn: string;
   ResetAt: Date;
 }
-export const ResetOriginEndpointStateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String,
-    ChannelName: S.String,
-    OriginEndpointName: S.String,
-    Arn: S.String,
-    ResetAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "ResetOriginEndpointStateResponse",
-}) as any as S.Schema<ResetOriginEndpointStateResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagMap,
-  })
-    .pipe(S.encodeKeys({ Tags: "tags" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateChannelRequest {
   ChannelGroupName: string;
   ChannelName: string;
@@ -2419,30 +941,6 @@ export interface UpdateChannelRequest {
   InputSwitchConfiguration?: InputSwitchConfiguration;
   OutputHeaderConfiguration?: OutputHeaderConfiguration;
 }
-export const UpdateChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("x-amzn-update-if-match")),
-    Description: S.optional(S.String),
-    InputSwitchConfiguration: S.optional(InputSwitchConfiguration),
-    OutputHeaderConfiguration: S.optional(OutputHeaderConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateChannelRequest",
-}) as any as S.Schema<UpdateChannelRequest>;
 export interface UpdateChannelResponse {
   Arn: string;
   ChannelName: string;
@@ -2458,48 +956,11 @@ export interface UpdateChannelResponse {
   OutputHeaderConfiguration?: OutputHeaderConfiguration;
   OutputLockingMode?: OutputLockingMode;
 }
-export const UpdateChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    ChannelName: S.String,
-    ChannelGroupName: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Description: S.optional(S.String),
-    IngestEndpoints: S.optional(IngestEndpointList),
-    InputType: S.optional(InputType),
-    ETag: S.optional(S.String),
-    Tags: S.optional(TagMap),
-    InputSwitchConfiguration: S.optional(InputSwitchConfiguration),
-    OutputHeaderConfiguration: S.optional(OutputHeaderConfiguration),
-    OutputLockingMode: S.optional(OutputLockingMode),
-  }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "UpdateChannelResponse",
-}) as any as S.Schema<UpdateChannelResponse>;
 export interface UpdateChannelGroupRequest {
   ChannelGroupName: string;
   ETag?: string;
   Description?: string;
 }
-export const UpdateChannelGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("x-amzn-update-if-match")),
-    Description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/channelGroup/{ChannelGroupName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateChannelGroupRequest",
-}) as any as S.Schema<UpdateChannelGroupRequest>;
 export interface UpdateChannelGroupResponse {
   ChannelGroupName: string;
   Arn: string;
@@ -2510,20 +971,6 @@ export interface UpdateChannelGroupResponse {
   ETag?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const UpdateChannelGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String,
-    Arn: S.String,
-    EgressDomain: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Description: S.optional(S.String),
-    ETag: S.optional(S.String),
-    Tags: S.optional(TagMap),
-  }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "UpdateChannelGroupResponse",
-}) as any as S.Schema<UpdateChannelGroupResponse>;
 export interface UpdateOriginEndpointRequest {
   ChannelGroupName: string;
   ChannelName: string;
@@ -2541,41 +988,6 @@ export interface UpdateOriginEndpointRequest {
   StreamNameOutputMode?: StreamNameOutputMode;
   ETag?: string;
 }
-export const UpdateOriginEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
-    ContainerType: ContainerType,
-    Segment: S.optional(Segment),
-    Description: S.optional(S.String),
-    StartoverWindowSeconds: S.optional(S.Number),
-    HlsManifests: S.optional(CreateHlsManifests),
-    LowLatencyHlsManifests: S.optional(CreateLowLatencyHlsManifests),
-    DashManifests: S.optional(CreateDashManifests),
-    MssManifests: S.optional(CreateMssManifests),
-    ForceEndpointErrorConfiguration: S.optional(
-      ForceEndpointErrorConfiguration,
-    ),
-    UriSeparator: S.optional(UriSeparator),
-    StreamNameOutputMode: S.optional(StreamNameOutputMode),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("x-amzn-update-if-match")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateOriginEndpointRequest",
-}) as any as S.Schema<UpdateOriginEndpointRequest>;
 export interface UpdateOriginEndpointResponse {
   Arn: string;
   ChannelGroupName: string;
@@ -2597,49 +1009,18 @@ export interface UpdateOriginEndpointResponse {
   Tags?: { [key: string]: string | undefined };
   DashManifests?: GetDashManifestConfiguration[];
 }
-export const UpdateOriginEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    ChannelGroupName: S.String,
-    ChannelName: S.String,
-    OriginEndpointName: S.String,
-    ContainerType: ContainerType,
-    Segment: Segment,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Description: S.optional(S.String),
-    StartoverWindowSeconds: S.optional(S.Number),
-    HlsManifests: S.optional(GetHlsManifests),
-    LowLatencyHlsManifests: S.optional(GetLowLatencyHlsManifests),
-    MssManifests: S.optional(GetMssManifests),
-    ForceEndpointErrorConfiguration: S.optional(
-      ForceEndpointErrorConfiguration,
-    ),
-    UriSeparator: S.optional(UriSeparator),
-    StreamNameOutputMode: S.optional(StreamNameOutputMode),
-    ETag: S.optional(S.String),
-    Tags: S.optional(TagMap),
-    DashManifests: S.optional(GetDashManifests),
-  }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "UpdateOriginEndpointResponse",
-}) as any as S.Schema<UpdateOriginEndpointResponse>;
 export type ConflictExceptionType =
   | "RESOURCE_IN_USE"
   | "RESOURCE_ALREADY_EXISTS"
   | "IDEMPOTENT_PARAMETER_MISMATCH"
   | "CONFLICTING_OPERATION"
   | (string & {});
-export const ConflictExceptionType = S.String;
-
 export type ResourceTypeNotFound =
   | "CHANNEL_GROUP"
   | "CHANNEL"
   | "ORIGIN_ENDPOINT"
   | "HARVEST_JOB"
   | (string & {});
-export const ResourceTypeNotFound = S.String;
-
 export type ValidationExceptionType =
   | "CONTAINER_TYPE_IMMUTABLE"
   | "INVALID_PAGINATION_TOKEN"
@@ -2748,8 +1129,6 @@ export type ValidationExceptionType =
   | "ONLY_HLS_INPUT_TYPE_ALLOW_STREAM_NAME_OUTPUT_MODE"
   | "STREAM_NAME_OUTPUT_MODE_IMMUTABLE"
   | (string & {});
-export const ValidationExceptionType = S.String;
-
 export type CancelHarvestJobError =
   | AccessDeniedException
   | ConflictException
@@ -2767,8 +1146,17 @@ export const cancelHarvestJob: API.OperationMethod<
   CancelHarvestJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelHarvestJobRequest,
-  output: CancelHarvestJobResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/harvestJob/{HarvestJobName}",
+    input: {
+      ChannelGroupName: 0,
+      ChannelName: 0,
+      OriginEndpointName: 0,
+      HarvestJobName: 0,
+      ETag: D.m({ header: "x-amzn-update-if-match" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2780,7 +1168,7 @@ export const cancelHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelHarvestJob",
-}));
+})) as any;
 
 export type CreateChannelError =
   | AccessDeniedException
@@ -2800,8 +1188,23 @@ export const createChannel: API.OperationMethod<
   CreateChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateChannelRequest,
-  output: CreateChannelResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /channelGroup/{ChannelGroupName}/channel",
+    input: {
+      ChannelGroupName: 0,
+      ChannelName: 0,
+      ClientToken: D.m({ header: "x-amzn-client-token", idempotency: true }),
+      InputType: 0,
+      Description: 0,
+      InputSwitchConfiguration: i_InputSwitchConfiguration,
+      OutputHeaderConfiguration: i_OutputHeaderConfiguration,
+      OutputLockingMode: 0,
+      Tags: D.m({ wire: "tags" }),
+    },
+    output: { CreatedAt: D.ts, ModifiedAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2814,7 +1217,7 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
-}));
+})) as any;
 
 export type CreateChannelGroupError =
   | AccessDeniedException
@@ -2834,8 +1237,18 @@ export const createChannelGroup: API.OperationMethod<
   CreateChannelGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateChannelGroupRequest,
-  output: CreateChannelGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /channelGroup",
+    input: {
+      ChannelGroupName: 0,
+      ClientToken: D.m({ header: "x-amzn-client-token", idempotency: true }),
+      Description: 0,
+      Tags: D.m({ wire: "tags" }),
+    },
+    output: { CreatedAt: D.ts, ModifiedAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2848,7 +1261,7 @@ export const createChannelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelGroup",
-}));
+})) as any;
 
 export type CreateHarvestJobError =
   | AccessDeniedException
@@ -2868,8 +1281,32 @@ export const createHarvestJob: API.OperationMethod<
   CreateHarvestJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateHarvestJobRequest,
-  output: CreateHarvestJobResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/harvestJob",
+    input: {
+      ChannelGroupName: 0,
+      ChannelName: 0,
+      OriginEndpointName: 0,
+      Description: 0,
+      HarvestedManifests: {
+        HlsManifests: D.list({ ManifestName: 0 }),
+        DashManifests: D.list({ ManifestName: 0 }),
+        LowLatencyHlsManifests: D.list({ ManifestName: 0 }),
+      },
+      ScheduleConfiguration: { StartTime: 0, EndTime: 0 },
+      Destination: { S3Destination: { BucketName: 0, DestinationPath: 0 } },
+      ClientToken: D.m({ header: "x-amzn-client-token", idempotency: true }),
+      HarvestJobName: 0,
+      Tags: 0,
+    },
+    output: {
+      ScheduleConfiguration: o_HarvesterScheduleConfiguration,
+      CreatedAt: D.ts,
+      ModifiedAt: D.ts,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2882,7 +1319,7 @@ export const createHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHarvestJob",
-}));
+})) as any;
 
 export type CreateOriginEndpointError =
   | AccessDeniedException
@@ -2902,8 +1339,39 @@ export const createOriginEndpoint: API.OperationMethod<
   CreateOriginEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateOriginEndpointRequest,
-  output: CreateOriginEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint",
+    input: {
+      ChannelGroupName: 0,
+      ChannelName: 0,
+      OriginEndpointName: 0,
+      ContainerType: 0,
+      Segment: i_Segment,
+      ClientToken: D.m({ header: "x-amzn-client-token", idempotency: true }),
+      Description: 0,
+      StartoverWindowSeconds: 0,
+      HlsManifests: D.list(i_CreateHlsManifestConfiguration),
+      LowLatencyHlsManifests: D.list(
+        i_CreateLowLatencyHlsManifestConfiguration,
+      ),
+      DashManifests: D.list(i_CreateDashManifestConfiguration),
+      MssManifests: D.list(i_CreateMssManifestConfiguration),
+      ForceEndpointErrorConfiguration: i_ForceEndpointErrorConfiguration,
+      UriSeparator: 0,
+      StreamNameOutputMode: 0,
+      Tags: 0,
+    },
+    output: {
+      CreatedAt: D.ts,
+      ModifiedAt: D.ts,
+      HlsManifests: D.list(o_GetHlsManifestConfiguration),
+      LowLatencyHlsManifests: D.list(o_GetLowLatencyHlsManifestConfiguration),
+      DashManifests: D.list(o_GetDashManifestConfiguration),
+      MssManifests: D.list(o_GetMssManifestConfiguration),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2916,7 +1384,7 @@ export const createOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginEndpoint",
-}));
+})) as any;
 
 export type DeleteChannelError =
   | AccessDeniedException
@@ -2934,8 +1402,11 @@ export const deleteChannel: API.OperationMethod<
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteChannelRequest,
-  output: DeleteChannelResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /channelGroup/{ChannelGroupName}/channel/{ChannelName}/",
+    input: { ChannelGroupName: 0, ChannelName: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2946,7 +1417,7 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
-}));
+})) as any;
 
 export type DeleteChannelGroupError =
   | AccessDeniedException
@@ -2964,8 +1435,11 @@ export const deleteChannelGroup: API.OperationMethod<
   DeleteChannelGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteChannelGroupRequest,
-  output: DeleteChannelGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /channelGroup/{ChannelGroupName}",
+    input: { ChannelGroupName: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2976,7 +1450,7 @@ export const deleteChannelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelGroup",
-}));
+})) as any;
 
 export type DeleteChannelPolicyError =
   | AccessDeniedException
@@ -2994,8 +1468,11 @@ export const deleteChannelPolicy: API.OperationMethod<
   DeleteChannelPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteChannelPolicyRequest,
-  output: DeleteChannelPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /channelGroup/{ChannelGroupName}/channel/{ChannelName}/policy",
+    input: { ChannelGroupName: 0, ChannelName: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3006,7 +1483,7 @@ export const deleteChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelPolicy",
-}));
+})) as any;
 
 export type DeleteOriginEndpointError =
   | AccessDeniedException
@@ -3023,8 +1500,11 @@ export const deleteOriginEndpoint: API.OperationMethod<
   DeleteOriginEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteOriginEndpointRequest,
-  output: DeleteOriginEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}",
+    input: { ChannelGroupName: 0, ChannelName: 0, OriginEndpointName: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3034,7 +1514,7 @@ export const deleteOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginEndpoint",
-}));
+})) as any;
 
 export type DeleteOriginEndpointPolicyError =
   | AccessDeniedException
@@ -3052,8 +1532,11 @@ export const deleteOriginEndpointPolicy: API.OperationMethod<
   DeleteOriginEndpointPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteOriginEndpointPolicyRequest,
-  output: DeleteOriginEndpointPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/policy",
+    input: { ChannelGroupName: 0, ChannelName: 0, OriginEndpointName: 0 },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3064,7 +1547,7 @@ export const deleteOriginEndpointPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginEndpointPolicy",
-}));
+})) as any;
 
 export type GetChannelError =
   | AccessDeniedException
@@ -3082,8 +1565,12 @@ export const getChannel: API.OperationMethod<
   GetChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetChannelRequest,
-  output: GetChannelResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /channelGroup/{ChannelGroupName}/channel/{ChannelName}/",
+    input: { ChannelGroupName: 0, ChannelName: 0 },
+    output: { CreatedAt: D.ts, ModifiedAt: D.ts, ResetAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3094,7 +1581,7 @@ export const getChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannel",
-}));
+})) as any;
 
 export type GetChannelGroupError =
   | AccessDeniedException
@@ -3112,8 +1599,12 @@ export const getChannelGroup: API.OperationMethod<
   GetChannelGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetChannelGroupRequest,
-  output: GetChannelGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /channelGroup/{ChannelGroupName}",
+    input: { ChannelGroupName: 0 },
+    output: { CreatedAt: D.ts, ModifiedAt: D.ts, Tags: D.m({ wire: "tags" }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3124,7 +1615,7 @@ export const getChannelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelGroup",
-}));
+})) as any;
 
 export type GetChannelPolicyError =
   | AccessDeniedException
@@ -3142,8 +1633,11 @@ export const getChannelPolicy: API.OperationMethod<
   GetChannelPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetChannelPolicyRequest,
-  output: GetChannelPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /channelGroup/{ChannelGroupName}/channel/{ChannelName}/policy",
+    input: { ChannelGroupName: 0, ChannelName: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3154,7 +1648,7 @@ export const getChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelPolicy",
-}));
+})) as any;
 
 export type GetHarvestJobError =
   | AccessDeniedException
@@ -3172,8 +1666,21 @@ export const getHarvestJob: API.OperationMethod<
   GetHarvestJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetHarvestJobRequest,
-  output: GetHarvestJobResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/harvestJob/{HarvestJobName}",
+    input: {
+      ChannelGroupName: 0,
+      ChannelName: 0,
+      OriginEndpointName: 0,
+      HarvestJobName: 0,
+    },
+    output: {
+      ScheduleConfiguration: o_HarvesterScheduleConfiguration,
+      CreatedAt: D.ts,
+      ModifiedAt: D.ts,
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3184,7 +1691,7 @@ export const getHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHarvestJob",
-}));
+})) as any;
 
 export type GetOriginEndpointError =
   | AccessDeniedException
@@ -3202,8 +1709,20 @@ export const getOriginEndpoint: API.OperationMethod<
   GetOriginEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetOriginEndpointRequest,
-  output: GetOriginEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}",
+    input: { ChannelGroupName: 0, ChannelName: 0, OriginEndpointName: 0 },
+    output: {
+      CreatedAt: D.ts,
+      ModifiedAt: D.ts,
+      ResetAt: D.ts,
+      HlsManifests: D.list(o_GetHlsManifestConfiguration),
+      LowLatencyHlsManifests: D.list(o_GetLowLatencyHlsManifestConfiguration),
+      DashManifests: D.list(o_GetDashManifestConfiguration),
+      MssManifests: D.list(o_GetMssManifestConfiguration),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3214,7 +1733,7 @@ export const getOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginEndpoint",
-}));
+})) as any;
 
 export type GetOriginEndpointPolicyError =
   | AccessDeniedException
@@ -3232,8 +1751,11 @@ export const getOriginEndpointPolicy: API.OperationMethod<
   GetOriginEndpointPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetOriginEndpointPolicyRequest,
-  output: GetOriginEndpointPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/policy",
+    input: { ChannelGroupName: 0, ChannelName: 0, OriginEndpointName: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3244,7 +1766,7 @@ export const getOriginEndpointPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginEndpointPolicy",
-}));
+})) as any;
 
 export type ListChannelGroupsError =
   | AccessDeniedException
@@ -3262,8 +1784,15 @@ export const listChannelGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ChannelGroupListConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListChannelGroupsRequest,
-  output: ListChannelGroupsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /channelGroup",
+    input: {
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: { Items: D.list({ CreatedAt: D.ts, ModifiedAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3298,8 +1827,16 @@ export const listChannels: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ChannelListConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListChannelsRequest,
-  output: ListChannelsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /channelGroup/{ChannelGroupName}/channel",
+    input: {
+      ChannelGroupName: 0,
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: { Items: D.list({ CreatedAt: D.ts, ModifiedAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3335,8 +1872,25 @@ export const listHarvestJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   HarvestJob
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListHarvestJobsRequest,
-  output: ListHarvestJobsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /channelGroup/{ChannelGroupName}/harvestJob",
+    input: {
+      ChannelGroupName: 0,
+      ChannelName: D.m({ query: "channelName" }),
+      OriginEndpointName: D.m({ query: "originEndpointName" }),
+      Status: D.m({ query: "includeStatus" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      Items: D.list({
+        ScheduleConfiguration: o_HarvesterScheduleConfiguration,
+        CreatedAt: D.ts,
+        ModifiedAt: D.ts,
+      }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3372,8 +1926,17 @@ export const listOriginEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OriginEndpointListConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListOriginEndpointsRequest,
-  output: ListOriginEndpointsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint",
+    input: {
+      ChannelGroupName: 0,
+      ChannelName: 0,
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: { Items: D.list({ CreatedAt: D.ts, ModifiedAt: D.ts }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3402,13 +1965,17 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{ResourceArn}",
+    input: { ResourceArn: 0 },
+    output: { Tags: D.m({ wire: "tags" }) },
+  },
   errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type PutChannelPolicyError =
   | AccessDeniedException
@@ -3427,8 +1994,12 @@ export const putChannelPolicy: API.OperationMethod<
   PutChannelPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutChannelPolicyRequest,
-  output: PutChannelPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /channelGroup/{ChannelGroupName}/channel/{ChannelName}/policy",
+    input: { ChannelGroupName: 0, ChannelName: 0, Policy: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3440,7 +2011,7 @@ export const putChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutChannelPolicy",
-}));
+})) as any;
 
 export type PutOriginEndpointPolicyError =
   | AccessDeniedException
@@ -3459,8 +2030,18 @@ export const putOriginEndpointPolicy: API.OperationMethod<
   PutOriginEndpointPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutOriginEndpointPolicyRequest,
-  output: PutOriginEndpointPolicyResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/policy",
+    input: {
+      ChannelGroupName: 0,
+      ChannelName: 0,
+      OriginEndpointName: 0,
+      Policy: 0,
+      CdnAuthConfiguration: { CdnIdentifierSecretArns: 0, SecretsRoleArn: 0 },
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3472,7 +2053,7 @@ export const putOriginEndpointPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOriginEndpointPolicy",
-}));
+})) as any;
 
 export type ResetChannelStateError =
   | AccessDeniedException
@@ -3493,8 +2074,12 @@ export const resetChannelState: API.OperationMethod<
   ResetChannelStateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ResetChannelStateRequest,
-  output: ResetChannelStateResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /channelGroup/{ChannelGroupName}/channel/{ChannelName}/reset",
+    input: { ChannelGroupName: 0, ChannelName: 0 },
+    output: { ResetAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3506,7 +2091,7 @@ export const resetChannelState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetChannelState",
-}));
+})) as any;
 
 export type ResetOriginEndpointStateError =
   | AccessDeniedException
@@ -3527,8 +2112,12 @@ export const resetOriginEndpointState: API.OperationMethod<
   ResetOriginEndpointStateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ResetOriginEndpointStateRequest,
-  output: ResetOriginEndpointStateResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/reset",
+    input: { ChannelGroupName: 0, ChannelName: 0, OriginEndpointName: 0 },
+    output: { ResetAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3540,7 +2129,7 @@ export const resetOriginEndpointState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetOriginEndpointState",
-}));
+})) as any;
 
 export type TagResourceError = ValidationException | CommonErrors;
 /**
@@ -3554,13 +2143,17 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{ResourceArn}",
+    input: { ResourceArn: 0, Tags: D.m({ wire: "tags" }) },
+    body: true,
+  },
   errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError = ValidationException | CommonErrors;
 /**
@@ -3572,13 +2165,16 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{ResourceArn}",
+    input: { ResourceArn: 0, TagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateChannelError =
   | AccessDeniedException
@@ -3599,8 +2195,20 @@ export const updateChannel: API.OperationMethod<
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateChannelRequest,
-  output: UpdateChannelResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /channelGroup/{ChannelGroupName}/channel/{ChannelName}/",
+    input: {
+      ChannelGroupName: 0,
+      ChannelName: 0,
+      ETag: D.m({ header: "x-amzn-update-if-match" }),
+      Description: 0,
+      InputSwitchConfiguration: i_InputSwitchConfiguration,
+      OutputHeaderConfiguration: i_OutputHeaderConfiguration,
+    },
+    output: { CreatedAt: D.ts, ModifiedAt: D.ts, Tags: D.m({ wire: "tags" }) },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3612,7 +2220,7 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
-}));
+})) as any;
 
 export type UpdateChannelGroupError =
   | AccessDeniedException
@@ -3633,8 +2241,17 @@ export const updateChannelGroup: API.OperationMethod<
   UpdateChannelGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateChannelGroupRequest,
-  output: UpdateChannelGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /channelGroup/{ChannelGroupName}",
+    input: {
+      ChannelGroupName: 0,
+      ETag: D.m({ header: "x-amzn-update-if-match" }),
+      Description: 0,
+    },
+    output: { CreatedAt: D.ts, ModifiedAt: D.ts, Tags: D.m({ wire: "tags" }) },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3646,7 +2263,7 @@ export const updateChannelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelGroup",
-}));
+})) as any;
 
 export type UpdateOriginEndpointError =
   | AccessDeniedException
@@ -3668,8 +2285,39 @@ export const updateOriginEndpoint: API.OperationMethod<
   UpdateOriginEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateOriginEndpointRequest,
-  output: UpdateOriginEndpointResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}",
+    input: {
+      ChannelGroupName: 0,
+      ChannelName: 0,
+      OriginEndpointName: 0,
+      ContainerType: 0,
+      Segment: i_Segment,
+      Description: 0,
+      StartoverWindowSeconds: 0,
+      HlsManifests: D.list(i_CreateHlsManifestConfiguration),
+      LowLatencyHlsManifests: D.list(
+        i_CreateLowLatencyHlsManifestConfiguration,
+      ),
+      DashManifests: D.list(i_CreateDashManifestConfiguration),
+      MssManifests: D.list(i_CreateMssManifestConfiguration),
+      ForceEndpointErrorConfiguration: i_ForceEndpointErrorConfiguration,
+      UriSeparator: 0,
+      StreamNameOutputMode: 0,
+      ETag: D.m({ header: "x-amzn-update-if-match" }),
+    },
+    output: {
+      CreatedAt: D.ts,
+      ModifiedAt: D.ts,
+      HlsManifests: D.list(o_GetHlsManifestConfiguration),
+      LowLatencyHlsManifests: D.list(o_GetLowLatencyHlsManifestConfiguration),
+      MssManifests: D.list(o_GetMssManifestConfiguration),
+      Tags: D.m({ wire: "tags" }),
+      DashManifests: D.list(o_GetDashManifestConfiguration),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3682,4 +2330,141 @@ export const updateOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginEndpoint",
-}));
+})) as any;
+
+const i_CreateDashManifestConfiguration: D.LazyStruct = () => ({
+  ManifestName: 0,
+  ManifestWindowSeconds: 0,
+  FilterConfiguration: i_FilterConfiguration,
+  MinUpdatePeriodSeconds: 0,
+  MinBufferTimeSeconds: 0,
+  SuggestedPresentationDelaySeconds: 0,
+  SegmentTemplateFormat: 0,
+  PeriodTriggers: 0,
+  ScteDash: { AdMarkerDash: 0, ScteInManifests: 0 },
+  DrmSignaling: 0,
+  UtcTiming: { TimingMode: 0, TimingSource: 0 },
+  Profiles: 0,
+  BaseUrls: D.list({
+    Url: 0,
+    ServiceLocation: 0,
+    DvbPriority: 0,
+    DvbWeight: 0,
+  }),
+  ProgramInformation: {
+    Title: 0,
+    Source: 0,
+    Copyright: 0,
+    LanguageCode: 0,
+    MoreInformationUrl: 0,
+  },
+  DvbSettings: {
+    FontDownload: { Url: 0, MimeType: 0, FontFamily: 0 },
+    ErrorMetrics: D.list({ ReportingUrl: 0, Probability: 0 }),
+  },
+  Compactness: 0,
+  AudioTimelinePattern: 0,
+  SubtitleConfiguration: { TtmlConfiguration: { TtmlProfile: 0 } },
+  UriPathType: 0,
+  AvailabilityStartTimeConfiguration: {
+    FixedAvailabilityStartTime: D.tsAs("date-time"),
+  },
+});
+const i_CreateHlsManifestConfiguration: D.LazyStruct = () => ({
+  ManifestName: 0,
+  ChildManifestName: 0,
+  ScteHls: i_ScteHls,
+  StartTag: i_StartTag,
+  ManifestWindowSeconds: 0,
+  ProgramDateTimeIntervalSeconds: 0,
+  FilterConfiguration: i_FilterConfiguration,
+  UrlEncodeChildManifest: 0,
+  UriPathType: 0,
+});
+const i_CreateLowLatencyHlsManifestConfiguration: D.LazyStruct = () => ({
+  ManifestName: 0,
+  ChildManifestName: 0,
+  ScteHls: i_ScteHls,
+  StartTag: i_StartTag,
+  ManifestWindowSeconds: 0,
+  ProgramDateTimeIntervalSeconds: 0,
+  FilterConfiguration: i_FilterConfiguration,
+  UrlEncodeChildManifest: 0,
+  UriPathType: 0,
+});
+const i_CreateMssManifestConfiguration: D.LazyStruct = () => ({
+  ManifestName: 0,
+  ManifestWindowSeconds: 0,
+  FilterConfiguration: i_FilterConfiguration,
+  ManifestLayout: 0,
+});
+const i_ForceEndpointErrorConfiguration: D.LazyStruct = () => ({
+  EndpointErrorConditions: 0,
+});
+const i_InputSwitchConfiguration: D.LazyStruct = () => ({
+  MQCSInputSwitching: 0,
+  PreferredInput: 0,
+});
+const i_OutputHeaderConfiguration: D.LazyStruct = () => ({ PublishMQCS: 0 });
+const i_Segment: D.LazyStruct = () => ({
+  SegmentDurationSeconds: 0,
+  SegmentName: 0,
+  TsUseAudioRenditionGroup: 0,
+  IncludeIframeOnlyStreams: 0,
+  TsIncludeDvbSubtitles: 0,
+  Scte: { ScteFilter: 0, ScteInSegments: 0, CustomAdTypes: 0 },
+  Encryption: {
+    ConstantInitializationVector: 0,
+    EncryptionMethod: {
+      TsEncryptionMethod: 0,
+      CmafEncryptionMethod: 0,
+      IsmEncryptionMethod: 0,
+    },
+    KeyRotationIntervalSeconds: 0,
+    CmafExcludeSegmentDrmMetadata: 0,
+    SpekeKeyProvider: {
+      EncryptionContractConfiguration: {
+        PresetSpeke20Audio: 0,
+        PresetSpeke20Video: 0,
+      },
+      ResourceId: 0,
+      DrmSystems: 0,
+      RoleArn: 0,
+      Url: 0,
+      CertificateArn: 0,
+    },
+  },
+  OutputTimestampMode: 0,
+});
+const o_GetDashManifestConfiguration: D.LazyStruct = () => ({
+  FilterConfiguration: o_FilterConfiguration,
+  AvailabilityStartTimeConfiguration: { FixedAvailabilityStartTime: D.ts },
+});
+const o_GetHlsManifestConfiguration: D.LazyStruct = () => ({
+  FilterConfiguration: o_FilterConfiguration,
+});
+const o_GetLowLatencyHlsManifestConfiguration: D.LazyStruct = () => ({
+  FilterConfiguration: o_FilterConfiguration,
+});
+const o_GetMssManifestConfiguration: D.LazyStruct = () => ({
+  FilterConfiguration: o_FilterConfiguration,
+});
+const o_HarvesterScheduleConfiguration: D.LazyStruct = () => ({
+  StartTime: D.ts,
+  EndTime: D.ts,
+});
+const i_FilterConfiguration: D.LazyStruct = () => ({
+  ManifestFilter: 0,
+  DrmSettings: 0,
+  Start: 0,
+  End: 0,
+  TimeDelaySeconds: 0,
+  ClipStartTime: 0,
+});
+const i_ScteHls: D.LazyStruct = () => ({ AdMarkerHls: 0, ScteInManifests: 0 });
+const i_StartTag: D.LazyStruct = () => ({ TimeOffset: 0, Precise: 0 });
+const o_FilterConfiguration: D.LazyStruct = () => ({
+  Start: D.ts,
+  End: D.ts,
+  ClipStartTime: D.ts,
+});

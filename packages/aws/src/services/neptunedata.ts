@@ -1,641 +1,505 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "neptunedata",
-  serviceShapeName: "AmazonNeptuneDataplane",
-});
-const auth = T.AwsAuthSigv4({ name: "neptune-db" });
-const ver = T.ServiceVersion("2023-08-01");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://neptune-db-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://neptune-db-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://neptune-db.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://neptune-db.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AmazonNeptuneDataplane",
+  version: "2023-08-01",
+  sigv4: "neptune-db",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://neptune-db-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://neptune-db-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://neptune-db.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://neptune-db.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class BadRequestException
-  extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "BadRequestException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class BulkLoadIdNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<BulkLoadIdNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "BulkLoadIdNotFoundException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(T.HttpError(404), T.Retryable()),
-  ).pipe(C.withBadRequestError, C.withRetryableError) {}
+    ["BadRequestError", "RetryableError"],
+    { status: 404 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class CancelledByUserException
-  extends /*@__PURE__*/ S.TaggedError<CancelledByUserException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CancelledByUserException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class ClientTimeoutException
-  extends /*@__PURE__*/ S.TaggedError<ClientTimeoutException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ClientTimeoutException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(T.HttpError(408), T.Retryable()),
-  ).pipe(C.withTimeoutError, C.withRetryableError) {}
+    ["TimeoutError", "RetryableError"],
+    { status: 408 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class ConcurrentModificationException
-  extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ConcurrentModificationException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(T.HttpError(500), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 500 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class ConstraintViolationException
-  extends /*@__PURE__*/ S.TaggedError<ConstraintViolationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ConstraintViolationException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(T.HttpError(400), T.Retryable()),
-  ).pipe(C.withBadRequestError, C.withRetryableError) {}
+    ["BadRequestError", "RetryableError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class ExpiredStreamException
-  extends /*@__PURE__*/ S.TaggedError<ExpiredStreamException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ExpiredStreamException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class FailureByQueryException
-  extends /*@__PURE__*/ S.TaggedError<FailureByQueryException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "FailureByQueryException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(T.HttpError(500), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 500 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class IllegalArgumentException
-  extends /*@__PURE__*/ S.TaggedError<IllegalArgumentException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "IllegalArgumentException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class InternalFailureException
-  extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalFailureException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class InvalidArgumentException
-  extends /*@__PURE__*/ S.TaggedError<InvalidArgumentException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidArgumentException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class InvalidNumericDataException
-  extends /*@__PURE__*/ S.TaggedError<InvalidNumericDataException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidNumericDataException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class InvalidParameterException
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidParameterException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class LoadUrlAccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<LoadUrlAccessDeniedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "LoadUrlAccessDeniedException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError, C.withAuthError) {}
+    ["BadRequestError", "AuthError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class MalformedQueryException
-  extends /*@__PURE__*/ S.TaggedError<MalformedQueryException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MalformedQueryException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class MemoryLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<MemoryLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MemoryLimitExceededException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(T.HttpError(500), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 500 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class MethodNotAllowedException
-  extends /*@__PURE__*/ S.TaggedError<MethodNotAllowedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MethodNotAllowedException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(405),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 405 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class MissingParameterException
-  extends /*@__PURE__*/ S.TaggedError<MissingParameterException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MissingParameterException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class MLResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<MLResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MLResourceNotFoundException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class ParsingException
-  extends /*@__PURE__*/ S.TaggedError<ParsingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ParsingException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class PreconditionsFailedException
-  extends /*@__PURE__*/ S.TaggedError<PreconditionsFailedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "PreconditionsFailedException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class QueryLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<QueryLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "QueryLimitExceededException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(T.HttpError(500), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 500 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class QueryLimitException
-  extends /*@__PURE__*/ S.TaggedError<QueryLimitException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "QueryLimitException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class QueryTooLargeException
-  extends /*@__PURE__*/ S.TaggedError<QueryTooLargeException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "QueryTooLargeException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class ReadOnlyViolationException
-  extends /*@__PURE__*/ S.TaggedError<ReadOnlyViolationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ReadOnlyViolationException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class S3Exception
-  extends /*@__PURE__*/ S.TaggedError<S3Exception>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "S3Exception",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(T.HttpError(400), T.Retryable()),
-  ).pipe(C.withBadRequestError, C.withRetryableError) {}
+    ["BadRequestError", "RetryableError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class ServerShutdownException
-  extends /*@__PURE__*/ S.TaggedError<ServerShutdownException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServerShutdownException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class StatisticsNotAvailableException
-  extends /*@__PURE__*/ S.TaggedError<StatisticsNotAvailableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "StatisticsNotAvailableException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class StreamRecordsNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<StreamRecordsNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "StreamRecordsNotFoundException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(T.HttpError(500), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 500 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class TimeLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<TimeLimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TimeLimitExceededException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(T.HttpError(500), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 500 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class TooManyRequestsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyRequestsException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(T.HttpError(429), T.Retryable()),
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+    ["ThrottlingError", "RetryableError"],
+    { status: 429 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export class UnsupportedOperationException
-  extends /*@__PURE__*/ S.TaggedError<UnsupportedOperationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "UnsupportedOperationException",
-    {
-      detailedMessage: S.String,
-      requestId: S.String,
-      code: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly detailedMessage: string;
+    readonly requestId: string;
+    readonly code: string;
+    readonly message?: string;
+  }> {}
 export interface CancelGremlinQueryInput {
   queryId: string;
 }
-export const CancelGremlinQueryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ queryId: S.String.pipe(T.HttpLabel("queryId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/gremlin/status/{queryId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CancelGremlinQueryInput",
-}) as any as S.Schema<CancelGremlinQueryInput>;
 export interface CancelGremlinQueryOutput {
   status?: string;
 }
-export const CancelGremlinQueryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
-).annotate({
-  identifier: "CancelGremlinQueryOutput",
-}) as any as S.Schema<CancelGremlinQueryOutput>;
 export interface CancelLoaderJobInput {
   loadId: string;
 }
-export const CancelLoaderJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ loadId: S.String.pipe(T.HttpLabel("loadId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/loader/{loadId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CancelLoaderJobInput",
-}) as any as S.Schema<CancelLoaderJobInput>;
 export interface CancelLoaderJobOutput {
   status?: string;
 }
-export const CancelLoaderJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
-).annotate({
-  identifier: "CancelLoaderJobOutput",
-}) as any as S.Schema<CancelLoaderJobOutput>;
 export interface CancelMLDataProcessingJobInput {
   id: string;
   neptuneIamRoleArn?: string;
   clean?: boolean;
 }
-export const CancelMLDataProcessingJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    neptuneIamRoleArn: S.optional(S.String).pipe(
-      T.HttpQuery("neptuneIamRoleArn"),
-    ),
-    clean: S.optional(S.Boolean).pipe(T.HttpQuery("clean")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/ml/dataprocessing/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CancelMLDataProcessingJobInput",
-}) as any as S.Schema<CancelMLDataProcessingJobInput>;
 export interface CancelMLDataProcessingJobOutput {
   status?: string;
 }
-export const CancelMLDataProcessingJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
-).annotate({
-  identifier: "CancelMLDataProcessingJobOutput",
-}) as any as S.Schema<CancelMLDataProcessingJobOutput>;
 export interface CancelMLModelTrainingJobInput {
   id: string;
   neptuneIamRoleArn?: string;
   clean?: boolean;
 }
-export const CancelMLModelTrainingJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    neptuneIamRoleArn: S.optional(S.String).pipe(
-      T.HttpQuery("neptuneIamRoleArn"),
-    ),
-    clean: S.optional(S.Boolean).pipe(T.HttpQuery("clean")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/ml/modeltraining/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CancelMLModelTrainingJobInput",
-}) as any as S.Schema<CancelMLModelTrainingJobInput>;
 export interface CancelMLModelTrainingJobOutput {
   status?: string;
 }
-export const CancelMLModelTrainingJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
-).annotate({
-  identifier: "CancelMLModelTrainingJobOutput",
-}) as any as S.Schema<CancelMLModelTrainingJobOutput>;
 export interface CancelMLModelTransformJobInput {
   id: string;
   neptuneIamRoleArn?: string;
   clean?: boolean;
 }
-export const CancelMLModelTransformJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    neptuneIamRoleArn: S.optional(S.String).pipe(
-      T.HttpQuery("neptuneIamRoleArn"),
-    ),
-    clean: S.optional(S.Boolean).pipe(T.HttpQuery("clean")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/ml/modeltransform/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CancelMLModelTransformJobInput",
-}) as any as S.Schema<CancelMLModelTransformJobInput>;
 export interface CancelMLModelTransformJobOutput {
   status?: string;
 }
-export const CancelMLModelTransformJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
-).annotate({
-  identifier: "CancelMLModelTransformJobOutput",
-}) as any as S.Schema<CancelMLModelTransformJobOutput>;
 export interface CancelOpenCypherQueryInput {
   queryId: string;
   silent?: boolean;
 }
-export const CancelOpenCypherQueryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queryId: S.String.pipe(T.HttpLabel("queryId")),
-    silent: S.optional(S.Boolean).pipe(T.HttpQuery("silent")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/opencypher/status/{queryId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CancelOpenCypherQueryInput",
-}) as any as S.Schema<CancelOpenCypherQueryInput>;
 export interface CancelOpenCypherQueryOutput {
   status?: string;
   payload?: boolean;
 }
-export const CancelOpenCypherQueryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.optional(S.String), payload: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "CancelOpenCypherQueryOutput",
-}) as any as S.Schema<CancelOpenCypherQueryOutput>;
 export interface CreateMLEndpointInput {
   id?: string;
   mlModelTrainingJobId?: string;
@@ -647,214 +511,56 @@ export interface CreateMLEndpointInput {
   instanceCount?: number;
   volumeEncryptionKMSKey?: string;
 }
-export const CreateMLEndpointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    mlModelTrainingJobId: S.optional(S.String),
-    mlModelTransformJobId: S.optional(S.String),
-    update: S.optional(S.Boolean),
-    neptuneIamRoleArn: S.optional(S.String),
-    modelName: S.optional(S.String),
-    instanceType: S.optional(S.String),
-    instanceCount: S.optional(S.Number),
-    volumeEncryptionKMSKey: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ml/endpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateMLEndpointInput",
-}) as any as S.Schema<CreateMLEndpointInput>;
 export interface CreateMLEndpointOutput {
   id?: string;
   arn?: string;
   creationTimeInMillis?: number;
 }
-export const CreateMLEndpointOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    creationTimeInMillis: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CreateMLEndpointOutput",
-}) as any as S.Schema<CreateMLEndpointOutput>;
 export interface DeleteMLEndpointInput {
   id: string;
   neptuneIamRoleArn?: string;
   clean?: boolean;
 }
-export const DeleteMLEndpointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    neptuneIamRoleArn: S.optional(S.String).pipe(
-      T.HttpQuery("neptuneIamRoleArn"),
-    ),
-    clean: S.optional(S.Boolean).pipe(T.HttpQuery("clean")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/ml/endpoints/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteMLEndpointInput",
-}) as any as S.Schema<DeleteMLEndpointInput>;
 export interface DeleteMLEndpointOutput {
   status?: string;
 }
-export const DeleteMLEndpointOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
-).annotate({
-  identifier: "DeleteMLEndpointOutput",
-}) as any as S.Schema<DeleteMLEndpointOutput>;
 export interface DeletePropertygraphStatisticsRequest {}
-export const DeletePropertygraphStatisticsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({}).pipe(
-      T.all(
-        T.Http({ method: "DELETE", uri: "/propertygraph/statistics" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeletePropertygraphStatisticsRequest",
-}) as any as S.Schema<DeletePropertygraphStatisticsRequest>;
 export interface DeleteStatisticsValueMap {
   active?: boolean;
   statisticsId?: string;
 }
-export const DeleteStatisticsValueMap = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.optional(S.Boolean),
-    statisticsId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteStatisticsValueMap",
-}) as any as S.Schema<DeleteStatisticsValueMap>;
 export interface DeletePropertygraphStatisticsOutput {
   statusCode?: number;
   status?: string;
   payload?: DeleteStatisticsValueMap;
 }
-export const DeletePropertygraphStatisticsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
-    status: S.optional(S.String),
-    payload: S.optional(DeleteStatisticsValueMap),
-  }),
-).annotate({
-  identifier: "DeletePropertygraphStatisticsOutput",
-}) as any as S.Schema<DeletePropertygraphStatisticsOutput>;
 export interface DeleteSparqlStatisticsRequest {}
-export const DeleteSparqlStatisticsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/sparql/statistics" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteSparqlStatisticsRequest",
-}) as any as S.Schema<DeleteSparqlStatisticsRequest>;
 export interface DeleteSparqlStatisticsOutput {
   statusCode?: number;
   status?: string;
   payload?: DeleteStatisticsValueMap;
 }
-export const DeleteSparqlStatisticsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
-    status: S.optional(S.String),
-    payload: S.optional(DeleteStatisticsValueMap),
-  }),
-).annotate({
-  identifier: "DeleteSparqlStatisticsOutput",
-}) as any as S.Schema<DeleteSparqlStatisticsOutput>;
 export type Action =
   | "initiateDatabaseReset"
   | "performDatabaseReset"
   | (string & {});
-export const Action = S.String;
-
 export interface ExecuteFastResetInput {
   action: Action;
   token?: string;
 }
-export const ExecuteFastResetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ action: Action, token: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/system" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ExecuteFastResetInput",
-}) as any as S.Schema<ExecuteFastResetInput>;
 export interface FastResetToken {
   token?: string;
 }
-export const FastResetToken = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ token: S.optional(S.String) }),
-).annotate({ identifier: "FastResetToken" }) as any as S.Schema<FastResetToken>;
 export interface ExecuteFastResetOutput {
   status: string;
   payload?: FastResetToken;
 }
-export const ExecuteFastResetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.String, payload: S.optional(FastResetToken) }),
-).annotate({
-  identifier: "ExecuteFastResetOutput",
-}) as any as S.Schema<ExecuteFastResetOutput>;
 export interface ExecuteGremlinExplainQueryInput {
   gremlinQuery: string;
 }
-export const ExecuteGremlinExplainQueryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ gremlinQuery: S.String })
-    .pipe(S.encodeKeys({ gremlinQuery: "gremlin" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/gremlin/explain" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ExecuteGremlinExplainQueryInput",
-}) as any as S.Schema<ExecuteGremlinExplainQueryInput>;
 export interface ExecuteGremlinExplainQueryOutput {
   output?: T.StreamingOutputBody;
 }
-export const ExecuteGremlinExplainQueryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ output: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }),
-).annotate({
-  identifier: "ExecuteGremlinExplainQueryOutput",
-}) as any as S.Schema<ExecuteGremlinExplainQueryOutput>;
 export interface ExecuteGremlinProfileQueryInput {
   gremlinQuery: string;
   results?: boolean;
@@ -862,198 +568,50 @@ export interface ExecuteGremlinProfileQueryInput {
   serializer?: string;
   indexOps?: boolean;
 }
-export const ExecuteGremlinProfileQueryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gremlinQuery: S.String,
-    results: S.optional(S.Boolean),
-    chop: S.optional(S.Number),
-    serializer: S.optional(S.String),
-    indexOps: S.optional(S.Boolean),
-  })
-    .pipe(
-      S.encodeKeys({
-        gremlinQuery: "gremlin",
-        results: "profile.results",
-        chop: "profile.chop",
-        serializer: "profile.serializer",
-        indexOps: "profile.indexOps",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/gremlin/profile" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ExecuteGremlinProfileQueryInput",
-}) as any as S.Schema<ExecuteGremlinProfileQueryInput>;
 export interface ExecuteGremlinProfileQueryOutput {
   output?: T.StreamingOutputBody;
 }
-export const ExecuteGremlinProfileQueryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ output: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }),
-).annotate({
-  identifier: "ExecuteGremlinProfileQueryOutput",
-}) as any as S.Schema<ExecuteGremlinProfileQueryOutput>;
 export interface ExecuteGremlinQueryInput {
   gremlinQuery: string;
   serializer?: string;
 }
-export const ExecuteGremlinQueryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gremlinQuery: S.String,
-    serializer: S.optional(S.String).pipe(T.HttpHeader("accept")),
-  })
-    .pipe(S.encodeKeys({ gremlinQuery: "gremlin" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/gremlin" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ExecuteGremlinQueryInput",
-}) as any as S.Schema<ExecuteGremlinQueryInput>;
 export interface GremlinQueryStatusAttributes {
   message?: string;
   code?: number;
   attributes?: any;
 }
-export const GremlinQueryStatusAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.optional(S.String),
-    code: S.optional(S.Number),
-    attributes: S.optional(S.Any),
-  }),
-).annotate({
-  identifier: "GremlinQueryStatusAttributes",
-}) as any as S.Schema<GremlinQueryStatusAttributes>;
 export interface ExecuteGremlinQueryOutput {
   requestId?: string;
   status?: GremlinQueryStatusAttributes;
   result?: any;
   meta?: any;
 }
-export const ExecuteGremlinQueryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    requestId: S.optional(S.String),
-    status: S.optional(GremlinQueryStatusAttributes),
-    result: S.optional(S.Any),
-    meta: S.optional(S.Any),
-  }),
-).annotate({
-  identifier: "ExecuteGremlinQueryOutput",
-}) as any as S.Schema<ExecuteGremlinQueryOutput>;
 export type OpenCypherExplainMode =
   | "static"
   | "dynamic"
   | "details"
   | (string & {});
-export const OpenCypherExplainMode = S.String;
-
 export interface ExecuteOpenCypherExplainQueryInput {
   openCypherQuery: string;
   parameters?: string;
   explainMode: OpenCypherExplainMode;
 }
-export const ExecuteOpenCypherExplainQueryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    openCypherQuery: S.String,
-    parameters: S.optional(S.String),
-    explainMode: OpenCypherExplainMode,
-  })
-    .pipe(S.encodeKeys({ openCypherQuery: "query", explainMode: "explain" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/opencypher/explain" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ExecuteOpenCypherExplainQueryInput",
-}) as any as S.Schema<ExecuteOpenCypherExplainQueryInput>;
 export interface ExecuteOpenCypherExplainQueryOutput {
   results: Uint8Array;
 }
-export const ExecuteOpenCypherExplainQueryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ results: T.Blob.pipe(T.HttpPayload()) }),
-).annotate({
-  identifier: "ExecuteOpenCypherExplainQueryOutput",
-}) as any as S.Schema<ExecuteOpenCypherExplainQueryOutput>;
 export interface ExecuteOpenCypherQueryInput {
   openCypherQuery: string;
   parameters?: string;
 }
-export const ExecuteOpenCypherQueryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ openCypherQuery: S.String, parameters: S.optional(S.String) })
-    .pipe(S.encodeKeys({ openCypherQuery: "query" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/opencypher" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ExecuteOpenCypherQueryInput",
-}) as any as S.Schema<ExecuteOpenCypherQueryInput>;
 export interface ExecuteOpenCypherQueryOutput {
   results: any;
 }
-export const ExecuteOpenCypherQueryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ results: S.Any }),
-).annotate({
-  identifier: "ExecuteOpenCypherQueryOutput",
-}) as any as S.Schema<ExecuteOpenCypherQueryOutput>;
 export interface GetEngineStatusRequest {}
-export const GetEngineStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/status" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEngineStatusRequest",
-}) as any as S.Schema<GetEngineStatusRequest>;
 export interface QueryLanguageVersion {
   version: string;
 }
-export const QueryLanguageVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ version: S.String }),
-).annotate({
-  identifier: "QueryLanguageVersion",
-}) as any as S.Schema<QueryLanguageVersion>;
 export type StringValuedMap = { [key: string]: string | undefined };
-export const StringValuedMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type DocumentValuedMap = { [key: string]: any | undefined };
-export const DocumentValuedMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Any.pipe(S.optional),
-);
 export interface GetEngineStatusOutput {
   status?: string;
   startTime?: string;
@@ -1069,70 +627,20 @@ export interface GetEngineStatusOutput {
   features?: { [key: string]: any | undefined };
   settings?: { [key: string]: string | undefined };
 }
-export const GetEngineStatusOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(S.String),
-    startTime: S.optional(S.String),
-    dbEngineVersion: S.optional(S.String),
-    role: S.optional(S.String),
-    dfeQueryEngine: S.optional(S.String),
-    gremlin: S.optional(QueryLanguageVersion),
-    sparql: S.optional(QueryLanguageVersion),
-    opencypher: S.optional(QueryLanguageVersion),
-    labMode: S.optional(StringValuedMap),
-    rollingBackTrxCount: S.optional(S.Number),
-    rollingBackTrxEarliestStartTime: S.optional(S.String),
-    features: S.optional(DocumentValuedMap),
-    settings: S.optional(StringValuedMap),
-  }),
-).annotate({
-  identifier: "GetEngineStatusOutput",
-}) as any as S.Schema<GetEngineStatusOutput>;
 export interface GetGremlinQueryStatusInput {
   queryId: string;
 }
-export const GetGremlinQueryStatusInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ queryId: S.String.pipe(T.HttpLabel("queryId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/gremlin/status/{queryId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetGremlinQueryStatusInput",
-}) as any as S.Schema<GetGremlinQueryStatusInput>;
 export interface QueryEvalStats {
   waited?: number;
   elapsed?: number;
   cancelled?: boolean;
   subqueries?: any;
 }
-export const QueryEvalStats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    waited: S.optional(S.Number),
-    elapsed: S.optional(S.Number),
-    cancelled: S.optional(S.Boolean),
-    subqueries: S.optional(S.Any),
-  }),
-).annotate({ identifier: "QueryEvalStats" }) as any as S.Schema<QueryEvalStats>;
 export interface GetGremlinQueryStatusOutput {
   queryId?: string;
   queryString?: string;
   queryEvalStats?: QueryEvalStats;
 }
-export const GetGremlinQueryStatusOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queryId: S.optional(S.String),
-    queryString: S.optional(S.String),
-    queryEvalStats: S.optional(QueryEvalStats),
-  }),
-).annotate({
-  identifier: "GetGremlinQueryStatusOutput",
-}) as any as S.Schema<GetGremlinQueryStatusOutput>;
 export type PositiveInteger = number;
 export interface GetLoaderJobStatusInput {
   loadId: string;
@@ -1141,58 +649,14 @@ export interface GetLoaderJobStatusInput {
   page?: number;
   errorsPerPage?: number;
 }
-export const GetLoaderJobStatusInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    loadId: S.String.pipe(T.HttpLabel("loadId")),
-    details: S.optional(S.Boolean).pipe(T.HttpQuery("details")),
-    errors: S.optional(S.Boolean).pipe(T.HttpQuery("errors")),
-    page: S.optional(S.Number).pipe(T.HttpQuery("page")),
-    errorsPerPage: S.optional(S.Number).pipe(T.HttpQuery("errorsPerPage")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/loader/{loadId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLoaderJobStatusInput",
-}) as any as S.Schema<GetLoaderJobStatusInput>;
 export interface GetLoaderJobStatusOutput {
   status: string;
   payload: any;
 }
-export const GetLoaderJobStatusOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.String, payload: S.Any }),
-).annotate({
-  identifier: "GetLoaderJobStatusOutput",
-}) as any as S.Schema<GetLoaderJobStatusOutput>;
 export interface GetMLDataProcessingJobInput {
   id: string;
   neptuneIamRoleArn?: string;
 }
-export const GetMLDataProcessingJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    neptuneIamRoleArn: S.optional(S.String).pipe(
-      T.HttpQuery("neptuneIamRoleArn"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/ml/dataprocessing/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMLDataProcessingJobInput",
-}) as any as S.Schema<GetMLDataProcessingJobInput>;
 export interface MlResourceDefinition {
   name?: string;
   arn?: string;
@@ -1201,105 +665,30 @@ export interface MlResourceDefinition {
   failureReason?: string;
   cloudwatchLogUrl?: string;
 }
-export const MlResourceDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    arn: S.optional(S.String),
-    status: S.optional(S.String),
-    outputLocation: S.optional(S.String),
-    failureReason: S.optional(S.String),
-    cloudwatchLogUrl: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MlResourceDefinition",
-}) as any as S.Schema<MlResourceDefinition>;
 export interface GetMLDataProcessingJobOutput {
   status?: string;
   id?: string;
   processingJob?: MlResourceDefinition;
 }
-export const GetMLDataProcessingJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(S.String),
-    id: S.optional(S.String),
-    processingJob: S.optional(MlResourceDefinition),
-  }),
-).annotate({
-  identifier: "GetMLDataProcessingJobOutput",
-}) as any as S.Schema<GetMLDataProcessingJobOutput>;
 export interface GetMLEndpointInput {
   id: string;
   neptuneIamRoleArn?: string;
 }
-export const GetMLEndpointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    neptuneIamRoleArn: S.optional(S.String).pipe(
-      T.HttpQuery("neptuneIamRoleArn"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/ml/endpoints/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMLEndpointInput",
-}) as any as S.Schema<GetMLEndpointInput>;
 export interface MlConfigDefinition {
   name?: string;
   arn?: string;
 }
-export const MlConfigDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.optional(S.String), arn: S.optional(S.String) }),
-).annotate({
-  identifier: "MlConfigDefinition",
-}) as any as S.Schema<MlConfigDefinition>;
 export interface GetMLEndpointOutput {
   status?: string;
   id?: string;
   endpoint?: MlResourceDefinition;
   endpointConfig?: MlConfigDefinition;
 }
-export const GetMLEndpointOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(S.String),
-    id: S.optional(S.String),
-    endpoint: S.optional(MlResourceDefinition),
-    endpointConfig: S.optional(MlConfigDefinition),
-  }),
-).annotate({
-  identifier: "GetMLEndpointOutput",
-}) as any as S.Schema<GetMLEndpointOutput>;
 export interface GetMLModelTrainingJobInput {
   id: string;
   neptuneIamRoleArn?: string;
 }
-export const GetMLModelTrainingJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    neptuneIamRoleArn: S.optional(S.String).pipe(
-      T.HttpQuery("neptuneIamRoleArn"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/ml/modeltraining/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMLModelTrainingJobInput",
-}) as any as S.Schema<GetMLModelTrainingJobInput>;
 export type MlModels = MlConfigDefinition[];
-export const MlModels = /*@__PURE__*/ S.Array(MlConfigDefinition);
 export interface GetMLModelTrainingJobOutput {
   status?: string;
   id?: string;
@@ -1308,43 +697,11 @@ export interface GetMLModelTrainingJobOutput {
   modelTransformJob?: MlResourceDefinition;
   mlModels?: MlConfigDefinition[];
 }
-export const GetMLModelTrainingJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(S.String),
-    id: S.optional(S.String),
-    processingJob: S.optional(MlResourceDefinition),
-    hpoJob: S.optional(MlResourceDefinition),
-    modelTransformJob: S.optional(MlResourceDefinition),
-    mlModels: S.optional(MlModels),
-  }),
-).annotate({
-  identifier: "GetMLModelTrainingJobOutput",
-}) as any as S.Schema<GetMLModelTrainingJobOutput>;
 export interface GetMLModelTransformJobInput {
   id: string;
   neptuneIamRoleArn?: string;
 }
-export const GetMLModelTransformJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    neptuneIamRoleArn: S.optional(S.String).pipe(
-      T.HttpQuery("neptuneIamRoleArn"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/ml/modeltransform/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMLModelTransformJobInput",
-}) as any as S.Schema<GetMLModelTransformJobInput>;
 export type Models = MlConfigDefinition[];
-export const Models = /*@__PURE__*/ S.Array(MlConfigDefinition);
 export interface GetMLModelTransformJobOutput {
   status?: string;
   id?: string;
@@ -1352,77 +709,20 @@ export interface GetMLModelTransformJobOutput {
   remoteModelTransformJob?: MlResourceDefinition;
   models?: MlConfigDefinition[];
 }
-export const GetMLModelTransformJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(S.String),
-    id: S.optional(S.String),
-    baseProcessingJob: S.optional(MlResourceDefinition),
-    remoteModelTransformJob: S.optional(MlResourceDefinition),
-    models: S.optional(Models),
-  }),
-).annotate({
-  identifier: "GetMLModelTransformJobOutput",
-}) as any as S.Schema<GetMLModelTransformJobOutput>;
 export interface GetOpenCypherQueryStatusInput {
   queryId: string;
 }
-export const GetOpenCypherQueryStatusInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ queryId: S.String.pipe(T.HttpLabel("queryId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/opencypher/status/{queryId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetOpenCypherQueryStatusInput",
-}) as any as S.Schema<GetOpenCypherQueryStatusInput>;
 export interface GetOpenCypherQueryStatusOutput {
   queryId?: string;
   queryString?: string;
   queryEvalStats?: QueryEvalStats;
 }
-export const GetOpenCypherQueryStatusOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queryId: S.optional(S.String),
-    queryString: S.optional(S.String),
-    queryEvalStats: S.optional(QueryEvalStats),
-  }),
-).annotate({
-  identifier: "GetOpenCypherQueryStatusOutput",
-}) as any as S.Schema<GetOpenCypherQueryStatusOutput>;
 export interface GetPropertygraphStatisticsRequest {}
-export const GetPropertygraphStatisticsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/propertygraph/statistics" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPropertygraphStatisticsRequest",
-}) as any as S.Schema<GetPropertygraphStatisticsRequest>;
 export interface StatisticsSummary {
   signatureCount?: number;
   instanceCount?: number;
   predicateCount?: number;
 }
-export const StatisticsSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    signatureCount: S.optional(S.Number),
-    instanceCount: S.optional(S.Number),
-    predicateCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "StatisticsSummary",
-}) as any as S.Schema<StatisticsSummary>;
 export interface Statistics {
   autoCompute?: boolean;
   active?: boolean;
@@ -1431,36 +731,17 @@ export interface Statistics {
   note?: string;
   signatureInfo?: StatisticsSummary;
 }
-export const Statistics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    autoCompute: S.optional(S.Boolean),
-    active: S.optional(S.Boolean),
-    statisticsId: S.optional(S.String),
-    date: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    note: S.optional(S.String),
-    signatureInfo: S.optional(StatisticsSummary),
-  }),
-).annotate({ identifier: "Statistics" }) as any as S.Schema<Statistics>;
 export interface GetPropertygraphStatisticsOutput {
   status: string;
   payload: Statistics;
 }
-export const GetPropertygraphStatisticsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.String, payload: Statistics }),
-).annotate({
-  identifier: "GetPropertygraphStatisticsOutput",
-}) as any as S.Schema<GetPropertygraphStatisticsOutput>;
 export type IteratorType =
   | "AT_SEQUENCE_NUMBER"
   | "AFTER_SEQUENCE_NUMBER"
   | "TRIM_HORIZON"
   | "LATEST"
   | (string & {});
-export const IteratorType = S.String;
-
 export type Encoding = "gzip" | (string & {});
-export const Encoding = S.String;
-
 export interface GetPropertygraphStreamInput {
   limit?: number;
   iteratorType?: IteratorType;
@@ -1468,26 +749,6 @@ export interface GetPropertygraphStreamInput {
   opNum?: number;
   encoding?: Encoding;
 }
-export const GetPropertygraphStreamInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    iteratorType: S.optional(IteratorType).pipe(T.HttpQuery("iteratorType")),
-    commitNum: S.optional(S.Number).pipe(T.HttpQuery("commitNum")),
-    opNum: S.optional(S.Number).pipe(T.HttpQuery("opNum")),
-    encoding: S.optional(Encoding).pipe(T.HttpHeader("Accept-Encoding")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/propertygraph/stream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPropertygraphStreamInput",
-}) as any as S.Schema<GetPropertygraphStreamInput>;
 export interface PropertygraphData {
   id: string;
   type: string;
@@ -1496,18 +757,6 @@ export interface PropertygraphData {
   from?: string;
   to?: string;
 }
-export const PropertygraphData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    type: S.String,
-    key: S.String,
-    value: S.Any,
-    from: S.optional(S.String),
-    to: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PropertygraphData",
-}) as any as S.Schema<PropertygraphData>;
 export interface PropertygraphRecord {
   commitTimestampInMillis: number;
   eventId: { [key: string]: string | undefined };
@@ -1515,20 +764,7 @@ export interface PropertygraphRecord {
   op: string;
   isLastOp?: boolean;
 }
-export const PropertygraphRecord = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    commitTimestampInMillis: S.Number,
-    eventId: StringValuedMap,
-    data: PropertygraphData,
-    op: S.String,
-    isLastOp: S.optional(S.Boolean),
-  }).pipe(S.encodeKeys({ commitTimestampInMillis: "commitTimestamp" })),
-).annotate({
-  identifier: "PropertygraphRecord",
-}) as any as S.Schema<PropertygraphRecord>;
 export type PropertygraphRecordsList = PropertygraphRecord[];
-export const PropertygraphRecordsList =
-  /*@__PURE__*/ S.Array(PropertygraphRecord);
 export interface GetPropertygraphStreamOutput {
   lastEventId: { [key: string]: string | undefined };
   lastTrxTimestampInMillis: number;
@@ -1536,82 +772,28 @@ export interface GetPropertygraphStreamOutput {
   records: PropertygraphRecord[];
   totalRecords: number;
 }
-export const GetPropertygraphStreamOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lastEventId: StringValuedMap,
-    lastTrxTimestampInMillis: S.Number,
-    format: S.String,
-    records: PropertygraphRecordsList,
-    totalRecords: S.Number,
-  }).pipe(S.encodeKeys({ lastTrxTimestampInMillis: "lastTrxTimestamp" })),
-).annotate({
-  identifier: "GetPropertygraphStreamOutput",
-}) as any as S.Schema<GetPropertygraphStreamOutput>;
 export type GraphSummaryType = "basic" | "detailed" | (string & {});
-export const GraphSummaryType = S.String;
-
 export interface GetPropertygraphSummaryInput {
   mode?: GraphSummaryType;
 }
-export const GetPropertygraphSummaryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mode: S.optional(GraphSummaryType).pipe(T.HttpQuery("mode")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/propertygraph/statistics/summary" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPropertygraphSummaryInput",
-}) as any as S.Schema<GetPropertygraphSummaryInput>;
 export type NodeLabels = string[];
-export const NodeLabels = /*@__PURE__*/ S.Array(S.String);
 export type EdgeLabels = string[];
-export const EdgeLabels = /*@__PURE__*/ S.Array(S.String);
 export type LongValuedMap = { [key: string]: number | undefined };
-export const LongValuedMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Number.pipe(S.optional),
-);
 export type LongValuedMapList = { [key: string]: number | undefined }[];
-export const LongValuedMapList = /*@__PURE__*/ S.Array(LongValuedMap);
 export type NodeProperties = string[];
-export const NodeProperties = /*@__PURE__*/ S.Array(S.String);
 export type OutgoingEdgeLabels = string[];
-export const OutgoingEdgeLabels = /*@__PURE__*/ S.Array(S.String);
 export interface NodeStructure {
   count?: number;
   nodeProperties?: string[];
   distinctOutgoingEdgeLabels?: string[];
 }
-export const NodeStructure = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    count: S.optional(S.Number),
-    nodeProperties: S.optional(NodeProperties),
-    distinctOutgoingEdgeLabels: S.optional(OutgoingEdgeLabels),
-  }),
-).annotate({ identifier: "NodeStructure" }) as any as S.Schema<NodeStructure>;
 export type NodeStructures = NodeStructure[];
-export const NodeStructures = /*@__PURE__*/ S.Array(NodeStructure);
 export type EdgeProperties = string[];
-export const EdgeProperties = /*@__PURE__*/ S.Array(S.String);
 export interface EdgeStructure {
   count?: number;
   edgeProperties?: string[];
 }
-export const EdgeStructure = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    count: S.optional(S.Number),
-    edgeProperties: S.optional(EdgeProperties),
-  }),
-).annotate({ identifier: "EdgeStructure" }) as any as S.Schema<EdgeStructure>;
 export type EdgeStructures = EdgeStructure[];
-export const EdgeStructures = /*@__PURE__*/ S.Array(EdgeStructure);
 export interface PropertygraphSummary {
   numNodes?: number;
   numEdges?: number;
@@ -1628,88 +810,25 @@ export interface PropertygraphSummary {
   nodeStructures?: NodeStructure[];
   edgeStructures?: EdgeStructure[];
 }
-export const PropertygraphSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    numNodes: S.optional(S.Number),
-    numEdges: S.optional(S.Number),
-    numNodeLabels: S.optional(S.Number),
-    numEdgeLabels: S.optional(S.Number),
-    nodeLabels: S.optional(NodeLabels),
-    edgeLabels: S.optional(EdgeLabels),
-    numNodeProperties: S.optional(S.Number),
-    numEdgeProperties: S.optional(S.Number),
-    nodeProperties: S.optional(LongValuedMapList),
-    edgeProperties: S.optional(LongValuedMapList),
-    totalNodePropertyValues: S.optional(S.Number),
-    totalEdgePropertyValues: S.optional(S.Number),
-    nodeStructures: S.optional(NodeStructures),
-    edgeStructures: S.optional(EdgeStructures),
-  }),
-).annotate({
-  identifier: "PropertygraphSummary",
-}) as any as S.Schema<PropertygraphSummary>;
 export interface PropertygraphSummaryValueMap {
   version?: string;
   lastStatisticsComputationTime?: Date;
   graphSummary?: PropertygraphSummary;
 }
-export const PropertygraphSummaryValueMap = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    version: S.optional(S.String),
-    lastStatisticsComputationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    graphSummary: S.optional(PropertygraphSummary),
-  }),
-).annotate({
-  identifier: "PropertygraphSummaryValueMap",
-}) as any as S.Schema<PropertygraphSummaryValueMap>;
 export interface GetPropertygraphSummaryOutput {
   statusCode?: number;
   payload?: PropertygraphSummaryValueMap;
 }
-export const GetPropertygraphSummaryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
-    payload: S.optional(PropertygraphSummaryValueMap),
-  }),
-).annotate({
-  identifier: "GetPropertygraphSummaryOutput",
-}) as any as S.Schema<GetPropertygraphSummaryOutput>;
 export interface GetRDFGraphSummaryInput {
   mode?: GraphSummaryType;
 }
-export const GetRDFGraphSummaryInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mode: S.optional(GraphSummaryType).pipe(T.HttpQuery("mode")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/rdf/statistics/summary" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRDFGraphSummaryInput",
-}) as any as S.Schema<GetRDFGraphSummaryInput>;
 export type Classes = string[];
-export const Classes = /*@__PURE__*/ S.Array(S.String);
 export type Predicates = string[];
-export const Predicates = /*@__PURE__*/ S.Array(S.String);
 export interface SubjectStructure {
   count?: number;
   predicates?: string[];
 }
-export const SubjectStructure = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ count: S.optional(S.Number), predicates: S.optional(Predicates) }),
-).annotate({
-  identifier: "SubjectStructure",
-}) as any as S.Schema<SubjectStructure>;
 export type SubjectStructures = SubjectStructure[];
-export const SubjectStructures = /*@__PURE__*/ S.Array(SubjectStructure);
 export interface RDFGraphSummary {
   numDistinctSubjects?: number;
   numDistinctPredicates?: number;
@@ -1719,71 +838,20 @@ export interface RDFGraphSummary {
   predicates?: { [key: string]: number | undefined }[];
   subjectStructures?: SubjectStructure[];
 }
-export const RDFGraphSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    numDistinctSubjects: S.optional(S.Number),
-    numDistinctPredicates: S.optional(S.Number),
-    numQuads: S.optional(S.Number),
-    numClasses: S.optional(S.Number),
-    classes: S.optional(Classes),
-    predicates: S.optional(LongValuedMapList),
-    subjectStructures: S.optional(SubjectStructures),
-  }),
-).annotate({
-  identifier: "RDFGraphSummary",
-}) as any as S.Schema<RDFGraphSummary>;
 export interface RDFGraphSummaryValueMap {
   version?: string;
   lastStatisticsComputationTime?: Date;
   graphSummary?: RDFGraphSummary;
 }
-export const RDFGraphSummaryValueMap = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    version: S.optional(S.String),
-    lastStatisticsComputationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    graphSummary: S.optional(RDFGraphSummary),
-  }),
-).annotate({
-  identifier: "RDFGraphSummaryValueMap",
-}) as any as S.Schema<RDFGraphSummaryValueMap>;
 export interface GetRDFGraphSummaryOutput {
   statusCode?: number;
   payload?: RDFGraphSummaryValueMap;
 }
-export const GetRDFGraphSummaryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
-    payload: S.optional(RDFGraphSummaryValueMap),
-  }),
-).annotate({
-  identifier: "GetRDFGraphSummaryOutput",
-}) as any as S.Schema<GetRDFGraphSummaryOutput>;
 export interface GetSparqlStatisticsRequest {}
-export const GetSparqlStatisticsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/sparql/statistics" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSparqlStatisticsRequest",
-}) as any as S.Schema<GetSparqlStatisticsRequest>;
 export interface GetSparqlStatisticsOutput {
   status: string;
   payload: Statistics;
 }
-export const GetSparqlStatisticsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.String, payload: Statistics }),
-).annotate({
-  identifier: "GetSparqlStatisticsOutput",
-}) as any as S.Schema<GetSparqlStatisticsOutput>;
 export interface GetSparqlStreamInput {
   limit?: number;
   iteratorType?: IteratorType;
@@ -1791,32 +859,9 @@ export interface GetSparqlStreamInput {
   opNum?: number;
   encoding?: Encoding;
 }
-export const GetSparqlStreamInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    iteratorType: S.optional(IteratorType).pipe(T.HttpQuery("iteratorType")),
-    commitNum: S.optional(S.Number).pipe(T.HttpQuery("commitNum")),
-    opNum: S.optional(S.Number).pipe(T.HttpQuery("opNum")),
-    encoding: S.optional(Encoding).pipe(T.HttpHeader("Accept-Encoding")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/sparql/stream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSparqlStreamInput",
-}) as any as S.Schema<GetSparqlStreamInput>;
 export interface SparqlData {
   stmt: string;
 }
-export const SparqlData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ stmt: S.String }),
-).annotate({ identifier: "SparqlData" }) as any as S.Schema<SparqlData>;
 export interface SparqlRecord {
   commitTimestampInMillis: number;
   eventId: { [key: string]: string | undefined };
@@ -1824,17 +869,7 @@ export interface SparqlRecord {
   op: string;
   isLastOp?: boolean;
 }
-export const SparqlRecord = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    commitTimestampInMillis: S.Number,
-    eventId: StringValuedMap,
-    data: SparqlData,
-    op: S.String,
-    isLastOp: S.optional(S.Boolean),
-  }).pipe(S.encodeKeys({ commitTimestampInMillis: "commitTimestamp" })),
-).annotate({ identifier: "SparqlRecord" }) as any as S.Schema<SparqlRecord>;
 export type SparqlRecordsList = SparqlRecord[];
-export const SparqlRecordsList = /*@__PURE__*/ S.Array(SparqlRecord);
 export interface GetSparqlStreamOutput {
   lastEventId: { [key: string]: string | undefined };
   lastTrxTimestampInMillis: number;
@@ -1842,332 +877,91 @@ export interface GetSparqlStreamOutput {
   records: SparqlRecord[];
   totalRecords: number;
 }
-export const GetSparqlStreamOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lastEventId: StringValuedMap,
-    lastTrxTimestampInMillis: S.Number,
-    format: S.String,
-    records: SparqlRecordsList,
-    totalRecords: S.Number,
-  }).pipe(S.encodeKeys({ lastTrxTimestampInMillis: "lastTrxTimestamp" })),
-).annotate({
-  identifier: "GetSparqlStreamOutput",
-}) as any as S.Schema<GetSparqlStreamOutput>;
 export interface ListGremlinQueriesInput {
   includeWaiting?: boolean;
 }
-export const ListGremlinQueriesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    includeWaiting: S.optional(S.Boolean).pipe(T.HttpQuery("includeWaiting")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/gremlin/status" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListGremlinQueriesInput",
-}) as any as S.Schema<ListGremlinQueriesInput>;
 export interface GremlinQueryStatus {
   queryId?: string;
   queryString?: string;
   queryEvalStats?: QueryEvalStats;
 }
-export const GremlinQueryStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queryId: S.optional(S.String),
-    queryString: S.optional(S.String),
-    queryEvalStats: S.optional(QueryEvalStats),
-  }),
-).annotate({
-  identifier: "GremlinQueryStatus",
-}) as any as S.Schema<GremlinQueryStatus>;
 export type GremlinQueries = GremlinQueryStatus[];
-export const GremlinQueries = /*@__PURE__*/ S.Array(GremlinQueryStatus);
 export interface ListGremlinQueriesOutput {
   acceptedQueryCount?: number;
   runningQueryCount?: number;
   queries?: GremlinQueryStatus[];
 }
-export const ListGremlinQueriesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    acceptedQueryCount: S.optional(S.Number),
-    runningQueryCount: S.optional(S.Number),
-    queries: S.optional(GremlinQueries),
-  }),
-).annotate({
-  identifier: "ListGremlinQueriesOutput",
-}) as any as S.Schema<ListGremlinQueriesOutput>;
 export interface ListLoaderJobsInput {
   limit?: number;
   includeQueuedLoads?: boolean;
 }
-export const ListLoaderJobsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    includeQueuedLoads: S.optional(S.Boolean).pipe(
-      T.HttpQuery("includeQueuedLoads"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/loader" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListLoaderJobsInput",
-}) as any as S.Schema<ListLoaderJobsInput>;
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface LoaderIdResult {
   loadIds?: string[];
 }
-export const LoaderIdResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ loadIds: S.optional(StringList) }),
-).annotate({ identifier: "LoaderIdResult" }) as any as S.Schema<LoaderIdResult>;
 export interface ListLoaderJobsOutput {
   status: string;
   payload: LoaderIdResult;
 }
-export const ListLoaderJobsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.String, payload: LoaderIdResult }),
-).annotate({
-  identifier: "ListLoaderJobsOutput",
-}) as any as S.Schema<ListLoaderJobsOutput>;
 export interface ListMLDataProcessingJobsInput {
   maxItems?: number;
   neptuneIamRoleArn?: string;
 }
-export const ListMLDataProcessingJobsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxItems: S.optional(S.Number).pipe(T.HttpQuery("maxItems")),
-    neptuneIamRoleArn: S.optional(S.String).pipe(
-      T.HttpQuery("neptuneIamRoleArn"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/ml/dataprocessing" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListMLDataProcessingJobsInput",
-}) as any as S.Schema<ListMLDataProcessingJobsInput>;
 export interface ListMLDataProcessingJobsOutput {
   ids?: string[];
 }
-export const ListMLDataProcessingJobsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ids: S.optional(StringList) }),
-).annotate({
-  identifier: "ListMLDataProcessingJobsOutput",
-}) as any as S.Schema<ListMLDataProcessingJobsOutput>;
 export interface ListMLEndpointsInput {
   maxItems?: number;
   neptuneIamRoleArn?: string;
 }
-export const ListMLEndpointsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxItems: S.optional(S.Number).pipe(T.HttpQuery("maxItems")),
-    neptuneIamRoleArn: S.optional(S.String).pipe(
-      T.HttpQuery("neptuneIamRoleArn"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/ml/endpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListMLEndpointsInput",
-}) as any as S.Schema<ListMLEndpointsInput>;
 export interface ListMLEndpointsOutput {
   ids?: string[];
 }
-export const ListMLEndpointsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ids: S.optional(StringList) }),
-).annotate({
-  identifier: "ListMLEndpointsOutput",
-}) as any as S.Schema<ListMLEndpointsOutput>;
 export interface ListMLModelTrainingJobsInput {
   maxItems?: number;
   neptuneIamRoleArn?: string;
 }
-export const ListMLModelTrainingJobsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxItems: S.optional(S.Number).pipe(T.HttpQuery("maxItems")),
-    neptuneIamRoleArn: S.optional(S.String).pipe(
-      T.HttpQuery("neptuneIamRoleArn"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/ml/modeltraining" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListMLModelTrainingJobsInput",
-}) as any as S.Schema<ListMLModelTrainingJobsInput>;
 export interface ListMLModelTrainingJobsOutput {
   ids?: string[];
 }
-export const ListMLModelTrainingJobsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ids: S.optional(StringList) }),
-).annotate({
-  identifier: "ListMLModelTrainingJobsOutput",
-}) as any as S.Schema<ListMLModelTrainingJobsOutput>;
 export interface ListMLModelTransformJobsInput {
   maxItems?: number;
   neptuneIamRoleArn?: string;
 }
-export const ListMLModelTransformJobsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxItems: S.optional(S.Number).pipe(T.HttpQuery("maxItems")),
-    neptuneIamRoleArn: S.optional(S.String).pipe(
-      T.HttpQuery("neptuneIamRoleArn"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/ml/modeltransform" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListMLModelTransformJobsInput",
-}) as any as S.Schema<ListMLModelTransformJobsInput>;
 export interface ListMLModelTransformJobsOutput {
   ids?: string[];
 }
-export const ListMLModelTransformJobsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ids: S.optional(StringList) }),
-).annotate({
-  identifier: "ListMLModelTransformJobsOutput",
-}) as any as S.Schema<ListMLModelTransformJobsOutput>;
 export interface ListOpenCypherQueriesInput {
   includeWaiting?: boolean;
 }
-export const ListOpenCypherQueriesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    includeWaiting: S.optional(S.Boolean).pipe(T.HttpQuery("includeWaiting")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/opencypher/status" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListOpenCypherQueriesInput",
-}) as any as S.Schema<ListOpenCypherQueriesInput>;
 export type OpenCypherQueries = GremlinQueryStatus[];
-export const OpenCypherQueries = /*@__PURE__*/ S.Array(GremlinQueryStatus);
 export interface ListOpenCypherQueriesOutput {
   acceptedQueryCount?: number;
   runningQueryCount?: number;
   queries?: GremlinQueryStatus[];
 }
-export const ListOpenCypherQueriesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    acceptedQueryCount: S.optional(S.Number),
-    runningQueryCount: S.optional(S.Number),
-    queries: S.optional(OpenCypherQueries),
-  }),
-).annotate({
-  identifier: "ListOpenCypherQueriesOutput",
-}) as any as S.Schema<ListOpenCypherQueriesOutput>;
 export type StatisticsAutoGenerationMode =
   | "disableAutoCompute"
   | "enableAutoCompute"
   | "refresh"
   | (string & {});
-export const StatisticsAutoGenerationMode = S.String;
-
 export interface ManagePropertygraphStatisticsInput {
   mode?: StatisticsAutoGenerationMode;
 }
-export const ManagePropertygraphStatisticsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ mode: S.optional(StatisticsAutoGenerationMode) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/propertygraph/statistics" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ManagePropertygraphStatisticsInput",
-}) as any as S.Schema<ManagePropertygraphStatisticsInput>;
 export interface RefreshStatisticsIdMap {
   statisticsId?: string;
 }
-export const RefreshStatisticsIdMap = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ statisticsId: S.optional(S.String) }),
-).annotate({
-  identifier: "RefreshStatisticsIdMap",
-}) as any as S.Schema<RefreshStatisticsIdMap>;
 export interface ManagePropertygraphStatisticsOutput {
   status: string;
   payload?: RefreshStatisticsIdMap;
 }
-export const ManagePropertygraphStatisticsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.String, payload: S.optional(RefreshStatisticsIdMap) }),
-).annotate({
-  identifier: "ManagePropertygraphStatisticsOutput",
-}) as any as S.Schema<ManagePropertygraphStatisticsOutput>;
 export interface ManageSparqlStatisticsInput {
   mode?: StatisticsAutoGenerationMode;
 }
-export const ManageSparqlStatisticsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ mode: S.optional(StatisticsAutoGenerationMode) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/sparql/statistics" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ManageSparqlStatisticsInput",
-}) as any as S.Schema<ManageSparqlStatisticsInput>;
 export interface ManageSparqlStatisticsOutput {
   status: string;
   payload?: RefreshStatisticsIdMap;
 }
-export const ManageSparqlStatisticsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.String, payload: S.optional(RefreshStatisticsIdMap) }),
-).annotate({
-  identifier: "ManageSparqlStatisticsOutput",
-}) as any as S.Schema<ManageSparqlStatisticsOutput>;
 export type Format =
   | "csv"
   | "opencypher"
@@ -2176,8 +970,6 @@ export type Format =
   | "rdfxml"
   | "turtle"
   | (string & {});
-export const Format = S.String;
-
 export type S3BucketRegion =
   | "us-east-1"
   | "us-east-2"
@@ -2216,19 +1008,13 @@ export type S3BucketRegion =
   | "ap-south-2"
   | "eu-central-2"
   | (string & {});
-export const S3BucketRegion = S.String;
-
 export type Mode = "RESUME" | "NEW" | "AUTO" | (string & {});
-export const Mode = S.String;
-
 export type Parallelism =
   | "LOW"
   | "MEDIUM"
   | "HIGH"
   | "OVERSUBSCRIBE"
   | (string & {});
-export const Parallelism = S.String;
-
 export interface StartLoaderJobInput {
   source: string;
   format: Format;
@@ -2244,45 +1030,10 @@ export interface StartLoaderJobInput {
   userProvidedEdgeIds?: boolean;
   edgeOnlyLoad?: boolean;
 }
-export const StartLoaderJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    source: S.String,
-    format: Format,
-    s3BucketRegion: S3BucketRegion,
-    iamRoleArn: S.String,
-    mode: S.optional(Mode),
-    failOnError: S.optional(S.Boolean),
-    parallelism: S.optional(Parallelism),
-    parserConfiguration: S.optional(StringValuedMap),
-    updateSingleCardinalityProperties: S.optional(S.Boolean),
-    queueRequest: S.optional(S.Boolean),
-    dependencies: S.optional(StringList),
-    userProvidedEdgeIds: S.optional(S.Boolean),
-    edgeOnlyLoad: S.optional(S.Boolean),
-  })
-    .pipe(S.encodeKeys({ s3BucketRegion: "region" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/loader" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "StartLoaderJobInput",
-}) as any as S.Schema<StartLoaderJobInput>;
 export interface StartLoaderJobOutput {
   status: string;
   payload: { [key: string]: string | undefined };
 }
-export const StartLoaderJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.String, payload: StringValuedMap }),
-).annotate({
-  identifier: "StartLoaderJobOutput",
-}) as any as S.Schema<StartLoaderJobOutput>;
 export interface StartMLDataProcessingJobInput {
   id?: string;
   previousDataProcessingJobId?: string;
@@ -2300,64 +1051,16 @@ export interface StartMLDataProcessingJobInput {
   volumeEncryptionKMSKey?: string;
   s3OutputEncryptionKMSKey?: string;
 }
-export const StartMLDataProcessingJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    previousDataProcessingJobId: S.optional(S.String),
-    inputDataS3Location: S.String,
-    processedDataS3Location: S.String,
-    sagemakerIamRoleArn: S.optional(S.String),
-    neptuneIamRoleArn: S.optional(S.String),
-    processingInstanceType: S.optional(S.String),
-    processingInstanceVolumeSizeInGB: S.optional(S.Number),
-    processingTimeOutInSeconds: S.optional(S.Number),
-    modelType: S.optional(S.String),
-    configFileName: S.optional(S.String),
-    subnets: S.optional(StringList),
-    securityGroupIds: S.optional(StringList),
-    volumeEncryptionKMSKey: S.optional(S.String),
-    s3OutputEncryptionKMSKey: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ml/dataprocessing" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartMLDataProcessingJobInput",
-}) as any as S.Schema<StartMLDataProcessingJobInput>;
 export interface StartMLDataProcessingJobOutput {
   id?: string;
   arn?: string;
   creationTimeInMillis?: number;
 }
-export const StartMLDataProcessingJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    creationTimeInMillis: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "StartMLDataProcessingJobOutput",
-}) as any as S.Schema<StartMLDataProcessingJobOutput>;
 export interface CustomModelTrainingParameters {
   sourceS3DirectoryPath: string;
   trainingEntryPointScript?: string;
   transformEntryPointScript?: string;
 }
-export const CustomModelTrainingParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceS3DirectoryPath: S.String,
-    trainingEntryPointScript: S.optional(S.String),
-    transformEntryPointScript: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CustomModelTrainingParameters",
-}) as any as S.Schema<CustomModelTrainingParameters>;
 export interface StartMLModelTrainingJobInput {
   id?: string;
   previousModelTrainingJobId?: string;
@@ -2378,65 +1081,15 @@ export interface StartMLModelTrainingJobInput {
   enableManagedSpotTraining?: boolean;
   customModelTrainingParameters?: CustomModelTrainingParameters;
 }
-export const StartMLModelTrainingJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    previousModelTrainingJobId: S.optional(S.String),
-    dataProcessingJobId: S.String,
-    trainModelS3Location: S.String,
-    sagemakerIamRoleArn: S.optional(S.String),
-    neptuneIamRoleArn: S.optional(S.String),
-    baseProcessingInstanceType: S.optional(S.String),
-    trainingInstanceType: S.optional(S.String),
-    trainingInstanceVolumeSizeInGB: S.optional(S.Number),
-    trainingTimeOutInSeconds: S.optional(S.Number),
-    maxHPONumberOfTrainingJobs: S.optional(S.Number),
-    maxHPOParallelTrainingJobs: S.optional(S.Number),
-    subnets: S.optional(StringList),
-    securityGroupIds: S.optional(StringList),
-    volumeEncryptionKMSKey: S.optional(S.String),
-    s3OutputEncryptionKMSKey: S.optional(S.String),
-    enableManagedSpotTraining: S.optional(S.Boolean),
-    customModelTrainingParameters: S.optional(CustomModelTrainingParameters),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ml/modeltraining" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartMLModelTrainingJobInput",
-}) as any as S.Schema<StartMLModelTrainingJobInput>;
 export interface StartMLModelTrainingJobOutput {
   id?: string;
   arn?: string;
   creationTimeInMillis?: number;
 }
-export const StartMLModelTrainingJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    creationTimeInMillis: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "StartMLModelTrainingJobOutput",
-}) as any as S.Schema<StartMLModelTrainingJobOutput>;
 export interface CustomModelTransformParameters {
   sourceS3DirectoryPath: string;
   transformEntryPointScript?: string;
 }
-export const CustomModelTransformParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceS3DirectoryPath: S.String,
-    transformEntryPointScript: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CustomModelTransformParameters",
-}) as any as S.Schema<CustomModelTransformParameters>;
 export interface StartMLModelTransformJobInput {
   id?: string;
   dataProcessingJobId?: string;
@@ -2453,49 +1106,11 @@ export interface StartMLModelTransformJobInput {
   volumeEncryptionKMSKey?: string;
   s3OutputEncryptionKMSKey?: string;
 }
-export const StartMLModelTransformJobInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    dataProcessingJobId: S.optional(S.String),
-    mlModelTrainingJobId: S.optional(S.String),
-    trainingJobName: S.optional(S.String),
-    modelTransformOutputS3Location: S.String,
-    sagemakerIamRoleArn: S.optional(S.String),
-    neptuneIamRoleArn: S.optional(S.String),
-    customModelTransformParameters: S.optional(CustomModelTransformParameters),
-    baseProcessingInstanceType: S.optional(S.String),
-    baseProcessingInstanceVolumeSizeInGB: S.optional(S.Number),
-    subnets: S.optional(StringList),
-    securityGroupIds: S.optional(StringList),
-    volumeEncryptionKMSKey: S.optional(S.String),
-    s3OutputEncryptionKMSKey: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ml/modeltransform" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartMLModelTransformJobInput",
-}) as any as S.Schema<StartMLModelTransformJobInput>;
 export interface StartMLModelTransformJobOutput {
   id?: string;
   arn?: string;
   creationTimeInMillis?: number;
 }
-export const StartMLModelTransformJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    creationTimeInMillis: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "StartMLModelTransformJobOutput",
-}) as any as S.Schema<StartMLModelTransformJobOutput>;
 export type CancelGremlinQueryError =
   | BadRequestException
   | ClientTimeoutException
@@ -2523,8 +1138,11 @@ export const cancelGremlinQuery: API.OperationMethod<
   CancelGremlinQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelGremlinQueryInput,
-  output: CancelGremlinQueryOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /gremlin/status/{queryId}",
+    input: { queryId: 0 },
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -2544,7 +1162,7 @@ export const cancelGremlinQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelGremlinQuery",
-}));
+})) as any;
 
 export type CancelLoaderJobError =
   | BadRequestException
@@ -2572,8 +1190,11 @@ export const cancelLoaderJob: API.OperationMethod<
   CancelLoaderJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelLoaderJobInput,
-  output: CancelLoaderJobOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /loader/{loadId}",
+    input: { loadId: 0 },
+  },
   errors: [
     BadRequestException,
     BulkLoadIdNotFoundException,
@@ -2592,7 +1213,7 @@ export const cancelLoaderJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelLoaderJob",
-}));
+})) as any;
 
 export type CancelMLDataProcessingJobError =
   | BadRequestException
@@ -2618,8 +1239,15 @@ export const cancelMLDataProcessingJob: API.OperationMethod<
   CancelMLDataProcessingJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelMLDataProcessingJobInput,
-  output: CancelMLDataProcessingJobOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /ml/dataprocessing/{id}",
+    input: {
+      id: 0,
+      neptuneIamRoleArn: D.m({ query: "neptuneIamRoleArn" }),
+      clean: D.m({ query: "clean" }),
+    },
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -2636,7 +1264,7 @@ export const cancelMLDataProcessingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMLDataProcessingJob",
-}));
+})) as any;
 
 export type CancelMLModelTrainingJobError =
   | BadRequestException
@@ -2662,8 +1290,15 @@ export const cancelMLModelTrainingJob: API.OperationMethod<
   CancelMLModelTrainingJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelMLModelTrainingJobInput,
-  output: CancelMLModelTrainingJobOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /ml/modeltraining/{id}",
+    input: {
+      id: 0,
+      neptuneIamRoleArn: D.m({ query: "neptuneIamRoleArn" }),
+      clean: D.m({ query: "clean" }),
+    },
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -2680,7 +1315,7 @@ export const cancelMLModelTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMLModelTrainingJob",
-}));
+})) as any;
 
 export type CancelMLModelTransformJobError =
   | BadRequestException
@@ -2706,8 +1341,15 @@ export const cancelMLModelTransformJob: API.OperationMethod<
   CancelMLModelTransformJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelMLModelTransformJobInput,
-  output: CancelMLModelTransformJobOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /ml/modeltransform/{id}",
+    input: {
+      id: 0,
+      neptuneIamRoleArn: D.m({ query: "neptuneIamRoleArn" }),
+      clean: D.m({ query: "clean" }),
+    },
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -2724,7 +1366,7 @@ export const cancelMLModelTransformJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMLModelTransformJob",
-}));
+})) as any;
 
 export type CancelOpenCypherQueryError =
   | BadRequestException
@@ -2754,8 +1396,11 @@ export const cancelOpenCypherQuery: API.OperationMethod<
   CancelOpenCypherQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelOpenCypherQueryInput,
-  output: CancelOpenCypherQueryOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /opencypher/status/{queryId}",
+    input: { queryId: 0, silent: D.m({ query: "silent" }) },
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -2776,7 +1421,7 @@ export const cancelOpenCypherQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelOpenCypherQuery",
-}));
+})) as any;
 
 export type CreateMLEndpointError =
   | BadRequestException
@@ -2802,8 +1447,22 @@ export const createMLEndpoint: API.OperationMethod<
   CreateMLEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateMLEndpointInput,
-  output: CreateMLEndpointOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /ml/endpoints",
+    input: {
+      id: 0,
+      mlModelTrainingJobId: 0,
+      mlModelTransformJobId: 0,
+      update: 0,
+      neptuneIamRoleArn: 0,
+      modelName: 0,
+      instanceType: 0,
+      instanceCount: 0,
+      volumeEncryptionKMSKey: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -2820,7 +1479,7 @@ export const createMLEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMLEndpoint",
-}));
+})) as any;
 
 export type DeleteMLEndpointError =
   | BadRequestException
@@ -2846,8 +1505,15 @@ export const deleteMLEndpoint: API.OperationMethod<
   DeleteMLEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteMLEndpointInput,
-  output: DeleteMLEndpointOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /ml/endpoints/{id}",
+    input: {
+      id: 0,
+      neptuneIamRoleArn: D.m({ query: "neptuneIamRoleArn" }),
+      clean: D.m({ query: "clean" }),
+    },
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -2864,7 +1530,7 @@ export const deleteMLEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMLEndpoint",
-}));
+})) as any;
 
 export type DeletePropertygraphStatisticsError =
   | AccessDeniedException
@@ -2892,8 +1558,11 @@ export const deletePropertygraphStatistics: API.OperationMethod<
   DeletePropertygraphStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeletePropertygraphStatisticsRequest,
-  output: DeletePropertygraphStatisticsOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /propertygraph/statistics",
+    output: { statusCode: D.m({ status: true }) },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -2912,7 +1581,7 @@ export const deletePropertygraphStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePropertygraphStatistics",
-}));
+})) as any;
 
 export type DeleteSparqlStatisticsError =
   | AccessDeniedException
@@ -2940,8 +1609,11 @@ export const deleteSparqlStatistics: API.OperationMethod<
   DeleteSparqlStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSparqlStatisticsRequest,
-  output: DeleteSparqlStatisticsOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /sparql/statistics",
+    output: { statusCode: D.m({ status: true }) },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -2960,7 +1632,7 @@ export const deleteSparqlStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSparqlStatistics",
-}));
+})) as any;
 
 export type ExecuteFastResetError =
   | AccessDeniedException
@@ -2990,8 +1662,12 @@ export const executeFastReset: API.OperationMethod<
   ExecuteFastResetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExecuteFastResetInput,
-  output: ExecuteFastResetOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /system",
+    input: { action: 0, token: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ClientTimeoutException,
@@ -3010,7 +1686,7 @@ export const executeFastReset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteFastReset",
-}));
+})) as any;
 
 export type ExecuteGremlinExplainQueryError =
   | BadRequestException
@@ -3057,8 +1733,13 @@ export const executeGremlinExplainQuery: API.OperationMethod<
   ExecuteGremlinExplainQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExecuteGremlinExplainQueryInput,
-  output: ExecuteGremlinExplainQueryOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /gremlin/explain",
+    input: { gremlinQuery: D.m({ wire: "gremlin" }) },
+    output: { output: D.m({ payload: true, shape: D.stream }) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     CancelledByUserException,
@@ -3084,7 +1765,7 @@ export const executeGremlinExplainQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteGremlinExplainQuery",
-}));
+})) as any;
 
 export type ExecuteGremlinProfileQueryError =
   | BadRequestException
@@ -3121,8 +1802,19 @@ export const executeGremlinProfileQuery: API.OperationMethod<
   ExecuteGremlinProfileQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExecuteGremlinProfileQueryInput,
-  output: ExecuteGremlinProfileQueryOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /gremlin/profile",
+    input: {
+      gremlinQuery: D.m({ wire: "gremlin" }),
+      results: D.m({ wire: "profile.results" }),
+      chop: D.m({ wire: "profile.chop" }),
+      serializer: D.m({ wire: "profile.serializer" }),
+      indexOps: D.m({ wire: "profile.indexOps" }),
+    },
+    output: { output: D.m({ payload: true, shape: D.stream }) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     CancelledByUserException,
@@ -3148,7 +1840,7 @@ export const executeGremlinProfileQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteGremlinProfileQuery",
-}));
+})) as any;
 
 export type ExecuteGremlinQueryError =
   | BadRequestException
@@ -3191,8 +1883,15 @@ export const executeGremlinQuery: API.OperationMethod<
   ExecuteGremlinQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExecuteGremlinQueryInput,
-  output: ExecuteGremlinQueryOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /gremlin",
+    input: {
+      gremlinQuery: D.m({ wire: "gremlin" }),
+      serializer: D.m({ header: "accept" }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     CancelledByUserException,
@@ -3218,7 +1917,7 @@ export const executeGremlinQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteGremlinQuery",
-}));
+})) as any;
 
 export type ExecuteOpenCypherExplainQueryError =
   | BadRequestException
@@ -3256,8 +1955,17 @@ export const executeOpenCypherExplainQuery: API.OperationMethod<
   ExecuteOpenCypherExplainQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExecuteOpenCypherExplainQueryInput,
-  output: ExecuteOpenCypherExplainQueryOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /opencypher/explain",
+    input: {
+      openCypherQuery: D.m({ wire: "query" }),
+      parameters: 0,
+      explainMode: D.m({ wire: "explain" }),
+    },
+    output: { results: D.m({ payload: true, shape: D.blob }) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     CancelledByUserException,
@@ -3284,7 +1992,7 @@ export const executeOpenCypherExplainQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteOpenCypherExplainQuery",
-}));
+})) as any;
 
 export type ExecuteOpenCypherQueryError =
   | BadRequestException
@@ -3332,8 +2040,12 @@ export const executeOpenCypherQuery: API.OperationMethod<
   ExecuteOpenCypherQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExecuteOpenCypherQueryInput,
-  output: ExecuteOpenCypherQueryOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /opencypher",
+    input: { openCypherQuery: D.m({ wire: "query" }), parameters: 0 },
+    body: true,
+  },
   errors: [
     BadRequestException,
     CancelledByUserException,
@@ -3360,7 +2072,7 @@ export const executeOpenCypherQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteOpenCypherQuery",
-}));
+})) as any;
 
 export type GetEngineStatusError =
   | ClientTimeoutException
@@ -3383,8 +2095,7 @@ export const getEngineStatus: API.OperationMethod<
   GetEngineStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEngineStatusRequest,
-  output: GetEngineStatusOutput,
+  descriptor: { service: svc, http: "GET /status" },
   errors: [
     ClientTimeoutException,
     ConstraintViolationException,
@@ -3398,7 +2109,7 @@ export const getEngineStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEngineStatus",
-}));
+})) as any;
 
 export type GetGremlinQueryStatusError =
   | AccessDeniedException
@@ -3431,8 +2142,11 @@ export const getGremlinQueryStatus: API.OperationMethod<
   GetGremlinQueryStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetGremlinQueryStatusInput,
-  output: GetGremlinQueryStatusOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /gremlin/status/{queryId}",
+    input: { queryId: 0 },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -3454,7 +2168,7 @@ export const getGremlinQueryStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGremlinQueryStatus",
-}));
+})) as any;
 
 export type GetLoaderJobStatusError =
   | BadRequestException
@@ -3484,8 +2198,17 @@ export const getLoaderJobStatus: API.OperationMethod<
   GetLoaderJobStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLoaderJobStatusInput,
-  output: GetLoaderJobStatusOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /loader/{loadId}",
+    input: {
+      loadId: 0,
+      details: D.m({ query: "details" }),
+      errors: D.m({ query: "errors" }),
+      page: D.m({ query: "page" }),
+      errorsPerPage: D.m({ query: "errorsPerPage" }),
+    },
+  },
   errors: [
     BadRequestException,
     BulkLoadIdNotFoundException,
@@ -3504,7 +2227,7 @@ export const getLoaderJobStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoaderJobStatus",
-}));
+})) as any;
 
 export type GetMLDataProcessingJobError =
   | BadRequestException
@@ -3530,8 +2253,11 @@ export const getMLDataProcessingJob: API.OperationMethod<
   GetMLDataProcessingJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMLDataProcessingJobInput,
-  output: GetMLDataProcessingJobOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /ml/dataprocessing/{id}",
+    input: { id: 0, neptuneIamRoleArn: D.m({ query: "neptuneIamRoleArn" }) },
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -3548,7 +2274,7 @@ export const getMLDataProcessingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLDataProcessingJob",
-}));
+})) as any;
 
 export type GetMLEndpointError =
   | BadRequestException
@@ -3574,8 +2300,11 @@ export const getMLEndpoint: API.OperationMethod<
   GetMLEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMLEndpointInput,
-  output: GetMLEndpointOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /ml/endpoints/{id}",
+    input: { id: 0, neptuneIamRoleArn: D.m({ query: "neptuneIamRoleArn" }) },
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -3592,7 +2321,7 @@ export const getMLEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLEndpoint",
-}));
+})) as any;
 
 export type GetMLModelTrainingJobError =
   | BadRequestException
@@ -3618,8 +2347,11 @@ export const getMLModelTrainingJob: API.OperationMethod<
   GetMLModelTrainingJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMLModelTrainingJobInput,
-  output: GetMLModelTrainingJobOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /ml/modeltraining/{id}",
+    input: { id: 0, neptuneIamRoleArn: D.m({ query: "neptuneIamRoleArn" }) },
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -3636,7 +2368,7 @@ export const getMLModelTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLModelTrainingJob",
-}));
+})) as any;
 
 export type GetMLModelTransformJobError =
   | BadRequestException
@@ -3662,8 +2394,11 @@ export const getMLModelTransformJob: API.OperationMethod<
   GetMLModelTransformJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMLModelTransformJobInput,
-  output: GetMLModelTransformJobOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /ml/modeltransform/{id}",
+    input: { id: 0, neptuneIamRoleArn: D.m({ query: "neptuneIamRoleArn" }) },
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -3680,7 +2415,7 @@ export const getMLModelTransformJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLModelTransformJob",
-}));
+})) as any;
 
 export type GetOpenCypherQueryStatusError =
   | AccessDeniedException
@@ -3714,8 +2449,11 @@ export const getOpenCypherQueryStatus: API.OperationMethod<
   GetOpenCypherQueryStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetOpenCypherQueryStatusInput,
-  output: GetOpenCypherQueryStatusOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /opencypher/status/{queryId}",
+    input: { queryId: 0 },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -3738,7 +2476,7 @@ export const getOpenCypherQueryStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpenCypherQueryStatus",
-}));
+})) as any;
 
 export type GetPropertygraphStatisticsError =
   | AccessDeniedException
@@ -3766,8 +2504,11 @@ export const getPropertygraphStatistics: API.OperationMethod<
   GetPropertygraphStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPropertygraphStatisticsRequest,
-  output: GetPropertygraphStatisticsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /propertygraph/statistics",
+    output: { payload: o_Statistics },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -3786,7 +2527,7 @@ export const getPropertygraphStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPropertygraphStatistics",
-}));
+})) as any;
 
 export type GetPropertygraphStreamError =
   | ClientTimeoutException
@@ -3829,8 +2570,23 @@ export const getPropertygraphStream: API.OperationMethod<
   GetPropertygraphStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPropertygraphStreamInput,
-  output: GetPropertygraphStreamOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /propertygraph/stream",
+    input: {
+      limit: D.m({ query: "limit" }),
+      iteratorType: D.m({ query: "iteratorType" }),
+      commitNum: D.m({ query: "commitNum" }),
+      opNum: D.m({ query: "opNum" }),
+      encoding: D.m({ header: "Accept-Encoding" }),
+    },
+    output: {
+      lastTrxTimestampInMillis: D.m({ wire: "lastTrxTimestamp" }),
+      records: D.list({
+        commitTimestampInMillis: D.m({ wire: "commitTimestamp" }),
+      }),
+    },
+  },
   errors: [
     ClientTimeoutException,
     ConstraintViolationException,
@@ -3848,7 +2604,7 @@ export const getPropertygraphStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPropertygraphStream",
-}));
+})) as any;
 
 export type GetPropertygraphSummaryError =
   | AccessDeniedException
@@ -3876,8 +2632,15 @@ export const getPropertygraphSummary: API.OperationMethod<
   GetPropertygraphSummaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPropertygraphSummaryInput,
-  output: GetPropertygraphSummaryOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /propertygraph/statistics/summary",
+    input: { mode: D.m({ query: "mode" }) },
+    output: {
+      statusCode: D.m({ status: true }),
+      payload: { lastStatisticsComputationTime: D.ts },
+    },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -3896,7 +2659,7 @@ export const getPropertygraphSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPropertygraphSummary",
-}));
+})) as any;
 
 export type GetRDFGraphSummaryError =
   | AccessDeniedException
@@ -3924,8 +2687,15 @@ export const getRDFGraphSummary: API.OperationMethod<
   GetRDFGraphSummaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRDFGraphSummaryInput,
-  output: GetRDFGraphSummaryOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /rdf/statistics/summary",
+    input: { mode: D.m({ query: "mode" }) },
+    output: {
+      statusCode: D.m({ status: true }),
+      payload: { lastStatisticsComputationTime: D.ts },
+    },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -3944,7 +2714,7 @@ export const getRDFGraphSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRDFGraphSummary",
-}));
+})) as any;
 
 export type GetSparqlStatisticsError =
   | AccessDeniedException
@@ -3970,8 +2740,11 @@ export const getSparqlStatistics: API.OperationMethod<
   GetSparqlStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSparqlStatisticsRequest,
-  output: GetSparqlStatisticsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /sparql/statistics",
+    output: { payload: o_Statistics },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -3990,7 +2763,7 @@ export const getSparqlStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSparqlStatistics",
-}));
+})) as any;
 
 export type GetSparqlStreamError =
   | ClientTimeoutException
@@ -4025,8 +2798,23 @@ export const getSparqlStream: API.OperationMethod<
   GetSparqlStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSparqlStreamInput,
-  output: GetSparqlStreamOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /sparql/stream",
+    input: {
+      limit: D.m({ query: "limit" }),
+      iteratorType: D.m({ query: "iteratorType" }),
+      commitNum: D.m({ query: "commitNum" }),
+      opNum: D.m({ query: "opNum" }),
+      encoding: D.m({ header: "Accept-Encoding" }),
+    },
+    output: {
+      lastTrxTimestampInMillis: D.m({ wire: "lastTrxTimestamp" }),
+      records: D.list({
+        commitTimestampInMillis: D.m({ wire: "commitTimestamp" }),
+      }),
+    },
+  },
   errors: [
     ClientTimeoutException,
     ConstraintViolationException,
@@ -4044,7 +2832,7 @@ export const getSparqlStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSparqlStream",
-}));
+})) as any;
 
 export type ListGremlinQueriesError =
   | AccessDeniedException
@@ -4077,8 +2865,11 @@ export const listGremlinQueries: API.OperationMethod<
   ListGremlinQueriesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListGremlinQueriesInput,
-  output: ListGremlinQueriesOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /gremlin/status",
+    input: { includeWaiting: D.m({ query: "includeWaiting" }) },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4100,7 +2891,7 @@ export const listGremlinQueries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGremlinQueries",
-}));
+})) as any;
 
 export type ListLoaderJobsError =
   | BadRequestException
@@ -4127,8 +2918,14 @@ export const listLoaderJobs: API.OperationMethod<
   ListLoaderJobsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListLoaderJobsInput,
-  output: ListLoaderJobsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /loader",
+    input: {
+      limit: D.m({ query: "limit" }),
+      includeQueuedLoads: D.m({ query: "includeQueuedLoads" }),
+    },
+  },
   errors: [
     BadRequestException,
     BulkLoadIdNotFoundException,
@@ -4146,7 +2943,7 @@ export const listLoaderJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoaderJobs",
-}));
+})) as any;
 
 export type ListMLDataProcessingJobsError =
   | BadRequestException
@@ -4172,8 +2969,14 @@ export const listMLDataProcessingJobs: API.OperationMethod<
   ListMLDataProcessingJobsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListMLDataProcessingJobsInput,
-  output: ListMLDataProcessingJobsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /ml/dataprocessing",
+    input: {
+      maxItems: D.m({ query: "maxItems" }),
+      neptuneIamRoleArn: D.m({ query: "neptuneIamRoleArn" }),
+    },
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -4190,7 +2993,7 @@ export const listMLDataProcessingJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMLDataProcessingJobs",
-}));
+})) as any;
 
 export type ListMLEndpointsError =
   | BadRequestException
@@ -4216,8 +3019,14 @@ export const listMLEndpoints: API.OperationMethod<
   ListMLEndpointsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListMLEndpointsInput,
-  output: ListMLEndpointsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /ml/endpoints",
+    input: {
+      maxItems: D.m({ query: "maxItems" }),
+      neptuneIamRoleArn: D.m({ query: "neptuneIamRoleArn" }),
+    },
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -4234,7 +3043,7 @@ export const listMLEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMLEndpoints",
-}));
+})) as any;
 
 export type ListMLModelTrainingJobsError =
   | BadRequestException
@@ -4260,8 +3069,14 @@ export const listMLModelTrainingJobs: API.OperationMethod<
   ListMLModelTrainingJobsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListMLModelTrainingJobsInput,
-  output: ListMLModelTrainingJobsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /ml/modeltraining",
+    input: {
+      maxItems: D.m({ query: "maxItems" }),
+      neptuneIamRoleArn: D.m({ query: "neptuneIamRoleArn" }),
+    },
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -4278,7 +3093,7 @@ export const listMLModelTrainingJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMLModelTrainingJobs",
-}));
+})) as any;
 
 export type ListMLModelTransformJobsError =
   | BadRequestException
@@ -4304,8 +3119,14 @@ export const listMLModelTransformJobs: API.OperationMethod<
   ListMLModelTransformJobsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListMLModelTransformJobsInput,
-  output: ListMLModelTransformJobsOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /ml/modeltransform",
+    input: {
+      maxItems: D.m({ query: "maxItems" }),
+      neptuneIamRoleArn: D.m({ query: "neptuneIamRoleArn" }),
+    },
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -4322,7 +3143,7 @@ export const listMLModelTransformJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMLModelTransformJobs",
-}));
+})) as any;
 
 export type ListOpenCypherQueriesError =
   | AccessDeniedException
@@ -4356,8 +3177,11 @@ export const listOpenCypherQueries: API.OperationMethod<
   ListOpenCypherQueriesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListOpenCypherQueriesInput,
-  output: ListOpenCypherQueriesOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /opencypher/status",
+    input: { includeWaiting: D.m({ query: "includeWaiting" }) },
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4380,7 +3204,7 @@ export const listOpenCypherQueries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOpenCypherQueries",
-}));
+})) as any;
 
 export type ManagePropertygraphStatisticsError =
   | AccessDeniedException
@@ -4408,8 +3232,12 @@ export const managePropertygraphStatistics: API.OperationMethod<
   ManagePropertygraphStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ManagePropertygraphStatisticsInput,
-  output: ManagePropertygraphStatisticsOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /propertygraph/statistics",
+    input: { mode: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4428,7 +3256,7 @@ export const managePropertygraphStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ManagePropertygraphStatistics",
-}));
+})) as any;
 
 export type ManageSparqlStatisticsError =
   | AccessDeniedException
@@ -4456,8 +3284,12 @@ export const manageSparqlStatistics: API.OperationMethod<
   ManageSparqlStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ManageSparqlStatisticsInput,
-  output: ManageSparqlStatisticsOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /sparql/statistics",
+    input: { mode: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -4476,7 +3308,7 @@ export const manageSparqlStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ManageSparqlStatistics",
-}));
+})) as any;
 
 export type StartLoaderJobError =
   | BadRequestException
@@ -4505,8 +3337,26 @@ export const startLoaderJob: API.OperationMethod<
   StartLoaderJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartLoaderJobInput,
-  output: StartLoaderJobOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /loader",
+    input: {
+      source: 0,
+      format: 0,
+      s3BucketRegion: D.m({ wire: "region" }),
+      iamRoleArn: 0,
+      mode: 0,
+      failOnError: 0,
+      parallelism: 0,
+      parserConfiguration: 0,
+      updateSingleCardinalityProperties: 0,
+      queueRequest: 0,
+      dependencies: 0,
+      userProvidedEdgeIds: 0,
+      edgeOnlyLoad: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     BulkLoadIdNotFoundException,
@@ -4526,7 +3376,7 @@ export const startLoaderJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartLoaderJob",
-}));
+})) as any;
 
 export type StartMLDataProcessingJobError =
   | BadRequestException
@@ -4552,8 +3402,28 @@ export const startMLDataProcessingJob: API.OperationMethod<
   StartMLDataProcessingJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartMLDataProcessingJobInput,
-  output: StartMLDataProcessingJobOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /ml/dataprocessing",
+    input: {
+      id: 0,
+      previousDataProcessingJobId: 0,
+      inputDataS3Location: 0,
+      processedDataS3Location: 0,
+      sagemakerIamRoleArn: 0,
+      neptuneIamRoleArn: 0,
+      processingInstanceType: 0,
+      processingInstanceVolumeSizeInGB: 0,
+      processingTimeOutInSeconds: 0,
+      modelType: 0,
+      configFileName: 0,
+      subnets: 0,
+      securityGroupIds: 0,
+      volumeEncryptionKMSKey: 0,
+      s3OutputEncryptionKMSKey: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -4570,7 +3440,7 @@ export const startMLDataProcessingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMLDataProcessingJob",
-}));
+})) as any;
 
 export type StartMLModelTrainingJobError =
   | BadRequestException
@@ -4596,8 +3466,35 @@ export const startMLModelTrainingJob: API.OperationMethod<
   StartMLModelTrainingJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartMLModelTrainingJobInput,
-  output: StartMLModelTrainingJobOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /ml/modeltraining",
+    input: {
+      id: 0,
+      previousModelTrainingJobId: 0,
+      dataProcessingJobId: 0,
+      trainModelS3Location: 0,
+      sagemakerIamRoleArn: 0,
+      neptuneIamRoleArn: 0,
+      baseProcessingInstanceType: 0,
+      trainingInstanceType: 0,
+      trainingInstanceVolumeSizeInGB: 0,
+      trainingTimeOutInSeconds: 0,
+      maxHPONumberOfTrainingJobs: 0,
+      maxHPOParallelTrainingJobs: 0,
+      subnets: 0,
+      securityGroupIds: 0,
+      volumeEncryptionKMSKey: 0,
+      s3OutputEncryptionKMSKey: 0,
+      enableManagedSpotTraining: 0,
+      customModelTrainingParameters: {
+        sourceS3DirectoryPath: 0,
+        trainingEntryPointScript: 0,
+        transformEntryPointScript: 0,
+      },
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -4614,7 +3511,7 @@ export const startMLModelTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMLModelTrainingJob",
-}));
+})) as any;
 
 export type StartMLModelTransformJobError =
   | BadRequestException
@@ -4640,8 +3537,30 @@ export const startMLModelTransformJob: API.OperationMethod<
   StartMLModelTransformJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartMLModelTransformJobInput,
-  output: StartMLModelTransformJobOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /ml/modeltransform",
+    input: {
+      id: 0,
+      dataProcessingJobId: 0,
+      mlModelTrainingJobId: 0,
+      trainingJobName: 0,
+      modelTransformOutputS3Location: 0,
+      sagemakerIamRoleArn: 0,
+      neptuneIamRoleArn: 0,
+      customModelTransformParameters: {
+        sourceS3DirectoryPath: 0,
+        transformEntryPointScript: 0,
+      },
+      baseProcessingInstanceType: 0,
+      baseProcessingInstanceVolumeSizeInGB: 0,
+      subnets: 0,
+      securityGroupIds: 0,
+      volumeEncryptionKMSKey: 0,
+      s3OutputEncryptionKMSKey: 0,
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ClientTimeoutException,
@@ -4658,4 +3577,6 @@ export const startMLModelTransformJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMLModelTransformJob",
-}));
+})) as any;
+
+const o_Statistics: D.LazyStruct = () => ({ date: D.ts });

@@ -1,298 +1,285 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "IVS RealTime",
-  serviceShapeName: "AmazonInteractiveVideoServiceRealTime",
-});
-const auth = T.AwsAuthSigv4({ name: "ivs" });
-const ver = T.ServiceVersion("2020-07-14");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://ivsrealtime-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://ivsrealtime-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://ivsrealtime.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://ivsrealtime.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AmazonInteractiveVideoServiceRealTime",
+  version: "2020-07-14",
+  sigv4: "ivs",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://ivsrealtime-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://ivsrealtime-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://ivsrealtime.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://ivsrealtime.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
-      ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
-      ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
-      ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
-      ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
-      ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+    headers: {
+      accessControlAllowOrigin: "Access-Control-Allow-Origin",
+      accessControlExposeHeaders: "Access-Control-Expose-Headers",
+      cacheControl: "Cache-Control",
+      contentSecurityPolicy: "Content-Security-Policy",
+      strictTransportSecurity: "Strict-Transport-Security",
+      xContentTypeOptions: "X-Content-Type-Options",
+      xFrameOptions: "X-Frame-Options",
+      xAmznErrorType: "x-amzn-ErrorType",
     },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  })<{
+    readonly accessControlAllowOrigin?: string;
+    readonly accessControlExposeHeaders?: string;
+    readonly cacheControl?: string;
+    readonly contentSecurityPolicy?: string;
+    readonly strictTransportSecurity?: string;
+    readonly xContentTypeOptions?: string;
+    readonly xFrameOptions?: string;
+    readonly xAmznErrorType?: string;
+    readonly exceptionMessage?: string;
+    readonly message?: string;
+  }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
-      ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
-      ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
-      ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
-      ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
-      ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+    headers: {
+      accessControlAllowOrigin: "Access-Control-Allow-Origin",
+      accessControlExposeHeaders: "Access-Control-Expose-Headers",
+      cacheControl: "Cache-Control",
+      contentSecurityPolicy: "Content-Security-Policy",
+      strictTransportSecurity: "Strict-Transport-Security",
+      xContentTypeOptions: "X-Content-Type-Options",
+      xFrameOptions: "X-Frame-Options",
+      xAmznErrorType: "x-amzn-ErrorType",
     },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  })<{
+    readonly accessControlAllowOrigin?: string;
+    readonly accessControlExposeHeaders?: string;
+    readonly cacheControl?: string;
+    readonly contentSecurityPolicy?: string;
+    readonly strictTransportSecurity?: string;
+    readonly xContentTypeOptions?: string;
+    readonly xFrameOptions?: string;
+    readonly xAmznErrorType?: string;
+    readonly exceptionMessage?: string;
+    readonly message?: string;
+  }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
+    ["ServerError"],
     {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
-      ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
-      ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
-      ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
-      ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
-      ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      status: 500,
+      headers: {
+        accessControlAllowOrigin: "Access-Control-Allow-Origin",
+        accessControlExposeHeaders: "Access-Control-Expose-Headers",
+        cacheControl: "Cache-Control",
+        contentSecurityPolicy: "Content-Security-Policy",
+        strictTransportSecurity: "Strict-Transport-Security",
+        xContentTypeOptions: "X-Content-Type-Options",
+        xFrameOptions: "X-Frame-Options",
+        xAmznErrorType: "x-amzn-ErrorType",
+      },
     },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  )<{
+    readonly accessControlAllowOrigin?: string;
+    readonly accessControlExposeHeaders?: string;
+    readonly cacheControl?: string;
+    readonly contentSecurityPolicy?: string;
+    readonly strictTransportSecurity?: string;
+    readonly xContentTypeOptions?: string;
+    readonly xFrameOptions?: string;
+    readonly xAmznErrorType?: string;
+    readonly exceptionMessage?: string;
+    readonly message?: string;
+  }> {}
 export class PendingVerification
-  extends /*@__PURE__*/ S.TaggedError<PendingVerification>()(
-    "PendingVerification",
-    {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
-      ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
-      ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
-      ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
-      ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
-      ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+  extends /*@__PURE__*/ TE.TaggedError("PendingVerification", ["AuthError"], {
+    status: 403,
+    headers: {
+      accessControlAllowOrigin: "Access-Control-Allow-Origin",
+      accessControlExposeHeaders: "Access-Control-Expose-Headers",
+      cacheControl: "Cache-Control",
+      contentSecurityPolicy: "Content-Security-Policy",
+      strictTransportSecurity: "Strict-Transport-Security",
+      xContentTypeOptions: "X-Content-Type-Options",
+      xFrameOptions: "X-Frame-Options",
+      xAmznErrorType: "x-amzn-ErrorType",
     },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  })<{
+    readonly accessControlAllowOrigin?: string;
+    readonly accessControlExposeHeaders?: string;
+    readonly cacheControl?: string;
+    readonly contentSecurityPolicy?: string;
+    readonly strictTransportSecurity?: string;
+    readonly xContentTypeOptions?: string;
+    readonly xFrameOptions?: string;
+    readonly xAmznErrorType?: string;
+    readonly exceptionMessage?: string;
+    readonly message?: string;
+  }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
+    ["BadRequestError"],
     {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
-      ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
-      ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
-      ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
-      ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
-      ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      status: 404,
+      headers: {
+        accessControlAllowOrigin: "Access-Control-Allow-Origin",
+        accessControlExposeHeaders: "Access-Control-Expose-Headers",
+        cacheControl: "Cache-Control",
+        contentSecurityPolicy: "Content-Security-Policy",
+        strictTransportSecurity: "Strict-Transport-Security",
+        xContentTypeOptions: "X-Content-Type-Options",
+        xFrameOptions: "X-Frame-Options",
+        xAmznErrorType: "x-amzn-ErrorType",
+      },
     },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+  )<{
+    readonly accessControlAllowOrigin?: string;
+    readonly accessControlExposeHeaders?: string;
+    readonly cacheControl?: string;
+    readonly contentSecurityPolicy?: string;
+    readonly strictTransportSecurity?: string;
+    readonly xContentTypeOptions?: string;
+    readonly xFrameOptions?: string;
+    readonly xAmznErrorType?: string;
+    readonly exceptionMessage?: string;
+    readonly message?: string;
+  }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
+    ["QuotaError"],
     {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
-      ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
-      ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
-      ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
-      ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
-      ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      status: 402,
+      headers: {
+        accessControlAllowOrigin: "Access-Control-Allow-Origin",
+        accessControlExposeHeaders: "Access-Control-Expose-Headers",
+        cacheControl: "Cache-Control",
+        contentSecurityPolicy: "Content-Security-Policy",
+        strictTransportSecurity: "Strict-Transport-Security",
+        xContentTypeOptions: "X-Content-Type-Options",
+        xFrameOptions: "X-Frame-Options",
+        xAmznErrorType: "x-amzn-ErrorType",
+      },
     },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+  )<{
+    readonly accessControlAllowOrigin?: string;
+    readonly accessControlExposeHeaders?: string;
+    readonly cacheControl?: string;
+    readonly contentSecurityPolicy?: string;
+    readonly strictTransportSecurity?: string;
+    readonly xContentTypeOptions?: string;
+    readonly xFrameOptions?: string;
+    readonly xAmznErrorType?: string;
+    readonly exceptionMessage?: string;
+    readonly message?: string;
+  }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
-    "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("ThrottlingException")<{
+    readonly message?: string;
+  }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
+    ["BadRequestError"],
     {
-      accessControlAllowOrigin: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Allow-Origin"),
-      ),
-      accessControlExposeHeaders: S.optional(S.String).pipe(
-        T.HttpHeader("Access-Control-Expose-Headers"),
-      ),
-      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-      contentSecurityPolicy: S.optional(S.String).pipe(
-        T.HttpHeader("Content-Security-Policy"),
-      ),
-      strictTransportSecurity: S.optional(S.String).pipe(
-        T.HttpHeader("Strict-Transport-Security"),
-      ),
-      xContentTypeOptions: S.optional(S.String).pipe(
-        T.HttpHeader("X-Content-Type-Options"),
-      ),
-      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-      xAmznErrorType: S.optional(S.String).pipe(
-        T.HttpHeader("x-amzn-ErrorType"),
-      ),
-      exceptionMessage: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      status: 400,
+      headers: {
+        accessControlAllowOrigin: "Access-Control-Allow-Origin",
+        accessControlExposeHeaders: "Access-Control-Expose-Headers",
+        cacheControl: "Cache-Control",
+        contentSecurityPolicy: "Content-Security-Policy",
+        strictTransportSecurity: "Strict-Transport-Security",
+        xContentTypeOptions: "X-Content-Type-Options",
+        xFrameOptions: "X-Frame-Options",
+        xAmznErrorType: "x-amzn-ErrorType",
+      },
     },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  )<{
+    readonly accessControlAllowOrigin?: string;
+    readonly accessControlExposeHeaders?: string;
+    readonly cacheControl?: string;
+    readonly contentSecurityPolicy?: string;
+    readonly strictTransportSecurity?: string;
+    readonly xContentTypeOptions?: string;
+    readonly xFrameOptions?: string;
+    readonly xAmznErrorType?: string;
+    readonly exceptionMessage?: string;
+    readonly message?: string;
+  }> {}
 export type EncoderConfigurationName = string;
 export type Width = number;
 export type Height = number;
@@ -304,41 +291,14 @@ export interface Video {
   framerate?: number;
   bitrate?: number;
 }
-export const Video = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    width: S.optional(S.Number),
-    height: S.optional(S.Number),
-    framerate: S.optional(S.Number),
-    bitrate: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Video" }) as any as S.Schema<Video>;
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateEncoderConfigurationRequest {
   name?: string;
   video?: Video;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateEncoderConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    video: S.optional(Video),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateEncoderConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateEncoderConfigurationRequest",
-}) as any as S.Schema<CreateEncoderConfigurationRequest>;
 export type EncoderConfigurationArn = string;
 export interface EncoderConfiguration {
   arn: string;
@@ -346,35 +306,14 @@ export interface EncoderConfiguration {
   video?: Video;
   tags?: { [key: string]: string | undefined };
 }
-export const EncoderConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    video: S.optional(Video),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "EncoderConfiguration",
-}) as any as S.Schema<EncoderConfiguration>;
 export interface CreateEncoderConfigurationResponse {
   encoderConfiguration?: EncoderConfiguration;
 }
-export const CreateEncoderConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ encoderConfiguration: S.optional(EncoderConfiguration) }),
-).annotate({
-  identifier: "CreateEncoderConfigurationResponse",
-}) as any as S.Schema<CreateEncoderConfigurationResponse>;
 export type IngestConfigurationName = string;
 export type IngestConfigurationStageArn = string;
 export type UserId = string;
 export type ParticipantAttributes = { [key: string]: string | undefined };
-export const ParticipantAttributes = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type IngestProtocol = "RTMP" | "RTMPS" | (string & {});
-export const IngestProtocol = S.String;
-
 export type InsecureIngest = boolean;
 export type RedundantIngest = boolean;
 export interface CreateIngestConfigurationRequest {
@@ -387,29 +326,6 @@ export interface CreateIngestConfigurationRequest {
   redundantIngest?: boolean;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateIngestConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    stageArn: S.optional(S.String),
-    userId: S.optional(S.String),
-    attributes: S.optional(ParticipantAttributes),
-    ingestProtocol: IngestProtocol,
-    insecureIngest: S.optional(S.Boolean),
-    redundantIngest: S.optional(S.Boolean),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateIngestConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateIngestConfigurationRequest",
-}) as any as S.Schema<CreateIngestConfigurationRequest>;
 export type IngestConfigurationArn = string;
 export type StreamKey = string | redacted.Redacted<string>;
 export type ParticipantId = string;
@@ -418,18 +334,7 @@ export interface RedundantIngestCredential {
   participantId?: string;
   streamKey?: string | redacted.Redacted<string>;
 }
-export const RedundantIngestCredential = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    participantId: S.optional(S.String),
-    streamKey: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "RedundantIngestCredential",
-}) as any as S.Schema<RedundantIngestCredential>;
 export type RedundantIngestCredentials = RedundantIngestCredential[];
-export const RedundantIngestCredentials = /*@__PURE__*/ S.Array(
-  RedundantIngestCredential,
-);
 export interface IngestConfiguration {
   name?: string;
   arn: string;
@@ -444,43 +349,15 @@ export interface IngestConfiguration {
   attributes?: { [key: string]: string | undefined };
   tags?: { [key: string]: string | undefined };
 }
-export const IngestConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    arn: S.String,
-    ingestProtocol: IngestProtocol,
-    streamKey: SensitiveString,
-    stageArn: S.String,
-    participantId: S.String,
-    state: S.String,
-    userId: S.optional(S.String),
-    redundantIngest: S.optional(S.Boolean),
-    redundantIngestCredentials: S.optional(RedundantIngestCredentials),
-    attributes: S.optional(ParticipantAttributes),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "IngestConfiguration",
-}) as any as S.Schema<IngestConfiguration>;
 export interface CreateIngestConfigurationResponse {
   ingestConfiguration?: IngestConfiguration;
 }
-export const CreateIngestConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ingestConfiguration: S.optional(IngestConfiguration) }),
-).annotate({
-  identifier: "CreateIngestConfigurationResponse",
-}) as any as S.Schema<CreateIngestConfigurationResponse>;
 export type StageArn = string;
 export type ParticipantTokenDurationMinutes = number;
 export type ParticipantTokenUserId = string;
 export type ParticipantTokenAttributes = { [key: string]: string | undefined };
-export const ParticipantTokenAttributes = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type ParticipantTokenCapability = string;
 export type ParticipantTokenCapabilities = string[];
-export const ParticipantTokenCapabilities = /*@__PURE__*/ S.Array(S.String);
 export interface CreateParticipantTokenRequest {
   stageArn: string;
   duration?: number;
@@ -488,26 +365,6 @@ export interface CreateParticipantTokenRequest {
   attributes?: { [key: string]: string | undefined };
   capabilities?: string[];
 }
-export const CreateParticipantTokenRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stageArn: S.String,
-    duration: S.optional(S.Number),
-    userId: S.optional(S.String),
-    attributes: S.optional(ParticipantTokenAttributes),
-    capabilities: S.optional(ParticipantTokenCapabilities),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateParticipantToken" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateParticipantTokenRequest",
-}) as any as S.Schema<CreateParticipantTokenRequest>;
 export type ParticipantTokenId = string;
 export type ParticipantTokenString = string | redacted.Redacted<string>;
 export type ParticipantTokenExpirationTime = Date;
@@ -520,29 +377,9 @@ export interface ParticipantToken {
   capabilities?: string[];
   expirationTime?: Date;
 }
-export const ParticipantToken = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    participantId: S.optional(S.String),
-    token: S.optional(SensitiveString),
-    userId: S.optional(S.String),
-    attributes: S.optional(ParticipantTokenAttributes),
-    duration: S.optional(S.Number),
-    capabilities: S.optional(ParticipantTokenCapabilities),
-    expirationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "ParticipantToken",
-}) as any as S.Schema<ParticipantToken>;
 export interface CreateParticipantTokenResponse {
   participantToken?: ParticipantToken;
 }
-export const CreateParticipantTokenResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ participantToken: S.optional(ParticipantToken) }),
-).annotate({
-  identifier: "CreateParticipantTokenResponse",
-}) as any as S.Schema<CreateParticipantTokenResponse>;
 export type StageName = string;
 export interface ParticipantTokenConfiguration {
   duration?: number;
@@ -550,66 +387,28 @@ export interface ParticipantTokenConfiguration {
   attributes?: { [key: string]: string | undefined };
   capabilities?: string[];
 }
-export const ParticipantTokenConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    duration: S.optional(S.Number),
-    userId: S.optional(S.String),
-    attributes: S.optional(ParticipantTokenAttributes),
-    capabilities: S.optional(ParticipantTokenCapabilities),
-  }),
-).annotate({
-  identifier: "ParticipantTokenConfiguration",
-}) as any as S.Schema<ParticipantTokenConfiguration>;
 export type ParticipantTokenConfigurations = ParticipantTokenConfiguration[];
-export const ParticipantTokenConfigurations = /*@__PURE__*/ S.Array(
-  ParticipantTokenConfiguration,
-);
 export type AutoParticipantRecordingStorageConfigurationArn = string;
 export type ParticipantRecordingMediaType =
   | "AUDIO_VIDEO"
   | "AUDIO_ONLY"
   | "NONE"
   | (string & {});
-export const ParticipantRecordingMediaType = S.String;
-
 export type ParticipantRecordingMediaTypeList = ParticipantRecordingMediaType[];
-export const ParticipantRecordingMediaTypeList = /*@__PURE__*/ S.Array(
-  ParticipantRecordingMediaType,
-);
 export type ThumbnailIntervalSeconds = number;
 export type ThumbnailStorageType = "SEQUENTIAL" | "LATEST" | (string & {});
-export const ThumbnailStorageType = S.String;
-
 export type ThumbnailStorageTypeList = ThumbnailStorageType[];
-export const ThumbnailStorageTypeList =
-  /*@__PURE__*/ S.Array(ThumbnailStorageType);
 export type ThumbnailRecordingMode = "INTERVAL" | "DISABLED" | (string & {});
-export const ThumbnailRecordingMode = S.String;
-
 export interface ParticipantThumbnailConfiguration {
   targetIntervalSeconds?: number;
   storage?: ThumbnailStorageType[];
   recordingMode?: ThumbnailRecordingMode;
 }
-export const ParticipantThumbnailConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    targetIntervalSeconds: S.optional(S.Number),
-    storage: S.optional(ThumbnailStorageTypeList),
-    recordingMode: S.optional(ThumbnailRecordingMode),
-  }),
-).annotate({
-  identifier: "ParticipantThumbnailConfiguration",
-}) as any as S.Schema<ParticipantThumbnailConfiguration>;
 export type ParticipantRecordingReconnectWindowSeconds = number;
 export type ParticipantRecordingTargetSegmentDurationSeconds = number;
 export interface ParticipantRecordingHlsConfiguration {
   targetSegmentDurationSeconds?: number;
 }
-export const ParticipantRecordingHlsConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ targetSegmentDurationSeconds: S.optional(S.Number) }),
-).annotate({
-  identifier: "ParticipantRecordingHlsConfiguration",
-}) as any as S.Schema<ParticipantRecordingHlsConfiguration>;
 export type RecordParticipantReplicas = boolean;
 export interface AutoParticipantRecordingConfiguration {
   storageConfigurationArn: string;
@@ -619,46 +418,12 @@ export interface AutoParticipantRecordingConfiguration {
   hlsConfiguration?: ParticipantRecordingHlsConfiguration;
   recordParticipantReplicas?: boolean;
 }
-export const AutoParticipantRecordingConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      storageConfigurationArn: S.String,
-      mediaTypes: S.optional(ParticipantRecordingMediaTypeList),
-      thumbnailConfiguration: S.optional(ParticipantThumbnailConfiguration),
-      recordingReconnectWindowSeconds: S.optional(S.Number),
-      hlsConfiguration: S.optional(ParticipantRecordingHlsConfiguration),
-      recordParticipantReplicas: S.optional(S.Boolean),
-    }),
-).annotate({
-  identifier: "AutoParticipantRecordingConfiguration",
-}) as any as S.Schema<AutoParticipantRecordingConfiguration>;
 export interface CreateStageRequest {
   name?: string;
   participantTokenConfigurations?: ParticipantTokenConfiguration[];
   tags?: { [key: string]: string | undefined };
   autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration;
 }
-export const CreateStageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    participantTokenConfigurations: S.optional(ParticipantTokenConfigurations),
-    tags: S.optional(Tags),
-    autoParticipantRecordingConfiguration: S.optional(
-      AutoParticipantRecordingConfiguration,
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateStage" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateStageRequest",
-}) as any as S.Schema<CreateStageRequest>;
 export type StageSessionId = string;
 export type StageEndpoint = string;
 export interface StageEndpoints {
@@ -667,14 +432,6 @@ export interface StageEndpoints {
   rtmp?: string;
   rtmps?: string;
 }
-export const StageEndpoints = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    events: S.optional(S.String),
-    whip: S.optional(S.String),
-    rtmp: S.optional(S.String),
-    rtmps: S.optional(S.String),
-  }),
-).annotate({ identifier: "StageEndpoints" }) as any as S.Schema<StageEndpoints>;
 export interface Stage {
   arn: string;
   name?: string;
@@ -683,65 +440,21 @@ export interface Stage {
   autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration;
   endpoints?: StageEndpoints;
 }
-export const Stage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    activeSessionId: S.optional(S.String),
-    tags: S.optional(Tags),
-    autoParticipantRecordingConfiguration: S.optional(
-      AutoParticipantRecordingConfiguration,
-    ),
-    endpoints: S.optional(StageEndpoints),
-  }),
-).annotate({ identifier: "Stage" }) as any as S.Schema<Stage>;
 export type ParticipantTokenList = ParticipantToken[];
-export const ParticipantTokenList = /*@__PURE__*/ S.Array(ParticipantToken);
 export interface CreateStageResponse {
   stage?: Stage;
   participantTokens?: ParticipantToken[];
 }
-export const CreateStageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stage: S.optional(Stage),
-    participantTokens: S.optional(ParticipantTokenList),
-  }),
-).annotate({
-  identifier: "CreateStageResponse",
-}) as any as S.Schema<CreateStageResponse>;
 export type StorageConfigurationName = string;
 export type S3BucketName = string;
 export interface S3StorageConfiguration {
   bucketName: string;
 }
-export const S3StorageConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucketName: S.String }),
-).annotate({
-  identifier: "S3StorageConfiguration",
-}) as any as S.Schema<S3StorageConfiguration>;
 export interface CreateStorageConfigurationRequest {
   name?: string;
   s3: S3StorageConfiguration;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateStorageConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    s3: S3StorageConfiguration,
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateStorageConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateStorageConfigurationRequest",
-}) as any as S.Schema<CreateStorageConfigurationRequest>;
 export type StorageConfigurationArn = string;
 export interface StorageConfiguration {
   arn: string;
@@ -749,189 +462,42 @@ export interface StorageConfiguration {
   s3?: S3StorageConfiguration;
   tags?: { [key: string]: string | undefined };
 }
-export const StorageConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    s3: S.optional(S3StorageConfiguration),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "StorageConfiguration",
-}) as any as S.Schema<StorageConfiguration>;
 export interface CreateStorageConfigurationResponse {
   storageConfiguration?: StorageConfiguration;
 }
-export const CreateStorageConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ storageConfiguration: S.optional(StorageConfiguration) }),
-).annotate({
-  identifier: "CreateStorageConfigurationResponse",
-}) as any as S.Schema<CreateStorageConfigurationResponse>;
 export interface DeleteEncoderConfigurationRequest {
   arn: string;
 }
-export const DeleteEncoderConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteEncoderConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteEncoderConfigurationRequest",
-}) as any as S.Schema<DeleteEncoderConfigurationRequest>;
 export interface DeleteEncoderConfigurationResponse {}
-export const DeleteEncoderConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteEncoderConfigurationResponse",
-}) as any as S.Schema<DeleteEncoderConfigurationResponse>;
 export interface DeleteIngestConfigurationRequest {
   arn: string;
   force?: boolean;
 }
-export const DeleteIngestConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String, force: S.optional(S.Boolean) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteIngestConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteIngestConfigurationRequest",
-}) as any as S.Schema<DeleteIngestConfigurationRequest>;
 export interface DeleteIngestConfigurationResponse {}
-export const DeleteIngestConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteIngestConfigurationResponse",
-}) as any as S.Schema<DeleteIngestConfigurationResponse>;
 export type PublicKeyArn = string;
 export interface DeletePublicKeyRequest {
   arn: string;
 }
-export const DeletePublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeletePublicKey" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeletePublicKeyRequest",
-}) as any as S.Schema<DeletePublicKeyRequest>;
 export interface DeletePublicKeyResponse {}
-export const DeletePublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeletePublicKeyResponse",
-}) as any as S.Schema<DeletePublicKeyResponse>;
 export interface DeleteStageRequest {
   arn: string;
 }
-export const DeleteStageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteStage" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteStageRequest",
-}) as any as S.Schema<DeleteStageRequest>;
 export interface DeleteStageResponse {}
-export const DeleteStageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteStageResponse",
-}) as any as S.Schema<DeleteStageResponse>;
 export interface DeleteStorageConfigurationRequest {
   arn: string;
 }
-export const DeleteStorageConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteStorageConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteStorageConfigurationRequest",
-}) as any as S.Schema<DeleteStorageConfigurationRequest>;
 export interface DeleteStorageConfigurationResponse {}
-export const DeleteStorageConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteStorageConfigurationResponse",
-}) as any as S.Schema<DeleteStorageConfigurationResponse>;
 export type DisconnectParticipantReason = string;
 export interface DisconnectParticipantRequest {
   stageArn: string;
   participantId: string;
   reason?: string;
 }
-export const DisconnectParticipantRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stageArn: S.String,
-    participantId: S.String,
-    reason: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DisconnectParticipant" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisconnectParticipantRequest",
-}) as any as S.Schema<DisconnectParticipantRequest>;
 export interface DisconnectParticipantResponse {}
-export const DisconnectParticipantResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisconnectParticipantResponse",
-}) as any as S.Schema<DisconnectParticipantResponse>;
 export type CompositionArn = string;
 export interface GetCompositionRequest {
   arn: string;
 }
-export const GetCompositionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetComposition" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetCompositionRequest",
-}) as any as S.Schema<GetCompositionRequest>;
 export type CompositionState = string;
 export type AttributeKey = string;
 export type OmitStoppedVideo = boolean;
@@ -941,11 +507,7 @@ export type VideoAspectRatio =
   | "SQUARE"
   | "PORTRAIT"
   | (string & {});
-export const VideoAspectRatio = S.String;
-
 export type VideoFillMode = "FILL" | "COVER" | "CONTAIN" | (string & {});
-export const VideoFillMode = S.String;
-
 export type GridGap = number;
 export interface GridConfiguration {
   featuredParticipantAttribute?: string;
@@ -955,21 +517,7 @@ export interface GridConfiguration {
   gridGap?: number;
   participantOrderAttribute?: string;
 }
-export const GridConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    featuredParticipantAttribute: S.optional(S.String),
-    omitStoppedVideo: S.optional(S.Boolean),
-    videoAspectRatio: S.optional(VideoAspectRatio),
-    videoFillMode: S.optional(VideoFillMode),
-    gridGap: S.optional(S.Number),
-    participantOrderAttribute: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GridConfiguration",
-}) as any as S.Schema<GridConfiguration>;
 export type PipBehavior = "STATIC" | "DYNAMIC" | (string & {});
-export const PipBehavior = S.String;
-
 export type PipOffset = number;
 export type PipPosition =
   | "TOP_LEFT"
@@ -977,8 +525,6 @@ export type PipPosition =
   | "BOTTOM_LEFT"
   | "BOTTOM_RIGHT"
   | (string & {});
-export const PipPosition = S.String;
-
 export type PipWidth = number;
 export type PipHeight = number;
 export interface PipConfiguration {
@@ -994,35 +540,10 @@ export interface PipConfiguration {
   pipHeight?: number;
   participantOrderAttribute?: string;
 }
-export const PipConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    featuredParticipantAttribute: S.optional(S.String),
-    omitStoppedVideo: S.optional(S.Boolean),
-    videoFillMode: S.optional(VideoFillMode),
-    gridGap: S.optional(S.Number),
-    pipParticipantAttribute: S.optional(S.String),
-    pipBehavior: S.optional(PipBehavior),
-    pipOffset: S.optional(S.Number),
-    pipPosition: S.optional(PipPosition),
-    pipWidth: S.optional(S.Number),
-    pipHeight: S.optional(S.Number),
-    participantOrderAttribute: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PipConfiguration",
-}) as any as S.Schema<PipConfiguration>;
 export interface LayoutConfiguration {
   grid?: GridConfiguration;
   pip?: PipConfiguration;
 }
-export const LayoutConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    grid: S.optional(GridConfiguration),
-    pip: S.optional(PipConfiguration),
-  }),
-).annotate({
-  identifier: "LayoutConfiguration",
-}) as any as S.Schema<LayoutConfiguration>;
 export type DestinationState = string;
 export type DestinationConfigurationName = string;
 export type ChannelArn = string;
@@ -1030,99 +551,39 @@ export interface ChannelDestinationConfiguration {
   channelArn: string;
   encoderConfigurationArn?: string;
 }
-export const ChannelDestinationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    channelArn: S.String,
-    encoderConfigurationArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ChannelDestinationConfiguration",
-}) as any as S.Schema<ChannelDestinationConfiguration>;
 export type EncoderConfigurationArnList = string[];
-export const EncoderConfigurationArnList = /*@__PURE__*/ S.Array(S.String);
 export type CompositionRecordingTargetSegmentDurationSeconds = number;
 export interface CompositionRecordingHlsConfiguration {
   targetSegmentDurationSeconds?: number;
 }
-export const CompositionRecordingHlsConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ targetSegmentDurationSeconds: S.optional(S.Number) }),
-).annotate({
-  identifier: "CompositionRecordingHlsConfiguration",
-}) as any as S.Schema<CompositionRecordingHlsConfiguration>;
 export type RecordingConfigurationFormat = string;
 export interface RecordingConfiguration {
   hlsConfiguration?: CompositionRecordingHlsConfiguration;
   format?: string;
 }
-export const RecordingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    hlsConfiguration: S.optional(CompositionRecordingHlsConfiguration),
-    format: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RecordingConfiguration",
-}) as any as S.Schema<RecordingConfiguration>;
 export interface CompositionThumbnailConfiguration {
   targetIntervalSeconds?: number;
   storage?: ThumbnailStorageType[];
 }
-export const CompositionThumbnailConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    targetIntervalSeconds: S.optional(S.Number),
-    storage: S.optional(ThumbnailStorageTypeList),
-  }),
-).annotate({
-  identifier: "CompositionThumbnailConfiguration",
-}) as any as S.Schema<CompositionThumbnailConfiguration>;
 export type CompositionThumbnailConfigurationList =
   CompositionThumbnailConfiguration[];
-export const CompositionThumbnailConfigurationList = /*@__PURE__*/ S.Array(
-  CompositionThumbnailConfiguration,
-);
 export interface S3DestinationConfiguration {
   storageConfigurationArn: string;
   encoderConfigurationArns: string[];
   recordingConfiguration?: RecordingConfiguration;
   thumbnailConfigurations?: CompositionThumbnailConfiguration[];
 }
-export const S3DestinationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storageConfigurationArn: S.String,
-    encoderConfigurationArns: EncoderConfigurationArnList,
-    recordingConfiguration: S.optional(RecordingConfiguration),
-    thumbnailConfigurations: S.optional(CompositionThumbnailConfigurationList),
-  }),
-).annotate({
-  identifier: "S3DestinationConfiguration",
-}) as any as S.Schema<S3DestinationConfiguration>;
 export interface DestinationConfiguration {
   name?: string;
   channel?: ChannelDestinationConfiguration;
   s3?: S3DestinationConfiguration;
 }
-export const DestinationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    channel: S.optional(ChannelDestinationConfiguration),
-    s3: S.optional(S3DestinationConfiguration),
-  }),
-).annotate({
-  identifier: "DestinationConfiguration",
-}) as any as S.Schema<DestinationConfiguration>;
 export interface S3Detail {
   recordingPrefix: string;
 }
-export const S3Detail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ recordingPrefix: S.String }),
-).annotate({ identifier: "S3Detail" }) as any as S.Schema<S3Detail>;
 export interface DestinationDetail {
   s3?: S3Detail;
 }
-export const DestinationDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ s3: S.optional(S3Detail) }),
-).annotate({
-  identifier: "DestinationDetail",
-}) as any as S.Schema<DestinationDetail>;
 export interface Destination {
   id: string;
   state: string;
@@ -1131,20 +592,7 @@ export interface Destination {
   configuration: DestinationConfiguration;
   detail?: DestinationDetail;
 }
-export const Destination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    state: S.String,
-    startTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    configuration: DestinationConfiguration,
-    detail: S.optional(DestinationDetail),
-  }),
-).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
 export type DestinationList = Destination[];
-export const DestinationList = /*@__PURE__*/ S.Array(Destination);
 export interface Composition {
   arn: string;
   stageArn: string;
@@ -1155,101 +603,26 @@ export interface Composition {
   startTime?: Date;
   endTime?: Date;
 }
-export const Composition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    stageArn: S.String,
-    state: S.String,
-    layout: LayoutConfiguration,
-    destinations: DestinationList,
-    tags: S.optional(Tags),
-    startTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({ identifier: "Composition" }) as any as S.Schema<Composition>;
 export interface GetCompositionResponse {
   composition?: Composition;
 }
-export const GetCompositionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ composition: S.optional(Composition) }),
-).annotate({
-  identifier: "GetCompositionResponse",
-}) as any as S.Schema<GetCompositionResponse>;
 export interface GetEncoderConfigurationRequest {
   arn: string;
 }
-export const GetEncoderConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetEncoderConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEncoderConfigurationRequest",
-}) as any as S.Schema<GetEncoderConfigurationRequest>;
 export interface GetEncoderConfigurationResponse {
   encoderConfiguration?: EncoderConfiguration;
 }
-export const GetEncoderConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ encoderConfiguration: S.optional(EncoderConfiguration) }),
-).annotate({
-  identifier: "GetEncoderConfigurationResponse",
-}) as any as S.Schema<GetEncoderConfigurationResponse>;
 export interface GetIngestConfigurationRequest {
   arn: string;
 }
-export const GetIngestConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetIngestConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetIngestConfigurationRequest",
-}) as any as S.Schema<GetIngestConfigurationRequest>;
 export interface GetIngestConfigurationResponse {
   ingestConfiguration?: IngestConfiguration;
 }
-export const GetIngestConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ingestConfiguration: S.optional(IngestConfiguration) }),
-).annotate({
-  identifier: "GetIngestConfigurationResponse",
-}) as any as S.Schema<GetIngestConfigurationResponse>;
 export interface GetParticipantRequest {
   stageArn: string;
   sessionId: string;
   participantId: string;
 }
-export const GetParticipantRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stageArn: S.String,
-    sessionId: S.String,
-    participantId: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetParticipant" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetParticipantRequest",
-}) as any as S.Schema<GetParticipantRequest>;
 export type ParticipantState = string;
 export type Published = boolean;
 export type ParticipantClientAttribute = string;
@@ -1262,8 +635,6 @@ export type ParticipantProtocol =
   | "RTMP"
   | "RTMPS"
   | (string & {});
-export const ParticipantProtocol = S.String;
-
 export type ReplicationType = string;
 export type ReplicationState = string;
 export interface Participant {
@@ -1290,59 +661,12 @@ export interface Participant {
   redundantIngest?: boolean;
   ingestConfigurationArn?: string;
 }
-export const Participant = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    participantId: S.optional(S.String),
-    userId: S.optional(S.String),
-    state: S.optional(S.String),
-    firstJoinTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    attributes: S.optional(ParticipantAttributes),
-    published: S.optional(S.Boolean),
-    ispName: S.optional(S.String),
-    osName: S.optional(S.String),
-    osVersion: S.optional(S.String),
-    browserName: S.optional(S.String),
-    browserVersion: S.optional(S.String),
-    sdkVersion: S.optional(S.String),
-    recordingS3BucketName: S.optional(S.String),
-    recordingS3Prefix: S.optional(S.String),
-    recordingState: S.optional(S.String),
-    protocol: S.optional(ParticipantProtocol),
-    replicationType: S.optional(S.String),
-    replicationState: S.optional(S.String),
-    sourceStageArn: S.optional(S.String),
-    sourceSessionId: S.optional(S.String),
-    redundantIngest: S.optional(S.Boolean),
-    ingestConfigurationArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Participant" }) as any as S.Schema<Participant>;
 export interface GetParticipantResponse {
   participant?: Participant;
 }
-export const GetParticipantResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ participant: S.optional(Participant) }),
-).annotate({
-  identifier: "GetParticipantResponse",
-}) as any as S.Schema<GetParticipantResponse>;
 export interface GetPublicKeyRequest {
   arn: string;
 }
-export const GetPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetPublicKey" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPublicKeyRequest",
-}) as any as S.Schema<GetPublicKeyRequest>;
 export type PublicKeyName = string;
 export type PublicKeyMaterial = string;
 export type PublicKeyFingerprint = string;
@@ -1353,144 +677,41 @@ export interface PublicKey {
   fingerprint?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const PublicKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    publicKeyMaterial: S.optional(S.String),
-    fingerprint: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({ identifier: "PublicKey" }) as any as S.Schema<PublicKey>;
 export interface GetPublicKeyResponse {
   publicKey?: PublicKey;
 }
-export const GetPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ publicKey: S.optional(PublicKey) }),
-).annotate({
-  identifier: "GetPublicKeyResponse",
-}) as any as S.Schema<GetPublicKeyResponse>;
 export interface GetStageRequest {
   arn: string;
 }
-export const GetStageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetStage" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetStageRequest",
-}) as any as S.Schema<GetStageRequest>;
 export interface GetStageResponse {
   stage?: Stage;
 }
-export const GetStageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ stage: S.optional(Stage) }),
-).annotate({
-  identifier: "GetStageResponse",
-}) as any as S.Schema<GetStageResponse>;
 export interface GetStageSessionRequest {
   stageArn: string;
   sessionId: string;
 }
-export const GetStageSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ stageArn: S.String, sessionId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetStageSession" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetStageSessionRequest",
-}) as any as S.Schema<GetStageSessionRequest>;
 export interface StageSession {
   sessionId?: string;
   startTime?: Date;
   endTime?: Date;
 }
-export const StageSession = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionId: S.optional(S.String),
-    startTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({ identifier: "StageSession" }) as any as S.Schema<StageSession>;
 export interface GetStageSessionResponse {
   stageSession?: StageSession;
 }
-export const GetStageSessionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ stageSession: S.optional(StageSession) }),
-).annotate({
-  identifier: "GetStageSessionResponse",
-}) as any as S.Schema<GetStageSessionResponse>;
 export interface GetStorageConfigurationRequest {
   arn: string;
 }
-export const GetStorageConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetStorageConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetStorageConfigurationRequest",
-}) as any as S.Schema<GetStorageConfigurationRequest>;
 export interface GetStorageConfigurationResponse {
   storageConfiguration?: StorageConfiguration;
 }
-export const GetStorageConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ storageConfiguration: S.optional(StorageConfiguration) }),
-).annotate({
-  identifier: "GetStorageConfigurationResponse",
-}) as any as S.Schema<GetStorageConfigurationResponse>;
 export interface ImportPublicKeyRequest {
   publicKeyMaterial: string;
   name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const ImportPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    publicKeyMaterial: S.String,
-    name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ImportPublicKey" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ImportPublicKeyRequest",
-}) as any as S.Schema<ImportPublicKeyRequest>;
 export interface ImportPublicKeyResponse {
   publicKey?: PublicKey;
 }
-export const ImportPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ publicKey: S.optional(PublicKey) }),
-).annotate({
-  identifier: "ImportPublicKeyResponse",
-}) as any as S.Schema<ImportPublicKeyResponse>;
 export type PaginationToken = string;
 export type MaxCompositionResults = number;
 export interface ListCompositionsRequest {
@@ -1499,45 +720,13 @@ export interface ListCompositionsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListCompositionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filterByStageArn: S.optional(S.String),
-    filterByEncoderConfigurationArn: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListCompositions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListCompositionsRequest",
-}) as any as S.Schema<ListCompositionsRequest>;
 export interface DestinationSummary {
   id: string;
   state: string;
   startTime?: Date;
   endTime?: Date;
 }
-export const DestinationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    state: S.String,
-    startTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({
-  identifier: "DestinationSummary",
-}) as any as S.Schema<DestinationSummary>;
 export type DestinationSummaryList = DestinationSummary[];
-export const DestinationSummaryList = /*@__PURE__*/ S.Array(DestinationSummary);
 export interface CompositionSummary {
   arn: string;
   stageArn: string;
@@ -1547,87 +736,26 @@ export interface CompositionSummary {
   startTime?: Date;
   endTime?: Date;
 }
-export const CompositionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    stageArn: S.String,
-    destinations: DestinationSummaryList,
-    state: S.String,
-    tags: S.optional(Tags),
-    startTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({
-  identifier: "CompositionSummary",
-}) as any as S.Schema<CompositionSummary>;
 export type CompositionSummaryList = CompositionSummary[];
-export const CompositionSummaryList = /*@__PURE__*/ S.Array(CompositionSummary);
 export interface ListCompositionsResponse {
   compositions: CompositionSummary[];
   nextToken?: string;
 }
-export const ListCompositionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    compositions: CompositionSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCompositionsResponse",
-}) as any as S.Schema<ListCompositionsResponse>;
 export type MaxEncoderConfigurationResults = number;
 export interface ListEncoderConfigurationsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListEncoderConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListEncoderConfigurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListEncoderConfigurationsRequest",
-}) as any as S.Schema<ListEncoderConfigurationsRequest>;
 export interface EncoderConfigurationSummary {
   arn: string;
   name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const EncoderConfigurationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "EncoderConfigurationSummary",
-}) as any as S.Schema<EncoderConfigurationSummary>;
 export type EncoderConfigurationSummaryList = EncoderConfigurationSummary[];
-export const EncoderConfigurationSummaryList = /*@__PURE__*/ S.Array(
-  EncoderConfigurationSummary,
-);
 export interface ListEncoderConfigurationsResponse {
   encoderConfigurations: EncoderConfigurationSummary[];
   nextToken?: string;
 }
-export const ListEncoderConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    encoderConfigurations: EncoderConfigurationSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListEncoderConfigurationsResponse",
-}) as any as S.Schema<ListEncoderConfigurationsResponse>;
 export type MaxIngestConfigurationResults = number;
 export interface ListIngestConfigurationsRequest {
   filterByStageArn?: string;
@@ -1635,25 +763,6 @@ export interface ListIngestConfigurationsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListIngestConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filterByStageArn: S.optional(S.String),
-    filterByState: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListIngestConfigurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListIngestConfigurationsRequest",
-}) as any as S.Schema<ListIngestConfigurationsRequest>;
 export interface IngestConfigurationSummary {
   name?: string;
   arn: string;
@@ -1664,36 +773,11 @@ export interface IngestConfigurationSummary {
   userId?: string;
   redundantIngest?: boolean;
 }
-export const IngestConfigurationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    arn: S.String,
-    ingestProtocol: IngestProtocol,
-    stageArn: S.String,
-    participantId: S.String,
-    state: S.String,
-    userId: S.optional(S.String),
-    redundantIngest: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "IngestConfigurationSummary",
-}) as any as S.Schema<IngestConfigurationSummary>;
 export type IngestConfigurationList = IngestConfigurationSummary[];
-export const IngestConfigurationList = /*@__PURE__*/ S.Array(
-  IngestConfigurationSummary,
-);
 export interface ListIngestConfigurationsResponse {
   ingestConfigurations: IngestConfigurationSummary[];
   nextToken?: string;
 }
-export const ListIngestConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ingestConfigurations: IngestConfigurationList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListIngestConfigurationsResponse",
-}) as any as S.Schema<ListIngestConfigurationsResponse>;
 export type MaxParticipantEventResults = number;
 export interface ListParticipantEventsRequest {
   stageArn: string;
@@ -1702,26 +786,6 @@ export interface ListParticipantEventsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListParticipantEventsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stageArn: S.String,
-    sessionId: S.String,
-    participantId: S.String,
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListParticipantEvents" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListParticipantEventsRequest",
-}) as any as S.Schema<ListParticipantEventsRequest>;
 export type EventName = string;
 export type EventErrorCode =
   | "INSUFFICIENT_CAPABILITIES"
@@ -1739,8 +803,6 @@ export type EventErrorCode =
   | "INVALID_INPUT"
   | "INTERNAL_SERVER_EXCEPTION"
   | (string & {});
-export const EventErrorCode = S.String;
-
 export type Replica = boolean;
 export interface ExchangedParticipantToken {
   capabilities?: string[];
@@ -1748,18 +810,6 @@ export interface ExchangedParticipantToken {
   userId?: string;
   expirationTime?: Date;
 }
-export const ExchangedParticipantToken = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    capabilities: S.optional(ParticipantTokenCapabilities),
-    attributes: S.optional(ParticipantTokenAttributes),
-    userId: S.optional(S.String),
-    expirationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "ExchangedParticipantToken",
-}) as any as S.Schema<ExchangedParticipantToken>;
 export interface Event {
   name?: string;
   participantId?: string;
@@ -1772,33 +822,11 @@ export interface Event {
   previousToken?: ExchangedParticipantToken;
   newToken?: ExchangedParticipantToken;
 }
-export const Event = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    participantId: S.optional(S.String),
-    eventTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    remoteParticipantId: S.optional(S.String),
-    errorCode: S.optional(EventErrorCode),
-    destinationStageArn: S.optional(S.String),
-    destinationSessionId: S.optional(S.String),
-    replica: S.optional(S.Boolean),
-    previousToken: S.optional(ExchangedParticipantToken),
-    newToken: S.optional(ExchangedParticipantToken),
-  }),
-).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
 export type EventList = Event[];
-export const EventList = /*@__PURE__*/ S.Array(Event);
 export interface ListParticipantEventsResponse {
   events: Event[];
   nextToken?: string;
 }
-export const ListParticipantEventsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ events: EventList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListParticipantEventsResponse",
-}) as any as S.Schema<ListParticipantEventsResponse>;
 export type MaxParticipantReplicaResults = number;
 export interface ListParticipantReplicasRequest {
   sourceStageArn: string;
@@ -1806,25 +834,6 @@ export interface ListParticipantReplicasRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListParticipantReplicasRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceStageArn: S.String,
-    participantId: S.String,
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListParticipantReplicas" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListParticipantReplicasRequest",
-}) as any as S.Schema<ListParticipantReplicasRequest>;
 export interface ParticipantReplica {
   sourceStageArn: string;
   participantId: string;
@@ -1833,32 +842,11 @@ export interface ParticipantReplica {
   destinationSessionId: string;
   replicationState: string;
 }
-export const ParticipantReplica = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceStageArn: S.String,
-    participantId: S.String,
-    sourceSessionId: S.String,
-    destinationStageArn: S.String,
-    destinationSessionId: S.String,
-    replicationState: S.String,
-  }),
-).annotate({
-  identifier: "ParticipantReplica",
-}) as any as S.Schema<ParticipantReplica>;
 export type ParticipantReplicaList = ParticipantReplica[];
-export const ParticipantReplicaList = /*@__PURE__*/ S.Array(ParticipantReplica);
 export interface ListParticipantReplicasResponse {
   replicas: ParticipantReplica[];
   nextToken?: string;
 }
-export const ListParticipantReplicasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    replicas: ParticipantReplicaList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListParticipantReplicasResponse",
-}) as any as S.Schema<ListParticipantReplicasResponse>;
 export type MaxParticipantResults = number;
 export type ParticipantRecordingFilterByRecordingState = string;
 export interface ListParticipantsRequest {
@@ -1871,29 +859,6 @@ export interface ListParticipantsRequest {
   maxResults?: number;
   filterByRecordingState?: string;
 }
-export const ListParticipantsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stageArn: S.String,
-    sessionId: S.String,
-    filterByUserId: S.optional(S.String),
-    filterByPublished: S.optional(S.Boolean),
-    filterByState: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    filterByRecordingState: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListParticipants" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListParticipantsRequest",
-}) as any as S.Schema<ListParticipantsRequest>;
 export interface ParticipantSummary {
   participantId?: string;
   userId?: string;
@@ -1908,270 +873,83 @@ export interface ParticipantSummary {
   redundantIngest?: boolean;
   ingestConfigurationArn?: string;
 }
-export const ParticipantSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    participantId: S.optional(S.String),
-    userId: S.optional(S.String),
-    state: S.optional(S.String),
-    firstJoinTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    published: S.optional(S.Boolean),
-    recordingState: S.optional(S.String),
-    replicationType: S.optional(S.String),
-    replicationState: S.optional(S.String),
-    sourceStageArn: S.optional(S.String),
-    sourceSessionId: S.optional(S.String),
-    redundantIngest: S.optional(S.Boolean),
-    ingestConfigurationArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ParticipantSummary",
-}) as any as S.Schema<ParticipantSummary>;
 export type ParticipantList = ParticipantSummary[];
-export const ParticipantList = /*@__PURE__*/ S.Array(ParticipantSummary);
 export interface ListParticipantsResponse {
   participants: ParticipantSummary[];
   nextToken?: string;
 }
-export const ListParticipantsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ participants: ParticipantList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListParticipantsResponse",
-}) as any as S.Schema<ListParticipantsResponse>;
 export type MaxPublicKeyResults = number;
 export interface ListPublicKeysRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListPublicKeysRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListPublicKeys" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListPublicKeysRequest",
-}) as any as S.Schema<ListPublicKeysRequest>;
 export interface PublicKeySummary {
   arn?: string;
   name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const PublicKeySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "PublicKeySummary",
-}) as any as S.Schema<PublicKeySummary>;
 export type PublicKeyList = PublicKeySummary[];
-export const PublicKeyList = /*@__PURE__*/ S.Array(PublicKeySummary);
 export interface ListPublicKeysResponse {
   publicKeys: PublicKeySummary[];
   nextToken?: string;
 }
-export const ListPublicKeysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ publicKeys: PublicKeyList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListPublicKeysResponse",
-}) as any as S.Schema<ListPublicKeysResponse>;
 export type MaxStageResults = number;
 export interface ListStagesRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListStagesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListStages" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListStagesRequest",
-}) as any as S.Schema<ListStagesRequest>;
 export interface StageSummary {
   arn: string;
   name?: string;
   activeSessionId?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const StageSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    activeSessionId: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({ identifier: "StageSummary" }) as any as S.Schema<StageSummary>;
 export type StageSummaryList = StageSummary[];
-export const StageSummaryList = /*@__PURE__*/ S.Array(StageSummary);
 export interface ListStagesResponse {
   stages: StageSummary[];
   nextToken?: string;
 }
-export const ListStagesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ stages: StageSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListStagesResponse",
-}) as any as S.Schema<ListStagesResponse>;
 export type MaxStageSessionResults = number;
 export interface ListStageSessionsRequest {
   stageArn: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListStageSessionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stageArn: S.String,
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListStageSessions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListStageSessionsRequest",
-}) as any as S.Schema<ListStageSessionsRequest>;
 export interface StageSessionSummary {
   sessionId?: string;
   startTime?: Date;
   endTime?: Date;
 }
-export const StageSessionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionId: S.optional(S.String),
-    startTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({
-  identifier: "StageSessionSummary",
-}) as any as S.Schema<StageSessionSummary>;
 export type StageSessionList = StageSessionSummary[];
-export const StageSessionList = /*@__PURE__*/ S.Array(StageSessionSummary);
 export interface ListStageSessionsResponse {
   stageSessions: StageSessionSummary[];
   nextToken?: string;
 }
-export const ListStageSessionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stageSessions: StageSessionList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListStageSessionsResponse",
-}) as any as S.Schema<ListStageSessionsResponse>;
 export type MaxStorageConfigurationResults = number;
 export interface ListStorageConfigurationsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListStorageConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListStorageConfigurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListStorageConfigurationsRequest",
-}) as any as S.Schema<ListStorageConfigurationsRequest>;
 export interface StorageConfigurationSummary {
   arn: string;
   name?: string;
   s3?: S3StorageConfiguration;
   tags?: { [key: string]: string | undefined };
 }
-export const StorageConfigurationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    s3: S.optional(S3StorageConfiguration),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "StorageConfigurationSummary",
-}) as any as S.Schema<StorageConfigurationSummary>;
 export type StorageConfigurationSummaryList = StorageConfigurationSummary[];
-export const StorageConfigurationSummaryList = /*@__PURE__*/ S.Array(
-  StorageConfigurationSummary,
-);
 export interface ListStorageConfigurationsResponse {
   storageConfigurations: StorageConfigurationSummary[];
   nextToken?: string;
 }
-export const ListStorageConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storageConfigurations: StorageConfigurationSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListStorageConfigurationsResponse",
-}) as any as S.Schema<ListStorageConfigurationsResponse>;
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: Tags }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export type CompositionClientToken = string;
 export type DestinationConfigurationList = DestinationConfiguration[];
-export const DestinationConfigurationList = /*@__PURE__*/ S.Array(
-  DestinationConfiguration,
-);
 export interface StartCompositionRequest {
   stageArn: string;
   idempotencyToken?: string;
@@ -2179,34 +957,9 @@ export interface StartCompositionRequest {
   destinations: DestinationConfiguration[];
   tags?: { [key: string]: string | undefined };
 }
-export const StartCompositionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stageArn: S.String,
-    idempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    layout: S.optional(LayoutConfiguration),
-    destinations: DestinationConfigurationList,
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StartComposition" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartCompositionRequest",
-}) as any as S.Schema<StartCompositionRequest>;
 export interface StartCompositionResponse {
   composition?: Composition;
 }
-export const StartCompositionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ composition: S.optional(Composition) }),
-).annotate({
-  identifier: "StartCompositionResponse",
-}) as any as S.Schema<StartCompositionResponse>;
 export type ReconnectWindowSeconds = number;
 export interface StartParticipantReplicationRequest {
   sourceStageArn: string;
@@ -2215,26 +968,6 @@ export interface StartParticipantReplicationRequest {
   reconnectWindowSeconds?: number;
   attributes?: { [key: string]: string | undefined };
 }
-export const StartParticipantReplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceStageArn: S.String,
-    destinationStageArn: S.String,
-    participantId: S.String,
-    reconnectWindowSeconds: S.optional(S.Number),
-    attributes: S.optional(ParticipantAttributes),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StartParticipantReplication" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartParticipantReplicationRequest",
-}) as any as S.Schema<StartParticipantReplicationRequest>;
 export interface StartParticipantReplicationResponse {
   accessControlAllowOrigin?: string;
   accessControlExposeHeaders?: string;
@@ -2244,75 +977,15 @@ export interface StartParticipantReplicationResponse {
   xContentTypeOptions?: string;
   xFrameOptions?: string;
 }
-export const StartParticipantReplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessControlAllowOrigin: S.optional(S.String).pipe(
-      T.HttpHeader("Access-Control-Allow-Origin"),
-    ),
-    accessControlExposeHeaders: S.optional(S.String).pipe(
-      T.HttpHeader("Access-Control-Expose-Headers"),
-    ),
-    cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    contentSecurityPolicy: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Security-Policy"),
-    ),
-    strictTransportSecurity: S.optional(S.String).pipe(
-      T.HttpHeader("Strict-Transport-Security"),
-    ),
-    xContentTypeOptions: S.optional(S.String).pipe(
-      T.HttpHeader("X-Content-Type-Options"),
-    ),
-    xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-  }),
-).annotate({
-  identifier: "StartParticipantReplicationResponse",
-}) as any as S.Schema<StartParticipantReplicationResponse>;
 export interface StopCompositionRequest {
   arn: string;
 }
-export const StopCompositionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StopComposition" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopCompositionRequest",
-}) as any as S.Schema<StopCompositionRequest>;
 export interface StopCompositionResponse {}
-export const StopCompositionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "StopCompositionResponse",
-}) as any as S.Schema<StopCompositionResponse>;
 export interface StopParticipantReplicationRequest {
   sourceStageArn: string;
   destinationStageArn: string;
   participantId: string;
 }
-export const StopParticipantReplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceStageArn: S.String,
-    destinationStageArn: S.String,
-    participantId: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StopParticipantReplication" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopParticipantReplicationRequest",
-}) as any as S.Schema<StopParticipantReplicationRequest>;
 export interface StopParticipantReplicationResponse {
   accessControlAllowOrigin?: string;
   accessControlExposeHeaders?: string;
@@ -2322,149 +995,33 @@ export interface StopParticipantReplicationResponse {
   xContentTypeOptions?: string;
   xFrameOptions?: string;
 }
-export const StopParticipantReplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessControlAllowOrigin: S.optional(S.String).pipe(
-      T.HttpHeader("Access-Control-Allow-Origin"),
-    ),
-    accessControlExposeHeaders: S.optional(S.String).pipe(
-      T.HttpHeader("Access-Control-Expose-Headers"),
-    ),
-    cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    contentSecurityPolicy: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Security-Policy"),
-    ),
-    strictTransportSecurity: S.optional(S.String).pipe(
-      T.HttpHeader("Strict-Transport-Security"),
-    ),
-    xContentTypeOptions: S.optional(S.String).pipe(
-      T.HttpHeader("X-Content-Type-Options"),
-    ),
-    xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-  }),
-).annotate({
-  identifier: "StopParticipantReplicationResponse",
-}) as any as S.Schema<StopParticipantReplicationResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: Tags,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateIngestConfigurationRequest {
   arn: string;
   stageArn?: string;
   redundantIngest?: boolean;
 }
-export const UpdateIngestConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    stageArn: S.optional(S.String),
-    redundantIngest: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UpdateIngestConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateIngestConfigurationRequest",
-}) as any as S.Schema<UpdateIngestConfigurationRequest>;
 export interface UpdateIngestConfigurationResponse {
   ingestConfiguration?: IngestConfiguration;
 }
-export const UpdateIngestConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ingestConfiguration: S.optional(IngestConfiguration) }),
-).annotate({
-  identifier: "UpdateIngestConfigurationResponse",
-}) as any as S.Schema<UpdateIngestConfigurationResponse>;
 export interface UpdateStageRequest {
   arn: string;
   name?: string;
   autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration;
 }
-export const UpdateStageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    autoParticipantRecordingConfiguration: S.optional(
-      AutoParticipantRecordingConfiguration,
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UpdateStage" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateStageRequest",
-}) as any as S.Schema<UpdateStageRequest>;
 export interface UpdateStageResponse {
   stage?: Stage;
 }
-export const UpdateStageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ stage: S.optional(Stage) }),
-).annotate({
-  identifier: "UpdateStageResponse",
-}) as any as S.Schema<UpdateStageResponse>;
 export type ErrorMessage = string;
 export type CreateEncoderConfigurationError =
   | AccessDeniedException
@@ -2484,8 +1041,16 @@ export const createEncoderConfiguration: API.OperationMethod<
   CreateEncoderConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateEncoderConfigurationRequest,
-  output: CreateEncoderConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /CreateEncoderConfiguration",
+    input: {
+      name: 0,
+      video: { width: 0, height: 0, framerate: 0, bitrate: 0 },
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2498,7 +1063,7 @@ export const createEncoderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEncoderConfiguration",
-}));
+})) as any;
 
 export type CreateIngestConfigurationError =
   | AccessDeniedException
@@ -2515,8 +1080,22 @@ export const createIngestConfiguration: API.OperationMethod<
   CreateIngestConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateIngestConfigurationRequest,
-  output: CreateIngestConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /CreateIngestConfiguration",
+    input: {
+      name: 0,
+      stageArn: 0,
+      userId: 0,
+      attributes: 0,
+      ingestProtocol: 0,
+      insecureIngest: 0,
+      redundantIngest: 0,
+      tags: 0,
+    },
+    output: { ingestConfiguration: o_IngestConfiguration },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     PendingVerification,
@@ -2526,7 +1105,7 @@ export const createIngestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIngestConfiguration",
-}));
+})) as any;
 
 export type CreateParticipantTokenError =
   | AccessDeniedException
@@ -2549,8 +1128,19 @@ export const createParticipantToken: API.OperationMethod<
   CreateParticipantTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateParticipantTokenRequest,
-  output: CreateParticipantTokenResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /CreateParticipantToken",
+    input: {
+      stageArn: 0,
+      duration: 0,
+      userId: 0,
+      attributes: 0,
+      capabilities: 0,
+    },
+    output: { participantToken: o_ParticipantToken },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     PendingVerification,
@@ -2561,7 +1151,7 @@ export const createParticipantToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParticipantToken",
-}));
+})) as any;
 
 export type CreateStageError =
   | AccessDeniedException
@@ -2579,8 +1169,24 @@ export const createStage: API.OperationMethod<
   CreateStageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateStageRequest,
-  output: CreateStageResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /CreateStage",
+    input: {
+      name: 0,
+      participantTokenConfigurations: D.list({
+        duration: 0,
+        userId: 0,
+        attributes: 0,
+        capabilities: 0,
+      }),
+      tags: 0,
+      autoParticipantRecordingConfiguration:
+        i_AutoParticipantRecordingConfiguration,
+    },
+    output: { participantTokens: D.list(o_ParticipantToken) },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     PendingVerification,
@@ -2591,7 +1197,7 @@ export const createStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStage",
-}));
+})) as any;
 
 export type CreateStorageConfigurationError =
   | AccessDeniedException
@@ -2613,8 +1219,12 @@ export const createStorageConfiguration: API.OperationMethod<
   CreateStorageConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateStorageConfigurationRequest,
-  output: CreateStorageConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /CreateStorageConfiguration",
+    input: { name: 0, s3: { bucketName: 0 }, tags: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2627,7 +1237,7 @@ export const createStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStorageConfiguration",
-}));
+})) as any;
 
 export type DeleteEncoderConfigurationError =
   | AccessDeniedException
@@ -2647,8 +1257,12 @@ export const deleteEncoderConfiguration: API.OperationMethod<
   DeleteEncoderConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEncoderConfigurationRequest,
-  output: DeleteEncoderConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /DeleteEncoderConfiguration",
+    input: { arn: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2660,7 +1274,7 @@ export const deleteEncoderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEncoderConfiguration",
-}));
+})) as any;
 
 export type DeleteIngestConfigurationError =
   | AccessDeniedException
@@ -2678,8 +1292,12 @@ export const deleteIngestConfiguration: API.OperationMethod<
   DeleteIngestConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteIngestConfigurationRequest,
-  output: DeleteIngestConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /DeleteIngestConfiguration",
+    input: { arn: 0, force: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2690,7 +1308,7 @@ export const deleteIngestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIngestConfiguration",
-}));
+})) as any;
 
 export type DeletePublicKeyError =
   | AccessDeniedException
@@ -2709,8 +1327,12 @@ export const deletePublicKey: API.OperationMethod<
   DeletePublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeletePublicKeyRequest,
-  output: DeletePublicKeyResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /DeletePublicKey",
+    input: { arn: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2721,7 +1343,7 @@ export const deletePublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublicKey",
-}));
+})) as any;
 
 export type DeleteStageError =
   | AccessDeniedException
@@ -2742,8 +1364,12 @@ export const deleteStage: API.OperationMethod<
   DeleteStageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteStageRequest,
-  output: DeleteStageResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /DeleteStage",
+    input: { arn: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2755,7 +1381,7 @@ export const deleteStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStage",
-}));
+})) as any;
 
 export type DeleteStorageConfigurationError =
   | AccessDeniedException
@@ -2778,8 +1404,12 @@ export const deleteStorageConfiguration: API.OperationMethod<
   DeleteStorageConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteStorageConfigurationRequest,
-  output: DeleteStorageConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /DeleteStorageConfiguration",
+    input: { arn: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2791,7 +1421,7 @@ export const deleteStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStorageConfiguration",
-}));
+})) as any;
 
 export type DisconnectParticipantError =
   | AccessDeniedException
@@ -2810,8 +1440,12 @@ export const disconnectParticipant: API.OperationMethod<
   DisconnectParticipantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisconnectParticipantRequest,
-  output: DisconnectParticipantResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /DisconnectParticipant",
+    input: { stageArn: 0, participantId: 0, reason: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     PendingVerification,
@@ -2821,7 +1455,7 @@ export const disconnectParticipant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectParticipant",
-}));
+})) as any;
 
 export type GetCompositionError =
   | AccessDeniedException
@@ -2840,8 +1474,13 @@ export const getComposition: API.OperationMethod<
   GetCompositionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCompositionRequest,
-  output: GetCompositionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /GetComposition",
+    input: { arn: 0 },
+    output: { composition: o_Composition },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2853,7 +1492,7 @@ export const getComposition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComposition",
-}));
+})) as any;
 
 export type GetEncoderConfigurationError =
   | AccessDeniedException
@@ -2872,8 +1511,12 @@ export const getEncoderConfiguration: API.OperationMethod<
   GetEncoderConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEncoderConfigurationRequest,
-  output: GetEncoderConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /GetEncoderConfiguration",
+    input: { arn: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2885,7 +1528,7 @@ export const getEncoderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEncoderConfiguration",
-}));
+})) as any;
 
 export type GetIngestConfigurationError =
   | AccessDeniedException
@@ -2901,8 +1544,13 @@ export const getIngestConfiguration: API.OperationMethod<
   GetIngestConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetIngestConfigurationRequest,
-  output: GetIngestConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /GetIngestConfiguration",
+    input: { arn: 0 },
+    output: { ingestConfiguration: o_IngestConfiguration },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -2911,7 +1559,7 @@ export const getIngestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngestConfiguration",
-}));
+})) as any;
 
 export type GetParticipantError =
   | AccessDeniedException
@@ -2927,8 +1575,13 @@ export const getParticipant: API.OperationMethod<
   GetParticipantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetParticipantRequest,
-  output: GetParticipantResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /GetParticipant",
+    input: { stageArn: 0, sessionId: 0, participantId: 0 },
+    output: { participant: { firstJoinTime: D.ts } },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -2937,7 +1590,7 @@ export const getParticipant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParticipant",
-}));
+})) as any;
 
 export type GetPublicKeyError =
   | AccessDeniedException
@@ -2953,8 +1606,12 @@ export const getPublicKey: API.OperationMethod<
   GetPublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPublicKeyRequest,
-  output: GetPublicKeyResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /GetPublicKey",
+    input: { arn: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -2963,7 +1620,7 @@ export const getPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKey",
-}));
+})) as any;
 
 export type GetStageError =
   | AccessDeniedException
@@ -2980,8 +1637,12 @@ export const getStage: API.OperationMethod<
   GetStageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetStageRequest,
-  output: GetStageResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /GetStage",
+    input: { arn: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -2991,7 +1652,7 @@ export const getStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStage",
-}));
+})) as any;
 
 export type GetStageSessionError =
   | AccessDeniedException
@@ -3007,8 +1668,13 @@ export const getStageSession: API.OperationMethod<
   GetStageSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetStageSessionRequest,
-  output: GetStageSessionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /GetStageSession",
+    input: { stageArn: 0, sessionId: 0 },
+    output: { stageSession: { startTime: D.ts, endTime: D.ts } },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -3017,7 +1683,7 @@ export const getStageSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStageSession",
-}));
+})) as any;
 
 export type GetStorageConfigurationError =
   | AccessDeniedException
@@ -3036,8 +1702,12 @@ export const getStorageConfiguration: API.OperationMethod<
   GetStorageConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetStorageConfigurationRequest,
-  output: GetStorageConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /GetStorageConfiguration",
+    input: { arn: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3049,7 +1719,7 @@ export const getStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStorageConfiguration",
-}));
+})) as any;
 
 export type ImportPublicKeyError =
   | AccessDeniedException
@@ -3067,8 +1737,12 @@ export const importPublicKey: API.OperationMethod<
   ImportPublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ImportPublicKeyRequest,
-  output: ImportPublicKeyResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /ImportPublicKey",
+    input: { publicKeyMaterial: 0, name: 0, tags: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3079,7 +1753,7 @@ export const importPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportPublicKey",
-}));
+})) as any;
 
 export type ListCompositionsError =
   | AccessDeniedException
@@ -3099,8 +1773,24 @@ export const listCompositions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListCompositionsRequest,
-  output: ListCompositionsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /ListCompositions",
+    input: {
+      filterByStageArn: 0,
+      filterByEncoderConfigurationArn: 0,
+      nextToken: 0,
+      maxResults: 0,
+    },
+    output: {
+      compositions: D.list({
+        destinations: D.list({ startTime: D.ts, endTime: D.ts }),
+        startTime: D.ts,
+        endTime: D.ts,
+      }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3136,8 +1826,12 @@ export const listEncoderConfigurations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListEncoderConfigurationsRequest,
-  output: ListEncoderConfigurationsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /ListEncoderConfigurations",
+    input: { nextToken: 0, maxResults: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3169,8 +1863,17 @@ export const listIngestConfigurations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   IngestConfigurationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListIngestConfigurationsRequest,
-  output: ListIngestConfigurationsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /ListIngestConfigurations",
+    input: {
+      filterByStageArn: 0,
+      filterByState: 0,
+      nextToken: 0,
+      maxResults: 0,
+    },
+    body: true,
+  },
   errors: [AccessDeniedException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3198,8 +1901,25 @@ export const listParticipantEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListParticipantEventsRequest,
-  output: ListParticipantEventsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /ListParticipantEvents",
+    input: {
+      stageArn: 0,
+      sessionId: 0,
+      participantId: 0,
+      nextToken: 0,
+      maxResults: 0,
+    },
+    output: {
+      events: D.list({
+        eventTime: D.ts,
+        previousToken: o_ExchangedParticipantToken,
+        newToken: o_ExchangedParticipantToken,
+      }),
+    },
+    body: true,
+  },
   errors: [AccessDeniedException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3225,8 +1945,12 @@ export const listParticipantReplicas: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ParticipantReplica
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListParticipantReplicasRequest,
-  output: ListParticipantReplicasResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /ListParticipantReplicas",
+    input: { sourceStageArn: 0, participantId: 0, nextToken: 0, maxResults: 0 },
+    body: true,
+  },
   errors: [AccessDeniedException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3253,8 +1977,22 @@ export const listParticipants: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListParticipantsRequest,
-  output: ListParticipantsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /ListParticipants",
+    input: {
+      stageArn: 0,
+      sessionId: 0,
+      filterByUserId: 0,
+      filterByPublished: 0,
+      filterByState: 0,
+      nextToken: 0,
+      maxResults: 0,
+      filterByRecordingState: 0,
+    },
+    output: { participants: D.list({ firstJoinTime: D.ts }) },
+    body: true,
+  },
   errors: [AccessDeniedException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3280,8 +2018,12 @@ export const listPublicKeys: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PublicKeySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPublicKeysRequest,
-  output: ListPublicKeysResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /ListPublicKeys",
+    input: { nextToken: 0, maxResults: 0 },
+    body: true,
+  },
   errors: [AccessDeniedException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3311,8 +2053,12 @@ export const listStages: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStagesRequest,
-  output: ListStagesResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /ListStages",
+    input: { nextToken: 0, maxResults: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3343,8 +2089,13 @@ export const listStageSessions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStageSessionsRequest,
-  output: ListStageSessionsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /ListStageSessions",
+    input: { stageArn: 0, nextToken: 0, maxResults: 0 },
+    output: { stageSessions: D.list({ startTime: D.ts, endTime: D.ts }) },
+    body: true,
+  },
   errors: [AccessDeniedException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3374,8 +2125,12 @@ export const listStorageConfigurations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStorageConfigurationsRequest,
-  output: ListStorageConfigurationsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /ListStorageConfigurations",
+    input: { nextToken: 0, maxResults: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3408,8 +2163,11 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{resourceArn}",
+    input: { resourceArn: 0 },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -3419,7 +2177,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type StartCompositionError =
   | AccessDeniedException
@@ -3456,8 +2214,56 @@ export const startComposition: API.OperationMethod<
   StartCompositionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartCompositionRequest,
-  output: StartCompositionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /StartComposition",
+    input: {
+      stageArn: 0,
+      idempotencyToken: D.m({ idempotency: true }),
+      layout: {
+        grid: {
+          featuredParticipantAttribute: 0,
+          omitStoppedVideo: 0,
+          videoAspectRatio: 0,
+          videoFillMode: 0,
+          gridGap: 0,
+          participantOrderAttribute: 0,
+        },
+        pip: {
+          featuredParticipantAttribute: 0,
+          omitStoppedVideo: 0,
+          videoFillMode: 0,
+          gridGap: 0,
+          pipParticipantAttribute: 0,
+          pipBehavior: 0,
+          pipOffset: 0,
+          pipPosition: 0,
+          pipWidth: 0,
+          pipHeight: 0,
+          participantOrderAttribute: 0,
+        },
+      },
+      destinations: D.list({
+        name: 0,
+        channel: { channelArn: 0, encoderConfigurationArn: 0 },
+        s3: {
+          storageConfigurationArn: 0,
+          encoderConfigurationArns: 0,
+          recordingConfiguration: {
+            hlsConfiguration: { targetSegmentDurationSeconds: 0 },
+            format: 0,
+          },
+          thumbnailConfigurations: D.list({
+            targetIntervalSeconds: 0,
+            storage: 0,
+          }),
+        },
+      }),
+      tags: 0,
+    },
+    output: { composition: o_Composition },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3470,7 +2276,7 @@ export const startComposition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartComposition",
-}));
+})) as any;
 
 export type StartParticipantReplicationError =
   | AccessDeniedException
@@ -3490,8 +2296,29 @@ export const startParticipantReplication: API.OperationMethod<
   StartParticipantReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartParticipantReplicationRequest,
-  output: StartParticipantReplicationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /StartParticipantReplication",
+    input: {
+      sourceStageArn: 0,
+      destinationStageArn: 0,
+      participantId: 0,
+      reconnectWindowSeconds: 0,
+      attributes: 0,
+    },
+    output: {
+      accessControlAllowOrigin: D.m({ header: "Access-Control-Allow-Origin" }),
+      accessControlExposeHeaders: D.m({
+        header: "Access-Control-Expose-Headers",
+      }),
+      cacheControl: D.m({ header: "Cache-Control" }),
+      contentSecurityPolicy: D.m({ header: "Content-Security-Policy" }),
+      strictTransportSecurity: D.m({ header: "Strict-Transport-Security" }),
+      xContentTypeOptions: D.m({ header: "X-Content-Type-Options" }),
+      xFrameOptions: D.m({ header: "X-Frame-Options" }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3504,7 +2331,7 @@ export const startParticipantReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartParticipantReplication",
-}));
+})) as any;
 
 export type StopCompositionError =
   | AccessDeniedException
@@ -3524,8 +2351,12 @@ export const stopComposition: API.OperationMethod<
   StopCompositionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopCompositionRequest,
-  output: StopCompositionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /StopComposition",
+    input: { arn: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3537,7 +2368,7 @@ export const stopComposition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopComposition",
-}));
+})) as any;
 
 export type StopParticipantReplicationError =
   | AccessDeniedException
@@ -3554,8 +2385,23 @@ export const stopParticipantReplication: API.OperationMethod<
   StopParticipantReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopParticipantReplicationRequest,
-  output: StopParticipantReplicationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /StopParticipantReplication",
+    input: { sourceStageArn: 0, destinationStageArn: 0, participantId: 0 },
+    output: {
+      accessControlAllowOrigin: D.m({ header: "Access-Control-Allow-Origin" }),
+      accessControlExposeHeaders: D.m({
+        header: "Access-Control-Expose-Headers",
+      }),
+      cacheControl: D.m({ header: "Cache-Control" }),
+      contentSecurityPolicy: D.m({ header: "Content-Security-Policy" }),
+      strictTransportSecurity: D.m({ header: "Strict-Transport-Security" }),
+      xContentTypeOptions: D.m({ header: "X-Content-Type-Options" }),
+      xFrameOptions: D.m({ header: "X-Frame-Options" }),
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3565,7 +2411,7 @@ export const stopParticipantReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopParticipantReplication",
-}));
+})) as any;
 
 export type TagResourceError =
   | InternalServerException
@@ -3582,8 +2428,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{resourceArn}",
+    input: { resourceArn: 0, tags: 0 },
+    body: true,
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -3593,7 +2443,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | InternalServerException
@@ -3610,8 +2460,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{resourceArn}",
+    input: { resourceArn: 0, tagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -3621,7 +2474,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateIngestConfigurationError =
   | AccessDeniedException
@@ -3639,8 +2492,13 @@ export const updateIngestConfiguration: API.OperationMethod<
   UpdateIngestConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateIngestConfigurationRequest,
-  output: UpdateIngestConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /UpdateIngestConfiguration",
+    input: { arn: 0, stageArn: 0, redundantIngest: 0 },
+    output: { ingestConfiguration: o_IngestConfiguration },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3651,7 +2509,7 @@ export const updateIngestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIngestConfiguration",
-}));
+})) as any;
 
 export type UpdateStageError =
   | AccessDeniedException
@@ -3671,8 +2529,17 @@ export const updateStage: API.OperationMethod<
   UpdateStageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateStageRequest,
-  output: UpdateStageResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /UpdateStage",
+    input: {
+      arn: 0,
+      name: 0,
+      autoParticipantRecordingConfiguration:
+        i_AutoParticipantRecordingConfiguration,
+    },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3685,4 +2552,33 @@ export const updateStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStage",
-}));
+})) as any;
+
+const i_AutoParticipantRecordingConfiguration: D.LazyStruct = () => ({
+  storageConfigurationArn: 0,
+  mediaTypes: 0,
+  thumbnailConfiguration: {
+    targetIntervalSeconds: 0,
+    storage: 0,
+    recordingMode: 0,
+  },
+  recordingReconnectWindowSeconds: 0,
+  hlsConfiguration: { targetSegmentDurationSeconds: 0 },
+  recordParticipantReplicas: 0,
+});
+const o_Composition: D.LazyStruct = () => ({
+  destinations: D.list({ startTime: D.ts, endTime: D.ts }),
+  startTime: D.ts,
+  endTime: D.ts,
+});
+const o_ExchangedParticipantToken: D.LazyStruct = () => ({
+  expirationTime: D.ts,
+});
+const o_IngestConfiguration: D.LazyStruct = () => ({
+  streamKey: D.secret,
+  redundantIngestCredentials: D.list({ streamKey: D.secret }),
+});
+const o_ParticipantToken: D.LazyStruct = () => ({
+  token: D.secret,
+  expirationTime: D.ts,
+});

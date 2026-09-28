@@ -1,611 +1,343 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { awsQueryProtocol } from "../protocols/aws-query.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const ns = T.XmlNamespace("http://ses.amazonaws.com/doc/2010-12-01/");
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "SES",
-  serviceShapeName: "SimpleEmailService",
-});
-const auth = T.AwsAuthSigv4({ name: "ses" });
-const ver = T.ServiceVersion("2010-12-01");
-const proto = T.AwsProtocolsAwsQuery();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://email-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://email-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://email.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://email.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "SimpleEmailService",
+  version: "2010-12-01",
+  sigv4: "ses",
+  protocol: awsQueryProtocol,
+  xmlns: "http://ses.amazonaws.com/doc/2010-12-01/",
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://email-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://email-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://email.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://email.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccountSendingPausedException
-  extends /*@__PURE__*/ S.TaggedError<AccountSendingPausedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "AccountSendingPausedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "AccountSendingPausedException",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class AlreadyExistsException
-  extends /*@__PURE__*/ S.TaggedError<AlreadyExistsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "AlreadyExistsException",
-    {
-      Name: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({ code: "AlreadyExists", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
+    ["BadRequestError", "AlreadyExistsError"],
+    { code: "AlreadyExists", status: 400 },
+  )<{ readonly Name?: string; readonly message?: string }> {}
 export class CannotDeleteException
-  extends /*@__PURE__*/ S.TaggedError<CannotDeleteException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CannotDeleteException",
-    {
-      Name: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({ code: "CannotDelete", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "CannotDelete", status: 400 },
+  )<{ readonly Name?: string; readonly message?: string }> {}
 export class ConfigurationSetAlreadyExistsException
-  extends /*@__PURE__*/ S.TaggedError<ConfigurationSetAlreadyExistsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ConfigurationSetAlreadyExistsException",
-    {
-      ConfigurationSetName: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({
-        code: "ConfigurationSetAlreadyExists",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
+    ["BadRequestError", "AlreadyExistsError"],
+    { code: "ConfigurationSetAlreadyExists", status: 400 },
+  )<{ readonly ConfigurationSetName?: string; readonly message?: string }> {}
 export class ConfigurationSetDoesNotExistException
-  extends /*@__PURE__*/ S.TaggedError<ConfigurationSetDoesNotExistException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ConfigurationSetDoesNotExistException",
-    {
-      ConfigurationSetName: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({
-        code: "ConfigurationSetDoesNotExist",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ConfigurationSetDoesNotExist", status: 400 },
+  )<{ readonly ConfigurationSetName?: string; readonly message?: string }> {}
 export class ConfigurationSetSendingPausedException
-  extends /*@__PURE__*/ S.TaggedError<ConfigurationSetSendingPausedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ConfigurationSetSendingPausedException",
-    {
-      ConfigurationSetName: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({
-        code: "ConfigurationSetSendingPausedException",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly ConfigurationSetName?: string; readonly message?: string }> {}
 export class CustomVerificationEmailInvalidContentException
-  extends /*@__PURE__*/ S.TaggedError<CustomVerificationEmailInvalidContentException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CustomVerificationEmailInvalidContentException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "CustomVerificationEmailInvalidContent",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "CustomVerificationEmailInvalidContent", status: 400 },
+  )<{ readonly message?: string }> {}
 export class CustomVerificationEmailTemplateAlreadyExistsException
-  extends /*@__PURE__*/ S.TaggedError<CustomVerificationEmailTemplateAlreadyExistsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CustomVerificationEmailTemplateAlreadyExistsException",
-    {
-      CustomVerificationEmailTemplateName: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({
-        code: "CustomVerificationEmailTemplateAlreadyExists",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
+    ["BadRequestError", "AlreadyExistsError"],
+    { code: "CustomVerificationEmailTemplateAlreadyExists", status: 400 },
+  )<{
+    readonly CustomVerificationEmailTemplateName?: string;
+    readonly message?: string;
+  }> {}
 export class CustomVerificationEmailTemplateDoesNotExistException
-  extends /*@__PURE__*/ S.TaggedError<CustomVerificationEmailTemplateDoesNotExistException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "CustomVerificationEmailTemplateDoesNotExistException",
-    {
-      CustomVerificationEmailTemplateName: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({
-        code: "CustomVerificationEmailTemplateDoesNotExist",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "CustomVerificationEmailTemplateDoesNotExist", status: 400 },
+  )<{
+    readonly CustomVerificationEmailTemplateName?: string;
+    readonly message?: string;
+  }> {}
 export class EventDestinationAlreadyExistsException
-  extends /*@__PURE__*/ S.TaggedError<EventDestinationAlreadyExistsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EventDestinationAlreadyExistsException",
-    {
-      ConfigurationSetName: S.optional(S.String),
-      EventDestinationName: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({
-        code: "EventDestinationAlreadyExists",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
+    ["BadRequestError", "AlreadyExistsError"],
+    { code: "EventDestinationAlreadyExists", status: 400 },
+  )<{
+    readonly ConfigurationSetName?: string;
+    readonly EventDestinationName?: string;
+    readonly message?: string;
+  }> {}
 export class EventDestinationDoesNotExistException
-  extends /*@__PURE__*/ S.TaggedError<EventDestinationDoesNotExistException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "EventDestinationDoesNotExistException",
-    {
-      ConfigurationSetName: S.optional(S.String),
-      EventDestinationName: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({
-        code: "EventDestinationDoesNotExist",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "EventDestinationDoesNotExist", status: 400 },
+  )<{
+    readonly ConfigurationSetName?: string;
+    readonly EventDestinationName?: string;
+    readonly message?: string;
+  }> {}
 export class FromEmailAddressNotVerifiedException
-  extends /*@__PURE__*/ S.TaggedError<FromEmailAddressNotVerifiedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "FromEmailAddressNotVerifiedException",
-    {
-      FromEmailAddress: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({
-        code: "FromEmailAddressNotVerified",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "FromEmailAddressNotVerified", status: 400 },
+  )<{ readonly FromEmailAddress?: string; readonly message?: string }> {}
 export class IdentityNotVerified
-  extends /*@__PURE__*/ S.TaggedError<IdentityNotVerified>()(
-    "IdentityNotVerified",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
+  extends /*@__PURE__*/ TE.TaggedError("IdentityNotVerified", [], {
+    synthetic: {
       from: "InvalidParameterValue",
       message: { includes: "Identity is not verified" },
-    }),
-  ) {}
+    },
+  })<{ readonly message?: string }> {}
 export class InvalidCloudWatchDestinationException
-  extends /*@__PURE__*/ S.TaggedError<InvalidCloudWatchDestinationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidCloudWatchDestinationException",
-    {
-      ConfigurationSetName: S.optional(S.String),
-      EventDestinationName: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidCloudWatchDestination",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidCloudWatchDestination", status: 400 },
+  )<{
+    readonly ConfigurationSetName?: string;
+    readonly EventDestinationName?: string;
+    readonly message?: string;
+  }> {}
 export class InvalidConfigurationSetException
-  extends /*@__PURE__*/ S.TaggedError<InvalidConfigurationSetException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidConfigurationSetException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidConfigurationSet",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidConfigurationSet", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidDeliveryOptionsException
-  extends /*@__PURE__*/ S.TaggedError<InvalidDeliveryOptionsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidDeliveryOptionsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidDeliveryOptions",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidDeliveryOptions", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidFirehoseDestinationException
-  extends /*@__PURE__*/ S.TaggedError<InvalidFirehoseDestinationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidFirehoseDestinationException",
-    {
-      ConfigurationSetName: S.optional(S.String),
-      EventDestinationName: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidFirehoseDestination",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidFirehoseDestination", status: 400 },
+  )<{
+    readonly ConfigurationSetName?: string;
+    readonly EventDestinationName?: string;
+    readonly message?: string;
+  }> {}
 export class InvalidLambdaFunctionException
-  extends /*@__PURE__*/ S.TaggedError<InvalidLambdaFunctionException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidLambdaFunctionException",
-    {
-      FunctionArn: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({ code: "InvalidLambdaFunction", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidLambdaFunction", status: 400 },
+  )<{ readonly FunctionArn?: string; readonly message?: string }> {}
 export class InvalidParameterValue
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterValue>()(
-    "InvalidParameterValue",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidParameterValue")<{
+    readonly message?: string;
+  }> {}
 export class InvalidPolicyException
-  extends /*@__PURE__*/ S.TaggedError<InvalidPolicyException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidPolicyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidPolicy", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidPolicy", status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidRenderingParameterException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRenderingParameterException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidRenderingParameterException",
-    {
-      TemplateName: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidRenderingParameter",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidRenderingParameter", status: 400 },
+  )<{ readonly TemplateName?: string; readonly message?: string }> {}
 export class InvalidS3ConfigurationException
-  extends /*@__PURE__*/ S.TaggedError<InvalidS3ConfigurationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidS3ConfigurationException",
-    {
-      Bucket: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidS3Configuration",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidS3Configuration", status: 400 },
+  )<{ readonly Bucket?: string; readonly message?: string }> {}
 export class InvalidSNSDestinationException
-  extends /*@__PURE__*/ S.TaggedError<InvalidSNSDestinationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidSNSDestinationException",
-    {
-      ConfigurationSetName: S.optional(S.String),
-      EventDestinationName: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({ code: "InvalidSNSDestination", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidSNSDestination", status: 400 },
+  )<{
+    readonly ConfigurationSetName?: string;
+    readonly EventDestinationName?: string;
+    readonly message?: string;
+  }> {}
 export class InvalidSnsTopicException
-  extends /*@__PURE__*/ S.TaggedError<InvalidSnsTopicException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidSnsTopicException",
-    {
-      Topic: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({ code: "InvalidSnsTopic", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidSnsTopic", status: 400 },
+  )<{ readonly Topic?: string; readonly message?: string }> {}
 export class InvalidTemplateException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTemplateException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidTemplateException",
-    {
-      TemplateName: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({ code: "InvalidTemplate", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidTemplate", status: 400 },
+  )<{ readonly TemplateName?: string; readonly message?: string }> {}
 export class InvalidTrackingOptionsException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTrackingOptionsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidTrackingOptionsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidTrackingOptions",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "InvalidTrackingOptions", status: 400 },
+  )<{ readonly message?: string }> {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "LimitExceeded", status: 400 },
+  )<{ readonly message?: string }> {}
 export class MailFromDomainNotVerifiedException
-  extends /*@__PURE__*/ S.TaggedError<MailFromDomainNotVerifiedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MailFromDomainNotVerifiedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "MailFromDomainNotVerifiedException",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class MessageRejected
-  extends /*@__PURE__*/ S.TaggedError<MessageRejected>()(
-    "MessageRejected",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "MessageRejected", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ TE.TaggedError("MessageRejected", ["BadRequestError"], {
+    status: 400,
+  })<{ readonly message?: string }> {}
 export class MissingRenderingAttributeException
-  extends /*@__PURE__*/ S.TaggedError<MissingRenderingAttributeException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MissingRenderingAttributeException",
-    {
-      TemplateName: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({
-        code: "MissingRenderingAttribute",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "MissingRenderingAttribute", status: 400 },
+  )<{ readonly TemplateName?: string; readonly message?: string }> {}
 export class ProductionAccessNotGrantedException
-  extends /*@__PURE__*/ S.TaggedError<ProductionAccessNotGrantedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ProductionAccessNotGrantedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ProductionAccessNotGranted",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "ProductionAccessNotGranted", status: 400 },
+  )<{ readonly message?: string }> {}
 export class RuleDoesNotExistException
-  extends /*@__PURE__*/ S.TaggedError<RuleDoesNotExistException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RuleDoesNotExistException",
-    {
-      Name: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({ code: "RuleDoesNotExist", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "RuleDoesNotExist", status: 400 },
+  )<{ readonly Name?: string; readonly message?: string }> {}
 export class RuleSetDoesNotExistException
-  extends /*@__PURE__*/ S.TaggedError<RuleSetDoesNotExistException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RuleSetDoesNotExistException",
-    {
-      Name: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({ code: "RuleSetDoesNotExist", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "RuleSetDoesNotExist", status: 400 },
+  )<{ readonly Name?: string; readonly message?: string }> {}
 export class TemplateDoesNotExistException
-  extends /*@__PURE__*/ S.TaggedError<TemplateDoesNotExistException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TemplateDoesNotExistException",
-    {
-      TemplateName: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({ code: "TemplateDoesNotExist", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { code: "TemplateDoesNotExist", status: 400 },
+  )<{ readonly TemplateName?: string; readonly message?: string }> {}
 export class TrackingOptionsAlreadyExistsException
-  extends /*@__PURE__*/ S.TaggedError<TrackingOptionsAlreadyExistsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TrackingOptionsAlreadyExistsException",
-    {
-      ConfigurationSetName: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({
-        code: "TrackingOptionsAlreadyExistsException",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
+    ["BadRequestError", "AlreadyExistsError"],
+    { status: 400 },
+  )<{ readonly ConfigurationSetName?: string; readonly message?: string }> {}
 export class TrackingOptionsDoesNotExistException
-  extends /*@__PURE__*/ S.TaggedError<TrackingOptionsDoesNotExistException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TrackingOptionsDoesNotExistException",
-    {
-      ConfigurationSetName: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.all(
-      T.AwsQueryError({
-        code: "TrackingOptionsDoesNotExistException",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
-    ),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly ConfigurationSetName?: string; readonly message?: string }> {}
 export type ReceiptRuleSetName = string;
 export interface CloneReceiptRuleSetRequest {
   RuleSetName: string;
   OriginalRuleSetName: string;
 }
-export const CloneReceiptRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleSetName: S.String, OriginalRuleSetName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CloneReceiptRuleSetRequest",
-}) as any as S.Schema<CloneReceiptRuleSetRequest>;
 export interface CloneReceiptRuleSetResponse {}
-export const CloneReceiptRuleSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CloneReceiptRuleSetResponse",
-}) as any as S.Schema<CloneReceiptRuleSetResponse>;
 export type ConfigurationSetName = string;
 export interface ConfigurationSet {
   Name: string;
 }
-export const ConfigurationSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "ConfigurationSet",
-}) as any as S.Schema<ConfigurationSet>;
 export interface CreateConfigurationSetRequest {
   ConfigurationSet: ConfigurationSet;
 }
-export const CreateConfigurationSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ConfigurationSet: ConfigurationSet }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateConfigurationSetRequest",
-}) as any as S.Schema<CreateConfigurationSetRequest>;
 export interface CreateConfigurationSetResponse {}
-export const CreateConfigurationSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateConfigurationSetResponse",
-}) as any as S.Schema<CreateConfigurationSetResponse>;
 export type EventDestinationName = string;
 export type Enabled = boolean;
 export type EventType =
@@ -618,62 +350,32 @@ export type EventType =
   | "click"
   | "renderingFailure"
   | (string & {});
-export const EventType = S.String;
-
 export type EventTypes = EventType[];
-export const EventTypes = /*@__PURE__*/ S.Array(EventType);
 export type AmazonResourceName = string;
 export interface KinesisFirehoseDestination {
   IAMRoleARN: string;
   DeliveryStreamARN: string;
 }
-export const KinesisFirehoseDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IAMRoleARN: S.String, DeliveryStreamARN: S.String }),
-).annotate({
-  identifier: "KinesisFirehoseDestination",
-}) as any as S.Schema<KinesisFirehoseDestination>;
 export type DimensionName = string;
 export type DimensionValueSource =
   | "messageTag"
   | "emailHeader"
   | "linkTag"
   | (string & {});
-export const DimensionValueSource = S.String;
-
 export type DefaultDimensionValue = string;
 export interface CloudWatchDimensionConfiguration {
   DimensionName: string;
   DimensionValueSource: DimensionValueSource;
   DefaultDimensionValue: string;
 }
-export const CloudWatchDimensionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DimensionName: S.String,
-    DimensionValueSource: DimensionValueSource,
-    DefaultDimensionValue: S.String,
-  }),
-).annotate({
-  identifier: "CloudWatchDimensionConfiguration",
-}) as any as S.Schema<CloudWatchDimensionConfiguration>;
 export type CloudWatchDimensionConfigurations =
   CloudWatchDimensionConfiguration[];
-export const CloudWatchDimensionConfigurations = /*@__PURE__*/ S.Array(
-  CloudWatchDimensionConfiguration,
-);
 export interface CloudWatchDestination {
   DimensionConfigurations: CloudWatchDimensionConfiguration[];
 }
-export const CloudWatchDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DimensionConfigurations: CloudWatchDimensionConfigurations }),
-).annotate({
-  identifier: "CloudWatchDestination",
-}) as any as S.Schema<CloudWatchDestination>;
 export interface SNSDestination {
   TopicARN: string;
 }
-export const SNSDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TopicARN: S.String }),
-).annotate({ identifier: "SNSDestination" }) as any as S.Schema<SNSDestination>;
 export interface EventDestination {
   Name: string;
   Enabled?: boolean;
@@ -682,83 +384,20 @@ export interface EventDestination {
   CloudWatchDestination?: CloudWatchDestination;
   SNSDestination?: SNSDestination;
 }
-export const EventDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Enabled: S.optional(S.Boolean),
-    MatchingEventTypes: EventTypes,
-    KinesisFirehoseDestination: S.optional(KinesisFirehoseDestination),
-    CloudWatchDestination: S.optional(CloudWatchDestination),
-    SNSDestination: S.optional(SNSDestination),
-  }),
-).annotate({
-  identifier: "EventDestination",
-}) as any as S.Schema<EventDestination>;
 export interface CreateConfigurationSetEventDestinationRequest {
   ConfigurationSetName: string;
   EventDestination: EventDestination;
 }
-export const CreateConfigurationSetEventDestinationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationSetName: S.String,
-      EventDestination: EventDestination,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "CreateConfigurationSetEventDestinationRequest",
-  }) as any as S.Schema<CreateConfigurationSetEventDestinationRequest>;
 export interface CreateConfigurationSetEventDestinationResponse {}
-export const CreateConfigurationSetEventDestinationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "CreateConfigurationSetEventDestinationResponse",
-  }) as any as S.Schema<CreateConfigurationSetEventDestinationResponse>;
 export type CustomRedirectDomain = string;
 export interface TrackingOptions {
   CustomRedirectDomain?: string;
 }
-export const TrackingOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CustomRedirectDomain: S.optional(S.String) }),
-).annotate({
-  identifier: "TrackingOptions",
-}) as any as S.Schema<TrackingOptions>;
 export interface CreateConfigurationSetTrackingOptionsRequest {
   ConfigurationSetName: string;
   TrackingOptions: TrackingOptions;
 }
-export const CreateConfigurationSetTrackingOptionsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationSetName: S.String,
-      TrackingOptions: TrackingOptions,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "CreateConfigurationSetTrackingOptionsRequest",
-  }) as any as S.Schema<CreateConfigurationSetTrackingOptionsRequest>;
 export interface CreateConfigurationSetTrackingOptionsResponse {}
-export const CreateConfigurationSetTrackingOptionsResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "CreateConfigurationSetTrackingOptionsResponse",
-  }) as any as S.Schema<CreateConfigurationSetTrackingOptionsResponse>;
 export type TemplateName = string;
 export type FromAddress = string;
 export type Subject = string;
@@ -773,86 +412,26 @@ export interface CreateCustomVerificationEmailTemplateRequest {
   SuccessRedirectionURL: string;
   FailureRedirectionURL: string;
 }
-export const CreateCustomVerificationEmailTemplateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      TemplateName: S.String,
-      FromEmailAddress: S.String,
-      TemplateSubject: S.String,
-      TemplateContent: S.String,
-      SuccessRedirectionURL: S.String,
-      FailureRedirectionURL: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "CreateCustomVerificationEmailTemplateRequest",
-  }) as any as S.Schema<CreateCustomVerificationEmailTemplateRequest>;
 export interface CreateCustomVerificationEmailTemplateResponse {}
-export const CreateCustomVerificationEmailTemplateResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "CreateCustomVerificationEmailTemplateResponse",
-  }) as any as S.Schema<CreateCustomVerificationEmailTemplateResponse>;
 export type ReceiptFilterName = string;
 export type ReceiptFilterPolicy = "Block" | "Allow" | (string & {});
-export const ReceiptFilterPolicy = S.String;
-
 export type Cidr = string;
 export interface ReceiptIpFilter {
   Policy: ReceiptFilterPolicy;
   Cidr: string;
 }
-export const ReceiptIpFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: ReceiptFilterPolicy, Cidr: S.String }),
-).annotate({
-  identifier: "ReceiptIpFilter",
-}) as any as S.Schema<ReceiptIpFilter>;
 export interface ReceiptFilter {
   Name: string;
   IpFilter: ReceiptIpFilter;
 }
-export const ReceiptFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, IpFilter: ReceiptIpFilter }),
-).annotate({ identifier: "ReceiptFilter" }) as any as S.Schema<ReceiptFilter>;
 export interface CreateReceiptFilterRequest {
   Filter: ReceiptFilter;
 }
-export const CreateReceiptFilterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Filter: ReceiptFilter }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateReceiptFilterRequest",
-}) as any as S.Schema<CreateReceiptFilterRequest>;
 export interface CreateReceiptFilterResponse {}
-export const CreateReceiptFilterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateReceiptFilterResponse",
-}) as any as S.Schema<CreateReceiptFilterResponse>;
 export type ReceiptRuleName = string;
 export type TlsPolicy = "Require" | "Optional" | (string & {});
-export const TlsPolicy = S.String;
-
 export type Recipient = string;
 export type RecipientsList = string[];
-export const RecipientsList = /*@__PURE__*/ S.Array(S.String);
 export type S3BucketName = string;
 export type S3KeyPrefix = string;
 export type IAMRoleARN = string;
@@ -863,15 +442,6 @@ export interface S3Action {
   KmsKeyArn?: string;
   IamRoleArn?: string;
 }
-export const S3Action = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TopicArn: S.optional(S.String),
-    BucketName: S.String,
-    ObjectKeyPrefix: S.optional(S.String),
-    KmsKeyArn: S.optional(S.String),
-    IamRoleArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "S3Action" }) as any as S.Schema<S3Action>;
 export type BounceSmtpReplyCode = string;
 export type BounceStatusCode = string;
 export type BounceMessage = string;
@@ -883,76 +453,37 @@ export interface BounceAction {
   Message: string;
   Sender: string;
 }
-export const BounceAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TopicArn: S.optional(S.String),
-    SmtpReplyCode: S.String,
-    StatusCode: S.optional(S.String),
-    Message: S.String,
-    Sender: S.String,
-  }),
-).annotate({ identifier: "BounceAction" }) as any as S.Schema<BounceAction>;
 export interface WorkmailAction {
   TopicArn?: string;
   OrganizationArn: string;
 }
-export const WorkmailAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TopicArn: S.optional(S.String), OrganizationArn: S.String }),
-).annotate({ identifier: "WorkmailAction" }) as any as S.Schema<WorkmailAction>;
 export type InvocationType = "Event" | "RequestResponse" | (string & {});
-export const InvocationType = S.String;
-
 export interface LambdaAction {
   TopicArn?: string;
   FunctionArn: string;
   InvocationType?: InvocationType;
 }
-export const LambdaAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TopicArn: S.optional(S.String),
-    FunctionArn: S.String,
-    InvocationType: S.optional(InvocationType),
-  }),
-).annotate({ identifier: "LambdaAction" }) as any as S.Schema<LambdaAction>;
 export type StopScope = "RuleSet" | (string & {});
-export const StopScope = S.String;
-
 export interface StopAction {
   Scope: StopScope;
   TopicArn?: string;
 }
-export const StopAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Scope: StopScope, TopicArn: S.optional(S.String) }),
-).annotate({ identifier: "StopAction" }) as any as S.Schema<StopAction>;
 export type HeaderName = string;
 export type HeaderValue = string;
 export interface AddHeaderAction {
   HeaderName: string;
   HeaderValue: string;
 }
-export const AddHeaderAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ HeaderName: S.String, HeaderValue: S.String }),
-).annotate({
-  identifier: "AddHeaderAction",
-}) as any as S.Schema<AddHeaderAction>;
 export type SNSActionEncoding = "UTF-8" | "Base64" | (string & {});
-export const SNSActionEncoding = S.String;
-
 export interface SNSAction {
   TopicArn: string;
   Encoding?: SNSActionEncoding;
 }
-export const SNSAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TopicArn: S.String, Encoding: S.optional(SNSActionEncoding) }),
-).annotate({ identifier: "SNSAction" }) as any as S.Schema<SNSAction>;
 export type ConnectInstanceArn = string;
 export interface ConnectAction {
   InstanceARN: string;
   IAMRoleARN: string;
 }
-export const ConnectAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceARN: S.String, IAMRoleARN: S.String }),
-).annotate({ identifier: "ConnectAction" }) as any as S.Schema<ConnectAction>;
 export interface ReceiptAction {
   S3Action?: S3Action;
   BounceAction?: BounceAction;
@@ -963,20 +494,7 @@ export interface ReceiptAction {
   SNSAction?: SNSAction;
   ConnectAction?: ConnectAction;
 }
-export const ReceiptAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    S3Action: S.optional(S3Action),
-    BounceAction: S.optional(BounceAction),
-    WorkmailAction: S.optional(WorkmailAction),
-    LambdaAction: S.optional(LambdaAction),
-    StopAction: S.optional(StopAction),
-    AddHeaderAction: S.optional(AddHeaderAction),
-    SNSAction: S.optional(SNSAction),
-    ConnectAction: S.optional(ConnectAction),
-  }),
-).annotate({ identifier: "ReceiptAction" }) as any as S.Schema<ReceiptAction>;
 export type ReceiptActionsList = ReceiptAction[];
-export const ReceiptActionsList = /*@__PURE__*/ S.Array(ReceiptAction);
 export interface ReceiptRule {
   Name: string;
   Enabled?: boolean;
@@ -985,70 +503,16 @@ export interface ReceiptRule {
   Actions?: ReceiptAction[];
   ScanEnabled?: boolean;
 }
-export const ReceiptRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Enabled: S.optional(S.Boolean),
-    TlsPolicy: S.optional(TlsPolicy),
-    Recipients: S.optional(RecipientsList),
-    Actions: S.optional(ReceiptActionsList),
-    ScanEnabled: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ReceiptRule" }) as any as S.Schema<ReceiptRule>;
 export interface CreateReceiptRuleRequest {
   RuleSetName: string;
   After?: string;
   Rule: ReceiptRule;
 }
-export const CreateReceiptRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleSetName: S.String,
-    After: S.optional(S.String),
-    Rule: ReceiptRule,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateReceiptRuleRequest",
-}) as any as S.Schema<CreateReceiptRuleRequest>;
 export interface CreateReceiptRuleResponse {}
-export const CreateReceiptRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateReceiptRuleResponse",
-}) as any as S.Schema<CreateReceiptRuleResponse>;
 export interface CreateReceiptRuleSetRequest {
   RuleSetName: string;
 }
-export const CreateReceiptRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleSetName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateReceiptRuleSetRequest",
-}) as any as S.Schema<CreateReceiptRuleSetRequest>;
 export interface CreateReceiptRuleSetResponse {}
-export const CreateReceiptRuleSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateReceiptRuleSetResponse",
-}) as any as S.Schema<CreateReceiptRuleSetResponse>;
 export type SubjectPart = string;
 export type TextPart = string;
 export type HtmlPart = string;
@@ -1058,416 +522,90 @@ export interface Template {
   TextPart?: string;
   HtmlPart?: string;
 }
-export const Template = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TemplateName: S.String,
-    SubjectPart: S.optional(S.String),
-    TextPart: S.optional(S.String),
-    HtmlPart: S.optional(S.String),
-  }),
-).annotate({ identifier: "Template" }) as any as S.Schema<Template>;
 export interface CreateTemplateRequest {
   Template: Template;
 }
-export const CreateTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Template: Template }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateTemplateRequest",
-}) as any as S.Schema<CreateTemplateRequest>;
 export interface CreateTemplateResponse {}
-export const CreateTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateTemplateResponse",
-}) as any as S.Schema<CreateTemplateResponse>;
 export interface DeleteConfigurationSetRequest {
   ConfigurationSetName: string;
 }
-export const DeleteConfigurationSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ConfigurationSetName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteConfigurationSetRequest",
-}) as any as S.Schema<DeleteConfigurationSetRequest>;
 export interface DeleteConfigurationSetResponse {}
-export const DeleteConfigurationSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteConfigurationSetResponse",
-}) as any as S.Schema<DeleteConfigurationSetResponse>;
 export interface DeleteConfigurationSetEventDestinationRequest {
   ConfigurationSetName: string;
   EventDestinationName: string;
 }
-export const DeleteConfigurationSetEventDestinationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationSetName: S.String,
-      EventDestinationName: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteConfigurationSetEventDestinationRequest",
-  }) as any as S.Schema<DeleteConfigurationSetEventDestinationRequest>;
 export interface DeleteConfigurationSetEventDestinationResponse {}
-export const DeleteConfigurationSetEventDestinationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteConfigurationSetEventDestinationResponse",
-  }) as any as S.Schema<DeleteConfigurationSetEventDestinationResponse>;
 export interface DeleteConfigurationSetTrackingOptionsRequest {
   ConfigurationSetName: string;
 }
-export const DeleteConfigurationSetTrackingOptionsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ ConfigurationSetName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteConfigurationSetTrackingOptionsRequest",
-  }) as any as S.Schema<DeleteConfigurationSetTrackingOptionsRequest>;
 export interface DeleteConfigurationSetTrackingOptionsResponse {}
-export const DeleteConfigurationSetTrackingOptionsResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteConfigurationSetTrackingOptionsResponse",
-  }) as any as S.Schema<DeleteConfigurationSetTrackingOptionsResponse>;
 export interface DeleteCustomVerificationEmailTemplateRequest {
   TemplateName: string;
 }
-export const DeleteCustomVerificationEmailTemplateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ TemplateName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteCustomVerificationEmailTemplateRequest",
-  }) as any as S.Schema<DeleteCustomVerificationEmailTemplateRequest>;
 export interface DeleteCustomVerificationEmailTemplateResponse {}
-export const DeleteCustomVerificationEmailTemplateResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteCustomVerificationEmailTemplateResponse",
-  }) as any as S.Schema<DeleteCustomVerificationEmailTemplateResponse>;
 export type Identity = string;
 export interface DeleteIdentityRequest {
   Identity: string;
 }
-export const DeleteIdentityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identity: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteIdentityRequest",
-}) as any as S.Schema<DeleteIdentityRequest>;
 export interface DeleteIdentityResponse {}
-export const DeleteIdentityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteIdentityResponse",
-}) as any as S.Schema<DeleteIdentityResponse>;
 export type PolicyName = string;
 export interface DeleteIdentityPolicyRequest {
   Identity: string;
   PolicyName: string;
 }
-export const DeleteIdentityPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identity: S.String, PolicyName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteIdentityPolicyRequest",
-}) as any as S.Schema<DeleteIdentityPolicyRequest>;
 export interface DeleteIdentityPolicyResponse {}
-export const DeleteIdentityPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteIdentityPolicyResponse",
-}) as any as S.Schema<DeleteIdentityPolicyResponse>;
 export interface DeleteReceiptFilterRequest {
   FilterName: string;
 }
-export const DeleteReceiptFilterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FilterName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteReceiptFilterRequest",
-}) as any as S.Schema<DeleteReceiptFilterRequest>;
 export interface DeleteReceiptFilterResponse {}
-export const DeleteReceiptFilterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteReceiptFilterResponse",
-}) as any as S.Schema<DeleteReceiptFilterResponse>;
 export interface DeleteReceiptRuleRequest {
   RuleSetName: string;
   RuleName: string;
 }
-export const DeleteReceiptRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleSetName: S.String, RuleName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteReceiptRuleRequest",
-}) as any as S.Schema<DeleteReceiptRuleRequest>;
 export interface DeleteReceiptRuleResponse {}
-export const DeleteReceiptRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteReceiptRuleResponse",
-}) as any as S.Schema<DeleteReceiptRuleResponse>;
 export interface DeleteReceiptRuleSetRequest {
   RuleSetName: string;
 }
-export const DeleteReceiptRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleSetName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteReceiptRuleSetRequest",
-}) as any as S.Schema<DeleteReceiptRuleSetRequest>;
 export interface DeleteReceiptRuleSetResponse {}
-export const DeleteReceiptRuleSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteReceiptRuleSetResponse",
-}) as any as S.Schema<DeleteReceiptRuleSetResponse>;
 export interface DeleteTemplateRequest {
   TemplateName: string;
 }
-export const DeleteTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TemplateName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteTemplateRequest",
-}) as any as S.Schema<DeleteTemplateRequest>;
 export interface DeleteTemplateResponse {}
-export const DeleteTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteTemplateResponse",
-}) as any as S.Schema<DeleteTemplateResponse>;
 export interface DeleteVerifiedEmailAddressRequest {
   EmailAddress: string;
 }
-export const DeleteVerifiedEmailAddressRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EmailAddress: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteVerifiedEmailAddressRequest",
-}) as any as S.Schema<DeleteVerifiedEmailAddressRequest>;
 export interface DeleteVerifiedEmailAddressResponse {}
-export const DeleteVerifiedEmailAddressResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteVerifiedEmailAddressResponse",
-}) as any as S.Schema<DeleteVerifiedEmailAddressResponse>;
 export interface DescribeActiveReceiptRuleSetRequest {}
-export const DescribeActiveReceiptRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeActiveReceiptRuleSetRequest",
-}) as any as S.Schema<DescribeActiveReceiptRuleSetRequest>;
 export interface ReceiptRuleSetMetadata {
   Name?: string;
   CreatedTimestamp?: Date;
 }
-export const ReceiptRuleSetMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    CreatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "ReceiptRuleSetMetadata",
-}) as any as S.Schema<ReceiptRuleSetMetadata>;
 export type ReceiptRulesList = ReceiptRule[];
-export const ReceiptRulesList = /*@__PURE__*/ S.Array(ReceiptRule);
 export interface DescribeActiveReceiptRuleSetResponse {
   Metadata?: ReceiptRuleSetMetadata;
   Rules?: ReceiptRule[];
 }
-export const DescribeActiveReceiptRuleSetResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Metadata: S.optional(ReceiptRuleSetMetadata),
-      Rules: S.optional(ReceiptRulesList),
-    }).pipe(ns),
-).annotate({
-  identifier: "DescribeActiveReceiptRuleSetResponse",
-}) as any as S.Schema<DescribeActiveReceiptRuleSetResponse>;
 export type ConfigurationSetAttribute =
   | "eventDestinations"
   | "trackingOptions"
   | "deliveryOptions"
   | "reputationOptions"
   | (string & {});
-export const ConfigurationSetAttribute = S.String;
-
 export type ConfigurationSetAttributeList = ConfigurationSetAttribute[];
-export const ConfigurationSetAttributeList = /*@__PURE__*/ S.Array(
-  ConfigurationSetAttribute,
-);
 export interface DescribeConfigurationSetRequest {
   ConfigurationSetName: string;
   ConfigurationSetAttributeNames?: ConfigurationSetAttribute[];
 }
-export const DescribeConfigurationSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationSetName: S.String,
-    ConfigurationSetAttributeNames: S.optional(ConfigurationSetAttributeList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeConfigurationSetRequest",
-}) as any as S.Schema<DescribeConfigurationSetRequest>;
 export type EventDestinations = EventDestination[];
-export const EventDestinations = /*@__PURE__*/ S.Array(EventDestination);
 export interface DeliveryOptions {
   TlsPolicy?: TlsPolicy;
 }
-export const DeliveryOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TlsPolicy: S.optional(TlsPolicy) }),
-).annotate({
-  identifier: "DeliveryOptions",
-}) as any as S.Schema<DeliveryOptions>;
 export type LastFreshStart = Date;
 export interface ReputationOptions {
   SendingEnabled?: boolean;
   ReputationMetricsEnabled?: boolean;
   LastFreshStart?: Date;
 }
-export const ReputationOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SendingEnabled: S.optional(S.Boolean),
-    ReputationMetricsEnabled: S.optional(S.Boolean),
-    LastFreshStart: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "ReputationOptions",
-}) as any as S.Schema<ReputationOptions>;
 export interface DescribeConfigurationSetResponse {
   ConfigurationSet?: ConfigurationSet;
   EventDestinations?: EventDestination[];
@@ -1475,117 +613,27 @@ export interface DescribeConfigurationSetResponse {
   DeliveryOptions?: DeliveryOptions;
   ReputationOptions?: ReputationOptions;
 }
-export const DescribeConfigurationSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationSet: S.optional(ConfigurationSet),
-    EventDestinations: S.optional(EventDestinations),
-    TrackingOptions: S.optional(TrackingOptions),
-    DeliveryOptions: S.optional(DeliveryOptions),
-    ReputationOptions: S.optional(ReputationOptions),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeConfigurationSetResponse",
-}) as any as S.Schema<DescribeConfigurationSetResponse>;
 export interface DescribeReceiptRuleRequest {
   RuleSetName: string;
   RuleName: string;
 }
-export const DescribeReceiptRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleSetName: S.String, RuleName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeReceiptRuleRequest",
-}) as any as S.Schema<DescribeReceiptRuleRequest>;
 export interface DescribeReceiptRuleResponse {
   Rule?: ReceiptRule;
 }
-export const DescribeReceiptRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Rule: S.optional(ReceiptRule) }).pipe(ns),
-).annotate({
-  identifier: "DescribeReceiptRuleResponse",
-}) as any as S.Schema<DescribeReceiptRuleResponse>;
 export interface DescribeReceiptRuleSetRequest {
   RuleSetName: string;
 }
-export const DescribeReceiptRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleSetName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeReceiptRuleSetRequest",
-}) as any as S.Schema<DescribeReceiptRuleSetRequest>;
 export interface DescribeReceiptRuleSetResponse {
   Metadata?: ReceiptRuleSetMetadata;
   Rules?: ReceiptRule[];
 }
-export const DescribeReceiptRuleSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Metadata: S.optional(ReceiptRuleSetMetadata),
-    Rules: S.optional(ReceiptRulesList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeReceiptRuleSetResponse",
-}) as any as S.Schema<DescribeReceiptRuleSetResponse>;
 export interface GetAccountSendingEnabledRequest {}
-export const GetAccountSendingEnabledRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAccountSendingEnabledRequest",
-}) as any as S.Schema<GetAccountSendingEnabledRequest>;
 export interface GetAccountSendingEnabledResponse {
   Enabled?: boolean;
 }
-export const GetAccountSendingEnabledResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Enabled: S.optional(S.Boolean) }).pipe(ns),
-).annotate({
-  identifier: "GetAccountSendingEnabledResponse",
-}) as any as S.Schema<GetAccountSendingEnabledResponse>;
 export interface GetCustomVerificationEmailTemplateRequest {
   TemplateName: string;
 }
-export const GetCustomVerificationEmailTemplateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ TemplateName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetCustomVerificationEmailTemplateRequest",
-  }) as any as S.Schema<GetCustomVerificationEmailTemplateRequest>;
 export interface GetCustomVerificationEmailTemplateResponse {
   TemplateName?: string;
   FromEmailAddress?: string;
@@ -1594,39 +642,10 @@ export interface GetCustomVerificationEmailTemplateResponse {
   SuccessRedirectionURL?: string;
   FailureRedirectionURL?: string;
 }
-export const GetCustomVerificationEmailTemplateResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      TemplateName: S.optional(S.String),
-      FromEmailAddress: S.optional(S.String),
-      TemplateSubject: S.optional(S.String),
-      TemplateContent: S.optional(S.String),
-      SuccessRedirectionURL: S.optional(S.String),
-      FailureRedirectionURL: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetCustomVerificationEmailTemplateResponse",
-  }) as any as S.Schema<GetCustomVerificationEmailTemplateResponse>;
 export type IdentityList = string[];
-export const IdentityList = /*@__PURE__*/ S.Array(S.String);
 export interface GetIdentityDkimAttributesRequest {
   Identities: string[];
 }
-export const GetIdentityDkimAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identities: IdentityList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetIdentityDkimAttributesRequest",
-}) as any as S.Schema<GetIdentityDkimAttributesRequest>;
 export type VerificationStatus =
   | "Pending"
   | "Success"
@@ -1634,59 +653,22 @@ export type VerificationStatus =
   | "TemporaryFailure"
   | "NotStarted"
   | (string & {});
-export const VerificationStatus = S.String;
-
 export type VerificationToken = string;
 export type VerificationTokenList = string[];
-export const VerificationTokenList = /*@__PURE__*/ S.Array(S.String);
 export interface IdentityDkimAttributes {
   DkimEnabled: boolean;
   DkimVerificationStatus: VerificationStatus;
   DkimTokens?: string[];
 }
-export const IdentityDkimAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DkimEnabled: S.Boolean,
-    DkimVerificationStatus: VerificationStatus,
-    DkimTokens: S.optional(VerificationTokenList),
-  }),
-).annotate({
-  identifier: "IdentityDkimAttributes",
-}) as any as S.Schema<IdentityDkimAttributes>;
 export type DkimAttributes = {
   [key: string]: IdentityDkimAttributes | undefined;
 };
-export const DkimAttributes = /*@__PURE__*/ S.Record(
-  S.String,
-  IdentityDkimAttributes.pipe(S.optional),
-);
 export interface GetIdentityDkimAttributesResponse {
   DkimAttributes: { [key: string]: IdentityDkimAttributes | undefined };
 }
-export const GetIdentityDkimAttributesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DkimAttributes: DkimAttributes }).pipe(ns),
-).annotate({
-  identifier: "GetIdentityDkimAttributesResponse",
-}) as any as S.Schema<GetIdentityDkimAttributesResponse>;
 export interface GetIdentityMailFromDomainAttributesRequest {
   Identities: string[];
 }
-export const GetIdentityMailFromDomainAttributesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Identities: IdentityList }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetIdentityMailFromDomainAttributesRequest",
-  }) as any as S.Schema<GetIdentityMailFromDomainAttributesRequest>;
 export type MailFromDomainName = string;
 export type CustomMailFromStatus =
   | "Pending"
@@ -1694,65 +676,26 @@ export type CustomMailFromStatus =
   | "Failed"
   | "TemporaryFailure"
   | (string & {});
-export const CustomMailFromStatus = S.String;
-
 export type BehaviorOnMXFailure =
   | "UseDefaultValue"
   | "RejectMessage"
   | (string & {});
-export const BehaviorOnMXFailure = S.String;
-
 export interface IdentityMailFromDomainAttributes {
   MailFromDomain: string;
   MailFromDomainStatus: CustomMailFromStatus;
   BehaviorOnMXFailure: BehaviorOnMXFailure;
 }
-export const IdentityMailFromDomainAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MailFromDomain: S.String,
-    MailFromDomainStatus: CustomMailFromStatus,
-    BehaviorOnMXFailure: BehaviorOnMXFailure,
-  }),
-).annotate({
-  identifier: "IdentityMailFromDomainAttributes",
-}) as any as S.Schema<IdentityMailFromDomainAttributes>;
 export type MailFromDomainAttributes = {
   [key: string]: IdentityMailFromDomainAttributes | undefined;
 };
-export const MailFromDomainAttributes = /*@__PURE__*/ S.Record(
-  S.String,
-  IdentityMailFromDomainAttributes.pipe(S.optional),
-);
 export interface GetIdentityMailFromDomainAttributesResponse {
   MailFromDomainAttributes: {
     [key: string]: IdentityMailFromDomainAttributes | undefined;
   };
 }
-export const GetIdentityMailFromDomainAttributesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ MailFromDomainAttributes: MailFromDomainAttributes }).pipe(ns),
-  ).annotate({
-    identifier: "GetIdentityMailFromDomainAttributesResponse",
-  }) as any as S.Schema<GetIdentityMailFromDomainAttributesResponse>;
 export interface GetIdentityNotificationAttributesRequest {
   Identities: string[];
 }
-export const GetIdentityNotificationAttributesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Identities: IdentityList }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetIdentityNotificationAttributesRequest",
-}) as any as S.Schema<GetIdentityNotificationAttributesRequest>;
 export type NotificationTopic = string;
 export interface IdentityNotificationAttributes {
   BounceTopic: string;
@@ -1763,137 +706,40 @@ export interface IdentityNotificationAttributes {
   HeadersInComplaintNotificationsEnabled?: boolean;
   HeadersInDeliveryNotificationsEnabled?: boolean;
 }
-export const IdentityNotificationAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BounceTopic: S.String,
-    ComplaintTopic: S.String,
-    DeliveryTopic: S.String,
-    ForwardingEnabled: S.Boolean,
-    HeadersInBounceNotificationsEnabled: S.optional(S.Boolean),
-    HeadersInComplaintNotificationsEnabled: S.optional(S.Boolean),
-    HeadersInDeliveryNotificationsEnabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "IdentityNotificationAttributes",
-}) as any as S.Schema<IdentityNotificationAttributes>;
 export type NotificationAttributes = {
   [key: string]: IdentityNotificationAttributes | undefined;
 };
-export const NotificationAttributes = /*@__PURE__*/ S.Record(
-  S.String,
-  IdentityNotificationAttributes.pipe(S.optional),
-);
 export interface GetIdentityNotificationAttributesResponse {
   NotificationAttributes: {
     [key: string]: IdentityNotificationAttributes | undefined;
   };
 }
-export const GetIdentityNotificationAttributesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ NotificationAttributes: NotificationAttributes }).pipe(ns),
-  ).annotate({
-    identifier: "GetIdentityNotificationAttributesResponse",
-  }) as any as S.Schema<GetIdentityNotificationAttributesResponse>;
 export type PolicyNameList = string[];
-export const PolicyNameList = /*@__PURE__*/ S.Array(S.String);
 export interface GetIdentityPoliciesRequest {
   Identity: string;
   PolicyNames: string[];
 }
-export const GetIdentityPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identity: S.String, PolicyNames: PolicyNameList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetIdentityPoliciesRequest",
-}) as any as S.Schema<GetIdentityPoliciesRequest>;
 export type Policy = string;
 export type PolicyMap = { [key: string]: string | undefined };
-export const PolicyMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface GetIdentityPoliciesResponse {
   Policies: { [key: string]: string | undefined };
 }
-export const GetIdentityPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policies: PolicyMap }).pipe(ns),
-).annotate({
-  identifier: "GetIdentityPoliciesResponse",
-}) as any as S.Schema<GetIdentityPoliciesResponse>;
 export interface GetIdentityVerificationAttributesRequest {
   Identities: string[];
 }
-export const GetIdentityVerificationAttributesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Identities: IdentityList }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetIdentityVerificationAttributesRequest",
-}) as any as S.Schema<GetIdentityVerificationAttributesRequest>;
 export interface IdentityVerificationAttributes {
   VerificationStatus: VerificationStatus;
   VerificationToken?: string;
 }
-export const IdentityVerificationAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VerificationStatus: VerificationStatus,
-    VerificationToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IdentityVerificationAttributes",
-}) as any as S.Schema<IdentityVerificationAttributes>;
 export type VerificationAttributes = {
   [key: string]: IdentityVerificationAttributes | undefined;
 };
-export const VerificationAttributes = /*@__PURE__*/ S.Record(
-  S.String,
-  IdentityVerificationAttributes.pipe(S.optional),
-);
 export interface GetIdentityVerificationAttributesResponse {
   VerificationAttributes: {
     [key: string]: IdentityVerificationAttributes | undefined;
   };
 }
-export const GetIdentityVerificationAttributesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ VerificationAttributes: VerificationAttributes }).pipe(ns),
-  ).annotate({
-    identifier: "GetIdentityVerificationAttributesResponse",
-  }) as any as S.Schema<GetIdentityVerificationAttributesResponse>;
 export interface GetSendQuotaRequest {}
-export const GetSendQuotaRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSendQuotaRequest",
-}) as any as S.Schema<GetSendQuotaRequest>;
 export type Max24HourSend = number;
 export type MaxSendRate = number;
 export type SentLast24Hours = number;
@@ -1902,31 +748,7 @@ export interface GetSendQuotaResponse {
   MaxSendRate?: number;
   SentLast24Hours?: number;
 }
-export const GetSendQuotaResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Max24HourSend: S.optional(S.Number),
-    MaxSendRate: S.optional(S.Number),
-    SentLast24Hours: S.optional(S.Number),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetSendQuotaResponse",
-}) as any as S.Schema<GetSendQuotaResponse>;
 export interface GetSendStatisticsRequest {}
-export const GetSendStatisticsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSendStatisticsRequest",
-}) as any as S.Schema<GetSendStatisticsRequest>;
 export type Counter = number;
 export interface SendDataPoint {
   Timestamp?: Date;
@@ -1935,115 +757,32 @@ export interface SendDataPoint {
   Complaints?: number;
   Rejects?: number;
 }
-export const SendDataPoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Timestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DeliveryAttempts: S.optional(S.Number),
-    Bounces: S.optional(S.Number),
-    Complaints: S.optional(S.Number),
-    Rejects: S.optional(S.Number),
-  }),
-).annotate({ identifier: "SendDataPoint" }) as any as S.Schema<SendDataPoint>;
 export type SendDataPointList = SendDataPoint[];
-export const SendDataPointList = /*@__PURE__*/ S.Array(SendDataPoint);
 export interface GetSendStatisticsResponse {
   SendDataPoints?: SendDataPoint[];
 }
-export const GetSendStatisticsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SendDataPoints: S.optional(SendDataPointList) }).pipe(ns),
-).annotate({
-  identifier: "GetSendStatisticsResponse",
-}) as any as S.Schema<GetSendStatisticsResponse>;
 export interface GetTemplateRequest {
   TemplateName: string;
 }
-export const GetTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TemplateName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetTemplateRequest",
-}) as any as S.Schema<GetTemplateRequest>;
 export interface GetTemplateResponse {
   Template?: Template;
 }
-export const GetTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Template: S.optional(Template) }).pipe(ns),
-).annotate({
-  identifier: "GetTemplateResponse",
-}) as any as S.Schema<GetTemplateResponse>;
 export type NextToken = string;
 export type MaxItems = number;
 export interface ListConfigurationSetsRequest {
   NextToken?: string;
   MaxItems?: number;
 }
-export const ListConfigurationSetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListConfigurationSetsRequest",
-}) as any as S.Schema<ListConfigurationSetsRequest>;
 export type ConfigurationSets = ConfigurationSet[];
-export const ConfigurationSets = /*@__PURE__*/ S.Array(ConfigurationSet);
 export interface ListConfigurationSetsResponse {
   ConfigurationSets?: ConfigurationSet[];
   NextToken?: string;
 }
-export const ListConfigurationSetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationSets: S.optional(ConfigurationSets),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListConfigurationSetsResponse",
-}) as any as S.Schema<ListConfigurationSetsResponse>;
 export type MaxResults = number;
 export interface ListCustomVerificationEmailTemplatesRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListCustomVerificationEmailTemplatesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListCustomVerificationEmailTemplatesRequest",
-  }) as any as S.Schema<ListCustomVerificationEmailTemplatesRequest>;
 export interface CustomVerificationEmailTemplate {
   TemplateName?: string;
   FromEmailAddress?: string;
@@ -2051,318 +790,76 @@ export interface CustomVerificationEmailTemplate {
   SuccessRedirectionURL?: string;
   FailureRedirectionURL?: string;
 }
-export const CustomVerificationEmailTemplate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TemplateName: S.optional(S.String),
-    FromEmailAddress: S.optional(S.String),
-    TemplateSubject: S.optional(S.String),
-    SuccessRedirectionURL: S.optional(S.String),
-    FailureRedirectionURL: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CustomVerificationEmailTemplate",
-}) as any as S.Schema<CustomVerificationEmailTemplate>;
 export type CustomVerificationEmailTemplates =
   CustomVerificationEmailTemplate[];
-export const CustomVerificationEmailTemplates = /*@__PURE__*/ S.Array(
-  CustomVerificationEmailTemplate,
-);
 export interface ListCustomVerificationEmailTemplatesResponse {
   CustomVerificationEmailTemplates?: CustomVerificationEmailTemplate[];
   NextToken?: string;
 }
-export const ListCustomVerificationEmailTemplatesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      CustomVerificationEmailTemplates: S.optional(
-        CustomVerificationEmailTemplates,
-      ),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListCustomVerificationEmailTemplatesResponse",
-  }) as any as S.Schema<ListCustomVerificationEmailTemplatesResponse>;
 export type IdentityType = "EmailAddress" | "Domain" | (string & {});
-export const IdentityType = S.String;
-
 export interface ListIdentitiesRequest {
   IdentityType?: IdentityType;
   NextToken?: string;
   MaxItems?: number;
 }
-export const ListIdentitiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IdentityType: S.optional(IdentityType),
-    NextToken: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListIdentitiesRequest",
-}) as any as S.Schema<ListIdentitiesRequest>;
 export interface ListIdentitiesResponse {
   Identities: string[];
   NextToken?: string;
 }
-export const ListIdentitiesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identities: IdentityList, NextToken: S.optional(S.String) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "ListIdentitiesResponse",
-}) as any as S.Schema<ListIdentitiesResponse>;
 export interface ListIdentityPoliciesRequest {
   Identity: string;
 }
-export const ListIdentityPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identity: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListIdentityPoliciesRequest",
-}) as any as S.Schema<ListIdentityPoliciesRequest>;
 export interface ListIdentityPoliciesResponse {
   PolicyNames: string[];
 }
-export const ListIdentityPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyNames: PolicyNameList }).pipe(ns),
-).annotate({
-  identifier: "ListIdentityPoliciesResponse",
-}) as any as S.Schema<ListIdentityPoliciesResponse>;
 export interface ListReceiptFiltersRequest {}
-export const ListReceiptFiltersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListReceiptFiltersRequest",
-}) as any as S.Schema<ListReceiptFiltersRequest>;
 export type ReceiptFilterList = ReceiptFilter[];
-export const ReceiptFilterList = /*@__PURE__*/ S.Array(ReceiptFilter);
 export interface ListReceiptFiltersResponse {
   Filters?: ReceiptFilter[];
 }
-export const ListReceiptFiltersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Filters: S.optional(ReceiptFilterList) }).pipe(ns),
-).annotate({
-  identifier: "ListReceiptFiltersResponse",
-}) as any as S.Schema<ListReceiptFiltersResponse>;
 export interface ListReceiptRuleSetsRequest {
   NextToken?: string;
 }
-export const ListReceiptRuleSetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListReceiptRuleSetsRequest",
-}) as any as S.Schema<ListReceiptRuleSetsRequest>;
 export type ReceiptRuleSetsLists = ReceiptRuleSetMetadata[];
-export const ReceiptRuleSetsLists = /*@__PURE__*/ S.Array(
-  ReceiptRuleSetMetadata,
-);
 export interface ListReceiptRuleSetsResponse {
   RuleSets?: ReceiptRuleSetMetadata[];
   NextToken?: string;
 }
-export const ListReceiptRuleSetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleSets: S.optional(ReceiptRuleSetsLists),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListReceiptRuleSetsResponse",
-}) as any as S.Schema<ListReceiptRuleSetsResponse>;
 export interface ListTemplatesRequest {
   NextToken?: string;
   MaxItems?: number;
 }
-export const ListTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTemplatesRequest",
-}) as any as S.Schema<ListTemplatesRequest>;
 export interface TemplateMetadata {
   Name?: string;
   CreatedTimestamp?: Date;
 }
-export const TemplateMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    CreatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "TemplateMetadata",
-}) as any as S.Schema<TemplateMetadata>;
 export type TemplateMetadataList = TemplateMetadata[];
-export const TemplateMetadataList = /*@__PURE__*/ S.Array(TemplateMetadata);
 export interface ListTemplatesResponse {
   TemplatesMetadata?: TemplateMetadata[];
   NextToken?: string;
 }
-export const ListTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TemplatesMetadata: S.optional(TemplateMetadataList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTemplatesResponse",
-}) as any as S.Schema<ListTemplatesResponse>;
 export interface ListVerifiedEmailAddressesRequest {}
-export const ListVerifiedEmailAddressesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListVerifiedEmailAddressesRequest",
-}) as any as S.Schema<ListVerifiedEmailAddressesRequest>;
 export type AddressList = string[];
-export const AddressList = /*@__PURE__*/ S.Array(S.String);
 export interface ListVerifiedEmailAddressesResponse {
   VerifiedEmailAddresses?: string[];
 }
-export const ListVerifiedEmailAddressesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VerifiedEmailAddresses: S.optional(AddressList) }).pipe(ns),
-).annotate({
-  identifier: "ListVerifiedEmailAddressesResponse",
-}) as any as S.Schema<ListVerifiedEmailAddressesResponse>;
 export interface PutConfigurationSetDeliveryOptionsRequest {
   ConfigurationSetName: string;
   DeliveryOptions?: DeliveryOptions;
 }
-export const PutConfigurationSetDeliveryOptionsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationSetName: S.String,
-      DeliveryOptions: S.optional(DeliveryOptions),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "PutConfigurationSetDeliveryOptionsRequest",
-  }) as any as S.Schema<PutConfigurationSetDeliveryOptionsRequest>;
 export interface PutConfigurationSetDeliveryOptionsResponse {}
-export const PutConfigurationSetDeliveryOptionsResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "PutConfigurationSetDeliveryOptionsResponse",
-  }) as any as S.Schema<PutConfigurationSetDeliveryOptionsResponse>;
 export interface PutIdentityPolicyRequest {
   Identity: string;
   PolicyName: string;
   Policy: string;
 }
-export const PutIdentityPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identity: S.String, PolicyName: S.String, Policy: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutIdentityPolicyRequest",
-}) as any as S.Schema<PutIdentityPolicyRequest>;
 export interface PutIdentityPolicyResponse {}
-export const PutIdentityPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutIdentityPolicyResponse",
-}) as any as S.Schema<PutIdentityPolicyResponse>;
 export type ReceiptRuleNamesList = string[];
-export const ReceiptRuleNamesList = /*@__PURE__*/ S.Array(S.String);
 export interface ReorderReceiptRuleSetRequest {
   RuleSetName: string;
   RuleNames: string[];
 }
-export const ReorderReceiptRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleSetName: S.String, RuleNames: ReceiptRuleNamesList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ReorderReceiptRuleSetRequest",
-}) as any as S.Schema<ReorderReceiptRuleSetRequest>;
 export interface ReorderReceiptRuleSetResponse {}
-export const ReorderReceiptRuleSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "ReorderReceiptRuleSetResponse",
-}) as any as S.Schema<ReorderReceiptRuleSetResponse>;
 export type MessageId = string;
 export type Explanation = string;
 export type ReportingMta = string;
@@ -2373,25 +870,12 @@ export interface ExtensionField {
   Name: string;
   Value: string;
 }
-export const ExtensionField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.String }),
-).annotate({ identifier: "ExtensionField" }) as any as S.Schema<ExtensionField>;
 export type ExtensionFieldList = ExtensionField[];
-export const ExtensionFieldList = /*@__PURE__*/ S.Array(ExtensionField);
 export interface MessageDsn {
   ReportingMta: string;
   ArrivalDate?: Date;
   ExtensionFields?: ExtensionField[];
 }
-export const MessageDsn = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportingMta: S.String,
-    ArrivalDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ExtensionFields: S.optional(ExtensionFieldList),
-  }),
-).annotate({ identifier: "MessageDsn" }) as any as S.Schema<MessageDsn>;
 export type BounceType =
   | "DoesNotExist"
   | "MessageTooLarge"
@@ -2400,8 +884,6 @@ export type BounceType =
   | "Undefined"
   | "TemporaryFailure"
   | (string & {});
-export const BounceType = S.String;
-
 export type DsnAction =
   | "failed"
   | "delayed"
@@ -2409,8 +891,6 @@ export type DsnAction =
   | "relayed"
   | "expanded"
   | (string & {});
-export const DsnAction = S.String;
-
 export type RemoteMta = string;
 export type DsnStatus = string;
 export type DiagnosticCode = string;
@@ -2424,40 +904,13 @@ export interface RecipientDsnFields {
   LastAttemptDate?: Date;
   ExtensionFields?: ExtensionField[];
 }
-export const RecipientDsnFields = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FinalRecipient: S.optional(S.String),
-    Action: DsnAction,
-    RemoteMta: S.optional(S.String),
-    Status: S.String,
-    DiagnosticCode: S.optional(S.String),
-    LastAttemptDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ExtensionFields: S.optional(ExtensionFieldList),
-  }),
-).annotate({
-  identifier: "RecipientDsnFields",
-}) as any as S.Schema<RecipientDsnFields>;
 export interface BouncedRecipientInfo {
   Recipient: string;
   RecipientArn?: string;
   BounceType?: BounceType;
   RecipientDsnFields?: RecipientDsnFields;
 }
-export const BouncedRecipientInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Recipient: S.String,
-    RecipientArn: S.optional(S.String),
-    BounceType: S.optional(BounceType),
-    RecipientDsnFields: S.optional(RecipientDsnFields),
-  }),
-).annotate({
-  identifier: "BouncedRecipientInfo",
-}) as any as S.Schema<BouncedRecipientInfo>;
 export type BouncedRecipientInfoList = BouncedRecipientInfo[];
-export const BouncedRecipientInfoList =
-  /*@__PURE__*/ S.Array(BouncedRecipientInfo);
 export interface SendBounceRequest {
   OriginalMessageId: string;
   BounceSender: string;
@@ -2466,77 +919,28 @@ export interface SendBounceRequest {
   BouncedRecipientInfoList: BouncedRecipientInfo[];
   BounceSenderArn?: string;
 }
-export const SendBounceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginalMessageId: S.String,
-    BounceSender: S.String,
-    Explanation: S.optional(S.String),
-    MessageDsn: S.optional(MessageDsn),
-    BouncedRecipientInfoList: BouncedRecipientInfoList,
-    BounceSenderArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SendBounceRequest",
-}) as any as S.Schema<SendBounceRequest>;
 export interface SendBounceResponse {
   MessageId?: string;
 }
-export const SendBounceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MessageId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "SendBounceResponse",
-}) as any as S.Schema<SendBounceResponse>;
 export type MessageTagName = string;
 export type MessageTagValue = string;
 export interface MessageTag {
   Name: string;
   Value: string;
 }
-export const MessageTag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.String }),
-).annotate({ identifier: "MessageTag" }) as any as S.Schema<MessageTag>;
 export type MessageTagList = MessageTag[];
-export const MessageTagList = /*@__PURE__*/ S.Array(MessageTag);
 export type TemplateData = string;
 export interface Destination {
   ToAddresses?: string[];
   CcAddresses?: string[];
   BccAddresses?: string[];
 }
-export const Destination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ToAddresses: S.optional(AddressList),
-    CcAddresses: S.optional(AddressList),
-    BccAddresses: S.optional(AddressList),
-  }),
-).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
 export interface BulkEmailDestination {
   Destination: Destination;
   ReplacementTags?: MessageTag[];
   ReplacementTemplateData?: string;
 }
-export const BulkEmailDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Destination: Destination,
-    ReplacementTags: S.optional(MessageTagList),
-    ReplacementTemplateData: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BulkEmailDestination",
-}) as any as S.Schema<BulkEmailDestination>;
 export type BulkEmailDestinationList = BulkEmailDestination[];
-export const BulkEmailDestinationList =
-  /*@__PURE__*/ S.Array(BulkEmailDestination);
 export interface SendBulkTemplatedEmailRequest {
   Source: string;
   SourceArn?: string;
@@ -2550,33 +954,6 @@ export interface SendBulkTemplatedEmailRequest {
   DefaultTemplateData: string;
   Destinations: BulkEmailDestination[];
 }
-export const SendBulkTemplatedEmailRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Source: S.String,
-    SourceArn: S.optional(S.String),
-    ReplyToAddresses: S.optional(AddressList),
-    ReturnPath: S.optional(S.String),
-    ReturnPathArn: S.optional(S.String),
-    ConfigurationSetName: S.optional(S.String),
-    DefaultTags: S.optional(MessageTagList),
-    Template: S.String,
-    TemplateArn: S.optional(S.String),
-    DefaultTemplateData: S.String,
-    Destinations: BulkEmailDestinationList,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SendBulkTemplatedEmailRequest",
-}) as any as S.Schema<SendBulkTemplatedEmailRequest>;
 export type BulkEmailStatus =
   | "Success"
   | "MessageRejected"
@@ -2593,89 +970,37 @@ export type BulkEmailStatus =
   | "TransientFailure"
   | "Failed"
   | (string & {});
-export const BulkEmailStatus = S.String;
-
 export interface BulkEmailDestinationStatus {
   Status?: BulkEmailStatus;
   Error?: string;
   MessageId?: string;
 }
-export const BulkEmailDestinationStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: S.optional(BulkEmailStatus),
-    Error: S.optional(S.String),
-    MessageId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BulkEmailDestinationStatus",
-}) as any as S.Schema<BulkEmailDestinationStatus>;
 export type BulkEmailDestinationStatusList = BulkEmailDestinationStatus[];
-export const BulkEmailDestinationStatusList = /*@__PURE__*/ S.Array(
-  BulkEmailDestinationStatus,
-);
 export interface SendBulkTemplatedEmailResponse {
   Status: BulkEmailDestinationStatus[];
 }
-export const SendBulkTemplatedEmailResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: BulkEmailDestinationStatusList }).pipe(ns),
-).annotate({
-  identifier: "SendBulkTemplatedEmailResponse",
-}) as any as S.Schema<SendBulkTemplatedEmailResponse>;
 export interface SendCustomVerificationEmailRequest {
   EmailAddress: string;
   TemplateName: string;
   ConfigurationSetName?: string;
 }
-export const SendCustomVerificationEmailRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EmailAddress: S.String,
-    TemplateName: S.String,
-    ConfigurationSetName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SendCustomVerificationEmailRequest",
-}) as any as S.Schema<SendCustomVerificationEmailRequest>;
 export interface SendCustomVerificationEmailResponse {
   MessageId?: string;
 }
-export const SendCustomVerificationEmailResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MessageId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "SendCustomVerificationEmailResponse",
-}) as any as S.Schema<SendCustomVerificationEmailResponse>;
 export type MessageData = string;
 export type Charset = string;
 export interface Content {
   Data: string;
   Charset?: string;
 }
-export const Content = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Data: S.String, Charset: S.optional(S.String) }),
-).annotate({ identifier: "Content" }) as any as S.Schema<Content>;
 export interface Body {
   Text?: Content;
   Html?: Content;
 }
-export const Body = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Text: S.optional(Content), Html: S.optional(Content) }),
-).annotate({ identifier: "Body" }) as any as S.Schema<Body>;
 export interface Message {
   Subject: Content;
   Body: Body;
 }
-export const Message = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Subject: Content, Body: Body }),
-).annotate({ identifier: "Message" }) as any as S.Schema<Message>;
 export interface SendEmailRequest {
   Source: string;
   Destination: Destination;
@@ -2687,46 +1012,13 @@ export interface SendEmailRequest {
   Tags?: MessageTag[];
   ConfigurationSetName?: string;
 }
-export const SendEmailRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Source: S.String,
-    Destination: Destination,
-    Message: Message,
-    ReplyToAddresses: S.optional(AddressList),
-    ReturnPath: S.optional(S.String),
-    SourceArn: S.optional(S.String),
-    ReturnPathArn: S.optional(S.String),
-    Tags: S.optional(MessageTagList),
-    ConfigurationSetName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SendEmailRequest",
-}) as any as S.Schema<SendEmailRequest>;
 export interface SendEmailResponse {
   MessageId: string;
 }
-export const SendEmailResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MessageId: S.String }).pipe(ns),
-).annotate({
-  identifier: "SendEmailResponse",
-}) as any as S.Schema<SendEmailResponse>;
 export type RawMessageData = Uint8Array;
 export interface RawMessage {
   Data: Uint8Array;
 }
-export const RawMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Data: T.Blob }),
-).annotate({ identifier: "RawMessage" }) as any as S.Schema<RawMessage>;
 export interface SendRawEmailRequest {
   Source?: string;
   Destinations?: string[];
@@ -2737,38 +1029,9 @@ export interface SendRawEmailRequest {
   Tags?: MessageTag[];
   ConfigurationSetName?: string;
 }
-export const SendRawEmailRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Source: S.optional(S.String),
-    Destinations: S.optional(AddressList),
-    RawMessage: RawMessage,
-    FromArn: S.optional(S.String),
-    SourceArn: S.optional(S.String),
-    ReturnPathArn: S.optional(S.String),
-    Tags: S.optional(MessageTagList),
-    ConfigurationSetName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SendRawEmailRequest",
-}) as any as S.Schema<SendRawEmailRequest>;
 export interface SendRawEmailResponse {
   MessageId: string;
 }
-export const SendRawEmailResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MessageId: S.String }).pipe(ns),
-).annotate({
-  identifier: "SendRawEmailResponse",
-}) as any as S.Schema<SendRawEmailResponse>;
 export interface SendTemplatedEmailRequest {
   Source: string;
   Destination: Destination;
@@ -2782,400 +1045,84 @@ export interface SendTemplatedEmailRequest {
   TemplateArn?: string;
   TemplateData: string;
 }
-export const SendTemplatedEmailRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Source: S.String,
-    Destination: Destination,
-    ReplyToAddresses: S.optional(AddressList),
-    ReturnPath: S.optional(S.String),
-    SourceArn: S.optional(S.String),
-    ReturnPathArn: S.optional(S.String),
-    Tags: S.optional(MessageTagList),
-    ConfigurationSetName: S.optional(S.String),
-    Template: S.String,
-    TemplateArn: S.optional(S.String),
-    TemplateData: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SendTemplatedEmailRequest",
-}) as any as S.Schema<SendTemplatedEmailRequest>;
 export interface SendTemplatedEmailResponse {
   MessageId: string;
 }
-export const SendTemplatedEmailResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MessageId: S.String }).pipe(ns),
-).annotate({
-  identifier: "SendTemplatedEmailResponse",
-}) as any as S.Schema<SendTemplatedEmailResponse>;
 export interface SetActiveReceiptRuleSetRequest {
   RuleSetName?: string;
 }
-export const SetActiveReceiptRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleSetName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SetActiveReceiptRuleSetRequest",
-}) as any as S.Schema<SetActiveReceiptRuleSetRequest>;
 export interface SetActiveReceiptRuleSetResponse {}
-export const SetActiveReceiptRuleSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetActiveReceiptRuleSetResponse",
-}) as any as S.Schema<SetActiveReceiptRuleSetResponse>;
 export interface SetIdentityDkimEnabledRequest {
   Identity: string;
   DkimEnabled: boolean;
 }
-export const SetIdentityDkimEnabledRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identity: S.String, DkimEnabled: S.Boolean }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SetIdentityDkimEnabledRequest",
-}) as any as S.Schema<SetIdentityDkimEnabledRequest>;
 export interface SetIdentityDkimEnabledResponse {}
-export const SetIdentityDkimEnabledResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetIdentityDkimEnabledResponse",
-}) as any as S.Schema<SetIdentityDkimEnabledResponse>;
 export interface SetIdentityFeedbackForwardingEnabledRequest {
   Identity: string;
   ForwardingEnabled: boolean;
 }
-export const SetIdentityFeedbackForwardingEnabledRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Identity: S.String, ForwardingEnabled: S.Boolean }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "SetIdentityFeedbackForwardingEnabledRequest",
-  }) as any as S.Schema<SetIdentityFeedbackForwardingEnabledRequest>;
 export interface SetIdentityFeedbackForwardingEnabledResponse {}
-export const SetIdentityFeedbackForwardingEnabledResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "SetIdentityFeedbackForwardingEnabledResponse",
-  }) as any as S.Schema<SetIdentityFeedbackForwardingEnabledResponse>;
 export type NotificationType =
   | "Bounce"
   | "Complaint"
   | "Delivery"
   | (string & {});
-export const NotificationType = S.String;
-
 export interface SetIdentityHeadersInNotificationsEnabledRequest {
   Identity: string;
   NotificationType: NotificationType;
   Enabled: boolean;
 }
-export const SetIdentityHeadersInNotificationsEnabledRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Identity: S.String,
-      NotificationType: NotificationType,
-      Enabled: S.Boolean,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "SetIdentityHeadersInNotificationsEnabledRequest",
-  }) as any as S.Schema<SetIdentityHeadersInNotificationsEnabledRequest>;
 export interface SetIdentityHeadersInNotificationsEnabledResponse {}
-export const SetIdentityHeadersInNotificationsEnabledResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "SetIdentityHeadersInNotificationsEnabledResponse",
-  }) as any as S.Schema<SetIdentityHeadersInNotificationsEnabledResponse>;
 export interface SetIdentityMailFromDomainRequest {
   Identity: string;
   MailFromDomain?: string;
   BehaviorOnMXFailure?: BehaviorOnMXFailure;
 }
-export const SetIdentityMailFromDomainRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Identity: S.String,
-    MailFromDomain: S.optional(S.String),
-    BehaviorOnMXFailure: S.optional(BehaviorOnMXFailure),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SetIdentityMailFromDomainRequest",
-}) as any as S.Schema<SetIdentityMailFromDomainRequest>;
 export interface SetIdentityMailFromDomainResponse {}
-export const SetIdentityMailFromDomainResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetIdentityMailFromDomainResponse",
-}) as any as S.Schema<SetIdentityMailFromDomainResponse>;
 export interface SetIdentityNotificationTopicRequest {
   Identity: string;
   NotificationType: NotificationType;
   SnsTopic?: string;
 }
-export const SetIdentityNotificationTopicRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Identity: S.String,
-    NotificationType: NotificationType,
-    SnsTopic: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SetIdentityNotificationTopicRequest",
-}) as any as S.Schema<SetIdentityNotificationTopicRequest>;
 export interface SetIdentityNotificationTopicResponse {}
-export const SetIdentityNotificationTopicResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetIdentityNotificationTopicResponse",
-}) as any as S.Schema<SetIdentityNotificationTopicResponse>;
 export interface SetReceiptRulePositionRequest {
   RuleSetName: string;
   RuleName: string;
   After?: string;
 }
-export const SetReceiptRulePositionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleSetName: S.String,
-    RuleName: S.String,
-    After: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SetReceiptRulePositionRequest",
-}) as any as S.Schema<SetReceiptRulePositionRequest>;
 export interface SetReceiptRulePositionResponse {}
-export const SetReceiptRulePositionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetReceiptRulePositionResponse",
-}) as any as S.Schema<SetReceiptRulePositionResponse>;
 export interface TestRenderTemplateRequest {
   TemplateName: string;
   TemplateData: string;
 }
-export const TestRenderTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TemplateName: S.String, TemplateData: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TestRenderTemplateRequest",
-}) as any as S.Schema<TestRenderTemplateRequest>;
 export type RenderedTemplate = string;
 export interface TestRenderTemplateResponse {
   RenderedTemplate?: string;
 }
-export const TestRenderTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RenderedTemplate: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "TestRenderTemplateResponse",
-}) as any as S.Schema<TestRenderTemplateResponse>;
 export interface UpdateAccountSendingEnabledRequest {
   Enabled?: boolean;
 }
-export const UpdateAccountSendingEnabledRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Enabled: S.optional(S.Boolean) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAccountSendingEnabledRequest",
-}) as any as S.Schema<UpdateAccountSendingEnabledRequest>;
 export interface UpdateAccountSendingEnabledResponse {}
-export const UpdateAccountSendingEnabledResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateAccountSendingEnabledResponse",
-}) as any as S.Schema<UpdateAccountSendingEnabledResponse>;
 export interface UpdateConfigurationSetEventDestinationRequest {
   ConfigurationSetName: string;
   EventDestination: EventDestination;
 }
-export const UpdateConfigurationSetEventDestinationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationSetName: S.String,
-      EventDestination: EventDestination,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "UpdateConfigurationSetEventDestinationRequest",
-  }) as any as S.Schema<UpdateConfigurationSetEventDestinationRequest>;
 export interface UpdateConfigurationSetEventDestinationResponse {}
-export const UpdateConfigurationSetEventDestinationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "UpdateConfigurationSetEventDestinationResponse",
-  }) as any as S.Schema<UpdateConfigurationSetEventDestinationResponse>;
 export interface UpdateConfigurationSetReputationMetricsEnabledRequest {
   ConfigurationSetName: string;
   Enabled: boolean;
 }
-export const UpdateConfigurationSetReputationMetricsEnabledRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ ConfigurationSetName: S.String, Enabled: S.Boolean }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "UpdateConfigurationSetReputationMetricsEnabledRequest",
-  }) as any as S.Schema<UpdateConfigurationSetReputationMetricsEnabledRequest>;
 export interface UpdateConfigurationSetReputationMetricsEnabledResponse {}
-export const UpdateConfigurationSetReputationMetricsEnabledResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "UpdateConfigurationSetReputationMetricsEnabledResponse",
-  }) as any as S.Schema<UpdateConfigurationSetReputationMetricsEnabledResponse>;
 export interface UpdateConfigurationSetSendingEnabledRequest {
   ConfigurationSetName: string;
   Enabled: boolean;
 }
-export const UpdateConfigurationSetSendingEnabledRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ ConfigurationSetName: S.String, Enabled: S.Boolean }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "UpdateConfigurationSetSendingEnabledRequest",
-  }) as any as S.Schema<UpdateConfigurationSetSendingEnabledRequest>;
 export interface UpdateConfigurationSetSendingEnabledResponse {}
-export const UpdateConfigurationSetSendingEnabledResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "UpdateConfigurationSetSendingEnabledResponse",
-  }) as any as S.Schema<UpdateConfigurationSetSendingEnabledResponse>;
 export interface UpdateConfigurationSetTrackingOptionsRequest {
   ConfigurationSetName: string;
   TrackingOptions: TrackingOptions;
 }
-export const UpdateConfigurationSetTrackingOptionsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationSetName: S.String,
-      TrackingOptions: TrackingOptions,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "UpdateConfigurationSetTrackingOptionsRequest",
-  }) as any as S.Schema<UpdateConfigurationSetTrackingOptionsRequest>;
 export interface UpdateConfigurationSetTrackingOptionsResponse {}
-export const UpdateConfigurationSetTrackingOptionsResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "UpdateConfigurationSetTrackingOptionsResponse",
-  }) as any as S.Schema<UpdateConfigurationSetTrackingOptionsResponse>;
 export interface UpdateCustomVerificationEmailTemplateRequest {
   TemplateName: string;
   FromEmailAddress?: string;
@@ -3184,184 +1131,37 @@ export interface UpdateCustomVerificationEmailTemplateRequest {
   SuccessRedirectionURL?: string;
   FailureRedirectionURL?: string;
 }
-export const UpdateCustomVerificationEmailTemplateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      TemplateName: S.String,
-      FromEmailAddress: S.optional(S.String),
-      TemplateSubject: S.optional(S.String),
-      TemplateContent: S.optional(S.String),
-      SuccessRedirectionURL: S.optional(S.String),
-      FailureRedirectionURL: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "UpdateCustomVerificationEmailTemplateRequest",
-  }) as any as S.Schema<UpdateCustomVerificationEmailTemplateRequest>;
 export interface UpdateCustomVerificationEmailTemplateResponse {}
-export const UpdateCustomVerificationEmailTemplateResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "UpdateCustomVerificationEmailTemplateResponse",
-  }) as any as S.Schema<UpdateCustomVerificationEmailTemplateResponse>;
 export interface UpdateReceiptRuleRequest {
   RuleSetName: string;
   Rule: ReceiptRule;
 }
-export const UpdateReceiptRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleSetName: S.String, Rule: ReceiptRule }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateReceiptRuleRequest",
-}) as any as S.Schema<UpdateReceiptRuleRequest>;
 export interface UpdateReceiptRuleResponse {}
-export const UpdateReceiptRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateReceiptRuleResponse",
-}) as any as S.Schema<UpdateReceiptRuleResponse>;
 export interface UpdateTemplateRequest {
   Template: Template;
 }
-export const UpdateTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Template: Template }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateTemplateRequest",
-}) as any as S.Schema<UpdateTemplateRequest>;
 export interface UpdateTemplateResponse {}
-export const UpdateTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateTemplateResponse",
-}) as any as S.Schema<UpdateTemplateResponse>;
 export type Domain = string;
 export interface VerifyDomainDkimRequest {
   Domain: string;
 }
-export const VerifyDomainDkimRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Domain: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "VerifyDomainDkimRequest",
-}) as any as S.Schema<VerifyDomainDkimRequest>;
 export interface VerifyDomainDkimResponse {
   DkimTokens: string[];
 }
-export const VerifyDomainDkimResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DkimTokens: VerificationTokenList }).pipe(ns),
-).annotate({
-  identifier: "VerifyDomainDkimResponse",
-}) as any as S.Schema<VerifyDomainDkimResponse>;
 export interface VerifyDomainIdentityRequest {
   Domain: string;
 }
-export const VerifyDomainIdentityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Domain: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "VerifyDomainIdentityRequest",
-}) as any as S.Schema<VerifyDomainIdentityRequest>;
 export interface VerifyDomainIdentityResponse {
   VerificationToken: string;
 }
-export const VerifyDomainIdentityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VerificationToken: S.String }).pipe(ns),
-).annotate({
-  identifier: "VerifyDomainIdentityResponse",
-}) as any as S.Schema<VerifyDomainIdentityResponse>;
 export interface VerifyEmailAddressRequest {
   EmailAddress: string;
 }
-export const VerifyEmailAddressRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EmailAddress: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "VerifyEmailAddressRequest",
-}) as any as S.Schema<VerifyEmailAddressRequest>;
 export interface VerifyEmailAddressResponse {}
-export const VerifyEmailAddressResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "VerifyEmailAddressResponse",
-}) as any as S.Schema<VerifyEmailAddressResponse>;
 export interface VerifyEmailIdentityRequest {
   EmailAddress: string;
 }
-export const VerifyEmailIdentityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EmailAddress: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "VerifyEmailIdentityRequest",
-}) as any as S.Schema<VerifyEmailIdentityRequest>;
 export interface VerifyEmailIdentityResponse {}
-export const VerifyEmailIdentityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "VerifyEmailIdentityResponse",
-}) as any as S.Schema<VerifyEmailIdentityResponse>;
 export type RuleOrRuleSetName = string;
 export type ErrorMessage = string;
 export type CloneReceiptRuleSetError =
@@ -3384,8 +1184,10 @@ export const cloneReceiptRuleSet: API.OperationMethod<
   CloneReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CloneReceiptRuleSetRequest,
-  output: CloneReceiptRuleSetResponse,
+  descriptor: {
+    service: svc,
+    input: { RuleSetName: 0, OriginalRuleSetName: 0 },
+  },
   errors: [
     AlreadyExistsException,
     LimitExceededException,
@@ -3394,7 +1196,7 @@ export const cloneReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloneReceiptRuleSet",
-}));
+})) as any;
 
 export type CreateConfigurationSetError =
   | ConfigurationSetAlreadyExistsException
@@ -3416,8 +1218,7 @@ export const createConfigurationSet: API.OperationMethod<
   CreateConfigurationSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateConfigurationSetRequest,
-  output: CreateConfigurationSetResponse,
+  descriptor: { service: svc, input: { ConfigurationSet: { Name: 0 } } },
   errors: [
     ConfigurationSetAlreadyExistsException,
     InvalidConfigurationSetException,
@@ -3426,7 +1227,7 @@ export const createConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSet",
-}));
+})) as any;
 
 export type CreateConfigurationSetEventDestinationError =
   | ConfigurationSetDoesNotExistException
@@ -3455,8 +1256,10 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
   CreateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateConfigurationSetEventDestinationRequest,
-  output: CreateConfigurationSetEventDestinationResponse,
+  descriptor: {
+    service: svc,
+    input: { ConfigurationSetName: 0, EventDestination: i_EventDestination },
+  },
   errors: [
     ConfigurationSetDoesNotExistException,
     EventDestinationAlreadyExistsException,
@@ -3468,7 +1271,7 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSetEventDestination",
-}));
+})) as any;
 
 export type CreateConfigurationSetTrackingOptionsError =
   | ConfigurationSetDoesNotExistException
@@ -3489,8 +1292,10 @@ export const createConfigurationSetTrackingOptions: API.OperationMethod<
   CreateConfigurationSetTrackingOptionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateConfigurationSetTrackingOptionsRequest,
-  output: CreateConfigurationSetTrackingOptionsResponse,
+  descriptor: {
+    service: svc,
+    input: { ConfigurationSetName: 0, TrackingOptions: i_TrackingOptions },
+  },
   errors: [
     ConfigurationSetDoesNotExistException,
     InvalidTrackingOptionsException,
@@ -3499,7 +1304,7 @@ export const createConfigurationSetTrackingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSetTrackingOptions",
-}));
+})) as any;
 
 export type CreateCustomVerificationEmailTemplateError =
   | CustomVerificationEmailInvalidContentException
@@ -3522,8 +1327,17 @@ export const createCustomVerificationEmailTemplate: API.OperationMethod<
   CreateCustomVerificationEmailTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCustomVerificationEmailTemplateRequest,
-  output: CreateCustomVerificationEmailTemplateResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      TemplateName: 0,
+      FromEmailAddress: 0,
+      TemplateSubject: 0,
+      TemplateContent: 0,
+      SuccessRedirectionURL: 0,
+      FailureRedirectionURL: 0,
+    },
+  },
   errors: [
     CustomVerificationEmailInvalidContentException,
     CustomVerificationEmailTemplateAlreadyExistsException,
@@ -3533,7 +1347,7 @@ export const createCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomVerificationEmailTemplate",
-}));
+})) as any;
 
 export type CreateReceiptFilterError =
   | AlreadyExistsException
@@ -3553,13 +1367,15 @@ export const createReceiptFilter: API.OperationMethod<
   CreateReceiptFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateReceiptFilterRequest,
-  output: CreateReceiptFilterResponse,
+  descriptor: {
+    service: svc,
+    input: { Filter: { Name: 0, IpFilter: { Policy: 0, Cidr: 0 } } },
+  },
   errors: [AlreadyExistsException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReceiptFilter",
-}));
+})) as any;
 
 export type CreateReceiptRuleError =
   | AlreadyExistsException
@@ -3586,8 +1402,10 @@ export const createReceiptRule: API.OperationMethod<
   CreateReceiptRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateReceiptRuleRequest,
-  output: CreateReceiptRuleResponse,
+  descriptor: {
+    service: svc,
+    input: { RuleSetName: 0, After: 0, Rule: i_ReceiptRule },
+  },
   errors: [
     AlreadyExistsException,
     InvalidLambdaFunctionException,
@@ -3602,7 +1420,7 @@ export const createReceiptRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReceiptRule",
-}));
+})) as any;
 
 export type CreateReceiptRuleSetError =
   | AlreadyExistsException
@@ -3621,13 +1439,12 @@ export const createReceiptRuleSet: API.OperationMethod<
   CreateReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateReceiptRuleSetRequest,
-  output: CreateReceiptRuleSetResponse,
+  descriptor: { service: svc, input: { RuleSetName: 0 } },
   errors: [AlreadyExistsException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReceiptRuleSet",
-}));
+})) as any;
 
 export type CreateTemplateError =
   | AlreadyExistsException
@@ -3647,8 +1464,7 @@ export const createTemplate: API.OperationMethod<
   CreateTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTemplateRequest,
-  output: CreateTemplateResponse,
+  descriptor: { service: svc, input: { Template: i_Template } },
   errors: [
     AlreadyExistsException,
     InvalidTemplateException,
@@ -3657,7 +1473,7 @@ export const createTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
-}));
+})) as any;
 
 export type DeleteConfigurationSetError =
   | ConfigurationSetDoesNotExistException
@@ -3675,13 +1491,12 @@ export const deleteConfigurationSet: API.OperationMethod<
   DeleteConfigurationSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteConfigurationSetRequest,
-  output: DeleteConfigurationSetResponse,
+  descriptor: { service: svc, input: { ConfigurationSetName: 0 } },
   errors: [ConfigurationSetDoesNotExistException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSet",
-}));
+})) as any;
 
 export type DeleteConfigurationSetEventDestinationError =
   | ConfigurationSetDoesNotExistException
@@ -3701,8 +1516,10 @@ export const deleteConfigurationSetEventDestination: API.OperationMethod<
   DeleteConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteConfigurationSetEventDestinationRequest,
-  output: DeleteConfigurationSetEventDestinationResponse,
+  descriptor: {
+    service: svc,
+    input: { ConfigurationSetName: 0, EventDestinationName: 0 },
+  },
   errors: [
     ConfigurationSetDoesNotExistException,
     EventDestinationDoesNotExistException,
@@ -3710,7 +1527,7 @@ export const deleteConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSetEventDestination",
-}));
+})) as any;
 
 export type DeleteConfigurationSetTrackingOptionsError =
   | ConfigurationSetDoesNotExistException
@@ -3734,8 +1551,7 @@ export const deleteConfigurationSetTrackingOptions: API.OperationMethod<
   DeleteConfigurationSetTrackingOptionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteConfigurationSetTrackingOptionsRequest,
-  output: DeleteConfigurationSetTrackingOptionsResponse,
+  descriptor: { service: svc, input: { ConfigurationSetName: 0 } },
   errors: [
     ConfigurationSetDoesNotExistException,
     TrackingOptionsDoesNotExistException,
@@ -3743,7 +1559,7 @@ export const deleteConfigurationSetTrackingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSetTrackingOptions",
-}));
+})) as any;
 
 export type DeleteCustomVerificationEmailTemplateError = CommonErrors;
 /**
@@ -3761,13 +1577,12 @@ export const deleteCustomVerificationEmailTemplate: API.OperationMethod<
   DeleteCustomVerificationEmailTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCustomVerificationEmailTemplateRequest,
-  output: DeleteCustomVerificationEmailTemplateResponse,
+  descriptor: { service: svc, input: { TemplateName: 0 } },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomVerificationEmailTemplate",
-}));
+})) as any;
 
 export type DeleteIdentityError = CommonErrors;
 /**
@@ -3782,13 +1597,12 @@ export const deleteIdentity: API.OperationMethod<
   DeleteIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteIdentityRequest,
-  output: DeleteIdentityResponse,
+  descriptor: { service: svc, input: { Identity: 0 } },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentity",
-}));
+})) as any;
 
 export type DeleteIdentityPolicyError = CommonErrors;
 /**
@@ -3812,13 +1626,12 @@ export const deleteIdentityPolicy: API.OperationMethod<
   DeleteIdentityPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteIdentityPolicyRequest,
-  output: DeleteIdentityPolicyResponse,
+  descriptor: { service: svc, input: { Identity: 0, PolicyName: 0 } },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentityPolicy",
-}));
+})) as any;
 
 export type DeleteReceiptFilterError = CommonErrors;
 /**
@@ -3835,13 +1648,12 @@ export const deleteReceiptFilter: API.OperationMethod<
   DeleteReceiptFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteReceiptFilterRequest,
-  output: DeleteReceiptFilterResponse,
+  descriptor: { service: svc, input: { FilterName: 0 } },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReceiptFilter",
-}));
+})) as any;
 
 export type DeleteReceiptRuleError =
   | RuleSetDoesNotExistException
@@ -3860,13 +1672,12 @@ export const deleteReceiptRule: API.OperationMethod<
   DeleteReceiptRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteReceiptRuleRequest,
-  output: DeleteReceiptRuleResponse,
+  descriptor: { service: svc, input: { RuleSetName: 0, RuleName: 0 } },
   errors: [RuleSetDoesNotExistException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReceiptRule",
-}));
+})) as any;
 
 export type DeleteReceiptRuleSetError = CannotDeleteException | CommonErrors;
 /**
@@ -3886,13 +1697,12 @@ export const deleteReceiptRuleSet: API.OperationMethod<
   DeleteReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteReceiptRuleSetRequest,
-  output: DeleteReceiptRuleSetResponse,
+  descriptor: { service: svc, input: { RuleSetName: 0 } },
   errors: [CannotDeleteException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReceiptRuleSet",
-}));
+})) as any;
 
 export type DeleteTemplateError = CommonErrors;
 /**
@@ -3906,13 +1716,12 @@ export const deleteTemplate: API.OperationMethod<
   DeleteTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTemplateRequest,
-  output: DeleteTemplateResponse,
+  descriptor: { service: svc, input: { TemplateName: 0 } },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
-}));
+})) as any;
 
 export type DeleteVerifiedEmailAddressError = CommonErrors;
 /**
@@ -3925,13 +1734,12 @@ export const deleteVerifiedEmailAddress: API.OperationMethod<
   DeleteVerifiedEmailAddressError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteVerifiedEmailAddressRequest,
-  output: DeleteVerifiedEmailAddressResponse,
+  descriptor: { service: svc, input: { EmailAddress: 0 } },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVerifiedEmailAddress",
-}));
+})) as any;
 
 export type DescribeActiveReceiptRuleSetError = CommonErrors;
 /**
@@ -3948,13 +1756,19 @@ export const describeActiveReceiptRuleSet: API.OperationMethod<
   DescribeActiveReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeActiveReceiptRuleSetRequest,
-  output: DescribeActiveReceiptRuleSetResponse,
+  descriptor: {
+    service: svc,
+    input: {},
+    output: {
+      Metadata: o_ReceiptRuleSetMetadata,
+      Rules: D.list(o_ReceiptRule),
+    },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeActiveReceiptRuleSet",
-}));
+})) as any;
 
 export type DescribeConfigurationSetError =
   | ConfigurationSetDoesNotExistException
@@ -3972,13 +1786,32 @@ export const describeConfigurationSet: API.OperationMethod<
   DescribeConfigurationSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeConfigurationSetRequest,
-  output: DescribeConfigurationSetResponse,
+  descriptor: {
+    service: svc,
+    input: { ConfigurationSetName: 0, ConfigurationSetAttributeNames: 0 },
+    output: {
+      ConfigurationSet: {},
+      EventDestinations: D.list({
+        Enabled: D.bool,
+        MatchingEventTypes: D.list(),
+        KinesisFirehoseDestination: {},
+        CloudWatchDestination: { DimensionConfigurations: D.list({}) },
+        SNSDestination: {},
+      }),
+      TrackingOptions: {},
+      DeliveryOptions: {},
+      ReputationOptions: {
+        SendingEnabled: D.bool,
+        ReputationMetricsEnabled: D.bool,
+        LastFreshStart: D.ts,
+      },
+    },
+  },
   errors: [ConfigurationSetDoesNotExistException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationSet",
-}));
+})) as any;
 
 export type DescribeReceiptRuleError =
   | RuleDoesNotExistException
@@ -3998,13 +1831,16 @@ export const describeReceiptRule: API.OperationMethod<
   DescribeReceiptRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeReceiptRuleRequest,
-  output: DescribeReceiptRuleResponse,
+  descriptor: {
+    service: svc,
+    input: { RuleSetName: 0, RuleName: 0 },
+    output: { Rule: o_ReceiptRule },
+  },
   errors: [RuleDoesNotExistException, RuleSetDoesNotExistException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReceiptRule",
-}));
+})) as any;
 
 export type DescribeReceiptRuleSetError =
   | RuleSetDoesNotExistException
@@ -4023,13 +1859,19 @@ export const describeReceiptRuleSet: API.OperationMethod<
   DescribeReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeReceiptRuleSetRequest,
-  output: DescribeReceiptRuleSetResponse,
+  descriptor: {
+    service: svc,
+    input: { RuleSetName: 0 },
+    output: {
+      Metadata: o_ReceiptRuleSetMetadata,
+      Rules: D.list(o_ReceiptRule),
+    },
+  },
   errors: [RuleSetDoesNotExistException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReceiptRuleSet",
-}));
+})) as any;
 
 export type GetAccountSendingEnabledError = CommonErrors;
 /**
@@ -4043,13 +1885,12 @@ export const getAccountSendingEnabled: API.OperationMethod<
   GetAccountSendingEnabledError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccountSendingEnabledRequest,
-  output: GetAccountSendingEnabledResponse,
+  descriptor: { service: svc, output: { Enabled: D.bool } },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSendingEnabled",
-}));
+})) as any;
 
 export type GetCustomVerificationEmailTemplateError =
   | CustomVerificationEmailTemplateDoesNotExistException
@@ -4070,13 +1911,12 @@ export const getCustomVerificationEmailTemplate: API.OperationMethod<
   GetCustomVerificationEmailTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCustomVerificationEmailTemplateRequest,
-  output: GetCustomVerificationEmailTemplateResponse,
+  descriptor: { service: svc, input: { TemplateName: 0 } },
   errors: [CustomVerificationEmailTemplateDoesNotExistException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomVerificationEmailTemplate",
-}));
+})) as any;
 
 export type GetIdentityDkimAttributesError = CommonErrors;
 /**
@@ -4109,13 +1949,18 @@ export const getIdentityDkimAttributes: API.OperationMethod<
   GetIdentityDkimAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetIdentityDkimAttributesRequest,
-  output: GetIdentityDkimAttributesResponse,
+  descriptor: {
+    service: svc,
+    input: { Identities: 0 },
+    output: {
+      DkimAttributes: D.map({ DkimEnabled: D.bool, DkimTokens: D.list() }),
+    },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityDkimAttributes",
-}));
+})) as any;
 
 export type GetIdentityMailFromDomainAttributesError = CommonErrors;
 /**
@@ -4131,13 +1976,16 @@ export const getIdentityMailFromDomainAttributes: API.OperationMethod<
   GetIdentityMailFromDomainAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetIdentityMailFromDomainAttributesRequest,
-  output: GetIdentityMailFromDomainAttributesResponse,
+  descriptor: {
+    service: svc,
+    input: { Identities: 0 },
+    output: { MailFromDomainAttributes: D.map({}) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityMailFromDomainAttributes",
-}));
+})) as any;
 
 export type GetIdentityNotificationAttributesError = CommonErrors;
 /**
@@ -4156,13 +2004,23 @@ export const getIdentityNotificationAttributes: API.OperationMethod<
   GetIdentityNotificationAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetIdentityNotificationAttributesRequest,
-  output: GetIdentityNotificationAttributesResponse,
+  descriptor: {
+    service: svc,
+    input: { Identities: 0 },
+    output: {
+      NotificationAttributes: D.map({
+        ForwardingEnabled: D.bool,
+        HeadersInBounceNotificationsEnabled: D.bool,
+        HeadersInComplaintNotificationsEnabled: D.bool,
+        HeadersInDeliveryNotificationsEnabled: D.bool,
+      }),
+    },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityNotificationAttributes",
-}));
+})) as any;
 
 export type GetIdentityPoliciesError = CommonErrors;
 /**
@@ -4186,13 +2044,16 @@ export const getIdentityPolicies: API.OperationMethod<
   GetIdentityPoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetIdentityPoliciesRequest,
-  output: GetIdentityPoliciesResponse,
+  descriptor: {
+    service: svc,
+    input: { Identity: 0, PolicyNames: 0 },
+    output: { Policies: D.map() },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityPolicies",
-}));
+})) as any;
 
 export type GetIdentityVerificationAttributesError = CommonErrors;
 /**
@@ -4222,13 +2083,16 @@ export const getIdentityVerificationAttributes: API.OperationMethod<
   GetIdentityVerificationAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetIdentityVerificationAttributesRequest,
-  output: GetIdentityVerificationAttributesResponse,
+  descriptor: {
+    service: svc,
+    input: { Identities: 0 },
+    output: { VerificationAttributes: D.map({}) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityVerificationAttributes",
-}));
+})) as any;
 
 export type GetSendQuotaError = CommonErrors;
 /**
@@ -4242,13 +2106,19 @@ export const getSendQuota: API.OperationMethod<
   GetSendQuotaError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSendQuotaRequest,
-  output: GetSendQuotaResponse,
+  descriptor: {
+    service: svc,
+    output: {
+      Max24HourSend: D.num,
+      MaxSendRate: D.num,
+      SentLast24Hours: D.num,
+    },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSendQuota",
-}));
+})) as any;
 
 export type GetSendStatisticsError = CommonErrors;
 /**
@@ -4264,13 +2134,23 @@ export const getSendStatistics: API.OperationMethod<
   GetSendStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSendStatisticsRequest,
-  output: GetSendStatisticsResponse,
+  descriptor: {
+    service: svc,
+    output: {
+      SendDataPoints: D.list({
+        Timestamp: D.ts,
+        DeliveryAttempts: D.num,
+        Bounces: D.num,
+        Complaints: D.num,
+        Rejects: D.num,
+      }),
+    },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSendStatistics",
-}));
+})) as any;
 
 export type GetTemplateError = TemplateDoesNotExistException | CommonErrors;
 /**
@@ -4285,13 +2165,16 @@ export const getTemplate: API.OperationMethod<
   GetTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTemplateRequest,
-  output: GetTemplateResponse,
+  descriptor: {
+    service: svc,
+    input: { TemplateName: 0 },
+    output: { Template: {} },
+  },
   errors: [TemplateDoesNotExistException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
-}));
+})) as any;
 
 export type ListConfigurationSetsError = CommonErrors;
 /**
@@ -4313,13 +2196,16 @@ export const listConfigurationSets: API.OperationMethod<
   ListConfigurationSetsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListConfigurationSetsRequest,
-  output: ListConfigurationSetsResponse,
+  descriptor: {
+    service: svc,
+    input: { NextToken: 0, MaxItems: 0 },
+    output: { ConfigurationSets: D.list({}) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationSets",
-}));
+})) as any;
 
 export type ListCustomVerificationEmailTemplatesError = CommonErrors;
 /**
@@ -4339,8 +2225,11 @@ export const listCustomVerificationEmailTemplates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListCustomVerificationEmailTemplatesRequest,
-  output: ListCustomVerificationEmailTemplatesResponse,
+  descriptor: {
+    service: svc,
+    input: { NextToken: 0, MaxResults: 0 },
+    output: { CustomVerificationEmailTemplates: D.list({}) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4375,8 +2264,11 @@ export const listIdentities: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Identity
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListIdentitiesRequest,
-  output: ListIdentitiesResponse,
+  descriptor: {
+    service: svc,
+    input: { IdentityType: 0, NextToken: 0, MaxItems: 0 },
+    output: { Identities: D.list() },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4411,13 +2303,16 @@ export const listIdentityPolicies: API.OperationMethod<
   ListIdentityPoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListIdentityPoliciesRequest,
-  output: ListIdentityPoliciesResponse,
+  descriptor: {
+    service: svc,
+    input: { Identity: 0 },
+    output: { PolicyNames: D.list() },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentityPolicies",
-}));
+})) as any;
 
 export type ListReceiptFiltersError = CommonErrors;
 /**
@@ -4435,13 +2330,16 @@ export const listReceiptFilters: API.OperationMethod<
   ListReceiptFiltersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListReceiptFiltersRequest,
-  output: ListReceiptFiltersResponse,
+  descriptor: {
+    service: svc,
+    input: {},
+    output: { Filters: D.list({ IpFilter: {} }) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceiptFilters",
-}));
+})) as any;
 
 export type ListReceiptRuleSetsError = CommonErrors;
 /**
@@ -4461,13 +2359,16 @@ export const listReceiptRuleSets: API.OperationMethod<
   ListReceiptRuleSetsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListReceiptRuleSetsRequest,
-  output: ListReceiptRuleSetsResponse,
+  descriptor: {
+    service: svc,
+    input: { NextToken: 0 },
+    output: { RuleSets: D.list(o_ReceiptRuleSetMetadata) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceiptRuleSets",
-}));
+})) as any;
 
 export type ListTemplatesError = CommonErrors;
 /**
@@ -4482,13 +2383,16 @@ export const listTemplates: API.OperationMethod<
   ListTemplatesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTemplatesRequest,
-  output: ListTemplatesResponse,
+  descriptor: {
+    service: svc,
+    input: { NextToken: 0, MaxItems: 0 },
+    output: { TemplatesMetadata: D.list({ CreatedTimestamp: D.ts }) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTemplates",
-}));
+})) as any;
 
 export type ListVerifiedEmailAddressesError = CommonErrors;
 /**
@@ -4501,13 +2405,12 @@ export const listVerifiedEmailAddresses: API.OperationMethod<
   ListVerifiedEmailAddressesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListVerifiedEmailAddressesRequest,
-  output: ListVerifiedEmailAddressesResponse,
+  descriptor: { service: svc, output: { VerifiedEmailAddresses: D.list() } },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVerifiedEmailAddresses",
-}));
+})) as any;
 
 export type PutConfigurationSetDeliveryOptionsError =
   | ConfigurationSetDoesNotExistException
@@ -4522,8 +2425,10 @@ export const putConfigurationSetDeliveryOptions: API.OperationMethod<
   PutConfigurationSetDeliveryOptionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutConfigurationSetDeliveryOptionsRequest,
-  output: PutConfigurationSetDeliveryOptionsResponse,
+  descriptor: {
+    service: svc,
+    input: { ConfigurationSetName: 0, DeliveryOptions: { TlsPolicy: 0 } },
+  },
   errors: [
     ConfigurationSetDoesNotExistException,
     InvalidDeliveryOptionsException,
@@ -4531,7 +2436,7 @@ export const putConfigurationSetDeliveryOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationSetDeliveryOptions",
-}));
+})) as any;
 
 export type PutIdentityPolicyError = InvalidPolicyException | CommonErrors;
 /**
@@ -4554,13 +2459,15 @@ export const putIdentityPolicy: API.OperationMethod<
   PutIdentityPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutIdentityPolicyRequest,
-  output: PutIdentityPolicyResponse,
+  descriptor: {
+    service: svc,
+    input: { Identity: 0, PolicyName: 0, Policy: 0 },
+  },
   errors: [InvalidPolicyException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIdentityPolicy",
-}));
+})) as any;
 
 export type ReorderReceiptRuleSetError =
   | RuleDoesNotExistException
@@ -4583,13 +2490,12 @@ export const reorderReceiptRuleSet: API.OperationMethod<
   ReorderReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ReorderReceiptRuleSetRequest,
-  output: ReorderReceiptRuleSetResponse,
+  descriptor: { service: svc, input: { RuleSetName: 0, RuleNames: 0 } },
   errors: [RuleDoesNotExistException, RuleSetDoesNotExistException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReorderReceiptRuleSet",
-}));
+})) as any;
 
 export type SendBounceError = MessageRejected | CommonErrors;
 /**
@@ -4611,13 +2517,39 @@ export const sendBounce: API.OperationMethod<
   SendBounceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SendBounceRequest,
-  output: SendBounceResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      OriginalMessageId: 0,
+      BounceSender: 0,
+      Explanation: 0,
+      MessageDsn: {
+        ReportingMta: 0,
+        ArrivalDate: 0,
+        ExtensionFields: D.list(i_ExtensionField),
+      },
+      BouncedRecipientInfoList: D.list({
+        Recipient: 0,
+        RecipientArn: 0,
+        BounceType: 0,
+        RecipientDsnFields: {
+          FinalRecipient: 0,
+          Action: 0,
+          RemoteMta: 0,
+          Status: 0,
+          DiagnosticCode: 0,
+          LastAttemptDate: 0,
+          ExtensionFields: D.list(i_ExtensionField),
+        },
+      }),
+      BounceSenderArn: 0,
+    },
+  },
   errors: [MessageRejected],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendBounce",
-}));
+})) as any;
 
 export type SendBulkTemplatedEmailError =
   | AccountSendingPausedException
@@ -4669,8 +2601,27 @@ export const sendBulkTemplatedEmail: API.OperationMethod<
   SendBulkTemplatedEmailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SendBulkTemplatedEmailRequest,
-  output: SendBulkTemplatedEmailResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      Source: 0,
+      SourceArn: 0,
+      ReplyToAddresses: 0,
+      ReturnPath: 0,
+      ReturnPathArn: 0,
+      ConfigurationSetName: 0,
+      DefaultTags: D.list(i_MessageTag),
+      Template: 0,
+      TemplateArn: 0,
+      DefaultTemplateData: 0,
+      Destinations: D.list({
+        Destination: i_Destination,
+        ReplacementTags: D.list(i_MessageTag),
+        ReplacementTemplateData: 0,
+      }),
+    },
+    output: { Status: D.list({}) },
+  },
   errors: [
     AccountSendingPausedException,
     ConfigurationSetDoesNotExistException,
@@ -4682,7 +2633,7 @@ export const sendBulkTemplatedEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendBulkTemplatedEmail",
-}));
+})) as any;
 
 export type SendCustomVerificationEmailError =
   | ConfigurationSetDoesNotExistException
@@ -4710,8 +2661,10 @@ export const sendCustomVerificationEmail: API.OperationMethod<
   SendCustomVerificationEmailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SendCustomVerificationEmailRequest,
-  output: SendCustomVerificationEmailResponse,
+  descriptor: {
+    service: svc,
+    input: { EmailAddress: 0, TemplateName: 0, ConfigurationSetName: 0 },
+  },
   errors: [
     ConfigurationSetDoesNotExistException,
     CustomVerificationEmailTemplateDoesNotExistException,
@@ -4722,7 +2675,7 @@ export const sendCustomVerificationEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendCustomVerificationEmail",
-}));
+})) as any;
 
 export type SendEmailError =
   | AccountSendingPausedException
@@ -4772,8 +2725,23 @@ export const sendEmail: API.OperationMethod<
   SendEmailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SendEmailRequest,
-  output: SendEmailResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      Source: 0,
+      Destination: i_Destination,
+      Message: {
+        Subject: i_Content,
+        Body: { Text: i_Content, Html: i_Content },
+      },
+      ReplyToAddresses: 0,
+      ReturnPath: 0,
+      SourceArn: 0,
+      ReturnPathArn: 0,
+      Tags: D.list(i_MessageTag),
+      ConfigurationSetName: 0,
+    },
+  },
   errors: [
     AccountSendingPausedException,
     ConfigurationSetDoesNotExistException,
@@ -4784,7 +2752,7 @@ export const sendEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendEmail",
-}));
+})) as any;
 
 export type SendRawEmailError =
   | AccountSendingPausedException
@@ -4879,8 +2847,19 @@ export const sendRawEmail: API.OperationMethod<
   SendRawEmailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SendRawEmailRequest,
-  output: SendRawEmailResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      Source: 0,
+      Destinations: 0,
+      RawMessage: { Data: 0 },
+      FromArn: 0,
+      SourceArn: 0,
+      ReturnPathArn: 0,
+      Tags: D.list(i_MessageTag),
+      ConfigurationSetName: 0,
+    },
+  },
   errors: [
     AccountSendingPausedException,
     ConfigurationSetDoesNotExistException,
@@ -4891,7 +2870,7 @@ export const sendRawEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendRawEmail",
-}));
+})) as any;
 
 export type SendTemplatedEmailError =
   | AccountSendingPausedException
@@ -4950,8 +2929,22 @@ export const sendTemplatedEmail: API.OperationMethod<
   SendTemplatedEmailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SendTemplatedEmailRequest,
-  output: SendTemplatedEmailResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      Source: 0,
+      Destination: i_Destination,
+      ReplyToAddresses: 0,
+      ReturnPath: 0,
+      SourceArn: 0,
+      ReturnPathArn: 0,
+      Tags: D.list(i_MessageTag),
+      ConfigurationSetName: 0,
+      Template: 0,
+      TemplateArn: 0,
+      TemplateData: 0,
+    },
+  },
   errors: [
     AccountSendingPausedException,
     ConfigurationSetDoesNotExistException,
@@ -4963,7 +2956,7 @@ export const sendTemplatedEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendTemplatedEmail",
-}));
+})) as any;
 
 export type SetActiveReceiptRuleSetError =
   | RuleSetDoesNotExistException
@@ -4985,13 +2978,12 @@ export const setActiveReceiptRuleSet: API.OperationMethod<
   SetActiveReceiptRuleSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetActiveReceiptRuleSetRequest,
-  output: SetActiveReceiptRuleSetResponse,
+  descriptor: { service: svc, input: { RuleSetName: 0 } },
   errors: [RuleSetDoesNotExistException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetActiveReceiptRuleSet",
-}));
+})) as any;
 
 export type SetIdentityDkimEnabledError = CommonErrors;
 /**
@@ -5018,13 +3010,12 @@ export const setIdentityDkimEnabled: API.OperationMethod<
   SetIdentityDkimEnabledError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetIdentityDkimEnabledRequest,
-  output: SetIdentityDkimEnabledResponse,
+  descriptor: { service: svc, input: { Identity: 0, DkimEnabled: 0 } },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityDkimEnabled",
-}));
+})) as any;
 
 export type SetIdentityFeedbackForwardingEnabledError = CommonErrors;
 /**
@@ -5047,13 +3038,12 @@ export const setIdentityFeedbackForwardingEnabled: API.OperationMethod<
   SetIdentityFeedbackForwardingEnabledError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetIdentityFeedbackForwardingEnabledRequest,
-  output: SetIdentityFeedbackForwardingEnabledResponse,
+  descriptor: { service: svc, input: { Identity: 0, ForwardingEnabled: 0 } },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityFeedbackForwardingEnabled",
-}));
+})) as any;
 
 export type SetIdentityHeadersInNotificationsEnabledError = CommonErrors;
 /**
@@ -5072,13 +3062,15 @@ export const setIdentityHeadersInNotificationsEnabled: API.OperationMethod<
   SetIdentityHeadersInNotificationsEnabledError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetIdentityHeadersInNotificationsEnabledRequest,
-  output: SetIdentityHeadersInNotificationsEnabledResponse,
+  descriptor: {
+    service: svc,
+    input: { Identity: 0, NotificationType: 0, Enabled: 0 },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityHeadersInNotificationsEnabled",
-}));
+})) as any;
 
 export type SetIdentityMailFromDomainError = CommonErrors;
 /**
@@ -5098,13 +3090,15 @@ export const setIdentityMailFromDomain: API.OperationMethod<
   SetIdentityMailFromDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetIdentityMailFromDomainRequest,
-  output: SetIdentityMailFromDomainResponse,
+  descriptor: {
+    service: svc,
+    input: { Identity: 0, MailFromDomain: 0, BehaviorOnMXFailure: 0 },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityMailFromDomain",
-}));
+})) as any;
 
 export type SetIdentityNotificationTopicError = CommonErrors;
 /**
@@ -5126,13 +3120,15 @@ export const setIdentityNotificationTopic: API.OperationMethod<
   SetIdentityNotificationTopicError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetIdentityNotificationTopicRequest,
-  output: SetIdentityNotificationTopicResponse,
+  descriptor: {
+    service: svc,
+    input: { Identity: 0, NotificationType: 0, SnsTopic: 0 },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityNotificationTopic",
-}));
+})) as any;
 
 export type SetReceiptRulePositionError =
   | RuleDoesNotExistException
@@ -5152,13 +3148,15 @@ export const setReceiptRulePosition: API.OperationMethod<
   SetReceiptRulePositionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetReceiptRulePositionRequest,
-  output: SetReceiptRulePositionResponse,
+  descriptor: {
+    service: svc,
+    input: { RuleSetName: 0, RuleName: 0, After: 0 },
+  },
   errors: [RuleDoesNotExistException, RuleSetDoesNotExistException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetReceiptRulePosition",
-}));
+})) as any;
 
 export type TestRenderTemplateError =
   | InvalidRenderingParameterException
@@ -5177,8 +3175,7 @@ export const testRenderTemplate: API.OperationMethod<
   TestRenderTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TestRenderTemplateRequest,
-  output: TestRenderTemplateResponse,
+  descriptor: { service: svc, input: { TemplateName: 0, TemplateData: 0 } },
   errors: [
     InvalidRenderingParameterException,
     MissingRenderingAttributeException,
@@ -5187,7 +3184,7 @@ export const testRenderTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestRenderTemplate",
-}));
+})) as any;
 
 export type UpdateAccountSendingEnabledError = CommonErrors;
 /**
@@ -5205,13 +3202,12 @@ export const updateAccountSendingEnabled: API.OperationMethod<
   UpdateAccountSendingEnabledError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAccountSendingEnabledRequest,
-  output: UpdateAccountSendingEnabledResponse,
+  descriptor: { service: svc, input: { Enabled: 0 } },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSendingEnabled",
-}));
+})) as any;
 
 export type UpdateConfigurationSetEventDestinationError =
   | ConfigurationSetDoesNotExistException
@@ -5239,8 +3235,10 @@ export const updateConfigurationSetEventDestination: API.OperationMethod<
   UpdateConfigurationSetEventDestinationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateConfigurationSetEventDestinationRequest,
-  output: UpdateConfigurationSetEventDestinationResponse,
+  descriptor: {
+    service: svc,
+    input: { ConfigurationSetName: 0, EventDestination: i_EventDestination },
+  },
   errors: [
     ConfigurationSetDoesNotExistException,
     EventDestinationDoesNotExistException,
@@ -5251,7 +3249,7 @@ export const updateConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetEventDestination",
-}));
+})) as any;
 
 export type UpdateConfigurationSetReputationMetricsEnabledError =
   | ConfigurationSetDoesNotExistException
@@ -5270,13 +3268,12 @@ export const updateConfigurationSetReputationMetricsEnabled: API.OperationMethod
   UpdateConfigurationSetReputationMetricsEnabledError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateConfigurationSetReputationMetricsEnabledRequest,
-  output: UpdateConfigurationSetReputationMetricsEnabledResponse,
+  descriptor: { service: svc, input: { ConfigurationSetName: 0, Enabled: 0 } },
   errors: [ConfigurationSetDoesNotExistException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetReputationMetricsEnabled",
-}));
+})) as any;
 
 export type UpdateConfigurationSetSendingEnabledError =
   | ConfigurationSetDoesNotExistException
@@ -5296,13 +3293,12 @@ export const updateConfigurationSetSendingEnabled: API.OperationMethod<
   UpdateConfigurationSetSendingEnabledError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateConfigurationSetSendingEnabledRequest,
-  output: UpdateConfigurationSetSendingEnabledResponse,
+  descriptor: { service: svc, input: { ConfigurationSetName: 0, Enabled: 0 } },
   errors: [ConfigurationSetDoesNotExistException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetSendingEnabled",
-}));
+})) as any;
 
 export type UpdateConfigurationSetTrackingOptionsError =
   | ConfigurationSetDoesNotExistException
@@ -5323,8 +3319,10 @@ export const updateConfigurationSetTrackingOptions: API.OperationMethod<
   UpdateConfigurationSetTrackingOptionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateConfigurationSetTrackingOptionsRequest,
-  output: UpdateConfigurationSetTrackingOptionsResponse,
+  descriptor: {
+    service: svc,
+    input: { ConfigurationSetName: 0, TrackingOptions: i_TrackingOptions },
+  },
   errors: [
     ConfigurationSetDoesNotExistException,
     InvalidTrackingOptionsException,
@@ -5333,7 +3331,7 @@ export const updateConfigurationSetTrackingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetTrackingOptions",
-}));
+})) as any;
 
 export type UpdateCustomVerificationEmailTemplateError =
   | CustomVerificationEmailInvalidContentException
@@ -5355,8 +3353,17 @@ export const updateCustomVerificationEmailTemplate: API.OperationMethod<
   UpdateCustomVerificationEmailTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateCustomVerificationEmailTemplateRequest,
-  output: UpdateCustomVerificationEmailTemplateResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      TemplateName: 0,
+      FromEmailAddress: 0,
+      TemplateSubject: 0,
+      TemplateContent: 0,
+      SuccessRedirectionURL: 0,
+      FailureRedirectionURL: 0,
+    },
+  },
   errors: [
     CustomVerificationEmailInvalidContentException,
     CustomVerificationEmailTemplateDoesNotExistException,
@@ -5365,7 +3372,7 @@ export const updateCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomVerificationEmailTemplate",
-}));
+})) as any;
 
 export type UpdateReceiptRuleError =
   | InvalidLambdaFunctionException
@@ -5391,8 +3398,7 @@ export const updateReceiptRule: API.OperationMethod<
   UpdateReceiptRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateReceiptRuleRequest,
-  output: UpdateReceiptRuleResponse,
+  descriptor: { service: svc, input: { RuleSetName: 0, Rule: i_ReceiptRule } },
   errors: [
     InvalidLambdaFunctionException,
     InvalidS3ConfigurationException,
@@ -5406,7 +3412,7 @@ export const updateReceiptRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReceiptRule",
-}));
+})) as any;
 
 export type UpdateTemplateError =
   | InvalidTemplateException
@@ -5425,13 +3431,12 @@ export const updateTemplate: API.OperationMethod<
   UpdateTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateTemplateRequest,
-  output: UpdateTemplateResponse,
+  descriptor: { service: svc, input: { Template: i_Template } },
   errors: [InvalidTemplateException, TemplateDoesNotExistException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
-}));
+})) as any;
 
 export type VerifyDomainDkimError = CommonErrors;
 /**
@@ -5475,13 +3480,16 @@ export const verifyDomainDkim: API.OperationMethod<
   VerifyDomainDkimError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: VerifyDomainDkimRequest,
-  output: VerifyDomainDkimResponse,
+  descriptor: {
+    service: svc,
+    input: { Domain: 0 },
+    output: { DkimTokens: D.list() },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyDomainDkim",
-}));
+})) as any;
 
 export type VerifyDomainIdentityError = CommonErrors;
 /**
@@ -5498,13 +3506,12 @@ export const verifyDomainIdentity: API.OperationMethod<
   VerifyDomainIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: VerifyDomainIdentityRequest,
-  output: VerifyDomainIdentityResponse,
+  descriptor: { service: svc, input: { Domain: 0 } },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyDomainIdentity",
-}));
+})) as any;
 
 export type VerifyEmailAddressError = CommonErrors;
 /**
@@ -5517,13 +3524,12 @@ export const verifyEmailAddress: API.OperationMethod<
   VerifyEmailAddressError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: VerifyEmailAddressRequest,
-  output: VerifyEmailAddressResponse,
+  descriptor: { service: svc, input: { EmailAddress: 0 } },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyEmailAddress",
-}));
+})) as any;
 
 export type VerifyEmailIdentityError = CommonErrors;
 /**
@@ -5539,10 +3545,86 @@ export const verifyEmailIdentity: API.OperationMethod<
   VerifyEmailIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: VerifyEmailIdentityRequest,
-  output: VerifyEmailIdentityResponse,
+  descriptor: { service: svc, input: { EmailAddress: 0 } },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyEmailIdentity",
-}));
+})) as any;
+
+const i_Content: D.LazyStruct = () => ({ Data: 0, Charset: 0 });
+const i_Destination: D.LazyStruct = () => ({
+  ToAddresses: 0,
+  CcAddresses: 0,
+  BccAddresses: 0,
+});
+const i_EventDestination: D.LazyStruct = () => ({
+  Name: 0,
+  Enabled: 0,
+  MatchingEventTypes: 0,
+  KinesisFirehoseDestination: { IAMRoleARN: 0, DeliveryStreamARN: 0 },
+  CloudWatchDestination: {
+    DimensionConfigurations: D.list({
+      DimensionName: 0,
+      DimensionValueSource: 0,
+      DefaultDimensionValue: 0,
+    }),
+  },
+  SNSDestination: { TopicARN: 0 },
+});
+const i_ExtensionField: D.LazyStruct = () => ({ Name: 0, Value: 0 });
+const i_MessageTag: D.LazyStruct = () => ({ Name: 0, Value: 0 });
+const i_ReceiptRule: D.LazyStruct = () => ({
+  Name: 0,
+  Enabled: 0,
+  TlsPolicy: 0,
+  Recipients: 0,
+  Actions: D.list({
+    S3Action: {
+      TopicArn: 0,
+      BucketName: 0,
+      ObjectKeyPrefix: 0,
+      KmsKeyArn: 0,
+      IamRoleArn: 0,
+    },
+    BounceAction: {
+      TopicArn: 0,
+      SmtpReplyCode: 0,
+      StatusCode: 0,
+      Message: 0,
+      Sender: 0,
+    },
+    WorkmailAction: { TopicArn: 0, OrganizationArn: 0 },
+    LambdaAction: { TopicArn: 0, FunctionArn: 0, InvocationType: 0 },
+    StopAction: { Scope: 0, TopicArn: 0 },
+    AddHeaderAction: { HeaderName: 0, HeaderValue: 0 },
+    SNSAction: { TopicArn: 0, Encoding: 0 },
+    ConnectAction: { InstanceARN: 0, IAMRoleARN: 0 },
+  }),
+  ScanEnabled: 0,
+});
+const i_Template: D.LazyStruct = () => ({
+  TemplateName: 0,
+  SubjectPart: 0,
+  TextPart: 0,
+  HtmlPart: 0,
+});
+const i_TrackingOptions: D.LazyStruct = () => ({ CustomRedirectDomain: 0 });
+const o_ReceiptRule: D.LazyStruct = () => ({
+  Enabled: D.bool,
+  Recipients: D.list(),
+  Actions: D.list({
+    S3Action: {},
+    BounceAction: {},
+    WorkmailAction: {},
+    LambdaAction: {},
+    StopAction: {},
+    AddHeaderAction: {},
+    SNSAction: {},
+    ConnectAction: {},
+  }),
+  ScanEnabled: D.bool,
+});
+const o_ReceiptRuleSetMetadata: D.LazyStruct = () => ({
+  CreatedTimestamp: D.ts,
+});

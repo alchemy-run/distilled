@@ -1,298 +1,228 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Geo Maps",
-  serviceShapeName: "MapsService",
-});
-const auth = T.AwsAuthSigv4({ name: "geo-maps" });
-const ver = T.ServiceVersion("2020-11-19");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://maps.geo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://maps.geo-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://maps.geo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://maps.geo.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === false &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://maps.geo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === true &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://maps.geo-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === true &&
-          UseDualStack === false
-        ) {
-          return e(
-            `https://maps.geo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          );
-        }
-        if (
-          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-          UseFIPS === false &&
-          UseDualStack === true
-        ) {
-          return e(
-            `https://maps.geo.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
-        }
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://geo-maps-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true && UseDualStack === false) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://geo-maps-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseFIPS === false && UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://geo-maps.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://geo-maps.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "MapsService",
+  version: "2020-11-19",
+  sigv4: "geo-maps",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://maps.geo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://maps.geo-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://maps.geo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://maps.geo.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            UseFIPS === false &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://maps.geo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            UseFIPS === true &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://maps.geo-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            UseFIPS === true &&
+            UseDualStack === false
+          ) {
+            return e(
+              `https://maps.geo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            );
+          }
+          if (
+            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            UseFIPS === false &&
+            UseDualStack === true
+          ) {
+            return e(
+              `https://maps.geo.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://geo-maps-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true && UseDualStack === false) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://geo-maps-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseFIPS === false && UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://geo-maps.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://geo-maps.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+    renames: { Message: "message" },
+  })<{ readonly message: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(500), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 500, renames: { Message: "message" } },
+  )<{ readonly message: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404, renames: { Message: "message" } },
+  )<{ readonly message: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(429), T.Retryable()),
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+    ["ThrottlingError", "RetryableError"],
+    { status: 429, renames: { Message: "message" } },
+  )<{ readonly message: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
+    ["BadRequestError"],
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      Reason: S.suspend(() => ValidationExceptionReason).annotate({
-        identifier: "ValidationExceptionReason",
-      }),
-      FieldList: S.suspend(() => ValidationExceptionFieldList).annotate({
-        identifier: "ValidationExceptionFieldList",
-      }),
+      status: 400,
+      renames: { Message: "message", Reason: "reason", FieldList: "fieldList" },
     },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  )<{
+    readonly message: string;
+    readonly Reason: ValidationExceptionReason;
+    readonly FieldList: ValidationExceptionField[];
+  }> {}
 export interface GetGlyphsRequest {
   FontStack: string;
   FontUnicodeRange: string;
 }
-export const GetGlyphsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FontStack: S.String.pipe(T.HttpLabel("FontStack")),
-    FontUnicodeRange: S.String.pipe(T.HttpLabel("FontUnicodeRange")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/glyphs/{FontStack}/{FontUnicodeRange}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetGlyphsRequest",
-}) as any as S.Schema<GetGlyphsRequest>;
 export interface GetGlyphsResponse {
   Blob?: Uint8Array;
   ContentType?: string;
   CacheControl?: string;
   ETag?: string;
 }
-export const GetGlyphsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }),
-).annotate({
-  identifier: "GetGlyphsResponse",
-}) as any as S.Schema<GetGlyphsResponse>;
 export type MapStyle =
   | "Standard"
   | "Monochrome"
   | "Hybrid"
   | "Satellite"
   | (string & {});
-export const MapStyle = S.String;
-
 export type ColorScheme = "Light" | "Dark" | (string & {});
-export const ColorScheme = S.String;
-
 export type Variant = "Default" | (string & {});
-export const Variant = S.String;
-
 export interface GetSpritesRequest {
   FileName: string;
   Style: MapStyle;
   ColorScheme: ColorScheme;
   Variant: Variant;
 }
-export const GetSpritesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileName: S.String.pipe(T.HttpLabel("FileName")),
-    Style: MapStyle.pipe(T.HttpLabel("Style")),
-    ColorScheme: ColorScheme.pipe(T.HttpLabel("ColorScheme")),
-    Variant: Variant.pipe(T.HttpLabel("Variant")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/styles/{Style}/{ColorScheme}/{Variant}/sprites/{FileName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSpritesRequest",
-}) as any as S.Schema<GetSpritesRequest>;
 export interface GetSpritesResponse {
   Blob?: Uint8Array;
   ContentType?: string;
   CacheControl?: string;
   ETag?: string;
 }
-export const GetSpritesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }),
-).annotate({
-  identifier: "GetSpritesResponse",
-}) as any as S.Schema<GetSpritesResponse>;
 export type PositionListString = string | redacted.Redacted<string>;
 export type PositionString = string | redacted.Redacted<string>;
 export type CompactOverlay = string | redacted.Redacted<string>;
@@ -300,13 +230,9 @@ export type GeoJsonOverlay = string | redacted.Redacted<string>;
 export type SensitiveInteger = number;
 export type ApiKey = string | redacted.Redacted<string>;
 export type LabelSize = "Small" | "Large" | (string & {});
-export const LabelSize = S.String;
-
 export type LanguageTag = string;
 export type CountryCode = string | redacted.Redacted<string>;
 export type MapFeatureMode = "Enabled" | "Disabled" | (string & {});
-export const MapFeatureMode = S.String;
-
 export type DistanceMeters = number;
 export type ScaleBarUnit =
   | "Kilometers"
@@ -314,11 +240,7 @@ export type ScaleBarUnit =
   | "Miles"
   | "MilesKilometers"
   | (string & {});
-export const ScaleBarUnit = S.String;
-
 export type StaticMapStyle = "Satellite" | "Standard" | (string & {});
-export const StaticMapStyle = S.String;
-
 export type SensitiveFloat = number;
 export interface GetStaticMapRequest {
   BoundingBox?: string | redacted.Redacted<string>;
@@ -342,49 +264,6 @@ export interface GetStaticMapRequest {
   Width: number;
   Zoom?: number;
 }
-export const GetStaticMapRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BoundingBox: S.optional(SensitiveString).pipe(T.HttpQuery("bounding-box")),
-    BoundedPositions: S.optional(SensitiveString).pipe(
-      T.HttpQuery("bounded-positions"),
-    ),
-    Center: S.optional(SensitiveString).pipe(T.HttpQuery("center")),
-    ColorScheme: S.optional(ColorScheme).pipe(T.HttpQuery("color-scheme")),
-    CompactOverlay: S.optional(SensitiveString).pipe(
-      T.HttpQuery("compact-overlay"),
-    ),
-    CropLabels: S.optional(S.Boolean).pipe(T.HttpQuery("crop-labels")),
-    GeoJsonOverlay: S.optional(SensitiveString).pipe(
-      T.HttpQuery("geojson-overlay"),
-    ),
-    Height: S.Number.pipe(T.HttpQuery("height")),
-    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
-    LabelSize: S.optional(LabelSize).pipe(T.HttpQuery("label-size")),
-    Language: S.optional(S.String).pipe(T.HttpQuery("lang")),
-    Padding: S.optional(S.Number).pipe(T.HttpQuery("padding")),
-    PoliticalView: S.optional(SensitiveString).pipe(
-      T.HttpQuery("political-view"),
-    ),
-    PointsOfInterests: S.optional(MapFeatureMode).pipe(T.HttpQuery("pois")),
-    Radius: S.optional(S.Number).pipe(T.HttpQuery("radius")),
-    FileName: S.String.pipe(T.HttpLabel("FileName")),
-    ScaleBarUnit: S.optional(ScaleBarUnit).pipe(T.HttpQuery("scale-unit")),
-    Style: S.optional(StaticMapStyle).pipe(T.HttpQuery("style")),
-    Width: S.Number.pipe(T.HttpQuery("width")),
-    Zoom: S.optional(S.Number).pipe(T.HttpQuery("zoom")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/static/{FileName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetStaticMapRequest",
-}) as any as S.Schema<GetStaticMapRequest>;
 export interface GetStaticMapResponse {
   Blob?: Uint8Array;
   ContentType?: string;
@@ -392,34 +271,12 @@ export interface GetStaticMapResponse {
   ETag?: string;
   PricingBucket: string;
 }
-export const GetStaticMapResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
-  }),
-).annotate({
-  identifier: "GetStaticMapResponse",
-}) as any as S.Schema<GetStaticMapResponse>;
 export type Terrain = "Hillshade" | "Terrain3D" | (string & {});
-export const Terrain = S.String;
-
 export type ContourDensity = "Low" | "Medium" | "High" | (string & {});
-export const ContourDensity = S.String;
-
 export type Traffic = "All" | "Congestion" | (string & {});
-export const Traffic = S.String;
-
 export type TravelMode = "Transit" | "Truck" | (string & {});
-export const TravelMode = S.String;
-
 export type TravelModeList = TravelMode[];
-export const TravelModeList = /*@__PURE__*/ S.Array(TravelMode);
 export type Buildings = "Buildings3D" | (string & {});
-export const Buildings = S.String;
-
 export type PoiDensity =
   | "Off"
   | "VerySparse"
@@ -428,8 +285,6 @@ export type PoiDensity =
   | "Dense"
   | "VeryDense"
   | (string & {});
-export const PoiDensity = S.String;
-
 export type PoiCategory =
   | "FoodAndDrink"
   | "Entertainment"
@@ -441,10 +296,7 @@ export type PoiCategory =
   | "BusinessAndServices"
   | "FacilitiesAndBuildings"
   | (string & {});
-export const PoiCategory = S.String;
-
 export type PoiCategoryList = PoiCategory[];
-export const PoiCategoryList = /*@__PURE__*/ S.Array(PoiCategory);
 export interface GetStyleDescriptorRequest {
   Style: MapStyle;
   ColorScheme?: ColorScheme;
@@ -458,66 +310,19 @@ export interface GetStyleDescriptorRequest {
   PoiCategories?: PoiCategory[];
   Key?: string | redacted.Redacted<string>;
 }
-export const GetStyleDescriptorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Style: MapStyle.pipe(T.HttpLabel("Style")),
-    ColorScheme: S.optional(ColorScheme).pipe(T.HttpQuery("color-scheme")),
-    PoliticalView: S.optional(SensitiveString).pipe(
-      T.HttpQuery("political-view"),
-    ),
-    Terrain: S.optional(Terrain).pipe(T.HttpQuery("terrain")),
-    ContourDensity: S.optional(ContourDensity).pipe(
-      T.HttpQuery("contour-density"),
-    ),
-    Traffic: S.optional(Traffic).pipe(T.HttpQuery("traffic")),
-    TravelModes: S.optional(TravelModeList).pipe(T.HttpQuery("travel-modes")),
-    Buildings: S.optional(Buildings).pipe(T.HttpQuery("buildings")),
-    PoiDensity: S.optional(PoiDensity).pipe(T.HttpQuery("poi-density")),
-    PoiCategories: S.optional(PoiCategoryList).pipe(
-      T.HttpQuery("poi-categories"),
-    ),
-    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/styles/{Style}/descriptor" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetStyleDescriptorRequest",
-}) as any as S.Schema<GetStyleDescriptorRequest>;
 export interface GetStyleDescriptorResponse {
   Blob?: Uint8Array;
   ContentType?: string;
   CacheControl?: string;
   ETag?: string;
 }
-export const GetStyleDescriptorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }),
-).annotate({
-  identifier: "GetStyleDescriptorResponse",
-}) as any as S.Schema<GetStyleDescriptorResponse>;
 export type TileAdditionalFeature =
   | "ContourLines"
   | "Hillshade"
   | "Logistics"
   | "Transit"
   | (string & {});
-export const TileAdditionalFeature = S.String;
-
 export type TileAdditionalFeatureList = TileAdditionalFeature[];
-export const TileAdditionalFeatureList = /*@__PURE__*/ S.Array(
-  TileAdditionalFeature,
-);
 export type Tileset = string;
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface GetTileRequest {
@@ -528,27 +333,6 @@ export interface GetTileRequest {
   Y: string | redacted.Redacted<string>;
   Key?: string | redacted.Redacted<string>;
 }
-export const GetTileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AdditionalFeatures: S.optional(TileAdditionalFeatureList).pipe(
-      T.HttpQuery("additional-features"),
-    ),
-    Tileset: S.String.pipe(T.HttpLabel("Tileset")),
-    Z: SensitiveString.pipe(T.HttpLabel("Z")),
-    X: SensitiveString.pipe(T.HttpLabel("X")),
-    Y: SensitiveString.pipe(T.HttpLabel("Y")),
-    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/tiles/{Tileset}/{Z}/{X}/{Y}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetTileRequest" }) as any as S.Schema<GetTileRequest>;
 export interface GetTileResponse {
   Blob?: Uint8Array;
   ContentType?: string;
@@ -556,17 +340,6 @@ export interface GetTileResponse {
   ETag?: string;
   PricingBucket: string;
 }
-export const GetTileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
-  }),
-).annotate({
-  identifier: "GetTileResponse",
-}) as any as S.Schema<GetTileResponse>;
 export type ValidationExceptionReason =
   | "UnknownOperation"
   | "Missing"
@@ -575,23 +348,11 @@ export type ValidationExceptionReason =
   | "Other"
   | "UnknownField"
   | (string & {});
-export const ValidationExceptionReason = S.String;
-
 export interface ValidationExceptionField {
   Name: string;
   Message: string;
 }
-export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Message: S.String }).pipe(
-    S.encodeKeys({ Name: "name", Message: "message" }),
-  ),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
 export type GetGlyphsError = CommonErrors;
 /**
  * `GetGlyphs` returns the map's glyphs.
@@ -604,13 +365,22 @@ export const getGlyphs: API.OperationMethod<
   GetGlyphsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetGlyphsRequest,
-  output: GetGlyphsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/glyphs/{FontStack}/{FontUnicodeRange}",
+    input: { FontStack: 0, FontUnicodeRange: 0 },
+    output: {
+      Blob: D.m({ payload: true, shape: D.blob }),
+      ContentType: D.m({ header: "Content-Type" }),
+      CacheControl: D.m({ header: "Cache-Control" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlyphs",
-}));
+})) as any;
 
 export type GetSpritesError = CommonErrors;
 /**
@@ -624,13 +394,22 @@ export const getSprites: API.OperationMethod<
   GetSpritesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSpritesRequest,
-  output: GetSpritesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/styles/{Style}/{ColorScheme}/{Variant}/sprites/{FileName}",
+    input: { FileName: 0, Style: 0, ColorScheme: 0, Variant: 0 },
+    output: {
+      Blob: D.m({ payload: true, shape: D.blob }),
+      ContentType: D.m({ header: "Content-Type" }),
+      CacheControl: D.m({ header: "Cache-Control" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSprites",
-}));
+})) as any;
 
 export type GetStaticMapError =
   | AccessDeniedException
@@ -655,8 +434,39 @@ export const getStaticMap: API.OperationMethod<
   GetStaticMapError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetStaticMapRequest,
-  output: GetStaticMapResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/static/{FileName}",
+    input: {
+      BoundingBox: D.m({ query: "bounding-box" }),
+      BoundedPositions: D.m({ query: "bounded-positions" }),
+      Center: D.m({ query: "center" }),
+      ColorScheme: D.m({ query: "color-scheme" }),
+      CompactOverlay: D.m({ query: "compact-overlay" }),
+      CropLabels: D.m({ query: "crop-labels" }),
+      GeoJsonOverlay: D.m({ query: "geojson-overlay" }),
+      Height: D.m({ query: "height" }),
+      Key: D.m({ query: "key" }),
+      LabelSize: D.m({ query: "label-size" }),
+      Language: D.m({ query: "lang" }),
+      Padding: D.m({ query: "padding" }),
+      PoliticalView: D.m({ query: "political-view" }),
+      PointsOfInterests: D.m({ query: "pois" }),
+      Radius: D.m({ query: "radius" }),
+      FileName: 0,
+      ScaleBarUnit: D.m({ query: "scale-unit" }),
+      Style: D.m({ query: "style" }),
+      Width: D.m({ query: "width" }),
+      Zoom: D.m({ query: "zoom" }),
+    },
+    output: {
+      Blob: D.m({ payload: true, shape: D.blob }),
+      ContentType: D.m({ header: "Content-Type" }),
+      CacheControl: D.m({ header: "Cache-Control" }),
+      ETag: D.m({ header: "ETag" }),
+      PricingBucket: D.m({ header: "x-amz-geo-pricing-bucket" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -666,7 +476,7 @@ export const getStaticMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStaticMap",
-}));
+})) as any;
 
 export type GetStyleDescriptorError = CommonErrors;
 /**
@@ -680,13 +490,34 @@ export const getStyleDescriptor: API.OperationMethod<
   GetStyleDescriptorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetStyleDescriptorRequest,
-  output: GetStyleDescriptorResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/styles/{Style}/descriptor",
+    input: {
+      Style: 0,
+      ColorScheme: D.m({ query: "color-scheme" }),
+      PoliticalView: D.m({ query: "political-view" }),
+      Terrain: D.m({ query: "terrain" }),
+      ContourDensity: D.m({ query: "contour-density" }),
+      Traffic: D.m({ query: "traffic" }),
+      TravelModes: D.m({ query: "travel-modes" }),
+      Buildings: D.m({ query: "buildings" }),
+      PoiDensity: D.m({ query: "poi-density" }),
+      PoiCategories: D.m({ query: "poi-categories" }),
+      Key: D.m({ query: "key" }),
+    },
+    output: {
+      Blob: D.m({ payload: true, shape: D.blob }),
+      ContentType: D.m({ header: "Content-Type" }),
+      CacheControl: D.m({ header: "Cache-Control" }),
+      ETag: D.m({ header: "ETag" }),
+    },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStyleDescriptor",
-}));
+})) as any;
 
 export type GetTileError =
   | AccessDeniedException
@@ -706,8 +537,25 @@ export const getTile: API.OperationMethod<
   GetTileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTileRequest,
-  output: GetTileResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v2/tiles/{Tileset}/{Z}/{X}/{Y}",
+    input: {
+      AdditionalFeatures: D.m({ query: "additional-features" }),
+      Tileset: 0,
+      Z: 0,
+      X: 0,
+      Y: 0,
+      Key: D.m({ query: "key" }),
+    },
+    output: {
+      Blob: D.m({ payload: true, shape: D.blob }),
+      ContentType: D.m({ header: "Content-Type" }),
+      CacheControl: D.m({ header: "Cache-Control" }),
+      ETag: D.m({ header: "ETag" }),
+      PricingBucket: D.m({ header: "x-amz-geo-pricing-bucket" }),
+    },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -718,4 +566,4 @@ export const getTile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTile",
-}));
+})) as any;

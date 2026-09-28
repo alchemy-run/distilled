@@ -1,193 +1,188 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "IoT Data Plane",
-  serviceShapeName: "IotMoonrakerService",
-});
-const auth = T.AwsAuthSigv4({ name: "iotdata" });
-const ver = T.ServiceVersion("2015-05-28");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://data-ats.iot-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            if (Region === "ca-central-1") {
-              return e("https://data.iot-fips.ca-central-1.amazonaws.com");
-            }
-            if (Region === "us-east-1") {
-              return e("https://data.iot-fips.us-east-1.amazonaws.com");
-            }
-            if (Region === "us-east-2") {
-              return e("https://data.iot-fips.us-east-2.amazonaws.com");
-            }
-            if (Region === "us-west-1") {
-              return e("https://data.iot-fips.us-west-1.amazonaws.com");
-            }
-            if (Region === "us-west-2") {
-              return e("https://data.iot-fips.us-west-2.amazonaws.com");
-            }
-            if (Region === "us-gov-east-1") {
-              return e("https://data.iot-fips.us-gov-east-1.amazonaws.com");
-            }
-            if (Region === "us-gov-west-1") {
-              return e("https://data.iot-fips.us-gov-west-1.amazonaws.com");
-            }
-            return e(
-              `https://data-ats.iot-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://data-ats.iot.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        if (Region === "cn-north-1") {
-          return e("https://data.ats.iot.cn-north-1.amazonaws.com.cn");
-        }
-        if ("aws" === _.getAttr(PartitionResult, "name")) {
-          return e(`https://data-ats.iot.${Region}.amazonaws.com`);
-        }
-        if ("aws-cn" === _.getAttr(PartitionResult, "name")) {
-          return e(`https://data-ats.iot.${Region}.amazonaws.com.cn`);
-        }
-        if ("aws-us-gov" === _.getAttr(PartitionResult, "name")) {
-          return e(`https://data-ats.iot.${Region}.amazonaws.com`);
-        }
-        return e(
-          `https://data-ats.iot.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "IotMoonrakerService",
+  version: "2015-05-28",
+  sigv4: "iotdata",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://data-ats.iot-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              if (Region === "ca-central-1") {
+                return e("https://data.iot-fips.ca-central-1.amazonaws.com");
+              }
+              if (Region === "us-east-1") {
+                return e("https://data.iot-fips.us-east-1.amazonaws.com");
+              }
+              if (Region === "us-east-2") {
+                return e("https://data.iot-fips.us-east-2.amazonaws.com");
+              }
+              if (Region === "us-west-1") {
+                return e("https://data.iot-fips.us-west-1.amazonaws.com");
+              }
+              if (Region === "us-west-2") {
+                return e("https://data.iot-fips.us-west-2.amazonaws.com");
+              }
+              if (Region === "us-gov-east-1") {
+                return e("https://data.iot-fips.us-gov-east-1.amazonaws.com");
+              }
+              if (Region === "us-gov-west-1") {
+                return e("https://data.iot-fips.us-gov-west-1.amazonaws.com");
+              }
+              return e(
+                `https://data-ats.iot-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://data-ats.iot.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          if (Region === "cn-north-1") {
+            return e("https://data.ats.iot.cn-north-1.amazonaws.com.cn");
+          }
+          if ("aws" === _.getAttr(PartitionResult, "name")) {
+            return e(`https://data-ats.iot.${Region}.amazonaws.com`);
+          }
+          if ("aws-cn" === _.getAttr(PartitionResult, "name")) {
+            return e(`https://data-ats.iot.${Region}.amazonaws.com.cn`);
+          }
+          if ("aws-us-gov" === _.getAttr(PartitionResult, "name")) {
+            return e(`https://data-ats.iot.${Region}.amazonaws.com`);
+          }
+          return e(
+            `https://data-ats.iot.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message?: string }> {}
 export class ForbiddenException
-  extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
-    "ForbiddenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ForbiddenException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class GatewayTimeoutException
-  extends /*@__PURE__*/ S.TaggedError<GatewayTimeoutException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "GatewayTimeoutException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(504),
-  ).pipe(C.withTimeoutError) {}
+    ["TimeoutError"],
+    { status: 504 },
+  )<{ readonly message?: string }> {}
 export class InternalFailureException
-  extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalFailureException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class InvalidRequestException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class MethodNotAllowedException
-  extends /*@__PURE__*/ S.TaggedError<MethodNotAllowedException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MethodNotAllowedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(405),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 405 },
+  )<{ readonly message?: string }> {}
 export class RequestEntityTooLargeException
-  extends /*@__PURE__*/ S.TaggedError<RequestEntityTooLargeException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RequestEntityTooLargeException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(413),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 413 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class ServiceUnavailableException
-  extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceUnavailableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(503),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 503 },
+  )<{ readonly message?: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message?: string }> {}
 export class UnauthorizedException
-  extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
-    "UnauthorizedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(401),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("UnauthorizedException", ["AuthError"], {
+    status: 401,
+  })<{ readonly message?: string }> {}
 export class UnsupportedDocumentEncodingException
-  extends /*@__PURE__*/ S.TaggedError<UnsupportedDocumentEncodingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "UnsupportedDocumentEncodingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(415),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 415 },
+  )<{ readonly message?: string }> {}
 export type ClientId = string;
 export type CleanSession = boolean;
 export type PreventWillMessage = boolean;
@@ -196,87 +191,21 @@ export interface DeleteConnectionRequest {
   cleanSession?: boolean;
   preventWillMessage?: boolean;
 }
-export const DeleteConnectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientId: S.String.pipe(T.HttpLabel("clientId")),
-    cleanSession: S.optional(S.Boolean).pipe(T.HttpQuery("cleanSession")),
-    preventWillMessage: S.optional(S.Boolean).pipe(
-      T.HttpQuery("preventWillMessage"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/connections/{clientId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteConnectionRequest",
-}) as any as S.Schema<DeleteConnectionRequest>;
 export interface DeleteConnectionResponse {}
-export const DeleteConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteConnectionResponse",
-}) as any as S.Schema<DeleteConnectionResponse>;
 export type ThingName = string;
 export type ShadowName = string;
 export interface DeleteThingShadowRequest {
   thingName: string;
   shadowName?: string;
 }
-export const DeleteThingShadowRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    thingName: S.String.pipe(T.HttpLabel("thingName")),
-    shadowName: S.optional(S.String).pipe(T.HttpQuery("name")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/things/{thingName}/shadow" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteThingShadowRequest",
-}) as any as S.Schema<DeleteThingShadowRequest>;
 export interface DeleteThingShadowResponse {
   payload: T.StreamingOutputBody;
 }
-export const DeleteThingShadowResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ payload: T.StreamingOutput.pipe(T.HttpPayload()) }),
-).annotate({
-  identifier: "DeleteThingShadowResponse",
-}) as any as S.Schema<DeleteThingShadowResponse>;
 export type IncludeSocketInformation = boolean;
 export interface GetConnectionRequest {
   clientId: string;
   includeSocketInformation?: boolean;
 }
-export const GetConnectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientId: S.String.pipe(T.HttpLabel("clientId")),
-    includeSocketInformation: S.optional(S.Boolean).pipe(
-      T.HttpQuery("includeSocketInformation"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/connections/{clientId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetConnectionRequest",
-}) as any as S.Schema<GetConnectionRequest>;
 export type Connected = boolean;
 export type SourceIp = string;
 export type SourcePort = number;
@@ -302,44 +231,10 @@ export interface GetConnectionResponse {
   clientId?: string;
   vpcEndpointId?: string;
 }
-export const GetConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connected: S.optional(S.Boolean),
-    thingName: S.optional(S.String),
-    cleanSession: S.optional(S.Boolean),
-    sourceIp: S.optional(S.String),
-    sourcePort: S.optional(S.Number),
-    targetIp: S.optional(S.String),
-    targetPort: S.optional(S.Number),
-    keepAliveDuration: S.optional(S.Number),
-    connectedSince: S.optional(S.Number),
-    disconnectedSince: S.optional(S.Number),
-    disconnectReason: S.optional(S.String),
-    sessionExpiry: S.optional(S.Number),
-    clientId: S.optional(S.String),
-    vpcEndpointId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetConnectionResponse",
-}) as any as S.Schema<GetConnectionResponse>;
 export type Topic = string;
 export interface GetRetainedMessageRequest {
   topic: string;
 }
-export const GetRetainedMessageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ topic: S.String.pipe(T.HttpLabel("topic")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/retainedMessage/{topic}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRetainedMessageRequest",
-}) as any as S.Schema<GetRetainedMessageRequest>;
 export type Payload = Uint8Array;
 export type Qos = number;
 export type UserPropertiesBlob = Uint8Array;
@@ -350,46 +245,13 @@ export interface GetRetainedMessageResponse {
   lastModifiedTime?: number;
   userProperties?: Uint8Array;
 }
-export const GetRetainedMessageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    topic: S.optional(S.String),
-    payload: S.optional(T.Blob),
-    qos: S.optional(S.Number),
-    lastModifiedTime: S.optional(S.Number),
-    userProperties: S.optional(T.Blob),
-  }),
-).annotate({
-  identifier: "GetRetainedMessageResponse",
-}) as any as S.Schema<GetRetainedMessageResponse>;
 export interface GetThingShadowRequest {
   thingName: string;
   shadowName?: string;
 }
-export const GetThingShadowRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    thingName: S.String.pipe(T.HttpLabel("thingName")),
-    shadowName: S.optional(S.String).pipe(T.HttpQuery("name")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/things/{thingName}/shadow" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetThingShadowRequest",
-}) as any as S.Schema<GetThingShadowRequest>;
 export interface GetThingShadowResponse {
   payload?: T.StreamingOutputBody;
 }
-export const GetThingShadowResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ payload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }),
-).annotate({
-  identifier: "GetThingShadowResponse",
-}) as any as S.Schema<GetThingShadowResponse>;
 export type NextToken = string;
 export type PageSize = number;
 export interface ListNamedShadowsForThingRequest {
@@ -397,65 +259,17 @@ export interface ListNamedShadowsForThingRequest {
   nextToken?: string;
   pageSize?: number;
 }
-export const ListNamedShadowsForThingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    thingName: S.String.pipe(T.HttpLabel("thingName")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    pageSize: S.optional(S.Number).pipe(T.HttpQuery("pageSize")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/api/things/shadow/ListNamedShadowsForThing/{thingName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListNamedShadowsForThingRequest",
-}) as any as S.Schema<ListNamedShadowsForThingRequest>;
 export type NamedShadowList = string[];
-export const NamedShadowList = /*@__PURE__*/ S.Array(S.String);
 export interface ListNamedShadowsForThingResponse {
   results?: string[];
   nextToken?: string;
   timestamp?: number;
 }
-export const ListNamedShadowsForThingResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    results: S.optional(NamedShadowList),
-    nextToken: S.optional(S.String),
-    timestamp: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ListNamedShadowsForThingResponse",
-}) as any as S.Schema<ListNamedShadowsForThingResponse>;
 export type MaxResults = number;
 export interface ListRetainedMessagesRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListRetainedMessagesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/retainedMessage" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRetainedMessagesRequest",
-}) as any as S.Schema<ListRetainedMessagesRequest>;
 export type PayloadSize = number;
 export interface RetainedMessageSummary {
   topic?: string;
@@ -463,87 +277,32 @@ export interface RetainedMessageSummary {
   qos?: number;
   lastModifiedTime?: number;
 }
-export const RetainedMessageSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    topic: S.optional(S.String),
-    payloadSize: S.optional(S.Number),
-    qos: S.optional(S.Number),
-    lastModifiedTime: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "RetainedMessageSummary",
-}) as any as S.Schema<RetainedMessageSummary>;
 export type RetainedMessageList = RetainedMessageSummary[];
-export const RetainedMessageList = /*@__PURE__*/ S.Array(
-  RetainedMessageSummary,
-);
 export interface ListRetainedMessagesResponse {
   retainedTopics?: RetainedMessageSummary[];
   nextToken?: string;
 }
-export const ListRetainedMessagesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    retainedTopics: S.optional(RetainedMessageList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRetainedMessagesResponse",
-}) as any as S.Schema<ListRetainedMessagesResponse>;
 export interface ListSubscriptionsRequest {
   clientId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientId: S.String.pipe(T.HttpLabel("clientId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/connections/{clientId}/subscriptions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSubscriptionsRequest",
-}) as any as S.Schema<ListSubscriptionsRequest>;
 export type TopicFilter = string;
 export interface SubscriptionSummary {
   topicFilter: string;
   qos: number;
 }
-export const SubscriptionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ topicFilter: S.String, qos: S.Number }),
-).annotate({
-  identifier: "SubscriptionSummary",
-}) as any as S.Schema<SubscriptionSummary>;
 export type SubscriptionList = SubscriptionSummary[];
-export const SubscriptionList = /*@__PURE__*/ S.Array(SubscriptionSummary);
 export interface ListSubscriptionsResponse {
   subscriptions?: SubscriptionSummary[];
   nextToken?: string;
 }
-export const ListSubscriptionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptions: S.optional(SubscriptionList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSubscriptionsResponse",
-}) as any as S.Schema<ListSubscriptionsResponse>;
 export type Retain = boolean;
 export type SynthesizedJsonUserProperties = string;
 export type PayloadFormatIndicator =
   | "UNSPECIFIED_BYTES"
   | "UTF8_DATA"
   | (string & {});
-export const PayloadFormatIndicator = S.String;
-
 export type ContentType = string;
 export type ResponseTopic = string;
 export type CorrelationData = string;
@@ -560,41 +319,7 @@ export interface PublishRequest {
   correlationData?: string;
   messageExpiry?: number;
 }
-export const PublishRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    topic: S.String.pipe(T.HttpLabel("topic")),
-    qos: S.optional(S.Number).pipe(T.HttpQuery("qos")),
-    retain: S.optional(S.Boolean).pipe(T.HttpQuery("retain")),
-    payload: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-    userProperties: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-mqtt5-user-properties"),
-    ),
-    payloadFormatIndicator: S.optional(PayloadFormatIndicator).pipe(
-      T.HttpHeader("x-amz-mqtt5-payload-format-indicator"),
-    ),
-    contentType: S.optional(S.String).pipe(T.HttpQuery("contentType")),
-    responseTopic: S.optional(S.String).pipe(T.HttpQuery("responseTopic")),
-    correlationData: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-mqtt5-correlation-data"),
-    ),
-    messageExpiry: S.optional(S.Number).pipe(T.HttpQuery("messageExpiry")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/topics/{topic}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "PublishRequest" }) as any as S.Schema<PublishRequest>;
 export interface PublishResponse {}
-export const PublishResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PublishResponse",
-}) as any as S.Schema<PublishResponse>;
 export type Confirmation = boolean;
 export type TimeoutInSeconds = number;
 export interface SendDirectMessageRequest {
@@ -609,79 +334,20 @@ export interface SendDirectMessageRequest {
   payloadFormatIndicator?: PayloadFormatIndicator;
   correlationData?: string;
 }
-export const SendDirectMessageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientId: S.String.pipe(T.HttpLabel("clientId")),
-    topic: S.String.pipe(T.HttpQuery("topic")),
-    contentType: S.optional(S.String).pipe(T.HttpQuery("contentType")),
-    responseTopic: S.optional(S.String).pipe(T.HttpQuery("responseTopic")),
-    confirmation: S.optional(S.Boolean).pipe(T.HttpQuery("confirmation")),
-    timeout: S.optional(S.Number).pipe(T.HttpQuery("timeout")),
-    payload: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-    userProperties: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-mqtt5-user-properties"),
-    ),
-    payloadFormatIndicator: S.optional(PayloadFormatIndicator).pipe(
-      T.HttpHeader("x-amz-mqtt5-payload-format-indicator"),
-    ),
-    correlationData: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-mqtt5-correlation-data"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/connections/{clientId}/messages" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SendDirectMessageRequest",
-}) as any as S.Schema<SendDirectMessageRequest>;
 export type ResponseMessage = string;
 export type TraceId = string;
 export interface SendDirectMessageResponse {
   message?: string;
   traceId?: string;
 }
-export const SendDirectMessageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ message: S.optional(S.String), traceId: S.optional(S.String) }),
-).annotate({
-  identifier: "SendDirectMessageResponse",
-}) as any as S.Schema<SendDirectMessageResponse>;
 export interface UpdateThingShadowRequest {
   thingName: string;
   shadowName?: string;
   payload: T.StreamingInputBody;
 }
-export const UpdateThingShadowRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    thingName: S.String.pipe(T.HttpLabel("thingName")),
-    shadowName: S.optional(S.String).pipe(T.HttpQuery("name")),
-    payload: T.StreamingInput.pipe(T.HttpPayload()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/things/{thingName}/shadow" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateThingShadowRequest",
-}) as any as S.Schema<UpdateThingShadowRequest>;
 export interface UpdateThingShadowResponse {
   payload?: T.StreamingOutputBody;
 }
-export const UpdateThingShadowResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ payload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }),
-).annotate({
-  identifier: "UpdateThingShadowResponse",
-}) as any as S.Schema<UpdateThingShadowResponse>;
 export type ErrorMessage = string;
 export type DeleteConnectionError =
   | ForbiddenException
@@ -701,8 +367,15 @@ export const deleteConnection: API.OperationMethod<
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteConnectionRequest,
-  output: DeleteConnectionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /connections/{clientId}",
+    input: {
+      clientId: 0,
+      cleanSession: D.m({ query: "cleanSession" }),
+      preventWillMessage: D.m({ query: "preventWillMessage" }),
+    },
+  },
   errors: [
     ForbiddenException,
     InternalFailureException,
@@ -713,7 +386,7 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
-}));
+})) as any;
 
 export type DeleteThingShadowError =
   | InternalFailureException
@@ -739,8 +412,12 @@ export const deleteThingShadow: API.OperationMethod<
   DeleteThingShadowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteThingShadowRequest,
-  output: DeleteThingShadowResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /things/{thingName}/shadow",
+    input: { thingName: 0, shadowName: D.m({ query: "name" }) },
+    output: { payload: D.m({ payload: true, shape: D.stream }) },
+  },
   errors: [
     InternalFailureException,
     InvalidRequestException,
@@ -755,7 +432,7 @@ export const deleteThingShadow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThingShadow",
-}));
+})) as any;
 
 export type GetConnectionError =
   | ForbiddenException
@@ -775,8 +452,14 @@ export const getConnection: API.OperationMethod<
   GetConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetConnectionRequest,
-  output: GetConnectionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /connections/{clientId}",
+    input: {
+      clientId: 0,
+      includeSocketInformation: D.m({ query: "includeSocketInformation" }),
+    },
+  },
   errors: [
     ForbiddenException,
     InternalFailureException,
@@ -787,7 +470,7 @@ export const getConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
-}));
+})) as any;
 
 export type GetRetainedMessageError =
   | InternalFailureException
@@ -817,8 +500,12 @@ export const getRetainedMessage: API.OperationMethod<
   GetRetainedMessageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRetainedMessageRequest,
-  output: GetRetainedMessageResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /retainedMessage/{topic}",
+    input: { topic: 0 },
+    output: { payload: D.blob, userProperties: D.blob },
+  },
   errors: [
     InternalFailureException,
     InvalidRequestException,
@@ -832,7 +519,7 @@ export const getRetainedMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRetainedMessage",
-}));
+})) as any;
 
 export type GetThingShadowError =
   | InternalFailureException
@@ -859,8 +546,12 @@ export const getThingShadow: API.OperationMethod<
   GetThingShadowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetThingShadowRequest,
-  output: GetThingShadowResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /things/{thingName}/shadow",
+    input: { thingName: 0, shadowName: D.m({ query: "name" }) },
+    output: { payload: D.m({ payload: true, shape: D.stream }) },
+  },
   errors: [
     InternalFailureException,
     InvalidRequestException,
@@ -875,7 +566,7 @@ export const getThingShadow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThingShadow",
-}));
+})) as any;
 
 export type ListNamedShadowsForThingError =
   | InternalFailureException
@@ -898,8 +589,15 @@ export const listNamedShadowsForThing: API.OperationMethod<
   ListNamedShadowsForThingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListNamedShadowsForThingRequest,
-  output: ListNamedShadowsForThingResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /api/things/shadow/ListNamedShadowsForThing/{thingName}",
+    input: {
+      thingName: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      pageSize: D.m({ query: "pageSize" }),
+    },
+  },
   errors: [
     InternalFailureException,
     InvalidRequestException,
@@ -913,7 +611,7 @@ export const listNamedShadowsForThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNamedShadowsForThing",
-}));
+})) as any;
 
 export type ListRetainedMessagesError =
   | InternalFailureException
@@ -947,8 +645,14 @@ export const listRetainedMessages: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RetainedMessageSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRetainedMessagesRequest,
-  output: ListRetainedMessagesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /retainedMessage",
+    input: {
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     InternalFailureException,
     InvalidRequestException,
@@ -988,8 +692,15 @@ export const listSubscriptions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SubscriptionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSubscriptionsRequest,
-  output: ListSubscriptionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /connections/{clientId}/subscriptions",
+    input: {
+      clientId: 0,
+      nextToken: D.m({ query: "nextToken" }),
+      maxResults: D.m({ query: "maxResults" }),
+    },
+  },
   errors: [
     ForbiddenException,
     InternalFailureException,
@@ -1034,8 +745,24 @@ export const publish: API.OperationMethod<
   PublishError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PublishRequest,
-  output: PublishResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /topics/{topic}",
+    input: {
+      topic: 0,
+      qos: D.m({ query: "qos" }),
+      retain: D.m({ query: "retain" }),
+      payload: D.m({ payload: true, shape: D.stream }),
+      userProperties: D.m({ header: "x-amz-mqtt5-user-properties" }),
+      payloadFormatIndicator: D.m({
+        header: "x-amz-mqtt5-payload-format-indicator",
+      }),
+      contentType: D.m({ query: "contentType" }),
+      responseTopic: D.m({ query: "responseTopic" }),
+      correlationData: D.m({ header: "x-amz-mqtt5-correlation-data" }),
+      messageExpiry: D.m({ query: "messageExpiry" }),
+    },
+  },
   errors: [
     InternalFailureException,
     InvalidRequestException,
@@ -1047,7 +774,7 @@ export const publish: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Publish",
-}));
+})) as any;
 
 export type SendDirectMessageError =
   | ForbiddenException
@@ -1076,8 +803,24 @@ export const sendDirectMessage: API.OperationMethod<
   SendDirectMessageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SendDirectMessageRequest,
-  output: SendDirectMessageResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /connections/{clientId}/messages",
+    input: {
+      clientId: 0,
+      topic: D.m({ query: "topic" }),
+      contentType: D.m({ query: "contentType" }),
+      responseTopic: D.m({ query: "responseTopic" }),
+      confirmation: D.m({ query: "confirmation" }),
+      timeout: D.m({ query: "timeout" }),
+      payload: D.m({ payload: true, shape: D.stream }),
+      userProperties: D.m({ header: "x-amz-mqtt5-user-properties" }),
+      payloadFormatIndicator: D.m({
+        header: "x-amz-mqtt5-payload-format-indicator",
+      }),
+      correlationData: D.m({ header: "x-amz-mqtt5-correlation-data" }),
+    },
+  },
   errors: [
     ForbiddenException,
     GatewayTimeoutException,
@@ -1091,7 +834,7 @@ export const sendDirectMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDirectMessage",
-}));
+})) as any;
 
 export type UpdateThingShadowError =
   | ConflictException
@@ -1119,8 +862,16 @@ export const updateThingShadow: API.OperationMethod<
   UpdateThingShadowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateThingShadowRequest,
-  output: UpdateThingShadowResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /things/{thingName}/shadow",
+    input: {
+      thingName: 0,
+      shadowName: D.m({ query: "name" }),
+      payload: D.m({ payload: true, shape: D.stream }),
+    },
+    output: { payload: D.m({ payload: true, shape: D.stream }) },
+  },
   errors: [
     ConflictException,
     InternalFailureException,
@@ -1136,4 +887,4 @@ export const updateThingShadow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThingShadow",
-}));
+})) as any;

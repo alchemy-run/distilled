@@ -1,139 +1,138 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { awsJson1_1Protocol } from "../protocols/aws-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Pricing",
-  serviceShapeName: "AWSPriceListService",
-});
-const auth = T.AwsAuthSigv4({ name: "pricing" });
-const ver = T.ServiceVersion("2017-10-15");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://api.pricing-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://api.pricing-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://api.pricing.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        if ("aws" === _.getAttr(PartitionResult, "name")) {
-          return e(`https://api.pricing.${Region}.amazonaws.com`);
-        }
-        return e(
-          `https://api.pricing.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "AWSPriceListService",
+  version: "2017-10-15",
+  sigv4: "pricing",
+  protocol: awsJson1_1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://api.pricing-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://api.pricing-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://api.pricing.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          if ("aws" === _.getAttr(PartitionResult, "name")) {
+            return e(`https://api.pricing.${Region}.amazonaws.com`);
+          }
+          return e(
+            `https://api.pricing.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(401),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 401,
+  })<{ readonly message?: string }> {}
 export class ExpiredNextTokenException
-  extends /*@__PURE__*/ S.TaggedError<ExpiredNextTokenException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ExpiredNextTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InternalErrorException
-  extends /*@__PURE__*/ S.TaggedError<InternalErrorException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(500), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class InvalidNextTokenException
-  extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidNextTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class InvalidParameterException
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidParameterException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class NotFoundException
-  extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(429), T.Retryable({ throttling: true })),
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+    ["ThrottlingError", "RetryableError"],
+    { status: 429 },
+  )<{ readonly message?: string }> {}
 export type FormatVersion = string;
 export type DescribeServicesMaxResults = number;
 export interface DescribeServicesRequest {
@@ -142,46 +141,17 @@ export interface DescribeServicesRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const DescribeServicesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceCode: S.optional(S.String),
-    FormatVersion: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeServicesRequest",
-}) as any as S.Schema<DescribeServicesRequest>;
 export type AttributeNameList = string[];
-export const AttributeNameList = /*@__PURE__*/ S.Array(S.String);
 export interface Service {
   ServiceCode: string;
   AttributeNames?: string[];
 }
-export const Service = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceCode: S.String,
-    AttributeNames: S.optional(AttributeNameList),
-  }),
-).annotate({ identifier: "Service" }) as any as S.Schema<Service>;
 export type ServiceList = Service[];
-export const ServiceList = /*@__PURE__*/ S.Array(Service);
 export interface DescribeServicesResponse {
   Services?: Service[];
   FormatVersion?: string;
   NextToken?: string;
 }
-export const DescribeServicesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Services: S.optional(ServiceList),
-    FormatVersion: S.optional(S.String),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeServicesResponse",
-}) as any as S.Schema<DescribeServicesResponse>;
 export type GetAttributeValuesMaxResults = number;
 export interface GetAttributeValuesRequest {
   ServiceCode: string;
@@ -189,59 +159,23 @@ export interface GetAttributeValuesRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const GetAttributeValuesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceCode: S.String,
-    AttributeName: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetAttributeValuesRequest",
-}) as any as S.Schema<GetAttributeValuesRequest>;
 export interface AttributeValue {
   Value?: string;
 }
-export const AttributeValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Value: S.optional(S.String) }),
-).annotate({ identifier: "AttributeValue" }) as any as S.Schema<AttributeValue>;
 export type AttributeValueList = AttributeValue[];
-export const AttributeValueList = /*@__PURE__*/ S.Array(AttributeValue);
 export interface GetAttributeValuesResponse {
   AttributeValues?: AttributeValue[];
   NextToken?: string;
 }
-export const GetAttributeValuesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttributeValues: S.optional(AttributeValueList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetAttributeValuesResponse",
-}) as any as S.Schema<GetAttributeValuesResponse>;
 export type PriceListArn = string;
 export type FileFormat = string;
 export interface GetPriceListFileUrlRequest {
   PriceListArn: string;
   FileFormat: string;
 }
-export const GetPriceListFileUrlRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PriceListArn: S.String, FileFormat: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetPriceListFileUrlRequest",
-}) as any as S.Schema<GetPriceListFileUrlRequest>;
 export interface GetPriceListFileUrlResponse {
   Url?: string;
 }
-export const GetPriceListFileUrlResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Url: S.optional(S.String) }),
-).annotate({
-  identifier: "GetPriceListFileUrlResponse",
-}) as any as S.Schema<GetPriceListFileUrlResponse>;
 export type FilterType =
   | "TERM_MATCH"
   | "EQUALS"
@@ -249,8 +183,6 @@ export type FilterType =
   | "ANY_OF"
   | "NONE_OF"
   | (string & {});
-export const FilterType = S.String;
-
 export type Field = string;
 export type Value = string;
 export interface Filter {
@@ -258,11 +190,7 @@ export interface Filter {
   Field: string;
   Value: string;
 }
-export const Filter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Type: FilterType, Field: S.String, Value: S.String }),
-).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type Filters = Filter[];
-export const Filters = /*@__PURE__*/ S.Array(Filter);
 export type GetProductsMaxResults = number;
 export interface GetProductsRequest {
   ServiceCode: string;
@@ -271,36 +199,13 @@ export interface GetProductsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const GetProductsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceCode: S.String,
-    Filters: S.optional(Filters),
-    FormatVersion: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetProductsRequest",
-}) as any as S.Schema<GetProductsRequest>;
 export type SynthesizedJsonPriceListJsonItem = string;
 export type PriceListJsonItems = string[];
-export const PriceListJsonItems = /*@__PURE__*/ S.Array(S.String);
 export interface GetProductsResponse {
   FormatVersion?: string;
   PriceList?: string[];
   NextToken?: string;
 }
-export const GetProductsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FormatVersion: S.optional(S.String),
-    PriceList: S.optional(PriceListJsonItems),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetProductsResponse",
-}) as any as S.Schema<GetProductsResponse>;
 export type ServiceCode = string;
 export type EffectiveDate = Date;
 export type RegionCode = string;
@@ -314,50 +219,18 @@ export interface ListPriceListsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListPriceListsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceCode: S.String,
-    EffectiveDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    RegionCode: S.optional(S.String),
-    CurrencyCode: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListPriceListsRequest",
-}) as any as S.Schema<ListPriceListsRequest>;
 export type FileFormats = string[];
-export const FileFormats = /*@__PURE__*/ S.Array(S.String);
 export interface PriceList {
   PriceListArn?: string;
   RegionCode?: string;
   CurrencyCode?: string;
   FileFormats?: string[];
 }
-export const PriceList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PriceListArn: S.optional(S.String),
-    RegionCode: S.optional(S.String),
-    CurrencyCode: S.optional(S.String),
-    FileFormats: S.optional(FileFormats),
-  }),
-).annotate({ identifier: "PriceList" }) as any as S.Schema<PriceList>;
 export type PriceLists = PriceList[];
-export const PriceLists = /*@__PURE__*/ S.Array(PriceList);
 export interface ListPriceListsResponse {
   PriceLists?: PriceList[];
   NextToken?: string;
 }
-export const ListPriceListsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PriceLists: S.optional(PriceLists),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListPriceListsResponse",
-}) as any as S.Schema<ListPriceListsResponse>;
 export type ErrorMessage = string;
 export type DescribeServicesError =
   | AccessDeniedException
@@ -378,8 +251,10 @@ export const describeServices: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Service
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeServicesRequest,
-  output: DescribeServicesResponse,
+  descriptor: {
+    service: svc,
+    input: { ServiceCode: 0, FormatVersion: 0, NextToken: 0, MaxResults: 0 },
+  },
   errors: [
     AccessDeniedException,
     ExpiredNextTokenException,
@@ -419,8 +294,10 @@ export const getAttributeValues: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AttributeValue
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetAttributeValuesRequest,
-  output: GetAttributeValuesResponse,
+  descriptor: {
+    service: svc,
+    input: { ServiceCode: 0, AttributeName: 0, NextToken: 0, MaxResults: 0 },
+  },
   errors: [
     AccessDeniedException,
     ExpiredNextTokenException,
@@ -460,8 +337,7 @@ export const getPriceListFileUrl: API.OperationMethod<
   GetPriceListFileUrlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPriceListFileUrlRequest,
-  output: GetPriceListFileUrlResponse,
+  descriptor: { service: svc, input: { PriceListArn: 0, FileFormat: 0 } },
   errors: [
     AccessDeniedException,
     InternalErrorException,
@@ -473,7 +349,7 @@ export const getPriceListFileUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPriceListFileUrl",
-}));
+})) as any;
 
 export type GetProductsError =
   | AccessDeniedException
@@ -494,8 +370,16 @@ export const getProducts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SynthesizedJsonPriceListJsonItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetProductsRequest,
-  output: GetProductsResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ServiceCode: 0,
+      Filters: D.list({ Type: 0, Field: 0, Value: 0 }),
+      FormatVersion: 0,
+      NextToken: 0,
+      MaxResults: 0,
+    },
+  },
   errors: [
     AccessDeniedException,
     ExpiredNextTokenException,
@@ -538,8 +422,17 @@ export const listPriceLists: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PriceList
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPriceListsRequest,
-  output: ListPriceListsResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ServiceCode: 0,
+      EffectiveDate: 0,
+      RegionCode: 0,
+      CurrencyCode: 0,
+      NextToken: 0,
+      MaxResults: 0,
+    },
+  },
   errors: [
     AccessDeniedException,
     ExpiredNextTokenException,

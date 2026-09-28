@@ -1,210 +1,157 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Resource Explorer 2",
-  serviceShapeName: "ResourceExplorer",
-});
-const auth = T.AwsAuthSigv4({ name: "resource-explorer-2" });
-const ver = T.ServiceVersion("2022-07-28");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://resource-explorer-2-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://resource-explorer-2-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://resource-explorer-2.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://resource-explorer-2.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "ResourceExplorer",
+  version: "2022-07-28",
+  sigv4: "resource-explorer-2",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://resource-explorer-2-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://resource-explorer-2-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://resource-explorer-2.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://resource-explorer-2.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AccessDeniedException", ["AuthError"], {
+    status: 403,
+  })<{ readonly message?: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(409),
-  ).pipe(C.withConflictError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConflictException", ["ConflictError"], {
+    status: 409,
+  })<{ readonly message: string }> {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly message?: string }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404 },
+  )<{ readonly message?: string }> {}
 export class ServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceQuotaExceededException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      Name: S.String,
-      Value: S.String,
-    },
-    T.HttpError(402),
-  ).pipe(C.withQuotaError) {}
+    ["QuotaError"],
+    { status: 402 },
+  )<{
+    readonly message: string;
+    readonly Name: string;
+    readonly Value: string;
+  }> {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+    ["ThrottlingError"],
+    { status: 429 },
+  )<{ readonly message?: string }> {}
 export class UnauthorizedException
-  extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
-    "UnauthorizedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(401),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("UnauthorizedException", ["AuthError"], {
+    status: 401,
+  })<{ readonly message?: string }> {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ValidationException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      FieldList: S.optional(
-        S.suspend(() => ValidationExceptionFieldList).annotate({
-          identifier: "ValidationExceptionFieldList",
-        }),
-      ),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{
+    readonly message: string;
+    readonly FieldList?: ValidationExceptionField[];
+  }> {}
 export interface AssociateDefaultViewInput {
   ViewArn: string;
 }
-export const AssociateDefaultViewInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ViewArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/AssociateDefaultView" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateDefaultViewInput",
-}) as any as S.Schema<AssociateDefaultViewInput>;
 export interface AssociateDefaultViewOutput {
   ViewArn?: string;
 }
-export const AssociateDefaultViewOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ViewArn: S.optional(S.String) }),
-).annotate({
-  identifier: "AssociateDefaultViewOutput",
-}) as any as S.Schema<AssociateDefaultViewOutput>;
 export type ViewArnList = string[];
-export const ViewArnList = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetViewInput {
   ViewArns?: string[];
 }
-export const BatchGetViewInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ViewArns: S.optional(ViewArnList) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/BatchGetView" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetViewInput",
-}) as any as S.Schema<BatchGetViewInput>;
 export type ViewName = string;
 export interface IncludedProperty {
   Name: string;
 }
-export const IncludedProperty = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "IncludedProperty",
-}) as any as S.Schema<IncludedProperty>;
 export type IncludedPropertyList = IncludedProperty[];
-export const IncludedPropertyList = /*@__PURE__*/ S.Array(IncludedProperty);
 export interface SearchFilter {
   FilterString: string;
 }
-export const SearchFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FilterString: S.String }),
-).annotate({ identifier: "SearchFilter" }) as any as S.Schema<SearchFilter>;
 export interface View {
   ViewArn?: string;
   ViewName?: string;
@@ -214,120 +161,36 @@ export interface View {
   IncludedProperties?: IncludedProperty[];
   Filters?: SearchFilter;
 }
-export const View = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViewArn: S.optional(S.String),
-    ViewName: S.optional(S.String),
-    Owner: S.optional(S.String),
-    LastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Scope: S.optional(S.String),
-    IncludedProperties: S.optional(IncludedPropertyList),
-    Filters: S.optional(SearchFilter),
-  }),
-).annotate({ identifier: "View" }) as any as S.Schema<View>;
 export type ViewList = View[];
-export const ViewList = /*@__PURE__*/ S.Array(View);
 export interface BatchGetViewError_ {
   ViewArn: string;
   ErrorMessage: string;
 }
-export const BatchGetViewError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ViewArn: S.String, ErrorMessage: S.String }),
-).annotate({
-  identifier: "BatchGetViewError",
-}) as any as S.Schema<BatchGetViewError_>;
 export type BatchGetViewErrors = BatchGetViewError_[];
-export const BatchGetViewErrors = /*@__PURE__*/ S.Array(BatchGetViewError_);
 export interface BatchGetViewOutput {
   Views?: View[];
   Errors?: BatchGetViewError_[];
 }
-export const BatchGetViewOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Views: S.optional(ViewList),
-    Errors: S.optional(BatchGetViewErrors),
-  }),
-).annotate({
-  identifier: "BatchGetViewOutput",
-}) as any as S.Schema<BatchGetViewOutput>;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface CreateIndexInput {
   ClientToken?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateIndexInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateIndex" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateIndexInput",
-}) as any as S.Schema<CreateIndexInput>;
 export type IndexState = string;
 export interface CreateIndexOutput {
   Arn?: string;
   State?: string;
   CreatedAt?: Date;
 }
-export const CreateIndexOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    State: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "CreateIndexOutput",
-}) as any as S.Schema<CreateIndexOutput>;
 export type RegionList = string[];
-export const RegionList = /*@__PURE__*/ S.Array(S.String);
 export interface CreateResourceExplorerSetupInput {
   RegionList: string[];
   AggregatorRegions?: string[];
   ViewName: string;
 }
-export const CreateResourceExplorerSetupInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RegionList: RegionList,
-    AggregatorRegions: S.optional(RegionList),
-    ViewName: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateResourceExplorerSetup" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateResourceExplorerSetupInput",
-}) as any as S.Schema<CreateResourceExplorerSetupInput>;
 export interface CreateResourceExplorerSetupOutput {
   TaskId: string;
 }
-export const CreateResourceExplorerSetupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TaskId: S.String }),
-).annotate({
-  identifier: "CreateResourceExplorerSetupOutput",
-}) as any as S.Schema<CreateResourceExplorerSetupOutput>;
 export interface CreateViewInput {
   ClientToken?: string;
   ViewName: string;
@@ -336,219 +199,46 @@ export interface CreateViewInput {
   Filters?: SearchFilter;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateViewInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    ViewName: S.String,
-    IncludedProperties: S.optional(IncludedPropertyList),
-    Scope: S.optional(S.String),
-    Filters: S.optional(SearchFilter),
-    Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateView" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateViewInput",
-}) as any as S.Schema<CreateViewInput>;
 export interface CreateViewOutput {
   View?: View;
 }
-export const CreateViewOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ View: S.optional(View) }),
-).annotate({
-  identifier: "CreateViewOutput",
-}) as any as S.Schema<CreateViewOutput>;
 export interface DeleteIndexInput {
   Arn: string;
 }
-export const DeleteIndexInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteIndex" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteIndexInput",
-}) as any as S.Schema<DeleteIndexInput>;
 export interface DeleteIndexOutput {
   Arn?: string;
   State?: string;
   LastUpdatedAt?: Date;
 }
-export const DeleteIndexOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    State: S.optional(S.String),
-    LastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "DeleteIndexOutput",
-}) as any as S.Schema<DeleteIndexOutput>;
 export interface DeleteResourceExplorerSetupInput {
   RegionList?: string[];
   DeleteInAllRegions?: boolean;
 }
-export const DeleteResourceExplorerSetupInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RegionList: S.optional(RegionList),
-    DeleteInAllRegions: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteResourceExplorerSetup" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteResourceExplorerSetupInput",
-}) as any as S.Schema<DeleteResourceExplorerSetupInput>;
 export interface DeleteResourceExplorerSetupOutput {
   TaskId: string;
 }
-export const DeleteResourceExplorerSetupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TaskId: S.String }),
-).annotate({
-  identifier: "DeleteResourceExplorerSetupOutput",
-}) as any as S.Schema<DeleteResourceExplorerSetupOutput>;
 export interface DeleteViewInput {
   ViewArn: string;
 }
-export const DeleteViewInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ViewArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteView" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteViewInput",
-}) as any as S.Schema<DeleteViewInput>;
 export interface DeleteViewOutput {
   ViewArn?: string;
 }
-export const DeleteViewOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ViewArn: S.optional(S.String) }),
-).annotate({
-  identifier: "DeleteViewOutput",
-}) as any as S.Schema<DeleteViewOutput>;
 export interface DisassociateDefaultViewRequest {}
-export const DisassociateDefaultViewRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DisassociateDefaultView" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisassociateDefaultViewRequest",
-}) as any as S.Schema<DisassociateDefaultViewRequest>;
 export interface DisassociateDefaultViewResponse {}
-export const DisassociateDefaultViewResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisassociateDefaultViewResponse",
-}) as any as S.Schema<DisassociateDefaultViewResponse>;
 export interface GetAccountLevelServiceConfigurationRequest {}
-export const GetAccountLevelServiceConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({}).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/GetAccountLevelServiceConfiguration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetAccountLevelServiceConfigurationRequest",
-  }) as any as S.Schema<GetAccountLevelServiceConfigurationRequest>;
 export type AWSServiceAccessStatus = string;
 export interface OrgConfiguration {
   AWSServiceAccessStatus: string;
   ServiceLinkedRole?: string;
 }
-export const OrgConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AWSServiceAccessStatus: S.String,
-    ServiceLinkedRole: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "OrgConfiguration",
-}) as any as S.Schema<OrgConfiguration>;
 export interface GetAccountLevelServiceConfigurationOutput {
   OrgConfiguration?: OrgConfiguration;
 }
-export const GetAccountLevelServiceConfigurationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ OrgConfiguration: S.optional(OrgConfiguration) }),
-  ).annotate({
-    identifier: "GetAccountLevelServiceConfigurationOutput",
-  }) as any as S.Schema<GetAccountLevelServiceConfigurationOutput>;
 export interface GetDefaultViewRequest {}
-export const GetDefaultViewRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetDefaultView" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDefaultViewRequest",
-}) as any as S.Schema<GetDefaultViewRequest>;
 export interface GetDefaultViewOutput {
   ViewArn?: string;
 }
-export const GetDefaultViewOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ViewArn: S.optional(S.String) }),
-).annotate({
-  identifier: "GetDefaultViewOutput",
-}) as any as S.Schema<GetDefaultViewOutput>;
 export interface GetIndexRequest {}
-export const GetIndexRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetIndex" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetIndexRequest",
-}) as any as S.Schema<GetIndexRequest>;
 export type IndexType = string;
 export interface GetIndexOutput {
   Arn?: string;
@@ -560,39 +250,9 @@ export interface GetIndexOutput {
   LastUpdatedAt?: Date;
   Tags?: { [key: string]: string | undefined };
 }
-export const GetIndexOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Type: S.optional(S.String),
-    State: S.optional(S.String),
-    ReplicatingFrom: S.optional(RegionList),
-    ReplicatingTo: S.optional(RegionList),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Tags: S.optional(TagMap),
-  }),
-).annotate({ identifier: "GetIndexOutput" }) as any as S.Schema<GetIndexOutput>;
 export interface GetManagedViewInput {
   ManagedViewArn: string;
 }
-export const GetManagedViewInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ManagedViewArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetManagedView" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetManagedViewInput",
-}) as any as S.Schema<GetManagedViewInput>;
 export interface ManagedView {
   ManagedViewArn?: string;
   ManagedViewName?: string;
@@ -605,164 +265,52 @@ export interface ManagedView {
   ResourcePolicy?: string;
   Version?: string;
 }
-export const ManagedView = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ManagedViewArn: S.optional(S.String),
-    ManagedViewName: S.optional(S.String),
-    TrustedService: S.optional(S.String),
-    LastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Owner: S.optional(S.String),
-    Scope: S.optional(S.String),
-    IncludedProperties: S.optional(IncludedPropertyList),
-    Filters: S.optional(SearchFilter),
-    ResourcePolicy: S.optional(S.String),
-    Version: S.optional(S.String),
-  }),
-).annotate({ identifier: "ManagedView" }) as any as S.Schema<ManagedView>;
 export interface GetManagedViewOutput {
   ManagedView?: ManagedView;
 }
-export const GetManagedViewOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ManagedView: S.optional(ManagedView) }),
-).annotate({
-  identifier: "GetManagedViewOutput",
-}) as any as S.Schema<GetManagedViewOutput>;
 export interface GetResourceExplorerSetupInput {
   TaskId: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const GetResourceExplorerSetupInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TaskId: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetResourceExplorerSetup" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetResourceExplorerSetupInput",
-}) as any as S.Schema<GetResourceExplorerSetupInput>;
 export type OperationStatus = string;
 export interface Index {
   Region?: string;
   Arn?: string;
   Type?: string;
 }
-export const Index = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Region: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Type: S.optional(S.String),
-  }),
-).annotate({ identifier: "Index" }) as any as S.Schema<Index>;
 export interface ErrorDetails {
   Code?: string;
   Message?: string;
 }
-export const ErrorDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
-).annotate({ identifier: "ErrorDetails" }) as any as S.Schema<ErrorDetails>;
 export interface IndexStatus {
   Status?: string;
   Index?: Index;
   ErrorDetails?: ErrorDetails;
 }
-export const IndexStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: S.optional(S.String),
-    Index: S.optional(Index),
-    ErrorDetails: S.optional(ErrorDetails),
-  }),
-).annotate({ identifier: "IndexStatus" }) as any as S.Schema<IndexStatus>;
 export interface ViewStatus {
   Status?: string;
   View?: View;
   ErrorDetails?: ErrorDetails;
 }
-export const ViewStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: S.optional(S.String),
-    View: S.optional(View),
-    ErrorDetails: S.optional(ErrorDetails),
-  }),
-).annotate({ identifier: "ViewStatus" }) as any as S.Schema<ViewStatus>;
 export interface RegionStatus {
   Region?: string;
   Index?: IndexStatus;
   View?: ViewStatus;
 }
-export const RegionStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Region: S.optional(S.String),
-    Index: S.optional(IndexStatus),
-    View: S.optional(ViewStatus),
-  }),
-).annotate({ identifier: "RegionStatus" }) as any as S.Schema<RegionStatus>;
 export type RegionStatusList = RegionStatus[];
-export const RegionStatusList = /*@__PURE__*/ S.Array(RegionStatus);
 export interface GetResourceExplorerSetupOutput {
   Regions?: RegionStatus[];
   NextToken?: string;
 }
-export const GetResourceExplorerSetupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Regions: S.optional(RegionStatusList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetResourceExplorerSetupOutput",
-}) as any as S.Schema<GetResourceExplorerSetupOutput>;
 export interface GetServiceIndexRequest {}
-export const GetServiceIndexRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetServiceIndex" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetServiceIndexRequest",
-}) as any as S.Schema<GetServiceIndexRequest>;
 export interface GetServiceIndexOutput {
   Arn?: string;
   Type?: string;
 }
-export const GetServiceIndexOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String), Type: S.optional(S.String) }),
-).annotate({
-  identifier: "GetServiceIndexOutput",
-}) as any as S.Schema<GetServiceIndexOutput>;
 export interface GetServiceViewInput {
   ServiceViewArn: string;
 }
-export const GetServiceViewInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServiceViewArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetServiceView" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetServiceViewInput",
-}) as any as S.Schema<GetServiceViewInput>;
 export type ServiceViewName = string;
 export type RecorderType = string;
 export interface ServiceLinkedRecorderInfo {
@@ -770,15 +318,6 @@ export interface ServiceLinkedRecorderInfo {
   RecorderName?: string;
   RecorderType?: string;
 }
-export const ServiceLinkedRecorderInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServicePrincipal: S.optional(S.String),
-    RecorderName: S.optional(S.String),
-    RecorderType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ServiceLinkedRecorderInfo",
-}) as any as S.Schema<ServiceLinkedRecorderInfo>;
 export interface ServiceView {
   ServiceViewArn: string;
   ServiceViewName?: string;
@@ -788,217 +327,67 @@ export interface ServiceView {
   ScopeType?: string;
   ServiceLinkedRecorder?: ServiceLinkedRecorderInfo;
 }
-export const ServiceView = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceViewArn: S.String,
-    ServiceViewName: S.optional(S.String),
-    Filters: S.optional(SearchFilter),
-    IncludedProperties: S.optional(IncludedPropertyList),
-    StreamingAccessForService: S.optional(S.String),
-    ScopeType: S.optional(S.String),
-    ServiceLinkedRecorder: S.optional(ServiceLinkedRecorderInfo),
-  }),
-).annotate({ identifier: "ServiceView" }) as any as S.Schema<ServiceView>;
 export interface GetServiceViewOutput {
   View: ServiceView;
 }
-export const GetServiceViewOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ View: ServiceView }),
-).annotate({
-  identifier: "GetServiceViewOutput",
-}) as any as S.Schema<GetServiceViewOutput>;
 export interface GetViewInput {
   ViewArn: string;
 }
-export const GetViewInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ViewArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetView" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetViewInput" }) as any as S.Schema<GetViewInput>;
 export interface GetViewOutput {
   View?: View;
   Tags?: { [key: string]: string | undefined };
 }
-export const GetViewOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ View: S.optional(View), Tags: S.optional(TagMap) }),
-).annotate({ identifier: "GetViewOutput" }) as any as S.Schema<GetViewOutput>;
 export interface ListIndexesInput {
   Type?: string;
   Regions?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListIndexesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(S.String),
-    Regions: S.optional(RegionList),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListIndexes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListIndexesInput",
-}) as any as S.Schema<ListIndexesInput>;
 export type IndexList = Index[];
-export const IndexList = /*@__PURE__*/ S.Array(Index);
 export interface ListIndexesOutput {
   Indexes?: Index[];
   NextToken?: string;
 }
-export const ListIndexesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Indexes: S.optional(IndexList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListIndexesOutput",
-}) as any as S.Schema<ListIndexesOutput>;
 export type AccountId = string;
 export type AccountIdList = string[];
-export const AccountIdList = /*@__PURE__*/ S.Array(S.String);
 export interface ListIndexesForMembersInput {
   AccountIdList: string[];
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListIndexesForMembersInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountIdList: AccountIdList,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListIndexesForMembers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListIndexesForMembersInput",
-}) as any as S.Schema<ListIndexesForMembersInput>;
 export interface MemberIndex {
   AccountId?: string;
   Region?: string;
   Arn?: string;
   Type?: string;
 }
-export const MemberIndex = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    Region: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Type: S.optional(S.String),
-  }),
-).annotate({ identifier: "MemberIndex" }) as any as S.Schema<MemberIndex>;
 export type MemberIndexList = MemberIndex[];
-export const MemberIndexList = /*@__PURE__*/ S.Array(MemberIndex);
 export interface ListIndexesForMembersOutput {
   Indexes?: MemberIndex[];
   NextToken?: string;
 }
-export const ListIndexesForMembersOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Indexes: S.optional(MemberIndexList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListIndexesForMembersOutput",
-}) as any as S.Schema<ListIndexesForMembersOutput>;
 export interface ListManagedViewsInput {
   MaxResults?: number;
   NextToken?: string;
   ServicePrincipal?: string;
 }
-export const ListManagedViewsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    ServicePrincipal: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListManagedViews" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListManagedViewsInput",
-}) as any as S.Schema<ListManagedViewsInput>;
 export type ManagedViewArnList = string[];
-export const ManagedViewArnList = /*@__PURE__*/ S.Array(S.String);
 export interface ListManagedViewsOutput {
   NextToken?: string;
   ManagedViews?: string[];
 }
-export const ListManagedViewsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ManagedViews: S.optional(ManagedViewArnList),
-  }),
-).annotate({
-  identifier: "ListManagedViewsOutput",
-}) as any as S.Schema<ListManagedViewsOutput>;
 export interface ListResourcesInput {
   Filters?: SearchFilter;
   MaxResults?: number;
   ViewArn?: string;
   NextToken?: string;
 }
-export const ListResourcesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(SearchFilter),
-    MaxResults: S.optional(S.Number),
-    ViewArn: S.optional(S.String),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListResources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListResourcesInput",
-}) as any as S.Schema<ListResourcesInput>;
 export interface ResourceProperty {
   Name?: string;
   LastReportedAt?: Date;
   Data?: any;
 }
-export const ResourceProperty = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    LastReportedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Data: S.optional(S.Any),
-  }),
-).annotate({
-  identifier: "ResourceProperty",
-}) as any as S.Schema<ResourceProperty>;
 export type ResourcePropertyList = ResourceProperty[];
-export const ResourcePropertyList = /*@__PURE__*/ S.Array(ResourceProperty);
 export interface Resource {
   Arn?: string;
   OwningAccountId?: string;
@@ -1009,257 +398,72 @@ export interface Resource {
   LastReportedAt?: Date;
   Properties?: ResourceProperty[];
 }
-export const Resource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    OwningAccountId: S.optional(S.String),
-    Region: S.optional(S.String),
-    ResourceType: S.optional(S.String),
-    Service: S.optional(S.String),
-    CfnResourceType: S.optional(S.String),
-    LastReportedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Properties: S.optional(ResourcePropertyList),
-  }),
-).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type ResourceList = Resource[];
-export const ResourceList = /*@__PURE__*/ S.Array(Resource);
 export interface ListResourcesOutput {
   Resources?: Resource[];
   NextToken?: string;
   ViewArn?: string;
 }
-export const ListResourcesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Resources: S.optional(ResourceList),
-    NextToken: S.optional(S.String),
-    ViewArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListResourcesOutput",
-}) as any as S.Schema<ListResourcesOutput>;
 export interface ListServiceIndexesInput {
   Regions?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListServiceIndexesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Regions: S.optional(RegionList),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListServiceIndexes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListServiceIndexesInput",
-}) as any as S.Schema<ListServiceIndexesInput>;
 export interface ListServiceIndexesOutput {
   Indexes?: Index[];
   NextToken?: string;
 }
-export const ListServiceIndexesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Indexes: S.optional(IndexList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListServiceIndexesOutput",
-}) as any as S.Schema<ListServiceIndexesOutput>;
 export interface ListServiceViewsInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListServiceViewsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListServiceViews" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListServiceViewsInput",
-}) as any as S.Schema<ListServiceViewsInput>;
 export type ServiceViewArnList = string[];
-export const ServiceViewArnList = /*@__PURE__*/ S.Array(S.String);
 export interface ListServiceViewsOutput {
   NextToken?: string;
   ServiceViews?: string[];
 }
-export const ListServiceViewsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ServiceViews: S.optional(ServiceViewArnList),
-  }),
-).annotate({
-  identifier: "ListServiceViewsOutput",
-}) as any as S.Schema<ListServiceViewsOutput>;
 export interface ListStreamingAccessForServicesInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListStreamingAccessForServicesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListStreamingAccessForServices" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListStreamingAccessForServicesInput",
-}) as any as S.Schema<ListStreamingAccessForServicesInput>;
 export interface StreamingAccessDetails {
   ServicePrincipal: string;
   CreatedAt: Date;
 }
-export const StreamingAccessDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServicePrincipal: S.String,
-    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({
-  identifier: "StreamingAccessDetails",
-}) as any as S.Schema<StreamingAccessDetails>;
 export type StreamingAccessDetailsList = StreamingAccessDetails[];
-export const StreamingAccessDetailsList = /*@__PURE__*/ S.Array(
-  StreamingAccessDetails,
-);
 export interface ListStreamingAccessForServicesOutput {
   StreamingAccessForServices: StreamingAccessDetails[];
   NextToken?: string;
 }
-export const ListStreamingAccessForServicesOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      StreamingAccessForServices: StreamingAccessDetailsList,
-      NextToken: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "ListStreamingAccessForServicesOutput",
-}) as any as S.Schema<ListStreamingAccessForServicesOutput>;
 export interface ListSupportedResourceTypesInput {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListSupportedResourceTypesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListSupportedResourceTypes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSupportedResourceTypesInput",
-}) as any as S.Schema<ListSupportedResourceTypesInput>;
 export type CFNResourceTypeList = string[];
-export const CFNResourceTypeList = /*@__PURE__*/ S.Array(S.String);
 export interface SupportedResourceType {
   Service?: string;
   ResourceType?: string;
   CFNResourceTypes?: string[];
 }
-export const SupportedResourceType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Service: S.optional(S.String),
-    ResourceType: S.optional(S.String),
-    CFNResourceTypes: S.optional(CFNResourceTypeList),
-  }),
-).annotate({
-  identifier: "SupportedResourceType",
-}) as any as S.Schema<SupportedResourceType>;
 export type ResourceTypeList = SupportedResourceType[];
-export const ResourceTypeList = /*@__PURE__*/ S.Array(SupportedResourceType);
 export interface ListSupportedResourceTypesOutput {
   ResourceTypes?: SupportedResourceType[];
   NextToken?: string;
 }
-export const ListSupportedResourceTypesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceTypes: S.optional(ResourceTypeList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSupportedResourceTypesOutput",
-}) as any as S.Schema<ListSupportedResourceTypesOutput>;
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
-export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   Tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagMap) }),
-).annotate({
-  identifier: "ListTagsForResourceOutput",
-}) as any as S.Schema<ListTagsForResourceOutput>;
 export interface ListViewsInput {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListViewsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListViews" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "ListViewsInput" }) as any as S.Schema<ListViewsInput>;
 export interface ListViewsOutput {
   Views?: string[];
   NextToken?: string;
 }
-export const ListViewsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Views: S.optional(ViewArnList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListViewsOutput",
-}) as any as S.Schema<ListViewsOutput>;
 export type QueryString = string | redacted.Redacted<string>;
 export interface SearchInput {
   QueryString: string | redacted.Redacted<string>;
@@ -1267,183 +471,50 @@ export interface SearchInput {
   ViewArn?: string;
   NextToken?: string;
 }
-export const SearchInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueryString: SensitiveString,
-    MaxResults: S.optional(S.Number),
-    ViewArn: S.optional(S.String),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/Search" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "SearchInput" }) as any as S.Schema<SearchInput>;
 export interface ResourceCount {
   TotalResources?: number;
   Complete?: boolean;
 }
-export const ResourceCount = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TotalResources: S.optional(S.Number),
-    Complete: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ResourceCount" }) as any as S.Schema<ResourceCount>;
 export interface SearchOutput {
   Resources?: Resource[];
   NextToken?: string;
   ViewArn?: string;
   Count?: ResourceCount;
 }
-export const SearchOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Resources: S.optional(ResourceList),
-    NextToken: S.optional(S.String),
-    ViewArn: S.optional(S.String),
-    Count: S.optional(ResourceCount),
-  }),
-).annotate({ identifier: "SearchOutput" }) as any as S.Schema<SearchOutput>;
 export interface TagResourceInput {
   resourceArn: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceOutput",
-}) as any as S.Schema<TagResourceOutput>;
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceInput {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: StringList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceOutput",
-}) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateIndexTypeInput {
   Arn: string;
   Type: string;
 }
-export const UpdateIndexTypeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String, Type: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UpdateIndexType" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateIndexTypeInput",
-}) as any as S.Schema<UpdateIndexTypeInput>;
 export interface UpdateIndexTypeOutput {
   Arn?: string;
   Type?: string;
   State?: string;
   LastUpdatedAt?: Date;
 }
-export const UpdateIndexTypeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Type: S.optional(S.String),
-    State: S.optional(S.String),
-    LastUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "UpdateIndexTypeOutput",
-}) as any as S.Schema<UpdateIndexTypeOutput>;
 export interface UpdateViewInput {
   ViewArn: string;
   IncludedProperties?: IncludedProperty[];
   Filters?: SearchFilter;
 }
-export const UpdateViewInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViewArn: S.String,
-    IncludedProperties: S.optional(IncludedPropertyList),
-    Filters: S.optional(SearchFilter),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UpdateView" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateViewInput",
-}) as any as S.Schema<UpdateViewInput>;
 export interface UpdateViewOutput {
   View?: View;
 }
-export const UpdateViewOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ View: S.optional(View) }),
-).annotate({
-  identifier: "UpdateViewOutput",
-}) as any as S.Schema<UpdateViewOutput>;
 export interface ValidationExceptionField {
   Name: string;
   ValidationIssue: string;
 }
-export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, ValidationIssue: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
 export type AssociateDefaultViewError =
   | AccessDeniedException
   | InternalServerException
@@ -1462,8 +533,12 @@ export const associateDefaultView: API.OperationMethod<
   AssociateDefaultViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateDefaultViewInput,
-  output: AssociateDefaultViewOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /AssociateDefaultView",
+    input: { ViewArn: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1474,7 +549,7 @@ export const associateDefaultView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDefaultView",
-}));
+})) as any;
 
 export type BatchGetViewError =
   | AccessDeniedException
@@ -1492,8 +567,13 @@ export const batchGetView: API.OperationMethod<
   BatchGetViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetViewInput,
-  output: BatchGetViewOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /BatchGetView",
+    input: { ViewArns: 0 },
+    output: { Views: D.list(o_View) },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1504,7 +584,7 @@ export const batchGetView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetView",
-}));
+})) as any;
 
 export type CreateIndexError =
   | AccessDeniedException
@@ -1542,8 +622,13 @@ export const createIndex: API.OperationMethod<
   CreateIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateIndexInput,
-  output: CreateIndexOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /CreateIndex",
+    input: { ClientToken: D.m({ idempotency: true }), Tags: 0 },
+    output: { CreatedAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1554,7 +639,7 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
-}));
+})) as any;
 
 export type CreateResourceExplorerSetupError =
   | AccessDeniedException
@@ -1572,8 +657,12 @@ export const createResourceExplorerSetup: API.OperationMethod<
   CreateResourceExplorerSetupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateResourceExplorerSetupInput,
-  output: CreateResourceExplorerSetupOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /CreateResourceExplorerSetup",
+    input: { RegionList: 0, AggregatorRegions: 0, ViewName: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1584,7 +673,7 @@ export const createResourceExplorerSetup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceExplorerSetup",
-}));
+})) as any;
 
 export type CreateViewError =
   | AccessDeniedException
@@ -1606,8 +695,20 @@ export const createView: API.OperationMethod<
   CreateViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateViewInput,
-  output: CreateViewOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /CreateView",
+    input: {
+      ClientToken: D.m({ idempotency: true }),
+      ViewName: 0,
+      IncludedProperties: D.list(i_IncludedProperty),
+      Scope: 0,
+      Filters: i_SearchFilter,
+      Tags: 0,
+    },
+    output: { View: o_View },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1620,7 +721,7 @@ export const createView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateView",
-}));
+})) as any;
 
 export type DeleteIndexError =
   | AccessDeniedException
@@ -1640,8 +741,13 @@ export const deleteIndex: API.OperationMethod<
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteIndexInput,
-  output: DeleteIndexOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /DeleteIndex",
+    input: { Arn: 0 },
+    output: { LastUpdatedAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1652,7 +758,7 @@ export const deleteIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
-}));
+})) as any;
 
 export type DeleteResourceExplorerSetupError =
   | AccessDeniedException
@@ -1670,8 +776,12 @@ export const deleteResourceExplorerSetup: API.OperationMethod<
   DeleteResourceExplorerSetupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResourceExplorerSetupInput,
-  output: DeleteResourceExplorerSetupOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /DeleteResourceExplorerSetup",
+    input: { RegionList: 0, DeleteInAllRegions: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1682,7 +792,7 @@ export const deleteResourceExplorerSetup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceExplorerSetup",
-}));
+})) as any;
 
 export type DeleteViewError =
   | AccessDeniedException
@@ -1703,8 +813,12 @@ export const deleteView: API.OperationMethod<
   DeleteViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteViewInput,
-  output: DeleteViewOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /DeleteView",
+    input: { ViewArn: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1716,7 +830,7 @@ export const deleteView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteView",
-}));
+})) as any;
 
 export type DisassociateDefaultViewError =
   | AccessDeniedException
@@ -1736,8 +850,7 @@ export const disassociateDefaultView: API.OperationMethod<
   DisassociateDefaultViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateDefaultViewRequest,
-  output: DisassociateDefaultViewResponse,
+  descriptor: { service: svc, http: "POST /DisassociateDefaultView" },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1748,7 +861,7 @@ export const disassociateDefaultView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDefaultView",
-}));
+})) as any;
 
 export type GetAccountLevelServiceConfigurationError =
   | AccessDeniedException
@@ -1765,8 +878,10 @@ export const getAccountLevelServiceConfiguration: API.OperationMethod<
   GetAccountLevelServiceConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccountLevelServiceConfigurationRequest,
-  output: GetAccountLevelServiceConfigurationOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /GetAccountLevelServiceConfiguration",
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1776,7 +891,7 @@ export const getAccountLevelServiceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountLevelServiceConfiguration",
-}));
+})) as any;
 
 export type GetDefaultViewError =
   | AccessDeniedException
@@ -1794,8 +909,7 @@ export const getDefaultView: API.OperationMethod<
   GetDefaultViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDefaultViewRequest,
-  output: GetDefaultViewOutput,
+  descriptor: { service: svc, http: "POST /GetDefaultView" },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1806,7 +920,7 @@ export const getDefaultView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultView",
-}));
+})) as any;
 
 export type GetIndexError =
   | AccessDeniedException
@@ -1824,8 +938,11 @@ export const getIndex: API.OperationMethod<
   GetIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetIndexRequest,
-  output: GetIndexOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /GetIndex",
+    output: { CreatedAt: D.ts, LastUpdatedAt: D.ts },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1836,7 +953,7 @@ export const getIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
-}));
+})) as any;
 
 export type GetManagedViewError =
   | AccessDeniedException
@@ -1855,8 +972,13 @@ export const getManagedView: API.OperationMethod<
   GetManagedViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetManagedViewInput,
-  output: GetManagedViewOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /GetManagedView",
+    input: { ManagedViewArn: 0 },
+    output: { ManagedView: { LastUpdatedAt: D.ts } },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1868,7 +990,7 @@ export const getManagedView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedView",
-}));
+})) as any;
 
 export type GetResourceExplorerSetupError =
   | AccessDeniedException
@@ -1887,8 +1009,13 @@ export const getResourceExplorerSetup: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RegionStatus
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetResourceExplorerSetupInput,
-  output: GetResourceExplorerSetupOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /GetResourceExplorerSetup",
+    input: { TaskId: 0, MaxResults: 0, NextToken: 0 },
+    output: { Regions: D.list({ View: { View: o_View } }) },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1923,8 +1050,7 @@ export const getServiceIndex: API.OperationMethod<
   GetServiceIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetServiceIndexRequest,
-  output: GetServiceIndexOutput,
+  descriptor: { service: svc, http: "POST /GetServiceIndex" },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1935,7 +1061,7 @@ export const getServiceIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceIndex",
-}));
+})) as any;
 
 export type GetServiceViewError =
   | AccessDeniedException
@@ -1953,8 +1079,12 @@ export const getServiceView: API.OperationMethod<
   GetServiceViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetServiceViewInput,
-  output: GetServiceViewOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /GetServiceView",
+    input: { ServiceViewArn: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1965,7 +1095,7 @@ export const getServiceView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceView",
-}));
+})) as any;
 
 export type GetViewError =
   | AccessDeniedException
@@ -1984,8 +1114,13 @@ export const getView: API.OperationMethod<
   GetViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetViewInput,
-  output: GetViewOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /GetView",
+    input: { ViewArn: 0 },
+    output: { View: o_View },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1997,7 +1132,7 @@ export const getView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetView",
-}));
+})) as any;
 
 export type ListIndexesError =
   | AccessDeniedException
@@ -2015,8 +1150,12 @@ export const listIndexes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Index
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListIndexesInput,
-  output: ListIndexesOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /ListIndexes",
+    input: { Type: 0, Regions: 0, MaxResults: 0, NextToken: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2050,8 +1189,12 @@ export const listIndexesForMembers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MemberIndex
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListIndexesForMembersInput,
-  output: ListIndexesForMembersOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /ListIndexesForMembers",
+    input: { AccountIdList: 0, MaxResults: 0, NextToken: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2086,8 +1229,12 @@ export const listManagedViews: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   string
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListManagedViewsInput,
-  output: ListManagedViewsOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /ListManagedViews",
+    input: { MaxResults: 0, NextToken: 0, ServicePrincipal: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2124,8 +1271,13 @@ export const listResources: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Resource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListResourcesInput,
-  output: ListResourcesOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /ListResources",
+    input: { Filters: i_SearchFilter, MaxResults: 0, ViewArn: 0, NextToken: 0 },
+    output: { Resources: D.list(o_Resource) },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2161,8 +1313,12 @@ export const listServiceIndexes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Index
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListServiceIndexesInput,
-  output: ListServiceIndexesOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /ListServiceIndexes",
+    input: { Regions: 0, MaxResults: 0, NextToken: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2196,8 +1352,12 @@ export const listServiceViews: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   string
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListServiceViewsInput,
-  output: ListServiceViewsOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /ListServiceViews",
+    input: { MaxResults: 0, NextToken: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2230,8 +1390,13 @@ export const listStreamingAccessForServices: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   StreamingAccessDetails
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStreamingAccessForServicesInput,
-  output: ListStreamingAccessForServicesOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /ListStreamingAccessForServices",
+    input: { MaxResults: 0, NextToken: 0 },
+    output: { StreamingAccessForServices: D.list({ CreatedAt: D.ts }) },
+    body: true,
+  },
   errors: [AccessDeniedException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2260,8 +1425,12 @@ export const listSupportedResourceTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SupportedResourceType
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSupportedResourceTypesInput,
-  output: ListSupportedResourceTypesOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /ListSupportedResourceTypes",
+    input: { NextToken: 0, MaxResults: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2296,8 +1465,11 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{resourceArn}",
+    input: { resourceArn: 0 },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2309,7 +1481,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type ListViewsError =
   | AccessDeniedException
@@ -2329,8 +1501,12 @@ export const listViews: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   string
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListViewsInput,
-  output: ListViewsOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /ListViews",
+    input: { NextToken: 0, MaxResults: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2372,8 +1548,13 @@ export const search: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Resource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: SearchInput,
-  output: SearchOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /Search",
+    input: { QueryString: 0, MaxResults: 0, ViewArn: 0, NextToken: 0 },
+    output: { Resources: D.list(o_Resource) },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2410,8 +1591,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{resourceArn}",
+    input: { resourceArn: 0, Tags: 0 },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2423,7 +1608,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | AccessDeniedException
@@ -2442,8 +1627,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{resourceArn}",
+    input: { resourceArn: 0, tagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2455,7 +1643,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateIndexTypeError =
   | AccessDeniedException
@@ -2491,8 +1679,13 @@ export const updateIndexType: API.OperationMethod<
   UpdateIndexTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateIndexTypeInput,
-  output: UpdateIndexTypeOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /UpdateIndexType",
+    input: { Arn: 0, Type: 0 },
+    output: { LastUpdatedAt: D.ts },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2505,7 +1698,7 @@ export const updateIndexType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndexType",
-}));
+})) as any;
 
 export type UpdateViewError =
   | AccessDeniedException
@@ -2524,8 +1717,17 @@ export const updateView: API.OperationMethod<
   UpdateViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateViewInput,
-  output: UpdateViewOutput,
+  descriptor: {
+    service: svc,
+    http: "POST /UpdateView",
+    input: {
+      ViewArn: 0,
+      IncludedProperties: D.list(i_IncludedProperty),
+      Filters: i_SearchFilter,
+    },
+    output: { View: o_View },
+    body: true,
+  },
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2537,4 +1739,12 @@ export const updateView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateView",
-}));
+})) as any;
+
+const i_IncludedProperty: D.LazyStruct = () => ({ Name: 0 });
+const i_SearchFilter: D.LazyStruct = () => ({ FilterString: 0 });
+const o_Resource: D.LazyStruct = () => ({
+  LastReportedAt: D.ts,
+  Properties: D.list({ LastReportedAt: D.ts }),
+});
+const o_View: D.LazyStruct = () => ({ LastUpdatedAt: D.ts });

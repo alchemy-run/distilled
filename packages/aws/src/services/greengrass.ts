@@ -1,257 +1,167 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "Greengrass",
-  serviceShapeName: "Greengrass",
-});
-const auth = T.AwsAuthSigv4({ name: "greengrass" });
-const ver = T.ServiceVersion("2017-06-07");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://greengrass-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            if (Region === "us-gov-east-1") {
-              return e("https://greengrass.us-gov-east-1.amazonaws.com");
-            }
-            if (Region === "us-gov-west-1") {
-              return e("https://greengrass.us-gov-west-1.amazonaws.com");
-            }
-            return e(
-              `https://greengrass-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://greengrass.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        if (Region === "dataplane-us-gov-east-1") {
-          return e(
-            "https://greengrass-ats.iot.us-gov-east-1.amazonaws.com",
-            {
-              authSchemes: [
-                {
-                  name: "sigv4",
-                  signingName: "greengrass",
-                  signingRegion: "us-gov-east-1",
-                },
-              ],
-            },
-            {},
-          );
-        }
-        if (Region === "dataplane-us-gov-west-1") {
-          return e(
-            "https://greengrass-ats.iot.us-gov-west-1.amazonaws.com",
-            {
-              authSchemes: [
-                {
-                  name: "sigv4",
-                  signingName: "greengrass",
-                  signingRegion: "us-gov-west-1",
-                },
-              ],
-            },
-            {},
-          );
-        }
-        return e(
-          `https://greengrass.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "Greengrass",
+  version: "2017-06-07",
+  sigv4: "greengrass",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://greengrass-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              if (Region === "us-gov-east-1") {
+                return e("https://greengrass.us-gov-east-1.amazonaws.com");
+              }
+              if (Region === "us-gov-west-1") {
+                return e("https://greengrass.us-gov-west-1.amazonaws.com");
+              }
+              return e(
+                `https://greengrass-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://greengrass.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          if (Region === "dataplane-us-gov-east-1") {
+            return e(
+              "https://greengrass-ats.iot.us-gov-east-1.amazonaws.com",
+              {
+                authSchemes: [
+                  {
+                    name: "sigv4",
+                    signingName: "greengrass",
+                    signingRegion: "us-gov-east-1",
+                  },
+                ],
+              },
+              {},
+            );
+          }
+          if (Region === "dataplane-us-gov-west-1") {
+            return e(
+              "https://greengrass-ats.iot.us-gov-west-1.amazonaws.com",
+              {
+                authSchemes: [
+                  {
+                    name: "sigv4",
+                    signingName: "greengrass",
+                    signingRegion: "us-gov-west-1",
+                  },
+                ],
+              },
+              {},
+            );
+          }
+          return e(
+            `https://greengrass.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class BadRequestException
-  extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "BadRequestException",
-    {
-      ErrorDetails: S.optional(
-        S.suspend(() => ErrorDetails).annotate({ identifier: "ErrorDetails" }),
-      ),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly ErrorDetails?: ErrorDetail[]; readonly message?: string }> {}
 export class InternalServerErrorException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerErrorException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerErrorException",
-    {
-      ErrorDetails: S.optional(
-        S.suspend(() => ErrorDetails).annotate({ identifier: "ErrorDetails" }),
-      ),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-    T.HttpError(500),
-  ).pipe(C.withServerError) {}
+    ["ServerError"],
+    { status: 500 },
+  )<{ readonly ErrorDetails?: ErrorDetail[]; readonly message?: string }> {}
 export interface AssociateRoleToGroupRequest {
   GroupId: string;
   RoleArn?: string;
 }
-export const AssociateRoleToGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
-    RoleArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/greengrass/groups/{GroupId}/role" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateRoleToGroupRequest",
-}) as any as S.Schema<AssociateRoleToGroupRequest>;
 export interface AssociateRoleToGroupResponse {
   AssociatedAt?: string;
 }
-export const AssociateRoleToGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AssociatedAt: S.optional(S.String) }),
-).annotate({
-  identifier: "AssociateRoleToGroupResponse",
-}) as any as S.Schema<AssociateRoleToGroupResponse>;
 export interface AssociateServiceRoleToAccountRequest {
   RoleArn?: string;
 }
-export const AssociateServiceRoleToAccountRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ RoleArn: S.optional(S.String) }).pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/greengrass/servicerole" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "AssociateServiceRoleToAccountRequest",
-}) as any as S.Schema<AssociateServiceRoleToAccountRequest>;
 export interface AssociateServiceRoleToAccountResponse {
   AssociatedAt?: string;
 }
-export const AssociateServiceRoleToAccountResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ AssociatedAt: S.optional(S.String) }),
-).annotate({
-  identifier: "AssociateServiceRoleToAccountResponse",
-}) as any as S.Schema<AssociateServiceRoleToAccountResponse>;
 export type __mapOf__string = { [key: string]: string | undefined };
-export const __mapOf__string = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface Connector {
   ConnectorArn?: string;
   Id?: string;
   Parameters?: { [key: string]: string | undefined };
 }
-export const Connector = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectorArn: S.optional(S.String),
-    Id: S.optional(S.String),
-    Parameters: S.optional(__mapOf__string),
-  }),
-).annotate({ identifier: "Connector" }) as any as S.Schema<Connector>;
 export type __listOfConnector = Connector[];
-export const __listOfConnector = /*@__PURE__*/ S.Array(Connector);
 export interface ConnectorDefinitionVersion {
   Connectors?: Connector[];
 }
-export const ConnectorDefinitionVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Connectors: S.optional(__listOfConnector) }),
-).annotate({
-  identifier: "ConnectorDefinitionVersion",
-}) as any as S.Schema<ConnectorDefinitionVersion>;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateConnectorDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: ConnectorDefinitionVersion;
   Name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateConnectorDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AmznClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-    ),
-    InitialVersion: S.optional(ConnectorDefinitionVersion),
-    Name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/greengrass/definition/connectors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateConnectorDefinitionRequest",
-}) as any as S.Schema<CreateConnectorDefinitionRequest>;
 export interface CreateConnectorDefinitionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -261,118 +171,33 @@ export interface CreateConnectorDefinitionResponse {
   LatestVersionArn?: string;
   Name?: string;
 }
-export const CreateConnectorDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateConnectorDefinitionResponse",
-}) as any as S.Schema<CreateConnectorDefinitionResponse>;
 export interface CreateConnectorDefinitionVersionRequest {
   AmznClientToken?: string;
   ConnectorDefinitionId: string;
   Connectors?: Connector[];
 }
-export const CreateConnectorDefinitionVersionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AmznClientToken: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-Client-Token"),
-      ),
-      ConnectorDefinitionId: S.String.pipe(
-        T.HttpLabel("ConnectorDefinitionId"),
-      ),
-      Connectors: S.optional(__listOfConnector),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/greengrass/definition/connectors/{ConnectorDefinitionId}/versions",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateConnectorDefinitionVersionRequest",
-}) as any as S.Schema<CreateConnectorDefinitionVersionRequest>;
 export interface CreateConnectorDefinitionVersionResponse {
   Arn?: string;
   CreationTimestamp?: string;
   Id?: string;
   Version?: string;
 }
-export const CreateConnectorDefinitionVersionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Arn: S.optional(S.String),
-      CreationTimestamp: S.optional(S.String),
-      Id: S.optional(S.String),
-      Version: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "CreateConnectorDefinitionVersionResponse",
-}) as any as S.Schema<CreateConnectorDefinitionVersionResponse>;
 export interface Core {
   CertificateArn?: string;
   Id?: string;
   SyncShadow?: boolean;
   ThingArn?: string;
 }
-export const Core = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateArn: S.optional(S.String),
-    Id: S.optional(S.String),
-    SyncShadow: S.optional(S.Boolean),
-    ThingArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Core" }) as any as S.Schema<Core>;
 export type __listOfCore = Core[];
-export const __listOfCore = /*@__PURE__*/ S.Array(Core);
 export interface CoreDefinitionVersion {
   Cores?: Core[];
 }
-export const CoreDefinitionVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Cores: S.optional(__listOfCore) }),
-).annotate({
-  identifier: "CoreDefinitionVersion",
-}) as any as S.Schema<CoreDefinitionVersion>;
 export interface CreateCoreDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: CoreDefinitionVersion;
   Name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateCoreDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AmznClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-    ),
-    InitialVersion: S.optional(CoreDefinitionVersion),
-    Name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/greengrass/definition/cores" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateCoreDefinitionRequest",
-}) as any as S.Schema<CreateCoreDefinitionRequest>;
 export interface CreateCoreDefinitionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -382,71 +207,23 @@ export interface CreateCoreDefinitionResponse {
   LatestVersionArn?: string;
   Name?: string;
 }
-export const CreateCoreDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateCoreDefinitionResponse",
-}) as any as S.Schema<CreateCoreDefinitionResponse>;
 export interface CreateCoreDefinitionVersionRequest {
   AmznClientToken?: string;
   CoreDefinitionId: string;
   Cores?: Core[];
 }
-export const CreateCoreDefinitionVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AmznClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-    ),
-    CoreDefinitionId: S.String.pipe(T.HttpLabel("CoreDefinitionId")),
-    Cores: S.optional(__listOfCore),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/greengrass/definition/cores/{CoreDefinitionId}/versions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateCoreDefinitionVersionRequest",
-}) as any as S.Schema<CreateCoreDefinitionVersionRequest>;
 export interface CreateCoreDefinitionVersionResponse {
   Arn?: string;
   CreationTimestamp?: string;
   Id?: string;
   Version?: string;
 }
-export const CreateCoreDefinitionVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    Version: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateCoreDefinitionVersionResponse",
-}) as any as S.Schema<CreateCoreDefinitionVersionResponse>;
 export type DeploymentType =
   | "NewDeployment"
   | "Redeployment"
   | "ResetDeployment"
   | "ForceResetDeployment"
   | (string & {});
-export const DeploymentType = S.String;
-
 export interface CreateDeploymentRequest {
   AmznClientToken?: string;
   DeploymentId?: string;
@@ -454,94 +231,26 @@ export interface CreateDeploymentRequest {
   GroupId: string;
   GroupVersionId?: string;
 }
-export const CreateDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AmznClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-    ),
-    DeploymentId: S.optional(S.String),
-    DeploymentType: S.optional(DeploymentType),
-    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
-    GroupVersionId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/greengrass/groups/{GroupId}/deployments",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDeploymentRequest",
-}) as any as S.Schema<CreateDeploymentRequest>;
 export interface CreateDeploymentResponse {
   DeploymentArn?: string;
   DeploymentId?: string;
 }
-export const CreateDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeploymentArn: S.optional(S.String),
-    DeploymentId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateDeploymentResponse",
-}) as any as S.Schema<CreateDeploymentResponse>;
 export interface Device {
   CertificateArn?: string;
   Id?: string;
   SyncShadow?: boolean;
   ThingArn?: string;
 }
-export const Device = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateArn: S.optional(S.String),
-    Id: S.optional(S.String),
-    SyncShadow: S.optional(S.Boolean),
-    ThingArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Device" }) as any as S.Schema<Device>;
 export type __listOfDevice = Device[];
-export const __listOfDevice = /*@__PURE__*/ S.Array(Device);
 export interface DeviceDefinitionVersion {
   Devices?: Device[];
 }
-export const DeviceDefinitionVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Devices: S.optional(__listOfDevice) }),
-).annotate({
-  identifier: "DeviceDefinitionVersion",
-}) as any as S.Schema<DeviceDefinitionVersion>;
 export interface CreateDeviceDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: DeviceDefinitionVersion;
   Name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateDeviceDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AmznClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-    ),
-    InitialVersion: S.optional(DeviceDefinitionVersion),
-    Name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/greengrass/definition/devices" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDeviceDefinitionRequest",
-}) as any as S.Schema<CreateDeviceDefinitionRequest>;
 export interface CreateDeviceDefinitionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -551,149 +260,49 @@ export interface CreateDeviceDefinitionResponse {
   LatestVersionArn?: string;
   Name?: string;
 }
-export const CreateDeviceDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateDeviceDefinitionResponse",
-}) as any as S.Schema<CreateDeviceDefinitionResponse>;
 export interface CreateDeviceDefinitionVersionRequest {
   AmznClientToken?: string;
   DeviceDefinitionId: string;
   Devices?: Device[];
 }
-export const CreateDeviceDefinitionVersionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AmznClientToken: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-Client-Token"),
-      ),
-      DeviceDefinitionId: S.String.pipe(T.HttpLabel("DeviceDefinitionId")),
-      Devices: S.optional(__listOfDevice),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/greengrass/definition/devices/{DeviceDefinitionId}/versions",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateDeviceDefinitionVersionRequest",
-}) as any as S.Schema<CreateDeviceDefinitionVersionRequest>;
 export interface CreateDeviceDefinitionVersionResponse {
   Arn?: string;
   CreationTimestamp?: string;
   Id?: string;
   Version?: string;
 }
-export const CreateDeviceDefinitionVersionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Arn: S.optional(S.String),
-      CreationTimestamp: S.optional(S.String),
-      Id: S.optional(S.String),
-      Version: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "CreateDeviceDefinitionVersionResponse",
-}) as any as S.Schema<CreateDeviceDefinitionVersionResponse>;
 export type FunctionIsolationMode =
   | "GreengrassContainer"
   | "NoContainer"
   | (string & {});
-export const FunctionIsolationMode = S.String;
-
 export interface FunctionRunAsConfig {
   Gid?: number;
   Uid?: number;
 }
-export const FunctionRunAsConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Gid: S.optional(S.Number), Uid: S.optional(S.Number) }),
-).annotate({
-  identifier: "FunctionRunAsConfig",
-}) as any as S.Schema<FunctionRunAsConfig>;
 export interface FunctionDefaultExecutionConfig {
   IsolationMode?: FunctionIsolationMode;
   RunAs?: FunctionRunAsConfig;
 }
-export const FunctionDefaultExecutionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IsolationMode: S.optional(FunctionIsolationMode),
-    RunAs: S.optional(FunctionRunAsConfig),
-  }),
-).annotate({
-  identifier: "FunctionDefaultExecutionConfig",
-}) as any as S.Schema<FunctionDefaultExecutionConfig>;
 export interface FunctionDefaultConfig {
   Execution?: FunctionDefaultExecutionConfig;
 }
-export const FunctionDefaultConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Execution: S.optional(FunctionDefaultExecutionConfig) }),
-).annotate({
-  identifier: "FunctionDefaultConfig",
-}) as any as S.Schema<FunctionDefaultConfig>;
 export type EncodingType = "binary" | "json" | (string & {});
-export const EncodingType = S.String;
-
 export interface FunctionExecutionConfig {
   IsolationMode?: FunctionIsolationMode;
   RunAs?: FunctionRunAsConfig;
 }
-export const FunctionExecutionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IsolationMode: S.optional(FunctionIsolationMode),
-    RunAs: S.optional(FunctionRunAsConfig),
-  }),
-).annotate({
-  identifier: "FunctionExecutionConfig",
-}) as any as S.Schema<FunctionExecutionConfig>;
 export type Permission = "ro" | "rw" | (string & {});
-export const Permission = S.String;
-
 export interface ResourceAccessPolicy {
   Permission?: Permission;
   ResourceId?: string;
 }
-export const ResourceAccessPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Permission: S.optional(Permission),
-    ResourceId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ResourceAccessPolicy",
-}) as any as S.Schema<ResourceAccessPolicy>;
 export type __listOfResourceAccessPolicy = ResourceAccessPolicy[];
-export const __listOfResourceAccessPolicy =
-  /*@__PURE__*/ S.Array(ResourceAccessPolicy);
 export interface FunctionConfigurationEnvironment {
   AccessSysfs?: boolean;
   Execution?: FunctionExecutionConfig;
   ResourceAccessPolicies?: ResourceAccessPolicy[];
   Variables?: { [key: string]: string | undefined };
 }
-export const FunctionConfigurationEnvironment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessSysfs: S.optional(S.Boolean),
-    Execution: S.optional(FunctionExecutionConfig),
-    ResourceAccessPolicies: S.optional(__listOfResourceAccessPolicy),
-    Variables: S.optional(__mapOf__string),
-  }),
-).annotate({
-  identifier: "FunctionConfigurationEnvironment",
-}) as any as S.Schema<FunctionConfigurationEnvironment>;
 export interface FunctionConfiguration {
   EncodingType?: EncodingType;
   Environment?: FunctionConfigurationEnvironment;
@@ -704,73 +313,22 @@ export interface FunctionConfiguration {
   Timeout?: number;
   FunctionRuntimeOverride?: string;
 }
-export const FunctionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EncodingType: S.optional(EncodingType),
-    Environment: S.optional(FunctionConfigurationEnvironment),
-    ExecArgs: S.optional(S.String),
-    Executable: S.optional(S.String),
-    MemorySize: S.optional(S.Number),
-    Pinned: S.optional(S.Boolean),
-    Timeout: S.optional(S.Number),
-    FunctionRuntimeOverride: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FunctionConfiguration",
-}) as any as S.Schema<FunctionConfiguration>;
 export interface Function {
   FunctionArn?: string;
   FunctionConfiguration?: FunctionConfiguration;
   Id?: string;
 }
-export const Function = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FunctionArn: S.optional(S.String),
-    FunctionConfiguration: S.optional(FunctionConfiguration),
-    Id: S.optional(S.String),
-  }),
-).annotate({ identifier: "Function" }) as any as S.Schema<Function>;
 export type __listOfFunction = Function[];
-export const __listOfFunction = /*@__PURE__*/ S.Array(Function);
 export interface FunctionDefinitionVersion {
   DefaultConfig?: FunctionDefaultConfig;
   Functions?: Function[];
 }
-export const FunctionDefinitionVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DefaultConfig: S.optional(FunctionDefaultConfig),
-    Functions: S.optional(__listOfFunction),
-  }),
-).annotate({
-  identifier: "FunctionDefinitionVersion",
-}) as any as S.Schema<FunctionDefinitionVersion>;
 export interface CreateFunctionDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: FunctionDefinitionVersion;
   Name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateFunctionDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AmznClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-    ),
-    InitialVersion: S.optional(FunctionDefinitionVersion),
-    Name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/greengrass/definition/functions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateFunctionDefinitionRequest",
-}) as any as S.Schema<CreateFunctionDefinitionRequest>;
 export interface CreateFunctionDefinitionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -780,67 +338,18 @@ export interface CreateFunctionDefinitionResponse {
   LatestVersionArn?: string;
   Name?: string;
 }
-export const CreateFunctionDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateFunctionDefinitionResponse",
-}) as any as S.Schema<CreateFunctionDefinitionResponse>;
 export interface CreateFunctionDefinitionVersionRequest {
   AmznClientToken?: string;
   DefaultConfig?: FunctionDefaultConfig;
   FunctionDefinitionId: string;
   Functions?: Function[];
 }
-export const CreateFunctionDefinitionVersionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AmznClientToken: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-Client-Token"),
-      ),
-      DefaultConfig: S.optional(FunctionDefaultConfig),
-      FunctionDefinitionId: S.String.pipe(T.HttpLabel("FunctionDefinitionId")),
-      Functions: S.optional(__listOfFunction),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/greengrass/definition/functions/{FunctionDefinitionId}/versions",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateFunctionDefinitionVersionRequest",
-}) as any as S.Schema<CreateFunctionDefinitionVersionRequest>;
 export interface CreateFunctionDefinitionVersionResponse {
   Arn?: string;
   CreationTimestamp?: string;
   Id?: string;
   Version?: string;
 }
-export const CreateFunctionDefinitionVersionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Arn: S.optional(S.String),
-      CreationTimestamp: S.optional(S.String),
-      Id: S.optional(S.String),
-      Version: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "CreateFunctionDefinitionVersionResponse",
-}) as any as S.Schema<CreateFunctionDefinitionVersionResponse>;
 export interface GroupVersion {
   ConnectorDefinitionVersionArn?: string;
   CoreDefinitionVersionArn?: string;
@@ -850,44 +359,12 @@ export interface GroupVersion {
   ResourceDefinitionVersionArn?: string;
   SubscriptionDefinitionVersionArn?: string;
 }
-export const GroupVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectorDefinitionVersionArn: S.optional(S.String),
-    CoreDefinitionVersionArn: S.optional(S.String),
-    DeviceDefinitionVersionArn: S.optional(S.String),
-    FunctionDefinitionVersionArn: S.optional(S.String),
-    LoggerDefinitionVersionArn: S.optional(S.String),
-    ResourceDefinitionVersionArn: S.optional(S.String),
-    SubscriptionDefinitionVersionArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "GroupVersion" }) as any as S.Schema<GroupVersion>;
 export interface CreateGroupRequest {
   AmznClientToken?: string;
   InitialVersion?: GroupVersion;
   Name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AmznClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-    ),
-    InitialVersion: S.optional(GroupVersion),
-    Name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/greengrass/groups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateGroupRequest",
-}) as any as S.Schema<CreateGroupRequest>;
 export interface CreateGroupResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -897,54 +374,13 @@ export interface CreateGroupResponse {
   LatestVersionArn?: string;
   Name?: string;
 }
-export const CreateGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateGroupResponse",
-}) as any as S.Schema<CreateGroupResponse>;
 export interface CreateGroupCertificateAuthorityRequest {
   AmznClientToken?: string;
   GroupId: string;
 }
-export const CreateGroupCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AmznClientToken: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-Client-Token"),
-      ),
-      GroupId: S.String.pipe(T.HttpLabel("GroupId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/greengrass/groups/{GroupId}/certificateauthorities",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateGroupCertificateAuthorityRequest",
-}) as any as S.Schema<CreateGroupCertificateAuthorityRequest>;
 export interface CreateGroupCertificateAuthorityResponse {
   GroupCertificateAuthorityArn?: string;
 }
-export const CreateGroupCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ GroupCertificateAuthorityArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateGroupCertificateAuthorityResponse",
-}) as any as S.Schema<CreateGroupCertificateAuthorityResponse>;
 export interface CreateGroupVersionRequest {
   AmznClientToken?: string;
   ConnectorDefinitionVersionArn?: string;
@@ -956,51 +392,13 @@ export interface CreateGroupVersionRequest {
   ResourceDefinitionVersionArn?: string;
   SubscriptionDefinitionVersionArn?: string;
 }
-export const CreateGroupVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AmznClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-    ),
-    ConnectorDefinitionVersionArn: S.optional(S.String),
-    CoreDefinitionVersionArn: S.optional(S.String),
-    DeviceDefinitionVersionArn: S.optional(S.String),
-    FunctionDefinitionVersionArn: S.optional(S.String),
-    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
-    LoggerDefinitionVersionArn: S.optional(S.String),
-    ResourceDefinitionVersionArn: S.optional(S.String),
-    SubscriptionDefinitionVersionArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/greengrass/groups/{GroupId}/versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateGroupVersionRequest",
-}) as any as S.Schema<CreateGroupVersionRequest>;
 export interface CreateGroupVersionResponse {
   Arn?: string;
   CreationTimestamp?: string;
   Id?: string;
   Version?: string;
 }
-export const CreateGroupVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    Version: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateGroupVersionResponse",
-}) as any as S.Schema<CreateGroupVersionResponse>;
 export type LoggerComponent = "GreengrassSystem" | "Lambda" | (string & {});
-export const LoggerComponent = S.String;
-
 export type LoggerLevel =
   | "DEBUG"
   | "INFO"
@@ -1008,11 +406,7 @@ export type LoggerLevel =
   | "ERROR"
   | "FATAL"
   | (string & {});
-export const LoggerLevel = S.String;
-
 export type LoggerType = "FileSystem" | "AWSCloudWatch" | (string & {});
-export const LoggerType = S.String;
-
 export interface Logger {
   Component?: LoggerComponent;
   Id?: string;
@@ -1020,52 +414,16 @@ export interface Logger {
   Space?: number;
   Type?: LoggerType;
 }
-export const Logger = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Component: S.optional(LoggerComponent),
-    Id: S.optional(S.String),
-    Level: S.optional(LoggerLevel),
-    Space: S.optional(S.Number),
-    Type: S.optional(LoggerType),
-  }),
-).annotate({ identifier: "Logger" }) as any as S.Schema<Logger>;
 export type __listOfLogger = Logger[];
-export const __listOfLogger = /*@__PURE__*/ S.Array(Logger);
 export interface LoggerDefinitionVersion {
   Loggers?: Logger[];
 }
-export const LoggerDefinitionVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Loggers: S.optional(__listOfLogger) }),
-).annotate({
-  identifier: "LoggerDefinitionVersion",
-}) as any as S.Schema<LoggerDefinitionVersion>;
 export interface CreateLoggerDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: LoggerDefinitionVersion;
   Name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateLoggerDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AmznClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-    ),
-    InitialVersion: S.optional(LoggerDefinitionVersion),
-    Name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/greengrass/definition/loggers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateLoggerDefinitionRequest",
-}) as any as S.Schema<CreateLoggerDefinitionRequest>;
 export interface CreateLoggerDefinitionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -1075,158 +433,49 @@ export interface CreateLoggerDefinitionResponse {
   LatestVersionArn?: string;
   Name?: string;
 }
-export const CreateLoggerDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateLoggerDefinitionResponse",
-}) as any as S.Schema<CreateLoggerDefinitionResponse>;
 export interface CreateLoggerDefinitionVersionRequest {
   AmznClientToken?: string;
   LoggerDefinitionId: string;
   Loggers?: Logger[];
 }
-export const CreateLoggerDefinitionVersionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AmznClientToken: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-Client-Token"),
-      ),
-      LoggerDefinitionId: S.String.pipe(T.HttpLabel("LoggerDefinitionId")),
-      Loggers: S.optional(__listOfLogger),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/greengrass/definition/loggers/{LoggerDefinitionId}/versions",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateLoggerDefinitionVersionRequest",
-}) as any as S.Schema<CreateLoggerDefinitionVersionRequest>;
 export interface CreateLoggerDefinitionVersionResponse {
   Arn?: string;
   CreationTimestamp?: string;
   Id?: string;
   Version?: string;
 }
-export const CreateLoggerDefinitionVersionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Arn: S.optional(S.String),
-      CreationTimestamp: S.optional(S.String),
-      Id: S.optional(S.String),
-      Version: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "CreateLoggerDefinitionVersionResponse",
-}) as any as S.Schema<CreateLoggerDefinitionVersionResponse>;
 export interface GroupOwnerSetting {
   AutoAddGroupOwner?: boolean;
   GroupOwner?: string;
 }
-export const GroupOwnerSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AutoAddGroupOwner: S.optional(S.Boolean),
-    GroupOwner: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GroupOwnerSetting",
-}) as any as S.Schema<GroupOwnerSetting>;
 export interface LocalDeviceResourceData {
   GroupOwnerSetting?: GroupOwnerSetting;
   SourcePath?: string;
 }
-export const LocalDeviceResourceData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupOwnerSetting: S.optional(GroupOwnerSetting),
-    SourcePath: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LocalDeviceResourceData",
-}) as any as S.Schema<LocalDeviceResourceData>;
 export interface LocalVolumeResourceData {
   DestinationPath?: string;
   GroupOwnerSetting?: GroupOwnerSetting;
   SourcePath?: string;
 }
-export const LocalVolumeResourceData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DestinationPath: S.optional(S.String),
-    GroupOwnerSetting: S.optional(GroupOwnerSetting),
-    SourcePath: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LocalVolumeResourceData",
-}) as any as S.Schema<LocalVolumeResourceData>;
 export interface ResourceDownloadOwnerSetting {
   GroupOwner?: string;
   GroupPermission?: Permission;
 }
-export const ResourceDownloadOwnerSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupOwner: S.optional(S.String),
-    GroupPermission: S.optional(Permission),
-  }),
-).annotate({
-  identifier: "ResourceDownloadOwnerSetting",
-}) as any as S.Schema<ResourceDownloadOwnerSetting>;
 export interface S3MachineLearningModelResourceData {
   DestinationPath?: string;
   OwnerSetting?: ResourceDownloadOwnerSetting;
   S3Uri?: string;
 }
-export const S3MachineLearningModelResourceData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DestinationPath: S.optional(S.String),
-    OwnerSetting: S.optional(ResourceDownloadOwnerSetting),
-    S3Uri: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "S3MachineLearningModelResourceData",
-}) as any as S.Schema<S3MachineLearningModelResourceData>;
 export interface SageMakerMachineLearningModelResourceData {
   DestinationPath?: string;
   OwnerSetting?: ResourceDownloadOwnerSetting;
   SageMakerJobArn?: string;
 }
-export const SageMakerMachineLearningModelResourceData =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DestinationPath: S.optional(S.String),
-      OwnerSetting: S.optional(ResourceDownloadOwnerSetting),
-      SageMakerJobArn: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "SageMakerMachineLearningModelResourceData",
-  }) as any as S.Schema<SageMakerMachineLearningModelResourceData>;
 export type __listOf__string = string[];
-export const __listOf__string = /*@__PURE__*/ S.Array(S.String);
 export interface SecretsManagerSecretResourceData {
   ARN?: string;
   AdditionalStagingLabelsToDownload?: string[];
 }
-export const SecretsManagerSecretResourceData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ARN: S.optional(S.String),
-    AdditionalStagingLabelsToDownload: S.optional(__listOf__string),
-  }),
-).annotate({
-  identifier: "SecretsManagerSecretResourceData",
-}) as any as S.Schema<SecretsManagerSecretResourceData>;
 export interface ResourceDataContainer {
   LocalDeviceResourceData?: LocalDeviceResourceData;
   LocalVolumeResourceData?: LocalVolumeResourceData;
@@ -1234,72 +483,21 @@ export interface ResourceDataContainer {
   SageMakerMachineLearningModelResourceData?: SageMakerMachineLearningModelResourceData;
   SecretsManagerSecretResourceData?: SecretsManagerSecretResourceData;
 }
-export const ResourceDataContainer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LocalDeviceResourceData: S.optional(LocalDeviceResourceData),
-    LocalVolumeResourceData: S.optional(LocalVolumeResourceData),
-    S3MachineLearningModelResourceData: S.optional(
-      S3MachineLearningModelResourceData,
-    ),
-    SageMakerMachineLearningModelResourceData: S.optional(
-      SageMakerMachineLearningModelResourceData,
-    ),
-    SecretsManagerSecretResourceData: S.optional(
-      SecretsManagerSecretResourceData,
-    ),
-  }),
-).annotate({
-  identifier: "ResourceDataContainer",
-}) as any as S.Schema<ResourceDataContainer>;
 export interface Resource {
   Id?: string;
   Name?: string;
   ResourceDataContainer?: ResourceDataContainer;
 }
-export const Resource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    ResourceDataContainer: S.optional(ResourceDataContainer),
-  }),
-).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type __listOfResource = Resource[];
-export const __listOfResource = /*@__PURE__*/ S.Array(Resource);
 export interface ResourceDefinitionVersion {
   Resources?: Resource[];
 }
-export const ResourceDefinitionVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Resources: S.optional(__listOfResource) }),
-).annotate({
-  identifier: "ResourceDefinitionVersion",
-}) as any as S.Schema<ResourceDefinitionVersion>;
 export interface CreateResourceDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: ResourceDefinitionVersion;
   Name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateResourceDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AmznClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-    ),
-    InitialVersion: S.optional(ResourceDefinitionVersion),
-    Name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/greengrass/definition/resources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateResourceDefinitionRequest",
-}) as any as S.Schema<CreateResourceDefinitionRequest>;
 export interface CreateResourceDefinitionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -1309,69 +507,19 @@ export interface CreateResourceDefinitionResponse {
   LatestVersionArn?: string;
   Name?: string;
 }
-export const CreateResourceDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateResourceDefinitionResponse",
-}) as any as S.Schema<CreateResourceDefinitionResponse>;
 export interface CreateResourceDefinitionVersionRequest {
   AmznClientToken?: string;
   ResourceDefinitionId: string;
   Resources?: Resource[];
 }
-export const CreateResourceDefinitionVersionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AmznClientToken: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-Client-Token"),
-      ),
-      ResourceDefinitionId: S.String.pipe(T.HttpLabel("ResourceDefinitionId")),
-      Resources: S.optional(__listOfResource),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/greengrass/definition/resources/{ResourceDefinitionId}/versions",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateResourceDefinitionVersionRequest",
-}) as any as S.Schema<CreateResourceDefinitionVersionRequest>;
 export interface CreateResourceDefinitionVersionResponse {
   Arn?: string;
   CreationTimestamp?: string;
   Id?: string;
   Version?: string;
 }
-export const CreateResourceDefinitionVersionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Arn: S.optional(S.String),
-      CreationTimestamp: S.optional(S.String),
-      Id: S.optional(S.String),
-      Version: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "CreateResourceDefinitionVersionResponse",
-}) as any as S.Schema<CreateResourceDefinitionVersionResponse>;
 export type S3UrlSignerRole = string;
 export type SoftwareToUpdate = "core" | "ota_agent" | (string & {});
-export const SoftwareToUpdate = S.String;
-
 export type UpdateAgentLogLevel =
   | "NONE"
   | "TRACE"
@@ -1382,26 +530,19 @@ export type UpdateAgentLogLevel =
   | "ERROR"
   | "FATAL"
   | (string & {});
-export const UpdateAgentLogLevel = S.String;
-
 export type UpdateTargets = string[];
-export const UpdateTargets = /*@__PURE__*/ S.Array(S.String);
 export type UpdateTargetsArchitecture =
   | "armv6l"
   | "armv7l"
   | "x86_64"
   | "aarch64"
   | (string & {});
-export const UpdateTargetsArchitecture = S.String;
-
 export type UpdateTargetsOperatingSystem =
   | "ubuntu"
   | "raspbian"
   | "amazon_linux"
   | "openwrt"
   | (string & {});
-export const UpdateTargetsOperatingSystem = S.String;
-
 export interface CreateSoftwareUpdateJobRequest {
   AmznClientToken?: string;
   S3UrlSignerRole?: string;
@@ -1411,95 +552,27 @@ export interface CreateSoftwareUpdateJobRequest {
   UpdateTargetsArchitecture?: UpdateTargetsArchitecture;
   UpdateTargetsOperatingSystem?: UpdateTargetsOperatingSystem;
 }
-export const CreateSoftwareUpdateJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AmznClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-    ),
-    S3UrlSignerRole: S.optional(S.String),
-    SoftwareToUpdate: S.optional(SoftwareToUpdate),
-    UpdateAgentLogLevel: S.optional(UpdateAgentLogLevel),
-    UpdateTargets: S.optional(UpdateTargets),
-    UpdateTargetsArchitecture: S.optional(UpdateTargetsArchitecture),
-    UpdateTargetsOperatingSystem: S.optional(UpdateTargetsOperatingSystem),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/greengrass/updates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateSoftwareUpdateJobRequest",
-}) as any as S.Schema<CreateSoftwareUpdateJobRequest>;
 export interface CreateSoftwareUpdateJobResponse {
   IotJobArn?: string;
   IotJobId?: string;
   PlatformSoftwareVersion?: string;
 }
-export const CreateSoftwareUpdateJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IotJobArn: S.optional(S.String),
-    IotJobId: S.optional(S.String),
-    PlatformSoftwareVersion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateSoftwareUpdateJobResponse",
-}) as any as S.Schema<CreateSoftwareUpdateJobResponse>;
 export interface Subscription {
   Id?: string;
   Source?: string;
   Subject?: string;
   Target?: string;
 }
-export const Subscription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Source: S.optional(S.String),
-    Subject: S.optional(S.String),
-    Target: S.optional(S.String),
-  }),
-).annotate({ identifier: "Subscription" }) as any as S.Schema<Subscription>;
 export type __listOfSubscription = Subscription[];
-export const __listOfSubscription = /*@__PURE__*/ S.Array(Subscription);
 export interface SubscriptionDefinitionVersion {
   Subscriptions?: Subscription[];
 }
-export const SubscriptionDefinitionVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Subscriptions: S.optional(__listOfSubscription) }),
-).annotate({
-  identifier: "SubscriptionDefinitionVersion",
-}) as any as S.Schema<SubscriptionDefinitionVersion>;
 export interface CreateSubscriptionDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: SubscriptionDefinitionVersion;
   Name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateSubscriptionDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AmznClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-    ),
-    InitialVersion: S.optional(SubscriptionDefinitionVersion),
-    Name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/greengrass/definition/subscriptions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateSubscriptionDefinitionRequest",
-}) as any as S.Schema<CreateSubscriptionDefinitionRequest>;
 export interface CreateSubscriptionDefinitionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -1509,404 +582,74 @@ export interface CreateSubscriptionDefinitionResponse {
   LatestVersionArn?: string;
   Name?: string;
 }
-export const CreateSubscriptionDefinitionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Arn: S.optional(S.String),
-      CreationTimestamp: S.optional(S.String),
-      Id: S.optional(S.String),
-      LastUpdatedTimestamp: S.optional(S.String),
-      LatestVersion: S.optional(S.String),
-      LatestVersionArn: S.optional(S.String),
-      Name: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "CreateSubscriptionDefinitionResponse",
-}) as any as S.Schema<CreateSubscriptionDefinitionResponse>;
 export interface CreateSubscriptionDefinitionVersionRequest {
   AmznClientToken?: string;
   SubscriptionDefinitionId: string;
   Subscriptions?: Subscription[];
 }
-export const CreateSubscriptionDefinitionVersionRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AmznClientToken: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-Client-Token"),
-      ),
-      SubscriptionDefinitionId: S.String.pipe(
-        T.HttpLabel("SubscriptionDefinitionId"),
-      ),
-      Subscriptions: S.optional(__listOfSubscription),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "CreateSubscriptionDefinitionVersionRequest",
-  }) as any as S.Schema<CreateSubscriptionDefinitionVersionRequest>;
 export interface CreateSubscriptionDefinitionVersionResponse {
   Arn?: string;
   CreationTimestamp?: string;
   Id?: string;
   Version?: string;
 }
-export const CreateSubscriptionDefinitionVersionResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Arn: S.optional(S.String),
-      CreationTimestamp: S.optional(S.String),
-      Id: S.optional(S.String),
-      Version: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "CreateSubscriptionDefinitionVersionResponse",
-  }) as any as S.Schema<CreateSubscriptionDefinitionVersionResponse>;
 export interface DeleteConnectorDefinitionRequest {
   ConnectorDefinitionId: string;
 }
-export const DeleteConnectorDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectorDefinitionId: S.String.pipe(T.HttpLabel("ConnectorDefinitionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/greengrass/definition/connectors/{ConnectorDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteConnectorDefinitionRequest",
-}) as any as S.Schema<DeleteConnectorDefinitionRequest>;
 export interface DeleteConnectorDefinitionResponse {}
-export const DeleteConnectorDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteConnectorDefinitionResponse",
-}) as any as S.Schema<DeleteConnectorDefinitionResponse>;
 export interface DeleteCoreDefinitionRequest {
   CoreDefinitionId: string;
 }
-export const DeleteCoreDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CoreDefinitionId: S.String.pipe(T.HttpLabel("CoreDefinitionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/greengrass/definition/cores/{CoreDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteCoreDefinitionRequest",
-}) as any as S.Schema<DeleteCoreDefinitionRequest>;
 export interface DeleteCoreDefinitionResponse {}
-export const DeleteCoreDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteCoreDefinitionResponse",
-}) as any as S.Schema<DeleteCoreDefinitionResponse>;
 export interface DeleteDeviceDefinitionRequest {
   DeviceDefinitionId: string;
 }
-export const DeleteDeviceDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeviceDefinitionId: S.String.pipe(T.HttpLabel("DeviceDefinitionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/greengrass/definition/devices/{DeviceDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDeviceDefinitionRequest",
-}) as any as S.Schema<DeleteDeviceDefinitionRequest>;
 export interface DeleteDeviceDefinitionResponse {}
-export const DeleteDeviceDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteDeviceDefinitionResponse",
-}) as any as S.Schema<DeleteDeviceDefinitionResponse>;
 export interface DeleteFunctionDefinitionRequest {
   FunctionDefinitionId: string;
 }
-export const DeleteFunctionDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FunctionDefinitionId: S.String.pipe(T.HttpLabel("FunctionDefinitionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/greengrass/definition/functions/{FunctionDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteFunctionDefinitionRequest",
-}) as any as S.Schema<DeleteFunctionDefinitionRequest>;
 export interface DeleteFunctionDefinitionResponse {}
-export const DeleteFunctionDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteFunctionDefinitionResponse",
-}) as any as S.Schema<DeleteFunctionDefinitionResponse>;
 export interface DeleteGroupRequest {
   GroupId: string;
 }
-export const DeleteGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GroupId: S.String.pipe(T.HttpLabel("GroupId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/greengrass/groups/{GroupId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteGroupRequest",
-}) as any as S.Schema<DeleteGroupRequest>;
 export interface DeleteGroupResponse {}
-export const DeleteGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteGroupResponse",
-}) as any as S.Schema<DeleteGroupResponse>;
 export interface DeleteLoggerDefinitionRequest {
   LoggerDefinitionId: string;
 }
-export const DeleteLoggerDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoggerDefinitionId: S.String.pipe(T.HttpLabel("LoggerDefinitionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/greengrass/definition/loggers/{LoggerDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteLoggerDefinitionRequest",
-}) as any as S.Schema<DeleteLoggerDefinitionRequest>;
 export interface DeleteLoggerDefinitionResponse {}
-export const DeleteLoggerDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteLoggerDefinitionResponse",
-}) as any as S.Schema<DeleteLoggerDefinitionResponse>;
 export interface DeleteResourceDefinitionRequest {
   ResourceDefinitionId: string;
 }
-export const DeleteResourceDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceDefinitionId: S.String.pipe(T.HttpLabel("ResourceDefinitionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/greengrass/definition/resources/{ResourceDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteResourceDefinitionRequest",
-}) as any as S.Schema<DeleteResourceDefinitionRequest>;
 export interface DeleteResourceDefinitionResponse {}
-export const DeleteResourceDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteResourceDefinitionResponse",
-}) as any as S.Schema<DeleteResourceDefinitionResponse>;
 export interface DeleteSubscriptionDefinitionRequest {
   SubscriptionDefinitionId: string;
 }
-export const DeleteSubscriptionDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubscriptionDefinitionId: S.String.pipe(
-      T.HttpLabel("SubscriptionDefinitionId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteSubscriptionDefinitionRequest",
-}) as any as S.Schema<DeleteSubscriptionDefinitionRequest>;
 export interface DeleteSubscriptionDefinitionResponse {}
-export const DeleteSubscriptionDefinitionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "DeleteSubscriptionDefinitionResponse",
-}) as any as S.Schema<DeleteSubscriptionDefinitionResponse>;
 export interface DisassociateRoleFromGroupRequest {
   GroupId: string;
 }
-export const DisassociateRoleFromGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GroupId: S.String.pipe(T.HttpLabel("GroupId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/greengrass/groups/{GroupId}/role" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisassociateRoleFromGroupRequest",
-}) as any as S.Schema<DisassociateRoleFromGroupRequest>;
 export interface DisassociateRoleFromGroupResponse {
   DisassociatedAt?: string;
 }
-export const DisassociateRoleFromGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DisassociatedAt: S.optional(S.String) }),
-).annotate({
-  identifier: "DisassociateRoleFromGroupResponse",
-}) as any as S.Schema<DisassociateRoleFromGroupResponse>;
 export interface DisassociateServiceRoleFromAccountRequest {}
-export const DisassociateServiceRoleFromAccountRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({}).pipe(
-      T.all(
-        T.Http({ method: "DELETE", uri: "/greengrass/servicerole" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisassociateServiceRoleFromAccountRequest",
-  }) as any as S.Schema<DisassociateServiceRoleFromAccountRequest>;
 export interface DisassociateServiceRoleFromAccountResponse {
   DisassociatedAt?: string;
 }
-export const DisassociateServiceRoleFromAccountResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ DisassociatedAt: S.optional(S.String) }),
-  ).annotate({
-    identifier: "DisassociateServiceRoleFromAccountResponse",
-  }) as any as S.Schema<DisassociateServiceRoleFromAccountResponse>;
 export interface GetAssociatedRoleRequest {
   GroupId: string;
 }
-export const GetAssociatedRoleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GroupId: S.String.pipe(T.HttpLabel("GroupId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/groups/{GroupId}/role" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAssociatedRoleRequest",
-}) as any as S.Schema<GetAssociatedRoleRequest>;
 export interface GetAssociatedRoleResponse {
   AssociatedAt?: string;
   RoleArn?: string;
 }
-export const GetAssociatedRoleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AssociatedAt: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetAssociatedRoleResponse",
-}) as any as S.Schema<GetAssociatedRoleResponse>;
 export interface GetBulkDeploymentStatusRequest {
   BulkDeploymentId: string;
 }
-export const GetBulkDeploymentStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BulkDeploymentId: S.String.pipe(T.HttpLabel("BulkDeploymentId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/bulk/deployments/{BulkDeploymentId}/status",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetBulkDeploymentStatusRequest",
-}) as any as S.Schema<GetBulkDeploymentStatusRequest>;
 export interface BulkDeploymentMetrics {
   InvalidInputRecords?: number;
   RecordsProcessed?: number;
   RetryAttempts?: number;
 }
-export const BulkDeploymentMetrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InvalidInputRecords: S.optional(S.Number),
-    RecordsProcessed: S.optional(S.Number),
-    RetryAttempts: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "BulkDeploymentMetrics",
-}) as any as S.Schema<BulkDeploymentMetrics>;
 export type BulkDeploymentStatus =
   | "Initializing"
   | "Running"
@@ -1915,20 +658,11 @@ export type BulkDeploymentStatus =
   | "Stopped"
   | "Failed"
   | (string & {});
-export const BulkDeploymentStatus = S.String;
-
 export interface ErrorDetail {
   DetailedErrorCode?: string;
   DetailedErrorMessage?: string;
 }
-export const ErrorDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DetailedErrorCode: S.optional(S.String),
-    DetailedErrorMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
 export type ErrorDetails = ErrorDetail[];
-export const ErrorDetails = /*@__PURE__*/ S.Array(ErrorDetail);
 export interface GetBulkDeploymentStatusResponse {
   BulkDeploymentMetrics?: BulkDeploymentMetrics;
   BulkDeploymentStatus?: BulkDeploymentStatus;
@@ -1937,90 +671,23 @@ export interface GetBulkDeploymentStatusResponse {
   ErrorMessage?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const GetBulkDeploymentStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BulkDeploymentMetrics: S.optional(BulkDeploymentMetrics),
-    BulkDeploymentStatus: S.optional(BulkDeploymentStatus),
-    CreatedAt: S.optional(S.String),
-    ErrorDetails: S.optional(ErrorDetails),
-    ErrorMessage: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "GetBulkDeploymentStatusResponse",
-}) as any as S.Schema<GetBulkDeploymentStatusResponse>;
 export interface GetConnectivityInfoRequest {
   ThingName: string;
 }
-export const GetConnectivityInfoRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ThingName: S.String.pipe(T.HttpLabel("ThingName")) }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/things/{ThingName}/connectivityInfo",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetConnectivityInfoRequest",
-}) as any as S.Schema<GetConnectivityInfoRequest>;
 export interface ConnectivityInfo {
   HostAddress?: string;
   Id?: string;
   Metadata?: string;
   PortNumber?: number;
 }
-export const ConnectivityInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HostAddress: S.optional(S.String),
-    Id: S.optional(S.String),
-    Metadata: S.optional(S.String),
-    PortNumber: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ConnectivityInfo",
-}) as any as S.Schema<ConnectivityInfo>;
 export type __listOfConnectivityInfo = ConnectivityInfo[];
-export const __listOfConnectivityInfo = /*@__PURE__*/ S.Array(ConnectivityInfo);
 export interface GetConnectivityInfoResponse {
   ConnectivityInfo?: ConnectivityInfo[];
   Message?: string;
 }
-export const GetConnectivityInfoResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectivityInfo: S.optional(__listOfConnectivityInfo),
-    Message: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Message: "message" })),
-).annotate({
-  identifier: "GetConnectivityInfoResponse",
-}) as any as S.Schema<GetConnectivityInfoResponse>;
 export interface GetConnectorDefinitionRequest {
   ConnectorDefinitionId: string;
 }
-export const GetConnectorDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectorDefinitionId: S.String.pipe(T.HttpLabel("ConnectorDefinitionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/definition/connectors/{ConnectorDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetConnectorDefinitionRequest",
-}) as any as S.Schema<GetConnectorDefinitionRequest>;
 export interface GetConnectorDefinitionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -2031,51 +698,11 @@ export interface GetConnectorDefinitionResponse {
   Name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const GetConnectorDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "GetConnectorDefinitionResponse",
-}) as any as S.Schema<GetConnectorDefinitionResponse>;
 export interface GetConnectorDefinitionVersionRequest {
   ConnectorDefinitionId: string;
   ConnectorDefinitionVersionId: string;
   NextToken?: string;
 }
-export const GetConnectorDefinitionVersionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConnectorDefinitionId: S.String.pipe(
-        T.HttpLabel("ConnectorDefinitionId"),
-      ),
-      ConnectorDefinitionVersionId: S.String.pipe(
-        T.HttpLabel("ConnectorDefinitionVersionId"),
-      ),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/greengrass/definition/connectors/{ConnectorDefinitionId}/versions/{ConnectorDefinitionVersionId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetConnectorDefinitionVersionRequest",
-}) as any as S.Schema<GetConnectorDefinitionVersionRequest>;
 export interface GetConnectorDefinitionVersionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -2086,41 +713,9 @@ export interface GetConnectorDefinitionVersionResponse {
   NextToken?: string;
   Version?: string;
 }
-export const GetConnectorDefinitionVersionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Arn: S.optional(S.String),
-      CreationTimestamp: S.optional(S.String),
-      Definition: S.optional(ConnectorDefinitionVersion),
-      Id: S.optional(S.String),
-      NextToken: S.optional(S.String),
-      Version: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GetConnectorDefinitionVersionResponse",
-}) as any as S.Schema<GetConnectorDefinitionVersionResponse>;
 export interface GetCoreDefinitionRequest {
   CoreDefinitionId: string;
 }
-export const GetCoreDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CoreDefinitionId: S.String.pipe(T.HttpLabel("CoreDefinitionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/definition/cores/{CoreDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetCoreDefinitionRequest",
-}) as any as S.Schema<GetCoreDefinitionRequest>;
 export interface GetCoreDefinitionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -2131,46 +726,10 @@ export interface GetCoreDefinitionResponse {
   Name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const GetCoreDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "GetCoreDefinitionResponse",
-}) as any as S.Schema<GetCoreDefinitionResponse>;
 export interface GetCoreDefinitionVersionRequest {
   CoreDefinitionId: string;
   CoreDefinitionVersionId: string;
 }
-export const GetCoreDefinitionVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CoreDefinitionId: S.String.pipe(T.HttpLabel("CoreDefinitionId")),
-    CoreDefinitionVersionId: S.String.pipe(
-      T.HttpLabel("CoreDefinitionVersionId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/definition/cores/{CoreDefinitionId}/versions/{CoreDefinitionVersionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetCoreDefinitionVersionRequest",
-}) as any as S.Schema<GetCoreDefinitionVersionRequest>;
 export interface GetCoreDefinitionVersionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -2181,42 +740,10 @@ export interface GetCoreDefinitionVersionResponse {
   NextToken?: string;
   Version?: string;
 }
-export const GetCoreDefinitionVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Definition: S.optional(CoreDefinitionVersion),
-    Id: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    Version: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetCoreDefinitionVersionResponse",
-}) as any as S.Schema<GetCoreDefinitionVersionResponse>;
 export interface GetDeploymentStatusRequest {
   DeploymentId: string;
   GroupId: string;
 }
-export const GetDeploymentStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeploymentId: S.String.pipe(T.HttpLabel("DeploymentId")),
-    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/groups/{GroupId}/deployments/{DeploymentId}/status",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDeploymentStatusRequest",
-}) as any as S.Schema<GetDeploymentStatusRequest>;
 export interface GetDeploymentStatusResponse {
   DeploymentStatus?: string;
   DeploymentType?: DeploymentType;
@@ -2224,39 +751,9 @@ export interface GetDeploymentStatusResponse {
   ErrorMessage?: string;
   UpdatedAt?: string;
 }
-export const GetDeploymentStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeploymentStatus: S.optional(S.String),
-    DeploymentType: S.optional(DeploymentType),
-    ErrorDetails: S.optional(ErrorDetails),
-    ErrorMessage: S.optional(S.String),
-    UpdatedAt: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetDeploymentStatusResponse",
-}) as any as S.Schema<GetDeploymentStatusResponse>;
 export interface GetDeviceDefinitionRequest {
   DeviceDefinitionId: string;
 }
-export const GetDeviceDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeviceDefinitionId: S.String.pipe(T.HttpLabel("DeviceDefinitionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/definition/devices/{DeviceDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDeviceDefinitionRequest",
-}) as any as S.Schema<GetDeviceDefinitionRequest>;
 export interface GetDeviceDefinitionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -2267,48 +764,11 @@ export interface GetDeviceDefinitionResponse {
   Name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const GetDeviceDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "GetDeviceDefinitionResponse",
-}) as any as S.Schema<GetDeviceDefinitionResponse>;
 export interface GetDeviceDefinitionVersionRequest {
   DeviceDefinitionId: string;
   DeviceDefinitionVersionId: string;
   NextToken?: string;
 }
-export const GetDeviceDefinitionVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeviceDefinitionId: S.String.pipe(T.HttpLabel("DeviceDefinitionId")),
-    DeviceDefinitionVersionId: S.String.pipe(
-      T.HttpLabel("DeviceDefinitionVersionId"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/definition/devices/{DeviceDefinitionId}/versions/{DeviceDefinitionVersionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDeviceDefinitionVersionRequest",
-}) as any as S.Schema<GetDeviceDefinitionVersionRequest>;
 export interface GetDeviceDefinitionVersionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -2323,40 +783,9 @@ export interface GetDeviceDefinitionVersionResponse {
   NextToken?: string;
   Version?: string;
 }
-export const GetDeviceDefinitionVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Definition: S.optional(DeviceDefinitionVersion),
-    Id: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    Version: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetDeviceDefinitionVersionResponse",
-}) as any as S.Schema<GetDeviceDefinitionVersionResponse>;
 export interface GetFunctionDefinitionRequest {
   FunctionDefinitionId: string;
 }
-export const GetFunctionDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FunctionDefinitionId: S.String.pipe(T.HttpLabel("FunctionDefinitionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/definition/functions/{FunctionDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetFunctionDefinitionRequest",
-}) as any as S.Schema<GetFunctionDefinitionRequest>;
 export interface GetFunctionDefinitionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -2367,48 +796,11 @@ export interface GetFunctionDefinitionResponse {
   Name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const GetFunctionDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "GetFunctionDefinitionResponse",
-}) as any as S.Schema<GetFunctionDefinitionResponse>;
 export interface GetFunctionDefinitionVersionRequest {
   FunctionDefinitionId: string;
   FunctionDefinitionVersionId: string;
   NextToken?: string;
 }
-export const GetFunctionDefinitionVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FunctionDefinitionId: S.String.pipe(T.HttpLabel("FunctionDefinitionId")),
-    FunctionDefinitionVersionId: S.String.pipe(
-      T.HttpLabel("FunctionDefinitionVersionId"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/definition/functions/{FunctionDefinitionId}/versions/{FunctionDefinitionVersionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetFunctionDefinitionVersionRequest",
-}) as any as S.Schema<GetFunctionDefinitionVersionRequest>;
 export interface GetFunctionDefinitionVersionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -2428,36 +820,9 @@ export interface GetFunctionDefinitionVersionResponse {
   NextToken?: string;
   Version?: string;
 }
-export const GetFunctionDefinitionVersionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Arn: S.optional(S.String),
-      CreationTimestamp: S.optional(S.String),
-      Definition: S.optional(FunctionDefinitionVersion),
-      Id: S.optional(S.String),
-      NextToken: S.optional(S.String),
-      Version: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GetFunctionDefinitionVersionResponse",
-}) as any as S.Schema<GetFunctionDefinitionVersionResponse>;
 export interface GetGroupRequest {
   GroupId: string;
 }
-export const GetGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GroupId: S.String.pipe(T.HttpLabel("GroupId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/groups/{GroupId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetGroupRequest",
-}) as any as S.Schema<GetGroupRequest>;
 export interface GetGroupResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -2468,121 +833,27 @@ export interface GetGroupResponse {
   Name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const GetGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "GetGroupResponse",
-}) as any as S.Schema<GetGroupResponse>;
 export interface GetGroupCertificateAuthorityRequest {
   CertificateAuthorityId: string;
   GroupId: string;
 }
-export const GetGroupCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateAuthorityId: S.String.pipe(
-      T.HttpLabel("CertificateAuthorityId"),
-    ),
-    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/groups/{GroupId}/certificateauthorities/{CertificateAuthorityId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetGroupCertificateAuthorityRequest",
-}) as any as S.Schema<GetGroupCertificateAuthorityRequest>;
 export interface GetGroupCertificateAuthorityResponse {
   GroupCertificateAuthorityArn?: string;
   GroupCertificateAuthorityId?: string;
   PemEncodedCertificate?: string;
 }
-export const GetGroupCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      GroupCertificateAuthorityArn: S.optional(S.String),
-      GroupCertificateAuthorityId: S.optional(S.String),
-      PemEncodedCertificate: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GetGroupCertificateAuthorityResponse",
-}) as any as S.Schema<GetGroupCertificateAuthorityResponse>;
 export interface GetGroupCertificateConfigurationRequest {
   GroupId: string;
 }
-export const GetGroupCertificateConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ GroupId: S.String.pipe(T.HttpLabel("GroupId")) }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/greengrass/groups/{GroupId}/certificateauthorities/configuration/expiry",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetGroupCertificateConfigurationRequest",
-}) as any as S.Schema<GetGroupCertificateConfigurationRequest>;
 export interface GetGroupCertificateConfigurationResponse {
   CertificateAuthorityExpiryInMilliseconds?: string;
   CertificateExpiryInMilliseconds?: string;
   GroupId?: string;
 }
-export const GetGroupCertificateConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      CertificateAuthorityExpiryInMilliseconds: S.optional(S.String),
-      CertificateExpiryInMilliseconds: S.optional(S.String),
-      GroupId: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GetGroupCertificateConfigurationResponse",
-}) as any as S.Schema<GetGroupCertificateConfigurationResponse>;
 export interface GetGroupVersionRequest {
   GroupId: string;
   GroupVersionId: string;
 }
-export const GetGroupVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
-    GroupVersionId: S.String.pipe(T.HttpLabel("GroupVersionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/groups/{GroupId}/versions/{GroupVersionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetGroupVersionRequest",
-}) as any as S.Schema<GetGroupVersionRequest>;
 export interface GetGroupVersionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -2590,39 +861,9 @@ export interface GetGroupVersionResponse {
   Id?: string;
   Version?: string;
 }
-export const GetGroupVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Definition: S.optional(GroupVersion),
-    Id: S.optional(S.String),
-    Version: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetGroupVersionResponse",
-}) as any as S.Schema<GetGroupVersionResponse>;
 export interface GetLoggerDefinitionRequest {
   LoggerDefinitionId: string;
 }
-export const GetLoggerDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoggerDefinitionId: S.String.pipe(T.HttpLabel("LoggerDefinitionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/definition/loggers/{LoggerDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLoggerDefinitionRequest",
-}) as any as S.Schema<GetLoggerDefinitionRequest>;
 export interface GetLoggerDefinitionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -2633,48 +874,11 @@ export interface GetLoggerDefinitionResponse {
   Name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const GetLoggerDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "GetLoggerDefinitionResponse",
-}) as any as S.Schema<GetLoggerDefinitionResponse>;
 export interface GetLoggerDefinitionVersionRequest {
   LoggerDefinitionId: string;
   LoggerDefinitionVersionId: string;
   NextToken?: string;
 }
-export const GetLoggerDefinitionVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoggerDefinitionId: S.String.pipe(T.HttpLabel("LoggerDefinitionId")),
-    LoggerDefinitionVersionId: S.String.pipe(
-      T.HttpLabel("LoggerDefinitionVersionId"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/definition/loggers/{LoggerDefinitionId}/versions/{LoggerDefinitionVersionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLoggerDefinitionVersionRequest",
-}) as any as S.Schema<GetLoggerDefinitionVersionRequest>;
 export interface GetLoggerDefinitionVersionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -2689,39 +893,9 @@ export interface GetLoggerDefinitionVersionResponse {
   Id?: string;
   Version?: string;
 }
-export const GetLoggerDefinitionVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Definition: S.optional(LoggerDefinitionVersion),
-    Id: S.optional(S.String),
-    Version: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetLoggerDefinitionVersionResponse",
-}) as any as S.Schema<GetLoggerDefinitionVersionResponse>;
 export interface GetResourceDefinitionRequest {
   ResourceDefinitionId: string;
 }
-export const GetResourceDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceDefinitionId: S.String.pipe(T.HttpLabel("ResourceDefinitionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/definition/resources/{ResourceDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetResourceDefinitionRequest",
-}) as any as S.Schema<GetResourceDefinitionRequest>;
 export interface GetResourceDefinitionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -2732,46 +906,10 @@ export interface GetResourceDefinitionResponse {
   Name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const GetResourceDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "GetResourceDefinitionResponse",
-}) as any as S.Schema<GetResourceDefinitionResponse>;
 export interface GetResourceDefinitionVersionRequest {
   ResourceDefinitionId: string;
   ResourceDefinitionVersionId: string;
 }
-export const GetResourceDefinitionVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceDefinitionId: S.String.pipe(T.HttpLabel("ResourceDefinitionId")),
-    ResourceDefinitionVersionId: S.String.pipe(
-      T.HttpLabel("ResourceDefinitionVersionId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/definition/resources/{ResourceDefinitionId}/versions/{ResourceDefinitionVersionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetResourceDefinitionVersionRequest",
-}) as any as S.Schema<GetResourceDefinitionVersionRequest>;
 export interface GetResourceDefinitionVersionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -2798,69 +936,14 @@ export interface GetResourceDefinitionVersionResponse {
   Id?: string;
   Version?: string;
 }
-export const GetResourceDefinitionVersionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Arn: S.optional(S.String),
-      CreationTimestamp: S.optional(S.String),
-      Definition: S.optional(ResourceDefinitionVersion),
-      Id: S.optional(S.String),
-      Version: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GetResourceDefinitionVersionResponse",
-}) as any as S.Schema<GetResourceDefinitionVersionResponse>;
 export interface GetServiceRoleForAccountRequest {}
-export const GetServiceRoleForAccountRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/servicerole" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetServiceRoleForAccountRequest",
-}) as any as S.Schema<GetServiceRoleForAccountRequest>;
 export interface GetServiceRoleForAccountResponse {
   AssociatedAt?: string;
   RoleArn?: string;
 }
-export const GetServiceRoleForAccountResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AssociatedAt: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetServiceRoleForAccountResponse",
-}) as any as S.Schema<GetServiceRoleForAccountResponse>;
 export interface GetSubscriptionDefinitionRequest {
   SubscriptionDefinitionId: string;
 }
-export const GetSubscriptionDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubscriptionDefinitionId: S.String.pipe(
-      T.HttpLabel("SubscriptionDefinitionId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSubscriptionDefinitionRequest",
-}) as any as S.Schema<GetSubscriptionDefinitionRequest>;
 export interface GetSubscriptionDefinitionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -2871,51 +954,11 @@ export interface GetSubscriptionDefinitionResponse {
   Name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const GetSubscriptionDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "GetSubscriptionDefinitionResponse",
-}) as any as S.Schema<GetSubscriptionDefinitionResponse>;
 export interface GetSubscriptionDefinitionVersionRequest {
   NextToken?: string;
   SubscriptionDefinitionId: string;
   SubscriptionDefinitionVersionId: string;
 }
-export const GetSubscriptionDefinitionVersionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-      SubscriptionDefinitionId: S.String.pipe(
-        T.HttpLabel("SubscriptionDefinitionId"),
-      ),
-      SubscriptionDefinitionVersionId: S.String.pipe(
-        T.HttpLabel("SubscriptionDefinitionVersionId"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions/{SubscriptionDefinitionVersionId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetSubscriptionDefinitionVersionRequest",
-}) as any as S.Schema<GetSubscriptionDefinitionVersionRequest>;
 export interface GetSubscriptionDefinitionVersionResponse {
   Arn?: string;
   CreationTimestamp?: string;
@@ -2931,102 +974,28 @@ export interface GetSubscriptionDefinitionVersionResponse {
   NextToken?: string;
   Version?: string;
 }
-export const GetSubscriptionDefinitionVersionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Arn: S.optional(S.String),
-      CreationTimestamp: S.optional(S.String),
-      Definition: S.optional(SubscriptionDefinitionVersion),
-      Id: S.optional(S.String),
-      NextToken: S.optional(S.String),
-      Version: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GetSubscriptionDefinitionVersionResponse",
-}) as any as S.Schema<GetSubscriptionDefinitionVersionResponse>;
 export interface GetThingRuntimeConfigurationRequest {
   ThingName: string;
 }
-export const GetThingRuntimeConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ThingName: S.String.pipe(T.HttpLabel("ThingName")) }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/things/{ThingName}/runtimeconfig",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetThingRuntimeConfigurationRequest",
-}) as any as S.Schema<GetThingRuntimeConfigurationRequest>;
 export type ConfigurationSyncStatus = "InSync" | "OutOfSync" | (string & {});
-export const ConfigurationSyncStatus = S.String;
-
 export type Telemetry = "On" | "Off" | (string & {});
-export const Telemetry = S.String;
-
 export interface TelemetryConfiguration {
   ConfigurationSyncStatus?: ConfigurationSyncStatus;
   Telemetry?: Telemetry;
 }
-export const TelemetryConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationSyncStatus: S.optional(ConfigurationSyncStatus),
-    Telemetry: S.optional(Telemetry),
-  }),
-).annotate({
-  identifier: "TelemetryConfiguration",
-}) as any as S.Schema<TelemetryConfiguration>;
 export interface RuntimeConfiguration {
   TelemetryConfiguration?: TelemetryConfiguration;
 }
-export const RuntimeConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TelemetryConfiguration: S.optional(TelemetryConfiguration) }),
-).annotate({
-  identifier: "RuntimeConfiguration",
-}) as any as S.Schema<RuntimeConfiguration>;
 export interface GetThingRuntimeConfigurationResponse {
   RuntimeConfiguration?: RuntimeConfiguration & {
     TelemetryConfiguration: TelemetryConfiguration & { Telemetry: Telemetry };
   };
 }
-export const GetThingRuntimeConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ RuntimeConfiguration: S.optional(RuntimeConfiguration) }),
-).annotate({
-  identifier: "GetThingRuntimeConfigurationResponse",
-}) as any as S.Schema<GetThingRuntimeConfigurationResponse>;
 export interface ListBulkDeploymentDetailedReportsRequest {
   BulkDeploymentId: string;
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListBulkDeploymentDetailedReportsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BulkDeploymentId: S.String.pipe(T.HttpLabel("BulkDeploymentId")),
-      MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/greengrass/bulk/deployments/{BulkDeploymentId}/detailed-reports",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListBulkDeploymentDetailedReportsRequest",
-}) as any as S.Schema<ListBulkDeploymentDetailedReportsRequest>;
 export interface BulkDeploymentResult {
   CreatedAt?: string;
   DeploymentArn?: string;
@@ -3037,104 +1006,29 @@ export interface BulkDeploymentResult {
   ErrorMessage?: string;
   GroupArn?: string;
 }
-export const BulkDeploymentResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreatedAt: S.optional(S.String),
-    DeploymentArn: S.optional(S.String),
-    DeploymentId: S.optional(S.String),
-    DeploymentStatus: S.optional(S.String),
-    DeploymentType: S.optional(DeploymentType),
-    ErrorDetails: S.optional(ErrorDetails),
-    ErrorMessage: S.optional(S.String),
-    GroupArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BulkDeploymentResult",
-}) as any as S.Schema<BulkDeploymentResult>;
 export type BulkDeploymentResults = BulkDeploymentResult[];
-export const BulkDeploymentResults =
-  /*@__PURE__*/ S.Array(BulkDeploymentResult);
 export interface ListBulkDeploymentDetailedReportsResponse {
   Deployments?: BulkDeploymentResult[];
   NextToken?: string;
 }
-export const ListBulkDeploymentDetailedReportsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Deployments: S.optional(BulkDeploymentResults),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListBulkDeploymentDetailedReportsResponse",
-  }) as any as S.Schema<ListBulkDeploymentDetailedReportsResponse>;
 export interface ListBulkDeploymentsRequest {
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListBulkDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/bulk/deployments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListBulkDeploymentsRequest",
-}) as any as S.Schema<ListBulkDeploymentsRequest>;
 export interface BulkDeployment {
   BulkDeploymentArn?: string;
   BulkDeploymentId?: string;
   CreatedAt?: string;
 }
-export const BulkDeployment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BulkDeploymentArn: S.optional(S.String),
-    BulkDeploymentId: S.optional(S.String),
-    CreatedAt: S.optional(S.String),
-  }),
-).annotate({ identifier: "BulkDeployment" }) as any as S.Schema<BulkDeployment>;
 export type BulkDeployments = BulkDeployment[];
-export const BulkDeployments = /*@__PURE__*/ S.Array(BulkDeployment);
 export interface ListBulkDeploymentsResponse {
   BulkDeployments?: BulkDeployment[];
   NextToken?: string;
 }
-export const ListBulkDeploymentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BulkDeployments: S.optional(BulkDeployments),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListBulkDeploymentsResponse",
-}) as any as S.Schema<ListBulkDeploymentsResponse>;
 export interface ListConnectorDefinitionsRequest {
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListConnectorDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/definition/connectors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListConnectorDefinitionsRequest",
-}) as any as S.Schema<ListConnectorDefinitionsRequest>;
 export interface DefinitionInformation {
   Arn?: string;
   CreationTimestamp?: string;
@@ -3145,194 +1039,49 @@ export interface DefinitionInformation {
   Name?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const DefinitionInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "DefinitionInformation",
-}) as any as S.Schema<DefinitionInformation>;
 export type __listOfDefinitionInformation = DefinitionInformation[];
-export const __listOfDefinitionInformation = /*@__PURE__*/ S.Array(
-  DefinitionInformation,
-);
 export interface ListConnectorDefinitionsResponse {
   Definitions?: DefinitionInformation[];
   NextToken?: string;
 }
-export const ListConnectorDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Definitions: S.optional(__listOfDefinitionInformation),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListConnectorDefinitionsResponse",
-}) as any as S.Schema<ListConnectorDefinitionsResponse>;
 export interface ListConnectorDefinitionVersionsRequest {
   ConnectorDefinitionId: string;
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListConnectorDefinitionVersionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConnectorDefinitionId: S.String.pipe(
-        T.HttpLabel("ConnectorDefinitionId"),
-      ),
-      MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/greengrass/definition/connectors/{ConnectorDefinitionId}/versions",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListConnectorDefinitionVersionsRequest",
-}) as any as S.Schema<ListConnectorDefinitionVersionsRequest>;
 export interface VersionInformation {
   Arn?: string;
   CreationTimestamp?: string;
   Id?: string;
   Version?: string;
 }
-export const VersionInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    Version: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VersionInformation",
-}) as any as S.Schema<VersionInformation>;
 export type __listOfVersionInformation = VersionInformation[];
-export const __listOfVersionInformation =
-  /*@__PURE__*/ S.Array(VersionInformation);
 export interface ListConnectorDefinitionVersionsResponse {
   NextToken?: string;
   Versions?: VersionInformation[];
 }
-export const ListConnectorDefinitionVersionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      Versions: S.optional(__listOfVersionInformation),
-    }),
-).annotate({
-  identifier: "ListConnectorDefinitionVersionsResponse",
-}) as any as S.Schema<ListConnectorDefinitionVersionsResponse>;
 export interface ListCoreDefinitionsRequest {
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListCoreDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/definition/cores" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListCoreDefinitionsRequest",
-}) as any as S.Schema<ListCoreDefinitionsRequest>;
 export interface ListCoreDefinitionsResponse {
   Definitions?: DefinitionInformation[];
   NextToken?: string;
 }
-export const ListCoreDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Definitions: S.optional(__listOfDefinitionInformation),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCoreDefinitionsResponse",
-}) as any as S.Schema<ListCoreDefinitionsResponse>;
 export interface ListCoreDefinitionVersionsRequest {
   CoreDefinitionId: string;
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListCoreDefinitionVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CoreDefinitionId: S.String.pipe(T.HttpLabel("CoreDefinitionId")),
-    MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/definition/cores/{CoreDefinitionId}/versions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListCoreDefinitionVersionsRequest",
-}) as any as S.Schema<ListCoreDefinitionVersionsRequest>;
 export interface ListCoreDefinitionVersionsResponse {
   NextToken?: string;
   Versions?: VersionInformation[];
 }
-export const ListCoreDefinitionVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Versions: S.optional(__listOfVersionInformation),
-  }),
-).annotate({
-  identifier: "ListCoreDefinitionVersionsResponse",
-}) as any as S.Schema<ListCoreDefinitionVersionsResponse>;
 export interface ListDeploymentsRequest {
   GroupId: string;
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
-    MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/groups/{GroupId}/deployments",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDeploymentsRequest",
-}) as any as S.Schema<ListDeploymentsRequest>;
 export interface Deployment {
   CreatedAt?: string;
   DeploymentArn?: string;
@@ -3340,245 +1089,61 @@ export interface Deployment {
   DeploymentType?: DeploymentType;
   GroupArn?: string;
 }
-export const Deployment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreatedAt: S.optional(S.String),
-    DeploymentArn: S.optional(S.String),
-    DeploymentId: S.optional(S.String),
-    DeploymentType: S.optional(DeploymentType),
-    GroupArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Deployment" }) as any as S.Schema<Deployment>;
 export type Deployments = Deployment[];
-export const Deployments = /*@__PURE__*/ S.Array(Deployment);
 export interface ListDeploymentsResponse {
   Deployments?: Deployment[];
   NextToken?: string;
 }
-export const ListDeploymentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Deployments: S.optional(Deployments),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListDeploymentsResponse",
-}) as any as S.Schema<ListDeploymentsResponse>;
 export interface ListDeviceDefinitionsRequest {
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListDeviceDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/definition/devices" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDeviceDefinitionsRequest",
-}) as any as S.Schema<ListDeviceDefinitionsRequest>;
 export interface ListDeviceDefinitionsResponse {
   Definitions?: DefinitionInformation[];
   NextToken?: string;
 }
-export const ListDeviceDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Definitions: S.optional(__listOfDefinitionInformation),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListDeviceDefinitionsResponse",
-}) as any as S.Schema<ListDeviceDefinitionsResponse>;
 export interface ListDeviceDefinitionVersionsRequest {
   DeviceDefinitionId: string;
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListDeviceDefinitionVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeviceDefinitionId: S.String.pipe(T.HttpLabel("DeviceDefinitionId")),
-    MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/definition/devices/{DeviceDefinitionId}/versions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDeviceDefinitionVersionsRequest",
-}) as any as S.Schema<ListDeviceDefinitionVersionsRequest>;
 export interface ListDeviceDefinitionVersionsResponse {
   NextToken?: string;
   Versions?: VersionInformation[];
 }
-export const ListDeviceDefinitionVersionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      Versions: S.optional(__listOfVersionInformation),
-    }),
-).annotate({
-  identifier: "ListDeviceDefinitionVersionsResponse",
-}) as any as S.Schema<ListDeviceDefinitionVersionsResponse>;
 export interface ListFunctionDefinitionsRequest {
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListFunctionDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/definition/functions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListFunctionDefinitionsRequest",
-}) as any as S.Schema<ListFunctionDefinitionsRequest>;
 export interface ListFunctionDefinitionsResponse {
   Definitions?: DefinitionInformation[];
   NextToken?: string;
 }
-export const ListFunctionDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Definitions: S.optional(__listOfDefinitionInformation),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListFunctionDefinitionsResponse",
-}) as any as S.Schema<ListFunctionDefinitionsResponse>;
 export interface ListFunctionDefinitionVersionsRequest {
   FunctionDefinitionId: string;
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListFunctionDefinitionVersionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FunctionDefinitionId: S.String.pipe(T.HttpLabel("FunctionDefinitionId")),
-      MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/greengrass/definition/functions/{FunctionDefinitionId}/versions",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListFunctionDefinitionVersionsRequest",
-}) as any as S.Schema<ListFunctionDefinitionVersionsRequest>;
 export interface ListFunctionDefinitionVersionsResponse {
   NextToken?: string;
   Versions?: VersionInformation[];
 }
-export const ListFunctionDefinitionVersionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      Versions: S.optional(__listOfVersionInformation),
-    }),
-).annotate({
-  identifier: "ListFunctionDefinitionVersionsResponse",
-}) as any as S.Schema<ListFunctionDefinitionVersionsResponse>;
 export interface ListGroupCertificateAuthoritiesRequest {
   GroupId: string;
 }
-export const ListGroupCertificateAuthoritiesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ GroupId: S.String.pipe(T.HttpLabel("GroupId")) }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/greengrass/groups/{GroupId}/certificateauthorities",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListGroupCertificateAuthoritiesRequest",
-}) as any as S.Schema<ListGroupCertificateAuthoritiesRequest>;
 export interface GroupCertificateAuthorityProperties {
   GroupCertificateAuthorityArn?: string;
   GroupCertificateAuthorityId?: string;
 }
-export const GroupCertificateAuthorityProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupCertificateAuthorityArn: S.optional(S.String),
-    GroupCertificateAuthorityId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GroupCertificateAuthorityProperties",
-}) as any as S.Schema<GroupCertificateAuthorityProperties>;
 export type __listOfGroupCertificateAuthorityProperties =
   GroupCertificateAuthorityProperties[];
-export const __listOfGroupCertificateAuthorityProperties =
-  /*@__PURE__*/ S.Array(GroupCertificateAuthorityProperties);
 export interface ListGroupCertificateAuthoritiesResponse {
   GroupCertificateAuthorities?: GroupCertificateAuthorityProperties[];
 }
-export const ListGroupCertificateAuthoritiesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      GroupCertificateAuthorities: S.optional(
-        __listOfGroupCertificateAuthorityProperties,
-      ),
-    }),
-).annotate({
-  identifier: "ListGroupCertificateAuthoritiesResponse",
-}) as any as S.Schema<ListGroupCertificateAuthoritiesResponse>;
 export interface ListGroupsRequest {
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/groups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListGroupsRequest",
-}) as any as S.Schema<ListGroupsRequest>;
 export interface GroupInformation {
   Arn?: string;
   CreationTimestamp?: string;
@@ -3588,828 +1153,175 @@ export interface GroupInformation {
   LatestVersionArn?: string;
   Name?: string;
 }
-export const GroupInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTimestamp: S.optional(S.String),
-    Id: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(S.String),
-    LatestVersion: S.optional(S.String),
-    LatestVersionArn: S.optional(S.String),
-    Name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GroupInformation",
-}) as any as S.Schema<GroupInformation>;
 export type __listOfGroupInformation = GroupInformation[];
-export const __listOfGroupInformation = /*@__PURE__*/ S.Array(GroupInformation);
 export interface ListGroupsResponse {
   Groups?: GroupInformation[];
   NextToken?: string;
 }
-export const ListGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Groups: S.optional(__listOfGroupInformation),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListGroupsResponse",
-}) as any as S.Schema<ListGroupsResponse>;
 export interface ListGroupVersionsRequest {
   GroupId: string;
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListGroupVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
-    MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/groups/{GroupId}/versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListGroupVersionsRequest",
-}) as any as S.Schema<ListGroupVersionsRequest>;
 export interface ListGroupVersionsResponse {
   NextToken?: string;
   Versions?: VersionInformation[];
 }
-export const ListGroupVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Versions: S.optional(__listOfVersionInformation),
-  }),
-).annotate({
-  identifier: "ListGroupVersionsResponse",
-}) as any as S.Schema<ListGroupVersionsResponse>;
 export interface ListLoggerDefinitionsRequest {
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListLoggerDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/definition/loggers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListLoggerDefinitionsRequest",
-}) as any as S.Schema<ListLoggerDefinitionsRequest>;
 export interface ListLoggerDefinitionsResponse {
   Definitions?: DefinitionInformation[];
   NextToken?: string;
 }
-export const ListLoggerDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Definitions: S.optional(__listOfDefinitionInformation),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListLoggerDefinitionsResponse",
-}) as any as S.Schema<ListLoggerDefinitionsResponse>;
 export interface ListLoggerDefinitionVersionsRequest {
   LoggerDefinitionId: string;
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListLoggerDefinitionVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoggerDefinitionId: S.String.pipe(T.HttpLabel("LoggerDefinitionId")),
-    MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/greengrass/definition/loggers/{LoggerDefinitionId}/versions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListLoggerDefinitionVersionsRequest",
-}) as any as S.Schema<ListLoggerDefinitionVersionsRequest>;
 export interface ListLoggerDefinitionVersionsResponse {
   NextToken?: string;
   Versions?: VersionInformation[];
 }
-export const ListLoggerDefinitionVersionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      Versions: S.optional(__listOfVersionInformation),
-    }),
-).annotate({
-  identifier: "ListLoggerDefinitionVersionsResponse",
-}) as any as S.Schema<ListLoggerDefinitionVersionsResponse>;
 export interface ListResourceDefinitionsRequest {
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListResourceDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/definition/resources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListResourceDefinitionsRequest",
-}) as any as S.Schema<ListResourceDefinitionsRequest>;
 export interface ListResourceDefinitionsResponse {
   Definitions?: DefinitionInformation[];
   NextToken?: string;
 }
-export const ListResourceDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Definitions: S.optional(__listOfDefinitionInformation),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListResourceDefinitionsResponse",
-}) as any as S.Schema<ListResourceDefinitionsResponse>;
 export interface ListResourceDefinitionVersionsRequest {
   MaxResults?: string;
   NextToken?: string;
   ResourceDefinitionId: string;
 }
-export const ListResourceDefinitionVersionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-      ResourceDefinitionId: S.String.pipe(T.HttpLabel("ResourceDefinitionId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/greengrass/definition/resources/{ResourceDefinitionId}/versions",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListResourceDefinitionVersionsRequest",
-}) as any as S.Schema<ListResourceDefinitionVersionsRequest>;
 export interface ListResourceDefinitionVersionsResponse {
   NextToken?: string;
   Versions?: VersionInformation[];
 }
-export const ListResourceDefinitionVersionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      Versions: S.optional(__listOfVersionInformation),
-    }),
-).annotate({
-  identifier: "ListResourceDefinitionVersionsResponse",
-}) as any as S.Schema<ListResourceDefinitionVersionsResponse>;
 export interface ListSubscriptionDefinitionsRequest {
   MaxResults?: string;
   NextToken?: string;
 }
-export const ListSubscriptionDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/greengrass/definition/subscriptions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSubscriptionDefinitionsRequest",
-}) as any as S.Schema<ListSubscriptionDefinitionsRequest>;
 export interface ListSubscriptionDefinitionsResponse {
   Definitions?: DefinitionInformation[];
   NextToken?: string;
 }
-export const ListSubscriptionDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Definitions: S.optional(__listOfDefinitionInformation),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSubscriptionDefinitionsResponse",
-}) as any as S.Schema<ListSubscriptionDefinitionsResponse>;
 export interface ListSubscriptionDefinitionVersionsRequest {
   MaxResults?: string;
   NextToken?: string;
   SubscriptionDefinitionId: string;
 }
-export const ListSubscriptionDefinitionVersionsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-      SubscriptionDefinitionId: S.String.pipe(
-        T.HttpLabel("SubscriptionDefinitionId"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListSubscriptionDefinitionVersionsRequest",
-  }) as any as S.Schema<ListSubscriptionDefinitionVersionsRequest>;
 export interface ListSubscriptionDefinitionVersionsResponse {
   NextToken?: string;
   Versions?: VersionInformation[];
 }
-export const ListSubscriptionDefinitionVersionsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      Versions: S.optional(__listOfVersionInformation),
-    }),
-  ).annotate({
-    identifier: "ListSubscriptionDefinitionVersionsResponse",
-  }) as any as S.Schema<ListSubscriptionDefinitionVersionsResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(Tags) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ResetDeploymentsRequest {
   AmznClientToken?: string;
   Force?: boolean;
   GroupId: string;
 }
-export const ResetDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AmznClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-    ),
-    Force: S.optional(S.Boolean),
-    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/greengrass/groups/{GroupId}/deployments/$reset",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ResetDeploymentsRequest",
-}) as any as S.Schema<ResetDeploymentsRequest>;
 export interface ResetDeploymentsResponse {
   DeploymentArn?: string;
   DeploymentId?: string;
 }
-export const ResetDeploymentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeploymentArn: S.optional(S.String),
-    DeploymentId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ResetDeploymentsResponse",
-}) as any as S.Schema<ResetDeploymentsResponse>;
 export interface StartBulkDeploymentRequest {
   AmznClientToken?: string;
   ExecutionRoleArn?: string;
   InputFileUri?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const StartBulkDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AmznClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-    ),
-    ExecutionRoleArn: S.optional(S.String),
-    InputFileUri: S.optional(S.String),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/greengrass/bulk/deployments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartBulkDeploymentRequest",
-}) as any as S.Schema<StartBulkDeploymentRequest>;
 export interface StartBulkDeploymentResponse {
   BulkDeploymentArn?: string;
   BulkDeploymentId?: string;
 }
-export const StartBulkDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BulkDeploymentArn: S.optional(S.String),
-    BulkDeploymentId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "StartBulkDeploymentResponse",
-}) as any as S.Schema<StartBulkDeploymentResponse>;
 export interface StopBulkDeploymentRequest {
   BulkDeploymentId: string;
 }
-export const StopBulkDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BulkDeploymentId: S.String.pipe(T.HttpLabel("BulkDeploymentId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/greengrass/bulk/deployments/{BulkDeploymentId}/$stop",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopBulkDeploymentRequest",
-}) as any as S.Schema<StopBulkDeploymentRequest>;
 export interface StopBulkDeploymentResponse {}
-export const StopBulkDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "StopBulkDeploymentResponse",
-}) as any as S.Schema<StopBulkDeploymentResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   tags?: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys?: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: S.optional(__listOf__string).pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateConnectivityInfoRequest {
   ConnectivityInfo?: ConnectivityInfo[];
   ThingName: string;
 }
-export const UpdateConnectivityInfoRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectivityInfo: S.optional(__listOfConnectivityInfo),
-    ThingName: S.String.pipe(T.HttpLabel("ThingName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/greengrass/things/{ThingName}/connectivityInfo",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateConnectivityInfoRequest",
-}) as any as S.Schema<UpdateConnectivityInfoRequest>;
 export interface UpdateConnectivityInfoResponse {
   Message?: string;
   Version?: string;
 }
-export const UpdateConnectivityInfoResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Message: S.optional(S.String),
-    Version: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Message: "message" })),
-).annotate({
-  identifier: "UpdateConnectivityInfoResponse",
-}) as any as S.Schema<UpdateConnectivityInfoResponse>;
 export interface UpdateConnectorDefinitionRequest {
   ConnectorDefinitionId: string;
   Name?: string;
 }
-export const UpdateConnectorDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectorDefinitionId: S.String.pipe(T.HttpLabel("ConnectorDefinitionId")),
-    Name: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/greengrass/definition/connectors/{ConnectorDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateConnectorDefinitionRequest",
-}) as any as S.Schema<UpdateConnectorDefinitionRequest>;
 export interface UpdateConnectorDefinitionResponse {}
-export const UpdateConnectorDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateConnectorDefinitionResponse",
-}) as any as S.Schema<UpdateConnectorDefinitionResponse>;
 export interface UpdateCoreDefinitionRequest {
   CoreDefinitionId: string;
   Name?: string;
 }
-export const UpdateCoreDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CoreDefinitionId: S.String.pipe(T.HttpLabel("CoreDefinitionId")),
-    Name: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/greengrass/definition/cores/{CoreDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateCoreDefinitionRequest",
-}) as any as S.Schema<UpdateCoreDefinitionRequest>;
 export interface UpdateCoreDefinitionResponse {}
-export const UpdateCoreDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateCoreDefinitionResponse",
-}) as any as S.Schema<UpdateCoreDefinitionResponse>;
 export interface UpdateDeviceDefinitionRequest {
   DeviceDefinitionId: string;
   Name?: string;
 }
-export const UpdateDeviceDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeviceDefinitionId: S.String.pipe(T.HttpLabel("DeviceDefinitionId")),
-    Name: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/greengrass/definition/devices/{DeviceDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDeviceDefinitionRequest",
-}) as any as S.Schema<UpdateDeviceDefinitionRequest>;
 export interface UpdateDeviceDefinitionResponse {}
-export const UpdateDeviceDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateDeviceDefinitionResponse",
-}) as any as S.Schema<UpdateDeviceDefinitionResponse>;
 export interface UpdateFunctionDefinitionRequest {
   FunctionDefinitionId: string;
   Name?: string;
 }
-export const UpdateFunctionDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FunctionDefinitionId: S.String.pipe(T.HttpLabel("FunctionDefinitionId")),
-    Name: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/greengrass/definition/functions/{FunctionDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateFunctionDefinitionRequest",
-}) as any as S.Schema<UpdateFunctionDefinitionRequest>;
 export interface UpdateFunctionDefinitionResponse {}
-export const UpdateFunctionDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateFunctionDefinitionResponse",
-}) as any as S.Schema<UpdateFunctionDefinitionResponse>;
 export interface UpdateGroupRequest {
   GroupId: string;
   Name?: string;
 }
-export const UpdateGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
-    Name: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/greengrass/groups/{GroupId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateGroupRequest",
-}) as any as S.Schema<UpdateGroupRequest>;
 export interface UpdateGroupResponse {}
-export const UpdateGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateGroupResponse",
-}) as any as S.Schema<UpdateGroupResponse>;
 export interface UpdateGroupCertificateConfigurationRequest {
   CertificateExpiryInMilliseconds?: string;
   GroupId: string;
 }
-export const UpdateGroupCertificateConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      CertificateExpiryInMilliseconds: S.optional(S.String),
-      GroupId: S.String.pipe(T.HttpLabel("GroupId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/greengrass/groups/{GroupId}/certificateauthorities/configuration/expiry",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "UpdateGroupCertificateConfigurationRequest",
-  }) as any as S.Schema<UpdateGroupCertificateConfigurationRequest>;
 export interface UpdateGroupCertificateConfigurationResponse {
   CertificateAuthorityExpiryInMilliseconds?: string;
   CertificateExpiryInMilliseconds?: string;
   GroupId?: string;
 }
-export const UpdateGroupCertificateConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      CertificateAuthorityExpiryInMilliseconds: S.optional(S.String),
-      CertificateExpiryInMilliseconds: S.optional(S.String),
-      GroupId: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "UpdateGroupCertificateConfigurationResponse",
-  }) as any as S.Schema<UpdateGroupCertificateConfigurationResponse>;
 export interface UpdateLoggerDefinitionRequest {
   LoggerDefinitionId: string;
   Name?: string;
 }
-export const UpdateLoggerDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoggerDefinitionId: S.String.pipe(T.HttpLabel("LoggerDefinitionId")),
-    Name: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/greengrass/definition/loggers/{LoggerDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateLoggerDefinitionRequest",
-}) as any as S.Schema<UpdateLoggerDefinitionRequest>;
 export interface UpdateLoggerDefinitionResponse {}
-export const UpdateLoggerDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateLoggerDefinitionResponse",
-}) as any as S.Schema<UpdateLoggerDefinitionResponse>;
 export interface UpdateResourceDefinitionRequest {
   Name?: string;
   ResourceDefinitionId: string;
 }
-export const UpdateResourceDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    ResourceDefinitionId: S.String.pipe(T.HttpLabel("ResourceDefinitionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/greengrass/definition/resources/{ResourceDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateResourceDefinitionRequest",
-}) as any as S.Schema<UpdateResourceDefinitionRequest>;
 export interface UpdateResourceDefinitionResponse {}
-export const UpdateResourceDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateResourceDefinitionResponse",
-}) as any as S.Schema<UpdateResourceDefinitionResponse>;
 export interface UpdateSubscriptionDefinitionRequest {
   Name?: string;
   SubscriptionDefinitionId: string;
 }
-export const UpdateSubscriptionDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    SubscriptionDefinitionId: S.String.pipe(
-      T.HttpLabel("SubscriptionDefinitionId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateSubscriptionDefinitionRequest",
-}) as any as S.Schema<UpdateSubscriptionDefinitionRequest>;
 export interface UpdateSubscriptionDefinitionResponse {}
-export const UpdateSubscriptionDefinitionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "UpdateSubscriptionDefinitionResponse",
-}) as any as S.Schema<UpdateSubscriptionDefinitionResponse>;
 export interface TelemetryConfigurationUpdate {
   Telemetry?: Telemetry;
 }
-export const TelemetryConfigurationUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Telemetry: S.optional(Telemetry) }),
-).annotate({
-  identifier: "TelemetryConfigurationUpdate",
-}) as any as S.Schema<TelemetryConfigurationUpdate>;
 export interface UpdateThingRuntimeConfigurationRequest {
   TelemetryConfiguration?: TelemetryConfigurationUpdate;
   ThingName: string;
 }
-export const UpdateThingRuntimeConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      TelemetryConfiguration: S.optional(TelemetryConfigurationUpdate),
-      ThingName: S.String.pipe(T.HttpLabel("ThingName")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/greengrass/things/{ThingName}/runtimeconfig",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateThingRuntimeConfigurationRequest",
-}) as any as S.Schema<UpdateThingRuntimeConfigurationRequest>;
 export interface UpdateThingRuntimeConfigurationResponse {}
-export const UpdateThingRuntimeConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "UpdateThingRuntimeConfigurationResponse",
-}) as any as S.Schema<UpdateThingRuntimeConfigurationResponse>;
 export type AssociateRoleToGroupError =
   | BadRequestException
   | InternalServerErrorException
@@ -4423,13 +1335,17 @@ export const associateRoleToGroup: API.OperationMethod<
   AssociateRoleToGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateRoleToGroupRequest,
-  output: AssociateRoleToGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /greengrass/groups/{GroupId}/role",
+    input: { GroupId: 0, RoleArn: 0 },
+    body: true,
+  },
   errors: [BadRequestException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateRoleToGroup",
-}));
+})) as any;
 
 export type AssociateServiceRoleToAccountError =
   | BadRequestException
@@ -4444,13 +1360,17 @@ export const associateServiceRoleToAccount: API.OperationMethod<
   AssociateServiceRoleToAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateServiceRoleToAccountRequest,
-  output: AssociateServiceRoleToAccountResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /greengrass/servicerole",
+    input: { RoleArn: 0 },
+    body: true,
+  },
   errors: [BadRequestException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateServiceRoleToAccount",
-}));
+})) as any;
 
 export type CreateConnectorDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -4462,13 +1382,22 @@ export const createConnectorDefinition: API.OperationMethod<
   CreateConnectorDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateConnectorDefinitionRequest,
-  output: CreateConnectorDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/definition/connectors",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      InitialVersion: { Connectors: D.list(i_Connector) },
+      Name: 0,
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectorDefinition",
-}));
+})) as any;
 
 export type CreateConnectorDefinitionVersionError =
   | BadRequestException
@@ -4482,13 +1411,21 @@ export const createConnectorDefinitionVersion: API.OperationMethod<
   CreateConnectorDefinitionVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateConnectorDefinitionVersionRequest,
-  output: CreateConnectorDefinitionVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/definition/connectors/{ConnectorDefinitionId}/versions",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      ConnectorDefinitionId: 0,
+      Connectors: D.list(i_Connector),
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectorDefinitionVersion",
-}));
+})) as any;
 
 export type CreateCoreDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -4500,13 +1437,22 @@ export const createCoreDefinition: API.OperationMethod<
   CreateCoreDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCoreDefinitionRequest,
-  output: CreateCoreDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/definition/cores",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      InitialVersion: { Cores: D.list(i_Core) },
+      Name: 0,
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCoreDefinition",
-}));
+})) as any;
 
 export type CreateCoreDefinitionVersionError =
   | BadRequestException
@@ -4520,13 +1466,21 @@ export const createCoreDefinitionVersion: API.OperationMethod<
   CreateCoreDefinitionVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCoreDefinitionVersionRequest,
-  output: CreateCoreDefinitionVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/definition/cores/{CoreDefinitionId}/versions",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      CoreDefinitionId: 0,
+      Cores: D.list(i_Core),
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCoreDefinitionVersion",
-}));
+})) as any;
 
 export type CreateDeploymentError = BadRequestException | CommonErrors;
 /**
@@ -4538,13 +1492,23 @@ export const createDeployment: API.OperationMethod<
   CreateDeploymentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDeploymentRequest,
-  output: CreateDeploymentResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/groups/{GroupId}/deployments",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      DeploymentId: 0,
+      DeploymentType: 0,
+      GroupId: 0,
+      GroupVersionId: 0,
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
-}));
+})) as any;
 
 export type CreateDeviceDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -4556,13 +1520,22 @@ export const createDeviceDefinition: API.OperationMethod<
   CreateDeviceDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDeviceDefinitionRequest,
-  output: CreateDeviceDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/definition/devices",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      InitialVersion: { Devices: D.list(i_Device) },
+      Name: 0,
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeviceDefinition",
-}));
+})) as any;
 
 export type CreateDeviceDefinitionVersionError =
   | BadRequestException
@@ -4576,13 +1549,21 @@ export const createDeviceDefinitionVersion: API.OperationMethod<
   CreateDeviceDefinitionVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDeviceDefinitionVersionRequest,
-  output: CreateDeviceDefinitionVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/definition/devices/{DeviceDefinitionId}/versions",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      DeviceDefinitionId: 0,
+      Devices: D.list(i_Device),
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeviceDefinitionVersion",
-}));
+})) as any;
 
 export type CreateFunctionDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -4594,13 +1575,25 @@ export const createFunctionDefinition: API.OperationMethod<
   CreateFunctionDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFunctionDefinitionRequest,
-  output: CreateFunctionDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/definition/functions",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      InitialVersion: {
+        DefaultConfig: i_FunctionDefaultConfig,
+        Functions: D.list(i_Function),
+      },
+      Name: 0,
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunctionDefinition",
-}));
+})) as any;
 
 export type CreateFunctionDefinitionVersionError =
   | BadRequestException
@@ -4614,13 +1607,22 @@ export const createFunctionDefinitionVersion: API.OperationMethod<
   CreateFunctionDefinitionVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFunctionDefinitionVersionRequest,
-  output: CreateFunctionDefinitionVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/definition/functions/{FunctionDefinitionId}/versions",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      DefaultConfig: i_FunctionDefaultConfig,
+      FunctionDefinitionId: 0,
+      Functions: D.list(i_Function),
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunctionDefinitionVersion",
-}));
+})) as any;
 
 export type CreateGroupError = BadRequestException | CommonErrors;
 /**
@@ -4632,13 +1634,30 @@ export const createGroup: API.OperationMethod<
   CreateGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateGroupRequest,
-  output: CreateGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/groups",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      InitialVersion: {
+        ConnectorDefinitionVersionArn: 0,
+        CoreDefinitionVersionArn: 0,
+        DeviceDefinitionVersionArn: 0,
+        FunctionDefinitionVersionArn: 0,
+        LoggerDefinitionVersionArn: 0,
+        ResourceDefinitionVersionArn: 0,
+        SubscriptionDefinitionVersionArn: 0,
+      },
+      Name: 0,
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
-}));
+})) as any;
 
 export type CreateGroupCertificateAuthorityError =
   | BadRequestException
@@ -4653,13 +1672,19 @@ export const createGroupCertificateAuthority: API.OperationMethod<
   CreateGroupCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateGroupCertificateAuthorityRequest,
-  output: CreateGroupCertificateAuthorityResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/groups/{GroupId}/certificateauthorities",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      GroupId: 0,
+    },
+  },
   errors: [BadRequestException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroupCertificateAuthority",
-}));
+})) as any;
 
 export type CreateGroupVersionError = BadRequestException | CommonErrors;
 /**
@@ -4671,13 +1696,27 @@ export const createGroupVersion: API.OperationMethod<
   CreateGroupVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateGroupVersionRequest,
-  output: CreateGroupVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/groups/{GroupId}/versions",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      ConnectorDefinitionVersionArn: 0,
+      CoreDefinitionVersionArn: 0,
+      DeviceDefinitionVersionArn: 0,
+      FunctionDefinitionVersionArn: 0,
+      GroupId: 0,
+      LoggerDefinitionVersionArn: 0,
+      ResourceDefinitionVersionArn: 0,
+      SubscriptionDefinitionVersionArn: 0,
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroupVersion",
-}));
+})) as any;
 
 export type CreateLoggerDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -4689,13 +1728,22 @@ export const createLoggerDefinition: API.OperationMethod<
   CreateLoggerDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLoggerDefinitionRequest,
-  output: CreateLoggerDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/definition/loggers",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      InitialVersion: { Loggers: D.list(i_Logger) },
+      Name: 0,
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoggerDefinition",
-}));
+})) as any;
 
 export type CreateLoggerDefinitionVersionError =
   | BadRequestException
@@ -4709,13 +1757,21 @@ export const createLoggerDefinitionVersion: API.OperationMethod<
   CreateLoggerDefinitionVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLoggerDefinitionVersionRequest,
-  output: CreateLoggerDefinitionVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/definition/loggers/{LoggerDefinitionId}/versions",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      LoggerDefinitionId: 0,
+      Loggers: D.list(i_Logger),
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoggerDefinitionVersion",
-}));
+})) as any;
 
 export type CreateResourceDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -4727,13 +1783,22 @@ export const createResourceDefinition: API.OperationMethod<
   CreateResourceDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateResourceDefinitionRequest,
-  output: CreateResourceDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/definition/resources",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      InitialVersion: { Resources: D.list(i_Resource) },
+      Name: 0,
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceDefinition",
-}));
+})) as any;
 
 export type CreateResourceDefinitionVersionError =
   | BadRequestException
@@ -4747,13 +1812,21 @@ export const createResourceDefinitionVersion: API.OperationMethod<
   CreateResourceDefinitionVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateResourceDefinitionVersionRequest,
-  output: CreateResourceDefinitionVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/definition/resources/{ResourceDefinitionId}/versions",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      ResourceDefinitionId: 0,
+      Resources: D.list(i_Resource),
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceDefinitionVersion",
-}));
+})) as any;
 
 export type CreateSoftwareUpdateJobError =
   | BadRequestException
@@ -4768,13 +1841,25 @@ export const createSoftwareUpdateJob: API.OperationMethod<
   CreateSoftwareUpdateJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSoftwareUpdateJobRequest,
-  output: CreateSoftwareUpdateJobResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/updates",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      S3UrlSignerRole: 0,
+      SoftwareToUpdate: 0,
+      UpdateAgentLogLevel: 0,
+      UpdateTargets: 0,
+      UpdateTargetsArchitecture: 0,
+      UpdateTargetsOperatingSystem: 0,
+    },
+    body: true,
+  },
   errors: [BadRequestException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSoftwareUpdateJob",
-}));
+})) as any;
 
 export type CreateSubscriptionDefinitionError =
   | BadRequestException
@@ -4788,13 +1873,22 @@ export const createSubscriptionDefinition: API.OperationMethod<
   CreateSubscriptionDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSubscriptionDefinitionRequest,
-  output: CreateSubscriptionDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/definition/subscriptions",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      InitialVersion: { Subscriptions: D.list(i_Subscription) },
+      Name: 0,
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionDefinition",
-}));
+})) as any;
 
 export type CreateSubscriptionDefinitionVersionError =
   | BadRequestException
@@ -4808,13 +1902,21 @@ export const createSubscriptionDefinitionVersion: API.OperationMethod<
   CreateSubscriptionDefinitionVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSubscriptionDefinitionVersionRequest,
-  output: CreateSubscriptionDefinitionVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      SubscriptionDefinitionId: 0,
+      Subscriptions: D.list(i_Subscription),
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionDefinitionVersion",
-}));
+})) as any;
 
 export type DeleteConnectorDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -4826,13 +1928,16 @@ export const deleteConnectorDefinition: API.OperationMethod<
   DeleteConnectorDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteConnectorDefinitionRequest,
-  output: DeleteConnectorDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /greengrass/definition/connectors/{ConnectorDefinitionId}",
+    input: { ConnectorDefinitionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectorDefinition",
-}));
+})) as any;
 
 export type DeleteCoreDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -4844,13 +1949,16 @@ export const deleteCoreDefinition: API.OperationMethod<
   DeleteCoreDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCoreDefinitionRequest,
-  output: DeleteCoreDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /greengrass/definition/cores/{CoreDefinitionId}",
+    input: { CoreDefinitionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoreDefinition",
-}));
+})) as any;
 
 export type DeleteDeviceDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -4862,13 +1970,16 @@ export const deleteDeviceDefinition: API.OperationMethod<
   DeleteDeviceDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDeviceDefinitionRequest,
-  output: DeleteDeviceDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /greengrass/definition/devices/{DeviceDefinitionId}",
+    input: { DeviceDefinitionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeviceDefinition",
-}));
+})) as any;
 
 export type DeleteFunctionDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -4880,13 +1991,16 @@ export const deleteFunctionDefinition: API.OperationMethod<
   DeleteFunctionDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFunctionDefinitionRequest,
-  output: DeleteFunctionDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /greengrass/definition/functions/{FunctionDefinitionId}",
+    input: { FunctionDefinitionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunctionDefinition",
-}));
+})) as any;
 
 export type DeleteGroupError = BadRequestException | CommonErrors;
 /**
@@ -4898,13 +2012,16 @@ export const deleteGroup: API.OperationMethod<
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteGroupRequest,
-  output: DeleteGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /greengrass/groups/{GroupId}",
+    input: { GroupId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
-}));
+})) as any;
 
 export type DeleteLoggerDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -4916,13 +2033,16 @@ export const deleteLoggerDefinition: API.OperationMethod<
   DeleteLoggerDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLoggerDefinitionRequest,
-  output: DeleteLoggerDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /greengrass/definition/loggers/{LoggerDefinitionId}",
+    input: { LoggerDefinitionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoggerDefinition",
-}));
+})) as any;
 
 export type DeleteResourceDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -4934,13 +2054,16 @@ export const deleteResourceDefinition: API.OperationMethod<
   DeleteResourceDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResourceDefinitionRequest,
-  output: DeleteResourceDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /greengrass/definition/resources/{ResourceDefinitionId}",
+    input: { ResourceDefinitionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceDefinition",
-}));
+})) as any;
 
 export type DeleteSubscriptionDefinitionError =
   | BadRequestException
@@ -4954,13 +2077,16 @@ export const deleteSubscriptionDefinition: API.OperationMethod<
   DeleteSubscriptionDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSubscriptionDefinitionRequest,
-  output: DeleteSubscriptionDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /greengrass/definition/subscriptions/{SubscriptionDefinitionId}",
+    input: { SubscriptionDefinitionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriptionDefinition",
-}));
+})) as any;
 
 export type DisassociateRoleFromGroupError =
   | BadRequestException
@@ -4975,13 +2101,16 @@ export const disassociateRoleFromGroup: API.OperationMethod<
   DisassociateRoleFromGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateRoleFromGroupRequest,
-  output: DisassociateRoleFromGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /greengrass/groups/{GroupId}/role",
+    input: { GroupId: 0 },
+  },
   errors: [BadRequestException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRoleFromGroup",
-}));
+})) as any;
 
 export type DisassociateServiceRoleFromAccountError =
   | InternalServerErrorException
@@ -4995,13 +2124,16 @@ export const disassociateServiceRoleFromAccount: API.OperationMethod<
   DisassociateServiceRoleFromAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateServiceRoleFromAccountRequest,
-  output: DisassociateServiceRoleFromAccountResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /greengrass/servicerole",
+    input: {},
+  },
   errors: [InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateServiceRoleFromAccount",
-}));
+})) as any;
 
 export type GetAssociatedRoleError =
   | BadRequestException
@@ -5016,13 +2148,16 @@ export const getAssociatedRole: API.OperationMethod<
   GetAssociatedRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAssociatedRoleRequest,
-  output: GetAssociatedRoleResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/groups/{GroupId}/role",
+    input: { GroupId: 0 },
+  },
   errors: [BadRequestException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociatedRole",
-}));
+})) as any;
 
 export type GetBulkDeploymentStatusError = BadRequestException | CommonErrors;
 /**
@@ -5034,13 +2169,16 @@ export const getBulkDeploymentStatus: API.OperationMethod<
   GetBulkDeploymentStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetBulkDeploymentStatusRequest,
-  output: GetBulkDeploymentStatusResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/bulk/deployments/{BulkDeploymentId}/status",
+    input: { BulkDeploymentId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBulkDeploymentStatus",
-}));
+})) as any;
 
 export type GetConnectivityInfoError =
   | BadRequestException
@@ -5055,13 +2193,17 @@ export const getConnectivityInfo: API.OperationMethod<
   GetConnectivityInfoError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetConnectivityInfoRequest,
-  output: GetConnectivityInfoResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/things/{ThingName}/connectivityInfo",
+    input: { ThingName: 0 },
+    output: { Message: D.m({ wire: "message" }) },
+  },
   errors: [BadRequestException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectivityInfo",
-}));
+})) as any;
 
 export type GetConnectorDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -5073,13 +2215,16 @@ export const getConnectorDefinition: API.OperationMethod<
   GetConnectorDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetConnectorDefinitionRequest,
-  output: GetConnectorDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/connectors/{ConnectorDefinitionId}",
+    input: { ConnectorDefinitionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectorDefinition",
-}));
+})) as any;
 
 export type GetConnectorDefinitionVersionError =
   | BadRequestException
@@ -5093,13 +2238,20 @@ export const getConnectorDefinitionVersion: API.OperationMethod<
   GetConnectorDefinitionVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetConnectorDefinitionVersionRequest,
-  output: GetConnectorDefinitionVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/connectors/{ConnectorDefinitionId}/versions/{ConnectorDefinitionVersionId}",
+    input: {
+      ConnectorDefinitionId: 0,
+      ConnectorDefinitionVersionId: 0,
+      NextToken: D.m({ query: "NextToken" }),
+    },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectorDefinitionVersion",
-}));
+})) as any;
 
 export type GetCoreDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -5111,13 +2263,16 @@ export const getCoreDefinition: API.OperationMethod<
   GetCoreDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCoreDefinitionRequest,
-  output: GetCoreDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/cores/{CoreDefinitionId}",
+    input: { CoreDefinitionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoreDefinition",
-}));
+})) as any;
 
 export type GetCoreDefinitionVersionError = BadRequestException | CommonErrors;
 /**
@@ -5129,13 +2284,16 @@ export const getCoreDefinitionVersion: API.OperationMethod<
   GetCoreDefinitionVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCoreDefinitionVersionRequest,
-  output: GetCoreDefinitionVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/cores/{CoreDefinitionId}/versions/{CoreDefinitionVersionId}",
+    input: { CoreDefinitionId: 0, CoreDefinitionVersionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoreDefinitionVersion",
-}));
+})) as any;
 
 export type GetDeploymentStatusError = BadRequestException | CommonErrors;
 /**
@@ -5147,13 +2305,16 @@ export const getDeploymentStatus: API.OperationMethod<
   GetDeploymentStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDeploymentStatusRequest,
-  output: GetDeploymentStatusResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/groups/{GroupId}/deployments/{DeploymentId}/status",
+    input: { DeploymentId: 0, GroupId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentStatus",
-}));
+})) as any;
 
 export type GetDeviceDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -5165,13 +2326,16 @@ export const getDeviceDefinition: API.OperationMethod<
   GetDeviceDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDeviceDefinitionRequest,
-  output: GetDeviceDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/devices/{DeviceDefinitionId}",
+    input: { DeviceDefinitionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceDefinition",
-}));
+})) as any;
 
 export type GetDeviceDefinitionVersionError =
   | BadRequestException
@@ -5185,13 +2349,20 @@ export const getDeviceDefinitionVersion: API.OperationMethod<
   GetDeviceDefinitionVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDeviceDefinitionVersionRequest,
-  output: GetDeviceDefinitionVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/devices/{DeviceDefinitionId}/versions/{DeviceDefinitionVersionId}",
+    input: {
+      DeviceDefinitionId: 0,
+      DeviceDefinitionVersionId: 0,
+      NextToken: D.m({ query: "NextToken" }),
+    },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceDefinitionVersion",
-}));
+})) as any;
 
 export type GetFunctionDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -5203,13 +2374,16 @@ export const getFunctionDefinition: API.OperationMethod<
   GetFunctionDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetFunctionDefinitionRequest,
-  output: GetFunctionDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/functions/{FunctionDefinitionId}",
+    input: { FunctionDefinitionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionDefinition",
-}));
+})) as any;
 
 export type GetFunctionDefinitionVersionError =
   | BadRequestException
@@ -5223,13 +2397,20 @@ export const getFunctionDefinitionVersion: API.OperationMethod<
   GetFunctionDefinitionVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetFunctionDefinitionVersionRequest,
-  output: GetFunctionDefinitionVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/functions/{FunctionDefinitionId}/versions/{FunctionDefinitionVersionId}",
+    input: {
+      FunctionDefinitionId: 0,
+      FunctionDefinitionVersionId: 0,
+      NextToken: D.m({ query: "NextToken" }),
+    },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionDefinitionVersion",
-}));
+})) as any;
 
 export type GetGroupError = BadRequestException | CommonErrors;
 /**
@@ -5241,13 +2422,16 @@ export const getGroup: API.OperationMethod<
   GetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetGroupRequest,
-  output: GetGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/groups/{GroupId}",
+    input: { GroupId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
-}));
+})) as any;
 
 export type GetGroupCertificateAuthorityError =
   | BadRequestException
@@ -5262,13 +2446,16 @@ export const getGroupCertificateAuthority: API.OperationMethod<
   GetGroupCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetGroupCertificateAuthorityRequest,
-  output: GetGroupCertificateAuthorityResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/groups/{GroupId}/certificateauthorities/{CertificateAuthorityId}",
+    input: { CertificateAuthorityId: 0, GroupId: 0 },
+  },
   errors: [BadRequestException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupCertificateAuthority",
-}));
+})) as any;
 
 export type GetGroupCertificateConfigurationError =
   | BadRequestException
@@ -5283,13 +2470,16 @@ export const getGroupCertificateConfiguration: API.OperationMethod<
   GetGroupCertificateConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetGroupCertificateConfigurationRequest,
-  output: GetGroupCertificateConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/groups/{GroupId}/certificateauthorities/configuration/expiry",
+    input: { GroupId: 0 },
+  },
   errors: [BadRequestException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupCertificateConfiguration",
-}));
+})) as any;
 
 export type GetGroupVersionError = BadRequestException | CommonErrors;
 /**
@@ -5301,13 +2491,16 @@ export const getGroupVersion: API.OperationMethod<
   GetGroupVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetGroupVersionRequest,
-  output: GetGroupVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/groups/{GroupId}/versions/{GroupVersionId}",
+    input: { GroupId: 0, GroupVersionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupVersion",
-}));
+})) as any;
 
 export type GetLoggerDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -5319,13 +2512,16 @@ export const getLoggerDefinition: API.OperationMethod<
   GetLoggerDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLoggerDefinitionRequest,
-  output: GetLoggerDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/loggers/{LoggerDefinitionId}",
+    input: { LoggerDefinitionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggerDefinition",
-}));
+})) as any;
 
 export type GetLoggerDefinitionVersionError =
   | BadRequestException
@@ -5339,13 +2535,20 @@ export const getLoggerDefinitionVersion: API.OperationMethod<
   GetLoggerDefinitionVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLoggerDefinitionVersionRequest,
-  output: GetLoggerDefinitionVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/loggers/{LoggerDefinitionId}/versions/{LoggerDefinitionVersionId}",
+    input: {
+      LoggerDefinitionId: 0,
+      LoggerDefinitionVersionId: 0,
+      NextToken: D.m({ query: "NextToken" }),
+    },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggerDefinitionVersion",
-}));
+})) as any;
 
 export type GetResourceDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -5357,13 +2560,16 @@ export const getResourceDefinition: API.OperationMethod<
   GetResourceDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResourceDefinitionRequest,
-  output: GetResourceDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/resources/{ResourceDefinitionId}",
+    input: { ResourceDefinitionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceDefinition",
-}));
+})) as any;
 
 export type GetResourceDefinitionVersionError =
   | BadRequestException
@@ -5377,13 +2583,16 @@ export const getResourceDefinitionVersion: API.OperationMethod<
   GetResourceDefinitionVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResourceDefinitionVersionRequest,
-  output: GetResourceDefinitionVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/resources/{ResourceDefinitionId}/versions/{ResourceDefinitionVersionId}",
+    input: { ResourceDefinitionId: 0, ResourceDefinitionVersionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceDefinitionVersion",
-}));
+})) as any;
 
 export type GetServiceRoleForAccountError =
   | InternalServerErrorException
@@ -5397,13 +2606,12 @@ export const getServiceRoleForAccount: API.OperationMethod<
   GetServiceRoleForAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetServiceRoleForAccountRequest,
-  output: GetServiceRoleForAccountResponse,
+  descriptor: { service: svc, http: "GET /greengrass/servicerole", input: {} },
   errors: [InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceRoleForAccount",
-}));
+})) as any;
 
 export type GetSubscriptionDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -5415,13 +2623,16 @@ export const getSubscriptionDefinition: API.OperationMethod<
   GetSubscriptionDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSubscriptionDefinitionRequest,
-  output: GetSubscriptionDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/subscriptions/{SubscriptionDefinitionId}",
+    input: { SubscriptionDefinitionId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionDefinition",
-}));
+})) as any;
 
 export type GetSubscriptionDefinitionVersionError =
   | BadRequestException
@@ -5435,13 +2646,20 @@ export const getSubscriptionDefinitionVersion: API.OperationMethod<
   GetSubscriptionDefinitionVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSubscriptionDefinitionVersionRequest,
-  output: GetSubscriptionDefinitionVersionResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions/{SubscriptionDefinitionVersionId}",
+    input: {
+      NextToken: D.m({ query: "NextToken" }),
+      SubscriptionDefinitionId: 0,
+      SubscriptionDefinitionVersionId: 0,
+    },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionDefinitionVersion",
-}));
+})) as any;
 
 export type GetThingRuntimeConfigurationError =
   | BadRequestException
@@ -5456,13 +2674,16 @@ export const getThingRuntimeConfiguration: API.OperationMethod<
   GetThingRuntimeConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetThingRuntimeConfigurationRequest,
-  output: GetThingRuntimeConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/things/{ThingName}/runtimeconfig",
+    input: { ThingName: 0 },
+  },
   errors: [BadRequestException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThingRuntimeConfiguration",
-}));
+})) as any;
 
 export type ListBulkDeploymentDetailedReportsError =
   | BadRequestException
@@ -5476,13 +2697,20 @@ export const listBulkDeploymentDetailedReports: API.OperationMethod<
   ListBulkDeploymentDetailedReportsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListBulkDeploymentDetailedReportsRequest,
-  output: ListBulkDeploymentDetailedReportsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/bulk/deployments/{BulkDeploymentId}/detailed-reports",
+    input: {
+      BulkDeploymentId: 0,
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBulkDeploymentDetailedReports",
-}));
+})) as any;
 
 export type ListBulkDeploymentsError = BadRequestException | CommonErrors;
 /**
@@ -5494,13 +2722,19 @@ export const listBulkDeployments: API.OperationMethod<
   ListBulkDeploymentsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListBulkDeploymentsRequest,
-  output: ListBulkDeploymentsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/bulk/deployments",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBulkDeployments",
-}));
+})) as any;
 
 export type ListConnectorDefinitionsError = CommonErrors;
 /**
@@ -5512,13 +2746,20 @@ export const listConnectorDefinitions: API.OperationMethod<
   ListConnectorDefinitionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListConnectorDefinitionsRequest,
-  output: ListConnectorDefinitionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/connectors",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { Definitions: D.list(o_DefinitionInformation) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectorDefinitions",
-}));
+})) as any;
 
 export type ListConnectorDefinitionVersionsError =
   | BadRequestException
@@ -5532,13 +2773,20 @@ export const listConnectorDefinitionVersions: API.OperationMethod<
   ListConnectorDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListConnectorDefinitionVersionsRequest,
-  output: ListConnectorDefinitionVersionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/connectors/{ConnectorDefinitionId}/versions",
+    input: {
+      ConnectorDefinitionId: 0,
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectorDefinitionVersions",
-}));
+})) as any;
 
 export type ListCoreDefinitionsError = CommonErrors;
 /**
@@ -5550,13 +2798,20 @@ export const listCoreDefinitions: API.OperationMethod<
   ListCoreDefinitionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListCoreDefinitionsRequest,
-  output: ListCoreDefinitionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/cores",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { Definitions: D.list(o_DefinitionInformation) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCoreDefinitions",
-}));
+})) as any;
 
 export type ListCoreDefinitionVersionsError =
   | BadRequestException
@@ -5570,13 +2825,20 @@ export const listCoreDefinitionVersions: API.OperationMethod<
   ListCoreDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListCoreDefinitionVersionsRequest,
-  output: ListCoreDefinitionVersionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/cores/{CoreDefinitionId}/versions",
+    input: {
+      CoreDefinitionId: 0,
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCoreDefinitionVersions",
-}));
+})) as any;
 
 export type ListDeploymentsError = BadRequestException | CommonErrors;
 /**
@@ -5588,13 +2850,20 @@ export const listDeployments: API.OperationMethod<
   ListDeploymentsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDeploymentsRequest,
-  output: ListDeploymentsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/groups/{GroupId}/deployments",
+    input: {
+      GroupId: 0,
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeployments",
-}));
+})) as any;
 
 export type ListDeviceDefinitionsError = CommonErrors;
 /**
@@ -5606,13 +2875,20 @@ export const listDeviceDefinitions: API.OperationMethod<
   ListDeviceDefinitionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDeviceDefinitionsRequest,
-  output: ListDeviceDefinitionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/devices",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { Definitions: D.list(o_DefinitionInformation) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeviceDefinitions",
-}));
+})) as any;
 
 export type ListDeviceDefinitionVersionsError =
   | BadRequestException
@@ -5626,13 +2902,20 @@ export const listDeviceDefinitionVersions: API.OperationMethod<
   ListDeviceDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDeviceDefinitionVersionsRequest,
-  output: ListDeviceDefinitionVersionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/devices/{DeviceDefinitionId}/versions",
+    input: {
+      DeviceDefinitionId: 0,
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeviceDefinitionVersions",
-}));
+})) as any;
 
 export type ListFunctionDefinitionsError = CommonErrors;
 /**
@@ -5644,13 +2927,20 @@ export const listFunctionDefinitions: API.OperationMethod<
   ListFunctionDefinitionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListFunctionDefinitionsRequest,
-  output: ListFunctionDefinitionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/functions",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { Definitions: D.list(o_DefinitionInformation) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctionDefinitions",
-}));
+})) as any;
 
 export type ListFunctionDefinitionVersionsError =
   | BadRequestException
@@ -5664,13 +2954,20 @@ export const listFunctionDefinitionVersions: API.OperationMethod<
   ListFunctionDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListFunctionDefinitionVersionsRequest,
-  output: ListFunctionDefinitionVersionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/functions/{FunctionDefinitionId}/versions",
+    input: {
+      FunctionDefinitionId: 0,
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctionDefinitionVersions",
-}));
+})) as any;
 
 export type ListGroupCertificateAuthoritiesError =
   | BadRequestException
@@ -5685,13 +2982,16 @@ export const listGroupCertificateAuthorities: API.OperationMethod<
   ListGroupCertificateAuthoritiesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListGroupCertificateAuthoritiesRequest,
-  output: ListGroupCertificateAuthoritiesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/groups/{GroupId}/certificateauthorities",
+    input: { GroupId: 0 },
+  },
   errors: [BadRequestException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroupCertificateAuthorities",
-}));
+})) as any;
 
 export type ListGroupsError = CommonErrors;
 /**
@@ -5703,13 +3003,19 @@ export const listGroups: API.OperationMethod<
   ListGroupsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListGroupsRequest,
-  output: ListGroupsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/groups",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroups",
-}));
+})) as any;
 
 export type ListGroupVersionsError = BadRequestException | CommonErrors;
 /**
@@ -5721,13 +3027,20 @@ export const listGroupVersions: API.OperationMethod<
   ListGroupVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListGroupVersionsRequest,
-  output: ListGroupVersionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/groups/{GroupId}/versions",
+    input: {
+      GroupId: 0,
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroupVersions",
-}));
+})) as any;
 
 export type ListLoggerDefinitionsError = CommonErrors;
 /**
@@ -5739,13 +3052,20 @@ export const listLoggerDefinitions: API.OperationMethod<
   ListLoggerDefinitionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListLoggerDefinitionsRequest,
-  output: ListLoggerDefinitionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/loggers",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { Definitions: D.list(o_DefinitionInformation) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoggerDefinitions",
-}));
+})) as any;
 
 export type ListLoggerDefinitionVersionsError =
   | BadRequestException
@@ -5759,13 +3079,20 @@ export const listLoggerDefinitionVersions: API.OperationMethod<
   ListLoggerDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListLoggerDefinitionVersionsRequest,
-  output: ListLoggerDefinitionVersionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/loggers/{LoggerDefinitionId}/versions",
+    input: {
+      LoggerDefinitionId: 0,
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoggerDefinitionVersions",
-}));
+})) as any;
 
 export type ListResourceDefinitionsError = CommonErrors;
 /**
@@ -5777,13 +3104,20 @@ export const listResourceDefinitions: API.OperationMethod<
   ListResourceDefinitionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListResourceDefinitionsRequest,
-  output: ListResourceDefinitionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/resources",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { Definitions: D.list(o_DefinitionInformation) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceDefinitions",
-}));
+})) as any;
 
 export type ListResourceDefinitionVersionsError =
   | BadRequestException
@@ -5797,13 +3131,20 @@ export const listResourceDefinitionVersions: API.OperationMethod<
   ListResourceDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListResourceDefinitionVersionsRequest,
-  output: ListResourceDefinitionVersionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/resources/{ResourceDefinitionId}/versions",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+      ResourceDefinitionId: 0,
+    },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceDefinitionVersions",
-}));
+})) as any;
 
 export type ListSubscriptionDefinitionsError = CommonErrors;
 /**
@@ -5815,13 +3156,20 @@ export const listSubscriptionDefinitions: API.OperationMethod<
   ListSubscriptionDefinitionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListSubscriptionDefinitionsRequest,
-  output: ListSubscriptionDefinitionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/subscriptions",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+    },
+    output: { Definitions: D.list(o_DefinitionInformation) },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscriptionDefinitions",
-}));
+})) as any;
 
 export type ListSubscriptionDefinitionVersionsError =
   | BadRequestException
@@ -5835,13 +3183,20 @@ export const listSubscriptionDefinitionVersions: API.OperationMethod<
   ListSubscriptionDefinitionVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListSubscriptionDefinitionVersionsRequest,
-  output: ListSubscriptionDefinitionVersionsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions",
+    input: {
+      MaxResults: D.m({ query: "MaxResults" }),
+      NextToken: D.m({ query: "NextToken" }),
+      SubscriptionDefinitionId: 0,
+    },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscriptionDefinitionVersions",
-}));
+})) as any;
 
 export type ListTagsForResourceError = BadRequestException | CommonErrors;
 /**
@@ -5853,13 +3208,16 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{ResourceArn}",
+    input: { ResourceArn: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type ResetDeploymentsError = BadRequestException | CommonErrors;
 /**
@@ -5871,13 +3229,21 @@ export const resetDeployments: API.OperationMethod<
   ResetDeploymentsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ResetDeploymentsRequest,
-  output: ResetDeploymentsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/groups/{GroupId}/deployments/$reset",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      Force: 0,
+      GroupId: 0,
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetDeployments",
-}));
+})) as any;
 
 export type StartBulkDeploymentError = BadRequestException | CommonErrors;
 /**
@@ -5889,13 +3255,22 @@ export const startBulkDeployment: API.OperationMethod<
   StartBulkDeploymentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartBulkDeploymentRequest,
-  output: StartBulkDeploymentResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /greengrass/bulk/deployments",
+    input: {
+      AmznClientToken: D.m({ header: "X-Amzn-Client-Token" }),
+      ExecutionRoleArn: 0,
+      InputFileUri: 0,
+      tags: 0,
+    },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBulkDeployment",
-}));
+})) as any;
 
 export type StopBulkDeploymentError = BadRequestException | CommonErrors;
 /**
@@ -5907,13 +3282,16 @@ export const stopBulkDeployment: API.OperationMethod<
   StopBulkDeploymentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopBulkDeploymentRequest,
-  output: StopBulkDeploymentResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /greengrass/bulk/deployments/{BulkDeploymentId}/$stop",
+    input: { BulkDeploymentId: 0 },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBulkDeployment",
-}));
+})) as any;
 
 export type TagResourceError = BadRequestException | CommonErrors;
 /**
@@ -5925,13 +3303,17 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{ResourceArn}",
+    input: { ResourceArn: 0, tags: 0 },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type UntagResourceError = BadRequestException | CommonErrors;
 /**
@@ -5943,13 +3325,16 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{ResourceArn}",
+    input: { ResourceArn: 0, TagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateConnectivityInfoError =
   | BadRequestException
@@ -5964,13 +3349,26 @@ export const updateConnectivityInfo: API.OperationMethod<
   UpdateConnectivityInfoError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateConnectivityInfoRequest,
-  output: UpdateConnectivityInfoResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /greengrass/things/{ThingName}/connectivityInfo",
+    input: {
+      ConnectivityInfo: D.list({
+        HostAddress: 0,
+        Id: 0,
+        Metadata: 0,
+        PortNumber: 0,
+      }),
+      ThingName: 0,
+    },
+    output: { Message: D.m({ wire: "message" }) },
+    body: true,
+  },
   errors: [BadRequestException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectivityInfo",
-}));
+})) as any;
 
 export type UpdateConnectorDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -5982,13 +3380,17 @@ export const updateConnectorDefinition: API.OperationMethod<
   UpdateConnectorDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateConnectorDefinitionRequest,
-  output: UpdateConnectorDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /greengrass/definition/connectors/{ConnectorDefinitionId}",
+    input: { ConnectorDefinitionId: 0, Name: 0 },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectorDefinition",
-}));
+})) as any;
 
 export type UpdateCoreDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -6000,13 +3402,17 @@ export const updateCoreDefinition: API.OperationMethod<
   UpdateCoreDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateCoreDefinitionRequest,
-  output: UpdateCoreDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /greengrass/definition/cores/{CoreDefinitionId}",
+    input: { CoreDefinitionId: 0, Name: 0 },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCoreDefinition",
-}));
+})) as any;
 
 export type UpdateDeviceDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -6018,13 +3424,17 @@ export const updateDeviceDefinition: API.OperationMethod<
   UpdateDeviceDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDeviceDefinitionRequest,
-  output: UpdateDeviceDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /greengrass/definition/devices/{DeviceDefinitionId}",
+    input: { DeviceDefinitionId: 0, Name: 0 },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeviceDefinition",
-}));
+})) as any;
 
 export type UpdateFunctionDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -6036,13 +3446,17 @@ export const updateFunctionDefinition: API.OperationMethod<
   UpdateFunctionDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFunctionDefinitionRequest,
-  output: UpdateFunctionDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /greengrass/definition/functions/{FunctionDefinitionId}",
+    input: { FunctionDefinitionId: 0, Name: 0 },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunctionDefinition",
-}));
+})) as any;
 
 export type UpdateGroupError = BadRequestException | CommonErrors;
 /**
@@ -6054,13 +3468,17 @@ export const updateGroup: API.OperationMethod<
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateGroupRequest,
-  output: UpdateGroupResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /greengrass/groups/{GroupId}",
+    input: { GroupId: 0, Name: 0 },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
-}));
+})) as any;
 
 export type UpdateGroupCertificateConfigurationError =
   | BadRequestException
@@ -6075,13 +3493,17 @@ export const updateGroupCertificateConfiguration: API.OperationMethod<
   UpdateGroupCertificateConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateGroupCertificateConfigurationRequest,
-  output: UpdateGroupCertificateConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /greengrass/groups/{GroupId}/certificateauthorities/configuration/expiry",
+    input: { CertificateExpiryInMilliseconds: 0, GroupId: 0 },
+    body: true,
+  },
   errors: [BadRequestException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroupCertificateConfiguration",
-}));
+})) as any;
 
 export type UpdateLoggerDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -6093,13 +3515,17 @@ export const updateLoggerDefinition: API.OperationMethod<
   UpdateLoggerDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateLoggerDefinitionRequest,
-  output: UpdateLoggerDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /greengrass/definition/loggers/{LoggerDefinitionId}",
+    input: { LoggerDefinitionId: 0, Name: 0 },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoggerDefinition",
-}));
+})) as any;
 
 export type UpdateResourceDefinitionError = BadRequestException | CommonErrors;
 /**
@@ -6111,13 +3537,17 @@ export const updateResourceDefinition: API.OperationMethod<
   UpdateResourceDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateResourceDefinitionRequest,
-  output: UpdateResourceDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /greengrass/definition/resources/{ResourceDefinitionId}",
+    input: { Name: 0, ResourceDefinitionId: 0 },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceDefinition",
-}));
+})) as any;
 
 export type UpdateSubscriptionDefinitionError =
   | BadRequestException
@@ -6131,13 +3561,17 @@ export const updateSubscriptionDefinition: API.OperationMethod<
   UpdateSubscriptionDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSubscriptionDefinitionRequest,
-  output: UpdateSubscriptionDefinitionResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /greengrass/definition/subscriptions/{SubscriptionDefinitionId}",
+    input: { Name: 0, SubscriptionDefinitionId: 0 },
+    body: true,
+  },
   errors: [BadRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriptionDefinition",
-}));
+})) as any;
 
 export type UpdateThingRuntimeConfigurationError =
   | BadRequestException
@@ -6152,10 +3586,108 @@ export const updateThingRuntimeConfiguration: API.OperationMethod<
   UpdateThingRuntimeConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateThingRuntimeConfigurationRequest,
-  output: UpdateThingRuntimeConfigurationResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /greengrass/things/{ThingName}/runtimeconfig",
+    input: { TelemetryConfiguration: { Telemetry: 0 }, ThingName: 0 },
+    body: true,
+  },
   errors: [BadRequestException, InternalServerErrorException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThingRuntimeConfiguration",
-}));
+})) as any;
+
+const i_Connector: D.LazyStruct = () => ({
+  ConnectorArn: 0,
+  Id: 0,
+  Parameters: 0,
+});
+const i_Core: D.LazyStruct = () => ({
+  CertificateArn: 0,
+  Id: 0,
+  SyncShadow: 0,
+  ThingArn: 0,
+});
+const i_Device: D.LazyStruct = () => ({
+  CertificateArn: 0,
+  Id: 0,
+  SyncShadow: 0,
+  ThingArn: 0,
+});
+const i_Function: D.LazyStruct = () => ({
+  FunctionArn: 0,
+  FunctionConfiguration: {
+    EncodingType: 0,
+    Environment: {
+      AccessSysfs: 0,
+      Execution: { IsolationMode: 0, RunAs: i_FunctionRunAsConfig },
+      ResourceAccessPolicies: D.list({ Permission: 0, ResourceId: 0 }),
+      Variables: 0,
+    },
+    ExecArgs: 0,
+    Executable: 0,
+    MemorySize: 0,
+    Pinned: 0,
+    Timeout: 0,
+    FunctionRuntimeOverride: 0,
+  },
+  Id: 0,
+});
+const i_FunctionDefaultConfig: D.LazyStruct = () => ({
+  Execution: { IsolationMode: 0, RunAs: i_FunctionRunAsConfig },
+});
+const i_Logger: D.LazyStruct = () => ({
+  Component: 0,
+  Id: 0,
+  Level: 0,
+  Space: 0,
+  Type: 0,
+});
+const i_Resource: D.LazyStruct = () => ({
+  Id: 0,
+  Name: 0,
+  ResourceDataContainer: {
+    LocalDeviceResourceData: {
+      GroupOwnerSetting: i_GroupOwnerSetting,
+      SourcePath: 0,
+    },
+    LocalVolumeResourceData: {
+      DestinationPath: 0,
+      GroupOwnerSetting: i_GroupOwnerSetting,
+      SourcePath: 0,
+    },
+    S3MachineLearningModelResourceData: {
+      DestinationPath: 0,
+      OwnerSetting: i_ResourceDownloadOwnerSetting,
+      S3Uri: 0,
+    },
+    SageMakerMachineLearningModelResourceData: {
+      DestinationPath: 0,
+      OwnerSetting: i_ResourceDownloadOwnerSetting,
+      SageMakerJobArn: 0,
+    },
+    SecretsManagerSecretResourceData: {
+      ARN: 0,
+      AdditionalStagingLabelsToDownload: 0,
+    },
+  },
+});
+const i_Subscription: D.LazyStruct = () => ({
+  Id: 0,
+  Source: 0,
+  Subject: 0,
+  Target: 0,
+});
+const o_DefinitionInformation: D.LazyStruct = () => ({
+  Tags: D.m({ wire: "tags" }),
+});
+const i_FunctionRunAsConfig: D.LazyStruct = () => ({ Gid: 0, Uid: 0 });
+const i_GroupOwnerSetting: D.LazyStruct = () => ({
+  AutoAddGroupOwner: 0,
+  GroupOwner: 0,
+});
+const i_ResourceDownloadOwnerSetting: D.LazyStruct = () => ({
+  GroupOwner: 0,
+  GroupPermission: 0,
+});

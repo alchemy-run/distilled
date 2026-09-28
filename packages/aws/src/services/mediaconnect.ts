@@ -1,178 +1,174 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { restJson1Protocol } from "../protocols/rest-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "MediaConnect",
-  serviceShapeName: "MediaConnect",
-});
-const auth = T.AwsAuthSigv4({ name: "mediaconnect" });
-const ver = T.ServiceVersion("2018-11-14");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://mediaconnect-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://mediaconnect-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://mediaconnect.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://mediaconnect.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "MediaConnect",
+  version: "2018-11-14",
+  sigv4: "mediaconnect",
+  protocol: restJson1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://mediaconnect-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://mediaconnect-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://mediaconnect.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://mediaconnect.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AddFlowOutputs420Exception
-  extends /*@__PURE__*/ S.TaggedError<AddFlowOutputs420Exception>()(
-    "AddFlowOutputs420Exception",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(420),
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("AddFlowOutputs420Exception", [], {
+    status: 420,
+    renames: { Message: "message" },
+  })<{ readonly message?: string }> {}
 export class BadRequestException
-  extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "BadRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400, renames: { Message: "message" } },
+  )<{ readonly message?: string }> {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(409), T.Retryable()),
-  ).pipe(C.withConflictError, C.withRetryableError) {}
+    ["ConflictError", "RetryableError"],
+    { status: 409, renames: { Message: "message" } },
+  )<{ readonly message?: string }> {}
 export class CreateBridge420Exception
-  extends /*@__PURE__*/ S.TaggedError<CreateBridge420Exception>()(
-    "CreateBridge420Exception",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(420),
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("CreateBridge420Exception", [], {
+    status: 420,
+    renames: { Message: "message" },
+  })<{ readonly message?: string }> {}
 export class CreateFlow420Exception
-  extends /*@__PURE__*/ S.TaggedError<CreateFlow420Exception>()(
-    "CreateFlow420Exception",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(420),
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("CreateFlow420Exception", [], {
+    status: 420,
+    renames: { Message: "message" },
+  })<{ readonly message?: string }> {}
 export class CreateGateway420Exception
-  extends /*@__PURE__*/ S.TaggedError<CreateGateway420Exception>()(
-    "CreateGateway420Exception",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(420),
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("CreateGateway420Exception", [], {
+    status: 420,
+    renames: { Message: "message" },
+  })<{ readonly message?: string }> {}
 export class ForbiddenException
-  extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
-    "ForbiddenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ TE.TaggedError("ForbiddenException", ["AuthError"], {
+    status: 403,
+    renames: { Message: "message" },
+  })<{ readonly message?: string }> {}
 export class GrantFlowEntitlements420Exception
-  extends /*@__PURE__*/ S.TaggedError<GrantFlowEntitlements420Exception>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "GrantFlowEntitlements420Exception",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(420),
-  ) {}
+    [],
+    { status: 420, renames: { Message: "message" } },
+  )<{ readonly message?: string }> {}
 export class InternalServerErrorException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerErrorException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InternalServerErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(500), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 500, renames: { Message: "message" } },
+  )<{ readonly message?: string }> {}
 export class NotFoundException
-  extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 404, renames: { Message: "message" } },
+  )<{ readonly message?: string }> {}
 export class RouterInputServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<RouterInputServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RouterInputServiceQuotaExceededException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(420),
-  ) {}
+    [],
+    { status: 420, renames: { Message: "message" } },
+  )<{ readonly message: string }> {}
 export class RouterNetworkInterfaceServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<RouterNetworkInterfaceServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RouterNetworkInterfaceServiceQuotaExceededException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(420),
-  ) {}
+    [],
+    { status: 420, renames: { Message: "message" } },
+  )<{ readonly message: string }> {}
 export class RouterOutputServiceQuotaExceededException
-  extends /*@__PURE__*/ S.TaggedError<RouterOutputServiceQuotaExceededException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "RouterOutputServiceQuotaExceededException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(420),
-  ) {}
+    [],
+    { status: 420, renames: { Message: "message" } },
+  )<{ readonly message: string }> {}
 export class ServiceUnavailableException
-  extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "ServiceUnavailableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(503), T.Retryable()),
-  ).pipe(C.withServerError, C.withRetryableError) {}
+    ["ServerError", "RetryableError"],
+    { status: 503, renames: { Message: "message" } },
+  )<{ readonly message?: string }> {}
 export class TooManyRequestsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyRequestsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(429), T.Retryable()),
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+    ["ThrottlingError", "RetryableError"],
+    { status: 429, renames: { Message: "message" } },
+  )<{ readonly message?: string }> {}
 export type BridgeArn = string;
 export type Protocol =
   | "zixi-push"
@@ -188,8 +184,6 @@ export type Protocol =
   | "udp"
   | "ndi-speed-hq"
   | (string & {});
-export const Protocol = S.String;
-
 export interface AddBridgeNetworkOutputRequest {
   IpAddress?: string;
   Name?: string;
@@ -198,84 +192,19 @@ export interface AddBridgeNetworkOutputRequest {
   Protocol?: Protocol;
   Ttl?: number;
 }
-export const AddBridgeNetworkOutputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IpAddress: S.optional(S.String),
-    Name: S.optional(S.String),
-    NetworkName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    Protocol: S.optional(Protocol),
-    Ttl: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      IpAddress: "ipAddress",
-      Name: "name",
-      NetworkName: "networkName",
-      Port: "port",
-      Protocol: "protocol",
-      Ttl: "ttl",
-    }),
-  ),
-).annotate({
-  identifier: "AddBridgeNetworkOutputRequest",
-}) as any as S.Schema<AddBridgeNetworkOutputRequest>;
 export interface AddBridgeOutputRequest {
   NetworkOutput?: AddBridgeNetworkOutputRequest;
 }
-export const AddBridgeOutputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NetworkOutput: S.optional(AddBridgeNetworkOutputRequest) }).pipe(
-    S.encodeKeys({ NetworkOutput: "networkOutput" }),
-  ),
-).annotate({
-  identifier: "AddBridgeOutputRequest",
-}) as any as S.Schema<AddBridgeOutputRequest>;
 export type __listOfAddBridgeOutputRequest = AddBridgeOutputRequest[];
-export const __listOfAddBridgeOutputRequest = /*@__PURE__*/ S.Array(
-  AddBridgeOutputRequest,
-);
 export interface AddBridgeOutputsRequest {
   BridgeArn: string;
   Outputs?: AddBridgeOutputRequest[];
 }
-export const AddBridgeOutputsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.String.pipe(T.HttpLabel("BridgeArn")),
-    Outputs: S.optional(__listOfAddBridgeOutputRequest),
-  })
-    .pipe(S.encodeKeys({ Outputs: "outputs" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/bridges/{BridgeArn}/outputs" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "AddBridgeOutputsRequest",
-}) as any as S.Schema<AddBridgeOutputsRequest>;
 export interface BridgeFlowOutput {
   FlowArn?: string;
   FlowSourceArn?: string;
   Name?: string;
 }
-export const BridgeFlowOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.optional(S.String),
-    FlowSourceArn: S.optional(S.String),
-    Name: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      FlowArn: "flowArn",
-      FlowSourceArn: "flowSourceArn",
-      Name: "name",
-    }),
-  ),
-).annotate({
-  identifier: "BridgeFlowOutput",
-}) as any as S.Schema<BridgeFlowOutput>;
 export interface BridgeNetworkOutput {
   IpAddress?: string;
   Name?: string;
@@ -284,41 +213,11 @@ export interface BridgeNetworkOutput {
   Protocol?: Protocol;
   Ttl?: number;
 }
-export const BridgeNetworkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IpAddress: S.optional(S.String),
-    Name: S.optional(S.String),
-    NetworkName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    Protocol: S.optional(Protocol),
-    Ttl: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      IpAddress: "ipAddress",
-      Name: "name",
-      NetworkName: "networkName",
-      Port: "port",
-      Protocol: "protocol",
-      Ttl: "ttl",
-    }),
-  ),
-).annotate({
-  identifier: "BridgeNetworkOutput",
-}) as any as S.Schema<BridgeNetworkOutput>;
 export interface BridgeOutput {
   FlowOutput?: BridgeFlowOutput;
   NetworkOutput?: BridgeNetworkOutput;
 }
-export const BridgeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowOutput: S.optional(BridgeFlowOutput),
-    NetworkOutput: S.optional(BridgeNetworkOutput),
-  }).pipe(
-    S.encodeKeys({ FlowOutput: "flowOutput", NetworkOutput: "networkOutput" }),
-  ),
-).annotate({ identifier: "BridgeOutput" }) as any as S.Schema<BridgeOutput>;
 export type __listOfBridgeOutput = BridgeOutput[];
-export const __listOfBridgeOutput = /*@__PURE__*/ S.Array(BridgeOutput);
 export interface AddBridgeOutputsResponse {
   BridgeArn?: string;
   Outputs?: (BridgeOutput & {
@@ -337,54 +236,17 @@ export interface AddBridgeOutputsResponse {
     };
   })[];
 }
-export const AddBridgeOutputsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.optional(S.String),
-    Outputs: S.optional(__listOfBridgeOutput),
-  }).pipe(S.encodeKeys({ BridgeArn: "bridgeArn", Outputs: "outputs" })),
-).annotate({
-  identifier: "AddBridgeOutputsResponse",
-}) as any as S.Schema<AddBridgeOutputsResponse>;
 export interface VpcInterfaceAttachment {
   VpcInterfaceName?: string;
 }
-export const VpcInterfaceAttachment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VpcInterfaceName: S.optional(S.String) }).pipe(
-    S.encodeKeys({ VpcInterfaceName: "vpcInterfaceName" }),
-  ),
-).annotate({
-  identifier: "VpcInterfaceAttachment",
-}) as any as S.Schema<VpcInterfaceAttachment>;
 export interface AddBridgeFlowSourceRequest {
   FlowArn?: string;
   FlowVpcInterfaceAttachment?: VpcInterfaceAttachment;
   Name?: string;
 }
-export const AddBridgeFlowSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.optional(S.String),
-    FlowVpcInterfaceAttachment: S.optional(VpcInterfaceAttachment),
-    Name: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      FlowArn: "flowArn",
-      FlowVpcInterfaceAttachment: "flowVpcInterfaceAttachment",
-      Name: "name",
-    }),
-  ),
-).annotate({
-  identifier: "AddBridgeFlowSourceRequest",
-}) as any as S.Schema<AddBridgeFlowSourceRequest>;
 export interface MulticastSourceSettings {
   MulticastSourceIp?: string;
 }
-export const MulticastSourceSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MulticastSourceIp: S.optional(S.String) }).pipe(
-    S.encodeKeys({ MulticastSourceIp: "multicastSourceIp" }),
-  ),
-).annotate({
-  identifier: "MulticastSourceSettings",
-}) as any as S.Schema<MulticastSourceSettings>;
 export interface AddBridgeNetworkSourceRequest {
   MulticastIp?: string;
   MulticastSourceSettings?: MulticastSourceSettings;
@@ -393,91 +255,21 @@ export interface AddBridgeNetworkSourceRequest {
   Port?: number;
   Protocol?: Protocol;
 }
-export const AddBridgeNetworkSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MulticastIp: S.optional(S.String),
-    MulticastSourceSettings: S.optional(MulticastSourceSettings),
-    Name: S.optional(S.String),
-    NetworkName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    Protocol: S.optional(Protocol),
-  }).pipe(
-    S.encodeKeys({
-      MulticastIp: "multicastIp",
-      MulticastSourceSettings: "multicastSourceSettings",
-      Name: "name",
-      NetworkName: "networkName",
-      Port: "port",
-      Protocol: "protocol",
-    }),
-  ),
-).annotate({
-  identifier: "AddBridgeNetworkSourceRequest",
-}) as any as S.Schema<AddBridgeNetworkSourceRequest>;
 export interface AddBridgeSourceRequest {
   FlowSource?: AddBridgeFlowSourceRequest;
   NetworkSource?: AddBridgeNetworkSourceRequest;
 }
-export const AddBridgeSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowSource: S.optional(AddBridgeFlowSourceRequest),
-    NetworkSource: S.optional(AddBridgeNetworkSourceRequest),
-  }).pipe(
-    S.encodeKeys({ FlowSource: "flowSource", NetworkSource: "networkSource" }),
-  ),
-).annotate({
-  identifier: "AddBridgeSourceRequest",
-}) as any as S.Schema<AddBridgeSourceRequest>;
 export type __listOfAddBridgeSourceRequest = AddBridgeSourceRequest[];
-export const __listOfAddBridgeSourceRequest = /*@__PURE__*/ S.Array(
-  AddBridgeSourceRequest,
-);
 export interface AddBridgeSourcesRequest {
   BridgeArn: string;
   Sources?: AddBridgeSourceRequest[];
 }
-export const AddBridgeSourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.String.pipe(T.HttpLabel("BridgeArn")),
-    Sources: S.optional(__listOfAddBridgeSourceRequest),
-  })
-    .pipe(S.encodeKeys({ Sources: "sources" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/bridges/{BridgeArn}/sources" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "AddBridgeSourcesRequest",
-}) as any as S.Schema<AddBridgeSourcesRequest>;
 export interface BridgeFlowSource {
   FlowArn?: string;
   FlowVpcInterfaceAttachment?: VpcInterfaceAttachment;
   Name?: string;
   OutputArn?: string;
 }
-export const BridgeFlowSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.optional(S.String),
-    FlowVpcInterfaceAttachment: S.optional(VpcInterfaceAttachment),
-    Name: S.optional(S.String),
-    OutputArn: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      FlowArn: "flowArn",
-      FlowVpcInterfaceAttachment: "flowVpcInterfaceAttachment",
-      Name: "name",
-      OutputArn: "outputArn",
-    }),
-  ),
-).annotate({
-  identifier: "BridgeFlowSource",
-}) as any as S.Schema<BridgeFlowSource>;
 export interface BridgeNetworkSource {
   MulticastIp?: string;
   MulticastSourceSettings?: MulticastSourceSettings;
@@ -486,41 +278,11 @@ export interface BridgeNetworkSource {
   Port?: number;
   Protocol?: Protocol;
 }
-export const BridgeNetworkSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MulticastIp: S.optional(S.String),
-    MulticastSourceSettings: S.optional(MulticastSourceSettings),
-    Name: S.optional(S.String),
-    NetworkName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    Protocol: S.optional(Protocol),
-  }).pipe(
-    S.encodeKeys({
-      MulticastIp: "multicastIp",
-      MulticastSourceSettings: "multicastSourceSettings",
-      Name: "name",
-      NetworkName: "networkName",
-      Port: "port",
-      Protocol: "protocol",
-    }),
-  ),
-).annotate({
-  identifier: "BridgeNetworkSource",
-}) as any as S.Schema<BridgeNetworkSource>;
 export interface BridgeSource {
   FlowSource?: BridgeFlowSource;
   NetworkSource?: BridgeNetworkSource;
 }
-export const BridgeSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowSource: S.optional(BridgeFlowSource),
-    NetworkSource: S.optional(BridgeNetworkSource),
-  }).pipe(
-    S.encodeKeys({ FlowSource: "flowSource", NetworkSource: "networkSource" }),
-  ),
-).annotate({ identifier: "BridgeSource" }) as any as S.Schema<BridgeSource>;
 export type __listOfBridgeSource = BridgeSource[];
-export const __listOfBridgeSource = /*@__PURE__*/ S.Array(BridgeSource);
 export interface AddBridgeSourcesResponse {
   BridgeArn?: string;
   Sources?: (BridgeSource & {
@@ -534,14 +296,6 @@ export interface AddBridgeSourcesResponse {
     };
   })[];
 }
-export const AddBridgeSourcesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.optional(S.String),
-    Sources: S.optional(__listOfBridgeSource),
-  }).pipe(S.encodeKeys({ BridgeArn: "bridgeArn", Sources: "sources" })),
-).annotate({
-  identifier: "AddBridgeSourcesResponse",
-}) as any as S.Schema<AddBridgeSourcesResponse>;
 export type FlowArn = string;
 export type Colorimetry =
   | "BT601"
@@ -552,18 +306,12 @@ export type Colorimetry =
   | "ST2065-3"
   | "XYZ"
   | (string & {});
-export const Colorimetry = S.String;
-
 export type Range = "NARROW" | "FULL" | "FULLPROTECT" | (string & {});
-export const Range = S.String;
-
 export type ScanMode =
   | "progressive"
   | "interlace"
   | "progressive-segmented-frame"
   | (string & {});
-export const ScanMode = S.String;
-
 export type Tcs =
   | "SDR"
   | "PQ"
@@ -575,8 +323,6 @@ export type Tcs =
   | "ST428-1"
   | "DENSITY"
   | (string & {});
-export const Tcs = S.String;
-
 export interface FmtpRequest {
   ChannelOrder?: string;
   Colorimetry?: Colorimetry;
@@ -586,50 +332,16 @@ export interface FmtpRequest {
   ScanMode?: ScanMode;
   Tcs?: Tcs;
 }
-export const FmtpRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelOrder: S.optional(S.String),
-    Colorimetry: S.optional(Colorimetry),
-    ExactFramerate: S.optional(S.String),
-    Par: S.optional(S.String),
-    Range: S.optional(Range),
-    ScanMode: S.optional(ScanMode),
-    Tcs: S.optional(Tcs),
-  }).pipe(
-    S.encodeKeys({
-      ChannelOrder: "channelOrder",
-      Colorimetry: "colorimetry",
-      ExactFramerate: "exactFramerate",
-      Par: "par",
-      Range: "range",
-      ScanMode: "scanMode",
-      Tcs: "tcs",
-    }),
-  ),
-).annotate({ identifier: "FmtpRequest" }) as any as S.Schema<FmtpRequest>;
 export interface MediaStreamAttributesRequest {
   Fmtp?: FmtpRequest;
   Lang?: string;
 }
-export const MediaStreamAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Fmtp: S.optional(FmtpRequest), Lang: S.optional(S.String) }).pipe(
-    S.encodeKeys({ Fmtp: "fmtp", Lang: "lang" }),
-  ),
-).annotate({
-  identifier: "MediaStreamAttributesRequest",
-}) as any as S.Schema<MediaStreamAttributesRequest>;
 export type MediaStreamType =
   | "video"
   | "audio"
   | "ancillary-data"
   | (string & {});
-export const MediaStreamType = S.String;
-
 export type __mapOfString = { [key: string]: string | undefined };
-export const __mapOfString = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface AddMediaStreamRequest {
   Attributes?: MediaStreamAttributesRequest;
   ClockRate?: number;
@@ -640,58 +352,11 @@ export interface AddMediaStreamRequest {
   VideoFormat?: string;
   MediaStreamTags?: { [key: string]: string | undefined };
 }
-export const AddMediaStreamRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Attributes: S.optional(MediaStreamAttributesRequest),
-    ClockRate: S.optional(S.Number),
-    Description: S.optional(S.String),
-    MediaStreamId: S.optional(S.Number),
-    MediaStreamName: S.optional(S.String),
-    MediaStreamType: S.optional(MediaStreamType),
-    VideoFormat: S.optional(S.String),
-    MediaStreamTags: S.optional(__mapOfString),
-  }).pipe(
-    S.encodeKeys({
-      Attributes: "attributes",
-      ClockRate: "clockRate",
-      Description: "description",
-      MediaStreamId: "mediaStreamId",
-      MediaStreamName: "mediaStreamName",
-      MediaStreamType: "mediaStreamType",
-      VideoFormat: "videoFormat",
-      MediaStreamTags: "mediaStreamTags",
-    }),
-  ),
-).annotate({
-  identifier: "AddMediaStreamRequest",
-}) as any as S.Schema<AddMediaStreamRequest>;
 export type __listOfAddMediaStreamRequest = AddMediaStreamRequest[];
-export const __listOfAddMediaStreamRequest = /*@__PURE__*/ S.Array(
-  AddMediaStreamRequest,
-);
 export interface AddFlowMediaStreamsRequest {
   FlowArn: string;
   MediaStreams?: AddMediaStreamRequest[];
 }
-export const AddFlowMediaStreamsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
-    MediaStreams: S.optional(__listOfAddMediaStreamRequest),
-  })
-    .pipe(S.encodeKeys({ MediaStreams: "mediaStreams" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/flows/{FlowArn}/mediaStreams" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "AddFlowMediaStreamsRequest",
-}) as any as S.Schema<AddFlowMediaStreamsRequest>;
 export interface Fmtp {
   ChannelOrder?: string;
   Colorimetry?: Colorimetry;
@@ -701,38 +366,10 @@ export interface Fmtp {
   ScanMode?: ScanMode;
   Tcs?: Tcs;
 }
-export const Fmtp = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelOrder: S.optional(S.String),
-    Colorimetry: S.optional(Colorimetry),
-    ExactFramerate: S.optional(S.String),
-    Par: S.optional(S.String),
-    Range: S.optional(Range),
-    ScanMode: S.optional(ScanMode),
-    Tcs: S.optional(Tcs),
-  }).pipe(
-    S.encodeKeys({
-      ChannelOrder: "channelOrder",
-      Colorimetry: "colorimetry",
-      ExactFramerate: "exactFramerate",
-      Par: "par",
-      Range: "range",
-      ScanMode: "scanMode",
-      Tcs: "tcs",
-    }),
-  ),
-).annotate({ identifier: "Fmtp" }) as any as S.Schema<Fmtp>;
 export interface MediaStreamAttributes {
   Fmtp?: Fmtp;
   Lang?: string;
 }
-export const MediaStreamAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Fmtp: S.optional(Fmtp), Lang: S.optional(S.String) }).pipe(
-    S.encodeKeys({ Fmtp: "fmtp", Lang: "lang" }),
-  ),
-).annotate({
-  identifier: "MediaStreamAttributes",
-}) as any as S.Schema<MediaStreamAttributes>;
 export interface MediaStream {
   Attributes?: MediaStreamAttributes;
   ClockRate?: number;
@@ -743,31 +380,7 @@ export interface MediaStream {
   MediaStreamType?: MediaStreamType;
   VideoFormat?: string;
 }
-export const MediaStream = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Attributes: S.optional(MediaStreamAttributes),
-    ClockRate: S.optional(S.Number),
-    Description: S.optional(S.String),
-    Fmt: S.optional(S.Number),
-    MediaStreamId: S.optional(S.Number),
-    MediaStreamName: S.optional(S.String),
-    MediaStreamType: S.optional(MediaStreamType),
-    VideoFormat: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      Attributes: "attributes",
-      ClockRate: "clockRate",
-      Description: "description",
-      Fmt: "fmt",
-      MediaStreamId: "mediaStreamId",
-      MediaStreamName: "mediaStreamName",
-      MediaStreamType: "mediaStreamType",
-      VideoFormat: "videoFormat",
-    }),
-  ),
-).annotate({ identifier: "MediaStream" }) as any as S.Schema<MediaStream>;
 export type __listOfMediaStream = MediaStream[];
-export const __listOfMediaStream = /*@__PURE__*/ S.Array(MediaStream);
 export interface AddFlowMediaStreamsResponse {
   FlowArn?: string;
   MediaStreams?: (MediaStream & {
@@ -778,22 +391,9 @@ export interface AddFlowMediaStreamsResponse {
     Attributes: MediaStreamAttributes & { Fmtp: Fmtp };
   })[];
 }
-export const AddFlowMediaStreamsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.optional(S.String),
-    MediaStreams: S.optional(__listOfMediaStream),
-  }).pipe(S.encodeKeys({ FlowArn: "flowArn", MediaStreams: "mediaStreams" })),
-).annotate({
-  identifier: "AddFlowMediaStreamsResponse",
-}) as any as S.Schema<AddFlowMediaStreamsResponse>;
 export type __listOfString = string[];
-export const __listOfString = /*@__PURE__*/ S.Array(S.String);
 export type Algorithm = "aes128" | "aes192" | "aes256" | (string & {});
-export const Algorithm = S.String;
-
 export type KeyType = "speke" | "static-key" | "srt-password" | (string & {});
-export const KeyType = S.String;
-
 export interface Encryption {
   Algorithm?: Algorithm;
   ConstantInitializationVector?: string;
@@ -805,182 +405,57 @@ export interface Encryption {
   SecretArn?: string;
   Url?: string;
 }
-export const Encryption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Algorithm: S.optional(Algorithm),
-    ConstantInitializationVector: S.optional(S.String),
-    DeviceId: S.optional(S.String),
-    KeyType: S.optional(KeyType),
-    Region: S.optional(S.String),
-    ResourceId: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-    SecretArn: S.optional(S.String),
-    Url: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      Algorithm: "algorithm",
-      ConstantInitializationVector: "constantInitializationVector",
-      DeviceId: "deviceId",
-      KeyType: "keyType",
-      Region: "region",
-      ResourceId: "resourceId",
-      RoleArn: "roleArn",
-      SecretArn: "secretArn",
-      Url: "url",
-    }),
-  ),
-).annotate({ identifier: "Encryption" }) as any as S.Schema<Encryption>;
 export interface InterfaceRequest {
   Name?: string;
 }
-export const InterfaceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }).pipe(S.encodeKeys({ Name: "name" })),
-).annotate({
-  identifier: "InterfaceRequest",
-}) as any as S.Schema<InterfaceRequest>;
 export interface DestinationConfigurationRequest {
   DestinationIp?: string;
   DestinationPort?: number;
   Interface?: InterfaceRequest;
 }
-export const DestinationConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DestinationIp: S.optional(S.String),
-    DestinationPort: S.optional(S.Number),
-    Interface: S.optional(InterfaceRequest),
-  }).pipe(
-    S.encodeKeys({
-      DestinationIp: "destinationIp",
-      DestinationPort: "destinationPort",
-      Interface: "interface",
-    }),
-  ),
-).annotate({
-  identifier: "DestinationConfigurationRequest",
-}) as any as S.Schema<DestinationConfigurationRequest>;
 export type __listOfDestinationConfigurationRequest =
   DestinationConfigurationRequest[];
-export const __listOfDestinationConfigurationRequest = /*@__PURE__*/ S.Array(
-  DestinationConfigurationRequest,
-);
 export type EncodingName = "jxsv" | "raw" | "smpte291" | "pcm" | (string & {});
-export const EncodingName = S.String;
-
 export type EncoderProfile = "main" | "high" | (string & {});
-export const EncoderProfile = S.String;
-
 export interface EncodingParametersRequest {
   CompressionFactor?: number;
   EncoderProfile?: EncoderProfile;
 }
-export const EncodingParametersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CompressionFactor: S.optional(S.Number),
-    EncoderProfile: S.optional(EncoderProfile),
-  }).pipe(
-    S.encodeKeys({
-      CompressionFactor: "compressionFactor",
-      EncoderProfile: "encoderProfile",
-    }),
-  ),
-).annotate({
-  identifier: "EncodingParametersRequest",
-}) as any as S.Schema<EncodingParametersRequest>;
 export interface MediaStreamOutputConfigurationRequest {
   DestinationConfigurations?: DestinationConfigurationRequest[];
   EncodingName?: EncodingName;
   EncodingParameters?: EncodingParametersRequest;
   MediaStreamName?: string;
 }
-export const MediaStreamOutputConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DestinationConfigurations: S.optional(
-        __listOfDestinationConfigurationRequest,
-      ),
-      EncodingName: S.optional(EncodingName),
-      EncodingParameters: S.optional(EncodingParametersRequest),
-      MediaStreamName: S.optional(S.String),
-    }).pipe(
-      S.encodeKeys({
-        DestinationConfigurations: "destinationConfigurations",
-        EncodingName: "encodingName",
-        EncodingParameters: "encodingParameters",
-        MediaStreamName: "mediaStreamName",
-      }),
-    ),
-).annotate({
-  identifier: "MediaStreamOutputConfigurationRequest",
-}) as any as S.Schema<MediaStreamOutputConfigurationRequest>;
 export type __listOfMediaStreamOutputConfigurationRequest =
   MediaStreamOutputConfigurationRequest[];
-export const __listOfMediaStreamOutputConfigurationRequest =
-  /*@__PURE__*/ S.Array(MediaStreamOutputConfigurationRequest);
 export type OutputStatus = "ENABLED" | "DISABLED" | (string & {});
-export const OutputStatus = S.String;
-
 export type State = "ENABLED" | "DISABLED" | (string & {});
-export const State = S.String;
-
 export type FlowTransitEncryptionKeyType =
   | "SECRETS_MANAGER"
   | "AUTOMATIC"
   | (string & {});
-export const FlowTransitEncryptionKeyType = S.String;
-
 export type SecretArn = string;
 export type RoleArn = string;
 export interface SecretsManagerEncryptionKeyConfiguration {
   SecretArn: string;
   RoleArn: string;
 }
-export const SecretsManagerEncryptionKeyConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ SecretArn: S.String, RoleArn: S.String }).pipe(
-      S.encodeKeys({ SecretArn: "secretArn", RoleArn: "roleArn" }),
-    ),
-).annotate({
-  identifier: "SecretsManagerEncryptionKeyConfiguration",
-}) as any as S.Schema<SecretsManagerEncryptionKeyConfiguration>;
 export interface AutomaticEncryptionKeyConfiguration {}
-export const AutomaticEncryptionKeyConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AutomaticEncryptionKeyConfiguration",
-}) as any as S.Schema<AutomaticEncryptionKeyConfiguration>;
 export type FlowTransitEncryptionKeyConfiguration =
   | {
       SecretsManager: SecretsManagerEncryptionKeyConfiguration;
       Automatic?: never;
     }
   | { SecretsManager?: never; Automatic: AutomaticEncryptionKeyConfiguration };
-export const FlowTransitEncryptionKeyConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ SecretsManager: SecretsManagerEncryptionKeyConfiguration }),
-  S.Struct({ Automatic: AutomaticEncryptionKeyConfiguration }),
-]);
 export interface FlowTransitEncryption {
   EncryptionKeyType?: FlowTransitEncryptionKeyType;
   EncryptionKeyConfiguration: FlowTransitEncryptionKeyConfiguration;
 }
-export const FlowTransitEncryption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EncryptionKeyType: S.optional(FlowTransitEncryptionKeyType),
-    EncryptionKeyConfiguration: FlowTransitEncryptionKeyConfiguration,
-  }).pipe(
-    S.encodeKeys({
-      EncryptionKeyType: "encryptionKeyType",
-      EncryptionKeyConfiguration: "encryptionKeyConfiguration",
-    }),
-  ),
-).annotate({
-  identifier: "FlowTransitEncryption",
-}) as any as S.Schema<FlowTransitEncryption>;
 export type NdiOutputTimecodeSource =
   | "EMBEDDED_TIMECODE"
   | "UTC_SYSTEM_TIME"
   | (string & {});
-export const NdiOutputTimecodeSource = S.String;
-
 export interface AddOutputRequest {
   CidrAllowList?: string[];
   Description?: string;
@@ -1005,174 +480,36 @@ export interface AddOutputRequest {
   RouterIntegrationTransitEncryption?: FlowTransitEncryption;
   NdiOutputTimecodeSource?: NdiOutputTimecodeSource;
 }
-export const AddOutputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CidrAllowList: S.optional(__listOfString),
-    Description: S.optional(S.String),
-    Destination: S.optional(S.String),
-    Encryption: S.optional(Encryption),
-    MaxLatency: S.optional(S.Number),
-    MediaStreamOutputConfigurations: S.optional(
-      __listOfMediaStreamOutputConfigurationRequest,
-    ),
-    MinLatency: S.optional(S.Number),
-    Name: S.optional(S.String),
-    Port: S.optional(S.Number),
-    Protocol: S.optional(Protocol),
-    RemoteId: S.optional(S.String),
-    SenderControlPort: S.optional(S.Number),
-    SmoothingLatency: S.optional(S.Number),
-    StreamId: S.optional(S.String),
-    VpcInterfaceAttachment: S.optional(VpcInterfaceAttachment),
-    OutputStatus: S.optional(OutputStatus),
-    NdiSpeedHqQuality: S.optional(S.Number),
-    NdiProgramName: S.optional(S.String),
-    OutputTags: S.optional(__mapOfString),
-    RouterIntegrationState: S.optional(State),
-    RouterIntegrationTransitEncryption: S.optional(FlowTransitEncryption),
-    NdiOutputTimecodeSource: S.optional(NdiOutputTimecodeSource),
-  }).pipe(
-    S.encodeKeys({
-      CidrAllowList: "cidrAllowList",
-      Description: "description",
-      Destination: "destination",
-      Encryption: "encryption",
-      MaxLatency: "maxLatency",
-      MediaStreamOutputConfigurations: "mediaStreamOutputConfigurations",
-      MinLatency: "minLatency",
-      Name: "name",
-      Port: "port",
-      Protocol: "protocol",
-      RemoteId: "remoteId",
-      SenderControlPort: "senderControlPort",
-      SmoothingLatency: "smoothingLatency",
-      StreamId: "streamId",
-      VpcInterfaceAttachment: "vpcInterfaceAttachment",
-      OutputStatus: "outputStatus",
-      NdiSpeedHqQuality: "ndiSpeedHqQuality",
-      NdiProgramName: "ndiProgramName",
-      OutputTags: "outputTags",
-      RouterIntegrationState: "routerIntegrationState",
-      RouterIntegrationTransitEncryption: "routerIntegrationTransitEncryption",
-      NdiOutputTimecodeSource: "ndiOutputTimecodeSource",
-    }),
-  ),
-).annotate({
-  identifier: "AddOutputRequest",
-}) as any as S.Schema<AddOutputRequest>;
 export type __listOfAddOutputRequest = AddOutputRequest[];
-export const __listOfAddOutputRequest = /*@__PURE__*/ S.Array(AddOutputRequest);
 export interface AddFlowOutputsRequest {
   FlowArn: string;
   Outputs?: AddOutputRequest[];
 }
-export const AddFlowOutputsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
-    Outputs: S.optional(__listOfAddOutputRequest),
-  })
-    .pipe(S.encodeKeys({ Outputs: "outputs" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/flows/{FlowArn}/outputs" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "AddFlowOutputsRequest",
-}) as any as S.Schema<AddFlowOutputsRequest>;
 export interface Interface {
   Name?: string;
 }
-export const Interface = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }).pipe(S.encodeKeys({ Name: "name" })),
-).annotate({ identifier: "Interface" }) as any as S.Schema<Interface>;
 export interface DestinationConfiguration {
   DestinationIp?: string;
   DestinationPort?: number;
   Interface?: Interface;
   OutboundIp?: string;
 }
-export const DestinationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DestinationIp: S.optional(S.String),
-    DestinationPort: S.optional(S.Number),
-    Interface: S.optional(Interface),
-    OutboundIp: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      DestinationIp: "destinationIp",
-      DestinationPort: "destinationPort",
-      Interface: "interface",
-      OutboundIp: "outboundIp",
-    }),
-  ),
-).annotate({
-  identifier: "DestinationConfiguration",
-}) as any as S.Schema<DestinationConfiguration>;
 export type __listOfDestinationConfiguration = DestinationConfiguration[];
-export const __listOfDestinationConfiguration = /*@__PURE__*/ S.Array(
-  DestinationConfiguration,
-);
 export interface EncodingParameters {
   CompressionFactor?: number;
   EncoderProfile?: EncoderProfile;
 }
-export const EncodingParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CompressionFactor: S.optional(S.Number),
-    EncoderProfile: S.optional(EncoderProfile),
-  }).pipe(
-    S.encodeKeys({
-      CompressionFactor: "compressionFactor",
-      EncoderProfile: "encoderProfile",
-    }),
-  ),
-).annotate({
-  identifier: "EncodingParameters",
-}) as any as S.Schema<EncodingParameters>;
 export interface MediaStreamOutputConfiguration {
   DestinationConfigurations?: DestinationConfiguration[];
   EncodingName?: EncodingName;
   EncodingParameters?: EncodingParameters;
   MediaStreamName?: string;
 }
-export const MediaStreamOutputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DestinationConfigurations: S.optional(__listOfDestinationConfiguration),
-    EncodingName: S.optional(EncodingName),
-    EncodingParameters: S.optional(EncodingParameters),
-    MediaStreamName: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      DestinationConfigurations: "destinationConfigurations",
-      EncodingName: "encodingName",
-      EncodingParameters: "encodingParameters",
-      MediaStreamName: "mediaStreamName",
-    }),
-  ),
-).annotate({
-  identifier: "MediaStreamOutputConfiguration",
-}) as any as S.Schema<MediaStreamOutputConfiguration>;
 export type __listOfMediaStreamOutputConfiguration =
   MediaStreamOutputConfiguration[];
-export const __listOfMediaStreamOutputConfiguration = /*@__PURE__*/ S.Array(
-  MediaStreamOutputConfiguration,
-);
 export interface NdiSourceSettings {
   SourceName?: string;
 }
-export const NdiSourceSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SourceName: S.optional(S.String) }).pipe(
-    S.encodeKeys({ SourceName: "sourceName" }),
-  ),
-).annotate({
-  identifier: "NdiSourceSettings",
-}) as any as S.Schema<NdiSourceSettings>;
 export interface Transport {
   CidrAllowList?: string[];
   MaxBitrate?: number;
@@ -1192,49 +529,7 @@ export interface Transport {
   NdiSourceSettings?: NdiSourceSettings;
   NdiOutputTimecodeSource?: NdiOutputTimecodeSource;
 }
-export const Transport = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CidrAllowList: S.optional(__listOfString),
-    MaxBitrate: S.optional(S.Number),
-    MaxLatency: S.optional(S.Number),
-    MaxSyncBuffer: S.optional(S.Number),
-    MinLatency: S.optional(S.Number),
-    Protocol: S.optional(Protocol),
-    RemoteId: S.optional(S.String),
-    SenderControlPort: S.optional(S.Number),
-    SenderIpAddress: S.optional(S.String),
-    SmoothingLatency: S.optional(S.Number),
-    SourceListenerAddress: S.optional(S.String),
-    SourceListenerPort: S.optional(S.Number),
-    StreamId: S.optional(S.String),
-    NdiSpeedHqQuality: S.optional(S.Number),
-    NdiProgramName: S.optional(S.String),
-    NdiSourceSettings: S.optional(NdiSourceSettings),
-    NdiOutputTimecodeSource: S.optional(NdiOutputTimecodeSource),
-  }).pipe(
-    S.encodeKeys({
-      CidrAllowList: "cidrAllowList",
-      MaxBitrate: "maxBitrate",
-      MaxLatency: "maxLatency",
-      MaxSyncBuffer: "maxSyncBuffer",
-      MinLatency: "minLatency",
-      Protocol: "protocol",
-      RemoteId: "remoteId",
-      SenderControlPort: "senderControlPort",
-      SenderIpAddress: "senderIpAddress",
-      SmoothingLatency: "smoothingLatency",
-      SourceListenerAddress: "sourceListenerAddress",
-      SourceListenerPort: "sourceListenerPort",
-      StreamId: "streamId",
-      NdiSpeedHqQuality: "ndiSpeedHqQuality",
-      NdiProgramName: "ndiProgramName",
-      NdiSourceSettings: "ndiSourceSettings",
-      NdiOutputTimecodeSource: "ndiOutputTimecodeSource",
-    }),
-  ),
-).annotate({ identifier: "Transport" }) as any as S.Schema<Transport>;
 export type __listOfInteger = number[];
-export const __listOfInteger = /*@__PURE__*/ S.Array(S.Number);
 export interface Output {
   DataTransferSubscriberFeePercent?: number;
   Description?: string;
@@ -1257,57 +552,7 @@ export interface Output {
   RouterIntegrationTransitEncryption?: FlowTransitEncryption;
   ConnectedRouterInputArn?: string;
 }
-export const Output = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataTransferSubscriberFeePercent: S.optional(S.Number),
-    Description: S.optional(S.String),
-    Destination: S.optional(S.String),
-    Encryption: S.optional(Encryption),
-    EntitlementArn: S.optional(S.String),
-    ListenerAddress: S.optional(S.String),
-    MediaLiveInputArn: S.optional(S.String),
-    MediaStreamOutputConfigurations: S.optional(
-      __listOfMediaStreamOutputConfiguration,
-    ),
-    Name: S.optional(S.String),
-    OutputArn: S.optional(S.String),
-    Port: S.optional(S.Number),
-    Transport: S.optional(Transport),
-    VpcInterfaceAttachment: S.optional(VpcInterfaceAttachment),
-    BridgeArn: S.optional(S.String),
-    BridgePorts: S.optional(__listOfInteger),
-    OutputStatus: S.optional(OutputStatus),
-    PeerIpAddress: S.optional(S.String),
-    RouterIntegrationState: S.optional(State),
-    RouterIntegrationTransitEncryption: S.optional(FlowTransitEncryption),
-    ConnectedRouterInputArn: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      DataTransferSubscriberFeePercent: "dataTransferSubscriberFeePercent",
-      Description: "description",
-      Destination: "destination",
-      Encryption: "encryption",
-      EntitlementArn: "entitlementArn",
-      ListenerAddress: "listenerAddress",
-      MediaLiveInputArn: "mediaLiveInputArn",
-      MediaStreamOutputConfigurations: "mediaStreamOutputConfigurations",
-      Name: "name",
-      OutputArn: "outputArn",
-      Port: "port",
-      Transport: "transport",
-      VpcInterfaceAttachment: "vpcInterfaceAttachment",
-      BridgeArn: "bridgeArn",
-      BridgePorts: "bridgePorts",
-      OutputStatus: "outputStatus",
-      PeerIpAddress: "peerIpAddress",
-      RouterIntegrationState: "routerIntegrationState",
-      RouterIntegrationTransitEncryption: "routerIntegrationTransitEncryption",
-      ConnectedRouterInputArn: "connectedRouterInputArn",
-    }),
-  ),
-).annotate({ identifier: "Output" }) as any as S.Schema<Output>;
 export type __listOfOutput = Output[];
-export const __listOfOutput = /*@__PURE__*/ S.Array(Output);
 export interface AddFlowOutputsResponse {
   FlowArn?: string;
   Outputs?: (Output & {
@@ -1331,72 +576,22 @@ export interface AddFlowOutputsResponse {
     Transport: Transport & { Protocol: Protocol };
   })[];
 }
-export const AddFlowOutputsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.optional(S.String),
-    Outputs: S.optional(__listOfOutput),
-  }).pipe(S.encodeKeys({ FlowArn: "flowArn", Outputs: "outputs" })),
-).annotate({
-  identifier: "AddFlowOutputsResponse",
-}) as any as S.Schema<AddFlowOutputsResponse>;
 export interface InputConfigurationRequest {
   InputPort?: number;
   Interface?: InterfaceRequest;
 }
-export const InputConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InputPort: S.optional(S.Number),
-    Interface: S.optional(InterfaceRequest),
-  }).pipe(S.encodeKeys({ InputPort: "inputPort", Interface: "interface" })),
-).annotate({
-  identifier: "InputConfigurationRequest",
-}) as any as S.Schema<InputConfigurationRequest>;
 export type __listOfInputConfigurationRequest = InputConfigurationRequest[];
-export const __listOfInputConfigurationRequest = /*@__PURE__*/ S.Array(
-  InputConfigurationRequest,
-);
 export interface MediaStreamSourceConfigurationRequest {
   EncodingName?: EncodingName;
   InputConfigurations?: InputConfigurationRequest[];
   MediaStreamName?: string;
 }
-export const MediaStreamSourceConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EncodingName: S.optional(EncodingName),
-      InputConfigurations: S.optional(__listOfInputConfigurationRequest),
-      MediaStreamName: S.optional(S.String),
-    }).pipe(
-      S.encodeKeys({
-        EncodingName: "encodingName",
-        InputConfigurations: "inputConfigurations",
-        MediaStreamName: "mediaStreamName",
-      }),
-    ),
-).annotate({
-  identifier: "MediaStreamSourceConfigurationRequest",
-}) as any as S.Schema<MediaStreamSourceConfigurationRequest>;
 export type __listOfMediaStreamSourceConfigurationRequest =
   MediaStreamSourceConfigurationRequest[];
-export const __listOfMediaStreamSourceConfigurationRequest =
-  /*@__PURE__*/ S.Array(MediaStreamSourceConfigurationRequest);
 export interface SetGatewayBridgeSourceRequest {
   BridgeArn?: string;
   VpcInterfaceAttachment?: VpcInterfaceAttachment;
 }
-export const SetGatewayBridgeSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.optional(S.String),
-    VpcInterfaceAttachment: S.optional(VpcInterfaceAttachment),
-  }).pipe(
-    S.encodeKeys({
-      BridgeArn: "bridgeArn",
-      VpcInterfaceAttachment: "vpcInterfaceAttachment",
-    }),
-  ),
-).annotate({
-  identifier: "SetGatewayBridgeSourceRequest",
-}) as any as S.Schema<SetGatewayBridgeSourceRequest>;
 export interface SetSourceRequest {
   Decryption?: Encryption;
   Description?: string;
@@ -1422,153 +617,28 @@ export interface SetSourceRequest {
   RouterIntegrationState?: State;
   RouterIntegrationTransitDecryption?: FlowTransitEncryption;
 }
-export const SetSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Decryption: S.optional(Encryption),
-    Description: S.optional(S.String),
-    EntitlementArn: S.optional(S.String),
-    IngestPort: S.optional(S.Number),
-    MaxBitrate: S.optional(S.Number),
-    MaxLatency: S.optional(S.Number),
-    MaxSyncBuffer: S.optional(S.Number),
-    MediaStreamSourceConfigurations: S.optional(
-      __listOfMediaStreamSourceConfigurationRequest,
-    ),
-    MinLatency: S.optional(S.Number),
-    Name: S.optional(S.String),
-    Protocol: S.optional(Protocol),
-    SenderControlPort: S.optional(S.Number),
-    SenderIpAddress: S.optional(S.String),
-    SourceListenerAddress: S.optional(S.String),
-    SourceListenerPort: S.optional(S.Number),
-    StreamId: S.optional(S.String),
-    VpcInterfaceName: S.optional(S.String),
-    WhitelistCidr: S.optional(S.String),
-    GatewayBridgeSource: S.optional(SetGatewayBridgeSourceRequest),
-    NdiSourceSettings: S.optional(NdiSourceSettings),
-    SourceTags: S.optional(__mapOfString),
-    RouterIntegrationState: S.optional(State),
-    RouterIntegrationTransitDecryption: S.optional(FlowTransitEncryption),
-  }).pipe(
-    S.encodeKeys({
-      Decryption: "decryption",
-      Description: "description",
-      EntitlementArn: "entitlementArn",
-      IngestPort: "ingestPort",
-      MaxBitrate: "maxBitrate",
-      MaxLatency: "maxLatency",
-      MaxSyncBuffer: "maxSyncBuffer",
-      MediaStreamSourceConfigurations: "mediaStreamSourceConfigurations",
-      MinLatency: "minLatency",
-      Name: "name",
-      Protocol: "protocol",
-      SenderControlPort: "senderControlPort",
-      SenderIpAddress: "senderIpAddress",
-      SourceListenerAddress: "sourceListenerAddress",
-      SourceListenerPort: "sourceListenerPort",
-      StreamId: "streamId",
-      VpcInterfaceName: "vpcInterfaceName",
-      WhitelistCidr: "whitelistCidr",
-      GatewayBridgeSource: "gatewayBridgeSource",
-      NdiSourceSettings: "ndiSourceSettings",
-      SourceTags: "sourceTags",
-      RouterIntegrationState: "routerIntegrationState",
-      RouterIntegrationTransitDecryption: "routerIntegrationTransitDecryption",
-    }),
-  ),
-).annotate({
-  identifier: "SetSourceRequest",
-}) as any as S.Schema<SetSourceRequest>;
 export type __listOfSetSourceRequest = SetSourceRequest[];
-export const __listOfSetSourceRequest = /*@__PURE__*/ S.Array(SetSourceRequest);
 export interface AddFlowSourcesRequest {
   FlowArn: string;
   Sources?: SetSourceRequest[];
 }
-export const AddFlowSourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
-    Sources: S.optional(__listOfSetSourceRequest),
-  })
-    .pipe(S.encodeKeys({ Sources: "sources" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/flows/{FlowArn}/source" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "AddFlowSourcesRequest",
-}) as any as S.Schema<AddFlowSourcesRequest>;
 export interface InputConfiguration {
   InputIp?: string;
   InputPort?: number;
   Interface?: Interface;
 }
-export const InputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InputIp: S.optional(S.String),
-    InputPort: S.optional(S.Number),
-    Interface: S.optional(Interface),
-  }).pipe(
-    S.encodeKeys({
-      InputIp: "inputIp",
-      InputPort: "inputPort",
-      Interface: "interface",
-    }),
-  ),
-).annotate({
-  identifier: "InputConfiguration",
-}) as any as S.Schema<InputConfiguration>;
 export type __listOfInputConfiguration = InputConfiguration[];
-export const __listOfInputConfiguration =
-  /*@__PURE__*/ S.Array(InputConfiguration);
 export interface MediaStreamSourceConfiguration {
   EncodingName?: EncodingName;
   InputConfigurations?: InputConfiguration[];
   MediaStreamName?: string;
 }
-export const MediaStreamSourceConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EncodingName: S.optional(EncodingName),
-    InputConfigurations: S.optional(__listOfInputConfiguration),
-    MediaStreamName: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      EncodingName: "encodingName",
-      InputConfigurations: "inputConfigurations",
-      MediaStreamName: "mediaStreamName",
-    }),
-  ),
-).annotate({
-  identifier: "MediaStreamSourceConfiguration",
-}) as any as S.Schema<MediaStreamSourceConfiguration>;
 export type __listOfMediaStreamSourceConfiguration =
   MediaStreamSourceConfiguration[];
-export const __listOfMediaStreamSourceConfiguration = /*@__PURE__*/ S.Array(
-  MediaStreamSourceConfiguration,
-);
 export interface GatewayBridgeSource {
   BridgeArn?: string;
   VpcInterfaceAttachment?: VpcInterfaceAttachment;
 }
-export const GatewayBridgeSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.optional(S.String),
-    VpcInterfaceAttachment: S.optional(VpcInterfaceAttachment),
-  }).pipe(
-    S.encodeKeys({
-      BridgeArn: "bridgeArn",
-      VpcInterfaceAttachment: "vpcInterfaceAttachment",
-    }),
-  ),
-).annotate({
-  identifier: "GatewayBridgeSource",
-}) as any as S.Schema<GatewayBridgeSource>;
 export interface Source {
   DataTransferSubscriberFeePercent?: number;
   Decryption?: Encryption;
@@ -1590,55 +660,7 @@ export interface Source {
   RouterIntegrationTransitDecryption?: FlowTransitEncryption;
   ConnectedRouterOutputArn?: string;
 }
-export const Source = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataTransferSubscriberFeePercent: S.optional(S.Number),
-    Decryption: S.optional(Encryption),
-    Description: S.optional(S.String),
-    EntitlementArn: S.optional(S.String),
-    IngestIp: S.optional(S.String),
-    IngestPort: S.optional(S.Number),
-    MediaStreamSourceConfigurations: S.optional(
-      __listOfMediaStreamSourceConfiguration,
-    ),
-    Name: S.optional(S.String),
-    SenderControlPort: S.optional(S.Number),
-    SenderIpAddress: S.optional(S.String),
-    SourceArn: S.optional(S.String),
-    Transport: S.optional(Transport),
-    VpcInterfaceName: S.optional(S.String),
-    WhitelistCidr: S.optional(S.String),
-    GatewayBridgeSource: S.optional(GatewayBridgeSource),
-    PeerIpAddress: S.optional(S.String),
-    RouterIntegrationState: S.optional(State),
-    RouterIntegrationTransitDecryption: S.optional(FlowTransitEncryption),
-    ConnectedRouterOutputArn: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      DataTransferSubscriberFeePercent: "dataTransferSubscriberFeePercent",
-      Decryption: "decryption",
-      Description: "description",
-      EntitlementArn: "entitlementArn",
-      IngestIp: "ingestIp",
-      IngestPort: "ingestPort",
-      MediaStreamSourceConfigurations: "mediaStreamSourceConfigurations",
-      Name: "name",
-      SenderControlPort: "senderControlPort",
-      SenderIpAddress: "senderIpAddress",
-      SourceArn: "sourceArn",
-      Transport: "transport",
-      VpcInterfaceName: "vpcInterfaceName",
-      WhitelistCidr: "whitelistCidr",
-      GatewayBridgeSource: "gatewayBridgeSource",
-      PeerIpAddress: "peerIpAddress",
-      RouterIntegrationState: "routerIntegrationState",
-      RouterIntegrationTransitDecryption: "routerIntegrationTransitDecryption",
-      ConnectedRouterOutputArn: "connectedRouterOutputArn",
-    }),
-  ),
-).annotate({ identifier: "Source" }) as any as S.Schema<Source>;
 export type __listOfSource = Source[];
-export const __listOfSource = /*@__PURE__*/ S.Array(Source);
 export interface AddFlowSourcesResponse {
   FlowArn?: string;
   Sources?: (Source & {
@@ -1658,17 +680,7 @@ export interface AddFlowSourcesResponse {
     GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
   })[];
 }
-export const AddFlowSourcesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.optional(S.String),
-    Sources: S.optional(__listOfSource),
-  }).pipe(S.encodeKeys({ FlowArn: "flowArn", Sources: "sources" })),
-).annotate({
-  identifier: "AddFlowSourcesResponse",
-}) as any as S.Schema<AddFlowSourcesResponse>;
 export type NetworkInterfaceType = "ena" | "efa" | (string & {});
-export const NetworkInterfaceType = S.String;
-
 export interface VpcInterfaceRequest {
   Name?: string;
   NetworkInterfaceType?: NetworkInterfaceType;
@@ -1677,53 +689,11 @@ export interface VpcInterfaceRequest {
   SubnetId?: string;
   VpcInterfaceTags?: { [key: string]: string | undefined };
 }
-export const VpcInterfaceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    NetworkInterfaceType: S.optional(NetworkInterfaceType),
-    RoleArn: S.optional(S.String),
-    SecurityGroupIds: S.optional(__listOfString),
-    SubnetId: S.optional(S.String),
-    VpcInterfaceTags: S.optional(__mapOfString),
-  }).pipe(
-    S.encodeKeys({
-      Name: "name",
-      NetworkInterfaceType: "networkInterfaceType",
-      RoleArn: "roleArn",
-      SecurityGroupIds: "securityGroupIds",
-      SubnetId: "subnetId",
-      VpcInterfaceTags: "vpcInterfaceTags",
-    }),
-  ),
-).annotate({
-  identifier: "VpcInterfaceRequest",
-}) as any as S.Schema<VpcInterfaceRequest>;
 export type __listOfVpcInterfaceRequest = VpcInterfaceRequest[];
-export const __listOfVpcInterfaceRequest =
-  /*@__PURE__*/ S.Array(VpcInterfaceRequest);
 export interface AddFlowVpcInterfacesRequest {
   FlowArn: string;
   VpcInterfaces?: VpcInterfaceRequest[];
 }
-export const AddFlowVpcInterfacesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
-    VpcInterfaces: S.optional(__listOfVpcInterfaceRequest),
-  })
-    .pipe(S.encodeKeys({ VpcInterfaces: "vpcInterfaces" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/flows/{FlowArn}/vpcInterfaces" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "AddFlowVpcInterfacesRequest",
-}) as any as S.Schema<AddFlowVpcInterfacesRequest>;
 export interface VpcInterface {
   Name?: string;
   NetworkInterfaceIds?: string[];
@@ -1732,27 +702,7 @@ export interface VpcInterface {
   SecurityGroupIds?: string[];
   SubnetId?: string;
 }
-export const VpcInterface = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    NetworkInterfaceIds: S.optional(__listOfString),
-    NetworkInterfaceType: S.optional(NetworkInterfaceType),
-    RoleArn: S.optional(S.String),
-    SecurityGroupIds: S.optional(__listOfString),
-    SubnetId: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      Name: "name",
-      NetworkInterfaceIds: "networkInterfaceIds",
-      NetworkInterfaceType: "networkInterfaceType",
-      RoleArn: "roleArn",
-      SecurityGroupIds: "securityGroupIds",
-      SubnetId: "subnetId",
-    }),
-  ),
-).annotate({ identifier: "VpcInterface" }) as any as S.Schema<VpcInterface>;
 export type __listOfVpcInterface = VpcInterface[];
-export const __listOfVpcInterface = /*@__PURE__*/ S.Array(VpcInterface);
 export interface AddFlowVpcInterfacesResponse {
   FlowArn?: string;
   VpcInterfaces?: (VpcInterface & {
@@ -1764,34 +714,11 @@ export interface AddFlowVpcInterfacesResponse {
     SubnetId: string;
   })[];
 }
-export const AddFlowVpcInterfacesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.optional(S.String),
-    VpcInterfaces: S.optional(__listOfVpcInterface),
-  }).pipe(S.encodeKeys({ FlowArn: "flowArn", VpcInterfaces: "vpcInterfaces" })),
-).annotate({
-  identifier: "AddFlowVpcInterfacesResponse",
-}) as any as S.Schema<AddFlowVpcInterfacesResponse>;
 export type RouterInputArn = string;
 export type RouterInputArnList = string[];
-export const RouterInputArnList = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetRouterInputRequest {
   Arns: string[];
 }
-export const BatchGetRouterInputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arns: RouterInputArnList.pipe(T.HttpQuery("arns")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/routerInputs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetRouterInputRequest",
-}) as any as S.Schema<BatchGetRouterInputRequest>;
 export type RouterInputState =
   | "CREATING"
   | "STANDBY"
@@ -1804,8 +731,6 @@ export type RouterInputState =
   | "RECOVERING"
   | "MIGRATING"
   | (string & {});
-export const RouterInputState = S.String;
-
 export type RouterInputType =
   | "STANDARD"
   | "FAILOVER"
@@ -1813,53 +738,19 @@ export type RouterInputType =
   | "MEDIACONNECT_FLOW"
   | "MEDIALIVE_CHANNEL"
   | (string & {});
-export const RouterInputType = S.String;
-
 export type RouterNetworkInterfaceArn = string;
 export interface RistRouterInputConfiguration {
   Port: number;
   RecoveryLatencyMilliseconds: number;
 }
-export const RistRouterInputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Port: S.Number, RecoveryLatencyMilliseconds: S.Number }).pipe(
-    S.encodeKeys({
-      Port: "port",
-      RecoveryLatencyMilliseconds: "recoveryLatencyMilliseconds",
-    }),
-  ),
-).annotate({
-  identifier: "RistRouterInputConfiguration",
-}) as any as S.Schema<RistRouterInputConfiguration>;
 export interface SrtDecryptionConfiguration {
   EncryptionKey: SecretsManagerEncryptionKeyConfiguration;
 }
-export const SrtDecryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EncryptionKey: SecretsManagerEncryptionKeyConfiguration }).pipe(
-    S.encodeKeys({ EncryptionKey: "encryptionKey" }),
-  ),
-).annotate({
-  identifier: "SrtDecryptionConfiguration",
-}) as any as S.Schema<SrtDecryptionConfiguration>;
 export interface SrtListenerRouterInputConfiguration {
   Port: number;
   MinimumLatencyMilliseconds: number;
   DecryptionConfiguration?: SrtDecryptionConfiguration;
 }
-export const SrtListenerRouterInputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Port: S.Number,
-    MinimumLatencyMilliseconds: S.Number,
-    DecryptionConfiguration: S.optional(SrtDecryptionConfiguration),
-  }).pipe(
-    S.encodeKeys({
-      Port: "port",
-      MinimumLatencyMilliseconds: "minimumLatencyMilliseconds",
-      DecryptionConfiguration: "decryptionConfiguration",
-    }),
-  ),
-).annotate({
-  identifier: "SrtListenerRouterInputConfiguration",
-}) as any as S.Schema<SrtListenerRouterInputConfiguration>;
 export interface SrtCallerRouterInputConfiguration {
   SourceAddress: string;
   SourcePort: number;
@@ -1867,48 +758,14 @@ export interface SrtCallerRouterInputConfiguration {
   StreamId?: string;
   DecryptionConfiguration?: SrtDecryptionConfiguration;
 }
-export const SrtCallerRouterInputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceAddress: S.String,
-    SourcePort: S.Number,
-    MinimumLatencyMilliseconds: S.Number,
-    StreamId: S.optional(S.String),
-    DecryptionConfiguration: S.optional(SrtDecryptionConfiguration),
-  }).pipe(
-    S.encodeKeys({
-      SourceAddress: "sourceAddress",
-      SourcePort: "sourcePort",
-      MinimumLatencyMilliseconds: "minimumLatencyMilliseconds",
-      StreamId: "streamId",
-      DecryptionConfiguration: "decryptionConfiguration",
-    }),
-  ),
-).annotate({
-  identifier: "SrtCallerRouterInputConfiguration",
-}) as any as S.Schema<SrtCallerRouterInputConfiguration>;
 export type ForwardErrorCorrectionState =
   | "ENABLED"
   | "DISABLED"
   | (string & {});
-export const ForwardErrorCorrectionState = S.String;
-
 export interface RtpRouterInputConfiguration {
   Port: number;
   ForwardErrorCorrection?: ForwardErrorCorrectionState;
 }
-export const RtpRouterInputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Port: S.Number,
-    ForwardErrorCorrection: S.optional(ForwardErrorCorrectionState),
-  }).pipe(
-    S.encodeKeys({
-      Port: "port",
-      ForwardErrorCorrection: "forwardErrorCorrection",
-    }),
-  ),
-).annotate({
-  identifier: "RtpRouterInputConfiguration",
-}) as any as S.Schema<RtpRouterInputConfiguration>;
 export type RouterInputProtocolConfiguration =
   | {
       Rist: RistRouterInputConfiguration;
@@ -1934,106 +791,42 @@ export type RouterInputProtocolConfiguration =
       SrtCaller?: never;
       Rtp: RtpRouterInputConfiguration;
     };
-export const RouterInputProtocolConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ Rist: RistRouterInputConfiguration }),
-  S.Struct({ SrtListener: SrtListenerRouterInputConfiguration }),
-  S.Struct({ SrtCaller: SrtCallerRouterInputConfiguration }),
-  S.Struct({ Rtp: RtpRouterInputConfiguration }),
-]);
 export type RouterInputProtocol =
   | "RTP"
   | "RIST"
   | "SRT_CALLER"
   | "SRT_LISTENER"
   | (string & {});
-export const RouterInputProtocol = S.String;
-
 export interface StandardRouterInputConfiguration {
   NetworkInterfaceArn: string;
   ProtocolConfiguration: RouterInputProtocolConfiguration;
   Protocol?: RouterInputProtocol;
 }
-export const StandardRouterInputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkInterfaceArn: S.String,
-    ProtocolConfiguration: RouterInputProtocolConfiguration,
-    Protocol: S.optional(RouterInputProtocol),
-  }).pipe(
-    S.encodeKeys({
-      NetworkInterfaceArn: "networkInterfaceArn",
-      ProtocolConfiguration: "protocolConfiguration",
-      Protocol: "protocol",
-    }),
-  ),
-).annotate({
-  identifier: "StandardRouterInputConfiguration",
-}) as any as S.Schema<StandardRouterInputConfiguration>;
 export type MediaLiveChannelArn = string;
 export type MediaLiveChannelPipelineId =
   | "PIPELINE_0"
   | "PIPELINE_1"
   | (string & {});
-export const MediaLiveChannelPipelineId = S.String;
-
 export type MediaLiveTransitEncryptionKeyType =
   | "SECRETS_MANAGER"
   | "AUTOMATIC"
   | (string & {});
-export const MediaLiveTransitEncryptionKeyType = S.String;
-
 export type MediaLiveTransitEncryptionKeyConfiguration =
   | {
       SecretsManager: SecretsManagerEncryptionKeyConfiguration;
       Automatic?: never;
     }
   | { SecretsManager?: never; Automatic: AutomaticEncryptionKeyConfiguration };
-export const MediaLiveTransitEncryptionKeyConfiguration = /*@__PURE__*/ S.Union(
-  [
-    S.Struct({ SecretsManager: SecretsManagerEncryptionKeyConfiguration }),
-    S.Struct({ Automatic: AutomaticEncryptionKeyConfiguration }),
-  ],
-);
 export interface MediaLiveTransitEncryption {
   EncryptionKeyType?: MediaLiveTransitEncryptionKeyType;
   EncryptionKeyConfiguration: MediaLiveTransitEncryptionKeyConfiguration;
 }
-export const MediaLiveTransitEncryption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EncryptionKeyType: S.optional(MediaLiveTransitEncryptionKeyType),
-    EncryptionKeyConfiguration: MediaLiveTransitEncryptionKeyConfiguration,
-  }).pipe(
-    S.encodeKeys({
-      EncryptionKeyType: "encryptionKeyType",
-      EncryptionKeyConfiguration: "encryptionKeyConfiguration",
-    }),
-  ),
-).annotate({
-  identifier: "MediaLiveTransitEncryption",
-}) as any as S.Schema<MediaLiveTransitEncryption>;
 export interface MediaLiveChannelRouterInputConfiguration {
   MediaLiveChannelArn?: string;
   MediaLivePipelineId?: MediaLiveChannelPipelineId;
   MediaLiveChannelOutputName?: string;
   SourceTransitDecryption: MediaLiveTransitEncryption;
 }
-export const MediaLiveChannelRouterInputConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MediaLiveChannelArn: S.optional(S.String),
-      MediaLivePipelineId: S.optional(MediaLiveChannelPipelineId),
-      MediaLiveChannelOutputName: S.optional(S.String),
-      SourceTransitDecryption: MediaLiveTransitEncryption,
-    }).pipe(
-      S.encodeKeys({
-        MediaLiveChannelArn: "mediaLiveChannelArn",
-        MediaLivePipelineId: "mediaLivePipelineId",
-        MediaLiveChannelOutputName: "mediaLiveChannelOutputName",
-        SourceTransitDecryption: "sourceTransitDecryption",
-      }),
-    ),
-).annotate({
-  identifier: "MediaLiveChannelRouterInputConfiguration",
-}) as any as S.Schema<MediaLiveChannelRouterInputConfiguration>;
 export type FailoverRouterInputProtocolConfiguration =
   | {
       Rist: RistRouterInputConfiguration;
@@ -2059,99 +852,34 @@ export type FailoverRouterInputProtocolConfiguration =
       SrtCaller?: never;
       Rtp: RtpRouterInputConfiguration;
     };
-export const FailoverRouterInputProtocolConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ Rist: RistRouterInputConfiguration }),
-  S.Struct({ SrtListener: SrtListenerRouterInputConfiguration }),
-  S.Struct({ SrtCaller: SrtCallerRouterInputConfiguration }),
-  S.Struct({ Rtp: RtpRouterInputConfiguration }),
-]);
 export type FailoverRouterInputProtocolConfigurationList =
   FailoverRouterInputProtocolConfiguration[];
-export const FailoverRouterInputProtocolConfigurationList =
-  /*@__PURE__*/ S.Array(FailoverRouterInputProtocolConfiguration);
 export type FailoverInputSourcePriorityMode =
   | "NO_PRIORITY"
   | "PRIMARY_SECONDARY"
   | (string & {});
-export const FailoverInputSourcePriorityMode = S.String;
-
 export interface FailoverRouterInputConfiguration {
   NetworkInterfaceArn: string;
   ProtocolConfigurations: FailoverRouterInputProtocolConfiguration[];
   SourcePriorityMode: FailoverInputSourcePriorityMode;
   PrimarySourceIndex?: number;
 }
-export const FailoverRouterInputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkInterfaceArn: S.String,
-    ProtocolConfigurations: FailoverRouterInputProtocolConfigurationList,
-    SourcePriorityMode: FailoverInputSourcePriorityMode,
-    PrimarySourceIndex: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      NetworkInterfaceArn: "networkInterfaceArn",
-      ProtocolConfigurations: "protocolConfigurations",
-      SourcePriorityMode: "sourcePriorityMode",
-      PrimarySourceIndex: "primarySourceIndex",
-    }),
-  ),
-).annotate({
-  identifier: "FailoverRouterInputConfiguration",
-}) as any as S.Schema<FailoverRouterInputConfiguration>;
 export type FlowOutputArn = string;
 export interface MediaConnectFlowRouterInputConfiguration {
   FlowArn?: string;
   FlowOutputArn?: string;
   SourceTransitDecryption: FlowTransitEncryption;
 }
-export const MediaConnectFlowRouterInputConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FlowArn: S.optional(S.String),
-      FlowOutputArn: S.optional(S.String),
-      SourceTransitDecryption: FlowTransitEncryption,
-    }).pipe(
-      S.encodeKeys({
-        FlowArn: "flowArn",
-        FlowOutputArn: "flowOutputArn",
-        SourceTransitDecryption: "sourceTransitDecryption",
-      }),
-    ),
-).annotate({
-  identifier: "MediaConnectFlowRouterInputConfiguration",
-}) as any as S.Schema<MediaConnectFlowRouterInputConfiguration>;
 export type MergeRouterInputProtocolConfiguration =
   | { Rtp: RtpRouterInputConfiguration; Rist?: never }
   | { Rtp?: never; Rist: RistRouterInputConfiguration };
-export const MergeRouterInputProtocolConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ Rtp: RtpRouterInputConfiguration }),
-  S.Struct({ Rist: RistRouterInputConfiguration }),
-]);
 export type MergeRouterInputProtocolConfigurationList =
   MergeRouterInputProtocolConfiguration[];
-export const MergeRouterInputProtocolConfigurationList = /*@__PURE__*/ S.Array(
-  MergeRouterInputProtocolConfiguration,
-);
 export interface MergeRouterInputConfiguration {
   NetworkInterfaceArn: string;
   ProtocolConfigurations: MergeRouterInputProtocolConfiguration[];
   MergeRecoveryWindowMilliseconds: number;
 }
-export const MergeRouterInputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkInterfaceArn: S.String,
-    ProtocolConfigurations: MergeRouterInputProtocolConfigurationList,
-    MergeRecoveryWindowMilliseconds: S.Number,
-  }).pipe(
-    S.encodeKeys({
-      NetworkInterfaceArn: "networkInterfaceArn",
-      ProtocolConfigurations: "protocolConfigurations",
-      MergeRecoveryWindowMilliseconds: "mergeRecoveryWindowMilliseconds",
-    }),
-  ),
-).annotate({
-  identifier: "MergeRouterInputConfiguration",
-}) as any as S.Schema<MergeRouterInputConfiguration>;
 export type RouterInputConfiguration =
   | {
       Standard: StandardRouterInputConfiguration;
@@ -2188,162 +916,52 @@ export type RouterInputConfiguration =
       MediaConnectFlow?: never;
       Merge: MergeRouterInputConfiguration;
     };
-export const RouterInputConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ Standard: StandardRouterInputConfiguration }),
-  S.Struct({ MediaLiveChannel: MediaLiveChannelRouterInputConfiguration }),
-  S.Struct({ Failover: FailoverRouterInputConfiguration }),
-  S.Struct({ MediaConnectFlow: MediaConnectFlowRouterInputConfiguration }),
-  S.Struct({ Merge: MergeRouterInputConfiguration }),
-]);
 export type RouterInputTier =
   | "INPUT_100"
   | "INPUT_50"
   | "INPUT_20"
   | (string & {});
-export const RouterInputTier = S.String;
-
 export type RoutingScope = "REGIONAL" | "GLOBAL" | (string & {});
-export const RoutingScope = S.String;
-
 export interface RouterInputMessage {
   Code: string;
   Message: string;
 }
-export const RouterInputMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Code: S.String, Message: S.String }).pipe(
-    S.encodeKeys({ Code: "code", Message: "message" }),
-  ),
-).annotate({
-  identifier: "RouterInputMessage",
-}) as any as S.Schema<RouterInputMessage>;
 export type RouterInputMessages = RouterInputMessage[];
-export const RouterInputMessages = /*@__PURE__*/ S.Array(RouterInputMessage);
 export type RouterInputTransitEncryptionKeyType =
   | "SECRETS_MANAGER"
   | "AUTOMATIC"
   | (string & {});
-export const RouterInputTransitEncryptionKeyType = S.String;
-
 export type RouterInputTransitEncryptionKeyConfiguration =
   | {
       SecretsManager: SecretsManagerEncryptionKeyConfiguration;
       Automatic?: never;
     }
   | { SecretsManager?: never; Automatic: AutomaticEncryptionKeyConfiguration };
-export const RouterInputTransitEncryptionKeyConfiguration =
-  /*@__PURE__*/ S.Union([
-    S.Struct({ SecretsManager: SecretsManagerEncryptionKeyConfiguration }),
-    S.Struct({ Automatic: AutomaticEncryptionKeyConfiguration }),
-  ]);
 export interface RouterInputTransitEncryption {
   EncryptionKeyType?: RouterInputTransitEncryptionKeyType;
   EncryptionKeyConfiguration: RouterInputTransitEncryptionKeyConfiguration;
 }
-export const RouterInputTransitEncryption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EncryptionKeyType: S.optional(RouterInputTransitEncryptionKeyType),
-    EncryptionKeyConfiguration: RouterInputTransitEncryptionKeyConfiguration,
-  }).pipe(
-    S.encodeKeys({
-      EncryptionKeyType: "encryptionKeyType",
-      EncryptionKeyConfiguration: "encryptionKeyConfiguration",
-    }),
-  ),
-).annotate({
-  identifier: "RouterInputTransitEncryption",
-}) as any as S.Schema<RouterInputTransitEncryption>;
 export interface StandardRouterInputStreamDetails {
   SourceIpAddress?: string;
 }
-export const StandardRouterInputStreamDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SourceIpAddress: S.optional(S.String) }).pipe(
-    S.encodeKeys({ SourceIpAddress: "sourceIpAddress" }),
-  ),
-).annotate({
-  identifier: "StandardRouterInputStreamDetails",
-}) as any as S.Schema<StandardRouterInputStreamDetails>;
 export interface MediaLiveChannelRouterInputStreamDetails {}
-export const MediaLiveChannelRouterInputStreamDetails = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "MediaLiveChannelRouterInputStreamDetails",
-}) as any as S.Schema<MediaLiveChannelRouterInputStreamDetails>;
 export interface FailoverRouterInputIndexedStreamDetails {
   SourceIndex: number;
   SourceIpAddress?: string;
 }
-export const FailoverRouterInputIndexedStreamDetails = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SourceIndex: S.Number,
-      SourceIpAddress: S.optional(S.String),
-    }).pipe(
-      S.encodeKeys({
-        SourceIndex: "sourceIndex",
-        SourceIpAddress: "sourceIpAddress",
-      }),
-    ),
-).annotate({
-  identifier: "FailoverRouterInputIndexedStreamDetails",
-}) as any as S.Schema<FailoverRouterInputIndexedStreamDetails>;
 export interface FailoverRouterInputStreamDetails {
   SourceIndexZeroStreamDetails: FailoverRouterInputIndexedStreamDetails;
   SourceIndexOneStreamDetails: FailoverRouterInputIndexedStreamDetails;
 }
-export const FailoverRouterInputStreamDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceIndexZeroStreamDetails: FailoverRouterInputIndexedStreamDetails,
-    SourceIndexOneStreamDetails: FailoverRouterInputIndexedStreamDetails,
-  }).pipe(
-    S.encodeKeys({
-      SourceIndexZeroStreamDetails: "sourceIndexZeroStreamDetails",
-      SourceIndexOneStreamDetails: "sourceIndexOneStreamDetails",
-    }),
-  ),
-).annotate({
-  identifier: "FailoverRouterInputStreamDetails",
-}) as any as S.Schema<FailoverRouterInputStreamDetails>;
 export interface MediaConnectFlowRouterInputStreamDetails {}
-export const MediaConnectFlowRouterInputStreamDetails = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "MediaConnectFlowRouterInputStreamDetails",
-}) as any as S.Schema<MediaConnectFlowRouterInputStreamDetails>;
 export interface MergeRouterInputIndexedStreamDetails {
   SourceIndex: number;
   SourceIpAddress?: string;
 }
-export const MergeRouterInputIndexedStreamDetails = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SourceIndex: S.Number,
-      SourceIpAddress: S.optional(S.String),
-    }).pipe(
-      S.encodeKeys({
-        SourceIndex: "sourceIndex",
-        SourceIpAddress: "sourceIpAddress",
-      }),
-    ),
-).annotate({
-  identifier: "MergeRouterInputIndexedStreamDetails",
-}) as any as S.Schema<MergeRouterInputIndexedStreamDetails>;
 export interface MergeRouterInputStreamDetails {
   SourceIndexZeroStreamDetails: MergeRouterInputIndexedStreamDetails;
   SourceIndexOneStreamDetails: MergeRouterInputIndexedStreamDetails;
 }
-export const MergeRouterInputStreamDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceIndexZeroStreamDetails: MergeRouterInputIndexedStreamDetails,
-    SourceIndexOneStreamDetails: MergeRouterInputIndexedStreamDetails,
-  }).pipe(
-    S.encodeKeys({
-      SourceIndexZeroStreamDetails: "sourceIndexZeroStreamDetails",
-      SourceIndexOneStreamDetails: "sourceIndexOneStreamDetails",
-    }),
-  ),
-).annotate({
-  identifier: "MergeRouterInputStreamDetails",
-}) as any as S.Schema<MergeRouterInputStreamDetails>;
 export type RouterInputStreamDetails =
   | {
       Standard: StandardRouterInputStreamDetails;
@@ -2380,16 +998,7 @@ export type RouterInputStreamDetails =
       MediaConnectFlow?: never;
       Merge: MergeRouterInputStreamDetails;
     };
-export const RouterInputStreamDetails = /*@__PURE__*/ S.Union([
-  S.Struct({ Standard: StandardRouterInputStreamDetails }),
-  S.Struct({ MediaLiveChannel: MediaLiveChannelRouterInputStreamDetails }),
-  S.Struct({ Failover: FailoverRouterInputStreamDetails }),
-  S.Struct({ MediaConnectFlow: MediaConnectFlowRouterInputStreamDetails }),
-  S.Struct({ Merge: MergeRouterInputStreamDetails }),
-]);
 export type MaintenanceType = "PREFERRED_DAY_TIME" | "DEFAULT" | (string & {});
-export const MaintenanceType = S.String;
-
 export type Day =
   | "MONDAY"
   | "TUESDAY"
@@ -2399,142 +1008,50 @@ export type Day =
   | "SATURDAY"
   | "SUNDAY"
   | (string & {});
-export const Day = S.String;
-
 export interface PreferredDayTimeMaintenanceConfiguration {
   Day: Day;
   Time: string;
 }
-export const PreferredDayTimeMaintenanceConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Day: Day, Time: S.String }).pipe(
-      S.encodeKeys({ Day: "day", Time: "time" }),
-    ),
-).annotate({
-  identifier: "PreferredDayTimeMaintenanceConfiguration",
-}) as any as S.Schema<PreferredDayTimeMaintenanceConfiguration>;
 export interface DefaultMaintenanceConfiguration {}
-export const DefaultMaintenanceConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DefaultMaintenanceConfiguration",
-}) as any as S.Schema<DefaultMaintenanceConfiguration>;
 export type MaintenanceConfiguration =
   | {
       PreferredDayTime: PreferredDayTimeMaintenanceConfiguration;
       Default?: never;
     }
   | { PreferredDayTime?: never; Default: DefaultMaintenanceConfiguration };
-export const MaintenanceConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ PreferredDayTime: PreferredDayTimeMaintenanceConfiguration }),
-  S.Struct({ Default: DefaultMaintenanceConfiguration }),
-]);
 export type MaintenanceScheduleType = "WINDOW" | (string & {});
-export const MaintenanceScheduleType = S.String;
-
 export interface WindowMaintenanceSchedule {
   Start: Date;
   End: Date;
   ScheduledTime: Date;
 }
-export const WindowMaintenanceSchedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Start: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    End: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ScheduledTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }).pipe(
-    S.encodeKeys({
-      Start: "start",
-      End: "end",
-      ScheduledTime: "scheduledTime",
-    }),
-  ),
-).annotate({
-  identifier: "WindowMaintenanceSchedule",
-}) as any as S.Schema<WindowMaintenanceSchedule>;
 export type MaintenanceSchedule = { Window: WindowMaintenanceSchedule };
-export const MaintenanceSchedule = /*@__PURE__*/ S.Union([
-  S.Struct({ Window: WindowMaintenanceSchedule }),
-]);
 export type RouterContentQualityAnalysisType = "CONTENT_LEVEL" | (string & {});
-export const RouterContentQualityAnalysisType = S.String;
-
 export type ContentQualityAnalysisState =
   | "ENABLED"
   | "DISABLED"
   | (string & {});
-export const ContentQualityAnalysisState = S.String;
-
 export type RouterCqaThresholdSeconds = number;
 export interface BlackFramesConfiguration {
   State: ContentQualityAnalysisState;
   ThresholdSeconds: number;
 }
-export const BlackFramesConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    State: ContentQualityAnalysisState,
-    ThresholdSeconds: S.Number,
-  }).pipe(
-    S.encodeKeys({ State: "state", ThresholdSeconds: "thresholdSeconds" }),
-  ),
-).annotate({
-  identifier: "BlackFramesConfiguration",
-}) as any as S.Schema<BlackFramesConfiguration>;
 export interface FrozenFramesConfiguration {
   State: ContentQualityAnalysisState;
   ThresholdSeconds: number;
 }
-export const FrozenFramesConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    State: ContentQualityAnalysisState,
-    ThresholdSeconds: S.Number,
-  }).pipe(
-    S.encodeKeys({ State: "state", ThresholdSeconds: "thresholdSeconds" }),
-  ),
-).annotate({
-  identifier: "FrozenFramesConfiguration",
-}) as any as S.Schema<FrozenFramesConfiguration>;
 export interface SilentAudioConfiguration {
   State: ContentQualityAnalysisState;
   ThresholdSeconds: number;
 }
-export const SilentAudioConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    State: ContentQualityAnalysisState,
-    ThresholdSeconds: S.Number,
-  }).pipe(
-    S.encodeKeys({ State: "state", ThresholdSeconds: "thresholdSeconds" }),
-  ),
-).annotate({
-  identifier: "SilentAudioConfiguration",
-}) as any as S.Schema<SilentAudioConfiguration>;
 export interface ContentQualityAnalysisFeatureConfiguration {
   BlackFrames?: BlackFramesConfiguration;
   FrozenFrames?: FrozenFramesConfiguration;
   SilentAudio?: SilentAudioConfiguration;
 }
-export const ContentQualityAnalysisFeatureConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      BlackFrames: S.optional(BlackFramesConfiguration),
-      FrozenFrames: S.optional(FrozenFramesConfiguration),
-      SilentAudio: S.optional(SilentAudioConfiguration),
-    }).pipe(
-      S.encodeKeys({
-        BlackFrames: "blackFrames",
-        FrozenFrames: "frozenFrames",
-        SilentAudio: "silentAudio",
-      }),
-    ),
-  ).annotate({
-    identifier: "ContentQualityAnalysisFeatureConfiguration",
-  }) as any as S.Schema<ContentQualityAnalysisFeatureConfiguration>;
 export type RouterContentQualityAnalysisConfiguration = {
   ContentLevel: ContentQualityAnalysisFeatureConfiguration;
 };
-export const RouterContentQualityAnalysisConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ ContentLevel: ContentQualityAnalysisFeatureConfiguration }),
-]);
 export interface RouterInput {
   Name: string;
   Arn: string;
@@ -2563,86 +1080,13 @@ export interface RouterInput {
   ContentQualityAnalysisType?: RouterContentQualityAnalysisType;
   ContentQualityAnalysisConfiguration?: RouterContentQualityAnalysisConfiguration;
 }
-export const RouterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Arn: S.String,
-    Id: S.String,
-    State: RouterInputState,
-    InputType: RouterInputType,
-    Configuration: RouterInputConfiguration,
-    RoutedOutputs: S.Number,
-    MaximumRoutedOutputs: S.optional(S.Number),
-    RegionName: S.String,
-    AvailabilityZone: S.String,
-    MaximumBitrate: S.Number,
-    Tier: RouterInputTier,
-    RoutingScope: RoutingScope,
-    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    Messages: RouterInputMessages,
-    TransitEncryption: RouterInputTransitEncryption,
-    Tags: __mapOfString,
-    StreamDetails: RouterInputStreamDetails,
-    IpAddress: S.optional(S.String),
-    MaintenanceType: MaintenanceType,
-    MaintenanceConfiguration: MaintenanceConfiguration,
-    MaintenanceScheduleType: S.optional(MaintenanceScheduleType),
-    MaintenanceSchedule: S.optional(MaintenanceSchedule),
-    ContentQualityAnalysisType: S.optional(RouterContentQualityAnalysisType),
-    ContentQualityAnalysisConfiguration: S.optional(
-      RouterContentQualityAnalysisConfiguration,
-    ),
-  }).pipe(
-    S.encodeKeys({
-      Name: "name",
-      Arn: "arn",
-      Id: "id",
-      State: "state",
-      InputType: "inputType",
-      Configuration: "configuration",
-      RoutedOutputs: "routedOutputs",
-      MaximumRoutedOutputs: "maximumRoutedOutputs",
-      RegionName: "regionName",
-      AvailabilityZone: "availabilityZone",
-      MaximumBitrate: "maximumBitrate",
-      Tier: "tier",
-      RoutingScope: "routingScope",
-      CreatedAt: "createdAt",
-      UpdatedAt: "updatedAt",
-      Messages: "messages",
-      TransitEncryption: "transitEncryption",
-      Tags: "tags",
-      StreamDetails: "streamDetails",
-      IpAddress: "ipAddress",
-      MaintenanceType: "maintenanceType",
-      MaintenanceConfiguration: "maintenanceConfiguration",
-      MaintenanceScheduleType: "maintenanceScheduleType",
-      MaintenanceSchedule: "maintenanceSchedule",
-      ContentQualityAnalysisType: "contentQualityAnalysisType",
-      ContentQualityAnalysisConfiguration:
-        "contentQualityAnalysisConfiguration",
-    }),
-  ),
-).annotate({ identifier: "RouterInput" }) as any as S.Schema<RouterInput>;
 export type RouterInputList = RouterInput[];
-export const RouterInputList = /*@__PURE__*/ S.Array(RouterInput);
 export interface BatchGetRouterInputError_ {
   Arn: string;
   Code: string;
   Message: string;
 }
-export const BatchGetRouterInputError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String, Code: S.String, Message: S.String }).pipe(
-    S.encodeKeys({ Arn: "arn", Code: "code", Message: "message" }),
-  ),
-).annotate({
-  identifier: "BatchGetRouterInputError",
-}) as any as S.Schema<BatchGetRouterInputError_>;
 export type BatchGetRouterInputErrorList = BatchGetRouterInputError_[];
-export const BatchGetRouterInputErrorList = /*@__PURE__*/ S.Array(
-  BatchGetRouterInputError_,
-);
 export interface BatchGetRouterInputResponse {
   RouterInputs: (RouterInput & {
     ContentQualityAnalysisType: RouterContentQualityAnalysisType;
@@ -2650,36 +1094,10 @@ export interface BatchGetRouterInputResponse {
   })[];
   Errors: BatchGetRouterInputError_[];
 }
-export const BatchGetRouterInputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RouterInputs: RouterInputList,
-    Errors: BatchGetRouterInputErrorList,
-  }).pipe(S.encodeKeys({ RouterInputs: "routerInputs", Errors: "errors" })),
-).annotate({
-  identifier: "BatchGetRouterInputResponse",
-}) as any as S.Schema<BatchGetRouterInputResponse>;
 export type RouterNetworkInterfaceArnList = string[];
-export const RouterNetworkInterfaceArnList = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetRouterNetworkInterfaceRequest {
   Arns: string[];
 }
-export const BatchGetRouterNetworkInterfaceRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Arns: RouterNetworkInterfaceArnList.pipe(T.HttpQuery("arns")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/v1/routerNetworkInterfaces" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "BatchGetRouterNetworkInterfaceRequest",
-}) as any as S.Schema<BatchGetRouterNetworkInterfaceRequest>;
 export type RouterNetworkInterfaceState =
   | "CREATING"
   | "ACTIVE"
@@ -2688,61 +1106,22 @@ export type RouterNetworkInterfaceState =
   | "ERROR"
   | "RECOVERING"
   | (string & {});
-export const RouterNetworkInterfaceState = S.String;
-
 export type RouterNetworkInterfaceType = "PUBLIC" | "VPC" | (string & {});
-export const RouterNetworkInterfaceType = S.String;
-
 export interface PublicRouterNetworkInterfaceRule {
   Cidr: string;
 }
-export const PublicRouterNetworkInterfaceRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Cidr: S.String }).pipe(S.encodeKeys({ Cidr: "cidr" })),
-).annotate({
-  identifier: "PublicRouterNetworkInterfaceRule",
-}) as any as S.Schema<PublicRouterNetworkInterfaceRule>;
 export type NetworkInterfaceRuleList = PublicRouterNetworkInterfaceRule[];
-export const NetworkInterfaceRuleList = /*@__PURE__*/ S.Array(
-  PublicRouterNetworkInterfaceRule,
-);
 export interface PublicRouterNetworkInterfaceConfiguration {
   AllowRules: PublicRouterNetworkInterfaceRule[];
 }
-export const PublicRouterNetworkInterfaceConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ AllowRules: NetworkInterfaceRuleList }).pipe(
-      S.encodeKeys({ AllowRules: "allowRules" }),
-    ),
-  ).annotate({
-    identifier: "PublicRouterNetworkInterfaceConfiguration",
-  }) as any as S.Schema<PublicRouterNetworkInterfaceConfiguration>;
 export type SecurityGroupIdList = string[];
-export const SecurityGroupIdList = /*@__PURE__*/ S.Array(S.String);
 export interface VpcRouterNetworkInterfaceConfiguration {
   SecurityGroupIds: string[];
   SubnetId: string;
 }
-export const VpcRouterNetworkInterfaceConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SecurityGroupIds: SecurityGroupIdList,
-      SubnetId: S.String,
-    }).pipe(
-      S.encodeKeys({
-        SecurityGroupIds: "securityGroupIds",
-        SubnetId: "subnetId",
-      }),
-    ),
-).annotate({
-  identifier: "VpcRouterNetworkInterfaceConfiguration",
-}) as any as S.Schema<VpcRouterNetworkInterfaceConfiguration>;
 export type RouterNetworkInterfaceConfiguration =
   | { Public: PublicRouterNetworkInterfaceConfiguration; Vpc?: never }
   | { Public?: never; Vpc: VpcRouterNetworkInterfaceConfiguration };
-export const RouterNetworkInterfaceConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ Public: PublicRouterNetworkInterfaceConfiguration }),
-  S.Struct({ Vpc: VpcRouterNetworkInterfaceConfiguration }),
-]);
 export interface RouterNetworkInterface {
   Name: string;
   Arn: string;
@@ -2757,99 +1136,23 @@ export interface RouterNetworkInterface {
   UpdatedAt: Date;
   Tags: { [key: string]: string | undefined };
 }
-export const RouterNetworkInterface = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Arn: S.String,
-    Id: S.String,
-    State: RouterNetworkInterfaceState,
-    NetworkInterfaceType: RouterNetworkInterfaceType,
-    Configuration: RouterNetworkInterfaceConfiguration,
-    AssociatedOutputCount: S.Number,
-    AssociatedInputCount: S.Number,
-    RegionName: S.String,
-    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    Tags: __mapOfString,
-  }).pipe(
-    S.encodeKeys({
-      Name: "name",
-      Arn: "arn",
-      Id: "id",
-      State: "state",
-      NetworkInterfaceType: "networkInterfaceType",
-      Configuration: "configuration",
-      AssociatedOutputCount: "associatedOutputCount",
-      AssociatedInputCount: "associatedInputCount",
-      RegionName: "regionName",
-      CreatedAt: "createdAt",
-      UpdatedAt: "updatedAt",
-      Tags: "tags",
-    }),
-  ),
-).annotate({
-  identifier: "RouterNetworkInterface",
-}) as any as S.Schema<RouterNetworkInterface>;
 export type RouterNetworkInterfaceList = RouterNetworkInterface[];
-export const RouterNetworkInterfaceList = /*@__PURE__*/ S.Array(
-  RouterNetworkInterface,
-);
 export interface BatchGetRouterNetworkInterfaceError_ {
   Arn: string;
   Code: string;
   Message: string;
 }
-export const BatchGetRouterNetworkInterfaceError_ = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Arn: S.String, Code: S.String, Message: S.String }).pipe(
-      S.encodeKeys({ Arn: "arn", Code: "code", Message: "message" }),
-    ),
-).annotate({
-  identifier: "BatchGetRouterNetworkInterfaceError",
-}) as any as S.Schema<BatchGetRouterNetworkInterfaceError_>;
 export type BatchGetRouterNetworkInterfaceErrorList =
   BatchGetRouterNetworkInterfaceError_[];
-export const BatchGetRouterNetworkInterfaceErrorList = /*@__PURE__*/ S.Array(
-  BatchGetRouterNetworkInterfaceError_,
-);
 export interface BatchGetRouterNetworkInterfaceResponse {
   RouterNetworkInterfaces: RouterNetworkInterface[];
   Errors: BatchGetRouterNetworkInterfaceError_[];
 }
-export const BatchGetRouterNetworkInterfaceResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RouterNetworkInterfaces: RouterNetworkInterfaceList,
-      Errors: BatchGetRouterNetworkInterfaceErrorList,
-    }).pipe(
-      S.encodeKeys({
-        RouterNetworkInterfaces: "routerNetworkInterfaces",
-        Errors: "errors",
-      }),
-    ),
-).annotate({
-  identifier: "BatchGetRouterNetworkInterfaceResponse",
-}) as any as S.Schema<BatchGetRouterNetworkInterfaceResponse>;
 export type RouterOutputArn = string;
 export type RouterOutputArnList = string[];
-export const RouterOutputArnList = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetRouterOutputRequest {
   Arns: string[];
 }
-export const BatchGetRouterOutputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arns: RouterOutputArnList.pipe(T.HttpQuery("arns")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/routerOutputs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetRouterOutputRequest",
-}) as any as S.Schema<BatchGetRouterOutputRequest>;
 export type RouterOutputState =
   | "CREATING"
   | "STANDBY"
@@ -2862,60 +1165,23 @@ export type RouterOutputState =
   | "RECOVERING"
   | "MIGRATING"
   | (string & {});
-export const RouterOutputState = S.String;
-
 export type RouterOutputType =
   | "STANDARD"
   | "MEDIACONNECT_FLOW"
   | "MEDIALIVE_INPUT"
   | (string & {});
-export const RouterOutputType = S.String;
-
 export interface RistRouterOutputConfiguration {
   DestinationAddress: string;
   DestinationPort: number;
 }
-export const RistRouterOutputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DestinationAddress: S.String, DestinationPort: S.Number }).pipe(
-    S.encodeKeys({
-      DestinationAddress: "destinationAddress",
-      DestinationPort: "destinationPort",
-    }),
-  ),
-).annotate({
-  identifier: "RistRouterOutputConfiguration",
-}) as any as S.Schema<RistRouterOutputConfiguration>;
 export interface SrtEncryptionConfiguration {
   EncryptionKey: SecretsManagerEncryptionKeyConfiguration;
 }
-export const SrtEncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EncryptionKey: SecretsManagerEncryptionKeyConfiguration }).pipe(
-    S.encodeKeys({ EncryptionKey: "encryptionKey" }),
-  ),
-).annotate({
-  identifier: "SrtEncryptionConfiguration",
-}) as any as S.Schema<SrtEncryptionConfiguration>;
 export interface SrtListenerRouterOutputConfiguration {
   Port: number;
   MinimumLatencyMilliseconds: number;
   EncryptionConfiguration?: SrtEncryptionConfiguration;
 }
-export const SrtListenerRouterOutputConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Port: S.Number,
-      MinimumLatencyMilliseconds: S.Number,
-      EncryptionConfiguration: S.optional(SrtEncryptionConfiguration),
-    }).pipe(
-      S.encodeKeys({
-        Port: "port",
-        MinimumLatencyMilliseconds: "minimumLatencyMilliseconds",
-        EncryptionConfiguration: "encryptionConfiguration",
-      }),
-    ),
-).annotate({
-  identifier: "SrtListenerRouterOutputConfiguration",
-}) as any as S.Schema<SrtListenerRouterOutputConfiguration>;
 export interface SrtCallerRouterOutputConfiguration {
   DestinationAddress: string;
   DestinationPort: number;
@@ -2923,45 +1189,11 @@ export interface SrtCallerRouterOutputConfiguration {
   StreamId?: string;
   EncryptionConfiguration?: SrtEncryptionConfiguration;
 }
-export const SrtCallerRouterOutputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DestinationAddress: S.String,
-    DestinationPort: S.Number,
-    MinimumLatencyMilliseconds: S.Number,
-    StreamId: S.optional(S.String),
-    EncryptionConfiguration: S.optional(SrtEncryptionConfiguration),
-  }).pipe(
-    S.encodeKeys({
-      DestinationAddress: "destinationAddress",
-      DestinationPort: "destinationPort",
-      MinimumLatencyMilliseconds: "minimumLatencyMilliseconds",
-      StreamId: "streamId",
-      EncryptionConfiguration: "encryptionConfiguration",
-    }),
-  ),
-).annotate({
-  identifier: "SrtCallerRouterOutputConfiguration",
-}) as any as S.Schema<SrtCallerRouterOutputConfiguration>;
 export interface RtpRouterOutputConfiguration {
   DestinationAddress: string;
   DestinationPort: number;
   ForwardErrorCorrection?: ForwardErrorCorrectionState;
 }
-export const RtpRouterOutputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DestinationAddress: S.String,
-    DestinationPort: S.Number,
-    ForwardErrorCorrection: S.optional(ForwardErrorCorrectionState),
-  }).pipe(
-    S.encodeKeys({
-      DestinationAddress: "destinationAddress",
-      DestinationPort: "destinationPort",
-      ForwardErrorCorrection: "forwardErrorCorrection",
-    }),
-  ),
-).annotate({
-  identifier: "RtpRouterOutputConfiguration",
-}) as any as S.Schema<RtpRouterOutputConfiguration>;
 export type RouterOutputProtocolConfiguration =
   | {
       Rist: RistRouterOutputConfiguration;
@@ -2987,90 +1219,33 @@ export type RouterOutputProtocolConfiguration =
       SrtCaller?: never;
       Rtp: RtpRouterOutputConfiguration;
     };
-export const RouterOutputProtocolConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ Rist: RistRouterOutputConfiguration }),
-  S.Struct({ SrtListener: SrtListenerRouterOutputConfiguration }),
-  S.Struct({ SrtCaller: SrtCallerRouterOutputConfiguration }),
-  S.Struct({ Rtp: RtpRouterOutputConfiguration }),
-]);
 export type RouterOutputProtocol =
   | "RTP"
   | "RIST"
   | "SRT_CALLER"
   | "SRT_LISTENER"
   | (string & {});
-export const RouterOutputProtocol = S.String;
-
 export interface StandardRouterOutputConfiguration {
   NetworkInterfaceArn: string;
   ProtocolConfiguration: RouterOutputProtocolConfiguration;
   Protocol?: RouterOutputProtocol;
 }
-export const StandardRouterOutputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkInterfaceArn: S.String,
-    ProtocolConfiguration: RouterOutputProtocolConfiguration,
-    Protocol: S.optional(RouterOutputProtocol),
-  }).pipe(
-    S.encodeKeys({
-      NetworkInterfaceArn: "networkInterfaceArn",
-      ProtocolConfiguration: "protocolConfiguration",
-      Protocol: "protocol",
-    }),
-  ),
-).annotate({
-  identifier: "StandardRouterOutputConfiguration",
-}) as any as S.Schema<StandardRouterOutputConfiguration>;
 export type FlowSourceArn = string;
 export interface MediaConnectFlowRouterOutputConfiguration {
   FlowArn?: string;
   FlowSourceArn?: string;
   DestinationTransitEncryption: FlowTransitEncryption;
 }
-export const MediaConnectFlowRouterOutputConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      FlowArn: S.optional(S.String),
-      FlowSourceArn: S.optional(S.String),
-      DestinationTransitEncryption: FlowTransitEncryption,
-    }).pipe(
-      S.encodeKeys({
-        FlowArn: "flowArn",
-        FlowSourceArn: "flowSourceArn",
-        DestinationTransitEncryption: "destinationTransitEncryption",
-      }),
-    ),
-  ).annotate({
-    identifier: "MediaConnectFlowRouterOutputConfiguration",
-  }) as any as S.Schema<MediaConnectFlowRouterOutputConfiguration>;
 export type MediaLiveInputArn = string;
 export type MediaLiveInputPipelineId =
   | "PIPELINE_0"
   | "PIPELINE_1"
   | (string & {});
-export const MediaLiveInputPipelineId = S.String;
-
 export interface MediaLiveInputRouterOutputConfiguration {
   MediaLiveInputArn?: string;
   MediaLivePipelineId?: MediaLiveInputPipelineId;
   DestinationTransitEncryption: MediaLiveTransitEncryption;
 }
-export const MediaLiveInputRouterOutputConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MediaLiveInputArn: S.optional(S.String),
-      MediaLivePipelineId: S.optional(MediaLiveInputPipelineId),
-      DestinationTransitEncryption: MediaLiveTransitEncryption,
-    }).pipe(
-      S.encodeKeys({
-        MediaLiveInputArn: "mediaLiveInputArn",
-        MediaLivePipelineId: "mediaLivePipelineId",
-        DestinationTransitEncryption: "destinationTransitEncryption",
-      }),
-    ),
-).annotate({
-  identifier: "MediaLiveInputRouterOutputConfiguration",
-}) as any as S.Schema<MediaLiveInputRouterOutputConfiguration>;
 export type RouterOutputConfiguration =
   | {
       Standard: StandardRouterOutputConfiguration;
@@ -3087,59 +1262,26 @@ export type RouterOutputConfiguration =
       MediaConnectFlow?: never;
       MediaLiveInput: MediaLiveInputRouterOutputConfiguration;
     };
-export const RouterOutputConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ Standard: StandardRouterOutputConfiguration }),
-  S.Struct({ MediaConnectFlow: MediaConnectFlowRouterOutputConfiguration }),
-  S.Struct({ MediaLiveInput: MediaLiveInputRouterOutputConfiguration }),
-]);
 export type RouterOutputRoutedState =
   | "ROUTED"
   | "ROUTING"
   | "UNROUTED"
   | (string & {});
-export const RouterOutputRoutedState = S.String;
-
 export type RouterOutputTier =
   | "OUTPUT_100"
   | "OUTPUT_50"
   | "OUTPUT_20"
   | (string & {});
-export const RouterOutputTier = S.String;
-
 export interface RouterOutputMessage {
   Code: string;
   Message: string;
 }
-export const RouterOutputMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Code: S.String, Message: S.String }).pipe(
-    S.encodeKeys({ Code: "code", Message: "message" }),
-  ),
-).annotate({
-  identifier: "RouterOutputMessage",
-}) as any as S.Schema<RouterOutputMessage>;
 export type RouterOutputMessages = RouterOutputMessage[];
-export const RouterOutputMessages = /*@__PURE__*/ S.Array(RouterOutputMessage);
 export interface StandardRouterOutputStreamDetails {
   DestinationIpAddress?: string;
 }
-export const StandardRouterOutputStreamDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DestinationIpAddress: S.optional(S.String) }).pipe(
-    S.encodeKeys({ DestinationIpAddress: "destinationIpAddress" }),
-  ),
-).annotate({
-  identifier: "StandardRouterOutputStreamDetails",
-}) as any as S.Schema<StandardRouterOutputStreamDetails>;
 export interface MediaConnectFlowRouterOutputStreamDetails {}
-export const MediaConnectFlowRouterOutputStreamDetails =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "MediaConnectFlowRouterOutputStreamDetails",
-  }) as any as S.Schema<MediaConnectFlowRouterOutputStreamDetails>;
 export interface MediaLiveInputRouterOutputStreamDetails {}
-export const MediaLiveInputRouterOutputStreamDetails = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "MediaLiveInputRouterOutputStreamDetails",
-}) as any as S.Schema<MediaLiveInputRouterOutputStreamDetails>;
 export type RouterOutputStreamDetails =
   | {
       Standard: StandardRouterOutputStreamDetails;
@@ -3156,24 +1298,10 @@ export type RouterOutputStreamDetails =
       MediaConnectFlow?: never;
       MediaLiveInput: MediaLiveInputRouterOutputStreamDetails;
     };
-export const RouterOutputStreamDetails = /*@__PURE__*/ S.Union([
-  S.Struct({ Standard: StandardRouterOutputStreamDetails }),
-  S.Struct({ MediaConnectFlow: MediaConnectFlowRouterOutputStreamDetails }),
-  S.Struct({ MediaLiveInput: MediaLiveInputRouterOutputStreamDetails }),
-]);
 export type FabricLatencyMode = "BALANCED" | "LOW_LATENCY" | (string & {});
-export const FabricLatencyMode = S.String;
-
 export interface FabricConfiguration {
   RecoveryLatencyMode: FabricLatencyMode;
 }
-export const FabricConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RecoveryLatencyMode: FabricLatencyMode }).pipe(
-    S.encodeKeys({ RecoveryLatencyMode: "recoveryLatencyMode" }),
-  ),
-).annotate({
-  identifier: "FabricConfiguration",
-}) as any as S.Schema<FabricConfiguration>;
 export interface RouterOutput {
   Name: string;
   Arn: string;
@@ -3200,147 +1328,36 @@ export interface RouterOutput {
   MaintenanceSchedule?: MaintenanceSchedule;
   FabricConfiguration?: FabricConfiguration;
 }
-export const RouterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Arn: S.String,
-    Id: S.String,
-    State: RouterOutputState,
-    OutputType: RouterOutputType,
-    Configuration: RouterOutputConfiguration,
-    RoutedState: RouterOutputRoutedState,
-    RegionName: S.String,
-    AvailabilityZone: S.String,
-    MaximumBitrate: S.Number,
-    RoutingScope: RoutingScope,
-    Tier: RouterOutputTier,
-    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    Messages: RouterOutputMessages,
-    Tags: __mapOfString,
-    StreamDetails: RouterOutputStreamDetails,
-    IpAddress: S.optional(S.String),
-    RoutedInputArn: S.optional(S.String),
-    MaintenanceType: MaintenanceType,
-    MaintenanceConfiguration: MaintenanceConfiguration,
-    MaintenanceScheduleType: S.optional(MaintenanceScheduleType),
-    MaintenanceSchedule: S.optional(MaintenanceSchedule),
-    FabricConfiguration: S.optional(FabricConfiguration),
-  }).pipe(
-    S.encodeKeys({
-      Name: "name",
-      Arn: "arn",
-      Id: "id",
-      State: "state",
-      OutputType: "outputType",
-      Configuration: "configuration",
-      RoutedState: "routedState",
-      RegionName: "regionName",
-      AvailabilityZone: "availabilityZone",
-      MaximumBitrate: "maximumBitrate",
-      RoutingScope: "routingScope",
-      Tier: "tier",
-      CreatedAt: "createdAt",
-      UpdatedAt: "updatedAt",
-      Messages: "messages",
-      Tags: "tags",
-      StreamDetails: "streamDetails",
-      IpAddress: "ipAddress",
-      RoutedInputArn: "routedInputArn",
-      MaintenanceType: "maintenanceType",
-      MaintenanceConfiguration: "maintenanceConfiguration",
-      MaintenanceScheduleType: "maintenanceScheduleType",
-      MaintenanceSchedule: "maintenanceSchedule",
-      FabricConfiguration: "fabricConfiguration",
-    }),
-  ),
-).annotate({ identifier: "RouterOutput" }) as any as S.Schema<RouterOutput>;
 export type RouterOutputList = RouterOutput[];
-export const RouterOutputList = /*@__PURE__*/ S.Array(RouterOutput);
 export interface BatchGetRouterOutputError_ {
   Arn: string;
   Code: string;
   Message: string;
 }
-export const BatchGetRouterOutputError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String, Code: S.String, Message: S.String }).pipe(
-    S.encodeKeys({ Arn: "arn", Code: "code", Message: "message" }),
-  ),
-).annotate({
-  identifier: "BatchGetRouterOutputError",
-}) as any as S.Schema<BatchGetRouterOutputError_>;
 export type BatchGetRouterOutputErrorList = BatchGetRouterOutputError_[];
-export const BatchGetRouterOutputErrorList = /*@__PURE__*/ S.Array(
-  BatchGetRouterOutputError_,
-);
 export interface BatchGetRouterOutputResponse {
   RouterOutputs: (RouterOutput & {
     FabricConfiguration: FabricConfiguration;
   })[];
   Errors: BatchGetRouterOutputError_[];
 }
-export const BatchGetRouterOutputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RouterOutputs: RouterOutputList,
-    Errors: BatchGetRouterOutputErrorList,
-  }).pipe(S.encodeKeys({ RouterOutputs: "routerOutputs", Errors: "errors" })),
-).annotate({
-  identifier: "BatchGetRouterOutputResponse",
-}) as any as S.Schema<BatchGetRouterOutputResponse>;
 export interface AddEgressGatewayBridgeRequest {
   MaxBitrate?: number;
 }
-export const AddEgressGatewayBridgeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MaxBitrate: S.optional(S.Number) }).pipe(
-    S.encodeKeys({ MaxBitrate: "maxBitrate" }),
-  ),
-).annotate({
-  identifier: "AddEgressGatewayBridgeRequest",
-}) as any as S.Schema<AddEgressGatewayBridgeRequest>;
 export interface AddIngressGatewayBridgeRequest {
   MaxBitrate?: number;
   MaxOutputs?: number;
 }
-export const AddIngressGatewayBridgeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxBitrate: S.optional(S.Number),
-    MaxOutputs: S.optional(S.Number),
-  }).pipe(S.encodeKeys({ MaxBitrate: "maxBitrate", MaxOutputs: "maxOutputs" })),
-).annotate({
-  identifier: "AddIngressGatewayBridgeRequest",
-}) as any as S.Schema<AddIngressGatewayBridgeRequest>;
 export type FailoverMode = "MERGE" | "FAILOVER" | (string & {});
-export const FailoverMode = S.String;
-
 export interface SourcePriority {
   PrimarySource?: string;
 }
-export const SourcePriority = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PrimarySource: S.optional(S.String) }).pipe(
-    S.encodeKeys({ PrimarySource: "primarySource" }),
-  ),
-).annotate({ identifier: "SourcePriority" }) as any as S.Schema<SourcePriority>;
 export interface FailoverConfig {
   FailoverMode?: FailoverMode;
   RecoveryWindow?: number;
   SourcePriority?: SourcePriority;
   State?: State;
 }
-export const FailoverConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FailoverMode: S.optional(FailoverMode),
-    RecoveryWindow: S.optional(S.Number),
-    SourcePriority: S.optional(SourcePriority),
-    State: S.optional(State),
-  }).pipe(
-    S.encodeKeys({
-      FailoverMode: "failoverMode",
-      RecoveryWindow: "recoveryWindow",
-      SourcePriority: "sourcePriority",
-      State: "state",
-    }),
-  ),
-).annotate({ identifier: "FailoverConfig" }) as any as S.Schema<FailoverConfig>;
 export interface CreateBridgeRequest {
   EgressGatewayBridge?: AddEgressGatewayBridgeRequest;
   IngressGatewayBridge?: AddIngressGatewayBridgeRequest;
@@ -3350,60 +1367,12 @@ export interface CreateBridgeRequest {
   SourceFailoverConfig?: FailoverConfig;
   Sources?: AddBridgeSourceRequest[];
 }
-export const CreateBridgeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EgressGatewayBridge: S.optional(AddEgressGatewayBridgeRequest),
-    IngressGatewayBridge: S.optional(AddIngressGatewayBridgeRequest),
-    Name: S.optional(S.String),
-    Outputs: S.optional(__listOfAddBridgeOutputRequest),
-    PlacementArn: S.optional(S.String),
-    SourceFailoverConfig: S.optional(FailoverConfig),
-    Sources: S.optional(__listOfAddBridgeSourceRequest),
-  })
-    .pipe(
-      S.encodeKeys({
-        EgressGatewayBridge: "egressGatewayBridge",
-        IngressGatewayBridge: "ingressGatewayBridge",
-        Name: "name",
-        Outputs: "outputs",
-        PlacementArn: "placementArn",
-        SourceFailoverConfig: "sourceFailoverConfig",
-        Sources: "sources",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/bridges" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateBridgeRequest",
-}) as any as S.Schema<CreateBridgeRequest>;
 export interface MessageDetail {
   Code?: string;
   Message?: string;
   ResourceName?: string;
 }
-export const MessageDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Code: S.optional(S.String),
-    Message: S.optional(S.String),
-    ResourceName: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      Code: "code",
-      Message: "message",
-      ResourceName: "resourceName",
-    }),
-  ),
-).annotate({ identifier: "MessageDetail" }) as any as S.Schema<MessageDetail>;
 export type __listOfMessageDetail = MessageDetail[];
-export const __listOfMessageDetail = /*@__PURE__*/ S.Array(MessageDetail);
 export type BridgeState =
   | "CREATING"
   | "STANDBY"
@@ -3418,40 +1387,15 @@ export type BridgeState =
   | "STOP_FAILED"
   | "UPDATING"
   | (string & {});
-export const BridgeState = S.String;
-
 export interface EgressGatewayBridge {
   InstanceId?: string;
   MaxBitrate?: number;
 }
-export const EgressGatewayBridge = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceId: S.optional(S.String),
-    MaxBitrate: S.optional(S.Number),
-  }).pipe(S.encodeKeys({ InstanceId: "instanceId", MaxBitrate: "maxBitrate" })),
-).annotate({
-  identifier: "EgressGatewayBridge",
-}) as any as S.Schema<EgressGatewayBridge>;
 export interface IngressGatewayBridge {
   InstanceId?: string;
   MaxBitrate?: number;
   MaxOutputs?: number;
 }
-export const IngressGatewayBridge = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceId: S.optional(S.String),
-    MaxBitrate: S.optional(S.Number),
-    MaxOutputs: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      InstanceId: "instanceId",
-      MaxBitrate: "maxBitrate",
-      MaxOutputs: "maxOutputs",
-    }),
-  ),
-).annotate({
-  identifier: "IngressGatewayBridge",
-}) as any as S.Schema<IngressGatewayBridge>;
 export interface Bridge {
   BridgeArn?: string;
   BridgeMessages?: MessageDetail[];
@@ -3464,33 +1408,6 @@ export interface Bridge {
   SourceFailoverConfig?: FailoverConfig;
   Sources?: BridgeSource[];
 }
-export const Bridge = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.optional(S.String),
-    BridgeMessages: S.optional(__listOfMessageDetail),
-    BridgeState: S.optional(BridgeState),
-    EgressGatewayBridge: S.optional(EgressGatewayBridge),
-    IngressGatewayBridge: S.optional(IngressGatewayBridge),
-    Name: S.optional(S.String),
-    Outputs: S.optional(__listOfBridgeOutput),
-    PlacementArn: S.optional(S.String),
-    SourceFailoverConfig: S.optional(FailoverConfig),
-    Sources: S.optional(__listOfBridgeSource),
-  }).pipe(
-    S.encodeKeys({
-      BridgeArn: "bridgeArn",
-      BridgeMessages: "bridgeMessages",
-      BridgeState: "bridgeState",
-      EgressGatewayBridge: "egressGatewayBridge",
-      IngressGatewayBridge: "ingressGatewayBridge",
-      Name: "name",
-      Outputs: "outputs",
-      PlacementArn: "placementArn",
-      SourceFailoverConfig: "sourceFailoverConfig",
-      Sources: "sources",
-    }),
-  ),
-).annotate({ identifier: "Bridge" }) as any as S.Schema<Bridge>;
 export interface CreateBridgeResponse {
   Bridge?: Bridge & {
     BridgeArn: string;
@@ -3530,16 +1447,7 @@ export interface CreateBridgeResponse {
     })[];
   };
 }
-export const CreateBridgeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Bridge: S.optional(Bridge) }).pipe(
-    S.encodeKeys({ Bridge: "bridge" }),
-  ),
-).annotate({
-  identifier: "CreateBridgeResponse",
-}) as any as S.Schema<CreateBridgeResponse>;
 export type EntitlementStatus = "ENABLED" | "DISABLED" | (string & {});
-export const EntitlementStatus = S.String;
-
 export interface GrantEntitlementRequest {
   DataTransferSubscriberFeePercent?: number;
   Description?: string;
@@ -3549,33 +1457,7 @@ export interface GrantEntitlementRequest {
   Subscribers?: string[];
   EntitlementTags?: { [key: string]: string | undefined };
 }
-export const GrantEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataTransferSubscriberFeePercent: S.optional(S.Number),
-    Description: S.optional(S.String),
-    Encryption: S.optional(Encryption),
-    EntitlementStatus: S.optional(EntitlementStatus),
-    Name: S.optional(S.String),
-    Subscribers: S.optional(__listOfString),
-    EntitlementTags: S.optional(__mapOfString),
-  }).pipe(
-    S.encodeKeys({
-      DataTransferSubscriberFeePercent: "dataTransferSubscriberFeePercent",
-      Description: "description",
-      Encryption: "encryption",
-      EntitlementStatus: "entitlementStatus",
-      Name: "name",
-      Subscribers: "subscribers",
-      EntitlementTags: "entitlementTags",
-    }),
-  ),
-).annotate({
-  identifier: "GrantEntitlementRequest",
-}) as any as S.Schema<GrantEntitlementRequest>;
 export type __listOfGrantEntitlementRequest = GrantEntitlementRequest[];
-export const __listOfGrantEntitlementRequest = /*@__PURE__*/ S.Array(
-  GrantEntitlementRequest,
-);
 export type MaintenanceDay =
   | "Monday"
   | "Tuesday"
@@ -3585,186 +1467,59 @@ export type MaintenanceDay =
   | "Saturday"
   | "Sunday"
   | (string & {});
-export const MaintenanceDay = S.String;
-
 export interface AddMaintenance {
   MaintenanceDay?: MaintenanceDay;
   MaintenanceStartHour?: string;
 }
-export const AddMaintenance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaintenanceDay: S.optional(MaintenanceDay),
-    MaintenanceStartHour: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      MaintenanceDay: "maintenanceDay",
-      MaintenanceStartHour: "maintenanceStartHour",
-    }),
-  ),
-).annotate({ identifier: "AddMaintenance" }) as any as S.Schema<AddMaintenance>;
 export type ThumbnailState = "ENABLED" | "DISABLED" | (string & {});
-export const ThumbnailState = S.String;
-
 export interface SilentAudio {
   State?: State;
   ThresholdSeconds?: number;
 }
-export const SilentAudio = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    State: S.optional(State),
-    ThresholdSeconds: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({ State: "state", ThresholdSeconds: "thresholdSeconds" }),
-  ),
-).annotate({ identifier: "SilentAudio" }) as any as S.Schema<SilentAudio>;
 export interface AudioMonitoringSetting {
   SilentAudio?: SilentAudio;
 }
-export const AudioMonitoringSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SilentAudio: S.optional(SilentAudio) }).pipe(
-    S.encodeKeys({ SilentAudio: "silentAudio" }),
-  ),
-).annotate({
-  identifier: "AudioMonitoringSetting",
-}) as any as S.Schema<AudioMonitoringSetting>;
 export type __listOfAudioMonitoringSetting = AudioMonitoringSetting[];
-export const __listOfAudioMonitoringSetting = /*@__PURE__*/ S.Array(
-  AudioMonitoringSetting,
-);
 export interface BlackFrames {
   State?: State;
   ThresholdSeconds?: number;
 }
-export const BlackFrames = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    State: S.optional(State),
-    ThresholdSeconds: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({ State: "state", ThresholdSeconds: "thresholdSeconds" }),
-  ),
-).annotate({ identifier: "BlackFrames" }) as any as S.Schema<BlackFrames>;
 export interface FrozenFrames {
   State?: State;
   ThresholdSeconds?: number;
 }
-export const FrozenFrames = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    State: S.optional(State),
-    ThresholdSeconds: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({ State: "state", ThresholdSeconds: "thresholdSeconds" }),
-  ),
-).annotate({ identifier: "FrozenFrames" }) as any as S.Schema<FrozenFrames>;
 export interface VideoMonitoringSetting {
   BlackFrames?: BlackFrames;
   FrozenFrames?: FrozenFrames;
 }
-export const VideoMonitoringSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BlackFrames: S.optional(BlackFrames),
-    FrozenFrames: S.optional(FrozenFrames),
-  }).pipe(
-    S.encodeKeys({ BlackFrames: "blackFrames", FrozenFrames: "frozenFrames" }),
-  ),
-).annotate({
-  identifier: "VideoMonitoringSetting",
-}) as any as S.Schema<VideoMonitoringSetting>;
 export type __listOfVideoMonitoringSetting = VideoMonitoringSetting[];
-export const __listOfVideoMonitoringSetting = /*@__PURE__*/ S.Array(
-  VideoMonitoringSetting,
-);
 export interface MonitoringConfig {
   ThumbnailState?: ThumbnailState;
   AudioMonitoringSettings?: AudioMonitoringSetting[];
   ContentQualityAnalysisState?: ContentQualityAnalysisState;
   VideoMonitoringSettings?: VideoMonitoringSetting[];
 }
-export const MonitoringConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ThumbnailState: S.optional(ThumbnailState),
-    AudioMonitoringSettings: S.optional(__listOfAudioMonitoringSetting),
-    ContentQualityAnalysisState: S.optional(ContentQualityAnalysisState),
-    VideoMonitoringSettings: S.optional(__listOfVideoMonitoringSetting),
-  }).pipe(
-    S.encodeKeys({
-      ThumbnailState: "thumbnailState",
-      AudioMonitoringSettings: "audioMonitoringSettings",
-      ContentQualityAnalysisState: "contentQualityAnalysisState",
-      VideoMonitoringSettings: "videoMonitoringSettings",
-    }),
-  ),
-).annotate({
-  identifier: "MonitoringConfig",
-}) as any as S.Schema<MonitoringConfig>;
 export type FlowSize = "MEDIUM" | "LARGE" | "LARGE_4X" | (string & {});
-export const FlowSize = S.String;
-
 export type NdiState = "ENABLED" | "DISABLED" | (string & {});
-export const NdiState = S.String;
-
 export interface NdiDiscoveryServerConfig {
   DiscoveryServerAddress?: string;
   DiscoveryServerPort?: number;
   VpcInterfaceAdapter?: string;
 }
-export const NdiDiscoveryServerConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DiscoveryServerAddress: S.optional(S.String),
-    DiscoveryServerPort: S.optional(S.Number),
-    VpcInterfaceAdapter: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      DiscoveryServerAddress: "discoveryServerAddress",
-      DiscoveryServerPort: "discoveryServerPort",
-      VpcInterfaceAdapter: "vpcInterfaceAdapter",
-    }),
-  ),
-).annotate({
-  identifier: "NdiDiscoveryServerConfig",
-}) as any as S.Schema<NdiDiscoveryServerConfig>;
 export type __listOfNdiDiscoveryServerConfig = NdiDiscoveryServerConfig[];
-export const __listOfNdiDiscoveryServerConfig = /*@__PURE__*/ S.Array(
-  NdiDiscoveryServerConfig,
-);
 export interface NdiConfig {
   NdiState?: NdiState;
   MachineName?: string;
   NdiDiscoveryServers?: NdiDiscoveryServerConfig[];
 }
-export const NdiConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NdiState: S.optional(NdiState),
-    MachineName: S.optional(S.String),
-    NdiDiscoveryServers: S.optional(__listOfNdiDiscoveryServerConfig),
-  }).pipe(
-    S.encodeKeys({
-      NdiState: "ndiState",
-      MachineName: "machineName",
-      NdiDiscoveryServers: "ndiDiscoveryServers",
-    }),
-  ),
-).annotate({ identifier: "NdiConfig" }) as any as S.Schema<NdiConfig>;
 export type EncodingProfile =
   | "DISTRIBUTION_H264_DEFAULT"
   | "CONTRIBUTION_H264_DEFAULT"
   | (string & {});
-export const EncodingProfile = S.String;
-
 export interface EncodingConfig {
   EncodingProfile?: EncodingProfile;
   VideoMaxBitrate?: number;
 }
-export const EncodingConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EncodingProfile: S.optional(EncodingProfile),
-    VideoMaxBitrate: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      EncodingProfile: "encodingProfile",
-      VideoMaxBitrate: "videoMaxBitrate",
-    }),
-  ),
-).annotate({ identifier: "EncodingConfig" }) as any as S.Schema<EncodingConfig>;
 export interface CreateFlowRequest {
   AvailabilityZone?: string;
   Entitlements?: GrantEntitlementRequest[];
@@ -3782,56 +1537,6 @@ export interface CreateFlowRequest {
   EncodingConfig?: EncodingConfig;
   FlowTags?: { [key: string]: string | undefined };
 }
-export const CreateFlowRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AvailabilityZone: S.optional(S.String),
-    Entitlements: S.optional(__listOfGrantEntitlementRequest),
-    MediaStreams: S.optional(__listOfAddMediaStreamRequest),
-    Name: S.optional(S.String),
-    Outputs: S.optional(__listOfAddOutputRequest),
-    Source: S.optional(SetSourceRequest),
-    SourceFailoverConfig: S.optional(FailoverConfig),
-    Sources: S.optional(__listOfSetSourceRequest),
-    VpcInterfaces: S.optional(__listOfVpcInterfaceRequest),
-    Maintenance: S.optional(AddMaintenance),
-    SourceMonitoringConfig: S.optional(MonitoringConfig),
-    FlowSize: S.optional(FlowSize),
-    NdiConfig: S.optional(NdiConfig),
-    EncodingConfig: S.optional(EncodingConfig),
-    FlowTags: S.optional(__mapOfString),
-  })
-    .pipe(
-      S.encodeKeys({
-        AvailabilityZone: "availabilityZone",
-        Entitlements: "entitlements",
-        MediaStreams: "mediaStreams",
-        Name: "name",
-        Outputs: "outputs",
-        Source: "source",
-        SourceFailoverConfig: "sourceFailoverConfig",
-        Sources: "sources",
-        VpcInterfaces: "vpcInterfaces",
-        Maintenance: "maintenance",
-        SourceMonitoringConfig: "sourceMonitoringConfig",
-        FlowSize: "flowSize",
-        NdiConfig: "ndiConfig",
-        EncodingConfig: "encodingConfig",
-        FlowTags: "flowTags",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/flows" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateFlowRequest",
-}) as any as S.Schema<CreateFlowRequest>;
 export interface Entitlement {
   DataTransferSubscriberFeePercent?: number;
   Description?: string;
@@ -3841,29 +1546,7 @@ export interface Entitlement {
   Name?: string;
   Subscribers?: string[];
 }
-export const Entitlement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataTransferSubscriberFeePercent: S.optional(S.Number),
-    Description: S.optional(S.String),
-    Encryption: S.optional(Encryption),
-    EntitlementArn: S.optional(S.String),
-    EntitlementStatus: S.optional(EntitlementStatus),
-    Name: S.optional(S.String),
-    Subscribers: S.optional(__listOfString),
-  }).pipe(
-    S.encodeKeys({
-      DataTransferSubscriberFeePercent: "dataTransferSubscriberFeePercent",
-      Description: "description",
-      Encryption: "encryption",
-      EntitlementArn: "entitlementArn",
-      EntitlementStatus: "entitlementStatus",
-      Name: "name",
-      Subscribers: "subscribers",
-    }),
-  ),
-).annotate({ identifier: "Entitlement" }) as any as S.Schema<Entitlement>;
 export type __listOfEntitlement = Entitlement[];
-export const __listOfEntitlement = /*@__PURE__*/ S.Array(Entitlement);
 export type Status =
   | "STANDBY"
   | "ACTIVE"
@@ -3873,29 +1556,12 @@ export type Status =
   | "STOPPING"
   | "ERROR"
   | (string & {});
-export const Status = S.String;
-
 export interface Maintenance {
   MaintenanceDay?: MaintenanceDay;
   MaintenanceDeadline?: string;
   MaintenanceScheduledDate?: string;
   MaintenanceStartHour?: string;
 }
-export const Maintenance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaintenanceDay: S.optional(MaintenanceDay),
-    MaintenanceDeadline: S.optional(S.String),
-    MaintenanceScheduledDate: S.optional(S.String),
-    MaintenanceStartHour: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      MaintenanceDay: "maintenanceDay",
-      MaintenanceDeadline: "maintenanceDeadline",
-      MaintenanceScheduledDate: "maintenanceScheduledDate",
-      MaintenanceStartHour: "maintenanceStartHour",
-    }),
-  ),
-).annotate({ identifier: "Maintenance" }) as any as S.Schema<Maintenance>;
 export interface Flow {
   AvailabilityZone?: string;
   Description?: string;
@@ -3916,49 +1582,6 @@ export interface Flow {
   NdiConfig?: NdiConfig;
   EncodingConfig?: EncodingConfig;
 }
-export const Flow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AvailabilityZone: S.optional(S.String),
-    Description: S.optional(S.String),
-    EgressIp: S.optional(S.String),
-    Entitlements: S.optional(__listOfEntitlement),
-    FlowArn: S.optional(S.String),
-    MediaStreams: S.optional(__listOfMediaStream),
-    Name: S.optional(S.String),
-    Outputs: S.optional(__listOfOutput),
-    Source: S.optional(Source),
-    SourceFailoverConfig: S.optional(FailoverConfig),
-    Sources: S.optional(__listOfSource),
-    Status: S.optional(Status),
-    VpcInterfaces: S.optional(__listOfVpcInterface),
-    Maintenance: S.optional(Maintenance),
-    SourceMonitoringConfig: S.optional(MonitoringConfig),
-    FlowSize: S.optional(FlowSize),
-    NdiConfig: S.optional(NdiConfig),
-    EncodingConfig: S.optional(EncodingConfig),
-  }).pipe(
-    S.encodeKeys({
-      AvailabilityZone: "availabilityZone",
-      Description: "description",
-      EgressIp: "egressIp",
-      Entitlements: "entitlements",
-      FlowArn: "flowArn",
-      MediaStreams: "mediaStreams",
-      Name: "name",
-      Outputs: "outputs",
-      Source: "source",
-      SourceFailoverConfig: "sourceFailoverConfig",
-      Sources: "sources",
-      Status: "status",
-      VpcInterfaces: "vpcInterfaces",
-      Maintenance: "maintenance",
-      SourceMonitoringConfig: "sourceMonitoringConfig",
-      FlowSize: "flowSize",
-      NdiConfig: "ndiConfig",
-      EncodingConfig: "encodingConfig",
-    }),
-  ),
-).annotate({ identifier: "Flow" }) as any as S.Schema<Flow>;
 export interface CreateFlowResponse {
   Flow?: Flow & {
     AvailabilityZone: string;
@@ -4046,54 +1669,16 @@ export interface CreateFlowResponse {
     };
   };
 }
-export const CreateFlowResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Flow: S.optional(Flow) }).pipe(S.encodeKeys({ Flow: "flow" })),
-).annotate({
-  identifier: "CreateFlowResponse",
-}) as any as S.Schema<CreateFlowResponse>;
 export interface GatewayNetwork {
   CidrBlock?: string;
   Name?: string;
 }
-export const GatewayNetwork = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CidrBlock: S.optional(S.String),
-    Name: S.optional(S.String),
-  }).pipe(S.encodeKeys({ CidrBlock: "cidrBlock", Name: "name" })),
-).annotate({ identifier: "GatewayNetwork" }) as any as S.Schema<GatewayNetwork>;
 export type __listOfGatewayNetwork = GatewayNetwork[];
-export const __listOfGatewayNetwork = /*@__PURE__*/ S.Array(GatewayNetwork);
 export interface CreateGatewayRequest {
   EgressCidrBlocks?: string[];
   Name?: string;
   Networks?: GatewayNetwork[];
 }
-export const CreateGatewayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EgressCidrBlocks: S.optional(__listOfString),
-    Name: S.optional(S.String),
-    Networks: S.optional(__listOfGatewayNetwork),
-  })
-    .pipe(
-      S.encodeKeys({
-        EgressCidrBlocks: "egressCidrBlocks",
-        Name: "name",
-        Networks: "networks",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/gateways" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateGatewayRequest",
-}) as any as S.Schema<CreateGatewayRequest>;
 export type GatewayState =
   | "CREATING"
   | "ACTIVE"
@@ -4102,8 +1687,6 @@ export type GatewayState =
   | "DELETING"
   | "DELETED"
   | (string & {});
-export const GatewayState = S.String;
-
 export interface Gateway {
   EgressCidrBlocks?: string[];
   GatewayArn?: string;
@@ -4112,25 +1695,6 @@ export interface Gateway {
   Name?: string;
   Networks?: GatewayNetwork[];
 }
-export const Gateway = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EgressCidrBlocks: S.optional(__listOfString),
-    GatewayArn: S.optional(S.String),
-    GatewayMessages: S.optional(__listOfMessageDetail),
-    GatewayState: S.optional(GatewayState),
-    Name: S.optional(S.String),
-    Networks: S.optional(__listOfGatewayNetwork),
-  }).pipe(
-    S.encodeKeys({
-      EgressCidrBlocks: "egressCidrBlocks",
-      GatewayArn: "gatewayArn",
-      GatewayMessages: "gatewayMessages",
-      GatewayState: "gatewayState",
-      Name: "name",
-      Networks: "networks",
-    }),
-  ),
-).annotate({ identifier: "Gateway" }) as any as S.Schema<Gateway>;
 export interface CreateGatewayResponse {
   Gateway?: Gateway & {
     EgressCidrBlocks: __listOfString;
@@ -4140,13 +1704,6 @@ export interface CreateGatewayResponse {
     GatewayMessages: (MessageDetail & { Code: string; Message: string })[];
   };
 }
-export const CreateGatewayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Gateway: S.optional(Gateway) }).pipe(
-    S.encodeKeys({ Gateway: "gateway" }),
-  ),
-).annotate({
-  identifier: "CreateGatewayResponse",
-}) as any as S.Schema<CreateGatewayResponse>;
 export type ClientToken = string;
 export interface CreateRouterInputRequest {
   Name: string;
@@ -4162,66 +1719,12 @@ export interface CreateRouterInputRequest {
   ClientToken?: string;
   ContentQualityAnalysisConfiguration?: RouterContentQualityAnalysisConfiguration;
 }
-export const CreateRouterInputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Configuration: RouterInputConfiguration,
-    MaximumBitrate: S.Number,
-    RoutingScope: RoutingScope,
-    Tier: RouterInputTier,
-    RegionName: S.optional(S.String),
-    AvailabilityZone: S.optional(S.String),
-    TransitEncryption: S.optional(RouterInputTransitEncryption),
-    MaintenanceConfiguration: S.optional(MaintenanceConfiguration),
-    Tags: S.optional(__mapOfString),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    ContentQualityAnalysisConfiguration: S.optional(
-      RouterContentQualityAnalysisConfiguration,
-    ),
-  })
-    .pipe(
-      S.encodeKeys({
-        Name: "name",
-        Configuration: "configuration",
-        MaximumBitrate: "maximumBitrate",
-        RoutingScope: "routingScope",
-        Tier: "tier",
-        RegionName: "regionName",
-        AvailabilityZone: "availabilityZone",
-        TransitEncryption: "transitEncryption",
-        MaintenanceConfiguration: "maintenanceConfiguration",
-        Tags: "tags",
-        ClientToken: "clientToken",
-        ContentQualityAnalysisConfiguration:
-          "contentQualityAnalysisConfiguration",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/routerInput" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateRouterInputRequest",
-}) as any as S.Schema<CreateRouterInputRequest>;
 export interface CreateRouterInputResponse {
   RouterInput: RouterInput & {
     ContentQualityAnalysisType: RouterContentQualityAnalysisType;
     ContentQualityAnalysisConfiguration: RouterContentQualityAnalysisConfiguration;
   };
 }
-export const CreateRouterInputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RouterInput: RouterInput }).pipe(
-    S.encodeKeys({ RouterInput: "routerInput" }),
-  ),
-).annotate({
-  identifier: "CreateRouterInputResponse",
-}) as any as S.Schema<CreateRouterInputResponse>;
 export interface CreateRouterNetworkInterfaceRequest {
   Name: string;
   Configuration: RouterNetworkInterfaceConfiguration;
@@ -4229,47 +1732,9 @@ export interface CreateRouterNetworkInterfaceRequest {
   Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
-export const CreateRouterNetworkInterfaceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Configuration: RouterNetworkInterfaceConfiguration,
-    RegionName: S.optional(S.String),
-    Tags: S.optional(__mapOfString),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  })
-    .pipe(
-      S.encodeKeys({
-        Name: "name",
-        Configuration: "configuration",
-        RegionName: "regionName",
-        Tags: "tags",
-        ClientToken: "clientToken",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/routerNetworkInterface" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateRouterNetworkInterfaceRequest",
-}) as any as S.Schema<CreateRouterNetworkInterfaceRequest>;
 export interface CreateRouterNetworkInterfaceResponse {
   RouterNetworkInterface: RouterNetworkInterface;
 }
-export const CreateRouterNetworkInterfaceResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ RouterNetworkInterface: RouterNetworkInterface }).pipe(
-      S.encodeKeys({ RouterNetworkInterface: "routerNetworkInterface" }),
-    ),
-).annotate({
-  identifier: "CreateRouterNetworkInterfaceResponse",
-}) as any as S.Schema<CreateRouterNetworkInterfaceResponse>;
 export interface CreateRouterOutputRequest {
   Name: string;
   Configuration: RouterOutputConfiguration;
@@ -4283,256 +1748,58 @@ export interface CreateRouterOutputRequest {
   FabricConfiguration?: FabricConfiguration;
   ClientToken?: string;
 }
-export const CreateRouterOutputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Configuration: RouterOutputConfiguration,
-    MaximumBitrate: S.Number,
-    RoutingScope: RoutingScope,
-    Tier: RouterOutputTier,
-    RegionName: S.optional(S.String),
-    AvailabilityZone: S.optional(S.String),
-    MaintenanceConfiguration: S.optional(MaintenanceConfiguration),
-    Tags: S.optional(__mapOfString),
-    FabricConfiguration: S.optional(FabricConfiguration),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  })
-    .pipe(
-      S.encodeKeys({
-        Name: "name",
-        Configuration: "configuration",
-        MaximumBitrate: "maximumBitrate",
-        RoutingScope: "routingScope",
-        Tier: "tier",
-        RegionName: "regionName",
-        AvailabilityZone: "availabilityZone",
-        MaintenanceConfiguration: "maintenanceConfiguration",
-        Tags: "tags",
-        FabricConfiguration: "fabricConfiguration",
-        ClientToken: "clientToken",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/routerOutput" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateRouterOutputRequest",
-}) as any as S.Schema<CreateRouterOutputRequest>;
 export interface CreateRouterOutputResponse {
   RouterOutput: RouterOutput & { FabricConfiguration: FabricConfiguration };
 }
-export const CreateRouterOutputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RouterOutput: RouterOutput }).pipe(
-    S.encodeKeys({ RouterOutput: "routerOutput" }),
-  ),
-).annotate({
-  identifier: "CreateRouterOutputResponse",
-}) as any as S.Schema<CreateRouterOutputResponse>;
 export interface DeleteBridgeRequest {
   BridgeArn: string;
 }
-export const DeleteBridgeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BridgeArn: S.String.pipe(T.HttpLabel("BridgeArn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/bridges/{BridgeArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBridgeRequest",
-}) as any as S.Schema<DeleteBridgeRequest>;
 export interface DeleteBridgeResponse {
   BridgeArn?: string;
 }
-export const DeleteBridgeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BridgeArn: S.optional(S.String) }).pipe(
-    S.encodeKeys({ BridgeArn: "bridgeArn" }),
-  ),
-).annotate({
-  identifier: "DeleteBridgeResponse",
-}) as any as S.Schema<DeleteBridgeResponse>;
 export interface DeleteFlowRequest {
   FlowArn: string;
 }
-export const DeleteFlowRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FlowArn: S.String.pipe(T.HttpLabel("FlowArn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/flows/{FlowArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteFlowRequest",
-}) as any as S.Schema<DeleteFlowRequest>;
 export interface DeleteFlowResponse {
   FlowArn?: string;
   Status?: Status;
 }
-export const DeleteFlowResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FlowArn: S.optional(S.String), Status: S.optional(Status) }).pipe(
-    S.encodeKeys({ FlowArn: "flowArn", Status: "status" }),
-  ),
-).annotate({
-  identifier: "DeleteFlowResponse",
-}) as any as S.Schema<DeleteFlowResponse>;
 export type GatewayArn = string;
 export interface DeleteGatewayRequest {
   GatewayArn: string;
 }
-export const DeleteGatewayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayArn: S.String.pipe(T.HttpLabel("GatewayArn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/gateways/{GatewayArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteGatewayRequest",
-}) as any as S.Schema<DeleteGatewayRequest>;
 export interface DeleteGatewayResponse {
   GatewayArn?: string;
 }
-export const DeleteGatewayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayArn: S.optional(S.String) }).pipe(
-    S.encodeKeys({ GatewayArn: "gatewayArn" }),
-  ),
-).annotate({
-  identifier: "DeleteGatewayResponse",
-}) as any as S.Schema<DeleteGatewayResponse>;
 export interface DeleteRouterInputRequest {
   Arn: string;
 }
-export const DeleteRouterInputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/routerInput/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRouterInputRequest",
-}) as any as S.Schema<DeleteRouterInputRequest>;
 export interface DeleteRouterInputResponse {
   Arn: string;
   Name: string;
   State: RouterInputState;
 }
-export const DeleteRouterInputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String, Name: S.String, State: RouterInputState }).pipe(
-    S.encodeKeys({ Arn: "arn", Name: "name", State: "state" }),
-  ),
-).annotate({
-  identifier: "DeleteRouterInputResponse",
-}) as any as S.Schema<DeleteRouterInputResponse>;
 export interface DeleteRouterNetworkInterfaceRequest {
   Arn: string;
 }
-export const DeleteRouterNetworkInterfaceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/routerNetworkInterface/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRouterNetworkInterfaceRequest",
-}) as any as S.Schema<DeleteRouterNetworkInterfaceRequest>;
 export interface DeleteRouterNetworkInterfaceResponse {
   Arn: string;
   Name: string;
   State: RouterNetworkInterfaceState;
 }
-export const DeleteRouterNetworkInterfaceResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Arn: S.String,
-      Name: S.String,
-      State: RouterNetworkInterfaceState,
-    }).pipe(S.encodeKeys({ Arn: "arn", Name: "name", State: "state" })),
-).annotate({
-  identifier: "DeleteRouterNetworkInterfaceResponse",
-}) as any as S.Schema<DeleteRouterNetworkInterfaceResponse>;
 export interface DeleteRouterOutputRequest {
   Arn: string;
 }
-export const DeleteRouterOutputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/routerOutput/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRouterOutputRequest",
-}) as any as S.Schema<DeleteRouterOutputRequest>;
 export interface DeleteRouterOutputResponse {
   Arn: string;
   Name: string;
   State: RouterOutputState;
 }
-export const DeleteRouterOutputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String, Name: S.String, State: RouterOutputState }).pipe(
-    S.encodeKeys({ Arn: "arn", Name: "name", State: "state" }),
-  ),
-).annotate({
-  identifier: "DeleteRouterOutputResponse",
-}) as any as S.Schema<DeleteRouterOutputResponse>;
 export type GatewayInstanceArn = string;
 export interface DeregisterGatewayInstanceRequest {
   Force?: boolean;
   GatewayInstanceArn: string;
 }
-export const DeregisterGatewayInstanceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Force: S.optional(S.Boolean).pipe(T.HttpQuery("force")),
-    GatewayInstanceArn: S.String.pipe(T.HttpLabel("GatewayInstanceArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/gateway-instances/{GatewayInstanceArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeregisterGatewayInstanceRequest",
-}) as any as S.Schema<DeregisterGatewayInstanceRequest>;
 export type InstanceState =
   | "REGISTERING"
   | "ACTIVE"
@@ -4541,42 +1808,13 @@ export type InstanceState =
   | "REGISTRATION_ERROR"
   | "DEREGISTRATION_ERROR"
   | (string & {});
-export const InstanceState = S.String;
-
 export interface DeregisterGatewayInstanceResponse {
   GatewayInstanceArn?: string;
   InstanceState?: InstanceState;
 }
-export const DeregisterGatewayInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayInstanceArn: S.optional(S.String),
-    InstanceState: S.optional(InstanceState),
-  }).pipe(
-    S.encodeKeys({
-      GatewayInstanceArn: "gatewayInstanceArn",
-      InstanceState: "instanceState",
-    }),
-  ),
-).annotate({
-  identifier: "DeregisterGatewayInstanceResponse",
-}) as any as S.Schema<DeregisterGatewayInstanceResponse>;
 export interface DescribeBridgeRequest {
   BridgeArn: string;
 }
-export const DescribeBridgeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BridgeArn: S.String.pipe(T.HttpLabel("BridgeArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/bridges/{BridgeArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeBridgeRequest",
-}) as any as S.Schema<DescribeBridgeRequest>;
 export interface DescribeBridgeResponse {
   Bridge?: Bridge & {
     BridgeArn: string;
@@ -4616,38 +1854,12 @@ export interface DescribeBridgeResponse {
     })[];
   };
 }
-export const DescribeBridgeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Bridge: S.optional(Bridge) }).pipe(
-    S.encodeKeys({ Bridge: "bridge" }),
-  ),
-).annotate({
-  identifier: "DescribeBridgeResponse",
-}) as any as S.Schema<DescribeBridgeResponse>;
 export interface DescribeFlowRequest {
   FlowArn: string;
 }
-export const DescribeFlowRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FlowArn: S.String.pipe(T.HttpLabel("FlowArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/flows/{FlowArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeFlowRequest",
-}) as any as S.Schema<DescribeFlowRequest>;
 export interface Messages {
   Errors?: string[];
 }
-export const Messages = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Errors: S.optional(__listOfString) }).pipe(
-    S.encodeKeys({ Errors: "errors" }),
-  ),
-).annotate({ identifier: "Messages" }) as any as S.Schema<Messages>;
 export interface DescribeFlowResponse {
   Flow?: Flow & {
     AvailabilityZone: string;
@@ -4736,44 +1948,13 @@ export interface DescribeFlowResponse {
   };
   Messages?: Messages & { Errors: __listOfString };
 }
-export const DescribeFlowResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Flow: S.optional(Flow), Messages: S.optional(Messages) }).pipe(
-    S.encodeKeys({ Flow: "flow", Messages: "messages" }),
-  ),
-).annotate({
-  identifier: "DescribeFlowResponse",
-}) as any as S.Schema<DescribeFlowResponse>;
 export interface DescribeFlowSourceMetadataRequest {
   FlowArn: string;
 }
-export const DescribeFlowSourceMetadataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FlowArn: S.String.pipe(T.HttpLabel("FlowArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/flows/{FlowArn}/source-metadata" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeFlowSourceMetadataRequest",
-}) as any as S.Schema<DescribeFlowSourceMetadataRequest>;
 export interface FrameResolution {
   FrameHeight?: number;
   FrameWidth?: number;
 }
-export const FrameResolution = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FrameHeight: S.optional(S.Number),
-    FrameWidth: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({ FrameHeight: "frameHeight", FrameWidth: "frameWidth" }),
-  ),
-).annotate({
-  identifier: "FrameResolution",
-}) as any as S.Schema<FrameResolution>;
 export interface TransportStream {
   Channels?: number;
   Codec?: string;
@@ -4784,33 +1965,7 @@ export interface TransportStream {
   SampleSize?: number;
   StreamType?: string;
 }
-export const TransportStream = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Channels: S.optional(S.Number),
-    Codec: S.optional(S.String),
-    FrameRate: S.optional(S.String),
-    FrameResolution: S.optional(FrameResolution),
-    Pid: S.optional(S.Number),
-    SampleRate: S.optional(S.Number),
-    SampleSize: S.optional(S.Number),
-    StreamType: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      Channels: "channels",
-      Codec: "codec",
-      FrameRate: "frameRate",
-      FrameResolution: "frameResolution",
-      Pid: "pid",
-      SampleRate: "sampleRate",
-      SampleSize: "sampleSize",
-      StreamType: "streamType",
-    }),
-  ),
-).annotate({
-  identifier: "TransportStream",
-}) as any as S.Schema<TransportStream>;
 export type __listOfTransportStream = TransportStream[];
-export const __listOfTransportStream = /*@__PURE__*/ S.Array(TransportStream);
 export interface TransportStreamProgram {
   PcrPid?: number;
   ProgramName?: string;
@@ -4818,49 +1973,14 @@ export interface TransportStreamProgram {
   ProgramPid?: number;
   Streams?: TransportStream[];
 }
-export const TransportStreamProgram = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PcrPid: S.optional(S.Number),
-    ProgramName: S.optional(S.String),
-    ProgramNumber: S.optional(S.Number),
-    ProgramPid: S.optional(S.Number),
-    Streams: S.optional(__listOfTransportStream),
-  }).pipe(
-    S.encodeKeys({
-      PcrPid: "pcrPid",
-      ProgramName: "programName",
-      ProgramNumber: "programNumber",
-      ProgramPid: "programPid",
-      Streams: "streams",
-    }),
-  ),
-).annotate({
-  identifier: "TransportStreamProgram",
-}) as any as S.Schema<TransportStreamProgram>;
 export type __listOfTransportStreamProgram = TransportStreamProgram[];
-export const __listOfTransportStreamProgram = /*@__PURE__*/ S.Array(
-  TransportStreamProgram,
-);
 export interface TransportMediaInfo {
   Programs?: TransportStreamProgram[];
 }
-export const TransportMediaInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Programs: S.optional(__listOfTransportStreamProgram) }).pipe(
-    S.encodeKeys({ Programs: "programs" }),
-  ),
-).annotate({
-  identifier: "TransportMediaInfo",
-}) as any as S.Schema<TransportMediaInfo>;
 export interface NdiSourceInfo {
   SourceName?: string;
 }
-export const NdiSourceInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SourceName: S.optional(S.String) }).pipe(
-    S.encodeKeys({ SourceName: "sourceName" }),
-  ),
-).annotate({ identifier: "NdiSourceInfo" }) as any as S.Schema<NdiSourceInfo>;
 export type __listOfNdiSourceInfo = NdiSourceInfo[];
-export const __listOfNdiSourceInfo = /*@__PURE__*/ S.Array(NdiSourceInfo);
 export interface NdiMediaStreamInfo {
   StreamType?: string;
   Codec?: string;
@@ -4871,65 +1991,16 @@ export interface NdiMediaStreamInfo {
   Channels?: number;
   SampleRate?: number;
 }
-export const NdiMediaStreamInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamType: S.optional(S.String),
-    Codec: S.optional(S.String),
-    StreamId: S.optional(S.Number),
-    ScanMode: S.optional(ScanMode),
-    FrameResolution: S.optional(FrameResolution),
-    FrameRate: S.optional(S.String),
-    Channels: S.optional(S.Number),
-    SampleRate: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      StreamType: "streamType",
-      Codec: "codec",
-      StreamId: "streamId",
-      ScanMode: "scanMode",
-      FrameResolution: "frameResolution",
-      FrameRate: "frameRate",
-      Channels: "channels",
-      SampleRate: "sampleRate",
-    }),
-  ),
-).annotate({
-  identifier: "NdiMediaStreamInfo",
-}) as any as S.Schema<NdiMediaStreamInfo>;
 export type __listOfNdiMediaStreamInfo = NdiMediaStreamInfo[];
-export const __listOfNdiMediaStreamInfo =
-  /*@__PURE__*/ S.Array(NdiMediaStreamInfo);
 export interface NdiMediaInfo {
   Streams?: NdiMediaStreamInfo[];
 }
-export const NdiMediaInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Streams: S.optional(__listOfNdiMediaStreamInfo) }).pipe(
-    S.encodeKeys({ Streams: "streams" }),
-  ),
-).annotate({ identifier: "NdiMediaInfo" }) as any as S.Schema<NdiMediaInfo>;
 export interface NdiSourceMetadataInfo {
   ActiveSource?: NdiSourceInfo;
   DiscoveredSources?: NdiSourceInfo[];
   MediaInfo?: NdiMediaInfo;
   Messages?: MessageDetail[];
 }
-export const NdiSourceMetadataInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActiveSource: S.optional(NdiSourceInfo),
-    DiscoveredSources: S.optional(__listOfNdiSourceInfo),
-    MediaInfo: S.optional(NdiMediaInfo),
-    Messages: S.optional(__listOfMessageDetail),
-  }).pipe(
-    S.encodeKeys({
-      ActiveSource: "activeSource",
-      DiscoveredSources: "discoveredSources",
-      MediaInfo: "mediaInfo",
-      Messages: "messages",
-    }),
-  ),
-).annotate({
-  identifier: "NdiSourceMetadataInfo",
-}) as any as S.Schema<NdiSourceMetadataInfo>;
 export interface DescribeFlowSourceMetadataResponse {
   FlowArn?: string;
   Messages?: (MessageDetail & { Code: string; Message: string })[];
@@ -4966,44 +2037,9 @@ export interface DescribeFlowSourceMetadataResponse {
     ActiveSource: NdiSourceInfo & { SourceName: string };
   };
 }
-export const DescribeFlowSourceMetadataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.optional(S.String),
-    Messages: S.optional(__listOfMessageDetail),
-    Timestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    TransportMediaInfo: S.optional(TransportMediaInfo),
-    NdiInfo: S.optional(NdiSourceMetadataInfo),
-  }).pipe(
-    S.encodeKeys({
-      FlowArn: "flowArn",
-      Messages: "messages",
-      Timestamp: "timestamp",
-      TransportMediaInfo: "transportMediaInfo",
-      NdiInfo: "ndiInfo",
-    }),
-  ),
-).annotate({
-  identifier: "DescribeFlowSourceMetadataResponse",
-}) as any as S.Schema<DescribeFlowSourceMetadataResponse>;
 export interface DescribeFlowSourceThumbnailRequest {
   FlowArn: string;
 }
-export const DescribeFlowSourceThumbnailRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FlowArn: S.String.pipe(T.HttpLabel("FlowArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/flows/{FlowArn}/source-thumbnail" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeFlowSourceThumbnailRequest",
-}) as any as S.Schema<DescribeFlowSourceThumbnailRequest>;
 export interface ThumbnailDetails {
   FlowArn?: string;
   Thumbnail?: string;
@@ -5011,57 +2047,15 @@ export interface ThumbnailDetails {
   Timecode?: string;
   Timestamp?: Date;
 }
-export const ThumbnailDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.optional(S.String),
-    Thumbnail: S.optional(S.String),
-    ThumbnailMessages: S.optional(__listOfMessageDetail),
-    Timecode: S.optional(S.String),
-    Timestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }).pipe(
-    S.encodeKeys({
-      FlowArn: "flowArn",
-      Thumbnail: "thumbnail",
-      ThumbnailMessages: "thumbnailMessages",
-      Timecode: "timecode",
-      Timestamp: "timestamp",
-    }),
-  ),
-).annotate({
-  identifier: "ThumbnailDetails",
-}) as any as S.Schema<ThumbnailDetails>;
 export interface DescribeFlowSourceThumbnailResponse {
   ThumbnailDetails?: ThumbnailDetails & {
     FlowArn: string;
     ThumbnailMessages: (MessageDetail & { Code: string; Message: string })[];
   };
 }
-export const DescribeFlowSourceThumbnailResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ThumbnailDetails: S.optional(ThumbnailDetails) }).pipe(
-    S.encodeKeys({ ThumbnailDetails: "thumbnailDetails" }),
-  ),
-).annotate({
-  identifier: "DescribeFlowSourceThumbnailResponse",
-}) as any as S.Schema<DescribeFlowSourceThumbnailResponse>;
 export interface DescribeGatewayRequest {
   GatewayArn: string;
 }
-export const DescribeGatewayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayArn: S.String.pipe(T.HttpLabel("GatewayArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/gateways/{GatewayArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeGatewayRequest",
-}) as any as S.Schema<DescribeGatewayRequest>;
 export interface DescribeGatewayResponse {
   Gateway?: Gateway & {
     EgressCidrBlocks: __listOfString;
@@ -5071,41 +2065,11 @@ export interface DescribeGatewayResponse {
     GatewayMessages: (MessageDetail & { Code: string; Message: string })[];
   };
 }
-export const DescribeGatewayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Gateway: S.optional(Gateway) }).pipe(
-    S.encodeKeys({ Gateway: "gateway" }),
-  ),
-).annotate({
-  identifier: "DescribeGatewayResponse",
-}) as any as S.Schema<DescribeGatewayResponse>;
 export interface DescribeGatewayInstanceRequest {
   GatewayInstanceArn: string;
 }
-export const DescribeGatewayInstanceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayInstanceArn: S.String.pipe(T.HttpLabel("GatewayInstanceArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/gateway-instances/{GatewayInstanceArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeGatewayInstanceRequest",
-}) as any as S.Schema<DescribeGatewayInstanceRequest>;
 export type BridgePlacement = "AVAILABLE" | "LOCKED" | (string & {});
-export const BridgePlacement = S.String;
-
 export type ConnectionStatus = "CONNECTED" | "DISCONNECTED" | (string & {});
-export const ConnectionStatus = S.String;
-
 export interface GatewayInstance {
   BridgePlacement?: BridgePlacement;
   ConnectionStatus?: ConnectionStatus;
@@ -5116,31 +2080,6 @@ export interface GatewayInstance {
   InstanceState?: InstanceState;
   RunningBridgeCount?: number;
 }
-export const GatewayInstance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgePlacement: S.optional(BridgePlacement),
-    ConnectionStatus: S.optional(ConnectionStatus),
-    GatewayArn: S.optional(S.String),
-    GatewayInstanceArn: S.optional(S.String),
-    InstanceId: S.optional(S.String),
-    InstanceMessages: S.optional(__listOfMessageDetail),
-    InstanceState: S.optional(InstanceState),
-    RunningBridgeCount: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      BridgePlacement: "bridgePlacement",
-      ConnectionStatus: "connectionStatus",
-      GatewayArn: "gatewayArn",
-      GatewayInstanceArn: "gatewayInstanceArn",
-      InstanceId: "instanceId",
-      InstanceMessages: "instanceMessages",
-      InstanceState: "instanceState",
-      RunningBridgeCount: "runningBridgeCount",
-    }),
-  ),
-).annotate({
-  identifier: "GatewayInstance",
-}) as any as S.Schema<GatewayInstance>;
 export interface DescribeGatewayInstanceResponse {
   GatewayInstance?: GatewayInstance & {
     BridgePlacement: BridgePlacement;
@@ -5153,57 +2092,17 @@ export interface DescribeGatewayInstanceResponse {
     InstanceMessages: (MessageDetail & { Code: string; Message: string })[];
   };
 }
-export const DescribeGatewayInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayInstance: S.optional(GatewayInstance) }).pipe(
-    S.encodeKeys({ GatewayInstance: "gatewayInstance" }),
-  ),
-).annotate({
-  identifier: "DescribeGatewayInstanceResponse",
-}) as any as S.Schema<DescribeGatewayInstanceResponse>;
 export type OfferingArn = string;
 export interface DescribeOfferingRequest {
   OfferingArn: string;
 }
-export const DescribeOfferingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OfferingArn: S.String.pipe(T.HttpLabel("OfferingArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/offerings/{OfferingArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeOfferingRequest",
-}) as any as S.Schema<DescribeOfferingRequest>;
 export type DurationUnits = "MONTHS" | (string & {});
-export const DurationUnits = S.String;
-
 export type PriceUnits = "HOURLY" | (string & {});
-export const PriceUnits = S.String;
-
 export type ResourceType = "Mbps_Outbound_Bandwidth" | (string & {});
-export const ResourceType = S.String;
-
 export interface ResourceSpecification {
   ReservedBitrate?: number;
   ResourceType?: ResourceType;
 }
-export const ResourceSpecification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReservedBitrate: S.optional(S.Number),
-    ResourceType: S.optional(ResourceType),
-  }).pipe(
-    S.encodeKeys({
-      ReservedBitrate: "reservedBitrate",
-      ResourceType: "resourceType",
-    }),
-  ),
-).annotate({
-  identifier: "ResourceSpecification",
-}) as any as S.Schema<ResourceSpecification>;
 export interface Offering {
   CurrencyCode?: string;
   Duration?: number;
@@ -5214,29 +2113,6 @@ export interface Offering {
   PriceUnits?: PriceUnits;
   ResourceSpecification?: ResourceSpecification;
 }
-export const Offering = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CurrencyCode: S.optional(S.String),
-    Duration: S.optional(S.Number),
-    DurationUnits: S.optional(DurationUnits),
-    OfferingArn: S.optional(S.String),
-    OfferingDescription: S.optional(S.String),
-    PricePerUnit: S.optional(S.String),
-    PriceUnits: S.optional(PriceUnits),
-    ResourceSpecification: S.optional(ResourceSpecification),
-  }).pipe(
-    S.encodeKeys({
-      CurrencyCode: "currencyCode",
-      Duration: "duration",
-      DurationUnits: "durationUnits",
-      OfferingArn: "offeringArn",
-      OfferingDescription: "offeringDescription",
-      PricePerUnit: "pricePerUnit",
-      PriceUnits: "priceUnits",
-      ResourceSpecification: "resourceSpecification",
-    }),
-  ),
-).annotate({ identifier: "Offering" }) as any as S.Schema<Offering>;
 export interface DescribeOfferingResponse {
   Offering?: Offering & {
     CurrencyCode: string;
@@ -5251,41 +2127,16 @@ export interface DescribeOfferingResponse {
     };
   };
 }
-export const DescribeOfferingResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Offering: S.optional(Offering) }).pipe(
-    S.encodeKeys({ Offering: "offering" }),
-  ),
-).annotate({
-  identifier: "DescribeOfferingResponse",
-}) as any as S.Schema<DescribeOfferingResponse>;
 export type ReservationArn = string;
 export interface DescribeReservationRequest {
   ReservationArn: string;
 }
-export const DescribeReservationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReservationArn: S.String.pipe(T.HttpLabel("ReservationArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/reservations/{ReservationArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeReservationRequest",
-}) as any as S.Schema<DescribeReservationRequest>;
 export type ReservationState =
   | "ACTIVE"
   | "EXPIRED"
   | "PROCESSING"
   | "CANCELED"
   | (string & {});
-export const ReservationState = S.String;
-
 export interface Reservation {
   CurrencyCode?: string;
   Duration?: number;
@@ -5301,39 +2152,6 @@ export interface Reservation {
   ResourceSpecification?: ResourceSpecification;
   Start?: string;
 }
-export const Reservation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CurrencyCode: S.optional(S.String),
-    Duration: S.optional(S.Number),
-    DurationUnits: S.optional(DurationUnits),
-    End: S.optional(S.String),
-    OfferingArn: S.optional(S.String),
-    OfferingDescription: S.optional(S.String),
-    PricePerUnit: S.optional(S.String),
-    PriceUnits: S.optional(PriceUnits),
-    ReservationArn: S.optional(S.String),
-    ReservationName: S.optional(S.String),
-    ReservationState: S.optional(ReservationState),
-    ResourceSpecification: S.optional(ResourceSpecification),
-    Start: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      CurrencyCode: "currencyCode",
-      Duration: "duration",
-      DurationUnits: "durationUnits",
-      End: "end",
-      OfferingArn: "offeringArn",
-      OfferingDescription: "offeringDescription",
-      PricePerUnit: "pricePerUnit",
-      PriceUnits: "priceUnits",
-      ReservationArn: "reservationArn",
-      ReservationName: "reservationName",
-      ReservationState: "reservationState",
-      ResourceSpecification: "resourceSpecification",
-      Start: "start",
-    }),
-  ),
-).annotate({ identifier: "Reservation" }) as any as S.Schema<Reservation>;
 export interface DescribeReservationResponse {
   Reservation?: Reservation & {
     CurrencyCode: string;
@@ -5353,246 +2171,61 @@ export interface DescribeReservationResponse {
     Start: string;
   };
 }
-export const DescribeReservationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Reservation: S.optional(Reservation) }).pipe(
-    S.encodeKeys({ Reservation: "reservation" }),
-  ),
-).annotate({
-  identifier: "DescribeReservationResponse",
-}) as any as S.Schema<DescribeReservationResponse>;
 export interface GetRouterInputRequest {
   Arn: string;
 }
-export const GetRouterInputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/routerInput/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRouterInputRequest",
-}) as any as S.Schema<GetRouterInputRequest>;
 export interface GetRouterInputResponse {
   RouterInput: RouterInput & {
     ContentQualityAnalysisType: RouterContentQualityAnalysisType;
     ContentQualityAnalysisConfiguration: RouterContentQualityAnalysisConfiguration;
   };
 }
-export const GetRouterInputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RouterInput: RouterInput }).pipe(
-    S.encodeKeys({ RouterInput: "routerInput" }),
-  ),
-).annotate({
-  identifier: "GetRouterInputResponse",
-}) as any as S.Schema<GetRouterInputResponse>;
 export interface GetRouterInputSourceMetadataRequest {
   Arn: string;
 }
-export const GetRouterInputSourceMetadataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/routerInput/{Arn}/source-metadata" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRouterInputSourceMetadataRequest",
-}) as any as S.Schema<GetRouterInputSourceMetadataRequest>;
 export type RouterInputMetadata = {
   TransportStreamMediaInfo: TransportMediaInfo;
 };
-export const RouterInputMetadata = /*@__PURE__*/ S.Union([
-  S.Struct({ TransportStreamMediaInfo: TransportMediaInfo }),
-]);
 export interface RouterInputSourceMetadataDetails {
   SourceMetadataMessages: RouterInputMessage[];
   Timestamp: Date;
   RouterInputMetadata?: RouterInputMetadata;
 }
-export const RouterInputSourceMetadataDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceMetadataMessages: RouterInputMessages,
-    Timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    RouterInputMetadata: S.optional(RouterInputMetadata),
-  }).pipe(
-    S.encodeKeys({
-      SourceMetadataMessages: "sourceMetadataMessages",
-      Timestamp: "timestamp",
-      RouterInputMetadata: "routerInputMetadata",
-    }),
-  ),
-).annotate({
-  identifier: "RouterInputSourceMetadataDetails",
-}) as any as S.Schema<RouterInputSourceMetadataDetails>;
 export interface GetRouterInputSourceMetadataResponse {
   Arn: string;
   Name: string;
   SourceMetadataDetails: RouterInputSourceMetadataDetails;
 }
-export const GetRouterInputSourceMetadataResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Arn: S.String,
-      Name: S.String,
-      SourceMetadataDetails: RouterInputSourceMetadataDetails,
-    }).pipe(
-      S.encodeKeys({
-        Arn: "arn",
-        Name: "name",
-        SourceMetadataDetails: "sourceMetadataDetails",
-      }),
-    ),
-).annotate({
-  identifier: "GetRouterInputSourceMetadataResponse",
-}) as any as S.Schema<GetRouterInputSourceMetadataResponse>;
 export interface GetRouterInputThumbnailRequest {
   Arn: string;
 }
-export const GetRouterInputThumbnailRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/routerInput/{Arn}/thumbnail" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRouterInputThumbnailRequest",
-}) as any as S.Schema<GetRouterInputThumbnailRequest>;
 export interface RouterInputThumbnailDetails {
   ThumbnailMessages: RouterInputMessage[];
   Thumbnail?: Uint8Array;
   Timecode?: string;
   Timestamp?: Date;
 }
-export const RouterInputThumbnailDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ThumbnailMessages: RouterInputMessages,
-    Thumbnail: S.optional(T.Blob),
-    Timecode: S.optional(S.String),
-    Timestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }).pipe(
-    S.encodeKeys({
-      ThumbnailMessages: "thumbnailMessages",
-      Thumbnail: "thumbnail",
-      Timecode: "timecode",
-      Timestamp: "timestamp",
-    }),
-  ),
-).annotate({
-  identifier: "RouterInputThumbnailDetails",
-}) as any as S.Schema<RouterInputThumbnailDetails>;
 export interface GetRouterInputThumbnailResponse {
   Arn: string;
   Name: string;
   ThumbnailDetails: RouterInputThumbnailDetails;
 }
-export const GetRouterInputThumbnailResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Name: S.String,
-    ThumbnailDetails: RouterInputThumbnailDetails,
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      Name: "name",
-      ThumbnailDetails: "thumbnailDetails",
-    }),
-  ),
-).annotate({
-  identifier: "GetRouterInputThumbnailResponse",
-}) as any as S.Schema<GetRouterInputThumbnailResponse>;
 export interface GetRouterNetworkInterfaceRequest {
   Arn: string;
 }
-export const GetRouterNetworkInterfaceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/routerNetworkInterface/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRouterNetworkInterfaceRequest",
-}) as any as S.Schema<GetRouterNetworkInterfaceRequest>;
 export interface GetRouterNetworkInterfaceResponse {
   RouterNetworkInterface: RouterNetworkInterface;
 }
-export const GetRouterNetworkInterfaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RouterNetworkInterface: RouterNetworkInterface }).pipe(
-    S.encodeKeys({ RouterNetworkInterface: "routerNetworkInterface" }),
-  ),
-).annotate({
-  identifier: "GetRouterNetworkInterfaceResponse",
-}) as any as S.Schema<GetRouterNetworkInterfaceResponse>;
 export interface GetRouterOutputRequest {
   Arn: string;
 }
-export const GetRouterOutputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/routerOutput/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRouterOutputRequest",
-}) as any as S.Schema<GetRouterOutputRequest>;
 export interface GetRouterOutputResponse {
   RouterOutput: RouterOutput & { FabricConfiguration: FabricConfiguration };
 }
-export const GetRouterOutputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RouterOutput: RouterOutput }).pipe(
-    S.encodeKeys({ RouterOutput: "routerOutput" }),
-  ),
-).annotate({
-  identifier: "GetRouterOutputResponse",
-}) as any as S.Schema<GetRouterOutputResponse>;
 export interface GrantFlowEntitlementsRequest {
   Entitlements?: GrantEntitlementRequest[];
   FlowArn: string;
 }
-export const GrantFlowEntitlementsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Entitlements: S.optional(__listOfGrantEntitlementRequest),
-    FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
-  })
-    .pipe(S.encodeKeys({ Entitlements: "entitlements" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/flows/{FlowArn}/entitlements" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GrantFlowEntitlementsRequest",
-}) as any as S.Schema<GrantFlowEntitlementsRequest>;
 export interface GrantFlowEntitlementsResponse {
   Entitlements?: (Entitlement & {
     EntitlementArn: string;
@@ -5602,38 +2235,12 @@ export interface GrantFlowEntitlementsResponse {
   })[];
   FlowArn?: string;
 }
-export const GrantFlowEntitlementsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Entitlements: S.optional(__listOfEntitlement),
-    FlowArn: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Entitlements: "entitlements", FlowArn: "flowArn" })),
-).annotate({
-  identifier: "GrantFlowEntitlementsResponse",
-}) as any as S.Schema<GrantFlowEntitlementsResponse>;
 export type MaxResults = number;
 export interface ListBridgesRequest {
   FilterArn?: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListBridgesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FilterArn: S.optional(S.String).pipe(T.HttpQuery("filterArn")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/bridges" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListBridgesRequest",
-}) as any as S.Schema<ListBridgesRequest>;
 export interface ListedBridge {
   BridgeArn?: string;
   BridgeState?: BridgeState;
@@ -5641,25 +2248,7 @@ export interface ListedBridge {
   Name?: string;
   PlacementArn?: string;
 }
-export const ListedBridge = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.optional(S.String),
-    BridgeState: S.optional(BridgeState),
-    BridgeType: S.optional(S.String),
-    Name: S.optional(S.String),
-    PlacementArn: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      BridgeArn: "bridgeArn",
-      BridgeState: "bridgeState",
-      BridgeType: "bridgeType",
-      Name: "name",
-      PlacementArn: "placementArn",
-    }),
-  ),
-).annotate({ identifier: "ListedBridge" }) as any as S.Schema<ListedBridge>;
 export type __listOfListedBridge = ListedBridge[];
-export const __listOfListedBridge = /*@__PURE__*/ S.Array(ListedBridge);
 export interface ListBridgesResponse {
   Bridges?: (ListedBridge & {
     BridgeArn: string;
@@ -5670,58 +2259,16 @@ export interface ListBridgesResponse {
   })[];
   NextToken?: string;
 }
-export const ListBridgesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bridges: S.optional(__listOfListedBridge),
-    NextToken: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Bridges: "bridges", NextToken: "nextToken" })),
-).annotate({
-  identifier: "ListBridgesResponse",
-}) as any as S.Schema<ListBridgesResponse>;
 export interface ListEntitlementsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListEntitlementsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/entitlements" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListEntitlementsRequest",
-}) as any as S.Schema<ListEntitlementsRequest>;
 export interface ListedEntitlement {
   DataTransferSubscriberFeePercent?: number;
   EntitlementArn?: string;
   EntitlementName?: string;
 }
-export const ListedEntitlement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataTransferSubscriberFeePercent: S.optional(S.Number),
-    EntitlementArn: S.optional(S.String),
-    EntitlementName: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      DataTransferSubscriberFeePercent: "dataTransferSubscriberFeePercent",
-      EntitlementArn: "entitlementArn",
-      EntitlementName: "entitlementName",
-    }),
-  ),
-).annotate({
-  identifier: "ListedEntitlement",
-}) as any as S.Schema<ListedEntitlement>;
 export type __listOfListedEntitlement = ListedEntitlement[];
-export const __listOfListedEntitlement =
-  /*@__PURE__*/ S.Array(ListedEntitlement);
 export interface ListEntitlementsResponse {
   Entitlements?: (ListedEntitlement & {
     EntitlementArn: string;
@@ -5729,40 +2276,11 @@ export interface ListEntitlementsResponse {
   })[];
   NextToken?: string;
 }
-export const ListEntitlementsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Entitlements: S.optional(__listOfListedEntitlement),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({ Entitlements: "entitlements", NextToken: "nextToken" }),
-  ),
-).annotate({
-  identifier: "ListEntitlementsResponse",
-}) as any as S.Schema<ListEntitlementsResponse>;
 export interface ListFlowsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListFlowsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/flows" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListFlowsRequest",
-}) as any as S.Schema<ListFlowsRequest>;
 export type SourceType = "OWNED" | "ENTITLED" | (string & {});
-export const SourceType = S.String;
-
 export interface ListedFlow {
   AvailabilityZone?: string;
   Description?: string;
@@ -5772,29 +2290,7 @@ export interface ListedFlow {
   Status?: Status;
   Maintenance?: Maintenance;
 }
-export const ListedFlow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AvailabilityZone: S.optional(S.String),
-    Description: S.optional(S.String),
-    FlowArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    SourceType: S.optional(SourceType),
-    Status: S.optional(Status),
-    Maintenance: S.optional(Maintenance),
-  }).pipe(
-    S.encodeKeys({
-      AvailabilityZone: "availabilityZone",
-      Description: "description",
-      FlowArn: "flowArn",
-      Name: "name",
-      SourceType: "sourceType",
-      Status: "status",
-      Maintenance: "maintenance",
-    }),
-  ),
-).annotate({ identifier: "ListedFlow" }) as any as S.Schema<ListedFlow>;
 export type __listOfListedFlow = ListedFlow[];
-export const __listOfListedFlow = /*@__PURE__*/ S.Array(ListedFlow);
 export interface ListFlowsResponse {
   Flows?: (ListedFlow & {
     AvailabilityZone: string;
@@ -5806,64 +2302,18 @@ export interface ListFlowsResponse {
   })[];
   NextToken?: string;
 }
-export const ListFlowsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Flows: S.optional(__listOfListedFlow),
-    NextToken: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Flows: "flows", NextToken: "nextToken" })),
-).annotate({
-  identifier: "ListFlowsResponse",
-}) as any as S.Schema<ListFlowsResponse>;
 export interface ListGatewayInstancesRequest {
   FilterArn?: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListGatewayInstancesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FilterArn: S.optional(S.String).pipe(T.HttpQuery("filterArn")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/gateway-instances" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListGatewayInstancesRequest",
-}) as any as S.Schema<ListGatewayInstancesRequest>;
 export interface ListedGatewayInstance {
   GatewayArn?: string;
   GatewayInstanceArn?: string;
   InstanceId?: string;
   InstanceState?: InstanceState;
 }
-export const ListedGatewayInstance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayArn: S.optional(S.String),
-    GatewayInstanceArn: S.optional(S.String),
-    InstanceId: S.optional(S.String),
-    InstanceState: S.optional(InstanceState),
-  }).pipe(
-    S.encodeKeys({
-      GatewayArn: "gatewayArn",
-      GatewayInstanceArn: "gatewayInstanceArn",
-      InstanceId: "instanceId",
-      InstanceState: "instanceState",
-    }),
-  ),
-).annotate({
-  identifier: "ListedGatewayInstance",
-}) as any as S.Schema<ListedGatewayInstance>;
 export type __listOfListedGatewayInstance = ListedGatewayInstance[];
-export const __listOfListedGatewayInstance = /*@__PURE__*/ S.Array(
-  ListedGatewayInstance,
-);
 export interface ListGatewayInstancesResponse {
   Instances?: (ListedGatewayInstance & {
     GatewayArn: string;
@@ -5872,55 +2322,16 @@ export interface ListGatewayInstancesResponse {
   })[];
   NextToken?: string;
 }
-export const ListGatewayInstancesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Instances: S.optional(__listOfListedGatewayInstance),
-    NextToken: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Instances: "instances", NextToken: "nextToken" })),
-).annotate({
-  identifier: "ListGatewayInstancesResponse",
-}) as any as S.Schema<ListGatewayInstancesResponse>;
 export interface ListGatewaysRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/gateways" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListGatewaysRequest",
-}) as any as S.Schema<ListGatewaysRequest>;
 export interface ListedGateway {
   GatewayArn?: string;
   GatewayState?: GatewayState;
   Name?: string;
 }
-export const ListedGateway = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayArn: S.optional(S.String),
-    GatewayState: S.optional(GatewayState),
-    Name: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      GatewayArn: "gatewayArn",
-      GatewayState: "gatewayState",
-      Name: "name",
-    }),
-  ),
-).annotate({ identifier: "ListedGateway" }) as any as S.Schema<ListedGateway>;
 export type __listOfListedGateway = ListedGateway[];
-export const __listOfListedGateway = /*@__PURE__*/ S.Array(ListedGateway);
 export interface ListGatewaysResponse {
   Gateways?: (ListedGateway & {
     GatewayArn: string;
@@ -5929,37 +2340,11 @@ export interface ListGatewaysResponse {
   })[];
   NextToken?: string;
 }
-export const ListGatewaysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Gateways: S.optional(__listOfListedGateway),
-    NextToken: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Gateways: "gateways", NextToken: "nextToken" })),
-).annotate({
-  identifier: "ListGatewaysResponse",
-}) as any as S.Schema<ListGatewaysResponse>;
 export interface ListOfferingsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListOfferingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/offerings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListOfferingsRequest",
-}) as any as S.Schema<ListOfferingsRequest>;
 export type __listOfOffering = Offering[];
-export const __listOfOffering = /*@__PURE__*/ S.Array(Offering);
 export interface ListOfferingsResponse {
   NextToken?: string;
   Offerings?: (Offering & {
@@ -5975,37 +2360,11 @@ export interface ListOfferingsResponse {
     };
   })[];
 }
-export const ListOfferingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Offerings: S.optional(__listOfOffering),
-  }).pipe(S.encodeKeys({ NextToken: "nextToken", Offerings: "offerings" })),
-).annotate({
-  identifier: "ListOfferingsResponse",
-}) as any as S.Schema<ListOfferingsResponse>;
 export interface ListReservationsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListReservationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/reservations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListReservationsRequest",
-}) as any as S.Schema<ListReservationsRequest>;
 export type __listOfReservation = Reservation[];
-export const __listOfReservation = /*@__PURE__*/ S.Array(Reservation);
 export interface ListReservationsResponse {
   NextToken?: string;
   Reservations?: (Reservation & {
@@ -6026,22 +2385,9 @@ export interface ListReservationsResponse {
     Start: string;
   })[];
 }
-export const ListReservationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Reservations: S.optional(__listOfReservation),
-  }).pipe(
-    S.encodeKeys({ NextToken: "nextToken", Reservations: "reservations" }),
-  ),
-).annotate({
-  identifier: "ListReservationsResponse",
-}) as any as S.Schema<ListReservationsResponse>;
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export type RoutingScopeList = RoutingScope[];
-export const RoutingScopeList = /*@__PURE__*/ S.Array(RoutingScope);
 export type RouterInputTypeList = RouterInputType[];
-export const RouterInputTypeList = /*@__PURE__*/ S.Array(RouterInputType);
 export type RouterInputFilter =
   | {
       NameContains: string[];
@@ -6078,40 +2424,12 @@ export type RouterInputFilter =
       RoutingScopes?: never;
       InputTypes: RouterInputType[];
     };
-export const RouterInputFilter = /*@__PURE__*/ S.Union([
-  S.Struct({ NameContains: StringList }),
-  S.Struct({ RegionNames: StringList }),
-  S.Struct({ NetworkInterfaceArns: RouterNetworkInterfaceArnList }),
-  S.Struct({ RoutingScopes: RoutingScopeList }),
-  S.Struct({ InputTypes: RouterInputTypeList }),
-]);
 export type RouterInputFilterList = RouterInputFilter[];
-export const RouterInputFilterList = /*@__PURE__*/ S.Array(RouterInputFilter);
 export interface ListRouterInputsRequest {
   MaxResults?: number;
   NextToken?: string;
   Filters?: RouterInputFilter[];
 }
-export const ListRouterInputsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    Filters: S.optional(RouterInputFilterList),
-  })
-    .pipe(S.encodeKeys({ Filters: "filters" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/routerInputs" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListRouterInputsRequest",
-}) as any as S.Schema<ListRouterInputsRequest>;
 export interface ListedRouterInput {
   Name: string;
   Arn: string;
@@ -6130,67 +2448,12 @@ export interface ListedRouterInput {
   MaintenanceScheduleType?: MaintenanceScheduleType;
   MaintenanceSchedule?: MaintenanceSchedule;
 }
-export const ListedRouterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Arn: S.String,
-    Id: S.String,
-    InputType: RouterInputType,
-    State: RouterInputState,
-    RoutedOutputs: S.Number,
-    RegionName: S.String,
-    AvailabilityZone: S.String,
-    MaximumBitrate: S.Number,
-    RoutingScope: RoutingScope,
-    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    MessageCount: S.Number,
-    NetworkInterfaceArn: S.optional(S.String),
-    MaintenanceScheduleType: S.optional(MaintenanceScheduleType),
-    MaintenanceSchedule: S.optional(MaintenanceSchedule),
-  }).pipe(
-    S.encodeKeys({
-      Name: "name",
-      Arn: "arn",
-      Id: "id",
-      InputType: "inputType",
-      State: "state",
-      RoutedOutputs: "routedOutputs",
-      RegionName: "regionName",
-      AvailabilityZone: "availabilityZone",
-      MaximumBitrate: "maximumBitrate",
-      RoutingScope: "routingScope",
-      CreatedAt: "createdAt",
-      UpdatedAt: "updatedAt",
-      MessageCount: "messageCount",
-      NetworkInterfaceArn: "networkInterfaceArn",
-      MaintenanceScheduleType: "maintenanceScheduleType",
-      MaintenanceSchedule: "maintenanceSchedule",
-    }),
-  ),
-).annotate({
-  identifier: "ListedRouterInput",
-}) as any as S.Schema<ListedRouterInput>;
 export type ListedRouterInputList = ListedRouterInput[];
-export const ListedRouterInputList = /*@__PURE__*/ S.Array(ListedRouterInput);
 export interface ListRouterInputsResponse {
   RouterInputs: ListedRouterInput[];
   NextToken?: string;
 }
-export const ListRouterInputsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RouterInputs: ListedRouterInputList,
-    NextToken: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({ RouterInputs: "routerInputs", NextToken: "nextToken" }),
-  ),
-).annotate({
-  identifier: "ListRouterInputsResponse",
-}) as any as S.Schema<ListRouterInputsResponse>;
 export type RouterNetworkInterfaceTypeList = RouterNetworkInterfaceType[];
-export const RouterNetworkInterfaceTypeList = /*@__PURE__*/ S.Array(
-  RouterNetworkInterfaceType,
-);
 export type RouterNetworkInterfaceFilter =
   | {
       RegionNames: string[];
@@ -6207,40 +2470,12 @@ export type RouterNetworkInterfaceFilter =
       NetworkInterfaceTypes?: never;
       NameContains: string[];
     };
-export const RouterNetworkInterfaceFilter = /*@__PURE__*/ S.Union([
-  S.Struct({ RegionNames: StringList }),
-  S.Struct({ NetworkInterfaceTypes: RouterNetworkInterfaceTypeList }),
-  S.Struct({ NameContains: StringList }),
-]);
 export type RouterNetworkInterfaceFilterList = RouterNetworkInterfaceFilter[];
-export const RouterNetworkInterfaceFilterList = /*@__PURE__*/ S.Array(
-  RouterNetworkInterfaceFilter,
-);
 export interface ListRouterNetworkInterfacesRequest {
   MaxResults?: number;
   NextToken?: string;
   Filters?: RouterNetworkInterfaceFilter[];
 }
-export const ListRouterNetworkInterfacesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    Filters: S.optional(RouterNetworkInterfaceFilterList),
-  })
-    .pipe(S.encodeKeys({ Filters: "filters" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/routerNetworkInterfaces" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListRouterNetworkInterfacesRequest",
-}) as any as S.Schema<ListRouterNetworkInterfacesRequest>;
 export interface ListedRouterNetworkInterface {
   Name: string;
   Arn: string;
@@ -6253,58 +2488,12 @@ export interface ListedRouterNetworkInterface {
   CreatedAt: Date;
   UpdatedAt: Date;
 }
-export const ListedRouterNetworkInterface = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Arn: S.String,
-    Id: S.String,
-    NetworkInterfaceType: RouterNetworkInterfaceType,
-    AssociatedOutputCount: S.Number,
-    AssociatedInputCount: S.Number,
-    State: RouterNetworkInterfaceState,
-    RegionName: S.String,
-    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }).pipe(
-    S.encodeKeys({
-      Name: "name",
-      Arn: "arn",
-      Id: "id",
-      NetworkInterfaceType: "networkInterfaceType",
-      AssociatedOutputCount: "associatedOutputCount",
-      AssociatedInputCount: "associatedInputCount",
-      State: "state",
-      RegionName: "regionName",
-      CreatedAt: "createdAt",
-      UpdatedAt: "updatedAt",
-    }),
-  ),
-).annotate({
-  identifier: "ListedRouterNetworkInterface",
-}) as any as S.Schema<ListedRouterNetworkInterface>;
 export type ListedRouterNetworkInterfaceList = ListedRouterNetworkInterface[];
-export const ListedRouterNetworkInterfaceList = /*@__PURE__*/ S.Array(
-  ListedRouterNetworkInterface,
-);
 export interface ListRouterNetworkInterfacesResponse {
   RouterNetworkInterfaces: ListedRouterNetworkInterface[];
   NextToken?: string;
 }
-export const ListRouterNetworkInterfacesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RouterNetworkInterfaces: ListedRouterNetworkInterfaceList,
-    NextToken: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      RouterNetworkInterfaces: "routerNetworkInterfaces",
-      NextToken: "nextToken",
-    }),
-  ),
-).annotate({
-  identifier: "ListRouterNetworkInterfacesResponse",
-}) as any as S.Schema<ListRouterNetworkInterfacesResponse>;
 export type RouterOutputTypeList = RouterOutputType[];
-export const RouterOutputTypeList = /*@__PURE__*/ S.Array(RouterOutputType);
 export type RouterOutputFilter =
   | {
       RegionNames: string[];
@@ -6354,41 +2543,12 @@ export type RouterOutputFilter =
       RoutedInputArns?: never;
       NameContains: string[];
     };
-export const RouterOutputFilter = /*@__PURE__*/ S.Union([
-  S.Struct({ RegionNames: StringList }),
-  S.Struct({ NetworkInterfaceArns: RouterNetworkInterfaceArnList }),
-  S.Struct({ RoutingScopes: RoutingScopeList }),
-  S.Struct({ OutputTypes: RouterOutputTypeList }),
-  S.Struct({ RoutedInputArns: RouterInputArnList }),
-  S.Struct({ NameContains: StringList }),
-]);
 export type RouterOutputFilterList = RouterOutputFilter[];
-export const RouterOutputFilterList = /*@__PURE__*/ S.Array(RouterOutputFilter);
 export interface ListRouterOutputsRequest {
   MaxResults?: number;
   NextToken?: string;
   Filters?: RouterOutputFilter[];
 }
-export const ListRouterOutputsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    Filters: S.optional(RouterOutputFilterList),
-  })
-    .pipe(S.encodeKeys({ Filters: "filters" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/routerOutputs" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListRouterOutputsRequest",
-}) as any as S.Schema<ListRouterOutputsRequest>;
 export interface ListedRouterOutput {
   Name: string;
   Arn: string;
@@ -6408,144 +2568,28 @@ export interface ListedRouterOutput {
   MaintenanceScheduleType?: MaintenanceScheduleType;
   MaintenanceSchedule?: MaintenanceSchedule;
 }
-export const ListedRouterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Arn: S.String,
-    Id: S.String,
-    OutputType: RouterOutputType,
-    State: RouterOutputState,
-    RoutedState: RouterOutputRoutedState,
-    RegionName: S.String,
-    AvailabilityZone: S.String,
-    MaximumBitrate: S.Number,
-    RoutingScope: RoutingScope,
-    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    MessageCount: S.Number,
-    RoutedInputArn: S.optional(S.String),
-    NetworkInterfaceArn: S.optional(S.String),
-    MaintenanceScheduleType: S.optional(MaintenanceScheduleType),
-    MaintenanceSchedule: S.optional(MaintenanceSchedule),
-  }).pipe(
-    S.encodeKeys({
-      Name: "name",
-      Arn: "arn",
-      Id: "id",
-      OutputType: "outputType",
-      State: "state",
-      RoutedState: "routedState",
-      RegionName: "regionName",
-      AvailabilityZone: "availabilityZone",
-      MaximumBitrate: "maximumBitrate",
-      RoutingScope: "routingScope",
-      CreatedAt: "createdAt",
-      UpdatedAt: "updatedAt",
-      MessageCount: "messageCount",
-      RoutedInputArn: "routedInputArn",
-      NetworkInterfaceArn: "networkInterfaceArn",
-      MaintenanceScheduleType: "maintenanceScheduleType",
-      MaintenanceSchedule: "maintenanceSchedule",
-    }),
-  ),
-).annotate({
-  identifier: "ListedRouterOutput",
-}) as any as S.Schema<ListedRouterOutput>;
 export type ListedRouterOutputList = ListedRouterOutput[];
-export const ListedRouterOutputList = /*@__PURE__*/ S.Array(ListedRouterOutput);
 export interface ListRouterOutputsResponse {
   RouterOutputs: ListedRouterOutput[];
   NextToken?: string;
 }
-export const ListRouterOutputsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RouterOutputs: ListedRouterOutputList,
-    NextToken: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({ RouterOutputs: "routerOutputs", NextToken: "nextToken" }),
-  ),
-).annotate({
-  identifier: "ListRouterOutputsResponse",
-}) as any as S.Schema<ListRouterOutputsResponse>;
 export interface ListTagsForGlobalResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForGlobalResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/global/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForGlobalResourceRequest",
-}) as any as S.Schema<ListTagsForGlobalResourceRequest>;
 export interface ListTagsForGlobalResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForGlobalResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(__mapOfString) }).pipe(
-    S.encodeKeys({ Tags: "tags" }),
-  ),
-).annotate({
-  identifier: "ListTagsForGlobalResourceResponse",
-}) as any as S.Schema<ListTagsForGlobalResourceResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(__mapOfString) }).pipe(
-    S.encodeKeys({ Tags: "tags" }),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PurchaseOfferingRequest {
   OfferingArn: string;
   ReservationName?: string;
   Start?: string;
 }
-export const PurchaseOfferingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OfferingArn: S.String.pipe(T.HttpLabel("OfferingArn")),
-    ReservationName: S.optional(S.String),
-    Start: S.optional(S.String),
-  })
-    .pipe(S.encodeKeys({ ReservationName: "reservationName", Start: "start" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/offerings/{OfferingArn}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "PurchaseOfferingRequest",
-}) as any as S.Schema<PurchaseOfferingRequest>;
 export interface PurchaseOfferingResponse {
   Reservation?: Reservation & {
     CurrencyCode: string;
@@ -6565,380 +2609,89 @@ export interface PurchaseOfferingResponse {
     Start: string;
   };
 }
-export const PurchaseOfferingResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Reservation: S.optional(Reservation) }).pipe(
-    S.encodeKeys({ Reservation: "reservation" }),
-  ),
-).annotate({
-  identifier: "PurchaseOfferingResponse",
-}) as any as S.Schema<PurchaseOfferingResponse>;
 export interface RemoveBridgeOutputRequest {
   BridgeArn: string;
   OutputName: string;
 }
-export const RemoveBridgeOutputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.String.pipe(T.HttpLabel("BridgeArn")),
-    OutputName: S.String.pipe(T.HttpLabel("OutputName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/bridges/{BridgeArn}/outputs/{OutputName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemoveBridgeOutputRequest",
-}) as any as S.Schema<RemoveBridgeOutputRequest>;
 export interface RemoveBridgeOutputResponse {
   BridgeArn?: string;
   OutputName?: string;
 }
-export const RemoveBridgeOutputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.optional(S.String),
-    OutputName: S.optional(S.String),
-  }).pipe(S.encodeKeys({ BridgeArn: "bridgeArn", OutputName: "outputName" })),
-).annotate({
-  identifier: "RemoveBridgeOutputResponse",
-}) as any as S.Schema<RemoveBridgeOutputResponse>;
 export interface RemoveBridgeSourceRequest {
   BridgeArn: string;
   SourceName: string;
 }
-export const RemoveBridgeSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.String.pipe(T.HttpLabel("BridgeArn")),
-    SourceName: S.String.pipe(T.HttpLabel("SourceName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/bridges/{BridgeArn}/sources/{SourceName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemoveBridgeSourceRequest",
-}) as any as S.Schema<RemoveBridgeSourceRequest>;
 export interface RemoveBridgeSourceResponse {
   BridgeArn?: string;
   SourceName?: string;
 }
-export const RemoveBridgeSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.optional(S.String),
-    SourceName: S.optional(S.String),
-  }).pipe(S.encodeKeys({ BridgeArn: "bridgeArn", SourceName: "sourceName" })),
-).annotate({
-  identifier: "RemoveBridgeSourceResponse",
-}) as any as S.Schema<RemoveBridgeSourceResponse>;
 export interface RemoveFlowMediaStreamRequest {
   FlowArn: string;
   MediaStreamName: string;
 }
-export const RemoveFlowMediaStreamRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
-    MediaStreamName: S.String.pipe(T.HttpLabel("MediaStreamName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/flows/{FlowArn}/mediaStreams/{MediaStreamName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemoveFlowMediaStreamRequest",
-}) as any as S.Schema<RemoveFlowMediaStreamRequest>;
 export interface RemoveFlowMediaStreamResponse {
   FlowArn?: string;
   MediaStreamName?: string;
 }
-export const RemoveFlowMediaStreamResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.optional(S.String),
-    MediaStreamName: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({ FlowArn: "flowArn", MediaStreamName: "mediaStreamName" }),
-  ),
-).annotate({
-  identifier: "RemoveFlowMediaStreamResponse",
-}) as any as S.Schema<RemoveFlowMediaStreamResponse>;
 export interface RemoveFlowOutputRequest {
   FlowArn: string;
   OutputArn: string;
 }
-export const RemoveFlowOutputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
-    OutputArn: S.String.pipe(T.HttpLabel("OutputArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/flows/{FlowArn}/outputs/{OutputArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemoveFlowOutputRequest",
-}) as any as S.Schema<RemoveFlowOutputRequest>;
 export interface RemoveFlowOutputResponse {
   FlowArn?: string;
   OutputArn?: string;
 }
-export const RemoveFlowOutputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.optional(S.String),
-    OutputArn: S.optional(S.String),
-  }).pipe(S.encodeKeys({ FlowArn: "flowArn", OutputArn: "outputArn" })),
-).annotate({
-  identifier: "RemoveFlowOutputResponse",
-}) as any as S.Schema<RemoveFlowOutputResponse>;
 export interface RemoveFlowSourceRequest {
   FlowArn: string;
   SourceArn: string;
 }
-export const RemoveFlowSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
-    SourceArn: S.String.pipe(T.HttpLabel("SourceArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/flows/{FlowArn}/source/{SourceArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemoveFlowSourceRequest",
-}) as any as S.Schema<RemoveFlowSourceRequest>;
 export interface RemoveFlowSourceResponse {
   FlowArn?: string;
   SourceArn?: string;
 }
-export const RemoveFlowSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.optional(S.String),
-    SourceArn: S.optional(S.String),
-  }).pipe(S.encodeKeys({ FlowArn: "flowArn", SourceArn: "sourceArn" })),
-).annotate({
-  identifier: "RemoveFlowSourceResponse",
-}) as any as S.Schema<RemoveFlowSourceResponse>;
 export interface RemoveFlowVpcInterfaceRequest {
   FlowArn: string;
   VpcInterfaceName: string;
 }
-export const RemoveFlowVpcInterfaceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
-    VpcInterfaceName: S.String.pipe(T.HttpLabel("VpcInterfaceName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/flows/{FlowArn}/vpcInterfaces/{VpcInterfaceName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemoveFlowVpcInterfaceRequest",
-}) as any as S.Schema<RemoveFlowVpcInterfaceRequest>;
 export interface RemoveFlowVpcInterfaceResponse {
   FlowArn?: string;
   NonDeletedNetworkInterfaceIds?: string[];
   VpcInterfaceName?: string;
 }
-export const RemoveFlowVpcInterfaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.optional(S.String),
-    NonDeletedNetworkInterfaceIds: S.optional(__listOfString),
-    VpcInterfaceName: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      FlowArn: "flowArn",
-      NonDeletedNetworkInterfaceIds: "nonDeletedNetworkInterfaceIds",
-      VpcInterfaceName: "vpcInterfaceName",
-    }),
-  ),
-).annotate({
-  identifier: "RemoveFlowVpcInterfaceResponse",
-}) as any as S.Schema<RemoveFlowVpcInterfaceResponse>;
 export interface RestartRouterInputRequest {
   Arn: string;
 }
-export const RestartRouterInputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/routerInput/restart/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RestartRouterInputRequest",
-}) as any as S.Schema<RestartRouterInputRequest>;
 export interface RestartRouterInputResponse {
   Arn: string;
   Name: string;
   State: RouterInputState;
 }
-export const RestartRouterInputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String, Name: S.String, State: RouterInputState }).pipe(
-    S.encodeKeys({ Arn: "arn", Name: "name", State: "state" }),
-  ),
-).annotate({
-  identifier: "RestartRouterInputResponse",
-}) as any as S.Schema<RestartRouterInputResponse>;
 export interface RestartRouterOutputRequest {
   Arn: string;
 }
-export const RestartRouterOutputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/routerOutput/restart/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RestartRouterOutputRequest",
-}) as any as S.Schema<RestartRouterOutputRequest>;
 export interface RestartRouterOutputResponse {
   Arn: string;
   Name: string;
   State: RouterOutputState;
 }
-export const RestartRouterOutputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String, Name: S.String, State: RouterOutputState }).pipe(
-    S.encodeKeys({ Arn: "arn", Name: "name", State: "state" }),
-  ),
-).annotate({
-  identifier: "RestartRouterOutputResponse",
-}) as any as S.Schema<RestartRouterOutputResponse>;
 export interface RevokeFlowEntitlementRequest {
   EntitlementArn: string;
   FlowArn: string;
 }
-export const RevokeFlowEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EntitlementArn: S.String.pipe(T.HttpLabel("EntitlementArn")),
-    FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/flows/{FlowArn}/entitlements/{EntitlementArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RevokeFlowEntitlementRequest",
-}) as any as S.Schema<RevokeFlowEntitlementRequest>;
 export interface RevokeFlowEntitlementResponse {
   EntitlementArn?: string;
   FlowArn?: string;
 }
-export const RevokeFlowEntitlementResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EntitlementArn: S.optional(S.String),
-    FlowArn: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({ EntitlementArn: "entitlementArn", FlowArn: "flowArn" }),
-  ),
-).annotate({
-  identifier: "RevokeFlowEntitlementResponse",
-}) as any as S.Schema<RevokeFlowEntitlementResponse>;
 export interface StartFlowRequest {
   FlowArn: string;
 }
-export const StartFlowRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FlowArn: S.String.pipe(T.HttpLabel("FlowArn")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/flows/start/{FlowArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartFlowRequest",
-}) as any as S.Schema<StartFlowRequest>;
 export interface StartFlowResponse {
   FlowArn?: string;
   Status?: Status;
 }
-export const StartFlowResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FlowArn: S.optional(S.String), Status: S.optional(Status) }).pipe(
-    S.encodeKeys({ FlowArn: "flowArn", Status: "status" }),
-  ),
-).annotate({
-  identifier: "StartFlowResponse",
-}) as any as S.Schema<StartFlowResponse>;
 export interface StartRouterInputRequest {
   Arn: string;
 }
-export const StartRouterInputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/routerInput/start/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartRouterInputRequest",
-}) as any as S.Schema<StartRouterInputRequest>;
 export interface StartRouterInputResponse {
   Arn: string;
   Name: string;
@@ -6946,42 +2699,9 @@ export interface StartRouterInputResponse {
   MaintenanceScheduleType: MaintenanceScheduleType;
   MaintenanceSchedule: MaintenanceSchedule;
 }
-export const StartRouterInputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Name: S.String,
-    State: RouterInputState,
-    MaintenanceScheduleType: MaintenanceScheduleType,
-    MaintenanceSchedule: MaintenanceSchedule,
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      Name: "name",
-      State: "state",
-      MaintenanceScheduleType: "maintenanceScheduleType",
-      MaintenanceSchedule: "maintenanceSchedule",
-    }),
-  ),
-).annotate({
-  identifier: "StartRouterInputResponse",
-}) as any as S.Schema<StartRouterInputResponse>;
 export interface StartRouterOutputRequest {
   Arn: string;
 }
-export const StartRouterOutputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/routerOutput/start/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartRouterOutputRequest",
-}) as any as S.Schema<StartRouterOutputRequest>;
 export interface StartRouterOutputResponse {
   Arn: string;
   Name: string;
@@ -6989,195 +2709,43 @@ export interface StartRouterOutputResponse {
   MaintenanceScheduleType: MaintenanceScheduleType;
   MaintenanceSchedule: MaintenanceSchedule;
 }
-export const StartRouterOutputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Name: S.String,
-    State: RouterOutputState,
-    MaintenanceScheduleType: MaintenanceScheduleType,
-    MaintenanceSchedule: MaintenanceSchedule,
-  }).pipe(
-    S.encodeKeys({
-      Arn: "arn",
-      Name: "name",
-      State: "state",
-      MaintenanceScheduleType: "maintenanceScheduleType",
-      MaintenanceSchedule: "maintenanceSchedule",
-    }),
-  ),
-).annotate({
-  identifier: "StartRouterOutputResponse",
-}) as any as S.Schema<StartRouterOutputResponse>;
 export interface StopFlowRequest {
   FlowArn: string;
 }
-export const StopFlowRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FlowArn: S.String.pipe(T.HttpLabel("FlowArn")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/flows/stop/{FlowArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopFlowRequest",
-}) as any as S.Schema<StopFlowRequest>;
 export interface StopFlowResponse {
   FlowArn?: string;
   Status?: Status;
 }
-export const StopFlowResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FlowArn: S.optional(S.String), Status: S.optional(Status) }).pipe(
-    S.encodeKeys({ FlowArn: "flowArn", Status: "status" }),
-  ),
-).annotate({
-  identifier: "StopFlowResponse",
-}) as any as S.Schema<StopFlowResponse>;
 export interface StopRouterInputRequest {
   Arn: string;
 }
-export const StopRouterInputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/routerInput/stop/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopRouterInputRequest",
-}) as any as S.Schema<StopRouterInputRequest>;
 export interface StopRouterInputResponse {
   Arn: string;
   Name: string;
   State: RouterInputState;
 }
-export const StopRouterInputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String, Name: S.String, State: RouterInputState }).pipe(
-    S.encodeKeys({ Arn: "arn", Name: "name", State: "state" }),
-  ),
-).annotate({
-  identifier: "StopRouterInputResponse",
-}) as any as S.Schema<StopRouterInputResponse>;
 export interface StopRouterOutputRequest {
   Arn: string;
 }
-export const StopRouterOutputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/routerOutput/stop/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopRouterOutputRequest",
-}) as any as S.Schema<StopRouterOutputRequest>;
 export interface StopRouterOutputResponse {
   Arn: string;
   Name: string;
   State: RouterOutputState;
 }
-export const StopRouterOutputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String, Name: S.String, State: RouterOutputState }).pipe(
-    S.encodeKeys({ Arn: "arn", Name: "name", State: "state" }),
-  ),
-).annotate({
-  identifier: "StopRouterOutputResponse",
-}) as any as S.Schema<StopRouterOutputResponse>;
 export interface TagGlobalResourceRequest {
   ResourceArn: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const TagGlobalResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: S.optional(__mapOfString),
-  })
-    .pipe(S.encodeKeys({ Tags: "tags" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/tags/global/{ResourceArn}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "TagGlobalResourceRequest",
-}) as any as S.Schema<TagGlobalResourceRequest>;
 export interface TagGlobalResourceResponse {}
-export const TagGlobalResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagGlobalResourceResponse",
-}) as any as S.Schema<TagGlobalResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: S.optional(__mapOfString),
-  })
-    .pipe(S.encodeKeys({ Tags: "tags" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export interface TakeRouterInputRequest {
   RouterOutputArn: string;
   RouterInputArn?: string;
 }
-export const TakeRouterInputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RouterOutputArn: S.String.pipe(T.HttpLabel("RouterOutputArn")),
-    RouterInputArn: S.optional(S.String),
-  })
-    .pipe(S.encodeKeys({ RouterInputArn: "routerInputArn" }))
-    .pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/v1/routerOutput/takeRouterInput/{RouterOutputArn}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "TakeRouterInputRequest",
-}) as any as S.Schema<TakeRouterInputRequest>;
 export interface TakeRouterInputResponse {
   RoutedState: RouterOutputRoutedState;
   RouterOutputArn: string;
@@ -7185,157 +2753,35 @@ export interface TakeRouterInputResponse {
   RouterInputArn?: string;
   RouterInputName?: string;
 }
-export const TakeRouterInputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoutedState: RouterOutputRoutedState,
-    RouterOutputArn: S.String,
-    RouterOutputName: S.String,
-    RouterInputArn: S.optional(S.String),
-    RouterInputName: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      RoutedState: "routedState",
-      RouterOutputArn: "routerOutputArn",
-      RouterOutputName: "routerOutputName",
-      RouterInputArn: "routerInputArn",
-      RouterInputName: "routerInputName",
-    }),
-  ),
-).annotate({
-  identifier: "TakeRouterInputResponse",
-}) as any as S.Schema<TakeRouterInputResponse>;
 export interface UntagGlobalResourceRequest {
   ResourceArn: string;
   TagKeys?: string[];
 }
-export const UntagGlobalResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: S.optional(__listOfString).pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/global/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagGlobalResourceRequest",
-}) as any as S.Schema<UntagGlobalResourceRequest>;
 export interface UntagGlobalResourceResponse {}
-export const UntagGlobalResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagGlobalResourceResponse",
-}) as any as S.Schema<UntagGlobalResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys?: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: S.optional(__listOfString).pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateEgressGatewayBridgeRequest {
   MaxBitrate?: number;
 }
-export const UpdateEgressGatewayBridgeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MaxBitrate: S.optional(S.Number) }).pipe(
-    S.encodeKeys({ MaxBitrate: "maxBitrate" }),
-  ),
-).annotate({
-  identifier: "UpdateEgressGatewayBridgeRequest",
-}) as any as S.Schema<UpdateEgressGatewayBridgeRequest>;
 export interface UpdateIngressGatewayBridgeRequest {
   MaxBitrate?: number;
   MaxOutputs?: number;
 }
-export const UpdateIngressGatewayBridgeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxBitrate: S.optional(S.Number),
-    MaxOutputs: S.optional(S.Number),
-  }).pipe(S.encodeKeys({ MaxBitrate: "maxBitrate", MaxOutputs: "maxOutputs" })),
-).annotate({
-  identifier: "UpdateIngressGatewayBridgeRequest",
-}) as any as S.Schema<UpdateIngressGatewayBridgeRequest>;
 export interface UpdateFailoverConfig {
   FailoverMode?: FailoverMode;
   RecoveryWindow?: number;
   SourcePriority?: SourcePriority;
   State?: State;
 }
-export const UpdateFailoverConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FailoverMode: S.optional(FailoverMode),
-    RecoveryWindow: S.optional(S.Number),
-    SourcePriority: S.optional(SourcePriority),
-    State: S.optional(State),
-  }).pipe(
-    S.encodeKeys({
-      FailoverMode: "failoverMode",
-      RecoveryWindow: "recoveryWindow",
-      SourcePriority: "sourcePriority",
-      State: "state",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateFailoverConfig",
-}) as any as S.Schema<UpdateFailoverConfig>;
 export interface UpdateBridgeRequest {
   BridgeArn: string;
   EgressGatewayBridge?: UpdateEgressGatewayBridgeRequest;
   IngressGatewayBridge?: UpdateIngressGatewayBridgeRequest;
   SourceFailoverConfig?: UpdateFailoverConfig;
 }
-export const UpdateBridgeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.String.pipe(T.HttpLabel("BridgeArn")),
-    EgressGatewayBridge: S.optional(UpdateEgressGatewayBridgeRequest),
-    IngressGatewayBridge: S.optional(UpdateIngressGatewayBridgeRequest),
-    SourceFailoverConfig: S.optional(UpdateFailoverConfig),
-  })
-    .pipe(
-      S.encodeKeys({
-        EgressGatewayBridge: "egressGatewayBridge",
-        IngressGatewayBridge: "ingressGatewayBridge",
-        SourceFailoverConfig: "sourceFailoverConfig",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/v1/bridges/{BridgeArn}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateBridgeRequest",
-}) as any as S.Schema<UpdateBridgeRequest>;
 export interface UpdateBridgeResponse {
   Bridge?: Bridge & {
     BridgeArn: string;
@@ -7375,13 +2821,6 @@ export interface UpdateBridgeResponse {
     })[];
   };
 }
-export const UpdateBridgeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Bridge: S.optional(Bridge) }).pipe(
-    S.encodeKeys({ Bridge: "bridge" }),
-  ),
-).annotate({
-  identifier: "UpdateBridgeResponse",
-}) as any as S.Schema<UpdateBridgeResponse>;
 export interface UpdateBridgeNetworkOutputRequest {
   IpAddress?: string;
   NetworkName?: string;
@@ -7389,53 +2828,11 @@ export interface UpdateBridgeNetworkOutputRequest {
   Protocol?: Protocol;
   Ttl?: number;
 }
-export const UpdateBridgeNetworkOutputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IpAddress: S.optional(S.String),
-    NetworkName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    Protocol: S.optional(Protocol),
-    Ttl: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      IpAddress: "ipAddress",
-      NetworkName: "networkName",
-      Port: "port",
-      Protocol: "protocol",
-      Ttl: "ttl",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateBridgeNetworkOutputRequest",
-}) as any as S.Schema<UpdateBridgeNetworkOutputRequest>;
 export interface UpdateBridgeOutputRequest {
   BridgeArn: string;
   NetworkOutput?: UpdateBridgeNetworkOutputRequest;
   OutputName: string;
 }
-export const UpdateBridgeOutputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.String.pipe(T.HttpLabel("BridgeArn")),
-    NetworkOutput: S.optional(UpdateBridgeNetworkOutputRequest),
-    OutputName: S.String.pipe(T.HttpLabel("OutputName")),
-  })
-    .pipe(S.encodeKeys({ NetworkOutput: "networkOutput" }))
-    .pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/v1/bridges/{BridgeArn}/outputs/{OutputName}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateBridgeOutputRequest",
-}) as any as S.Schema<UpdateBridgeOutputRequest>;
 export interface UpdateBridgeOutputResponse {
   BridgeArn?: string;
   Output?: BridgeOutput & {
@@ -7454,31 +2851,10 @@ export interface UpdateBridgeOutputResponse {
     };
   };
 }
-export const UpdateBridgeOutputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.optional(S.String),
-    Output: S.optional(BridgeOutput),
-  }).pipe(S.encodeKeys({ BridgeArn: "bridgeArn", Output: "output" })),
-).annotate({
-  identifier: "UpdateBridgeOutputResponse",
-}) as any as S.Schema<UpdateBridgeOutputResponse>;
 export interface UpdateBridgeFlowSourceRequest {
   FlowArn?: string;
   FlowVpcInterfaceAttachment?: VpcInterfaceAttachment;
 }
-export const UpdateBridgeFlowSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.optional(S.String),
-    FlowVpcInterfaceAttachment: S.optional(VpcInterfaceAttachment),
-  }).pipe(
-    S.encodeKeys({
-      FlowArn: "flowArn",
-      FlowVpcInterfaceAttachment: "flowVpcInterfaceAttachment",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateBridgeFlowSourceRequest",
-}) as any as S.Schema<UpdateBridgeFlowSourceRequest>;
 export interface UpdateBridgeNetworkSourceRequest {
   MulticastIp?: string;
   MulticastSourceSettings?: MulticastSourceSettings;
@@ -7486,60 +2862,12 @@ export interface UpdateBridgeNetworkSourceRequest {
   Port?: number;
   Protocol?: Protocol;
 }
-export const UpdateBridgeNetworkSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MulticastIp: S.optional(S.String),
-    MulticastSourceSettings: S.optional(MulticastSourceSettings),
-    NetworkName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    Protocol: S.optional(Protocol),
-  }).pipe(
-    S.encodeKeys({
-      MulticastIp: "multicastIp",
-      MulticastSourceSettings: "multicastSourceSettings",
-      NetworkName: "networkName",
-      Port: "port",
-      Protocol: "protocol",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateBridgeNetworkSourceRequest",
-}) as any as S.Schema<UpdateBridgeNetworkSourceRequest>;
 export interface UpdateBridgeSourceRequest {
   BridgeArn: string;
   FlowSource?: UpdateBridgeFlowSourceRequest;
   NetworkSource?: UpdateBridgeNetworkSourceRequest;
   SourceName: string;
 }
-export const UpdateBridgeSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.String.pipe(T.HttpLabel("BridgeArn")),
-    FlowSource: S.optional(UpdateBridgeFlowSourceRequest),
-    NetworkSource: S.optional(UpdateBridgeNetworkSourceRequest),
-    SourceName: S.String.pipe(T.HttpLabel("SourceName")),
-  })
-    .pipe(
-      S.encodeKeys({
-        FlowSource: "flowSource",
-        NetworkSource: "networkSource",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/v1/bridges/{BridgeArn}/sources/{SourceName}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateBridgeSourceRequest",
-}) as any as S.Schema<UpdateBridgeSourceRequest>;
 export interface UpdateBridgeSourceResponse {
   BridgeArn?: string;
   Source?: BridgeSource & {
@@ -7553,74 +2881,20 @@ export interface UpdateBridgeSourceResponse {
     };
   };
 }
-export const UpdateBridgeSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.optional(S.String),
-    Source: S.optional(BridgeSource),
-  }).pipe(S.encodeKeys({ BridgeArn: "bridgeArn", Source: "source" })),
-).annotate({
-  identifier: "UpdateBridgeSourceResponse",
-}) as any as S.Schema<UpdateBridgeSourceResponse>;
 export type DesiredState = "ACTIVE" | "STANDBY" | "DELETED" | (string & {});
-export const DesiredState = S.String;
-
 export interface UpdateBridgeStateRequest {
   BridgeArn: string;
   DesiredState?: DesiredState;
 }
-export const UpdateBridgeStateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.String.pipe(T.HttpLabel("BridgeArn")),
-    DesiredState: S.optional(DesiredState),
-  })
-    .pipe(S.encodeKeys({ DesiredState: "desiredState" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/v1/bridges/{BridgeArn}/state" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateBridgeStateRequest",
-}) as any as S.Schema<UpdateBridgeStateRequest>;
 export interface UpdateBridgeStateResponse {
   BridgeArn?: string;
   DesiredState?: DesiredState;
 }
-export const UpdateBridgeStateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.optional(S.String),
-    DesiredState: S.optional(DesiredState),
-  }).pipe(
-    S.encodeKeys({ BridgeArn: "bridgeArn", DesiredState: "desiredState" }),
-  ),
-).annotate({
-  identifier: "UpdateBridgeStateResponse",
-}) as any as S.Schema<UpdateBridgeStateResponse>;
 export interface UpdateMaintenance {
   MaintenanceDay?: MaintenanceDay;
   MaintenanceScheduledDate?: string;
   MaintenanceStartHour?: string;
 }
-export const UpdateMaintenance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaintenanceDay: S.optional(MaintenanceDay),
-    MaintenanceScheduledDate: S.optional(S.String),
-    MaintenanceStartHour: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      MaintenanceDay: "maintenanceDay",
-      MaintenanceScheduledDate: "maintenanceScheduledDate",
-      MaintenanceStartHour: "maintenanceStartHour",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateMaintenance",
-}) as any as S.Schema<UpdateMaintenance>;
 export interface UpdateFlowRequest {
   FlowArn: string;
   SourceFailoverConfig?: UpdateFailoverConfig;
@@ -7630,39 +2904,6 @@ export interface UpdateFlowRequest {
   FlowSize?: FlowSize;
   EncodingConfig?: EncodingConfig;
 }
-export const UpdateFlowRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
-    SourceFailoverConfig: S.optional(UpdateFailoverConfig),
-    Maintenance: S.optional(UpdateMaintenance),
-    SourceMonitoringConfig: S.optional(MonitoringConfig),
-    NdiConfig: S.optional(NdiConfig),
-    FlowSize: S.optional(FlowSize),
-    EncodingConfig: S.optional(EncodingConfig),
-  })
-    .pipe(
-      S.encodeKeys({
-        SourceFailoverConfig: "sourceFailoverConfig",
-        Maintenance: "maintenance",
-        SourceMonitoringConfig: "sourceMonitoringConfig",
-        NdiConfig: "ndiConfig",
-        FlowSize: "flowSize",
-        EncodingConfig: "encodingConfig",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/v1/flows/{FlowArn}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateFlowRequest",
-}) as any as S.Schema<UpdateFlowRequest>;
 export interface UpdateFlowResponse {
   Flow?: Flow & {
     AvailabilityZone: string;
@@ -7750,11 +2991,6 @@ export interface UpdateFlowResponse {
     };
   };
 }
-export const UpdateFlowResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Flow: S.optional(Flow) }).pipe(S.encodeKeys({ Flow: "flow" })),
-).annotate({
-  identifier: "UpdateFlowResponse",
-}) as any as S.Schema<UpdateFlowResponse>;
 export interface UpdateEncryption {
   Algorithm?: Algorithm;
   ConstantInitializationVector?: string;
@@ -7766,33 +3002,6 @@ export interface UpdateEncryption {
   SecretArn?: string;
   Url?: string;
 }
-export const UpdateEncryption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Algorithm: S.optional(Algorithm),
-    ConstantInitializationVector: S.optional(S.String),
-    DeviceId: S.optional(S.String),
-    KeyType: S.optional(KeyType),
-    Region: S.optional(S.String),
-    ResourceId: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-    SecretArn: S.optional(S.String),
-    Url: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      Algorithm: "algorithm",
-      ConstantInitializationVector: "constantInitializationVector",
-      DeviceId: "deviceId",
-      KeyType: "keyType",
-      Region: "region",
-      ResourceId: "resourceId",
-      RoleArn: "roleArn",
-      SecretArn: "secretArn",
-      Url: "url",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateEncryption",
-}) as any as S.Schema<UpdateEncryption>;
 export interface UpdateFlowEntitlementRequest {
   Description?: string;
   Encryption?: UpdateEncryption;
@@ -7801,39 +3010,6 @@ export interface UpdateFlowEntitlementRequest {
   FlowArn: string;
   Subscribers?: string[];
 }
-export const UpdateFlowEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    Encryption: S.optional(UpdateEncryption),
-    EntitlementArn: S.String.pipe(T.HttpLabel("EntitlementArn")),
-    EntitlementStatus: S.optional(EntitlementStatus),
-    FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
-    Subscribers: S.optional(__listOfString),
-  })
-    .pipe(
-      S.encodeKeys({
-        Description: "description",
-        Encryption: "encryption",
-        EntitlementStatus: "entitlementStatus",
-        Subscribers: "subscribers",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/v1/flows/{FlowArn}/entitlements/{EntitlementArn}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateFlowEntitlementRequest",
-}) as any as S.Schema<UpdateFlowEntitlementRequest>;
 export interface UpdateFlowEntitlementResponse {
   Entitlement?: Entitlement & {
     EntitlementArn: string;
@@ -7843,14 +3019,6 @@ export interface UpdateFlowEntitlementResponse {
   };
   FlowArn?: string;
 }
-export const UpdateFlowEntitlementResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Entitlement: S.optional(Entitlement),
-    FlowArn: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Entitlement: "entitlement", FlowArn: "flowArn" })),
-).annotate({
-  identifier: "UpdateFlowEntitlementResponse",
-}) as any as S.Schema<UpdateFlowEntitlementResponse>;
 export interface UpdateFlowMediaStreamRequest {
   Attributes?: MediaStreamAttributesRequest;
   ClockRate?: number;
@@ -7860,41 +3028,6 @@ export interface UpdateFlowMediaStreamRequest {
   MediaStreamType?: MediaStreamType;
   VideoFormat?: string;
 }
-export const UpdateFlowMediaStreamRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Attributes: S.optional(MediaStreamAttributesRequest),
-    ClockRate: S.optional(S.Number),
-    Description: S.optional(S.String),
-    FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
-    MediaStreamName: S.String.pipe(T.HttpLabel("MediaStreamName")),
-    MediaStreamType: S.optional(MediaStreamType),
-    VideoFormat: S.optional(S.String),
-  })
-    .pipe(
-      S.encodeKeys({
-        Attributes: "attributes",
-        ClockRate: "clockRate",
-        Description: "description",
-        MediaStreamType: "mediaStreamType",
-        VideoFormat: "videoFormat",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/v1/flows/{FlowArn}/mediaStreams/{MediaStreamName}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateFlowMediaStreamRequest",
-}) as any as S.Schema<UpdateFlowMediaStreamRequest>;
 export interface UpdateFlowMediaStreamResponse {
   FlowArn?: string;
   MediaStream?: MediaStream & {
@@ -7905,14 +3038,6 @@ export interface UpdateFlowMediaStreamResponse {
     Attributes: MediaStreamAttributes & { Fmtp: Fmtp };
   };
 }
-export const UpdateFlowMediaStreamResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FlowArn: S.optional(S.String),
-    MediaStream: S.optional(MediaStream),
-  }).pipe(S.encodeKeys({ FlowArn: "flowArn", MediaStream: "mediaStream" })),
-).annotate({
-  identifier: "UpdateFlowMediaStreamResponse",
-}) as any as S.Schema<UpdateFlowMediaStreamResponse>;
 export interface UpdateFlowOutputRequest {
   CidrAllowList?: string[];
   Description?: string;
@@ -7938,76 +3063,6 @@ export interface UpdateFlowOutputRequest {
   RouterIntegrationTransitEncryption?: FlowTransitEncryption;
   NdiOutputTimecodeSource?: NdiOutputTimecodeSource;
 }
-export const UpdateFlowOutputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CidrAllowList: S.optional(__listOfString),
-    Description: S.optional(S.String),
-    Destination: S.optional(S.String),
-    Encryption: S.optional(UpdateEncryption),
-    FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
-    MaxLatency: S.optional(S.Number),
-    MediaStreamOutputConfigurations: S.optional(
-      __listOfMediaStreamOutputConfigurationRequest,
-    ),
-    MinLatency: S.optional(S.Number),
-    OutputArn: S.String.pipe(T.HttpLabel("OutputArn")),
-    Port: S.optional(S.Number),
-    Protocol: S.optional(Protocol),
-    RemoteId: S.optional(S.String),
-    SenderControlPort: S.optional(S.Number),
-    SenderIpAddress: S.optional(S.String),
-    SmoothingLatency: S.optional(S.Number),
-    StreamId: S.optional(S.String),
-    VpcInterfaceAttachment: S.optional(VpcInterfaceAttachment),
-    OutputStatus: S.optional(OutputStatus),
-    NdiProgramName: S.optional(S.String),
-    NdiSpeedHqQuality: S.optional(S.Number),
-    RouterIntegrationState: S.optional(State),
-    RouterIntegrationTransitEncryption: S.optional(FlowTransitEncryption),
-    NdiOutputTimecodeSource: S.optional(NdiOutputTimecodeSource),
-  })
-    .pipe(
-      S.encodeKeys({
-        CidrAllowList: "cidrAllowList",
-        Description: "description",
-        Destination: "destination",
-        Encryption: "encryption",
-        MaxLatency: "maxLatency",
-        MediaStreamOutputConfigurations: "mediaStreamOutputConfigurations",
-        MinLatency: "minLatency",
-        Port: "port",
-        Protocol: "protocol",
-        RemoteId: "remoteId",
-        SenderControlPort: "senderControlPort",
-        SenderIpAddress: "senderIpAddress",
-        SmoothingLatency: "smoothingLatency",
-        StreamId: "streamId",
-        VpcInterfaceAttachment: "vpcInterfaceAttachment",
-        OutputStatus: "outputStatus",
-        NdiProgramName: "ndiProgramName",
-        NdiSpeedHqQuality: "ndiSpeedHqQuality",
-        RouterIntegrationState: "routerIntegrationState",
-        RouterIntegrationTransitEncryption:
-          "routerIntegrationTransitEncryption",
-        NdiOutputTimecodeSource: "ndiOutputTimecodeSource",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/v1/flows/{FlowArn}/outputs/{OutputArn}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateFlowOutputRequest",
-}) as any as S.Schema<UpdateFlowOutputRequest>;
 export interface UpdateFlowOutputResponse {
   FlowArn?: string;
   Output?: Output & {
@@ -8031,30 +3086,10 @@ export interface UpdateFlowOutputResponse {
     Transport: Transport & { Protocol: Protocol };
   };
 }
-export const UpdateFlowOutputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FlowArn: S.optional(S.String), Output: S.optional(Output) }).pipe(
-    S.encodeKeys({ FlowArn: "flowArn", Output: "output" }),
-  ),
-).annotate({
-  identifier: "UpdateFlowOutputResponse",
-}) as any as S.Schema<UpdateFlowOutputResponse>;
 export interface UpdateGatewayBridgeSourceRequest {
   BridgeArn?: string;
   VpcInterfaceAttachment?: VpcInterfaceAttachment;
 }
-export const UpdateGatewayBridgeSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgeArn: S.optional(S.String),
-    VpcInterfaceAttachment: S.optional(VpcInterfaceAttachment),
-  }).pipe(
-    S.encodeKeys({
-      BridgeArn: "bridgeArn",
-      VpcInterfaceAttachment: "vpcInterfaceAttachment",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateGatewayBridgeSourceRequest",
-}) as any as S.Schema<UpdateGatewayBridgeSourceRequest>;
 export interface UpdateFlowSourceRequest {
   Decryption?: UpdateEncryption;
   Description?: string;
@@ -8080,76 +3115,6 @@ export interface UpdateFlowSourceRequest {
   RouterIntegrationState?: State;
   RouterIntegrationTransitDecryption?: FlowTransitEncryption;
 }
-export const UpdateFlowSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Decryption: S.optional(UpdateEncryption),
-    Description: S.optional(S.String),
-    EntitlementArn: S.optional(S.String),
-    FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
-    IngestPort: S.optional(S.Number),
-    MaxBitrate: S.optional(S.Number),
-    MaxLatency: S.optional(S.Number),
-    MaxSyncBuffer: S.optional(S.Number),
-    MediaStreamSourceConfigurations: S.optional(
-      __listOfMediaStreamSourceConfigurationRequest,
-    ),
-    MinLatency: S.optional(S.Number),
-    Protocol: S.optional(Protocol),
-    SenderControlPort: S.optional(S.Number),
-    SenderIpAddress: S.optional(S.String),
-    SourceArn: S.String.pipe(T.HttpLabel("SourceArn")),
-    SourceListenerAddress: S.optional(S.String),
-    SourceListenerPort: S.optional(S.Number),
-    StreamId: S.optional(S.String),
-    VpcInterfaceName: S.optional(S.String),
-    WhitelistCidr: S.optional(S.String),
-    GatewayBridgeSource: S.optional(UpdateGatewayBridgeSourceRequest),
-    NdiSourceSettings: S.optional(NdiSourceSettings),
-    RouterIntegrationState: S.optional(State),
-    RouterIntegrationTransitDecryption: S.optional(FlowTransitEncryption),
-  })
-    .pipe(
-      S.encodeKeys({
-        Decryption: "decryption",
-        Description: "description",
-        EntitlementArn: "entitlementArn",
-        IngestPort: "ingestPort",
-        MaxBitrate: "maxBitrate",
-        MaxLatency: "maxLatency",
-        MaxSyncBuffer: "maxSyncBuffer",
-        MediaStreamSourceConfigurations: "mediaStreamSourceConfigurations",
-        MinLatency: "minLatency",
-        Protocol: "protocol",
-        SenderControlPort: "senderControlPort",
-        SenderIpAddress: "senderIpAddress",
-        SourceListenerAddress: "sourceListenerAddress",
-        SourceListenerPort: "sourceListenerPort",
-        StreamId: "streamId",
-        VpcInterfaceName: "vpcInterfaceName",
-        WhitelistCidr: "whitelistCidr",
-        GatewayBridgeSource: "gatewayBridgeSource",
-        NdiSourceSettings: "ndiSourceSettings",
-        RouterIntegrationState: "routerIntegrationState",
-        RouterIntegrationTransitDecryption:
-          "routerIntegrationTransitDecryption",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/v1/flows/{FlowArn}/source/{SourceArn}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateFlowSourceRequest",
-}) as any as S.Schema<UpdateFlowSourceRequest>;
 export interface UpdateFlowSourceResponse {
   FlowArn?: string;
   Source?: Source & {
@@ -8169,56 +3134,14 @@ export interface UpdateFlowSourceResponse {
     GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
   };
 }
-export const UpdateFlowSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FlowArn: S.optional(S.String), Source: S.optional(Source) }).pipe(
-    S.encodeKeys({ FlowArn: "flowArn", Source: "source" }),
-  ),
-).annotate({
-  identifier: "UpdateFlowSourceResponse",
-}) as any as S.Schema<UpdateFlowSourceResponse>;
 export interface UpdateGatewayInstanceRequest {
   BridgePlacement?: BridgePlacement;
   GatewayInstanceArn: string;
 }
-export const UpdateGatewayInstanceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgePlacement: S.optional(BridgePlacement),
-    GatewayInstanceArn: S.String.pipe(T.HttpLabel("GatewayInstanceArn")),
-  })
-    .pipe(S.encodeKeys({ BridgePlacement: "bridgePlacement" }))
-    .pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/v1/gateway-instances/{GatewayInstanceArn}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateGatewayInstanceRequest",
-}) as any as S.Schema<UpdateGatewayInstanceRequest>;
 export interface UpdateGatewayInstanceResponse {
   BridgePlacement?: BridgePlacement;
   GatewayInstanceArn?: string;
 }
-export const UpdateGatewayInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BridgePlacement: S.optional(BridgePlacement),
-    GatewayInstanceArn: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      BridgePlacement: "bridgePlacement",
-      GatewayInstanceArn: "gatewayInstanceArn",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateGatewayInstanceResponse",
-}) as any as S.Schema<UpdateGatewayInstanceResponse>;
 export interface UpdateRouterInputRequest {
   Arn: string;
   Name?: string;
@@ -8230,95 +3153,20 @@ export interface UpdateRouterInputRequest {
   MaintenanceConfiguration?: MaintenanceConfiguration;
   ContentQualityAnalysisConfiguration?: RouterContentQualityAnalysisConfiguration;
 }
-export const UpdateRouterInputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String.pipe(T.HttpLabel("Arn")),
-    Name: S.optional(S.String),
-    Configuration: S.optional(RouterInputConfiguration),
-    MaximumBitrate: S.optional(S.Number),
-    RoutingScope: S.optional(RoutingScope),
-    Tier: S.optional(RouterInputTier),
-    TransitEncryption: S.optional(RouterInputTransitEncryption),
-    MaintenanceConfiguration: S.optional(MaintenanceConfiguration),
-    ContentQualityAnalysisConfiguration: S.optional(
-      RouterContentQualityAnalysisConfiguration,
-    ),
-  })
-    .pipe(
-      S.encodeKeys({
-        Name: "name",
-        Configuration: "configuration",
-        MaximumBitrate: "maximumBitrate",
-        RoutingScope: "routingScope",
-        Tier: "tier",
-        TransitEncryption: "transitEncryption",
-        MaintenanceConfiguration: "maintenanceConfiguration",
-        ContentQualityAnalysisConfiguration:
-          "contentQualityAnalysisConfiguration",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/v1/routerInput/{Arn}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateRouterInputRequest",
-}) as any as S.Schema<UpdateRouterInputRequest>;
 export interface UpdateRouterInputResponse {
   RouterInput: RouterInput & {
     ContentQualityAnalysisType: RouterContentQualityAnalysisType;
     ContentQualityAnalysisConfiguration: RouterContentQualityAnalysisConfiguration;
   };
 }
-export const UpdateRouterInputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RouterInput: RouterInput }).pipe(
-    S.encodeKeys({ RouterInput: "routerInput" }),
-  ),
-).annotate({
-  identifier: "UpdateRouterInputResponse",
-}) as any as S.Schema<UpdateRouterInputResponse>;
 export interface UpdateRouterNetworkInterfaceRequest {
   Arn: string;
   Name?: string;
   Configuration?: RouterNetworkInterfaceConfiguration;
 }
-export const UpdateRouterNetworkInterfaceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String.pipe(T.HttpLabel("Arn")),
-    Name: S.optional(S.String),
-    Configuration: S.optional(RouterNetworkInterfaceConfiguration),
-  })
-    .pipe(S.encodeKeys({ Name: "name", Configuration: "configuration" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/v1/routerNetworkInterface/{Arn}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateRouterNetworkInterfaceRequest",
-}) as any as S.Schema<UpdateRouterNetworkInterfaceRequest>;
 export interface UpdateRouterNetworkInterfaceResponse {
   RouterNetworkInterface: RouterNetworkInterface;
 }
-export const UpdateRouterNetworkInterfaceResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ RouterNetworkInterface: RouterNetworkInterface }).pipe(
-      S.encodeKeys({ RouterNetworkInterface: "routerNetworkInterface" }),
-    ),
-).annotate({
-  identifier: "UpdateRouterNetworkInterfaceResponse",
-}) as any as S.Schema<UpdateRouterNetworkInterfaceResponse>;
 export interface UpdateRouterOutputRequest {
   Arn: string;
   Name?: string;
@@ -8329,51 +3177,9 @@ export interface UpdateRouterOutputRequest {
   MaintenanceConfiguration?: MaintenanceConfiguration;
   FabricConfiguration?: FabricConfiguration;
 }
-export const UpdateRouterOutputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String.pipe(T.HttpLabel("Arn")),
-    Name: S.optional(S.String),
-    Configuration: S.optional(RouterOutputConfiguration),
-    MaximumBitrate: S.optional(S.Number),
-    RoutingScope: S.optional(RoutingScope),
-    Tier: S.optional(RouterOutputTier),
-    MaintenanceConfiguration: S.optional(MaintenanceConfiguration),
-    FabricConfiguration: S.optional(FabricConfiguration),
-  })
-    .pipe(
-      S.encodeKeys({
-        Name: "name",
-        Configuration: "configuration",
-        MaximumBitrate: "maximumBitrate",
-        RoutingScope: "routingScope",
-        Tier: "tier",
-        MaintenanceConfiguration: "maintenanceConfiguration",
-        FabricConfiguration: "fabricConfiguration",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/v1/routerOutput/{Arn}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateRouterOutputRequest",
-}) as any as S.Schema<UpdateRouterOutputRequest>;
 export interface UpdateRouterOutputResponse {
   RouterOutput: RouterOutput & { FabricConfiguration: FabricConfiguration };
 }
-export const UpdateRouterOutputResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RouterOutput: RouterOutput }).pipe(
-    S.encodeKeys({ RouterOutput: "routerOutput" }),
-  ),
-).annotate({
-  identifier: "UpdateRouterOutputResponse",
-}) as any as S.Schema<UpdateRouterOutputResponse>;
 export type AddBridgeOutputsError =
   | BadRequestException
   | ConflictException
@@ -8392,8 +3198,22 @@ export const addBridgeOutputs: API.OperationMethod<
   AddBridgeOutputsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddBridgeOutputsRequest,
-  output: AddBridgeOutputsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/bridges/{BridgeArn}/outputs",
+    input: {
+      BridgeArn: 0,
+      Outputs: D.m({
+        wire: "outputs",
+        shape: D.list(i_AddBridgeOutputRequest),
+      }),
+    },
+    output: {
+      BridgeArn: D.m({ wire: "bridgeArn" }),
+      Outputs: D.m({ wire: "outputs", shape: D.list(o_BridgeOutput) }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -8406,7 +3226,7 @@ export const addBridgeOutputs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddBridgeOutputs",
-}));
+})) as any;
 
 export type AddBridgeSourcesError =
   | BadRequestException
@@ -8426,8 +3246,22 @@ export const addBridgeSources: API.OperationMethod<
   AddBridgeSourcesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddBridgeSourcesRequest,
-  output: AddBridgeSourcesResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/bridges/{BridgeArn}/sources",
+    input: {
+      BridgeArn: 0,
+      Sources: D.m({
+        wire: "sources",
+        shape: D.list(i_AddBridgeSourceRequest),
+      }),
+    },
+    output: {
+      BridgeArn: D.m({ wire: "bridgeArn" }),
+      Sources: D.m({ wire: "sources", shape: D.list(o_BridgeSource) }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -8440,7 +3274,7 @@ export const addBridgeSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddBridgeSources",
-}));
+})) as any;
 
 export type AddFlowMediaStreamsError =
   | BadRequestException
@@ -8459,8 +3293,22 @@ export const addFlowMediaStreams: API.OperationMethod<
   AddFlowMediaStreamsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddFlowMediaStreamsRequest,
-  output: AddFlowMediaStreamsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/flows/{FlowArn}/mediaStreams",
+    input: {
+      FlowArn: 0,
+      MediaStreams: D.m({
+        wire: "mediaStreams",
+        shape: D.list(i_AddMediaStreamRequest),
+      }),
+    },
+    output: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      MediaStreams: D.m({ wire: "mediaStreams", shape: D.list(o_MediaStream) }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -8472,7 +3320,7 @@ export const addFlowMediaStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFlowMediaStreams",
-}));
+})) as any;
 
 export type AddFlowOutputsError =
   | AddFlowOutputs420Exception
@@ -8492,8 +3340,19 @@ export const addFlowOutputs: API.OperationMethod<
   AddFlowOutputsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddFlowOutputsRequest,
-  output: AddFlowOutputsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/flows/{FlowArn}/outputs",
+    input: {
+      FlowArn: 0,
+      Outputs: D.m({ wire: "outputs", shape: D.list(i_AddOutputRequest) }),
+    },
+    output: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      Outputs: D.m({ wire: "outputs", shape: D.list(o_Output) }),
+    },
+    body: true,
+  },
   errors: [
     AddFlowOutputs420Exception,
     BadRequestException,
@@ -8506,7 +3365,7 @@ export const addFlowOutputs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFlowOutputs",
-}));
+})) as any;
 
 export type AddFlowSourcesError =
   | BadRequestException
@@ -8525,8 +3384,19 @@ export const addFlowSources: API.OperationMethod<
   AddFlowSourcesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddFlowSourcesRequest,
-  output: AddFlowSourcesResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/flows/{FlowArn}/source",
+    input: {
+      FlowArn: 0,
+      Sources: D.m({ wire: "sources", shape: D.list(i_SetSourceRequest) }),
+    },
+    output: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      Sources: D.m({ wire: "sources", shape: D.list(o_Source) }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -8538,7 +3408,7 @@ export const addFlowSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFlowSources",
-}));
+})) as any;
 
 export type AddFlowVpcInterfacesError =
   | BadRequestException
@@ -8557,8 +3427,25 @@ export const addFlowVpcInterfaces: API.OperationMethod<
   AddFlowVpcInterfacesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddFlowVpcInterfacesRequest,
-  output: AddFlowVpcInterfacesResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/flows/{FlowArn}/vpcInterfaces",
+    input: {
+      FlowArn: 0,
+      VpcInterfaces: D.m({
+        wire: "vpcInterfaces",
+        shape: D.list(i_VpcInterfaceRequest),
+      }),
+    },
+    output: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      VpcInterfaces: D.m({
+        wire: "vpcInterfaces",
+        shape: D.list(o_VpcInterface),
+      }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -8570,7 +3457,7 @@ export const addFlowVpcInterfaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFlowVpcInterfaces",
-}));
+})) as any;
 
 export type BatchGetRouterInputError =
   | BadRequestException
@@ -8588,8 +3475,22 @@ export const batchGetRouterInput: API.OperationMethod<
   BatchGetRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetRouterInputRequest,
-  output: BatchGetRouterInputResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/routerInputs",
+    input: { Arns: D.m({ query: "arns" }) },
+    output: {
+      RouterInputs: D.m({ wire: "routerInputs", shape: D.list(o_RouterInput) }),
+      Errors: D.m({
+        wire: "errors",
+        shape: D.list({
+          Arn: D.m({ wire: "arn" }),
+          Code: D.m({ wire: "code" }),
+          Message: D.m({ wire: "message" }),
+        }),
+      }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -8600,7 +3501,7 @@ export const batchGetRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRouterInput",
-}));
+})) as any;
 
 export type BatchGetRouterNetworkInterfaceError =
   | BadRequestException
@@ -8618,8 +3519,25 @@ export const batchGetRouterNetworkInterface: API.OperationMethod<
   BatchGetRouterNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetRouterNetworkInterfaceRequest,
-  output: BatchGetRouterNetworkInterfaceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/routerNetworkInterfaces",
+    input: { Arns: D.m({ query: "arns" }) },
+    output: {
+      RouterNetworkInterfaces: D.m({
+        wire: "routerNetworkInterfaces",
+        shape: D.list(o_RouterNetworkInterface),
+      }),
+      Errors: D.m({
+        wire: "errors",
+        shape: D.list({
+          Arn: D.m({ wire: "arn" }),
+          Code: D.m({ wire: "code" }),
+          Message: D.m({ wire: "message" }),
+        }),
+      }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -8630,7 +3548,7 @@ export const batchGetRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRouterNetworkInterface",
-}));
+})) as any;
 
 export type BatchGetRouterOutputError =
   | BadRequestException
@@ -8648,8 +3566,25 @@ export const batchGetRouterOutput: API.OperationMethod<
   BatchGetRouterOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetRouterOutputRequest,
-  output: BatchGetRouterOutputResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/routerOutputs",
+    input: { Arns: D.m({ query: "arns" }) },
+    output: {
+      RouterOutputs: D.m({
+        wire: "routerOutputs",
+        shape: D.list(o_RouterOutput),
+      }),
+      Errors: D.m({
+        wire: "errors",
+        shape: D.list({
+          Arn: D.m({ wire: "arn" }),
+          Code: D.m({ wire: "code" }),
+          Message: D.m({ wire: "message" }),
+        }),
+      }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -8660,7 +3595,7 @@ export const batchGetRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRouterOutput",
-}));
+})) as any;
 
 export type CreateBridgeError =
   | BadRequestException
@@ -8680,8 +3615,39 @@ export const createBridge: API.OperationMethod<
   CreateBridgeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBridgeRequest,
-  output: CreateBridgeResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/bridges",
+    input: {
+      EgressGatewayBridge: D.m({
+        wire: "egressGatewayBridge",
+        shape: { MaxBitrate: D.m({ wire: "maxBitrate" }) },
+      }),
+      IngressGatewayBridge: D.m({
+        wire: "ingressGatewayBridge",
+        shape: {
+          MaxBitrate: D.m({ wire: "maxBitrate" }),
+          MaxOutputs: D.m({ wire: "maxOutputs" }),
+        },
+      }),
+      Name: D.m({ wire: "name" }),
+      Outputs: D.m({
+        wire: "outputs",
+        shape: D.list(i_AddBridgeOutputRequest),
+      }),
+      PlacementArn: D.m({ wire: "placementArn" }),
+      SourceFailoverConfig: D.m({
+        wire: "sourceFailoverConfig",
+        shape: i_FailoverConfig,
+      }),
+      Sources: D.m({
+        wire: "sources",
+        shape: D.list(i_AddBridgeSourceRequest),
+      }),
+    },
+    output: { Bridge: D.m({ wire: "bridge", shape: o_Bridge }) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -8694,7 +3660,7 @@ export const createBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBridge",
-}));
+})) as any;
 
 export type CreateFlowError =
   | BadRequestException
@@ -8713,8 +3679,50 @@ export const createFlow: API.OperationMethod<
   CreateFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFlowRequest,
-  output: CreateFlowResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/flows",
+    input: {
+      AvailabilityZone: D.m({ wire: "availabilityZone" }),
+      Entitlements: D.m({
+        wire: "entitlements",
+        shape: D.list(i_GrantEntitlementRequest),
+      }),
+      MediaStreams: D.m({
+        wire: "mediaStreams",
+        shape: D.list(i_AddMediaStreamRequest),
+      }),
+      Name: D.m({ wire: "name" }),
+      Outputs: D.m({ wire: "outputs", shape: D.list(i_AddOutputRequest) }),
+      Source: D.m({ wire: "source", shape: i_SetSourceRequest }),
+      SourceFailoverConfig: D.m({
+        wire: "sourceFailoverConfig",
+        shape: i_FailoverConfig,
+      }),
+      Sources: D.m({ wire: "sources", shape: D.list(i_SetSourceRequest) }),
+      VpcInterfaces: D.m({
+        wire: "vpcInterfaces",
+        shape: D.list(i_VpcInterfaceRequest),
+      }),
+      Maintenance: D.m({
+        wire: "maintenance",
+        shape: {
+          MaintenanceDay: D.m({ wire: "maintenanceDay" }),
+          MaintenanceStartHour: D.m({ wire: "maintenanceStartHour" }),
+        },
+      }),
+      SourceMonitoringConfig: D.m({
+        wire: "sourceMonitoringConfig",
+        shape: i_MonitoringConfig,
+      }),
+      FlowSize: D.m({ wire: "flowSize" }),
+      NdiConfig: D.m({ wire: "ndiConfig", shape: i_NdiConfig }),
+      EncodingConfig: D.m({ wire: "encodingConfig", shape: i_EncodingConfig }),
+      FlowTags: D.m({ wire: "flowTags" }),
+    },
+    output: { Flow: D.m({ wire: "flow", shape: o_Flow }) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     CreateFlow420Exception,
@@ -8726,7 +3734,7 @@ export const createFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlow",
-}));
+})) as any;
 
 export type CreateGatewayError =
   | BadRequestException
@@ -8746,8 +3754,23 @@ export const createGateway: API.OperationMethod<
   CreateGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateGatewayRequest,
-  output: CreateGatewayResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/gateways",
+    input: {
+      EgressCidrBlocks: D.m({ wire: "egressCidrBlocks" }),
+      Name: D.m({ wire: "name" }),
+      Networks: D.m({
+        wire: "networks",
+        shape: D.list({
+          CidrBlock: D.m({ wire: "cidrBlock" }),
+          Name: D.m({ wire: "name" }),
+        }),
+      }),
+    },
+    output: { Gateway: D.m({ wire: "gateway", shape: o_Gateway }) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -8760,7 +3783,7 @@ export const createGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGateway",
-}));
+})) as any;
 
 export type CreateRouterInputError =
   | BadRequestException
@@ -8780,8 +3803,38 @@ export const createRouterInput: API.OperationMethod<
   CreateRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRouterInputRequest,
-  output: CreateRouterInputResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/routerInput",
+    input: {
+      Name: D.m({ wire: "name" }),
+      Configuration: D.m({
+        wire: "configuration",
+        shape: i_RouterInputConfiguration,
+      }),
+      MaximumBitrate: D.m({ wire: "maximumBitrate" }),
+      RoutingScope: D.m({ wire: "routingScope" }),
+      Tier: D.m({ wire: "tier" }),
+      RegionName: D.m({ wire: "regionName" }),
+      AvailabilityZone: D.m({ wire: "availabilityZone" }),
+      TransitEncryption: D.m({
+        wire: "transitEncryption",
+        shape: i_RouterInputTransitEncryption,
+      }),
+      MaintenanceConfiguration: D.m({
+        wire: "maintenanceConfiguration",
+        shape: i_MaintenanceConfiguration,
+      }),
+      Tags: D.m({ wire: "tags" }),
+      ClientToken: D.m({ idempotency: true, wire: "clientToken" }),
+      ContentQualityAnalysisConfiguration: D.m({
+        wire: "contentQualityAnalysisConfiguration",
+        shape: i_RouterContentQualityAnalysisConfiguration,
+      }),
+    },
+    output: { RouterInput: D.m({ wire: "routerInput", shape: o_RouterInput }) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -8794,7 +3847,7 @@ export const createRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouterInput",
-}));
+})) as any;
 
 export type CreateRouterNetworkInterfaceError =
   | BadRequestException
@@ -8814,8 +3867,27 @@ export const createRouterNetworkInterface: API.OperationMethod<
   CreateRouterNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRouterNetworkInterfaceRequest,
-  output: CreateRouterNetworkInterfaceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/routerNetworkInterface",
+    input: {
+      Name: D.m({ wire: "name" }),
+      Configuration: D.m({
+        wire: "configuration",
+        shape: i_RouterNetworkInterfaceConfiguration,
+      }),
+      RegionName: D.m({ wire: "regionName" }),
+      Tags: D.m({ wire: "tags" }),
+      ClientToken: D.m({ idempotency: true, wire: "clientToken" }),
+    },
+    output: {
+      RouterNetworkInterface: D.m({
+        wire: "routerNetworkInterface",
+        shape: o_RouterNetworkInterface,
+      }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -8828,7 +3900,7 @@ export const createRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouterNetworkInterface",
-}));
+})) as any;
 
 export type CreateRouterOutputError =
   | BadRequestException
@@ -8848,8 +3920,36 @@ export const createRouterOutput: API.OperationMethod<
   CreateRouterOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRouterOutputRequest,
-  output: CreateRouterOutputResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/routerOutput",
+    input: {
+      Name: D.m({ wire: "name" }),
+      Configuration: D.m({
+        wire: "configuration",
+        shape: i_RouterOutputConfiguration,
+      }),
+      MaximumBitrate: D.m({ wire: "maximumBitrate" }),
+      RoutingScope: D.m({ wire: "routingScope" }),
+      Tier: D.m({ wire: "tier" }),
+      RegionName: D.m({ wire: "regionName" }),
+      AvailabilityZone: D.m({ wire: "availabilityZone" }),
+      MaintenanceConfiguration: D.m({
+        wire: "maintenanceConfiguration",
+        shape: i_MaintenanceConfiguration,
+      }),
+      Tags: D.m({ wire: "tags" }),
+      FabricConfiguration: D.m({
+        wire: "fabricConfiguration",
+        shape: i_FabricConfiguration,
+      }),
+      ClientToken: D.m({ idempotency: true, wire: "clientToken" }),
+    },
+    output: {
+      RouterOutput: D.m({ wire: "routerOutput", shape: o_RouterOutput }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -8862,7 +3962,7 @@ export const createRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouterOutput",
-}));
+})) as any;
 
 export type DeleteBridgeError =
   | BadRequestException
@@ -8882,8 +3982,12 @@ export const deleteBridge: API.OperationMethod<
   DeleteBridgeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBridgeRequest,
-  output: DeleteBridgeResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/bridges/{BridgeArn}",
+    input: { BridgeArn: 0 },
+    output: { BridgeArn: D.m({ wire: "bridgeArn" }) },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -8896,7 +4000,7 @@ export const deleteBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBridge",
-}));
+})) as any;
 
 export type DeleteFlowError =
   | BadRequestException
@@ -8915,8 +4019,15 @@ export const deleteFlow: API.OperationMethod<
   DeleteFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFlowRequest,
-  output: DeleteFlowResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/flows/{FlowArn}",
+    input: { FlowArn: 0 },
+    output: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      Status: D.m({ wire: "status" }),
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -8928,7 +4039,7 @@ export const deleteFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlow",
-}));
+})) as any;
 
 export type DeleteGatewayError =
   | BadRequestException
@@ -8948,8 +4059,12 @@ export const deleteGateway: API.OperationMethod<
   DeleteGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteGatewayRequest,
-  output: DeleteGatewayResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/gateways/{GatewayArn}",
+    input: { GatewayArn: 0 },
+    output: { GatewayArn: D.m({ wire: "gatewayArn" }) },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -8962,7 +4077,7 @@ export const deleteGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGateway",
-}));
+})) as any;
 
 export type DeleteRouterInputError =
   | BadRequestException
@@ -8982,8 +4097,16 @@ export const deleteRouterInput: API.OperationMethod<
   DeleteRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRouterInputRequest,
-  output: DeleteRouterInputResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/routerInput/{Arn}",
+    input: { Arn: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      Name: D.m({ wire: "name" }),
+      State: D.m({ wire: "state" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -8996,7 +4119,7 @@ export const deleteRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouterInput",
-}));
+})) as any;
 
 export type DeleteRouterNetworkInterfaceError =
   | BadRequestException
@@ -9016,8 +4139,16 @@ export const deleteRouterNetworkInterface: API.OperationMethod<
   DeleteRouterNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRouterNetworkInterfaceRequest,
-  output: DeleteRouterNetworkInterfaceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/routerNetworkInterface/{Arn}",
+    input: { Arn: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      Name: D.m({ wire: "name" }),
+      State: D.m({ wire: "state" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -9030,7 +4161,7 @@ export const deleteRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouterNetworkInterface",
-}));
+})) as any;
 
 export type DeleteRouterOutputError =
   | BadRequestException
@@ -9050,8 +4181,16 @@ export const deleteRouterOutput: API.OperationMethod<
   DeleteRouterOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRouterOutputRequest,
-  output: DeleteRouterOutputResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/routerOutput/{Arn}",
+    input: { Arn: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      Name: D.m({ wire: "name" }),
+      State: D.m({ wire: "state" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -9064,7 +4203,7 @@ export const deleteRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouterOutput",
-}));
+})) as any;
 
 export type DeregisterGatewayInstanceError =
   | BadRequestException
@@ -9084,8 +4223,15 @@ export const deregisterGatewayInstance: API.OperationMethod<
   DeregisterGatewayInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeregisterGatewayInstanceRequest,
-  output: DeregisterGatewayInstanceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/gateway-instances/{GatewayInstanceArn}",
+    input: { Force: D.m({ query: "force" }), GatewayInstanceArn: 0 },
+    output: {
+      GatewayInstanceArn: D.m({ wire: "gatewayInstanceArn" }),
+      InstanceState: D.m({ wire: "instanceState" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -9098,7 +4244,7 @@ export const deregisterGatewayInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterGatewayInstance",
-}));
+})) as any;
 
 export type DescribeBridgeError =
   | BadRequestException
@@ -9118,8 +4264,12 @@ export const describeBridge: API.OperationMethod<
   DescribeBridgeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeBridgeRequest,
-  output: DescribeBridgeResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/bridges/{BridgeArn}",
+    input: { BridgeArn: 0 },
+    output: { Bridge: D.m({ wire: "bridge", shape: o_Bridge }) },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -9132,7 +4282,7 @@ export const describeBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBridge",
-}));
+})) as any;
 
 export type DescribeFlowError =
   | BadRequestException
@@ -9151,8 +4301,18 @@ export const describeFlow: API.OperationMethod<
   DescribeFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeFlowRequest,
-  output: DescribeFlowResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/flows/{FlowArn}",
+    input: { FlowArn: 0 },
+    output: {
+      Flow: D.m({ wire: "flow", shape: o_Flow }),
+      Messages: D.m({
+        wire: "messages",
+        shape: { Errors: D.m({ wire: "errors" }) },
+      }),
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -9164,7 +4324,7 @@ export const describeFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlow",
-}));
+})) as any;
 
 export type DescribeFlowSourceMetadataError =
   | BadRequestException
@@ -9183,8 +4343,52 @@ export const describeFlowSourceMetadata: API.OperationMethod<
   DescribeFlowSourceMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeFlowSourceMetadataRequest,
-  output: DescribeFlowSourceMetadataResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/flows/{FlowArn}/source-metadata",
+    input: { FlowArn: 0 },
+    output: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      Messages: D.m({ wire: "messages", shape: D.list(o_MessageDetail) }),
+      Timestamp: D.m({ wire: "timestamp", shape: D.ts }),
+      TransportMediaInfo: D.m({
+        wire: "transportMediaInfo",
+        shape: o_TransportMediaInfo,
+      }),
+      NdiInfo: D.m({
+        wire: "ndiInfo",
+        shape: {
+          ActiveSource: D.m({ wire: "activeSource", shape: o_NdiSourceInfo }),
+          DiscoveredSources: D.m({
+            wire: "discoveredSources",
+            shape: D.list(o_NdiSourceInfo),
+          }),
+          MediaInfo: D.m({
+            wire: "mediaInfo",
+            shape: {
+              Streams: D.m({
+                wire: "streams",
+                shape: D.list({
+                  StreamType: D.m({ wire: "streamType" }),
+                  Codec: D.m({ wire: "codec" }),
+                  StreamId: D.m({ wire: "streamId" }),
+                  ScanMode: D.m({ wire: "scanMode" }),
+                  FrameResolution: D.m({
+                    wire: "frameResolution",
+                    shape: o_FrameResolution,
+                  }),
+                  FrameRate: D.m({ wire: "frameRate" }),
+                  Channels: D.m({ wire: "channels" }),
+                  SampleRate: D.m({ wire: "sampleRate" }),
+                }),
+              }),
+            },
+          }),
+          Messages: D.m({ wire: "messages", shape: D.list(o_MessageDetail) }),
+        },
+      }),
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -9196,7 +4400,7 @@ export const describeFlowSourceMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlowSourceMetadata",
-}));
+})) as any;
 
 export type DescribeFlowSourceThumbnailError =
   | BadRequestException
@@ -9215,8 +4419,26 @@ export const describeFlowSourceThumbnail: API.OperationMethod<
   DescribeFlowSourceThumbnailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeFlowSourceThumbnailRequest,
-  output: DescribeFlowSourceThumbnailResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/flows/{FlowArn}/source-thumbnail",
+    input: { FlowArn: 0 },
+    output: {
+      ThumbnailDetails: D.m({
+        wire: "thumbnailDetails",
+        shape: {
+          FlowArn: D.m({ wire: "flowArn" }),
+          Thumbnail: D.m({ wire: "thumbnail" }),
+          ThumbnailMessages: D.m({
+            wire: "thumbnailMessages",
+            shape: D.list(o_MessageDetail),
+          }),
+          Timecode: D.m({ wire: "timecode" }),
+          Timestamp: D.m({ wire: "timestamp", shape: D.ts }),
+        },
+      }),
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -9228,7 +4450,7 @@ export const describeFlowSourceThumbnail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlowSourceThumbnail",
-}));
+})) as any;
 
 export type DescribeGatewayError =
   | BadRequestException
@@ -9248,8 +4470,12 @@ export const describeGateway: API.OperationMethod<
   DescribeGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeGatewayRequest,
-  output: DescribeGatewayResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/gateways/{GatewayArn}",
+    input: { GatewayArn: 0 },
+    output: { Gateway: D.m({ wire: "gateway", shape: o_Gateway }) },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -9262,7 +4488,7 @@ export const describeGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGateway",
-}));
+})) as any;
 
 export type DescribeGatewayInstanceError =
   | BadRequestException
@@ -9282,8 +4508,29 @@ export const describeGatewayInstance: API.OperationMethod<
   DescribeGatewayInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeGatewayInstanceRequest,
-  output: DescribeGatewayInstanceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/gateway-instances/{GatewayInstanceArn}",
+    input: { GatewayInstanceArn: 0 },
+    output: {
+      GatewayInstance: D.m({
+        wire: "gatewayInstance",
+        shape: {
+          BridgePlacement: D.m({ wire: "bridgePlacement" }),
+          ConnectionStatus: D.m({ wire: "connectionStatus" }),
+          GatewayArn: D.m({ wire: "gatewayArn" }),
+          GatewayInstanceArn: D.m({ wire: "gatewayInstanceArn" }),
+          InstanceId: D.m({ wire: "instanceId" }),
+          InstanceMessages: D.m({
+            wire: "instanceMessages",
+            shape: D.list(o_MessageDetail),
+          }),
+          InstanceState: D.m({ wire: "instanceState" }),
+          RunningBridgeCount: D.m({ wire: "runningBridgeCount" }),
+        },
+      }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -9296,7 +4543,7 @@ export const describeGatewayInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGatewayInstance",
-}));
+})) as any;
 
 export type DescribeOfferingError =
   | BadRequestException
@@ -9314,8 +4561,12 @@ export const describeOffering: API.OperationMethod<
   DescribeOfferingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeOfferingRequest,
-  output: DescribeOfferingResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/offerings/{OfferingArn}",
+    input: { OfferingArn: 0 },
+    output: { Offering: D.m({ wire: "offering", shape: o_Offering }) },
+  },
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -9326,7 +4577,7 @@ export const describeOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOffering",
-}));
+})) as any;
 
 export type DescribeReservationError =
   | BadRequestException
@@ -9344,8 +4595,12 @@ export const describeReservation: API.OperationMethod<
   DescribeReservationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeReservationRequest,
-  output: DescribeReservationResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/reservations/{ReservationArn}",
+    input: { ReservationArn: 0 },
+    output: { Reservation: D.m({ wire: "reservation", shape: o_Reservation }) },
+  },
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -9356,7 +4611,7 @@ export const describeReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReservation",
-}));
+})) as any;
 
 export type GetRouterInputError =
   | BadRequestException
@@ -9376,8 +4631,12 @@ export const getRouterInput: API.OperationMethod<
   GetRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRouterInputRequest,
-  output: GetRouterInputResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/routerInput/{Arn}",
+    input: { Arn: 0 },
+    output: { RouterInput: D.m({ wire: "routerInput", shape: o_RouterInput }) },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -9390,7 +4649,7 @@ export const getRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterInput",
-}));
+})) as any;
 
 export type GetRouterInputSourceMetadataError =
   | BadRequestException
@@ -9409,8 +4668,34 @@ export const getRouterInputSourceMetadata: API.OperationMethod<
   GetRouterInputSourceMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRouterInputSourceMetadataRequest,
-  output: GetRouterInputSourceMetadataResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/routerInput/{Arn}/source-metadata",
+    input: { Arn: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      Name: D.m({ wire: "name" }),
+      SourceMetadataDetails: D.m({
+        wire: "sourceMetadataDetails",
+        shape: {
+          SourceMetadataMessages: D.m({
+            wire: "sourceMetadataMessages",
+            shape: D.list(o_RouterInputMessage),
+          }),
+          Timestamp: D.m({ wire: "timestamp", shape: D.ts }),
+          RouterInputMetadata: D.m({
+            wire: "routerInputMetadata",
+            shape: {
+              TransportStreamMediaInfo: D.m({
+                wire: "transportStreamMediaInfo",
+                shape: o_TransportMediaInfo,
+              }),
+            },
+          }),
+        },
+      }),
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -9422,7 +4707,7 @@ export const getRouterInputSourceMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterInputSourceMetadata",
-}));
+})) as any;
 
 export type GetRouterInputThumbnailError =
   | BadRequestException
@@ -9441,8 +4726,27 @@ export const getRouterInputThumbnail: API.OperationMethod<
   GetRouterInputThumbnailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRouterInputThumbnailRequest,
-  output: GetRouterInputThumbnailResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/routerInput/{Arn}/thumbnail",
+    input: { Arn: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      Name: D.m({ wire: "name" }),
+      ThumbnailDetails: D.m({
+        wire: "thumbnailDetails",
+        shape: {
+          ThumbnailMessages: D.m({
+            wire: "thumbnailMessages",
+            shape: D.list(o_RouterInputMessage),
+          }),
+          Thumbnail: D.m({ wire: "thumbnail", shape: D.blob }),
+          Timecode: D.m({ wire: "timecode" }),
+          Timestamp: D.m({ wire: "timestamp", shape: D.ts }),
+        },
+      }),
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -9454,7 +4758,7 @@ export const getRouterInputThumbnail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterInputThumbnail",
-}));
+})) as any;
 
 export type GetRouterNetworkInterfaceError =
   | BadRequestException
@@ -9474,8 +4778,17 @@ export const getRouterNetworkInterface: API.OperationMethod<
   GetRouterNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRouterNetworkInterfaceRequest,
-  output: GetRouterNetworkInterfaceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/routerNetworkInterface/{Arn}",
+    input: { Arn: 0 },
+    output: {
+      RouterNetworkInterface: D.m({
+        wire: "routerNetworkInterface",
+        shape: o_RouterNetworkInterface,
+      }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -9488,7 +4801,7 @@ export const getRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterNetworkInterface",
-}));
+})) as any;
 
 export type GetRouterOutputError =
   | BadRequestException
@@ -9508,8 +4821,14 @@ export const getRouterOutput: API.OperationMethod<
   GetRouterOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRouterOutputRequest,
-  output: GetRouterOutputResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/routerOutput/{Arn}",
+    input: { Arn: 0 },
+    output: {
+      RouterOutput: D.m({ wire: "routerOutput", shape: o_RouterOutput }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -9522,7 +4841,7 @@ export const getRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterOutput",
-}));
+})) as any;
 
 export type GrantFlowEntitlementsError =
   | BadRequestException
@@ -9542,8 +4861,22 @@ export const grantFlowEntitlements: API.OperationMethod<
   GrantFlowEntitlementsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GrantFlowEntitlementsRequest,
-  output: GrantFlowEntitlementsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/flows/{FlowArn}/entitlements",
+    input: {
+      Entitlements: D.m({
+        wire: "entitlements",
+        shape: D.list(i_GrantEntitlementRequest),
+      }),
+      FlowArn: 0,
+    },
+    output: {
+      Entitlements: D.m({ wire: "entitlements", shape: D.list(o_Entitlement) }),
+      FlowArn: D.m({ wire: "flowArn" }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -9556,7 +4889,7 @@ export const grantFlowEntitlements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GrantFlowEntitlements",
-}));
+})) as any;
 
 export type ListBridgesError =
   | BadRequestException
@@ -9575,8 +4908,28 @@ export const listBridges: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedBridge
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListBridgesRequest,
-  output: ListBridgesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/bridges",
+    input: {
+      FilterArn: D.m({ query: "filterArn" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      Bridges: D.m({
+        wire: "bridges",
+        shape: D.list({
+          BridgeArn: D.m({ wire: "bridgeArn" }),
+          BridgeState: D.m({ wire: "bridgeState" }),
+          BridgeType: D.m({ wire: "bridgeType" }),
+          Name: D.m({ wire: "name" }),
+          PlacementArn: D.m({ wire: "placementArn" }),
+        }),
+      }),
+      NextToken: D.m({ wire: "nextToken" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -9611,8 +4964,27 @@ export const listEntitlements: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedEntitlement
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListEntitlementsRequest,
-  output: ListEntitlementsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/entitlements",
+    input: {
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      Entitlements: D.m({
+        wire: "entitlements",
+        shape: D.list({
+          DataTransferSubscriberFeePercent: D.m({
+            wire: "dataTransferSubscriberFeePercent",
+          }),
+          EntitlementArn: D.m({ wire: "entitlementArn" }),
+          EntitlementName: D.m({ wire: "entitlementName" }),
+        }),
+      }),
+      NextToken: D.m({ wire: "nextToken" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -9646,8 +5018,29 @@ export const listFlows: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedFlow
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFlowsRequest,
-  output: ListFlowsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/flows",
+    input: {
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      Flows: D.m({
+        wire: "flows",
+        shape: D.list({
+          AvailabilityZone: D.m({ wire: "availabilityZone" }),
+          Description: D.m({ wire: "description" }),
+          FlowArn: D.m({ wire: "flowArn" }),
+          Name: D.m({ wire: "name" }),
+          SourceType: D.m({ wire: "sourceType" }),
+          Status: D.m({ wire: "status" }),
+          Maintenance: D.m({ wire: "maintenance", shape: o_Maintenance }),
+        }),
+      }),
+      NextToken: D.m({ wire: "nextToken" }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -9682,8 +5075,27 @@ export const listGatewayInstances: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedGatewayInstance
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListGatewayInstancesRequest,
-  output: ListGatewayInstancesResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/gateway-instances",
+    input: {
+      FilterArn: D.m({ query: "filterArn" }),
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      Instances: D.m({
+        wire: "instances",
+        shape: D.list({
+          GatewayArn: D.m({ wire: "gatewayArn" }),
+          GatewayInstanceArn: D.m({ wire: "gatewayInstanceArn" }),
+          InstanceId: D.m({ wire: "instanceId" }),
+          InstanceState: D.m({ wire: "instanceState" }),
+        }),
+      }),
+      NextToken: D.m({ wire: "nextToken" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -9719,8 +5131,25 @@ export const listGateways: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedGateway
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListGatewaysRequest,
-  output: ListGatewaysResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/gateways",
+    input: {
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      Gateways: D.m({
+        wire: "gateways",
+        shape: D.list({
+          GatewayArn: D.m({ wire: "gatewayArn" }),
+          GatewayState: D.m({ wire: "gatewayState" }),
+          Name: D.m({ wire: "name" }),
+        }),
+      }),
+      NextToken: D.m({ wire: "nextToken" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -9755,8 +5184,18 @@ export const listOfferings: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Offering
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListOfferingsRequest,
-  output: ListOfferingsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/offerings",
+    input: {
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      NextToken: D.m({ wire: "nextToken" }),
+      Offerings: D.m({ wire: "offerings", shape: D.list(o_Offering) }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -9790,8 +5229,18 @@ export const listReservations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Reservation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListReservationsRequest,
-  output: ListReservationsResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /v1/reservations",
+    input: {
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+    },
+    output: {
+      NextToken: D.m({ wire: "nextToken" }),
+      Reservations: D.m({ wire: "reservations", shape: D.list(o_Reservation) }),
+    },
+  },
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -9826,8 +5275,52 @@ export const listRouterInputs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedRouterInput
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRouterInputsRequest,
-  output: ListRouterInputsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/routerInputs",
+    input: {
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+      Filters: D.m({
+        wire: "filters",
+        shape: D.list({
+          NameContains: D.m({ wire: "nameContains" }),
+          RegionNames: D.m({ wire: "regionNames" }),
+          NetworkInterfaceArns: D.m({ wire: "networkInterfaceArns" }),
+          RoutingScopes: D.m({ wire: "routingScopes" }),
+          InputTypes: D.m({ wire: "inputTypes" }),
+        }),
+      }),
+    },
+    output: {
+      RouterInputs: D.m({
+        wire: "routerInputs",
+        shape: D.list({
+          Name: D.m({ wire: "name" }),
+          Arn: D.m({ wire: "arn" }),
+          Id: D.m({ wire: "id" }),
+          InputType: D.m({ wire: "inputType" }),
+          State: D.m({ wire: "state" }),
+          RoutedOutputs: D.m({ wire: "routedOutputs" }),
+          RegionName: D.m({ wire: "regionName" }),
+          AvailabilityZone: D.m({ wire: "availabilityZone" }),
+          MaximumBitrate: D.m({ wire: "maximumBitrate" }),
+          RoutingScope: D.m({ wire: "routingScope" }),
+          CreatedAt: D.m({ wire: "createdAt", shape: D.ts }),
+          UpdatedAt: D.m({ wire: "updatedAt", shape: D.ts }),
+          MessageCount: D.m({ wire: "messageCount" }),
+          NetworkInterfaceArn: D.m({ wire: "networkInterfaceArn" }),
+          MaintenanceScheduleType: D.m({ wire: "maintenanceScheduleType" }),
+          MaintenanceSchedule: D.m({
+            wire: "maintenanceSchedule",
+            shape: o_MaintenanceSchedule,
+          }),
+        }),
+      }),
+      NextToken: D.m({ wire: "nextToken" }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -9863,8 +5356,41 @@ export const listRouterNetworkInterfaces: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedRouterNetworkInterface
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRouterNetworkInterfacesRequest,
-  output: ListRouterNetworkInterfacesResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/routerNetworkInterfaces",
+    input: {
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+      Filters: D.m({
+        wire: "filters",
+        shape: D.list({
+          RegionNames: D.m({ wire: "regionNames" }),
+          NetworkInterfaceTypes: D.m({ wire: "networkInterfaceTypes" }),
+          NameContains: D.m({ wire: "nameContains" }),
+        }),
+      }),
+    },
+    output: {
+      RouterNetworkInterfaces: D.m({
+        wire: "routerNetworkInterfaces",
+        shape: D.list({
+          Name: D.m({ wire: "name" }),
+          Arn: D.m({ wire: "arn" }),
+          Id: D.m({ wire: "id" }),
+          NetworkInterfaceType: D.m({ wire: "networkInterfaceType" }),
+          AssociatedOutputCount: D.m({ wire: "associatedOutputCount" }),
+          AssociatedInputCount: D.m({ wire: "associatedInputCount" }),
+          State: D.m({ wire: "state" }),
+          RegionName: D.m({ wire: "regionName" }),
+          CreatedAt: D.m({ wire: "createdAt", shape: D.ts }),
+          UpdatedAt: D.m({ wire: "updatedAt", shape: D.ts }),
+        }),
+      }),
+      NextToken: D.m({ wire: "nextToken" }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -9900,8 +5426,54 @@ export const listRouterOutputs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedRouterOutput
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRouterOutputsRequest,
-  output: ListRouterOutputsResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/routerOutputs",
+    input: {
+      MaxResults: D.m({ query: "maxResults" }),
+      NextToken: D.m({ query: "nextToken" }),
+      Filters: D.m({
+        wire: "filters",
+        shape: D.list({
+          RegionNames: D.m({ wire: "regionNames" }),
+          NetworkInterfaceArns: D.m({ wire: "networkInterfaceArns" }),
+          RoutingScopes: D.m({ wire: "routingScopes" }),
+          OutputTypes: D.m({ wire: "outputTypes" }),
+          RoutedInputArns: D.m({ wire: "routedInputArns" }),
+          NameContains: D.m({ wire: "nameContains" }),
+        }),
+      }),
+    },
+    output: {
+      RouterOutputs: D.m({
+        wire: "routerOutputs",
+        shape: D.list({
+          Name: D.m({ wire: "name" }),
+          Arn: D.m({ wire: "arn" }),
+          Id: D.m({ wire: "id" }),
+          OutputType: D.m({ wire: "outputType" }),
+          State: D.m({ wire: "state" }),
+          RoutedState: D.m({ wire: "routedState" }),
+          RegionName: D.m({ wire: "regionName" }),
+          AvailabilityZone: D.m({ wire: "availabilityZone" }),
+          MaximumBitrate: D.m({ wire: "maximumBitrate" }),
+          RoutingScope: D.m({ wire: "routingScope" }),
+          CreatedAt: D.m({ wire: "createdAt", shape: D.ts }),
+          UpdatedAt: D.m({ wire: "updatedAt", shape: D.ts }),
+          MessageCount: D.m({ wire: "messageCount" }),
+          RoutedInputArn: D.m({ wire: "routedInputArn" }),
+          NetworkInterfaceArn: D.m({ wire: "networkInterfaceArn" }),
+          MaintenanceScheduleType: D.m({ wire: "maintenanceScheduleType" }),
+          MaintenanceSchedule: D.m({
+            wire: "maintenanceSchedule",
+            shape: o_MaintenanceSchedule,
+          }),
+        }),
+      }),
+      NextToken: D.m({ wire: "nextToken" }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -9934,8 +5506,12 @@ export const listTagsForGlobalResource: API.OperationMethod<
   ListTagsForGlobalResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForGlobalResourceRequest,
-  output: ListTagsForGlobalResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/global/{ResourceArn}",
+    input: { ResourceArn: 0 },
+    output: { Tags: D.m({ wire: "tags" }) },
+  },
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -9944,7 +5520,7 @@ export const listTagsForGlobalResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForGlobalResource",
-}));
+})) as any;
 
 export type ListTagsForResourceError =
   | BadRequestException
@@ -9960,8 +5536,12 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "GET /tags/{ResourceArn}",
+    input: { ResourceArn: 0 },
+    output: { Tags: D.m({ wire: "tags" }) },
+  },
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -9970,7 +5550,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-}));
+})) as any;
 
 export type PurchaseOfferingError =
   | BadRequestException
@@ -9989,8 +5569,17 @@ export const purchaseOffering: API.OperationMethod<
   PurchaseOfferingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PurchaseOfferingRequest,
-  output: PurchaseOfferingResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/offerings/{OfferingArn}",
+    input: {
+      OfferingArn: 0,
+      ReservationName: D.m({ wire: "reservationName" }),
+      Start: D.m({ wire: "start" }),
+    },
+    output: { Reservation: D.m({ wire: "reservation", shape: o_Reservation }) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -10002,7 +5591,7 @@ export const purchaseOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseOffering",
-}));
+})) as any;
 
 export type RemoveBridgeOutputError =
   | BadRequestException
@@ -10022,8 +5611,15 @@ export const removeBridgeOutput: API.OperationMethod<
   RemoveBridgeOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveBridgeOutputRequest,
-  output: RemoveBridgeOutputResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/bridges/{BridgeArn}/outputs/{OutputName}",
+    input: { BridgeArn: 0, OutputName: 0 },
+    output: {
+      BridgeArn: D.m({ wire: "bridgeArn" }),
+      OutputName: D.m({ wire: "outputName" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -10036,7 +5632,7 @@ export const removeBridgeOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveBridgeOutput",
-}));
+})) as any;
 
 export type RemoveBridgeSourceError =
   | BadRequestException
@@ -10056,8 +5652,15 @@ export const removeBridgeSource: API.OperationMethod<
   RemoveBridgeSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveBridgeSourceRequest,
-  output: RemoveBridgeSourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/bridges/{BridgeArn}/sources/{SourceName}",
+    input: { BridgeArn: 0, SourceName: 0 },
+    output: {
+      BridgeArn: D.m({ wire: "bridgeArn" }),
+      SourceName: D.m({ wire: "sourceName" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -10070,7 +5673,7 @@ export const removeBridgeSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveBridgeSource",
-}));
+})) as any;
 
 export type RemoveFlowMediaStreamError =
   | BadRequestException
@@ -10089,8 +5692,15 @@ export const removeFlowMediaStream: API.OperationMethod<
   RemoveFlowMediaStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveFlowMediaStreamRequest,
-  output: RemoveFlowMediaStreamResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/flows/{FlowArn}/mediaStreams/{MediaStreamName}",
+    input: { FlowArn: 0, MediaStreamName: 0 },
+    output: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      MediaStreamName: D.m({ wire: "mediaStreamName" }),
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -10102,7 +5712,7 @@ export const removeFlowMediaStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFlowMediaStream",
-}));
+})) as any;
 
 export type RemoveFlowOutputError =
   | BadRequestException
@@ -10121,8 +5731,15 @@ export const removeFlowOutput: API.OperationMethod<
   RemoveFlowOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveFlowOutputRequest,
-  output: RemoveFlowOutputResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/flows/{FlowArn}/outputs/{OutputArn}",
+    input: { FlowArn: 0, OutputArn: 0 },
+    output: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      OutputArn: D.m({ wire: "outputArn" }),
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -10134,7 +5751,7 @@ export const removeFlowOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFlowOutput",
-}));
+})) as any;
 
 export type RemoveFlowSourceError =
   | BadRequestException
@@ -10153,8 +5770,15 @@ export const removeFlowSource: API.OperationMethod<
   RemoveFlowSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveFlowSourceRequest,
-  output: RemoveFlowSourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/flows/{FlowArn}/source/{SourceArn}",
+    input: { FlowArn: 0, SourceArn: 0 },
+    output: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      SourceArn: D.m({ wire: "sourceArn" }),
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -10166,7 +5790,7 @@ export const removeFlowSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFlowSource",
-}));
+})) as any;
 
 export type RemoveFlowVpcInterfaceError =
   | BadRequestException
@@ -10185,8 +5809,18 @@ export const removeFlowVpcInterface: API.OperationMethod<
   RemoveFlowVpcInterfaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveFlowVpcInterfaceRequest,
-  output: RemoveFlowVpcInterfaceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/flows/{FlowArn}/vpcInterfaces/{VpcInterfaceName}",
+    input: { FlowArn: 0, VpcInterfaceName: 0 },
+    output: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      NonDeletedNetworkInterfaceIds: D.m({
+        wire: "nonDeletedNetworkInterfaceIds",
+      }),
+      VpcInterfaceName: D.m({ wire: "vpcInterfaceName" }),
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -10198,7 +5832,7 @@ export const removeFlowVpcInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFlowVpcInterface",
-}));
+})) as any;
 
 export type RestartRouterInputError =
   | BadRequestException
@@ -10218,8 +5852,16 @@ export const restartRouterInput: API.OperationMethod<
   RestartRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RestartRouterInputRequest,
-  output: RestartRouterInputResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/routerInput/restart/{Arn}",
+    input: { Arn: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      Name: D.m({ wire: "name" }),
+      State: D.m({ wire: "state" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -10232,7 +5874,7 @@ export const restartRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartRouterInput",
-}));
+})) as any;
 
 export type RestartRouterOutputError =
   | BadRequestException
@@ -10252,8 +5894,16 @@ export const restartRouterOutput: API.OperationMethod<
   RestartRouterOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RestartRouterOutputRequest,
-  output: RestartRouterOutputResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/routerOutput/restart/{Arn}",
+    input: { Arn: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      Name: D.m({ wire: "name" }),
+      State: D.m({ wire: "state" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -10266,7 +5916,7 @@ export const restartRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartRouterOutput",
-}));
+})) as any;
 
 export type RevokeFlowEntitlementError =
   | BadRequestException
@@ -10285,8 +5935,15 @@ export const revokeFlowEntitlement: API.OperationMethod<
   RevokeFlowEntitlementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RevokeFlowEntitlementRequest,
-  output: RevokeFlowEntitlementResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /v1/flows/{FlowArn}/entitlements/{EntitlementArn}",
+    input: { EntitlementArn: 0, FlowArn: 0 },
+    output: {
+      EntitlementArn: D.m({ wire: "entitlementArn" }),
+      FlowArn: D.m({ wire: "flowArn" }),
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -10298,7 +5955,7 @@ export const revokeFlowEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeFlowEntitlement",
-}));
+})) as any;
 
 export type StartFlowError =
   | BadRequestException
@@ -10317,8 +5974,15 @@ export const startFlow: API.OperationMethod<
   StartFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartFlowRequest,
-  output: StartFlowResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/flows/start/{FlowArn}",
+    input: { FlowArn: 0 },
+    output: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      Status: D.m({ wire: "status" }),
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -10330,7 +5994,7 @@ export const startFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlow",
-}));
+})) as any;
 
 export type StartRouterInputError =
   | BadRequestException
@@ -10350,8 +6014,21 @@ export const startRouterInput: API.OperationMethod<
   StartRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartRouterInputRequest,
-  output: StartRouterInputResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/routerInput/start/{Arn}",
+    input: { Arn: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      Name: D.m({ wire: "name" }),
+      State: D.m({ wire: "state" }),
+      MaintenanceScheduleType: D.m({ wire: "maintenanceScheduleType" }),
+      MaintenanceSchedule: D.m({
+        wire: "maintenanceSchedule",
+        shape: o_MaintenanceSchedule,
+      }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -10364,7 +6041,7 @@ export const startRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRouterInput",
-}));
+})) as any;
 
 export type StartRouterOutputError =
   | BadRequestException
@@ -10384,8 +6061,21 @@ export const startRouterOutput: API.OperationMethod<
   StartRouterOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartRouterOutputRequest,
-  output: StartRouterOutputResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/routerOutput/start/{Arn}",
+    input: { Arn: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      Name: D.m({ wire: "name" }),
+      State: D.m({ wire: "state" }),
+      MaintenanceScheduleType: D.m({ wire: "maintenanceScheduleType" }),
+      MaintenanceSchedule: D.m({
+        wire: "maintenanceSchedule",
+        shape: o_MaintenanceSchedule,
+      }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -10398,7 +6088,7 @@ export const startRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRouterOutput",
-}));
+})) as any;
 
 export type StopFlowError =
   | BadRequestException
@@ -10417,8 +6107,15 @@ export const stopFlow: API.OperationMethod<
   StopFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopFlowRequest,
-  output: StopFlowResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/flows/stop/{FlowArn}",
+    input: { FlowArn: 0 },
+    output: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      Status: D.m({ wire: "status" }),
+    },
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -10430,7 +6127,7 @@ export const stopFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFlow",
-}));
+})) as any;
 
 export type StopRouterInputError =
   | BadRequestException
@@ -10450,8 +6147,16 @@ export const stopRouterInput: API.OperationMethod<
   StopRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopRouterInputRequest,
-  output: StopRouterInputResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/routerInput/stop/{Arn}",
+    input: { Arn: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      Name: D.m({ wire: "name" }),
+      State: D.m({ wire: "state" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -10464,7 +6169,7 @@ export const stopRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRouterInput",
-}));
+})) as any;
 
 export type StopRouterOutputError =
   | BadRequestException
@@ -10484,8 +6189,16 @@ export const stopRouterOutput: API.OperationMethod<
   StopRouterOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopRouterOutputRequest,
-  output: StopRouterOutputResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /v1/routerOutput/stop/{Arn}",
+    input: { Arn: 0 },
+    output: {
+      Arn: D.m({ wire: "arn" }),
+      Name: D.m({ wire: "name" }),
+      State: D.m({ wire: "state" }),
+    },
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -10498,7 +6211,7 @@ export const stopRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRouterOutput",
-}));
+})) as any;
 
 export type TagGlobalResourceError =
   | BadRequestException
@@ -10514,8 +6227,12 @@ export const tagGlobalResource: API.OperationMethod<
   TagGlobalResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagGlobalResourceRequest,
-  output: TagGlobalResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/global/{ResourceArn}",
+    input: { ResourceArn: 0, Tags: D.m({ wire: "tags" }) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -10524,7 +6241,7 @@ export const tagGlobalResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagGlobalResource",
-}));
+})) as any;
 
 export type TagResourceError =
   | BadRequestException
@@ -10540,8 +6257,12 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "POST /tags/{ResourceArn}",
+    input: { ResourceArn: 0, Tags: D.m({ wire: "tags" }) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -10550,7 +6271,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-}));
+})) as any;
 
 export type TakeRouterInputError =
   | BadRequestException
@@ -10570,8 +6291,22 @@ export const takeRouterInput: API.OperationMethod<
   TakeRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TakeRouterInputRequest,
-  output: TakeRouterInputResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /v1/routerOutput/takeRouterInput/{RouterOutputArn}",
+    input: {
+      RouterOutputArn: 0,
+      RouterInputArn: D.m({ wire: "routerInputArn" }),
+    },
+    output: {
+      RoutedState: D.m({ wire: "routedState" }),
+      RouterOutputArn: D.m({ wire: "routerOutputArn" }),
+      RouterOutputName: D.m({ wire: "routerOutputName" }),
+      RouterInputArn: D.m({ wire: "routerInputArn" }),
+      RouterInputName: D.m({ wire: "routerInputName" }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -10584,7 +6319,7 @@ export const takeRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TakeRouterInput",
-}));
+})) as any;
 
 export type UntagGlobalResourceError =
   | BadRequestException
@@ -10600,8 +6335,11 @@ export const untagGlobalResource: API.OperationMethod<
   UntagGlobalResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagGlobalResourceRequest,
-  output: UntagGlobalResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/global/{ResourceArn}",
+    input: { ResourceArn: 0, TagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -10610,7 +6348,7 @@ export const untagGlobalResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagGlobalResource",
-}));
+})) as any;
 
 export type UntagResourceError =
   | BadRequestException
@@ -10626,8 +6364,11 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  descriptor: {
+    service: svc,
+    http: "DELETE /tags/{ResourceArn}",
+    input: { ResourceArn: 0, TagKeys: D.m({ query: "tagKeys" }) },
+  },
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -10636,7 +6377,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-}));
+})) as any;
 
 export type UpdateBridgeError =
   | BadRequestException
@@ -10656,8 +6397,30 @@ export const updateBridge: API.OperationMethod<
   UpdateBridgeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateBridgeRequest,
-  output: UpdateBridgeResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /v1/bridges/{BridgeArn}",
+    input: {
+      BridgeArn: 0,
+      EgressGatewayBridge: D.m({
+        wire: "egressGatewayBridge",
+        shape: { MaxBitrate: D.m({ wire: "maxBitrate" }) },
+      }),
+      IngressGatewayBridge: D.m({
+        wire: "ingressGatewayBridge",
+        shape: {
+          MaxBitrate: D.m({ wire: "maxBitrate" }),
+          MaxOutputs: D.m({ wire: "maxOutputs" }),
+        },
+      }),
+      SourceFailoverConfig: D.m({
+        wire: "sourceFailoverConfig",
+        shape: i_UpdateFailoverConfig,
+      }),
+    },
+    output: { Bridge: D.m({ wire: "bridge", shape: o_Bridge }) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -10670,7 +6433,7 @@ export const updateBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBridge",
-}));
+})) as any;
 
 export type UpdateBridgeOutputError =
   | BadRequestException
@@ -10690,8 +6453,29 @@ export const updateBridgeOutput: API.OperationMethod<
   UpdateBridgeOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateBridgeOutputRequest,
-  output: UpdateBridgeOutputResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /v1/bridges/{BridgeArn}/outputs/{OutputName}",
+    input: {
+      BridgeArn: 0,
+      NetworkOutput: D.m({
+        wire: "networkOutput",
+        shape: {
+          IpAddress: D.m({ wire: "ipAddress" }),
+          NetworkName: D.m({ wire: "networkName" }),
+          Port: D.m({ wire: "port" }),
+          Protocol: D.m({ wire: "protocol" }),
+          Ttl: D.m({ wire: "ttl" }),
+        },
+      }),
+      OutputName: 0,
+    },
+    output: {
+      BridgeArn: D.m({ wire: "bridgeArn" }),
+      Output: D.m({ wire: "output", shape: o_BridgeOutput }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -10704,7 +6488,7 @@ export const updateBridgeOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBridgeOutput",
-}));
+})) as any;
 
 export type UpdateBridgeSourceError =
   | BadRequestException
@@ -10724,8 +6508,42 @@ export const updateBridgeSource: API.OperationMethod<
   UpdateBridgeSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateBridgeSourceRequest,
-  output: UpdateBridgeSourceResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /v1/bridges/{BridgeArn}/sources/{SourceName}",
+    input: {
+      BridgeArn: 0,
+      FlowSource: D.m({
+        wire: "flowSource",
+        shape: {
+          FlowArn: D.m({ wire: "flowArn" }),
+          FlowVpcInterfaceAttachment: D.m({
+            wire: "flowVpcInterfaceAttachment",
+            shape: i_VpcInterfaceAttachment,
+          }),
+        },
+      }),
+      NetworkSource: D.m({
+        wire: "networkSource",
+        shape: {
+          MulticastIp: D.m({ wire: "multicastIp" }),
+          MulticastSourceSettings: D.m({
+            wire: "multicastSourceSettings",
+            shape: i_MulticastSourceSettings,
+          }),
+          NetworkName: D.m({ wire: "networkName" }),
+          Port: D.m({ wire: "port" }),
+          Protocol: D.m({ wire: "protocol" }),
+        },
+      }),
+      SourceName: 0,
+    },
+    output: {
+      BridgeArn: D.m({ wire: "bridgeArn" }),
+      Source: D.m({ wire: "source", shape: o_BridgeSource }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -10738,7 +6556,7 @@ export const updateBridgeSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBridgeSource",
-}));
+})) as any;
 
 export type UpdateBridgeStateError =
   | BadRequestException
@@ -10758,8 +6576,16 @@ export const updateBridgeState: API.OperationMethod<
   UpdateBridgeStateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateBridgeStateRequest,
-  output: UpdateBridgeStateResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /v1/bridges/{BridgeArn}/state",
+    input: { BridgeArn: 0, DesiredState: D.m({ wire: "desiredState" }) },
+    output: {
+      BridgeArn: D.m({ wire: "bridgeArn" }),
+      DesiredState: D.m({ wire: "desiredState" }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -10772,7 +6598,7 @@ export const updateBridgeState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBridgeState",
-}));
+})) as any;
 
 export type UpdateFlowError =
   | BadRequestException
@@ -10805,8 +6631,34 @@ export const updateFlow: API.OperationMethod<
   UpdateFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFlowRequest,
-  output: UpdateFlowResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /v1/flows/{FlowArn}",
+    input: {
+      FlowArn: 0,
+      SourceFailoverConfig: D.m({
+        wire: "sourceFailoverConfig",
+        shape: i_UpdateFailoverConfig,
+      }),
+      Maintenance: D.m({
+        wire: "maintenance",
+        shape: {
+          MaintenanceDay: D.m({ wire: "maintenanceDay" }),
+          MaintenanceScheduledDate: D.m({ wire: "maintenanceScheduledDate" }),
+          MaintenanceStartHour: D.m({ wire: "maintenanceStartHour" }),
+        },
+      }),
+      SourceMonitoringConfig: D.m({
+        wire: "sourceMonitoringConfig",
+        shape: i_MonitoringConfig,
+      }),
+      NdiConfig: D.m({ wire: "ndiConfig", shape: i_NdiConfig }),
+      FlowSize: D.m({ wire: "flowSize" }),
+      EncodingConfig: D.m({ wire: "encodingConfig", shape: i_EncodingConfig }),
+    },
+    output: { Flow: D.m({ wire: "flow", shape: o_Flow }) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -10818,7 +6670,7 @@ export const updateFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlow",
-}));
+})) as any;
 
 export type UpdateFlowEntitlementError =
   | BadRequestException
@@ -10837,8 +6689,23 @@ export const updateFlowEntitlement: API.OperationMethod<
   UpdateFlowEntitlementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFlowEntitlementRequest,
-  output: UpdateFlowEntitlementResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /v1/flows/{FlowArn}/entitlements/{EntitlementArn}",
+    input: {
+      Description: D.m({ wire: "description" }),
+      Encryption: D.m({ wire: "encryption", shape: i_UpdateEncryption }),
+      EntitlementArn: 0,
+      EntitlementStatus: D.m({ wire: "entitlementStatus" }),
+      FlowArn: 0,
+      Subscribers: D.m({ wire: "subscribers" }),
+    },
+    output: {
+      Entitlement: D.m({ wire: "entitlement", shape: o_Entitlement }),
+      FlowArn: D.m({ wire: "flowArn" }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -10850,7 +6717,7 @@ export const updateFlowEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowEntitlement",
-}));
+})) as any;
 
 export type UpdateFlowMediaStreamError =
   | BadRequestException
@@ -10869,8 +6736,27 @@ export const updateFlowMediaStream: API.OperationMethod<
   UpdateFlowMediaStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFlowMediaStreamRequest,
-  output: UpdateFlowMediaStreamResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /v1/flows/{FlowArn}/mediaStreams/{MediaStreamName}",
+    input: {
+      Attributes: D.m({
+        wire: "attributes",
+        shape: i_MediaStreamAttributesRequest,
+      }),
+      ClockRate: D.m({ wire: "clockRate" }),
+      Description: D.m({ wire: "description" }),
+      FlowArn: 0,
+      MediaStreamName: 0,
+      MediaStreamType: D.m({ wire: "mediaStreamType" }),
+      VideoFormat: D.m({ wire: "videoFormat" }),
+    },
+    output: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      MediaStream: D.m({ wire: "mediaStream", shape: o_MediaStream }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -10882,7 +6768,7 @@ export const updateFlowMediaStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowMediaStream",
-}));
+})) as any;
 
 export type UpdateFlowOutputError =
   | BadRequestException
@@ -10901,8 +6787,49 @@ export const updateFlowOutput: API.OperationMethod<
   UpdateFlowOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFlowOutputRequest,
-  output: UpdateFlowOutputResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /v1/flows/{FlowArn}/outputs/{OutputArn}",
+    input: {
+      CidrAllowList: D.m({ wire: "cidrAllowList" }),
+      Description: D.m({ wire: "description" }),
+      Destination: D.m({ wire: "destination" }),
+      Encryption: D.m({ wire: "encryption", shape: i_UpdateEncryption }),
+      FlowArn: 0,
+      MaxLatency: D.m({ wire: "maxLatency" }),
+      MediaStreamOutputConfigurations: D.m({
+        wire: "mediaStreamOutputConfigurations",
+        shape: D.list(i_MediaStreamOutputConfigurationRequest),
+      }),
+      MinLatency: D.m({ wire: "minLatency" }),
+      OutputArn: 0,
+      Port: D.m({ wire: "port" }),
+      Protocol: D.m({ wire: "protocol" }),
+      RemoteId: D.m({ wire: "remoteId" }),
+      SenderControlPort: D.m({ wire: "senderControlPort" }),
+      SenderIpAddress: D.m({ wire: "senderIpAddress" }),
+      SmoothingLatency: D.m({ wire: "smoothingLatency" }),
+      StreamId: D.m({ wire: "streamId" }),
+      VpcInterfaceAttachment: D.m({
+        wire: "vpcInterfaceAttachment",
+        shape: i_VpcInterfaceAttachment,
+      }),
+      OutputStatus: D.m({ wire: "outputStatus" }),
+      NdiProgramName: D.m({ wire: "ndiProgramName" }),
+      NdiSpeedHqQuality: D.m({ wire: "ndiSpeedHqQuality" }),
+      RouterIntegrationState: D.m({ wire: "routerIntegrationState" }),
+      RouterIntegrationTransitEncryption: D.m({
+        wire: "routerIntegrationTransitEncryption",
+        shape: i_FlowTransitEncryption,
+      }),
+      NdiOutputTimecodeSource: D.m({ wire: "ndiOutputTimecodeSource" }),
+    },
+    output: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      Output: D.m({ wire: "output", shape: o_Output }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -10914,7 +6841,7 @@ export const updateFlowOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowOutput",
-}));
+})) as any;
 
 export type UpdateFlowSourceError =
   | BadRequestException
@@ -10947,8 +6874,58 @@ export const updateFlowSource: API.OperationMethod<
   UpdateFlowSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFlowSourceRequest,
-  output: UpdateFlowSourceResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /v1/flows/{FlowArn}/source/{SourceArn}",
+    input: {
+      Decryption: D.m({ wire: "decryption", shape: i_UpdateEncryption }),
+      Description: D.m({ wire: "description" }),
+      EntitlementArn: D.m({ wire: "entitlementArn" }),
+      FlowArn: 0,
+      IngestPort: D.m({ wire: "ingestPort" }),
+      MaxBitrate: D.m({ wire: "maxBitrate" }),
+      MaxLatency: D.m({ wire: "maxLatency" }),
+      MaxSyncBuffer: D.m({ wire: "maxSyncBuffer" }),
+      MediaStreamSourceConfigurations: D.m({
+        wire: "mediaStreamSourceConfigurations",
+        shape: D.list(i_MediaStreamSourceConfigurationRequest),
+      }),
+      MinLatency: D.m({ wire: "minLatency" }),
+      Protocol: D.m({ wire: "protocol" }),
+      SenderControlPort: D.m({ wire: "senderControlPort" }),
+      SenderIpAddress: D.m({ wire: "senderIpAddress" }),
+      SourceArn: 0,
+      SourceListenerAddress: D.m({ wire: "sourceListenerAddress" }),
+      SourceListenerPort: D.m({ wire: "sourceListenerPort" }),
+      StreamId: D.m({ wire: "streamId" }),
+      VpcInterfaceName: D.m({ wire: "vpcInterfaceName" }),
+      WhitelistCidr: D.m({ wire: "whitelistCidr" }),
+      GatewayBridgeSource: D.m({
+        wire: "gatewayBridgeSource",
+        shape: {
+          BridgeArn: D.m({ wire: "bridgeArn" }),
+          VpcInterfaceAttachment: D.m({
+            wire: "vpcInterfaceAttachment",
+            shape: i_VpcInterfaceAttachment,
+          }),
+        },
+      }),
+      NdiSourceSettings: D.m({
+        wire: "ndiSourceSettings",
+        shape: i_NdiSourceSettings,
+      }),
+      RouterIntegrationState: D.m({ wire: "routerIntegrationState" }),
+      RouterIntegrationTransitDecryption: D.m({
+        wire: "routerIntegrationTransitDecryption",
+        shape: i_FlowTransitEncryption,
+      }),
+    },
+    output: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      Source: D.m({ wire: "source", shape: o_Source }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -10960,7 +6937,7 @@ export const updateFlowSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowSource",
-}));
+})) as any;
 
 export type UpdateGatewayInstanceError =
   | BadRequestException
@@ -10980,8 +6957,19 @@ export const updateGatewayInstance: API.OperationMethod<
   UpdateGatewayInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateGatewayInstanceRequest,
-  output: UpdateGatewayInstanceResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /v1/gateway-instances/{GatewayInstanceArn}",
+    input: {
+      BridgePlacement: D.m({ wire: "bridgePlacement" }),
+      GatewayInstanceArn: 0,
+    },
+    output: {
+      BridgePlacement: D.m({ wire: "bridgePlacement" }),
+      GatewayInstanceArn: D.m({ wire: "gatewayInstanceArn" }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -10994,7 +6982,7 @@ export const updateGatewayInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayInstance",
-}));
+})) as any;
 
 export type UpdateRouterInputError =
   | BadRequestException
@@ -11014,8 +7002,35 @@ export const updateRouterInput: API.OperationMethod<
   UpdateRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRouterInputRequest,
-  output: UpdateRouterInputResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /v1/routerInput/{Arn}",
+    input: {
+      Arn: 0,
+      Name: D.m({ wire: "name" }),
+      Configuration: D.m({
+        wire: "configuration",
+        shape: i_RouterInputConfiguration,
+      }),
+      MaximumBitrate: D.m({ wire: "maximumBitrate" }),
+      RoutingScope: D.m({ wire: "routingScope" }),
+      Tier: D.m({ wire: "tier" }),
+      TransitEncryption: D.m({
+        wire: "transitEncryption",
+        shape: i_RouterInputTransitEncryption,
+      }),
+      MaintenanceConfiguration: D.m({
+        wire: "maintenanceConfiguration",
+        shape: i_MaintenanceConfiguration,
+      }),
+      ContentQualityAnalysisConfiguration: D.m({
+        wire: "contentQualityAnalysisConfiguration",
+        shape: i_RouterContentQualityAnalysisConfiguration,
+      }),
+    },
+    output: { RouterInput: D.m({ wire: "routerInput", shape: o_RouterInput }) },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -11028,7 +7043,7 @@ export const updateRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRouterInput",
-}));
+})) as any;
 
 export type UpdateRouterNetworkInterfaceError =
   | BadRequestException
@@ -11047,8 +7062,25 @@ export const updateRouterNetworkInterface: API.OperationMethod<
   UpdateRouterNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRouterNetworkInterfaceRequest,
-  output: UpdateRouterNetworkInterfaceResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /v1/routerNetworkInterface/{Arn}",
+    input: {
+      Arn: 0,
+      Name: D.m({ wire: "name" }),
+      Configuration: D.m({
+        wire: "configuration",
+        shape: i_RouterNetworkInterfaceConfiguration,
+      }),
+    },
+    output: {
+      RouterNetworkInterface: D.m({
+        wire: "routerNetworkInterface",
+        shape: o_RouterNetworkInterface,
+      }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -11060,7 +7092,7 @@ export const updateRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRouterNetworkInterface",
-}));
+})) as any;
 
 export type UpdateRouterOutputError =
   | BadRequestException
@@ -11080,8 +7112,33 @@ export const updateRouterOutput: API.OperationMethod<
   UpdateRouterOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRouterOutputRequest,
-  output: UpdateRouterOutputResponse,
+  descriptor: {
+    service: svc,
+    http: "PUT /v1/routerOutput/{Arn}",
+    input: {
+      Arn: 0,
+      Name: D.m({ wire: "name" }),
+      Configuration: D.m({
+        wire: "configuration",
+        shape: i_RouterOutputConfiguration,
+      }),
+      MaximumBitrate: D.m({ wire: "maximumBitrate" }),
+      RoutingScope: D.m({ wire: "routingScope" }),
+      Tier: D.m({ wire: "tier" }),
+      MaintenanceConfiguration: D.m({
+        wire: "maintenanceConfiguration",
+        shape: i_MaintenanceConfiguration,
+      }),
+      FabricConfiguration: D.m({
+        wire: "fabricConfiguration",
+        shape: i_FabricConfiguration,
+      }),
+    },
+    output: {
+      RouterOutput: D.m({ wire: "routerOutput", shape: o_RouterOutput }),
+    },
+    body: true,
+  },
   errors: [
     BadRequestException,
     ConflictException,
@@ -11094,4 +7151,1539 @@ export const updateRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRouterOutput",
-}));
+})) as any;
+
+const i_AddBridgeOutputRequest: D.LazyStruct = () => ({
+  NetworkOutput: D.m({
+    wire: "networkOutput",
+    shape: {
+      IpAddress: D.m({ wire: "ipAddress" }),
+      Name: D.m({ wire: "name" }),
+      NetworkName: D.m({ wire: "networkName" }),
+      Port: D.m({ wire: "port" }),
+      Protocol: D.m({ wire: "protocol" }),
+      Ttl: D.m({ wire: "ttl" }),
+    },
+  }),
+});
+const i_AddBridgeSourceRequest: D.LazyStruct = () => ({
+  FlowSource: D.m({
+    wire: "flowSource",
+    shape: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      FlowVpcInterfaceAttachment: D.m({
+        wire: "flowVpcInterfaceAttachment",
+        shape: i_VpcInterfaceAttachment,
+      }),
+      Name: D.m({ wire: "name" }),
+    },
+  }),
+  NetworkSource: D.m({
+    wire: "networkSource",
+    shape: {
+      MulticastIp: D.m({ wire: "multicastIp" }),
+      MulticastSourceSettings: D.m({
+        wire: "multicastSourceSettings",
+        shape: i_MulticastSourceSettings,
+      }),
+      Name: D.m({ wire: "name" }),
+      NetworkName: D.m({ wire: "networkName" }),
+      Port: D.m({ wire: "port" }),
+      Protocol: D.m({ wire: "protocol" }),
+    },
+  }),
+});
+const i_AddMediaStreamRequest: D.LazyStruct = () => ({
+  Attributes: D.m({
+    wire: "attributes",
+    shape: i_MediaStreamAttributesRequest,
+  }),
+  ClockRate: D.m({ wire: "clockRate" }),
+  Description: D.m({ wire: "description" }),
+  MediaStreamId: D.m({ wire: "mediaStreamId" }),
+  MediaStreamName: D.m({ wire: "mediaStreamName" }),
+  MediaStreamType: D.m({ wire: "mediaStreamType" }),
+  VideoFormat: D.m({ wire: "videoFormat" }),
+  MediaStreamTags: D.m({ wire: "mediaStreamTags" }),
+});
+const i_AddOutputRequest: D.LazyStruct = () => ({
+  CidrAllowList: D.m({ wire: "cidrAllowList" }),
+  Description: D.m({ wire: "description" }),
+  Destination: D.m({ wire: "destination" }),
+  Encryption: D.m({ wire: "encryption", shape: i_Encryption }),
+  MaxLatency: D.m({ wire: "maxLatency" }),
+  MediaStreamOutputConfigurations: D.m({
+    wire: "mediaStreamOutputConfigurations",
+    shape: D.list(i_MediaStreamOutputConfigurationRequest),
+  }),
+  MinLatency: D.m({ wire: "minLatency" }),
+  Name: D.m({ wire: "name" }),
+  Port: D.m({ wire: "port" }),
+  Protocol: D.m({ wire: "protocol" }),
+  RemoteId: D.m({ wire: "remoteId" }),
+  SenderControlPort: D.m({ wire: "senderControlPort" }),
+  SmoothingLatency: D.m({ wire: "smoothingLatency" }),
+  StreamId: D.m({ wire: "streamId" }),
+  VpcInterfaceAttachment: D.m({
+    wire: "vpcInterfaceAttachment",
+    shape: i_VpcInterfaceAttachment,
+  }),
+  OutputStatus: D.m({ wire: "outputStatus" }),
+  NdiSpeedHqQuality: D.m({ wire: "ndiSpeedHqQuality" }),
+  NdiProgramName: D.m({ wire: "ndiProgramName" }),
+  OutputTags: D.m({ wire: "outputTags" }),
+  RouterIntegrationState: D.m({ wire: "routerIntegrationState" }),
+  RouterIntegrationTransitEncryption: D.m({
+    wire: "routerIntegrationTransitEncryption",
+    shape: i_FlowTransitEncryption,
+  }),
+  NdiOutputTimecodeSource: D.m({ wire: "ndiOutputTimecodeSource" }),
+});
+const i_EncodingConfig: D.LazyStruct = () => ({
+  EncodingProfile: D.m({ wire: "encodingProfile" }),
+  VideoMaxBitrate: D.m({ wire: "videoMaxBitrate" }),
+});
+const i_FabricConfiguration: D.LazyStruct = () => ({
+  RecoveryLatencyMode: D.m({ wire: "recoveryLatencyMode" }),
+});
+const i_FailoverConfig: D.LazyStruct = () => ({
+  FailoverMode: D.m({ wire: "failoverMode" }),
+  RecoveryWindow: D.m({ wire: "recoveryWindow" }),
+  SourcePriority: D.m({ wire: "sourcePriority", shape: i_SourcePriority }),
+  State: D.m({ wire: "state" }),
+});
+const i_FlowTransitEncryption: D.LazyStruct = () => ({
+  EncryptionKeyType: D.m({ wire: "encryptionKeyType" }),
+  EncryptionKeyConfiguration: D.m({
+    wire: "encryptionKeyConfiguration",
+    shape: {
+      SecretsManager: D.m({
+        wire: "secretsManager",
+        shape: i_SecretsManagerEncryptionKeyConfiguration,
+      }),
+      Automatic: D.m({
+        wire: "automatic",
+        shape: i_AutomaticEncryptionKeyConfiguration,
+      }),
+    },
+  }),
+});
+const i_GrantEntitlementRequest: D.LazyStruct = () => ({
+  DataTransferSubscriberFeePercent: D.m({
+    wire: "dataTransferSubscriberFeePercent",
+  }),
+  Description: D.m({ wire: "description" }),
+  Encryption: D.m({ wire: "encryption", shape: i_Encryption }),
+  EntitlementStatus: D.m({ wire: "entitlementStatus" }),
+  Name: D.m({ wire: "name" }),
+  Subscribers: D.m({ wire: "subscribers" }),
+  EntitlementTags: D.m({ wire: "entitlementTags" }),
+});
+const i_MaintenanceConfiguration: D.LazyStruct = () => ({
+  PreferredDayTime: D.m({
+    wire: "preferredDayTime",
+    shape: { Day: D.m({ wire: "day" }), Time: D.m({ wire: "time" }) },
+  }),
+  Default: D.m({ wire: "default", shape: {} }),
+});
+const i_MediaStreamAttributesRequest: D.LazyStruct = () => ({
+  Fmtp: D.m({
+    wire: "fmtp",
+    shape: {
+      ChannelOrder: D.m({ wire: "channelOrder" }),
+      Colorimetry: D.m({ wire: "colorimetry" }),
+      ExactFramerate: D.m({ wire: "exactFramerate" }),
+      Par: D.m({ wire: "par" }),
+      Range: D.m({ wire: "range" }),
+      ScanMode: D.m({ wire: "scanMode" }),
+      Tcs: D.m({ wire: "tcs" }),
+    },
+  }),
+  Lang: D.m({ wire: "lang" }),
+});
+const i_MediaStreamOutputConfigurationRequest: D.LazyStruct = () => ({
+  DestinationConfigurations: D.m({
+    wire: "destinationConfigurations",
+    shape: D.list({
+      DestinationIp: D.m({ wire: "destinationIp" }),
+      DestinationPort: D.m({ wire: "destinationPort" }),
+      Interface: D.m({ wire: "interface", shape: i_InterfaceRequest }),
+    }),
+  }),
+  EncodingName: D.m({ wire: "encodingName" }),
+  EncodingParameters: D.m({
+    wire: "encodingParameters",
+    shape: {
+      CompressionFactor: D.m({ wire: "compressionFactor" }),
+      EncoderProfile: D.m({ wire: "encoderProfile" }),
+    },
+  }),
+  MediaStreamName: D.m({ wire: "mediaStreamName" }),
+});
+const i_MediaStreamSourceConfigurationRequest: D.LazyStruct = () => ({
+  EncodingName: D.m({ wire: "encodingName" }),
+  InputConfigurations: D.m({
+    wire: "inputConfigurations",
+    shape: D.list({
+      InputPort: D.m({ wire: "inputPort" }),
+      Interface: D.m({ wire: "interface", shape: i_InterfaceRequest }),
+    }),
+  }),
+  MediaStreamName: D.m({ wire: "mediaStreamName" }),
+});
+const i_MonitoringConfig: D.LazyStruct = () => ({
+  ThumbnailState: D.m({ wire: "thumbnailState" }),
+  AudioMonitoringSettings: D.m({
+    wire: "audioMonitoringSettings",
+    shape: D.list({
+      SilentAudio: D.m({
+        wire: "silentAudio",
+        shape: {
+          State: D.m({ wire: "state" }),
+          ThresholdSeconds: D.m({ wire: "thresholdSeconds" }),
+        },
+      }),
+    }),
+  }),
+  ContentQualityAnalysisState: D.m({ wire: "contentQualityAnalysisState" }),
+  VideoMonitoringSettings: D.m({
+    wire: "videoMonitoringSettings",
+    shape: D.list({
+      BlackFrames: D.m({
+        wire: "blackFrames",
+        shape: {
+          State: D.m({ wire: "state" }),
+          ThresholdSeconds: D.m({ wire: "thresholdSeconds" }),
+        },
+      }),
+      FrozenFrames: D.m({
+        wire: "frozenFrames",
+        shape: {
+          State: D.m({ wire: "state" }),
+          ThresholdSeconds: D.m({ wire: "thresholdSeconds" }),
+        },
+      }),
+    }),
+  }),
+});
+const i_MulticastSourceSettings: D.LazyStruct = () => ({
+  MulticastSourceIp: D.m({ wire: "multicastSourceIp" }),
+});
+const i_NdiConfig: D.LazyStruct = () => ({
+  NdiState: D.m({ wire: "ndiState" }),
+  MachineName: D.m({ wire: "machineName" }),
+  NdiDiscoveryServers: D.m({
+    wire: "ndiDiscoveryServers",
+    shape: D.list({
+      DiscoveryServerAddress: D.m({ wire: "discoveryServerAddress" }),
+      DiscoveryServerPort: D.m({ wire: "discoveryServerPort" }),
+      VpcInterfaceAdapter: D.m({ wire: "vpcInterfaceAdapter" }),
+    }),
+  }),
+});
+const i_NdiSourceSettings: D.LazyStruct = () => ({
+  SourceName: D.m({ wire: "sourceName" }),
+});
+const i_RouterContentQualityAnalysisConfiguration: D.LazyStruct = () => ({
+  ContentLevel: D.m({
+    wire: "contentLevel",
+    shape: {
+      BlackFrames: D.m({
+        wire: "blackFrames",
+        shape: {
+          State: D.m({ wire: "state" }),
+          ThresholdSeconds: D.m({ wire: "thresholdSeconds" }),
+        },
+      }),
+      FrozenFrames: D.m({
+        wire: "frozenFrames",
+        shape: {
+          State: D.m({ wire: "state" }),
+          ThresholdSeconds: D.m({ wire: "thresholdSeconds" }),
+        },
+      }),
+      SilentAudio: D.m({
+        wire: "silentAudio",
+        shape: {
+          State: D.m({ wire: "state" }),
+          ThresholdSeconds: D.m({ wire: "thresholdSeconds" }),
+        },
+      }),
+    },
+  }),
+});
+const i_RouterInputConfiguration: D.LazyStruct = () => ({
+  Standard: D.m({
+    wire: "standard",
+    shape: {
+      NetworkInterfaceArn: D.m({ wire: "networkInterfaceArn" }),
+      ProtocolConfiguration: D.m({
+        wire: "protocolConfiguration",
+        shape: {
+          Rist: D.m({ wire: "rist", shape: i_RistRouterInputConfiguration }),
+          SrtListener: D.m({
+            wire: "srtListener",
+            shape: i_SrtListenerRouterInputConfiguration,
+          }),
+          SrtCaller: D.m({
+            wire: "srtCaller",
+            shape: i_SrtCallerRouterInputConfiguration,
+          }),
+          Rtp: D.m({ wire: "rtp", shape: i_RtpRouterInputConfiguration }),
+        },
+      }),
+      Protocol: D.m({ wire: "protocol" }),
+    },
+  }),
+  MediaLiveChannel: D.m({
+    wire: "mediaLiveChannel",
+    shape: {
+      MediaLiveChannelArn: D.m({ wire: "mediaLiveChannelArn" }),
+      MediaLivePipelineId: D.m({ wire: "mediaLivePipelineId" }),
+      MediaLiveChannelOutputName: D.m({ wire: "mediaLiveChannelOutputName" }),
+      SourceTransitDecryption: D.m({
+        wire: "sourceTransitDecryption",
+        shape: i_MediaLiveTransitEncryption,
+      }),
+    },
+  }),
+  Failover: D.m({
+    wire: "failover",
+    shape: {
+      NetworkInterfaceArn: D.m({ wire: "networkInterfaceArn" }),
+      ProtocolConfigurations: D.m({
+        wire: "protocolConfigurations",
+        shape: D.list({
+          Rist: D.m({ wire: "rist", shape: i_RistRouterInputConfiguration }),
+          SrtListener: D.m({
+            wire: "srtListener",
+            shape: i_SrtListenerRouterInputConfiguration,
+          }),
+          SrtCaller: D.m({
+            wire: "srtCaller",
+            shape: i_SrtCallerRouterInputConfiguration,
+          }),
+          Rtp: D.m({ wire: "rtp", shape: i_RtpRouterInputConfiguration }),
+        }),
+      }),
+      SourcePriorityMode: D.m({ wire: "sourcePriorityMode" }),
+      PrimarySourceIndex: D.m({ wire: "primarySourceIndex" }),
+    },
+  }),
+  MediaConnectFlow: D.m({
+    wire: "mediaConnectFlow",
+    shape: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      FlowOutputArn: D.m({ wire: "flowOutputArn" }),
+      SourceTransitDecryption: D.m({
+        wire: "sourceTransitDecryption",
+        shape: i_FlowTransitEncryption,
+      }),
+    },
+  }),
+  Merge: D.m({
+    wire: "merge",
+    shape: {
+      NetworkInterfaceArn: D.m({ wire: "networkInterfaceArn" }),
+      ProtocolConfigurations: D.m({
+        wire: "protocolConfigurations",
+        shape: D.list({
+          Rtp: D.m({ wire: "rtp", shape: i_RtpRouterInputConfiguration }),
+          Rist: D.m({ wire: "rist", shape: i_RistRouterInputConfiguration }),
+        }),
+      }),
+      MergeRecoveryWindowMilliseconds: D.m({
+        wire: "mergeRecoveryWindowMilliseconds",
+      }),
+    },
+  }),
+});
+const i_RouterInputTransitEncryption: D.LazyStruct = () => ({
+  EncryptionKeyType: D.m({ wire: "encryptionKeyType" }),
+  EncryptionKeyConfiguration: D.m({
+    wire: "encryptionKeyConfiguration",
+    shape: {
+      SecretsManager: D.m({
+        wire: "secretsManager",
+        shape: i_SecretsManagerEncryptionKeyConfiguration,
+      }),
+      Automatic: D.m({
+        wire: "automatic",
+        shape: i_AutomaticEncryptionKeyConfiguration,
+      }),
+    },
+  }),
+});
+const i_RouterNetworkInterfaceConfiguration: D.LazyStruct = () => ({
+  Public: D.m({
+    wire: "public",
+    shape: {
+      AllowRules: D.m({
+        wire: "allowRules",
+        shape: D.list({ Cidr: D.m({ wire: "cidr" }) }),
+      }),
+    },
+  }),
+  Vpc: D.m({
+    wire: "vpc",
+    shape: {
+      SecurityGroupIds: D.m({ wire: "securityGroupIds" }),
+      SubnetId: D.m({ wire: "subnetId" }),
+    },
+  }),
+});
+const i_RouterOutputConfiguration: D.LazyStruct = () => ({
+  Standard: D.m({
+    wire: "standard",
+    shape: {
+      NetworkInterfaceArn: D.m({ wire: "networkInterfaceArn" }),
+      ProtocolConfiguration: D.m({
+        wire: "protocolConfiguration",
+        shape: {
+          Rist: D.m({
+            wire: "rist",
+            shape: {
+              DestinationAddress: D.m({ wire: "destinationAddress" }),
+              DestinationPort: D.m({ wire: "destinationPort" }),
+            },
+          }),
+          SrtListener: D.m({
+            wire: "srtListener",
+            shape: {
+              Port: D.m({ wire: "port" }),
+              MinimumLatencyMilliseconds: D.m({
+                wire: "minimumLatencyMilliseconds",
+              }),
+              EncryptionConfiguration: D.m({
+                wire: "encryptionConfiguration",
+                shape: i_SrtEncryptionConfiguration,
+              }),
+            },
+          }),
+          SrtCaller: D.m({
+            wire: "srtCaller",
+            shape: {
+              DestinationAddress: D.m({ wire: "destinationAddress" }),
+              DestinationPort: D.m({ wire: "destinationPort" }),
+              MinimumLatencyMilliseconds: D.m({
+                wire: "minimumLatencyMilliseconds",
+              }),
+              StreamId: D.m({ wire: "streamId" }),
+              EncryptionConfiguration: D.m({
+                wire: "encryptionConfiguration",
+                shape: i_SrtEncryptionConfiguration,
+              }),
+            },
+          }),
+          Rtp: D.m({
+            wire: "rtp",
+            shape: {
+              DestinationAddress: D.m({ wire: "destinationAddress" }),
+              DestinationPort: D.m({ wire: "destinationPort" }),
+              ForwardErrorCorrection: D.m({ wire: "forwardErrorCorrection" }),
+            },
+          }),
+        },
+      }),
+      Protocol: D.m({ wire: "protocol" }),
+    },
+  }),
+  MediaConnectFlow: D.m({
+    wire: "mediaConnectFlow",
+    shape: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      FlowSourceArn: D.m({ wire: "flowSourceArn" }),
+      DestinationTransitEncryption: D.m({
+        wire: "destinationTransitEncryption",
+        shape: i_FlowTransitEncryption,
+      }),
+    },
+  }),
+  MediaLiveInput: D.m({
+    wire: "mediaLiveInput",
+    shape: {
+      MediaLiveInputArn: D.m({ wire: "mediaLiveInputArn" }),
+      MediaLivePipelineId: D.m({ wire: "mediaLivePipelineId" }),
+      DestinationTransitEncryption: D.m({
+        wire: "destinationTransitEncryption",
+        shape: i_MediaLiveTransitEncryption,
+      }),
+    },
+  }),
+});
+const i_SetSourceRequest: D.LazyStruct = () => ({
+  Decryption: D.m({ wire: "decryption", shape: i_Encryption }),
+  Description: D.m({ wire: "description" }),
+  EntitlementArn: D.m({ wire: "entitlementArn" }),
+  IngestPort: D.m({ wire: "ingestPort" }),
+  MaxBitrate: D.m({ wire: "maxBitrate" }),
+  MaxLatency: D.m({ wire: "maxLatency" }),
+  MaxSyncBuffer: D.m({ wire: "maxSyncBuffer" }),
+  MediaStreamSourceConfigurations: D.m({
+    wire: "mediaStreamSourceConfigurations",
+    shape: D.list(i_MediaStreamSourceConfigurationRequest),
+  }),
+  MinLatency: D.m({ wire: "minLatency" }),
+  Name: D.m({ wire: "name" }),
+  Protocol: D.m({ wire: "protocol" }),
+  SenderControlPort: D.m({ wire: "senderControlPort" }),
+  SenderIpAddress: D.m({ wire: "senderIpAddress" }),
+  SourceListenerAddress: D.m({ wire: "sourceListenerAddress" }),
+  SourceListenerPort: D.m({ wire: "sourceListenerPort" }),
+  StreamId: D.m({ wire: "streamId" }),
+  VpcInterfaceName: D.m({ wire: "vpcInterfaceName" }),
+  WhitelistCidr: D.m({ wire: "whitelistCidr" }),
+  GatewayBridgeSource: D.m({
+    wire: "gatewayBridgeSource",
+    shape: {
+      BridgeArn: D.m({ wire: "bridgeArn" }),
+      VpcInterfaceAttachment: D.m({
+        wire: "vpcInterfaceAttachment",
+        shape: i_VpcInterfaceAttachment,
+      }),
+    },
+  }),
+  NdiSourceSettings: D.m({
+    wire: "ndiSourceSettings",
+    shape: i_NdiSourceSettings,
+  }),
+  SourceTags: D.m({ wire: "sourceTags" }),
+  RouterIntegrationState: D.m({ wire: "routerIntegrationState" }),
+  RouterIntegrationTransitDecryption: D.m({
+    wire: "routerIntegrationTransitDecryption",
+    shape: i_FlowTransitEncryption,
+  }),
+});
+const i_UpdateEncryption: D.LazyStruct = () => ({
+  Algorithm: D.m({ wire: "algorithm" }),
+  ConstantInitializationVector: D.m({ wire: "constantInitializationVector" }),
+  DeviceId: D.m({ wire: "deviceId" }),
+  KeyType: D.m({ wire: "keyType" }),
+  Region: D.m({ wire: "region" }),
+  ResourceId: D.m({ wire: "resourceId" }),
+  RoleArn: D.m({ wire: "roleArn" }),
+  SecretArn: D.m({ wire: "secretArn" }),
+  Url: D.m({ wire: "url" }),
+});
+const i_UpdateFailoverConfig: D.LazyStruct = () => ({
+  FailoverMode: D.m({ wire: "failoverMode" }),
+  RecoveryWindow: D.m({ wire: "recoveryWindow" }),
+  SourcePriority: D.m({ wire: "sourcePriority", shape: i_SourcePriority }),
+  State: D.m({ wire: "state" }),
+});
+const i_VpcInterfaceAttachment: D.LazyStruct = () => ({
+  VpcInterfaceName: D.m({ wire: "vpcInterfaceName" }),
+});
+const i_VpcInterfaceRequest: D.LazyStruct = () => ({
+  Name: D.m({ wire: "name" }),
+  NetworkInterfaceType: D.m({ wire: "networkInterfaceType" }),
+  RoleArn: D.m({ wire: "roleArn" }),
+  SecurityGroupIds: D.m({ wire: "securityGroupIds" }),
+  SubnetId: D.m({ wire: "subnetId" }),
+  VpcInterfaceTags: D.m({ wire: "vpcInterfaceTags" }),
+});
+const o_Bridge: D.LazyStruct = () => ({
+  BridgeArn: D.m({ wire: "bridgeArn" }),
+  BridgeMessages: D.m({
+    wire: "bridgeMessages",
+    shape: D.list(o_MessageDetail),
+  }),
+  BridgeState: D.m({ wire: "bridgeState" }),
+  EgressGatewayBridge: D.m({
+    wire: "egressGatewayBridge",
+    shape: {
+      InstanceId: D.m({ wire: "instanceId" }),
+      MaxBitrate: D.m({ wire: "maxBitrate" }),
+    },
+  }),
+  IngressGatewayBridge: D.m({
+    wire: "ingressGatewayBridge",
+    shape: {
+      InstanceId: D.m({ wire: "instanceId" }),
+      MaxBitrate: D.m({ wire: "maxBitrate" }),
+      MaxOutputs: D.m({ wire: "maxOutputs" }),
+    },
+  }),
+  Name: D.m({ wire: "name" }),
+  Outputs: D.m({ wire: "outputs", shape: D.list(o_BridgeOutput) }),
+  PlacementArn: D.m({ wire: "placementArn" }),
+  SourceFailoverConfig: D.m({
+    wire: "sourceFailoverConfig",
+    shape: o_FailoverConfig,
+  }),
+  Sources: D.m({ wire: "sources", shape: D.list(o_BridgeSource) }),
+});
+const o_BridgeOutput: D.LazyStruct = () => ({
+  FlowOutput: D.m({
+    wire: "flowOutput",
+    shape: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      FlowSourceArn: D.m({ wire: "flowSourceArn" }),
+      Name: D.m({ wire: "name" }),
+    },
+  }),
+  NetworkOutput: D.m({
+    wire: "networkOutput",
+    shape: {
+      IpAddress: D.m({ wire: "ipAddress" }),
+      Name: D.m({ wire: "name" }),
+      NetworkName: D.m({ wire: "networkName" }),
+      Port: D.m({ wire: "port" }),
+      Protocol: D.m({ wire: "protocol" }),
+      Ttl: D.m({ wire: "ttl" }),
+    },
+  }),
+});
+const o_BridgeSource: D.LazyStruct = () => ({
+  FlowSource: D.m({
+    wire: "flowSource",
+    shape: {
+      FlowArn: D.m({ wire: "flowArn" }),
+      FlowVpcInterfaceAttachment: D.m({
+        wire: "flowVpcInterfaceAttachment",
+        shape: o_VpcInterfaceAttachment,
+      }),
+      Name: D.m({ wire: "name" }),
+      OutputArn: D.m({ wire: "outputArn" }),
+    },
+  }),
+  NetworkSource: D.m({
+    wire: "networkSource",
+    shape: {
+      MulticastIp: D.m({ wire: "multicastIp" }),
+      MulticastSourceSettings: D.m({
+        wire: "multicastSourceSettings",
+        shape: { MulticastSourceIp: D.m({ wire: "multicastSourceIp" }) },
+      }),
+      Name: D.m({ wire: "name" }),
+      NetworkName: D.m({ wire: "networkName" }),
+      Port: D.m({ wire: "port" }),
+      Protocol: D.m({ wire: "protocol" }),
+    },
+  }),
+});
+const o_Entitlement: D.LazyStruct = () => ({
+  DataTransferSubscriberFeePercent: D.m({
+    wire: "dataTransferSubscriberFeePercent",
+  }),
+  Description: D.m({ wire: "description" }),
+  Encryption: D.m({ wire: "encryption", shape: o_Encryption }),
+  EntitlementArn: D.m({ wire: "entitlementArn" }),
+  EntitlementStatus: D.m({ wire: "entitlementStatus" }),
+  Name: D.m({ wire: "name" }),
+  Subscribers: D.m({ wire: "subscribers" }),
+});
+const o_Flow: D.LazyStruct = () => ({
+  AvailabilityZone: D.m({ wire: "availabilityZone" }),
+  Description: D.m({ wire: "description" }),
+  EgressIp: D.m({ wire: "egressIp" }),
+  Entitlements: D.m({ wire: "entitlements", shape: D.list(o_Entitlement) }),
+  FlowArn: D.m({ wire: "flowArn" }),
+  MediaStreams: D.m({ wire: "mediaStreams", shape: D.list(o_MediaStream) }),
+  Name: D.m({ wire: "name" }),
+  Outputs: D.m({ wire: "outputs", shape: D.list(o_Output) }),
+  Source: D.m({ wire: "source", shape: o_Source }),
+  SourceFailoverConfig: D.m({
+    wire: "sourceFailoverConfig",
+    shape: o_FailoverConfig,
+  }),
+  Sources: D.m({ wire: "sources", shape: D.list(o_Source) }),
+  Status: D.m({ wire: "status" }),
+  VpcInterfaces: D.m({ wire: "vpcInterfaces", shape: D.list(o_VpcInterface) }),
+  Maintenance: D.m({ wire: "maintenance", shape: o_Maintenance }),
+  SourceMonitoringConfig: D.m({
+    wire: "sourceMonitoringConfig",
+    shape: {
+      ThumbnailState: D.m({ wire: "thumbnailState" }),
+      AudioMonitoringSettings: D.m({
+        wire: "audioMonitoringSettings",
+        shape: D.list({
+          SilentAudio: D.m({
+            wire: "silentAudio",
+            shape: {
+              State: D.m({ wire: "state" }),
+              ThresholdSeconds: D.m({ wire: "thresholdSeconds" }),
+            },
+          }),
+        }),
+      }),
+      ContentQualityAnalysisState: D.m({ wire: "contentQualityAnalysisState" }),
+      VideoMonitoringSettings: D.m({
+        wire: "videoMonitoringSettings",
+        shape: D.list({
+          BlackFrames: D.m({
+            wire: "blackFrames",
+            shape: {
+              State: D.m({ wire: "state" }),
+              ThresholdSeconds: D.m({ wire: "thresholdSeconds" }),
+            },
+          }),
+          FrozenFrames: D.m({
+            wire: "frozenFrames",
+            shape: {
+              State: D.m({ wire: "state" }),
+              ThresholdSeconds: D.m({ wire: "thresholdSeconds" }),
+            },
+          }),
+        }),
+      }),
+    },
+  }),
+  FlowSize: D.m({ wire: "flowSize" }),
+  NdiConfig: D.m({
+    wire: "ndiConfig",
+    shape: {
+      NdiState: D.m({ wire: "ndiState" }),
+      MachineName: D.m({ wire: "machineName" }),
+      NdiDiscoveryServers: D.m({
+        wire: "ndiDiscoveryServers",
+        shape: D.list({
+          DiscoveryServerAddress: D.m({ wire: "discoveryServerAddress" }),
+          DiscoveryServerPort: D.m({ wire: "discoveryServerPort" }),
+          VpcInterfaceAdapter: D.m({ wire: "vpcInterfaceAdapter" }),
+        }),
+      }),
+    },
+  }),
+  EncodingConfig: D.m({
+    wire: "encodingConfig",
+    shape: {
+      EncodingProfile: D.m({ wire: "encodingProfile" }),
+      VideoMaxBitrate: D.m({ wire: "videoMaxBitrate" }),
+    },
+  }),
+});
+const o_FrameResolution: D.LazyStruct = () => ({
+  FrameHeight: D.m({ wire: "frameHeight" }),
+  FrameWidth: D.m({ wire: "frameWidth" }),
+});
+const o_Gateway: D.LazyStruct = () => ({
+  EgressCidrBlocks: D.m({ wire: "egressCidrBlocks" }),
+  GatewayArn: D.m({ wire: "gatewayArn" }),
+  GatewayMessages: D.m({
+    wire: "gatewayMessages",
+    shape: D.list(o_MessageDetail),
+  }),
+  GatewayState: D.m({ wire: "gatewayState" }),
+  Name: D.m({ wire: "name" }),
+  Networks: D.m({
+    wire: "networks",
+    shape: D.list({
+      CidrBlock: D.m({ wire: "cidrBlock" }),
+      Name: D.m({ wire: "name" }),
+    }),
+  }),
+});
+const o_Maintenance: D.LazyStruct = () => ({
+  MaintenanceDay: D.m({ wire: "maintenanceDay" }),
+  MaintenanceDeadline: D.m({ wire: "maintenanceDeadline" }),
+  MaintenanceScheduledDate: D.m({ wire: "maintenanceScheduledDate" }),
+  MaintenanceStartHour: D.m({ wire: "maintenanceStartHour" }),
+});
+const o_MaintenanceSchedule: D.LazyStruct = () => ({
+  Window: D.m({
+    wire: "window",
+    shape: {
+      Start: D.m({ wire: "start", shape: D.ts }),
+      End: D.m({ wire: "end", shape: D.ts }),
+      ScheduledTime: D.m({ wire: "scheduledTime", shape: D.ts }),
+    },
+  }),
+});
+const o_MediaStream: D.LazyStruct = () => ({
+  Attributes: D.m({
+    wire: "attributes",
+    shape: {
+      Fmtp: D.m({
+        wire: "fmtp",
+        shape: {
+          ChannelOrder: D.m({ wire: "channelOrder" }),
+          Colorimetry: D.m({ wire: "colorimetry" }),
+          ExactFramerate: D.m({ wire: "exactFramerate" }),
+          Par: D.m({ wire: "par" }),
+          Range: D.m({ wire: "range" }),
+          ScanMode: D.m({ wire: "scanMode" }),
+          Tcs: D.m({ wire: "tcs" }),
+        },
+      }),
+      Lang: D.m({ wire: "lang" }),
+    },
+  }),
+  ClockRate: D.m({ wire: "clockRate" }),
+  Description: D.m({ wire: "description" }),
+  Fmt: D.m({ wire: "fmt" }),
+  MediaStreamId: D.m({ wire: "mediaStreamId" }),
+  MediaStreamName: D.m({ wire: "mediaStreamName" }),
+  MediaStreamType: D.m({ wire: "mediaStreamType" }),
+  VideoFormat: D.m({ wire: "videoFormat" }),
+});
+const o_MessageDetail: D.LazyStruct = () => ({
+  Code: D.m({ wire: "code" }),
+  Message: D.m({ wire: "message" }),
+  ResourceName: D.m({ wire: "resourceName" }),
+});
+const o_NdiSourceInfo: D.LazyStruct = () => ({
+  SourceName: D.m({ wire: "sourceName" }),
+});
+const o_Offering: D.LazyStruct = () => ({
+  CurrencyCode: D.m({ wire: "currencyCode" }),
+  Duration: D.m({ wire: "duration" }),
+  DurationUnits: D.m({ wire: "durationUnits" }),
+  OfferingArn: D.m({ wire: "offeringArn" }),
+  OfferingDescription: D.m({ wire: "offeringDescription" }),
+  PricePerUnit: D.m({ wire: "pricePerUnit" }),
+  PriceUnits: D.m({ wire: "priceUnits" }),
+  ResourceSpecification: D.m({
+    wire: "resourceSpecification",
+    shape: o_ResourceSpecification,
+  }),
+});
+const o_Output: D.LazyStruct = () => ({
+  DataTransferSubscriberFeePercent: D.m({
+    wire: "dataTransferSubscriberFeePercent",
+  }),
+  Description: D.m({ wire: "description" }),
+  Destination: D.m({ wire: "destination" }),
+  Encryption: D.m({ wire: "encryption", shape: o_Encryption }),
+  EntitlementArn: D.m({ wire: "entitlementArn" }),
+  ListenerAddress: D.m({ wire: "listenerAddress" }),
+  MediaLiveInputArn: D.m({ wire: "mediaLiveInputArn" }),
+  MediaStreamOutputConfigurations: D.m({
+    wire: "mediaStreamOutputConfigurations",
+    shape: D.list({
+      DestinationConfigurations: D.m({
+        wire: "destinationConfigurations",
+        shape: D.list({
+          DestinationIp: D.m({ wire: "destinationIp" }),
+          DestinationPort: D.m({ wire: "destinationPort" }),
+          Interface: D.m({ wire: "interface", shape: o_Interface }),
+          OutboundIp: D.m({ wire: "outboundIp" }),
+        }),
+      }),
+      EncodingName: D.m({ wire: "encodingName" }),
+      EncodingParameters: D.m({
+        wire: "encodingParameters",
+        shape: {
+          CompressionFactor: D.m({ wire: "compressionFactor" }),
+          EncoderProfile: D.m({ wire: "encoderProfile" }),
+        },
+      }),
+      MediaStreamName: D.m({ wire: "mediaStreamName" }),
+    }),
+  }),
+  Name: D.m({ wire: "name" }),
+  OutputArn: D.m({ wire: "outputArn" }),
+  Port: D.m({ wire: "port" }),
+  Transport: D.m({ wire: "transport", shape: o_Transport }),
+  VpcInterfaceAttachment: D.m({
+    wire: "vpcInterfaceAttachment",
+    shape: o_VpcInterfaceAttachment,
+  }),
+  BridgeArn: D.m({ wire: "bridgeArn" }),
+  BridgePorts: D.m({ wire: "bridgePorts" }),
+  OutputStatus: D.m({ wire: "outputStatus" }),
+  PeerIpAddress: D.m({ wire: "peerIpAddress" }),
+  RouterIntegrationState: D.m({ wire: "routerIntegrationState" }),
+  RouterIntegrationTransitEncryption: D.m({
+    wire: "routerIntegrationTransitEncryption",
+    shape: o_FlowTransitEncryption,
+  }),
+  ConnectedRouterInputArn: D.m({ wire: "connectedRouterInputArn" }),
+});
+const o_Reservation: D.LazyStruct = () => ({
+  CurrencyCode: D.m({ wire: "currencyCode" }),
+  Duration: D.m({ wire: "duration" }),
+  DurationUnits: D.m({ wire: "durationUnits" }),
+  End: D.m({ wire: "end" }),
+  OfferingArn: D.m({ wire: "offeringArn" }),
+  OfferingDescription: D.m({ wire: "offeringDescription" }),
+  PricePerUnit: D.m({ wire: "pricePerUnit" }),
+  PriceUnits: D.m({ wire: "priceUnits" }),
+  ReservationArn: D.m({ wire: "reservationArn" }),
+  ReservationName: D.m({ wire: "reservationName" }),
+  ReservationState: D.m({ wire: "reservationState" }),
+  ResourceSpecification: D.m({
+    wire: "resourceSpecification",
+    shape: o_ResourceSpecification,
+  }),
+  Start: D.m({ wire: "start" }),
+});
+const o_RouterInput: D.LazyStruct = () => ({
+  Name: D.m({ wire: "name" }),
+  Arn: D.m({ wire: "arn" }),
+  Id: D.m({ wire: "id" }),
+  State: D.m({ wire: "state" }),
+  InputType: D.m({ wire: "inputType" }),
+  Configuration: D.m({
+    wire: "configuration",
+    shape: {
+      Standard: D.m({
+        wire: "standard",
+        shape: {
+          NetworkInterfaceArn: D.m({ wire: "networkInterfaceArn" }),
+          ProtocolConfiguration: D.m({
+            wire: "protocolConfiguration",
+            shape: {
+              Rist: D.m({
+                wire: "rist",
+                shape: o_RistRouterInputConfiguration,
+              }),
+              SrtListener: D.m({
+                wire: "srtListener",
+                shape: o_SrtListenerRouterInputConfiguration,
+              }),
+              SrtCaller: D.m({
+                wire: "srtCaller",
+                shape: o_SrtCallerRouterInputConfiguration,
+              }),
+              Rtp: D.m({ wire: "rtp", shape: o_RtpRouterInputConfiguration }),
+            },
+          }),
+          Protocol: D.m({ wire: "protocol" }),
+        },
+      }),
+      MediaLiveChannel: D.m({
+        wire: "mediaLiveChannel",
+        shape: {
+          MediaLiveChannelArn: D.m({ wire: "mediaLiveChannelArn" }),
+          MediaLivePipelineId: D.m({ wire: "mediaLivePipelineId" }),
+          MediaLiveChannelOutputName: D.m({
+            wire: "mediaLiveChannelOutputName",
+          }),
+          SourceTransitDecryption: D.m({
+            wire: "sourceTransitDecryption",
+            shape: o_MediaLiveTransitEncryption,
+          }),
+        },
+      }),
+      Failover: D.m({
+        wire: "failover",
+        shape: {
+          NetworkInterfaceArn: D.m({ wire: "networkInterfaceArn" }),
+          ProtocolConfigurations: D.m({
+            wire: "protocolConfigurations",
+            shape: D.list({
+              Rist: D.m({
+                wire: "rist",
+                shape: o_RistRouterInputConfiguration,
+              }),
+              SrtListener: D.m({
+                wire: "srtListener",
+                shape: o_SrtListenerRouterInputConfiguration,
+              }),
+              SrtCaller: D.m({
+                wire: "srtCaller",
+                shape: o_SrtCallerRouterInputConfiguration,
+              }),
+              Rtp: D.m({ wire: "rtp", shape: o_RtpRouterInputConfiguration }),
+            }),
+          }),
+          SourcePriorityMode: D.m({ wire: "sourcePriorityMode" }),
+          PrimarySourceIndex: D.m({ wire: "primarySourceIndex" }),
+        },
+      }),
+      MediaConnectFlow: D.m({
+        wire: "mediaConnectFlow",
+        shape: {
+          FlowArn: D.m({ wire: "flowArn" }),
+          FlowOutputArn: D.m({ wire: "flowOutputArn" }),
+          SourceTransitDecryption: D.m({
+            wire: "sourceTransitDecryption",
+            shape: o_FlowTransitEncryption,
+          }),
+        },
+      }),
+      Merge: D.m({
+        wire: "merge",
+        shape: {
+          NetworkInterfaceArn: D.m({ wire: "networkInterfaceArn" }),
+          ProtocolConfigurations: D.m({
+            wire: "protocolConfigurations",
+            shape: D.list({
+              Rtp: D.m({ wire: "rtp", shape: o_RtpRouterInputConfiguration }),
+              Rist: D.m({
+                wire: "rist",
+                shape: o_RistRouterInputConfiguration,
+              }),
+            }),
+          }),
+          MergeRecoveryWindowMilliseconds: D.m({
+            wire: "mergeRecoveryWindowMilliseconds",
+          }),
+        },
+      }),
+    },
+  }),
+  RoutedOutputs: D.m({ wire: "routedOutputs" }),
+  MaximumRoutedOutputs: D.m({ wire: "maximumRoutedOutputs" }),
+  RegionName: D.m({ wire: "regionName" }),
+  AvailabilityZone: D.m({ wire: "availabilityZone" }),
+  MaximumBitrate: D.m({ wire: "maximumBitrate" }),
+  Tier: D.m({ wire: "tier" }),
+  RoutingScope: D.m({ wire: "routingScope" }),
+  CreatedAt: D.m({ wire: "createdAt", shape: D.ts }),
+  UpdatedAt: D.m({ wire: "updatedAt", shape: D.ts }),
+  Messages: D.m({ wire: "messages", shape: D.list(o_RouterInputMessage) }),
+  TransitEncryption: D.m({
+    wire: "transitEncryption",
+    shape: {
+      EncryptionKeyType: D.m({ wire: "encryptionKeyType" }),
+      EncryptionKeyConfiguration: D.m({
+        wire: "encryptionKeyConfiguration",
+        shape: {
+          SecretsManager: D.m({
+            wire: "secretsManager",
+            shape: o_SecretsManagerEncryptionKeyConfiguration,
+          }),
+          Automatic: D.m({ wire: "automatic" }),
+        },
+      }),
+    },
+  }),
+  Tags: D.m({ wire: "tags" }),
+  StreamDetails: D.m({
+    wire: "streamDetails",
+    shape: {
+      Standard: D.m({
+        wire: "standard",
+        shape: { SourceIpAddress: D.m({ wire: "sourceIpAddress" }) },
+      }),
+      MediaLiveChannel: D.m({ wire: "mediaLiveChannel" }),
+      Failover: D.m({
+        wire: "failover",
+        shape: {
+          SourceIndexZeroStreamDetails: D.m({
+            wire: "sourceIndexZeroStreamDetails",
+            shape: o_FailoverRouterInputIndexedStreamDetails,
+          }),
+          SourceIndexOneStreamDetails: D.m({
+            wire: "sourceIndexOneStreamDetails",
+            shape: o_FailoverRouterInputIndexedStreamDetails,
+          }),
+        },
+      }),
+      MediaConnectFlow: D.m({ wire: "mediaConnectFlow" }),
+      Merge: D.m({
+        wire: "merge",
+        shape: {
+          SourceIndexZeroStreamDetails: D.m({
+            wire: "sourceIndexZeroStreamDetails",
+            shape: o_MergeRouterInputIndexedStreamDetails,
+          }),
+          SourceIndexOneStreamDetails: D.m({
+            wire: "sourceIndexOneStreamDetails",
+            shape: o_MergeRouterInputIndexedStreamDetails,
+          }),
+        },
+      }),
+    },
+  }),
+  IpAddress: D.m({ wire: "ipAddress" }),
+  MaintenanceType: D.m({ wire: "maintenanceType" }),
+  MaintenanceConfiguration: D.m({
+    wire: "maintenanceConfiguration",
+    shape: o_MaintenanceConfiguration,
+  }),
+  MaintenanceScheduleType: D.m({ wire: "maintenanceScheduleType" }),
+  MaintenanceSchedule: D.m({
+    wire: "maintenanceSchedule",
+    shape: o_MaintenanceSchedule,
+  }),
+  ContentQualityAnalysisType: D.m({ wire: "contentQualityAnalysisType" }),
+  ContentQualityAnalysisConfiguration: D.m({
+    wire: "contentQualityAnalysisConfiguration",
+    shape: {
+      ContentLevel: D.m({
+        wire: "contentLevel",
+        shape: {
+          BlackFrames: D.m({
+            wire: "blackFrames",
+            shape: {
+              State: D.m({ wire: "state" }),
+              ThresholdSeconds: D.m({ wire: "thresholdSeconds" }),
+            },
+          }),
+          FrozenFrames: D.m({
+            wire: "frozenFrames",
+            shape: {
+              State: D.m({ wire: "state" }),
+              ThresholdSeconds: D.m({ wire: "thresholdSeconds" }),
+            },
+          }),
+          SilentAudio: D.m({
+            wire: "silentAudio",
+            shape: {
+              State: D.m({ wire: "state" }),
+              ThresholdSeconds: D.m({ wire: "thresholdSeconds" }),
+            },
+          }),
+        },
+      }),
+    },
+  }),
+});
+const o_RouterInputMessage: D.LazyStruct = () => ({
+  Code: D.m({ wire: "code" }),
+  Message: D.m({ wire: "message" }),
+});
+const o_RouterNetworkInterface: D.LazyStruct = () => ({
+  Name: D.m({ wire: "name" }),
+  Arn: D.m({ wire: "arn" }),
+  Id: D.m({ wire: "id" }),
+  State: D.m({ wire: "state" }),
+  NetworkInterfaceType: D.m({ wire: "networkInterfaceType" }),
+  Configuration: D.m({
+    wire: "configuration",
+    shape: {
+      Public: D.m({
+        wire: "public",
+        shape: {
+          AllowRules: D.m({
+            wire: "allowRules",
+            shape: D.list({ Cidr: D.m({ wire: "cidr" }) }),
+          }),
+        },
+      }),
+      Vpc: D.m({
+        wire: "vpc",
+        shape: {
+          SecurityGroupIds: D.m({ wire: "securityGroupIds" }),
+          SubnetId: D.m({ wire: "subnetId" }),
+        },
+      }),
+    },
+  }),
+  AssociatedOutputCount: D.m({ wire: "associatedOutputCount" }),
+  AssociatedInputCount: D.m({ wire: "associatedInputCount" }),
+  RegionName: D.m({ wire: "regionName" }),
+  CreatedAt: D.m({ wire: "createdAt", shape: D.ts }),
+  UpdatedAt: D.m({ wire: "updatedAt", shape: D.ts }),
+  Tags: D.m({ wire: "tags" }),
+});
+const o_RouterOutput: D.LazyStruct = () => ({
+  Name: D.m({ wire: "name" }),
+  Arn: D.m({ wire: "arn" }),
+  Id: D.m({ wire: "id" }),
+  State: D.m({ wire: "state" }),
+  OutputType: D.m({ wire: "outputType" }),
+  Configuration: D.m({
+    wire: "configuration",
+    shape: {
+      Standard: D.m({
+        wire: "standard",
+        shape: {
+          NetworkInterfaceArn: D.m({ wire: "networkInterfaceArn" }),
+          ProtocolConfiguration: D.m({
+            wire: "protocolConfiguration",
+            shape: {
+              Rist: D.m({
+                wire: "rist",
+                shape: {
+                  DestinationAddress: D.m({ wire: "destinationAddress" }),
+                  DestinationPort: D.m({ wire: "destinationPort" }),
+                },
+              }),
+              SrtListener: D.m({
+                wire: "srtListener",
+                shape: {
+                  Port: D.m({ wire: "port" }),
+                  MinimumLatencyMilliseconds: D.m({
+                    wire: "minimumLatencyMilliseconds",
+                  }),
+                  EncryptionConfiguration: D.m({
+                    wire: "encryptionConfiguration",
+                    shape: o_SrtEncryptionConfiguration,
+                  }),
+                },
+              }),
+              SrtCaller: D.m({
+                wire: "srtCaller",
+                shape: {
+                  DestinationAddress: D.m({ wire: "destinationAddress" }),
+                  DestinationPort: D.m({ wire: "destinationPort" }),
+                  MinimumLatencyMilliseconds: D.m({
+                    wire: "minimumLatencyMilliseconds",
+                  }),
+                  StreamId: D.m({ wire: "streamId" }),
+                  EncryptionConfiguration: D.m({
+                    wire: "encryptionConfiguration",
+                    shape: o_SrtEncryptionConfiguration,
+                  }),
+                },
+              }),
+              Rtp: D.m({
+                wire: "rtp",
+                shape: {
+                  DestinationAddress: D.m({ wire: "destinationAddress" }),
+                  DestinationPort: D.m({ wire: "destinationPort" }),
+                  ForwardErrorCorrection: D.m({
+                    wire: "forwardErrorCorrection",
+                  }),
+                },
+              }),
+            },
+          }),
+          Protocol: D.m({ wire: "protocol" }),
+        },
+      }),
+      MediaConnectFlow: D.m({
+        wire: "mediaConnectFlow",
+        shape: {
+          FlowArn: D.m({ wire: "flowArn" }),
+          FlowSourceArn: D.m({ wire: "flowSourceArn" }),
+          DestinationTransitEncryption: D.m({
+            wire: "destinationTransitEncryption",
+            shape: o_FlowTransitEncryption,
+          }),
+        },
+      }),
+      MediaLiveInput: D.m({
+        wire: "mediaLiveInput",
+        shape: {
+          MediaLiveInputArn: D.m({ wire: "mediaLiveInputArn" }),
+          MediaLivePipelineId: D.m({ wire: "mediaLivePipelineId" }),
+          DestinationTransitEncryption: D.m({
+            wire: "destinationTransitEncryption",
+            shape: o_MediaLiveTransitEncryption,
+          }),
+        },
+      }),
+    },
+  }),
+  RoutedState: D.m({ wire: "routedState" }),
+  RegionName: D.m({ wire: "regionName" }),
+  AvailabilityZone: D.m({ wire: "availabilityZone" }),
+  MaximumBitrate: D.m({ wire: "maximumBitrate" }),
+  RoutingScope: D.m({ wire: "routingScope" }),
+  Tier: D.m({ wire: "tier" }),
+  CreatedAt: D.m({ wire: "createdAt", shape: D.ts }),
+  UpdatedAt: D.m({ wire: "updatedAt", shape: D.ts }),
+  Messages: D.m({
+    wire: "messages",
+    shape: D.list({
+      Code: D.m({ wire: "code" }),
+      Message: D.m({ wire: "message" }),
+    }),
+  }),
+  Tags: D.m({ wire: "tags" }),
+  StreamDetails: D.m({
+    wire: "streamDetails",
+    shape: {
+      Standard: D.m({
+        wire: "standard",
+        shape: { DestinationIpAddress: D.m({ wire: "destinationIpAddress" }) },
+      }),
+      MediaConnectFlow: D.m({ wire: "mediaConnectFlow" }),
+      MediaLiveInput: D.m({ wire: "mediaLiveInput" }),
+    },
+  }),
+  IpAddress: D.m({ wire: "ipAddress" }),
+  RoutedInputArn: D.m({ wire: "routedInputArn" }),
+  MaintenanceType: D.m({ wire: "maintenanceType" }),
+  MaintenanceConfiguration: D.m({
+    wire: "maintenanceConfiguration",
+    shape: o_MaintenanceConfiguration,
+  }),
+  MaintenanceScheduleType: D.m({ wire: "maintenanceScheduleType" }),
+  MaintenanceSchedule: D.m({
+    wire: "maintenanceSchedule",
+    shape: o_MaintenanceSchedule,
+  }),
+  FabricConfiguration: D.m({
+    wire: "fabricConfiguration",
+    shape: { RecoveryLatencyMode: D.m({ wire: "recoveryLatencyMode" }) },
+  }),
+});
+const o_Source: D.LazyStruct = () => ({
+  DataTransferSubscriberFeePercent: D.m({
+    wire: "dataTransferSubscriberFeePercent",
+  }),
+  Decryption: D.m({ wire: "decryption", shape: o_Encryption }),
+  Description: D.m({ wire: "description" }),
+  EntitlementArn: D.m({ wire: "entitlementArn" }),
+  IngestIp: D.m({ wire: "ingestIp" }),
+  IngestPort: D.m({ wire: "ingestPort" }),
+  MediaStreamSourceConfigurations: D.m({
+    wire: "mediaStreamSourceConfigurations",
+    shape: D.list({
+      EncodingName: D.m({ wire: "encodingName" }),
+      InputConfigurations: D.m({
+        wire: "inputConfigurations",
+        shape: D.list({
+          InputIp: D.m({ wire: "inputIp" }),
+          InputPort: D.m({ wire: "inputPort" }),
+          Interface: D.m({ wire: "interface", shape: o_Interface }),
+        }),
+      }),
+      MediaStreamName: D.m({ wire: "mediaStreamName" }),
+    }),
+  }),
+  Name: D.m({ wire: "name" }),
+  SenderControlPort: D.m({ wire: "senderControlPort" }),
+  SenderIpAddress: D.m({ wire: "senderIpAddress" }),
+  SourceArn: D.m({ wire: "sourceArn" }),
+  Transport: D.m({ wire: "transport", shape: o_Transport }),
+  VpcInterfaceName: D.m({ wire: "vpcInterfaceName" }),
+  WhitelistCidr: D.m({ wire: "whitelistCidr" }),
+  GatewayBridgeSource: D.m({
+    wire: "gatewayBridgeSource",
+    shape: {
+      BridgeArn: D.m({ wire: "bridgeArn" }),
+      VpcInterfaceAttachment: D.m({
+        wire: "vpcInterfaceAttachment",
+        shape: o_VpcInterfaceAttachment,
+      }),
+    },
+  }),
+  PeerIpAddress: D.m({ wire: "peerIpAddress" }),
+  RouterIntegrationState: D.m({ wire: "routerIntegrationState" }),
+  RouterIntegrationTransitDecryption: D.m({
+    wire: "routerIntegrationTransitDecryption",
+    shape: o_FlowTransitEncryption,
+  }),
+  ConnectedRouterOutputArn: D.m({ wire: "connectedRouterOutputArn" }),
+});
+const o_TransportMediaInfo: D.LazyStruct = () => ({
+  Programs: D.m({
+    wire: "programs",
+    shape: D.list({
+      PcrPid: D.m({ wire: "pcrPid" }),
+      ProgramName: D.m({ wire: "programName" }),
+      ProgramNumber: D.m({ wire: "programNumber" }),
+      ProgramPid: D.m({ wire: "programPid" }),
+      Streams: D.m({
+        wire: "streams",
+        shape: D.list({
+          Channels: D.m({ wire: "channels" }),
+          Codec: D.m({ wire: "codec" }),
+          FrameRate: D.m({ wire: "frameRate" }),
+          FrameResolution: D.m({
+            wire: "frameResolution",
+            shape: o_FrameResolution,
+          }),
+          Pid: D.m({ wire: "pid" }),
+          SampleRate: D.m({ wire: "sampleRate" }),
+          SampleSize: D.m({ wire: "sampleSize" }),
+          StreamType: D.m({ wire: "streamType" }),
+        }),
+      }),
+    }),
+  }),
+});
+const o_VpcInterface: D.LazyStruct = () => ({
+  Name: D.m({ wire: "name" }),
+  NetworkInterfaceIds: D.m({ wire: "networkInterfaceIds" }),
+  NetworkInterfaceType: D.m({ wire: "networkInterfaceType" }),
+  RoleArn: D.m({ wire: "roleArn" }),
+  SecurityGroupIds: D.m({ wire: "securityGroupIds" }),
+  SubnetId: D.m({ wire: "subnetId" }),
+});
+const i_AutomaticEncryptionKeyConfiguration: D.LazyStruct = () => ({});
+const i_Encryption: D.LazyStruct = () => ({
+  Algorithm: D.m({ wire: "algorithm" }),
+  ConstantInitializationVector: D.m({ wire: "constantInitializationVector" }),
+  DeviceId: D.m({ wire: "deviceId" }),
+  KeyType: D.m({ wire: "keyType" }),
+  Region: D.m({ wire: "region" }),
+  ResourceId: D.m({ wire: "resourceId" }),
+  RoleArn: D.m({ wire: "roleArn" }),
+  SecretArn: D.m({ wire: "secretArn" }),
+  Url: D.m({ wire: "url" }),
+});
+const i_InterfaceRequest: D.LazyStruct = () => ({
+  Name: D.m({ wire: "name" }),
+});
+const i_MediaLiveTransitEncryption: D.LazyStruct = () => ({
+  EncryptionKeyType: D.m({ wire: "encryptionKeyType" }),
+  EncryptionKeyConfiguration: D.m({
+    wire: "encryptionKeyConfiguration",
+    shape: {
+      SecretsManager: D.m({
+        wire: "secretsManager",
+        shape: i_SecretsManagerEncryptionKeyConfiguration,
+      }),
+      Automatic: D.m({
+        wire: "automatic",
+        shape: i_AutomaticEncryptionKeyConfiguration,
+      }),
+    },
+  }),
+});
+const i_RistRouterInputConfiguration: D.LazyStruct = () => ({
+  Port: D.m({ wire: "port" }),
+  RecoveryLatencyMilliseconds: D.m({ wire: "recoveryLatencyMilliseconds" }),
+});
+const i_RtpRouterInputConfiguration: D.LazyStruct = () => ({
+  Port: D.m({ wire: "port" }),
+  ForwardErrorCorrection: D.m({ wire: "forwardErrorCorrection" }),
+});
+const i_SecretsManagerEncryptionKeyConfiguration: D.LazyStruct = () => ({
+  SecretArn: D.m({ wire: "secretArn" }),
+  RoleArn: D.m({ wire: "roleArn" }),
+});
+const i_SourcePriority: D.LazyStruct = () => ({
+  PrimarySource: D.m({ wire: "primarySource" }),
+});
+const i_SrtCallerRouterInputConfiguration: D.LazyStruct = () => ({
+  SourceAddress: D.m({ wire: "sourceAddress" }),
+  SourcePort: D.m({ wire: "sourcePort" }),
+  MinimumLatencyMilliseconds: D.m({ wire: "minimumLatencyMilliseconds" }),
+  StreamId: D.m({ wire: "streamId" }),
+  DecryptionConfiguration: D.m({
+    wire: "decryptionConfiguration",
+    shape: i_SrtDecryptionConfiguration,
+  }),
+});
+const i_SrtEncryptionConfiguration: D.LazyStruct = () => ({
+  EncryptionKey: D.m({
+    wire: "encryptionKey",
+    shape: i_SecretsManagerEncryptionKeyConfiguration,
+  }),
+});
+const i_SrtListenerRouterInputConfiguration: D.LazyStruct = () => ({
+  Port: D.m({ wire: "port" }),
+  MinimumLatencyMilliseconds: D.m({ wire: "minimumLatencyMilliseconds" }),
+  DecryptionConfiguration: D.m({
+    wire: "decryptionConfiguration",
+    shape: i_SrtDecryptionConfiguration,
+  }),
+});
+const o_Encryption: D.LazyStruct = () => ({
+  Algorithm: D.m({ wire: "algorithm" }),
+  ConstantInitializationVector: D.m({ wire: "constantInitializationVector" }),
+  DeviceId: D.m({ wire: "deviceId" }),
+  KeyType: D.m({ wire: "keyType" }),
+  Region: D.m({ wire: "region" }),
+  ResourceId: D.m({ wire: "resourceId" }),
+  RoleArn: D.m({ wire: "roleArn" }),
+  SecretArn: D.m({ wire: "secretArn" }),
+  Url: D.m({ wire: "url" }),
+});
+const o_FailoverConfig: D.LazyStruct = () => ({
+  FailoverMode: D.m({ wire: "failoverMode" }),
+  RecoveryWindow: D.m({ wire: "recoveryWindow" }),
+  SourcePriority: D.m({
+    wire: "sourcePriority",
+    shape: { PrimarySource: D.m({ wire: "primarySource" }) },
+  }),
+  State: D.m({ wire: "state" }),
+});
+const o_FailoverRouterInputIndexedStreamDetails: D.LazyStruct = () => ({
+  SourceIndex: D.m({ wire: "sourceIndex" }),
+  SourceIpAddress: D.m({ wire: "sourceIpAddress" }),
+});
+const o_FlowTransitEncryption: D.LazyStruct = () => ({
+  EncryptionKeyType: D.m({ wire: "encryptionKeyType" }),
+  EncryptionKeyConfiguration: D.m({
+    wire: "encryptionKeyConfiguration",
+    shape: {
+      SecretsManager: D.m({
+        wire: "secretsManager",
+        shape: o_SecretsManagerEncryptionKeyConfiguration,
+      }),
+      Automatic: D.m({ wire: "automatic" }),
+    },
+  }),
+});
+const o_Interface: D.LazyStruct = () => ({ Name: D.m({ wire: "name" }) });
+const o_MaintenanceConfiguration: D.LazyStruct = () => ({
+  PreferredDayTime: D.m({
+    wire: "preferredDayTime",
+    shape: { Day: D.m({ wire: "day" }), Time: D.m({ wire: "time" }) },
+  }),
+  Default: D.m({ wire: "default" }),
+});
+const o_MediaLiveTransitEncryption: D.LazyStruct = () => ({
+  EncryptionKeyType: D.m({ wire: "encryptionKeyType" }),
+  EncryptionKeyConfiguration: D.m({
+    wire: "encryptionKeyConfiguration",
+    shape: {
+      SecretsManager: D.m({
+        wire: "secretsManager",
+        shape: o_SecretsManagerEncryptionKeyConfiguration,
+      }),
+      Automatic: D.m({ wire: "automatic" }),
+    },
+  }),
+});
+const o_MergeRouterInputIndexedStreamDetails: D.LazyStruct = () => ({
+  SourceIndex: D.m({ wire: "sourceIndex" }),
+  SourceIpAddress: D.m({ wire: "sourceIpAddress" }),
+});
+const o_ResourceSpecification: D.LazyStruct = () => ({
+  ReservedBitrate: D.m({ wire: "reservedBitrate" }),
+  ResourceType: D.m({ wire: "resourceType" }),
+});
+const o_RistRouterInputConfiguration: D.LazyStruct = () => ({
+  Port: D.m({ wire: "port" }),
+  RecoveryLatencyMilliseconds: D.m({ wire: "recoveryLatencyMilliseconds" }),
+});
+const o_RtpRouterInputConfiguration: D.LazyStruct = () => ({
+  Port: D.m({ wire: "port" }),
+  ForwardErrorCorrection: D.m({ wire: "forwardErrorCorrection" }),
+});
+const o_SecretsManagerEncryptionKeyConfiguration: D.LazyStruct = () => ({
+  SecretArn: D.m({ wire: "secretArn" }),
+  RoleArn: D.m({ wire: "roleArn" }),
+});
+const o_SrtCallerRouterInputConfiguration: D.LazyStruct = () => ({
+  SourceAddress: D.m({ wire: "sourceAddress" }),
+  SourcePort: D.m({ wire: "sourcePort" }),
+  MinimumLatencyMilliseconds: D.m({ wire: "minimumLatencyMilliseconds" }),
+  StreamId: D.m({ wire: "streamId" }),
+  DecryptionConfiguration: D.m({
+    wire: "decryptionConfiguration",
+    shape: o_SrtDecryptionConfiguration,
+  }),
+});
+const o_SrtEncryptionConfiguration: D.LazyStruct = () => ({
+  EncryptionKey: D.m({
+    wire: "encryptionKey",
+    shape: o_SecretsManagerEncryptionKeyConfiguration,
+  }),
+});
+const o_SrtListenerRouterInputConfiguration: D.LazyStruct = () => ({
+  Port: D.m({ wire: "port" }),
+  MinimumLatencyMilliseconds: D.m({ wire: "minimumLatencyMilliseconds" }),
+  DecryptionConfiguration: D.m({
+    wire: "decryptionConfiguration",
+    shape: o_SrtDecryptionConfiguration,
+  }),
+});
+const o_Transport: D.LazyStruct = () => ({
+  CidrAllowList: D.m({ wire: "cidrAllowList" }),
+  MaxBitrate: D.m({ wire: "maxBitrate" }),
+  MaxLatency: D.m({ wire: "maxLatency" }),
+  MaxSyncBuffer: D.m({ wire: "maxSyncBuffer" }),
+  MinLatency: D.m({ wire: "minLatency" }),
+  Protocol: D.m({ wire: "protocol" }),
+  RemoteId: D.m({ wire: "remoteId" }),
+  SenderControlPort: D.m({ wire: "senderControlPort" }),
+  SenderIpAddress: D.m({ wire: "senderIpAddress" }),
+  SmoothingLatency: D.m({ wire: "smoothingLatency" }),
+  SourceListenerAddress: D.m({ wire: "sourceListenerAddress" }),
+  SourceListenerPort: D.m({ wire: "sourceListenerPort" }),
+  StreamId: D.m({ wire: "streamId" }),
+  NdiSpeedHqQuality: D.m({ wire: "ndiSpeedHqQuality" }),
+  NdiProgramName: D.m({ wire: "ndiProgramName" }),
+  NdiSourceSettings: D.m({
+    wire: "ndiSourceSettings",
+    shape: { SourceName: D.m({ wire: "sourceName" }) },
+  }),
+  NdiOutputTimecodeSource: D.m({ wire: "ndiOutputTimecodeSource" }),
+});
+const o_VpcInterfaceAttachment: D.LazyStruct = () => ({
+  VpcInterfaceName: D.m({ wire: "vpcInterfaceName" }),
+});
+const i_SrtDecryptionConfiguration: D.LazyStruct = () => ({
+  EncryptionKey: D.m({
+    wire: "encryptionKey",
+    shape: i_SecretsManagerEncryptionKeyConfiguration,
+  }),
+});
+const o_SrtDecryptionConfiguration: D.LazyStruct = () => ({
+  EncryptionKey: D.m({
+    wire: "encryptionKey",
+    shape: o_SecretsManagerEncryptionKeyConfiguration,
+  }),
+});

@@ -1,135 +1,109 @@
-import * as S from "effect/Schema";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import * as Category from "./category.ts";
 import type * as Credentials from "./credentials.browser.ts";
+import { TaggedError as AwsError } from "@distilled.cloud/core/error-class";
 import type * as SigV4 from "./sigv4.ts";
-// Imported from the leaf module, not `traits.ts`: that one imports every
-// protocol, and each protocol imports this file, so the annotation would not
-// yet exist when these classes are built. See error-message.ts.
-import * as T from "./error-message.ts";
 
-/**
- * The canonical message member every error class carries.
- *
- * Tagged with `T.ErrorMessage` so the response parser can find the message
- * without guessing at spelling — see the trait's docs and distilled #160.
- */
-const ErrorMessage = /*@__PURE__*/ S.optional(S.String).pipe(T.ErrorMessage());
+/** Fields every error class carries: the service's message. */
+interface MessageFields {
+  readonly message?: string;
+}
 
 //==== Common AWS Errors ====
-export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
-  "AccessDeniedException",
-  {
-    // AWS explains WHICH action/resource was denied in the message — keep it
-    // so callers (and test logs) can see the actual authorization failure.
-    message: ErrorMessage,
-  },
-).pipe(Category.withAuthError) {}
+export class AccessDeniedException extends AwsError("AccessDeniedException", [
+  "AuthError",
+])<MessageFields> {}
 
-export class ExpiredTokenException extends S.TaggedError<ExpiredTokenException>()(
-  "ExpiredTokenException",
-  { message: ErrorMessage },
-).pipe(Category.withAuthError) {}
+export class ExpiredTokenException extends AwsError("ExpiredTokenException", [
+  "AuthError",
+])<MessageFields> {}
 
-export class IncompleteSignature extends S.TaggedError<IncompleteSignature>()(
-  "IncompleteSignature",
-  { message: ErrorMessage },
-).pipe(Category.withAuthError) {}
+export class IncompleteSignature extends AwsError("IncompleteSignature", [
+  "AuthError",
+])<MessageFields> {}
 
-export class InternalFailure extends S.TaggedError<InternalFailure>()(
-  "InternalFailure",
-  { message: ErrorMessage },
-).pipe(Category.withServerError) {}
+export class InternalFailure extends AwsError("InternalFailure", [
+  "ServerError",
+])<MessageFields> {}
 
-export class MalformedHttpRequestException extends S.TaggedError<MalformedHttpRequestException>()(
+export class MalformedHttpRequestException extends AwsError(
   "MalformedHttpRequestException",
-  { message: ErrorMessage },
-).pipe(Category.withBadRequestError) {}
+  ["BadRequestError"],
+)<MessageFields> {}
 
-export class NotAuthorized extends S.TaggedError<NotAuthorized>()(
-  "NotAuthorized",
-  { message: ErrorMessage },
-).pipe(Category.withAuthError) {}
+export class NotAuthorized extends AwsError("NotAuthorized", [
+  "AuthError",
+])<MessageFields> {}
 
-export class OptInRequired extends S.TaggedError<OptInRequired>()(
-  "OptInRequired",
-  { message: ErrorMessage },
-).pipe(Category.withAuthError) {}
+export class OptInRequired extends AwsError("OptInRequired", [
+  "AuthError",
+])<MessageFields> {}
 
-export class RequestAbortedException extends S.TaggedError<RequestAbortedException>()(
+export class RequestAbortedException extends AwsError(
   "RequestAbortedException",
-  { message: ErrorMessage },
-).pipe(Category.withAbortedError) {}
+  ["AbortedError"],
+)<MessageFields> {}
 
-export class RequestEntityTooLargeException extends S.TaggedError<RequestEntityTooLargeException>()(
+export class RequestEntityTooLargeException extends AwsError(
   "RequestEntityTooLargeException",
-  { message: ErrorMessage },
-).pipe(Category.withBadRequestError) {}
+  ["BadRequestError"],
+)<MessageFields> {}
 
-export class RequestExpired extends S.TaggedError<RequestExpired>()(
-  "RequestExpired",
-  { message: ErrorMessage },
-).pipe(Category.withBadRequestError, Category.withTimeoutError) {}
+export class RequestExpired extends AwsError("RequestExpired", [
+  "BadRequestError",
+  "TimeoutError",
+])<MessageFields> {}
 
-export class RequestTimeoutException extends S.TaggedError<RequestTimeoutException>()(
+export class RequestTimeoutException extends AwsError(
   "RequestTimeoutException",
-  { message: ErrorMessage },
-).pipe(Category.withTimeoutError) {}
+  ["TimeoutError"],
+)<MessageFields> {}
 
-export class ServiceUnavailable extends S.TaggedError<ServiceUnavailable>()(
-  "ServiceUnavailable",
-  { message: ErrorMessage },
-).pipe(Category.withServerError) {}
+export class ServiceUnavailable extends AwsError("ServiceUnavailable", [
+  "ServerError",
+])<MessageFields> {}
 
-export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
-  "ThrottlingException",
-  { message: ErrorMessage },
-).pipe(Category.withThrottlingError) {}
+export class ThrottlingException extends AwsError("ThrottlingException", [
+  "ThrottlingError",
+])<MessageFields> {}
 
-export class UnrecognizedClientException extends S.TaggedError<UnrecognizedClientException>()(
+export class UnrecognizedClientException extends AwsError(
   "UnrecognizedClientException",
-  { message: ErrorMessage },
-).pipe(Category.withAuthError) {}
+  ["AuthError"],
+)<MessageFields> {}
 
-export class UnknownOperationException extends S.TaggedError<UnknownOperationException>()(
+export class UnknownOperationException extends AwsError(
   "UnknownOperationException",
-  { message: ErrorMessage },
-).pipe(Category.withBadRequestError) {}
+  ["BadRequestError"],
+)<MessageFields> {}
 
-export class ValidationError extends S.TaggedError<ValidationError>()(
-  "ValidationError",
-  { message: ErrorMessage },
-).pipe(Category.withBadRequestError) {}
+export class ValidationError extends AwsError("ValidationError", [
+  "BadRequestError",
+])<MessageFields> {}
 
-export class ValidationException extends S.TaggedError<ValidationException>()(
-  "ValidationException",
-  {
-    /** The human-readable validation failure reason from the service. */
-    message: ErrorMessage,
-    /** Machine-readable reason code (e.g. "FIELD_VALIDATION_FAILED"). */
-    reason: S.optional(S.String),
-    /** Per-field validation failures, when the service reports them. */
-    fieldList: S.optional(S.Any),
-  },
-).pipe(Category.withBadRequestError) {}
+export class ValidationException extends AwsError("ValidationException", [
+  "BadRequestError",
+])<{
+  /** The human-readable validation failure reason from the service. */
+  readonly message?: string;
+  /** Machine-readable reason code (e.g. "FIELD_VALIDATION_FAILED"). */
+  readonly reason?: string;
+  /** Per-field validation failures, when the service reports them. */
+  readonly fieldList?: any;
+}> {}
 
-export class OperationAborted extends S.TaggedError<OperationAborted>()(
-  "OperationAborted",
-  { message: ErrorMessage },
-).pipe(Category.withAbortedError) {}
+export class OperationAborted extends AwsError("OperationAborted", [
+  "AbortedError",
+])<MessageFields> {}
 
-export class UnknownAwsError extends S.TaggedError<UnknownAwsError>()(
-  "UnknownAwsError",
-  {
-    errorTag: S.String,
-    errorData: S.Any,
-    /** The AWS service SDK ID (e.g., "S3", "DynamoDB") */
-    service: S.optional(S.String),
-    /** The operation name (e.g., "createBucket", "putObject") */
-    operation: S.optional(S.String),
-    message: S.String.pipe(T.ErrorMessage()),
-  },
-) {}
+export class UnknownAwsError extends AwsError("UnknownAwsError")<{
+  readonly errorTag: string;
+  readonly errorData: any;
+  /** The AWS service SDK ID (e.g., "S3", "DynamoDB") */
+  readonly service?: string;
+  /** The operation name (e.g., "createBucket", "putObject") */
+  readonly operation?: string;
+  readonly message: string;
+}> {}
 
 /**
  * Check if an error is a transient network error that should be retried.
@@ -159,34 +133,27 @@ export const isTransientNetworkError = (err: unknown): boolean => {
  * Error thrown when a fetch request fails due to a transient network issue.
  * Marked as retryable so the default retry policy will automatically retry these.
  */
-export class TransientFetchError extends S.TaggedError<TransientFetchError>()(
-  "TransientFetchError",
-  {
-    message: S.String.pipe(T.ErrorMessage()),
-    cause: S.Any,
-  },
-).pipe(Category.withNetworkError) {}
+export class TransientFetchError extends AwsError("TransientFetchError", [
+  "NetworkError",
+])<{ readonly message: string; readonly cause: any }> {}
 
-export class InternalError extends S.TaggedError<InternalError>()(
-  "InternalError",
-  { message: ErrorMessage },
-).pipe(Category.withServerError) {}
+export class InternalError extends AwsError("InternalError", [
+  "ServerError",
+])<MessageFields> {}
 
 /** Error when endpoint resolution fails due to a rule error */
-export class EndpointError extends S.TaggedError<EndpointError>()(
-  "EndpointError",
-  { message: S.String.pipe(T.ErrorMessage()) },
-).pipe(Category.withServerError) {}
+export class EndpointError extends AwsError("EndpointError", ["ServerError"])<{
+  readonly message: string;
+}> {}
 
 /** Error when no rule matches in the ruleset */
-export class NoMatchingRuleError extends S.TaggedError<NoMatchingRuleError>()(
+export class NoMatchingRuleError extends AwsError(
   "NoMatchingRuleError",
-  { message: ErrorMessage },
-) {}
+)<MessageFields> {}
 
-export class ParseError extends S.TaggedError<ParseError>()("ParseError", {
-  message: S.String.pipe(T.ErrorMessage()),
-}) {}
+export class ParseError extends AwsError("ParseError")<{
+  readonly message: string;
+}> {}
 
 export const COMMON_ERRORS = [
   AccessDeniedException,
@@ -233,10 +200,8 @@ export type CommonAwsError =
 /**
  * All error types that can be returned by AWS operations.
  *
- * `HttpClientError` belongs here because `API.make` puts it in every
- * operation's error channel (the request can fail before any AWS response
- * exists — DNS, TLS, connection reset). Leaving it out made each generated
- * operation's declared type narrower than what it can actually fail with.
+ * `HttpClientError` belongs here because every operation can fail before
+ * any AWS response exists (DNS, TLS, connection reset).
  */
 export type CommonErrors =
   | UnknownAwsError

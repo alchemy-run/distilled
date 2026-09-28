@@ -1,186 +1,168 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { awsJson1_1Protocol } from "../protocols/aws-json.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "ACM PCA",
-  serviceShapeName: "ACMPrivateCA",
-});
-const auth = T.AwsAuthSigv4({ name: "acm-pca" });
-const ver = T.ServiceVersion("2017-08-22");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
-    }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://acm-pca-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
-          );
-        }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
-              return e(`https://acm-pca.${Region}.amazonaws.com`);
-            }
-            return e(
-              `https://acm-pca-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
-          }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
-        }
-        if (UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://acm-pca.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
-          }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
-        }
-        return e(
-          `https://acm-pca.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+  target: "ACMPrivateCA",
+  version: "2017-08-22",
+  sigv4: "acm-pca",
+  protocol: awsJson1_1Protocol,
+  rules: (p, _) => {
+    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
         );
       }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://acm-pca-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
+            );
+          }
+          if (UseFIPS === true) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
+                return e(`https://acm-pca.${Region}.amazonaws.com`);
+              }
+              return e(
+                `https://acm-pca-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              );
+            }
+            return err(
+              "FIPS is enabled but this partition does not support FIPS",
+            );
+          }
+          if (UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://acm-pca.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              );
+            }
+            return err(
+              "DualStack is enabled but this partition does not support DualStack",
+            );
+          }
+          return e(
+            `https://acm-pca.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+      }
+    }
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class CertificateMismatchException
-  extends /*@__PURE__*/ S.TaggedError<CertificateMismatchException>()(
-    "CertificateMismatchException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("CertificateMismatchException")<{
+    readonly message?: string;
+  }> {}
 export class ConcurrentModificationException
-  extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
-    "ConcurrentModificationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("ConcurrentModificationException")<{
+    readonly message?: string;
+  }> {}
 export class InvalidArgsException
-  extends /*@__PURE__*/ S.TaggedError<InvalidArgsException>()(
-    "InvalidArgsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidArgsException")<{
+    readonly message?: string;
+  }> {}
 export class InvalidArnException
-  extends /*@__PURE__*/ S.TaggedError<InvalidArnException>()(
-    "InvalidArnException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidArnException")<{
+    readonly message?: string;
+  }> {}
 export class InvalidNextTokenException
-  extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()(
-    "InvalidNextTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidNextTokenException")<{
+    readonly message?: string;
+  }> {}
 export class InvalidPolicyException
-  extends /*@__PURE__*/ S.TaggedError<InvalidPolicyException>()(
-    "InvalidPolicyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidPolicyException")<{
+    readonly message?: string;
+  }> {}
 export class InvalidRequestException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
-    "InvalidRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidRequestException")<{
+    readonly message?: string;
+  }> {}
 export class InvalidStateException
-  extends /*@__PURE__*/ S.TaggedError<InvalidStateException>()(
-    "InvalidStateException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidStateException")<{
+    readonly message?: string;
+  }> {}
 export class InvalidTagException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTagException>()(
-    "InvalidTagException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("InvalidTagException")<{
+    readonly message?: string;
+  }> {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("LimitExceededException")<{
+    readonly message?: string;
+  }> {}
 export class LockoutPreventedException
-  extends /*@__PURE__*/ S.TaggedError<LockoutPreventedException>()(
-    "LockoutPreventedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("LockoutPreventedException")<{
+    readonly message?: string;
+  }> {}
 export class MalformedCertificateException
-  extends /*@__PURE__*/ S.TaggedError<MalformedCertificateException>()(
-    "MalformedCertificateException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("MalformedCertificateException")<{
+    readonly message?: string;
+  }> {}
 export class MalformedCSRException
-  extends /*@__PURE__*/ S.TaggedError<MalformedCSRException>()(
-    "MalformedCSRException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("MalformedCSRException")<{
+    readonly message?: string;
+  }> {}
 export class PermissionAlreadyExistsException
-  extends /*@__PURE__*/ S.TaggedError<PermissionAlreadyExistsException>()(
-    "PermissionAlreadyExistsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAlreadyExistsError) {}
+  extends /*@__PURE__*/ TE.TaggedError("PermissionAlreadyExistsException", [
+    "AlreadyExistsError",
+  ])<{ readonly message?: string }> {}
 export class RequestAlreadyProcessedException
-  extends /*@__PURE__*/ S.TaggedError<RequestAlreadyProcessedException>()(
-    "RequestAlreadyProcessedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("RequestAlreadyProcessedException")<{
+    readonly message?: string;
+  }> {}
 export class RequestFailedException
-  extends /*@__PURE__*/ S.TaggedError<RequestFailedException>()(
-    "RequestFailedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("RequestFailedException")<{
+    readonly message?: string;
+  }> {}
 export class RequestInProgressException
-  extends /*@__PURE__*/ S.TaggedError<RequestInProgressException>()(
-    "RequestInProgressException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("RequestInProgressException")<{
+    readonly message?: string;
+  }> {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("ResourceNotFoundException")<{
+    readonly message?: string;
+  }> {}
 export class TooManyTagsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
-    "TooManyTagsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ TE.TaggedError("TooManyTagsException")<{
+    readonly message?: string;
+  }> {}
 export type KeyAlgorithm =
   | "RSA_2048"
   | "RSA_3072"
@@ -193,8 +175,6 @@ export type KeyAlgorithm =
   | "ML_DSA_87"
   | "SM2"
   | (string & {});
-export const KeyAlgorithm = S.String;
-
 export type SigningAlgorithm =
   | "SHA256WITHECDSA"
   | "SHA384WITHECDSA"
@@ -210,8 +190,6 @@ export type SigningAlgorithm =
   | "ML_DSA_65"
   | "ML_DSA_87"
   | (string & {});
-export const SigningAlgorithm = S.String;
-
 export type CountryCodeString = string;
 export type String64 = string;
 export type ASN1PrintableString64 = string;
@@ -226,13 +204,7 @@ export interface CustomAttribute {
   ObjectIdentifier: string;
   Value: string;
 }
-export const CustomAttribute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ObjectIdentifier: S.String, Value: S.String }),
-).annotate({
-  identifier: "CustomAttribute",
-}) as any as S.Schema<CustomAttribute>;
 export type CustomAttributeList = CustomAttribute[];
-export const CustomAttributeList = /*@__PURE__*/ S.Array(CustomAttribute);
 export interface ASN1Subject {
   Country?: string;
   Organization?: string;
@@ -250,25 +222,6 @@ export interface ASN1Subject {
   GenerationQualifier?: string;
   CustomAttributes?: CustomAttribute[];
 }
-export const ASN1Subject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Country: S.optional(S.String),
-    Organization: S.optional(S.String),
-    OrganizationalUnit: S.optional(S.String),
-    DistinguishedNameQualifier: S.optional(S.String),
-    State: S.optional(S.String),
-    CommonName: S.optional(S.String),
-    SerialNumber: S.optional(S.String),
-    Locality: S.optional(S.String),
-    Title: S.optional(S.String),
-    Surname: S.optional(S.String),
-    GivenName: S.optional(S.String),
-    Initials: S.optional(S.String),
-    Pseudonym: S.optional(S.String),
-    GenerationQualifier: S.optional(S.String),
-    CustomAttributes: S.optional(CustomAttributeList),
-  }),
-).annotate({ identifier: "ASN1Subject" }) as any as S.Schema<ASN1Subject>;
 export interface KeyUsage {
   DigitalSignature?: boolean;
   NonRepudiation?: boolean;
@@ -280,52 +233,25 @@ export interface KeyUsage {
   EncipherOnly?: boolean;
   DecipherOnly?: boolean;
 }
-export const KeyUsage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DigitalSignature: S.optional(S.Boolean),
-    NonRepudiation: S.optional(S.Boolean),
-    KeyEncipherment: S.optional(S.Boolean),
-    DataEncipherment: S.optional(S.Boolean),
-    KeyAgreement: S.optional(S.Boolean),
-    KeyCertSign: S.optional(S.Boolean),
-    CRLSign: S.optional(S.Boolean),
-    EncipherOnly: S.optional(S.Boolean),
-    DecipherOnly: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "KeyUsage" }) as any as S.Schema<KeyUsage>;
 export type AccessMethodType =
   | "CA_REPOSITORY"
   | "RESOURCE_PKI_MANIFEST"
   | "RESOURCE_PKI_NOTIFY"
   | (string & {});
-export const AccessMethodType = S.String;
-
 export interface AccessMethod {
   CustomObjectIdentifier?: string;
   AccessMethodType?: AccessMethodType;
 }
-export const AccessMethod = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CustomObjectIdentifier: S.optional(S.String),
-    AccessMethodType: S.optional(AccessMethodType),
-  }),
-).annotate({ identifier: "AccessMethod" }) as any as S.Schema<AccessMethod>;
 export type String256 = string;
 export interface OtherName {
   TypeId: string;
   Value: string;
 }
-export const OtherName = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TypeId: S.String, Value: S.String }),
-).annotate({ identifier: "OtherName" }) as any as S.Schema<OtherName>;
 export type String253 = string;
 export interface EdiPartyName {
   PartyName: string;
   NameAssigner?: string;
 }
-export const EdiPartyName = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PartyName: S.String, NameAssigner: S.optional(S.String) }),
-).annotate({ identifier: "EdiPartyName" }) as any as S.Schema<EdiPartyName>;
 export type String39 = string;
 export interface GeneralName {
   OtherName?: OtherName;
@@ -337,55 +263,21 @@ export interface GeneralName {
   IpAddress?: string;
   RegisteredId?: string;
 }
-export const GeneralName = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OtherName: S.optional(OtherName),
-    Rfc822Name: S.optional(S.String),
-    DnsName: S.optional(S.String),
-    DirectoryName: S.optional(ASN1Subject),
-    EdiPartyName: S.optional(EdiPartyName),
-    UniformResourceIdentifier: S.optional(S.String),
-    IpAddress: S.optional(S.String),
-    RegisteredId: S.optional(S.String),
-  }),
-).annotate({ identifier: "GeneralName" }) as any as S.Schema<GeneralName>;
 export interface AccessDescription {
   AccessMethod: AccessMethod;
   AccessLocation: GeneralName;
 }
-export const AccessDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccessMethod: AccessMethod, AccessLocation: GeneralName }),
-).annotate({
-  identifier: "AccessDescription",
-}) as any as S.Schema<AccessDescription>;
 export type AccessDescriptionList = AccessDescription[];
-export const AccessDescriptionList = /*@__PURE__*/ S.Array(AccessDescription);
 export interface CsrExtensions {
   KeyUsage?: KeyUsage;
   SubjectInformationAccess?: AccessDescription[];
 }
-export const CsrExtensions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyUsage: S.optional(KeyUsage),
-    SubjectInformationAccess: S.optional(AccessDescriptionList),
-  }),
-).annotate({ identifier: "CsrExtensions" }) as any as S.Schema<CsrExtensions>;
 export interface CertificateAuthorityConfiguration {
   KeyAlgorithm: KeyAlgorithm;
   SigningAlgorithm: SigningAlgorithm;
   Subject: ASN1Subject;
   CsrExtensions?: CsrExtensions;
 }
-export const CertificateAuthorityConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyAlgorithm: KeyAlgorithm,
-    SigningAlgorithm: SigningAlgorithm,
-    Subject: ASN1Subject,
-    CsrExtensions: S.optional(CsrExtensions),
-  }),
-).annotate({
-  identifier: "CertificateAuthorityConfiguration",
-}) as any as S.Schema<CertificateAuthorityConfiguration>;
 export type Integer1To5000 = number;
 export type CnameString = string;
 export type S3BucketName3To255 = string;
@@ -393,20 +285,10 @@ export type S3ObjectAcl =
   | "PUBLIC_READ"
   | "BUCKET_OWNER_FULL_CONTROL"
   | (string & {});
-export const S3ObjectAcl = S.String;
-
 export interface CrlDistributionPointExtensionConfiguration {
   OmitExtension: boolean;
 }
-export const CrlDistributionPointExtensionConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ OmitExtension: S.Boolean }),
-  ).annotate({
-    identifier: "CrlDistributionPointExtensionConfiguration",
-  }) as any as S.Schema<CrlDistributionPointExtensionConfiguration>;
 export type CrlType = "COMPLETE" | "PARTITIONED" | (string & {});
-export const CrlType = S.String;
-
 export type CrlPathString = string;
 export interface CrlConfiguration {
   Enabled: boolean;
@@ -418,71 +300,32 @@ export interface CrlConfiguration {
   CrlType?: CrlType;
   CustomPath?: string;
 }
-export const CrlConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.Boolean,
-    ExpirationInDays: S.optional(S.Number),
-    CustomCname: S.optional(S.String),
-    S3BucketName: S.optional(S.String),
-    S3ObjectAcl: S.optional(S3ObjectAcl),
-    CrlDistributionPointExtensionConfiguration: S.optional(
-      CrlDistributionPointExtensionConfiguration,
-    ),
-    CrlType: S.optional(CrlType),
-    CustomPath: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CrlConfiguration",
-}) as any as S.Schema<CrlConfiguration>;
 export interface OcspConfiguration {
   Enabled: boolean;
   OcspCustomCname?: string;
 }
-export const OcspConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Enabled: S.Boolean, OcspCustomCname: S.optional(S.String) }),
-).annotate({
-  identifier: "OcspConfiguration",
-}) as any as S.Schema<OcspConfiguration>;
 export interface RevocationConfiguration {
   CrlConfiguration?: CrlConfiguration;
   OcspConfiguration?: OcspConfiguration;
 }
-export const RevocationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CrlConfiguration: S.optional(CrlConfiguration),
-    OcspConfiguration: S.optional(OcspConfiguration),
-  }),
-).annotate({
-  identifier: "RevocationConfiguration",
-}) as any as S.Schema<RevocationConfiguration>;
 export type CertificateAuthorityType = "ROOT" | "SUBORDINATE" | (string & {});
-export const CertificateAuthorityType = S.String;
-
 export type IdempotencyToken = string;
 export type KeyStorageSecurityStandard =
   | "FIPS_140_2_LEVEL_2_OR_HIGHER"
   | "FIPS_140_2_LEVEL_3_OR_HIGHER"
   | "CCPC_LEVEL_1_OR_HIGHER"
   | (string & {});
-export const KeyStorageSecurityStandard = S.String;
-
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
   Value?: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.optional(S.String) }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export type CertificateAuthorityUsageMode =
   | "GENERAL_PURPOSE"
   | "SHORT_LIVED_CERTIFICATE"
   | (string & {});
-export const CertificateAuthorityUsageMode = S.String;
-
 export interface CreateCertificateAuthorityRequest {
   CertificateAuthorityConfiguration: CertificateAuthorityConfiguration;
   RevocationConfiguration?: RevocationConfiguration;
@@ -492,66 +335,23 @@ export interface CreateCertificateAuthorityRequest {
   Tags?: Tag[];
   UsageMode?: CertificateAuthorityUsageMode;
 }
-export const CreateCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateAuthorityConfiguration: CertificateAuthorityConfiguration,
-    RevocationConfiguration: S.optional(RevocationConfiguration),
-    CertificateAuthorityType: CertificateAuthorityType,
-    IdempotencyToken: S.optional(S.String),
-    KeyStorageSecurityStandard: S.optional(KeyStorageSecurityStandard),
-    Tags: S.optional(TagList),
-    UsageMode: S.optional(CertificateAuthorityUsageMode),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateCertificateAuthorityRequest",
-}) as any as S.Schema<CreateCertificateAuthorityRequest>;
 export type Arn = string;
 export interface CreateCertificateAuthorityResponse {
   CertificateAuthorityArn?: string;
 }
-export const CreateCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CertificateAuthorityArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateCertificateAuthorityResponse",
-}) as any as S.Schema<CreateCertificateAuthorityResponse>;
 export type S3BucketName = string;
 export type AuditReportResponseFormat = "JSON" | "CSV" | (string & {});
-export const AuditReportResponseFormat = S.String;
-
 export interface CreateCertificateAuthorityAuditReportRequest {
   CertificateAuthorityArn: string;
   S3BucketName: string;
   AuditReportResponseFormat: AuditReportResponseFormat;
 }
-export const CreateCertificateAuthorityAuditReportRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      CertificateAuthorityArn: S.String,
-      S3BucketName: S.String,
-      AuditReportResponseFormat: AuditReportResponseFormat,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "CreateCertificateAuthorityAuditReportRequest",
-  }) as any as S.Schema<CreateCertificateAuthorityAuditReportRequest>;
 export type AuditReportId = string;
 export type S3Key = string;
 export interface CreateCertificateAuthorityAuditReportResponse {
   AuditReportId?: string;
   S3Key?: string;
 }
-export const CreateCertificateAuthorityAuditReportResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AuditReportId: S.optional(S.String),
-      S3Key: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "CreateCertificateAuthorityAuditReportResponse",
-  }) as any as S.Schema<CreateCertificateAuthorityAuditReportResponse>;
 export type Principal = string;
 export type AccountId = string;
 export type ActionType =
@@ -559,103 +359,33 @@ export type ActionType =
   | "GetCertificate"
   | "ListPermissions"
   | (string & {});
-export const ActionType = S.String;
-
 export type ActionList = ActionType[];
-export const ActionList = /*@__PURE__*/ S.Array(ActionType);
 export interface CreatePermissionRequest {
   CertificateAuthorityArn: string;
   Principal: string;
   SourceAccount?: string;
   Actions: ActionType[];
 }
-export const CreatePermissionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateAuthorityArn: S.String,
-    Principal: S.String,
-    SourceAccount: S.optional(S.String),
-    Actions: ActionList,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreatePermissionRequest",
-}) as any as S.Schema<CreatePermissionRequest>;
 export interface CreatePermissionResponse {}
-export const CreatePermissionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CreatePermissionResponse",
-}) as any as S.Schema<CreatePermissionResponse>;
 export type PermanentDeletionTimeInDays = number;
 export interface DeleteCertificateAuthorityRequest {
   CertificateAuthorityArn: string;
   PermanentDeletionTimeInDays?: number;
 }
-export const DeleteCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateAuthorityArn: S.String,
-    PermanentDeletionTimeInDays: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteCertificateAuthorityRequest",
-}) as any as S.Schema<DeleteCertificateAuthorityRequest>;
 export interface DeleteCertificateAuthorityResponse {}
-export const DeleteCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteCertificateAuthorityResponse",
-}) as any as S.Schema<DeleteCertificateAuthorityResponse>;
 export interface DeletePermissionRequest {
   CertificateAuthorityArn: string;
   Principal: string;
   SourceAccount?: string;
 }
-export const DeletePermissionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateAuthorityArn: S.String,
-    Principal: S.String,
-    SourceAccount: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeletePermissionRequest",
-}) as any as S.Schema<DeletePermissionRequest>;
 export interface DeletePermissionResponse {}
-export const DeletePermissionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeletePermissionResponse",
-}) as any as S.Schema<DeletePermissionResponse>;
 export interface DeletePolicyRequest {
   ResourceArn: string;
 }
-export const DeletePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeletePolicyRequest",
-}) as any as S.Schema<DeletePolicyRequest>;
 export interface DeletePolicyResponse {}
-export const DeletePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeletePolicyResponse",
-}) as any as S.Schema<DeletePolicyResponse>;
 export interface DescribeCertificateAuthorityRequest {
   CertificateAuthorityArn: string;
 }
-export const DescribeCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CertificateAuthorityArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeCertificateAuthorityRequest",
-}) as any as S.Schema<DescribeCertificateAuthorityRequest>;
 export type CertificateAuthorityStatus =
   | "CREATING"
   | "PENDING_CERTIFICATE"
@@ -665,15 +395,11 @@ export type CertificateAuthorityStatus =
   | "EXPIRED"
   | "FAILED"
   | (string & {});
-export const CertificateAuthorityStatus = S.String;
-
 export type FailureReason =
   | "REQUEST_TIMED_OUT"
   | "UNSUPPORTED_ALGORITHM"
   | "OTHER"
   | (string & {});
-export const FailureReason = S.String;
-
 export interface CertificateAuthority {
   Arn?: string;
   OwnerAccount?: string;
@@ -691,170 +417,55 @@ export interface CertificateAuthority {
   KeyStorageSecurityStandard?: KeyStorageSecurityStandard;
   UsageMode?: CertificateAuthorityUsageMode;
 }
-export const CertificateAuthority = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    OwnerAccount: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastStateChangeAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Type: S.optional(CertificateAuthorityType),
-    Serial: S.optional(S.String),
-    Status: S.optional(CertificateAuthorityStatus),
-    NotBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    NotAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    FailureReason: S.optional(FailureReason),
-    CertificateAuthorityConfiguration: S.optional(
-      CertificateAuthorityConfiguration,
-    ),
-    RevocationConfiguration: S.optional(RevocationConfiguration),
-    RestorableUntil: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    KeyStorageSecurityStandard: S.optional(KeyStorageSecurityStandard),
-    UsageMode: S.optional(CertificateAuthorityUsageMode),
-  }),
-).annotate({
-  identifier: "CertificateAuthority",
-}) as any as S.Schema<CertificateAuthority>;
 export interface DescribeCertificateAuthorityResponse {
   CertificateAuthority?: CertificateAuthority;
 }
-export const DescribeCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ CertificateAuthority: S.optional(CertificateAuthority) }),
-).annotate({
-  identifier: "DescribeCertificateAuthorityResponse",
-}) as any as S.Schema<DescribeCertificateAuthorityResponse>;
 export interface DescribeCertificateAuthorityAuditReportRequest {
   CertificateAuthorityArn: string;
   AuditReportId: string;
 }
-export const DescribeCertificateAuthorityAuditReportRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      CertificateAuthorityArn: S.String,
-      AuditReportId: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DescribeCertificateAuthorityAuditReportRequest",
-  }) as any as S.Schema<DescribeCertificateAuthorityAuditReportRequest>;
 export type AuditReportStatus =
   | "CREATING"
   | "SUCCESS"
   | "FAILED"
   | (string & {});
-export const AuditReportStatus = S.String;
-
 export interface DescribeCertificateAuthorityAuditReportResponse {
   AuditReportStatus?: AuditReportStatus;
   S3BucketName?: string;
   S3Key?: string;
   CreatedAt?: Date;
 }
-export const DescribeCertificateAuthorityAuditReportResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AuditReportStatus: S.optional(AuditReportStatus),
-      S3BucketName: S.optional(S.String),
-      S3Key: S.optional(S.String),
-      CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    }),
-  ).annotate({
-    identifier: "DescribeCertificateAuthorityAuditReportResponse",
-  }) as any as S.Schema<DescribeCertificateAuthorityAuditReportResponse>;
 export interface GetCertificateRequest {
   CertificateAuthorityArn: string;
   CertificateArn: string;
 }
-export const GetCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateAuthorityArn: S.String,
-    CertificateArn: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetCertificateRequest",
-}) as any as S.Schema<GetCertificateRequest>;
 export type CertificateBody = string;
 export type CertificateChain = string;
 export interface GetCertificateResponse {
   Certificate?: string;
   CertificateChain?: string;
 }
-export const GetCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Certificate: S.optional(S.String),
-    CertificateChain: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetCertificateResponse",
-}) as any as S.Schema<GetCertificateResponse>;
 export interface GetCertificateAuthorityCertificateRequest {
   CertificateAuthorityArn: string;
 }
-export const GetCertificateAuthorityCertificateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ CertificateAuthorityArn: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "GetCertificateAuthorityCertificateRequest",
-  }) as any as S.Schema<GetCertificateAuthorityCertificateRequest>;
 export interface GetCertificateAuthorityCertificateResponse {
   Certificate?: string;
   CertificateChain?: string;
 }
-export const GetCertificateAuthorityCertificateResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Certificate: S.optional(S.String),
-      CertificateChain: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetCertificateAuthorityCertificateResponse",
-  }) as any as S.Schema<GetCertificateAuthorityCertificateResponse>;
 export interface GetCertificateAuthorityCsrRequest {
   CertificateAuthorityArn: string;
 }
-export const GetCertificateAuthorityCsrRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CertificateAuthorityArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetCertificateAuthorityCsrRequest",
-}) as any as S.Schema<GetCertificateAuthorityCsrRequest>;
 export type CsrBody = string;
 export interface GetCertificateAuthorityCsrResponse {
   Csr?: string;
 }
-export const GetCertificateAuthorityCsrResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Csr: S.optional(S.String) }),
-).annotate({
-  identifier: "GetCertificateAuthorityCsrResponse",
-}) as any as S.Schema<GetCertificateAuthorityCsrResponse>;
 export interface GetPolicyRequest {
   ResourceArn: string;
 }
-export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetPolicyRequest",
-}) as any as S.Schema<GetPolicyRequest>;
 export type AWSPolicy = string;
 export interface GetPolicyResponse {
   Policy?: string;
 }
-export const GetPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(S.String) }),
-).annotate({
-  identifier: "GetPolicyResponse",
-}) as any as S.Schema<GetPolicyResponse>;
 export type CertificateBodyBlob = Uint8Array;
 export type CertificateChainBlob = Uint8Array;
 export interface ImportCertificateAuthorityCertificateRequest {
@@ -862,58 +473,21 @@ export interface ImportCertificateAuthorityCertificateRequest {
   Certificate: Uint8Array;
   CertificateChain?: Uint8Array;
 }
-export const ImportCertificateAuthorityCertificateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      CertificateAuthorityArn: S.String,
-      Certificate: T.Blob,
-      CertificateChain: S.optional(T.Blob),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "ImportCertificateAuthorityCertificateRequest",
-  }) as any as S.Schema<ImportCertificateAuthorityCertificateRequest>;
 export interface ImportCertificateAuthorityCertificateResponse {}
-export const ImportCertificateAuthorityCertificateResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "ImportCertificateAuthorityCertificateResponse",
-  }) as any as S.Schema<ImportCertificateAuthorityCertificateResponse>;
 export type PolicyQualifierId = "CPS" | (string & {});
-export const PolicyQualifierId = S.String;
-
 export interface Qualifier {
   CpsUri: string;
 }
-export const Qualifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CpsUri: S.String }),
-).annotate({ identifier: "Qualifier" }) as any as S.Schema<Qualifier>;
 export interface PolicyQualifierInfo {
   PolicyQualifierId: PolicyQualifierId;
   Qualifier: Qualifier;
 }
-export const PolicyQualifierInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyQualifierId: PolicyQualifierId, Qualifier: Qualifier }),
-).annotate({
-  identifier: "PolicyQualifierInfo",
-}) as any as S.Schema<PolicyQualifierInfo>;
 export type PolicyQualifierInfoList = PolicyQualifierInfo[];
-export const PolicyQualifierInfoList =
-  /*@__PURE__*/ S.Array(PolicyQualifierInfo);
 export interface PolicyInformation {
   CertPolicyId: string;
   PolicyQualifiers?: PolicyQualifierInfo[];
 }
-export const PolicyInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertPolicyId: S.String,
-    PolicyQualifiers: S.optional(PolicyQualifierInfoList),
-  }),
-).annotate({
-  identifier: "PolicyInformation",
-}) as any as S.Schema<PolicyInformation>;
 export type CertificatePolicyList = PolicyInformation[];
-export const CertificatePolicyList = /*@__PURE__*/ S.Array(PolicyInformation);
 export type ExtendedKeyUsageType =
   | "SERVER_AUTH"
   | "CLIENT_AUTH"
@@ -925,41 +499,19 @@ export type ExtendedKeyUsageType =
   | "DOCUMENT_SIGNING"
   | "CERTIFICATE_TRANSPARENCY"
   | (string & {});
-export const ExtendedKeyUsageType = S.String;
-
 export interface ExtendedKeyUsage {
   ExtendedKeyUsageType?: ExtendedKeyUsageType;
   ExtendedKeyUsageObjectIdentifier?: string;
 }
-export const ExtendedKeyUsage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExtendedKeyUsageType: S.optional(ExtendedKeyUsageType),
-    ExtendedKeyUsageObjectIdentifier: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExtendedKeyUsage",
-}) as any as S.Schema<ExtendedKeyUsage>;
 export type ExtendedKeyUsageList = ExtendedKeyUsage[];
-export const ExtendedKeyUsageList = /*@__PURE__*/ S.Array(ExtendedKeyUsage);
 export type GeneralNameList = GeneralName[];
-export const GeneralNameList = /*@__PURE__*/ S.Array(GeneralName);
 export type Base64String1To4096 = string;
 export interface CustomExtension {
   ObjectIdentifier: string;
   Value: string;
   Critical?: boolean;
 }
-export const CustomExtension = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ObjectIdentifier: S.String,
-    Value: S.String,
-    Critical: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "CustomExtension",
-}) as any as S.Schema<CustomExtension>;
 export type CustomExtensionList = CustomExtension[];
-export const CustomExtensionList = /*@__PURE__*/ S.Array(CustomExtension);
 export interface Extensions {
   CertificatePolicies?: PolicyInformation[];
   ExtendedKeyUsage?: ExtendedKeyUsage[];
@@ -967,25 +519,10 @@ export interface Extensions {
   SubjectAlternativeNames?: GeneralName[];
   CustomExtensions?: CustomExtension[];
 }
-export const Extensions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificatePolicies: S.optional(CertificatePolicyList),
-    ExtendedKeyUsage: S.optional(ExtendedKeyUsageList),
-    KeyUsage: S.optional(KeyUsage),
-    SubjectAlternativeNames: S.optional(GeneralNameList),
-    CustomExtensions: S.optional(CustomExtensionList),
-  }),
-).annotate({ identifier: "Extensions" }) as any as S.Schema<Extensions>;
 export interface ApiPassthrough {
   Extensions?: Extensions;
   Subject?: ASN1Subject;
 }
-export const ApiPassthrough = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Extensions: S.optional(Extensions),
-    Subject: S.optional(ASN1Subject),
-  }),
-).annotate({ identifier: "ApiPassthrough" }) as any as S.Schema<ApiPassthrough>;
 export type CsrBlob = Uint8Array;
 export type PositiveLong = number;
 export type ValidityPeriodType =
@@ -995,15 +532,10 @@ export type ValidityPeriodType =
   | "MONTHS"
   | "YEARS"
   | (string & {});
-export const ValidityPeriodType = S.String;
-
 export interface Validity {
   Value: number;
   Type: ValidityPeriodType;
 }
-export const Validity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Value: S.Number, Type: ValidityPeriodType }),
-).annotate({ identifier: "Validity" }) as any as S.Schema<Validity>;
 export interface IssueCertificateRequest {
   ApiPassthrough?: ApiPassthrough;
   CertificateAuthorityArn: string;
@@ -1014,82 +546,27 @@ export interface IssueCertificateRequest {
   ValidityNotBefore?: Validity;
   IdempotencyToken?: string;
 }
-export const IssueCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApiPassthrough: S.optional(ApiPassthrough),
-    CertificateAuthorityArn: S.String,
-    Csr: T.Blob,
-    SigningAlgorithm: SigningAlgorithm,
-    TemplateArn: S.optional(S.String),
-    Validity: Validity,
-    ValidityNotBefore: S.optional(Validity),
-    IdempotencyToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "IssueCertificateRequest",
-}) as any as S.Schema<IssueCertificateRequest>;
 export interface IssueCertificateResponse {
   CertificateArn?: string;
 }
-export const IssueCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CertificateArn: S.optional(S.String) }),
-).annotate({
-  identifier: "IssueCertificateResponse",
-}) as any as S.Schema<IssueCertificateResponse>;
 export type MaxResults = number;
 export type NextToken = string;
 export type ResourceOwner = "SELF" | "OTHER_ACCOUNTS" | (string & {});
-export const ResourceOwner = S.String;
-
 export interface ListCertificateAuthoritiesRequest {
   MaxResults?: number;
   NextToken?: string;
   ResourceOwner?: ResourceOwner;
 }
-export const ListCertificateAuthoritiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    ResourceOwner: S.optional(ResourceOwner),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListCertificateAuthoritiesRequest",
-}) as any as S.Schema<ListCertificateAuthoritiesRequest>;
 export type CertificateAuthorities = CertificateAuthority[];
-export const CertificateAuthorities =
-  /*@__PURE__*/ S.Array(CertificateAuthority);
 export interface ListCertificateAuthoritiesResponse {
   NextToken?: string;
   CertificateAuthorities?: CertificateAuthority[];
 }
-export const ListCertificateAuthoritiesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    CertificateAuthorities: S.optional(CertificateAuthorities),
-  }),
-).annotate({
-  identifier: "ListCertificateAuthoritiesResponse",
-}) as any as S.Schema<ListCertificateAuthoritiesResponse>;
 export interface ListPermissionsRequest {
   MaxResults?: number;
   NextToken?: string;
   CertificateAuthorityArn: string;
 }
-export const ListPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    CertificateAuthorityArn: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListPermissionsRequest",
-}) as any as S.Schema<ListPermissionsRequest>;
 export interface Permission {
   CertificateAuthorityArn?: string;
   CreatedAt?: Date;
@@ -1098,88 +575,29 @@ export interface Permission {
   Actions?: ActionType[];
   Policy?: string;
 }
-export const Permission = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateAuthorityArn: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Principal: S.optional(S.String),
-    SourceAccount: S.optional(S.String),
-    Actions: S.optional(ActionList),
-    Policy: S.optional(S.String),
-  }),
-).annotate({ identifier: "Permission" }) as any as S.Schema<Permission>;
 export type PermissionList = Permission[];
-export const PermissionList = /*@__PURE__*/ S.Array(Permission);
 export interface ListPermissionsResponse {
   NextToken?: string;
   Permissions?: Permission[];
 }
-export const ListPermissionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Permissions: S.optional(PermissionList),
-  }),
-).annotate({
-  identifier: "ListPermissionsResponse",
-}) as any as S.Schema<ListPermissionsResponse>;
 export interface ListTagsRequest {
   MaxResults?: number;
   NextToken?: string;
   CertificateAuthorityArn: string;
 }
-export const ListTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    CertificateAuthorityArn: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsRequest",
-}) as any as S.Schema<ListTagsRequest>;
 export interface ListTagsResponse {
   NextToken?: string;
   Tags?: Tag[];
 }
-export const ListTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), Tags: S.optional(TagList) }),
-).annotate({
-  identifier: "ListTagsResponse",
-}) as any as S.Schema<ListTagsResponse>;
 export interface PutPolicyRequest {
   ResourceArn: string;
   Policy: string;
 }
-export const PutPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Policy: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "PutPolicyRequest",
-}) as any as S.Schema<PutPolicyRequest>;
 export interface PutPolicyResponse {}
-export const PutPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutPolicyResponse",
-}) as any as S.Schema<PutPolicyResponse>;
 export interface RestoreCertificateAuthorityRequest {
   CertificateAuthorityArn: string;
 }
-export const RestoreCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CertificateAuthorityArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "RestoreCertificateAuthorityRequest",
-}) as any as S.Schema<RestoreCertificateAuthorityRequest>;
 export interface RestoreCertificateAuthorityResponse {}
-export const RestoreCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "RestoreCertificateAuthorityResponse",
-}) as any as S.Schema<RestoreCertificateAuthorityResponse>;
 export type RevocationReason =
   | "UNSPECIFIED"
   | "KEY_COMPROMISE"
@@ -1190,86 +608,28 @@ export type RevocationReason =
   | "PRIVILEGE_WITHDRAWN"
   | "A_A_COMPROMISE"
   | (string & {});
-export const RevocationReason = S.String;
-
 export interface RevokeCertificateRequest {
   CertificateAuthorityArn: string;
   CertificateSerial: string;
   RevocationReason: RevocationReason;
 }
-export const RevokeCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateAuthorityArn: S.String,
-    CertificateSerial: S.String,
-    RevocationReason: RevocationReason,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "RevokeCertificateRequest",
-}) as any as S.Schema<RevokeCertificateRequest>;
 export interface RevokeCertificateResponse {}
-export const RevokeCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "RevokeCertificateResponse",
-}) as any as S.Schema<RevokeCertificateResponse>;
 export interface TagCertificateAuthorityRequest {
   CertificateAuthorityArn: string;
   Tags: Tag[];
 }
-export const TagCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CertificateAuthorityArn: S.String, Tags: TagList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "TagCertificateAuthorityRequest",
-}) as any as S.Schema<TagCertificateAuthorityRequest>;
 export interface TagCertificateAuthorityResponse {}
-export const TagCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagCertificateAuthorityResponse",
-}) as any as S.Schema<TagCertificateAuthorityResponse>;
 export interface UntagCertificateAuthorityRequest {
   CertificateAuthorityArn: string;
   Tags: Tag[];
 }
-export const UntagCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CertificateAuthorityArn: S.String, Tags: TagList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UntagCertificateAuthorityRequest",
-}) as any as S.Schema<UntagCertificateAuthorityRequest>;
 export interface UntagCertificateAuthorityResponse {}
-export const UntagCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagCertificateAuthorityResponse",
-}) as any as S.Schema<UntagCertificateAuthorityResponse>;
 export interface UpdateCertificateAuthorityRequest {
   CertificateAuthorityArn: string;
   RevocationConfiguration?: RevocationConfiguration;
   Status?: CertificateAuthorityStatus;
 }
-export const UpdateCertificateAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateAuthorityArn: S.String,
-    RevocationConfiguration: S.optional(RevocationConfiguration),
-    Status: S.optional(CertificateAuthorityStatus),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateCertificateAuthorityRequest",
-}) as any as S.Schema<UpdateCertificateAuthorityRequest>;
 export interface UpdateCertificateAuthorityResponse {}
-export const UpdateCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateCertificateAuthorityResponse",
-}) as any as S.Schema<UpdateCertificateAuthorityResponse>;
 export type CreateCertificateAuthorityError =
   | InvalidArgsException
   | InvalidPolicyException
@@ -1289,8 +649,29 @@ export const createCertificateAuthority: API.OperationMethod<
   CreateCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCertificateAuthorityRequest,
-  output: CreateCertificateAuthorityResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      CertificateAuthorityConfiguration: {
+        KeyAlgorithm: 0,
+        SigningAlgorithm: 0,
+        Subject: i_ASN1Subject,
+        CsrExtensions: {
+          KeyUsage: i_KeyUsage,
+          SubjectInformationAccess: D.list({
+            AccessMethod: { CustomObjectIdentifier: 0, AccessMethodType: 0 },
+            AccessLocation: i_GeneralName,
+          }),
+        },
+      },
+      RevocationConfiguration: i_RevocationConfiguration,
+      CertificateAuthorityType: 0,
+      IdempotencyToken: 0,
+      KeyStorageSecurityStandard: 0,
+      Tags: D.list(i_Tag),
+      UsageMode: 0,
+    },
+  },
   errors: [
     InvalidArgsException,
     InvalidPolicyException,
@@ -1300,7 +681,7 @@ export const createCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCertificateAuthority",
-}));
+})) as any;
 
 export type CreateCertificateAuthorityAuditReportError =
   | InvalidArgsException
@@ -1325,8 +706,14 @@ export const createCertificateAuthorityAuditReport: API.OperationMethod<
   CreateCertificateAuthorityAuditReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCertificateAuthorityAuditReportRequest,
-  output: CreateCertificateAuthorityAuditReportResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      CertificateAuthorityArn: 0,
+      S3BucketName: 0,
+      AuditReportResponseFormat: 0,
+    },
+  },
   errors: [
     InvalidArgsException,
     InvalidArnException,
@@ -1338,7 +725,7 @@ export const createCertificateAuthorityAuditReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCertificateAuthorityAuditReport",
-}));
+})) as any;
 
 export type CreatePermissionError =
   | InvalidArnException
@@ -1366,8 +753,15 @@ export const createPermission: API.OperationMethod<
   CreatePermissionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreatePermissionRequest,
-  output: CreatePermissionResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      CertificateAuthorityArn: 0,
+      Principal: 0,
+      SourceAccount: 0,
+      Actions: 0,
+    },
+  },
   errors: [
     InvalidArnException,
     InvalidStateException,
@@ -1379,7 +773,7 @@ export const createPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePermission",
-}));
+})) as any;
 
 export type DeleteCertificateAuthorityError =
   | ConcurrentModificationException
@@ -1406,8 +800,10 @@ export const deleteCertificateAuthority: API.OperationMethod<
   DeleteCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCertificateAuthorityRequest,
-  output: DeleteCertificateAuthorityResponse,
+  descriptor: {
+    service: svc,
+    input: { CertificateAuthorityArn: 0, PermanentDeletionTimeInDays: 0 },
+  },
   errors: [
     ConcurrentModificationException,
     InvalidArnException,
@@ -1417,7 +813,7 @@ export const deleteCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCertificateAuthority",
-}));
+})) as any;
 
 export type DeletePermissionError =
   | InvalidArnException
@@ -1445,8 +841,10 @@ export const deletePermission: API.OperationMethod<
   DeletePermissionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeletePermissionRequest,
-  output: DeletePermissionResponse,
+  descriptor: {
+    service: svc,
+    input: { CertificateAuthorityArn: 0, Principal: 0, SourceAccount: 0 },
+  },
   errors: [
     InvalidArnException,
     InvalidStateException,
@@ -1456,7 +854,7 @@ export const deletePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermission",
-}));
+})) as any;
 
 export type DeletePolicyError =
   | ConcurrentModificationException
@@ -1490,8 +888,7 @@ export const deletePolicy: API.OperationMethod<
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeletePolicyRequest,
-  output: DeletePolicyResponse,
+  descriptor: { service: svc, input: { ResourceArn: 0 } },
   errors: [
     ConcurrentModificationException,
     InvalidArnException,
@@ -1503,7 +900,7 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
-}));
+})) as any;
 
 export type DescribeCertificateAuthorityError =
   | InvalidArnException
@@ -1532,13 +929,16 @@ export const describeCertificateAuthority: API.OperationMethod<
   DescribeCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeCertificateAuthorityRequest,
-  output: DescribeCertificateAuthorityResponse,
+  descriptor: {
+    service: svc,
+    input: { CertificateAuthorityArn: 0 },
+    output: { CertificateAuthority: o_CertificateAuthority },
+  },
   errors: [InvalidArnException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificateAuthority",
-}));
+})) as any;
 
 export type DescribeCertificateAuthorityAuditReportError =
   | InvalidArgsException
@@ -1554,8 +954,11 @@ export const describeCertificateAuthorityAuditReport: API.OperationMethod<
   DescribeCertificateAuthorityAuditReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeCertificateAuthorityAuditReportRequest,
-  output: DescribeCertificateAuthorityAuditReportResponse,
+  descriptor: {
+    service: svc,
+    input: { CertificateAuthorityArn: 0, AuditReportId: 0 },
+    output: { CreatedAt: D.ts },
+  },
   errors: [
     InvalidArgsException,
     InvalidArnException,
@@ -1564,7 +967,7 @@ export const describeCertificateAuthorityAuditReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificateAuthorityAuditReport",
-}));
+})) as any;
 
 export type GetCertificateError =
   | InvalidArnException
@@ -1582,8 +985,10 @@ export const getCertificate: API.OperationMethod<
   GetCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCertificateRequest,
-  output: GetCertificateResponse,
+  descriptor: {
+    service: svc,
+    input: { CertificateAuthorityArn: 0, CertificateArn: 0 },
+  },
   errors: [
     InvalidArnException,
     InvalidStateException,
@@ -1594,7 +999,7 @@ export const getCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificate",
-}));
+})) as any;
 
 export type GetCertificateAuthorityCertificateError =
   | InvalidArnException
@@ -1610,8 +1015,7 @@ export const getCertificateAuthorityCertificate: API.OperationMethod<
   GetCertificateAuthorityCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCertificateAuthorityCertificateRequest,
-  output: GetCertificateAuthorityCertificateResponse,
+  descriptor: { service: svc, input: { CertificateAuthorityArn: 0 } },
   errors: [
     InvalidArnException,
     InvalidStateException,
@@ -1620,7 +1024,7 @@ export const getCertificateAuthorityCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificateAuthorityCertificate",
-}));
+})) as any;
 
 export type GetCertificateAuthorityCsrError =
   | InvalidArnException
@@ -1638,8 +1042,7 @@ export const getCertificateAuthorityCsr: API.OperationMethod<
   GetCertificateAuthorityCsrError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCertificateAuthorityCsrRequest,
-  output: GetCertificateAuthorityCsrResponse,
+  descriptor: { service: svc, input: { CertificateAuthorityArn: 0 } },
   errors: [
     InvalidArnException,
     InvalidStateException,
@@ -1650,7 +1053,7 @@ export const getCertificateAuthorityCsr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificateAuthorityCsr",
-}));
+})) as any;
 
 export type GetPolicyError =
   | InvalidArnException
@@ -1678,8 +1081,7 @@ export const getPolicy: API.OperationMethod<
   GetPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPolicyRequest,
-  output: GetPolicyResponse,
+  descriptor: { service: svc, input: { ResourceArn: 0 } },
   errors: [
     InvalidArnException,
     InvalidStateException,
@@ -1689,7 +1091,7 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
-}));
+})) as any;
 
 export type ImportCertificateAuthorityCertificateError =
   | CertificateMismatchException
@@ -1785,8 +1187,10 @@ export const importCertificateAuthorityCertificate: API.OperationMethod<
   ImportCertificateAuthorityCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ImportCertificateAuthorityCertificateRequest,
-  output: ImportCertificateAuthorityCertificateResponse,
+  descriptor: {
+    service: svc,
+    input: { CertificateAuthorityArn: 0, Certificate: 0, CertificateChain: 0 },
+  },
   errors: [
     CertificateMismatchException,
     ConcurrentModificationException,
@@ -1801,7 +1205,7 @@ export const importCertificateAuthorityCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCertificateAuthorityCertificate",
-}));
+})) as any;
 
 export type IssueCertificateError =
   | InvalidArgsException
@@ -1822,8 +1226,41 @@ export const issueCertificate: API.OperationMethod<
   IssueCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: IssueCertificateRequest,
-  output: IssueCertificateResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      ApiPassthrough: {
+        Extensions: {
+          CertificatePolicies: D.list({
+            CertPolicyId: 0,
+            PolicyQualifiers: D.list({
+              PolicyQualifierId: 0,
+              Qualifier: { CpsUri: 0 },
+            }),
+          }),
+          ExtendedKeyUsage: D.list({
+            ExtendedKeyUsageType: 0,
+            ExtendedKeyUsageObjectIdentifier: 0,
+          }),
+          KeyUsage: i_KeyUsage,
+          SubjectAlternativeNames: D.list(i_GeneralName),
+          CustomExtensions: D.list({
+            ObjectIdentifier: 0,
+            Value: 0,
+            Critical: 0,
+          }),
+        },
+        Subject: i_ASN1Subject,
+      },
+      CertificateAuthorityArn: 0,
+      Csr: 0,
+      SigningAlgorithm: 0,
+      TemplateArn: 0,
+      Validity: i_Validity,
+      ValidityNotBefore: i_Validity,
+      IdempotencyToken: 0,
+    },
+  },
   errors: [
     InvalidArgsException,
     InvalidArnException,
@@ -1835,7 +1272,7 @@ export const issueCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IssueCertificate",
-}));
+})) as any;
 
 export type ListCertificateAuthoritiesError =
   | InvalidNextTokenException
@@ -1850,8 +1287,11 @@ export const listCertificateAuthorities: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CertificateAuthority
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListCertificateAuthoritiesRequest,
-  output: ListCertificateAuthoritiesResponse,
+  descriptor: {
+    service: svc,
+    input: { MaxResults: 0, NextToken: 0, ResourceOwner: 0 },
+    output: { CertificateAuthorities: D.list(o_CertificateAuthority) },
+  },
   errors: [InvalidNextTokenException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1892,8 +1332,11 @@ export const listPermissions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Permission
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPermissionsRequest,
-  output: ListPermissionsResponse,
+  descriptor: {
+    service: svc,
+    input: { MaxResults: 0, NextToken: 0, CertificateAuthorityArn: 0 },
+    output: { Permissions: D.list({ CreatedAt: D.ts }) },
+  },
   errors: [
     InvalidArnException,
     InvalidNextTokenException,
@@ -1928,8 +1371,10 @@ export const listTags: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTagsRequest,
-  output: ListTagsResponse,
+  descriptor: {
+    service: svc,
+    input: { MaxResults: 0, NextToken: 0, CertificateAuthorityArn: 0 },
+  },
   errors: [
     InvalidArnException,
     InvalidStateException,
@@ -1978,8 +1423,7 @@ export const putPolicy: API.OperationMethod<
   PutPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutPolicyRequest,
-  output: PutPolicyResponse,
+  descriptor: { service: svc, input: { ResourceArn: 0, Policy: 0 } },
   errors: [
     ConcurrentModificationException,
     InvalidArnException,
@@ -1992,7 +1436,7 @@ export const putPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPolicy",
-}));
+})) as any;
 
 export type RestoreCertificateAuthorityError =
   | InvalidArnException
@@ -2008,8 +1452,7 @@ export const restoreCertificateAuthority: API.OperationMethod<
   RestoreCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RestoreCertificateAuthorityRequest,
-  output: RestoreCertificateAuthorityResponse,
+  descriptor: { service: svc, input: { CertificateAuthorityArn: 0 } },
   errors: [
     InvalidArnException,
     InvalidStateException,
@@ -2018,7 +1461,7 @@ export const restoreCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreCertificateAuthority",
-}));
+})) as any;
 
 export type RevokeCertificateError =
   | ConcurrentModificationException
@@ -2046,8 +1489,14 @@ export const revokeCertificate: API.OperationMethod<
   RevokeCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RevokeCertificateRequest,
-  output: RevokeCertificateResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      CertificateAuthorityArn: 0,
+      CertificateSerial: 0,
+      RevocationReason: 0,
+    },
+  },
   errors: [
     ConcurrentModificationException,
     InvalidArnException,
@@ -2062,7 +1511,7 @@ export const revokeCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeCertificate",
-}));
+})) as any;
 
 export type TagCertificateAuthorityError =
   | InvalidArnException
@@ -2082,8 +1531,10 @@ export const tagCertificateAuthority: API.OperationMethod<
   TagCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagCertificateAuthorityRequest,
-  output: TagCertificateAuthorityResponse,
+  descriptor: {
+    service: svc,
+    input: { CertificateAuthorityArn: 0, Tags: D.list(i_Tag) },
+  },
   errors: [
     InvalidArnException,
     InvalidStateException,
@@ -2094,7 +1545,7 @@ export const tagCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagCertificateAuthority",
-}));
+})) as any;
 
 export type UntagCertificateAuthorityError =
   | InvalidArnException
@@ -2111,8 +1562,10 @@ export const untagCertificateAuthority: API.OperationMethod<
   UntagCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagCertificateAuthorityRequest,
-  output: UntagCertificateAuthorityResponse,
+  descriptor: {
+    service: svc,
+    input: { CertificateAuthorityArn: 0, Tags: D.list(i_Tag) },
+  },
   errors: [
     InvalidArnException,
     InvalidStateException,
@@ -2122,7 +1575,7 @@ export const untagCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagCertificateAuthority",
-}));
+})) as any;
 
 export type UpdateCertificateAuthorityError =
   | ConcurrentModificationException
@@ -2143,8 +1596,14 @@ export const updateCertificateAuthority: API.OperationMethod<
   UpdateCertificateAuthorityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateCertificateAuthorityRequest,
-  output: UpdateCertificateAuthorityResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      CertificateAuthorityArn: 0,
+      RevocationConfiguration: i_RevocationConfiguration,
+      Status: 0,
+    },
+  },
   errors: [
     ConcurrentModificationException,
     InvalidArgsException,
@@ -2156,4 +1615,65 @@ export const updateCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCertificateAuthority",
-}));
+})) as any;
+
+const i_ASN1Subject: D.LazyStruct = () => ({
+  Country: 0,
+  Organization: 0,
+  OrganizationalUnit: 0,
+  DistinguishedNameQualifier: 0,
+  State: 0,
+  CommonName: 0,
+  SerialNumber: 0,
+  Locality: 0,
+  Title: 0,
+  Surname: 0,
+  GivenName: 0,
+  Initials: 0,
+  Pseudonym: 0,
+  GenerationQualifier: 0,
+  CustomAttributes: D.list({ ObjectIdentifier: 0, Value: 0 }),
+});
+const i_GeneralName: D.LazyStruct = () => ({
+  OtherName: { TypeId: 0, Value: 0 },
+  Rfc822Name: 0,
+  DnsName: 0,
+  DirectoryName: i_ASN1Subject,
+  EdiPartyName: { PartyName: 0, NameAssigner: 0 },
+  UniformResourceIdentifier: 0,
+  IpAddress: 0,
+  RegisteredId: 0,
+});
+const i_KeyUsage: D.LazyStruct = () => ({
+  DigitalSignature: 0,
+  NonRepudiation: 0,
+  KeyEncipherment: 0,
+  DataEncipherment: 0,
+  KeyAgreement: 0,
+  KeyCertSign: 0,
+  CRLSign: 0,
+  EncipherOnly: 0,
+  DecipherOnly: 0,
+});
+const i_RevocationConfiguration: D.LazyStruct = () => ({
+  CrlConfiguration: {
+    Enabled: 0,
+    ExpirationInDays: 0,
+    CustomCname: 0,
+    S3BucketName: 0,
+    S3ObjectAcl: 0,
+    CrlDistributionPointExtensionConfiguration: { OmitExtension: 0 },
+    CrlType: 0,
+    CustomPath: 0,
+  },
+  OcspConfiguration: { Enabled: 0, OcspCustomCname: 0 },
+});
+const i_Tag: D.LazyStruct = () => ({ Key: 0, Value: 0 });
+const i_Validity: D.LazyStruct = () => ({ Value: 0, Type: 0 });
+const o_CertificateAuthority: D.LazyStruct = () => ({
+  CreatedAt: D.ts,
+  LastStateChangeAt: D.ts,
+  NotBefore: D.ts,
+  NotAfter: D.ts,
+  RestorableUntil: D.ts,
+});

@@ -1,426 +1,194 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "@distilled.cloud/core/api";
+import * as D from "@distilled.cloud/core/shape";
+import * as TE from "@distilled.cloud/core/error-class";
 import { AwsProtocol } from "../protocol.ts";
+import { awsQueryProtocol } from "../protocols/aws-query.ts";
 import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
-import * as C from "../category.ts";
+import type * as T from "../types.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const ns = T.XmlNamespace("http://sdb.amazonaws.com/doc/2009-04-15/");
-const svc = T.AwsApiService({
+const svc: T.ServiceInfo = {
   sdkId: "SimpleDB",
-  serviceShapeName: "AmazonSimpleDB",
-});
-const auth = T.AwsAuthSigv2({ name: "sdb" });
-const ver = T.ServiceVersion("2009-04-15");
-const proto = T.AwsProtocolsAwsQuery();
-const rules = T.EndpointResolver((p, _) => {
-  const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+  target: "AmazonSimpleDB",
+  version: "2009-04-15",
+  sigv2: "sdb",
+  protocol: awsQueryProtocol,
+  xmlns: "http://sdb.amazonaws.com/doc/2009-04-15/",
+  rules: (p, _) => {
+    const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err(
+          "Invalid Configuration: FIPS and custom endpoint are not supported",
+        );
+      }
+      if (UseDualStack === true) {
+        return err(
+          "Invalid Configuration: Dualstack and custom endpoint are not supported",
+        );
+      }
+      return e(Endpoint);
     }
-    if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+    if (Region != null) {
+      if (Region === "us-east-1") {
+        return e("https://sdb.amazonaws.com");
+      }
+      return e(`https://sdb.${Region}.amazonaws.com`);
     }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    if (Region === "us-east-1") {
-      return e("https://sdb.amazonaws.com");
-    }
-    return e(`https://sdb.${Region}.amazonaws.com`);
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    return err("Invalid Configuration: Missing Region");
+  },
+};
 
 export class AttributeDoesNotExist
-  extends /*@__PURE__*/ S.TaggedError<AttributeDoesNotExist>()(
-    "AttributeDoesNotExist",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-  ).pipe(C.withNotFoundError) {}
+  extends /*@__PURE__*/ TE.TaggedError("AttributeDoesNotExist", [
+    "NotFoundError",
+  ])<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export class DuplicateItemName
-  extends /*@__PURE__*/ S.TaggedError<DuplicateItemName>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "DuplicateItemName",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export class InvalidNextToken
-  extends /*@__PURE__*/ S.TaggedError<InvalidNextToken>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidNextToken",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export class InvalidNumberPredicates
-  extends /*@__PURE__*/ S.TaggedError<InvalidNumberPredicates>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidNumberPredicates",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export class InvalidNumberValueTests
-  extends /*@__PURE__*/ S.TaggedError<InvalidNumberValueTests>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidNumberValueTests",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export class InvalidParameterValue
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterValue>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidParameterValue",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export class InvalidQueryExpression
-  extends /*@__PURE__*/ S.TaggedError<InvalidQueryExpression>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "InvalidQueryExpression",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export class MissingParameter
-  extends /*@__PURE__*/ S.TaggedError<MissingParameter>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "MissingParameter",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export class NoSuchDomain
-  extends /*@__PURE__*/ S.TaggedError<NoSuchDomain>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "NoSuchDomain",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError, C.withNotFoundError) {}
+    ["BadRequestError", "NotFoundError"],
+    { status: 400 },
+  )<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export class NumberDomainAttributesExceeded
-  extends /*@__PURE__*/ S.TaggedError<NumberDomainAttributesExceeded>()(
-    "NumberDomainAttributesExceeded",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-  ).pipe(C.withQuotaError) {}
+  extends /*@__PURE__*/ TE.TaggedError("NumberDomainAttributesExceeded", [
+    "QuotaError",
+  ])<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export class NumberDomainBytesExceeded
-  extends /*@__PURE__*/ S.TaggedError<NumberDomainBytesExceeded>()(
-    "NumberDomainBytesExceeded",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-  ).pipe(C.withQuotaError) {}
+  extends /*@__PURE__*/ TE.TaggedError("NumberDomainBytesExceeded", [
+    "QuotaError",
+  ])<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export class NumberDomainsExceeded
-  extends /*@__PURE__*/ S.TaggedError<NumberDomainsExceeded>()(
-    "NumberDomainsExceeded",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-  ).pipe(C.withQuotaError) {}
+  extends /*@__PURE__*/ TE.TaggedError("NumberDomainsExceeded", [
+    "QuotaError",
+  ])<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export class NumberItemAttributesExceeded
-  extends /*@__PURE__*/ S.TaggedError<NumberItemAttributesExceeded>()(
-    "NumberItemAttributesExceeded",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-  ).pipe(C.withQuotaError) {}
+  extends /*@__PURE__*/ TE.TaggedError("NumberItemAttributesExceeded", [
+    "QuotaError",
+  ])<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export class NumberSubmittedAttributesExceeded
-  extends /*@__PURE__*/ S.TaggedError<NumberSubmittedAttributesExceeded>()(
-    "NumberSubmittedAttributesExceeded",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-  ).pipe(C.withQuotaError) {}
+  extends /*@__PURE__*/ TE.TaggedError("NumberSubmittedAttributesExceeded", [
+    "QuotaError",
+  ])<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export class NumberSubmittedItemsExceeded
-  extends /*@__PURE__*/ S.TaggedError<NumberSubmittedItemsExceeded>()(
-    "NumberSubmittedItemsExceeded",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-  ).pipe(C.withQuotaError) {}
+  extends /*@__PURE__*/ TE.TaggedError("NumberSubmittedItemsExceeded", [
+    "QuotaError",
+  ])<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export class RequestTimeout
-  extends /*@__PURE__*/ S.TaggedError<RequestTimeout>()(
-    "RequestTimeout",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-    T.HttpError(408),
-  ).pipe(C.withTimeoutError) {}
+  extends /*@__PURE__*/ TE.TaggedError("RequestTimeout", ["TimeoutError"], {
+    status: 408,
+  })<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export class TooManyRequestedAttributes
-  extends /*@__PURE__*/ S.TaggedError<TooManyRequestedAttributes>()(
+  extends /*@__PURE__*/ TE.TaggedError(
     "TooManyRequestedAttributes",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      BoxUsage: S.optional(S.String),
-    },
-    T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+    ["BadRequestError"],
+    { status: 400 },
+  )<{ readonly message?: string; readonly BoxUsage?: string }> {}
 export type DomainName = string;
 export interface DeletableAttribute {
   Name: string;
   Value?: string;
 }
-export const DeletableAttribute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.optional(S.String) }),
-).annotate({
-  identifier: "DeletableAttribute",
-}) as any as S.Schema<DeletableAttribute>;
 export type DeletableAttributeList = DeletableAttribute[];
-export const DeletableAttributeList = /*@__PURE__*/ S.Array(DeletableAttribute);
 export interface DeletableItem {
   ItemName: string;
   Attributes?: DeletableAttribute[];
 }
-export const DeletableItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ItemName: S.String,
-    Attributes: S.optional(DeletableAttributeList).pipe(
-      T.XmlName("Attribute"),
-      T.XmlFlattened(),
-    ),
-  }),
-).annotate({ identifier: "DeletableItem" }) as any as S.Schema<DeletableItem>;
 export type DeletableItemList = DeletableItem[];
-export const DeletableItemList = /*@__PURE__*/ S.Array(DeletableItem);
 export interface BatchDeleteAttributesRequest {
   DomainName: string;
   Items: DeletableItem[];
 }
-export const BatchDeleteAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String,
-    Items: DeletableItemList.pipe(T.XmlName("Item"), T.XmlFlattened()),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchDeleteAttributesRequest",
-}) as any as S.Schema<BatchDeleteAttributesRequest>;
 export interface BatchDeleteAttributesResponse {}
-export const BatchDeleteAttributesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "BatchDeleteAttributesResponse",
-}) as any as S.Schema<BatchDeleteAttributesResponse>;
 export interface ReplaceableAttribute {
   Name: string;
   Value: string;
   Replace?: boolean;
 }
-export const ReplaceableAttribute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.String, Replace: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "ReplaceableAttribute",
-}) as any as S.Schema<ReplaceableAttribute>;
 export type ReplaceableAttributeList = ReplaceableAttribute[];
-export const ReplaceableAttributeList =
-  /*@__PURE__*/ S.Array(ReplaceableAttribute);
 export interface ReplaceableItem {
   ItemName: string;
   Attributes: ReplaceableAttribute[];
 }
-export const ReplaceableItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ItemName: S.String,
-    Attributes: ReplaceableAttributeList.pipe(
-      T.XmlName("Attribute"),
-      T.XmlFlattened(),
-    ),
-  }),
-).annotate({
-  identifier: "ReplaceableItem",
-}) as any as S.Schema<ReplaceableItem>;
 export type ReplaceableItemList = ReplaceableItem[];
-export const ReplaceableItemList = /*@__PURE__*/ S.Array(ReplaceableItem);
 export interface BatchPutAttributesRequest {
   DomainName: string;
   Items: ReplaceableItem[];
 }
-export const BatchPutAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String,
-    Items: ReplaceableItemList.pipe(T.XmlName("Item"), T.XmlFlattened()),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchPutAttributesRequest",
-}) as any as S.Schema<BatchPutAttributesRequest>;
 export interface BatchPutAttributesResponse {}
-export const BatchPutAttributesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "BatchPutAttributesResponse",
-}) as any as S.Schema<BatchPutAttributesResponse>;
 export interface CreateDomainRequest {
   DomainName: string;
 }
-export const CreateDomainRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDomainRequest",
-}) as any as S.Schema<CreateDomainRequest>;
 export interface CreateDomainResponse {}
-export const CreateDomainResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateDomainResponse",
-}) as any as S.Schema<CreateDomainResponse>;
 export interface UpdateCondition {
   Name?: string;
   Value?: string;
   Exists?: boolean;
 }
-export const UpdateCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Value: S.optional(S.String),
-    Exists: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "UpdateCondition",
-}) as any as S.Schema<UpdateCondition>;
 export interface DeleteAttributesRequest {
   DomainName: string;
   ItemName: string;
   Attributes?: DeletableAttribute[];
   Expected?: UpdateCondition;
 }
-export const DeleteAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String,
-    ItemName: S.String,
-    Attributes: S.optional(DeletableAttributeList).pipe(
-      T.XmlName("Attribute"),
-      T.XmlFlattened(),
-    ),
-    Expected: S.optional(UpdateCondition),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAttributesRequest",
-}) as any as S.Schema<DeleteAttributesRequest>;
 export interface DeleteAttributesResponse {}
-export const DeleteAttributesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteAttributesResponse",
-}) as any as S.Schema<DeleteAttributesResponse>;
 export interface DeleteDomainRequest {
   DomainName: string;
 }
-export const DeleteDomainRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDomainRequest",
-}) as any as S.Schema<DeleteDomainRequest>;
 export interface DeleteDomainResponse {}
-export const DeleteDomainResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteDomainResponse",
-}) as any as S.Schema<DeleteDomainResponse>;
 export interface DomainMetadataRequest {
   DomainName: string;
 }
-export const DomainMetadataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DomainMetadataRequest",
-}) as any as S.Schema<DomainMetadataRequest>;
 export interface DomainMetadataResponse {
   ItemCount?: number;
   ItemNamesSizeBytes?: number;
@@ -430,202 +198,54 @@ export interface DomainMetadataResponse {
   AttributeValuesSizeBytes?: number;
   Timestamp?: number;
 }
-export const DomainMetadataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ItemCount: S.optional(S.Number),
-    ItemNamesSizeBytes: S.optional(S.Number),
-    AttributeNameCount: S.optional(S.Number),
-    AttributeNamesSizeBytes: S.optional(S.Number),
-    AttributeValueCount: S.optional(S.Number),
-    AttributeValuesSizeBytes: S.optional(S.Number),
-    Timestamp: S.optional(S.Number),
-  }).pipe(ns),
-).annotate({
-  identifier: "DomainMetadataResponse",
-}) as any as S.Schema<DomainMetadataResponse>;
 export type AttributeNameList = string[];
-export const AttributeNameList = /*@__PURE__*/ S.Array(S.String);
 export interface GetAttributesRequest {
   DomainName: string;
   ItemName: string;
   AttributeNames?: string[];
   ConsistentRead?: boolean;
 }
-export const GetAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String,
-    ItemName: S.String,
-    AttributeNames: S.optional(AttributeNameList).pipe(
-      T.XmlName("AttributeName"),
-      T.XmlFlattened(),
-    ),
-    ConsistentRead: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAttributesRequest",
-}) as any as S.Schema<GetAttributesRequest>;
 export interface Attribute {
   Name: string;
   AlternateNameEncoding?: string;
   Value: string;
   AlternateValueEncoding?: string;
 }
-export const Attribute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    AlternateNameEncoding: S.optional(S.String),
-    Value: S.String,
-    AlternateValueEncoding: S.optional(S.String),
-  }),
-).annotate({ identifier: "Attribute" }) as any as S.Schema<Attribute>;
 export type AttributeList = Attribute[];
-export const AttributeList = /*@__PURE__*/ S.Array(Attribute);
 export interface GetAttributesResponse {
   Attributes?: Attribute[];
 }
-export const GetAttributesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Attributes: S.optional(AttributeList).pipe(
-      T.XmlName("Attribute"),
-      T.XmlFlattened(),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetAttributesResponse",
-}) as any as S.Schema<GetAttributesResponse>;
 export interface ListDomainsRequest {
   MaxNumberOfDomains?: number;
   NextToken?: string;
 }
-export const ListDomainsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxNumberOfDomains: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDomainsRequest",
-}) as any as S.Schema<ListDomainsRequest>;
 export type DomainNameList = string[];
-export const DomainNameList = /*@__PURE__*/ S.Array(S.String);
 export interface ListDomainsResponse {
   DomainNames?: string[];
   NextToken?: string;
 }
-export const ListDomainsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainNames: S.optional(DomainNameList).pipe(
-      T.XmlName("DomainName"),
-      T.XmlFlattened(),
-    ),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDomainsResponse",
-}) as any as S.Schema<ListDomainsResponse>;
 export interface PutAttributesRequest {
   DomainName: string;
   ItemName: string;
   Attributes: ReplaceableAttribute[];
   Expected?: UpdateCondition;
 }
-export const PutAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String,
-    ItemName: S.String,
-    Attributes: ReplaceableAttributeList.pipe(
-      T.XmlName("Attribute"),
-      T.XmlFlattened(),
-    ),
-    Expected: S.optional(UpdateCondition),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutAttributesRequest",
-}) as any as S.Schema<PutAttributesRequest>;
 export interface PutAttributesResponse {}
-export const PutAttributesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutAttributesResponse",
-}) as any as S.Schema<PutAttributesResponse>;
 export interface SelectRequest {
   SelectExpression: string;
   NextToken?: string;
   ConsistentRead?: boolean;
 }
-export const SelectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SelectExpression: S.String,
-    NextToken: S.optional(S.String),
-    ConsistentRead: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "SelectRequest" }) as any as S.Schema<SelectRequest>;
 export interface Item {
   Name: string;
   AlternateNameEncoding?: string;
   Attributes?: Attribute[];
 }
-export const Item = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    AlternateNameEncoding: S.optional(S.String),
-    Attributes: S.optional(AttributeList).pipe(
-      T.XmlName("Attribute"),
-      T.XmlFlattened(),
-    ),
-  }),
-).annotate({ identifier: "Item" }) as any as S.Schema<Item>;
 export type ItemList = Item[];
-export const ItemList = /*@__PURE__*/ S.Array(Item);
 export interface SelectResponse {
   Items?: Item[];
   NextToken?: string;
 }
-export const SelectResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(ItemList).pipe(T.XmlName("Item"), T.XmlFlattened()),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({ identifier: "SelectResponse" }) as any as S.Schema<SelectResponse>;
 export type BatchDeleteAttributesError = CommonErrors;
 /**
  * Deletes attributes (or whole items) on up to 25 items in a single call. Idempotent — missing items/attributes are not an error.
@@ -636,13 +256,30 @@ export const batchDeleteAttributes: API.OperationMethod<
   BatchDeleteAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchDeleteAttributesRequest,
-  output: BatchDeleteAttributesResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      DomainName: 0,
+      Items: D.m({
+        wire: "Item",
+        shape: D.list(
+          {
+            ItemName: 0,
+            Attributes: D.m({
+              wire: "Attribute",
+              shape: D.list(i_DeletableAttribute, { flat: true }),
+            }),
+          },
+          { flat: true },
+        ),
+      }),
+    },
+  },
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteAttributes",
-}));
+})) as any;
 
 export type BatchPutAttributesError =
   | DuplicateItemName
@@ -664,8 +301,25 @@ export const batchPutAttributes: API.OperationMethod<
   BatchPutAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchPutAttributesRequest,
-  output: BatchPutAttributesResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      DomainName: 0,
+      Items: D.m({
+        wire: "Item",
+        shape: D.list(
+          {
+            ItemName: 0,
+            Attributes: D.m({
+              wire: "Attribute",
+              shape: D.list(i_ReplaceableAttribute, { flat: true }),
+            }),
+          },
+          { flat: true },
+        ),
+      }),
+    },
+  },
   errors: [
     DuplicateItemName,
     InvalidParameterValue,
@@ -680,7 +334,7 @@ export const batchPutAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutAttributes",
-}));
+})) as any;
 
 export type CreateDomainError =
   | InvalidParameterValue
@@ -696,13 +350,12 @@ export const createDomain: API.OperationMethod<
   CreateDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDomainRequest,
-  output: CreateDomainResponse,
+  descriptor: { service: svc, input: { DomainName: 0 } },
   errors: [InvalidParameterValue, MissingParameter, NumberDomainsExceeded],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
-}));
+})) as any;
 
 export type DeleteAttributesError =
   | AttributeDoesNotExist
@@ -719,8 +372,18 @@ export const deleteAttributes: API.OperationMethod<
   DeleteAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAttributesRequest,
-  output: DeleteAttributesResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      DomainName: 0,
+      ItemName: 0,
+      Attributes: D.m({
+        wire: "Attribute",
+        shape: D.list(i_DeletableAttribute, { flat: true }),
+      }),
+      Expected: i_UpdateCondition,
+    },
+  },
   errors: [
     AttributeDoesNotExist,
     InvalidParameterValue,
@@ -730,7 +393,7 @@ export const deleteAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributes",
-}));
+})) as any;
 
 export type DeleteDomainError = MissingParameter | CommonErrors;
 /**
@@ -742,13 +405,12 @@ export const deleteDomain: API.OperationMethod<
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDomainRequest,
-  output: DeleteDomainResponse,
+  descriptor: { service: svc, input: { DomainName: 0 } },
   errors: [MissingParameter],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
-}));
+})) as any;
 
 export type DomainMetadataError =
   | MissingParameter
@@ -763,13 +425,24 @@ export const domainMetadata: API.OperationMethod<
   DomainMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DomainMetadataRequest,
-  output: DomainMetadataResponse,
+  descriptor: {
+    service: svc,
+    input: { DomainName: 0 },
+    output: {
+      ItemCount: D.num,
+      ItemNamesSizeBytes: D.num,
+      AttributeNameCount: D.num,
+      AttributeNamesSizeBytes: D.num,
+      AttributeValueCount: D.num,
+      AttributeValuesSizeBytes: D.num,
+      Timestamp: D.num,
+    },
+  },
   errors: [MissingParameter, NoSuchDomain],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DomainMetadata",
-}));
+})) as any;
 
 export type GetAttributesError =
   | InvalidParameterValue
@@ -785,13 +458,26 @@ export const getAttributes: API.OperationMethod<
   GetAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAttributesRequest,
-  output: GetAttributesResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      DomainName: 0,
+      ItemName: 0,
+      AttributeNames: D.m({
+        wire: "AttributeName",
+        shape: D.list(0, { flat: true }),
+      }),
+      ConsistentRead: 0,
+    },
+    output: {
+      Attributes: D.m({ wire: "Attribute", shape: D.list({}, { flat: true }) }),
+    },
+  },
   errors: [InvalidParameterValue, MissingParameter, NoSuchDomain],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttributes",
-}));
+})) as any;
 
 export type ListDomainsError =
   | InvalidNextToken
@@ -807,8 +493,16 @@ export const listDomains: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   string
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDomainsRequest,
-  output: ListDomainsResponse,
+  descriptor: {
+    service: svc,
+    input: { MaxNumberOfDomains: 0, NextToken: 0 },
+    output: {
+      DomainNames: D.m({
+        wire: "DomainName",
+        shape: D.list(0, { flat: true }),
+      }),
+    },
+  },
   errors: [InvalidNextToken, InvalidParameterValue],
   protocol: AwsProtocol,
   retry: Retry,
@@ -839,8 +533,18 @@ export const putAttributes: API.OperationMethod<
   PutAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutAttributesRequest,
-  output: PutAttributesResponse,
+  descriptor: {
+    service: svc,
+    input: {
+      DomainName: 0,
+      ItemName: 0,
+      Attributes: D.m({
+        wire: "Attribute",
+        shape: D.list(i_ReplaceableAttribute, { flat: true }),
+      }),
+      Expected: i_UpdateCondition,
+    },
+  },
   errors: [
     AttributeDoesNotExist,
     InvalidParameterValue,
@@ -853,7 +557,7 @@ export const putAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAttributes",
-}));
+})) as any;
 
 export type SelectError =
   | InvalidNextToken
@@ -876,8 +580,24 @@ export const select: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Item
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: SelectRequest,
-  output: SelectResponse,
+  descriptor: {
+    service: svc,
+    input: { SelectExpression: 0, NextToken: 0, ConsistentRead: 0 },
+    output: {
+      Items: D.m({
+        wire: "Item",
+        shape: D.list(
+          {
+            Attributes: D.m({
+              wire: "Attribute",
+              shape: D.list({}, { flat: true }),
+            }),
+          },
+          { flat: true },
+        ),
+      }),
+    },
+  },
   errors: [
     InvalidNextToken,
     InvalidNumberPredicates,
@@ -898,3 +618,15 @@ export const select: API.PaginatedOperationMethod<
     items: "Items",
   } as const,
 })) as any;
+
+const i_DeletableAttribute: D.LazyStruct = () => ({ Name: 0, Value: 0 });
+const i_ReplaceableAttribute: D.LazyStruct = () => ({
+  Name: 0,
+  Value: 0,
+  Replace: 0,
+});
+const i_UpdateCondition: D.LazyStruct = () => ({
+  Name: 0,
+  Value: 0,
+  Exists: 0,
+});
