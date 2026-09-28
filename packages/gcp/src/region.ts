@@ -3,10 +3,15 @@
  *
  * GCP regions differ from AWS regions: most APIs are served from one
  * global host, and a resource's location is part of its name
- * (`projects/p/locations/us-east1/...`). {@link Region} is therefore the
+ * (`projects/p/locations/us-east1/...`). The region is therefore the
  * DEFAULT location callers use when they create or list regional
- * resources. It is optional — generated operations do not list it in
- * their requirements — and never changes which host a request goes to.
+ * resources; it never changes which host a request goes to.
+ *
+ * Like AWS, credentials carry a region (`Credentials` `region`: profile,
+ * `GOOGLE_CLOUD_REGION`) and {@link Region} is the OVERRIDE on top — an
+ * optional service generated operations do not list in their
+ * requirements. {@link current} reads the override, then the
+ * credentials' region.
  *
  * Hosts are chosen per request by {@link RegionalEndpoints}:
  *
@@ -23,6 +28,7 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
+import { Credentials } from "./credentials.ts";
 import { REGIONAL_ENDPOINTS } from "./regional-endpoints.ts";
 
 /** A GCP region (`us-central1`) or multi-region (`us`, `eu`). */
@@ -52,11 +58,21 @@ export const fromEnv = () =>
 export const of = (region: RegionName) =>
   Layer.succeed(Region, Effect.succeed(region));
 
-/** The ambient default region, or `undefined` when none is provided. */
-export const current = Effect.serviceOption(Region).pipe(
-  Effect.flatMap((region) =>
-    Option.isSome(region) ? region.value : Effect.succeed(undefined),
-  ),
+/**
+ * The default region: the {@link Region} override, else the credentials'
+ * region, else `undefined`.
+ */
+export const current: Effect.Effect<RegionName | undefined> = Effect.gen(
+  function* () {
+    const override = yield* Effect.serviceOption(Region);
+    if (Option.isSome(override)) {
+      const region = yield* override.value;
+      if (region !== undefined) return region;
+    }
+    const credentials = yield* Effect.serviceOption(Credentials);
+    if (Option.isNone(credentials)) return undefined;
+    return (yield* credentials.value).region;
+  },
 );
 
 export type RegionalEndpointMode = "required" | "prefer" | "never";

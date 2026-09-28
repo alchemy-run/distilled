@@ -17,6 +17,11 @@ import * as Redacted from "effect/Redacted";
 export interface Config {
   readonly accessToken: Redacted.Redacted<string>;
   readonly project?: string;
+  /**
+   * Default region resolved with the credentials (profile, environment).
+   * `Region` overrides it; see `./region.ts`.
+   */
+  readonly region?: string;
 }
 
 export class Credentials extends Context.Service<
@@ -27,6 +32,11 @@ export class Credentials extends Context.Service<
 const envConfig = EffectConfig.all({
   accessToken: EffectConfig.String("GOOGLE_ACCESS_TOKEN"),
   project: EffectConfig.option(EffectConfig.String("GOOGLE_PROJECT_ID")),
+  region: EffectConfig.option(
+    EffectConfig.String("GOOGLE_CLOUD_REGION").pipe(
+      EffectConfig.orElse(() => EffectConfig.String("CLOUDSDK_COMPUTE_REGION")),
+    ),
+  ),
 });
 
 export const CredentialsFromEnv = Layer.succeed(
@@ -38,9 +48,10 @@ export const CredentialsFromEnv = Layer.succeed(
           message: "GOOGLE_ACCESS_TOKEN environment variable is required",
         }),
     ),
-    Effect.map(({ accessToken, project }) => ({
+    Effect.map(({ accessToken, project, region }) => ({
       accessToken: Redacted.make(accessToken),
       project: Option.getOrUndefined(project),
+      region: Option.getOrUndefined(region),
     })),
     Effect.orDie,
   ),
@@ -50,11 +61,13 @@ export const CredentialsFromEnv = Layer.succeed(
 export const fromAccessToken = (config: {
   readonly accessToken: string;
   readonly project?: string;
+  readonly region?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
       accessToken: Redacted.make(config.accessToken),
       project: config.project,
+      region: config.region,
     }),
   );
