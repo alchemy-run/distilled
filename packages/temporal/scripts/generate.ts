@@ -3,8 +3,8 @@
  * generate — turn the Smithy JSON model in .generated-specs into the Temporal
  * Effect SDK.
  *
- * Input:  .generated-specs/temporal.json  (written by scripts/convert.ts)
- * Output: src/services/temporal.ts  +  src/services/index.ts
+ * Input:  .generated-specs/{temporal,cloud}.json  (written by scripts/convert.ts)
+ * Output: src/services/{temporal,cloud}.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/core/codegen`; this script is Temporal's provider spec.
@@ -35,7 +35,7 @@ const temporalSpec: SdkSpec = {
     },
   ],
 
-  // Sensitive strings (connection URIs, passwords, API keys): the schema
+  // Sensitive strings (the API key token cloud.createApiKey returns): the schema
   // member carries T.SensitiveValue; the REST protocol delivers Redacted
   // values and accepts string | Redacted on input.
   memberTraitPipes: {
@@ -54,8 +54,9 @@ const temporalSpec: SdkSpec = {
     `export const ${name} = S.Unknown as any as S.Schema<${name}>;\n`,
   ],
 
-  // One pagination profile: cursor mode (inputToken `nextPageToken`),
-  // traversed by core's paginateCursor.
+  // One pagination profile: `pageToken` in, `nextPageToken` out, stamped on
+  // the Cloud Ops list reads in scripts/convert.ts and traversed by core's
+  // paginateCursor.
   paginationProfiles: {
     cursor: {
       strategy: "paginateCursor",

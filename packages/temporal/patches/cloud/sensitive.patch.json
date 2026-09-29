@@ -1,0 +1,10 @@
+{
+  "description": "CreateApiKeyResponse.token is the plaintext API key, returned only once. Its bare name `token` is not matched by the default sensitive-field patterns, so mark it explicitly to deliver it as Redacted.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/components/schemas/v1CreateApiKeyResponse/properties/token/x-sensitive",
+      "value": true
+    }
+  ]
+}

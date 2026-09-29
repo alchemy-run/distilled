@@ -1,19 +1,23 @@
 #!/usr/bin/env bun
 /**
- * Mirrors Temporal's first-party WorkflowService HTTP OpenAPI spec and
- * snapshots vendor docs into ../specs/.
+ * Mirrors Temporal's two first-party HTTP OpenAPI specs and snapshots vendor
+ * docs into ../specs/.
  *
- * temporalio/api publishes OpenAPI 3.0.3 generated from the WorkflowService
- * proto (`openapi/openapiv3.yaml`). YAML is parsed and rewritten as
- * deterministic JSON so a whitespace-only change upstream produces no
- * mirror diff. Docs are snapshotted here so generate never crawls the live
- * site.
+ * - WorkflowService: temporalio/api publishes OpenAPI 3.0.3 generated from
+ *   the proto (`openapi/openapiv3.yaml`). YAML is parsed and rewritten as
+ *   deterministic JSON so a whitespace-only change upstream produces no
+ *   mirror diff.
+ * - Cloud Ops API: temporalio/api-cloud commits only protos, so the mirror
+ *   snapshots the document Temporal serves behind its HTTP API reference.
+ *
+ * Docs are snapshotted here so generate never crawls the live site.
  *
  * Usage:
  *   bun run fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
+ *   ../specs/cloud-openapi.json
  *   ../specs/docs/...
  */
 
@@ -32,9 +36,12 @@ const OPENAPI_SPEC_URL = `https://raw.githubusercontent.com/${REPO}/${REF}/${OPE
   .map(encodeURIComponent)
   .join("/")}`;
 
+const CLOUD_OPENAPI_SPEC_URL = "https://saas-api.tmprl.cloud/spec.json";
+
 const SPECS_DIR = "../specs";
 const DOCS_DIR = `${SPECS_DIR}/docs`;
 const OUTPUT_PATH = `${SPECS_DIR}/openapi.json`;
+const CLOUD_OUTPUT_PATH = `${SPECS_DIR}/cloud-openapi.json`;
 const USER_AGENT = "distilled.cloud-temporal-spec-mirror";
 
 interface DocFile {
@@ -112,6 +119,18 @@ async function main() {
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
   await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
+  console.log(`Fetching Cloud Ops spec from ${CLOUD_OPENAPI_SPEC_URL}...`);
+  const cloudSpec = JSON.parse(
+    await fetchText(CLOUD_OPENAPI_SPEC_URL),
+  ) as Record<string, unknown>;
+  if (typeof cloudSpec.openapi !== "string" || cloudSpec.paths === undefined) {
+    throw new Error(
+      `${CLOUD_OPENAPI_SPEC_URL} returned JSON without \`openapi\`/\`paths\` — not an OpenAPI document`,
+    );
+  }
+  console.log(`Writing spec to ${CLOUD_OUTPUT_PATH}...`);
+  await Bun.write(CLOUD_OUTPUT_PATH, JSON.stringify(cloudSpec, null, 2) + "\n");
+
   const docs: Array<{ path: string; source: string; bytes: number }> = [];
   for (const doc of DOC_FILES) {
     console.log(`Fetching docs ${doc.url}...`);
@@ -135,6 +154,10 @@ async function main() {
     spec.info && typeof spec.info === "object"
       ? (spec.info as { title?: unknown; version?: unknown })
       : undefined;
+  const cloudInfo =
+    cloudSpec.info && typeof cloudSpec.info === "object"
+      ? (cloudSpec.info as { title?: unknown })
+      : undefined;
   const manifest = {
     origin: "https://github.com/temporalio/api",
     openapi: [
@@ -145,6 +168,14 @@ async function main() {
         title: typeof info?.title === "string" ? info.title : undefined,
         paths: Object.keys(spec.paths as object).length,
       },
+      {
+        file: "cloud-openapi.json",
+        source: CLOUD_OPENAPI_SPEC_URL,
+        openapi: cloudSpec.openapi,
+        title:
+          typeof cloudInfo?.title === "string" ? cloudInfo.title : undefined,
+        paths: Object.keys(cloudSpec.paths as object).length,
+      },
     ],
     docs,
   };
@@ -154,7 +185,7 @@ async function main() {
   );
 
   console.log(
-    `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths, ${docs.length} docs`,
+    `Done! WorkflowService ${Object.keys(spec.paths as object).length} paths, Cloud Ops ${Object.keys(cloudSpec.paths as object).length} paths, ${docs.length} docs`,
   );
 }
 
