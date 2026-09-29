@@ -13,6 +13,28 @@ import * as Retry from "../retry.ts";
 
 export type { GcpOpError, GcpOpContext };
 
+/** The Apigee resource (or its organization) does not exist. Apigee answers HTTP 403 'Permission denied on resource "organizations/..." (or it may not exist)' instead of 404. */
+export class ApigeeResourceNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ApigeeResourceNotFound>()(
+      "ApigeeResourceNotFound",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: 'Permission denied on resource "organizations/' },
+      },
+    ],
+  ) {}
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -17876,6 +17898,7 @@ export type ActivateOrganizationsInstancesNatAddressesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Activates the NAT address. The Apigee instance can now use this for Internet egress traffic. **Note:** Not supported for Apigee hybrid. */
 export const activateOrganizationsInstancesNatAddresses: API.OperationMethod<
@@ -17886,7 +17909,14 @@ export const activateOrganizationsInstancesNatAddresses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ActivateOrganizationsInstancesNatAddressesRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -17896,6 +17926,7 @@ export type AdjustOrganizationsAppgroupsBalanceError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Adjust the prepaid balance for the AppGroup. This API will be used in scenarios where the AppGroup has been under-charged or over-charged. */
 export const adjustOrganizationsAppgroupsBalance: API.OperationMethod<
@@ -17906,7 +17937,14 @@ export const adjustOrganizationsAppgroupsBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AdjustOrganizationsAppgroupsBalanceRequest,
   output: GoogleCloudApigeeV1AppGroupBalance,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -17916,6 +17954,7 @@ export type AdjustOrganizationsDevelopersBalanceError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Adjust the prepaid balance for the developer. This API will be used in scenarios where the developer has been under-charged or over-charged. */
 export const adjustOrganizationsDevelopersBalance: API.OperationMethod<
@@ -17926,7 +17965,14 @@ export const adjustOrganizationsDevelopersBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AdjustOrganizationsDevelopersBalanceRequest,
   output: GoogleCloudApigeeV1DeveloperBalance,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -17936,6 +17982,7 @@ export type AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooksError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Attaches a shared flow to a flow hook. */
 export const attachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooks: API.OperationMethod<
@@ -17946,7 +17993,14 @@ export const attachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooks: API.O
 > = /*@__PURE__*/ API.make(() => ({
   input: AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooksRequest,
   output: GoogleCloudApigeeV1FlowHook,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -17956,6 +18010,7 @@ export type AttributesOrganizationsApiproductsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates or creates API product attributes. This API **replaces** the current list of attributes with the attributes specified in the request body. In this way, you can update existing attributes, add new attributes, or delete existing attributes by omitting them from the request body. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (current default). Any custom attributes associated with entities also get cached for at least 180 seconds after entity is accessed during runtime. In this case, the `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export const attributesOrganizationsApiproducts: API.OperationMethod<
@@ -17966,7 +18021,14 @@ export const attributesOrganizationsApiproducts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AttributesOrganizationsApiproductsRequest,
   output: GoogleCloudApigeeV1Attributes,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -17976,6 +18038,7 @@ export type AttributesOrganizationsDevelopersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates developer attributes. This API replaces the existing attributes with those specified in the request. Add new attributes, and include or exclude any existing attributes that you want to retain or remove, respectively. The custom attribute limit is 18. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (default). Any custom attributes associated with these entities are cached for at least 180 seconds after the entity is accessed at runtime. Therefore, an `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export const attributesOrganizationsDevelopers: API.OperationMethod<
@@ -17986,7 +18049,14 @@ export const attributesOrganizationsDevelopers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AttributesOrganizationsDevelopersRequest,
   output: GoogleCloudApigeeV1Attributes,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -17996,6 +18066,7 @@ export type AttributesOrganizationsDevelopersAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates attributes for a developer app. This API replaces the current attributes with those specified in the request. */
 export const attributesOrganizationsDevelopersApps: API.OperationMethod<
@@ -18006,7 +18077,14 @@ export const attributesOrganizationsDevelopersApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AttributesOrganizationsDevelopersAppsRequest,
   output: GoogleCloudApigeeV1Attributes,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18016,6 +18094,7 @@ export type BatchComputeOrganizationsSecurityAssessmentResultsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Compute RAV2 security scores for a set of resources. */
 export const batchComputeOrganizationsSecurityAssessmentResults: API.OperationMethod<
@@ -18026,7 +18105,14 @@ export const batchComputeOrganizationsSecurityAssessmentResults: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchComputeOrganizationsSecurityAssessmentResultsRequest,
   output: GoogleCloudApigeeV1BatchComputeSecurityAssessmentResultsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18036,6 +18122,7 @@ export type BatchUpdateOrganizationsEnvironmentsSecurityIncidentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** BatchUpdateSecurityIncident updates multiple existing security incidents. */
 export const batchUpdateOrganizationsEnvironmentsSecurityIncidents: API.OperationMethod<
@@ -18046,7 +18133,14 @@ export const batchUpdateOrganizationsEnvironmentsSecurityIncidents: API.Operatio
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchUpdateOrganizationsEnvironmentsSecurityIncidentsRequest,
   output: GoogleCloudApigeeV1BatchUpdateSecurityIncidentsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18056,6 +18150,7 @@ export type ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironmentsErr
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** ComputeEnvironmentScores calculates scores for requested time range for the specified security profile and environment. */
 export const computeEnvironmentScoresOrganizationsSecurityProfilesEnvironments: API.OperationMethod<
@@ -18067,7 +18162,14 @@ export const computeEnvironmentScoresOrganizationsSecurityProfilesEnvironments: 
   input:
     ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironmentsRequest,
   output: GoogleCloudApigeeV1ComputeEnvironmentScoresResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18077,6 +18179,7 @@ export type CreateOrganizationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates an Apigee organization. See [Create an Apigee organization](https://cloud.google.com/apigee/docs/api-platform/get-started/create-org). */
 export const createOrganizations: API.OperationMethod<
@@ -18087,7 +18190,14 @@ export const createOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18097,6 +18207,7 @@ export type CreateOrganizationsAnalyticsDatastoresError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Create a Datastore for an org */
 export const createOrganizationsAnalyticsDatastores: API.OperationMethod<
@@ -18107,7 +18218,14 @@ export const createOrganizationsAnalyticsDatastores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsAnalyticsDatastoresRequest,
   output: GoogleCloudApigeeV1Datastore,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18117,6 +18235,7 @@ export type CreateOrganizationsApimServiceExtensionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates an APIM ServiceExtension in an organization. */
 export const createOrganizationsApimServiceExtensions: API.OperationMethod<
@@ -18127,7 +18246,14 @@ export const createOrganizationsApimServiceExtensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsApimServiceExtensionsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18137,6 +18263,7 @@ export type CreateOrganizationsApiproductsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates an API product in an organization. You create API products after you have proxied backend services using API proxies. An API product is a collection of API resources combined with quota settings and metadata that you can use to deliver customized and productized API bundles to your developer community. This metadata can include: - Scope - Environments - API proxies - Extensible profile API products enable you repackage APIs on the fly, without having to do any additional coding or configuration. Apigee recommends that you start with a simple API product including only required elements. You then provision credentials to apps to enable them to start testing your APIs. After you have authentication and authorization working against a simple API product, you can iterate to create finer-grained API products, defining different sets of API resources for each API product. **WARNING:** - If you don't specify an API proxy in the request body, *any* app associated with the product can make calls to *any* API in your entire organization. - If you don't specify an environment in the request body, the product allows access to all environments. For more information, see What is an API product? */
 export const createOrganizationsApiproducts: API.OperationMethod<
@@ -18147,7 +18274,14 @@ export const createOrganizationsApiproducts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsApiproductsRequest,
   output: GoogleCloudApigeeV1ApiProduct,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18157,6 +18291,7 @@ export type CreateOrganizationsApiproductsRateplansError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Create a rate plan that is associated with an API product in an organization. Using rate plans, API product owners can monetize their API products by configuring one or more of the following: - Billing frequency - Initial setup fees for using an API product - Payment funding model (postpaid only) - Fixed recurring or consumption-based charges for using an API product - Revenue sharing with developer partners An API product can have multiple rate plans associated with it but *only one* rate plan can be active at any point of time. **Note: From the developer's perspective, they purchase API products not rate plans. */
 export const createOrganizationsApiproductsRateplans: API.OperationMethod<
@@ -18167,7 +18302,14 @@ export const createOrganizationsApiproductsRateplans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsApiproductsRateplansRequest,
   output: GoogleCloudApigeeV1RatePlan,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18177,6 +18319,7 @@ export type CreateOrganizationsApisError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates an API proxy. The API proxy created will not be accessible at runtime until it is deployed to an environment. Create a new API proxy by setting the `name` query parameter to the name of the API proxy. Import an API proxy configuration bundle stored in zip format on your local machine to your organization by doing the following: * Set the `name` query parameter to the name of the API proxy. * Set the `action` query parameter to `import`. * Set the `Content-Type` header to `multipart/form-data`. * Pass as a file the name of API proxy configuration bundle stored in zip format on your local machine using the `file` form field. **Note**: To validate the API proxy configuration bundle only without importing it, set the `action` query parameter to `validate`. When importing an API proxy configuration bundle, if the API proxy does not exist, it will be created. If the API proxy exists, then a new revision is created. Invalid API proxy configurations are rejected, and a list of validation errors is returned to the client. */
 export const createOrganizationsApis: API.OperationMethod<
@@ -18187,7 +18330,14 @@ export const createOrganizationsApis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsApisRequest,
   output: GoogleCloudApigeeV1ApiProxyRevision,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18197,6 +18347,7 @@ export type CreateOrganizationsApisKeyvaluemapsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a key value map in an API proxy. */
 export const createOrganizationsApisKeyvaluemaps: API.OperationMethod<
@@ -18207,7 +18358,14 @@ export const createOrganizationsApisKeyvaluemaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsApisKeyvaluemapsRequest,
   output: GoogleCloudApigeeV1KeyValueMap,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18217,6 +18375,7 @@ export type CreateOrganizationsApisKeyvaluemapsEntriesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates key value entries in a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export const createOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<
@@ -18227,7 +18386,14 @@ export const createOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsApisKeyvaluemapsEntriesRequest,
   output: GoogleCloudApigeeV1KeyValueEntry,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18237,6 +18403,7 @@ export type CreateOrganizationsAppgroupsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates an AppGroup. Once created, user can register apps under the AppGroup to obtain secret key and password. At creation time, the AppGroup's state is set as `active`. */
 export const createOrganizationsAppgroups: API.OperationMethod<
@@ -18247,7 +18414,14 @@ export const createOrganizationsAppgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsAppgroupsRequest,
   output: GoogleCloudApigeeV1AppGroup,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18257,6 +18431,7 @@ export type CreateOrganizationsAppgroupsAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates an app and associates it with an AppGroup. This API associates the AppGroup app with the specified API product and auto-generates an API key for the app to use in calls to API proxies inside that API product. The `name` is the unique ID of the app that you can use in API calls. */
 export const createOrganizationsAppgroupsApps: API.OperationMethod<
@@ -18267,7 +18442,14 @@ export const createOrganizationsAppgroupsApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsAppgroupsAppsRequest,
   output: GoogleCloudApigeeV1AppGroupApp,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18277,6 +18459,7 @@ export type CreateOrganizationsAppgroupsAppsKeysError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a custom consumer key and secret for a AppGroup app. This is particularly useful if you want to migrate existing consumer keys and secrets to Apigee from another system. Consumer keys and secrets can contain letters, numbers, underscores, and hyphens. No other special characters are allowed. To avoid service disruptions, a consumer key and secret should not exceed 2 KBs each. **Note**: When creating the consumer key and secret, an association to API products will not be made. Therefore, you should not specify the associated API products in your request. Instead, use the UpdateAppGroupAppKey API to make the association after the consumer key and secret are created. If a consumer key and secret already exist, you can keep them or delete them using the DeleteAppGroupAppKey API. */
 export const createOrganizationsAppgroupsAppsKeys: API.OperationMethod<
@@ -18287,7 +18470,14 @@ export const createOrganizationsAppgroupsAppsKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsAppgroupsAppsKeysRequest,
   output: GoogleCloudApigeeV1AppGroupAppKey,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18297,6 +18487,7 @@ export type CreateOrganizationsAppgroupsSubscriptionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a subscription to an API product. */
 export const createOrganizationsAppgroupsSubscriptions: API.OperationMethod<
@@ -18307,7 +18498,14 @@ export const createOrganizationsAppgroupsSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsAppgroupsSubscriptionsRequest,
   output: GoogleCloudApigeeV1AppGroupSubscription,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18317,6 +18515,7 @@ export type CreateOrganizationsDatacollectorsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a new data collector. */
 export const createOrganizationsDatacollectors: API.OperationMethod<
@@ -18327,7 +18526,14 @@ export const createOrganizationsDatacollectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsDatacollectorsRequest,
   output: GoogleCloudApigeeV1DataCollector,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18337,6 +18543,7 @@ export type CreateOrganizationsDevelopersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a developer. Once created, the developer can register an app and obtain an API key. At creation time, a developer is set as `active`. To change the developer status, use the SetDeveloperStatus API. */
 export const createOrganizationsDevelopers: API.OperationMethod<
@@ -18347,7 +18554,14 @@ export const createOrganizationsDevelopers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsDevelopersRequest,
   output: GoogleCloudApigeeV1Developer,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18357,6 +18571,7 @@ export type CreateOrganizationsDevelopersAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates an app associated with a developer. This API associates the developer app with the specified API product and auto-generates an API key for the app to use in calls to API proxies inside that API product. The `name` is the unique ID of the app that you can use in API calls. The `DisplayName` (set as an attribute) appears in the UI. If you don't set the `DisplayName` attribute, the `name` appears in the UI. */
 export const createOrganizationsDevelopersApps: API.OperationMethod<
@@ -18367,7 +18582,14 @@ export const createOrganizationsDevelopersApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsDevelopersAppsRequest,
   output: GoogleCloudApigeeV1DeveloperApp,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18377,6 +18599,7 @@ export type CreateOrganizationsDevelopersAppsKeysError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a custom consumer key and secret for a developer app. This is particularly useful if you want to migrate existing consumer keys and secrets to Apigee from another system. Consumer keys and secrets can contain letters, numbers, underscores, and hyphens. No other special characters are allowed. To avoid service disruptions, a consumer key and secret should not exceed 2 KBs each. **Note**: When creating the consumer key and secret, an association to API products will not be made. Therefore, you should not specify the associated API products in your request. Instead, use the UpdateDeveloperAppKey API to make the association after the consumer key and secret are created. If a consumer key and secret already exist, you can keep them or delete them using the DeleteDeveloperAppKey API. **Note**: All keys start out with status=approved, even if status=revoked is passed when the key is created. To revoke a key, use the UpdateDeveloperAppKey API. */
 export const createOrganizationsDevelopersAppsKeys: API.OperationMethod<
@@ -18387,7 +18610,14 @@ export const createOrganizationsDevelopersAppsKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsDevelopersAppsKeysRequest,
   output: GoogleCloudApigeeV1DeveloperAppKey,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18397,6 +18627,7 @@ export type CreateOrganizationsDevelopersAppsKeysCreateError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a custom consumer key and secret for a developer app. This is particularly useful if you want to migrate existing consumer keys and secrets to Apigee from another system. Consumer keys and secrets can contain letters, numbers, underscores, and hyphens. No other special characters are allowed. To avoid service disruptions, a consumer key and secret should not exceed 2 KBs each. **Note**: When creating the consumer key and secret, an association to API products will not be made. Therefore, you should not specify the associated API products in your request. Instead, use the UpdateDeveloperAppKey API to make the association after the consumer key and secret are created. If a consumer key and secret already exist, you can keep them or delete them using the DeleteDeveloperAppKey API. **Note**: All keys start out with status=approved, even if status=revoked is passed when the key is created. To revoke a key, use the UpdateDeveloperAppKey API. */
 export const createOrganizationsDevelopersAppsKeysCreate: API.OperationMethod<
@@ -18407,7 +18638,14 @@ export const createOrganizationsDevelopersAppsKeysCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsDevelopersAppsKeysCreateRequest,
   output: GoogleCloudApigeeV1DeveloperAppKey,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18417,6 +18655,7 @@ export type CreateOrganizationsDevelopersSubscriptionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a subscription to an API product. */
 export const createOrganizationsDevelopersSubscriptions: API.OperationMethod<
@@ -18427,7 +18666,14 @@ export const createOrganizationsDevelopersSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsDevelopersSubscriptionsRequest,
   output: GoogleCloudApigeeV1DeveloperSubscription,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18437,6 +18683,7 @@ export type CreateOrganizationsDnsZonesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a new DNS zone. */
 export const createOrganizationsDnsZones: API.OperationMethod<
@@ -18447,7 +18694,14 @@ export const createOrganizationsDnsZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsDnsZonesRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18457,6 +18711,7 @@ export type CreateOrganizationsEndpointAttachmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates an endpoint attachment. **Note:** Not supported for Apigee hybrid. */
 export const createOrganizationsEndpointAttachments: API.OperationMethod<
@@ -18467,7 +18722,14 @@ export const createOrganizationsEndpointAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEndpointAttachmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18477,6 +18739,7 @@ export type CreateOrganizationsEnvgroupsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a new environment group. */
 export const createOrganizationsEnvgroups: API.OperationMethod<
@@ -18487,7 +18750,14 @@ export const createOrganizationsEnvgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvgroupsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18497,6 +18767,7 @@ export type CreateOrganizationsEnvgroupsAttachmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a new attachment of an environment to an environment group. */
 export const createOrganizationsEnvgroupsAttachments: API.OperationMethod<
@@ -18507,7 +18778,14 @@ export const createOrganizationsEnvgroupsAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvgroupsAttachmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18517,6 +18795,7 @@ export type CreateOrganizationsEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates an environment in an organization. */
 export const createOrganizationsEnvironments: API.OperationMethod<
@@ -18527,7 +18806,14 @@ export const createOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvironmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18537,6 +18823,7 @@ export type CreateOrganizationsEnvironmentsAnalyticsExportsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Submit a data export job to be processed in the background. If the request is successful, the API returns a 201 status, a URI that can be used to retrieve the status of the export job, and the `state` value of "enqueued". */
 export const createOrganizationsEnvironmentsAnalyticsExports: API.OperationMethod<
@@ -18547,7 +18834,14 @@ export const createOrganizationsEnvironmentsAnalyticsExports: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvironmentsAnalyticsExportsRequest,
   output: GoogleCloudApigeeV1Export,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18557,6 +18851,7 @@ export type CreateOrganizationsEnvironmentsApisRevisionsDebugsessionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a debug session for a deployed API Proxy revision. */
 export const createOrganizationsEnvironmentsApisRevisionsDebugsessions: API.OperationMethod<
@@ -18567,7 +18862,14 @@ export const createOrganizationsEnvironmentsApisRevisionsDebugsessions: API.Oper
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest,
   output: GoogleCloudApigeeV1DebugSession,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18577,6 +18879,7 @@ export type CreateOrganizationsEnvironmentsArchiveDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a new ArchiveDeployment. */
 export const createOrganizationsEnvironmentsArchiveDeployments: API.OperationMethod<
@@ -18587,7 +18890,14 @@ export const createOrganizationsEnvironmentsArchiveDeployments: API.OperationMet
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvironmentsArchiveDeploymentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18597,6 +18907,7 @@ export type CreateOrganizationsEnvironmentsKeystoresError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a keystore or truststore. - Keystore: Contains certificates and their associated keys. - Truststore: Contains trusted certificates used to validate a server's certificate. These certificates are typically self-signed certificates or certificates that are not signed by a trusted CA. */
 export const createOrganizationsEnvironmentsKeystores: API.OperationMethod<
@@ -18607,7 +18918,14 @@ export const createOrganizationsEnvironmentsKeystores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvironmentsKeystoresRequest,
   output: GoogleCloudApigeeV1Keystore,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18617,6 +18935,7 @@ export type CreateOrganizationsEnvironmentsKeystoresAliasesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates an alias from a key/certificate pair. The structure of the request is controlled by the `format` query parameter: - `keycertfile` - Separate PEM-encoded key and certificate files are uploaded. Set `Content-Type: multipart/form-data` and include the `keyFile`, `certFile`, and `password` (if keys are encrypted) fields in the request body. If uploading to a truststore, omit `keyFile`. - `pkcs12` - A PKCS12 file is uploaded. Set `Content-Type: multipart/form-data`, provide the file in the `file` field, and include the `password` field if the file is encrypted in the request body. - `selfsignedcert` - A new private key and certificate are generated. Set `Content-Type: application/json` and include CertificateGenerationSpec in the request body. */
 export const createOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<
@@ -18627,7 +18946,14 @@ export const createOrganizationsEnvironmentsKeystoresAliases: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvironmentsKeystoresAliasesRequest,
   output: GoogleCloudApigeeV1Alias,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18637,6 +18963,7 @@ export type CreateOrganizationsEnvironmentsKeyvaluemapsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a key value map in an environment. */
 export const createOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<
@@ -18647,7 +18974,14 @@ export const createOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvironmentsKeyvaluemapsRequest,
   output: GoogleCloudApigeeV1KeyValueMap,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18657,6 +18991,7 @@ export type CreateOrganizationsEnvironmentsKeyvaluemapsEntriesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates key value entries in a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export const createOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMethod<
@@ -18667,7 +19002,14 @@ export const createOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvironmentsKeyvaluemapsEntriesRequest,
   output: GoogleCloudApigeeV1KeyValueEntry,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18677,6 +19019,7 @@ export type CreateOrganizationsEnvironmentsQueriesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Submit a query to be processed in the background. If the submission of the query succeeds, the API returns a 201 status and an ID that refer to the query. In addition to the HTTP status 201, the `state` of "enqueued" means that the request succeeded. */
 export const createOrganizationsEnvironmentsQueries: API.OperationMethod<
@@ -18687,7 +19030,14 @@ export const createOrganizationsEnvironmentsQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvironmentsQueriesRequest,
   output: GoogleCloudApigeeV1AsyncQuery,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18697,6 +19047,7 @@ export type CreateOrganizationsEnvironmentsReferencesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a Reference in the specified environment. */
 export const createOrganizationsEnvironmentsReferences: API.OperationMethod<
@@ -18707,7 +19058,14 @@ export const createOrganizationsEnvironmentsReferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvironmentsReferencesRequest,
   output: GoogleCloudApigeeV1Reference,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18717,6 +19075,7 @@ export type CreateOrganizationsEnvironmentsResourcefilesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a resource file. Specify the `Content-Type` as `application/octet-stream` or `multipart/form-data`. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export const createOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
@@ -18727,7 +19086,14 @@ export const createOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvironmentsResourcefilesRequest,
   output: GoogleCloudApigeeV1ResourceFile,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18737,6 +19103,7 @@ export type CreateOrganizationsEnvironmentsSecurityActionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** CreateSecurityAction creates a SecurityAction. */
 export const createOrganizationsEnvironmentsSecurityActions: API.OperationMethod<
@@ -18747,7 +19114,14 @@ export const createOrganizationsEnvironmentsSecurityActions: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvironmentsSecurityActionsRequest,
   output: GoogleCloudApigeeV1SecurityAction,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18757,6 +19131,7 @@ export type CreateOrganizationsEnvironmentsSecurityReportsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Submit a report request to be processed in the background. If the submission succeeds, the API returns a 200 status and an ID that refer to the report request. In addition to the HTTP status 200, the `state` of "enqueued" means that the request succeeded. */
 export const createOrganizationsEnvironmentsSecurityReports: API.OperationMethod<
@@ -18767,7 +19142,14 @@ export const createOrganizationsEnvironmentsSecurityReports: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvironmentsSecurityReportsRequest,
   output: GoogleCloudApigeeV1SecurityReport,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18777,6 +19159,7 @@ export type CreateOrganizationsEnvironmentsTargetserversError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a TargetServer in the specified environment. */
 export const createOrganizationsEnvironmentsTargetservers: API.OperationMethod<
@@ -18787,7 +19170,14 @@ export const createOrganizationsEnvironmentsTargetservers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvironmentsTargetserversRequest,
   output: GoogleCloudApigeeV1TargetServer,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18797,6 +19187,7 @@ export type CreateOrganizationsEnvironmentsTraceConfigOverridesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a trace configuration override. The response contains a system-generated UUID, that can be used to view, update, or delete the configuration override. Use the List API to view the existing trace configuration overrides. */
 export const createOrganizationsEnvironmentsTraceConfigOverrides: API.OperationMethod<
@@ -18807,7 +19198,14 @@ export const createOrganizationsEnvironmentsTraceConfigOverrides: API.OperationM
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEnvironmentsTraceConfigOverridesRequest,
   output: GoogleCloudApigeeV1TraceConfigOverride,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18817,6 +19215,7 @@ export type CreateOrganizationsHostQueriesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Submit a query at host level to be processed in the background. If the submission of the query succeeds, the API returns a 201 status and an ID that refer to the query. In addition to the HTTP status 201, the `state` of "enqueued" means that the request succeeded. */
 export const createOrganizationsHostQueries: API.OperationMethod<
@@ -18827,7 +19226,14 @@ export const createOrganizationsHostQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsHostQueriesRequest,
   output: GoogleCloudApigeeV1AsyncQuery,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18837,6 +19243,7 @@ export type CreateOrganizationsHostSecurityReportsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Submit a query at host level to be processed in the background. If the submission of the query succeeds, the API returns a 201 status and an ID that refer to the query. In addition to the HTTP status 201, the `state` of "enqueued" means that the request succeeded. */
 export const createOrganizationsHostSecurityReports: API.OperationMethod<
@@ -18847,7 +19254,14 @@ export const createOrganizationsHostSecurityReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsHostSecurityReportsRequest,
   output: GoogleCloudApigeeV1SecurityReport,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18857,6 +19271,7 @@ export type CreateOrganizationsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates an Apigee runtime instance. The instance is accessible from the authorized network configured on the organization. **Note:** Not supported for Apigee hybrid. */
 export const createOrganizationsInstances: API.OperationMethod<
@@ -18867,7 +19282,14 @@ export const createOrganizationsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsInstancesRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18877,6 +19299,7 @@ export type CreateOrganizationsInstancesAttachmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a new attachment of an environment to an instance. **Note:** Not supported for Apigee hybrid. */
 export const createOrganizationsInstancesAttachments: API.OperationMethod<
@@ -18887,7 +19310,14 @@ export const createOrganizationsInstancesAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsInstancesAttachmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18897,6 +19327,7 @@ export type CreateOrganizationsInstancesCanaryevaluationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a new canary evaluation for an organization. */
 export const createOrganizationsInstancesCanaryevaluations: API.OperationMethod<
@@ -18907,7 +19338,14 @@ export const createOrganizationsInstancesCanaryevaluations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsInstancesCanaryevaluationsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18917,6 +19355,7 @@ export type CreateOrganizationsInstancesNatAddressesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a NAT address. The address is created in the RESERVED state and a static external IP address will be provisioned. At this time, the instance will not use this IP address for Internet egress traffic. The address can be activated for use once any required firewall IP whitelisting has been completed. **Note:** Not supported for Apigee hybrid. */
 export const createOrganizationsInstancesNatAddresses: API.OperationMethod<
@@ -18927,7 +19366,14 @@ export const createOrganizationsInstancesNatAddresses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsInstancesNatAddressesRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18937,6 +19383,7 @@ export type CreateOrganizationsKeyvaluemapsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a key value map in an organization. */
 export const createOrganizationsKeyvaluemaps: API.OperationMethod<
@@ -18947,7 +19394,14 @@ export const createOrganizationsKeyvaluemaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsKeyvaluemapsRequest,
   output: GoogleCloudApigeeV1KeyValueMap,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18957,6 +19411,7 @@ export type CreateOrganizationsKeyvaluemapsEntriesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates key value entries in a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export const createOrganizationsKeyvaluemapsEntries: API.OperationMethod<
@@ -18967,7 +19422,14 @@ export const createOrganizationsKeyvaluemapsEntries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsKeyvaluemapsEntriesRequest,
   output: GoogleCloudApigeeV1KeyValueEntry,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18977,6 +19439,7 @@ export type CreateOrganizationsReportsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a Custom Report for an Organization. A Custom Report provides Apigee Customers to create custom dashboards in addition to the standard dashboards which are provided. The Custom Report in its simplest form contains specifications about metrics, dimensions and filters. It is important to note that the custom report by itself does not provide an executable entity. The Edge UI converts the custom report definition into an analytics query and displays the result in a chart. */
 export const createOrganizationsReports: API.OperationMethod<
@@ -18987,7 +19450,14 @@ export const createOrganizationsReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsReportsRequest,
   output: GoogleCloudApigeeV1CustomReport,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -18997,6 +19467,7 @@ export type CreateOrganizationsSecurityFeedbackError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a new report containing customer feedback. */
 export const createOrganizationsSecurityFeedback: API.OperationMethod<
@@ -19007,7 +19478,14 @@ export const createOrganizationsSecurityFeedback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsSecurityFeedbackRequest,
   output: GoogleCloudApigeeV1SecurityFeedback,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19017,6 +19495,7 @@ export type CreateOrganizationsSecurityMonitoringConditionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Create a security monitoring condition. */
 export const createOrganizationsSecurityMonitoringConditions: API.OperationMethod<
@@ -19027,7 +19506,14 @@ export const createOrganizationsSecurityMonitoringConditions: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsSecurityMonitoringConditionsRequest,
   output: GoogleCloudApigeeV1SecurityMonitoringCondition,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19037,6 +19523,7 @@ export type CreateOrganizationsSecurityProfilesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** CreateSecurityProfile create a new custom security profile. */
 export const createOrganizationsSecurityProfiles: API.OperationMethod<
@@ -19047,7 +19534,14 @@ export const createOrganizationsSecurityProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsSecurityProfilesRequest,
   output: GoogleCloudApigeeV1SecurityProfile,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19057,6 +19551,7 @@ export type CreateOrganizationsSecurityProfilesEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** CreateSecurityProfileEnvironmentAssociation creates profile environment association i.e. attaches environment to security profile. */
 export const createOrganizationsSecurityProfilesEnvironments: API.OperationMethod<
@@ -19067,7 +19562,14 @@ export const createOrganizationsSecurityProfilesEnvironments: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsSecurityProfilesEnvironmentsRequest,
   output: GoogleCloudApigeeV1SecurityProfileEnvironmentAssociation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19077,6 +19579,7 @@ export type CreateOrganizationsSecurityProfilesV2Error =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Create a security profile v2. */
 export const createOrganizationsSecurityProfilesV2: API.OperationMethod<
@@ -19087,7 +19590,14 @@ export const createOrganizationsSecurityProfilesV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsSecurityProfilesV2Request,
   output: GoogleCloudApigeeV1SecurityProfileV2,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19097,6 +19607,7 @@ export type CreateOrganizationsSharedflowsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Uploads a ZIP-formatted shared flow configuration bundle to an organization. If the shared flow already exists, this creates a new revision of it. If the shared flow does not exist, this creates it. Once imported, the shared flow revision must be deployed before it can be accessed at runtime. The size limit of a shared flow bundle is 15 MB. */
 export const createOrganizationsSharedflows: API.OperationMethod<
@@ -19107,7 +19618,14 @@ export const createOrganizationsSharedflows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsSharedflowsRequest,
   output: GoogleCloudApigeeV1SharedFlowRevision,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19117,6 +19635,7 @@ export type CreateOrganizationsSitesApicategoriesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a new API category. */
 export const createOrganizationsSitesApicategories: API.OperationMethod<
@@ -19127,7 +19646,14 @@ export const createOrganizationsSitesApicategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsSitesApicategoriesRequest,
   output: GoogleCloudApigeeV1ApiCategoryResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19137,6 +19663,7 @@ export type CreateOrganizationsSitesApidocsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a new catalog item. */
 export const createOrganizationsSitesApidocs: API.OperationMethod<
@@ -19147,7 +19674,14 @@ export const createOrganizationsSitesApidocs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsSitesApidocsRequest,
   output: GoogleCloudApigeeV1ApiDocResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19157,6 +19691,7 @@ export type CreateOrganizationsSpacesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Create a space under an organization. */
 export const createOrganizationsSpaces: API.OperationMethod<
@@ -19167,7 +19702,14 @@ export const createOrganizationsSpaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsSpacesRequest,
   output: GoogleCloudApigeeV1Space,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19177,6 +19719,7 @@ export type CreditOrganizationsAppgroupsBalanceError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Credits the account balance for the AppGroup. */
 export const creditOrganizationsAppgroupsBalance: API.OperationMethod<
@@ -19187,7 +19730,14 @@ export const creditOrganizationsAppgroupsBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreditOrganizationsAppgroupsBalanceRequest,
   output: GoogleCloudApigeeV1AppGroupBalance,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19197,6 +19747,7 @@ export type CreditOrganizationsDevelopersBalanceError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Credits the account balance for the developer. */
 export const creditOrganizationsDevelopersBalance: API.OperationMethod<
@@ -19207,7 +19758,14 @@ export const creditOrganizationsDevelopersBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreditOrganizationsDevelopersBalanceRequest,
   output: GoogleCloudApigeeV1DeveloperBalance,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19215,6 +19773,7 @@ export const creditOrganizationsDevelopersBalance: API.OperationMethod<
 export type CsrOrganizationsEnvironmentsKeystoresAliasesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Generates a PKCS #10 Certificate Signing Request for the private key in an alias. */
 export const csrOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<
@@ -19225,7 +19784,7 @@ export const csrOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CsrOrganizationsEnvironmentsKeystoresAliasesRequest,
   output: GoogleApiHttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19235,6 +19794,7 @@ export type DeleteDataOrganizationsEnvironmentsApisRevisionsDebugsessionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes the data from a debug session. This does not cancel the debug session or prevent further data from being collected if the session is still active in runtime pods. */
 export const deleteDataOrganizationsEnvironmentsApisRevisionsDebugsessions: API.OperationMethod<
@@ -19245,7 +19805,14 @@ export const deleteDataOrganizationsEnvironmentsApisRevisionsDebugsessions: API.
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDataOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19255,6 +19822,7 @@ export type DeleteOrganizationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Delete an Apigee organization. For organizations with BillingType EVALUATION, an immediate deletion is performed. For paid organizations (Subscription or Pay-as-you-go), a soft-deletion is performed. The organization can be restored within the soft-deletion period, which is specified using the `retention` field in the request or by filing a support ticket with Apigee. During the data retention period specified in the request, the Apigee organization cannot be recreated in the same Google Cloud project. **IMPORTANT: The default data retention setting for this operation is 7 days. To permanently delete the organization in 24 hours, set the retention parameter to `MINIMUM`.** */
 export const deleteOrganizations: API.OperationMethod<
@@ -19265,7 +19833,14 @@ export const deleteOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19275,6 +19850,7 @@ export type DeleteOrganizationsAnalyticsDatastoresError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Delete a Datastore from an org. */
 export const deleteOrganizationsAnalyticsDatastores: API.OperationMethod<
@@ -19285,7 +19861,14 @@ export const deleteOrganizationsAnalyticsDatastores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsAnalyticsDatastoresRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19295,6 +19878,7 @@ export type DeleteOrganizationsApimServiceExtensionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes APIM service extension from an organization. */
 export const deleteOrganizationsApimServiceExtensions: API.OperationMethod<
@@ -19305,7 +19889,14 @@ export const deleteOrganizationsApimServiceExtensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsApimServiceExtensionsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19315,6 +19906,7 @@ export type DeleteOrganizationsApiproductsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an API product from an organization. Deleting an API product causes app requests to the resource URIs defined in the API product to fail. Ensure that you create a new API product to serve existing apps, unless your intention is to disable access to the resources defined in the API product. The API product name required in the request URL is the internal name of the product, not the display name. While they may be the same, it depends on whether the API product was created via the UI or the API. View the list of API products to verify the internal name. */
 export const deleteOrganizationsApiproducts: API.OperationMethod<
@@ -19325,7 +19917,14 @@ export const deleteOrganizationsApiproducts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsApiproductsRequest,
   output: GoogleCloudApigeeV1ApiProduct,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19335,6 +19934,7 @@ export type DeleteOrganizationsApiproductsAttributesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an API product attribute. */
 export const deleteOrganizationsApiproductsAttributes: API.OperationMethod<
@@ -19345,7 +19945,14 @@ export const deleteOrganizationsApiproductsAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsApiproductsAttributesRequest,
   output: GoogleCloudApigeeV1Attribute,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19355,6 +19962,7 @@ export type DeleteOrganizationsApiproductsRateplansError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a rate plan. */
 export const deleteOrganizationsApiproductsRateplans: API.OperationMethod<
@@ -19365,7 +19973,14 @@ export const deleteOrganizationsApiproductsRateplans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsApiproductsRateplansRequest,
   output: GoogleCloudApigeeV1RatePlan,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19375,6 +19990,7 @@ export type DeleteOrganizationsApisError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an API proxy and all associated endpoints, policies, resources, and revisions. The API proxy must be undeployed before you can delete it. */
 export const deleteOrganizationsApis: API.OperationMethod<
@@ -19385,7 +20001,14 @@ export const deleteOrganizationsApis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsApisRequest,
   output: GoogleCloudApigeeV1ApiProxy,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19395,6 +20018,7 @@ export type DeleteOrganizationsApisKeyvaluemapsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a key value map from an API proxy. */
 export const deleteOrganizationsApisKeyvaluemaps: API.OperationMethod<
@@ -19405,7 +20029,14 @@ export const deleteOrganizationsApisKeyvaluemaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsApisKeyvaluemapsRequest,
   output: GoogleCloudApigeeV1KeyValueMap,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19415,6 +20046,7 @@ export type DeleteOrganizationsApisKeyvaluemapsEntriesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a key value entry from a key value map scoped to an organization, environment, or API proxy. **Notes:** * After you delete the key value entry, the policy consuming the entry will continue to function with its cached values for a few minutes. This is expected behavior. * Supported for Apigee hybrid 1.8.x and higher. */
 export const deleteOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<
@@ -19425,7 +20057,14 @@ export const deleteOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsApisKeyvaluemapsEntriesRequest,
   output: GoogleCloudApigeeV1KeyValueEntry,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19435,6 +20074,7 @@ export type DeleteOrganizationsApisRevisionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an API proxy revision and all policies, resources, endpoints, and revisions associated with it. The API proxy revision must be undeployed before you can delete it. */
 export const deleteOrganizationsApisRevisions: API.OperationMethod<
@@ -19445,7 +20085,14 @@ export const deleteOrganizationsApisRevisions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsApisRevisionsRequest,
   output: GoogleCloudApigeeV1ApiProxyRevision,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19455,6 +20102,7 @@ export type DeleteOrganizationsAppgroupsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an AppGroup. All app and API keys associations with the AppGroup are also removed. **Warning**: This API will permanently delete the AppGroup and related artifacts. **Note**: The delete operation is asynchronous. The AppGroup is deleted immediately, but its associated resources, such as apps and API keys, may take anywhere from a few seconds to a few minutes to be deleted. */
 export const deleteOrganizationsAppgroups: API.OperationMethod<
@@ -19465,7 +20113,14 @@ export const deleteOrganizationsAppgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsAppgroupsRequest,
   output: GoogleCloudApigeeV1AppGroup,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19475,6 +20130,7 @@ export type DeleteOrganizationsAppgroupsAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an AppGroup app. **Note**: The delete operation is asynchronous. The AppGroup app is deleted immediately, but its associated resources, such as app keys or access tokens, may take anywhere from a few seconds to a few minutes to be deleted. */
 export const deleteOrganizationsAppgroupsApps: API.OperationMethod<
@@ -19485,7 +20141,14 @@ export const deleteOrganizationsAppgroupsApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsAppgroupsAppsRequest,
   output: GoogleCloudApigeeV1AppGroupApp,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19495,6 +20158,7 @@ export type DeleteOrganizationsAppgroupsAppsKeysError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an app's consumer key and removes all API products associated with the app. After the consumer key is deleted, it cannot be used to access any APIs. */
 export const deleteOrganizationsAppgroupsAppsKeys: API.OperationMethod<
@@ -19505,7 +20169,14 @@ export const deleteOrganizationsAppgroupsAppsKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsAppgroupsAppsKeysRequest,
   output: GoogleCloudApigeeV1AppGroupAppKey,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19515,6 +20186,7 @@ export type DeleteOrganizationsAppgroupsAppsKeysApiproductsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Removes an API product from an app's consumer key. After the API product is removed, the app cannot access the API resources defined in that API product. **Note**: The consumer key is not removed, only its association with the API product. */
 export const deleteOrganizationsAppgroupsAppsKeysApiproducts: API.OperationMethod<
@@ -19525,7 +20197,14 @@ export const deleteOrganizationsAppgroupsAppsKeysApiproducts: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsAppgroupsAppsKeysApiproductsRequest,
   output: GoogleCloudApigeeV1AppGroupAppKey,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19535,6 +20214,7 @@ export type DeleteOrganizationsDatacollectorsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a data collector. */
 export const deleteOrganizationsDatacollectors: API.OperationMethod<
@@ -19545,7 +20225,14 @@ export const deleteOrganizationsDatacollectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsDatacollectorsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19555,6 +20242,7 @@ export type DeleteOrganizationsDevelopersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a developer. All apps and API keys associated with the developer are also removed. **Warning**: This API will permanently delete the developer and related artifacts. To avoid permanently deleting developers and their artifacts, set the developer status to `inactive` using the SetDeveloperStatus API. **Note**: The delete operation is asynchronous. The developer is deleted immediately, but its associated resources, such as apps and API keys, may take anywhere from a few seconds to a few minutes to be deleted. */
 export const deleteOrganizationsDevelopers: API.OperationMethod<
@@ -19565,7 +20253,14 @@ export const deleteOrganizationsDevelopers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsDevelopersRequest,
   output: GoogleCloudApigeeV1Developer,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19575,6 +20270,7 @@ export type DeleteOrganizationsDevelopersAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a developer app. **Note**: The delete operation is asynchronous. The developer app is deleted immediately, but its associated resources, such as app keys or access tokens, may take anywhere from a few seconds to a few minutes to be deleted. */
 export const deleteOrganizationsDevelopersApps: API.OperationMethod<
@@ -19585,7 +20281,14 @@ export const deleteOrganizationsDevelopersApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsDevelopersAppsRequest,
   output: GoogleCloudApigeeV1DeveloperApp,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19595,6 +20298,7 @@ export type DeleteOrganizationsDevelopersAppsAttributesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a developer app attribute. */
 export const deleteOrganizationsDevelopersAppsAttributes: API.OperationMethod<
@@ -19605,7 +20309,14 @@ export const deleteOrganizationsDevelopersAppsAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsDevelopersAppsAttributesRequest,
   output: GoogleCloudApigeeV1Attribute,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19615,6 +20326,7 @@ export type DeleteOrganizationsDevelopersAppsKeysError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an app's consumer key and removes all API products associated with the app. After the consumer key is deleted, it cannot be used to access any APIs. **Note**: After you delete a consumer key, you may want to: 1. Create a new consumer key and secret for the developer app using the CreateDeveloperAppKey API, and subsequently add an API product to the key using the UpdateDeveloperAppKey API. 2. Delete the developer app, if it is no longer required. */
 export const deleteOrganizationsDevelopersAppsKeys: API.OperationMethod<
@@ -19625,7 +20337,14 @@ export const deleteOrganizationsDevelopersAppsKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsDevelopersAppsKeysRequest,
   output: GoogleCloudApigeeV1DeveloperAppKey,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19635,6 +20354,7 @@ export type DeleteOrganizationsDevelopersAppsKeysApiproductsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Removes an API product from an app's consumer key. After the API product is removed, the app cannot access the API resources defined in that API product. **Note**: The consumer key is not removed, only its association with the API product. */
 export const deleteOrganizationsDevelopersAppsKeysApiproducts: API.OperationMethod<
@@ -19645,7 +20365,14 @@ export const deleteOrganizationsDevelopersAppsKeysApiproducts: API.OperationMeth
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsDevelopersAppsKeysApiproductsRequest,
   output: GoogleCloudApigeeV1DeveloperAppKey,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19655,6 +20382,7 @@ export type DeleteOrganizationsDevelopersAttributesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a developer attribute. */
 export const deleteOrganizationsDevelopersAttributes: API.OperationMethod<
@@ -19665,7 +20393,14 @@ export const deleteOrganizationsDevelopersAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsDevelopersAttributesRequest,
   output: GoogleCloudApigeeV1Attribute,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19675,6 +20410,7 @@ export type DeleteOrganizationsDnsZonesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a previously created DNS zone. */
 export const deleteOrganizationsDnsZones: API.OperationMethod<
@@ -19685,7 +20421,14 @@ export const deleteOrganizationsDnsZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsDnsZonesRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19695,6 +20438,7 @@ export type DeleteOrganizationsEndpointAttachmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an endpoint attachment. */
 export const deleteOrganizationsEndpointAttachments: API.OperationMethod<
@@ -19705,7 +20449,14 @@ export const deleteOrganizationsEndpointAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsEndpointAttachmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19715,6 +20466,7 @@ export type DeleteOrganizationsEnvgroupsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an environment group. */
 export const deleteOrganizationsEnvgroups: API.OperationMethod<
@@ -19725,7 +20477,14 @@ export const deleteOrganizationsEnvgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsEnvgroupsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19735,6 +20494,7 @@ export type DeleteOrganizationsEnvgroupsAttachmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an environment group attachment. */
 export const deleteOrganizationsEnvgroupsAttachments: API.OperationMethod<
@@ -19745,7 +20505,14 @@ export const deleteOrganizationsEnvgroupsAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsEnvgroupsAttachmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19755,6 +20522,7 @@ export type DeleteOrganizationsEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an environment from an organization. **Warning: You must delete all key value maps and key value entries before you delete an environment.** Otherwise, if you re-create the environment the key value map entry operations will encounter encryption/decryption discrepancies. */
 export const deleteOrganizationsEnvironments: API.OperationMethod<
@@ -19765,7 +20533,14 @@ export const deleteOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsEnvironmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19775,6 +20550,7 @@ export type DeleteOrganizationsEnvironmentsArchiveDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an archive deployment. */
 export const deleteOrganizationsEnvironmentsArchiveDeployments: API.OperationMethod<
@@ -19785,7 +20561,14 @@ export const deleteOrganizationsEnvironmentsArchiveDeployments: API.OperationMet
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsEnvironmentsArchiveDeploymentsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19795,6 +20578,7 @@ export type DeleteOrganizationsEnvironmentsCachesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a cache. */
 export const deleteOrganizationsEnvironmentsCaches: API.OperationMethod<
@@ -19805,7 +20589,14 @@ export const deleteOrganizationsEnvironmentsCaches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsEnvironmentsCachesRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19815,6 +20606,7 @@ export type DeleteOrganizationsEnvironmentsKeystoresError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a keystore or truststore. */
 export const deleteOrganizationsEnvironmentsKeystores: API.OperationMethod<
@@ -19825,7 +20617,14 @@ export const deleteOrganizationsEnvironmentsKeystores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsEnvironmentsKeystoresRequest,
   output: GoogleCloudApigeeV1Keystore,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19835,6 +20634,7 @@ export type DeleteOrganizationsEnvironmentsKeystoresAliasesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an alias. */
 export const deleteOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<
@@ -19845,7 +20645,14 @@ export const deleteOrganizationsEnvironmentsKeystoresAliases: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsEnvironmentsKeystoresAliasesRequest,
   output: GoogleCloudApigeeV1Alias,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19855,6 +20662,7 @@ export type DeleteOrganizationsEnvironmentsKeyvaluemapsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a key value map from an environment. */
 export const deleteOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<
@@ -19865,7 +20673,14 @@ export const deleteOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsEnvironmentsKeyvaluemapsRequest,
   output: GoogleCloudApigeeV1KeyValueMap,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19875,6 +20690,7 @@ export type DeleteOrganizationsEnvironmentsKeyvaluemapsEntriesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a key value entry from a key value map scoped to an organization, environment, or API proxy. **Notes:** * After you delete the key value entry, the policy consuming the entry will continue to function with its cached values for a few minutes. This is expected behavior. * Supported for Apigee hybrid 1.8.x and higher. */
 export const deleteOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMethod<
@@ -19885,7 +20701,14 @@ export const deleteOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsEnvironmentsKeyvaluemapsEntriesRequest,
   output: GoogleCloudApigeeV1KeyValueEntry,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19895,6 +20718,7 @@ export type DeleteOrganizationsEnvironmentsReferencesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a Reference from an environment. Returns the deleted Reference resource. */
 export const deleteOrganizationsEnvironmentsReferences: API.OperationMethod<
@@ -19905,7 +20729,14 @@ export const deleteOrganizationsEnvironmentsReferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsEnvironmentsReferencesRequest,
   output: GoogleCloudApigeeV1Reference,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19915,6 +20746,7 @@ export type DeleteOrganizationsEnvironmentsResourcefilesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a resource file. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export const deleteOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
@@ -19925,7 +20757,14 @@ export const deleteOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsEnvironmentsResourcefilesRequest,
   output: GoogleCloudApigeeV1ResourceFile,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19935,6 +20774,7 @@ export type DeleteOrganizationsEnvironmentsSecurityActionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Delete a SecurityAction. */
 export const deleteOrganizationsEnvironmentsSecurityActions: API.OperationMethod<
@@ -19945,7 +20785,14 @@ export const deleteOrganizationsEnvironmentsSecurityActions: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsEnvironmentsSecurityActionsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19955,6 +20802,7 @@ export type DeleteOrganizationsEnvironmentsTargetserversError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a TargetServer from an environment. Returns the deleted TargetServer resource. */
 export const deleteOrganizationsEnvironmentsTargetservers: API.OperationMethod<
@@ -19965,7 +20813,14 @@ export const deleteOrganizationsEnvironmentsTargetservers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsEnvironmentsTargetserversRequest,
   output: GoogleCloudApigeeV1TargetServer,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19975,6 +20830,7 @@ export type DeleteOrganizationsEnvironmentsTraceConfigOverridesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a distributed trace configuration override. */
 export const deleteOrganizationsEnvironmentsTraceConfigOverrides: API.OperationMethod<
@@ -19985,7 +20841,14 @@ export const deleteOrganizationsEnvironmentsTraceConfigOverrides: API.OperationM
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsEnvironmentsTraceConfigOverridesRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -19995,6 +20858,7 @@ export type DeleteOrganizationsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an Apigee runtime instance. The instance stops serving requests and the runtime data is deleted. **Note:** Not supported for Apigee hybrid. */
 export const deleteOrganizationsInstances: API.OperationMethod<
@@ -20005,7 +20869,14 @@ export const deleteOrganizationsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsInstancesRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20015,6 +20886,7 @@ export type DeleteOrganizationsInstancesAttachmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an attachment. **Note:** Not supported for Apigee hybrid. */
 export const deleteOrganizationsInstancesAttachments: API.OperationMethod<
@@ -20025,7 +20897,14 @@ export const deleteOrganizationsInstancesAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsInstancesAttachmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20035,6 +20914,7 @@ export type DeleteOrganizationsInstancesNatAddressesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes the NAT address. Connections that are actively using the address are drained before it is removed. **Note:** Not supported for Apigee hybrid. */
 export const deleteOrganizationsInstancesNatAddresses: API.OperationMethod<
@@ -20045,7 +20925,14 @@ export const deleteOrganizationsInstancesNatAddresses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsInstancesNatAddressesRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20055,6 +20942,7 @@ export type DeleteOrganizationsKeyvaluemapsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a key value map from an organization. */
 export const deleteOrganizationsKeyvaluemaps: API.OperationMethod<
@@ -20065,7 +20953,14 @@ export const deleteOrganizationsKeyvaluemaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsKeyvaluemapsRequest,
   output: GoogleCloudApigeeV1KeyValueMap,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20075,6 +20970,7 @@ export type DeleteOrganizationsKeyvaluemapsEntriesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a key value entry from a key value map scoped to an organization, environment, or API proxy. **Notes:** * After you delete the key value entry, the policy consuming the entry will continue to function with its cached values for a few minutes. This is expected behavior. * Supported for Apigee hybrid 1.8.x and higher. */
 export const deleteOrganizationsKeyvaluemapsEntries: API.OperationMethod<
@@ -20085,7 +20981,14 @@ export const deleteOrganizationsKeyvaluemapsEntries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsKeyvaluemapsEntriesRequest,
   output: GoogleCloudApigeeV1KeyValueEntry,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20095,6 +20998,7 @@ export type DeleteOrganizationsReportsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an existing custom report definition */
 export const deleteOrganizationsReports: API.OperationMethod<
@@ -20105,7 +21009,14 @@ export const deleteOrganizationsReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsReportsRequest,
   output: GoogleCloudApigeeV1DeleteCustomReportResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20115,6 +21026,7 @@ export type DeleteOrganizationsSecurityFeedbackError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a specific feedback report. Used for "undo" of a feedback submission. */
 export const deleteOrganizationsSecurityFeedback: API.OperationMethod<
@@ -20125,7 +21037,14 @@ export const deleteOrganizationsSecurityFeedback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsSecurityFeedbackRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20135,6 +21054,7 @@ export type DeleteOrganizationsSecurityMonitoringConditionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Delete a security monitoring condition. */
 export const deleteOrganizationsSecurityMonitoringConditions: API.OperationMethod<
@@ -20145,7 +21065,14 @@ export const deleteOrganizationsSecurityMonitoringConditions: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsSecurityMonitoringConditionsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20155,6 +21082,7 @@ export type DeleteOrganizationsSecurityProfilesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** DeleteSecurityProfile delete a profile with all its revisions. */
 export const deleteOrganizationsSecurityProfiles: API.OperationMethod<
@@ -20165,7 +21093,14 @@ export const deleteOrganizationsSecurityProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsSecurityProfilesRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20175,6 +21110,7 @@ export type DeleteOrganizationsSecurityProfilesEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** DeleteSecurityProfileEnvironmentAssociation removes profile environment association i.e. detaches environment from security profile. */
 export const deleteOrganizationsSecurityProfilesEnvironments: API.OperationMethod<
@@ -20185,7 +21121,14 @@ export const deleteOrganizationsSecurityProfilesEnvironments: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsSecurityProfilesEnvironmentsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20195,6 +21138,7 @@ export type DeleteOrganizationsSecurityProfilesV2Error =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Delete a security profile v2. */
 export const deleteOrganizationsSecurityProfilesV2: API.OperationMethod<
@@ -20205,7 +21149,14 @@ export const deleteOrganizationsSecurityProfilesV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsSecurityProfilesV2Request,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20215,6 +21166,7 @@ export type DeleteOrganizationsSharedflowsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a shared flow and all it's revisions. The shared flow must be undeployed before you can delete it. */
 export const deleteOrganizationsSharedflows: API.OperationMethod<
@@ -20225,7 +21177,14 @@ export const deleteOrganizationsSharedflows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsSharedflowsRequest,
   output: GoogleCloudApigeeV1SharedFlow,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20235,6 +21194,7 @@ export type DeleteOrganizationsSharedflowsRevisionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a shared flow and all associated policies, resources, and revisions. You must undeploy the shared flow before deleting it. */
 export const deleteOrganizationsSharedflowsRevisions: API.OperationMethod<
@@ -20245,7 +21205,14 @@ export const deleteOrganizationsSharedflowsRevisions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsSharedflowsRevisionsRequest,
   output: GoogleCloudApigeeV1SharedFlowRevision,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20255,6 +21222,7 @@ export type DeleteOrganizationsSitesApicategoriesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an API category. */
 export const deleteOrganizationsSitesApicategories: API.OperationMethod<
@@ -20265,7 +21233,14 @@ export const deleteOrganizationsSitesApicategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsSitesApicategoriesRequest,
   output: GoogleCloudApigeeV1DeleteResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20275,6 +21250,7 @@ export type DeleteOrganizationsSitesApidocsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a catalog item. */
 export const deleteOrganizationsSitesApidocs: API.OperationMethod<
@@ -20285,7 +21261,14 @@ export const deleteOrganizationsSitesApidocs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsSitesApidocsRequest,
   output: GoogleCloudApigeeV1DeleteResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20295,6 +21278,7 @@ export type DeleteOrganizationsSpacesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes an organization space. */
 export const deleteOrganizationsSpaces: API.OperationMethod<
@@ -20305,7 +21289,14 @@ export const deleteOrganizationsSpaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsSpacesRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20315,6 +21306,7 @@ export type DeployOrganizationsEnvironmentsApisRevisionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deploys a revision of an API proxy. If another revision of the same API proxy revision is currently deployed, set the `override` parameter to `true` to have this revision replace the currently deployed revision. You cannot invoke an API proxy until it has been deployed to an environment. After you deploy an API proxy revision, you cannot edit it. To edit the API proxy, you must create and deploy a new revision. For a request path `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}/deployments`, two permissions are required: * `apigee.deployments.create` on the resource `organizations/{org}/environments/{env}` * `apigee.proxyrevisions.deploy` on the resource `organizations/{org}/apis/{api}/revisions/{rev}` All successful API proxy deployments to Apigee are [zero-downtime deployments](https://cloud.google.com/apigee/docs/api-platform/deploy/ui-deploy-overview#zero-downtime-deployment). Apigee hybrid validates the dependencies between shared flows and API proxies at deployment time. For example, if the Flow Callout policy in an API proxy references a shared flow that either doesn't exist or isn't deployed, the API proxy deployment fails. */
 export const deployOrganizationsEnvironmentsApisRevisions: API.OperationMethod<
@@ -20325,7 +21317,14 @@ export const deployOrganizationsEnvironmentsApisRevisions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeployOrganizationsEnvironmentsApisRevisionsRequest,
   output: GoogleCloudApigeeV1Deployment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20335,6 +21334,7 @@ export type DeployOrganizationsEnvironmentsSharedflowsRevisionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deploys a revision of a shared flow. If another revision of the same shared flow is currently deployed, set the `override` parameter to `true` to have this revision replace the currently deployed revision. You cannot use a shared flow until it has been deployed to an environment. For a request path `organizations/{org}/environments/{env}/sharedflows/{sf}/revisions/{rev}/deployments`, two permissions are required: * `apigee.deployments.create` on the resource `organizations/{org}/environments/{env}` * `apigee.sharedflowrevisions.deploy` on the resource `organizations/{org}/sharedflows/{sf}/revisions/{rev}` */
 export const deployOrganizationsEnvironmentsSharedflowsRevisions: API.OperationMethod<
@@ -20345,7 +21345,14 @@ export const deployOrganizationsEnvironmentsSharedflowsRevisions: API.OperationM
 > = /*@__PURE__*/ API.make(() => ({
   input: DeployOrganizationsEnvironmentsSharedflowsRevisionsRequest,
   output: GoogleCloudApigeeV1Deployment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20355,6 +21362,7 @@ export type DetachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooksError 
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Detaches a shared flow from a flow hook. */
 export const detachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooks: API.OperationMethod<
@@ -20365,7 +21373,14 @@ export const detachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooks: API
 > = /*@__PURE__*/ API.make(() => ({
   input: DetachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooksRequest,
   output: GoogleCloudApigeeV1FlowHook,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20375,6 +21390,7 @@ export type DisableOrganizationsEnvironmentsSecurityActionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Disable a SecurityAction. The `state` of the SecurityAction after disabling is `DISABLED`. `DisableSecurityAction` can be called on SecurityActions in the state `ENABLED`; SecurityActions in a different state (including `DISABLED`) return an error. */
 export const disableOrganizationsEnvironmentsSecurityActions: API.OperationMethod<
@@ -20385,7 +21401,14 @@ export const disableOrganizationsEnvironmentsSecurityActions: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: DisableOrganizationsEnvironmentsSecurityActionsRequest,
   output: GoogleCloudApigeeV1SecurityAction,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20395,6 +21418,7 @@ export type EnableOrganizationsEnvironmentsSecurityActionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Enable a SecurityAction. The `state` of the SecurityAction after enabling is `ENABLED`. `EnableSecurityAction` can be called on SecurityActions in the state `DISABLED`; SecurityActions in a different state (including `ENABLED) return an error. */
 export const enableOrganizationsEnvironmentsSecurityActions: API.OperationMethod<
@@ -20405,7 +21429,14 @@ export const enableOrganizationsEnvironmentsSecurityActions: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: EnableOrganizationsEnvironmentsSecurityActionsRequest,
   output: GoogleCloudApigeeV1SecurityAction,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20415,6 +21446,7 @@ export type ExpireOrganizationsAppgroupsSubscriptionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Expires an API product subscription immediately. */
 export const expireOrganizationsAppgroupsSubscriptions: API.OperationMethod<
@@ -20425,7 +21457,14 @@ export const expireOrganizationsAppgroupsSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExpireOrganizationsAppgroupsSubscriptionsRequest,
   output: GoogleCloudApigeeV1AppGroupSubscription,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20435,6 +21474,7 @@ export type ExpireOrganizationsDevelopersSubscriptionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Expires an API product subscription immediately. */
 export const expireOrganizationsDevelopersSubscriptions: API.OperationMethod<
@@ -20445,7 +21485,14 @@ export const expireOrganizationsDevelopersSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExpireOrganizationsDevelopersSubscriptionsRequest,
   output: GoogleCloudApigeeV1DeveloperSubscription,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20455,6 +21502,7 @@ export type GenerateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDepl
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Generates a report for a dry run analysis of a DeployApiProxy request without committing the deployment. In addition to the standard validations performed when adding deployments, additional analysis will be done to detect possible traffic routing changes that would result from this deployment being created. Any potential routing conflicts or unsafe changes will be reported in the response. This routing analysis is not performed for a non-dry-run DeployApiProxy request. For a request path `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}/deployments:generateDeployChangeReport`, two permissions are required: * `apigee.deployments.create` on the resource `organizations/{org}/environments/{env}` * `apigee.proxyrevisions.deploy` on the resource `organizations/{org}/apis/{api}/revisions/{rev}` */
 export const generateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDeployments: API.OperationMethod<
@@ -20466,7 +21514,14 @@ export const generateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDep
   input:
     GenerateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsRequest,
   output: GoogleCloudApigeeV1DeploymentChangeReport,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20476,6 +21531,7 @@ export type GenerateDownloadUrlOrganizationsEnvironmentsArchiveDeploymentsError 
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Generates a signed URL for downloading the original zip file used to create an Archive Deployment. The URL is only valid for a limited period and should be used within minutes after generation. Each call returns a new upload URL. */
 export const generateDownloadUrlOrganizationsEnvironmentsArchiveDeployments: API.OperationMethod<
@@ -20486,7 +21542,14 @@ export const generateDownloadUrlOrganizationsEnvironmentsArchiveDeployments: API
 > = /*@__PURE__*/ API.make(() => ({
   input: GenerateDownloadUrlOrganizationsEnvironmentsArchiveDeploymentsRequest,
   output: GoogleCloudApigeeV1GenerateDownloadUrlResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20496,6 +21559,7 @@ export type GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersApps
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Manages access to a developer app by enabling you to: * Approve or revoke a developer app * Generate a new consumer key and secret for a developer app To approve or revoke a developer app, set the `action` query parameter to `approve` or `revoke`, respectively, and the `Content-Type` header to `application/octet-stream`. If a developer app is revoked, none of its API keys are valid for API calls even though the keys are still approved. If successful, the API call returns the following HTTP status code: `204 No Content` To generate a new consumer key and secret for a developer app, pass the new key/secret details. Rather than replace an existing key, this API generates a new key. In this case, multiple key pairs may be associated with a single developer app. Each key pair has an independent status (`approve` or `revoke`) and expiration time. Any approved, non-expired key can be used in an API call. For example, if you're using API key rotation, you can generate new keys with expiration times that overlap keys that are going to expire. You might also generate a new consumer key/secret if the security of the original key/secret is compromised. The `keyExpiresIn` property defines the expiration time for the API key in milliseconds. If you don't set this property or set it to `-1`, the API key never expires. **Notes**: * When generating a new key/secret, this API replaces the existing attributes, notes, and callback URLs with those specified in the request. Include or exclude any existing information that you want to retain or delete, respectively. * To migrate existing consumer keys and secrets to hybrid from another system, see the CreateDeveloperAppKey API. */
 export const generateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersApps: API.OperationMethod<
@@ -20507,7 +21571,14 @@ export const generateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersApp
   input:
     GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersAppsRequest,
   output: GoogleCloudApigeeV1DeveloperApp,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20517,6 +21588,7 @@ export type GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDe
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Generates a report for a dry run analysis of an UndeployApiProxy request without committing the undeploy. In addition to the standard validations performed when removing deployments, additional analysis will be done to detect possible traffic routing changes that would result from this deployment being removed. Any potential routing conflicts or unsafe changes will be reported in the response. This routing analysis is not performed for a non-dry-run UndeployApiProxy request. For a request path `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}/deployments:generateUndeployChangeReport`, two permissions are required: * `apigee.deployments.delete` on the resource `organizations/{org}/environments/{env}` * `apigee.proxyrevisions.undeploy` on the resource `organizations/{org}/apis/{api}/revisions/{rev}` */
 export const generateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeployments: API.OperationMethod<
@@ -20528,7 +21600,14 @@ export const generateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsD
   input:
     GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsRequest,
   output: GoogleCloudApigeeV1DeploymentChangeReport,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20538,6 +21617,7 @@ export type GenerateUploadUrlOrganizationsEnvironmentsArchiveDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Generates a signed URL for uploading an Archive zip file to Google Cloud Storage. Once the upload is complete, the signed URL should be passed to CreateArchiveDeployment. When uploading to the generated signed URL, please follow these restrictions: * Source file type should be a zip file. * Source file size should not exceed 1GB limit. * No credentials should be attached - the signed URLs provide access to the target bucket using internal service identity; if credentials were attached, the identity from the credentials would be used, but that identity does not have permissions to upload files to the URL. When making a HTTP PUT request, these two headers need to be specified: * `content-type: application/zip` * `x-goog-content-length-range: 0,1073741824` And this header SHOULD NOT be specified: * `Authorization: Bearer YOUR_TOKEN` */
 export const generateUploadUrlOrganizationsEnvironmentsArchiveDeployments: API.OperationMethod<
@@ -20548,7 +21628,14 @@ export const generateUploadUrlOrganizationsEnvironmentsArchiveDeployments: API.O
 > = /*@__PURE__*/ API.make(() => ({
   input: GenerateUploadUrlOrganizationsEnvironmentsArchiveDeploymentsRequest,
   output: GoogleCloudApigeeV1GenerateUploadUrlResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20556,6 +21643,7 @@ export const generateUploadUrlOrganizationsEnvironmentsArchiveDeployments: API.O
 export type GetAddonsConfigOrganizationsEnvironmentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the add-ons config of an environment. */
 export const getAddonsConfigOrganizationsEnvironments: API.OperationMethod<
@@ -20566,7 +21654,7 @@ export const getAddonsConfigOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAddonsConfigOrganizationsEnvironmentsRequest,
   output: GoogleCloudApigeeV1AddonsConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20574,6 +21662,7 @@ export const getAddonsConfigOrganizationsEnvironments: API.OperationMethod<
 export type GetApiSecurityRuntimeConfigOrganizationsEnvironmentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the API Security runtime configuration for an environment. This named ApiSecurityRuntimeConfig to prevent conflicts with ApiSecurityConfig from addon config. */
 export const getApiSecurityRuntimeConfigOrganizationsEnvironments: API.OperationMethod<
@@ -20584,7 +21673,7 @@ export const getApiSecurityRuntimeConfigOrganizationsEnvironments: API.Operation
 > = /*@__PURE__*/ API.make(() => ({
   input: GetApiSecurityRuntimeConfigOrganizationsEnvironmentsRequest,
   output: GoogleCloudApigeeV1ApiSecurityRuntimeConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20592,6 +21681,7 @@ export const getApiSecurityRuntimeConfigOrganizationsEnvironments: API.Operation
 export type GetBalanceOrganizationsAppgroupsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the account balance for the AppGroup. */
 export const getBalanceOrganizationsAppgroups: API.OperationMethod<
@@ -20602,7 +21692,7 @@ export const getBalanceOrganizationsAppgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBalanceOrganizationsAppgroupsRequest,
   output: GoogleCloudApigeeV1AppGroupBalance,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20610,6 +21700,7 @@ export const getBalanceOrganizationsAppgroups: API.OperationMethod<
 export type GetBalanceOrganizationsDevelopersError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the account balance for the developer. */
 export const getBalanceOrganizationsDevelopers: API.OperationMethod<
@@ -20620,7 +21711,7 @@ export const getBalanceOrganizationsDevelopers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBalanceOrganizationsDevelopersRequest,
   output: GoogleCloudApigeeV1DeveloperBalance,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20628,6 +21719,7 @@ export const getBalanceOrganizationsDevelopers: API.OperationMethod<
 export type GetCertificateOrganizationsEnvironmentsKeystoresAliasesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the certificate from an alias in PEM-encoded form. */
 export const getCertificateOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<
@@ -20638,7 +21730,7 @@ export const getCertificateOrganizationsEnvironmentsKeystoresAliases: API.Operat
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCertificateOrganizationsEnvironmentsKeystoresAliasesRequest,
   output: GoogleApiHttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20646,6 +21738,7 @@ export const getCertificateOrganizationsEnvironmentsKeystoresAliases: API.Operat
 export type GetControlPlaneAccessOrganizationsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists the service accounts allowed to access Apigee control plane directly for limited functionality. **Note**: Available to Apigee hybrid only. */
 export const getControlPlaneAccessOrganizations: API.OperationMethod<
@@ -20656,7 +21749,7 @@ export const getControlPlaneAccessOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetControlPlaneAccessOrganizationsRequest,
   output: GoogleCloudApigeeV1ControlPlaneAccess,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20664,6 +21757,7 @@ export const getControlPlaneAccessOrganizations: API.OperationMethod<
 export type GetDebugmaskOrganizationsEnvironmentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the debug mask singleton resource for an environment. */
 export const getDebugmaskOrganizationsEnvironments: API.OperationMethod<
@@ -20674,7 +21768,7 @@ export const getDebugmaskOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDebugmaskOrganizationsEnvironmentsRequest,
   output: GoogleCloudApigeeV1DebugMask,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20682,6 +21776,7 @@ export const getDebugmaskOrganizationsEnvironments: API.OperationMethod<
 export type GetDeployedConfigOrganizationsEnvironmentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the deployed configuration for an environment. */
 export const getDeployedConfigOrganizationsEnvironments: API.OperationMethod<
@@ -20692,7 +21787,7 @@ export const getDeployedConfigOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDeployedConfigOrganizationsEnvironmentsRequest,
   output: GoogleCloudApigeeV1EnvironmentConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20700,6 +21795,7 @@ export const getDeployedConfigOrganizationsEnvironments: API.OperationMethod<
 export type GetDeployedIngressConfigOrganizationsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the deployed ingress configuration for an organization. */
 export const getDeployedIngressConfigOrganizations: API.OperationMethod<
@@ -20710,7 +21806,7 @@ export const getDeployedIngressConfigOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDeployedIngressConfigOrganizationsRequest,
   output: GoogleCloudApigeeV1IngressConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20718,6 +21814,7 @@ export const getDeployedIngressConfigOrganizations: API.OperationMethod<
 export type GetDeployedIngressConfigOrganizationsEnvgroupsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the deployed ingress configuration for an environment group. */
 export const getDeployedIngressConfigOrganizationsEnvgroups: API.OperationMethod<
@@ -20728,7 +21825,7 @@ export const getDeployedIngressConfigOrganizationsEnvgroups: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDeployedIngressConfigOrganizationsEnvgroupsRequest,
   output: GoogleCloudApigeeV1EnvironmentGroupConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20736,6 +21833,7 @@ export const getDeployedIngressConfigOrganizationsEnvgroups: API.OperationMethod
 export type GetDeploymentsOrganizationsEnvironmentsApisRevisionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the deployment of an API proxy revision and actual state reported by runtime pods. */
 export const getDeploymentsOrganizationsEnvironmentsApisRevisions: API.OperationMethod<
@@ -20746,7 +21844,7 @@ export const getDeploymentsOrganizationsEnvironmentsApisRevisions: API.Operation
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDeploymentsOrganizationsEnvironmentsApisRevisionsRequest,
   output: GoogleCloudApigeeV1Deployment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20754,6 +21852,7 @@ export const getDeploymentsOrganizationsEnvironmentsApisRevisions: API.Operation
 export type GetDeploymentsOrganizationsEnvironmentsSharedflowsRevisionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the deployment of a shared flow revision and actual state reported by runtime pods. */
 export const getDeploymentsOrganizationsEnvironmentsSharedflowsRevisions: API.OperationMethod<
@@ -20764,7 +21863,7 @@ export const getDeploymentsOrganizationsEnvironmentsSharedflowsRevisions: API.Op
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDeploymentsOrganizationsEnvironmentsSharedflowsRevisionsRequest,
   output: GoogleCloudApigeeV1Deployment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20772,6 +21871,7 @@ export const getDeploymentsOrganizationsEnvironmentsSharedflowsRevisions: API.Op
 export type GetDocumentationOrganizationsSitesApidocsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the documentation for the specified catalog item. */
 export const getDocumentationOrganizationsSitesApidocs: API.OperationMethod<
@@ -20782,7 +21882,7 @@ export const getDocumentationOrganizationsSitesApidocs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDocumentationOrganizationsSitesApidocsRequest,
   output: GoogleCloudApigeeV1ApiDocDocumentationResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20790,6 +21890,7 @@ export const getDocumentationOrganizationsSitesApidocs: API.OperationMethod<
 export type GetIamPolicyOrganizationsEnvironmentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the IAM policy on an environment. For more information, see [Manage users, roles, and permissions using the API](https://cloud.google.com/apigee/docs/api-platform/system-administration/manage-users-roles). You must have the `apigee.environments.getIamPolicy` permission to call this API. */
 export const getIamPolicyOrganizationsEnvironments: API.OperationMethod<
@@ -20800,7 +21901,7 @@ export const getIamPolicyOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetIamPolicyOrganizationsEnvironmentsRequest,
   output: GoogleIamV1Policy,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20808,6 +21909,7 @@ export const getIamPolicyOrganizationsEnvironments: API.OperationMethod<
 export type GetIamPolicyOrganizationsEnvironmentsDeploymentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the IAM policy on a deployment. For more information, see [Manage users, roles, and permissions using the API](https://cloud.google.com/apigee/docs/api-platform/system-administration/manage-users-roles). You must have the `apigee.deployments.getIamPolicy` permission to call this API. */
 export const getIamPolicyOrganizationsEnvironmentsDeployments: API.OperationMethod<
@@ -20818,7 +21920,7 @@ export const getIamPolicyOrganizationsEnvironmentsDeployments: API.OperationMeth
 > = /*@__PURE__*/ API.make(() => ({
   input: GetIamPolicyOrganizationsEnvironmentsDeploymentsRequest,
   output: GoogleIamV1Policy,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20826,6 +21928,7 @@ export const getIamPolicyOrganizationsEnvironmentsDeployments: API.OperationMeth
 export type GetIamPolicyOrganizationsSpacesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Callers must have apigee.spaces.getIamPolicy. */
 export const getIamPolicyOrganizationsSpaces: API.OperationMethod<
@@ -20836,7 +21939,7 @@ export const getIamPolicyOrganizationsSpaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetIamPolicyOrganizationsSpacesRequest,
   output: GoogleIamV1Policy,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20844,6 +21947,7 @@ export const getIamPolicyOrganizationsSpaces: API.OperationMethod<
 export type GetMcpServerConfigOrganizationsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the deployed MCP server configuration for an organization. McpServerConfig is an org-scoped singleton (one per organization). The returned configuration may be up to 30 seconds out of date by default. */
 export const getMcpServerConfigOrganizations: API.OperationMethod<
@@ -20854,7 +21958,7 @@ export const getMcpServerConfigOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetMcpServerConfigOrganizationsRequest,
   output: GoogleCloudApigeeV1McpServerConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20862,6 +21966,7 @@ export const getMcpServerConfigOrganizations: API.OperationMethod<
 export type GetMonetizationConfigOrganizationsAppgroupsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the monetization configuration for the AppGroup. */
 export const getMonetizationConfigOrganizationsAppgroups: API.OperationMethod<
@@ -20872,7 +21977,7 @@ export const getMonetizationConfigOrganizationsAppgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetMonetizationConfigOrganizationsAppgroupsRequest,
   output: GoogleCloudApigeeV1AppGroupMonetizationConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20880,6 +21985,7 @@ export const getMonetizationConfigOrganizationsAppgroups: API.OperationMethod<
 export type GetMonetizationConfigOrganizationsDevelopersError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the monetization configuration for the developer. */
 export const getMonetizationConfigOrganizationsDevelopers: API.OperationMethod<
@@ -20890,12 +21996,16 @@ export const getMonetizationConfigOrganizationsDevelopers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetMonetizationConfigOrganizationsDevelopersRequest,
   output: GoogleCloudApigeeV1DeveloperMonetizationConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationsError = NotFound | Forbidden | GcpOpError;
+export type GetOrganizationsError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Gets the profile for an Apigee organization. See [Understanding organizations](https://cloud.google.com/apigee/docs/api-platform/fundamentals/organization-structure). */
 export const getOrganizations: API.OperationMethod<
   GetOrganizationsRequest,
@@ -20905,7 +22015,7 @@ export const getOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsRequest,
   output: GoogleCloudApigeeV1Organization,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20913,6 +22023,7 @@ export const getOrganizations: API.OperationMethod<
 export type GetOrganizationsAnalyticsDatastoresError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get a Datastore */
 export const getOrganizationsAnalyticsDatastores: API.OperationMethod<
@@ -20923,7 +22034,7 @@ export const getOrganizationsAnalyticsDatastores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsAnalyticsDatastoresRequest,
   output: GoogleCloudApigeeV1Datastore,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20931,6 +22042,7 @@ export const getOrganizationsAnalyticsDatastores: API.OperationMethod<
 export type GetOrganizationsApimServiceExtensionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets APIM service extension details. */
 export const getOrganizationsApimServiceExtensions: API.OperationMethod<
@@ -20941,7 +22053,7 @@ export const getOrganizationsApimServiceExtensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsApimServiceExtensionsRequest,
   output: GoogleCloudApigeeV1ApimServiceExtension,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20949,6 +22061,7 @@ export const getOrganizationsApimServiceExtensions: API.OperationMethod<
 export type GetOrganizationsApiproductsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets configuration details for an API product. The API product name required in the request URL is the internal name of the product, not the display name. While they may be the same, it depends on whether the API product was created via the UI or the API. View the list of API products to verify the internal name. */
 export const getOrganizationsApiproducts: API.OperationMethod<
@@ -20959,7 +22072,7 @@ export const getOrganizationsApiproducts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsApiproductsRequest,
   output: GoogleCloudApigeeV1ApiProduct,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20967,6 +22080,7 @@ export const getOrganizationsApiproducts: API.OperationMethod<
 export type GetOrganizationsApiproductsAttributesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the value of an API product attribute. */
 export const getOrganizationsApiproductsAttributes: API.OperationMethod<
@@ -20977,7 +22091,7 @@ export const getOrganizationsApiproductsAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsApiproductsAttributesRequest,
   output: GoogleCloudApigeeV1Attribute,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -20985,6 +22099,7 @@ export const getOrganizationsApiproductsAttributes: API.OperationMethod<
 export type GetOrganizationsApiproductsRateplansError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the details of a rate plan. */
 export const getOrganizationsApiproductsRateplans: API.OperationMethod<
@@ -20995,12 +22110,16 @@ export const getOrganizationsApiproductsRateplans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsApiproductsRateplansRequest,
   output: GoogleCloudApigeeV1RatePlan,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationsApisError = NotFound | Forbidden | GcpOpError;
+export type GetOrganizationsApisError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Gets an API proxy including a list of existing revisions. */
 export const getOrganizationsApis: API.OperationMethod<
   GetOrganizationsApisRequest,
@@ -21010,7 +22129,7 @@ export const getOrganizationsApis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsApisRequest,
   output: GoogleCloudApigeeV1ApiProxy,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21018,6 +22137,7 @@ export const getOrganizationsApis: API.OperationMethod<
 export type GetOrganizationsApisKeyvaluemapsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get the key value map scoped to an organization, environment, or API proxy. */
 export const getOrganizationsApisKeyvaluemaps: API.OperationMethod<
@@ -21028,7 +22148,7 @@ export const getOrganizationsApisKeyvaluemaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsApisKeyvaluemapsRequest,
   output: GoogleCloudApigeeV1KeyValueMap,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21036,6 +22156,7 @@ export const getOrganizationsApisKeyvaluemaps: API.OperationMethod<
 export type GetOrganizationsApisKeyvaluemapsEntriesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get the key value entry value for a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export const getOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<
@@ -21046,7 +22167,7 @@ export const getOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsApisKeyvaluemapsEntriesRequest,
   output: GoogleCloudApigeeV1KeyValueEntry,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21054,6 +22175,7 @@ export const getOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<
 export type GetOrganizationsApisRevisionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets an API proxy revision. To download the API proxy configuration bundle for the specified revision as a zip file, set the `format` query parameter to `bundle`. If you are using curl, specify `-o filename.zip` to save the output to a file; otherwise, it displays to `stdout`. Then, develop the API proxy configuration locally and upload the updated API proxy configuration revision, as described in [updateApiProxyRevision](updateApiProxyRevision). */
 export const getOrganizationsApisRevisions: API.OperationMethod<
@@ -21064,12 +22186,16 @@ export const getOrganizationsApisRevisions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsApisRevisionsRequest,
   output: GoogleApiHttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationsAppgroupsError = NotFound | Forbidden | GcpOpError;
+export type GetOrganizationsAppgroupsError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Returns the AppGroup details for the provided AppGroup name in the request URI. */
 export const getOrganizationsAppgroups: API.OperationMethod<
   GetOrganizationsAppgroupsRequest,
@@ -21079,7 +22205,7 @@ export const getOrganizationsAppgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsAppgroupsRequest,
   output: GoogleCloudApigeeV1AppGroup,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21087,6 +22213,7 @@ export const getOrganizationsAppgroups: API.OperationMethod<
 export type GetOrganizationsAppgroupsAppsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Returns the details for an AppGroup app. */
 export const getOrganizationsAppgroupsApps: API.OperationMethod<
@@ -21097,7 +22224,7 @@ export const getOrganizationsAppgroupsApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsAppgroupsAppsRequest,
   output: GoogleCloudApigeeV1AppGroupApp,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21105,6 +22232,7 @@ export const getOrganizationsAppgroupsApps: API.OperationMethod<
 export type GetOrganizationsAppgroupsAppsKeysError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets details for a consumer key for a AppGroup app, including the key and secret value, associated API products, and other information. */
 export const getOrganizationsAppgroupsAppsKeys: API.OperationMethod<
@@ -21115,7 +22243,7 @@ export const getOrganizationsAppgroupsAppsKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsAppgroupsAppsKeysRequest,
   output: GoogleCloudApigeeV1AppGroupAppKey,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21123,6 +22251,7 @@ export const getOrganizationsAppgroupsAppsKeys: API.OperationMethod<
 export type GetOrganizationsAppgroupsSubscriptionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get an api product subscription for an appgroup. */
 export const getOrganizationsAppgroupsSubscriptions: API.OperationMethod<
@@ -21133,12 +22262,16 @@ export const getOrganizationsAppgroupsSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsAppgroupsSubscriptionsRequest,
   output: GoogleCloudApigeeV1AppGroupSubscription,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationsAppsError = NotFound | Forbidden | GcpOpError;
+export type GetOrganizationsAppsError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Gets the app profile for the specified app ID. */
 export const getOrganizationsApps: API.OperationMethod<
   GetOrganizationsAppsRequest,
@@ -21148,7 +22281,7 @@ export const getOrganizationsApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsAppsRequest,
   output: GoogleCloudApigeeV1App,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21156,6 +22289,7 @@ export const getOrganizationsApps: API.OperationMethod<
 export type GetOrganizationsDatacollectorsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets a data collector. */
 export const getOrganizationsDatacollectors: API.OperationMethod<
@@ -21166,12 +22300,16 @@ export const getOrganizationsDatacollectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsDatacollectorsRequest,
   output: GoogleCloudApigeeV1DataCollector,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationsDevelopersError = NotFound | Forbidden | GcpOpError;
+export type GetOrganizationsDevelopersError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Returns the developer details, including the developer's name, email address, apps, and other information. **Note**: The response includes only the first 100 developer apps. */
 export const getOrganizationsDevelopers: API.OperationMethod<
   GetOrganizationsDevelopersRequest,
@@ -21181,7 +22319,7 @@ export const getOrganizationsDevelopers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsDevelopersRequest,
   output: GoogleCloudApigeeV1Developer,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21189,6 +22327,7 @@ export const getOrganizationsDevelopers: API.OperationMethod<
 export type GetOrganizationsDevelopersAppsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Returns the details for a developer app. */
 export const getOrganizationsDevelopersApps: API.OperationMethod<
@@ -21199,7 +22338,7 @@ export const getOrganizationsDevelopersApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsDevelopersAppsRequest,
   output: GoogleCloudApigeeV1DeveloperApp,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21207,6 +22346,7 @@ export const getOrganizationsDevelopersApps: API.OperationMethod<
 export type GetOrganizationsDevelopersAppsAttributesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Returns a developer app attribute. */
 export const getOrganizationsDevelopersAppsAttributes: API.OperationMethod<
@@ -21217,7 +22357,7 @@ export const getOrganizationsDevelopersAppsAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsDevelopersAppsAttributesRequest,
   output: GoogleCloudApigeeV1Attribute,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21225,6 +22365,7 @@ export const getOrganizationsDevelopersAppsAttributes: API.OperationMethod<
 export type GetOrganizationsDevelopersAppsKeysError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets details for a consumer key for a developer app, including the key and secret value, associated API products, and other information. */
 export const getOrganizationsDevelopersAppsKeys: API.OperationMethod<
@@ -21235,7 +22376,7 @@ export const getOrganizationsDevelopersAppsKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsDevelopersAppsKeysRequest,
   output: GoogleCloudApigeeV1DeveloperAppKey,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21243,6 +22384,7 @@ export const getOrganizationsDevelopersAppsKeys: API.OperationMethod<
 export type GetOrganizationsDevelopersAttributesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Returns the value of the specified developer attribute. */
 export const getOrganizationsDevelopersAttributes: API.OperationMethod<
@@ -21253,7 +22395,7 @@ export const getOrganizationsDevelopersAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsDevelopersAttributesRequest,
   output: GoogleCloudApigeeV1Attribute,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21261,6 +22403,7 @@ export const getOrganizationsDevelopersAttributes: API.OperationMethod<
 export type GetOrganizationsDevelopersSubscriptionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets details for an API product subscription. */
 export const getOrganizationsDevelopersSubscriptions: API.OperationMethod<
@@ -21271,12 +22414,16 @@ export const getOrganizationsDevelopersSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsDevelopersSubscriptionsRequest,
   output: GoogleCloudApigeeV1DeveloperSubscription,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationsDnsZonesError = NotFound | Forbidden | GcpOpError;
+export type GetOrganizationsDnsZonesError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Fetches the representation of an existing DNS zone. */
 export const getOrganizationsDnsZones: API.OperationMethod<
   GetOrganizationsDnsZonesRequest,
@@ -21286,7 +22433,7 @@ export const getOrganizationsDnsZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsDnsZonesRequest,
   output: GoogleCloudApigeeV1DnsZone,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21294,6 +22441,7 @@ export const getOrganizationsDnsZones: API.OperationMethod<
 export type GetOrganizationsEndpointAttachmentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the endpoint attachment. */
 export const getOrganizationsEndpointAttachments: API.OperationMethod<
@@ -21304,12 +22452,16 @@ export const getOrganizationsEndpointAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEndpointAttachmentsRequest,
   output: GoogleCloudApigeeV1EndpointAttachment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationsEnvgroupsError = NotFound | Forbidden | GcpOpError;
+export type GetOrganizationsEnvgroupsError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Gets an environment group. */
 export const getOrganizationsEnvgroups: API.OperationMethod<
   GetOrganizationsEnvgroupsRequest,
@@ -21319,7 +22471,7 @@ export const getOrganizationsEnvgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvgroupsRequest,
   output: GoogleCloudApigeeV1EnvironmentGroup,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21327,6 +22479,7 @@ export const getOrganizationsEnvgroups: API.OperationMethod<
 export type GetOrganizationsEnvgroupsAttachmentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets an environment group attachment. */
 export const getOrganizationsEnvgroupsAttachments: API.OperationMethod<
@@ -21337,7 +22490,7 @@ export const getOrganizationsEnvgroupsAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvgroupsAttachmentsRequest,
   output: GoogleCloudApigeeV1EnvironmentGroupAttachment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21345,6 +22498,7 @@ export const getOrganizationsEnvgroupsAttachments: API.OperationMethod<
 export type GetOrganizationsEnvironmentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets environment details. */
 export const getOrganizationsEnvironments: API.OperationMethod<
@@ -21355,7 +22509,7 @@ export const getOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsRequest,
   output: GoogleCloudApigeeV1Environment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21363,6 +22517,7 @@ export const getOrganizationsEnvironments: API.OperationMethod<
 export type GetOrganizationsEnvironmentsAnalyticsExportsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the details and status of an analytics export job. If the export job is still in progress, its `state` is set to "running". After the export job has completed successfully, its `state` is set to "completed". If the export job fails, its `state` is set to `failed`. */
 export const getOrganizationsEnvironmentsAnalyticsExports: API.OperationMethod<
@@ -21373,7 +22528,7 @@ export const getOrganizationsEnvironmentsAnalyticsExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsAnalyticsExportsRequest,
   output: GoogleCloudApigeeV1Export,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21381,6 +22536,7 @@ export const getOrganizationsEnvironmentsAnalyticsExports: API.OperationMethod<
 export type GetOrganizationsEnvironmentsApisRevisionsDebugsessionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Retrieves a debug session. */
 export const getOrganizationsEnvironmentsApisRevisionsDebugsessions: API.OperationMethod<
@@ -21391,7 +22547,7 @@ export const getOrganizationsEnvironmentsApisRevisionsDebugsessions: API.Operati
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest,
   output: GoogleCloudApigeeV1DebugSession,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21399,6 +22555,7 @@ export const getOrganizationsEnvironmentsApisRevisionsDebugsessions: API.Operati
 export type GetOrganizationsEnvironmentsApisRevisionsDebugsessionsDataError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the debug data from a transaction. */
 export const getOrganizationsEnvironmentsApisRevisionsDebugsessionsData: API.OperationMethod<
@@ -21409,7 +22566,7 @@ export const getOrganizationsEnvironmentsApisRevisionsDebugsessionsData: API.Ope
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsApisRevisionsDebugsessionsDataRequest,
   output: GoogleCloudApigeeV1DebugSessionTransaction,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21417,6 +22574,7 @@ export const getOrganizationsEnvironmentsApisRevisionsDebugsessionsData: API.Ope
 export type GetOrganizationsEnvironmentsArchiveDeploymentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the specified ArchiveDeployment. */
 export const getOrganizationsEnvironmentsArchiveDeployments: API.OperationMethod<
@@ -21427,7 +22585,7 @@ export const getOrganizationsEnvironmentsArchiveDeployments: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsArchiveDeploymentsRequest,
   output: GoogleCloudApigeeV1ArchiveDeployment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21435,6 +22593,7 @@ export const getOrganizationsEnvironmentsArchiveDeployments: API.OperationMethod
 export type GetOrganizationsEnvironmentsDeploymentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets a particular deployment of Api proxy or a shared flow in an environment */
 export const getOrganizationsEnvironmentsDeployments: API.OperationMethod<
@@ -21445,7 +22604,7 @@ export const getOrganizationsEnvironmentsDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsDeploymentsRequest,
   output: GoogleCloudApigeeV1Deployment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21453,6 +22612,7 @@ export const getOrganizationsEnvironmentsDeployments: API.OperationMethod<
 export type GetOrganizationsEnvironmentsFlowhooksError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Returns the name of the shared flow attached to the specified flow hook. If there's no shared flow attached to the flow hook, the API does not return an error; it simply does not return a name in the response. */
 export const getOrganizationsEnvironmentsFlowhooks: API.OperationMethod<
@@ -21463,7 +22623,7 @@ export const getOrganizationsEnvironmentsFlowhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsFlowhooksRequest,
   output: GoogleCloudApigeeV1FlowHook,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21471,6 +22631,7 @@ export const getOrganizationsEnvironmentsFlowhooks: API.OperationMethod<
 export type GetOrganizationsEnvironmentsKeystoresError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets a keystore or truststore. */
 export const getOrganizationsEnvironmentsKeystores: API.OperationMethod<
@@ -21481,7 +22642,7 @@ export const getOrganizationsEnvironmentsKeystores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsKeystoresRequest,
   output: GoogleCloudApigeeV1Keystore,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21489,6 +22650,7 @@ export const getOrganizationsEnvironmentsKeystores: API.OperationMethod<
 export type GetOrganizationsEnvironmentsKeystoresAliasesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets an alias. */
 export const getOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<
@@ -21499,7 +22661,7 @@ export const getOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsKeystoresAliasesRequest,
   output: GoogleCloudApigeeV1Alias,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21507,6 +22669,7 @@ export const getOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<
 export type GetOrganizationsEnvironmentsKeyvaluemapsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get the key value map scoped to an organization, environment, or API proxy. */
 export const getOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<
@@ -21517,7 +22680,7 @@ export const getOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsKeyvaluemapsRequest,
   output: GoogleCloudApigeeV1KeyValueMap,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21525,6 +22688,7 @@ export const getOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<
 export type GetOrganizationsEnvironmentsKeyvaluemapsEntriesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get the key value entry value for a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export const getOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMethod<
@@ -21535,7 +22699,7 @@ export const getOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsKeyvaluemapsEntriesRequest,
   output: GoogleCloudApigeeV1KeyValueEntry,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21543,6 +22707,7 @@ export const getOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMetho
 export type GetOrganizationsEnvironmentsOptimizedStatsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Similar to GetStats except that the response is less verbose. */
 export const getOrganizationsEnvironmentsOptimizedStats: API.OperationMethod<
@@ -21553,7 +22718,7 @@ export const getOrganizationsEnvironmentsOptimizedStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsOptimizedStatsRequest,
   output: GoogleCloudApigeeV1OptimizedStats,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21561,6 +22726,7 @@ export const getOrganizationsEnvironmentsOptimizedStats: API.OperationMethod<
 export type GetOrganizationsEnvironmentsQueriesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get query status If the query is still in progress, the `state` is set to "running" After the query has completed successfully, `state` is set to "completed" */
 export const getOrganizationsEnvironmentsQueries: API.OperationMethod<
@@ -21571,7 +22737,7 @@ export const getOrganizationsEnvironmentsQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsQueriesRequest,
   output: GoogleCloudApigeeV1AsyncQuery,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21579,6 +22745,7 @@ export const getOrganizationsEnvironmentsQueries: API.OperationMethod<
 export type GetOrganizationsEnvironmentsReferencesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets a Reference resource. */
 export const getOrganizationsEnvironmentsReferences: API.OperationMethod<
@@ -21589,7 +22756,7 @@ export const getOrganizationsEnvironmentsReferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsReferencesRequest,
   output: GoogleCloudApigeeV1Reference,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21597,6 +22764,7 @@ export const getOrganizationsEnvironmentsReferences: API.OperationMethod<
 export type GetOrganizationsEnvironmentsResourcefilesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the contents of a resource file. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export const getOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
@@ -21607,7 +22775,7 @@ export const getOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsResourcefilesRequest,
   output: GoogleApiHttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21615,6 +22783,7 @@ export const getOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
 export type GetOrganizationsEnvironmentsSecurityActionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get a SecurityAction by name. */
 export const getOrganizationsEnvironmentsSecurityActions: API.OperationMethod<
@@ -21625,7 +22794,7 @@ export const getOrganizationsEnvironmentsSecurityActions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsSecurityActionsRequest,
   output: GoogleCloudApigeeV1SecurityAction,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21633,6 +22802,7 @@ export const getOrganizationsEnvironmentsSecurityActions: API.OperationMethod<
 export type GetOrganizationsEnvironmentsSecurityIncidentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** GetSecurityIncident gets the specified security incident. Returns NOT_FOUND if security incident is not present for the specified organization and environment. */
 export const getOrganizationsEnvironmentsSecurityIncidents: API.OperationMethod<
@@ -21643,7 +22813,7 @@ export const getOrganizationsEnvironmentsSecurityIncidents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsSecurityIncidentsRequest,
   output: GoogleCloudApigeeV1SecurityIncident,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21651,6 +22821,7 @@ export const getOrganizationsEnvironmentsSecurityIncidents: API.OperationMethod<
 export type GetOrganizationsEnvironmentsSecurityReportsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get security report status If the query is still in progress, the `state` is set to "running" After the query has completed successfully, `state` is set to "completed" */
 export const getOrganizationsEnvironmentsSecurityReports: API.OperationMethod<
@@ -21661,7 +22832,7 @@ export const getOrganizationsEnvironmentsSecurityReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsSecurityReportsRequest,
   output: GoogleCloudApigeeV1SecurityReport,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21669,6 +22840,7 @@ export const getOrganizationsEnvironmentsSecurityReports: API.OperationMethod<
 export type GetOrganizationsEnvironmentsStatsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Retrieve metrics grouped by dimensions. The types of metrics you can retrieve include traffic, message counts, API call latency, response size, and cache hits and counts. Dimensions let you view metrics in meaningful groups. You can optionally pass dimensions as path parameters to the `stats` API. If dimensions are not specified, the metrics are computed on the entire set of data for the given time range. */
 export const getOrganizationsEnvironmentsStats: API.OperationMethod<
@@ -21679,7 +22851,7 @@ export const getOrganizationsEnvironmentsStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsStatsRequest,
   output: GoogleCloudApigeeV1Stats,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21687,6 +22859,7 @@ export const getOrganizationsEnvironmentsStats: API.OperationMethod<
 export type GetOrganizationsEnvironmentsTargetserversError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets a TargetServer resource. */
 export const getOrganizationsEnvironmentsTargetservers: API.OperationMethod<
@@ -21697,7 +22870,7 @@ export const getOrganizationsEnvironmentsTargetservers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsTargetserversRequest,
   output: GoogleCloudApigeeV1TargetServer,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21705,6 +22878,7 @@ export const getOrganizationsEnvironmentsTargetservers: API.OperationMethod<
 export type GetOrganizationsEnvironmentsTraceConfigOverridesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets a trace configuration override. */
 export const getOrganizationsEnvironmentsTraceConfigOverrides: API.OperationMethod<
@@ -21715,7 +22889,7 @@ export const getOrganizationsEnvironmentsTraceConfigOverrides: API.OperationMeth
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEnvironmentsTraceConfigOverridesRequest,
   output: GoogleCloudApigeeV1TraceConfigOverride,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21723,6 +22897,7 @@ export const getOrganizationsEnvironmentsTraceConfigOverrides: API.OperationMeth
 export type GetOrganizationsHostQueriesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get status of a query submitted at host level. If the query is still in progress, the `state` is set to "running" After the query has completed successfully, `state` is set to "completed" */
 export const getOrganizationsHostQueries: API.OperationMethod<
@@ -21733,7 +22908,7 @@ export const getOrganizationsHostQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsHostQueriesRequest,
   output: GoogleCloudApigeeV1AsyncQuery,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21741,6 +22916,7 @@ export const getOrganizationsHostQueries: API.OperationMethod<
 export type GetOrganizationsHostSecurityReportsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get status of a query submitted at host level. If the query is still in progress, the `state` is set to "running" After the query has completed successfully, `state` is set to "completed" */
 export const getOrganizationsHostSecurityReports: API.OperationMethod<
@@ -21751,12 +22927,16 @@ export const getOrganizationsHostSecurityReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsHostSecurityReportsRequest,
   output: GoogleCloudApigeeV1SecurityReport,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationsHostStatsError = NotFound | Forbidden | GcpOpError;
+export type GetOrganizationsHostStatsError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Retrieve metrics grouped by dimensions in host level. The types of metrics you can retrieve include traffic, message counts, API call latency, response size, and cache hits and counts. Dimensions let you view metrics in meaningful groups. You can optionally pass dimensions as path parameters to the `stats` API. If dimensions are not specified, the metrics are computed on the entire set of data for the given time range. */
 export const getOrganizationsHostStats: API.OperationMethod<
   GetOrganizationsHostStatsRequest,
@@ -21766,12 +22946,16 @@ export const getOrganizationsHostStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsHostStatsRequest,
   output: GoogleCloudApigeeV1Stats,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationsInstancesError = NotFound | Forbidden | GcpOpError;
+export type GetOrganizationsInstancesError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Gets the details for an Apigee runtime instance. **Note:** Not supported for Apigee hybrid. */
 export const getOrganizationsInstances: API.OperationMethod<
   GetOrganizationsInstancesRequest,
@@ -21781,7 +22965,7 @@ export const getOrganizationsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsInstancesRequest,
   output: GoogleCloudApigeeV1Instance,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21789,6 +22973,7 @@ export const getOrganizationsInstances: API.OperationMethod<
 export type GetOrganizationsInstancesAttachmentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets an attachment. **Note:** Not supported for Apigee hybrid. */
 export const getOrganizationsInstancesAttachments: API.OperationMethod<
@@ -21799,7 +22984,7 @@ export const getOrganizationsInstancesAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsInstancesAttachmentsRequest,
   output: GoogleCloudApigeeV1InstanceAttachment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21807,6 +22992,7 @@ export const getOrganizationsInstancesAttachments: API.OperationMethod<
 export type GetOrganizationsInstancesCanaryevaluationsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets a CanaryEvaluation for an organization. */
 export const getOrganizationsInstancesCanaryevaluations: API.OperationMethod<
@@ -21817,7 +23003,7 @@ export const getOrganizationsInstancesCanaryevaluations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsInstancesCanaryevaluationsRequest,
   output: GoogleCloudApigeeV1CanaryEvaluation,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21825,6 +23011,7 @@ export const getOrganizationsInstancesCanaryevaluations: API.OperationMethod<
 export type GetOrganizationsInstancesNatAddressesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the details of a NAT address. **Note:** Not supported for Apigee hybrid. */
 export const getOrganizationsInstancesNatAddresses: API.OperationMethod<
@@ -21835,7 +23022,7 @@ export const getOrganizationsInstancesNatAddresses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsInstancesNatAddressesRequest,
   output: GoogleCloudApigeeV1NatAddress,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21843,6 +23030,7 @@ export const getOrganizationsInstancesNatAddresses: API.OperationMethod<
 export type GetOrganizationsKeyvaluemapsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get the key value map scoped to an organization, environment, or API proxy. */
 export const getOrganizationsKeyvaluemaps: API.OperationMethod<
@@ -21853,7 +23041,7 @@ export const getOrganizationsKeyvaluemaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsKeyvaluemapsRequest,
   output: GoogleCloudApigeeV1KeyValueMap,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21861,6 +23049,7 @@ export const getOrganizationsKeyvaluemaps: API.OperationMethod<
 export type GetOrganizationsKeyvaluemapsEntriesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get the key value entry value for a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export const getOrganizationsKeyvaluemapsEntries: API.OperationMethod<
@@ -21871,12 +23060,16 @@ export const getOrganizationsKeyvaluemapsEntries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsKeyvaluemapsEntriesRequest,
   output: GoogleCloudApigeeV1KeyValueEntry,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationsOperationsError = NotFound | Forbidden | GcpOpError;
+export type GetOrganizationsOperationsError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOrganizationsOperations: API.OperationMethod<
   GetOrganizationsOperationsRequest,
@@ -21886,7 +23079,7 @@ export const getOrganizationsOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsOperationsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21894,6 +23087,7 @@ export const getOrganizationsOperations: API.OperationMethod<
 export type GetOrganizationsOptimizedHostStatsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Similar to GetHostStats except that the response is less verbose. */
 export const getOrganizationsOptimizedHostStats: API.OperationMethod<
@@ -21904,12 +23098,16 @@ export const getOrganizationsOptimizedHostStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsOptimizedHostStatsRequest,
   output: GoogleCloudApigeeV1OptimizedStats,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationsReportsError = NotFound | Forbidden | GcpOpError;
+export type GetOrganizationsReportsError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Retrieve a custom report definition. */
 export const getOrganizationsReports: API.OperationMethod<
   GetOrganizationsReportsRequest,
@@ -21919,7 +23117,7 @@ export const getOrganizationsReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsReportsRequest,
   output: GoogleCloudApigeeV1CustomReport,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21927,6 +23125,7 @@ export const getOrganizationsReports: API.OperationMethod<
 export type GetOrganizationsSecurityFeedbackError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets a specific customer feedback report. */
 export const getOrganizationsSecurityFeedback: API.OperationMethod<
@@ -21937,7 +23136,7 @@ export const getOrganizationsSecurityFeedback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsSecurityFeedbackRequest,
   output: GoogleCloudApigeeV1SecurityFeedback,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21945,6 +23144,7 @@ export const getOrganizationsSecurityFeedback: API.OperationMethod<
 export type GetOrganizationsSecurityMonitoringConditionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get a security monitoring condition. */
 export const getOrganizationsSecurityMonitoringConditions: API.OperationMethod<
@@ -21955,7 +23155,7 @@ export const getOrganizationsSecurityMonitoringConditions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsSecurityMonitoringConditionsRequest,
   output: GoogleCloudApigeeV1SecurityMonitoringCondition,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21963,6 +23163,7 @@ export const getOrganizationsSecurityMonitoringConditions: API.OperationMethod<
 export type GetOrganizationsSecurityProfilesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** GetSecurityProfile gets the specified security profile. Returns NOT_FOUND if security profile is not present for the specified organization. */
 export const getOrganizationsSecurityProfiles: API.OperationMethod<
@@ -21973,7 +23174,7 @@ export const getOrganizationsSecurityProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsSecurityProfilesRequest,
   output: GoogleCloudApigeeV1SecurityProfile,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21981,6 +23182,7 @@ export const getOrganizationsSecurityProfiles: API.OperationMethod<
 export type GetOrganizationsSecurityProfilesV2Error =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get a security profile v2. */
 export const getOrganizationsSecurityProfilesV2: API.OperationMethod<
@@ -21991,7 +23193,7 @@ export const getOrganizationsSecurityProfilesV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsSecurityProfilesV2Request,
   output: GoogleCloudApigeeV1SecurityProfileV2,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -21999,6 +23201,7 @@ export const getOrganizationsSecurityProfilesV2: API.OperationMethod<
 export type GetOrganizationsSharedflowsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets a shared flow by name, including a list of its revisions. */
 export const getOrganizationsSharedflows: API.OperationMethod<
@@ -22009,7 +23212,7 @@ export const getOrganizationsSharedflows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsSharedflowsRequest,
   output: GoogleCloudApigeeV1SharedFlow,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22017,6 +23220,7 @@ export const getOrganizationsSharedflows: API.OperationMethod<
 export type GetOrganizationsSharedflowsRevisionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets a revision of a shared flow. To download the shared flow configuration bundle for the specified revision as a zip file, set the `format` query parameter to `bundle`. If you are using curl, specify `-o filename.zip` to save the output to a file; otherwise, it displays to `stdout`. Then, develop the shared flow configuration locally and upload the updated sharedFlow configuration revision, as described in [updateSharedFlowRevision](updateSharedFlowRevision). */
 export const getOrganizationsSharedflowsRevisions: API.OperationMethod<
@@ -22027,7 +23231,7 @@ export const getOrganizationsSharedflowsRevisions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsSharedflowsRevisionsRequest,
   output: GoogleApiHttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22035,6 +23239,7 @@ export const getOrganizationsSharedflowsRevisions: API.OperationMethod<
 export type GetOrganizationsSitesApicategoriesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets an API category. */
 export const getOrganizationsSitesApicategories: API.OperationMethod<
@@ -22045,7 +23250,7 @@ export const getOrganizationsSitesApicategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsSitesApicategoriesRequest,
   output: GoogleCloudApigeeV1ApiCategoryResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22053,6 +23258,7 @@ export const getOrganizationsSitesApicategories: API.OperationMethod<
 export type GetOrganizationsSitesApidocsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets a catalog item. */
 export const getOrganizationsSitesApidocs: API.OperationMethod<
@@ -22063,12 +23269,16 @@ export const getOrganizationsSitesApidocs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsSitesApidocsRequest,
   output: GoogleCloudApigeeV1ApiDocResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationsSpacesError = NotFound | Forbidden | GcpOpError;
+export type GetOrganizationsSpacesError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Get a space under an Organization. */
 export const getOrganizationsSpaces: API.OperationMethod<
   GetOrganizationsSpacesRequest,
@@ -22078,7 +23288,7 @@ export const getOrganizationsSpaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsSpacesRequest,
   output: GoogleCloudApigeeV1Space,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22086,6 +23296,7 @@ export const getOrganizationsSpaces: API.OperationMethod<
 export type GetProjectMappingOrganizationsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets the project ID and region for an Apigee organization. */
 export const getProjectMappingOrganizations: API.OperationMethod<
@@ -22096,7 +23307,7 @@ export const getProjectMappingOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectMappingOrganizationsRequest,
   output: GoogleCloudApigeeV1OrganizationProjectMapping,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22104,6 +23315,7 @@ export const getProjectMappingOrganizations: API.OperationMethod<
 export type GetResultOrganizationsEnvironmentsQueriesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** After the query is completed, use this API to retrieve the results. If the request succeeds, and there is a non-zero result set, the result is downloaded to the client as a zipped JSON file. The name of the downloaded file will be: OfflineQueryResult-.zip Example: `OfflineQueryResult-9cfc0d85-0f30-46d6-ae6f-318d0cb961bd.zip` */
 export const getResultOrganizationsEnvironmentsQueries: API.OperationMethod<
@@ -22114,7 +23326,7 @@ export const getResultOrganizationsEnvironmentsQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetResultOrganizationsEnvironmentsQueriesRequest,
   output: GoogleApiHttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22122,6 +23334,7 @@ export const getResultOrganizationsEnvironmentsQueries: API.OperationMethod<
 export type GetResultOrganizationsEnvironmentsSecurityReportsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** After the query is completed, use this API to retrieve the results as file. If the request succeeds, and there is a non-zero result set, the result is downloaded to the client as a zipped JSON file. The name of the downloaded file will be: OfflineQueryResult-.zip Example: `OfflineQueryResult-9cfc0d85-0f30-46d6-ae6f-318d0cb961bd.zip` */
 export const getResultOrganizationsEnvironmentsSecurityReports: API.OperationMethod<
@@ -22132,7 +23345,7 @@ export const getResultOrganizationsEnvironmentsSecurityReports: API.OperationMet
 > = /*@__PURE__*/ API.make(() => ({
   input: GetResultOrganizationsEnvironmentsSecurityReportsRequest,
   output: GoogleApiHttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22140,6 +23353,7 @@ export const getResultOrganizationsEnvironmentsSecurityReports: API.OperationMet
 export type GetResultOrganizationsHostQueriesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** After the query is completed, use this API to retrieve the results. If the request succeeds, and there is a non-zero result set, the result is downloaded to the client as a zipped JSON file. The name of the downloaded file will be: OfflineQueryResult-.zip Example: `OfflineQueryResult-9cfc0d85-0f30-46d6-ae6f-318d0cb961bd.zip` */
 export const getResultOrganizationsHostQueries: API.OperationMethod<
@@ -22150,7 +23364,7 @@ export const getResultOrganizationsHostQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetResultOrganizationsHostQueriesRequest,
   output: GoogleApiHttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22158,6 +23372,7 @@ export const getResultOrganizationsHostQueries: API.OperationMethod<
 export type GetResultOrganizationsHostSecurityReportsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** After the query is completed, use this API to retrieve the results. If the request succeeds, and there is a non-zero result set, the result is downloaded to the client as a zipped JSON file. The name of the downloaded file will be: OfflineQueryResult-.zip Example: `OfflineQueryResult-9cfc0d85-0f30-46d6-ae6f-318d0cb961bd.zip` */
 export const getResultOrganizationsHostSecurityReports: API.OperationMethod<
@@ -22168,7 +23383,7 @@ export const getResultOrganizationsHostSecurityReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetResultOrganizationsHostSecurityReportsRequest,
   output: GoogleApiHttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22176,6 +23391,7 @@ export const getResultOrganizationsHostSecurityReports: API.OperationMethod<
 export type GetResulturlOrganizationsEnvironmentsQueriesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** After the query is completed, use this API to retrieve the results. If the request succeeds, and there is a non-zero result set, the result is sent to the client as a list of urls to JSON files. */
 export const getResulturlOrganizationsEnvironmentsQueries: API.OperationMethod<
@@ -22186,7 +23402,7 @@ export const getResulturlOrganizationsEnvironmentsQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetResulturlOrganizationsEnvironmentsQueriesRequest,
   output: GoogleCloudApigeeV1GetAsyncQueryResultUrlResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22194,6 +23410,7 @@ export const getResulturlOrganizationsEnvironmentsQueries: API.OperationMethod<
 export type GetResultViewOrganizationsEnvironmentsSecurityReportsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** After the query is completed, use this API to view the query result when result size is small. */
 export const getResultViewOrganizationsEnvironmentsSecurityReports: API.OperationMethod<
@@ -22204,7 +23421,7 @@ export const getResultViewOrganizationsEnvironmentsSecurityReports: API.Operatio
 > = /*@__PURE__*/ API.make(() => ({
   input: GetResultViewOrganizationsEnvironmentsSecurityReportsRequest,
   output: GoogleCloudApigeeV1SecurityReportResultView,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22212,6 +23429,7 @@ export const getResultViewOrganizationsEnvironmentsSecurityReports: API.Operatio
 export type GetResultViewOrganizationsHostQueriesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 export const getResultViewOrganizationsHostQueries: API.OperationMethod<
   GetResultViewOrganizationsHostQueriesRequest,
@@ -22221,7 +23439,7 @@ export const getResultViewOrganizationsHostQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetResultViewOrganizationsHostQueriesRequest,
   output: GoogleCloudApigeeV1AsyncQueryResultView,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22229,6 +23447,7 @@ export const getResultViewOrganizationsHostQueries: API.OperationMethod<
 export type GetResultViewOrganizationsHostSecurityReportsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** After the query is completed, use this API to view the query result when result size is small. */
 export const getResultViewOrganizationsHostSecurityReports: API.OperationMethod<
@@ -22239,7 +23458,7 @@ export const getResultViewOrganizationsHostSecurityReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetResultViewOrganizationsHostSecurityReportsRequest,
   output: GoogleCloudApigeeV1SecurityReportResultView,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22247,6 +23466,7 @@ export const getResultViewOrganizationsHostSecurityReports: API.OperationMethod<
 export type GetRuntimeConfigOrganizationsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get runtime config for an organization. */
 export const getRuntimeConfigOrganizations: API.OperationMethod<
@@ -22257,7 +23477,7 @@ export const getRuntimeConfigOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRuntimeConfigOrganizationsRequest,
   output: GoogleCloudApigeeV1RuntimeConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22265,6 +23485,7 @@ export const getRuntimeConfigOrganizations: API.OperationMethod<
 export type GetSchemav2OrganizationsEnvironmentsAnalyticsAdminError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Gets a list of metrics and dimensions that can be used to create analytics queries and reports. Each schema element contains the name of the field, its associated type, and a flag indicating whether it is a standard or custom field. */
 export const getSchemav2OrganizationsEnvironmentsAnalyticsAdmin: API.OperationMethod<
@@ -22275,7 +23496,7 @@ export const getSchemav2OrganizationsEnvironmentsAnalyticsAdmin: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSchemav2OrganizationsEnvironmentsAnalyticsAdminRequest,
   output: GoogleCloudApigeeV1Schema,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22283,6 +23504,7 @@ export const getSchemav2OrganizationsEnvironmentsAnalyticsAdmin: API.OperationMe
 export type GetSecurityActionsConfigOrganizationsEnvironmentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** GetSecurityActionConfig returns the current SecurityActions configuration. */
 export const getSecurityActionsConfigOrganizationsEnvironments: API.OperationMethod<
@@ -22293,7 +23515,7 @@ export const getSecurityActionsConfigOrganizationsEnvironments: API.OperationMet
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSecurityActionsConfigOrganizationsEnvironmentsRequest,
   output: GoogleCloudApigeeV1SecurityActionsConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22301,6 +23523,7 @@ export const getSecurityActionsConfigOrganizationsEnvironments: API.OperationMet
 export type GetSecuritySettingsOrganizationsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** GetSecuritySettings gets the security settings for API Security. */
 export const getSecuritySettingsOrganizations: API.OperationMethod<
@@ -22311,7 +23534,7 @@ export const getSecuritySettingsOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSecuritySettingsOrganizationsRequest,
   output: GoogleCloudApigeeV1SecuritySettings,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22321,6 +23544,7 @@ export type GetSyncAuthorizationOrganizationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists the service accounts with the permissions required to allow the Synchronizer to download environment data from the control plane. An ETag is returned in the response to `getSyncAuthorization`. Pass that ETag when calling [setSyncAuthorization](setSyncAuthorization) to ensure that you are updating the correct version. If you don't pass the ETag in the call to `setSyncAuthorization`, then the existing authorization is overwritten indiscriminately. For more information, see [Configure the Synchronizer](https://cloud.google.com/apigee/docs/hybrid/latest/synchronizer-access). **Note**: Available to Apigee hybrid only. */
 export const getSyncAuthorizationOrganizations: API.OperationMethod<
@@ -22331,7 +23555,14 @@ export const getSyncAuthorizationOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSyncAuthorizationOrganizationsRequest,
   output: GoogleCloudApigeeV1SyncAuthorization,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22339,6 +23570,7 @@ export const getSyncAuthorizationOrganizations: API.OperationMethod<
 export type GetTraceConfigOrganizationsEnvironmentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Get distributed trace configuration in an environment. */
 export const getTraceConfigOrganizationsEnvironments: API.OperationMethod<
@@ -22349,7 +23581,7 @@ export const getTraceConfigOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTraceConfigOrganizationsEnvironmentsRequest,
   output: GoogleCloudApigeeV1TraceConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22357,6 +23589,7 @@ export const getTraceConfigOrganizationsEnvironments: API.OperationMethod<
 export type ListEnvironmentResourcesOrganizationsEnvironmentsResourcefilesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all resource files, optionally filtering by type. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export const listEnvironmentResourcesOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
@@ -22367,12 +23600,16 @@ export const listEnvironmentResourcesOrganizationsEnvironmentsResourcefiles: API
 > = /*@__PURE__*/ API.make(() => ({
   input: ListEnvironmentResourcesOrganizationsEnvironmentsResourcefilesRequest,
   output: GoogleCloudApigeeV1ListEnvironmentResourcesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListHybridIssuersError = NotFound | Forbidden | GcpOpError;
+export type ListHybridIssuersError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Lists hybrid services and its trusted issuers service account ids. This api is authenticated and unauthorized(allow all the users) and used by runtime authn-authz service to query control plane's issuer service account ids. */
 export const listHybridIssuers: API.OperationMethod<
   ListHybridIssuersRequest,
@@ -22382,12 +23619,16 @@ export const listHybridIssuers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListHybridIssuersRequest,
   output: GoogleCloudApigeeV1ListHybridIssuersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListOrganizationsError = NotFound | Forbidden | GcpOpError;
+export type ListOrganizationsError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Lists the Apigee organizations and associated Google Cloud projects that you have permission to access. See [Understanding organizations](https://cloud.google.com/apigee/docs/api-platform/fundamentals/organization-structure). */
 export const listOrganizations: API.OperationMethod<
   ListOrganizationsRequest,
@@ -22397,7 +23638,7 @@ export const listOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsRequest,
   output: GoogleCloudApigeeV1ListOrganizationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22405,6 +23646,7 @@ export const listOrganizations: API.OperationMethod<
 export type ListOrganizationsAnalyticsDatastoresError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** List Datastores */
 export const listOrganizationsAnalyticsDatastores: API.OperationMethod<
@@ -22415,7 +23657,7 @@ export const listOrganizationsAnalyticsDatastores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsAnalyticsDatastoresRequest,
   output: GoogleCloudApigeeV1ListDatastoresResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22423,6 +23665,7 @@ export const listOrganizationsAnalyticsDatastores: API.OperationMethod<
 export type ListOrganizationsApimServiceExtensionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all APIM service extensions in an organization. */
 export const listOrganizationsApimServiceExtensions: API.PaginatedOperationMethod<
@@ -22434,7 +23677,7 @@ export const listOrganizationsApimServiceExtensions: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsApimServiceExtensionsRequest,
   output: GoogleCloudApigeeV1ListApimServiceExtensionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -22446,6 +23689,7 @@ export const listOrganizationsApimServiceExtensions: API.PaginatedOperationMetho
 export type ListOrganizationsApiproductsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all API product names for an organization. Filter the list by passing an `attributename` and `attibutevalue`. The maximum number of API products returned is 1000. You can paginate the list of API products returned using the `startKey` and `count` query parameters. If the resource has the `space` attribute set, the response may not return all resources. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
 export const listOrganizationsApiproducts: API.OperationMethod<
@@ -22456,7 +23700,7 @@ export const listOrganizationsApiproducts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsApiproductsRequest,
   output: GoogleCloudApigeeV1ListApiProductsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22464,6 +23708,7 @@ export const listOrganizationsApiproducts: API.OperationMethod<
 export type ListOrganizationsApiproductsAttributesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all API product attributes. */
 export const listOrganizationsApiproductsAttributes: API.OperationMethod<
@@ -22474,7 +23719,7 @@ export const listOrganizationsApiproductsAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsApiproductsAttributesRequest,
   output: GoogleCloudApigeeV1Attributes,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22482,6 +23727,7 @@ export const listOrganizationsApiproductsAttributes: API.OperationMethod<
 export type ListOrganizationsApiproductsRateplansError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all the rate plans for an API product. */
 export const listOrganizationsApiproductsRateplans: API.OperationMethod<
@@ -22492,12 +23738,16 @@ export const listOrganizationsApiproductsRateplans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsApiproductsRateplansRequest,
   output: GoogleCloudApigeeV1ListRatePlansResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListOrganizationsApisError = NotFound | Forbidden | GcpOpError;
+export type ListOrganizationsApisError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Lists the names of all API proxies in an organization. The names returned correspond to the names defined in the configuration files for each API proxy. If the resource has the `space` attribute set, the response may not return all resources. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
 export const listOrganizationsApis: API.OperationMethod<
   ListOrganizationsApisRequest,
@@ -22507,7 +23757,7 @@ export const listOrganizationsApis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsApisRequest,
   output: GoogleCloudApigeeV1ListApiProxiesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22515,6 +23765,7 @@ export const listOrganizationsApis: API.OperationMethod<
 export type ListOrganizationsApisDebugsessionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists debug sessions that are currently active in the given API Proxy. */
 export const listOrganizationsApisDebugsessions: API.PaginatedOperationMethod<
@@ -22526,7 +23777,7 @@ export const listOrganizationsApisDebugsessions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsApisDebugsessionsRequest,
   output: GoogleCloudApigeeV1ListApiDebugSessionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -22538,6 +23789,7 @@ export const listOrganizationsApisDebugsessions: API.PaginatedOperationMethod<
 export type ListOrganizationsApisDeploymentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all deployments of an API proxy. */
 export const listOrganizationsApisDeployments: API.OperationMethod<
@@ -22548,7 +23800,7 @@ export const listOrganizationsApisDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsApisDeploymentsRequest,
   output: GoogleCloudApigeeV1ListDeploymentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22556,6 +23808,7 @@ export const listOrganizationsApisDeployments: API.OperationMethod<
 export type ListOrganizationsApisKeyvaluemapsEntriesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists key value entries for key values maps scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export const listOrganizationsApisKeyvaluemapsEntries: API.PaginatedOperationMethod<
@@ -22567,7 +23820,7 @@ export const listOrganizationsApisKeyvaluemapsEntries: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsApisKeyvaluemapsEntriesRequest,
   output: GoogleCloudApigeeV1ListKeyValueEntriesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -22579,6 +23832,7 @@ export const listOrganizationsApisKeyvaluemapsEntries: API.PaginatedOperationMet
 export type ListOrganizationsApisRevisionsDeploymentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all deployments of an API proxy revision. */
 export const listOrganizationsApisRevisionsDeployments: API.OperationMethod<
@@ -22589,12 +23843,16 @@ export const listOrganizationsApisRevisionsDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsApisRevisionsDeploymentsRequest,
   output: GoogleCloudApigeeV1ListDeploymentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListOrganizationsAppgroupsError = NotFound | Forbidden | GcpOpError;
+export type ListOrganizationsAppgroupsError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Lists all AppGroups in an organization. A maximum of 1000 AppGroups are returned in the response if PageSize is not specified, or if the PageSize is greater than 1000. */
 export const listOrganizationsAppgroups: API.PaginatedOperationMethod<
   ListOrganizationsAppgroupsRequest,
@@ -22605,7 +23863,7 @@ export const listOrganizationsAppgroups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsAppgroupsRequest,
   output: GoogleCloudApigeeV1ListAppGroupsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -22617,6 +23875,7 @@ export const listOrganizationsAppgroups: API.PaginatedOperationMethod<
 export type ListOrganizationsAppgroupsAppsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all apps created by an AppGroup in an Apigee organization. Optionally, you can request an expanded view of the AppGroup apps. Lists all AppGroupApps in an AppGroup. A maximum of 1000 AppGroup apps are returned in the response if PageSize is not specified, or if the PageSize is greater than 1000. */
 export const listOrganizationsAppgroupsApps: API.PaginatedOperationMethod<
@@ -22628,7 +23887,7 @@ export const listOrganizationsAppgroupsApps: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsAppgroupsAppsRequest,
   output: GoogleCloudApigeeV1ListAppGroupAppsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -22640,6 +23899,7 @@ export const listOrganizationsAppgroupsApps: API.PaginatedOperationMethod<
 export type ListOrganizationsAppgroupsSubscriptionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** List all api product subscriptions for an appgroup. */
 export const listOrganizationsAppgroupsSubscriptions: API.PaginatedOperationMethod<
@@ -22651,7 +23911,7 @@ export const listOrganizationsAppgroupsSubscriptions: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsAppgroupsSubscriptionsRequest,
   output: GoogleCloudApigeeV1ListAppGroupSubscriptionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -22660,7 +23920,11 @@ export const listOrganizationsAppgroupsSubscriptions: API.PaginatedOperationMeth
   } as const,
 })) as any;
 
-export type ListOrganizationsAppsError = NotFound | Forbidden | GcpOpError;
+export type ListOrganizationsAppsError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Lists IDs of apps within an organization that have the specified app status (approved or revoked) or are of the specified app type (developer or company). */
 export const listOrganizationsApps: API.PaginatedOperationMethod<
   ListOrganizationsAppsRequest,
@@ -22671,7 +23935,7 @@ export const listOrganizationsApps: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsAppsRequest,
   output: GoogleCloudApigeeV1ListAppsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -22683,6 +23947,7 @@ export const listOrganizationsApps: API.PaginatedOperationMethod<
 export type ListOrganizationsDatacollectorsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all data collectors. */
 export const listOrganizationsDatacollectors: API.PaginatedOperationMethod<
@@ -22694,7 +23959,7 @@ export const listOrganizationsDatacollectors: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsDatacollectorsRequest,
   output: GoogleCloudApigeeV1ListDataCollectorsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -22706,6 +23971,7 @@ export const listOrganizationsDatacollectors: API.PaginatedOperationMethod<
 export type ListOrganizationsDeploymentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all deployments of API proxies or shared flows. */
 export const listOrganizationsDeployments: API.OperationMethod<
@@ -22716,7 +23982,7 @@ export const listOrganizationsDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsDeploymentsRequest,
   output: GoogleCloudApigeeV1ListDeploymentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22724,6 +23990,7 @@ export const listOrganizationsDeployments: API.OperationMethod<
 export type ListOrganizationsDevelopersError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all developers in an organization by email address. By default, the response does not include company developers. Set the `includeCompany` query parameter to `true` to include company developers. **Note**: A maximum of 1000 developers are returned in the response. You paginate the list of developers returned using the `startKey` and `count` query parameters. */
 export const listOrganizationsDevelopers: API.OperationMethod<
@@ -22734,7 +24001,7 @@ export const listOrganizationsDevelopers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsDevelopersRequest,
   output: GoogleCloudApigeeV1ListOfDevelopersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22742,6 +24009,7 @@ export const listOrganizationsDevelopers: API.OperationMethod<
 export type ListOrganizationsDevelopersAppsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all apps created by a developer in an Apigee organization. Optionally, you can request an expanded view of the developer apps. A maximum of 100 developer apps are returned per API call. You can paginate the list of deveoper apps returned using the `startKey` and `count` query parameters. */
 export const listOrganizationsDevelopersApps: API.OperationMethod<
@@ -22752,7 +24020,7 @@ export const listOrganizationsDevelopersApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsDevelopersAppsRequest,
   output: GoogleCloudApigeeV1ListDeveloperAppsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22760,6 +24028,7 @@ export const listOrganizationsDevelopersApps: API.OperationMethod<
 export type ListOrganizationsDevelopersAppsAttributesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Returns a list of all developer app attributes. */
 export const listOrganizationsDevelopersAppsAttributes: API.OperationMethod<
@@ -22770,7 +24039,7 @@ export const listOrganizationsDevelopersAppsAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsDevelopersAppsAttributesRequest,
   output: GoogleCloudApigeeV1Attributes,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22778,6 +24047,7 @@ export const listOrganizationsDevelopersAppsAttributes: API.OperationMethod<
 export type ListOrganizationsDevelopersAttributesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Returns a list of all developer attributes. */
 export const listOrganizationsDevelopersAttributes: API.OperationMethod<
@@ -22788,7 +24058,7 @@ export const listOrganizationsDevelopersAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsDevelopersAttributesRequest,
   output: GoogleCloudApigeeV1Attributes,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22796,6 +24066,7 @@ export const listOrganizationsDevelopersAttributes: API.OperationMethod<
 export type ListOrganizationsDevelopersSubscriptionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all API product subscriptions for a developer. */
 export const listOrganizationsDevelopersSubscriptions: API.OperationMethod<
@@ -22806,12 +24077,16 @@ export const listOrganizationsDevelopersSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsDevelopersSubscriptionsRequest,
   output: GoogleCloudApigeeV1ListDeveloperSubscriptionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListOrganizationsDnsZonesError = NotFound | Forbidden | GcpOpError;
+export type ListOrganizationsDnsZonesError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Enumerates DNS zones that have been created but not yet deleted. */
 export const listOrganizationsDnsZones: API.PaginatedOperationMethod<
   ListOrganizationsDnsZonesRequest,
@@ -22822,7 +24097,7 @@ export const listOrganizationsDnsZones: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsDnsZonesRequest,
   output: GoogleCloudApigeeV1ListDnsZonesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -22834,6 +24109,7 @@ export const listOrganizationsDnsZones: API.PaginatedOperationMethod<
 export type ListOrganizationsEndpointAttachmentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists the endpoint attachments in an organization. */
 export const listOrganizationsEndpointAttachments: API.PaginatedOperationMethod<
@@ -22845,7 +24121,7 @@ export const listOrganizationsEndpointAttachments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsEndpointAttachmentsRequest,
   output: GoogleCloudApigeeV1ListEndpointAttachmentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -22854,7 +24130,11 @@ export const listOrganizationsEndpointAttachments: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListOrganizationsEnvgroupsError = NotFound | Forbidden | GcpOpError;
+export type ListOrganizationsEnvgroupsError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Lists all environment groups. */
 export const listOrganizationsEnvgroups: API.PaginatedOperationMethod<
   ListOrganizationsEnvgroupsRequest,
@@ -22865,7 +24145,7 @@ export const listOrganizationsEnvgroups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsEnvgroupsRequest,
   output: GoogleCloudApigeeV1ListEnvironmentGroupsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -22877,6 +24157,7 @@ export const listOrganizationsEnvgroups: API.PaginatedOperationMethod<
 export type ListOrganizationsEnvgroupsAttachmentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all attachments of an environment group. */
 export const listOrganizationsEnvgroupsAttachments: API.PaginatedOperationMethod<
@@ -22888,7 +24169,7 @@ export const listOrganizationsEnvgroupsAttachments: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsEnvgroupsAttachmentsRequest,
   output: GoogleCloudApigeeV1ListEnvironmentGroupAttachmentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -22900,6 +24181,7 @@ export const listOrganizationsEnvgroupsAttachments: API.PaginatedOperationMethod
 export type ListOrganizationsEnvironmentsAnalyticsExportsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists the details and status of all analytics export jobs belonging to the parent organization and environment. */
 export const listOrganizationsEnvironmentsAnalyticsExports: API.OperationMethod<
@@ -22910,7 +24192,7 @@ export const listOrganizationsEnvironmentsAnalyticsExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsEnvironmentsAnalyticsExportsRequest,
   output: GoogleCloudApigeeV1ListExportsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22918,6 +24200,7 @@ export const listOrganizationsEnvironmentsAnalyticsExports: API.OperationMethod<
 export type ListOrganizationsEnvironmentsApisDeploymentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all deployments of an API proxy in an environment. */
 export const listOrganizationsEnvironmentsApisDeployments: API.OperationMethod<
@@ -22928,7 +24211,7 @@ export const listOrganizationsEnvironmentsApisDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsEnvironmentsApisDeploymentsRequest,
   output: GoogleCloudApigeeV1ListDeploymentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -22936,6 +24219,7 @@ export const listOrganizationsEnvironmentsApisDeployments: API.OperationMethod<
 export type ListOrganizationsEnvironmentsApisRevisionsDebugsessionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists debug sessions that are currently active in the given API Proxy revision. */
 export const listOrganizationsEnvironmentsApisRevisionsDebugsessions: API.PaginatedOperationMethod<
@@ -22947,7 +24231,7 @@ export const listOrganizationsEnvironmentsApisRevisionsDebugsessions: API.Pagina
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest,
   output: GoogleCloudApigeeV1ListDebugSessionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -22959,6 +24243,7 @@ export const listOrganizationsEnvironmentsApisRevisionsDebugsessions: API.Pagina
 export type ListOrganizationsEnvironmentsArchiveDeploymentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists the ArchiveDeployments in the specified Environment. */
 export const listOrganizationsEnvironmentsArchiveDeployments: API.PaginatedOperationMethod<
@@ -22970,7 +24255,7 @@ export const listOrganizationsEnvironmentsArchiveDeployments: API.PaginatedOpera
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsEnvironmentsArchiveDeploymentsRequest,
   output: GoogleCloudApigeeV1ListArchiveDeploymentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -22982,6 +24267,7 @@ export const listOrganizationsEnvironmentsArchiveDeployments: API.PaginatedOpera
 export type ListOrganizationsEnvironmentsDeploymentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all deployments of API proxies or shared flows in an environment. */
 export const listOrganizationsEnvironmentsDeployments: API.OperationMethod<
@@ -22992,7 +24278,7 @@ export const listOrganizationsEnvironmentsDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsEnvironmentsDeploymentsRequest,
   output: GoogleCloudApigeeV1ListDeploymentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23000,6 +24286,7 @@ export const listOrganizationsEnvironmentsDeployments: API.OperationMethod<
 export type ListOrganizationsEnvironmentsKeyvaluemapsEntriesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists key value entries for key values maps scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export const listOrganizationsEnvironmentsKeyvaluemapsEntries: API.PaginatedOperationMethod<
@@ -23011,7 +24298,7 @@ export const listOrganizationsEnvironmentsKeyvaluemapsEntries: API.PaginatedOper
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsEnvironmentsKeyvaluemapsEntriesRequest,
   output: GoogleCloudApigeeV1ListKeyValueEntriesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23023,6 +24310,7 @@ export const listOrganizationsEnvironmentsKeyvaluemapsEntries: API.PaginatedOper
 export type ListOrganizationsEnvironmentsQueriesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Return a list of Asynchronous Queries */
 export const listOrganizationsEnvironmentsQueries: API.OperationMethod<
@@ -23033,7 +24321,7 @@ export const listOrganizationsEnvironmentsQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsEnvironmentsQueriesRequest,
   output: GoogleCloudApigeeV1ListAsyncQueriesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23041,6 +24329,7 @@ export const listOrganizationsEnvironmentsQueries: API.OperationMethod<
 export type ListOrganizationsEnvironmentsResourcefilesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all resource files, optionally filtering by type. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export const listOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
@@ -23051,7 +24340,7 @@ export const listOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsEnvironmentsResourcefilesRequest,
   output: GoogleCloudApigeeV1ListEnvironmentResourcesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23059,6 +24348,7 @@ export const listOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
 export type ListOrganizationsEnvironmentsSecurityActionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Returns a list of SecurityActions. This returns both enabled and disabled actions. */
 export const listOrganizationsEnvironmentsSecurityActions: API.PaginatedOperationMethod<
@@ -23070,7 +24360,7 @@ export const listOrganizationsEnvironmentsSecurityActions: API.PaginatedOperatio
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsEnvironmentsSecurityActionsRequest,
   output: GoogleCloudApigeeV1ListSecurityActionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23082,6 +24372,7 @@ export const listOrganizationsEnvironmentsSecurityActions: API.PaginatedOperatio
 export type ListOrganizationsEnvironmentsSecurityIncidentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** ListSecurityIncidents lists all the security incident associated with the environment. */
 export const listOrganizationsEnvironmentsSecurityIncidents: API.PaginatedOperationMethod<
@@ -23093,7 +24384,7 @@ export const listOrganizationsEnvironmentsSecurityIncidents: API.PaginatedOperat
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsEnvironmentsSecurityIncidentsRequest,
   output: GoogleCloudApigeeV1ListSecurityIncidentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23105,6 +24396,7 @@ export const listOrganizationsEnvironmentsSecurityIncidents: API.PaginatedOperat
 export type ListOrganizationsEnvironmentsSecurityReportsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Return a list of Security Reports */
 export const listOrganizationsEnvironmentsSecurityReports: API.PaginatedOperationMethod<
@@ -23116,7 +24408,7 @@ export const listOrganizationsEnvironmentsSecurityReports: API.PaginatedOperatio
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsEnvironmentsSecurityReportsRequest,
   output: GoogleCloudApigeeV1ListSecurityReportsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23128,6 +24420,7 @@ export const listOrganizationsEnvironmentsSecurityReports: API.PaginatedOperatio
 export type ListOrganizationsEnvironmentsSharedflowsDeploymentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all deployments of a shared flow in an environment. */
 export const listOrganizationsEnvironmentsSharedflowsDeployments: API.OperationMethod<
@@ -23138,7 +24431,7 @@ export const listOrganizationsEnvironmentsSharedflowsDeployments: API.OperationM
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsEnvironmentsSharedflowsDeploymentsRequest,
   output: GoogleCloudApigeeV1ListDeploymentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23146,6 +24439,7 @@ export const listOrganizationsEnvironmentsSharedflowsDeployments: API.OperationM
 export type ListOrganizationsEnvironmentsTraceConfigOverridesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all of the distributed trace configuration overrides in an environment. */
 export const listOrganizationsEnvironmentsTraceConfigOverrides: API.PaginatedOperationMethod<
@@ -23157,7 +24451,7 @@ export const listOrganizationsEnvironmentsTraceConfigOverrides: API.PaginatedOpe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsEnvironmentsTraceConfigOverridesRequest,
   output: GoogleCloudApigeeV1ListTraceConfigOverridesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23169,6 +24463,7 @@ export const listOrganizationsEnvironmentsTraceConfigOverrides: API.PaginatedOpe
 export type ListOrganizationsHostQueriesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Return a list of Asynchronous Queries at host level. */
 export const listOrganizationsHostQueries: API.OperationMethod<
@@ -23179,7 +24474,7 @@ export const listOrganizationsHostQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsHostQueriesRequest,
   output: GoogleCloudApigeeV1ListAsyncQueriesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23187,6 +24482,7 @@ export const listOrganizationsHostQueries: API.OperationMethod<
 export type ListOrganizationsHostSecurityReportsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Return a list of Security Reports at host level. */
 export const listOrganizationsHostSecurityReports: API.PaginatedOperationMethod<
@@ -23198,7 +24494,7 @@ export const listOrganizationsHostSecurityReports: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsHostSecurityReportsRequest,
   output: GoogleCloudApigeeV1ListSecurityReportsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23207,7 +24503,11 @@ export const listOrganizationsHostSecurityReports: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListOrganizationsInstancesError = NotFound | Forbidden | GcpOpError;
+export type ListOrganizationsInstancesError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Lists all Apigee runtime instances for the organization. **Note:** Not supported for Apigee hybrid. */
 export const listOrganizationsInstances: API.PaginatedOperationMethod<
   ListOrganizationsInstancesRequest,
@@ -23218,7 +24518,7 @@ export const listOrganizationsInstances: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsInstancesRequest,
   output: GoogleCloudApigeeV1ListInstancesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23230,6 +24530,7 @@ export const listOrganizationsInstances: API.PaginatedOperationMethod<
 export type ListOrganizationsInstancesAttachmentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all attachments to an instance. **Note:** Not supported for Apigee hybrid. */
 export const listOrganizationsInstancesAttachments: API.PaginatedOperationMethod<
@@ -23241,7 +24542,7 @@ export const listOrganizationsInstancesAttachments: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsInstancesAttachmentsRequest,
   output: GoogleCloudApigeeV1ListInstanceAttachmentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23253,6 +24554,7 @@ export const listOrganizationsInstancesAttachments: API.PaginatedOperationMethod
 export type ListOrganizationsInstancesNatAddressesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists the NAT addresses for an Apigee instance. **Note:** Not supported for Apigee hybrid. */
 export const listOrganizationsInstancesNatAddresses: API.PaginatedOperationMethod<
@@ -23264,7 +24566,7 @@ export const listOrganizationsInstancesNatAddresses: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsInstancesNatAddressesRequest,
   output: GoogleCloudApigeeV1ListNatAddressesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23276,6 +24578,7 @@ export const listOrganizationsInstancesNatAddresses: API.PaginatedOperationMetho
 export type ListOrganizationsKeyvaluemapsEntriesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists key value entries for key values maps scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export const listOrganizationsKeyvaluemapsEntries: API.PaginatedOperationMethod<
@@ -23287,7 +24590,7 @@ export const listOrganizationsKeyvaluemapsEntries: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsKeyvaluemapsEntriesRequest,
   output: GoogleCloudApigeeV1ListKeyValueEntriesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23299,6 +24602,7 @@ export const listOrganizationsKeyvaluemapsEntries: API.PaginatedOperationMethod<
 export type ListOrganizationsOperationsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export const listOrganizationsOperations: API.PaginatedOperationMethod<
@@ -23310,7 +24614,7 @@ export const listOrganizationsOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsOperationsRequest,
   output: GoogleLongrunningListOperationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23319,7 +24623,11 @@ export const listOrganizationsOperations: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListOrganizationsReportsError = NotFound | Forbidden | GcpOpError;
+export type ListOrganizationsReportsError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Return a list of Custom Reports */
 export const listOrganizationsReports: API.OperationMethod<
   ListOrganizationsReportsRequest,
@@ -23329,7 +24637,7 @@ export const listOrganizationsReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsReportsRequest,
   output: GoogleCloudApigeeV1ListCustomReportsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23337,6 +24645,7 @@ export const listOrganizationsReports: API.OperationMethod<
 export type ListOrganizationsSecurityFeedbackError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all feedback reports which have already been submitted. */
 export const listOrganizationsSecurityFeedback: API.PaginatedOperationMethod<
@@ -23348,7 +24657,7 @@ export const listOrganizationsSecurityFeedback: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsSecurityFeedbackRequest,
   output: GoogleCloudApigeeV1ListSecurityFeedbackResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23360,6 +24669,7 @@ export const listOrganizationsSecurityFeedback: API.PaginatedOperationMethod<
 export type ListOrganizationsSecurityMonitoringConditionsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** List security monitoring conditions. */
 export const listOrganizationsSecurityMonitoringConditions: API.PaginatedOperationMethod<
@@ -23371,7 +24681,7 @@ export const listOrganizationsSecurityMonitoringConditions: API.PaginatedOperati
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsSecurityMonitoringConditionsRequest,
   output: GoogleCloudApigeeV1ListSecurityMonitoringConditionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23383,6 +24693,7 @@ export const listOrganizationsSecurityMonitoringConditions: API.PaginatedOperati
 export type ListOrganizationsSecurityProfilesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** ListSecurityProfiles lists all the security profiles associated with the org including attached and unattached profiles. */
 export const listOrganizationsSecurityProfiles: API.PaginatedOperationMethod<
@@ -23394,7 +24705,7 @@ export const listOrganizationsSecurityProfiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsSecurityProfilesRequest,
   output: GoogleCloudApigeeV1ListSecurityProfilesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23406,6 +24717,7 @@ export const listOrganizationsSecurityProfiles: API.PaginatedOperationMethod<
 export type ListOrganizationsSecurityProfilesV2Error =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** List security profiles v2. */
 export const listOrganizationsSecurityProfilesV2: API.PaginatedOperationMethod<
@@ -23417,7 +24729,7 @@ export const listOrganizationsSecurityProfilesV2: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsSecurityProfilesV2Request,
   output: GoogleCloudApigeeV1ListSecurityProfilesV2Response,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23429,6 +24741,7 @@ export const listOrganizationsSecurityProfilesV2: API.PaginatedOperationMethod<
 export type ListOrganizationsSharedflowsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all shared flows in the organization. If the resource has the `space` attribute set, the response may not return all resources. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
 export const listOrganizationsSharedflows: API.OperationMethod<
@@ -23439,7 +24752,7 @@ export const listOrganizationsSharedflows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsSharedflowsRequest,
   output: GoogleCloudApigeeV1ListSharedFlowsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23447,6 +24760,7 @@ export const listOrganizationsSharedflows: API.OperationMethod<
 export type ListOrganizationsSharedflowsDeploymentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all deployments of a shared flow. */
 export const listOrganizationsSharedflowsDeployments: API.OperationMethod<
@@ -23457,7 +24771,7 @@ export const listOrganizationsSharedflowsDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsSharedflowsDeploymentsRequest,
   output: GoogleCloudApigeeV1ListDeploymentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23465,6 +24779,7 @@ export const listOrganizationsSharedflowsDeployments: API.OperationMethod<
 export type ListOrganizationsSharedflowsRevisionsDeploymentsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Lists all deployments of a shared flow revision. */
 export const listOrganizationsSharedflowsRevisionsDeployments: API.OperationMethod<
@@ -23475,7 +24790,7 @@ export const listOrganizationsSharedflowsRevisionsDeployments: API.OperationMeth
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsSharedflowsRevisionsDeploymentsRequest,
   output: GoogleCloudApigeeV1ListDeploymentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23483,6 +24798,7 @@ export const listOrganizationsSharedflowsRevisionsDeployments: API.OperationMeth
 export type ListOrganizationsSitesApicategoriesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Returns the API categories associated with a portal. */
 export const listOrganizationsSitesApicategories: API.OperationMethod<
@@ -23493,7 +24809,7 @@ export const listOrganizationsSitesApicategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationsSitesApicategoriesRequest,
   output: GoogleCloudApigeeV1ListApiCategoriesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23501,6 +24817,7 @@ export const listOrganizationsSitesApicategories: API.OperationMethod<
 export type ListOrganizationsSitesApidocsError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Returns the catalog items associated with a portal. */
 export const listOrganizationsSitesApidocs: API.PaginatedOperationMethod<
@@ -23512,7 +24829,7 @@ export const listOrganizationsSitesApidocs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsSitesApidocsRequest,
   output: GoogleCloudApigeeV1ListApiDocsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23521,7 +24838,11 @@ export const listOrganizationsSitesApidocs: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListOrganizationsSpacesError = NotFound | Forbidden | GcpOpError;
+export type ListOrganizationsSpacesError =
+  | NotFound
+  | Forbidden
+  | ApigeeResourceNotFound
+  | GcpOpError;
 /** Lists spaces under an organization. */
 export const listOrganizationsSpaces: API.PaginatedOperationMethod<
   ListOrganizationsSpacesRequest,
@@ -23532,7 +24853,7 @@ export const listOrganizationsSpaces: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsSpacesRequest,
   output: GoogleCloudApigeeV1ListSpacesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23544,6 +24865,7 @@ export const listOrganizationsSpaces: API.PaginatedOperationMethod<
 export type ListRevisionsOrganizationsSecurityProfilesError =
   | NotFound
   | Forbidden
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** ListSecurityProfileRevisions lists all the revisions of the security profile. */
 export const listRevisionsOrganizationsSecurityProfiles: API.PaginatedOperationMethod<
@@ -23555,7 +24877,7 @@ export const listRevisionsOrganizationsSecurityProfiles: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRevisionsOrganizationsSecurityProfilesRequest,
   output: GoogleCloudApigeeV1ListSecurityProfileRevisionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -23569,6 +24891,7 @@ export type ModifyEnvironmentOrganizationsEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates properties for an Apigee environment with patch semantics using a field mask. **Note:** Not supported for Apigee hybrid. */
 export const modifyEnvironmentOrganizationsEnvironments: API.OperationMethod<
@@ -23579,7 +24902,14 @@ export const modifyEnvironmentOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyEnvironmentOrganizationsEnvironmentsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23589,6 +24919,7 @@ export type MoveOrganizationsApiproductsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Moves an API product to a different space. */
 export const moveOrganizationsApiproducts: API.OperationMethod<
@@ -23599,7 +24930,14 @@ export const moveOrganizationsApiproducts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: MoveOrganizationsApiproductsRequest,
   output: GoogleCloudApigeeV1ApiProduct,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23609,6 +24947,7 @@ export type MoveOrganizationsApisError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Moves an API proxy to a different space. */
 export const moveOrganizationsApis: API.OperationMethod<
@@ -23619,7 +24958,14 @@ export const moveOrganizationsApis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: MoveOrganizationsApisRequest,
   output: GoogleCloudApigeeV1ApiProxy,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23629,6 +24975,7 @@ export type MoveOrganizationsSharedflowsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Moves an shared flow to a different space. */
 export const moveOrganizationsSharedflows: API.OperationMethod<
@@ -23639,7 +24986,14 @@ export const moveOrganizationsSharedflows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: MoveOrganizationsSharedflowsRequest,
   output: GoogleCloudApigeeV1SharedFlow,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23649,6 +25003,7 @@ export type PatchOrganizationsApimServiceExtensionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates an APIM service extension in an organization. */
 export const patchOrganizationsApimServiceExtensions: API.OperationMethod<
@@ -23659,7 +25014,14 @@ export const patchOrganizationsApimServiceExtensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsApimServiceExtensionsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23669,6 +25031,7 @@ export type PatchOrganizationsApisError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates an existing API proxy. */
 export const patchOrganizationsApis: API.OperationMethod<
@@ -23679,7 +25042,14 @@ export const patchOrganizationsApis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsApisRequest,
   output: GoogleCloudApigeeV1ApiProxy,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23689,6 +25059,7 @@ export type PatchOrganizationsDatacollectorsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates a data collector. */
 export const patchOrganizationsDatacollectors: API.OperationMethod<
@@ -23699,7 +25070,14 @@ export const patchOrganizationsDatacollectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsDatacollectorsRequest,
   output: GoogleCloudApigeeV1DataCollector,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23709,6 +25087,7 @@ export type PatchOrganizationsEnvgroupsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates an environment group. */
 export const patchOrganizationsEnvgroups: API.OperationMethod<
@@ -23719,7 +25098,14 @@ export const patchOrganizationsEnvgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsEnvgroupsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23729,6 +25115,7 @@ export type PatchOrganizationsEnvironmentsArchiveDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates an existing ArchiveDeployment. Labels can modified but most of the other fields are not modifiable. */
 export const patchOrganizationsEnvironmentsArchiveDeployments: API.OperationMethod<
@@ -23739,7 +25126,14 @@ export const patchOrganizationsEnvironmentsArchiveDeployments: API.OperationMeth
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsEnvironmentsArchiveDeploymentsRequest,
   output: GoogleCloudApigeeV1ArchiveDeployment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23749,6 +25143,7 @@ export type PatchOrganizationsEnvironmentsSecurityActionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Update a SecurityAction. */
 export const patchOrganizationsEnvironmentsSecurityActions: API.OperationMethod<
@@ -23759,7 +25154,14 @@ export const patchOrganizationsEnvironmentsSecurityActions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsEnvironmentsSecurityActionsRequest,
   output: GoogleCloudApigeeV1SecurityAction,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23769,6 +25171,7 @@ export type PatchOrganizationsEnvironmentsSecurityIncidentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** UpdateSecurityIncidents updates an existing security incident. */
 export const patchOrganizationsEnvironmentsSecurityIncidents: API.OperationMethod<
@@ -23779,7 +25182,14 @@ export const patchOrganizationsEnvironmentsSecurityIncidents: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsEnvironmentsSecurityIncidentsRequest,
   output: GoogleCloudApigeeV1SecurityIncident,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23789,6 +25199,7 @@ export type PatchOrganizationsEnvironmentsTraceConfigOverridesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates a distributed trace configuration override. Note that the repeated fields have replace semantics when included in the field mask and that they will be overwritten by the value of the fields in the request body. */
 export const patchOrganizationsEnvironmentsTraceConfigOverrides: API.OperationMethod<
@@ -23799,7 +25210,14 @@ export const patchOrganizationsEnvironmentsTraceConfigOverrides: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsEnvironmentsTraceConfigOverridesRequest,
   output: GoogleCloudApigeeV1TraceConfigOverride,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23809,6 +25227,7 @@ export type PatchOrganizationsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates an Apigee runtime instance. You can update the fields described in NodeConfig. No other fields will be updated. **Note:** Not supported for Apigee hybrid. */
 export const patchOrganizationsInstances: API.OperationMethod<
@@ -23819,7 +25238,14 @@ export const patchOrganizationsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsInstancesRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23829,6 +25255,7 @@ export type PatchOrganizationsSecurityFeedbackError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates a specific feedback report. */
 export const patchOrganizationsSecurityFeedback: API.OperationMethod<
@@ -23839,7 +25266,14 @@ export const patchOrganizationsSecurityFeedback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsSecurityFeedbackRequest,
   output: GoogleCloudApigeeV1SecurityFeedback,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23849,6 +25283,7 @@ export type PatchOrganizationsSecurityMonitoringConditionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Update a security monitoring condition. */
 export const patchOrganizationsSecurityMonitoringConditions: API.OperationMethod<
@@ -23859,7 +25294,14 @@ export const patchOrganizationsSecurityMonitoringConditions: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsSecurityMonitoringConditionsRequest,
   output: GoogleCloudApigeeV1SecurityMonitoringCondition,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23869,6 +25311,7 @@ export type PatchOrganizationsSecurityProfilesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** UpdateSecurityProfile update the metadata of security profile. */
 export const patchOrganizationsSecurityProfiles: API.OperationMethod<
@@ -23879,7 +25322,14 @@ export const patchOrganizationsSecurityProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsSecurityProfilesRequest,
   output: GoogleCloudApigeeV1SecurityProfile,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23889,6 +25339,7 @@ export type PatchOrganizationsSecurityProfilesV2Error =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Update a security profile V2. */
 export const patchOrganizationsSecurityProfilesV2: API.OperationMethod<
@@ -23899,7 +25350,14 @@ export const patchOrganizationsSecurityProfilesV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsSecurityProfilesV2Request,
   output: GoogleCloudApigeeV1SecurityProfileV2,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23909,6 +25367,7 @@ export type PatchOrganizationsSitesApicategoriesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates an API category. */
 export const patchOrganizationsSitesApicategories: API.OperationMethod<
@@ -23919,7 +25378,14 @@ export const patchOrganizationsSitesApicategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsSitesApicategoriesRequest,
   output: GoogleCloudApigeeV1ApiCategoryResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23929,6 +25395,7 @@ export type PatchOrganizationsSpacesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates a space. */
 export const patchOrganizationsSpaces: API.OperationMethod<
@@ -23939,7 +25406,14 @@ export const patchOrganizationsSpaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsSpacesRequest,
   output: GoogleCloudApigeeV1Space,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23949,6 +25423,7 @@ export type ProvisionOrganizationProjectsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Provisions a new Apigee organization with a functioning runtime. This is the standard way to create trial organizations for a free Apigee trial. */
 export const provisionOrganizationProjects: API.OperationMethod<
@@ -23959,7 +25434,14 @@ export const provisionOrganizationProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ProvisionOrganizationProjectsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23969,6 +25451,7 @@ export type QueryTabularStatsOrganizationsEnvironmentsSecurityStatsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Retrieve security statistics as tabular rows. */
 export const queryTabularStatsOrganizationsEnvironmentsSecurityStats: API.OperationMethod<
@@ -23979,7 +25462,14 @@ export const queryTabularStatsOrganizationsEnvironmentsSecurityStats: API.Operat
 > = /*@__PURE__*/ API.make(() => ({
   input: QueryTabularStatsOrganizationsEnvironmentsSecurityStatsRequest,
   output: GoogleCloudApigeeV1QueryTabularStatsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -23989,6 +25479,7 @@ export type QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStatsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Retrieve security statistics as a collection of time series. */
 export const queryTimeSeriesStatsOrganizationsEnvironmentsSecurityStats: API.OperationMethod<
@@ -23999,7 +25490,14 @@ export const queryTimeSeriesStatsOrganizationsEnvironmentsSecurityStats: API.Ope
 > = /*@__PURE__*/ API.make(() => ({
   input: QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStatsRequest,
   output: GoogleCloudApigeeV1QueryTimeSeriesStatsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24009,6 +25507,7 @@ export type ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeysError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates the scope of an app. This API replaces the existing scopes with those specified in the request. Include or exclude any existing scopes that you want to retain or delete, respectively. The specified scopes must already be defined for the API products associated with the app. This API sets the `scopes` element under the `apiProducts` element in the attributes of the app. */
 export const replaceDeveloperAppKeyOrganizationsDevelopersAppsKeys: API.OperationMethod<
@@ -24019,7 +25518,14 @@ export const replaceDeveloperAppKeyOrganizationsDevelopersAppsKeys: API.Operatio
 > = /*@__PURE__*/ API.make(() => ({
   input: ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeysRequest,
   output: GoogleCloudApigeeV1DeveloperAppKey,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24029,6 +25535,7 @@ export type ReportStatusOrganizationsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Reports the latest status for a runtime instance. */
 export const reportStatusOrganizationsInstances: API.OperationMethod<
@@ -24039,7 +25546,14 @@ export const reportStatusOrganizationsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ReportStatusOrganizationsInstancesRequest,
   output: GoogleCloudApigeeV1ReportInstanceStatusResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24049,6 +25563,7 @@ export type SetAddonEnablementOrganizationsEnvironmentsAddonsConfigError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates an add-on enablement status of an environment. */
 export const setAddonEnablementOrganizationsEnvironmentsAddonsConfig: API.OperationMethod<
@@ -24059,7 +25574,14 @@ export const setAddonEnablementOrganizationsEnvironmentsAddonsConfig: API.Operat
 > = /*@__PURE__*/ API.make(() => ({
   input: SetAddonEnablementOrganizationsEnvironmentsAddonsConfigRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24069,6 +25591,7 @@ export type SetAddonsOrganizationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Configures the add-ons for the Apigee organization. The existing add-on configuration will be fully replaced. */
 export const setAddonsOrganizations: API.OperationMethod<
@@ -24079,7 +25602,14 @@ export const setAddonsOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetAddonsOrganizationsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24089,6 +25619,7 @@ export type SetDeveloperStatusOrganizationsDevelopersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Sets the status of a developer. A developer is `active` by default. If you set a developer's status to `inactive`, the API keys assigned to the developer apps are no longer valid even though the API keys are set to `approved`. Inactive developers can still sign in to the developer portal and create apps; however, any new API keys generated during app creation won't work. To set the status of a developer, set the `action` query parameter to `active` or `inactive`, and the `Content-Type` header to `application/octet-stream`. If successful, the API call returns the following HTTP status code: `204 No Content` */
 export const setDeveloperStatusOrganizationsDevelopers: API.OperationMethod<
@@ -24099,7 +25630,14 @@ export const setDeveloperStatusOrganizationsDevelopers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetDeveloperStatusOrganizationsDevelopersRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24109,6 +25647,7 @@ export type SetIamPolicyOrganizationsEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Sets the IAM policy on an environment, if the policy already exists it will be replaced. For more information, see [Manage users, roles, and permissions using the API](https://cloud.google.com/apigee/docs/api-platform/system-administration/manage-users-roles). You must have the `apigee.environments.setIamPolicy` permission to call this API. */
 export const setIamPolicyOrganizationsEnvironments: API.OperationMethod<
@@ -24119,7 +25658,14 @@ export const setIamPolicyOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetIamPolicyOrganizationsEnvironmentsRequest,
   output: GoogleIamV1Policy,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24129,6 +25675,7 @@ export type SetIamPolicyOrganizationsEnvironmentsDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Sets the IAM policy on a deployment, if the policy already exists it will be replaced. For more information, see [Manage users, roles, and permissions using the API](https://cloud.google.com/apigee/docs/api-platform/system-administration/manage-users-roles). You must have the `apigee.deployments.setIamPolicy` permission to call this API. */
 export const setIamPolicyOrganizationsEnvironmentsDeployments: API.OperationMethod<
@@ -24139,7 +25686,14 @@ export const setIamPolicyOrganizationsEnvironmentsDeployments: API.OperationMeth
 > = /*@__PURE__*/ API.make(() => ({
   input: SetIamPolicyOrganizationsEnvironmentsDeploymentsRequest,
   output: GoogleIamV1Policy,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24149,6 +25703,7 @@ export type SetIamPolicyOrganizationsSpacesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** IAM META APIs Callers must have apigee.spaces.setIamPolicy. */
 export const setIamPolicyOrganizationsSpaces: API.OperationMethod<
@@ -24159,7 +25714,14 @@ export const setIamPolicyOrganizationsSpaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetIamPolicyOrganizationsSpacesRequest,
   output: GoogleIamV1Policy,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24169,6 +25731,7 @@ export type SetSyncAuthorizationOrganizationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Sets the permissions required to allow the Synchronizer to download environment data from the control plane. You must call this API to enable proper functioning of hybrid. Pass the ETag when calling `setSyncAuthorization` to ensure that you are updating the correct version. To get an ETag, call [getSyncAuthorization](getSyncAuthorization). If you don't pass the ETag in the call to `setSyncAuthorization`, then the existing authorization is overwritten indiscriminately. For more information, see [Configure the Synchronizer](https://cloud.google.com/apigee/docs/hybrid/latest/synchronizer-access). **Note**: Available to Apigee hybrid only. */
 export const setSyncAuthorizationOrganizations: API.OperationMethod<
@@ -24179,7 +25742,14 @@ export const setSyncAuthorizationOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetSyncAuthorizationOrganizationsRequest,
   output: GoogleCloudApigeeV1SyncAuthorization,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24189,6 +25759,7 @@ export type SubscribeOrganizationsEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Creates a subscription for the environment's Pub/Sub topic. The server will assign a random name for this subscription. The "name" and "push_config" must *not* be specified. */
 export const subscribeOrganizationsEnvironments: API.OperationMethod<
@@ -24199,7 +25770,14 @@ export const subscribeOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SubscribeOrganizationsEnvironmentsRequest,
   output: GoogleCloudApigeeV1Subscription,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24209,6 +25787,7 @@ export type TestIamPermissionsOrganizationsEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Tests the permissions of a user on an environment, and returns a subset of permissions that the user has on the environment. If the environment does not exist, an empty permission set is returned (a NOT_FOUND error is not returned). */
 export const testIamPermissionsOrganizationsEnvironments: API.OperationMethod<
@@ -24219,7 +25798,14 @@ export const testIamPermissionsOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TestIamPermissionsOrganizationsEnvironmentsRequest,
   output: GoogleIamV1TestIamPermissionsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24229,6 +25815,7 @@ export type TestIamPermissionsOrganizationsEnvironmentsDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Tests the permissions of a user on a deployment, and returns a subset of permissions that the user has on the deployment. If the deployment does not exist, an empty permission set is returned (a NOT_FOUND error is not returned). */
 export const testIamPermissionsOrganizationsEnvironmentsDeployments: API.OperationMethod<
@@ -24239,7 +25826,14 @@ export const testIamPermissionsOrganizationsEnvironmentsDeployments: API.Operati
 > = /*@__PURE__*/ API.make(() => ({
   input: TestIamPermissionsOrganizationsEnvironmentsDeploymentsRequest,
   output: GoogleIamV1TestIamPermissionsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24249,6 +25843,7 @@ export type TestIamPermissionsOrganizationsSpacesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Callers don't need any permissions. */
 export const testIamPermissionsOrganizationsSpaces: API.OperationMethod<
@@ -24259,7 +25854,14 @@ export const testIamPermissionsOrganizationsSpaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TestIamPermissionsOrganizationsSpacesRequest,
   output: GoogleIamV1TestIamPermissionsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24269,6 +25871,7 @@ export type TestOrganizationsAnalyticsDatastoresError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Test if Datastore configuration is correct. This includes checking if credentials provided by customer have required permissions in target destination storage */
 export const testOrganizationsAnalyticsDatastores: API.OperationMethod<
@@ -24279,7 +25882,14 @@ export const testOrganizationsAnalyticsDatastores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TestOrganizationsAnalyticsDatastoresRequest,
   output: GoogleCloudApigeeV1TestDatastoreResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24289,6 +25899,7 @@ export type UndeployOrganizationsEnvironmentsApisRevisionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Undeploys an API proxy revision from an environment. For a request path `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}/deployments`, two permissions are required: * `apigee.deployments.delete` on the resource `organizations/{org}/environments/{env}` * `apigee.proxyrevisions.undeploy` on the resource `organizations/{org}/apis/{api}/revisions/{rev}` */
 export const undeployOrganizationsEnvironmentsApisRevisions: API.OperationMethod<
@@ -24299,7 +25910,14 @@ export const undeployOrganizationsEnvironmentsApisRevisions: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: UndeployOrganizationsEnvironmentsApisRevisionsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24309,6 +25927,7 @@ export type UndeployOrganizationsEnvironmentsSharedflowsRevisionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Undeploys a shared flow revision from an environment. For a request path `organizations/{org}/environments/{env}/sharedflows/{sf}/revisions/{rev}/deployments`, two permissions are required: * `apigee.deployments.delete` on the resource `organizations/{org}/environments/{env}` * `apigee.sharedflowrevisions.undeploy` on the resource `organizations/{org}/sharedflows/{sf}/revisions/{rev}` */
 export const undeployOrganizationsEnvironmentsSharedflowsRevisions: API.OperationMethod<
@@ -24319,7 +25938,14 @@ export const undeployOrganizationsEnvironmentsSharedflowsRevisions: API.Operatio
 > = /*@__PURE__*/ API.make(() => ({
   input: UndeployOrganizationsEnvironmentsSharedflowsRevisionsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24329,6 +25955,7 @@ export type UnsubscribeOrganizationsEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Deletes a subscription for the environment's Pub/Sub topic. */
 export const unsubscribeOrganizationsEnvironments: API.OperationMethod<
@@ -24339,7 +25966,14 @@ export const unsubscribeOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UnsubscribeOrganizationsEnvironmentsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24349,6 +25983,7 @@ export type UpdateApiProductAttributeOrganizationsApiproductsAttributesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates the value of an API product attribute. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (current default). Any custom attributes associated with entities also get cached for at least 180 seconds after entity is accessed during runtime. In this case, the `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export const updateApiProductAttributeOrganizationsApiproductsAttributes: API.OperationMethod<
@@ -24359,7 +25994,14 @@ export const updateApiProductAttributeOrganizationsApiproductsAttributes: API.Op
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateApiProductAttributeOrganizationsApiproductsAttributesRequest,
   output: GoogleCloudApigeeV1Attribute,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24369,6 +26011,7 @@ export type UpdateApiProxyRevisionOrganizationsApisRevisionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates an existing API proxy revision by uploading the API proxy configuration bundle as a zip file from your local machine. You can update only API proxy revisions that have never been deployed. After deployment, an API proxy revision becomes immutable, even if it is undeployed. Set the `Content-Type` header to either `multipart/form-data` or `application/octet-stream`. */
 export const updateApiProxyRevisionOrganizationsApisRevisions: API.OperationMethod<
@@ -24379,7 +26022,14 @@ export const updateApiProxyRevisionOrganizationsApisRevisions: API.OperationMeth
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateApiProxyRevisionOrganizationsApisRevisionsRequest,
   output: GoogleCloudApigeeV1ApiProxyRevision,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24389,6 +26039,7 @@ export type UpdateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiprodu
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Approves or revokes the consumer key for an API product. After a consumer key is approved, the app can use it to access APIs. A consumer key that is revoked or pending cannot be used to access an API. Any access tokens associated with a revoked consumer key will remain active. However, Apigee checks the status of the consumer key and if set to `revoked` will not allow access to the API. */
 export const updateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiproducts: API.OperationMethod<
@@ -24400,7 +26051,14 @@ export const updateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiprod
   input:
     UpdateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiproductsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24410,6 +26068,7 @@ export type UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeysError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Adds an API product to an AppGroupAppKey, enabling the app that holds the key to access the API resources bundled in the API product. In addition, you can add attributes and scopes to the AppGroupAppKey. This API replaces the existing attributes with those specified in the request. Include or exclude any existing attributes that you want to retain or delete, respectively. You can use the same key to access all API products associated with the app. */
 export const updateAppGroupAppKeyOrganizationsAppgroupsAppsKeys: API.OperationMethod<
@@ -24420,7 +26079,14 @@ export const updateAppGroupAppKeyOrganizationsAppgroupsAppsKeys: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeysRequest,
   output: GoogleCloudApigeeV1AppGroupAppKey,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24430,6 +26096,7 @@ export type UpdateControlPlaneAccessOrganizationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates the permissions required to allow Apigee runtime-plane components access to the control plane. Currently, the permissions required are to: 1. Allow runtime components to publish analytics data to the control plane. **Note**: Available to Apigee hybrid only. */
 export const updateControlPlaneAccessOrganizations: API.OperationMethod<
@@ -24440,7 +26107,14 @@ export const updateControlPlaneAccessOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateControlPlaneAccessOrganizationsRequest,
   output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24450,6 +26124,7 @@ export type UpdateDebugmaskOrganizationsEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates the debug mask singleton resource for an environment. */
 export const updateDebugmaskOrganizationsEnvironments: API.OperationMethod<
@@ -24460,7 +26135,14 @@ export const updateDebugmaskOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateDebugmaskOrganizationsEnvironmentsRequest,
   output: GoogleCloudApigeeV1DebugMask,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24470,6 +26152,7 @@ export type UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributesErro
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates a developer app attribute. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (current default). Any custom attributes associated with these entities are cached for at least 180 seconds after the entity is accessed at runtime. Therefore, an `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export const updateDeveloperAppAttributeOrganizationsDevelopersAppsAttributes: API.OperationMethod<
@@ -24481,7 +26164,14 @@ export const updateDeveloperAppAttributeOrganizationsDevelopersAppsAttributes: A
   input:
     UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributesRequest,
   output: GoogleCloudApigeeV1Attribute,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24491,6 +26181,7 @@ export type UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApipro
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Approves or revokes the consumer key for an API product. After a consumer key is approved, the app can use it to access APIs. A consumer key that is revoked or pending cannot be used to access an API. Any access tokens associated with a revoked consumer key will remain active. However, Apigee checks the status of the consumer key and if set to `revoked` will not allow access to the API. */
 export const updateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproducts: API.OperationMethod<
@@ -24502,7 +26193,14 @@ export const updateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApipr
   input:
     UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproductsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24512,6 +26210,7 @@ export type UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeysError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Adds an API product to a developer app key, enabling the app that holds the key to access the API resources bundled in the API product. In addition, you can add attributes and scopes associated with the API product to the developer app key. The status of the key can be updated via "action" Query Parameter. None of the other fields can be updated via this API. This API replaces the existing attributes with those specified in the request. Include or exclude any existing attributes that you want to retain or delete, respectively. None of the other fields can be updated. You can use the same key to access all API products associated with the app. */
 export const updateDeveloperAppKeyOrganizationsDevelopersAppsKeys: API.OperationMethod<
@@ -24522,7 +26221,14 @@ export const updateDeveloperAppKeyOrganizationsDevelopersAppsKeys: API.Operation
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeysRequest,
   output: GoogleCloudApigeeV1DeveloperAppKey,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24532,6 +26238,7 @@ export type UpdateDeveloperAttributeOrganizationsDevelopersAttributesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates a developer attribute. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (default). Any custom attributes associated with these entities are cached for at least 180 seconds after the entity is accessed at runtime. Therefore, an `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export const updateDeveloperAttributeOrganizationsDevelopersAttributes: API.OperationMethod<
@@ -24542,7 +26249,14 @@ export const updateDeveloperAttributeOrganizationsDevelopersAttributes: API.Oper
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateDeveloperAttributeOrganizationsDevelopersAttributesRequest,
   output: GoogleCloudApigeeV1Attribute,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24552,6 +26266,7 @@ export type UpdateDocumentationOrganizationsSitesApidocsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates the documentation for the specified catalog item. Note that the documentation file contents will not be populated in the return message. */
 export const updateDocumentationOrganizationsSitesApidocs: API.OperationMethod<
@@ -24562,7 +26277,14 @@ export const updateDocumentationOrganizationsSitesApidocs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateDocumentationOrganizationsSitesApidocsRequest,
   output: GoogleCloudApigeeV1ApiDocDocumentationResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24572,6 +26294,7 @@ export type UpdateEnvironmentOrganizationsEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates an existing environment. When updating properties, you must pass all existing properties to the API, even if they are not being changed. If you omit properties from the payload, the properties are removed. To get the current list of properties for the environment, use the [Get Environment API](get). **Note**: Both `PUT` and `POST` methods are supported for updating an existing environment. */
 export const updateEnvironmentOrganizationsEnvironments: API.OperationMethod<
@@ -24582,7 +26305,14 @@ export const updateEnvironmentOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentOrganizationsEnvironmentsRequest,
   output: GoogleCloudApigeeV1Environment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24592,6 +26322,7 @@ export type UpdateMonetizationConfigOrganizationsAppgroupsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates the monetization configuration for the AppGroup. **Note:** We recommend that you avoid making concurrent update requests for the same resource. Near-simultaneous writes to the same entity can result in conflicts and unexpected behavior. Ensure operations are sequential when modifying a single resource. */
 export const updateMonetizationConfigOrganizationsAppgroups: API.OperationMethod<
@@ -24602,7 +26333,14 @@ export const updateMonetizationConfigOrganizationsAppgroups: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateMonetizationConfigOrganizationsAppgroupsRequest,
   output: GoogleCloudApigeeV1AppGroupMonetizationConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24612,6 +26350,7 @@ export type UpdateMonetizationConfigOrganizationsDevelopersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates the monetization configuration for the developer. */
 export const updateMonetizationConfigOrganizationsDevelopers: API.OperationMethod<
@@ -24622,7 +26361,14 @@ export const updateMonetizationConfigOrganizationsDevelopers: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateMonetizationConfigOrganizationsDevelopersRequest,
   output: GoogleCloudApigeeV1DeveloperMonetizationConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24632,6 +26378,7 @@ export type UpdateOrganizationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates the properties for an Apigee organization. No other fields in the organization profile will be updated. */
 export const updateOrganizations: API.OperationMethod<
@@ -24642,7 +26389,14 @@ export const updateOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsRequest,
   output: GoogleCloudApigeeV1Organization,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24652,6 +26406,7 @@ export type UpdateOrganizationsAnalyticsDatastoresError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Update a Datastore */
 export const updateOrganizationsAnalyticsDatastores: API.OperationMethod<
@@ -24662,7 +26417,14 @@ export const updateOrganizationsAnalyticsDatastores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsAnalyticsDatastoresRequest,
   output: GoogleCloudApigeeV1Datastore,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24672,6 +26434,7 @@ export type UpdateOrganizationsApiproductsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates an existing API product. You must include all required values, whether or not you are updating them, as well as any optional values that you are updating. The API product name required in the request URL is the internal name of the product, not the display name. While they may be the same, it depends on whether the API product was created via UI or API. View the list of API products to identify their internal names. **Note:** We recommend that you avoid making concurrent update requests for the same resource. Near-simultaneous writes to the same entity can result in conflicts and unexpected behavior. Ensure operations are sequential when modifying a single resource. */
 export const updateOrganizationsApiproducts: API.OperationMethod<
@@ -24682,7 +26445,14 @@ export const updateOrganizationsApiproducts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsApiproductsRequest,
   output: GoogleCloudApigeeV1ApiProduct,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24692,6 +26462,7 @@ export type UpdateOrganizationsApiproductsRateplansError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates an existing rate plan. */
 export const updateOrganizationsApiproductsRateplans: API.OperationMethod<
@@ -24702,7 +26473,14 @@ export const updateOrganizationsApiproductsRateplans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsApiproductsRateplansRequest,
   output: GoogleCloudApigeeV1RatePlan,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24712,6 +26490,7 @@ export type UpdateOrganizationsApisKeyvaluemapsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Update the key value map scoped to an organization, environment, or API proxy. */
 export const updateOrganizationsApisKeyvaluemaps: API.OperationMethod<
@@ -24722,7 +26501,14 @@ export const updateOrganizationsApisKeyvaluemaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsApisKeyvaluemapsRequest,
   output: GoogleCloudApigeeV1KeyValueMap,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24732,6 +26518,7 @@ export type UpdateOrganizationsApisKeyvaluemapsEntriesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Update key value entry scoped to an organization, environment, or API proxy for an existing key. */
 export const updateOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<
@@ -24742,7 +26529,14 @@ export const updateOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsApisKeyvaluemapsEntriesRequest,
   output: GoogleCloudApigeeV1KeyValueEntry,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24752,6 +26546,7 @@ export type UpdateOrganizationsAppgroupsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates an AppGroup. This API replaces the existing AppGroup details with those specified in the request. Include or exclude any existing details that you want to retain or delete, respectively. Note that the state of the AppGroup should be updated using `action`, and not via AppGroup. **Note:** We recommend that you avoid making concurrent update requests for the same resource. Near-simultaneous writes to the same entity can result in conflicts and unexpected behavior. Ensure operations are sequential when modifying a single resource. */
 export const updateOrganizationsAppgroups: API.OperationMethod<
@@ -24762,7 +26557,14 @@ export const updateOrganizationsAppgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsAppgroupsRequest,
   output: GoogleCloudApigeeV1AppGroup,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24772,6 +26574,7 @@ export type UpdateOrganizationsAppgroupsAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates the details for an AppGroup app. In addition, you can add an API product to an AppGroup app and automatically generate an API key for the app to use when calling APIs in the API product. If you want to use an existing API key for the API product, add the API product to the API key using the UpdateAppGroupAppKey API. Using this API, you cannot update the app name, as it is the primary key used to identify the app and cannot be changed. This API replaces the existing attributes with those specified in the request. Include or exclude any existing attributes that you want to retain or delete, respectively. **Note:** We recommend that you avoid making concurrent update requests for the same resource. Near-simultaneous writes to the same entity can result in conflicts and unexpected behavior. Ensure operations are sequential when modifying a single resource. */
 export const updateOrganizationsAppgroupsApps: API.OperationMethod<
@@ -24782,7 +26585,14 @@ export const updateOrganizationsAppgroupsApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsAppgroupsAppsRequest,
   output: GoogleCloudApigeeV1AppGroupApp,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24792,6 +26602,7 @@ export type UpdateOrganizationsDevelopersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates a developer. This API replaces the existing developer details with those specified in the request. Include or exclude any existing details that you want to retain or delete, respectively. The custom attribute limit is 18. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (current default). Any custom attributes associated with these entities are cached for at least 180 seconds after the entity is accessed at runtime. Therefore, an `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. **Note:** We recommend that you avoid making concurrent update requests for the same resource. Near-simultaneous writes to the same entity can result in conflicts and unexpected behavior. Ensure operations are sequential when modifying a single resource. */
 export const updateOrganizationsDevelopers: API.OperationMethod<
@@ -24802,7 +26613,14 @@ export const updateOrganizationsDevelopers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsDevelopersRequest,
   output: GoogleCloudApigeeV1Developer,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24812,6 +26630,7 @@ export type UpdateOrganizationsDevelopersAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates the details for a developer app. In addition, you can add an API product to a developer app and automatically generate an API key for the app to use when calling APIs in the API product. If you want to use an existing API key for the API product, add the API product to the API key using the UpdateDeveloperAppKey API. Using this API, you cannot update the following: * App name as it is the primary key used to identify the app and cannot be changed. * Scopes associated with the app. Instead, use the ReplaceDeveloperAppKey API. This API replaces the existing attributes with those specified in the request. Include or exclude any existing attributes that you want to retain or delete, respectively. **Note:** We recommend that you avoid making concurrent update requests for the same resource. Near-simultaneous writes to the same entity can result in conflicts and unexpected behavior. Ensure operations are sequential when modifying a single resource. */
 export const updateOrganizationsDevelopersApps: API.OperationMethod<
@@ -24822,7 +26641,14 @@ export const updateOrganizationsDevelopersApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsDevelopersAppsRequest,
   output: GoogleCloudApigeeV1DeveloperApp,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24832,6 +26658,7 @@ export type UpdateOrganizationsEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates an existing environment. When updating properties, you must pass all existing properties to the API, even if they are not being changed. If you omit properties from the payload, the properties are removed. To get the current list of properties for the environment, use the [Get Environment API](get). **Note**: Both `PUT` and `POST` methods are supported for updating an existing environment. */
 export const updateOrganizationsEnvironments: API.OperationMethod<
@@ -24842,7 +26669,14 @@ export const updateOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsEnvironmentsRequest,
   output: GoogleCloudApigeeV1Environment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24852,6 +26686,7 @@ export type UpdateOrganizationsEnvironmentsKeystoresAliasesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates the certificate in an alias. The updated certificate must be in PEM- or DER-encoded X.509 format. */
 export const updateOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<
@@ -24862,7 +26697,14 @@ export const updateOrganizationsEnvironmentsKeystoresAliases: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsEnvironmentsKeystoresAliasesRequest,
   output: GoogleCloudApigeeV1Alias,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24872,6 +26714,7 @@ export type UpdateOrganizationsEnvironmentsKeyvaluemapsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Update the key value map scoped to an organization, environment, or API proxy. */
 export const updateOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<
@@ -24882,7 +26725,14 @@ export const updateOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsEnvironmentsKeyvaluemapsRequest,
   output: GoogleCloudApigeeV1KeyValueMap,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24892,6 +26742,7 @@ export type UpdateOrganizationsEnvironmentsKeyvaluemapsEntriesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Update key value entry scoped to an organization, environment, or API proxy for an existing key. */
 export const updateOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMethod<
@@ -24902,7 +26753,14 @@ export const updateOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsEnvironmentsKeyvaluemapsEntriesRequest,
   output: GoogleCloudApigeeV1KeyValueEntry,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24912,6 +26770,7 @@ export type UpdateOrganizationsEnvironmentsReferencesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates an existing Reference. Note that this operation has PUT semantics; it will replace the entirety of the existing Reference with the resource in the request body. */
 export const updateOrganizationsEnvironmentsReferences: API.OperationMethod<
@@ -24922,7 +26781,14 @@ export const updateOrganizationsEnvironmentsReferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsEnvironmentsReferencesRequest,
   output: GoogleCloudApigeeV1Reference,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24932,6 +26798,7 @@ export type UpdateOrganizationsEnvironmentsResourcefilesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates a resource file. Specify the `Content-Type` as `application/octet-stream` or `multipart/form-data`. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export const updateOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
@@ -24942,7 +26809,14 @@ export const updateOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsEnvironmentsResourcefilesRequest,
   output: GoogleCloudApigeeV1ResourceFile,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24952,6 +26826,7 @@ export type UpdateOrganizationsEnvironmentsTargetserversError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates an existing TargetServer. Note that this operation has PUT semantics; it will replace the entirety of the existing TargetServer with the resource in the request body. */
 export const updateOrganizationsEnvironmentsTargetservers: API.OperationMethod<
@@ -24962,7 +26837,14 @@ export const updateOrganizationsEnvironmentsTargetservers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsEnvironmentsTargetserversRequest,
   output: GoogleCloudApigeeV1TargetServer,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24972,6 +26854,7 @@ export type UpdateOrganizationsKeyvaluemapsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Update the key value map scoped to an organization, environment, or API proxy. */
 export const updateOrganizationsKeyvaluemaps: API.OperationMethod<
@@ -24982,7 +26865,14 @@ export const updateOrganizationsKeyvaluemaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsKeyvaluemapsRequest,
   output: GoogleCloudApigeeV1KeyValueMap,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -24992,6 +26882,7 @@ export type UpdateOrganizationsKeyvaluemapsEntriesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Update key value entry scoped to an organization, environment, or API proxy for an existing key. */
 export const updateOrganizationsKeyvaluemapsEntries: API.OperationMethod<
@@ -25002,7 +26893,14 @@ export const updateOrganizationsKeyvaluemapsEntries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsKeyvaluemapsEntriesRequest,
   output: GoogleCloudApigeeV1KeyValueEntry,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -25012,6 +26910,7 @@ export type UpdateOrganizationsReportsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Update an existing custom report definition */
 export const updateOrganizationsReports: API.OperationMethod<
@@ -25022,7 +26921,14 @@ export const updateOrganizationsReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsReportsRequest,
   output: GoogleCloudApigeeV1CustomReport,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -25032,6 +26938,7 @@ export type UpdateOrganizationsSitesApidocsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates a catalog item. */
 export const updateOrganizationsSitesApidocs: API.OperationMethod<
@@ -25042,7 +26949,14 @@ export const updateOrganizationsSitesApidocs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationsSitesApidocsRequest,
   output: GoogleCloudApigeeV1ApiDocResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -25052,6 +26966,7 @@ export type UpdateSecurityActionsConfigOrganizationsEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** UpdateSecurityActionConfig updates the current SecurityActions configuration. This method is used to enable/disable the feature at the environment level. */
 export const updateSecurityActionsConfigOrganizationsEnvironments: API.OperationMethod<
@@ -25062,7 +26977,14 @@ export const updateSecurityActionsConfigOrganizationsEnvironments: API.Operation
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSecurityActionsConfigOrganizationsEnvironmentsRequest,
   output: GoogleCloudApigeeV1SecurityActionsConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -25072,6 +26994,7 @@ export type UpdateSecuritySettingsOrganizationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** UpdateSecuritySettings updates the current security settings for API Security. */
 export const updateSecuritySettingsOrganizations: API.OperationMethod<
@@ -25082,7 +27005,14 @@ export const updateSecuritySettingsOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSecuritySettingsOrganizationsRequest,
   output: GoogleCloudApigeeV1SecuritySettings,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -25092,6 +27022,7 @@ export type UpdateSharedFlowRevisionOrganizationsSharedflowsRevisionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates a shared flow revision. This operation is only allowed on revisions which have never been deployed. After deployment a revision becomes immutable, even if it becomes undeployed. The payload is a ZIP-formatted shared flow. Content type must be either multipart/form-data or application/octet-stream. */
 export const updateSharedFlowRevisionOrganizationsSharedflowsRevisions: API.OperationMethod<
@@ -25102,7 +27033,14 @@ export const updateSharedFlowRevisionOrganizationsSharedflowsRevisions: API.Oper
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSharedFlowRevisionOrganizationsSharedflowsRevisionsRequest,
   output: GoogleCloudApigeeV1SharedFlowRevision,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -25112,6 +27050,7 @@ export type UpdateTraceConfigOrganizationsEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ApigeeResourceNotFound
   | GcpOpError;
 /** Updates the trace configurations in an environment. Note that the repeated fields have replace semantics when included in the field mask and that they will be overwritten by the value of the fields in the request body. */
 export const updateTraceConfigOrganizationsEnvironments: API.OperationMethod<
@@ -25122,7 +27061,14 @@ export const updateTraceConfigOrganizationsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateTraceConfigOrganizationsEnvironmentsRequest,
   output: GoogleCloudApigeeV1TraceConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ApigeeResourceNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

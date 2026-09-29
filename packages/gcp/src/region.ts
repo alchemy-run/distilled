@@ -17,7 +17,7 @@
  *
  * - `"required"` (default): send a request to the regional host of the
  *   location in its resource name only where the global host rejects
- *   regional resources (Secret Manager, Parameter Manager).
+ *   regional resources (Vertex AI, Secret Manager, Parameter Manager).
  * - `"prefer"`: send every request whose resource name has a location
  *   to that location's regional host whenever Google publishes one — the
  *   data-residency mode (TLS terminates in the region).
@@ -81,6 +81,7 @@ export const regionalEndpoints = (mode: RegionalEndpointMode) =>
  * `projects/p/locations/{region}/…` must go to the regional host.
  */
 const REGION_REQUIRED = new Set([
+  "https://aiplatform.googleapis.com/",
   "https://secretmanager.googleapis.com/",
   "https://parametermanager.googleapis.com/",
 ]);

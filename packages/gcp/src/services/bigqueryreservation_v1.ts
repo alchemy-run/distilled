@@ -26,6 +26,53 @@ export class BadRequest
     [{ status: 400 }],
   ) {}
 
+/** The capacity commitment is still inside its committed period and cannot be deleted yet (HTTP 400 FAILED_PRECONDITION). Retry after `commitmentEndTime`. */
+export class CapacityCommitmentNotExpired
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CapacityCommitmentNotExpired>()(
+      "CapacityCommitmentNotExpired",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withBadRequestError),
+    [
+      {
+        status: 400,
+        message: {
+          matches:
+            "[Cc]ommitment_end_time|cannot be deleted|committed period|[Pp]recondition|still active",
+        },
+      },
+    ],
+  ) {}
+
+/** The commitment plan is not sold for the requested edition (e.g. FLEX_FLAT_RATE is end of sale for editions) (HTTP 400). Not retryable. */
+export class CommitmentPlanNotSupported
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CommitmentPlanNotSupported>()(
+      "CommitmentPlanNotSupported",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withBadRequestError),
+    [
+      {
+        status: 400,
+        message: { matches: "[Ee]nd of sale|Editions commitment|Plan must be" },
+      },
+    ],
+  ) {}
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -63,6 +110,23 @@ export class NotFound
       details: S.optional(S.Array(S.Unknown)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
+  ) {}
+
+/** Reservation groups need Reservation Based Fairness enabled for the project/edition (HTTP 400). Not retryable. */
+export class ReservationBasedFairnessRequired
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ReservationBasedFairnessRequired>()(
+      "ReservationBasedFairnessRequired",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withBadRequestError),
+    [{ status: 400, message: { includes: "Reservation Based Fairness" } }],
   ) {}
 
 export type CapacityCommitmentEditionEnum =
@@ -1549,6 +1613,7 @@ export type CreateProjectsLocationsCapacityCommitmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | CommitmentPlanNotSupported
   | GcpOpError;
 /** Creates a new capacity commitment resource. */
 export const createProjectsLocationsCapacityCommitments: API.OperationMethod<
@@ -1559,7 +1624,14 @@ export const createProjectsLocationsCapacityCommitments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCapacityCommitmentsRequest,
   output: CapacityCommitment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    CommitmentPlanNotSupported,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1569,6 +1641,7 @@ export type CreateProjectsLocationsReservationGroupsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ReservationBasedFairnessRequired
   | GcpOpError;
 /** Creates a new reservation group. */
 export const createProjectsLocationsReservationGroups: API.OperationMethod<
@@ -1579,7 +1652,14 @@ export const createProjectsLocationsReservationGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsReservationGroupsRequest,
   output: ReservationGroup,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ReservationBasedFairnessRequired,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1629,6 +1709,7 @@ export type DeleteProjectsLocationsCapacityCommitmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | CapacityCommitmentNotExpired
   | GcpOpError;
 /** Deletes a capacity commitment. Attempting to delete capacity commitment before its commitment_end_time will fail with the error code `google.rpc.Code.FAILED_PRECONDITION`. */
 export const deleteProjectsLocationsCapacityCommitments: API.OperationMethod<
@@ -1639,7 +1720,14 @@ export const deleteProjectsLocationsCapacityCommitments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCapacityCommitmentsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    CapacityCommitmentNotExpired,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

@@ -13,6 +13,28 @@ import * as Retry from "../retry.ts";
 
 export type { GcpOpError, GcpOpContext };
 
+/** The access token lacks the `https://www.googleapis.com/auth/authorized-buyers-marketplace` OAuth scope (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). A `cloud-platform` token is not enough. Not retryable. */
+export class AuthorizedBuyersScopeInsufficient
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<AuthorizedBuyersScopeInsufficient>()(
+      "AuthorizedBuyersScopeInsufficient",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -99,33 +121,16 @@ export const AcceptBuyersProposalsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AcceptBuyersProposalsRequest",
 }) as any as S.Schema<AcceptBuyersProposalsRequest>;
 
-export type NoteCreatorRoleEnum =
-  | "BUYER_SELLER_ROLE_UNSPECIFIED"
-  | "BUYER"
-  | "SELLER";
-export const NoteCreatorRoleEnum = S.String;
-
-/** A text note attached to the proposal to facilitate the communication between buyers and sellers. */
-export interface Note {
-  /** Output only. The role who created the note. */
-  creatorRole?: NoteCreatorRoleEnum | (string & {});
-  /** The text of the note. Maximum length is 1024 characters. */
-  note?: string;
-  /** Output only. When this note was created. */
-  createTime?: string;
+/** Buyers are allowed to store certain types of private data in a proposal. */
+export interface PrivateData {
+  /** A buyer specified reference ID. This can be queried in the list operations (max-length: 1024 unicode code units). */
+  referenceId?: string;
 }
-export const Note = /*@__PURE__*/ S.suspend(() =>
+export const PrivateData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    creatorRole: S.optional(NoteCreatorRoleEnum),
-    note: S.optional(S.String),
-    createTime: S.optional(S.String),
+    referenceId: S.optional(S.String),
   }),
-).annotate({ identifier: "Note" }) as any as S.Schema<Note>;
-
-export type NoteList = Array<Note>;
-export const NoteList = /*@__PURE__*/ S.Array(
-  Note,
-) as any as S.Schema<NoteList>;
+).annotate({ identifier: "PrivateData" }) as any as S.Schema<PrivateData>;
 
 /** Contains information on how a buyer or seller can be reached. */
 export interface Contact {
@@ -146,16 +151,24 @@ export const ContactList = /*@__PURE__*/ S.Array(
   Contact,
 ) as any as S.Schema<ContactList>;
 
-/** Buyers are allowed to store certain types of private data in a proposal. */
-export interface PrivateData {
-  /** A buyer specified reference ID. This can be queried in the list operations (max-length: 1024 unicode code units). */
-  referenceId?: string;
-}
-export const PrivateData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    referenceId: S.optional(S.String),
-  }),
-).annotate({ identifier: "PrivateData" }) as any as S.Schema<PrivateData>;
+export type ProposalDealTypeEnum =
+  | "DEAL_TYPE_UNSPECIFIED"
+  | "PREFERRED_DEAL"
+  | "PRIVATE_AUCTION"
+  | "PROGRAMMATIC_GUARANTEED";
+export const ProposalDealTypeEnum = S.String;
+
+export type ProposalLastUpdaterOrCommentorRoleEnum =
+  | "BUYER_SELLER_ROLE_UNSPECIFIED"
+  | "BUYER"
+  | "SELLER";
+export const ProposalLastUpdaterOrCommentorRoleEnum = S.String;
+
+export type ProposalOriginatorRoleEnum =
+  | "BUYER_SELLER_ROLE_UNSPECIFIED"
+  | "BUYER"
+  | "SELLER";
+export const ProposalOriginatorRoleEnum = S.String;
 
 export type ProposalStateEnum =
   | "STATE_UNSPECIFIED"
@@ -166,91 +179,100 @@ export type ProposalStateEnum =
   | "TERMINATED";
 export const ProposalStateEnum = S.String;
 
-export type ProposalLastUpdaterOrCommentorRoleEnum =
+export type NoteCreatorRoleEnum =
   | "BUYER_SELLER_ROLE_UNSPECIFIED"
   | "BUYER"
   | "SELLER";
-export const ProposalLastUpdaterOrCommentorRoleEnum = S.String;
+export const NoteCreatorRoleEnum = S.String;
 
-export type ProposalDealTypeEnum =
-  | "DEAL_TYPE_UNSPECIFIED"
-  | "PREFERRED_DEAL"
-  | "PRIVATE_AUCTION"
-  | "PROGRAMMATIC_GUARANTEED";
-export const ProposalDealTypeEnum = S.String;
+/** A text note attached to the proposal to facilitate the communication between buyers and sellers. */
+export interface Note {
+  /** Output only. When this note was created. */
+  createTime?: string;
+  /** Output only. The role who created the note. */
+  creatorRole?: NoteCreatorRoleEnum | (string & {});
+  /** The text of the note. Maximum length is 1024 characters. */
+  note?: string;
+}
+export const Note = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createTime: S.optional(S.String),
+    creatorRole: S.optional(NoteCreatorRoleEnum),
+    note: S.optional(S.String),
+  }),
+).annotate({ identifier: "Note" }) as any as S.Schema<Note>;
 
-export type ProposalOriginatorRoleEnum =
-  | "BUYER_SELLER_ROLE_UNSPECIFIED"
-  | "BUYER"
-  | "SELLER";
-export const ProposalOriginatorRoleEnum = S.String;
+export type NoteList = Array<Note>;
+export const NoteList = /*@__PURE__*/ S.Array(
+  Note,
+) as any as S.Schema<NoteList>;
 
 /** Represents a proposal in the Marketplace. A proposal is the unit of negotiation between a seller and a buyer. */
 export interface Proposal {
-  /** A list of notes from the buyer and the seller attached to this proposal. */
-  notes?: NoteList;
-  /** Output only. Contact information for the seller. */
-  sellerContacts?: ContactList;
+  /** Output only. When the client field is populated, this field refers to the buyer who creates and manages the client buyer and gets billed on behalf of the client buyer; when the buyer field is populated, this field is the same value as buyer. Format : `buyers/{buyerAccountId}` */
+  billedBuyer?: string;
+  /** Output only. The time when the proposal was last revised. */
+  updateTime?: string;
+  /** Output only. Refers to a buyer in The Realtime-bidding API. Format: `buyers/{buyerAccountId}` */
+  buyer?: string;
+  /** Output only. The terms and conditions associated with this proposal. Accepting a proposal implies acceptance of this field. This is created by the seller, the buyer can only view it. */
+  termsAndConditions?: string;
+  /** Whether pausing is allowed for the proposal. This is a negotiable term between buyers and publishers. */
+  pausingConsented?: boolean;
   /** Buyer private data (hidden from seller). */
   buyerPrivateData?: PrivateData;
+  /** Output only. Contact information for the seller. */
+  sellerContacts?: ContactList;
   /** Output only. Refers to a Client. Format: `buyers/{buyerAccountId}/clients/{clientAccountid}` */
   client?: string;
-  /** Immutable. The name of the proposal serving as a unique identifier. Format: buyers/{accountId}/proposals/{proposalId} */
-  name?: string;
-  /** Output only. Indicates the state of the proposal. */
-  state?: ProposalStateEnum | (string & {});
   /** Output only. The descriptive name for the proposal. Maximum length of 255 unicode characters is allowed. Control characters are not allowed. Buyers cannot update this field. Note: Not to be confused with name, which is a unique identifier of the proposal. */
   displayName?: string;
   /** Output only. The revision number for the proposal. Each update to the proposal or deal causes the proposal revision number to auto-increment. The buyer keeps track of the last revision number they know of and pass it in when making an update. If the head revision number on the server has since incremented, then an ABORTED error is returned during the update operation to let the buyer know that a subsequent update was made. */
   proposalRevision?: string;
-  /** Output only. The terms and conditions associated with this proposal. Accepting a proposal implies acceptance of this field. This is created by the seller, the buyer can only view it. */
-  termsAndConditions?: string;
-  /** Contact information for the buyer. */
-  buyerContacts?: ContactList;
-  /** Output only. The role of the last user that either updated the proposal or left a comment. */
-  lastUpdaterOrCommentorRole?:
-    | ProposalLastUpdaterOrCommentorRoleEnum
-    | (string & {});
-  /** Whether pausing is allowed for the proposal. This is a negotiable term between buyers and publishers. */
-  pausingConsented?: boolean;
-  /** Output only. Refers to a buyer in The Realtime-bidding API. Format: `buyers/{buyerAccountId}` */
-  buyer?: string;
-  /** Output only. When the client field is populated, this field refers to the buyer who creates and manages the client buyer and gets billed on behalf of the client buyer; when the buyer field is populated, this field is the same value as buyer. Format : `buyers/{buyerAccountId}` */
-  billedBuyer?: string;
   /** Immutable. Reference to the seller on the proposal. Format: `buyers/{buyerAccountId}/publisherProfiles/{publisherProfileId}` Note: This field may be set only when creating the resource. Modifying this field while updating the resource will result in an error. */
   publisherProfile?: string;
   /** Output only. Type of deal the proposal contains. */
   dealType?: ProposalDealTypeEnum | (string & {});
-  /** Output only. The time when the proposal was last revised. */
-  updateTime?: string;
+  /** Output only. The role of the last user that either updated the proposal or left a comment. */
+  lastUpdaterOrCommentorRole?:
+    | ProposalLastUpdaterOrCommentorRoleEnum
+    | (string & {});
+  /** Immutable. The name of the proposal serving as a unique identifier. Format: buyers/{accountId}/proposals/{proposalId} */
+  name?: string;
   /** Output only. True if the proposal was previously finalized and is now being renegotiated. */
   isRenegotiating?: boolean;
   /** Output only. Indicates whether the buyer/seller created the proposal. */
   originatorRole?: ProposalOriginatorRoleEnum | (string & {});
+  /** Output only. Indicates the state of the proposal. */
+  state?: ProposalStateEnum | (string & {});
+  /** A list of notes from the buyer and the seller attached to this proposal. */
+  notes?: NoteList;
+  /** Contact information for the buyer. */
+  buyerContacts?: ContactList;
 }
 export const Proposal = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    notes: S.optional(NoteList),
-    sellerContacts: S.optional(ContactList),
+    billedBuyer: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    buyer: S.optional(S.String),
+    termsAndConditions: S.optional(S.String),
+    pausingConsented: S.optional(S.Boolean),
     buyerPrivateData: S.optional(PrivateData),
+    sellerContacts: S.optional(ContactList),
     client: S.optional(S.String),
-    name: S.optional(S.String),
-    state: S.optional(ProposalStateEnum),
     displayName: S.optional(S.String),
     proposalRevision: S.optional(S.String),
-    termsAndConditions: S.optional(S.String),
-    buyerContacts: S.optional(ContactList),
+    publisherProfile: S.optional(S.String),
+    dealType: S.optional(ProposalDealTypeEnum),
     lastUpdaterOrCommentorRole: S.optional(
       ProposalLastUpdaterOrCommentorRoleEnum,
     ),
-    pausingConsented: S.optional(S.Boolean),
-    buyer: S.optional(S.String),
-    billedBuyer: S.optional(S.String),
-    publisherProfile: S.optional(S.String),
-    dealType: S.optional(ProposalDealTypeEnum),
-    updateTime: S.optional(S.String),
+    name: S.optional(S.String),
     isRenegotiating: S.optional(S.Boolean),
     originatorRole: S.optional(ProposalOriginatorRoleEnum),
+    state: S.optional(ProposalStateEnum),
+    notes: S.optional(NoteList),
+    buyerContacts: S.optional(ContactList),
   }),
 ).annotate({ identifier: "Proposal" }) as any as S.Schema<Proposal>;
 
@@ -295,27 +317,27 @@ export const ClientRoleEnum = S.String;
 
 /** A client represents an agency, a brand, or an advertiser customer of the buyer. Based on the client's role, its client users will have varying levels of restricted access to the Marketplace and certain other sections of the Authorized Buyers UI. */
 export interface Client {
-  /** Required. Display name shown to publishers. Must be unique for clients without partnerClientId specified. Maximum length of 255 characters is allowed. */
-  displayName?: string;
-  /** Arbitrary unique identifier provided by the buyer. This field can be used to associate a client with an identifier in the namespace of the buyer, lookup clients by that identifier and verify whether an Authorized Buyers account of the client already exists. If present, must be unique across all the clients. */
-  partnerClientId?: string;
-  /** Whether the client will be visible to sellers. */
-  sellerVisible?: boolean;
-  /** Output only. The state of the client. */
-  state?: ClientStateEnum | (string & {});
-  /** Required. The role assigned to the client. Each role implies a set of permissions granted to the client. */
-  role?: ClientRoleEnum | (string & {});
   /** Output only. The resource name of the client. Format: `buyers/{accountId}/clients/{clientAccountId}` */
   name?: string;
+  /** Arbitrary unique identifier provided by the buyer. This field can be used to associate a client with an identifier in the namespace of the buyer, lookup clients by that identifier and verify whether an Authorized Buyers account of the client already exists. If present, must be unique across all the clients. */
+  partnerClientId?: string;
+  /** Output only. The state of the client. */
+  state?: ClientStateEnum | (string & {});
+  /** Whether the client will be visible to sellers. */
+  sellerVisible?: boolean;
+  /** Required. Display name shown to publishers. Must be unique for clients without partnerClientId specified. Maximum length of 255 characters is allowed. */
+  displayName?: string;
+  /** Required. The role assigned to the client. Each role implies a set of permissions granted to the client. */
+  role?: ClientRoleEnum | (string & {});
 }
 export const Client = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
-    partnerClientId: S.optional(S.String),
-    sellerVisible: S.optional(S.Boolean),
-    state: S.optional(ClientStateEnum),
-    role: S.optional(ClientRoleEnum),
     name: S.optional(S.String),
+    partnerClientId: S.optional(S.String),
+    state: S.optional(ClientStateEnum),
+    sellerVisible: S.optional(S.Boolean),
+    displayName: S.optional(S.String),
+    role: S.optional(ClientRoleEnum),
   }),
 ).annotate({ identifier: "Client" }) as any as S.Schema<Client>;
 
@@ -353,18 +375,18 @@ export const ClientUserStateEnum = S.String;
 
 /** A user of a client who has restricted access to the Marketplace and certain other sections of the Authorized Buyers UI based on the role granted to the associated client. */
 export interface ClientUser {
-  /** Required. The client user's email address that has to be unique across all users for the same client. */
-  email?: string;
   /** Output only. The resource name of the client user. Format: `buyers/{accountId}/clients/{clientAccountId}/users/{userId}` */
   name?: string;
   /** Output only. The state of the client user. */
   state?: ClientUserStateEnum | (string & {});
+  /** Required. The client user's email address that has to be unique across all users for the same client. */
+  email?: string;
 }
 export const ClientUser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    email: S.optional(S.String),
     name: S.optional(S.String),
     state: S.optional(ClientUserStateEnum),
+    email: S.optional(S.String),
   }),
 ).annotate({ identifier: "ClientUser" }) as any as S.Schema<ClientUser>;
 
@@ -403,266 +425,26 @@ export const AddCreativeBuyersFinalizedDealsRequest = /*@__PURE__*/ S.suspend(
   identifier: "AddCreativeBuyersFinalizedDealsRequest",
 }) as any as S.Schema<AddCreativeBuyersFinalizedDealsRequest>;
 
-/** Real-time bidding metrics. For what each metric means refer to [Report metrics](https://support.google.com/adxbuyer/answer/6115195#report-metrics) */
-export interface RtbMetrics {
-  /** Bids in last 7 days. */
-  bids7Days?: string;
-  /** Bid rate in last 7 days, calculated by (bids / bid requests). */
-  bidRate7Days?: number;
-  /** Ad impressions in last 7 days. */
-  adImpressions7Days?: string;
-  /** Bid requests in last 7 days. */
-  bidRequests7Days?: string;
-  /** Must bid rate for current month. */
-  mustBidRateCurrentMonth?: number;
-  /** Filtered bid rate in last 7 days, calculated by (filtered bids / bids). */
-  filteredBidRate7Days?: number;
-}
-export const RtbMetrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bids7Days: S.optional(S.String),
-    bidRate7Days: S.optional(S.Number),
-    adImpressions7Days: S.optional(S.String),
-    bidRequests7Days: S.optional(S.String),
-    mustBidRateCurrentMonth: S.optional(S.Number),
-    filteredBidRate7Days: S.optional(S.Number),
-  }),
-).annotate({ identifier: "RtbMetrics" }) as any as S.Schema<RtbMetrics>;
-
-export type DealPausingInfoPauseRoleEnum =
-  | "BUYER_SELLER_ROLE_UNSPECIFIED"
-  | "BUYER"
-  | "SELLER";
-export const DealPausingInfoPauseRoleEnum = S.String;
-
-/** Information related to deal pausing. */
-export interface DealPausingInfo {
-  /** The reason for the pausing of the deal; empty for active deals. */
-  pauseReason?: string;
-  /** Whether pausing is consented between buyer and seller for the deal. */
-  pausingConsented?: boolean;
-  /** The party that first paused the deal; unspecified for active deals. */
-  pauseRole?: DealPausingInfoPauseRoleEnum;
-}
-export const DealPausingInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pauseReason: S.optional(S.String),
-    pausingConsented: S.optional(S.Boolean),
-    pauseRole: S.optional(DealPausingInfoPauseRoleEnum),
-  }),
-).annotate({
-  identifier: "DealPausingInfo",
-}) as any as S.Schema<DealPausingInfo>;
-
-export type FinalizedDealDealServingStatusEnum =
-  | "DEAL_SERVING_STATUS_UNSPECIFIED"
-  | "ACTIVE"
-  | "ENDED"
-  | "PAUSED_BY_BUYER"
-  | "PAUSED_BY_SELLER";
-export const FinalizedDealDealServingStatusEnum = S.String;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<StringList>;
-
-/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
-export interface TimeZone {
-  /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string;
-  /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string;
-}
-export const TimeZone = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    version: S.optional(S.String),
-    id: S.optional(S.String),
-  }),
-).annotate({ identifier: "TimeZone" }) as any as S.Schema<TimeZone>;
-
-/** Represents a media planner account. */
-export interface MediaPlanner {
-  /** Output only. Account ID of the media planner. */
-  accountId?: string;
-  /** Identifier. The unique resource name of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}` Can be used to filter the response of the mediaPlanners.list method. */
-  name?: string;
-  /** Output only. The display name of the media planner. Can be used to filter the response of the mediaPlanners.list method. */
-  displayName?: string;
-  /** Output only. The ancestor names of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}` Can be used to filter the response of the mediaPlanners.list method. */
-  ancestorNames?: StringList;
-}
-export const MediaPlanner = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.optional(S.String),
-    name: S.optional(S.String),
-    displayName: S.optional(S.String),
-    ancestorNames: S.optional(StringList),
-  }),
-).annotate({ identifier: "MediaPlanner" }) as any as S.Schema<MediaPlanner>;
-
-export type DealBuyerPermissionTypeEnum =
-  | "BUYER_PERMISSION_TYPE_UNSPECIFIED"
-  | "NEGOTIATOR_ONLY"
-  | "BIDDER";
-export const DealBuyerPermissionTypeEnum = S.String;
-
-export type DeliveryControlCompanionDeliveryTypeEnum =
-  | "COMPANION_DELIVERY_TYPE_UNSPECIFIED"
-  | "DELIVERY_OPTIONAL"
-  | "DELIVERY_AT_LEAST_ONE"
-  | "DELIVERY_ALL";
-export const DeliveryControlCompanionDeliveryTypeEnum = S.String;
-
-export type DeliveryControlDeliveryRateTypeEnum =
-  | "DELIVERY_RATE_TYPE_UNSPECIFIED"
-  | "EVENLY"
-  | "FRONT_LOADED"
-  | "AS_FAST_AS_POSSIBLE";
-export const DeliveryControlDeliveryRateTypeEnum = S.String;
-
-export type DeliveryControlCreativeRotationTypeEnum =
-  | "CREATIVE_ROTATION_TYPE_UNSPECIFIED"
-  | "ROTATION_EVEN"
-  | "ROTATION_OPTIMIZED"
-  | "ROTATION_MANUAL"
-  | "ROTATION_SEQUENTIAL";
-export const DeliveryControlCreativeRotationTypeEnum = S.String;
-
-export type FrequencyCapTimeUnitTypeEnum =
-  | "TIME_UNIT_TYPE_UNSPECIFIED"
-  | "MINUTE"
-  | "HOUR"
-  | "DAY"
-  | "WEEK"
-  | "MONTH"
-  | "LIFETIME"
-  | "POD"
-  | "STREAM";
-export const FrequencyCapTimeUnitTypeEnum = S.String;
-
-/** Message contains details about publisher-set frequency caps of the delivery. */
-export interface FrequencyCap {
-  /** The time unit. Along with num_time_units defines the amount of time over which impressions per user are counted and capped. */
-  timeUnitType?: FrequencyCapTimeUnitTypeEnum | (string & {});
-  /** The amount of time, in the units specified by time_unit_type. Defines the amount of time over which impressions per user are counted and capped. */
-  timeUnitsCount?: number;
-  /** The maximum number of impressions that can be served to a user within the specified time period. */
-  maxImpressions?: number;
-}
-export const FrequencyCap = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timeUnitType: S.optional(FrequencyCapTimeUnitTypeEnum),
-    timeUnitsCount: S.optional(S.Number),
-    maxImpressions: S.optional(S.Number),
-  }),
-).annotate({ identifier: "FrequencyCap" }) as any as S.Schema<FrequencyCap>;
-
-export type FrequencyCapList = Array<FrequencyCap>;
-export const FrequencyCapList = /*@__PURE__*/ S.Array(
-  FrequencyCap,
-) as any as S.Schema<FrequencyCapList>;
-
-export type DeliveryControlRoadblockingTypeEnum =
-  | "ROADBLOCKING_TYPE_UNSPECIFIED"
-  | "ONLY_ONE"
-  | "ONE_OR_MORE"
-  | "AS_MANY_AS_POSSIBLE"
-  | "ALL_ROADBLOCK"
-  | "CREATIVE_SET";
-export const DeliveryControlRoadblockingTypeEnum = S.String;
-
-/** Message contains details about how the deal will be paced. */
-export interface DeliveryControl {
-  /** Output only. Specifies roadblocking in a main companion lineitem. */
-  companionDeliveryType?:
-    | DeliveryControlCompanionDeliveryTypeEnum
-    | (string & {});
-  /** Output only. Specifies how the impression delivery will be paced. */
-  deliveryRateType?: DeliveryControlDeliveryRateTypeEnum | (string & {});
-  /** Output only. Specifies strategy to use for selecting a creative when multiple creatives of the same size are available. */
-  creativeRotationType?:
-    | DeliveryControlCreativeRotationTypeEnum
-    | (string & {});
-  /** Output only. Specifies any frequency caps. Cannot be filtered within ListDealsRequest. */
-  frequencyCap?: FrequencyCapList;
-  /** Output only. Specifies the roadblocking type in display creatives. */
-  roadblockingType?: DeliveryControlRoadblockingTypeEnum | (string & {});
-}
-export const DeliveryControl = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    companionDeliveryType: S.optional(DeliveryControlCompanionDeliveryTypeEnum),
-    deliveryRateType: S.optional(DeliveryControlDeliveryRateTypeEnum),
-    creativeRotationType: S.optional(DeliveryControlCreativeRotationTypeEnum),
-    frequencyCap: S.optional(FrequencyCapList),
-    roadblockingType: S.optional(DeliveryControlRoadblockingTypeEnum),
-  }),
-).annotate({
-  identifier: "DeliveryControl",
-}) as any as S.Schema<DeliveryControl>;
-
-export type DealDealTypeEnum =
-  | "DEAL_TYPE_UNSPECIFIED"
-  | "PREFERRED_DEAL"
-  | "PRIVATE_AUCTION"
-  | "PROGRAMMATIC_GUARANTEED";
-export const DealDealTypeEnum = S.String;
-
-/** Represents an amount of money with its currency type. */
-export interface Money {
-  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number;
-  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string;
-  /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string;
-}
-export const Money = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nanos: S.optional(S.Number),
-    units: S.optional(S.String),
-    currencyCode: S.optional(S.String),
-  }),
-).annotate({ identifier: "Money" }) as any as S.Schema<Money>;
-
-export type PriceTypeEnum = "TYPE_UNSPECIFIED" | "CPM" | "CPD";
-export const PriceTypeEnum = S.String;
-
-/** Represents a price and a pricing type for a deal. */
-export interface Price {
-  /** The actual price with currency specified. */
-  amount?: Money;
-  /** The pricing type for the deal. */
-  type?: PriceTypeEnum | (string & {});
-}
-export const Price = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    amount: S.optional(Money),
-    type: S.optional(PriceTypeEnum),
-  }),
-).annotate({ identifier: "Price" }) as any as S.Schema<Price>;
-
-/** Pricing terms for Private Auctions. */
-export interface PrivateAuctionTerms {
-  /** Output only. True if open auction buyers are allowed to compete with invited buyers in this private auction. */
-  openAuctionAllowed?: boolean;
-  /** The minimum price buyer has to bid to compete in the private auction. */
-  floorPrice?: Price;
-}
-export const PrivateAuctionTerms = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    openAuctionAllowed: S.optional(S.Boolean),
-    floorPrice: S.optional(Price),
-  }),
-).annotate({
-  identifier: "PrivateAuctionTerms",
-}) as any as S.Schema<PrivateAuctionTerms>;
-
 export type CreativeRequirementsCreativeSafeFrameCompatibilityEnum =
   | "CREATIVE_SAFE_FRAME_COMPATIBILITY_UNSPECIFIED"
   | "COMPATIBLE"
   | "INCOMPATIBLE";
 export const CreativeRequirementsCreativeSafeFrameCompatibilityEnum = S.String;
+
+export type CreativeRequirementsCreativeFormatEnum =
+  | "CREATIVE_FORMAT_UNSPECIFIED"
+  | "DISPLAY"
+  | "VIDEO"
+  | "AUDIO";
+export const CreativeRequirementsCreativeFormatEnum = S.String;
+
+export type CreativeRequirementsSkippableAdTypeEnum =
+  | "SKIPPABLE_AD_TYPE_UNSPECIFIED"
+  | "SKIPPABLE"
+  | "INSTREAM_SELECT"
+  | "NOT_SKIPPABLE"
+  | "ANY";
+export const CreativeRequirementsSkippableAdTypeEnum = S.String;
 
 export type CreativeRequirementsProgrammaticCreativeSourceEnum =
   | "PROGRAMMATIC_CREATIVE_SOURCE_UNSPECIFIED"
@@ -676,102 +458,151 @@ export type CreativeRequirementsCreativePreApprovalPolicyEnum =
   | "SELLER_PRE_APPROVAL_NOT_REQUIRED";
 export const CreativeRequirementsCreativePreApprovalPolicyEnum = S.String;
 
-export type CreativeRequirementsSkippableAdTypeEnum =
-  | "SKIPPABLE_AD_TYPE_UNSPECIFIED"
-  | "SKIPPABLE"
-  | "INSTREAM_SELECT"
-  | "NOT_SKIPPABLE"
-  | "ANY";
-export const CreativeRequirementsSkippableAdTypeEnum = S.String;
-
-export type CreativeRequirementsCreativeFormatEnum =
-  | "CREATIVE_FORMAT_UNSPECIFIED"
-  | "DISPLAY"
-  | "VIDEO"
-  | "AUDIO";
-export const CreativeRequirementsCreativeFormatEnum = S.String;
-
 /** Message captures data about the creatives in the deal. */
 export interface CreativeRequirements {
   /** Output only. Specifies whether the creative is safeFrame compatible. */
   creativeSafeFrameCompatibility?:
     | CreativeRequirementsCreativeSafeFrameCompatibilityEnum
     | (string & {});
+  /** Output only. The format of the creative, only applicable for programmatic guaranteed and preferred deals. */
+  creativeFormat?: CreativeRequirementsCreativeFormatEnum | (string & {});
+  /** Output only. Skippable video ads allow viewers to skip ads after 5 seconds. Only applicable for deals with video creatives. */
+  skippableAdType?: CreativeRequirementsSkippableAdTypeEnum | (string & {});
   /** Output only. Specifies the creative source for programmatic deals. PUBLISHER means creative is provided by seller and ADVERTISER means creative is provided by the buyer. */
   programmaticCreativeSource?:
     | CreativeRequirementsProgrammaticCreativeSourceEnum
     | (string & {});
-  /** Output only. The max duration of the video creative in milliseconds. only applicable for deals with video creatives. */
-  maxAdDurationMs?: string;
   /** Output only. Specifies the creative pre-approval policy. */
   creativePreApprovalPolicy?:
     | CreativeRequirementsCreativePreApprovalPolicyEnum
     | (string & {});
-  /** Output only. Skippable video ads allow viewers to skip ads after 5 seconds. Only applicable for deals with video creatives. */
-  skippableAdType?: CreativeRequirementsSkippableAdTypeEnum | (string & {});
-  /** Output only. The format of the creative, only applicable for programmatic guaranteed and preferred deals. */
-  creativeFormat?: CreativeRequirementsCreativeFormatEnum | (string & {});
+  /** Output only. The max duration of the video creative in milliseconds. only applicable for deals with video creatives. */
+  maxAdDurationMs?: string;
 }
 export const CreativeRequirements = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     creativeSafeFrameCompatibility: S.optional(
       CreativeRequirementsCreativeSafeFrameCompatibilityEnum,
     ),
+    creativeFormat: S.optional(CreativeRequirementsCreativeFormatEnum),
+    skippableAdType: S.optional(CreativeRequirementsSkippableAdTypeEnum),
     programmaticCreativeSource: S.optional(
       CreativeRequirementsProgrammaticCreativeSourceEnum,
     ),
-    maxAdDurationMs: S.optional(S.String),
     creativePreApprovalPolicy: S.optional(
       CreativeRequirementsCreativePreApprovalPolicyEnum,
     ),
-    skippableAdType: S.optional(CreativeRequirementsSkippableAdTypeEnum),
-    creativeFormat: S.optional(CreativeRequirementsCreativeFormatEnum),
+    maxAdDurationMs: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CreativeRequirements",
 }) as any as S.Schema<CreativeRequirements>;
 
-/** Pricing terms for Preferred Deals. */
-export interface PreferredDealTerms {
-  /** Fixed price for the deal. */
-  fixedPrice?: Price;
-}
-export const PreferredDealTerms = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fixedPrice: S.optional(Price),
-  }),
-).annotate({
-  identifier: "PreferredDealTerms",
-}) as any as S.Schema<PreferredDealTerms>;
+export type DealBuyerPermissionTypeEnum =
+  | "BUYER_PERMISSION_TYPE_UNSPECIFIED"
+  | "NEGOTIATOR_ONLY"
+  | "BIDDER";
+export const DealBuyerPermissionTypeEnum = S.String;
 
-/** Generic targeting used for targeting dimensions that contains a list of included and excluded numeric IDs. This cannot be filtered using list filter syntax. */
-export interface CriteriaTargeting {
-  /** A list of numeric IDs to be excluded. */
-  excludedCriteriaIds?: StringList;
-  /** A list of numeric IDs to be included. */
-  targetedCriteriaIds?: StringList;
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
+
+/** Represents a media planner account. */
+export interface MediaPlanner {
+  /** Output only. Account ID of the media planner. */
+  accountId?: string;
+  /** Output only. The display name of the media planner. Can be used to filter the response of the mediaPlanners.list method. */
+  displayName?: string;
+  /** Output only. The ancestor names of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}` Can be used to filter the response of the mediaPlanners.list method. */
+  ancestorNames?: StringList;
+  /** Identifier. The unique resource name of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}` Can be used to filter the response of the mediaPlanners.list method. */
+  name?: string;
 }
-export const CriteriaTargeting = /*@__PURE__*/ S.suspend(() =>
+export const MediaPlanner = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    excludedCriteriaIds: S.optional(StringList),
-    targetedCriteriaIds: S.optional(StringList),
+    accountId: S.optional(S.String),
+    displayName: S.optional(S.String),
+    ancestorNames: S.optional(StringList),
+    name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CriteriaTargeting",
-}) as any as S.Schema<CriteriaTargeting>;
+).annotate({ identifier: "MediaPlanner" }) as any as S.Schema<MediaPlanner>;
+
+export type VideoTargetingExcludedPositionTypesItemEnum =
+  | "POSITION_TYPE_UNSPECIFIED"
+  | "PREROLL"
+  | "MIDROLL"
+  | "POSTROLL";
+export const VideoTargetingExcludedPositionTypesItemEnum = S.String;
+
+export type VideoTargetingExcludedPositionTypesItemEnumList = Array<
+  VideoTargetingExcludedPositionTypesItemEnum | (string & {})
+>;
+export const VideoTargetingExcludedPositionTypesItemEnumList =
+  /*@__PURE__*/ S.Array(
+    VideoTargetingExcludedPositionTypesItemEnum,
+  ) as any as S.Schema<VideoTargetingExcludedPositionTypesItemEnumList>;
+
+export type VideoTargetingTargetedPositionTypesItemEnum =
+  | "POSITION_TYPE_UNSPECIFIED"
+  | "PREROLL"
+  | "MIDROLL"
+  | "POSTROLL";
+export const VideoTargetingTargetedPositionTypesItemEnum = S.String;
+
+export type VideoTargetingTargetedPositionTypesItemEnumList = Array<
+  VideoTargetingTargetedPositionTypesItemEnum | (string & {})
+>;
+export const VideoTargetingTargetedPositionTypesItemEnumList =
+  /*@__PURE__*/ S.Array(
+    VideoTargetingTargetedPositionTypesItemEnum,
+  ) as any as S.Schema<VideoTargetingTargetedPositionTypesItemEnumList>;
+
+/** Represents targeting information about video. */
+export interface VideoTargeting {
+  /** A list of video positions to be excluded. When this field is populated, the targeted_position_types field must be empty. */
+  excludedPositionTypes?: VideoTargetingExcludedPositionTypesItemEnumList;
+  /** A list of video positions to be included. When this field is populated, the excluded_position_types field must be empty. */
+  targetedPositionTypes?: VideoTargetingTargetedPositionTypesItemEnumList;
+}
+export const VideoTargeting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    excludedPositionTypes: S.optional(
+      VideoTargetingExcludedPositionTypesItemEnumList,
+    ),
+    targetedPositionTypes: S.optional(
+      VideoTargetingTargetedPositionTypesItemEnumList,
+    ),
+  }),
+).annotate({ identifier: "VideoTargeting" }) as any as S.Schema<VideoTargeting>;
+
+/** Represents a list of targeted and excluded URLs (for example, google.com). For Private Auction Deals, URLs are either included or excluded. For Programmatic Guaranteed and Preferred Deals, this doesn't apply. */
+export interface UriTargeting {
+  /** A list of URLs to be included. */
+  targetedUris?: StringList;
+  /** A list of URLs to be excluded. */
+  excludedUris?: StringList;
+}
+export const UriTargeting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    targetedUris: S.optional(StringList),
+    excludedUris: S.optional(StringList),
+  }),
+).annotate({ identifier: "UriTargeting" }) as any as S.Schema<UriTargeting>;
 
 /** Represents a list of targeted and excluded mobile application IDs that publishers own. Android App ID, for example, com.google.android.apps.maps, can be found in Google Play Store URL. iOS App ID (which is a number) can be found at the end of iTunes store URL. First party mobile applications is either included or excluded. */
 export interface FirstPartyMobileApplicationTargeting {
-  /** A list of application IDs to be excluded. */
-  excludedAppIds?: StringList;
   /** A list of application IDs to be included. */
   targetedAppIds?: StringList;
+  /** A list of application IDs to be excluded. */
+  excludedAppIds?: StringList;
 }
 export const FirstPartyMobileApplicationTargeting = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      excludedAppIds: S.optional(StringList),
       targetedAppIds: S.optional(StringList),
+      excludedAppIds: S.optional(StringList),
     }),
 ).annotate({
   identifier: "FirstPartyMobileApplicationTargeting",
@@ -790,35 +621,193 @@ export const MobileApplicationTargeting = /*@__PURE__*/ S.suspend(() =>
   identifier: "MobileApplicationTargeting",
 }) as any as S.Schema<MobileApplicationTargeting>;
 
-/** Represents a list of targeted and excluded URLs (for example, google.com). For Private Auction Deals, URLs are either included or excluded. For Programmatic Guaranteed and Preferred Deals, this doesn't apply. */
-export interface UriTargeting {
-  /** A list of URLs to be excluded. */
-  excludedUris?: StringList;
-  /** A list of URLs to be included. */
-  targetedUris?: StringList;
-}
-export const UriTargeting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    excludedUris: S.optional(StringList),
-    targetedUris: S.optional(StringList),
-  }),
-).annotate({ identifier: "UriTargeting" }) as any as S.Schema<UriTargeting>;
-
 /** Represents targeting about where the ads can appear, for example, certain sites or mobile applications. Different placement targeting types will be logically OR'ed. */
 export interface PlacementTargeting {
-  /** Mobile application targeting information in a deal. This doesn't apply to Auction Packages. */
-  mobileApplicationTargeting?: MobileApplicationTargeting;
   /** URLs to be included/excluded. */
   uriTargeting?: UriTargeting;
+  /** Mobile application targeting information in a deal. This doesn't apply to Auction Packages. */
+  mobileApplicationTargeting?: MobileApplicationTargeting;
 }
 export const PlacementTargeting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mobileApplicationTargeting: S.optional(MobileApplicationTargeting),
     uriTargeting: S.optional(UriTargeting),
+    mobileApplicationTargeting: S.optional(MobileApplicationTargeting),
   }),
 ).annotate({
   identifier: "PlacementTargeting",
 }) as any as S.Schema<PlacementTargeting>;
+
+/** Generic targeting used for targeting dimensions that contains a list of included and excluded numeric IDs. This cannot be filtered using list filter syntax. */
+export interface CriteriaTargeting {
+  /** A list of numeric IDs to be included. */
+  targetedCriteriaIds?: StringList;
+  /** A list of numeric IDs to be excluded. */
+  excludedCriteriaIds?: StringList;
+}
+export const CriteriaTargeting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    targetedCriteriaIds: S.optional(StringList),
+    excludedCriteriaIds: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "CriteriaTargeting",
+}) as any as S.Schema<CriteriaTargeting>;
+
+/** Represents targeting information for operating systems. */
+export interface OperatingSystemTargeting {
+  /** IDs of operating system versions to be included/excluded. */
+  operatingSystemVersionCriteria?: CriteriaTargeting;
+  /** IDs of operating systems to be included/excluded. */
+  operatingSystemCriteria?: CriteriaTargeting;
+}
+export const OperatingSystemTargeting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    operatingSystemVersionCriteria: S.optional(CriteriaTargeting),
+    operatingSystemCriteria: S.optional(CriteriaTargeting),
+  }),
+).annotate({
+  identifier: "OperatingSystemTargeting",
+}) as any as S.Schema<OperatingSystemTargeting>;
+
+/** Represents targeting about various types of technology. */
+export interface TechnologyTargeting {
+  /** Operating system related targeting information. */
+  operatingSystemTargeting?: OperatingSystemTargeting;
+  /** IDs of device categories to be included/excluded. */
+  deviceCategoryTargeting?: CriteriaTargeting;
+  /** IDs of device capabilities to be included/excluded. */
+  deviceCapabilityTargeting?: CriteriaTargeting;
+}
+export const TechnologyTargeting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    operatingSystemTargeting: S.optional(OperatingSystemTargeting),
+    deviceCategoryTargeting: S.optional(CriteriaTargeting),
+    deviceCapabilityTargeting: S.optional(CriteriaTargeting),
+  }),
+).annotate({
+  identifier: "TechnologyTargeting",
+}) as any as S.Schema<TechnologyTargeting>;
+
+export type AdSizeTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "PIXEL"
+  | "INTERSTITIAL"
+  | "NATIVE"
+  | "FLUID";
+export const AdSizeTypeEnum = S.String;
+
+/** Represents size of a single ad slot, or a creative. */
+export interface AdSize {
+  /** The width of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
+  width?: string;
+  /** The type of the ad slot size. */
+  type?: AdSizeTypeEnum | (string & {});
+  /** The height of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
+  height?: string;
+}
+export const AdSize = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    width: S.optional(S.String),
+    type: S.optional(AdSizeTypeEnum),
+    height: S.optional(S.String),
+  }),
+).annotate({ identifier: "AdSize" }) as any as S.Schema<AdSize>;
+
+export type AdSizeList = Array<AdSize>;
+export const AdSizeList = /*@__PURE__*/ S.Array(
+  AdSize,
+) as any as S.Schema<AdSizeList>;
+
+/** Represents the size of an ad unit that can be targeted on a bid request. */
+export interface InventorySizeTargeting {
+  /** A list of inventory sizes to be excluded. */
+  excludedInventorySizes?: AdSizeList;
+  /** A list of inventory sizes to be included. */
+  targetedInventorySizes?: AdSizeList;
+}
+export const InventorySizeTargeting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    excludedInventorySizes: S.optional(AdSizeList),
+    targetedInventorySizes: S.optional(AdSizeList),
+  }),
+).annotate({
+  identifier: "InventorySizeTargeting",
+}) as any as S.Schema<InventorySizeTargeting>;
+
+export type DayPartTargetingTimeZoneTypeEnum =
+  | "TIME_ZONE_TYPE_UNSPECIFIED"
+  | "SELLER"
+  | "USER";
+export const DayPartTargetingTimeZoneTypeEnum = S.String;
+
+/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
+export interface TimeOfDay {
+  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
+  nanos?: number;
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number;
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number;
+}
+export const TimeOfDay = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nanos: S.optional(S.Number),
+    minutes: S.optional(S.Number),
+    seconds: S.optional(S.Number),
+    hours: S.optional(S.Number),
+  }),
+).annotate({ identifier: "TimeOfDay" }) as any as S.Schema<TimeOfDay>;
+
+export type DayPartDayOfWeekEnum =
+  | "DAY_OF_WEEK_UNSPECIFIED"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+export const DayPartDayOfWeekEnum = S.String;
+
+/** Defines targeting for a period of time on a specific week day. */
+export interface DayPart {
+  /** Hours in 24 hour time between 0 and 24, inclusive. Note: 24 is logically equivalent to 0, but is supported since in some cases there may need to be differentiation made between midnight on one day and midnight on the next day. Accepted values for minutes are [0, 15, 30, 45]. 0 is the only acceptable minute value for hour 24. Seconds and nanos are ignored. */
+  endTime?: TimeOfDay;
+  /** Day of week for the period. */
+  dayOfWeek?: DayPartDayOfWeekEnum | (string & {});
+  /** Hours in 24 hour time between 0 and 24, inclusive. Note: 24 is logically equivalent to 0, but is supported since in some cases there may need to be differentiation made between midnight on one day and midnight on the next day. Accepted values for minutes are [0, 15, 30, 45]. 0 is the only acceptable minute value for hour 24. Seconds and nanos are ignored. */
+  startTime?: TimeOfDay;
+}
+export const DayPart = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endTime: S.optional(TimeOfDay),
+    dayOfWeek: S.optional(DayPartDayOfWeekEnum),
+    startTime: S.optional(TimeOfDay),
+  }),
+).annotate({ identifier: "DayPart" }) as any as S.Schema<DayPart>;
+
+export type DayPartList = Array<DayPart>;
+export const DayPartList = /*@__PURE__*/ S.Array(
+  DayPart,
+) as any as S.Schema<DayPartList>;
+
+/** Represents Daypart targeting. */
+export interface DayPartTargeting {
+  /** The time zone type of the day parts */
+  timeZoneType?: DayPartTargetingTimeZoneTypeEnum | (string & {});
+  /** The targeted weekdays and times */
+  dayParts?: DayPartList;
+}
+export const DayPartTargeting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timeZoneType: S.optional(DayPartTargetingTimeZoneTypeEnum),
+    dayParts: S.optional(DayPartList),
+  }),
+).annotate({
+  identifier: "DayPartTargeting",
+}) as any as S.Schema<DayPartTargeting>;
 
 export type InventoryTypeTargetingInventoryTypesItemEnum =
   | "INVENTORY_TYPE_UNSPECIFIED"
@@ -850,249 +839,207 @@ export const InventoryTypeTargeting = /*@__PURE__*/ S.suspend(() =>
   identifier: "InventoryTypeTargeting",
 }) as any as S.Schema<InventoryTypeTargeting>;
 
-/** Represents targeting information for operating systems. */
-export interface OperatingSystemTargeting {
-  /** IDs of operating systems to be included/excluded. */
-  operatingSystemCriteria?: CriteriaTargeting;
-  /** IDs of operating system versions to be included/excluded. */
-  operatingSystemVersionCriteria?: CriteriaTargeting;
-}
-export const OperatingSystemTargeting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    operatingSystemCriteria: S.optional(CriteriaTargeting),
-    operatingSystemVersionCriteria: S.optional(CriteriaTargeting),
-  }),
-).annotate({
-  identifier: "OperatingSystemTargeting",
-}) as any as S.Schema<OperatingSystemTargeting>;
-
-/** Represents targeting about various types of technology. */
-export interface TechnologyTargeting {
-  /** IDs of device capabilities to be included/excluded. */
-  deviceCapabilityTargeting?: CriteriaTargeting;
-  /** Operating system related targeting information. */
-  operatingSystemTargeting?: OperatingSystemTargeting;
-  /** IDs of device categories to be included/excluded. */
-  deviceCategoryTargeting?: CriteriaTargeting;
-}
-export const TechnologyTargeting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    deviceCapabilityTargeting: S.optional(CriteriaTargeting),
-    operatingSystemTargeting: S.optional(OperatingSystemTargeting),
-    deviceCategoryTargeting: S.optional(CriteriaTargeting),
-  }),
-).annotate({
-  identifier: "TechnologyTargeting",
-}) as any as S.Schema<TechnologyTargeting>;
-
-export type VideoTargetingTargetedPositionTypesItemEnum =
-  | "POSITION_TYPE_UNSPECIFIED"
-  | "PREROLL"
-  | "MIDROLL"
-  | "POSTROLL";
-export const VideoTargetingTargetedPositionTypesItemEnum = S.String;
-
-export type VideoTargetingTargetedPositionTypesItemEnumList = Array<
-  VideoTargetingTargetedPositionTypesItemEnum | (string & {})
->;
-export const VideoTargetingTargetedPositionTypesItemEnumList =
-  /*@__PURE__*/ S.Array(
-    VideoTargetingTargetedPositionTypesItemEnum,
-  ) as any as S.Schema<VideoTargetingTargetedPositionTypesItemEnumList>;
-
-export type VideoTargetingExcludedPositionTypesItemEnum =
-  | "POSITION_TYPE_UNSPECIFIED"
-  | "PREROLL"
-  | "MIDROLL"
-  | "POSTROLL";
-export const VideoTargetingExcludedPositionTypesItemEnum = S.String;
-
-export type VideoTargetingExcludedPositionTypesItemEnumList = Array<
-  VideoTargetingExcludedPositionTypesItemEnum | (string & {})
->;
-export const VideoTargetingExcludedPositionTypesItemEnumList =
-  /*@__PURE__*/ S.Array(
-    VideoTargetingExcludedPositionTypesItemEnum,
-  ) as any as S.Schema<VideoTargetingExcludedPositionTypesItemEnumList>;
-
-/** Represents targeting information about video. */
-export interface VideoTargeting {
-  /** A list of video positions to be included. When this field is populated, the excluded_position_types field must be empty. */
-  targetedPositionTypes?: VideoTargetingTargetedPositionTypesItemEnumList;
-  /** A list of video positions to be excluded. When this field is populated, the targeted_position_types field must be empty. */
-  excludedPositionTypes?: VideoTargetingExcludedPositionTypesItemEnumList;
-}
-export const VideoTargeting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    targetedPositionTypes: S.optional(
-      VideoTargetingTargetedPositionTypesItemEnumList,
-    ),
-    excludedPositionTypes: S.optional(
-      VideoTargetingExcludedPositionTypesItemEnumList,
-    ),
-  }),
-).annotate({ identifier: "VideoTargeting" }) as any as S.Schema<VideoTargeting>;
-
-export type AdSizeTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "PIXEL"
-  | "INTERSTITIAL"
-  | "NATIVE"
-  | "FLUID";
-export const AdSizeTypeEnum = S.String;
-
-/** Represents size of a single ad slot, or a creative. */
-export interface AdSize {
-  /** The type of the ad slot size. */
-  type?: AdSizeTypeEnum | (string & {});
-  /** The width of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
-  width?: string;
-  /** The height of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
-  height?: string;
-}
-export const AdSize = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(AdSizeTypeEnum),
-    width: S.optional(S.String),
-    height: S.optional(S.String),
-  }),
-).annotate({ identifier: "AdSize" }) as any as S.Schema<AdSize>;
-
-export type AdSizeList = Array<AdSize>;
-export const AdSizeList = /*@__PURE__*/ S.Array(
-  AdSize,
-) as any as S.Schema<AdSizeList>;
-
-/** Represents the size of an ad unit that can be targeted on a bid request. */
-export interface InventorySizeTargeting {
-  /** A list of inventory sizes to be included. */
-  targetedInventorySizes?: AdSizeList;
-  /** A list of inventory sizes to be excluded. */
-  excludedInventorySizes?: AdSizeList;
-}
-export const InventorySizeTargeting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    targetedInventorySizes: S.optional(AdSizeList),
-    excludedInventorySizes: S.optional(AdSizeList),
-  }),
-).annotate({
-  identifier: "InventorySizeTargeting",
-}) as any as S.Schema<InventorySizeTargeting>;
-
-export type DayPartTargetingTimeZoneTypeEnum =
-  | "TIME_ZONE_TYPE_UNSPECIFIED"
-  | "SELLER"
-  | "USER";
-export const DayPartTargetingTimeZoneTypeEnum = S.String;
-
-/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
-export interface TimeOfDay {
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
-  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number;
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
-}
-export const TimeOfDay = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    hours: S.optional(S.Number),
-    minutes: S.optional(S.Number),
-    nanos: S.optional(S.Number),
-    seconds: S.optional(S.Number),
-  }),
-).annotate({ identifier: "TimeOfDay" }) as any as S.Schema<TimeOfDay>;
-
-export type DayPartDayOfWeekEnum =
-  | "DAY_OF_WEEK_UNSPECIFIED"
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
-export const DayPartDayOfWeekEnum = S.String;
-
-/** Defines targeting for a period of time on a specific week day. */
-export interface DayPart {
-  /** Hours in 24 hour time between 0 and 24, inclusive. Note: 24 is logically equivalent to 0, but is supported since in some cases there may need to be differentiation made between midnight on one day and midnight on the next day. Accepted values for minutes are [0, 15, 30, 45]. 0 is the only acceptable minute value for hour 24. Seconds and nanos are ignored. */
-  startTime?: TimeOfDay;
-  /** Hours in 24 hour time between 0 and 24, inclusive. Note: 24 is logically equivalent to 0, but is supported since in some cases there may need to be differentiation made between midnight on one day and midnight on the next day. Accepted values for minutes are [0, 15, 30, 45]. 0 is the only acceptable minute value for hour 24. Seconds and nanos are ignored. */
-  endTime?: TimeOfDay;
-  /** Day of week for the period. */
-  dayOfWeek?: DayPartDayOfWeekEnum | (string & {});
-}
-export const DayPart = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startTime: S.optional(TimeOfDay),
-    endTime: S.optional(TimeOfDay),
-    dayOfWeek: S.optional(DayPartDayOfWeekEnum),
-  }),
-).annotate({ identifier: "DayPart" }) as any as S.Schema<DayPart>;
-
-export type DayPartList = Array<DayPart>;
-export const DayPartList = /*@__PURE__*/ S.Array(
-  DayPart,
-) as any as S.Schema<DayPartList>;
-
-/** Represents Daypart targeting. */
-export interface DayPartTargeting {
-  /** The time zone type of the day parts */
-  timeZoneType?: DayPartTargetingTimeZoneTypeEnum | (string & {});
-  /** The targeted weekdays and times */
-  dayParts?: DayPartList;
-}
-export const DayPartTargeting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timeZoneType: S.optional(DayPartTargetingTimeZoneTypeEnum),
-    dayParts: S.optional(DayPartList),
-  }),
-).annotate({
-  identifier: "DayPartTargeting",
-}) as any as S.Schema<DayPartTargeting>;
-
 /** Targeting represents different criteria that can be used to target deals or auction packages. For example, they can choose to target inventory only if the user is in the US. Multiple types of targeting are always applied as a logical AND, unless noted otherwise. */
 export interface MarketplaceTargeting {
-  /** Output only. Geo criteria IDs to be included/excluded. */
-  geoTargeting?: CriteriaTargeting;
+  /** Output only. The sensitive content category label IDs excluded. Refer to this file https://storage.googleapis.com/adx-rtb-dictionaries/content-labels.txt for category IDs. */
+  excludedSensitiveCategoryIds?: StringList;
+  /** Output only. Video targeting information. */
+  videoTargeting?: VideoTargeting;
   /** Output only. Placement targeting information, for example, URL, mobile applications. */
   placementTargeting?: PlacementTargeting;
+  /** Output only. Technology targeting information, for example, operating system, device category. */
+  technologyTargeting?: TechnologyTargeting;
+  /** Output only. Inventory sizes to be included/excluded. */
+  inventorySizeTargeting?: InventorySizeTargeting;
+  /** Daypart targeting information. */
+  daypartTargeting?: DayPartTargeting;
+  /** Output only. Geo criteria IDs to be included/excluded. */
+  geoTargeting?: CriteriaTargeting;
   /** Output only. Inventory type targeting information. */
   inventoryTypeTargeting?: InventoryTypeTargeting;
   /** Buyer user list targeting information. User lists can be uploaded using https://developers.google.com/authorized-buyers/rtb/bulk-uploader. */
   userListTargeting?: CriteriaTargeting;
-  /** Output only. The sensitive content category label IDs excluded. Refer to this file https://storage.googleapis.com/adx-rtb-dictionaries/content-labels.txt for category IDs. */
-  excludedSensitiveCategoryIds?: StringList;
-  /** Output only. Technology targeting information, for example, operating system, device category. */
-  technologyTargeting?: TechnologyTargeting;
-  /** Output only. Video targeting information. */
-  videoTargeting?: VideoTargeting;
-  /** Output only. Inventory sizes to be included/excluded. */
-  inventorySizeTargeting?: InventorySizeTargeting;
   /** Output only. The verticals included or excluded as defined in https://developers.google.com/authorized-buyers/rtb/downloads/publisher-verticals */
   verticalTargeting?: CriteriaTargeting;
-  /** Daypart targeting information. */
-  daypartTargeting?: DayPartTargeting;
 }
 export const MarketplaceTargeting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    geoTargeting: S.optional(CriteriaTargeting),
+    excludedSensitiveCategoryIds: S.optional(StringList),
+    videoTargeting: S.optional(VideoTargeting),
     placementTargeting: S.optional(PlacementTargeting),
+    technologyTargeting: S.optional(TechnologyTargeting),
+    inventorySizeTargeting: S.optional(InventorySizeTargeting),
+    daypartTargeting: S.optional(DayPartTargeting),
+    geoTargeting: S.optional(CriteriaTargeting),
     inventoryTypeTargeting: S.optional(InventoryTypeTargeting),
     userListTargeting: S.optional(CriteriaTargeting),
-    excludedSensitiveCategoryIds: S.optional(StringList),
-    technologyTargeting: S.optional(TechnologyTargeting),
-    videoTargeting: S.optional(VideoTargeting),
-    inventorySizeTargeting: S.optional(InventorySizeTargeting),
     verticalTargeting: S.optional(CriteriaTargeting),
-    daypartTargeting: S.optional(DayPartTargeting),
   }),
 ).annotate({
   identifier: "MarketplaceTargeting",
 }) as any as S.Schema<MarketplaceTargeting>;
+
+/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
+export interface TimeZone {
+  /** Optional. IANA Time Zone Database version number. For example "2019a". */
+  version?: string;
+  /** IANA Time Zone Database time zone. For example "America/New_York". */
+  id?: string;
+}
+export const TimeZone = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    version: S.optional(S.String),
+    id: S.optional(S.String),
+  }),
+).annotate({ identifier: "TimeZone" }) as any as S.Schema<TimeZone>;
+
+/** Represents an amount of money with its currency type. */
+export interface Money {
+  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
+  units?: string;
+  /** The three-letter currency code defined in ISO 4217. */
+  currencyCode?: string;
+  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
+  nanos?: number;
+}
+export const Money = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    units: S.optional(S.String),
+    currencyCode: S.optional(S.String),
+    nanos: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Money" }) as any as S.Schema<Money>;
+
+export type PriceTypeEnum = "TYPE_UNSPECIFIED" | "CPM" | "CPD";
+export const PriceTypeEnum = S.String;
+
+/** Represents a price and a pricing type for a deal. */
+export interface Price {
+  /** The actual price with currency specified. */
+  amount?: Money;
+  /** The pricing type for the deal. */
+  type?: PriceTypeEnum | (string & {});
+}
+export const Price = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.optional(Money),
+    type: S.optional(PriceTypeEnum),
+  }),
+).annotate({ identifier: "Price" }) as any as S.Schema<Price>;
+
+/** Pricing terms for Preferred Deals. */
+export interface PreferredDealTerms {
+  /** Fixed price for the deal. */
+  fixedPrice?: Price;
+}
+export const PreferredDealTerms = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixedPrice: S.optional(Price),
+  }),
+).annotate({
+  identifier: "PreferredDealTerms",
+}) as any as S.Schema<PreferredDealTerms>;
+
+export type DeliveryControlCompanionDeliveryTypeEnum =
+  | "COMPANION_DELIVERY_TYPE_UNSPECIFIED"
+  | "DELIVERY_OPTIONAL"
+  | "DELIVERY_AT_LEAST_ONE"
+  | "DELIVERY_ALL";
+export const DeliveryControlCompanionDeliveryTypeEnum = S.String;
+
+export type FrequencyCapTimeUnitTypeEnum =
+  | "TIME_UNIT_TYPE_UNSPECIFIED"
+  | "MINUTE"
+  | "HOUR"
+  | "DAY"
+  | "WEEK"
+  | "MONTH"
+  | "LIFETIME"
+  | "POD"
+  | "STREAM";
+export const FrequencyCapTimeUnitTypeEnum = S.String;
+
+/** Message contains details about publisher-set frequency caps of the delivery. */
+export interface FrequencyCap {
+  /** The amount of time, in the units specified by time_unit_type. Defines the amount of time over which impressions per user are counted and capped. */
+  timeUnitsCount?: number;
+  /** The time unit. Along with num_time_units defines the amount of time over which impressions per user are counted and capped. */
+  timeUnitType?: FrequencyCapTimeUnitTypeEnum | (string & {});
+  /** The maximum number of impressions that can be served to a user within the specified time period. */
+  maxImpressions?: number;
+}
+export const FrequencyCap = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timeUnitsCount: S.optional(S.Number),
+    timeUnitType: S.optional(FrequencyCapTimeUnitTypeEnum),
+    maxImpressions: S.optional(S.Number),
+  }),
+).annotate({ identifier: "FrequencyCap" }) as any as S.Schema<FrequencyCap>;
+
+export type FrequencyCapList = Array<FrequencyCap>;
+export const FrequencyCapList = /*@__PURE__*/ S.Array(
+  FrequencyCap,
+) as any as S.Schema<FrequencyCapList>;
+
+export type DeliveryControlDeliveryRateTypeEnum =
+  | "DELIVERY_RATE_TYPE_UNSPECIFIED"
+  | "EVENLY"
+  | "FRONT_LOADED"
+  | "AS_FAST_AS_POSSIBLE";
+export const DeliveryControlDeliveryRateTypeEnum = S.String;
+
+export type DeliveryControlRoadblockingTypeEnum =
+  | "ROADBLOCKING_TYPE_UNSPECIFIED"
+  | "ONLY_ONE"
+  | "ONE_OR_MORE"
+  | "AS_MANY_AS_POSSIBLE"
+  | "ALL_ROADBLOCK"
+  | "CREATIVE_SET";
+export const DeliveryControlRoadblockingTypeEnum = S.String;
+
+export type DeliveryControlCreativeRotationTypeEnum =
+  | "CREATIVE_ROTATION_TYPE_UNSPECIFIED"
+  | "ROTATION_EVEN"
+  | "ROTATION_OPTIMIZED"
+  | "ROTATION_MANUAL"
+  | "ROTATION_SEQUENTIAL";
+export const DeliveryControlCreativeRotationTypeEnum = S.String;
+
+/** Message contains details about how the deal will be paced. */
+export interface DeliveryControl {
+  /** Output only. Specifies roadblocking in a main companion lineitem. */
+  companionDeliveryType?:
+    | DeliveryControlCompanionDeliveryTypeEnum
+    | (string & {});
+  /** Output only. Specifies any frequency caps. Cannot be filtered within ListDealsRequest. */
+  frequencyCap?: FrequencyCapList;
+  /** Output only. Specifies how the impression delivery will be paced. */
+  deliveryRateType?: DeliveryControlDeliveryRateTypeEnum | (string & {});
+  /** Output only. Specifies the roadblocking type in display creatives. */
+  roadblockingType?: DeliveryControlRoadblockingTypeEnum | (string & {});
+  /** Output only. Specifies strategy to use for selecting a creative when multiple creatives of the same size are available. */
+  creativeRotationType?:
+    | DeliveryControlCreativeRotationTypeEnum
+    | (string & {});
+}
+export const DeliveryControl = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    companionDeliveryType: S.optional(DeliveryControlCompanionDeliveryTypeEnum),
+    frequencyCap: S.optional(FrequencyCapList),
+    deliveryRateType: S.optional(DeliveryControlDeliveryRateTypeEnum),
+    roadblockingType: S.optional(DeliveryControlRoadblockingTypeEnum),
+    creativeRotationType: S.optional(DeliveryControlCreativeRotationTypeEnum),
+  }),
+).annotate({
+  identifier: "DeliveryControl",
+}) as any as S.Schema<DeliveryControl>;
+
+export type DealDealTypeEnum =
+  | "DEAL_TYPE_UNSPECIFIED"
+  | "PREFERRED_DEAL"
+  | "PRIVATE_AUCTION"
+  | "PROGRAMMATIC_GUARANTEED";
+export const DealDealTypeEnum = S.String;
 
 export type ProgrammaticGuaranteedTermsReservationTypeEnum =
   | "RESERVATION_TYPE_UNSPECIFIED"
@@ -1102,137 +1049,212 @@ export const ProgrammaticGuaranteedTermsReservationTypeEnum = S.String;
 
 /** Pricing terms for Programmatic Guaranteed Deals. */
 export interface ProgrammaticGuaranteedTerms {
+  /** Daily minimum looks for CPD deal types. For CPD deals, buyer should negotiate on this field instead of guaranteed_looks. */
+  minimumDailyLooks?: string;
+  /** Fixed price for the deal. */
+  fixedPrice?: Price;
   /** The reservation type for a Programmatic Guaranteed deal. This indicates whether the number of impressions is fixed, or a percent of available impressions. If not specified, the default reservation type is STANDARD. */
   reservationType?:
     | ProgrammaticGuaranteedTermsReservationTypeEnum
     | (string & {});
-  /** Fixed price for the deal. */
-  fixedPrice?: Price;
-  /** Daily minimum looks for CPD deal types. For CPD deals, buyer should negotiate on this field instead of guaranteed_looks. */
-  minimumDailyLooks?: string;
-  /** The lifetime impression cap for CPM Sponsorship deals. Deal will stop serving when cap is reached. */
-  impressionCap?: string;
   /** Count of guaranteed looks. For CPD deals, buyer changes to guaranteed_looks will be ignored. */
   guaranteedLooks?: string;
   /** For sponsorship deals, this is the percentage of the seller's eligible impressions that the deal will serve until the cap is reached. Valid value is within range 0~100. */
   percentShareOfVoice?: string;
+  /** The lifetime impression cap for CPM Sponsorship deals. Deal will stop serving when cap is reached. */
+  impressionCap?: string;
 }
 export const ProgrammaticGuaranteedTerms = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    reservationType: S.optional(ProgrammaticGuaranteedTermsReservationTypeEnum),
-    fixedPrice: S.optional(Price),
     minimumDailyLooks: S.optional(S.String),
-    impressionCap: S.optional(S.String),
+    fixedPrice: S.optional(Price),
+    reservationType: S.optional(ProgrammaticGuaranteedTermsReservationTypeEnum),
     guaranteedLooks: S.optional(S.String),
     percentShareOfVoice: S.optional(S.String),
+    impressionCap: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ProgrammaticGuaranteedTerms",
 }) as any as S.Schema<ProgrammaticGuaranteedTerms>;
 
+/** Pricing terms for Private Auctions. */
+export interface PrivateAuctionTerms {
+  /** The minimum price buyer has to bid to compete in the private auction. */
+  floorPrice?: Price;
+  /** Output only. True if open auction buyers are allowed to compete with invited buyers in this private auction. */
+  openAuctionAllowed?: boolean;
+}
+export const PrivateAuctionTerms = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    floorPrice: S.optional(Price),
+    openAuctionAllowed: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "PrivateAuctionTerms",
+}) as any as S.Schema<PrivateAuctionTerms>;
+
 /** A deal represents a segment of inventory for displaying ads that contains the terms and targeting information that is used for serving as well as the deal stats and status. Note: A proposal may contain multiple deals. */
 export interface Deal {
-  /** Output only. When the client field is populated, this field refers to the buyer who creates and manages the client buyer and gets billed on behalf of the client buyer; when the buyer field is populated, this field is the same value as buyer; when the deal belongs to a media planner account, this field will be empty. Format : `buyers/{buyerAccountId}` */
-  billedBuyer?: string;
-  /** Output only. If set, this field contains the list of DSP specific seat ids set by media planners that are eligible to transact on this deal. The seat ID is in the calling DSP's namespace. */
-  eligibleSeatIds?: StringList;
-  /** Output only. The revision number for the proposal and is the same value as proposal.proposal_revision. Each update to deal causes the proposal revision number to auto-increment. The buyer keeps track of the last revision number they know of and pass it in when making an update. If the head revision number on the server has since incremented, then an ABORTED error is returned during the update operation to let the buyer know that a subsequent update was made. */
-  proposalRevision?: string;
-  /** Immutable. Reference to the seller on the deal. Format: `buyers/{buyerAccountId}/publisherProfiles/{publisherProfileId}` */
-  publisherProfile?: string;
-  /** Output only. The time when the deal was last updated. */
-  updateTime?: string;
-  /** Proposed flight end time of the deal. This will generally be stored in a granularity of a second. A value is not necessary for Private Auction deals. */
-  flightEndTime?: string;
+  /** Output only. Metadata about the creatives of this deal. */
+  creativeRequirements?: CreativeRequirements;
+  /** Output only. The buyer permission type of the deal. */
+  buyerPermissionType?: DealBuyerPermissionTypeEnum | (string & {});
+  /** Output only. The name of the deal. Maximum length of 255 unicode characters is allowed. Control characters are not allowed. Buyers cannot update this field. Note: Not to be confused with name, which is a unique identifier of the deal. */
+  displayName?: string;
+  /** Immutable. The unique identifier of the deal. Auto-generated by the server when a deal is created. Format: buyers/{accountId}/proposals/{proposalId}/deals/{dealId} */
+  name?: string;
+  /** Output only. Refers to a buyer in Real-time Bidding API's Buyer resource. This field represents a media planner (For example, agency or big advertiser). */
+  mediaPlanner?: MediaPlanner;
+  /** Specifies the subset of inventory targeted by the deal. Can be updated by the buyer before the deal is finalized. */
+  targeting?: MarketplaceTargeting;
   /** Output only. The time of the deal creation. */
   createTime?: string;
   /** Output only. Time zone of the seller used to mark the boundaries of a day for daypart targeting and CPD billing. */
   sellerTimeZone?: TimeZone;
-  /** Proposed flight start time of the deal. This will generally be stored in the granularity of one second since deal serving starts at seconds boundary. Any time specified with more granularity (for example, in milliseconds) will be truncated towards the start of time in seconds. */
-  flightStartTime?: string;
-  /** Output only. Refers to a buyer in Real-time Bidding API's Buyer resource. This field represents a media planner (For example, agency or big advertiser). */
-  mediaPlanner?: MediaPlanner;
-  /** Output only. Free text description for the deal terms. */
-  description?: string;
-  /** Immutable. The unique identifier of the deal. Auto-generated by the server when a deal is created. Format: buyers/{accountId}/proposals/{proposalId}/deals/{dealId} */
-  name?: string;
-  /** Output only. The buyer permission type of the deal. */
-  buyerPermissionType?: DealBuyerPermissionTypeEnum | (string & {});
-  /** Output only. Specifies the pacing set by the publisher. */
-  deliveryControl?: DeliveryControl;
-  /** Output only. Type of deal. */
-  dealType?: DealDealTypeEnum | (string & {});
-  /** Specified by buyers in request for proposal (RFP) to notify publisher the total estimated spend for the proposal. Publishers will receive this information and send back proposed deals accordingly. */
-  estimatedGrossSpend?: Money;
-  /** The terms for private auction deals. */
-  privateAuctionTerms?: PrivateAuctionTerms;
-  /** Output only. Metadata about the creatives of this deal. */
-  creativeRequirements?: CreativeRequirements;
   /** Output only. Refers to a Client. Format: `buyers/{buyerAccountId}/clients/{clientAccountid}` */
   client?: string;
-  /** The terms for preferred deals. */
-  preferredDealTerms?: PreferredDealTerms;
+  /** Output only. Free text description for the deal terms. */
+  description?: string;
   /** Output only. Refers to a buyer in Real-time Bidding API's Buyer resource. Format: `buyers/{buyerAccountId}` */
   buyer?: string;
-  /** Specifies the subset of inventory targeted by the deal. Can be updated by the buyer before the deal is finalized. */
-  targeting?: MarketplaceTargeting;
-  /** Output only. The name of the deal. Maximum length of 255 unicode characters is allowed. Control characters are not allowed. Buyers cannot update this field. Note: Not to be confused with name, which is a unique identifier of the deal. */
-  displayName?: string;
+  /** Output only. If set, this field contains the list of DSP specific seat ids set by media planners that are eligible to transact on this deal. The seat ID is in the calling DSP's namespace. */
+  eligibleSeatIds?: StringList;
+  /** The terms for preferred deals. */
+  preferredDealTerms?: PreferredDealTerms;
+  /** Output only. When the client field is populated, this field refers to the buyer who creates and manages the client buyer and gets billed on behalf of the client buyer; when the buyer field is populated, this field is the same value as buyer; when the deal belongs to a media planner account, this field will be empty. Format : `buyers/{buyerAccountId}` */
+  billedBuyer?: string;
+  /** Output only. The revision number for the proposal and is the same value as proposal.proposal_revision. Each update to deal causes the proposal revision number to auto-increment. The buyer keeps track of the last revision number they know of and pass it in when making an update. If the head revision number on the server has since incremented, then an ABORTED error is returned during the update operation to let the buyer know that a subsequent update was made. */
+  proposalRevision?: string;
+  /** Immutable. Reference to the seller on the deal. Format: `buyers/{buyerAccountId}/publisherProfiles/{publisherProfileId}` */
+  publisherProfile?: string;
+  /** Proposed flight end time of the deal. This will generally be stored in a granularity of a second. A value is not necessary for Private Auction deals. */
+  flightEndTime?: string;
+  /** Output only. The time when the deal was last updated. */
+  updateTime?: string;
+  /** Proposed flight start time of the deal. This will generally be stored in the granularity of one second since deal serving starts at seconds boundary. Any time specified with more granularity (for example, in milliseconds) will be truncated towards the start of time in seconds. */
+  flightStartTime?: string;
+  /** Output only. Specifies the pacing set by the publisher. */
+  deliveryControl?: DeliveryControl;
+  /** Specified by buyers in request for proposal (RFP) to notify publisher the total estimated spend for the proposal. Publishers will receive this information and send back proposed deals accordingly. */
+  estimatedGrossSpend?: Money;
+  /** Output only. Type of deal. */
+  dealType?: DealDealTypeEnum | (string & {});
   /** The terms for programmatic guaranteed deals. */
   programmaticGuaranteedTerms?: ProgrammaticGuaranteedTerms;
+  /** The terms for private auction deals. */
+  privateAuctionTerms?: PrivateAuctionTerms;
 }
 export const Deal = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    billedBuyer: S.optional(S.String),
-    eligibleSeatIds: S.optional(StringList),
-    proposalRevision: S.optional(S.String),
-    publisherProfile: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    flightEndTime: S.optional(S.String),
+    creativeRequirements: S.optional(CreativeRequirements),
+    buyerPermissionType: S.optional(DealBuyerPermissionTypeEnum),
+    displayName: S.optional(S.String),
+    name: S.optional(S.String),
+    mediaPlanner: S.optional(MediaPlanner),
+    targeting: S.optional(MarketplaceTargeting),
     createTime: S.optional(S.String),
     sellerTimeZone: S.optional(TimeZone),
-    flightStartTime: S.optional(S.String),
-    mediaPlanner: S.optional(MediaPlanner),
-    description: S.optional(S.String),
-    name: S.optional(S.String),
-    buyerPermissionType: S.optional(DealBuyerPermissionTypeEnum),
-    deliveryControl: S.optional(DeliveryControl),
-    dealType: S.optional(DealDealTypeEnum),
-    estimatedGrossSpend: S.optional(Money),
-    privateAuctionTerms: S.optional(PrivateAuctionTerms),
-    creativeRequirements: S.optional(CreativeRequirements),
     client: S.optional(S.String),
-    preferredDealTerms: S.optional(PreferredDealTerms),
+    description: S.optional(S.String),
     buyer: S.optional(S.String),
-    targeting: S.optional(MarketplaceTargeting),
-    displayName: S.optional(S.String),
+    eligibleSeatIds: S.optional(StringList),
+    preferredDealTerms: S.optional(PreferredDealTerms),
+    billedBuyer: S.optional(S.String),
+    proposalRevision: S.optional(S.String),
+    publisherProfile: S.optional(S.String),
+    flightEndTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    flightStartTime: S.optional(S.String),
+    deliveryControl: S.optional(DeliveryControl),
+    estimatedGrossSpend: S.optional(Money),
+    dealType: S.optional(DealDealTypeEnum),
     programmaticGuaranteedTerms: S.optional(ProgrammaticGuaranteedTerms),
+    privateAuctionTerms: S.optional(PrivateAuctionTerms),
   }),
 ).annotate({ identifier: "Deal" }) as any as S.Schema<Deal>;
 
+/** Real-time bidding metrics. For what each metric means refer to [Report metrics](https://support.google.com/adxbuyer/answer/6115195#report-metrics) */
+export interface RtbMetrics {
+  /** Filtered bid rate in last 7 days, calculated by (filtered bids / bids). */
+  filteredBidRate7Days?: number;
+  /** Bid requests in last 7 days. */
+  bidRequests7Days?: string;
+  /** Ad impressions in last 7 days. */
+  adImpressions7Days?: string;
+  /** Must bid rate for current month. */
+  mustBidRateCurrentMonth?: number;
+  /** Bids in last 7 days. */
+  bids7Days?: string;
+  /** Bid rate in last 7 days, calculated by (bids / bid requests). */
+  bidRate7Days?: number;
+}
+export const RtbMetrics = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    filteredBidRate7Days: S.optional(S.Number),
+    bidRequests7Days: S.optional(S.String),
+    adImpressions7Days: S.optional(S.String),
+    mustBidRateCurrentMonth: S.optional(S.Number),
+    bids7Days: S.optional(S.String),
+    bidRate7Days: S.optional(S.Number),
+  }),
+).annotate({ identifier: "RtbMetrics" }) as any as S.Schema<RtbMetrics>;
+
+export type FinalizedDealDealServingStatusEnum =
+  | "DEAL_SERVING_STATUS_UNSPECIFIED"
+  | "ACTIVE"
+  | "ENDED"
+  | "PAUSED_BY_BUYER"
+  | "PAUSED_BY_SELLER";
+export const FinalizedDealDealServingStatusEnum = S.String;
+
+export type DealPausingInfoPauseRoleEnum =
+  | "BUYER_SELLER_ROLE_UNSPECIFIED"
+  | "BUYER"
+  | "SELLER";
+export const DealPausingInfoPauseRoleEnum = S.String;
+
+/** Information related to deal pausing. */
+export interface DealPausingInfo {
+  /** The party that first paused the deal; unspecified for active deals. */
+  pauseRole?: DealPausingInfoPauseRoleEnum;
+  /** Whether pausing is consented between buyer and seller for the deal. */
+  pausingConsented?: boolean;
+  /** The reason for the pausing of the deal; empty for active deals. */
+  pauseReason?: string;
+}
+export const DealPausingInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pauseRole: S.optional(DealPausingInfoPauseRoleEnum),
+    pausingConsented: S.optional(S.Boolean),
+    pauseReason: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DealPausingInfo",
+}) as any as S.Schema<DealPausingInfo>;
+
 /** A finalized deal is a snapshot of the deal when both buyer and seller accept the deal. The buyer or seller can update the deal after it's been finalized and renegotiate on the deal targeting, terms and other fields, while at the same time the finalized snapshot of the deal can still be retrieved using this API. The finalized deal contains a copy of the deal as it existed when most recently finalized, as well as fields related to deal serving such as pause/resume status, RTB metrics, and more. */
 export interface FinalizedDeal {
-  /** Whether the Programmatic Guaranteed deal is ready for serving. */
-  readyToServe?: boolean;
-  /** Real-time bidding metrics for this deal. */
-  rtbMetrics?: RtbMetrics;
-  /** Information related to deal pausing for the deal. */
-  dealPausingInfo?: DealPausingInfo;
-  /** Serving status of the deal. */
-  dealServingStatus?: FinalizedDealDealServingStatusEnum;
   /** The resource name of the finalized deal. Format: `buyers/{accountId}/finalizedDeals/{finalizedDealId}` */
   name?: string;
   /** A copy of the Deal made upon finalization. During renegotiation, this will reflect the last finalized deal before renegotiation was initiated. */
   deal?: Deal;
+  /** Real-time bidding metrics for this deal. */
+  rtbMetrics?: RtbMetrics;
+  /** Serving status of the deal. */
+  dealServingStatus?: FinalizedDealDealServingStatusEnum;
+  /** Information related to deal pausing for the deal. */
+  dealPausingInfo?: DealPausingInfo;
+  /** Whether the Programmatic Guaranteed deal is ready for serving. */
+  readyToServe?: boolean;
 }
 export const FinalizedDeal = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    readyToServe: S.optional(S.Boolean),
-    rtbMetrics: S.optional(RtbMetrics),
-    dealPausingInfo: S.optional(DealPausingInfo),
-    dealServingStatus: S.optional(FinalizedDealDealServingStatusEnum),
     name: S.optional(S.String),
     deal: S.optional(Deal),
+    rtbMetrics: S.optional(RtbMetrics),
+    dealServingStatus: S.optional(FinalizedDealDealServingStatusEnum),
+    dealPausingInfo: S.optional(DealPausingInfo),
+    readyToServe: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "FinalizedDeal" }) as any as S.Schema<FinalizedDeal>;
 
@@ -1509,45 +1531,45 @@ export const MediaPlannerList = /*@__PURE__*/ S.Array(
 
 /** Defines a segment of inventory that buyer wants to buy. It's created by buyer and could be shared with multiple buyers. */
 export interface AuctionPackage {
-  /** Output only. The buyer that created this auction package. Format: `buyers/{buyerAccountId}` */
-  creator?: string;
-  /** Output only. The list of media planners that are subscribed to the AuctionPackage. This field is only populated when calling as a bidder. */
-  subscribedMediaPlanners?: MediaPlannerList;
+  /** Output only. Time the auction package was last updated. This value is only increased when this auction package is updated but never when a buyer subscribed. */
+  updateTime?: string;
   /** Output only. The minimum price a buyer has to bid to compete in this auction package. If this is field is not populated, there is no floor price. */
   floorPriceCpm?: Money;
   /** The display_name assigned to the auction package. */
   displayName?: string;
-  /** Output only. If set, this field contains the DSP specific seat id set by the media planner account that is considered the owner of this deal. The seat ID is in the calling DSP's namespace. */
-  dealOwnerSeatId?: string;
-  /** Output only. The list of buyers that are subscribed to the AuctionPackage. This field is only populated when calling as a bidder. Format: `buyers/{buyerAccountId}` */
-  subscribedBuyers?: StringList;
-  /** Immutable. The unique identifier for the auction package. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` The auction_package_id part of name is sent in the BidRequest to all RTB bidders and is returned as deal_id by the bidder in the BidResponse. */
-  name?: string;
-  /** Output only. A description of the auction package. */
-  description?: string;
   /** Output only. When calling as a buyer, the list of clients of the current buyer that are subscribed to the AuctionPackage. When calling as a bidder, the list of clients that are subscribed to the AuctionPackage owned by the bidder or its buyers. Format: `buyers/{buyerAccountId}/clients/{clientAccountId}` */
   subscribedClients?: StringList;
+  /** Output only. The list of buyers that are subscribed to the AuctionPackage. This field is only populated when calling as a bidder. Format: `buyers/{buyerAccountId}` */
+  subscribedBuyers?: StringList;
+  /** Output only. A description of the auction package. */
+  description?: string;
+  /** Output only. The list of media planners that are subscribed to the AuctionPackage. This field is only populated when calling as a bidder. */
+  subscribedMediaPlanners?: MediaPlannerList;
+  /** Immutable. The unique identifier for the auction package. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` The auction_package_id part of name is sent in the BidRequest to all RTB bidders and is returned as deal_id by the bidder in the BidResponse. */
+  name?: string;
+  /** Output only. If set, this field contains the DSP specific seat id set by the media planner account that is considered the owner of this deal. The seat ID is in the calling DSP's namespace. */
+  dealOwnerSeatId?: string;
+  /** Output only. The buyer that created this auction package. Format: `buyers/{buyerAccountId}` */
+  creator?: string;
   /** Output only. Time the auction package was created. */
   createTime?: string;
   /** Output only. If set, this field identifies a seat that the media planner selected as the owner of this auction package. This is a seat ID in the DSP's namespace that was provided to the media planner. */
   eligibleSeatIds?: StringList;
-  /** Output only. Time the auction package was last updated. This value is only increased when this auction package is updated but never when a buyer subscribed. */
-  updateTime?: string;
 }
 export const AuctionPackage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    creator: S.optional(S.String),
-    subscribedMediaPlanners: S.optional(MediaPlannerList),
+    updateTime: S.optional(S.String),
     floorPriceCpm: S.optional(Money),
     displayName: S.optional(S.String),
-    dealOwnerSeatId: S.optional(S.String),
-    subscribedBuyers: S.optional(StringList),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
     subscribedClients: S.optional(StringList),
+    subscribedBuyers: S.optional(StringList),
+    description: S.optional(S.String),
+    subscribedMediaPlanners: S.optional(MediaPlannerList),
+    name: S.optional(S.String),
+    dealOwnerSeatId: S.optional(S.String),
+    creator: S.optional(S.String),
     createTime: S.optional(S.String),
     eligibleSeatIds: S.optional(StringList),
-    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "AuctionPackage" }) as any as S.Schema<AuctionPackage>;
 
@@ -1678,18 +1700,18 @@ export const PublisherProfileMobileApplicationAppStoreEnum = S.String;
 
 /** A mobile application that contains a external app ID, name, and app store. */
 export interface PublisherProfileMobileApplication {
-  /** The external ID for the app from its app store. Can be used to filter the response of the publisherProfiles.list method. */
-  externalAppId?: string;
   /** The app store the app belongs to. Can be used to filter the response of the publisherProfiles.list method. */
   appStore?: PublisherProfileMobileApplicationAppStoreEnum;
   /** The name of the app. */
   name?: string;
+  /** The external ID for the app from its app store. Can be used to filter the response of the publisherProfiles.list method. */
+  externalAppId?: string;
 }
 export const PublisherProfileMobileApplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    externalAppId: S.optional(S.String),
     appStore: S.optional(PublisherProfileMobileApplicationAppStoreEnum),
     name: S.optional(S.String),
+    externalAppId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "PublisherProfileMobileApplication",
@@ -1703,77 +1725,77 @@ export const PublisherProfileMobileApplicationList = /*@__PURE__*/ S.Array(
 
 /** The values in the publisher profile are supplied by the publisher. All fields are not filterable unless stated otherwise. */
 export interface PublisherProfile {
-  /** URL to a sample content page. */
-  samplePageUrl?: string;
-  /** Contact information for direct reservation deals. This is free text entered by the publisher and may include information like names, phone numbers and email addresses. */
-  directDealsContact?: string;
-  /** A unique identifying code for the seller. This value is the same for all of the seller's parent and child publisher profiles. Can be used to filter the response of the publisherProfiles.list method. */
-  publisherCode?: string;
-  /** Display name of the publisher profile. Can be used to filter the response of the publisherProfiles.list method. */
-  displayName?: string;
-  /** Description on the publisher's audience. */
-  audienceDescription?: string;
-  /** A Google public URL to the logo for this publisher profile. The logo is stored as a PNG, JPG, or GIF image. */
-  logoUrl?: string;
-  /** Indicates if this profile is the parent profile of the seller. A parent profile represents all the inventory from the seller, as opposed to child profile that is created to brand a portion of inventory. One seller has only one parent publisher profile, and can have multiple child profiles. See https://support.google.com/admanager/answer/6035806 for details. Can be used to filter the response of the publisherProfiles.list method by setting the filter to "is_parent: true". */
-  isParent?: boolean;
   /** Contact information for programmatic deals. This is free text entered by the publisher and may include information like names, phone numbers and email addresses. */
   programmaticDealsContact?: string;
-  /** Statement explaining what's unique about publisher's business, and why buyers should partner with the publisher. */
-  pitchStatement?: string;
-  /** The list of domains represented in this publisher profile. Empty if this is a parent profile. These are top private domains, meaning that these will not contain a string like "photos.google.co.uk/123", but will instead contain "google.co.uk". Can be used to filter the response of the publisherProfiles.list method. */
-  domains?: StringList;
-  /** Up to three key metrics and rankings. For example, "#1 Mobile News Site for 20 Straight Months". */
-  topHeadlines?: StringList;
   /** Overview of the publisher. */
   overview?: string;
   /** The list of apps represented in this publisher profile. Empty if this is a parent profile. */
   mobileApps?: PublisherProfileMobileApplicationList;
   /** Name of the publisher profile. Format: `buyers/{buyer}/publisherProfiles/{publisher_profile}` */
   name?: string;
+  /** Indicates if this profile is the parent profile of the seller. A parent profile represents all the inventory from the seller, as opposed to child profile that is created to brand a portion of inventory. One seller has only one parent publisher profile, and can have multiple child profiles. See https://support.google.com/admanager/answer/6035806 for details. Can be used to filter the response of the publisherProfiles.list method by setting the filter to "is_parent: true". */
+  isParent?: boolean;
+  /** Up to three key metrics and rankings. For example, "#1 Mobile News Site for 20 Straight Months". */
+  topHeadlines?: StringList;
+  /** Contact information for direct reservation deals. This is free text entered by the publisher and may include information like names, phone numbers and email addresses. */
+  directDealsContact?: string;
+  /** A Google public URL to the logo for this publisher profile. The logo is stored as a PNG, JPG, or GIF image. */
+  logoUrl?: string;
   /** URL to additional marketing and sales materials. */
   mediaKitUrl?: string;
+  /** A unique identifying code for the seller. This value is the same for all of the seller's parent and child publisher profiles. Can be used to filter the response of the publisherProfiles.list method. */
+  publisherCode?: string;
+  /** URL to a sample content page. */
+  samplePageUrl?: string;
+  /** Description on the publisher's audience. */
+  audienceDescription?: string;
+  /** Display name of the publisher profile. Can be used to filter the response of the publisherProfiles.list method. */
+  displayName?: string;
+  /** Statement explaining what's unique about publisher's business, and why buyers should partner with the publisher. */
+  pitchStatement?: string;
+  /** The list of domains represented in this publisher profile. Empty if this is a parent profile. These are top private domains, meaning that these will not contain a string like "photos.google.co.uk/123", but will instead contain "google.co.uk". Can be used to filter the response of the publisherProfiles.list method. */
+  domains?: StringList;
 }
 export const PublisherProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    samplePageUrl: S.optional(S.String),
-    directDealsContact: S.optional(S.String),
-    publisherCode: S.optional(S.String),
-    displayName: S.optional(S.String),
-    audienceDescription: S.optional(S.String),
-    logoUrl: S.optional(S.String),
-    isParent: S.optional(S.Boolean),
     programmaticDealsContact: S.optional(S.String),
-    pitchStatement: S.optional(S.String),
-    domains: S.optional(StringList),
-    topHeadlines: S.optional(StringList),
     overview: S.optional(S.String),
     mobileApps: S.optional(PublisherProfileMobileApplicationList),
     name: S.optional(S.String),
+    isParent: S.optional(S.Boolean),
+    topHeadlines: S.optional(StringList),
+    directDealsContact: S.optional(S.String),
+    logoUrl: S.optional(S.String),
     mediaKitUrl: S.optional(S.String),
+    publisherCode: S.optional(S.String),
+    samplePageUrl: S.optional(S.String),
+    audienceDescription: S.optional(S.String),
+    displayName: S.optional(S.String),
+    pitchStatement: S.optional(S.String),
+    domains: S.optional(StringList),
   }),
 ).annotate({
   identifier: "PublisherProfile",
 }) as any as S.Schema<PublisherProfile>;
 
 export interface ListBiddersAuctionPackagesRequest {
+  /** Requested page size. The server may return fewer results than requested. Max allowed page size is 500. */
+  pageSize?: number;
   /** The page token as returned. ListAuctionPackagesResponse.nextPageToken */
   pageToken?: string;
   /** Optional. An optional query string to sort auction packages using the [Cloud API sorting syntax](https://cloud.google.com/apis/design/design_patterns#sorting_order). If no sort order is specified, results will be returned in an arbitrary order. Only supported when parent is bidder. Supported columns for sorting are: * displayName * createTime * updateTime */
   orderBy?: string;
   /** Optional. Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Only supported when parent is bidder. Supported columns for filtering are: * displayName * createTime * updateTime * eligibleSeatIds */
   filter?: string;
-  /** Requested page size. The server may return fewer results than requested. Max allowed page size is 500. */
-  pageSize?: number;
   /** Required. Name of the parent buyer that can access the auction package. Format: `buyers/{accountId}`. When used with a bidder account, the auction packages that the bidder, its media planners, its buyers and clients are subscribed to will be listed, in the format `bidders/{accountId}`. */
   parent: string;
 }
 export const ListBiddersAuctionPackagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -1793,39 +1815,39 @@ export const AuctionPackageList = /*@__PURE__*/ S.Array(
 
 /** Response message for listing auction packages. */
 export interface ListAuctionPackagesResponse {
-  /** Continuation token for fetching the next page of results. Pass this value in the ListAuctionPackagesRequest.pageToken field in the subsequent call to the `ListAuctionPackages` method to retrieve the next page of results. */
-  nextPageToken?: string;
   /** The list of auction packages. */
   auctionPackages?: AuctionPackageList;
+  /** Continuation token for fetching the next page of results. Pass this value in the ListAuctionPackagesRequest.pageToken field in the subsequent call to the `ListAuctionPackages` method to retrieve the next page of results. */
+  nextPageToken?: string;
 }
 export const ListAuctionPackagesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     auctionPackages: S.optional(AuctionPackageList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListAuctionPackagesResponse",
 }) as any as S.Schema<ListAuctionPackagesResponse>;
 
 export interface ListBiddersFinalizedDealsRequest {
-  /** An optional query string to sort finalized deals using the [Cloud API sorting syntax](https://cloud.google.com/apis/design/design_patterns#sorting_order). If no sort order is specified, results will be returned in an arbitrary order. Supported columns for sorting are: * deal.displayName * deal.createTime * deal.updateTime * deal.flightStartTime * deal.flightEndTime * rtbMetrics.bidRequests7Days * rtbMetrics.bids7Days * rtbMetrics.adImpressions7Days * rtbMetrics.bidRate7Days * rtbMetrics.filteredBidRate7Days * rtbMetrics.mustBidRateCurrentMonth */
-  orderBy?: string;
   /** Required. The buyer to list the finalized deals for, in the format: `buyers/{accountId}`. When used to list finalized deals for a bidder, its buyers and clients, in the format `bidders/{accountId}`. */
   parent: string;
-  /** Optional query string using the [Cloud API list filtering syntax](https://developers.google.com/authorized-buyers/apis/guides/list-filters) Supported columns for filtering are: * deal.displayName * deal.dealType * deal.createTime * deal.updateTime * deal.flightStartTime * deal.flightEndTime * deal.eligibleSeatIds * dealServingStatus * readyToServe */
-  filter?: string;
-  /** The page token as returned from ListFinalizedDealsResponse. */
-  pageToken?: string;
   /** Requested page size. The server may return fewer results than requested. If requested more than 500, the server will return 500 results per page. If unspecified, the server will pick a default page size of 100. */
   pageSize?: number;
+  /** Optional query string using the [Cloud API list filtering syntax](https://developers.google.com/authorized-buyers/apis/guides/list-filters) Supported columns for filtering are: * deal.displayName * deal.dealType * deal.createTime * deal.updateTime * deal.flightStartTime * deal.flightEndTime * deal.eligibleSeatIds * dealServingStatus * readyToServe */
+  filter?: string;
+  /** An optional query string to sort finalized deals using the [Cloud API sorting syntax](https://cloud.google.com/apis/design/design_patterns#sorting_order). If no sort order is specified, results will be returned in an arbitrary order. Supported columns for sorting are: * deal.displayName * deal.createTime * deal.updateTime * deal.flightStartTime * deal.flightEndTime * rtbMetrics.bidRequests7Days * rtbMetrics.bids7Days * rtbMetrics.adImpressions7Days * rtbMetrics.bidRate7Days * rtbMetrics.filteredBidRate7Days * rtbMetrics.mustBidRateCurrentMonth */
+  orderBy?: string;
+  /** The page token as returned from ListFinalizedDealsResponse. */
+  pageToken?: string;
 }
 export const ListBiddersFinalizedDealsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1859,24 +1881,24 @@ export const ListFinalizedDealsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListFinalizedDealsResponse>;
 
 export interface ListBuyersAuctionPackagesRequest {
-  /** Optional. An optional query string to sort auction packages using the [Cloud API sorting syntax](https://cloud.google.com/apis/design/design_patterns#sorting_order). If no sort order is specified, results will be returned in an arbitrary order. Only supported when parent is bidder. Supported columns for sorting are: * displayName * createTime * updateTime */
-  orderBy?: string;
-  /** Requested page size. The server may return fewer results than requested. Max allowed page size is 500. */
-  pageSize?: number;
   /** Required. Name of the parent buyer that can access the auction package. Format: `buyers/{accountId}`. When used with a bidder account, the auction packages that the bidder, its media planners, its buyers and clients are subscribed to will be listed, in the format `bidders/{accountId}`. */
   parent: string;
-  /** The page token as returned. ListAuctionPackagesResponse.nextPageToken */
-  pageToken?: string;
   /** Optional. Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Only supported when parent is bidder. Supported columns for filtering are: * displayName * createTime * updateTime * eligibleSeatIds */
   filter?: string;
+  /** Requested page size. The server may return fewer results than requested. Max allowed page size is 500. */
+  pageSize?: number;
+  /** The page token as returned. ListAuctionPackagesResponse.nextPageToken */
+  pageToken?: string;
+  /** Optional. An optional query string to sort auction packages using the [Cloud API sorting syntax](https://cloud.google.com/apis/design/design_patterns#sorting_order). If no sort order is specified, results will be returned in an arbitrary order. Only supported when parent is bidder. Supported columns for sorting are: * displayName * createTime * updateTime */
+  orderBy?: string;
 }
 export const ListBuyersAuctionPackagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1889,21 +1911,21 @@ export const ListBuyersAuctionPackagesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListBuyersAuctionPackagesRequest>;
 
 export interface ListBuyersClientsRequest {
-  /** Requested page size. If left blank, a default page size of 500 will be applied. */
-  pageSize?: number;
   /** Required. The name of the buyer. Format: `buyers/{accountId}` */
   parent: string;
-  /** Query string using the [Filtering Syntax](https://developers.google.com/authorized-buyers/apis/guides/list-filters) Supported fields for filtering are: * partnerClientId Use this field to filter the clients by the partnerClientId. For example, if the partnerClientId of the client is "1234", the value of this field should be `partnerClientId = "1234"`, in order to get only the client whose partnerClientId is "1234" in the response. */
-  filter?: string;
   /** A token identifying a page of results the server should return. Typically, this is the value of ListClientsResponse.nextPageToken returned from the previous call to the list method. */
   pageToken?: string;
+  /** Query string using the [Filtering Syntax](https://developers.google.com/authorized-buyers/apis/guides/list-filters) Supported fields for filtering are: * partnerClientId Use this field to filter the clients by the partnerClientId. For example, if the partnerClientId of the client is "1234", the value of this field should be `partnerClientId = "1234"`, in order to get only the client whose partnerClientId is "1234" in the response. */
+  filter?: string;
+  /** Requested page size. If left blank, a default page size of 500 will be applied. */
+  pageSize?: number;
 }
 export const ListBuyersClientsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1967,39 +1989,39 @@ export const ClientUserList = /*@__PURE__*/ S.Array(
 
 /** Response message for the list method. */
 export interface ListClientUsersResponse {
-  /** The returned list of client users. */
-  clientUsers?: ClientUserList;
   /** A token to retrieve the next page of results. Pass this value in the ListClientUsersRequest.pageToken field in the subsequent call to the list method to retrieve the next page of results. */
   nextPageToken?: string;
+  /** The returned list of client users. */
+  clientUsers?: ClientUserList;
 }
 export const ListClientUsersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    clientUsers: S.optional(ClientUserList),
     nextPageToken: S.optional(S.String),
+    clientUsers: S.optional(ClientUserList),
   }),
 ).annotate({
   identifier: "ListClientUsersResponse",
 }) as any as S.Schema<ListClientUsersResponse>;
 
 export interface ListBuyersFinalizedDealsRequest {
-  /** Required. The buyer to list the finalized deals for, in the format: `buyers/{accountId}`. When used to list finalized deals for a bidder, its buyers and clients, in the format `bidders/{accountId}`. */
-  parent: string;
-  /** The page token as returned from ListFinalizedDealsResponse. */
-  pageToken?: string;
   /** An optional query string to sort finalized deals using the [Cloud API sorting syntax](https://cloud.google.com/apis/design/design_patterns#sorting_order). If no sort order is specified, results will be returned in an arbitrary order. Supported columns for sorting are: * deal.displayName * deal.createTime * deal.updateTime * deal.flightStartTime * deal.flightEndTime * rtbMetrics.bidRequests7Days * rtbMetrics.bids7Days * rtbMetrics.adImpressions7Days * rtbMetrics.bidRate7Days * rtbMetrics.filteredBidRate7Days * rtbMetrics.mustBidRateCurrentMonth */
   orderBy?: string;
   /** Optional query string using the [Cloud API list filtering syntax](https://developers.google.com/authorized-buyers/apis/guides/list-filters) Supported columns for filtering are: * deal.displayName * deal.dealType * deal.createTime * deal.updateTime * deal.flightStartTime * deal.flightEndTime * deal.eligibleSeatIds * dealServingStatus * readyToServe */
   filter?: string;
   /** Requested page size. The server may return fewer results than requested. If requested more than 500, the server will return 500 results per page. If unspecified, the server will pick a default page size of 100. */
   pageSize?: number;
+  /** The page token as returned from ListFinalizedDealsResponse. */
+  pageToken?: string;
+  /** Required. The buyer to list the finalized deals for, in the format: `buyers/{accountId}`. When used to list finalized deals for a bidder, its buyers and clients, in the format `bidders/{accountId}`. */
+  parent: string;
 }
 export const ListBuyersFinalizedDealsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2012,21 +2034,21 @@ export const ListBuyersFinalizedDealsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListBuyersFinalizedDealsRequest>;
 
 export interface ListBuyersProposalsRequest {
+  /** Required. Parent that owns the collection of proposals Format: `buyers/{accountId}` */
+  parent: string;
+  /** The page token as returned from ListProposalsResponse. */
+  pageToken?: string;
   /** Requested page size. The server may return fewer results than requested. If unspecified, the server will put a size of 500. */
   pageSize?: number;
   /** Optional query string using the [Cloud API list filtering syntax](https://developers.google.com/authorized-buyers/apis/guides/list-filters) Supported columns for filtering are: * displayName * dealType * updateTime * state */
   filter?: string;
-  /** The page token as returned from ListProposalsResponse. */
-  pageToken?: string;
-  /** Required. Parent that owns the collection of proposals Format: `buyers/{accountId}` */
-  parent: string;
 }
 export const ListBuyersProposalsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2045,33 +2067,33 @@ export const ProposalList = /*@__PURE__*/ S.Array(
 
 /** Response message for listing proposals. */
 export interface ListProposalsResponse {
-  /** The list of proposals. */
-  proposals?: ProposalList;
   /** Continuation token for fetching the next page of results. */
   nextPageToken?: string;
+  /** The list of proposals. */
+  proposals?: ProposalList;
 }
 export const ListProposalsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    proposals: S.optional(ProposalList),
     nextPageToken: S.optional(S.String),
+    proposals: S.optional(ProposalList),
   }),
 ).annotate({
   identifier: "ListProposalsResponse",
 }) as any as S.Schema<ListProposalsResponse>;
 
 export interface ListBuyersProposalsDealsRequest {
-  /** Requested page size. The server may return fewer results than requested. If requested more than 500, the server will return 500 results per page. If unspecified, the server will pick a default page size of 100. */
-  pageSize?: number;
-  /** The page token as returned from ListDealsResponse. */
-  pageToken?: string;
   /** Required. The name of the proposal containing the deals to retrieve. Format: buyers/{accountId}/proposals/{proposalId} */
   parent: string;
+  /** The page token as returned from ListDealsResponse. */
+  pageToken?: string;
+  /** Requested page size. The server may return fewer results than requested. If requested more than 500, the server will return 500 results per page. If unspecified, the server will pick a default page size of 100. */
+  pageSize?: number;
 }
 export const ListBuyersProposalsDealsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2100,20 +2122,20 @@ export const ListDealsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListDealsResponse>;
 
 export interface ListBuyersPublisherProfilesRequest {
-  /** The page token as returned from a previous ListPublisherProfilesResponse. */
-  pageToken?: string;
-  /** Required. Parent that owns the collection of publisher profiles Format: `buyers/{buyerId}` */
-  parent: string;
   /** Requested page size. The server may return fewer results than requested. If requested more than 500, the server will return 500 results per page. If unspecified, the server will pick a default page size of 100. */
   pageSize?: number;
+  /** Required. Parent that owns the collection of publisher profiles Format: `buyers/{buyerId}` */
+  parent: string;
+  /** The page token as returned from a previous ListPublisherProfilesResponse. */
+  pageToken?: string;
   /** Optional query string using the [Cloud API list filtering] (https://developers.google.com/authorized-buyers/apis/guides/list-filters) syntax. */
   filter?: string;
 }
 export const ListBuyersPublisherProfilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -2172,17 +2194,17 @@ export const PatchBuyersClientsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchBuyersClientsRequest>;
 
 export interface PatchBuyersProposalsRequest {
-  /** Immutable. The name of the proposal serving as a unique identifier. Format: buyers/{accountId}/proposals/{proposalId} */
-  name: string;
   /** List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string;
+  /** Immutable. The name of the proposal serving as a unique identifier. Format: buyers/{accountId}/proposals/{proposalId} */
+  name: string;
   /** Request body */
   body?: Proposal;
 }
 export const PatchBuyersProposalsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(Proposal.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2196,17 +2218,17 @@ export const PatchBuyersProposalsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchBuyersProposalsRequest>;
 
 export interface PatchBuyersProposalsDealsRequest {
-  /** List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
-  updateMask?: string;
   /** Immutable. The unique identifier of the deal. Auto-generated by the server when a deal is created. Format: buyers/{accountId}/proposals/{proposalId}/deals/{dealId} */
   name: string;
+  /** List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
+  updateMask?: string;
   /** Request body */
   body?: Deal;
 }
 export const PatchBuyersProposalsDealsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Deal.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2280,26 +2302,26 @@ export const ResumeBuyersFinalizedDealsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Request to send an RFP. All fields in this request are proposed to publisher and subject to changes by publisher during later negotiation. */
 export interface SendRfpRequest {
-  /** A message that is sent to the publisher. Maximum length is 1024 characters. */
-  note?: string;
-  /** Required. The display name of the proposal being created by this RFP. */
-  displayName?: string;
-  /** Required. Proposed flight start time of the RFP. A timestamp in RFC3339 UTC "Zulu" format. Note that the specified value will be truncated to a granularity of one second. */
-  flightStartTime?: string;
-  /** Required. The profile of the publisher who will receive this RFP in the format: `buyers/{accountId}/publisherProfiles/{publisherProfileId}`. */
-  publisherProfile?: string;
-  /** The terms for programmatic guaranteed deals. */
-  programmaticGuaranteedTerms?: ProgrammaticGuaranteedTerms;
-  /** The terms for preferred deals. */
-  preferredDealTerms?: PreferredDealTerms;
   /** Required. Proposed flight end time of the RFP. A timestamp in RFC3339 UTC "Zulu" format. Note that the specified value will be truncated to a granularity of one second. */
   flightEndTime?: string;
-  /** Geo criteria IDs to be targeted. Refer to Geo tables. */
-  geoTargeting?: CriteriaTargeting;
-  /** Contact information for the buyer. */
-  buyerContacts?: ContactList;
+  /** Required. The display name of the proposal being created by this RFP. */
+  displayName?: string;
+  /** The terms for preferred deals. */
+  preferredDealTerms?: PreferredDealTerms;
+  /** Required. Proposed flight start time of the RFP. A timestamp in RFC3339 UTC "Zulu" format. Note that the specified value will be truncated to a granularity of one second. */
+  flightStartTime?: string;
   /** Inventory sizes to be targeted. Only PIXEL inventory size type is supported. */
   inventorySizeTargeting?: InventorySizeTargeting;
+  /** A message that is sent to the publisher. Maximum length is 1024 characters. */
+  note?: string;
+  /** Contact information for the buyer. */
+  buyerContacts?: ContactList;
+  /** The terms for programmatic guaranteed deals. */
+  programmaticGuaranteedTerms?: ProgrammaticGuaranteedTerms;
+  /** Required. The profile of the publisher who will receive this RFP in the format: `buyers/{accountId}/publisherProfiles/{publisherProfileId}`. */
+  publisherProfile?: string;
+  /** Geo criteria IDs to be targeted. Refer to Geo tables. */
+  geoTargeting?: CriteriaTargeting;
   /** If the current buyer is sending the RFP on behalf of its client, use this field to specify the name of the client in the format: `buyers/{accountId}/clients/{clientAccountid}`. */
   client?: string;
   /** Specified by buyers in request for proposal (RFP) to notify publisher the total estimated spend for the proposal. Publishers will receive this information and send back proposed deals accordingly. */
@@ -2307,16 +2329,16 @@ export interface SendRfpRequest {
 }
 export const SendRfpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    note: S.optional(S.String),
-    displayName: S.optional(S.String),
-    flightStartTime: S.optional(S.String),
-    publisherProfile: S.optional(S.String),
-    programmaticGuaranteedTerms: S.optional(ProgrammaticGuaranteedTerms),
-    preferredDealTerms: S.optional(PreferredDealTerms),
     flightEndTime: S.optional(S.String),
-    geoTargeting: S.optional(CriteriaTargeting),
-    buyerContacts: S.optional(ContactList),
+    displayName: S.optional(S.String),
+    preferredDealTerms: S.optional(PreferredDealTerms),
+    flightStartTime: S.optional(S.String),
     inventorySizeTargeting: S.optional(InventorySizeTargeting),
+    note: S.optional(S.String),
+    buyerContacts: S.optional(ContactList),
+    programmaticGuaranteedTerms: S.optional(ProgrammaticGuaranteedTerms),
+    publisherProfile: S.optional(S.String),
+    geoTargeting: S.optional(CriteriaTargeting),
     client: S.optional(S.String),
     estimatedGrossSpend: S.optional(Money),
   }),
@@ -2518,6 +2540,7 @@ export type AcceptBuyersProposalsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Accepts the proposal at the given revision number. If the revision number in the request is behind the latest from the server, an error message will be returned. This call updates the Proposal.state from `BUYER_ACCEPTANCE_REQUESTED` to `FINALIZED`; it has no side effect if the Proposal.state is already `FINALIZED` and throws exception if the Proposal.state is not either `BUYER_ACCEPTANCE_REQUESTED` or `FINALIZED`. Accepting a proposal means the buyer understands and accepts the Proposal.terms_and_conditions proposed by the seller. */
 export const acceptBuyersProposals: API.OperationMethod<
@@ -2528,7 +2551,14 @@ export const acceptBuyersProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AcceptBuyersProposalsRequest,
   output: Proposal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2538,6 +2568,7 @@ export type ActivateBuyersClientsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Activates an existing client. The state of the client will be updated to "ACTIVE". This method has no effect if the client is already in "ACTIVE" state. */
 export const activateBuyersClients: API.OperationMethod<
@@ -2548,7 +2579,14 @@ export const activateBuyersClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ActivateBuyersClientsRequest,
   output: Client,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2558,6 +2596,7 @@ export type ActivateBuyersClientsUsersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Activates an existing client user. The state of the client user will be updated from "INACTIVE" to "ACTIVE". This method has no effect if the client user is already in "ACTIVE" state. An error will be returned if the client user to activate is still in "INVITED" state. */
 export const activateBuyersClientsUsers: API.OperationMethod<
@@ -2568,7 +2607,14 @@ export const activateBuyersClientsUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ActivateBuyersClientsUsersRequest,
   output: ClientUser,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2578,6 +2624,7 @@ export type AddCreativeBuyersFinalizedDealsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Add creative to be used in the bidding process for a finalized deal. For programmatic guaranteed deals, it's recommended that you associate at least one approved creative with the deal before calling SetReadyToServe, to help reduce the number of bid responses filtered because they don't contain approved creatives. Creatives successfully added to a deal can be found in the Realtime-bidding Creatives API creative.deal_ids. This method only applies to programmatic guaranteed deals. Maximum number of 1000 creatives can be added to a finalized deal. */
 export const addCreativeBuyersFinalizedDeals: API.OperationMethod<
@@ -2588,7 +2635,14 @@ export const addCreativeBuyersFinalizedDeals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddCreativeBuyersFinalizedDealsRequest,
   output: FinalizedDeal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2598,6 +2652,7 @@ export type AddNoteBuyersProposalsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Creates a note for this proposal and sends to the seller. This method is not supported for proposals with DealType set to 'PRIVATE_AUCTION'. */
 export const addNoteBuyersProposals: API.OperationMethod<
@@ -2608,7 +2663,14 @@ export const addNoteBuyersProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddNoteBuyersProposalsRequest,
   output: Proposal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2618,6 +2680,7 @@ export type BatchUpdateBuyersProposalsDealsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Batch updates multiple deals in the same proposal. */
 export const batchUpdateBuyersProposalsDeals: API.OperationMethod<
@@ -2628,7 +2691,14 @@ export const batchUpdateBuyersProposalsDeals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchUpdateBuyersProposalsDealsRequest,
   output: BatchUpdateDealsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2638,6 +2708,7 @@ export type CancelNegotiationBuyersProposalsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Cancels an ongoing negotiation on a proposal. This does not cancel or end serving for the deals if the proposal has been finalized. If the proposal has not been finalized before, calling this method will set the Proposal.state to `TERMINATED` and increment the Proposal.proposal_revision. If the proposal has been finalized before and is under renegotiation now, calling this method will reset the Proposal.state to `FINALIZED` and increment the Proposal.proposal_revision. This method does not support private auction proposals whose Proposal.deal_type is 'PRIVATE_AUCTION'. */
 export const cancelNegotiationBuyersProposals: API.OperationMethod<
@@ -2648,7 +2719,14 @@ export const cancelNegotiationBuyersProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelNegotiationBuyersProposalsRequest,
   output: Proposal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2658,6 +2736,7 @@ export type CreateBuyersClientsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Creates a new client. */
 export const createBuyersClients: API.OperationMethod<
@@ -2668,7 +2747,14 @@ export const createBuyersClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBuyersClientsRequest,
   output: Client,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2678,6 +2764,7 @@ export type CreateBuyersClientsUsersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Creates a new client user in "INVITED" state. An email invitation will be sent to the new user, once accepted the user will become active. */
 export const createBuyersClientsUsers: API.OperationMethod<
@@ -2688,7 +2775,14 @@ export const createBuyersClientsUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBuyersClientsUsersRequest,
   output: ClientUser,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2698,6 +2792,7 @@ export type DeactivateBuyersClientsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Deactivates an existing client. The state of the client will be updated to "INACTIVE". This method has no effect if the client is already in "INACTIVE" state. */
 export const deactivateBuyersClients: API.OperationMethod<
@@ -2708,7 +2803,14 @@ export const deactivateBuyersClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeactivateBuyersClientsRequest,
   output: Client,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2718,6 +2820,7 @@ export type DeactivateBuyersClientsUsersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Deactivates an existing client user. The state of the client user will be updated from "ACTIVE" to "INACTIVE". This method has no effect if the client user is already in "INACTIVE" state. An error will be returned if the client user to deactivate is still in "INVITED" state. */
 export const deactivateBuyersClientsUsers: API.OperationMethod<
@@ -2728,7 +2831,14 @@ export const deactivateBuyersClientsUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeactivateBuyersClientsUsersRequest,
   output: ClientUser,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2738,6 +2848,7 @@ export type DeleteBuyersClientsUsersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Deletes an existing client user. The client user will lose access to the Authorized Buyers UI. Note that if a client user is deleted, the user's access to the UI can't be restored unless a new client user is created and activated. */
 export const deleteBuyersClientsUsers: API.OperationMethod<
@@ -2748,12 +2859,23 @@ export const deleteBuyersClientsUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteBuyersClientsUsersRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBuyersAuctionPackagesError = NotFound | Forbidden | GcpOpError;
+export type GetBuyersAuctionPackagesError =
+  | NotFound
+  | Forbidden
+  | AuthorizedBuyersScopeInsufficient
+  | GcpOpError;
 /** Gets an auction package given its name. */
 export const getBuyersAuctionPackages: API.OperationMethod<
   GetBuyersAuctionPackagesRequest,
@@ -2763,12 +2885,21 @@ export const getBuyersAuctionPackages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBuyersAuctionPackagesRequest,
   output: AuctionPackage,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBuyersClientsError = NotFound | Forbidden | GcpOpError;
+export type GetBuyersClientsError =
+  | NotFound
+  | Forbidden
+  | AuthorizedBuyersScopeInsufficient
+  | GcpOpError;
 /** Gets a client with a given resource name. */
 export const getBuyersClients: API.OperationMethod<
   GetBuyersClientsRequest,
@@ -2778,12 +2909,21 @@ export const getBuyersClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBuyersClientsRequest,
   output: Client,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBuyersClientsUsersError = NotFound | Forbidden | GcpOpError;
+export type GetBuyersClientsUsersError =
+  | NotFound
+  | Forbidden
+  | AuthorizedBuyersScopeInsufficient
+  | GcpOpError;
 /** Retrieves an existing client user. */
 export const getBuyersClientsUsers: API.OperationMethod<
   GetBuyersClientsUsersRequest,
@@ -2793,12 +2933,21 @@ export const getBuyersClientsUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBuyersClientsUsersRequest,
   output: ClientUser,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBuyersFinalizedDealsError = NotFound | Forbidden | GcpOpError;
+export type GetBuyersFinalizedDealsError =
+  | NotFound
+  | Forbidden
+  | AuthorizedBuyersScopeInsufficient
+  | GcpOpError;
 /** Gets a finalized deal given its name. */
 export const getBuyersFinalizedDeals: API.OperationMethod<
   GetBuyersFinalizedDealsRequest,
@@ -2808,12 +2957,21 @@ export const getBuyersFinalizedDeals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBuyersFinalizedDealsRequest,
   output: FinalizedDeal,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBuyersProposalsError = NotFound | Forbidden | GcpOpError;
+export type GetBuyersProposalsError =
+  | NotFound
+  | Forbidden
+  | AuthorizedBuyersScopeInsufficient
+  | GcpOpError;
 /** Gets a proposal using its resource name. The proposal is returned at the latest revision. */
 export const getBuyersProposals: API.OperationMethod<
   GetBuyersProposalsRequest,
@@ -2823,12 +2981,21 @@ export const getBuyersProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBuyersProposalsRequest,
   output: Proposal,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBuyersProposalsDealsError = NotFound | Forbidden | GcpOpError;
+export type GetBuyersProposalsDealsError =
+  | NotFound
+  | Forbidden
+  | AuthorizedBuyersScopeInsufficient
+  | GcpOpError;
 /** Gets a deal given its name. The deal is returned at its head revision. */
 export const getBuyersProposalsDeals: API.OperationMethod<
   GetBuyersProposalsDealsRequest,
@@ -2838,12 +3005,21 @@ export const getBuyersProposalsDeals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBuyersProposalsDealsRequest,
   output: Deal,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBuyersPublisherProfilesError = NotFound | Forbidden | GcpOpError;
+export type GetBuyersPublisherProfilesError =
+  | NotFound
+  | Forbidden
+  | AuthorizedBuyersScopeInsufficient
+  | GcpOpError;
 /** Gets the requested publisher profile by name. */
 export const getBuyersPublisherProfiles: API.OperationMethod<
   GetBuyersPublisherProfilesRequest,
@@ -2853,12 +3029,21 @@ export const getBuyersPublisherProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBuyersPublisherProfilesRequest,
   output: PublisherProfile,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListBiddersAuctionPackagesError = NotFound | Forbidden | GcpOpError;
+export type ListBiddersAuctionPackagesError =
+  | NotFound
+  | Forbidden
+  | AuthorizedBuyersScopeInsufficient
+  | GcpOpError;
 /** List the auction packages. Buyers can use the URL path "/v1/buyers/{accountId}/auctionPackages" to list auction packages for the current buyer and its clients. Bidders can use the URL path "/v1/bidders/{accountId}/auctionPackages" to list auction packages for the bidder, its media planners, its buyers, and all their clients. */
 export const listBiddersAuctionPackages: API.PaginatedOperationMethod<
   ListBiddersAuctionPackagesRequest,
@@ -2869,7 +3054,12 @@ export const listBiddersAuctionPackages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAuctionPackagesRequest,
   output: ListAuctionPackagesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2878,7 +3068,11 @@ export const listBiddersAuctionPackages: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListBiddersFinalizedDealsError = NotFound | Forbidden | GcpOpError;
+export type ListBiddersFinalizedDealsError =
+  | NotFound
+  | Forbidden
+  | AuthorizedBuyersScopeInsufficient
+  | GcpOpError;
 /** Lists finalized deals. Use the URL path "/v1/buyers/{accountId}/finalizedDeals" to list finalized deals for the current buyer and its clients. Bidders can use the URL path "/v1/bidders/{accountId}/finalizedDeals" to list finalized deals for the bidder, its buyers and all their clients. */
 export const listBiddersFinalizedDeals: API.PaginatedOperationMethod<
   ListBiddersFinalizedDealsRequest,
@@ -2889,7 +3083,12 @@ export const listBiddersFinalizedDeals: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFinalizedDealsRequest,
   output: ListFinalizedDealsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2898,7 +3097,11 @@ export const listBiddersFinalizedDeals: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListBuyersAuctionPackagesError = NotFound | Forbidden | GcpOpError;
+export type ListBuyersAuctionPackagesError =
+  | NotFound
+  | Forbidden
+  | AuthorizedBuyersScopeInsufficient
+  | GcpOpError;
 /** List the auction packages. Buyers can use the URL path "/v1/buyers/{accountId}/auctionPackages" to list auction packages for the current buyer and its clients. Bidders can use the URL path "/v1/bidders/{accountId}/auctionPackages" to list auction packages for the bidder, its media planners, its buyers, and all their clients. */
 export const listBuyersAuctionPackages: API.PaginatedOperationMethod<
   ListBuyersAuctionPackagesRequest,
@@ -2909,7 +3112,12 @@ export const listBuyersAuctionPackages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersAuctionPackagesRequest,
   output: ListAuctionPackagesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2918,7 +3126,11 @@ export const listBuyersAuctionPackages: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListBuyersClientsError = NotFound | Forbidden | GcpOpError;
+export type ListBuyersClientsError =
+  | NotFound
+  | Forbidden
+  | AuthorizedBuyersScopeInsufficient
+  | GcpOpError;
 /** Lists all the clients for the current buyer. */
 export const listBuyersClients: API.PaginatedOperationMethod<
   ListBuyersClientsRequest,
@@ -2929,7 +3141,12 @@ export const listBuyersClients: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersClientsRequest,
   output: ListClientsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2938,7 +3155,11 @@ export const listBuyersClients: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListBuyersClientsUsersError = NotFound | Forbidden | GcpOpError;
+export type ListBuyersClientsUsersError =
+  | NotFound
+  | Forbidden
+  | AuthorizedBuyersScopeInsufficient
+  | GcpOpError;
 /** Lists all client users for a specified client. */
 export const listBuyersClientsUsers: API.PaginatedOperationMethod<
   ListBuyersClientsUsersRequest,
@@ -2949,7 +3170,12 @@ export const listBuyersClientsUsers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersClientsUsersRequest,
   output: ListClientUsersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2958,7 +3184,11 @@ export const listBuyersClientsUsers: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListBuyersFinalizedDealsError = NotFound | Forbidden | GcpOpError;
+export type ListBuyersFinalizedDealsError =
+  | NotFound
+  | Forbidden
+  | AuthorizedBuyersScopeInsufficient
+  | GcpOpError;
 /** Lists finalized deals. Use the URL path "/v1/buyers/{accountId}/finalizedDeals" to list finalized deals for the current buyer and its clients. Bidders can use the URL path "/v1/bidders/{accountId}/finalizedDeals" to list finalized deals for the bidder, its buyers and all their clients. */
 export const listBuyersFinalizedDeals: API.PaginatedOperationMethod<
   ListBuyersFinalizedDealsRequest,
@@ -2969,7 +3199,12 @@ export const listBuyersFinalizedDeals: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFinalizedDealsRequest,
   output: ListFinalizedDealsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2978,7 +3213,11 @@ export const listBuyersFinalizedDeals: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListBuyersProposalsError = NotFound | Forbidden | GcpOpError;
+export type ListBuyersProposalsError =
+  | NotFound
+  | Forbidden
+  | AuthorizedBuyersScopeInsufficient
+  | GcpOpError;
 /** Lists proposals. A filter expression using [Cloud API list filtering syntax](https://developers.google.com/authorized-buyers/apis/guides/list-filters) may be specified to filter the results. */
 export const listBuyersProposals: API.PaginatedOperationMethod<
   ListBuyersProposalsRequest,
@@ -2989,7 +3228,12 @@ export const listBuyersProposals: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersProposalsRequest,
   output: ListProposalsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2998,7 +3242,11 @@ export const listBuyersProposals: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListBuyersProposalsDealsError = NotFound | Forbidden | GcpOpError;
+export type ListBuyersProposalsDealsError =
+  | NotFound
+  | Forbidden
+  | AuthorizedBuyersScopeInsufficient
+  | GcpOpError;
 /** Lists all deals in a proposal. To retrieve only the finalized revision deals regardless if a deal is being renegotiated, see the FinalizedDeals resource. */
 export const listBuyersProposalsDeals: API.PaginatedOperationMethod<
   ListBuyersProposalsDealsRequest,
@@ -3009,7 +3257,12 @@ export const listBuyersProposalsDeals: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersProposalsDealsRequest,
   output: ListDealsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3021,6 +3274,7 @@ export const listBuyersProposalsDeals: API.PaginatedOperationMethod<
 export type ListBuyersPublisherProfilesError =
   | NotFound
   | Forbidden
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Lists publisher profiles. The returned publisher profiles aren't in any defined order. The order of the results might change. A new publisher profile can appear in any place in the list of returned results. */
 export const listBuyersPublisherProfiles: API.PaginatedOperationMethod<
@@ -3032,7 +3286,12 @@ export const listBuyersPublisherProfiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersPublisherProfilesRequest,
   output: ListPublisherProfilesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3046,6 +3305,7 @@ export type PatchBuyersClientsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Updates an existing client. */
 export const patchBuyersClients: API.OperationMethod<
@@ -3056,7 +3316,14 @@ export const patchBuyersClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchBuyersClientsRequest,
   output: Client,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3066,6 +3333,7 @@ export type PatchBuyersProposalsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Updates the proposal at the given revision number. If the revision number in the request is behind the latest one kept in the server, an error message will be returned. See FieldMask for how to use FieldMask. Only fields specified in the UpdateProposalRequest.update_mask will be updated; Fields noted as 'Immutable' or 'Output only' yet specified in the UpdateProposalRequest.update_mask will be ignored and left unchanged. Updating a private auction proposal is only allowed for buyer private data, all other fields are immutable. */
 export const patchBuyersProposals: API.OperationMethod<
@@ -3076,7 +3344,14 @@ export const patchBuyersProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchBuyersProposalsRequest,
   output: Proposal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3086,6 +3361,7 @@ export type PatchBuyersProposalsDealsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Updates the given deal at the buyer known revision number. If the server revision has advanced since the passed-in proposal.proposal_revision an ABORTED error message will be returned. The revision number is incremented by the server whenever the proposal or its constituent deals are updated. Note: The revision number is kept at a proposal level. The buyer of the API is expected to keep track of the revision number after the last update operation and send it in as part of the next update request. This way, if there are further changes on the server (for example, seller making new updates), then the server can detect conflicts and reject the proposed changes. */
 export const patchBuyersProposalsDeals: API.OperationMethod<
@@ -3096,7 +3372,14 @@ export const patchBuyersProposalsDeals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchBuyersProposalsDealsRequest,
   output: Deal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3106,6 +3389,7 @@ export type PauseBuyersFinalizedDealsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Pauses serving of the given finalized deal. This call only pauses the serving status, and does not affect other fields of the finalized deal. Calling this method for an already paused deal has no effect. This method only applies to programmatic guaranteed deals and preferred deals. */
 export const pauseBuyersFinalizedDeals: API.OperationMethod<
@@ -3116,7 +3400,14 @@ export const pauseBuyersFinalizedDeals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PauseBuyersFinalizedDealsRequest,
   output: FinalizedDeal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3126,6 +3417,7 @@ export type ResumeBuyersFinalizedDealsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Resumes serving of the given finalized deal. Calling this method for an running deal has no effect. If a deal is initially paused by the seller, calling this method will not resume serving of the deal until the seller also resumes the deal. This method only applies to programmatic guaranteed deals and preferred deals. */
 export const resumeBuyersFinalizedDeals: API.OperationMethod<
@@ -3136,7 +3428,14 @@ export const resumeBuyersFinalizedDeals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ResumeBuyersFinalizedDealsRequest,
   output: FinalizedDeal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3146,6 +3445,7 @@ export type SendRfpBuyersProposalsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Sends a request for proposal (RFP) to a publisher to initiate the negotiation regarding certain inventory. In the RFP, buyers can specify the deal type, deal terms, start and end dates, targeting, and a message to the publisher. Once the RFP is sent, a proposal in `SELLER_REVIEW_REQUESTED` state will be created and returned in the response. The publisher may review your request and respond with detailed deals in the proposal. */
 export const sendRfpBuyersProposals: API.OperationMethod<
@@ -3156,7 +3456,14 @@ export const sendRfpBuyersProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SendRfpBuyersProposalsRequest,
   output: Proposal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3166,6 +3473,7 @@ export type SetReadyToServeBiddersFinalizedDealsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Sets the given finalized deal as ready to serve. By default, deals are set as ready to serve as soon as they're finalized. If you want to opt out of the default behavior, and manually indicate that deals are ready to serve, ask your Technical Account Manager to add you to the allowlist. If you choose to use this method, finalized deals belonging to the bidder and its child seats don't start serving until after you call `setReadyToServe`, and after the deals become active. For example, you can use this method to delay receiving bid requests until your creative is ready. In addition, bidders can use the URL path "/v1/bidders/{accountId}/finalizedDeals/{dealId}" to set ready to serve for the finalized deals belong to itself, its child seats and all their clients. This method only applies to programmatic guaranteed deals. */
 export const setReadyToServeBiddersFinalizedDeals: API.OperationMethod<
@@ -3176,7 +3484,14 @@ export const setReadyToServeBiddersFinalizedDeals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetReadyToServeBiddersFinalizedDealsRequest,
   output: FinalizedDeal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3186,6 +3501,7 @@ export type SetReadyToServeBuyersFinalizedDealsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Sets the given finalized deal as ready to serve. By default, deals are set as ready to serve as soon as they're finalized. If you want to opt out of the default behavior, and manually indicate that deals are ready to serve, ask your Technical Account Manager to add you to the allowlist. If you choose to use this method, finalized deals belonging to the bidder and its child seats don't start serving until after you call `setReadyToServe`, and after the deals become active. For example, you can use this method to delay receiving bid requests until your creative is ready. In addition, bidders can use the URL path "/v1/bidders/{accountId}/finalizedDeals/{dealId}" to set ready to serve for the finalized deals belong to itself, its child seats and all their clients. This method only applies to programmatic guaranteed deals. */
 export const setReadyToServeBuyersFinalizedDeals: API.OperationMethod<
@@ -3196,7 +3512,14 @@ export const setReadyToServeBuyersFinalizedDeals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetReadyToServeBuyersFinalizedDealsRequest,
   output: FinalizedDeal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3206,6 +3529,7 @@ export type SubscribeBuyersAuctionPackagesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Subscribe to the auction package for the specified buyer. Once subscribed, the bidder will receive a call out for inventory matching the auction package targeting criteria with the auction package deal ID and the specified buyer. */
 export const subscribeBuyersAuctionPackages: API.OperationMethod<
@@ -3216,7 +3540,14 @@ export const subscribeBuyersAuctionPackages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SubscribeBuyersAuctionPackagesRequest,
   output: AuctionPackage,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3226,6 +3557,7 @@ export type SubscribeClientsBuyersAuctionPackagesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Subscribe the specified clients of the buyer to the auction package. If a client in the list does not belong to the buyer, an error response will be returned, and all of the following clients in the list will not be subscribed. Subscribing an already subscribed client will have no effect. */
 export const subscribeClientsBuyersAuctionPackages: API.OperationMethod<
@@ -3236,7 +3568,14 @@ export const subscribeClientsBuyersAuctionPackages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SubscribeClientsBuyersAuctionPackagesRequest,
   output: AuctionPackage,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3246,6 +3585,7 @@ export type UnsubscribeBuyersAuctionPackagesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Unsubscribe from the auction package for the specified buyer. Once unsubscribed, the bidder will no longer receive a call out for the auction package deal ID and the specified buyer. */
 export const unsubscribeBuyersAuctionPackages: API.OperationMethod<
@@ -3256,7 +3596,14 @@ export const unsubscribeBuyersAuctionPackages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UnsubscribeBuyersAuctionPackagesRequest,
   output: AuctionPackage,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3266,6 +3613,7 @@ export type UnsubscribeClientsBuyersAuctionPackagesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AuthorizedBuyersScopeInsufficient
   | GcpOpError;
 /** Unsubscribe from the auction package for the specified clients of the buyer. Unsubscribing a client that is not subscribed will have no effect. */
 export const unsubscribeClientsBuyersAuctionPackages: API.OperationMethod<
@@ -3276,7 +3624,14 @@ export const unsubscribeClientsBuyersAuctionPackages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UnsubscribeClientsBuyersAuctionPackagesRequest,
   output: AuctionPackage,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AuthorizedBuyersScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

@@ -4833,6 +4833,9 @@
         },
         {
           "target": "com.gcp.storage_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.storage_v1#IamPolicyEtagMismatch"
         }
       ],
       "traits": {
@@ -6732,6 +6735,9 @@
         },
         {
           "target": "com.gcp.storage_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.storage_v1#NotificationTopicUnavailable"
         }
       ],
       "traits": {
@@ -6846,6 +6852,9 @@
         },
         {
           "target": "com.gcp.storage_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.storage_v1#ObjectOwnerAclRequired"
         }
       ],
       "traits": {
@@ -9605,6 +9614,54 @@
           "uri": "projects/{projectId}/serviceAccount"
         },
         "smithy.api#documentation": "Get the email address of this project's Google Cloud Storage service account."
+      }
+    },
+    "com.gcp.storage_v1#ObjectOwnerAclRequired": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The ACL entry is the object owner's OWNER grant, which Cloud Storage never removes (HTTP 403). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "owner of the resource is required to have OWNER access"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.storage_v1#NotificationTopicUnavailable": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The Pub/Sub topic does not exist or the bucket's Cloud Storage service agent may not publish to it (HTTP 400). Retryable while a fresh roles/pubsub.publisher grant propagates.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "Cloud Pub/Sub topic"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.storage_v1#IamPolicyEtagMismatch": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 412,
+        "smithy.api#documentation": "The policy's etag no longer matches the bucket's current IAM policy — another writer changed it concurrently (HTTP 412). Re-read the policy and retry.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 412
+          }
+        ]
       }
     }
   }

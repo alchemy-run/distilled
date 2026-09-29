@@ -2794,6 +2794,9 @@
         },
         {
           "target": "com.gcp.pubsub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.pubsub_v1#IamMemberNotFound"
         }
       ],
       "traits": {
@@ -4836,6 +4839,23 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
+      }
+    },
+    "com.gcp.pubsub_v1#IamMemberNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "A policy member (service account) does not exist (HTTP 400 INVALID_ARGUMENT). Retryable while a just-created service agent propagates.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "matches": "^Service account .+ does not exist\\.?$"
+            }
+          }
+        ]
       }
     }
   }

@@ -52,6 +52,25 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** A policy member (service account) does not exist (HTTP 400 INVALID_ARGUMENT). Retryable while a just-created service agent propagates. */
+export class IamMemberNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<IamMemberNotFound>()("IamMemberNotFound", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
+    [
+      {
+        status: 400,
+        message: { matches: "^Service account .+ does not exist\\.?$" },
+      },
+    ],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -3254,6 +3273,7 @@ export type SetIamPolicyProjectsTopicsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | IamMemberNotFound
   | GcpOpError;
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsTopics: API.OperationMethod<
@@ -3264,7 +3284,14 @@ export const setIamPolicyProjectsTopics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetIamPolicyProjectsTopicsRequest,
   output: Policy,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    IamMemberNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

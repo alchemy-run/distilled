@@ -52,6 +52,28 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The credential lacks the https://www.googleapis.com/auth/apps.licensing OAuth scope (HTTP 403 'Request had insufficient authentication scopes.'). A Cloud Platform-scoped service account token cannot call the License Manager API; not retryable. */
+export class InsufficientAuthenticationScopes
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InsufficientAuthenticationScopes>()(
+      "InsufficientAuthenticationScopes",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -334,6 +356,7 @@ export type DeleteLicenseAssignmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Revoke a license. */
 export const deleteLicenseAssignments: API.OperationMethod<
@@ -344,12 +367,23 @@ export const deleteLicenseAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteLicenseAssignmentsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetLicenseAssignmentsError = NotFound | Forbidden | GcpOpError;
+export type GetLicenseAssignmentsError =
+  | NotFound
+  | Forbidden
+  | InsufficientAuthenticationScopes
+  | GcpOpError;
 /** Get a specific user's license by product SKU. */
 export const getLicenseAssignments: API.OperationMethod<
   GetLicenseAssignmentsRequest,
@@ -359,7 +393,12 @@ export const getLicenseAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetLicenseAssignmentsRequest,
   output: LicenseAssignment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -369,6 +408,7 @@ export type InsertLicenseAssignmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Assign a license. */
 export const insertLicenseAssignments: API.OperationMethod<
@@ -379,7 +419,14 @@ export const insertLicenseAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: InsertLicenseAssignmentsRequest,
   output: LicenseAssignment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -387,6 +434,7 @@ export const insertLicenseAssignments: API.OperationMethod<
 export type ListForProductAndSkuLicenseAssignmentsError =
   | NotFound
   | Forbidden
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** List all users assigned licenses for a specific product SKU. */
 export const listForProductAndSkuLicenseAssignments: API.PaginatedOperationMethod<
@@ -398,7 +446,12 @@ export const listForProductAndSkuLicenseAssignments: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForProductAndSkuLicenseAssignmentsRequest,
   output: LicenseAssignmentList,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -411,6 +464,7 @@ export const listForProductAndSkuLicenseAssignments: API.PaginatedOperationMetho
 export type ListForProductLicenseAssignmentsError =
   | NotFound
   | Forbidden
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** List all users assigned licenses for a specific product SKU. */
 export const listForProductLicenseAssignments: API.PaginatedOperationMethod<
@@ -422,7 +476,12 @@ export const listForProductLicenseAssignments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForProductLicenseAssignmentsRequest,
   output: LicenseAssignmentList,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -437,6 +496,7 @@ export type PatchLicenseAssignmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Reassign a user's product SKU with a different SKU in the same product. This method supports patch semantics. */
 export const patchLicenseAssignments: API.OperationMethod<
@@ -447,7 +507,14 @@ export const patchLicenseAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchLicenseAssignmentsRequest,
   output: LicenseAssignment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -457,6 +524,7 @@ export type UpdateLicenseAssignmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Reassign a user's product SKU with a different SKU in the same product. */
 export const updateLicenseAssignments: API.OperationMethod<
@@ -467,7 +535,14 @@ export const updateLicenseAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateLicenseAssignmentsRequest,
   output: LicenseAssignment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

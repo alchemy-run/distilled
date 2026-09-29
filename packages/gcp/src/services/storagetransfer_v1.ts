@@ -65,6 +65,20 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The Storage Transfer API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED). */
+export class ServiceDisabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ServiceDisabled>()("ServiceDisabled", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [{ status: 403, message: { includes: "has not been used in project" } }],
+  ) {}
+
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
 export const CancelOperationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1367,6 +1381,7 @@ export type CancelTransferOperationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Cancels a transfer. Use the transferOperations.get method to check if the cancellation succeeded or if the operation completed despite the `cancel` request. When you cancel an operation, the currently running transfer is interrupted. For recurring transfer jobs, the next instance of the transfer job will still run. For example, if your job is configured to run every day at 1pm and you cancel Monday's operation at 1:05pm, Monday's transfer will stop. However, a transfer job will still be attempted on Tuesday. This applies only to currently running operations. If an operation is not currently running, `cancel` does nothing. *Caution:* Canceling a transfer job can leave your data in an unknown state. We recommend that you restore the state at both the destination and the source after the `cancel` request completes so that your data is in a consistent state. When you cancel a job, the next job computes a delta of files and may repair any inconsistent state. For instance, if you run a job every day, and today's job found 10 new files and transferred five files before you canceled the job, tomorrow's transfer operation will compute a new delta with the five files that were not copied today plus any new files discovered tomorrow. */
 export const cancelTransferOperations: API.OperationMethod<
@@ -1377,7 +1392,14 @@ export const cancelTransferOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelTransferOperationsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1387,6 +1409,7 @@ export type CreateProjectsAgentPoolsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates an agent pool resource. */
 export const createProjectsAgentPools: API.OperationMethod<
@@ -1397,7 +1420,14 @@ export const createProjectsAgentPools: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsAgentPoolsRequest,
   output: AgentPool,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1407,6 +1437,7 @@ export type CreateTransferJobsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a transfer job that runs periodically. */
 export const createTransferJobs: API.OperationMethod<
@@ -1417,7 +1448,14 @@ export const createTransferJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateTransferJobsRequest,
   output: TransferJob,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1427,6 +1465,7 @@ export type DeleteProjectsAgentPoolsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes an agent pool. */
 export const deleteProjectsAgentPools: API.OperationMethod<
@@ -1437,7 +1476,14 @@ export const deleteProjectsAgentPools: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsAgentPoolsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1447,6 +1493,7 @@ export type DeleteTransferJobsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a transfer job. Deleting a transfer job sets its status to DELETED. */
 export const deleteTransferJobs: API.OperationMethod<
@@ -1457,12 +1504,23 @@ export const deleteTransferJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteTransferJobsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetGoogleServiceAccountsError = NotFound | Forbidden | GcpOpError;
+export type GetGoogleServiceAccountsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Returns the Google service account that is used by Storage Transfer Service to access buckets in the project where transfers run or in other projects. Each Google service account is associated with one Google Cloud project. Users should add this service account to the Google Cloud Storage bucket ACLs to grant access to Storage Transfer Service. This service account is created and owned by Storage Transfer Service and can only be used by Storage Transfer Service. */
 export const getGoogleServiceAccounts: API.OperationMethod<
   GetGoogleServiceAccountsRequest,
@@ -1472,12 +1530,16 @@ export const getGoogleServiceAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetGoogleServiceAccountsRequest,
   output: GoogleServiceAccount,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetProjectsAgentPoolsError = NotFound | Forbidden | GcpOpError;
+export type GetProjectsAgentPoolsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Gets an agent pool. */
 export const getProjectsAgentPools: API.OperationMethod<
   GetProjectsAgentPoolsRequest,
@@ -1487,12 +1549,16 @@ export const getProjectsAgentPools: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsAgentPoolsRequest,
   output: AgentPool,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetTransferJobsError = NotFound | Forbidden | GcpOpError;
+export type GetTransferJobsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Gets a transfer job. */
 export const getTransferJobs: API.OperationMethod<
   GetTransferJobsRequest,
@@ -1502,12 +1568,16 @@ export const getTransferJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTransferJobsRequest,
   output: TransferJob,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetTransferOperationsError = NotFound | Forbidden | GcpOpError;
+export type GetTransferOperationsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getTransferOperations: API.OperationMethod<
   GetTransferOperationsRequest,
@@ -1517,12 +1587,16 @@ export const getTransferOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTransferOperationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListProjectsAgentPoolsError = NotFound | Forbidden | GcpOpError;
+export type ListProjectsAgentPoolsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists agent pools. */
 export const listProjectsAgentPools: API.PaginatedOperationMethod<
   ListProjectsAgentPoolsRequest,
@@ -1533,7 +1607,7 @@ export const listProjectsAgentPools: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsAgentPoolsRequest,
   output: ListAgentPoolsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -1542,7 +1616,11 @@ export const listProjectsAgentPools: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListTransferJobsError = NotFound | Forbidden | GcpOpError;
+export type ListTransferJobsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists transfer jobs. */
 export const listTransferJobs: API.PaginatedOperationMethod<
   ListTransferJobsRequest,
@@ -1553,7 +1631,7 @@ export const listTransferJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListTransferJobsRequest,
   output: ListTransferJobsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -1562,7 +1640,11 @@ export const listTransferJobs: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListTransferOperationsError = NotFound | Forbidden | GcpOpError;
+export type ListTransferOperationsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists transfer operations. Operations are ordered by their creation time in reverse chronological order. */
 export const listTransferOperations: API.PaginatedOperationMethod<
   ListTransferOperationsRequest,
@@ -1573,7 +1655,7 @@ export const listTransferOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListTransferOperationsRequest,
   output: ListOperationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -1587,6 +1669,7 @@ export type PatchProjectsAgentPoolsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates an existing agent pool resource. */
 export const patchProjectsAgentPools: API.OperationMethod<
@@ -1597,7 +1680,14 @@ export const patchProjectsAgentPools: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsAgentPoolsRequest,
   output: AgentPool,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1607,6 +1697,7 @@ export type PatchTransferJobsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates a transfer job. Updating a job's transfer spec does not affect transfer operations that are running already. **Note:** The job's status field can be modified using this RPC (for example, to set a job's status to DELETED, DISABLED, or ENABLED). */
 export const patchTransferJobs: API.OperationMethod<
@@ -1617,7 +1708,14 @@ export const patchTransferJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchTransferJobsRequest,
   output: TransferJob,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1627,6 +1725,7 @@ export type PauseTransferOperationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Pauses a transfer operation. */
 export const pauseTransferOperations: API.OperationMethod<
@@ -1637,7 +1736,14 @@ export const pauseTransferOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PauseTransferOperationsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1647,6 +1753,7 @@ export type ResumeTransferOperationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Resumes a transfer operation that is paused. */
 export const resumeTransferOperations: API.OperationMethod<
@@ -1657,7 +1764,14 @@ export const resumeTransferOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ResumeTransferOperationsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1667,6 +1781,7 @@ export type RunTransferJobsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Starts a new operation for the specified transfer job. A `TransferJob` has a maximum of one active `TransferOperation`. If this method is called while a `TransferOperation` is active, an error is returned. */
 export const runTransferJobs: API.OperationMethod<
@@ -1677,7 +1792,14 @@ export const runTransferJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RunTransferJobsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

@@ -1,0 +1,68 @@
+{
+  "description": "Type the 403 Resource Manager returns for a folder that does not exist ('Permission ... denied on resource ... (or it may not exist).'). It surfaced as a generic Forbidden, indistinguishable from a real permission denial.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#FolderNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The folder does not exist, or the caller cannot see it. Resource Manager answers both with HTTP 403 'Permission ... denied on resource ... (or it may not exist).'",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "(or it may not exist)"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#MoveFolders/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#FolderNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#UndeleteFolders/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#FolderNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#GetFolders/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#FolderNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#DeleteFolders/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#FolderNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#GetIamPolicyFolders/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#FolderNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#PatchFolders/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#FolderNotFound"
+      }
+    }
+  ]
+}

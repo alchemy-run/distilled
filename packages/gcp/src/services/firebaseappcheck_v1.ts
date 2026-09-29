@@ -65,6 +65,20 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The Firebase App Check API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED). */
+export class ServiceDisabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ServiceDisabled>()("ServiceDisabled", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [{ status: 403, message: { includes: "has not been used in project" } }],
+  ) {}
+
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(
   S.String,
@@ -2085,6 +2099,7 @@ export const PatchProjectsServicesResourcePoliciesRequest =
 export type BatchGetProjectsAppsAppAttestConfigError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Atomically gets the AppAttestConfigs for the specified list of apps. */
 export const batchGetProjectsAppsAppAttestConfig: API.OperationMethod<
@@ -2095,7 +2110,7 @@ export const batchGetProjectsAppsAppAttestConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchGetProjectsAppsAppAttestConfigRequest,
   output: GoogleFirebaseAppcheckV1BatchGetAppAttestConfigsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2103,6 +2118,7 @@ export const batchGetProjectsAppsAppAttestConfig: API.OperationMethod<
 export type BatchGetProjectsAppsDeviceCheckConfigError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Atomically gets the DeviceCheckConfigs for the specified list of apps. For security reasons, the `private_key` field is never populated in the response. */
 export const batchGetProjectsAppsDeviceCheckConfig: API.OperationMethod<
@@ -2113,7 +2129,7 @@ export const batchGetProjectsAppsDeviceCheckConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchGetProjectsAppsDeviceCheckConfigRequest,
   output: GoogleFirebaseAppcheckV1BatchGetDeviceCheckConfigsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2121,6 +2137,7 @@ export const batchGetProjectsAppsDeviceCheckConfig: API.OperationMethod<
 export type BatchGetProjectsAppsPlayIntegrityConfigError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Atomically gets the PlayIntegrityConfigs for the specified list of apps. */
 export const batchGetProjectsAppsPlayIntegrityConfig: API.OperationMethod<
@@ -2131,7 +2148,7 @@ export const batchGetProjectsAppsPlayIntegrityConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchGetProjectsAppsPlayIntegrityConfigRequest,
   output: GoogleFirebaseAppcheckV1BatchGetPlayIntegrityConfigsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2139,6 +2156,7 @@ export const batchGetProjectsAppsPlayIntegrityConfig: API.OperationMethod<
 export type BatchGetProjectsAppsRecaptchaEnterpriseConfigError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Atomically gets the RecaptchaEnterpriseConfigs for the specified list of apps. */
 export const batchGetProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<
@@ -2149,7 +2167,7 @@ export const batchGetProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchGetProjectsAppsRecaptchaEnterpriseConfigRequest,
   output: GoogleFirebaseAppcheckV1BatchGetRecaptchaEnterpriseConfigsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2157,6 +2175,7 @@ export const batchGetProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<
 export type BatchGetProjectsAppsRecaptchaV3ConfigError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Atomically gets the RecaptchaV3Configs for the specified list of apps. For security reasons, the `site_secret` field is never populated in the response. */
 export const batchGetProjectsAppsRecaptchaV3Config: API.OperationMethod<
@@ -2167,7 +2186,7 @@ export const batchGetProjectsAppsRecaptchaV3Config: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchGetProjectsAppsRecaptchaV3ConfigRequest,
   output: GoogleFirebaseAppcheckV1BatchGetRecaptchaV3ConfigsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2177,6 +2196,7 @@ export type BatchUpdateProjectsServicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Atomically updates the specified Service configurations. */
 export const batchUpdateProjectsServices: API.OperationMethod<
@@ -2187,7 +2207,14 @@ export const batchUpdateProjectsServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchUpdateProjectsServicesRequest,
   output: GoogleFirebaseAppcheckV1BatchUpdateServicesResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2197,6 +2224,7 @@ export type BatchUpdateProjectsServicesResourcePoliciesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Atomically updates the specified ResourcePolicy configurations. */
 export const batchUpdateProjectsServicesResourcePolicies: API.OperationMethod<
@@ -2207,7 +2235,14 @@ export const batchUpdateProjectsServicesResourcePolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchUpdateProjectsServicesResourcePoliciesRequest,
   output: GoogleFirebaseAppcheckV1BatchUpdateResourcePoliciesResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2217,6 +2252,7 @@ export type CreateProjectsAppsDebugTokensError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new DebugToken for the specified app. For security reasons, after the creation operation completes, the `token` field cannot be updated or retrieved, but you can revoke the debug token using DeleteDebugToken. Each app can have a maximum of 20 debug tokens. */
 export const createProjectsAppsDebugTokens: API.OperationMethod<
@@ -2227,7 +2263,14 @@ export const createProjectsAppsDebugTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsAppsDebugTokensRequest,
   output: GoogleFirebaseAppcheckV1DebugToken,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2237,6 +2280,7 @@ export type CreateProjectsServicesResourcePoliciesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates the specified ResourcePolicy configuration. */
 export const createProjectsServicesResourcePolicies: API.OperationMethod<
@@ -2247,7 +2291,14 @@ export const createProjectsServicesResourcePolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsServicesResourcePoliciesRequest,
   output: GoogleFirebaseAppcheckV1ResourcePolicy,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2257,6 +2308,7 @@ export type DeleteProjectsAppsDebugTokensError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes the specified DebugToken. A deleted debug token cannot be used to exchange for an App Check token. Use this method when you suspect the secret `token` has been compromised or when you no longer need the debug token. */
 export const deleteProjectsAppsDebugTokens: API.OperationMethod<
@@ -2267,7 +2319,14 @@ export const deleteProjectsAppsDebugTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsAppsDebugTokensRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2277,6 +2336,7 @@ export type DeleteProjectsServicesResourcePoliciesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes the specified ResourcePolicy configuration. */
 export const deleteProjectsServicesResourcePolicies: API.OperationMethod<
@@ -2287,7 +2347,14 @@ export const deleteProjectsServicesResourcePolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsServicesResourcePoliciesRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2297,6 +2364,7 @@ export type ExchangeAppAttestAssertionOauthClientsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Accepts an App Attest assertion and an artifact previously obtained from ExchangeAppAttestAttestation and verifies those with Apple. If valid, returns an AppCheckToken. */
 export const exchangeAppAttestAssertionOauthClients: API.OperationMethod<
@@ -2307,7 +2375,14 @@ export const exchangeAppAttestAssertionOauthClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExchangeAppAttestAssertionOauthClientsRequest,
   output: GoogleFirebaseAppcheckV1AppCheckToken,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2317,6 +2392,7 @@ export type ExchangeAppAttestAssertionProjectsAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Accepts an App Attest assertion and an artifact previously obtained from ExchangeAppAttestAttestation and verifies those with Apple. If valid, returns an AppCheckToken. */
 export const exchangeAppAttestAssertionProjectsApps: API.OperationMethod<
@@ -2327,7 +2403,14 @@ export const exchangeAppAttestAssertionProjectsApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExchangeAppAttestAssertionProjectsAppsRequest,
   output: GoogleFirebaseAppcheckV1AppCheckToken,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2337,6 +2420,7 @@ export type ExchangeAppAttestAttestationOauthClientsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Accepts an App Attest CBOR attestation and verifies it with Apple using your preconfigured team and bundle IDs. If valid, returns an attestation artifact that can later be exchanged for an AppCheckToken using ExchangeAppAttestAssertion. For convenience and performance, this method's response object will also contain an AppCheckToken (if the verification is successful). */
 export const exchangeAppAttestAttestationOauthClients: API.OperationMethod<
@@ -2347,7 +2431,14 @@ export const exchangeAppAttestAttestationOauthClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExchangeAppAttestAttestationOauthClientsRequest,
   output: GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2357,6 +2448,7 @@ export type ExchangeAppAttestAttestationProjectsAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Accepts an App Attest CBOR attestation and verifies it with Apple using your preconfigured team and bundle IDs. If valid, returns an attestation artifact that can later be exchanged for an AppCheckToken using ExchangeAppAttestAssertion. For convenience and performance, this method's response object will also contain an AppCheckToken (if the verification is successful). */
 export const exchangeAppAttestAttestationProjectsApps: API.OperationMethod<
@@ -2367,7 +2459,14 @@ export const exchangeAppAttestAttestationProjectsApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExchangeAppAttestAttestationProjectsAppsRequest,
   output: GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2377,6 +2476,7 @@ export type ExchangeCustomTokenProjectsAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Validates a custom token signed using your project's Admin SDK service account credentials. If valid, returns an AppCheckToken. */
 export const exchangeCustomTokenProjectsApps: API.OperationMethod<
@@ -2387,7 +2487,14 @@ export const exchangeCustomTokenProjectsApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExchangeCustomTokenProjectsAppsRequest,
   output: GoogleFirebaseAppcheckV1AppCheckToken,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2397,6 +2504,7 @@ export type ExchangeDebugTokenOauthClientsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Validates a debug token secret that you have previously created using CreateDebugToken. If valid, returns an AppCheckToken. Note that a restrictive quota is enforced on this method to prevent accidental exposure of the app to abuse. */
 export const exchangeDebugTokenOauthClients: API.OperationMethod<
@@ -2407,7 +2515,14 @@ export const exchangeDebugTokenOauthClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExchangeDebugTokenOauthClientsRequest,
   output: GoogleFirebaseAppcheckV1AppCheckToken,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2417,6 +2532,7 @@ export type ExchangeDebugTokenProjectsAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Validates a debug token secret that you have previously created using CreateDebugToken. If valid, returns an AppCheckToken. Note that a restrictive quota is enforced on this method to prevent accidental exposure of the app to abuse. */
 export const exchangeDebugTokenProjectsApps: API.OperationMethod<
@@ -2427,7 +2543,14 @@ export const exchangeDebugTokenProjectsApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExchangeDebugTokenProjectsAppsRequest,
   output: GoogleFirebaseAppcheckV1AppCheckToken,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2437,6 +2560,7 @@ export type ExchangeDeviceCheckTokenProjectsAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Accepts a [`device_token`](https://developer.apple.com/documentation/devicecheck/dcdevice) issued by DeviceCheck, and attempts to validate it with Apple. If valid, returns an AppCheckToken. */
 export const exchangeDeviceCheckTokenProjectsApps: API.OperationMethod<
@@ -2447,7 +2571,14 @@ export const exchangeDeviceCheckTokenProjectsApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExchangeDeviceCheckTokenProjectsAppsRequest,
   output: GoogleFirebaseAppcheckV1AppCheckToken,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2457,6 +2588,7 @@ export type ExchangePlayIntegrityTokenProjectsAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Validates an [integrity verdict response token from Play Integrity](https://developer.android.com/google/play/integrity/verdict#decrypt-verify). If valid, returns an AppCheckToken. */
 export const exchangePlayIntegrityTokenProjectsApps: API.OperationMethod<
@@ -2467,7 +2599,14 @@ export const exchangePlayIntegrityTokenProjectsApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExchangePlayIntegrityTokenProjectsAppsRequest,
   output: GoogleFirebaseAppcheckV1AppCheckToken,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2477,6 +2616,7 @@ export type ExchangeRecaptchaEnterpriseTokenProjectsAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Validates a [reCAPTCHA Enterprise response token](https://cloud.google.com/recaptcha-enterprise/docs/create-assessment#retrieve_token). If valid, returns an AppCheckToken. */
 export const exchangeRecaptchaEnterpriseTokenProjectsApps: API.OperationMethod<
@@ -2487,7 +2627,14 @@ export const exchangeRecaptchaEnterpriseTokenProjectsApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExchangeRecaptchaEnterpriseTokenProjectsAppsRequest,
   output: GoogleFirebaseAppcheckV1AppCheckToken,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2497,6 +2644,7 @@ export type ExchangeRecaptchaV3TokenProjectsAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Validates a [reCAPTCHA v3 response token](https://developers.google.com/recaptcha/docs/v3). If valid, returns an AppCheckToken. */
 export const exchangeRecaptchaV3TokenProjectsApps: API.OperationMethod<
@@ -2507,7 +2655,14 @@ export const exchangeRecaptchaV3TokenProjectsApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExchangeRecaptchaV3TokenProjectsAppsRequest,
   output: GoogleFirebaseAppcheckV1AppCheckToken,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2517,6 +2672,7 @@ export type GenerateAppAttestChallengeOauthClientsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Generates a challenge that protects the integrity of an immediately following call to ExchangeAppAttestAttestation or ExchangeAppAttestAssertion. A challenge should not be reused for multiple calls. */
 export const generateAppAttestChallengeOauthClients: API.OperationMethod<
@@ -2527,7 +2683,14 @@ export const generateAppAttestChallengeOauthClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GenerateAppAttestChallengeOauthClientsRequest,
   output: GoogleFirebaseAppcheckV1GenerateAppAttestChallengeResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2537,6 +2700,7 @@ export type GenerateAppAttestChallengeProjectsAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Generates a challenge that protects the integrity of an immediately following call to ExchangeAppAttestAttestation or ExchangeAppAttestAssertion. A challenge should not be reused for multiple calls. */
 export const generateAppAttestChallengeProjectsApps: API.OperationMethod<
@@ -2547,7 +2711,14 @@ export const generateAppAttestChallengeProjectsApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GenerateAppAttestChallengeProjectsAppsRequest,
   output: GoogleFirebaseAppcheckV1GenerateAppAttestChallengeResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2557,6 +2728,7 @@ export type GeneratePlayIntegrityChallengeProjectsAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Generates a challenge that protects the integrity of an immediately following integrity verdict request to the Play Integrity API. The next call to ExchangePlayIntegrityToken using the resulting integrity token will verify the presence and validity of the challenge. A challenge should not be reused for multiple calls. */
 export const generatePlayIntegrityChallengeProjectsApps: API.OperationMethod<
@@ -2567,12 +2739,19 @@ export const generatePlayIntegrityChallengeProjectsApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GeneratePlayIntegrityChallengeProjectsAppsRequest,
   output: GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetJwksError = NotFound | Forbidden | GcpOpError;
+export type GetJwksError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
 /** Returns a public JWK set as specified by [RFC 7517](https://tools.ietf.org/html/rfc7517) that can be used to verify App Check tokens. Exactly one of the public keys in the returned set will successfully validate any App Check token that is currently valid. */
 export const getJwks: API.OperationMethod<
   GetJwksRequest,
@@ -2582,7 +2761,7 @@ export const getJwks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetJwksRequest,
   output: GoogleFirebaseAppcheckV1PublicJwkSet,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2590,6 +2769,7 @@ export const getJwks: API.OperationMethod<
 export type GetProjectsAppsAppAttestConfigError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets the AppAttestConfig for the specified app. */
 export const getProjectsAppsAppAttestConfig: API.OperationMethod<
@@ -2600,12 +2780,16 @@ export const getProjectsAppsAppAttestConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsAppsAppAttestConfigRequest,
   output: GoogleFirebaseAppcheckV1AppAttestConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetProjectsAppsDebugTokensError = NotFound | Forbidden | GcpOpError;
+export type GetProjectsAppsDebugTokensError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Gets the specified DebugToken. For security reasons, the `token` field is never populated in the response. */
 export const getProjectsAppsDebugTokens: API.OperationMethod<
   GetProjectsAppsDebugTokensRequest,
@@ -2615,7 +2799,7 @@ export const getProjectsAppsDebugTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsAppsDebugTokensRequest,
   output: GoogleFirebaseAppcheckV1DebugToken,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2623,6 +2807,7 @@ export const getProjectsAppsDebugTokens: API.OperationMethod<
 export type GetProjectsAppsDeviceCheckConfigError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets the DeviceCheckConfig for the specified app. For security reasons, the `private_key` field is never populated in the response. */
 export const getProjectsAppsDeviceCheckConfig: API.OperationMethod<
@@ -2633,7 +2818,7 @@ export const getProjectsAppsDeviceCheckConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsAppsDeviceCheckConfigRequest,
   output: GoogleFirebaseAppcheckV1DeviceCheckConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2641,6 +2826,7 @@ export const getProjectsAppsDeviceCheckConfig: API.OperationMethod<
 export type GetProjectsAppsPlayIntegrityConfigError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets the PlayIntegrityConfig for the specified app. */
 export const getProjectsAppsPlayIntegrityConfig: API.OperationMethod<
@@ -2651,7 +2837,7 @@ export const getProjectsAppsPlayIntegrityConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsAppsPlayIntegrityConfigRequest,
   output: GoogleFirebaseAppcheckV1PlayIntegrityConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2659,6 +2845,7 @@ export const getProjectsAppsPlayIntegrityConfig: API.OperationMethod<
 export type GetProjectsAppsRecaptchaEnterpriseConfigError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets the RecaptchaEnterpriseConfig for the specified app. */
 export const getProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<
@@ -2669,7 +2856,7 @@ export const getProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsAppsRecaptchaEnterpriseConfigRequest,
   output: GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2677,6 +2864,7 @@ export const getProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<
 export type GetProjectsAppsRecaptchaV3ConfigError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets the RecaptchaV3Config for the specified app. For security reasons, the `site_secret` field is never populated in the response. */
 export const getProjectsAppsRecaptchaV3Config: API.OperationMethod<
@@ -2687,12 +2875,16 @@ export const getProjectsAppsRecaptchaV3Config: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsAppsRecaptchaV3ConfigRequest,
   output: GoogleFirebaseAppcheckV1RecaptchaV3Config,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetProjectsServicesError = NotFound | Forbidden | GcpOpError;
+export type GetProjectsServicesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Gets the Service configuration for the specified service name. */
 export const getProjectsServices: API.OperationMethod<
   GetProjectsServicesRequest,
@@ -2702,7 +2894,7 @@ export const getProjectsServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsServicesRequest,
   output: GoogleFirebaseAppcheckV1Service,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2710,6 +2902,7 @@ export const getProjectsServices: API.OperationMethod<
 export type GetProjectsServicesResourcePoliciesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets the requested ResourcePolicy configuration. */
 export const getProjectsServicesResourcePolicies: API.OperationMethod<
@@ -2720,7 +2913,7 @@ export const getProjectsServicesResourcePolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsServicesResourcePoliciesRequest,
   output: GoogleFirebaseAppcheckV1ResourcePolicy,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2728,6 +2921,7 @@ export const getProjectsServicesResourcePolicies: API.OperationMethod<
 export type ListProjectsAppsDebugTokensError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all DebugTokens for the specified app. For security reasons, the `token` field is never populated in the response. */
 export const listProjectsAppsDebugTokens: API.PaginatedOperationMethod<
@@ -2739,7 +2933,7 @@ export const listProjectsAppsDebugTokens: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsAppsDebugTokensRequest,
   output: GoogleFirebaseAppcheckV1ListDebugTokensResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2748,7 +2942,11 @@ export const listProjectsAppsDebugTokens: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListProjectsServicesError = NotFound | Forbidden | GcpOpError;
+export type ListProjectsServicesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists all Service configurations for the specified project. Only Services which were explicitly configured using UpdateService or BatchUpdateServices will be returned. */
 export const listProjectsServices: API.PaginatedOperationMethod<
   ListProjectsServicesRequest,
@@ -2759,7 +2957,7 @@ export const listProjectsServices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsServicesRequest,
   output: GoogleFirebaseAppcheckV1ListServicesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2771,6 +2969,7 @@ export const listProjectsServices: API.PaginatedOperationMethod<
 export type ListProjectsServicesResourcePoliciesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all ResourcePolicy configurations for the specified project and service. */
 export const listProjectsServicesResourcePolicies: API.PaginatedOperationMethod<
@@ -2782,7 +2981,7 @@ export const listProjectsServicesResourcePolicies: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsServicesResourcePoliciesRequest,
   output: GoogleFirebaseAppcheckV1ListResourcePoliciesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2796,6 +2995,7 @@ export type MintAppCheckTokenProjectsAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Mints a new App Check token for the specified Firebase App. This method is intended to be called from a privileged environment where the caller can be authorized via Cloud IAM; for example, using a service account. To call this method, the caller must have the [`firebaseappcheck.googleapis.com/tokens.mint`](https://firebase.google.com/docs/projects/iam/permissions#app-check) permission. Returns a MintAppCheckTokenResponse. */
 export const mintAppCheckTokenProjectsApps: API.OperationMethod<
@@ -2806,7 +3006,14 @@ export const mintAppCheckTokenProjectsApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: MintAppCheckTokenProjectsAppsRequest,
   output: GoogleFirebaseAppcheckV1MintAppCheckTokenResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2816,6 +3023,7 @@ export type PatchProjectsAppsAppAttestConfigError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the AppAttestConfig for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange AppAttest tokens for App Check tokens. */
 export const patchProjectsAppsAppAttestConfig: API.OperationMethod<
@@ -2826,7 +3034,14 @@ export const patchProjectsAppsAppAttestConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsAppsAppAttestConfigRequest,
   output: GoogleFirebaseAppcheckV1AppAttestConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2836,6 +3051,7 @@ export type PatchProjectsAppsDebugTokensError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the specified DebugToken. For security reasons, the `token` field cannot be updated, nor will it be populated in the response, but you can revoke the debug token using DeleteDebugToken. */
 export const patchProjectsAppsDebugTokens: API.OperationMethod<
@@ -2846,7 +3062,14 @@ export const patchProjectsAppsDebugTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsAppsDebugTokensRequest,
   output: GoogleFirebaseAppcheckV1DebugToken,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2856,6 +3079,7 @@ export type PatchProjectsAppsDeviceCheckConfigError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the DeviceCheckConfig for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange DeviceCheck tokens for App Check tokens. For security reasons, the `private_key` field is never populated in the response. */
 export const patchProjectsAppsDeviceCheckConfig: API.OperationMethod<
@@ -2866,7 +3090,14 @@ export const patchProjectsAppsDeviceCheckConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsAppsDeviceCheckConfigRequest,
   output: GoogleFirebaseAppcheckV1DeviceCheckConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2876,6 +3107,7 @@ export type PatchProjectsAppsPlayIntegrityConfigError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the PlayIntegrityConfig for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange Play Integrity tokens for App Check tokens. */
 export const patchProjectsAppsPlayIntegrityConfig: API.OperationMethod<
@@ -2886,7 +3118,14 @@ export const patchProjectsAppsPlayIntegrityConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsAppsPlayIntegrityConfigRequest,
   output: GoogleFirebaseAppcheckV1PlayIntegrityConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2896,6 +3135,7 @@ export type PatchProjectsAppsRecaptchaEnterpriseConfigError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the RecaptchaEnterpriseConfig for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange reCAPTCHA Enterprise tokens for App Check tokens. */
 export const patchProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<
@@ -2906,7 +3146,14 @@ export const patchProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsAppsRecaptchaEnterpriseConfigRequest,
   output: GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2916,6 +3163,7 @@ export type PatchProjectsAppsRecaptchaV3ConfigError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the RecaptchaV3Config for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange reCAPTCHA v3 tokens for App Check tokens. For security reasons, the `site_secret` field is never populated in the response. */
 export const patchProjectsAppsRecaptchaV3Config: API.OperationMethod<
@@ -2926,7 +3174,14 @@ export const patchProjectsAppsRecaptchaV3Config: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsAppsRecaptchaV3ConfigRequest,
   output: GoogleFirebaseAppcheckV1RecaptchaV3Config,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2936,6 +3191,7 @@ export type PatchProjectsServicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the specified Service configuration. */
 export const patchProjectsServices: API.OperationMethod<
@@ -2946,7 +3202,14 @@ export const patchProjectsServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsServicesRequest,
   output: GoogleFirebaseAppcheckV1Service,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2956,6 +3219,7 @@ export type PatchProjectsServicesResourcePoliciesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the specified ResourcePolicy configuration. */
 export const patchProjectsServicesResourcePolicies: API.OperationMethod<
@@ -2966,7 +3230,14 @@ export const patchProjectsServicesResourcePolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsServicesResourcePoliciesRequest,
   output: GoogleFirebaseAppcheckV1ResourcePolicy,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

@@ -52,6 +52,25 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT). */
+export class InsufficientScopes
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InsufficientScopes>()("InsufficientScopes", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -4510,6 +4529,7 @@ export type CheckAccessDebugDatasourcesItemsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Checks whether an item is accessible by specified principal. Principal must be a user; groups and domain values aren't supported. **Note:** This API requires an admin account to execute. */
 export const checkAccessDebugDatasourcesItems: API.OperationMethod<
@@ -4520,7 +4540,14 @@ export const checkAccessDebugDatasourcesItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CheckAccessDebugDatasourcesItemsRequest,
   output: CheckAccessResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4530,6 +4557,7 @@ export type CreateSettingsDatasourcesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a datasource. **Note:** This API requires an admin account to execute. */
 export const createSettingsDatasources: API.OperationMethod<
@@ -4540,7 +4568,14 @@ export const createSettingsDatasources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSettingsDatasourcesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4550,6 +4585,7 @@ export type CreateSettingsSearchapplicationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a search application. **Note:** This API requires an admin account to execute. */
 export const createSettingsSearchapplications: API.OperationMethod<
@@ -4560,7 +4596,14 @@ export const createSettingsSearchapplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSettingsSearchapplicationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4570,6 +4613,7 @@ export type DeleteIndexingDatasourcesItemsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes Item resource for the specified resource name. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const deleteIndexingDatasourcesItems: API.OperationMethod<
@@ -4580,7 +4624,14 @@ export const deleteIndexingDatasourcesItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteIndexingDatasourcesItemsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4590,6 +4641,7 @@ export type DeleteQueueItemsIndexingDatasourcesItemsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes all items in a queue. This method is useful for deleting stale items. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const deleteQueueItemsIndexingDatasourcesItems: API.OperationMethod<
@@ -4600,7 +4652,14 @@ export const deleteQueueItemsIndexingDatasourcesItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteQueueItemsIndexingDatasourcesItemsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4610,6 +4669,7 @@ export type DeleteSchemaIndexingDatasourcesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes the schema of a data source. **Note:** This API requires an admin or service account to execute. */
 export const deleteSchemaIndexingDatasources: API.OperationMethod<
@@ -4620,7 +4680,14 @@ export const deleteSchemaIndexingDatasources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteSchemaIndexingDatasourcesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4630,6 +4697,7 @@ export type DeleteSettingsDatasourcesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a datasource. **Note:** This API requires an admin account to execute. */
 export const deleteSettingsDatasources: API.OperationMethod<
@@ -4640,7 +4708,14 @@ export const deleteSettingsDatasources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteSettingsDatasourcesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4650,6 +4725,7 @@ export type DeleteSettingsSearchapplicationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a search application. **Note:** This API requires an admin account to execute. */
 export const deleteSettingsSearchapplications: API.OperationMethod<
@@ -4660,12 +4736,23 @@ export const deleteSettingsSearchapplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteSettingsSearchapplicationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetCustomerSettingsError = NotFound | Forbidden | GcpOpError;
+export type GetCustomerSettingsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Get customer settings. **Note:** This API requires an admin account to execute. */
 export const getCustomerSettings: API.OperationMethod<
   GetCustomerSettingsRequest,
@@ -4675,7 +4762,7 @@ export const getCustomerSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCustomerSettingsRequest,
   output: CustomerSettings,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4683,6 +4770,7 @@ export const getCustomerSettings: API.OperationMethod<
 export type GetIndexingDatasourcesItemsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets Item resource by item name. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const getIndexingDatasourcesItems: API.OperationMethod<
@@ -4693,12 +4781,16 @@ export const getIndexingDatasourcesItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetIndexingDatasourcesItemsRequest,
   output: Item,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetIndexStatsError = NotFound | Forbidden | GcpOpError;
+export type GetIndexStatsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets indexed item statistics aggreggated across all data sources. This API only returns statistics for previous dates; it doesn't return statistics for the current day. **Note:** This API requires a standard end user account to execute. */
 export const getIndexStats: API.OperationMethod<
   GetIndexStatsRequest,
@@ -4708,12 +4800,16 @@ export const getIndexStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetIndexStatsRequest,
   output: GetCustomerIndexStatsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOperationsError = NotFound | Forbidden | GcpOpError;
+export type GetOperationsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<
   GetOperationsRequest,
@@ -4723,12 +4819,16 @@ export const getOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOperationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetQueryStatsError = NotFound | Forbidden | GcpOpError;
+export type GetQueryStatsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Get the query statistics for customer. **Note:** This API requires a standard end user account to execute. */
 export const getQueryStats: API.OperationMethod<
   GetQueryStatsRequest,
@@ -4738,7 +4838,7 @@ export const getQueryStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetQueryStatsRequest,
   output: GetCustomerQueryStatsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4746,6 +4846,7 @@ export const getQueryStats: API.OperationMethod<
 export type GetSchemaIndexingDatasourcesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets the schema of a data source. **Note:** This API requires an admin or service account to execute. */
 export const getSchemaIndexingDatasources: API.OperationMethod<
@@ -4756,12 +4857,16 @@ export const getSchemaIndexingDatasources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSchemaIndexingDatasourcesRequest,
   output: Cloudsearch_Schema,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetSearchapplicationStatsError = NotFound | Forbidden | GcpOpError;
+export type GetSearchapplicationStatsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Get search application stats for customer. **Note:** This API requires a standard end user account to execute. */
 export const getSearchapplicationStats: API.OperationMethod<
   GetSearchapplicationStatsRequest,
@@ -4771,12 +4876,16 @@ export const getSearchapplicationStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSearchapplicationStatsRequest,
   output: GetCustomerSearchApplicationStatsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetSessionStatsError = NotFound | Forbidden | GcpOpError;
+export type GetSessionStatsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Get the # of search sessions, % of successful sessions with a click query statistics for customer. **Note:** This API requires a standard end user account to execute. */
 export const getSessionStats: API.OperationMethod<
   GetSessionStatsRequest,
@@ -4786,12 +4895,16 @@ export const getSessionStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSessionStatsRequest,
   output: GetCustomerSessionStatsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetSettingsDatasourcesError = NotFound | Forbidden | GcpOpError;
+export type GetSettingsDatasourcesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a datasource. **Note:** This API requires an admin account to execute. */
 export const getSettingsDatasources: API.OperationMethod<
   GetSettingsDatasourcesRequest,
@@ -4801,7 +4914,7 @@ export const getSettingsDatasources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSettingsDatasourcesRequest,
   output: DataSource,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4809,6 +4922,7 @@ export const getSettingsDatasources: API.OperationMethod<
 export type GetSettingsSearchapplicationsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets the specified search application. **Note:** This API requires an admin account to execute. */
 export const getSettingsSearchapplications: API.OperationMethod<
@@ -4819,12 +4933,16 @@ export const getSettingsSearchapplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSettingsSearchapplicationsRequest,
   output: SearchApplication,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetStatsIndexDatasourcesError = NotFound | Forbidden | GcpOpError;
+export type GetStatsIndexDatasourcesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets indexed item statistics for a single data source. **Note:** This API requires a standard end user account to execute. */
 export const getStatsIndexDatasources: API.OperationMethod<
   GetStatsIndexDatasourcesRequest,
@@ -4834,7 +4952,7 @@ export const getStatsIndexDatasources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetStatsIndexDatasourcesRequest,
   output: GetDataSourceIndexStatsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4842,6 +4960,7 @@ export const getStatsIndexDatasources: API.OperationMethod<
 export type GetStatsQuerySearchapplicationsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Get the query statistics for search application. **Note:** This API requires a standard end user account to execute. */
 export const getStatsQuerySearchapplications: API.OperationMethod<
@@ -4852,7 +4971,7 @@ export const getStatsQuerySearchapplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetStatsQuerySearchapplicationsRequest,
   output: GetSearchApplicationQueryStatsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4860,6 +4979,7 @@ export const getStatsQuerySearchapplications: API.OperationMethod<
 export type GetStatsSessionSearchapplicationsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Get the # of search sessions, % of successful sessions with a click query statistics for search application. **Note:** This API requires a standard end user account to execute. */
 export const getStatsSessionSearchapplications: API.OperationMethod<
@@ -4870,7 +4990,7 @@ export const getStatsSessionSearchapplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetStatsSessionSearchapplicationsRequest,
   output: GetSearchApplicationSessionStatsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4878,6 +4998,7 @@ export const getStatsSessionSearchapplications: API.OperationMethod<
 export type GetStatsUserSearchapplicationsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Get the users statistics for search application. **Note:** This API requires a standard end user account to execute. */
 export const getStatsUserSearchapplications: API.OperationMethod<
@@ -4888,12 +5009,16 @@ export const getStatsUserSearchapplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetStatsUserSearchapplicationsRequest,
   output: GetSearchApplicationUserStatsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetUserStatsError = NotFound | Forbidden | GcpOpError;
+export type GetUserStatsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Get the users statistics for customer. **Note:** This API requires a standard end user account to execute. */
 export const getUserStats: API.OperationMethod<
   GetUserStatsRequest,
@@ -4903,7 +5028,7 @@ export const getUserStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetUserStatsRequest,
   output: GetCustomerUserStatsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4913,6 +5038,7 @@ export type IndexIndexingDatasourcesItemsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates Item ACL, metadata, and content. It will insert the Item if it does not exist. This method does not support partial updates. Fields with no provided values are cleared out in the Cloud Search index. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const indexIndexingDatasourcesItems: API.OperationMethod<
@@ -4923,7 +5049,14 @@ export const indexIndexingDatasourcesItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: IndexIndexingDatasourcesItemsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4933,6 +5066,7 @@ export type InitializeCustomerV1Error =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Enables `third party` support in Google Cloud Search. **Note:** This API requires an admin account to execute. */
 export const initializeCustomerV1: API.OperationMethod<
@@ -4943,7 +5077,14 @@ export const initializeCustomerV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: InitializeCustomerV1Request,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4951,6 +5092,7 @@ export const initializeCustomerV1: API.OperationMethod<
 export type ListDebugDatasourcesItemsUnmappedidsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all unmapped identities for a specific item. **Note:** This API requires an admin account to execute. */
 export const listDebugDatasourcesItemsUnmappedids: API.PaginatedOperationMethod<
@@ -4962,7 +5104,7 @@ export const listDebugDatasourcesItemsUnmappedids: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDebugDatasourcesItemsUnmappedidsRequest,
   output: ListUnmappedIdentitiesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4974,6 +5116,7 @@ export const listDebugDatasourcesItemsUnmappedids: API.PaginatedOperationMethod<
 export type ListDebugIdentitysourcesUnmappedidsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists unmapped user identities for an identity source. **Note:** This API requires an admin account to execute. */
 export const listDebugIdentitysourcesUnmappedids: API.PaginatedOperationMethod<
@@ -4985,7 +5128,7 @@ export const listDebugIdentitysourcesUnmappedids: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDebugIdentitysourcesUnmappedidsRequest,
   output: ListUnmappedIdentitiesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4997,6 +5140,7 @@ export const listDebugIdentitysourcesUnmappedids: API.PaginatedOperationMethod<
 export type ListForunmappedidentityDebugIdentitysourcesItemsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists names of items associated with an unmapped identity. **Note:** This API requires an admin account to execute. */
 export const listForunmappedidentityDebugIdentitysourcesItems: API.PaginatedOperationMethod<
@@ -5008,7 +5152,7 @@ export const listForunmappedidentityDebugIdentitysourcesItems: API.PaginatedOper
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForunmappedidentityDebugIdentitysourcesItemsRequest,
   output: ListItemNamesForUnmappedIdentityResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5020,6 +5164,7 @@ export const listForunmappedidentityDebugIdentitysourcesItems: API.PaginatedOper
 export type ListIndexingDatasourcesItemsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all or a subset of Item resources. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const listIndexingDatasourcesItems: API.PaginatedOperationMethod<
@@ -5031,7 +5176,7 @@ export const listIndexingDatasourcesItems: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListIndexingDatasourcesItemsRequest,
   output: ListItemsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5041,7 +5186,11 @@ export const listIndexingDatasourcesItems: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListOperationsLroError = NotFound | Forbidden | GcpOpError;
+export type ListOperationsLroError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export const listOperationsLro: API.PaginatedOperationMethod<
   ListOperationsLroRequest,
@@ -5052,7 +5201,7 @@ export const listOperationsLro: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOperationsLroRequest,
   output: ListOperationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5061,7 +5210,11 @@ export const listOperationsLro: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListQuerySourcesError = NotFound | Forbidden | GcpOpError;
+export type ListQuerySourcesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Returns list of sources that user can use for Search and Suggest APIs. **Note:** This API requires a standard end user account to execute. A service account can't perform Query API requests directly; to use a service account to perform queries, set up [Google Workspace domain-wide delegation of authority](https://developers.google.com/workspace/cloud-search/docs/guides/delegation/). */
 export const listQuerySources: API.PaginatedOperationMethod<
   ListQuerySourcesRequest,
@@ -5072,7 +5225,7 @@ export const listQuerySources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListQuerySourcesRequest,
   output: ListQuerySourcesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5081,7 +5234,11 @@ export const listQuerySources: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListSettingsDatasourcesError = NotFound | Forbidden | GcpOpError;
+export type ListSettingsDatasourcesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists datasources. **Note:** This API requires an admin account to execute. */
 export const listSettingsDatasources: API.PaginatedOperationMethod<
   ListSettingsDatasourcesRequest,
@@ -5092,7 +5249,7 @@ export const listSettingsDatasources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSettingsDatasourcesRequest,
   output: ListDataSourceResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5104,6 +5261,7 @@ export const listSettingsDatasources: API.PaginatedOperationMethod<
 export type ListSettingsSearchapplicationsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all search applications. **Note:** This API requires an admin account to execute. */
 export const listSettingsSearchapplications: API.PaginatedOperationMethod<
@@ -5115,7 +5273,7 @@ export const listSettingsSearchapplications: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSettingsSearchapplicationsRequest,
   output: ListSearchApplicationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5129,6 +5287,7 @@ export type PatchSettingsDatasourcesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a datasource. **Note:** This API requires an admin account to execute. */
 export const patchSettingsDatasources: API.OperationMethod<
@@ -5139,7 +5298,14 @@ export const patchSettingsDatasources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchSettingsDatasourcesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5149,6 +5315,7 @@ export type PatchSettingsSearchapplicationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a search application. **Note:** This API requires an admin account to execute. */
 export const patchSettingsSearchapplications: API.OperationMethod<
@@ -5159,7 +5326,14 @@ export const patchSettingsSearchapplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchSettingsSearchapplicationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5169,6 +5343,7 @@ export type PollIndexingDatasourcesItemsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Polls for unreserved items from the indexing queue and marks a set as reserved, starting with items that have the oldest timestamp from the highest priority ItemStatus. The priority order is as follows: ERROR MODIFIED NEW_ITEM ACCEPTED Reserving items ensures that polling from other threads cannot create overlapping sets. After handling the reserved items, the client should put items back into the unreserved state, either by calling index, or by calling push with the type REQUEUE. Items automatically become available (unreserved) after 4 hours even if no update or push method is called. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const pollIndexingDatasourcesItems: API.OperationMethod<
@@ -5179,7 +5354,14 @@ export const pollIndexingDatasourcesItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PollIndexingDatasourcesItemsRequest,
   output: PollItemsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5189,6 +5371,7 @@ export type PushIndexingDatasourcesItemsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Pushes an item onto a queue for later polling and updating. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const pushIndexingDatasourcesItems: API.OperationMethod<
@@ -5199,7 +5382,14 @@ export const pushIndexingDatasourcesItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PushIndexingDatasourcesItemsRequest,
   output: Item,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5209,6 +5399,7 @@ export type RemoveActivityQueryError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Provides functionality to remove logged activity for a user. Currently to be used only for Chat 1p clients **Note:** This API requires a standard end user account to execute. A service account can't perform Remove Activity requests directly; to use a service account to perform queries, set up [Google Workspace domain-wide delegation of authority](https://developers.google.com/workspace/cloud-search/docs/guides/delegation/). */
 export const removeActivityQuery: API.OperationMethod<
@@ -5219,7 +5410,14 @@ export const removeActivityQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveActivityQueryRequest,
   output: RemoveActivityResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5229,6 +5427,7 @@ export type ResetSettingsSearchapplicationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Resets a search application to default settings. This will return an empty response. **Note:** This API requires an admin account to execute. */
 export const resetSettingsSearchapplications: API.OperationMethod<
@@ -5239,7 +5438,14 @@ export const resetSettingsSearchapplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ResetSettingsSearchapplicationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5249,6 +5455,7 @@ export type SearchByViewUrlDebugDatasourcesItemsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Fetches the item whose viewUrl exactly matches that of the URL provided in the request. **Note:** This API requires an admin account to execute. */
 export const searchByViewUrlDebugDatasourcesItems: API.OperationMethod<
@@ -5259,7 +5466,14 @@ export const searchByViewUrlDebugDatasourcesItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SearchByViewUrlDebugDatasourcesItemsRequest,
   output: SearchItemsByViewUrlResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5269,6 +5483,7 @@ export type SearchQueryError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** The Cloud Search Query API provides the search method, which returns the most relevant results from a user query. The results can come from Google Workspace apps, such as Gmail or Google Drive, or they can come from data that you have indexed from a third party. **Note:** This API requires a standard end user account to execute. A service account can't perform Query API requests directly; to use a service account to perform queries, set up [Google Workspace domain-wide delegation of authority](https://developers.google.com/workspace/cloud-search/docs/guides/delegation/). */
 export const searchQuery: API.OperationMethod<
@@ -5279,7 +5494,14 @@ export const searchQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SearchQueryRequest,
   output: SearchResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5289,6 +5511,7 @@ export type SuggestQueryError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Provides suggestions for autocompleting the query. **Note:** This API requires a standard end user account to execute. A service account can't perform Query API requests directly; to use a service account to perform queries, set up [Google Workspace domain-wide delegation of authority](https://developers.google.com/workspace/cloud-search/docs/guides/delegation/). */
 export const suggestQuery: API.OperationMethod<
@@ -5299,7 +5522,14 @@ export const suggestQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SuggestQueryRequest,
   output: SuggestResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5309,6 +5539,7 @@ export type UnreserveIndexingDatasourcesItemsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Unreserves all items from a queue, making them all eligible to be polled. This method is useful for resetting the indexing queue after a connector has been restarted. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const unreserveIndexingDatasourcesItems: API.OperationMethod<
@@ -5319,7 +5550,14 @@ export const unreserveIndexingDatasourcesItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UnreserveIndexingDatasourcesItemsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5329,6 +5567,7 @@ export type UpdateCustomerSettingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Update customer settings. **Note:** This API requires an admin account to execute. */
 export const updateCustomerSettings: API.OperationMethod<
@@ -5339,7 +5578,14 @@ export const updateCustomerSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateCustomerSettingsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5349,6 +5595,7 @@ export type UpdateSchemaIndexingDatasourcesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates the schema of a data source. This method does not perform incremental updates to the schema. Instead, this method updates the schema by overwriting the entire schema. **Note:** This API requires an admin or service account to execute. */
 export const updateSchemaIndexingDatasources: API.OperationMethod<
@@ -5359,7 +5606,14 @@ export const updateSchemaIndexingDatasources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSchemaIndexingDatasourcesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5369,6 +5623,7 @@ export type UpdateSettingsDatasourcesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a datasource. **Note:** This API requires an admin account to execute. */
 export const updateSettingsDatasources: API.OperationMethod<
@@ -5379,7 +5634,14 @@ export const updateSettingsDatasources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSettingsDatasourcesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5389,6 +5651,7 @@ export type UpdateSettingsSearchapplicationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a search application. **Note:** This API requires an admin account to execute. */
 export const updateSettingsSearchapplications: API.OperationMethod<
@@ -5399,7 +5662,14 @@ export const updateSettingsSearchapplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSettingsSearchapplicationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5409,6 +5679,7 @@ export type UploadIndexingDatasourcesItemsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates an upload session for uploading item content. For items smaller than 100 KB, it's easier to embed the content inline within an index request. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const uploadIndexingDatasourcesItems: API.OperationMethod<
@@ -5419,7 +5690,14 @@ export const uploadIndexingDatasourcesItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UploadIndexingDatasourcesItemsRequest,
   output: UploadItemRef,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5429,6 +5707,7 @@ export type UploadMediaError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Uploads media for indexing. The upload endpoint supports direct and resumable upload protocols and is intended for large items that can not be [inlined during index requests](https://developers.google.com/workspace/cloud-search/docs/reference/rest/v1/indexing.datasources.items#itemcontent). To index large content: 1. Call indexing.datasources.items.upload with the item name to begin an upload session and retrieve the UploadItemRef. 1. Call media.upload to upload the content, as a streaming request, using the same resource name from the UploadItemRef from step 1. 1. Call indexing.datasources.items.index to index the item. Populate the [ItemContent](/cloud-search/docs/reference/rest/v1/indexing.datasources.items#ItemContent) with the UploadItemRef from step 1. For additional information, see [Create a content connector using the REST API](https://developers.google.com/workspace/cloud-search/docs/guides/content-connector#rest). **Note:** This API requires a service account to execute. */
 export const uploadMedia: API.OperationMethod<
@@ -5439,7 +5718,14 @@ export const uploadMedia: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UploadMediaRequest,
   output: Media,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

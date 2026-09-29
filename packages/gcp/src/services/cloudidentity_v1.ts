@@ -52,6 +52,25 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT). */
+export class InsufficientScopes
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InsufficientScopes>()("InsufficientScopes", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -63,6 +82,20 @@ export class NotFound
       details: S.optional(S.Array(S.Unknown)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
+  ) {}
+
+/** The Cloud Identity API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED). */
+export class ServiceDisabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ServiceDisabled>()("ServiceDisabled", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [{ status: 403, message: { includes: "has not been used in project" } }],
   ) {}
 
 /** The request for creating an IdpCredential with its associated payload. An InboundSamlSsoProfile can own up to 2 credentials. */
@@ -3672,6 +3705,8 @@ export type AddInboundSamlSsoProfilesIdpCredentialsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Adds an IdpCredential. Up to 2 credentials are allowed. When the target customer has enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448), the `Operation` in the response will have `"done": false`, it will not have a response, and the metadata will have `"state": "awaiting-multi-party-approval"`. */
 export const addInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<
@@ -3682,7 +3717,15 @@ export const addInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddInboundSamlSsoProfilesIdpCredentialsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3692,6 +3735,8 @@ export type ApproveDevicesDeviceUsersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Approves device to access user data. */
 export const approveDevicesDeviceUsers: API.OperationMethod<
@@ -3702,7 +3747,15 @@ export const approveDevicesDeviceUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ApproveDevicesDeviceUsersRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3712,6 +3765,8 @@ export type BlockDevicesDeviceUsersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Blocks device from accessing user data */
 export const blockDevicesDeviceUsers: API.OperationMethod<
@@ -3722,7 +3777,15 @@ export const blockDevicesDeviceUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BlockDevicesDeviceUsersRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3732,6 +3795,8 @@ export type CancelCustomersUserinvitationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Cancels a UserInvitation that was already sent. */
 export const cancelCustomersUserinvitations: API.OperationMethod<
@@ -3742,7 +3807,15 @@ export const cancelCustomersUserinvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelCustomersUserinvitationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3752,6 +3825,8 @@ export type CancelWipeDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Cancels an unfinished device wipe. This operation can be used to cancel device wipe in the gap between the wipe operation returning success and the device being wiped. This operation is possible when the device is in a "pending wipe" state. The device enters the "pending wipe" state when a wipe device command is issued, but has not yet been sent to the device. The cancel wipe will fail if the wipe command has already been issued to the device. */
 export const cancelWipeDevices: API.OperationMethod<
@@ -3762,7 +3837,15 @@ export const cancelWipeDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelWipeDevicesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3772,6 +3855,8 @@ export type CancelWipeDevicesDeviceUsersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Cancels an unfinished user account wipe. This operation can be used to cancel device wipe in the gap between the wipe operation returning success and the device being wiped. */
 export const cancelWipeDevicesDeviceUsers: API.OperationMethod<
@@ -3782,7 +3867,15 @@ export const cancelWipeDevicesDeviceUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelWipeDevicesDeviceUsersRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3790,6 +3883,8 @@ export const cancelWipeDevicesDeviceUsers: API.OperationMethod<
 export type CheckTransitiveMembershipGroupsMembershipsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Check a potential member for membership in a group. **Note:** This feature is only available to Google Workspace Enterprise Standard, Enterprise Plus, and Enterprise for Education; and Cloud Identity Premium accounts. If the account of the member is not one of these, a 403 (PERMISSION_DENIED) HTTP status code will be returned. A member has membership to a group as long as there is a single viewable transitive membership between the group and the member. The actor must have view permissions to at least one transitive membership between the member and group. */
 export const checkTransitiveMembershipGroupsMemberships: API.OperationMethod<
@@ -3800,7 +3895,13 @@ export const checkTransitiveMembershipGroupsMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CheckTransitiveMembershipGroupsMembershipsRequest,
   output: CheckTransitiveMembershipResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3810,6 +3911,8 @@ export type CreateAllowlistedDomainsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Adds a domain to the allowlist. */
 export const createAllowlistedDomains: API.OperationMethod<
@@ -3820,7 +3923,15 @@ export const createAllowlistedDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAllowlistedDomainsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3830,6 +3941,8 @@ export type CreateDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a device. Only company-owned device may be created. **Note**: This method is available only to customers who have one of the following SKUs: Enterprise Standard, Enterprise Plus, Enterprise for Education, and Cloud Identity Premium */
 export const createDevices: API.OperationMethod<
@@ -3840,7 +3953,15 @@ export const createDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateDevicesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3850,6 +3971,8 @@ export type CreateGroupsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a Group. */
 export const createGroups: API.OperationMethod<
@@ -3860,7 +3983,15 @@ export const createGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateGroupsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3870,6 +4001,8 @@ export type CreateGroupsMembershipsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a `Membership`. */
 export const createGroupsMemberships: API.OperationMethod<
@@ -3880,7 +4013,15 @@ export const createGroupsMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateGroupsMembershipsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3890,6 +4031,8 @@ export type CreateInboundOidcSsoProfilesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Creates an InboundOidcSsoProfile for a customer. When the target customer has enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448), the `Operation` in the response will have `"done": false`, it will not have a response, and the metadata will have `"state": "awaiting-multi-party-approval"`. */
 export const createInboundOidcSsoProfiles: API.OperationMethod<
@@ -3900,7 +4043,15 @@ export const createInboundOidcSsoProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateInboundOidcSsoProfilesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3910,6 +4061,8 @@ export type CreateInboundSamlSsoProfilesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Creates an InboundSamlSsoProfile for a customer. When the target customer has enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448), the `Operation` in the response will have `"done": false`, it will not have a response, and the metadata will have `"state": "awaiting-multi-party-approval"`. */
 export const createInboundSamlSsoProfiles: API.OperationMethod<
@@ -3920,7 +4073,15 @@ export const createInboundSamlSsoProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateInboundSamlSsoProfilesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3930,6 +4091,8 @@ export type CreateInboundSsoAssignmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Creates an InboundSsoAssignment for users and devices in a `Customer` under a given `Group` or `OrgUnit`. */
 export const createInboundSsoAssignments: API.OperationMethod<
@@ -3940,7 +4103,15 @@ export const createInboundSsoAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateInboundSsoAssignmentsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3950,6 +4121,8 @@ export type CreatePoliciesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Create a policy. */
 export const createPolicies: API.OperationMethod<
@@ -3960,7 +4133,15 @@ export const createPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePoliciesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3970,6 +4151,8 @@ export type DeleteAllowlistedDomainsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Removes a domain from the allowlist. */
 export const deleteAllowlistedDomains: API.OperationMethod<
@@ -3980,7 +4163,15 @@ export const deleteAllowlistedDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAllowlistedDomainsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3990,6 +4181,8 @@ export type DeleteDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes the specified device. */
 export const deleteDevices: API.OperationMethod<
@@ -4000,7 +4193,15 @@ export const deleteDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDevicesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4010,6 +4211,8 @@ export type DeleteDevicesDeviceUsersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes the specified DeviceUser. This also revokes the user's access to device data. */
 export const deleteDevicesDeviceUsers: API.OperationMethod<
@@ -4020,7 +4223,15 @@ export const deleteDevicesDeviceUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDevicesDeviceUsersRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4030,6 +4241,8 @@ export type DeleteGroupsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a `Group`. */
 export const deleteGroups: API.OperationMethod<
@@ -4040,7 +4253,15 @@ export const deleteGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteGroupsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4050,6 +4271,8 @@ export type DeleteGroupsMembershipsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a `Membership`. */
 export const deleteGroupsMemberships: API.OperationMethod<
@@ -4060,7 +4283,15 @@ export const deleteGroupsMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteGroupsMembershipsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4070,6 +4301,8 @@ export type DeleteInboundOidcSsoProfilesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes an InboundOidcSsoProfile. */
 export const deleteInboundOidcSsoProfiles: API.OperationMethod<
@@ -4080,7 +4313,15 @@ export const deleteInboundOidcSsoProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteInboundOidcSsoProfilesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4090,6 +4331,8 @@ export type DeleteInboundSamlSsoProfilesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes an InboundSamlSsoProfile. */
 export const deleteInboundSamlSsoProfiles: API.OperationMethod<
@@ -4100,7 +4343,15 @@ export const deleteInboundSamlSsoProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteInboundSamlSsoProfilesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4110,6 +4361,8 @@ export type DeleteInboundSamlSsoProfilesIdpCredentialsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes an IdpCredential. */
 export const deleteInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<
@@ -4120,7 +4373,15 @@ export const deleteInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteInboundSamlSsoProfilesIdpCredentialsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4130,6 +4391,8 @@ export type DeleteInboundSsoAssignmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes an InboundSsoAssignment. To disable SSO, Create (or Update) an assignment that has `sso_mode` == `SSO_OFF`. */
 export const deleteInboundSsoAssignments: API.OperationMethod<
@@ -4140,7 +4403,15 @@ export const deleteInboundSsoAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteInboundSsoAssignmentsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4150,6 +4421,8 @@ export type DeletePoliciesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Delete a policy. */
 export const deletePolicies: API.OperationMethod<
@@ -4160,12 +4433,25 @@ export const deletePolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeletePoliciesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAllowlistedDomainsError = NotFound | Forbidden | GcpOpError;
+export type GetAllowlistedDomainsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Retrieves a specific domain from the allowlist. */
 export const getAllowlistedDomains: API.OperationMethod<
   GetAllowlistedDomainsRequest,
@@ -4175,7 +4461,13 @@ export const getAllowlistedDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAllowlistedDomainsRequest,
   output: AllowlistedDomain,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4183,6 +4475,8 @@ export const getAllowlistedDomains: API.OperationMethod<
 export type GetCustomersUserinvitationsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Retrieves a UserInvitation resource. **Note:** New consumer accounts with the customer's verified domain created within the previous 48 hours will not appear in the result. This delay also applies to newly-verified domains. */
 export const getCustomersUserinvitations: API.OperationMethod<
@@ -4193,12 +4487,23 @@ export const getCustomersUserinvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCustomersUserinvitationsRequest,
   output: UserInvitation,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetDevicesError = NotFound | Forbidden | GcpOpError;
+export type GetDevicesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Retrieves the specified device. */
 export const getDevices: API.OperationMethod<
   GetDevicesRequest,
@@ -4208,12 +4513,23 @@ export const getDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDevicesRequest,
   output: GoogleAppsCloudidentityDevicesV1Device,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetDevicesDeviceUsersError = NotFound | Forbidden | GcpOpError;
+export type GetDevicesDeviceUsersError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Retrieves the specified DeviceUser */
 export const getDevicesDeviceUsers: API.OperationMethod<
   GetDevicesDeviceUsersRequest,
@@ -4223,7 +4539,13 @@ export const getDevicesDeviceUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDevicesDeviceUsersRequest,
   output: GoogleAppsCloudidentityDevicesV1DeviceUser,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4231,6 +4553,8 @@ export const getDevicesDeviceUsers: API.OperationMethod<
 export type GetDevicesDeviceUsersClientStatesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Gets the client state for the device user */
 export const getDevicesDeviceUsersClientStates: API.OperationMethod<
@@ -4241,12 +4565,23 @@ export const getDevicesDeviceUsersClientStates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDevicesDeviceUsersClientStatesRequest,
   output: GoogleAppsCloudidentityDevicesV1ClientState,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetGroupsError = NotFound | Forbidden | GcpOpError;
+export type GetGroupsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Retrieves a `Group`. */
 export const getGroups: API.OperationMethod<
   GetGroupsRequest,
@@ -4256,12 +4591,23 @@ export const getGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetGroupsRequest,
   output: Group,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetGroupsMembershipsError = NotFound | Forbidden | GcpOpError;
+export type GetGroupsMembershipsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Retrieves a `Membership`. */
 export const getGroupsMemberships: API.OperationMethod<
   GetGroupsMembershipsRequest,
@@ -4271,12 +4617,23 @@ export const getGroupsMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetGroupsMembershipsRequest,
   output: Membership,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetInboundOidcSsoProfilesError = NotFound | Forbidden | GcpOpError;
+export type GetInboundOidcSsoProfilesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets an InboundOidcSsoProfile. */
 export const getInboundOidcSsoProfiles: API.OperationMethod<
   GetInboundOidcSsoProfilesRequest,
@@ -4286,12 +4643,23 @@ export const getInboundOidcSsoProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetInboundOidcSsoProfilesRequest,
   output: InboundOidcSsoProfile,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetInboundSamlSsoProfilesError = NotFound | Forbidden | GcpOpError;
+export type GetInboundSamlSsoProfilesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets an InboundSamlSsoProfile. */
 export const getInboundSamlSsoProfiles: API.OperationMethod<
   GetInboundSamlSsoProfilesRequest,
@@ -4301,7 +4669,13 @@ export const getInboundSamlSsoProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetInboundSamlSsoProfilesRequest,
   output: InboundSamlSsoProfile,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4309,6 +4683,8 @@ export const getInboundSamlSsoProfiles: API.OperationMethod<
 export type GetInboundSamlSsoProfilesIdpCredentialsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Gets an IdpCredential. */
 export const getInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<
@@ -4319,12 +4695,23 @@ export const getInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetInboundSamlSsoProfilesIdpCredentialsRequest,
   output: IdpCredential,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetInboundSsoAssignmentsError = NotFound | Forbidden | GcpOpError;
+export type GetInboundSsoAssignmentsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets an InboundSsoAssignment. */
 export const getInboundSsoAssignments: API.OperationMethod<
   GetInboundSsoAssignmentsRequest,
@@ -4334,7 +4721,13 @@ export const getInboundSsoAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetInboundSsoAssignmentsRequest,
   output: InboundSsoAssignment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4342,6 +4735,8 @@ export const getInboundSsoAssignments: API.OperationMethod<
 export type GetMembershipGraphGroupsMembershipsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Get a membership graph of just a member or both a member and a group. **Note:** This feature is only available to Google Workspace Enterprise Standard, Enterprise Plus, and Enterprise for Education; and Cloud Identity Premium accounts. If the account of the member is not one of these, a 403 (PERMISSION_DENIED) HTTP status code will be returned. Given a member, the response will contain all membership paths from the member. Given both a group and a member, the response will contain all membership paths between the group and the member. */
 export const getMembershipGraphGroupsMemberships: API.OperationMethod<
@@ -4352,12 +4747,23 @@ export const getMembershipGraphGroupsMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetMembershipGraphGroupsMembershipsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetPoliciesError = NotFound | Forbidden | GcpOpError;
+export type GetPoliciesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Get a policy. */
 export const getPolicies: API.OperationMethod<
   GetPoliciesRequest,
@@ -4367,12 +4773,23 @@ export const getPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPoliciesRequest,
   output: Policy,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetSecuritySettingsGroupsError = NotFound | Forbidden | GcpOpError;
+export type GetSecuritySettingsGroupsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Get Security Settings */
 export const getSecuritySettingsGroups: API.OperationMethod<
   GetSecuritySettingsGroupsRequest,
@@ -4382,7 +4799,13 @@ export const getSecuritySettingsGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSecuritySettingsGroupsRequest,
   output: SecuritySettings,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4390,6 +4813,8 @@ export const getSecuritySettingsGroups: API.OperationMethod<
 export type IsInvitableUserCustomersUserinvitationsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Verifies whether a user account is eligible to receive a UserInvitation (is an unmanaged account). Eligibility is based on the following criteria: * the email address is a consumer account and it's the primary email address of the account, and * the domain of the email address matches an existing verified Google Workspace or Cloud Identity domain If both conditions are met, the user is eligible. **Note:** This method is not supported for Workspace Essentials customers. */
 export const isInvitableUserCustomersUserinvitations: API.OperationMethod<
@@ -4400,12 +4825,23 @@ export const isInvitableUserCustomersUserinvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: IsInvitableUserCustomersUserinvitationsRequest,
   output: IsInvitableUserResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListAllowlistedDomainsError = NotFound | Forbidden | GcpOpError;
+export type ListAllowlistedDomainsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists the domains in the allowlist. */
 export const listAllowlistedDomains: API.PaginatedOperationMethod<
   ListAllowlistedDomainsRequest,
@@ -4416,7 +4852,13 @@ export const listAllowlistedDomains: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAllowlistedDomainsRequest,
   output: ListAllowlistedDomainsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4428,6 +4870,8 @@ export const listAllowlistedDomains: API.PaginatedOperationMethod<
 export type ListCustomersUserinvitationsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Retrieves a list of UserInvitation resources. **Note:** New consumer accounts with the customer's verified domain created within the previous 48 hours will not appear in the result. This delay also applies to newly-verified domains. */
 export const listCustomersUserinvitations: API.PaginatedOperationMethod<
@@ -4439,7 +4883,13 @@ export const listCustomersUserinvitations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersUserinvitationsRequest,
   output: ListUserInvitationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4448,7 +4898,12 @@ export const listCustomersUserinvitations: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListDevicesError = NotFound | Forbidden | GcpOpError;
+export type ListDevicesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists/Searches devices. */
 export const listDevices: API.PaginatedOperationMethod<
   ListDevicesRequest,
@@ -4459,7 +4914,13 @@ export const listDevices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDevicesRequest,
   output: GoogleAppsCloudidentityDevicesV1ListDevicesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4468,7 +4929,12 @@ export const listDevices: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListDevicesDeviceUsersError = NotFound | Forbidden | GcpOpError;
+export type ListDevicesDeviceUsersError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists/Searches DeviceUsers. */
 export const listDevicesDeviceUsers: API.PaginatedOperationMethod<
   ListDevicesDeviceUsersRequest,
@@ -4479,7 +4945,13 @@ export const listDevicesDeviceUsers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDevicesDeviceUsersRequest,
   output: GoogleAppsCloudidentityDevicesV1ListDeviceUsersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4491,6 +4963,8 @@ export const listDevicesDeviceUsers: API.PaginatedOperationMethod<
 export type ListDevicesDeviceUsersClientStatesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Lists the client states for the given search query. */
 export const listDevicesDeviceUsersClientStates: API.PaginatedOperationMethod<
@@ -4502,7 +4976,13 @@ export const listDevicesDeviceUsersClientStates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDevicesDeviceUsersClientStatesRequest,
   output: GoogleAppsCloudidentityDevicesV1ListClientStatesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4511,7 +4991,12 @@ export const listDevicesDeviceUsersClientStates: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListGroupsError = NotFound | Forbidden | GcpOpError;
+export type ListGroupsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists the `Group` resources under a customer or namespace. */
 export const listGroups: API.PaginatedOperationMethod<
   ListGroupsRequest,
@@ -4522,7 +5007,13 @@ export const listGroups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListGroupsRequest,
   output: ListGroupsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4531,7 +5022,12 @@ export const listGroups: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListGroupsMembershipsError = NotFound | Forbidden | GcpOpError;
+export type ListGroupsMembershipsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists the `Membership`s within a `Group`. */
 export const listGroupsMemberships: API.PaginatedOperationMethod<
   ListGroupsMembershipsRequest,
@@ -4542,7 +5038,13 @@ export const listGroupsMemberships: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListGroupsMembershipsRequest,
   output: ListMembershipsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4551,7 +5053,12 @@ export const listGroupsMemberships: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListInboundOidcSsoProfilesError = NotFound | Forbidden | GcpOpError;
+export type ListInboundOidcSsoProfilesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists InboundOidcSsoProfile objects for a Google enterprise customer. */
 export const listInboundOidcSsoProfiles: API.PaginatedOperationMethod<
   ListInboundOidcSsoProfilesRequest,
@@ -4562,7 +5069,13 @@ export const listInboundOidcSsoProfiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListInboundOidcSsoProfilesRequest,
   output: ListInboundOidcSsoProfilesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4571,7 +5084,12 @@ export const listInboundOidcSsoProfiles: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListInboundSamlSsoProfilesError = NotFound | Forbidden | GcpOpError;
+export type ListInboundSamlSsoProfilesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists InboundSamlSsoProfiles for a customer. */
 export const listInboundSamlSsoProfiles: API.PaginatedOperationMethod<
   ListInboundSamlSsoProfilesRequest,
@@ -4582,7 +5100,13 @@ export const listInboundSamlSsoProfiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListInboundSamlSsoProfilesRequest,
   output: ListInboundSamlSsoProfilesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4594,6 +5118,8 @@ export const listInboundSamlSsoProfiles: API.PaginatedOperationMethod<
 export type ListInboundSamlSsoProfilesIdpCredentialsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Returns a list of IdpCredentials in an InboundSamlSsoProfile. */
 export const listInboundSamlSsoProfilesIdpCredentials: API.PaginatedOperationMethod<
@@ -4605,7 +5131,13 @@ export const listInboundSamlSsoProfilesIdpCredentials: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListInboundSamlSsoProfilesIdpCredentialsRequest,
   output: ListIdpCredentialsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4614,7 +5146,12 @@ export const listInboundSamlSsoProfilesIdpCredentials: API.PaginatedOperationMet
   } as const,
 })) as any;
 
-export type ListInboundSsoAssignmentsError = NotFound | Forbidden | GcpOpError;
+export type ListInboundSsoAssignmentsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists the InboundSsoAssignments for a `Customer`. */
 export const listInboundSsoAssignments: API.PaginatedOperationMethod<
   ListInboundSsoAssignmentsRequest,
@@ -4625,7 +5162,13 @@ export const listInboundSsoAssignments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListInboundSsoAssignmentsRequest,
   output: ListInboundSsoAssignmentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4634,7 +5177,12 @@ export const listInboundSsoAssignments: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListPoliciesError = NotFound | Forbidden | GcpOpError;
+export type ListPoliciesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** List policies. */
 export const listPolicies: API.PaginatedOperationMethod<
   ListPoliciesRequest,
@@ -4645,7 +5193,13 @@ export const listPolicies: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPoliciesRequest,
   output: ListPoliciesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4654,7 +5208,12 @@ export const listPolicies: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type LookupDevicesDeviceUsersError = NotFound | Forbidden | GcpOpError;
+export type LookupDevicesDeviceUsersError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Looks up resource names of the DeviceUsers associated with the caller's credentials, as well as the properties provided in the request. This method must be called with end-user credentials with the scope: https://www.googleapis.com/auth/cloud-identity.devices.lookup If multiple properties are provided, only DeviceUsers having all of these properties are considered as matches - i.e. the query behaves like an AND. Different platforms require different amounts of information from the caller to ensure that the DeviceUser is uniquely identified. - iOS: If either the `partner` or `ios_device_id` field is provided, then both fields are required. - Android: Specifying the `android_id` field is required. - Desktop: Specifying the `raw_resource_id` field is required. */
 export const lookupDevicesDeviceUsers: API.PaginatedOperationMethod<
   LookupDevicesDeviceUsersRequest,
@@ -4665,7 +5224,13 @@ export const lookupDevicesDeviceUsers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: LookupDevicesDeviceUsersRequest,
   output: GoogleAppsCloudidentityDevicesV1LookupSelfDeviceUsersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4674,7 +5239,12 @@ export const lookupDevicesDeviceUsers: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type LookupGroupsError = NotFound | Forbidden | GcpOpError;
+export type LookupGroupsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Looks up the [resource name](https://cloud.google.com/apis/design/resource_names) of a `Group` by its `EntityKey`. */
 export const lookupGroups: API.OperationMethod<
   LookupGroupsRequest,
@@ -4684,12 +5254,23 @@ export const lookupGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: LookupGroupsRequest,
   output: LookupGroupNameResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type LookupGroupsMembershipsError = NotFound | Forbidden | GcpOpError;
+export type LookupGroupsMembershipsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Looks up the [resource name](https://cloud.google.com/apis/design/resource_names) of a `Membership` by its `EntityKey`. */
 export const lookupGroupsMemberships: API.OperationMethod<
   LookupGroupsMembershipsRequest,
@@ -4699,7 +5280,13 @@ export const lookupGroupsMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: LookupGroupsMembershipsRequest,
   output: LookupMembershipNameResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4709,6 +5296,8 @@ export type ModifyMembershipRolesGroupsMembershipsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Modifies the `MembershipRole`s of a `Membership`. */
 export const modifyMembershipRolesGroupsMemberships: API.OperationMethod<
@@ -4719,7 +5308,15 @@ export const modifyMembershipRolesGroupsMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyMembershipRolesGroupsMembershipsRequest,
   output: ModifyMembershipRolesResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4729,6 +5326,8 @@ export type PatchDevicesDeviceUsersClientStatesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Updates the client state for the device user **Note**: This method is available only to customers who have one of the following SKUs: Enterprise Standard, Enterprise Plus, Enterprise for Education, and Cloud Identity Premium */
 export const patchDevicesDeviceUsersClientStates: API.OperationMethod<
@@ -4739,7 +5338,15 @@ export const patchDevicesDeviceUsersClientStates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchDevicesDeviceUsersClientStatesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4749,6 +5356,8 @@ export type PatchGroupsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a `Group`. */
 export const patchGroups: API.OperationMethod<
@@ -4759,7 +5368,15 @@ export const patchGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchGroupsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4769,6 +5386,8 @@ export type PatchInboundOidcSsoProfilesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Updates an InboundOidcSsoProfile. When the target customer has enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448), the `Operation` in the response will have `"done": false`, it will not have a response, and the metadata will have `"state": "awaiting-multi-party-approval"`. */
 export const patchInboundOidcSsoProfiles: API.OperationMethod<
@@ -4779,7 +5398,15 @@ export const patchInboundOidcSsoProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchInboundOidcSsoProfilesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4789,6 +5416,8 @@ export type PatchInboundSamlSsoProfilesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Updates an InboundSamlSsoProfile. When the target customer has enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448), the `Operation` in the response will have `"done": false`, it will not have a response, and the metadata will have `"state": "awaiting-multi-party-approval"`. */
 export const patchInboundSamlSsoProfiles: API.OperationMethod<
@@ -4799,7 +5428,15 @@ export const patchInboundSamlSsoProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchInboundSamlSsoProfilesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4809,6 +5446,8 @@ export type PatchInboundSsoAssignmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Updates an InboundSsoAssignment. The body of this request is the `inbound_sso_assignment` field and the `update_mask` is relative to that. For example: a PATCH to `/v1/inboundSsoAssignments/0abcdefg1234567&update_mask=rank` with a body of `{ "rank": 1 }` moves that (presumably group-targeted) SSO assignment to the highest priority and shifts any other group-targeted assignments down in priority. */
 export const patchInboundSsoAssignments: API.OperationMethod<
@@ -4819,7 +5458,15 @@ export const patchInboundSsoAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchInboundSsoAssignmentsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4829,6 +5476,8 @@ export type PatchPoliciesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Update a policy. */
 export const patchPolicies: API.OperationMethod<
@@ -4839,7 +5488,15 @@ export const patchPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchPoliciesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4847,6 +5504,8 @@ export const patchPolicies: API.OperationMethod<
 export type SearchDirectGroupsGroupsMembershipsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Searches direct groups of a member. Groups for which the actor does not have the permission to view memberships are silently filtered out. */
 export const searchDirectGroupsGroupsMemberships: API.PaginatedOperationMethod<
@@ -4858,7 +5517,13 @@ export const searchDirectGroupsGroupsMemberships: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: SearchDirectGroupsGroupsMembershipsRequest,
   output: SearchDirectGroupsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4867,7 +5532,12 @@ export const searchDirectGroupsGroupsMemberships: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type SearchGroupsError = NotFound | Forbidden | GcpOpError;
+export type SearchGroupsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
+  | GcpOpError;
 /** Searches for `Group` resources matching a specified query. */
 export const searchGroups: API.PaginatedOperationMethod<
   SearchGroupsRequest,
@@ -4878,7 +5548,13 @@ export const searchGroups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: SearchGroupsRequest,
   output: SearchGroupsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4890,6 +5566,8 @@ export const searchGroups: API.PaginatedOperationMethod<
 export type SearchTransitiveGroupsGroupsMembershipsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Search transitive groups of a member. **Note:** This feature is only available to Google Workspace Enterprise Standard, Enterprise Plus, and Enterprise for Education; and Cloud Identity Premium accounts. If the account of the member is not one of these, a 403 (PERMISSION_DENIED) HTTP status code will be returned. A transitive group is any group that has a direct or indirect membership to the member. Actor must have view permissions all transitive groups. */
 export const searchTransitiveGroupsGroupsMemberships: API.PaginatedOperationMethod<
@@ -4901,7 +5579,13 @@ export const searchTransitiveGroupsGroupsMemberships: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: SearchTransitiveGroupsGroupsMembershipsRequest,
   output: SearchTransitiveGroupsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4913,6 +5597,8 @@ export const searchTransitiveGroupsGroupsMemberships: API.PaginatedOperationMeth
 export type SearchTransitiveMembershipsGroupsMembershipsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Search transitive memberships of a group. **Note:** This feature is only available to Google Workspace Enterprise Standard, Enterprise Plus, and Enterprise for Education; and Cloud Identity Premium accounts. If the account of the group is not one of these, a 403 (PERMISSION_DENIED) HTTP status code will be returned. A transitive membership is any direct or indirect membership of a group. Actor must have view permissions to all transitive memberships. */
 export const searchTransitiveMembershipsGroupsMemberships: API.PaginatedOperationMethod<
@@ -4924,7 +5610,13 @@ export const searchTransitiveMembershipsGroupsMemberships: API.PaginatedOperatio
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: SearchTransitiveMembershipsGroupsMembershipsRequest,
   output: SearchTransitiveMembershipsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4938,6 +5630,8 @@ export type SendCustomersUserinvitationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Sends a UserInvitation to email. If the `UserInvitation` does not exist for this request and it is a valid request, the request creates a `UserInvitation`. **Note:** The `get` and `list` methods have a 48-hour delay where newly-created consumer accounts will not appear in the results. You can still send a `UserInvitation` to those accounts if you know the unmanaged email address and IsInvitableUser==True. */
 export const sendCustomersUserinvitations: API.OperationMethod<
@@ -4948,7 +5642,15 @@ export const sendCustomersUserinvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SendCustomersUserinvitationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4958,6 +5660,8 @@ export type UpdateSecuritySettingsGroupsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Update Security Settings */
 export const updateSecuritySettingsGroups: API.OperationMethod<
@@ -4968,7 +5672,15 @@ export const updateSecuritySettingsGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSecuritySettingsGroupsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4978,6 +5690,8 @@ export type WipeDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Wipes all data on the specified device. */
 export const wipeDevices: API.OperationMethod<
@@ -4988,7 +5702,15 @@ export const wipeDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: WipeDevicesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4998,6 +5720,8 @@ export type WipeDevicesDeviceUsersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
+  | InsufficientScopes
   | GcpOpError;
 /** Wipes the user's account on a device. Other data on the device that is not associated with the user's work account is not affected. For example, if a Gmail app is installed on a device that is used for personal and work purposes, and the user is logged in to the Gmail app with their personal account as well as their work account, wiping the "deviceUser" by their work administrator will not affect their personal account within Gmail or other apps such as Photos. */
 export const wipeDevicesDeviceUsers: API.OperationMethod<
@@ -5008,7 +5732,15 @@ export const wipeDevicesDeviceUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: WipeDevicesDeviceUsersRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

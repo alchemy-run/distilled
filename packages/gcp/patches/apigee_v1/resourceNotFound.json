@@ -1,0 +1,2644 @@
+{
+  "description": "Type Apigee's missing-resource answer. Apigee returns HTTP 403 PERMISSION_DENIED 'Permission denied on resource \"organizations/...\" (or it may not exist)' for a resource (or organization) that does not exist, so it surfaced as the generic Forbidden and callers could not tell a missing resource from a real permission error. IAM denials name the permission ('Permission \\'apigee.x.y\\' denied on resource ...') and stay Forbidden.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ApigeeResourceNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The Apigee resource (or its organization) does not exist. Apigee answers HTTP 403 'Permission denied on resource \"organizations/...\" (or it may not exist)' instead of 404.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "Permission denied on resource \"organizations/"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ActivateOrganizationsInstancesNatAddresses/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#AdjustOrganizationsAppgroupsBalance/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#AdjustOrganizationsDevelopersBalance/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooks/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#AttributesOrganizationsApiproducts/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#AttributesOrganizationsDevelopers/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#AttributesOrganizationsDevelopersApps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#BatchComputeOrganizationsSecurityAssessmentResults/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#BatchUpdateOrganizationsEnvironmentsSecurityIncidents/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsAnalyticsDatastores/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsApimServiceExtensions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsApiproducts/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsApiproductsRateplans/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsApis/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsApisKeyvaluemaps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsApisKeyvaluemapsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsAppgroups/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsAppgroupsApps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsAppgroupsAppsKeys/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsAppgroupsSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsDatacollectors/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsDevelopers/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsDevelopersApps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsDevelopersAppsKeys/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsDevelopersAppsKeysCreate/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsDevelopersSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsDnsZones/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEndpointAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvgroups/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvgroupsAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsAnalyticsExports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsApisRevisionsDebugsessions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsArchiveDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsKeystores/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsKeystoresAliases/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsKeyvaluemaps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsKeyvaluemapsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsQueries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsReferences/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsResourcefiles/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsSecurityActions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsSecurityReports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsTargetservers/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsEnvironmentsTraceConfigOverrides/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsHostQueries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsHostSecurityReports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsInstancesAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsInstancesCanaryevaluations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsInstancesNatAddresses/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsKeyvaluemaps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsKeyvaluemapsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsReports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsSecurityFeedback/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsSecurityMonitoringConditions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsSecurityProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsSecurityProfilesEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsSecurityProfilesV2/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsSharedflows/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsSitesApicategories/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsSitesApidocs/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreateOrganizationsSpaces/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreditOrganizationsAppgroupsBalance/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CreditOrganizationsDevelopersBalance/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#CsrOrganizationsEnvironmentsKeystoresAliases/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteDataOrganizationsEnvironmentsApisRevisionsDebugsessions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsAnalyticsDatastores/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsApimServiceExtensions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsApiproducts/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsApiproductsAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsApiproductsRateplans/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsApis/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsApisKeyvaluemaps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsApisKeyvaluemapsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsApisRevisions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsAppgroups/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsAppgroupsApps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsAppgroupsAppsKeys/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsAppgroupsAppsKeysApiproducts/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsDatacollectors/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsDevelopers/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsDevelopersApps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsDevelopersAppsAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsDevelopersAppsKeys/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsDevelopersAppsKeysApiproducts/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsDevelopersAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsDnsZones/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEndpointAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEnvgroups/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEnvgroupsAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEnvironmentsArchiveDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEnvironmentsCaches/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEnvironmentsKeystores/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEnvironmentsKeystoresAliases/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEnvironmentsKeyvaluemaps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEnvironmentsKeyvaluemapsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEnvironmentsReferences/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEnvironmentsResourcefiles/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEnvironmentsSecurityActions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEnvironmentsTargetservers/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsEnvironmentsTraceConfigOverrides/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsInstancesAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsInstancesNatAddresses/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsKeyvaluemaps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsKeyvaluemapsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsReports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsSecurityFeedback/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsSecurityMonitoringConditions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsSecurityProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsSecurityProfilesEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsSecurityProfilesV2/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsSharedflows/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsSharedflowsRevisions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsSitesApicategories/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsSitesApidocs/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeleteOrganizationsSpaces/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeployOrganizationsEnvironmentsApisRevisions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DeployOrganizationsEnvironmentsSharedflowsRevisions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DetachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooks/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#DisableOrganizationsEnvironmentsSecurityActions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#EnableOrganizationsEnvironmentsSecurityActions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ExpireOrganizationsAppgroupsSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ExpireOrganizationsDevelopersSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GenerateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GenerateDownloadUrlOrganizationsEnvironmentsArchiveDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersApps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GenerateUploadUrlOrganizationsEnvironmentsArchiveDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetAddonsConfigOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetApiSecurityRuntimeConfigOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetBalanceOrganizationsAppgroups/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetBalanceOrganizationsDevelopers/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetCertificateOrganizationsEnvironmentsKeystoresAliases/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetControlPlaneAccessOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetDebugmaskOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetDeployedConfigOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetDeployedIngressConfigOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetDeployedIngressConfigOrganizationsEnvgroups/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetDeploymentsOrganizationsEnvironmentsApisRevisions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetDeploymentsOrganizationsEnvironmentsSharedflowsRevisions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetDocumentationOrganizationsSitesApidocs/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetIamPolicyOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetIamPolicyOrganizationsEnvironmentsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetIamPolicyOrganizationsSpaces/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetMcpServerConfigOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetMonetizationConfigOrganizationsAppgroups/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetMonetizationConfigOrganizationsDevelopers/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsAnalyticsDatastores/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsApimServiceExtensions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsApiproducts/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsApiproductsAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsApiproductsRateplans/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsApis/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsApisKeyvaluemaps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsApisKeyvaluemapsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsApisRevisions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsAppgroups/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsAppgroupsApps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsAppgroupsAppsKeys/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsAppgroupsSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsApps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsDatacollectors/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsDevelopers/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsDevelopersApps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsDevelopersAppsAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsDevelopersAppsKeys/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsDevelopersAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsDevelopersSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsDnsZones/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEndpointAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvgroups/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvgroupsAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsAnalyticsExports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsApisRevisionsDebugsessions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsApisRevisionsDebugsessionsData/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsArchiveDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsFlowhooks/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsKeystores/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsKeystoresAliases/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsKeyvaluemaps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsKeyvaluemapsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsOptimizedStats/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsQueries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsReferences/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsResourcefiles/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsSecurityActions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsSecurityIncidents/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsSecurityReports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsStats/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsTargetservers/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsEnvironmentsTraceConfigOverrides/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsHostQueries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsHostSecurityReports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsHostStats/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsInstancesAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsInstancesCanaryevaluations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsInstancesNatAddresses/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsKeyvaluemaps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsKeyvaluemapsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsOptimizedHostStats/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsReports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsSecurityFeedback/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsSecurityMonitoringConditions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsSecurityProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsSecurityProfilesV2/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsSharedflows/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsSharedflowsRevisions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsSitesApicategories/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsSitesApidocs/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetOrganizationsSpaces/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetProjectMappingOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetResultOrganizationsEnvironmentsQueries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetResultOrganizationsEnvironmentsSecurityReports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetResultOrganizationsHostQueries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetResultOrganizationsHostSecurityReports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetResultViewOrganizationsEnvironmentsSecurityReports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetResultViewOrganizationsHostQueries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetResultViewOrganizationsHostSecurityReports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetResulturlOrganizationsEnvironmentsQueries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetRuntimeConfigOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetSchemav2OrganizationsEnvironmentsAnalyticsAdmin/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetSecurityActionsConfigOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetSecuritySettingsOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetSyncAuthorizationOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#GetTraceConfigOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListEnvironmentResourcesOrganizationsEnvironmentsResourcefiles/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListHybridIssuers/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsAnalyticsDatastores/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApimServiceExtensions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApiproducts/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApiproductsAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApiproductsRateplans/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApis/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApisDebugsessions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApisDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApisKeyvaluemapsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApisRevisionsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsAppgroups/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsAppgroupsApps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsAppgroupsSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsApps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsDatacollectors/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsDevelopers/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsDevelopersApps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsDevelopersAppsAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsDevelopersAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsDevelopersSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsDnsZones/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEndpointAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvgroups/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvgroupsAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsAnalyticsExports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsApisDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsApisRevisionsDebugsessions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsArchiveDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsKeyvaluemapsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsQueries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsResourcefiles/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsSecurityActions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsSecurityIncidents/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsSecurityReports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsSharedflowsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsEnvironmentsTraceConfigOverrides/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsHostQueries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsHostSecurityReports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsInstancesAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsInstancesNatAddresses/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsKeyvaluemapsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsReports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSecurityFeedback/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSecurityMonitoringConditions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSecurityProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSecurityProfilesV2/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSharedflows/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSharedflowsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSharedflowsRevisionsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSitesApicategories/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSitesApidocs/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListOrganizationsSpaces/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ListRevisionsOrganizationsSecurityProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ModifyEnvironmentOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#MoveOrganizationsApiproducts/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#MoveOrganizationsApis/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#MoveOrganizationsSharedflows/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#PatchOrganizationsApimServiceExtensions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#PatchOrganizationsApis/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#PatchOrganizationsDatacollectors/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#PatchOrganizationsEnvgroups/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#PatchOrganizationsEnvironmentsArchiveDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#PatchOrganizationsEnvironmentsSecurityActions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#PatchOrganizationsEnvironmentsSecurityIncidents/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#PatchOrganizationsEnvironmentsTraceConfigOverrides/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#PatchOrganizationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#PatchOrganizationsSecurityFeedback/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#PatchOrganizationsSecurityMonitoringConditions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#PatchOrganizationsSecurityProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#PatchOrganizationsSecurityProfilesV2/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#PatchOrganizationsSitesApicategories/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#PatchOrganizationsSpaces/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ProvisionOrganizationProjects/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#QueryTabularStatsOrganizationsEnvironmentsSecurityStats/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStats/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeys/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#ReportStatusOrganizationsInstances/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#SetAddonEnablementOrganizationsEnvironmentsAddonsConfig/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#SetAddonsOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#SetDeveloperStatusOrganizationsDevelopers/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#SetIamPolicyOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#SetIamPolicyOrganizationsEnvironmentsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#SetIamPolicyOrganizationsSpaces/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#SetSyncAuthorizationOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#SubscribeOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#TestIamPermissionsOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#TestIamPermissionsOrganizationsEnvironmentsDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#TestIamPermissionsOrganizationsSpaces/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#TestOrganizationsAnalyticsDatastores/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UndeployOrganizationsEnvironmentsApisRevisions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UndeployOrganizationsEnvironmentsSharedflowsRevisions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UnsubscribeOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateApiProductAttributeOrganizationsApiproductsAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateApiProxyRevisionOrganizationsApisRevisions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiproducts/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeys/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateControlPlaneAccessOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateDebugmaskOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproducts/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeys/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateDeveloperAttributeOrganizationsDevelopersAttributes/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateDocumentationOrganizationsSitesApidocs/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateEnvironmentOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateMonetizationConfigOrganizationsAppgroups/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateMonetizationConfigOrganizationsDevelopers/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsAnalyticsDatastores/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsApiproducts/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsApiproductsRateplans/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsApisKeyvaluemaps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsApisKeyvaluemapsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsAppgroups/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsAppgroupsApps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsDevelopers/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsDevelopersApps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsEnvironmentsKeystoresAliases/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsEnvironmentsKeyvaluemaps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsEnvironmentsKeyvaluemapsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsEnvironmentsReferences/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsEnvironmentsResourcefiles/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsEnvironmentsTargetservers/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsKeyvaluemaps/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsKeyvaluemapsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsReports/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateOrganizationsSitesApidocs/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateSecurityActionsConfigOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateSecuritySettingsOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateSharedFlowRevisionOrganizationsSharedflowsRevisions/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apigee_v1#UpdateTraceConfigOrganizationsEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.apigee_v1#ApigeeResourceNotFound"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "description": "Type insertFutureReservations' HTTP 412 PRECONDITION_FAILED ('Based on your service usage history, you are not eligible for using the Future Reservations feature at this time.', reason conditionNotMet). Future reservations are gated on account history; 412 is outside the default 4xx set, so it surfaced as UnknownGCPError. No smithy.api#httpError is set so it carries no retryable category. Observed live 2026-09-28 inserting a DRAFT future reservation in us-central1-a.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#FutureReservationsNotEligible",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The project is not eligible for the Future Reservations feature (HTTP 412 conditionNotMet: 'Based on your service usage history, you are not eligible for using the Future Reservations feature at this time.'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 412,
+              "message": { "includes": "not eligible for using the Future Reservations feature" }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#InsertFutureReservations/errors/-",
+      "value": {
+        "target": "com.gcp.compute_v1#FutureReservationsNotEligible"
+      }
+    }
+  ]
+}

@@ -65,6 +65,20 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The SAS Portal API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED). */
+export class ServiceDisabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ServiceDisabled>()("ServiceDisabled", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [{ status: 403, message: { includes: "has not been used in project" } }],
+  ) {}
+
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(
   S.String,
@@ -2796,6 +2810,7 @@ export type CreateCustomersDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new deployment. */
 export const createCustomersDeployments: API.OperationMethod<
@@ -2806,7 +2821,14 @@ export const createCustomersDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateCustomersDeploymentsRequest,
   output: SasPortalDeployment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2816,6 +2838,7 @@ export type CreateCustomersDeploymentsDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a device under a node or customer. */
 export const createCustomersDeploymentsDevices: API.OperationMethod<
@@ -2826,7 +2849,14 @@ export const createCustomersDeploymentsDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateCustomersDeploymentsDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2836,6 +2866,7 @@ export type CreateCustomersDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a device under a node or customer. */
 export const createCustomersDevices: API.OperationMethod<
@@ -2846,7 +2877,14 @@ export const createCustomersDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateCustomersDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2856,6 +2894,7 @@ export type CreateCustomersNodesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new node. */
 export const createCustomersNodes: API.OperationMethod<
@@ -2866,7 +2905,14 @@ export const createCustomersNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateCustomersNodesRequest,
   output: SasPortalNode,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2876,6 +2922,7 @@ export type CreateCustomersNodesDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new deployment. */
 export const createCustomersNodesDeployments: API.OperationMethod<
@@ -2886,7 +2933,14 @@ export const createCustomersNodesDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateCustomersNodesDeploymentsRequest,
   output: SasPortalDeployment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2896,6 +2950,7 @@ export type CreateCustomersNodesDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a device under a node or customer. */
 export const createCustomersNodesDevices: API.OperationMethod<
@@ -2906,7 +2961,14 @@ export const createCustomersNodesDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateCustomersNodesDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2916,6 +2978,7 @@ export type CreateCustomersNodesNodesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new node. */
 export const createCustomersNodesNodes: API.OperationMethod<
@@ -2926,7 +2989,14 @@ export const createCustomersNodesNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateCustomersNodesNodesRequest,
   output: SasPortalNode,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2936,6 +3006,7 @@ export type CreateNodesDeploymentsDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a device under a node or customer. */
 export const createNodesDeploymentsDevices: API.OperationMethod<
@@ -2946,7 +3017,14 @@ export const createNodesDeploymentsDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateNodesDeploymentsDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2956,6 +3034,7 @@ export type CreateNodesDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a device under a node or customer. */
 export const createNodesDevices: API.OperationMethod<
@@ -2966,7 +3045,14 @@ export const createNodesDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateNodesDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2976,6 +3062,7 @@ export type CreateNodesNodesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new node. */
 export const createNodesNodes: API.OperationMethod<
@@ -2986,7 +3073,14 @@ export const createNodesNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateNodesNodesRequest,
   output: SasPortalNode,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2996,6 +3090,7 @@ export type CreateNodesNodesDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new deployment. */
 export const createNodesNodesDeployments: API.OperationMethod<
@@ -3006,7 +3101,14 @@ export const createNodesNodesDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateNodesNodesDeploymentsRequest,
   output: SasPortalDeployment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3016,6 +3118,7 @@ export type CreateNodesNodesDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a device under a node or customer. */
 export const createNodesNodesDevices: API.OperationMethod<
@@ -3026,7 +3129,14 @@ export const createNodesNodesDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateNodesNodesDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3036,6 +3146,7 @@ export type CreateNodesNodesNodesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new node. */
 export const createNodesNodesNodes: API.OperationMethod<
@@ -3046,7 +3157,14 @@ export const createNodesNodesNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateNodesNodesNodesRequest,
   output: SasPortalNode,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3056,6 +3174,7 @@ export type CreateSignedCustomersDeploymentsDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a signed device under a node or customer. */
 export const createSignedCustomersDeploymentsDevices: API.OperationMethod<
@@ -3066,7 +3185,14 @@ export const createSignedCustomersDeploymentsDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSignedCustomersDeploymentsDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3076,6 +3202,7 @@ export type CreateSignedCustomersDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a signed device under a node or customer. */
 export const createSignedCustomersDevices: API.OperationMethod<
@@ -3086,7 +3213,14 @@ export const createSignedCustomersDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSignedCustomersDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3096,6 +3230,7 @@ export type CreateSignedCustomersNodesDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a signed device under a node or customer. */
 export const createSignedCustomersNodesDevices: API.OperationMethod<
@@ -3106,7 +3241,14 @@ export const createSignedCustomersNodesDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSignedCustomersNodesDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3116,6 +3258,7 @@ export type CreateSignedNodesDeploymentsDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a signed device under a node or customer. */
 export const createSignedNodesDeploymentsDevices: API.OperationMethod<
@@ -3126,7 +3269,14 @@ export const createSignedNodesDeploymentsDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSignedNodesDeploymentsDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3136,6 +3286,7 @@ export type CreateSignedNodesDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a signed device under a node or customer. */
 export const createSignedNodesDevices: API.OperationMethod<
@@ -3146,7 +3297,14 @@ export const createSignedNodesDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSignedNodesDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3156,6 +3314,7 @@ export type CreateSignedNodesNodesDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a signed device under a node or customer. */
 export const createSignedNodesNodesDevices: API.OperationMethod<
@@ -3166,7 +3325,14 @@ export const createSignedNodesNodesDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSignedNodesNodesDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3176,6 +3342,7 @@ export type DeleteCustomersDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a deployment. */
 export const deleteCustomersDeployments: API.OperationMethod<
@@ -3186,7 +3353,14 @@ export const deleteCustomersDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteCustomersDeploymentsRequest,
   output: SasPortalEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3196,6 +3370,7 @@ export type DeleteCustomersDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a device. */
 export const deleteCustomersDevices: API.OperationMethod<
@@ -3206,7 +3381,14 @@ export const deleteCustomersDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteCustomersDevicesRequest,
   output: SasPortalEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3216,6 +3398,7 @@ export type DeleteCustomersNodesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a node. */
 export const deleteCustomersNodes: API.OperationMethod<
@@ -3226,7 +3409,14 @@ export const deleteCustomersNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteCustomersNodesRequest,
   output: SasPortalEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3236,6 +3426,7 @@ export type DeleteDeploymentsDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a device. */
 export const deleteDeploymentsDevices: API.OperationMethod<
@@ -3246,7 +3437,14 @@ export const deleteDeploymentsDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDeploymentsDevicesRequest,
   output: SasPortalEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3256,6 +3454,7 @@ export type DeleteNodesDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a deployment. */
 export const deleteNodesDeployments: API.OperationMethod<
@@ -3266,7 +3465,14 @@ export const deleteNodesDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteNodesDeploymentsRequest,
   output: SasPortalEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3276,6 +3482,7 @@ export type DeleteNodesDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a device. */
 export const deleteNodesDevices: API.OperationMethod<
@@ -3286,7 +3493,14 @@ export const deleteNodesDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteNodesDevicesRequest,
   output: SasPortalEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3296,6 +3510,7 @@ export type DeleteNodesNodesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a node. */
 export const deleteNodesNodes: API.OperationMethod<
@@ -3306,7 +3521,14 @@ export const deleteNodesNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteNodesNodesRequest,
   output: SasPortalEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3316,6 +3538,7 @@ export type GenerateSecretInstallerError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Generates a secret to be used with the ValidateInstaller. */
 export const generateSecretInstaller: API.OperationMethod<
@@ -3326,12 +3549,23 @@ export const generateSecretInstaller: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GenerateSecretInstallerRequest,
   output: SasPortalGenerateSecretResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetCustomersError = NotFound | Forbidden | GcpOpError;
+export type GetCustomersError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Returns a requested customer. */
 export const getCustomers: API.OperationMethod<
   GetCustomersRequest,
@@ -3341,12 +3575,16 @@ export const getCustomers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCustomersRequest,
   output: SasPortalCustomer,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetCustomersDeploymentsError = NotFound | Forbidden | GcpOpError;
+export type GetCustomersDeploymentsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Returns a requested deployment. */
 export const getCustomersDeployments: API.OperationMethod<
   GetCustomersDeploymentsRequest,
@@ -3356,12 +3594,16 @@ export const getCustomersDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCustomersDeploymentsRequest,
   output: SasPortalDeployment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetCustomersDevicesError = NotFound | Forbidden | GcpOpError;
+export type GetCustomersDevicesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Gets details about a device. */
 export const getCustomersDevices: API.OperationMethod<
   GetCustomersDevicesRequest,
@@ -3371,12 +3613,16 @@ export const getCustomersDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCustomersDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetCustomersNodesError = NotFound | Forbidden | GcpOpError;
+export type GetCustomersNodesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Returns a requested node. */
 export const getCustomersNodes: API.OperationMethod<
   GetCustomersNodesRequest,
@@ -3386,12 +3632,16 @@ export const getCustomersNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCustomersNodesRequest,
   output: SasPortalNode,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetDeploymentsError = NotFound | Forbidden | GcpOpError;
+export type GetDeploymentsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Returns a requested deployment. */
 export const getDeployments: API.OperationMethod<
   GetDeploymentsRequest,
@@ -3401,12 +3651,16 @@ export const getDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDeploymentsRequest,
   output: SasPortalDeployment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetDeploymentsDevicesError = NotFound | Forbidden | GcpOpError;
+export type GetDeploymentsDevicesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Gets details about a device. */
 export const getDeploymentsDevices: API.OperationMethod<
   GetDeploymentsDevicesRequest,
@@ -3416,12 +3670,12 @@ export const getDeploymentsDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDeploymentsDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetNodesError = NotFound | Forbidden | GcpOpError;
+export type GetNodesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
 /** Returns a requested node. */
 export const getNodes: API.OperationMethod<
   GetNodesRequest,
@@ -3431,12 +3685,16 @@ export const getNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetNodesRequest,
   output: SasPortalNode,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetNodesDeploymentsError = NotFound | Forbidden | GcpOpError;
+export type GetNodesDeploymentsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Returns a requested deployment. */
 export const getNodesDeployments: API.OperationMethod<
   GetNodesDeploymentsRequest,
@@ -3446,12 +3704,16 @@ export const getNodesDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetNodesDeploymentsRequest,
   output: SasPortalDeployment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetNodesDevicesError = NotFound | Forbidden | GcpOpError;
+export type GetNodesDevicesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Gets details about a device. */
 export const getNodesDevices: API.OperationMethod<
   GetNodesDevicesRequest,
@@ -3461,12 +3723,16 @@ export const getNodesDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetNodesDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetNodesNodesError = NotFound | Forbidden | GcpOpError;
+export type GetNodesNodesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Returns a requested node. */
 export const getNodesNodes: API.OperationMethod<
   GetNodesNodesRequest,
@@ -3476,7 +3742,7 @@ export const getNodesNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetNodesNodesRequest,
   output: SasPortalNode,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3486,6 +3752,7 @@ export type GetPoliciesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getPolicies: API.OperationMethod<
@@ -3496,12 +3763,23 @@ export const getPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPoliciesRequest,
   output: SasPortalPolicy,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListCustomersError = NotFound | Forbidden | GcpOpError;
+export type ListCustomersError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Returns a list of requested customers. */
 export const listCustomers: API.PaginatedOperationMethod<
   ListCustomersRequest,
@@ -3512,7 +3790,7 @@ export const listCustomers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersRequest,
   output: SasPortalListCustomersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3521,7 +3799,11 @@ export const listCustomers: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListCustomersDeploymentsError = NotFound | Forbidden | GcpOpError;
+export type ListCustomersDeploymentsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists deployments. */
 export const listCustomersDeployments: API.PaginatedOperationMethod<
   ListCustomersDeploymentsRequest,
@@ -3532,7 +3814,7 @@ export const listCustomersDeployments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersDeploymentsRequest,
   output: SasPortalListDeploymentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3544,6 +3826,7 @@ export const listCustomersDeployments: API.PaginatedOperationMethod<
 export type ListCustomersDeploymentsDevicesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists devices under a node or customer. */
 export const listCustomersDeploymentsDevices: API.PaginatedOperationMethod<
@@ -3555,7 +3838,7 @@ export const listCustomersDeploymentsDevices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersDeploymentsDevicesRequest,
   output: SasPortalListDevicesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3564,7 +3847,11 @@ export const listCustomersDeploymentsDevices: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListCustomersDevicesError = NotFound | Forbidden | GcpOpError;
+export type ListCustomersDevicesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists devices under a node or customer. */
 export const listCustomersDevices: API.PaginatedOperationMethod<
   ListCustomersDevicesRequest,
@@ -3575,7 +3862,7 @@ export const listCustomersDevices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersDevicesRequest,
   output: SasPortalListDevicesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3584,7 +3871,11 @@ export const listCustomersDevices: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListCustomersNodesError = NotFound | Forbidden | GcpOpError;
+export type ListCustomersNodesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists nodes. */
 export const listCustomersNodes: API.PaginatedOperationMethod<
   ListCustomersNodesRequest,
@@ -3595,7 +3886,7 @@ export const listCustomersNodes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersNodesRequest,
   output: SasPortalListNodesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3607,6 +3898,7 @@ export const listCustomersNodes: API.PaginatedOperationMethod<
 export type ListCustomersNodesDeploymentsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists deployments. */
 export const listCustomersNodesDeployments: API.PaginatedOperationMethod<
@@ -3618,7 +3910,7 @@ export const listCustomersNodesDeployments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersNodesDeploymentsRequest,
   output: SasPortalListDeploymentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3627,7 +3919,11 @@ export const listCustomersNodesDeployments: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListCustomersNodesDevicesError = NotFound | Forbidden | GcpOpError;
+export type ListCustomersNodesDevicesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists devices under a node or customer. */
 export const listCustomersNodesDevices: API.PaginatedOperationMethod<
   ListCustomersNodesDevicesRequest,
@@ -3638,7 +3934,7 @@ export const listCustomersNodesDevices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersNodesDevicesRequest,
   output: SasPortalListDevicesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3647,7 +3943,11 @@ export const listCustomersNodesDevices: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListCustomersNodesNodesError = NotFound | Forbidden | GcpOpError;
+export type ListCustomersNodesNodesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists nodes. */
 export const listCustomersNodesNodes: API.PaginatedOperationMethod<
   ListCustomersNodesNodesRequest,
@@ -3658,7 +3958,7 @@ export const listCustomersNodesNodes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersNodesNodesRequest,
   output: SasPortalListNodesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3670,6 +3970,7 @@ export const listCustomersNodesNodes: API.PaginatedOperationMethod<
 export type ListGcpProjectDeploymentsCustomersError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Returns a list of SAS deployments associated with current GCP project. Includes whether SAS analytics has been enabled or not. */
 export const listGcpProjectDeploymentsCustomers: API.OperationMethod<
@@ -3680,7 +3981,7 @@ export const listGcpProjectDeploymentsCustomers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListGcpProjectDeploymentsCustomersRequest,
   output: SasPortalListGcpProjectDeploymentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3688,6 +3989,7 @@ export const listGcpProjectDeploymentsCustomers: API.OperationMethod<
 export type ListLegacyOrganizationsCustomersError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Returns a list of legacy organizations. */
 export const listLegacyOrganizationsCustomers: API.OperationMethod<
@@ -3698,12 +4000,16 @@ export const listLegacyOrganizationsCustomers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListLegacyOrganizationsCustomersRequest,
   output: SasPortalListLegacyOrganizationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListNodesDeploymentsError = NotFound | Forbidden | GcpOpError;
+export type ListNodesDeploymentsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists deployments. */
 export const listNodesDeployments: API.PaginatedOperationMethod<
   ListNodesDeploymentsRequest,
@@ -3714,7 +4020,7 @@ export const listNodesDeployments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListNodesDeploymentsRequest,
   output: SasPortalListDeploymentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3726,6 +4032,7 @@ export const listNodesDeployments: API.PaginatedOperationMethod<
 export type ListNodesDeploymentsDevicesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists devices under a node or customer. */
 export const listNodesDeploymentsDevices: API.PaginatedOperationMethod<
@@ -3737,7 +4044,7 @@ export const listNodesDeploymentsDevices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListNodesDeploymentsDevicesRequest,
   output: SasPortalListDevicesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3746,7 +4053,11 @@ export const listNodesDeploymentsDevices: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListNodesDevicesError = NotFound | Forbidden | GcpOpError;
+export type ListNodesDevicesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists devices under a node or customer. */
 export const listNodesDevices: API.PaginatedOperationMethod<
   ListNodesDevicesRequest,
@@ -3757,7 +4068,7 @@ export const listNodesDevices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListNodesDevicesRequest,
   output: SasPortalListDevicesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3766,7 +4077,11 @@ export const listNodesDevices: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListNodesNodesError = NotFound | Forbidden | GcpOpError;
+export type ListNodesNodesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists nodes. */
 export const listNodesNodes: API.PaginatedOperationMethod<
   ListNodesNodesRequest,
@@ -3777,7 +4092,7 @@ export const listNodesNodes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListNodesNodesRequest,
   output: SasPortalListNodesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3786,7 +4101,11 @@ export const listNodesNodes: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListNodesNodesDeploymentsError = NotFound | Forbidden | GcpOpError;
+export type ListNodesNodesDeploymentsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists deployments. */
 export const listNodesNodesDeployments: API.PaginatedOperationMethod<
   ListNodesNodesDeploymentsRequest,
@@ -3797,7 +4116,7 @@ export const listNodesNodesDeployments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListNodesNodesDeploymentsRequest,
   output: SasPortalListDeploymentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3806,7 +4125,11 @@ export const listNodesNodesDeployments: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListNodesNodesDevicesError = NotFound | Forbidden | GcpOpError;
+export type ListNodesNodesDevicesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists devices under a node or customer. */
 export const listNodesNodesDevices: API.PaginatedOperationMethod<
   ListNodesNodesDevicesRequest,
@@ -3817,7 +4140,7 @@ export const listNodesNodesDevices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListNodesNodesDevicesRequest,
   output: SasPortalListDevicesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3826,7 +4149,11 @@ export const listNodesNodesDevices: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListNodesNodesNodesError = NotFound | Forbidden | GcpOpError;
+export type ListNodesNodesNodesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists nodes. */
 export const listNodesNodesNodes: API.PaginatedOperationMethod<
   ListNodesNodesNodesRequest,
@@ -3837,7 +4164,7 @@ export const listNodesNodesNodes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListNodesNodesNodesRequest,
   output: SasPortalListNodesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3851,6 +4178,7 @@ export type MigrateOrganizationCustomersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Migrates a SAS organization to the cloud. This will create GCP projects for each deployment and associate them. The SAS Organization is linked to the gcp project that called the command. go/sas-legacy-customer-migration */
 export const migrateOrganizationCustomers: API.OperationMethod<
@@ -3861,7 +4189,14 @@ export const migrateOrganizationCustomers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: MigrateOrganizationCustomersRequest,
   output: SasPortalOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3871,6 +4206,7 @@ export type MoveCustomersDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Moves a deployment under another node or customer. */
 export const moveCustomersDeployments: API.OperationMethod<
@@ -3881,7 +4217,14 @@ export const moveCustomersDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: MoveCustomersDeploymentsRequest,
   output: SasPortalOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3891,6 +4234,7 @@ export type MoveCustomersDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Moves a device under another node or customer. */
 export const moveCustomersDevices: API.OperationMethod<
@@ -3901,7 +4245,14 @@ export const moveCustomersDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: MoveCustomersDevicesRequest,
   output: SasPortalOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3911,6 +4262,7 @@ export type MoveCustomersNodesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Moves a node under another node or customer. */
 export const moveCustomersNodes: API.OperationMethod<
@@ -3921,7 +4273,14 @@ export const moveCustomersNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: MoveCustomersNodesRequest,
   output: SasPortalOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3931,6 +4290,7 @@ export type MoveDeploymentsDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Moves a device under another node or customer. */
 export const moveDeploymentsDevices: API.OperationMethod<
@@ -3941,7 +4301,14 @@ export const moveDeploymentsDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: MoveDeploymentsDevicesRequest,
   output: SasPortalOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3951,6 +4318,7 @@ export type MoveNodesDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Moves a deployment under another node or customer. */
 export const moveNodesDeployments: API.OperationMethod<
@@ -3961,7 +4329,14 @@ export const moveNodesDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: MoveNodesDeploymentsRequest,
   output: SasPortalOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3971,6 +4346,7 @@ export type MoveNodesDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Moves a device under another node or customer. */
 export const moveNodesDevices: API.OperationMethod<
@@ -3981,7 +4357,14 @@ export const moveNodesDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: MoveNodesDevicesRequest,
   output: SasPortalOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3991,6 +4374,7 @@ export type MoveNodesNodesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Moves a node under another node or customer. */
 export const moveNodesNodes: API.OperationMethod<
@@ -4001,7 +4385,14 @@ export const moveNodesNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: MoveNodesNodesRequest,
   output: SasPortalOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4011,6 +4402,7 @@ export type PatchCustomersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates an existing customer. */
 export const patchCustomers: API.OperationMethod<
@@ -4021,7 +4413,14 @@ export const patchCustomers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchCustomersRequest,
   output: SasPortalCustomer,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4031,6 +4430,7 @@ export type PatchCustomersDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates an existing deployment. */
 export const patchCustomersDeployments: API.OperationMethod<
@@ -4041,7 +4441,14 @@ export const patchCustomersDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchCustomersDeploymentsRequest,
   output: SasPortalDeployment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4051,6 +4458,7 @@ export type PatchCustomersDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates a device. */
 export const patchCustomersDevices: API.OperationMethod<
@@ -4061,7 +4469,14 @@ export const patchCustomersDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchCustomersDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4071,6 +4486,7 @@ export type PatchCustomersNodesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates an existing node. */
 export const patchCustomersNodes: API.OperationMethod<
@@ -4081,7 +4497,14 @@ export const patchCustomersNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchCustomersNodesRequest,
   output: SasPortalNode,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4091,6 +4514,7 @@ export type PatchDeploymentsDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates a device. */
 export const patchDeploymentsDevices: API.OperationMethod<
@@ -4101,7 +4525,14 @@ export const patchDeploymentsDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchDeploymentsDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4111,6 +4542,7 @@ export type PatchNodesDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates an existing deployment. */
 export const patchNodesDeployments: API.OperationMethod<
@@ -4121,7 +4553,14 @@ export const patchNodesDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchNodesDeploymentsRequest,
   output: SasPortalDeployment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4131,6 +4570,7 @@ export type PatchNodesDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates a device. */
 export const patchNodesDevices: API.OperationMethod<
@@ -4141,7 +4581,14 @@ export const patchNodesDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchNodesDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4151,6 +4598,7 @@ export type PatchNodesNodesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates an existing node. */
 export const patchNodesNodes: API.OperationMethod<
@@ -4161,7 +4609,14 @@ export const patchNodesNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchNodesNodesRequest,
   output: SasPortalNode,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4171,6 +4626,7 @@ export type ProvisionDeploymentCustomersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new SAS deployment through the GCP workflow. Creates a SAS organization if an organization match is not found. */
 export const provisionDeploymentCustomers: API.OperationMethod<
@@ -4181,7 +4637,14 @@ export const provisionDeploymentCustomers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ProvisionDeploymentCustomersRequest,
   output: SasPortalProvisionDeploymentResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4191,6 +4654,7 @@ export type SetPoliciesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setPolicies: API.OperationMethod<
@@ -4201,7 +4665,14 @@ export const setPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetPoliciesRequest,
   output: SasPortalPolicy,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4211,6 +4682,7 @@ export type SetupSasAnalyticsCustomersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Setups the a GCP Project to receive SAS Analytics messages via GCP Pub/Sub with a subscription to BigQuery. All the Pub/Sub topics and BigQuery tables are created automatically as part of this service. */
 export const setupSasAnalyticsCustomers: API.OperationMethod<
@@ -4221,7 +4693,14 @@ export const setupSasAnalyticsCustomers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetupSasAnalyticsCustomersRequest,
   output: SasPortalOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4231,6 +4710,7 @@ export type SignDeviceCustomersDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Signs a device. */
 export const signDeviceCustomersDevices: API.OperationMethod<
@@ -4241,7 +4721,14 @@ export const signDeviceCustomersDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SignDeviceCustomersDevicesRequest,
   output: SasPortalEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4251,6 +4738,7 @@ export type SignDeviceDeploymentsDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Signs a device. */
 export const signDeviceDeploymentsDevices: API.OperationMethod<
@@ -4261,7 +4749,14 @@ export const signDeviceDeploymentsDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SignDeviceDeploymentsDevicesRequest,
   output: SasPortalEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4271,6 +4766,7 @@ export type SignDeviceNodesDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Signs a device. */
 export const signDeviceNodesDevices: API.OperationMethod<
@@ -4281,7 +4777,14 @@ export const signDeviceNodesDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SignDeviceNodesDevicesRequest,
   output: SasPortalEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4291,6 +4794,7 @@ export type TestPoliciesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Returns permissions that a caller has on the specified resource. */
 export const testPolicies: API.OperationMethod<
@@ -4301,7 +4805,14 @@ export const testPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TestPoliciesRequest,
   output: SasPortalTestPermissionsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4311,6 +4822,7 @@ export type UpdateSignedCustomersDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates a signed device. */
 export const updateSignedCustomersDevices: API.OperationMethod<
@@ -4321,7 +4833,14 @@ export const updateSignedCustomersDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSignedCustomersDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4331,6 +4850,7 @@ export type UpdateSignedDeploymentsDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates a signed device. */
 export const updateSignedDeploymentsDevices: API.OperationMethod<
@@ -4341,7 +4861,14 @@ export const updateSignedDeploymentsDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSignedDeploymentsDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4351,6 +4878,7 @@ export type UpdateSignedNodesDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates a signed device. */
 export const updateSignedNodesDevices: API.OperationMethod<
@@ -4361,7 +4889,14 @@ export const updateSignedNodesDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSignedNodesDevicesRequest,
   output: SasPortalDevice,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4371,6 +4906,7 @@ export type ValidateInstallerError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Validates the identity of a Certified Professional Installer (CPI). */
 export const validateInstaller: API.OperationMethod<
@@ -4381,7 +4917,14 @@ export const validateInstaller: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ValidateInstallerRequest,
   output: SasPortalValidateInstallerResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

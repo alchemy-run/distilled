@@ -65,6 +65,20 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The App Hub API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED). */
+export class ServiceDisabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ServiceDisabled>()("ServiceDisabled", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [{ status: 403, message: { includes: "has not been used in project" } }],
+  ) {}
+
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
 export const CancelOperationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2052,6 +2066,7 @@ export type CancelProjectsLocationsOperationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<
@@ -2062,7 +2077,14 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2072,6 +2094,7 @@ export type CreateProjectsLocationsApplicationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates an Application in a host project and location. */
 export const createProjectsLocationsApplications: API.OperationMethod<
@@ -2082,7 +2105,14 @@ export const createProjectsLocationsApplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsApplicationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2092,6 +2122,7 @@ export type CreateProjectsLocationsApplicationsServicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a Service in an Application. */
 export const createProjectsLocationsApplicationsServices: API.OperationMethod<
@@ -2102,7 +2133,14 @@ export const createProjectsLocationsApplicationsServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsApplicationsServicesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2112,6 +2150,7 @@ export type CreateProjectsLocationsApplicationsWorkloadsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a Workload in an Application. */
 export const createProjectsLocationsApplicationsWorkloads: API.OperationMethod<
@@ -2122,7 +2161,14 @@ export const createProjectsLocationsApplicationsWorkloads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsApplicationsWorkloadsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2132,6 +2178,7 @@ export type CreateProjectsLocationsServiceProjectAttachmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Attaches a service project to the host project. */
 export const createProjectsLocationsServiceProjectAttachments: API.OperationMethod<
@@ -2142,7 +2189,14 @@ export const createProjectsLocationsServiceProjectAttachments: API.OperationMeth
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsServiceProjectAttachmentsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2152,6 +2206,7 @@ export type DeleteProjectsLocationsApplicationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes an Application in a host project and location. */
 export const deleteProjectsLocationsApplications: API.OperationMethod<
@@ -2162,7 +2217,14 @@ export const deleteProjectsLocationsApplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsApplicationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2172,6 +2234,7 @@ export type DeleteProjectsLocationsApplicationsServicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a Service from an Application. */
 export const deleteProjectsLocationsApplicationsServices: API.OperationMethod<
@@ -2182,7 +2245,14 @@ export const deleteProjectsLocationsApplicationsServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsApplicationsServicesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2192,6 +2262,7 @@ export type DeleteProjectsLocationsApplicationsWorkloadsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a Workload from an Application. */
 export const deleteProjectsLocationsApplicationsWorkloads: API.OperationMethod<
@@ -2202,7 +2273,14 @@ export const deleteProjectsLocationsApplicationsWorkloads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsApplicationsWorkloadsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2212,6 +2290,7 @@ export type DeleteProjectsLocationsOperationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<
@@ -2222,7 +2301,14 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2232,6 +2318,7 @@ export type DeleteProjectsLocationsServiceProjectAttachmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a service project attachment. */
 export const deleteProjectsLocationsServiceProjectAttachments: API.OperationMethod<
@@ -2242,7 +2329,14 @@ export const deleteProjectsLocationsServiceProjectAttachments: API.OperationMeth
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsServiceProjectAttachmentsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2252,6 +2346,7 @@ export type DetachServiceProjectAttachmentProjectsLocationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Detaches a service project from a host project. You can call this API from any service project without needing access to the host project that it is attached to. */
 export const detachServiceProjectAttachmentProjectsLocations: API.OperationMethod<
@@ -2262,7 +2357,14 @@ export const detachServiceProjectAttachmentProjectsLocations: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: DetachServiceProjectAttachmentProjectsLocationsRequest,
   output: DetachServiceProjectAttachmentResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2270,6 +2372,7 @@ export const detachServiceProjectAttachmentProjectsLocations: API.OperationMetho
 export type GetBoundaryProjectsLocationsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets a Boundary. */
 export const getBoundaryProjectsLocations: API.OperationMethod<
@@ -2280,7 +2383,7 @@ export const getBoundaryProjectsLocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBoundaryProjectsLocationsRequest,
   output: Boundary,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2288,6 +2391,7 @@ export const getBoundaryProjectsLocations: API.OperationMethod<
 export type GetIamPolicyProjectsLocationsApplicationsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsApplications: API.OperationMethod<
@@ -2298,12 +2402,16 @@ export const getIamPolicyProjectsLocationsApplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetIamPolicyProjectsLocationsApplicationsRequest,
   output: Policy,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
+export type GetProjectsLocationsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsRequest,
@@ -2313,7 +2421,7 @@ export const getProjectsLocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: Location,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2321,6 +2429,7 @@ export const getProjectsLocations: API.OperationMethod<
 export type GetProjectsLocationsApplicationsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets an Application in a host project and location. */
 export const getProjectsLocationsApplications: API.OperationMethod<
@@ -2331,7 +2440,7 @@ export const getProjectsLocationsApplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsApplicationsRequest,
   output: Application,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2339,6 +2448,7 @@ export const getProjectsLocationsApplications: API.OperationMethod<
 export type GetProjectsLocationsApplicationsServicesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets a Service in an Application. */
 export const getProjectsLocationsApplicationsServices: API.OperationMethod<
@@ -2349,7 +2459,7 @@ export const getProjectsLocationsApplicationsServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsApplicationsServicesRequest,
   output: Service,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2357,6 +2467,7 @@ export const getProjectsLocationsApplicationsServices: API.OperationMethod<
 export type GetProjectsLocationsApplicationsWorkloadsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets a Workload in an Application. */
 export const getProjectsLocationsApplicationsWorkloads: API.OperationMethod<
@@ -2367,7 +2478,7 @@ export const getProjectsLocationsApplicationsWorkloads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsApplicationsWorkloadsRequest,
   output: Workload,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2375,6 +2486,7 @@ export const getProjectsLocationsApplicationsWorkloads: API.OperationMethod<
 export type GetProjectsLocationsDiscoveredServicesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets a Discovered Service in a host project and location. */
 export const getProjectsLocationsDiscoveredServices: API.OperationMethod<
@@ -2385,7 +2497,7 @@ export const getProjectsLocationsDiscoveredServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDiscoveredServicesRequest,
   output: DiscoveredService,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2393,6 +2505,7 @@ export const getProjectsLocationsDiscoveredServices: API.OperationMethod<
 export type GetProjectsLocationsDiscoveredWorkloadsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets a Discovered Workload in a host project and location. */
 export const getProjectsLocationsDiscoveredWorkloads: API.OperationMethod<
@@ -2403,7 +2516,7 @@ export const getProjectsLocationsDiscoveredWorkloads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDiscoveredWorkloadsRequest,
   output: DiscoveredWorkload,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2411,6 +2524,7 @@ export const getProjectsLocationsDiscoveredWorkloads: API.OperationMethod<
 export type GetProjectsLocationsExtendedMetadataSchemasError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets an Extended Metadata Schema. */
 export const getProjectsLocationsExtendedMetadataSchemas: API.OperationMethod<
@@ -2421,7 +2535,7 @@ export const getProjectsLocationsExtendedMetadataSchemas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsExtendedMetadataSchemasRequest,
   output: ExtendedMetadataSchema,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2429,6 +2543,7 @@ export const getProjectsLocationsExtendedMetadataSchemas: API.OperationMethod<
 export type GetProjectsLocationsOperationsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<
@@ -2439,7 +2554,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2447,6 +2562,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
 export type GetProjectsLocationsServiceProjectAttachmentsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets a service project attachment. */
 export const getProjectsLocationsServiceProjectAttachments: API.OperationMethod<
@@ -2457,12 +2573,16 @@ export const getProjectsLocationsServiceProjectAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsServiceProjectAttachmentsRequest,
   output: ServiceProjectAttachment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
+export type ListProjectsLocationsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists information about the supported locations for this service. This method lists locations based on the resource scope provided in the ListLocationsRequest.name field: * **Global locations**: If `name` is empty, the method lists the public locations available to all projects. * **Project-specific locations**: If `name` follows the format `projects/{project}`, the method lists locations visible to that specific project. This includes public, private, or other project-specific locations enabled for the project. For gRPC and client library implementations, the resource name is passed as the `name` field. For direct service calls, the resource name is incorporated into the request path based on the specific service implementation and version. */
 export const listProjectsLocations: API.PaginatedOperationMethod<
   ListProjectsLocationsRequest,
@@ -2473,7 +2593,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListLocationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2485,6 +2605,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
 export type ListProjectsLocationsApplicationsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists Applications in a host project and location. */
 export const listProjectsLocationsApplications: API.PaginatedOperationMethod<
@@ -2496,7 +2617,7 @@ export const listProjectsLocationsApplications: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsApplicationsRequest,
   output: ListApplicationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2508,6 +2629,7 @@ export const listProjectsLocationsApplications: API.PaginatedOperationMethod<
 export type ListProjectsLocationsApplicationsServicesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists Services in an Application. */
 export const listProjectsLocationsApplicationsServices: API.PaginatedOperationMethod<
@@ -2519,7 +2641,7 @@ export const listProjectsLocationsApplicationsServices: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsApplicationsServicesRequest,
   output: ListServicesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2531,6 +2653,7 @@ export const listProjectsLocationsApplicationsServices: API.PaginatedOperationMe
 export type ListProjectsLocationsApplicationsWorkloadsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists Workloads in an Application. */
 export const listProjectsLocationsApplicationsWorkloads: API.PaginatedOperationMethod<
@@ -2542,7 +2665,7 @@ export const listProjectsLocationsApplicationsWorkloads: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsApplicationsWorkloadsRequest,
   output: ListWorkloadsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2554,6 +2677,7 @@ export const listProjectsLocationsApplicationsWorkloads: API.PaginatedOperationM
 export type ListProjectsLocationsDiscoveredServicesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists Discovered Services that can be added to an Application in a host project and location. */
 export const listProjectsLocationsDiscoveredServices: API.PaginatedOperationMethod<
@@ -2565,7 +2689,7 @@ export const listProjectsLocationsDiscoveredServices: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDiscoveredServicesRequest,
   output: ListDiscoveredServicesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2577,6 +2701,7 @@ export const listProjectsLocationsDiscoveredServices: API.PaginatedOperationMeth
 export type ListProjectsLocationsDiscoveredWorkloadsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists Discovered Workloads that can be added to an Application in a host project and location. */
 export const listProjectsLocationsDiscoveredWorkloads: API.PaginatedOperationMethod<
@@ -2588,7 +2713,7 @@ export const listProjectsLocationsDiscoveredWorkloads: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDiscoveredWorkloadsRequest,
   output: ListDiscoveredWorkloadsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2600,6 +2725,7 @@ export const listProjectsLocationsDiscoveredWorkloads: API.PaginatedOperationMet
 export type ListProjectsLocationsExtendedMetadataSchemasError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists Extended Metadata Schemas available in a host project and location. */
 export const listProjectsLocationsExtendedMetadataSchemas: API.PaginatedOperationMethod<
@@ -2611,7 +2737,7 @@ export const listProjectsLocationsExtendedMetadataSchemas: API.PaginatedOperatio
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsExtendedMetadataSchemasRequest,
   output: ListExtendedMetadataSchemasResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2623,6 +2749,7 @@ export const listProjectsLocationsExtendedMetadataSchemas: API.PaginatedOperatio
 export type ListProjectsLocationsOperationsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
@@ -2634,7 +2761,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListOperationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2646,6 +2773,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
 export type ListProjectsLocationsServiceProjectAttachmentsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists service projects attached to the host project. */
 export const listProjectsLocationsServiceProjectAttachments: API.PaginatedOperationMethod<
@@ -2657,7 +2785,7 @@ export const listProjectsLocationsServiceProjectAttachments: API.PaginatedOperat
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsServiceProjectAttachmentsRequest,
   output: ListServiceProjectAttachmentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2669,6 +2797,7 @@ export const listProjectsLocationsServiceProjectAttachments: API.PaginatedOperat
 export type LookupProjectsLocationsDiscoveredServicesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists a Discovered Service in a host project and location, with a given resource URI. */
 export const lookupProjectsLocationsDiscoveredServices: API.OperationMethod<
@@ -2679,7 +2808,7 @@ export const lookupProjectsLocationsDiscoveredServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: LookupProjectsLocationsDiscoveredServicesRequest,
   output: LookupDiscoveredServiceResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2687,6 +2816,7 @@ export const lookupProjectsLocationsDiscoveredServices: API.OperationMethod<
 export type LookupProjectsLocationsDiscoveredWorkloadsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists a Discovered Workload in a host project and location, with a given resource URI. */
 export const lookupProjectsLocationsDiscoveredWorkloads: API.OperationMethod<
@@ -2697,7 +2827,7 @@ export const lookupProjectsLocationsDiscoveredWorkloads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: LookupProjectsLocationsDiscoveredWorkloadsRequest,
   output: LookupDiscoveredWorkloadResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2705,6 +2835,7 @@ export const lookupProjectsLocationsDiscoveredWorkloads: API.OperationMethod<
 export type LookupServiceProjectAttachmentProjectsLocationsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists a service project attachment for a given service project. You can call this API from any project to find if it is attached to a host project. */
 export const lookupServiceProjectAttachmentProjectsLocations: API.OperationMethod<
@@ -2715,7 +2846,7 @@ export const lookupServiceProjectAttachmentProjectsLocations: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: LookupServiceProjectAttachmentProjectsLocationsRequest,
   output: LookupServiceProjectAttachmentResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2725,6 +2856,7 @@ export type PatchProjectsLocationsApplicationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates an Application in a host project and location. */
 export const patchProjectsLocationsApplications: API.OperationMethod<
@@ -2735,7 +2867,14 @@ export const patchProjectsLocationsApplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsApplicationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2745,6 +2884,7 @@ export type PatchProjectsLocationsApplicationsServicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates a Service in an Application. */
 export const patchProjectsLocationsApplicationsServices: API.OperationMethod<
@@ -2755,7 +2895,14 @@ export const patchProjectsLocationsApplicationsServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsApplicationsServicesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2765,6 +2912,7 @@ export type PatchProjectsLocationsApplicationsWorkloadsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates a Workload in an Application. */
 export const patchProjectsLocationsApplicationsWorkloads: API.OperationMethod<
@@ -2775,7 +2923,14 @@ export const patchProjectsLocationsApplicationsWorkloads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsApplicationsWorkloadsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2785,6 +2940,7 @@ export type SetIamPolicyProjectsLocationsApplicationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsApplications: API.OperationMethod<
@@ -2795,7 +2951,14 @@ export const setIamPolicyProjectsLocationsApplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetIamPolicyProjectsLocationsApplicationsRequest,
   output: Policy,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2805,6 +2968,7 @@ export type TestIamPermissionsProjectsLocationsApplicationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsApplications: API.OperationMethod<
@@ -2815,7 +2979,14 @@ export const testIamPermissionsProjectsLocationsApplications: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: TestIamPermissionsProjectsLocationsApplicationsRequest,
   output: TestIamPermissionsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2825,6 +2996,7 @@ export type UpdateBoundaryProjectsLocationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates a Boundary. */
 export const updateBoundaryProjectsLocations: API.OperationMethod<
@@ -2835,7 +3007,14 @@ export const updateBoundaryProjectsLocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateBoundaryProjectsLocationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

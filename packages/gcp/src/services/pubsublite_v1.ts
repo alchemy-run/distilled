@@ -65,6 +65,23 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** Pub/Sub Lite is turned down for this project (HTTP 403 PERMISSION_DENIED). Not retryable; migrate to Pub/Sub or Managed Kafka. */
+export class PubSubLiteTurnedDown
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<PubSubLiteTurnedDown>()(
+      "PubSubLiteTurnedDown",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withAuthError),
+    [{ status: 403, message: { includes: "Pub/Sub Lite is deprecated" } }],
+  ) {}
+
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
 export const CancelOperationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1393,6 +1410,7 @@ export type CreateAdminProjectsLocationsReservationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | PubSubLiteTurnedDown
   | GcpOpError;
 /** Creates a new reservation. */
 export const createAdminProjectsLocationsReservations: API.OperationMethod<
@@ -1403,7 +1421,14 @@ export const createAdminProjectsLocationsReservations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAdminProjectsLocationsReservationsRequest,
   output: Reservation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    PubSubLiteTurnedDown,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1413,6 +1438,7 @@ export type CreateAdminProjectsLocationsSubscriptionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | PubSubLiteTurnedDown
   | GcpOpError;
 /** Creates a new subscription. */
 export const createAdminProjectsLocationsSubscriptions: API.OperationMethod<
@@ -1423,7 +1449,14 @@ export const createAdminProjectsLocationsSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAdminProjectsLocationsSubscriptionsRequest,
   output: Subscription,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    PubSubLiteTurnedDown,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1433,6 +1466,7 @@ export type CreateAdminProjectsLocationsTopicsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | PubSubLiteTurnedDown
   | GcpOpError;
 /** Creates a new topic. */
 export const createAdminProjectsLocationsTopics: API.OperationMethod<
@@ -1443,7 +1477,14 @@ export const createAdminProjectsLocationsTopics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAdminProjectsLocationsTopicsRequest,
   output: Topic,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    PubSubLiteTurnedDown,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

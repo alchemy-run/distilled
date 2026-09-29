@@ -13,6 +13,20 @@ import * as Retry from "../retry.ts";
 
 export type { GcpOpError, GcpOpContext };
 
+/** The ACL's parent cluster does not exist (HTTP 400 FAILED_PRECONDITION 'cluster must exist'). */
+export class AclClusterNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<AclClusterNotFound>()("AclClusterNotFound", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
+    [{ status: 400, message: { includes: "cluster must exist" } }],
+  ) {}
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -63,6 +77,30 @@ export class NotFound
       details: S.optional(S.Array(S.Unknown)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
+  ) {}
+
+/** The region has no Managed Kafka cluster, so its Schema Registry service (and every registry in it) is unavailable (HTTP 400 FAILED_PRECONDITION). */
+export class SchemaRegistryRequiresCluster
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SchemaRegistryRequiresCluster>()(
+      "SchemaRegistryRequiresCluster",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withBadRequestError),
+    [
+      {
+        status: 400,
+        message: {
+          includes: "is required to access the Schema Registry service",
+        },
+      },
+    ],
   ) {}
 
 /** Represents the access granted for a given Resource Pattern in an ACL. */
@@ -3395,6 +3433,7 @@ export type AddAclEntryProjectsLocationsClustersAclsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AclClusterNotFound
   | GcpOpError;
 /** Incremental update: Adds an acl entry to an acl. Creates the acl if it does not exist yet. */
 export const addAclEntryProjectsLocationsClustersAcls: API.OperationMethod<
@@ -3405,7 +3444,14 @@ export const addAclEntryProjectsLocationsClustersAcls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddAclEntryProjectsLocationsClustersAclsRequest,
   output: AddAclEntryResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AclClusterNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3435,6 +3481,7 @@ export type CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilityErro
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Check compatibility of a schema with all versions or a specific version of a subject. */
 export const checkCompatibilityProjectsLocationsSchemaRegistriesCompatibility: API.OperationMethod<
@@ -3446,7 +3493,14 @@ export const checkCompatibilityProjectsLocationsSchemaRegistriesCompatibility: A
   input:
     CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilityRequest,
   output: CheckCompatibilityResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3456,6 +3510,7 @@ export type CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibi
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Check compatibility of a schema with all versions or a specific version of a subject. */
 export const checkCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibility: API.OperationMethod<
@@ -3467,7 +3522,14 @@ export const checkCompatibilityProjectsLocationsSchemaRegistriesContextsCompatib
   input:
     CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibilityRequest,
   output: CheckCompatibilityResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3497,6 +3559,7 @@ export type CreateProjectsLocationsClustersAclsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AclClusterNotFound
   | GcpOpError;
 /** Creates a new acl in the given project, location, and cluster. */
 export const createProjectsLocationsClustersAcls: API.OperationMethod<
@@ -3507,7 +3570,14 @@ export const createProjectsLocationsClustersAcls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsClustersAclsRequest,
   output: Acl,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AclClusterNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3577,6 +3647,7 @@ export type CreateProjectsLocationsSchemaRegistriesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Create a schema registry instance. */
 export const createProjectsLocationsSchemaRegistries: API.OperationMethod<
@@ -3587,7 +3658,14 @@ export const createProjectsLocationsSchemaRegistries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsSchemaRegistriesRequest,
   output: SchemaRegistry,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3597,6 +3675,7 @@ export type CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Register a new version under a given subject with the given schema. */
 export const createProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.OperationMethod<
@@ -3607,7 +3686,14 @@ export const createProjectsLocationsSchemaRegistriesContextsSubjectsVersions: AP
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest,
   output: CreateVersionResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3617,6 +3703,7 @@ export type CreateProjectsLocationsSchemaRegistriesSubjectsVersionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Register a new version under a given subject with the given schema. */
 export const createProjectsLocationsSchemaRegistriesSubjectsVersions: API.OperationMethod<
@@ -3627,7 +3714,14 @@ export const createProjectsLocationsSchemaRegistriesSubjectsVersions: API.Operat
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsSchemaRegistriesSubjectsVersionsRequest,
   output: CreateVersionResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3657,6 +3751,7 @@ export type DeleteProjectsLocationsClustersAclsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AclClusterNotFound
   | GcpOpError;
 /** Deletes an acl. */
 export const deleteProjectsLocationsClustersAcls: API.OperationMethod<
@@ -3667,7 +3762,14 @@ export const deleteProjectsLocationsClustersAcls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsClustersAclsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AclClusterNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3777,6 +3879,7 @@ export type DeleteProjectsLocationsSchemaRegistriesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Delete a schema registry instance. */
 export const deleteProjectsLocationsSchemaRegistries: API.OperationMethod<
@@ -3787,7 +3890,14 @@ export const deleteProjectsLocationsSchemaRegistries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3797,6 +3907,7 @@ export type DeleteProjectsLocationsSchemaRegistriesConfigError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Delete schema config for a subject. */
 export const deleteProjectsLocationsSchemaRegistriesConfig: API.OperationMethod<
@@ -3807,7 +3918,14 @@ export const deleteProjectsLocationsSchemaRegistriesConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesConfigRequest,
   output: SchemaConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3817,6 +3935,7 @@ export type DeleteProjectsLocationsSchemaRegistriesContextsConfigError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Delete schema config for a subject. */
 export const deleteProjectsLocationsSchemaRegistriesContextsConfig: API.OperationMethod<
@@ -3827,7 +3946,14 @@ export const deleteProjectsLocationsSchemaRegistriesContextsConfig: API.Operatio
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesContextsConfigRequest,
   output: SchemaConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3837,6 +3963,7 @@ export type DeleteProjectsLocationsSchemaRegistriesContextsModeError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Delete schema mode for a subject. */
 export const deleteProjectsLocationsSchemaRegistriesContextsMode: API.OperationMethod<
@@ -3847,7 +3974,14 @@ export const deleteProjectsLocationsSchemaRegistriesContextsMode: API.OperationM
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesContextsModeRequest,
   output: SchemaMode,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3857,6 +3991,7 @@ export type DeleteProjectsLocationsSchemaRegistriesContextsSubjectsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Delete a subject. The response will be an array of versions of the deleted subject. */
 export const deleteProjectsLocationsSchemaRegistriesContextsSubjects: API.OperationMethod<
@@ -3867,7 +4002,14 @@ export const deleteProjectsLocationsSchemaRegistriesContextsSubjects: API.Operat
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesContextsSubjectsRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3877,6 +4019,7 @@ export type DeleteProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Delete a version of a subject. The response will be the deleted version id. */
 export const deleteProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.OperationMethod<
@@ -3887,7 +4030,14 @@ export const deleteProjectsLocationsSchemaRegistriesContextsSubjectsVersions: AP
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3897,6 +4047,7 @@ export type DeleteProjectsLocationsSchemaRegistriesModeError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Delete schema mode for a subject. */
 export const deleteProjectsLocationsSchemaRegistriesMode: API.OperationMethod<
@@ -3907,7 +4058,14 @@ export const deleteProjectsLocationsSchemaRegistriesMode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesModeRequest,
   output: SchemaMode,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3917,6 +4075,7 @@ export type DeleteProjectsLocationsSchemaRegistriesSubjectsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Delete a subject. The response will be an array of versions of the deleted subject. */
 export const deleteProjectsLocationsSchemaRegistriesSubjects: API.OperationMethod<
@@ -3927,7 +4086,14 @@ export const deleteProjectsLocationsSchemaRegistriesSubjects: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesSubjectsRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3937,6 +4103,7 @@ export type DeleteProjectsLocationsSchemaRegistriesSubjectsVersionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Delete a version of a subject. The response will be the deleted version id. */
 export const deleteProjectsLocationsSchemaRegistriesSubjectsVersions: API.OperationMethod<
@@ -3947,7 +4114,14 @@ export const deleteProjectsLocationsSchemaRegistriesSubjectsVersions: API.Operat
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesSubjectsVersionsRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3988,6 +4162,7 @@ export const getProjectsLocationsClusters: API.OperationMethod<
 export type GetProjectsLocationsClustersAclsError =
   | NotFound
   | Forbidden
+  | AclClusterNotFound
   | GcpOpError;
 /** Returns the properties of a single acl. */
 export const getProjectsLocationsClustersAcls: API.OperationMethod<
@@ -3998,7 +4173,7 @@ export const getProjectsLocationsClustersAcls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsClustersAclsRequest,
   output: Acl,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, AclClusterNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4096,6 +4271,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
 export type GetProjectsLocationsSchemaRegistriesError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get the schema registry instance. */
 export const getProjectsLocationsSchemaRegistries: API.OperationMethod<
@@ -4106,7 +4282,7 @@ export const getProjectsLocationsSchemaRegistries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesRequest,
   output: SchemaRegistry,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4114,6 +4290,7 @@ export const getProjectsLocationsSchemaRegistries: API.OperationMethod<
 export type GetProjectsLocationsSchemaRegistriesConfigError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get schema config at global level or for a subject. */
 export const getProjectsLocationsSchemaRegistriesConfig: API.OperationMethod<
@@ -4124,7 +4301,7 @@ export const getProjectsLocationsSchemaRegistriesConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesConfigRequest,
   output: SchemaConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4132,6 +4309,7 @@ export const getProjectsLocationsSchemaRegistriesConfig: API.OperationMethod<
 export type GetProjectsLocationsSchemaRegistriesContextsError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get the context. */
 export const getProjectsLocationsSchemaRegistriesContexts: API.OperationMethod<
@@ -4142,7 +4320,7 @@ export const getProjectsLocationsSchemaRegistriesContexts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesContextsRequest,
   output: Context,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4150,6 +4328,7 @@ export const getProjectsLocationsSchemaRegistriesContexts: API.OperationMethod<
 export type GetProjectsLocationsSchemaRegistriesContextsConfigError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get schema config at global level or for a subject. */
 export const getProjectsLocationsSchemaRegistriesContextsConfig: API.OperationMethod<
@@ -4160,7 +4339,7 @@ export const getProjectsLocationsSchemaRegistriesContextsConfig: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesContextsConfigRequest,
   output: SchemaConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4168,6 +4347,7 @@ export const getProjectsLocationsSchemaRegistriesContextsConfig: API.OperationMe
 export type GetProjectsLocationsSchemaRegistriesContextsModeError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get mode at global level or for a subject. */
 export const getProjectsLocationsSchemaRegistriesContextsMode: API.OperationMethod<
@@ -4178,7 +4358,7 @@ export const getProjectsLocationsSchemaRegistriesContextsMode: API.OperationMeth
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesContextsModeRequest,
   output: SchemaMode,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4186,6 +4366,7 @@ export const getProjectsLocationsSchemaRegistriesContextsMode: API.OperationMeth
 export type GetProjectsLocationsSchemaRegistriesContextsSchemasError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get the schema for the given schema id. */
 export const getProjectsLocationsSchemaRegistriesContextsSchemas: API.OperationMethod<
@@ -4196,7 +4377,7 @@ export const getProjectsLocationsSchemaRegistriesContextsSchemas: API.OperationM
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesContextsSchemasRequest,
   output: Managedkafka_Schema,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4204,6 +4385,7 @@ export const getProjectsLocationsSchemaRegistriesContextsSchemas: API.OperationM
 export type GetProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get a versioned schema (schema with subject/version) of a subject. */
 export const getProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.OperationMethod<
@@ -4214,7 +4396,7 @@ export const getProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.O
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest,
   output: SchemaVersion,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4222,6 +4404,7 @@ export const getProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.O
 export type GetProjectsLocationsSchemaRegistriesModeError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get mode at global level or for a subject. */
 export const getProjectsLocationsSchemaRegistriesMode: API.OperationMethod<
@@ -4232,7 +4415,7 @@ export const getProjectsLocationsSchemaRegistriesMode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesModeRequest,
   output: SchemaMode,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4240,6 +4423,7 @@ export const getProjectsLocationsSchemaRegistriesMode: API.OperationMethod<
 export type GetProjectsLocationsSchemaRegistriesSchemasError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get the schema for the given schema id. */
 export const getProjectsLocationsSchemaRegistriesSchemas: API.OperationMethod<
@@ -4250,7 +4434,7 @@ export const getProjectsLocationsSchemaRegistriesSchemas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesSchemasRequest,
   output: Managedkafka_Schema,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4258,6 +4442,7 @@ export const getProjectsLocationsSchemaRegistriesSchemas: API.OperationMethod<
 export type GetProjectsLocationsSchemaRegistriesSubjectsVersionsError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get a versioned schema (schema with subject/version) of a subject. */
 export const getProjectsLocationsSchemaRegistriesSubjectsVersions: API.OperationMethod<
@@ -4268,7 +4453,7 @@ export const getProjectsLocationsSchemaRegistriesSubjectsVersions: API.Operation
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesSubjectsVersionsRequest,
   output: SchemaVersion,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4276,6 +4461,7 @@ export const getProjectsLocationsSchemaRegistriesSubjectsVersions: API.Operation
 export type GetSchemaProjectsLocationsSchemaRegistriesContextsSchemasError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get the schema string for the given schema id. The response will be the schema string. */
 export const getSchemaProjectsLocationsSchemaRegistriesContextsSchemas: API.OperationMethod<
@@ -4286,7 +4472,7 @@ export const getSchemaProjectsLocationsSchemaRegistriesContextsSchemas: API.Oper
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSchemaProjectsLocationsSchemaRegistriesContextsSchemasRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4294,6 +4480,7 @@ export const getSchemaProjectsLocationsSchemaRegistriesContextsSchemas: API.Oper
 export type GetSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get the schema string only for a version of a subject. The response will be the schema string. */
 export const getSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.OperationMethod<
@@ -4305,7 +4492,7 @@ export const getSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersions:
   input:
     GetSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4313,6 +4500,7 @@ export const getSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersions:
 export type GetSchemaProjectsLocationsSchemaRegistriesSchemasError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get the schema string for the given schema id. The response will be the schema string. */
 export const getSchemaProjectsLocationsSchemaRegistriesSchemas: API.OperationMethod<
@@ -4323,7 +4511,7 @@ export const getSchemaProjectsLocationsSchemaRegistriesSchemas: API.OperationMet
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSchemaProjectsLocationsSchemaRegistriesSchemasRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4331,6 +4519,7 @@ export const getSchemaProjectsLocationsSchemaRegistriesSchemas: API.OperationMet
 export type GetSchemaProjectsLocationsSchemaRegistriesSubjectsVersionsError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get the schema string only for a version of a subject. The response will be the schema string. */
 export const getSchemaProjectsLocationsSchemaRegistriesSubjectsVersions: API.OperationMethod<
@@ -4341,7 +4530,7 @@ export const getSchemaProjectsLocationsSchemaRegistriesSubjectsVersions: API.Ope
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSchemaProjectsLocationsSchemaRegistriesSubjectsVersionsRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4392,6 +4581,7 @@ export const listProjectsLocationsClusters: API.PaginatedOperationMethod<
 export type ListProjectsLocationsClustersAclsError =
   | NotFound
   | Forbidden
+  | AclClusterNotFound
   | GcpOpError;
 /** Lists the acls in a given cluster. */
 export const listProjectsLocationsClustersAcls: API.PaginatedOperationMethod<
@@ -4403,7 +4593,7 @@ export const listProjectsLocationsClustersAcls: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsClustersAclsRequest,
   output: ListAclsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, AclClusterNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4530,6 +4720,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
 export type ListProjectsLocationsSchemaRegistriesError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** List schema registries. */
 export const listProjectsLocationsSchemaRegistries: API.OperationMethod<
@@ -4540,7 +4731,7 @@ export const listProjectsLocationsSchemaRegistries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesRequest,
   output: ListSchemaRegistriesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4548,6 +4739,7 @@ export const listProjectsLocationsSchemaRegistries: API.OperationMethod<
 export type ListProjectsLocationsSchemaRegistriesContextsError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** List contexts for a schema registry. */
 export const listProjectsLocationsSchemaRegistriesContexts: API.OperationMethod<
@@ -4558,7 +4750,7 @@ export const listProjectsLocationsSchemaRegistriesContexts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesContextsRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4566,6 +4758,7 @@ export const listProjectsLocationsSchemaRegistriesContexts: API.OperationMethod<
 export type ListProjectsLocationsSchemaRegistriesContextsSchemasSubjectsError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** List subjects which reference a particular schema id. The response will be an array of subject names. */
 export const listProjectsLocationsSchemaRegistriesContextsSchemasSubjects: API.OperationMethod<
@@ -4576,7 +4769,7 @@ export const listProjectsLocationsSchemaRegistriesContextsSchemasSubjects: API.O
 > = /*@__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesContextsSchemasSubjectsRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4584,6 +4777,7 @@ export const listProjectsLocationsSchemaRegistriesContextsSchemasSubjects: API.O
 export type ListProjectsLocationsSchemaRegistriesContextsSchemasTypesError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** List the supported schema types. The response will be an array of schema types. */
 export const listProjectsLocationsSchemaRegistriesContextsSchemasTypes: API.OperationMethod<
@@ -4594,7 +4788,7 @@ export const listProjectsLocationsSchemaRegistriesContextsSchemasTypes: API.Oper
 > = /*@__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesContextsSchemasTypesRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4602,6 +4796,7 @@ export const listProjectsLocationsSchemaRegistriesContextsSchemasTypes: API.Oper
 export type ListProjectsLocationsSchemaRegistriesContextsSchemasVersionsError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** List the schema versions for the given schema id. The response will be an array of subject-version pairs as: [{"subject":"subject1", "version":1}, {"subject":"subject2", "version":2}]. */
 export const listProjectsLocationsSchemaRegistriesContextsSchemasVersions: API.OperationMethod<
@@ -4612,7 +4807,7 @@ export const listProjectsLocationsSchemaRegistriesContextsSchemasVersions: API.O
 > = /*@__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesContextsSchemasVersionsRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4620,6 +4815,7 @@ export const listProjectsLocationsSchemaRegistriesContextsSchemasVersions: API.O
 export type ListProjectsLocationsSchemaRegistriesContextsSubjectsError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** List subjects in the schema registry. The response will be an array of subject names. */
 export const listProjectsLocationsSchemaRegistriesContextsSubjects: API.OperationMethod<
@@ -4630,7 +4826,7 @@ export const listProjectsLocationsSchemaRegistriesContextsSubjects: API.Operatio
 > = /*@__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesContextsSubjectsRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4638,6 +4834,7 @@ export const listProjectsLocationsSchemaRegistriesContextsSubjects: API.Operatio
 export type ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get all versions of a subject. The response will be an array of versions of the subject. */
 export const listProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.OperationMethod<
@@ -4648,7 +4845,7 @@ export const listProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.
 > = /*@__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4656,6 +4853,7 @@ export const listProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.
 export type ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedbyError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get a list of IDs of schemas that reference the schema with the given subject and version. */
 export const listProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedby: API.OperationMethod<
@@ -4667,7 +4865,7 @@ export const listProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRefere
   input:
     ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedbyRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4675,6 +4873,7 @@ export const listProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRefere
 export type ListProjectsLocationsSchemaRegistriesSchemasSubjectsError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** List subjects which reference a particular schema id. The response will be an array of subject names. */
 export const listProjectsLocationsSchemaRegistriesSchemasSubjects: API.OperationMethod<
@@ -4685,7 +4884,7 @@ export const listProjectsLocationsSchemaRegistriesSchemasSubjects: API.Operation
 > = /*@__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesSchemasSubjectsRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4693,6 +4892,7 @@ export const listProjectsLocationsSchemaRegistriesSchemasSubjects: API.Operation
 export type ListProjectsLocationsSchemaRegistriesSchemasTypesError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** List the supported schema types. The response will be an array of schema types. */
 export const listProjectsLocationsSchemaRegistriesSchemasTypes: API.OperationMethod<
@@ -4703,7 +4903,7 @@ export const listProjectsLocationsSchemaRegistriesSchemasTypes: API.OperationMet
 > = /*@__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesSchemasTypesRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4711,6 +4911,7 @@ export const listProjectsLocationsSchemaRegistriesSchemasTypes: API.OperationMet
 export type ListProjectsLocationsSchemaRegistriesSchemasVersionsError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** List the schema versions for the given schema id. The response will be an array of subject-version pairs as: [{"subject":"subject1", "version":1}, {"subject":"subject2", "version":2}]. */
 export const listProjectsLocationsSchemaRegistriesSchemasVersions: API.OperationMethod<
@@ -4721,7 +4922,7 @@ export const listProjectsLocationsSchemaRegistriesSchemasVersions: API.Operation
 > = /*@__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesSchemasVersionsRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4729,6 +4930,7 @@ export const listProjectsLocationsSchemaRegistriesSchemasVersions: API.Operation
 export type ListProjectsLocationsSchemaRegistriesSubjectsError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** List subjects in the schema registry. The response will be an array of subject names. */
 export const listProjectsLocationsSchemaRegistriesSubjects: API.OperationMethod<
@@ -4739,7 +4941,7 @@ export const listProjectsLocationsSchemaRegistriesSubjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesSubjectsRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4747,6 +4949,7 @@ export const listProjectsLocationsSchemaRegistriesSubjects: API.OperationMethod<
 export type ListProjectsLocationsSchemaRegistriesSubjectsVersionsError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get all versions of a subject. The response will be an array of versions of the subject. */
 export const listProjectsLocationsSchemaRegistriesSubjectsVersions: API.OperationMethod<
@@ -4757,7 +4960,7 @@ export const listProjectsLocationsSchemaRegistriesSubjectsVersions: API.Operatio
 > = /*@__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesSubjectsVersionsRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4765,6 +4968,7 @@ export const listProjectsLocationsSchemaRegistriesSubjectsVersions: API.Operatio
 export type ListProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedbyError =
   | NotFound
   | Forbidden
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Get a list of IDs of schemas that reference the schema with the given subject and version. */
 export const listProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedby: API.OperationMethod<
@@ -4776,7 +4980,7 @@ export const listProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedby: 
   input:
     ListProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedbyRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4786,6 +4990,7 @@ export type LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsError 
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Lookup a schema under the specified subject. */
 export const lookupVersionProjectsLocationsSchemaRegistriesContextsSubjects: API.OperationMethod<
@@ -4796,7 +5001,14 @@ export const lookupVersionProjectsLocationsSchemaRegistriesContextsSubjects: API
 > = /*@__PURE__*/ API.make(() => ({
   input: LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsRequest,
   output: SchemaVersion,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4806,6 +5018,7 @@ export type LookupVersionProjectsLocationsSchemaRegistriesSubjectsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Lookup a schema under the specified subject. */
 export const lookupVersionProjectsLocationsSchemaRegistriesSubjects: API.OperationMethod<
@@ -4816,7 +5029,14 @@ export const lookupVersionProjectsLocationsSchemaRegistriesSubjects: API.Operati
 > = /*@__PURE__*/ API.make(() => ({
   input: LookupVersionProjectsLocationsSchemaRegistriesSubjectsRequest,
   output: SchemaVersion,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4846,6 +5066,7 @@ export type PatchProjectsLocationsClustersAclsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AclClusterNotFound
   | GcpOpError;
 /** Updates the properties of a single acl. */
 export const patchProjectsLocationsClustersAcls: API.OperationMethod<
@@ -4856,7 +5077,14 @@ export const patchProjectsLocationsClustersAcls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsClustersAclsRequest,
   output: Acl,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AclClusterNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4966,6 +5194,7 @@ export type RemoveAclEntryProjectsLocationsClustersAclsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AclClusterNotFound
   | GcpOpError;
 /** Incremental update: Removes an acl entry from an acl. Deletes the acl if its acl entries become empty (i.e. if the removed entry was the last one in the acl). */
 export const removeAclEntryProjectsLocationsClustersAcls: API.OperationMethod<
@@ -4976,7 +5205,14 @@ export const removeAclEntryProjectsLocationsClustersAcls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveAclEntryProjectsLocationsClustersAclsRequest,
   output: RemoveAclEntryResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AclClusterNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5046,6 +5282,7 @@ export type UpdateProjectsLocationsSchemaRegistriesConfigError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Update config at global level or for a subject. Creates a SchemaSubject-level SchemaConfig if it does not exist. */
 export const updateProjectsLocationsSchemaRegistriesConfig: API.OperationMethod<
@@ -5056,7 +5293,14 @@ export const updateProjectsLocationsSchemaRegistriesConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateProjectsLocationsSchemaRegistriesConfigRequest,
   output: SchemaConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5066,6 +5310,7 @@ export type UpdateProjectsLocationsSchemaRegistriesContextsConfigError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Update config at global level or for a subject. Creates a SchemaSubject-level SchemaConfig if it does not exist. */
 export const updateProjectsLocationsSchemaRegistriesContextsConfig: API.OperationMethod<
@@ -5076,7 +5321,14 @@ export const updateProjectsLocationsSchemaRegistriesContextsConfig: API.Operatio
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateProjectsLocationsSchemaRegistriesContextsConfigRequest,
   output: SchemaConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5086,6 +5338,7 @@ export type UpdateProjectsLocationsSchemaRegistriesContextsModeError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Update mode at global level or for a subject. */
 export const updateProjectsLocationsSchemaRegistriesContextsMode: API.OperationMethod<
@@ -5096,7 +5349,14 @@ export const updateProjectsLocationsSchemaRegistriesContextsMode: API.OperationM
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateProjectsLocationsSchemaRegistriesContextsModeRequest,
   output: SchemaMode,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5106,6 +5366,7 @@ export type UpdateProjectsLocationsSchemaRegistriesModeError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SchemaRegistryRequiresCluster
   | GcpOpError;
 /** Update mode at global level or for a subject. */
 export const updateProjectsLocationsSchemaRegistriesMode: API.OperationMethod<
@@ -5116,7 +5377,14 @@ export const updateProjectsLocationsSchemaRegistriesMode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateProjectsLocationsSchemaRegistriesModeRequest,
   output: SchemaMode,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SchemaRegistryRequiresCluster,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

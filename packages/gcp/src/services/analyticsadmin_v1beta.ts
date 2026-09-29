@@ -52,6 +52,25 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT). */
+export class InsufficientScopes
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InsufficientScopes>()("InsufficientScopes", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -3140,6 +3159,7 @@ export type AcknowledgeUserDataCollectionPropertiesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Acknowledges the terms of user data collection for the specified property. This acknowledgement must be completed (either in the Google Analytics UI or through this API) before MeasurementProtocolSecret resources may be created. */
 export const acknowledgeUserDataCollectionProperties: API.OperationMethod<
@@ -3150,7 +3170,14 @@ export const acknowledgeUserDataCollectionProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AcknowledgeUserDataCollectionPropertiesRequest,
   output: GoogleAnalyticsAdminV1betaAcknowledgeUserDataCollectionResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3160,6 +3187,7 @@ export type ArchivePropertiesCustomDimensionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Archives a CustomDimension on a property. */
 export const archivePropertiesCustomDimensions: API.OperationMethod<
@@ -3170,7 +3198,14 @@ export const archivePropertiesCustomDimensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ArchivePropertiesCustomDimensionsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3180,6 +3215,7 @@ export type ArchivePropertiesCustomMetricsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Archives a CustomMetric on a property. */
 export const archivePropertiesCustomMetrics: API.OperationMethod<
@@ -3190,7 +3226,14 @@ export const archivePropertiesCustomMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ArchivePropertiesCustomMetricsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3200,6 +3243,7 @@ export type CreatePropertiesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a Google Analytics property with the specified location and attributes. */
 export const createProperties: API.OperationMethod<
@@ -3210,7 +3254,14 @@ export const createProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePropertiesRequest,
   output: GoogleAnalyticsAdminV1betaProperty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3220,6 +3271,7 @@ export type CreatePropertiesConversionEventsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deprecated: Use `CreateKeyEvent` instead. Creates a conversion event with the specified attributes. */
 export const createPropertiesConversionEvents: API.OperationMethod<
@@ -3230,7 +3282,14 @@ export const createPropertiesConversionEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePropertiesConversionEventsRequest,
   output: GoogleAnalyticsAdminV1betaConversionEvent,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3240,6 +3299,7 @@ export type CreatePropertiesCustomDimensionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a CustomDimension. Warning: It's not permissible to use this method to collect data on individual users. In particular, sending user IDs in custom dimensions violates the [Google Analytics Terms of Service](https://www.google.com/analytics/terms/). */
 export const createPropertiesCustomDimensions: API.OperationMethod<
@@ -3250,7 +3310,14 @@ export const createPropertiesCustomDimensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePropertiesCustomDimensionsRequest,
   output: GoogleAnalyticsAdminV1betaCustomDimension,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3260,6 +3327,7 @@ export type CreatePropertiesCustomMetricsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a CustomMetric. */
 export const createPropertiesCustomMetrics: API.OperationMethod<
@@ -3270,7 +3338,14 @@ export const createPropertiesCustomMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePropertiesCustomMetricsRequest,
   output: GoogleAnalyticsAdminV1betaCustomMetric,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3280,6 +3355,7 @@ export type CreatePropertiesDataStreamsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a DataStream. */
 export const createPropertiesDataStreams: API.OperationMethod<
@@ -3290,7 +3366,14 @@ export const createPropertiesDataStreams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePropertiesDataStreamsRequest,
   output: GoogleAnalyticsAdminV1betaDataStream,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3300,6 +3383,7 @@ export type CreatePropertiesDataStreamsMeasurementProtocolSecretsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a measurement protocol secret. */
 export const createPropertiesDataStreamsMeasurementProtocolSecrets: API.OperationMethod<
@@ -3310,7 +3394,14 @@ export const createPropertiesDataStreamsMeasurementProtocolSecrets: API.Operatio
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePropertiesDataStreamsMeasurementProtocolSecretsRequest,
   output: GoogleAnalyticsAdminV1betaMeasurementProtocolSecret,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3320,6 +3411,7 @@ export type CreatePropertiesFirebaseLinksError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a FirebaseLink. Properties can have at most one FirebaseLink. */
 export const createPropertiesFirebaseLinks: API.OperationMethod<
@@ -3330,7 +3422,14 @@ export const createPropertiesFirebaseLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePropertiesFirebaseLinksRequest,
   output: GoogleAnalyticsAdminV1betaFirebaseLink,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3340,6 +3439,7 @@ export type CreatePropertiesGoogleAdsLinksError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a GoogleAdsLink. */
 export const createPropertiesGoogleAdsLinks: API.OperationMethod<
@@ -3350,7 +3450,14 @@ export const createPropertiesGoogleAdsLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePropertiesGoogleAdsLinksRequest,
   output: GoogleAnalyticsAdminV1betaGoogleAdsLink,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3360,6 +3467,7 @@ export type CreatePropertiesKeyEventsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a Key Event. */
 export const createPropertiesKeyEvents: API.OperationMethod<
@@ -3370,7 +3478,14 @@ export const createPropertiesKeyEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePropertiesKeyEventsRequest,
   output: GoogleAnalyticsAdminV1betaKeyEvent,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3380,6 +3495,7 @@ export type DeleteAccountsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Marks target Account as soft-deleted (ie: "trashed") and returns it. This API does not have a method to restore soft-deleted accounts. However, they can be restored using the Trash Can UI. If the accounts are not restored before the expiration time, the account and all child resources (eg: Properties, GoogleAdsLinks, Streams, AccessBindings) will be permanently purged. https://support.google.com/analytics/answer/6154772 Returns an error if the target is not found. */
 export const deleteAccounts: API.OperationMethod<
@@ -3390,7 +3506,14 @@ export const deleteAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3400,6 +3523,7 @@ export type DeletePropertiesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Marks target Property as soft-deleted (ie: "trashed") and returns it. This API does not have a method to restore soft-deleted properties. However, they can be restored using the Trash Can UI. If the properties are not restored before the expiration time, the Property and all child resources (eg: GoogleAdsLinks, Streams, AccessBindings) will be permanently purged. https://support.google.com/analytics/answer/6154772 Returns an error if the target is not found. */
 export const deleteProperties: API.OperationMethod<
@@ -3410,7 +3534,14 @@ export const deleteProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeletePropertiesRequest,
   output: GoogleAnalyticsAdminV1betaProperty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3420,6 +3551,7 @@ export type DeletePropertiesConversionEventsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deprecated: Use `DeleteKeyEvent` instead. Deletes a conversion event in a property. */
 export const deletePropertiesConversionEvents: API.OperationMethod<
@@ -3430,7 +3562,14 @@ export const deletePropertiesConversionEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeletePropertiesConversionEventsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3440,6 +3579,7 @@ export type DeletePropertiesDataStreamsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a DataStream on a property. */
 export const deletePropertiesDataStreams: API.OperationMethod<
@@ -3450,7 +3590,14 @@ export const deletePropertiesDataStreams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeletePropertiesDataStreamsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3460,6 +3607,7 @@ export type DeletePropertiesDataStreamsMeasurementProtocolSecretsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes target MeasurementProtocolSecret. */
 export const deletePropertiesDataStreamsMeasurementProtocolSecrets: API.OperationMethod<
@@ -3470,7 +3618,14 @@ export const deletePropertiesDataStreamsMeasurementProtocolSecrets: API.Operatio
 > = /*@__PURE__*/ API.make(() => ({
   input: DeletePropertiesDataStreamsMeasurementProtocolSecretsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3480,6 +3635,7 @@ export type DeletePropertiesFirebaseLinksError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a FirebaseLink on a property */
 export const deletePropertiesFirebaseLinks: API.OperationMethod<
@@ -3490,7 +3646,14 @@ export const deletePropertiesFirebaseLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeletePropertiesFirebaseLinksRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3500,6 +3663,7 @@ export type DeletePropertiesGoogleAdsLinksError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a GoogleAdsLink on a property */
 export const deletePropertiesGoogleAdsLinks: API.OperationMethod<
@@ -3510,7 +3674,14 @@ export const deletePropertiesGoogleAdsLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeletePropertiesGoogleAdsLinksRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3520,6 +3691,7 @@ export type DeletePropertiesKeyEventsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a Key Event. */
 export const deletePropertiesKeyEvents: API.OperationMethod<
@@ -3530,12 +3702,23 @@ export const deletePropertiesKeyEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeletePropertiesKeyEventsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAccountsError = NotFound | Forbidden | GcpOpError;
+export type GetAccountsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lookup for a single Account. */
 export const getAccounts: API.OperationMethod<
   GetAccountsRequest,
@@ -3545,7 +3728,7 @@ export const getAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsRequest,
   output: GoogleAnalyticsAdminV1betaAccount,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3553,6 +3736,7 @@ export const getAccounts: API.OperationMethod<
 export type GetDataRetentionSettingsPropertiesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Returns the singleton data retention settings for this property. */
 export const getDataRetentionSettingsProperties: API.OperationMethod<
@@ -3563,7 +3747,7 @@ export const getDataRetentionSettingsProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDataRetentionSettingsPropertiesRequest,
   output: GoogleAnalyticsAdminV1betaDataRetentionSettings,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3571,6 +3755,7 @@ export const getDataRetentionSettingsProperties: API.OperationMethod<
 export type GetDataSharingSettingsAccountsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Get data sharing settings on an account. Data sharing settings are singletons. */
 export const getDataSharingSettingsAccounts: API.OperationMethod<
@@ -3581,12 +3766,16 @@ export const getDataSharingSettingsAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDataSharingSettingsAccountsRequest,
   output: GoogleAnalyticsAdminV1betaDataSharingSettings,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetPropertiesError = NotFound | Forbidden | GcpOpError;
+export type GetPropertiesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lookup for a single GA Property. */
 export const getProperties: API.OperationMethod<
   GetPropertiesRequest,
@@ -3596,7 +3785,7 @@ export const getProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPropertiesRequest,
   output: GoogleAnalyticsAdminV1betaProperty,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3604,6 +3793,7 @@ export const getProperties: API.OperationMethod<
 export type GetPropertiesConversionEventsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Deprecated: Use `GetKeyEvent` instead. Retrieve a single conversion event. */
 export const getPropertiesConversionEvents: API.OperationMethod<
@@ -3614,7 +3804,7 @@ export const getPropertiesConversionEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPropertiesConversionEventsRequest,
   output: GoogleAnalyticsAdminV1betaConversionEvent,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3622,6 +3812,7 @@ export const getPropertiesConversionEvents: API.OperationMethod<
 export type GetPropertiesCustomDimensionsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lookup for a single CustomDimension. */
 export const getPropertiesCustomDimensions: API.OperationMethod<
@@ -3632,12 +3823,16 @@ export const getPropertiesCustomDimensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPropertiesCustomDimensionsRequest,
   output: GoogleAnalyticsAdminV1betaCustomDimension,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetPropertiesCustomMetricsError = NotFound | Forbidden | GcpOpError;
+export type GetPropertiesCustomMetricsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lookup for a single CustomMetric. */
 export const getPropertiesCustomMetrics: API.OperationMethod<
   GetPropertiesCustomMetricsRequest,
@@ -3647,12 +3842,16 @@ export const getPropertiesCustomMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPropertiesCustomMetricsRequest,
   output: GoogleAnalyticsAdminV1betaCustomMetric,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetPropertiesDataStreamsError = NotFound | Forbidden | GcpOpError;
+export type GetPropertiesDataStreamsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lookup for a single DataStream. */
 export const getPropertiesDataStreams: API.OperationMethod<
   GetPropertiesDataStreamsRequest,
@@ -3662,7 +3861,7 @@ export const getPropertiesDataStreams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPropertiesDataStreamsRequest,
   output: GoogleAnalyticsAdminV1betaDataStream,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3670,6 +3869,7 @@ export const getPropertiesDataStreams: API.OperationMethod<
 export type GetPropertiesDataStreamsMeasurementProtocolSecretsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lookup for a single MeasurementProtocolSecret. */
 export const getPropertiesDataStreamsMeasurementProtocolSecrets: API.OperationMethod<
@@ -3680,12 +3880,16 @@ export const getPropertiesDataStreamsMeasurementProtocolSecrets: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPropertiesDataStreamsMeasurementProtocolSecretsRequest,
   output: GoogleAnalyticsAdminV1betaMeasurementProtocolSecret,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetPropertiesKeyEventsError = NotFound | Forbidden | GcpOpError;
+export type GetPropertiesKeyEventsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Retrieve a single Key Event. */
 export const getPropertiesKeyEvents: API.OperationMethod<
   GetPropertiesKeyEventsRequest,
@@ -3695,12 +3899,16 @@ export const getPropertiesKeyEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPropertiesKeyEventsRequest,
   output: GoogleAnalyticsAdminV1betaKeyEvent,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListAccountsError = NotFound | Forbidden | GcpOpError;
+export type ListAccountsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Returns all accounts accessible by the caller. Note that these accounts might not currently have GA properties. Soft-deleted (ie: "trashed") accounts are excluded by default. Returns an empty list if no relevant accounts are found. Note: The easiest way to retrieve a list of all properties you have access to is by using `ListAccountSummaries`. */
 export const listAccounts: API.PaginatedOperationMethod<
   ListAccountsRequest,
@@ -3711,7 +3919,7 @@ export const listAccounts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: GoogleAnalyticsAdminV1betaListAccountsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3720,7 +3928,11 @@ export const listAccounts: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAccountSummariesError = NotFound | Forbidden | GcpOpError;
+export type ListAccountSummariesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Returns summaries of all accounts accessible by the caller. */
 export const listAccountSummaries: API.PaginatedOperationMethod<
   ListAccountSummariesRequest,
@@ -3731,7 +3943,7 @@ export const listAccountSummaries: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountSummariesRequest,
   output: GoogleAnalyticsAdminV1betaListAccountSummariesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3740,7 +3952,11 @@ export const listAccountSummaries: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListPropertiesError = NotFound | Forbidden | GcpOpError;
+export type ListPropertiesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Returns child Properties under the specified parent Account. Properties will be excluded if the caller does not have access. Soft-deleted (ie: "trashed") properties are excluded by default. Returns an empty list if no relevant properties are found. */
 export const listProperties: API.PaginatedOperationMethod<
   ListPropertiesRequest,
@@ -3751,7 +3967,7 @@ export const listProperties: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesRequest,
   output: GoogleAnalyticsAdminV1betaListPropertiesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3763,6 +3979,7 @@ export const listProperties: API.PaginatedOperationMethod<
 export type ListPropertiesConversionEventsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Deprecated: Use `ListKeyEvents` instead. Returns a list of conversion events in the specified parent property. Returns an empty list if no conversion events are found. */
 export const listPropertiesConversionEvents: API.PaginatedOperationMethod<
@@ -3774,7 +3991,7 @@ export const listPropertiesConversionEvents: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesConversionEventsRequest,
   output: GoogleAnalyticsAdminV1betaListConversionEventsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3786,6 +4003,7 @@ export const listPropertiesConversionEvents: API.PaginatedOperationMethod<
 export type ListPropertiesCustomDimensionsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists CustomDimensions on a property. */
 export const listPropertiesCustomDimensions: API.PaginatedOperationMethod<
@@ -3797,7 +4015,7 @@ export const listPropertiesCustomDimensions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesCustomDimensionsRequest,
   output: GoogleAnalyticsAdminV1betaListCustomDimensionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3809,6 +4027,7 @@ export const listPropertiesCustomDimensions: API.PaginatedOperationMethod<
 export type ListPropertiesCustomMetricsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists CustomMetrics on a property. */
 export const listPropertiesCustomMetrics: API.PaginatedOperationMethod<
@@ -3820,7 +4039,7 @@ export const listPropertiesCustomMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesCustomMetricsRequest,
   output: GoogleAnalyticsAdminV1betaListCustomMetricsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3829,7 +4048,11 @@ export const listPropertiesCustomMetrics: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListPropertiesDataStreamsError = NotFound | Forbidden | GcpOpError;
+export type ListPropertiesDataStreamsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists DataStreams on a property. */
 export const listPropertiesDataStreams: API.PaginatedOperationMethod<
   ListPropertiesDataStreamsRequest,
@@ -3840,7 +4063,7 @@ export const listPropertiesDataStreams: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesDataStreamsRequest,
   output: GoogleAnalyticsAdminV1betaListDataStreamsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3852,6 +4075,7 @@ export const listPropertiesDataStreams: API.PaginatedOperationMethod<
 export type ListPropertiesDataStreamsMeasurementProtocolSecretsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Returns child MeasurementProtocolSecrets under the specified parent Property. */
 export const listPropertiesDataStreamsMeasurementProtocolSecrets: API.PaginatedOperationMethod<
@@ -3863,7 +4087,7 @@ export const listPropertiesDataStreamsMeasurementProtocolSecrets: API.PaginatedO
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesDataStreamsMeasurementProtocolSecretsRequest,
   output: GoogleAnalyticsAdminV1betaListMeasurementProtocolSecretsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3875,6 +4099,7 @@ export const listPropertiesDataStreamsMeasurementProtocolSecrets: API.PaginatedO
 export type ListPropertiesFirebaseLinksError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists FirebaseLinks on a property. Properties can have at most one FirebaseLink. */
 export const listPropertiesFirebaseLinks: API.PaginatedOperationMethod<
@@ -3886,7 +4111,7 @@ export const listPropertiesFirebaseLinks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesFirebaseLinksRequest,
   output: GoogleAnalyticsAdminV1betaListFirebaseLinksResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3898,6 +4123,7 @@ export const listPropertiesFirebaseLinks: API.PaginatedOperationMethod<
 export type ListPropertiesGoogleAdsLinksError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists GoogleAdsLinks on a property. */
 export const listPropertiesGoogleAdsLinks: API.PaginatedOperationMethod<
@@ -3909,7 +4135,7 @@ export const listPropertiesGoogleAdsLinks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesGoogleAdsLinksRequest,
   output: GoogleAnalyticsAdminV1betaListGoogleAdsLinksResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3918,7 +4144,11 @@ export const listPropertiesGoogleAdsLinks: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListPropertiesKeyEventsError = NotFound | Forbidden | GcpOpError;
+export type ListPropertiesKeyEventsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Returns a list of Key Events in the specified parent property. Returns an empty list if no Key Events are found. */
 export const listPropertiesKeyEvents: API.PaginatedOperationMethod<
   ListPropertiesKeyEventsRequest,
@@ -3929,7 +4159,7 @@ export const listPropertiesKeyEvents: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesKeyEventsRequest,
   output: GoogleAnalyticsAdminV1betaListKeyEventsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3943,6 +4173,7 @@ export type PatchAccountsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates an account. */
 export const patchAccounts: API.OperationMethod<
@@ -3953,7 +4184,14 @@ export const patchAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchAccountsRequest,
   output: GoogleAnalyticsAdminV1betaAccount,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3963,6 +4201,7 @@ export type PatchPropertiesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a property. */
 export const patchProperties: API.OperationMethod<
@@ -3973,7 +4212,14 @@ export const patchProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchPropertiesRequest,
   output: GoogleAnalyticsAdminV1betaProperty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3983,6 +4229,7 @@ export type PatchPropertiesConversionEventsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deprecated: Use `UpdateKeyEvent` instead. Updates a conversion event with the specified attributes. */
 export const patchPropertiesConversionEvents: API.OperationMethod<
@@ -3993,7 +4240,14 @@ export const patchPropertiesConversionEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchPropertiesConversionEventsRequest,
   output: GoogleAnalyticsAdminV1betaConversionEvent,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4003,6 +4257,7 @@ export type PatchPropertiesCustomDimensionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a CustomDimension on a property. */
 export const patchPropertiesCustomDimensions: API.OperationMethod<
@@ -4013,7 +4268,14 @@ export const patchPropertiesCustomDimensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchPropertiesCustomDimensionsRequest,
   output: GoogleAnalyticsAdminV1betaCustomDimension,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4023,6 +4285,7 @@ export type PatchPropertiesCustomMetricsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a CustomMetric on a property. */
 export const patchPropertiesCustomMetrics: API.OperationMethod<
@@ -4033,7 +4296,14 @@ export const patchPropertiesCustomMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchPropertiesCustomMetricsRequest,
   output: GoogleAnalyticsAdminV1betaCustomMetric,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4043,6 +4313,7 @@ export type PatchPropertiesDataStreamsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a DataStream on a property. */
 export const patchPropertiesDataStreams: API.OperationMethod<
@@ -4053,7 +4324,14 @@ export const patchPropertiesDataStreams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchPropertiesDataStreamsRequest,
   output: GoogleAnalyticsAdminV1betaDataStream,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4063,6 +4341,7 @@ export type PatchPropertiesDataStreamsMeasurementProtocolSecretsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a measurement protocol secret. */
 export const patchPropertiesDataStreamsMeasurementProtocolSecrets: API.OperationMethod<
@@ -4073,7 +4352,14 @@ export const patchPropertiesDataStreamsMeasurementProtocolSecrets: API.Operation
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchPropertiesDataStreamsMeasurementProtocolSecretsRequest,
   output: GoogleAnalyticsAdminV1betaMeasurementProtocolSecret,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4083,6 +4369,7 @@ export type PatchPropertiesGoogleAdsLinksError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a GoogleAdsLink on a property */
 export const patchPropertiesGoogleAdsLinks: API.OperationMethod<
@@ -4093,7 +4380,14 @@ export const patchPropertiesGoogleAdsLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchPropertiesGoogleAdsLinksRequest,
   output: GoogleAnalyticsAdminV1betaGoogleAdsLink,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4103,6 +4397,7 @@ export type PatchPropertiesKeyEventsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a Key Event. */
 export const patchPropertiesKeyEvents: API.OperationMethod<
@@ -4113,7 +4408,14 @@ export const patchPropertiesKeyEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchPropertiesKeyEventsRequest,
   output: GoogleAnalyticsAdminV1betaKeyEvent,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4123,6 +4425,7 @@ export type ProvisionAccountTicketAccountsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Requests a ticket for creating an account. */
 export const provisionAccountTicketAccounts: API.OperationMethod<
@@ -4133,7 +4436,14 @@ export const provisionAccountTicketAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ProvisionAccountTicketAccountsRequest,
   output: GoogleAnalyticsAdminV1betaProvisionAccountTicketResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4143,6 +4453,7 @@ export type RunAccessReportAccountsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Returns a customized report of data access records. The report provides records of each time a user reads Google Analytics reporting data. Access records are retained for up to 2 years. Data Access Reports can be requested for a property. Reports may be requested for any property, but dimensions that aren't related to quota can only be requested on Google Analytics 360 properties. This method is only available to Administrators. These data access records include GA UI Reporting, GA UI Explorations, GA Data API, and other products like Firebase & Admob that can retrieve data from Google Analytics through a linkage. These records don't include property configuration changes like adding a stream or changing a property's time zone. For configuration change history, see [searchChangeHistoryEvents](https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1alpha/accounts/searchChangeHistoryEvents). To give your feedback on this API, complete the [Google Analytics Access Reports feedback](https://docs.google.com/forms/d/e/1FAIpQLSdmEBUrMzAEdiEKk5TV5dEHvDUZDRlgWYdQdAeSdtR4hVjEhw/viewform) form. */
 export const runAccessReportAccounts: API.OperationMethod<
@@ -4153,7 +4464,14 @@ export const runAccessReportAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RunAccessReportAccountsRequest,
   output: GoogleAnalyticsAdminV1betaRunAccessReportResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4163,6 +4481,7 @@ export type RunAccessReportPropertiesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Returns a customized report of data access records. The report provides records of each time a user reads Google Analytics reporting data. Access records are retained for up to 2 years. Data Access Reports can be requested for a property. Reports may be requested for any property, but dimensions that aren't related to quota can only be requested on Google Analytics 360 properties. This method is only available to Administrators. These data access records include GA UI Reporting, GA UI Explorations, GA Data API, and other products like Firebase & Admob that can retrieve data from Google Analytics through a linkage. These records don't include property configuration changes like adding a stream or changing a property's time zone. For configuration change history, see [searchChangeHistoryEvents](https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1alpha/accounts/searchChangeHistoryEvents). To give your feedback on this API, complete the [Google Analytics Access Reports feedback](https://docs.google.com/forms/d/e/1FAIpQLSdmEBUrMzAEdiEKk5TV5dEHvDUZDRlgWYdQdAeSdtR4hVjEhw/viewform) form. */
 export const runAccessReportProperties: API.OperationMethod<
@@ -4173,7 +4492,14 @@ export const runAccessReportProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RunAccessReportPropertiesRequest,
   output: GoogleAnalyticsAdminV1betaRunAccessReportResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4183,6 +4509,7 @@ export type SearchChangeHistoryEventsAccountsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Searches through all changes to an account or its children given the specified set of filters. Only returns the subset of changes supported by the API. The UI may return additional changes. */
 export const searchChangeHistoryEventsAccounts: API.OperationMethod<
@@ -4193,7 +4520,14 @@ export const searchChangeHistoryEventsAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SearchChangeHistoryEventsAccountsRequest,
   output: GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4203,6 +4537,7 @@ export type UpdateDataRetentionSettingsPropertiesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates the singleton data retention settings for this property. */
 export const updateDataRetentionSettingsProperties: API.OperationMethod<
@@ -4213,7 +4548,14 @@ export const updateDataRetentionSettingsProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateDataRetentionSettingsPropertiesRequest,
   output: GoogleAnalyticsAdminV1betaDataRetentionSettings,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

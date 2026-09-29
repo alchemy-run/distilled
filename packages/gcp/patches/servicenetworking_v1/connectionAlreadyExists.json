@@ -1,0 +1,52 @@
+{
+  "description": "Type the 'connection already exists' answers of createServicesConnections / patchServicesConnections (HTTP 400 'Cannot modify allocated ranges in CreateConnection. Please use UpdateConnection.' / 'already exists' / 'already established'). They surfaced as the generic BadRequest, so callers matched the message text to detect a concurrent create.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicenetworking_v1#ConnectionAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "A private services connection already exists for this network and service, so its allocated ranges cannot be changed through CreateConnection (HTTP 400 FAILED_PRECONDITION: 'Cannot modify allocated ranges in CreateConnection. Please use UpdateConnection.'), or the peering is already established. Not retryable; update the existing connection instead.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Cannot modify allocated ranges"
+              }
+            },
+            {
+              "status": 400,
+              "message": {
+                "includes": "already exists"
+              }
+            },
+            {
+              "status": 400,
+              "message": {
+                "includes": "already established"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicenetworking_v1#CreateServicesConnections/errors/-",
+      "value": {
+        "target": "com.gcp.servicenetworking_v1#ConnectionAlreadyExists"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicenetworking_v1#PatchServicesConnections/errors/-",
+      "value": {
+        "target": "com.gcp.servicenetworking_v1#ConnectionAlreadyExists"
+      }
+    }
+  ]
+}

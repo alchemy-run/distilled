@@ -2687,6 +2687,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#AclClusterNotFound"
         }
       ],
       "traits": {
@@ -2730,6 +2733,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#AclClusterNotFound"
         }
       ],
       "traits": {
@@ -2767,6 +2773,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#AclClusterNotFound"
         }
       ],
       "traits": {
@@ -2824,6 +2833,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#AclClusterNotFound"
         }
       ],
       "traits": {
@@ -2874,6 +2886,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#AclClusterNotFound"
         }
       ],
       "traits": {
@@ -2931,6 +2946,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#AclClusterNotFound"
         }
       ],
       "traits": {
@@ -2982,6 +3000,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#AclClusterNotFound"
         }
       ],
       "traits": {
@@ -4264,6 +4285,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -4307,6 +4331,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -4344,6 +4371,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -4394,6 +4424,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -4445,6 +4478,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -4495,6 +4531,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -4545,6 +4584,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -4595,6 +4637,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -4639,6 +4684,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -4689,6 +4737,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -4733,6 +4784,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -4777,6 +4831,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -4814,6 +4871,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -4851,6 +4911,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -4888,6 +4951,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -4939,6 +5005,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -4989,6 +5058,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5039,6 +5111,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5089,6 +5164,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5133,6 +5211,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5177,6 +5258,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5227,6 +5311,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5271,6 +5358,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5308,6 +5398,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5352,6 +5445,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5395,6 +5491,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5445,6 +5544,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5495,6 +5597,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5545,6 +5650,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5582,6 +5690,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5625,6 +5736,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5669,6 +5783,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5713,6 +5830,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5750,6 +5870,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5801,6 +5924,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5852,6 +5978,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5895,6 +6024,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5939,6 +6071,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -5989,6 +6124,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -6033,6 +6171,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -6077,6 +6218,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -6114,6 +6258,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -6165,6 +6312,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -6216,6 +6366,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -6253,6 +6406,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -6296,6 +6452,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -6346,6 +6505,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -6396,6 +6558,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
         }
       ],
       "traits": {
@@ -6603,6 +6768,40 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service."
+      }
+    },
+    "com.gcp.managedkafka_v1#AclClusterNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The ACL's parent cluster does not exist (HTTP 400 FAILED_PRECONDITION 'cluster must exist').",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "cluster must exist"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The region has no Managed Kafka cluster, so its Schema Registry service (and every registry in it) is unavailable (HTTP 400 FAILED_PRECONDITION).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "is required to access the Schema Registry service"
+            }
+          }
+        ]
       }
     }
   }

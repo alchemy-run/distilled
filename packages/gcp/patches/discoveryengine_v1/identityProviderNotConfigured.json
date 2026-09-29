@@ -1,0 +1,33 @@
+{
+  "description": "Type the missing-IdP rejection on identity mapping store creates. It surfaced as a generic BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#IdentityProviderNotConfigured",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The project has no workforce identity provider configured, which identity mapping stores require (HTTP 400: 'IdP must be configured before creating an Identity Mapping Store'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "IdP must be configured"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CreateProjectsLocationsIdentityMappingStores/errors/-",
+      "value": {
+        "target": "com.gcp.discoveryengine_v1#IdentityProviderNotConfigured"
+      }
+    }
+  ]
+}

@@ -52,6 +52,25 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT). */
+export class InsufficientScopes
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InsufficientScopes>()("InsufficientScopes", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -5028,6 +5047,7 @@ export type BulkUpdateAccountsContainersWorkspacesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Applies multiple entity changes to a workspace in one call. When creating new entities, their entity IDs must be unique and in correct format. That is, they must start with "new_" and followed by number, e.g. "new_1", "new_2". Example body snippet to create myNewTag under myNewFolder is: ``` "changes": [ { "folder": { "folderId": "new_1", "name": "myNewFolder", ... }, "changeStatus": "added" }, { "tag": { "tagId": "new_2", "name": "myNewTag", "parentFolderId": "new_1", ... }, "changeStatus": "added" } ] ``` */
 export const bulkUpdateAccountsContainersWorkspaces: API.OperationMethod<
@@ -5038,7 +5058,14 @@ export const bulkUpdateAccountsContainersWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BulkUpdateAccountsContainersWorkspacesRequest,
   output: BulkUpdateWorkspaceResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5048,6 +5075,7 @@ export type CombineAccountsContainersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Combines Containers. */
 export const combineAccountsContainers: API.OperationMethod<
@@ -5058,7 +5086,14 @@ export const combineAccountsContainers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CombineAccountsContainersRequest,
   output: Container,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5068,6 +5103,7 @@ export type CreateAccountsContainersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a Container. */
 export const createAccountsContainers: API.OperationMethod<
@@ -5078,7 +5114,14 @@ export const createAccountsContainers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersRequest,
   output: Container,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5088,6 +5131,7 @@ export type CreateAccountsContainersEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a GTM Environment. */
 export const createAccountsContainersEnvironments: API.OperationMethod<
@@ -5098,7 +5142,14 @@ export const createAccountsContainersEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersEnvironmentsRequest,
   output: Environment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5108,6 +5159,7 @@ export type CreateAccountsContainersWorkspacesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a Workspace. */
 export const createAccountsContainersWorkspaces: API.OperationMethod<
@@ -5118,7 +5170,14 @@ export const createAccountsContainersWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesRequest,
   output: Workspace,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5128,6 +5187,7 @@ export type CreateAccountsContainersWorkspacesBuilt_in_variablesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates one or more GTM Built-In Variables. */
 export const createAccountsContainersWorkspacesBuilt_in_variables: API.OperationMethod<
@@ -5138,7 +5198,14 @@ export const createAccountsContainersWorkspacesBuilt_in_variables: API.Operation
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesBuilt_in_variablesRequest,
   output: CreateBuiltInVariableResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5148,6 +5215,7 @@ export type CreateAccountsContainersWorkspacesClientsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a GTM Client. */
 export const createAccountsContainersWorkspacesClients: API.OperationMethod<
@@ -5158,7 +5226,14 @@ export const createAccountsContainersWorkspacesClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesClientsRequest,
   output: Client,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5168,6 +5243,7 @@ export type CreateAccountsContainersWorkspacesFoldersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a GTM Folder. */
 export const createAccountsContainersWorkspacesFolders: API.OperationMethod<
@@ -5178,7 +5254,14 @@ export const createAccountsContainersWorkspacesFolders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesFoldersRequest,
   output: Folder,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5188,6 +5271,7 @@ export type CreateAccountsContainersWorkspacesGtag_configError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a Google tag config. */
 export const createAccountsContainersWorkspacesGtag_config: API.OperationMethod<
@@ -5198,7 +5282,14 @@ export const createAccountsContainersWorkspacesGtag_config: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesGtag_configRequest,
   output: GtagConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5208,6 +5299,7 @@ export type CreateAccountsContainersWorkspacesTagsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a GTM Tag. */
 export const createAccountsContainersWorkspacesTags: API.OperationMethod<
@@ -5218,7 +5310,14 @@ export const createAccountsContainersWorkspacesTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesTagsRequest,
   output: Tag,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5228,6 +5327,7 @@ export type CreateAccountsContainersWorkspacesTemplatesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a GTM Custom Template. */
 export const createAccountsContainersWorkspacesTemplates: API.OperationMethod<
@@ -5238,7 +5338,14 @@ export const createAccountsContainersWorkspacesTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesTemplatesRequest,
   output: CustomTemplate,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5248,6 +5355,7 @@ export type CreateAccountsContainersWorkspacesTransformationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a GTM Transformation. */
 export const createAccountsContainersWorkspacesTransformations: API.OperationMethod<
@@ -5258,7 +5366,14 @@ export const createAccountsContainersWorkspacesTransformations: API.OperationMet
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesTransformationsRequest,
   output: Transformation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5268,6 +5383,7 @@ export type CreateAccountsContainersWorkspacesTriggersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a GTM Trigger. */
 export const createAccountsContainersWorkspacesTriggers: API.OperationMethod<
@@ -5278,7 +5394,14 @@ export const createAccountsContainersWorkspacesTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesTriggersRequest,
   output: Trigger,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5288,6 +5411,7 @@ export type CreateAccountsContainersWorkspacesVariablesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a GTM Variable. */
 export const createAccountsContainersWorkspacesVariables: API.OperationMethod<
@@ -5298,7 +5422,14 @@ export const createAccountsContainersWorkspacesVariables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesVariablesRequest,
   output: Variable,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5308,6 +5439,7 @@ export type CreateAccountsContainersWorkspacesZonesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a GTM Zone. */
 export const createAccountsContainersWorkspacesZones: API.OperationMethod<
@@ -5318,7 +5450,14 @@ export const createAccountsContainersWorkspacesZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesZonesRequest,
   output: Zone,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5328,6 +5467,7 @@ export type CreateAccountsUser_permissionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a user's Account & Container access. */
 export const createAccountsUser_permissions: API.OperationMethod<
@@ -5338,7 +5478,14 @@ export const createAccountsUser_permissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsUser_permissionsRequest,
   output: UserPermission,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5348,6 +5495,7 @@ export type CreateVersionAccountsContainersWorkspacesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a Container Version from the entities present in the workspace, deletes the workspace, and sets the base container version to the newly created version. */
 export const createVersionAccountsContainersWorkspaces: API.OperationMethod<
@@ -5358,7 +5506,14 @@ export const createVersionAccountsContainersWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateVersionAccountsContainersWorkspacesRequest,
   output: CreateContainerVersionResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5368,6 +5523,7 @@ export type DeleteAccountsContainersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a Container. */
 export const deleteAccountsContainers: API.OperationMethod<
@@ -5378,7 +5534,14 @@ export const deleteAccountsContainers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersRequest,
   output: DeleteAccountsContainersResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5388,6 +5551,7 @@ export type DeleteAccountsContainersEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a GTM Environment. */
 export const deleteAccountsContainersEnvironments: API.OperationMethod<
@@ -5398,7 +5562,14 @@ export const deleteAccountsContainersEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersEnvironmentsRequest,
   output: DeleteAccountsContainersEnvironmentsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5408,6 +5579,7 @@ export type DeleteAccountsContainersVersionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a Container Version. */
 export const deleteAccountsContainersVersions: API.OperationMethod<
@@ -5418,7 +5590,14 @@ export const deleteAccountsContainersVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersVersionsRequest,
   output: DeleteAccountsContainersVersionsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5428,6 +5607,7 @@ export type DeleteAccountsContainersWorkspacesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a Workspace. */
 export const deleteAccountsContainersWorkspaces: API.OperationMethod<
@@ -5438,7 +5618,14 @@ export const deleteAccountsContainersWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesRequest,
   output: DeleteAccountsContainersWorkspacesResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5448,6 +5635,7 @@ export type DeleteAccountsContainersWorkspacesBuilt_in_variablesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes one or more GTM Built-In Variables. */
 export const deleteAccountsContainersWorkspacesBuilt_in_variables: API.OperationMethod<
@@ -5458,7 +5646,14 @@ export const deleteAccountsContainersWorkspacesBuilt_in_variables: API.Operation
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest,
   output: DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5468,6 +5663,7 @@ export type DeleteAccountsContainersWorkspacesClientsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a GTM Client. */
 export const deleteAccountsContainersWorkspacesClients: API.OperationMethod<
@@ -5478,7 +5674,14 @@ export const deleteAccountsContainersWorkspacesClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesClientsRequest,
   output: DeleteAccountsContainersWorkspacesClientsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5488,6 +5691,7 @@ export type DeleteAccountsContainersWorkspacesFoldersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a GTM Folder. */
 export const deleteAccountsContainersWorkspacesFolders: API.OperationMethod<
@@ -5498,7 +5702,14 @@ export const deleteAccountsContainersWorkspacesFolders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesFoldersRequest,
   output: DeleteAccountsContainersWorkspacesFoldersResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5508,6 +5719,7 @@ export type DeleteAccountsContainersWorkspacesGtag_configError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a Google tag config. */
 export const deleteAccountsContainersWorkspacesGtag_config: API.OperationMethod<
@@ -5518,7 +5730,14 @@ export const deleteAccountsContainersWorkspacesGtag_config: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesGtag_configRequest,
   output: DeleteAccountsContainersWorkspacesGtag_configResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5528,6 +5747,7 @@ export type DeleteAccountsContainersWorkspacesTagsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a GTM Tag. */
 export const deleteAccountsContainersWorkspacesTags: API.OperationMethod<
@@ -5538,7 +5758,14 @@ export const deleteAccountsContainersWorkspacesTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesTagsRequest,
   output: DeleteAccountsContainersWorkspacesTagsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5548,6 +5775,7 @@ export type DeleteAccountsContainersWorkspacesTemplatesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a GTM Template. */
 export const deleteAccountsContainersWorkspacesTemplates: API.OperationMethod<
@@ -5558,7 +5786,14 @@ export const deleteAccountsContainersWorkspacesTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesTemplatesRequest,
   output: DeleteAccountsContainersWorkspacesTemplatesResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5568,6 +5803,7 @@ export type DeleteAccountsContainersWorkspacesTransformationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a GTM Transformation. */
 export const deleteAccountsContainersWorkspacesTransformations: API.OperationMethod<
@@ -5578,7 +5814,14 @@ export const deleteAccountsContainersWorkspacesTransformations: API.OperationMet
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesTransformationsRequest,
   output: DeleteAccountsContainersWorkspacesTransformationsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5588,6 +5831,7 @@ export type DeleteAccountsContainersWorkspacesTriggersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a GTM Trigger. */
 export const deleteAccountsContainersWorkspacesTriggers: API.OperationMethod<
@@ -5598,7 +5842,14 @@ export const deleteAccountsContainersWorkspacesTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesTriggersRequest,
   output: DeleteAccountsContainersWorkspacesTriggersResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5608,6 +5859,7 @@ export type DeleteAccountsContainersWorkspacesVariablesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a GTM Variable. */
 export const deleteAccountsContainersWorkspacesVariables: API.OperationMethod<
@@ -5618,7 +5870,14 @@ export const deleteAccountsContainersWorkspacesVariables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesVariablesRequest,
   output: DeleteAccountsContainersWorkspacesVariablesResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5628,6 +5887,7 @@ export type DeleteAccountsContainersWorkspacesZonesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a GTM Zone. */
 export const deleteAccountsContainersWorkspacesZones: API.OperationMethod<
@@ -5638,7 +5898,14 @@ export const deleteAccountsContainersWorkspacesZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesZonesRequest,
   output: DeleteAccountsContainersWorkspacesZonesResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5648,6 +5915,7 @@ export type DeleteAccountsUser_permissionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Removes a user from the account, revoking access to it and all of its containers. */
 export const deleteAccountsUser_permissions: API.OperationMethod<
@@ -5658,7 +5926,14 @@ export const deleteAccountsUser_permissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsUser_permissionsRequest,
   output: DeleteAccountsUser_permissionsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5668,6 +5943,7 @@ export type EntitiesAccountsContainersWorkspacesFoldersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** List all entities in a GTM Folder. */
 export const entitiesAccountsContainersWorkspacesFolders: API.PaginatedOperationMethod<
@@ -5679,7 +5955,14 @@ export const entitiesAccountsContainersWorkspacesFolders: API.PaginatedOperation
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: EntitiesAccountsContainersWorkspacesFoldersRequest,
   output: FolderEntities,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5688,7 +5971,11 @@ export const entitiesAccountsContainersWorkspacesFolders: API.PaginatedOperation
   } as const,
 })) as any;
 
-export type GetAccountsError = NotFound | Forbidden | GcpOpError;
+export type GetAccountsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a GTM Account. */
 export const getAccounts: API.OperationMethod<
   GetAccountsRequest,
@@ -5698,12 +5985,16 @@ export const getAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsRequest,
   output: Account,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAccountsContainersError = NotFound | Forbidden | GcpOpError;
+export type GetAccountsContainersError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a Container. */
 export const getAccountsContainers: API.OperationMethod<
   GetAccountsContainersRequest,
@@ -5713,7 +6004,7 @@ export const getAccountsContainers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsContainersRequest,
   output: Container,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5721,6 +6012,7 @@ export const getAccountsContainers: API.OperationMethod<
 export type GetAccountsContainersDestinationsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a Destination. */
 export const getAccountsContainersDestinations: API.OperationMethod<
@@ -5731,7 +6023,7 @@ export const getAccountsContainersDestinations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsContainersDestinationsRequest,
   output: Destination,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5739,6 +6031,7 @@ export const getAccountsContainersDestinations: API.OperationMethod<
 export type GetAccountsContainersEnvironmentsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a GTM Environment. */
 export const getAccountsContainersEnvironments: API.OperationMethod<
@@ -5749,7 +6042,7 @@ export const getAccountsContainersEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsContainersEnvironmentsRequest,
   output: Environment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5757,6 +6050,7 @@ export const getAccountsContainersEnvironments: API.OperationMethod<
 export type GetAccountsContainersVersionsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a Container Version. */
 export const getAccountsContainersVersions: API.OperationMethod<
@@ -5767,7 +6061,7 @@ export const getAccountsContainersVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsContainersVersionsRequest,
   output: ContainerVersion,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5775,6 +6069,7 @@ export const getAccountsContainersVersions: API.OperationMethod<
 export type GetAccountsContainersWorkspacesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a Workspace. */
 export const getAccountsContainersWorkspaces: API.OperationMethod<
@@ -5785,7 +6080,7 @@ export const getAccountsContainersWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesRequest,
   output: Workspace,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5793,6 +6088,7 @@ export const getAccountsContainersWorkspaces: API.OperationMethod<
 export type GetAccountsContainersWorkspacesClientsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a GTM Client. */
 export const getAccountsContainersWorkspacesClients: API.OperationMethod<
@@ -5803,7 +6099,7 @@ export const getAccountsContainersWorkspacesClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesClientsRequest,
   output: Client,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5811,6 +6107,7 @@ export const getAccountsContainersWorkspacesClients: API.OperationMethod<
 export type GetAccountsContainersWorkspacesFoldersError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a GTM Folder. */
 export const getAccountsContainersWorkspacesFolders: API.OperationMethod<
@@ -5821,7 +6118,7 @@ export const getAccountsContainersWorkspacesFolders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesFoldersRequest,
   output: Folder,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5829,6 +6126,7 @@ export const getAccountsContainersWorkspacesFolders: API.OperationMethod<
 export type GetAccountsContainersWorkspacesGtag_configError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a Google tag config. */
 export const getAccountsContainersWorkspacesGtag_config: API.OperationMethod<
@@ -5839,7 +6137,7 @@ export const getAccountsContainersWorkspacesGtag_config: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesGtag_configRequest,
   output: GtagConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5847,6 +6145,7 @@ export const getAccountsContainersWorkspacesGtag_config: API.OperationMethod<
 export type GetAccountsContainersWorkspacesTagsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a GTM Tag. */
 export const getAccountsContainersWorkspacesTags: API.OperationMethod<
@@ -5857,7 +6156,7 @@ export const getAccountsContainersWorkspacesTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesTagsRequest,
   output: Tag,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5865,6 +6164,7 @@ export const getAccountsContainersWorkspacesTags: API.OperationMethod<
 export type GetAccountsContainersWorkspacesTemplatesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a GTM Template. */
 export const getAccountsContainersWorkspacesTemplates: API.OperationMethod<
@@ -5875,7 +6175,7 @@ export const getAccountsContainersWorkspacesTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesTemplatesRequest,
   output: CustomTemplate,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5883,6 +6183,7 @@ export const getAccountsContainersWorkspacesTemplates: API.OperationMethod<
 export type GetAccountsContainersWorkspacesTransformationsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a GTM Transformation. */
 export const getAccountsContainersWorkspacesTransformations: API.OperationMethod<
@@ -5893,7 +6194,7 @@ export const getAccountsContainersWorkspacesTransformations: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesTransformationsRequest,
   output: Transformation,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5901,6 +6202,7 @@ export const getAccountsContainersWorkspacesTransformations: API.OperationMethod
 export type GetAccountsContainersWorkspacesTriggersError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a GTM Trigger. */
 export const getAccountsContainersWorkspacesTriggers: API.OperationMethod<
@@ -5911,7 +6213,7 @@ export const getAccountsContainersWorkspacesTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesTriggersRequest,
   output: Trigger,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5919,6 +6221,7 @@ export const getAccountsContainersWorkspacesTriggers: API.OperationMethod<
 export type GetAccountsContainersWorkspacesVariablesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a GTM Variable. */
 export const getAccountsContainersWorkspacesVariables: API.OperationMethod<
@@ -5929,7 +6232,7 @@ export const getAccountsContainersWorkspacesVariables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesVariablesRequest,
   output: Variable,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5937,6 +6240,7 @@ export const getAccountsContainersWorkspacesVariables: API.OperationMethod<
 export type GetAccountsContainersWorkspacesZonesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a GTM Zone. */
 export const getAccountsContainersWorkspacesZones: API.OperationMethod<
@@ -5947,7 +6251,7 @@ export const getAccountsContainersWorkspacesZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesZonesRequest,
   output: Zone,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5955,6 +6259,7 @@ export const getAccountsContainersWorkspacesZones: API.OperationMethod<
 export type GetAccountsUser_permissionsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a user's Account & Container access. */
 export const getAccountsUser_permissions: API.OperationMethod<
@@ -5965,7 +6270,7 @@ export const getAccountsUser_permissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsUser_permissionsRequest,
   output: UserPermission,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5973,6 +6278,7 @@ export const getAccountsUser_permissions: API.OperationMethod<
 export type GetStatusAccountsContainersWorkspacesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Finds conflicting and modified entities in the workspace. */
 export const getStatusAccountsContainersWorkspaces: API.OperationMethod<
@@ -5983,7 +6289,7 @@ export const getStatusAccountsContainersWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetStatusAccountsContainersWorkspacesRequest,
   output: GetWorkspaceStatusResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5993,6 +6299,7 @@ export type ImportFromGalleryAccountsContainersWorkspacesTemplatesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Imports a GTM Custom Template from Gallery. */
 export const importFromGalleryAccountsContainersWorkspacesTemplates: API.OperationMethod<
@@ -6003,7 +6310,14 @@ export const importFromGalleryAccountsContainersWorkspacesTemplates: API.Operati
 > = /*@__PURE__*/ API.make(() => ({
   input: ImportFromGalleryAccountsContainersWorkspacesTemplatesRequest,
   output: CustomTemplate,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6011,6 +6325,7 @@ export const importFromGalleryAccountsContainersWorkspacesTemplates: API.Operati
 export type LatestAccountsContainersVersion_headersError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets the latest container version header */
 export const latestAccountsContainersVersion_headers: API.OperationMethod<
@@ -6021,7 +6336,7 @@ export const latestAccountsContainersVersion_headers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: LatestAccountsContainersVersion_headersRequest,
   output: ContainerVersionHeader,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6031,6 +6346,7 @@ export type LinkAccountsContainersDestinationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Adds a Destination to this Container and removes it from the Container to which it is currently linked. */
 export const linkAccountsContainersDestinations: API.OperationMethod<
@@ -6041,12 +6357,23 @@ export const linkAccountsContainersDestinations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: LinkAccountsContainersDestinationsRequest,
   output: Destination,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListAccountsError = NotFound | Forbidden | GcpOpError;
+export type ListAccountsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists all GTM Accounts that a user has access to. */
 export const listAccounts: API.PaginatedOperationMethod<
   ListAccountsRequest,
@@ -6057,7 +6384,7 @@ export const listAccounts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6066,7 +6393,11 @@ export const listAccounts: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAccountsContainersError = NotFound | Forbidden | GcpOpError;
+export type ListAccountsContainersError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists all Containers that belongs to a GTM Account. */
 export const listAccountsContainers: API.PaginatedOperationMethod<
   ListAccountsContainersRequest,
@@ -6077,7 +6408,7 @@ export const listAccountsContainers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersRequest,
   output: ListContainersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6089,6 +6420,7 @@ export const listAccountsContainers: API.PaginatedOperationMethod<
 export type ListAccountsContainersDestinationsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all Destinations linked to a GTM Container. */
 export const listAccountsContainersDestinations: API.OperationMethod<
@@ -6099,7 +6431,7 @@ export const listAccountsContainersDestinations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListAccountsContainersDestinationsRequest,
   output: ListDestinationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6107,6 +6439,7 @@ export const listAccountsContainersDestinations: API.OperationMethod<
 export type ListAccountsContainersEnvironmentsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all GTM Environments of a GTM Container. */
 export const listAccountsContainersEnvironments: API.PaginatedOperationMethod<
@@ -6118,7 +6451,7 @@ export const listAccountsContainersEnvironments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersEnvironmentsRequest,
   output: ListEnvironmentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6130,6 +6463,7 @@ export const listAccountsContainersEnvironments: API.PaginatedOperationMethod<
 export type ListAccountsContainersVersion_headersError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all Container Versions of a GTM Container. */
 export const listAccountsContainersVersion_headers: API.PaginatedOperationMethod<
@@ -6141,7 +6475,7 @@ export const listAccountsContainersVersion_headers: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersVersion_headersRequest,
   output: ListContainerVersionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6153,6 +6487,7 @@ export const listAccountsContainersVersion_headers: API.PaginatedOperationMethod
 export type ListAccountsContainersWorkspacesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all Workspaces that belong to a GTM Container. */
 export const listAccountsContainersWorkspaces: API.PaginatedOperationMethod<
@@ -6164,7 +6499,7 @@ export const listAccountsContainersWorkspaces: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesRequest,
   output: ListWorkspacesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6176,6 +6511,7 @@ export const listAccountsContainersWorkspaces: API.PaginatedOperationMethod<
 export type ListAccountsContainersWorkspacesBuilt_in_variablesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all the enabled Built-In Variables of a GTM Container. */
 export const listAccountsContainersWorkspacesBuilt_in_variables: API.PaginatedOperationMethod<
@@ -6187,7 +6523,7 @@ export const listAccountsContainersWorkspacesBuilt_in_variables: API.PaginatedOp
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesBuilt_in_variablesRequest,
   output: ListEnabledBuiltInVariablesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6199,6 +6535,7 @@ export const listAccountsContainersWorkspacesBuilt_in_variables: API.PaginatedOp
 export type ListAccountsContainersWorkspacesClientsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all GTM Clients of a GTM container workspace. */
 export const listAccountsContainersWorkspacesClients: API.PaginatedOperationMethod<
@@ -6210,7 +6547,7 @@ export const listAccountsContainersWorkspacesClients: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesClientsRequest,
   output: ListClientsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6222,6 +6559,7 @@ export const listAccountsContainersWorkspacesClients: API.PaginatedOperationMeth
 export type ListAccountsContainersWorkspacesFoldersError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all GTM Folders of a Container. */
 export const listAccountsContainersWorkspacesFolders: API.PaginatedOperationMethod<
@@ -6233,7 +6571,7 @@ export const listAccountsContainersWorkspacesFolders: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesFoldersRequest,
   output: ListFoldersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6245,6 +6583,7 @@ export const listAccountsContainersWorkspacesFolders: API.PaginatedOperationMeth
 export type ListAccountsContainersWorkspacesGtag_configError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all Google tag configs in a Container. */
 export const listAccountsContainersWorkspacesGtag_config: API.PaginatedOperationMethod<
@@ -6256,7 +6595,7 @@ export const listAccountsContainersWorkspacesGtag_config: API.PaginatedOperation
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesGtag_configRequest,
   output: ListGtagConfigResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6268,6 +6607,7 @@ export const listAccountsContainersWorkspacesGtag_config: API.PaginatedOperation
 export type ListAccountsContainersWorkspacesTagsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all GTM Tags of a Container. */
 export const listAccountsContainersWorkspacesTags: API.PaginatedOperationMethod<
@@ -6279,7 +6619,7 @@ export const listAccountsContainersWorkspacesTags: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesTagsRequest,
   output: ListTagsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6291,6 +6631,7 @@ export const listAccountsContainersWorkspacesTags: API.PaginatedOperationMethod<
 export type ListAccountsContainersWorkspacesTemplatesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all GTM Templates of a GTM container workspace. */
 export const listAccountsContainersWorkspacesTemplates: API.PaginatedOperationMethod<
@@ -6302,7 +6643,7 @@ export const listAccountsContainersWorkspacesTemplates: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesTemplatesRequest,
   output: ListTemplatesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6314,6 +6655,7 @@ export const listAccountsContainersWorkspacesTemplates: API.PaginatedOperationMe
 export type ListAccountsContainersWorkspacesTransformationsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all GTM Transformations of a GTM container workspace. */
 export const listAccountsContainersWorkspacesTransformations: API.PaginatedOperationMethod<
@@ -6325,7 +6667,7 @@ export const listAccountsContainersWorkspacesTransformations: API.PaginatedOpera
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesTransformationsRequest,
   output: ListTransformationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6337,6 +6679,7 @@ export const listAccountsContainersWorkspacesTransformations: API.PaginatedOpera
 export type ListAccountsContainersWorkspacesTriggersError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all GTM Triggers of a Container. */
 export const listAccountsContainersWorkspacesTriggers: API.PaginatedOperationMethod<
@@ -6348,7 +6691,7 @@ export const listAccountsContainersWorkspacesTriggers: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesTriggersRequest,
   output: ListTriggersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6360,6 +6703,7 @@ export const listAccountsContainersWorkspacesTriggers: API.PaginatedOperationMet
 export type ListAccountsContainersWorkspacesVariablesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all GTM Variables of a Container. */
 export const listAccountsContainersWorkspacesVariables: API.PaginatedOperationMethod<
@@ -6371,7 +6715,7 @@ export const listAccountsContainersWorkspacesVariables: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesVariablesRequest,
   output: ListVariablesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6383,6 +6727,7 @@ export const listAccountsContainersWorkspacesVariables: API.PaginatedOperationMe
 export type ListAccountsContainersWorkspacesZonesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all GTM Zones of a GTM container workspace. */
 export const listAccountsContainersWorkspacesZones: API.PaginatedOperationMethod<
@@ -6394,7 +6739,7 @@ export const listAccountsContainersWorkspacesZones: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesZonesRequest,
   output: ListZonesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6406,6 +6751,7 @@ export const listAccountsContainersWorkspacesZones: API.PaginatedOperationMethod
 export type ListAccountsUser_permissionsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all users that have access to the account along with Account and Container user access granted to each of them. */
 export const listAccountsUser_permissions: API.PaginatedOperationMethod<
@@ -6417,7 +6763,7 @@ export const listAccountsUser_permissions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsUser_permissionsRequest,
   output: ListUserPermissionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6429,6 +6775,7 @@ export const listAccountsUser_permissions: API.PaginatedOperationMethod<
 export type LiveAccountsContainersVersionsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets the live (i.e. published) container version */
 export const liveAccountsContainersVersions: API.OperationMethod<
@@ -6439,12 +6786,16 @@ export const liveAccountsContainersVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: LiveAccountsContainersVersionsRequest,
   output: ContainerVersion,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type LookupAccountsContainersError = NotFound | Forbidden | GcpOpError;
+export type LookupAccountsContainersError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Looks up a Container by destination ID or tag ID. */
 export const lookupAccountsContainers: API.OperationMethod<
   LookupAccountsContainersRequest,
@@ -6454,7 +6805,7 @@ export const lookupAccountsContainers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: LookupAccountsContainersRequest,
   output: Container,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6464,6 +6815,7 @@ export type MoveEntitiesToFolderAccountsContainersWorkspacesFoldersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Moves entities to a GTM Folder. If {folder_id} in the request path equals 0, this will instead move entities out of the folder they currently belong to. */
 export const moveEntitiesToFolderAccountsContainersWorkspacesFolders: API.OperationMethod<
@@ -6474,7 +6826,14 @@ export const moveEntitiesToFolderAccountsContainersWorkspacesFolders: API.Operat
 > = /*@__PURE__*/ API.make(() => ({
   input: MoveEntitiesToFolderAccountsContainersWorkspacesFoldersRequest,
   output: MoveEntitiesToFolderAccountsContainersWorkspacesFoldersResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6484,6 +6843,7 @@ export type MoveTagIdAccountsContainersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Move Tag ID out of a Container. */
 export const moveTagIdAccountsContainers: API.OperationMethod<
@@ -6494,7 +6854,14 @@ export const moveTagIdAccountsContainers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: MoveTagIdAccountsContainersRequest,
   output: Container,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6504,6 +6871,7 @@ export type PreviewQuickAccountsContainersWorkspacesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Quick previews a workspace by creating a fake container version from all entities in the provided workspace. */
 export const previewQuickAccountsContainersWorkspaces: API.OperationMethod<
@@ -6514,7 +6882,14 @@ export const previewQuickAccountsContainersWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PreviewQuickAccountsContainersWorkspacesRequest,
   output: QuickPreviewResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6524,6 +6899,7 @@ export type PublishAccountsContainersVersionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Publishes a Container Version. */
 export const publishAccountsContainersVersions: API.OperationMethod<
@@ -6534,7 +6910,14 @@ export const publishAccountsContainersVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PublishAccountsContainersVersionsRequest,
   output: PublishContainerVersionResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6544,6 +6927,7 @@ export type ReauthorizeAccountsContainersEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Re-generates the authorization code for a GTM Environment. */
 export const reauthorizeAccountsContainersEnvironments: API.OperationMethod<
@@ -6554,7 +6938,14 @@ export const reauthorizeAccountsContainersEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ReauthorizeAccountsContainersEnvironmentsRequest,
   output: Environment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6564,6 +6955,7 @@ export type Resolve_conflictAccountsContainersWorkspacesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Resolves a merge conflict for a workspace entity by updating it to the resolved entity passed in the request. */
 export const resolve_conflictAccountsContainersWorkspaces: API.OperationMethod<
@@ -6574,7 +6966,14 @@ export const resolve_conflictAccountsContainersWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: Resolve_conflictAccountsContainersWorkspacesRequest,
   output: Resolve_conflictAccountsContainersWorkspacesResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6584,6 +6983,7 @@ export type RevertAccountsContainersWorkspacesBuilt_in_variablesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Reverts changes to a GTM Built-In Variables in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesBuilt_in_variables: API.OperationMethod<
@@ -6594,7 +6994,14 @@ export const revertAccountsContainersWorkspacesBuilt_in_variables: API.Operation
 > = /*@__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesBuilt_in_variablesRequest,
   output: RevertBuiltInVariableResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6604,6 +7011,7 @@ export type RevertAccountsContainersWorkspacesClientsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Reverts changes to a GTM Client in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesClients: API.OperationMethod<
@@ -6614,7 +7022,14 @@ export const revertAccountsContainersWorkspacesClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesClientsRequest,
   output: RevertClientResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6624,6 +7039,7 @@ export type RevertAccountsContainersWorkspacesFoldersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Reverts changes to a GTM Folder in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesFolders: API.OperationMethod<
@@ -6634,7 +7050,14 @@ export const revertAccountsContainersWorkspacesFolders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesFoldersRequest,
   output: RevertFolderResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6644,6 +7067,7 @@ export type RevertAccountsContainersWorkspacesTagsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Reverts changes to a GTM Tag in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesTags: API.OperationMethod<
@@ -6654,7 +7078,14 @@ export const revertAccountsContainersWorkspacesTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesTagsRequest,
   output: RevertTagResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6664,6 +7095,7 @@ export type RevertAccountsContainersWorkspacesTemplatesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Reverts changes to a GTM Template in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesTemplates: API.OperationMethod<
@@ -6674,7 +7106,14 @@ export const revertAccountsContainersWorkspacesTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesTemplatesRequest,
   output: RevertTemplateResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6684,6 +7123,7 @@ export type RevertAccountsContainersWorkspacesTransformationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Reverts changes to a GTM Transformation in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesTransformations: API.OperationMethod<
@@ -6694,7 +7134,14 @@ export const revertAccountsContainersWorkspacesTransformations: API.OperationMet
 > = /*@__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesTransformationsRequest,
   output: RevertTransformationResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6704,6 +7151,7 @@ export type RevertAccountsContainersWorkspacesTriggersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Reverts changes to a GTM Trigger in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesTriggers: API.OperationMethod<
@@ -6714,7 +7162,14 @@ export const revertAccountsContainersWorkspacesTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesTriggersRequest,
   output: RevertTriggerResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6724,6 +7179,7 @@ export type RevertAccountsContainersWorkspacesVariablesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Reverts changes to a GTM Variable in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesVariables: API.OperationMethod<
@@ -6734,7 +7190,14 @@ export const revertAccountsContainersWorkspacesVariables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesVariablesRequest,
   output: RevertVariableResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6744,6 +7207,7 @@ export type RevertAccountsContainersWorkspacesZonesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Reverts changes to a GTM Zone in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesZones: API.OperationMethod<
@@ -6754,7 +7218,14 @@ export const revertAccountsContainersWorkspacesZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesZonesRequest,
   output: RevertZoneResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6764,6 +7235,7 @@ export type Set_latestAccountsContainersVersionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Sets the latest version used for synchronization of workspaces when detecting conflicts and errors. */
 export const set_latestAccountsContainersVersions: API.OperationMethod<
@@ -6774,12 +7246,23 @@ export const set_latestAccountsContainersVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: Set_latestAccountsContainersVersionsRequest,
   output: ContainerVersion,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type SnippetAccountsContainersError = NotFound | Forbidden | GcpOpError;
+export type SnippetAccountsContainersError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets the tagging snippet for a Container. */
 export const snippetAccountsContainers: API.OperationMethod<
   SnippetAccountsContainersRequest,
@@ -6789,7 +7272,7 @@ export const snippetAccountsContainers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SnippetAccountsContainersRequest,
   output: GetContainerSnippetResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6799,6 +7282,7 @@ export type SyncAccountsContainersWorkspacesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Syncs a workspace to the latest container version by updating all unmodified workspace entities and displaying conflicts for modified entities. */
 export const syncAccountsContainersWorkspaces: API.OperationMethod<
@@ -6809,7 +7293,14 @@ export const syncAccountsContainersWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SyncAccountsContainersWorkspacesRequest,
   output: SyncWorkspaceResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6819,6 +7310,7 @@ export type UndeleteAccountsContainersVersionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Undeletes a Container Version. */
 export const undeleteAccountsContainersVersions: API.OperationMethod<
@@ -6829,7 +7321,14 @@ export const undeleteAccountsContainersVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UndeleteAccountsContainersVersionsRequest,
   output: ContainerVersion,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6839,6 +7338,7 @@ export type UpdateAccountsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a GTM Account. */
 export const updateAccounts: API.OperationMethod<
@@ -6849,7 +7349,14 @@ export const updateAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsRequest,
   output: Account,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6859,6 +7366,7 @@ export type UpdateAccountsContainersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a Container. */
 export const updateAccountsContainers: API.OperationMethod<
@@ -6869,7 +7377,14 @@ export const updateAccountsContainers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersRequest,
   output: Container,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6879,6 +7394,7 @@ export type UpdateAccountsContainersEnvironmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a GTM Environment. */
 export const updateAccountsContainersEnvironments: API.OperationMethod<
@@ -6889,7 +7405,14 @@ export const updateAccountsContainersEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersEnvironmentsRequest,
   output: Environment,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6899,6 +7422,7 @@ export type UpdateAccountsContainersVersionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a Container Version. */
 export const updateAccountsContainersVersions: API.OperationMethod<
@@ -6909,7 +7433,14 @@ export const updateAccountsContainersVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersVersionsRequest,
   output: ContainerVersion,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6919,6 +7450,7 @@ export type UpdateAccountsContainersWorkspacesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a Workspace. */
 export const updateAccountsContainersWorkspaces: API.OperationMethod<
@@ -6929,7 +7461,14 @@ export const updateAccountsContainersWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesRequest,
   output: Workspace,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6939,6 +7478,7 @@ export type UpdateAccountsContainersWorkspacesClientsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a GTM Client. */
 export const updateAccountsContainersWorkspacesClients: API.OperationMethod<
@@ -6949,7 +7489,14 @@ export const updateAccountsContainersWorkspacesClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesClientsRequest,
   output: Client,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6959,6 +7506,7 @@ export type UpdateAccountsContainersWorkspacesFoldersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a GTM Folder. */
 export const updateAccountsContainersWorkspacesFolders: API.OperationMethod<
@@ -6969,7 +7517,14 @@ export const updateAccountsContainersWorkspacesFolders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesFoldersRequest,
   output: Folder,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6979,6 +7534,7 @@ export type UpdateAccountsContainersWorkspacesGtag_configError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a Google tag config. */
 export const updateAccountsContainersWorkspacesGtag_config: API.OperationMethod<
@@ -6989,7 +7545,14 @@ export const updateAccountsContainersWorkspacesGtag_config: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesGtag_configRequest,
   output: GtagConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6999,6 +7562,7 @@ export type UpdateAccountsContainersWorkspacesTagsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a GTM Tag. */
 export const updateAccountsContainersWorkspacesTags: API.OperationMethod<
@@ -7009,7 +7573,14 @@ export const updateAccountsContainersWorkspacesTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesTagsRequest,
   output: Tag,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -7019,6 +7590,7 @@ export type UpdateAccountsContainersWorkspacesTemplatesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a GTM Template. */
 export const updateAccountsContainersWorkspacesTemplates: API.OperationMethod<
@@ -7029,7 +7601,14 @@ export const updateAccountsContainersWorkspacesTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesTemplatesRequest,
   output: CustomTemplate,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -7039,6 +7618,7 @@ export type UpdateAccountsContainersWorkspacesTransformationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a GTM Transformation. */
 export const updateAccountsContainersWorkspacesTransformations: API.OperationMethod<
@@ -7049,7 +7629,14 @@ export const updateAccountsContainersWorkspacesTransformations: API.OperationMet
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesTransformationsRequest,
   output: Transformation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -7059,6 +7646,7 @@ export type UpdateAccountsContainersWorkspacesTriggersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a GTM Trigger. */
 export const updateAccountsContainersWorkspacesTriggers: API.OperationMethod<
@@ -7069,7 +7657,14 @@ export const updateAccountsContainersWorkspacesTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesTriggersRequest,
   output: Trigger,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -7079,6 +7674,7 @@ export type UpdateAccountsContainersWorkspacesVariablesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a GTM Variable. */
 export const updateAccountsContainersWorkspacesVariables: API.OperationMethod<
@@ -7089,7 +7685,14 @@ export const updateAccountsContainersWorkspacesVariables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesVariablesRequest,
   output: Variable,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -7099,6 +7702,7 @@ export type UpdateAccountsContainersWorkspacesZonesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a GTM Zone. */
 export const updateAccountsContainersWorkspacesZones: API.OperationMethod<
@@ -7109,7 +7713,14 @@ export const updateAccountsContainersWorkspacesZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesZonesRequest,
   output: Zone,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -7119,6 +7730,7 @@ export type UpdateAccountsUser_permissionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a user's Account & Container access. */
 export const updateAccountsUser_permissions: API.OperationMethod<
@@ -7129,7 +7741,14 @@ export const updateAccountsUser_permissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsUser_permissionsRequest,
   output: UserPermission,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

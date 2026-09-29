@@ -9688,6 +9688,9 @@
         },
         {
           "target": "com.gcp.spanner_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.spanner_v1#SessionNotFound"
         }
       ],
       "traits": {
@@ -9738,6 +9741,9 @@
         },
         {
           "target": "com.gcp.spanner_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.spanner_v1#SessionNotFound"
         }
       ],
       "traits": {
@@ -9788,6 +9794,9 @@
         },
         {
           "target": "com.gcp.spanner_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.spanner_v1#SessionNotFound"
         }
       ],
       "traits": {
@@ -9838,6 +9847,9 @@
         },
         {
           "target": "com.gcp.spanner_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.spanner_v1#SessionNotFound"
         }
       ],
       "traits": {
@@ -9888,6 +9900,9 @@
         },
         {
           "target": "com.gcp.spanner_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.spanner_v1#SessionNotFound"
         }
       ],
       "traits": {
@@ -9938,6 +9953,9 @@
         },
         {
           "target": "com.gcp.spanner_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.spanner_v1#SessionNotFound"
         }
       ],
       "traits": {
@@ -9988,6 +10006,9 @@
         },
         {
           "target": "com.gcp.spanner_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.spanner_v1#SessionNotFound"
         }
       ],
       "traits": {
@@ -10038,6 +10059,9 @@
         },
         {
           "target": "com.gcp.spanner_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.spanner_v1#SessionNotFound"
         }
       ],
       "traits": {
@@ -10088,6 +10112,9 @@
         },
         {
           "target": "com.gcp.spanner_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.spanner_v1#SessionNotFound"
         }
       ],
       "traits": {
@@ -10281,6 +10308,9 @@
         },
         {
           "target": "com.gcp.spanner_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.spanner_v1#SessionNotFound"
         }
       ],
       "traits": {
@@ -10493,6 +10523,9 @@
         },
         {
           "target": "com.gcp.spanner_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.spanner_v1#SessionNotFound"
         }
       ],
       "traits": {
@@ -10530,6 +10563,9 @@
         },
         {
           "target": "com.gcp.spanner_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.spanner_v1#SessionNotFound"
         }
       ],
       "traits": {
@@ -11808,6 +11844,23 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`."
+      }
+    },
+    "com.gcp.spanner_v1#SessionNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "smithy.api#documentation": "The session does not exist: it expired after an hour idle, was deleted, or the server garbage-collected it (HTTP 404 NOT_FOUND: 'Session not found: projects/.../sessions/...'). Create a new session and retry.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 404,
+            "message": {
+              "includes": "Session not found"
+            }
+          }
+        ]
       }
     }
   }

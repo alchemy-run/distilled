@@ -65,6 +65,20 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The Oracle Database@Google Cloud API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED). */
+export class ServiceDisabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ServiceDisabled>()("ServiceDisabled", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [{ status: 403, message: { includes: "has not been used in project" } }],
+  ) {}
+
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
 export const CancelOperationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -8889,6 +8903,7 @@ export type CancelProjectsLocationsOperationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<
@@ -8899,7 +8914,14 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8909,6 +8931,7 @@ export type ConfigureExascaleProjectsLocationsCloudExadataInfrastructuresError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Configures Exascale for a single Exadata Infrastructure. */
 export const configureExascaleProjectsLocationsCloudExadataInfrastructures: API.OperationMethod<
@@ -8919,7 +8942,14 @@ export const configureExascaleProjectsLocationsCloudExadataInfrastructures: API.
 > = /*@__PURE__*/ API.make(() => ({
   input: ConfigureExascaleProjectsLocationsCloudExadataInfrastructuresRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8929,6 +8959,7 @@ export type CreateProjectsLocationsAutonomousDatabasesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new Autonomous Database in a given project and location. */
 export const createProjectsLocationsAutonomousDatabases: API.OperationMethod<
@@ -8939,7 +8970,14 @@ export const createProjectsLocationsAutonomousDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAutonomousDatabasesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8949,6 +8987,7 @@ export type CreateProjectsLocationsCloudExadataInfrastructuresError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new Exadata Infrastructure in a given project and location. */
 export const createProjectsLocationsCloudExadataInfrastructures: API.OperationMethod<
@@ -8959,7 +8998,14 @@ export const createProjectsLocationsCloudExadataInfrastructures: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCloudExadataInfrastructuresRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8969,6 +9015,7 @@ export type CreateProjectsLocationsCloudVmClustersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new VM Cluster in a given project and location. */
 export const createProjectsLocationsCloudVmClusters: API.OperationMethod<
@@ -8979,7 +9026,14 @@ export const createProjectsLocationsCloudVmClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCloudVmClustersRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8989,6 +9043,7 @@ export type CreateProjectsLocationsDbSystemsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new DbSystem in a given project and location. */
 export const createProjectsLocationsDbSystems: API.OperationMethod<
@@ -8999,7 +9054,14 @@ export const createProjectsLocationsDbSystems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDbSystemsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9009,6 +9071,7 @@ export type CreateProjectsLocationsExadbVmClustersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new Exadb (Exascale) VM Cluster resource. */
 export const createProjectsLocationsExadbVmClusters: API.OperationMethod<
@@ -9019,7 +9082,14 @@ export const createProjectsLocationsExadbVmClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsExadbVmClustersRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9029,6 +9099,7 @@ export type CreateProjectsLocationsExascaleDbStorageVaultsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new ExascaleDB Storage Vault resource. */
 export const createProjectsLocationsExascaleDbStorageVaults: API.OperationMethod<
@@ -9039,7 +9110,14 @@ export const createProjectsLocationsExascaleDbStorageVaults: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsExascaleDbStorageVaultsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9049,6 +9127,7 @@ export type CreateProjectsLocationsGoldengateConnectionAssignmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new GoldengateConnectionAssignment in a given project and location. */
 export const createProjectsLocationsGoldengateConnectionAssignments: API.OperationMethod<
@@ -9059,7 +9138,14 @@ export const createProjectsLocationsGoldengateConnectionAssignments: API.Operati
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsGoldengateConnectionAssignmentsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9069,6 +9155,7 @@ export type CreateProjectsLocationsGoldengateConnectionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new GoldengateConnection in a given project and location. */
 export const createProjectsLocationsGoldengateConnections: API.OperationMethod<
@@ -9079,7 +9166,14 @@ export const createProjectsLocationsGoldengateConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsGoldengateConnectionsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9089,6 +9183,7 @@ export type CreateProjectsLocationsGoldengateDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new GoldengateDeployment in a given project and location. */
 export const createProjectsLocationsGoldengateDeployments: API.OperationMethod<
@@ -9099,7 +9194,14 @@ export const createProjectsLocationsGoldengateDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsGoldengateDeploymentsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9109,6 +9211,7 @@ export type CreateProjectsLocationsOdbNetworksError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new ODB Network in a given project and location. */
 export const createProjectsLocationsOdbNetworks: API.OperationMethod<
@@ -9119,7 +9222,14 @@ export const createProjectsLocationsOdbNetworks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsOdbNetworksRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9129,6 +9239,7 @@ export type CreateProjectsLocationsOdbNetworksOdbSubnetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a new ODB Subnet in a given ODB Network. */
 export const createProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<
@@ -9139,7 +9250,14 @@ export const createProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsOdbNetworksOdbSubnetsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9149,6 +9267,7 @@ export type DeleteProjectsLocationsAutonomousDatabasesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a single Autonomous Database. */
 export const deleteProjectsLocationsAutonomousDatabases: API.OperationMethod<
@@ -9159,7 +9278,14 @@ export const deleteProjectsLocationsAutonomousDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsAutonomousDatabasesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9169,6 +9295,7 @@ export type DeleteProjectsLocationsCloudExadataInfrastructuresError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a single Exadata Infrastructure. */
 export const deleteProjectsLocationsCloudExadataInfrastructures: API.OperationMethod<
@@ -9179,7 +9306,14 @@ export const deleteProjectsLocationsCloudExadataInfrastructures: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCloudExadataInfrastructuresRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9189,6 +9323,7 @@ export type DeleteProjectsLocationsCloudVmClustersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a single VM Cluster. */
 export const deleteProjectsLocationsCloudVmClusters: API.OperationMethod<
@@ -9199,7 +9334,14 @@ export const deleteProjectsLocationsCloudVmClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCloudVmClustersRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9209,6 +9351,7 @@ export type DeleteProjectsLocationsDbSystemsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a single DbSystem. */
 export const deleteProjectsLocationsDbSystems: API.OperationMethod<
@@ -9219,7 +9362,14 @@ export const deleteProjectsLocationsDbSystems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDbSystemsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9229,6 +9379,7 @@ export type DeleteProjectsLocationsExadbVmClustersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a single Exadb (Exascale) VM Cluster. */
 export const deleteProjectsLocationsExadbVmClusters: API.OperationMethod<
@@ -9239,7 +9390,14 @@ export const deleteProjectsLocationsExadbVmClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsExadbVmClustersRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9249,6 +9407,7 @@ export type DeleteProjectsLocationsExascaleDbStorageVaultsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a single ExascaleDB Storage Vault. */
 export const deleteProjectsLocationsExascaleDbStorageVaults: API.OperationMethod<
@@ -9259,7 +9418,14 @@ export const deleteProjectsLocationsExascaleDbStorageVaults: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsExascaleDbStorageVaultsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9269,6 +9435,7 @@ export type DeleteProjectsLocationsGoldengateConnectionAssignmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a single GoldengateConnectionAssignment. */
 export const deleteProjectsLocationsGoldengateConnectionAssignments: API.OperationMethod<
@@ -9279,7 +9446,14 @@ export const deleteProjectsLocationsGoldengateConnectionAssignments: API.Operati
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsGoldengateConnectionAssignmentsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9289,6 +9463,7 @@ export type DeleteProjectsLocationsGoldengateConnectionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a single GoldengateConnection. */
 export const deleteProjectsLocationsGoldengateConnections: API.OperationMethod<
@@ -9299,7 +9474,14 @@ export const deleteProjectsLocationsGoldengateConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsGoldengateConnectionsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9309,6 +9491,7 @@ export type DeleteProjectsLocationsGoldengateDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a single GoldengateDeployment. */
 export const deleteProjectsLocationsGoldengateDeployments: API.OperationMethod<
@@ -9319,7 +9502,14 @@ export const deleteProjectsLocationsGoldengateDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsGoldengateDeploymentsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9329,6 +9519,7 @@ export type DeleteProjectsLocationsOdbNetworksError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a single ODB Network. */
 export const deleteProjectsLocationsOdbNetworks: API.OperationMethod<
@@ -9339,7 +9530,14 @@ export const deleteProjectsLocationsOdbNetworks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsOdbNetworksRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9349,6 +9547,7 @@ export type DeleteProjectsLocationsOdbNetworksOdbSubnetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a single ODB Subnet. */
 export const deleteProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<
@@ -9359,7 +9558,14 @@ export const deleteProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsOdbNetworksOdbSubnetsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9369,6 +9575,7 @@ export type DeleteProjectsLocationsOperationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<
@@ -9379,7 +9586,14 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9389,6 +9603,7 @@ export type FailoverProjectsLocationsAutonomousDatabasesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Initiates a failover to target autonomous database from the associated primary database. */
 export const failoverProjectsLocationsAutonomousDatabases: API.OperationMethod<
@@ -9399,7 +9614,14 @@ export const failoverProjectsLocationsAutonomousDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: FailoverProjectsLocationsAutonomousDatabasesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9409,6 +9631,7 @@ export type GenerateWalletProjectsLocationsAutonomousDatabasesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Generates a wallet for an Autonomous Database. */
 export const generateWalletProjectsLocationsAutonomousDatabases: API.OperationMethod<
@@ -9419,12 +9642,23 @@ export const generateWalletProjectsLocationsAutonomousDatabases: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: GenerateWalletProjectsLocationsAutonomousDatabasesRequest,
   output: GenerateAutonomousDatabaseWalletResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
+export type GetProjectsLocationsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsRequest,
@@ -9434,7 +9668,7 @@ export const getProjectsLocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: Location,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9442,6 +9676,7 @@ export const getProjectsLocations: API.OperationMethod<
 export type GetProjectsLocationsAutonomousDatabasesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets the details of a single Autonomous Database. */
 export const getProjectsLocationsAutonomousDatabases: API.OperationMethod<
@@ -9452,7 +9687,7 @@ export const getProjectsLocationsAutonomousDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAutonomousDatabasesRequest,
   output: AutonomousDatabase,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9460,6 +9695,7 @@ export const getProjectsLocationsAutonomousDatabases: API.OperationMethod<
 export type GetProjectsLocationsCloudExadataInfrastructuresError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets details of a single Exadata Infrastructure. */
 export const getProjectsLocationsCloudExadataInfrastructures: API.OperationMethod<
@@ -9470,7 +9706,7 @@ export const getProjectsLocationsCloudExadataInfrastructures: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCloudExadataInfrastructuresRequest,
   output: CloudExadataInfrastructure,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9478,6 +9714,7 @@ export const getProjectsLocationsCloudExadataInfrastructures: API.OperationMetho
 export type GetProjectsLocationsCloudVmClustersError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets details of a single VM Cluster. */
 export const getProjectsLocationsCloudVmClusters: API.OperationMethod<
@@ -9488,7 +9725,7 @@ export const getProjectsLocationsCloudVmClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCloudVmClustersRequest,
   output: CloudVmCluster,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9496,6 +9733,7 @@ export const getProjectsLocationsCloudVmClusters: API.OperationMethod<
 export type GetProjectsLocationsDatabasesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets details of a single Database. */
 export const getProjectsLocationsDatabases: API.OperationMethod<
@@ -9506,7 +9744,7 @@ export const getProjectsLocationsDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDatabasesRequest,
   output: Database,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9514,6 +9752,7 @@ export const getProjectsLocationsDatabases: API.OperationMethod<
 export type GetProjectsLocationsDbSystemsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets details of a single DbSystem. */
 export const getProjectsLocationsDbSystems: API.OperationMethod<
@@ -9524,7 +9763,7 @@ export const getProjectsLocationsDbSystems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDbSystemsRequest,
   output: DbSystem,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9532,6 +9771,7 @@ export const getProjectsLocationsDbSystems: API.OperationMethod<
 export type GetProjectsLocationsExadbVmClustersError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets details of a single Exadb (Exascale) VM Cluster. */
 export const getProjectsLocationsExadbVmClusters: API.OperationMethod<
@@ -9542,7 +9782,7 @@ export const getProjectsLocationsExadbVmClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsExadbVmClustersRequest,
   output: ExadbVmCluster,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9550,6 +9790,7 @@ export const getProjectsLocationsExadbVmClusters: API.OperationMethod<
 export type GetProjectsLocationsExascaleDbStorageVaultsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets details of a single ExascaleDB Storage Vault. */
 export const getProjectsLocationsExascaleDbStorageVaults: API.OperationMethod<
@@ -9560,7 +9801,7 @@ export const getProjectsLocationsExascaleDbStorageVaults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsExascaleDbStorageVaultsRequest,
   output: ExascaleDbStorageVault,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9568,6 +9809,7 @@ export const getProjectsLocationsExascaleDbStorageVaults: API.OperationMethod<
 export type GetProjectsLocationsGoldengateConnectionAssignmentsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets details of a single GoldengateConnectionAssignment. */
 export const getProjectsLocationsGoldengateConnectionAssignments: API.OperationMethod<
@@ -9578,7 +9820,7 @@ export const getProjectsLocationsGoldengateConnectionAssignments: API.OperationM
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsGoldengateConnectionAssignmentsRequest,
   output: GoldengateConnectionAssignment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9586,6 +9828,7 @@ export const getProjectsLocationsGoldengateConnectionAssignments: API.OperationM
 export type GetProjectsLocationsGoldengateConnectionsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets details of a single GoldengateConnection. */
 export const getProjectsLocationsGoldengateConnections: API.OperationMethod<
@@ -9596,7 +9839,7 @@ export const getProjectsLocationsGoldengateConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsGoldengateConnectionsRequest,
   output: GoldengateConnection,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9604,6 +9847,7 @@ export const getProjectsLocationsGoldengateConnections: API.OperationMethod<
 export type GetProjectsLocationsGoldengateDeploymentsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets details of a single GoldengateDeployment. */
 export const getProjectsLocationsGoldengateDeployments: API.OperationMethod<
@@ -9614,7 +9858,7 @@ export const getProjectsLocationsGoldengateDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsGoldengateDeploymentsRequest,
   output: GoldengateDeployment,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9622,6 +9866,7 @@ export const getProjectsLocationsGoldengateDeployments: API.OperationMethod<
 export type GetProjectsLocationsOdbNetworksError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets details of a single ODB Network. */
 export const getProjectsLocationsOdbNetworks: API.OperationMethod<
@@ -9632,7 +9877,7 @@ export const getProjectsLocationsOdbNetworks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsOdbNetworksRequest,
   output: OdbNetwork,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9640,6 +9885,7 @@ export const getProjectsLocationsOdbNetworks: API.OperationMethod<
 export type GetProjectsLocationsOdbNetworksOdbSubnetsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets details of a single ODB Subnet. */
 export const getProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<
@@ -9650,7 +9896,7 @@ export const getProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsOdbNetworksOdbSubnetsRequest,
   output: OdbSubnet,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9658,6 +9904,7 @@ export const getProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<
 export type GetProjectsLocationsOperationsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<
@@ -9668,7 +9915,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9676,6 +9923,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
 export type GetProjectsLocationsPluggableDatabasesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets details of a single PluggableDatabase. */
 export const getProjectsLocationsPluggableDatabases: API.OperationMethod<
@@ -9686,7 +9934,7 @@ export const getProjectsLocationsPluggableDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsPluggableDatabasesRequest,
   output: PluggableDatabase,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9694,6 +9942,7 @@ export const getProjectsLocationsPluggableDatabases: API.OperationMethod<
 export type GetRefreshableClonesProjectsLocationsAutonomousDatabasesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets the refreshable clones for a given Autonomous Database. */
 export const getRefreshableClonesProjectsLocationsAutonomousDatabases: API.OperationMethod<
@@ -9704,12 +9953,16 @@ export const getRefreshableClonesProjectsLocationsAutonomousDatabases: API.Opera
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRefreshableClonesProjectsLocationsAutonomousDatabasesRequest,
   output: AutonomousDatabaseRefreshableClones,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
+export type ListProjectsLocationsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists information about the supported locations for this service. This method lists locations based on the resource scope provided in the ListLocationsRequest.name field: * **Global locations**: If `name` is empty, the method lists the public locations available to all projects. * **Project-specific locations**: If `name` follows the format `projects/{project}`, the method lists locations visible to that specific project. This includes public, private, or other project-specific locations enabled for the project. For gRPC and client library implementations, the resource name is passed as the `name` field. For direct service calls, the resource name is incorporated into the request path based on the specific service implementation and version. */
 export const listProjectsLocations: API.PaginatedOperationMethod<
   ListProjectsLocationsRequest,
@@ -9720,7 +9973,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListLocationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9732,6 +9985,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
 export type ListProjectsLocationsAutonomousDatabaseBackupsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists the long-term and automatic backups of an Autonomous Database. */
 export const listProjectsLocationsAutonomousDatabaseBackups: API.PaginatedOperationMethod<
@@ -9743,7 +9997,7 @@ export const listProjectsLocationsAutonomousDatabaseBackups: API.PaginatedOperat
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAutonomousDatabaseBackupsRequest,
   output: ListAutonomousDatabaseBackupsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9755,6 +10009,7 @@ export const listProjectsLocationsAutonomousDatabaseBackups: API.PaginatedOperat
 export type ListProjectsLocationsAutonomousDatabaseCharacterSetsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists Autonomous Database Character Sets in a given project and location. */
 export const listProjectsLocationsAutonomousDatabaseCharacterSets: API.PaginatedOperationMethod<
@@ -9766,7 +10021,7 @@ export const listProjectsLocationsAutonomousDatabaseCharacterSets: API.Paginated
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAutonomousDatabaseCharacterSetsRequest,
   output: ListAutonomousDatabaseCharacterSetsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9778,6 +10033,7 @@ export const listProjectsLocationsAutonomousDatabaseCharacterSets: API.Paginated
 export type ListProjectsLocationsAutonomousDatabasesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists the Autonomous Databases in a given project and location. */
 export const listProjectsLocationsAutonomousDatabases: API.PaginatedOperationMethod<
@@ -9789,7 +10045,7 @@ export const listProjectsLocationsAutonomousDatabases: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAutonomousDatabasesRequest,
   output: ListAutonomousDatabasesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9801,6 +10057,7 @@ export const listProjectsLocationsAutonomousDatabases: API.PaginatedOperationMet
 export type ListProjectsLocationsAutonomousDbVersionsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all the available Autonomous Database versions for a project and location. */
 export const listProjectsLocationsAutonomousDbVersions: API.PaginatedOperationMethod<
@@ -9812,7 +10069,7 @@ export const listProjectsLocationsAutonomousDbVersions: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAutonomousDbVersionsRequest,
   output: ListAutonomousDbVersionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9824,6 +10081,7 @@ export const listProjectsLocationsAutonomousDbVersions: API.PaginatedOperationMe
 export type ListProjectsLocationsCloudExadataInfrastructuresError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists Exadata Infrastructures in a given project and location. */
 export const listProjectsLocationsCloudExadataInfrastructures: API.PaginatedOperationMethod<
@@ -9835,7 +10093,7 @@ export const listProjectsLocationsCloudExadataInfrastructures: API.PaginatedOper
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCloudExadataInfrastructuresRequest,
   output: ListCloudExadataInfrastructuresResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9847,6 +10105,7 @@ export const listProjectsLocationsCloudExadataInfrastructures: API.PaginatedOper
 export type ListProjectsLocationsCloudExadataInfrastructuresDbServersError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists the database servers of an Exadata Infrastructure instance. */
 export const listProjectsLocationsCloudExadataInfrastructuresDbServers: API.PaginatedOperationMethod<
@@ -9858,7 +10117,7 @@ export const listProjectsLocationsCloudExadataInfrastructuresDbServers: API.Pagi
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCloudExadataInfrastructuresDbServersRequest,
   output: ListDbServersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9870,6 +10129,7 @@ export const listProjectsLocationsCloudExadataInfrastructuresDbServers: API.Pagi
 export type ListProjectsLocationsCloudVmClustersError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists the VM Clusters in a given project and location. */
 export const listProjectsLocationsCloudVmClusters: API.PaginatedOperationMethod<
@@ -9881,7 +10141,7 @@ export const listProjectsLocationsCloudVmClusters: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCloudVmClustersRequest,
   output: ListCloudVmClustersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9893,6 +10153,7 @@ export const listProjectsLocationsCloudVmClusters: API.PaginatedOperationMethod<
 export type ListProjectsLocationsCloudVmClustersDbNodesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists the database nodes of a VM Cluster. */
 export const listProjectsLocationsCloudVmClustersDbNodes: API.PaginatedOperationMethod<
@@ -9904,7 +10165,7 @@ export const listProjectsLocationsCloudVmClustersDbNodes: API.PaginatedOperation
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCloudVmClustersDbNodesRequest,
   output: ListDbNodesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9916,6 +10177,7 @@ export const listProjectsLocationsCloudVmClustersDbNodes: API.PaginatedOperation
 export type ListProjectsLocationsDatabaseCharacterSetsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** List DatabaseCharacterSets for the given project and location. */
 export const listProjectsLocationsDatabaseCharacterSets: API.PaginatedOperationMethod<
@@ -9927,7 +10189,7 @@ export const listProjectsLocationsDatabaseCharacterSets: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDatabaseCharacterSetsRequest,
   output: ListDatabaseCharacterSetsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9939,6 +10201,7 @@ export const listProjectsLocationsDatabaseCharacterSets: API.PaginatedOperationM
 export type ListProjectsLocationsDatabasesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all the Databases for the given project, location and DbSystem. */
 export const listProjectsLocationsDatabases: API.PaginatedOperationMethod<
@@ -9950,7 +10213,7 @@ export const listProjectsLocationsDatabases: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDatabasesRequest,
   output: ListDatabasesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9962,6 +10225,7 @@ export const listProjectsLocationsDatabases: API.PaginatedOperationMethod<
 export type ListProjectsLocationsDbSystemInitialStorageSizesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all the DbSystemInitialStorageSizes for the given project and location. */
 export const listProjectsLocationsDbSystemInitialStorageSizes: API.PaginatedOperationMethod<
@@ -9973,7 +10237,7 @@ export const listProjectsLocationsDbSystemInitialStorageSizes: API.PaginatedOper
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDbSystemInitialStorageSizesRequest,
   output: ListDbSystemInitialStorageSizesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9985,6 +10249,7 @@ export const listProjectsLocationsDbSystemInitialStorageSizes: API.PaginatedOper
 export type ListProjectsLocationsDbSystemsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all the DbSystems for the given project and location. */
 export const listProjectsLocationsDbSystems: API.PaginatedOperationMethod<
@@ -9996,7 +10261,7 @@ export const listProjectsLocationsDbSystems: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDbSystemsRequest,
   output: ListDbSystemsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10008,6 +10273,7 @@ export const listProjectsLocationsDbSystems: API.PaginatedOperationMethod<
 export type ListProjectsLocationsDbSystemShapesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists the database system shapes available for the project and location. */
 export const listProjectsLocationsDbSystemShapes: API.PaginatedOperationMethod<
@@ -10019,7 +10285,7 @@ export const listProjectsLocationsDbSystemShapes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDbSystemShapesRequest,
   output: ListDbSystemShapesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10031,6 +10297,7 @@ export const listProjectsLocationsDbSystemShapes: API.PaginatedOperationMethod<
 export type ListProjectsLocationsDbVersionsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** List DbVersions for the given project and location. */
 export const listProjectsLocationsDbVersions: API.PaginatedOperationMethod<
@@ -10042,7 +10309,7 @@ export const listProjectsLocationsDbVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDbVersionsRequest,
   output: ListDbVersionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10054,6 +10321,7 @@ export const listProjectsLocationsDbVersions: API.PaginatedOperationMethod<
 export type ListProjectsLocationsEntitlementsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists the entitlements in a given project. */
 export const listProjectsLocationsEntitlements: API.PaginatedOperationMethod<
@@ -10065,7 +10333,7 @@ export const listProjectsLocationsEntitlements: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsEntitlementsRequest,
   output: ListEntitlementsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10077,6 +10345,7 @@ export const listProjectsLocationsEntitlements: API.PaginatedOperationMethod<
 export type ListProjectsLocationsExadbVmClustersError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all the Exadb (Exascale) VM Clusters for the given project and location. */
 export const listProjectsLocationsExadbVmClusters: API.PaginatedOperationMethod<
@@ -10088,7 +10357,7 @@ export const listProjectsLocationsExadbVmClusters: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsExadbVmClustersRequest,
   output: ListExadbVmClustersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10100,6 +10369,7 @@ export const listProjectsLocationsExadbVmClusters: API.PaginatedOperationMethod<
 export type ListProjectsLocationsExadbVmClustersDbNodesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists the database nodes of a VM Cluster. */
 export const listProjectsLocationsExadbVmClustersDbNodes: API.PaginatedOperationMethod<
@@ -10111,7 +10381,7 @@ export const listProjectsLocationsExadbVmClustersDbNodes: API.PaginatedOperation
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsExadbVmClustersDbNodesRequest,
   output: ListDbNodesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10123,6 +10393,7 @@ export const listProjectsLocationsExadbVmClustersDbNodes: API.PaginatedOperation
 export type ListProjectsLocationsExascaleDbStorageVaultsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all the ExascaleDB Storage Vaults for the given project and location. */
 export const listProjectsLocationsExascaleDbStorageVaults: API.PaginatedOperationMethod<
@@ -10134,7 +10405,7 @@ export const listProjectsLocationsExascaleDbStorageVaults: API.PaginatedOperatio
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsExascaleDbStorageVaultsRequest,
   output: ListExascaleDbStorageVaultsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10146,6 +10417,7 @@ export const listProjectsLocationsExascaleDbStorageVaults: API.PaginatedOperatio
 export type ListProjectsLocationsGiVersionsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all the valid Oracle Grid Infrastructure (GI) versions for the given project and location. */
 export const listProjectsLocationsGiVersions: API.PaginatedOperationMethod<
@@ -10157,7 +10429,7 @@ export const listProjectsLocationsGiVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsGiVersionsRequest,
   output: ListGiVersionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10169,6 +10441,7 @@ export const listProjectsLocationsGiVersions: API.PaginatedOperationMethod<
 export type ListProjectsLocationsGiVersionsMinorVersionsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all the valid minor versions for the given project, location, gi version and shape family. */
 export const listProjectsLocationsGiVersionsMinorVersions: API.PaginatedOperationMethod<
@@ -10180,7 +10453,7 @@ export const listProjectsLocationsGiVersionsMinorVersions: API.PaginatedOperatio
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsGiVersionsMinorVersionsRequest,
   output: ListMinorVersionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10192,6 +10465,7 @@ export const listProjectsLocationsGiVersionsMinorVersions: API.PaginatedOperatio
 export type ListProjectsLocationsGoldengateConnectionAssignmentsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists GoldengateConnectionAssignments in a given project and location. */
 export const listProjectsLocationsGoldengateConnectionAssignments: API.PaginatedOperationMethod<
@@ -10203,7 +10477,7 @@ export const listProjectsLocationsGoldengateConnectionAssignments: API.Paginated
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsGoldengateConnectionAssignmentsRequest,
   output: ListGoldengateConnectionAssignmentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10215,6 +10489,7 @@ export const listProjectsLocationsGoldengateConnectionAssignments: API.Paginated
 export type ListProjectsLocationsGoldengateConnectionsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all the GoldengateConnections for the given project and location. */
 export const listProjectsLocationsGoldengateConnections: API.PaginatedOperationMethod<
@@ -10226,7 +10501,7 @@ export const listProjectsLocationsGoldengateConnections: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsGoldengateConnectionsRequest,
   output: ListGoldengateConnectionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10238,6 +10513,7 @@ export const listProjectsLocationsGoldengateConnections: API.PaginatedOperationM
 export type ListProjectsLocationsGoldengateConnectionTypesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists GoldengateConnectionTypes in a given project and location. */
 export const listProjectsLocationsGoldengateConnectionTypes: API.PaginatedOperationMethod<
@@ -10249,7 +10525,7 @@ export const listProjectsLocationsGoldengateConnectionTypes: API.PaginatedOperat
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsGoldengateConnectionTypesRequest,
   output: ListGoldengateConnectionTypesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10261,6 +10537,7 @@ export const listProjectsLocationsGoldengateConnectionTypes: API.PaginatedOperat
 export type ListProjectsLocationsGoldengateDeploymentEnvironmentsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists GoldengateDeploymentEnvironments in a given project and location. */
 export const listProjectsLocationsGoldengateDeploymentEnvironments: API.PaginatedOperationMethod<
@@ -10272,7 +10549,7 @@ export const listProjectsLocationsGoldengateDeploymentEnvironments: API.Paginate
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsGoldengateDeploymentEnvironmentsRequest,
   output: ListGoldengateDeploymentEnvironmentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10284,6 +10561,7 @@ export const listProjectsLocationsGoldengateDeploymentEnvironments: API.Paginate
 export type ListProjectsLocationsGoldengateDeploymentsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all the GoldengateDeployments for the given project and location. */
 export const listProjectsLocationsGoldengateDeployments: API.PaginatedOperationMethod<
@@ -10295,7 +10573,7 @@ export const listProjectsLocationsGoldengateDeployments: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsGoldengateDeploymentsRequest,
   output: ListGoldengateDeploymentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10307,6 +10585,7 @@ export const listProjectsLocationsGoldengateDeployments: API.PaginatedOperationM
 export type ListProjectsLocationsGoldengateDeploymentTypesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists GoldenGateDeploymentTypes in a given project and location. */
 export const listProjectsLocationsGoldengateDeploymentTypes: API.PaginatedOperationMethod<
@@ -10318,7 +10597,7 @@ export const listProjectsLocationsGoldengateDeploymentTypes: API.PaginatedOperat
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsGoldengateDeploymentTypesRequest,
   output: ListGoldengateDeploymentTypesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10330,6 +10609,7 @@ export const listProjectsLocationsGoldengateDeploymentTypes: API.PaginatedOperat
 export type ListProjectsLocationsGoldengateDeploymentVersionsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists GoldengateDeploymentVersions in a given project and location. */
 export const listProjectsLocationsGoldengateDeploymentVersions: API.PaginatedOperationMethod<
@@ -10341,7 +10621,7 @@ export const listProjectsLocationsGoldengateDeploymentVersions: API.PaginatedOpe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsGoldengateDeploymentVersionsRequest,
   output: ListGoldengateDeploymentVersionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10353,6 +10633,7 @@ export const listProjectsLocationsGoldengateDeploymentVersions: API.PaginatedOpe
 export type ListProjectsLocationsOdbNetworksError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists the ODB Networks in a given project and location. */
 export const listProjectsLocationsOdbNetworks: API.PaginatedOperationMethod<
@@ -10364,7 +10645,7 @@ export const listProjectsLocationsOdbNetworks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsOdbNetworksRequest,
   output: ListOdbNetworksResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10376,6 +10657,7 @@ export const listProjectsLocationsOdbNetworks: API.PaginatedOperationMethod<
 export type ListProjectsLocationsOdbNetworksOdbSubnetsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all the ODB Subnets in a given ODB Network. */
 export const listProjectsLocationsOdbNetworksOdbSubnets: API.PaginatedOperationMethod<
@@ -10387,7 +10669,7 @@ export const listProjectsLocationsOdbNetworksOdbSubnets: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsOdbNetworksOdbSubnetsRequest,
   output: ListOdbSubnetsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10399,6 +10681,7 @@ export const listProjectsLocationsOdbNetworksOdbSubnets: API.PaginatedOperationM
 export type ListProjectsLocationsOperationsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
@@ -10410,7 +10693,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListOperationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10422,6 +10705,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
 export type ListProjectsLocationsPluggableDatabasesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all the PluggableDatabases for the given project, location and Container Database. */
 export const listProjectsLocationsPluggableDatabases: API.PaginatedOperationMethod<
@@ -10433,7 +10717,7 @@ export const listProjectsLocationsPluggableDatabases: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsPluggableDatabasesRequest,
   output: ListPluggableDatabasesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10447,6 +10731,7 @@ export type PatchProjectsLocationsAutonomousDatabasesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the parameters of a single Autonomous Database. */
 export const patchProjectsLocationsAutonomousDatabases: API.OperationMethod<
@@ -10457,7 +10742,14 @@ export const patchProjectsLocationsAutonomousDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsAutonomousDatabasesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10467,6 +10759,7 @@ export type PatchProjectsLocationsExadbVmClustersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates a single Exadb (Exascale) VM Cluster. To add virtual machines to existing exadb vm cluster, only pass the node count. */
 export const patchProjectsLocationsExadbVmClusters: API.OperationMethod<
@@ -10477,7 +10770,14 @@ export const patchProjectsLocationsExadbVmClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsExadbVmClustersRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10487,6 +10787,7 @@ export type RefreshProjectsLocationsAutonomousDatabasesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Refreshes the refreshable clone of an Autonomous Database. */
 export const refreshProjectsLocationsAutonomousDatabases: API.OperationMethod<
@@ -10497,7 +10798,14 @@ export const refreshProjectsLocationsAutonomousDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RefreshProjectsLocationsAutonomousDatabasesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10507,6 +10815,7 @@ export type RemoveVirtualMachineProjectsLocationsExadbVmClustersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Removes virtual machines from an existing exadb vm cluster. */
 export const removeVirtualMachineProjectsLocationsExadbVmClusters: API.OperationMethod<
@@ -10517,7 +10826,14 @@ export const removeVirtualMachineProjectsLocationsExadbVmClusters: API.Operation
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveVirtualMachineProjectsLocationsExadbVmClustersRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10527,6 +10843,7 @@ export type RestartProjectsLocationsAutonomousDatabasesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Restarts an Autonomous Database. */
 export const restartProjectsLocationsAutonomousDatabases: API.OperationMethod<
@@ -10537,7 +10854,14 @@ export const restartProjectsLocationsAutonomousDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RestartProjectsLocationsAutonomousDatabasesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10547,6 +10871,7 @@ export type RestoreProjectsLocationsAutonomousDatabasesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Restores a single Autonomous Database. */
 export const restoreProjectsLocationsAutonomousDatabases: API.OperationMethod<
@@ -10557,7 +10882,14 @@ export const restoreProjectsLocationsAutonomousDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RestoreProjectsLocationsAutonomousDatabasesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10567,6 +10899,7 @@ export type StartProjectsLocationsAutonomousDatabasesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Starts an Autonomous Database. */
 export const startProjectsLocationsAutonomousDatabases: API.OperationMethod<
@@ -10577,7 +10910,14 @@ export const startProjectsLocationsAutonomousDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartProjectsLocationsAutonomousDatabasesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10587,6 +10927,7 @@ export type StartProjectsLocationsGoldengateDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Starts a single GoldengateDeployment. */
 export const startProjectsLocationsGoldengateDeployments: API.OperationMethod<
@@ -10597,7 +10938,14 @@ export const startProjectsLocationsGoldengateDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartProjectsLocationsGoldengateDeploymentsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10607,6 +10955,7 @@ export type StopProjectsLocationsAutonomousDatabasesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Stops an Autonomous Database. */
 export const stopProjectsLocationsAutonomousDatabases: API.OperationMethod<
@@ -10617,7 +10966,14 @@ export const stopProjectsLocationsAutonomousDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopProjectsLocationsAutonomousDatabasesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10627,6 +10983,7 @@ export type StopProjectsLocationsGoldengateDeploymentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Stops a single GoldengateDeployment. */
 export const stopProjectsLocationsGoldengateDeployments: API.OperationMethod<
@@ -10637,7 +10994,14 @@ export const stopProjectsLocationsGoldengateDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopProjectsLocationsGoldengateDeploymentsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10647,6 +11011,7 @@ export type SwitchoverProjectsLocationsAutonomousDatabasesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Initiates a switchover of specified autonomous database to the associated peer database. */
 export const switchoverProjectsLocationsAutonomousDatabases: API.OperationMethod<
@@ -10657,7 +11022,14 @@ export const switchoverProjectsLocationsAutonomousDatabases: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: SwitchoverProjectsLocationsAutonomousDatabasesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10667,6 +11039,7 @@ export type TestProjectsLocationsGoldengateConnectionAssignmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Tests a single GoldengateConnectionAssignment. */
 export const testProjectsLocationsGoldengateConnectionAssignments: API.OperationMethod<
@@ -10677,7 +11050,14 @@ export const testProjectsLocationsGoldengateConnectionAssignments: API.Operation
 > = /*@__PURE__*/ API.make(() => ({
   input: TestProjectsLocationsGoldengateConnectionAssignmentsRequest,
   output: TestGoldengateConnectionAssignmentResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

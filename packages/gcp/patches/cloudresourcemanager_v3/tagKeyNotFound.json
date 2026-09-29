@@ -1,0 +1,61 @@
+{
+  "description": "Type the 403 Resource Manager returns for a TagKey that does not exist ('Permission denied on resource ... (or it may not exist).'). It surfaced as a generic Forbidden, indistinguishable from a real permission denial.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#TagKeyNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The TagKey does not exist, or the caller cannot see it. Resource Manager answers both with HTTP 403 'Permission denied on resource ... (or it may not exist).'; a denial of an existing TagKey names the missing permission instead.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "(or it may not exist)"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#GetTagKeys/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#TagKeyNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#GetNamespacedTagKeys/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#TagKeyNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#DeleteTagKeys/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#TagKeyNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#PatchTagKeys/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#TagKeyNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#GetIamPolicyTagKeys/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#TagKeyNotFound"
+      }
+    }
+  ]
+}

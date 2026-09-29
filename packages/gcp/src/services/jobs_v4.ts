@@ -65,6 +65,31 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The project has not granted Cloud Talent Solution permission to access job and behavioral data (HTTP 400: 'Service must be permitted to access job and behavioral data'). Onboard the project in the Talent Solution console; not retryable. */
+export class TalentDataPermissionRequired
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<TalentDataPermissionRequired>()(
+      "TalentDataPermissionRequired",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withBadRequestError),
+    [
+      {
+        status: 400,
+        message: {
+          includes:
+            "Service must be permitted to access job and behavioral data",
+        },
+      },
+    ],
+  ) {}
+
 export type JobDegreeTypesItemEnum =
   | "DEGREE_TYPE_UNSPECIFIED"
   | "PRIMARY_EDUCATION"
@@ -2146,6 +2171,7 @@ export type CreateProjectsTenantsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | TalentDataPermissionRequired
   | GcpOpError;
 /** Creates a new tenant entity. */
 export const createProjectsTenants: API.OperationMethod<
@@ -2156,7 +2182,14 @@ export const createProjectsTenants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsTenantsRequest,
   output: Tenant,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    TalentDataPermissionRequired,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2186,6 +2219,7 @@ export type CreateProjectsTenantsCompaniesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | TalentDataPermissionRequired
   | GcpOpError;
 /** Creates a new company entity. */
 export const createProjectsTenantsCompanies: API.OperationMethod<
@@ -2196,7 +2230,14 @@ export const createProjectsTenantsCompanies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsTenantsCompaniesRequest,
   output: Company,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    TalentDataPermissionRequired,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2206,6 +2247,7 @@ export type CreateProjectsTenantsJobsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | TalentDataPermissionRequired
   | GcpOpError;
 /** Creates a new job. Typically, the job becomes searchable within 10 seconds, but it may take up to 5 minutes. */
 export const createProjectsTenantsJobs: API.OperationMethod<
@@ -2216,7 +2258,14 @@ export const createProjectsTenantsJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsTenantsJobsRequest,
   output: Job,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    TalentDataPermissionRequired,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2296,7 +2345,11 @@ export const getProjectsOperations: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetProjectsTenantsError = NotFound | Forbidden | GcpOpError;
+export type GetProjectsTenantsError =
+  | NotFound
+  | Forbidden
+  | TalentDataPermissionRequired
+  | GcpOpError;
 /** Retrieves specified tenant. */
 export const getProjectsTenants: API.OperationMethod<
   GetProjectsTenantsRequest,
@@ -2306,7 +2359,7 @@ export const getProjectsTenants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsTenantsRequest,
   output: Tenant,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, TalentDataPermissionRequired, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2314,6 +2367,7 @@ export const getProjectsTenants: API.OperationMethod<
 export type GetProjectsTenantsCompaniesError =
   | NotFound
   | Forbidden
+  | TalentDataPermissionRequired
   | GcpOpError;
 /** Retrieves specified company. */
 export const getProjectsTenantsCompanies: API.OperationMethod<
@@ -2324,12 +2378,16 @@ export const getProjectsTenantsCompanies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsTenantsCompaniesRequest,
   output: Company,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, TalentDataPermissionRequired, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetProjectsTenantsJobsError = NotFound | Forbidden | GcpOpError;
+export type GetProjectsTenantsJobsError =
+  | NotFound
+  | Forbidden
+  | TalentDataPermissionRequired
+  | GcpOpError;
 /** Retrieves the specified job, whose status is OPEN or recently EXPIRED within the last 90 days. */
 export const getProjectsTenantsJobs: API.OperationMethod<
   GetProjectsTenantsJobsRequest,
@@ -2339,12 +2397,16 @@ export const getProjectsTenantsJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsTenantsJobsRequest,
   output: Job,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, TalentDataPermissionRequired, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListProjectsTenantsError = NotFound | Forbidden | GcpOpError;
+export type ListProjectsTenantsError =
+  | NotFound
+  | Forbidden
+  | TalentDataPermissionRequired
+  | GcpOpError;
 /** Lists all tenants associated with the project. */
 export const listProjectsTenants: API.PaginatedOperationMethod<
   ListProjectsTenantsRequest,
@@ -2355,7 +2417,7 @@ export const listProjectsTenants: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsTenantsRequest,
   output: ListTenantsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, TalentDataPermissionRequired, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2367,6 +2429,7 @@ export const listProjectsTenants: API.PaginatedOperationMethod<
 export type ListProjectsTenantsCompaniesError =
   | NotFound
   | Forbidden
+  | TalentDataPermissionRequired
   | GcpOpError;
 /** Lists all companies associated with the project. */
 export const listProjectsTenantsCompanies: API.PaginatedOperationMethod<
@@ -2378,7 +2441,7 @@ export const listProjectsTenantsCompanies: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsTenantsCompaniesRequest,
   output: ListCompaniesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, TalentDataPermissionRequired, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2387,7 +2450,11 @@ export const listProjectsTenantsCompanies: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListProjectsTenantsJobsError = NotFound | Forbidden | GcpOpError;
+export type ListProjectsTenantsJobsError =
+  | NotFound
+  | Forbidden
+  | TalentDataPermissionRequired
+  | GcpOpError;
 /** Lists jobs by filter. */
 export const listProjectsTenantsJobs: API.PaginatedOperationMethod<
   ListProjectsTenantsJobsRequest,
@@ -2398,7 +2465,7 @@ export const listProjectsTenantsJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsTenantsJobsRequest,
   output: ListJobsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, TalentDataPermissionRequired, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2412,6 +2479,7 @@ export type PatchProjectsTenantsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | TalentDataPermissionRequired
   | GcpOpError;
 /** Updates specified tenant. */
 export const patchProjectsTenants: API.OperationMethod<
@@ -2422,7 +2490,14 @@ export const patchProjectsTenants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsTenantsRequest,
   output: Tenant,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    TalentDataPermissionRequired,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2432,6 +2507,7 @@ export type PatchProjectsTenantsCompaniesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | TalentDataPermissionRequired
   | GcpOpError;
 /** Updates specified company. */
 export const patchProjectsTenantsCompanies: API.OperationMethod<
@@ -2442,7 +2518,14 @@ export const patchProjectsTenantsCompanies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsTenantsCompaniesRequest,
   output: Company,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    TalentDataPermissionRequired,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2452,6 +2535,7 @@ export type PatchProjectsTenantsJobsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | TalentDataPermissionRequired
   | GcpOpError;
 /** Updates specified job. Typically, updated contents become visible in search results within 10 seconds, but it may take up to 5 minutes. */
 export const patchProjectsTenantsJobs: API.OperationMethod<
@@ -2462,7 +2546,14 @@ export const patchProjectsTenantsJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsTenantsJobsRequest,
   output: Job,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    TalentDataPermissionRequired,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

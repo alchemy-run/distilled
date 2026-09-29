@@ -65,6 +65,45 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The revision is the scorecard's only revision and cannot be deleted on its own (HTTP 400 FAILED_PRECONDITION); it goes away with the scorecard. Not retryable. */
+export class QaScorecardOnlyRevision
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<QaScorecardOnlyRevision>()(
+      "QaScorecardOnlyRevision",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withBadRequestError),
+    [
+      {
+        status: 400,
+        message: { includes: "only revision of a scorecard cannot be deleted" },
+      },
+    ],
+  ) {}
+
+/** The scorecard revision is not in a state that allows this change (HTTP 400 FAILED_PRECONDITION 'Precondition check failed.'), e.g. a new revision while the current one is still being created. Retryable briefly. */
+export class QaScorecardPreconditionFailed
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<QaScorecardPreconditionFailed>()(
+      "QaScorecardPreconditionFailed",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withBadRequestError),
+    [{ status: 400, message: { includes: "Precondition check failed" } }],
+  ) {}
+
 /** The message to appeal an assessment. */
 export interface GoogleCloudContactcenterinsightsV1AppealAssessmentRequest {}
 export const GoogleCloudContactcenterinsightsV1AppealAssessmentRequest =
@@ -12251,6 +12290,7 @@ export type CreateProjectsLocationsQaScorecardsRevisionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | QaScorecardPreconditionFailed
   | GcpOpError;
 /** Creates a QaScorecardRevision. */
 export const createProjectsLocationsQaScorecardsRevisions: API.OperationMethod<
@@ -12261,7 +12301,14 @@ export const createProjectsLocationsQaScorecardsRevisions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsQaScorecardsRevisionsRequest,
   output: GoogleCloudContactcenterinsightsV1QaScorecardRevision,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    QaScorecardPreconditionFailed,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -12271,6 +12318,7 @@ export type CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | QaScorecardPreconditionFailed
   | GcpOpError;
 /** Create a QaQuestion. */
 export const createProjectsLocationsQaScorecardsRevisionsQaQuestions: API.OperationMethod<
@@ -12281,7 +12329,14 @@ export const createProjectsLocationsQaScorecardsRevisionsQaQuestions: API.Operat
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest,
   output: GoogleCloudContactcenterinsightsV1QaQuestion,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    QaScorecardPreconditionFailed,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -12795,6 +12850,7 @@ export type DeleteProjectsLocationsQaScorecardsRevisionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | QaScorecardOnlyRevision
   | GcpOpError;
 /** Deletes a QaScorecardRevision. */
 export const deleteProjectsLocationsQaScorecardsRevisions: API.OperationMethod<
@@ -12805,7 +12861,14 @@ export const deleteProjectsLocationsQaScorecardsRevisions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsQaScorecardsRevisionsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    QaScorecardOnlyRevision,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

@@ -1,0 +1,54 @@
+{
+  "description": "Type querying a reasoning engine without running instances; it surfaced as a generic BadRequest. Observed live 2026-09-29 on queryProjectsLocationsReasoningEngines against an engine created without spec.package_spec.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ReasoningEngineNotRunning",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The reasoning engine has no running instances, typically because it has no valid `spec.package_spec` (HTTP 400 FAILED_PRECONDITION/INVALID_ARGUMENT: 'The requested resource [...] does not have running instances.'). Deploy code to the engine; not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "does not have running instances"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#QueryProjectsLocationsReasoningEngines/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#ReasoningEngineNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#QueryReasoningEngines/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#ReasoningEngineNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#StreamQueryProjectsLocationsReasoningEngines/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#ReasoningEngineNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#StreamQueryReasoningEngines/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#ReasoningEngineNotRunning"
+      }
+    }
+  ]
+}

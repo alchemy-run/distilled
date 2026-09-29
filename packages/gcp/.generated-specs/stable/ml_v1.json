@@ -4016,6 +4016,9 @@
         },
         {
           "target": "com.gcp.ml_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.ml_v1#AiPlatformDeprecated"
         }
       ],
       "traits": {
@@ -4551,6 +4554,9 @@
         },
         {
           "target": "com.gcp.ml_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.ml_v1#AiPlatformDeprecated"
         }
       ],
       "traits": {
@@ -5772,6 +5778,23 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service."
+      }
+    },
+    "com.gcp.ml_v1#AiPlatformDeprecated": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "Cloud AI Platform (ML Engine) no longer accepts new models or versions for this project; use Vertex AI (HTTP 400).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "Cloud AI Platform has been deprecated"
+            }
+          }
+        ]
       }
     }
   }

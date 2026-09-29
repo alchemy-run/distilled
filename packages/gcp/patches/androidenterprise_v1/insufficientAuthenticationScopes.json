@@ -1,0 +1,145 @@
+{
+  "description": "Type the HTTP 403 the Play EMM API returns for a token without the androidenterprise scope. It surfaced as a generic Forbidden, indistinguishable from a missing IAM permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The credential lacks the https://www.googleapis.com/auth/androidenterprise OAuth scope (HTTP 403 'Request had insufficient authentication scopes.'). A Cloud Platform-scoped service account token cannot call the EMM API; not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#GetWebapps/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#InsertWebapps/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#UpdateWebapps/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#DeleteWebapps/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#ListWebapps/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#GetStorelayoutpages/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#InsertStorelayoutpages/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#UpdateStorelayoutpages/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#DeleteStorelayoutpages/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#ListStorelayoutpages/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#GetStorelayoutclusters/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#InsertStorelayoutclusters/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#UpdateStorelayoutclusters/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#DeleteStorelayoutclusters/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#ListStorelayoutclusters/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#GetEnterprises/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androidenterprise_v1#ListEnterprises/errors/-",
+      "value": {
+        "target": "com.gcp.androidenterprise_v1#InsufficientAuthenticationScopes"
+      }
+    }
+  ]
+}

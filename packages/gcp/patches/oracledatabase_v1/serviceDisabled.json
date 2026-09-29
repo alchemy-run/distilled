@@ -1,0 +1,635 @@
+{
+  "description": "Type the Oracle Database@Google Cloud API-disabled answer (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: 'Oracle Database@Google Cloud API has not been used in project N before or it is disabled.'). It surfaced as the generic Forbidden, so callers could not tell an unactivated service from a missing permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The Oracle Database@Google Cloud API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#CancelProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ConfigureExascaleProjectsLocationsCloudExadataInfrastructures/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#CreateProjectsLocationsAutonomousDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#CreateProjectsLocationsCloudExadataInfrastructures/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#CreateProjectsLocationsCloudVmClusters/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#CreateProjectsLocationsDbSystems/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#CreateProjectsLocationsExadbVmClusters/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#CreateProjectsLocationsExascaleDbStorageVaults/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#CreateProjectsLocationsGoldengateConnectionAssignments/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#CreateProjectsLocationsGoldengateConnections/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#CreateProjectsLocationsGoldengateDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#CreateProjectsLocationsOdbNetworks/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#CreateProjectsLocationsOdbNetworksOdbSubnets/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#DeleteProjectsLocationsAutonomousDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#DeleteProjectsLocationsCloudExadataInfrastructures/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#DeleteProjectsLocationsCloudVmClusters/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#DeleteProjectsLocationsDbSystems/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#DeleteProjectsLocationsExadbVmClusters/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#DeleteProjectsLocationsExascaleDbStorageVaults/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#DeleteProjectsLocationsGoldengateConnectionAssignments/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#DeleteProjectsLocationsGoldengateConnections/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#DeleteProjectsLocationsGoldengateDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#DeleteProjectsLocationsOdbNetworks/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#DeleteProjectsLocationsOdbNetworksOdbSubnets/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#DeleteProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#FailoverProjectsLocationsAutonomousDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GenerateWalletProjectsLocationsAutonomousDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocationsAutonomousDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocationsCloudExadataInfrastructures/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocationsCloudVmClusters/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocationsDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocationsDbSystems/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocationsExadbVmClusters/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocationsExascaleDbStorageVaults/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocationsGoldengateConnectionAssignments/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocationsGoldengateConnections/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocationsGoldengateDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocationsOdbNetworks/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocationsOdbNetworksOdbSubnets/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocationsPluggableDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetRefreshableClonesProjectsLocationsAutonomousDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsAutonomousDatabaseBackups/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsAutonomousDatabaseCharacterSets/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsAutonomousDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsAutonomousDbVersions/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsCloudExadataInfrastructures/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsCloudExadataInfrastructuresDbServers/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsCloudVmClusters/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsCloudVmClustersDbNodes/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsDatabaseCharacterSets/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsDbSystemInitialStorageSizes/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsDbSystemShapes/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsDbSystems/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsDbVersions/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsEntitlements/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsExadbVmClusters/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsExadbVmClustersDbNodes/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsExascaleDbStorageVaults/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGiVersions/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGiVersionsMinorVersions/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGoldengateConnectionAssignments/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGoldengateConnectionTypes/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGoldengateConnections/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGoldengateDeploymentEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGoldengateDeploymentTypes/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGoldengateDeploymentVersions/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGoldengateDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsOdbNetworks/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsOdbNetworksOdbSubnets/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsPluggableDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#PatchProjectsLocationsAutonomousDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#PatchProjectsLocationsExadbVmClusters/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#RefreshProjectsLocationsAutonomousDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#RemoveVirtualMachineProjectsLocationsExadbVmClusters/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#RestartProjectsLocationsAutonomousDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#RestoreProjectsLocationsAutonomousDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#StartProjectsLocationsAutonomousDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#StartProjectsLocationsGoldengateDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#StopProjectsLocationsAutonomousDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#StopProjectsLocationsGoldengateDeployments/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#SwitchoverProjectsLocationsAutonomousDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#TestProjectsLocationsGoldengateConnectionAssignments/errors/-",
+      "value": {
+        "target": "com.gcp.oracledatabase_v1#ServiceDisabled"
+      }
+    }
+  ]
+}

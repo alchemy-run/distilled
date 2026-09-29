@@ -52,6 +52,25 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT). */
+export class InsufficientScopes
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InsufficientScopes>()("InsufficientScopes", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -532,6 +551,7 @@ export type ClosePlatformsAccountsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Closes a sub-account. */
 export const closePlatformsAccounts: API.OperationMethod<
@@ -542,7 +562,14 @@ export const closePlatformsAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ClosePlatformsAccountsRequest,
   output: CloseAccountResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -552,6 +579,7 @@ export type CreatePlatformsAccountsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a sub-account. */
 export const createPlatformsAccounts: API.OperationMethod<
@@ -562,7 +590,14 @@ export const createPlatformsAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePlatformsAccountsRequest,
   output: Account,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -572,6 +607,7 @@ export type CreatePlatformsAccountsEventsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates an account event. */
 export const createPlatformsAccountsEvents: API.OperationMethod<
@@ -582,7 +618,14 @@ export const createPlatformsAccountsEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePlatformsAccountsEventsRequest,
   output: Event,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -592,6 +635,7 @@ export type CreatePlatformsAccountsSitesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a site for a specified account. */
 export const createPlatformsAccountsSites: API.OperationMethod<
@@ -602,7 +646,14 @@ export const createPlatformsAccountsSites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePlatformsAccountsSitesRequest,
   output: Site,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -612,6 +663,7 @@ export type DeletePlatformsAccountsSitesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a site from a specified account. */
 export const deletePlatformsAccountsSites: API.OperationMethod<
@@ -622,12 +674,23 @@ export const deletePlatformsAccountsSites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeletePlatformsAccountsSitesRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetPlatformsAccountsError = NotFound | Forbidden | GcpOpError;
+export type GetPlatformsAccountsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets information about the selected sub-account. */
 export const getPlatformsAccounts: API.OperationMethod<
   GetPlatformsAccountsRequest,
@@ -637,12 +700,16 @@ export const getPlatformsAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPlatformsAccountsRequest,
   output: Account,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetPlatformsAccountsSitesError = NotFound | Forbidden | GcpOpError;
+export type GetPlatformsAccountsSitesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a site from a specified sub-account. */
 export const getPlatformsAccountsSites: API.OperationMethod<
   GetPlatformsAccountsSitesRequest,
@@ -652,12 +719,16 @@ export const getPlatformsAccountsSites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPlatformsAccountsSitesRequest,
   output: Site,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListPlatformsAccountsError = NotFound | Forbidden | GcpOpError;
+export type ListPlatformsAccountsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists a partial view of sub-accounts for a specific parent account. */
 export const listPlatformsAccounts: API.PaginatedOperationMethod<
   ListPlatformsAccountsRequest,
@@ -668,7 +739,7 @@ export const listPlatformsAccounts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPlatformsAccountsRequest,
   output: ListAccountsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -677,7 +748,11 @@ export const listPlatformsAccounts: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListPlatformsAccountsSitesError = NotFound | Forbidden | GcpOpError;
+export type ListPlatformsAccountsSitesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists sites for a specific account. */
 export const listPlatformsAccountsSites: API.PaginatedOperationMethod<
   ListPlatformsAccountsSitesRequest,
@@ -688,7 +763,7 @@ export const listPlatformsAccountsSites: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPlatformsAccountsSitesRequest,
   output: ListSitesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -697,7 +772,11 @@ export const listPlatformsAccountsSites: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type LookupPlatformsAccountsError = NotFound | Forbidden | GcpOpError;
+export type LookupPlatformsAccountsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Looks up information about a sub-account for a specified creation_request_id. If no account exists for the given creation_request_id, returns 404. */
 export const lookupPlatformsAccounts: API.OperationMethod<
   LookupPlatformsAccountsRequest,
@@ -707,7 +786,7 @@ export const lookupPlatformsAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: LookupPlatformsAccountsRequest,
   output: LookupAccountResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -717,6 +796,7 @@ export type RequestReviewPlatformsAccountsSitesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Requests the review of a site. The site should be in REQUIRES_REVIEW or NEEDS_ATTENTION state. Note: Make sure you place an [ad tag](https://developers.google.com/adsense/platforms/direct/ad-tags) on your site before requesting a review. */
 export const requestReviewPlatformsAccountsSites: API.OperationMethod<
@@ -727,7 +807,14 @@ export const requestReviewPlatformsAccountsSites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RequestReviewPlatformsAccountsSitesRequest,
   output: RequestSiteReviewResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

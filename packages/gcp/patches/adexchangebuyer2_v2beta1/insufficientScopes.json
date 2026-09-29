@@ -1,0 +1,572 @@
+{
+  "description": "Type the OAuth-scope rejection (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). This API needs a product-specific OAuth scope that a cloud-platform token does not carry; it surfaced as the generic Forbidden, indistinguishable from a missing IAM permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#AcceptAccountsProposals/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#AddAccountsCreativesDealAssociations/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#AddNoteAccountsProposals/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#CancelNegotiationAccountsProposals/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#CompleteSetupAccountsProposals/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#CreateAccountsClients/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#CreateAccountsClientsInvitations/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#CreateAccountsCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#CreateAccountsProposals/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#CreateBiddersAccountsFilterSets/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#CreateBiddersFilterSets/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#CreateBuyersFilterSets/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#DeleteBiddersAccountsFilterSets/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#DeleteBiddersFilterSets/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#DeleteBuyersFilterSets/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#GetAccountsClients/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#GetAccountsClientsInvitations/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#GetAccountsClientsUsers/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#GetAccountsCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#GetAccountsProducts/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#GetAccountsProposals/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#GetAccountsPublisherProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#GetBiddersAccountsFilterSets/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#GetBiddersFilterSets/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#GetBuyersFilterSets/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListAccountsClients/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListAccountsClientsInvitations/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListAccountsClientsUsers/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListAccountsCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListAccountsCreativesDealAssociations/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListAccountsFinalizedProposals/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListAccountsProducts/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListAccountsProposals/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListAccountsPublisherProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersAccountsFilterSets/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersAccountsFilterSetsBidMetrics/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersAccountsFilterSetsBidResponseErrors/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersAccountsFilterSetsBidResponsesWithoutBids/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersAccountsFilterSetsFilteredBidRequests/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersAccountsFilterSetsFilteredBids/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersAccountsFilterSetsFilteredBidsCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersAccountsFilterSetsFilteredBidsDetails/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersAccountsFilterSetsImpressionMetrics/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersAccountsFilterSetsLosingBids/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersAccountsFilterSetsNonBillableWinningBids/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersFilterSets/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersFilterSetsBidMetrics/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersFilterSetsBidResponseErrors/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersFilterSetsBidResponsesWithoutBids/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersFilterSetsFilteredBidRequests/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersFilterSetsFilteredBids/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersFilterSetsFilteredBidsCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersFilterSetsFilteredBidsDetails/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersFilterSetsImpressionMetrics/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersFilterSetsLosingBids/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBiddersFilterSetsNonBillableWinningBids/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBuyersFilterSets/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBuyersFilterSetsBidMetrics/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBuyersFilterSetsBidResponseErrors/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBuyersFilterSetsBidResponsesWithoutBids/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBuyersFilterSetsFilteredBidRequests/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBuyersFilterSetsFilteredBids/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBuyersFilterSetsFilteredBidsCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBuyersFilterSetsFilteredBidsDetails/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBuyersFilterSetsImpressionMetrics/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBuyersFilterSetsLosingBids/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ListBuyersFilterSetsNonBillableWinningBids/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#PauseAccountsFinalizedProposals/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#PauseAccountsProposals/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#RemoveAccountsCreativesDealAssociations/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ResumeAccountsFinalizedProposals/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#ResumeAccountsProposals/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#StopWatchingAccountsCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#UpdateAccountsClients/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#UpdateAccountsClientsUsers/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#UpdateAccountsCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#UpdateAccountsProposals/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adexchangebuyer2_v2beta1#WatchAccountsCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
+      }
+    }
+  ]
+}

@@ -52,6 +52,23 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The policy's etag no longer matches the bucket's current IAM policy — another writer changed it concurrently (HTTP 412). Re-read the policy and retry. */
+export class IamPolicyEtagMismatch
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<IamPolicyEtagMismatch>()(
+      "IamPolicyEtagMismatch",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ),
+    [{ status: 412 }],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -63,6 +80,47 @@ export class NotFound
       details: S.optional(S.Array(S.Unknown)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
+  ) {}
+
+/** The Pub/Sub topic does not exist or the bucket's Cloud Storage service agent may not publish to it (HTTP 400). Retryable while a fresh roles/pubsub.publisher grant propagates. */
+export class NotificationTopicUnavailable
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotificationTopicUnavailable>()(
+      "NotificationTopicUnavailable",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withBadRequestError),
+    [{ status: 400, message: { includes: "Cloud Pub/Sub topic" } }],
+  ) {}
+
+/** The ACL entry is the object owner's OWNER grant, which Cloud Storage never removes (HTTP 403). Not retryable. */
+export class ObjectOwnerAclRequired
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ObjectOwnerAclRequired>()(
+      "ObjectOwnerAclRequired",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: {
+          includes: "owner of the resource is required to have OWNER access",
+        },
+      },
+    ],
   ) {}
 
 /** An AdvanceRelocateBucketOperation request. */
@@ -5036,6 +5094,7 @@ export type DeleteObjectAccessControlsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ObjectOwnerAclRequired
   | GcpOpError;
 /** Permanently deletes the ACL entry for the specified entity on the specified object. */
 export const deleteObjectAccessControls: API.OperationMethod<
@@ -5046,7 +5105,14 @@ export const deleteObjectAccessControls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteObjectAccessControlsRequest,
   output: DeleteObjectAccessControlsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ObjectOwnerAclRequired,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5534,6 +5600,7 @@ export type InsertNotificationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | NotificationTopicUnavailable
   | GcpOpError;
 /** Creates a notification subscription for a given bucket. */
 export const insertNotifications: API.OperationMethod<
@@ -5544,7 +5611,14 @@ export const insertNotifications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: InsertNotificationsRequest,
   output: Notification,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    NotificationTopicUnavailable,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6124,6 +6198,7 @@ export type SetIamPolicyBucketsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | IamPolicyEtagMismatch
   | GcpOpError;
 /** Updates an IAM policy for the specified bucket. */
 export const setIamPolicyBuckets: API.OperationMethod<
@@ -6134,7 +6209,14 @@ export const setIamPolicyBuckets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetIamPolicyBucketsRequest,
   output: Policy,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    IamPolicyEtagMismatch,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

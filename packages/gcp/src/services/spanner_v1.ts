@@ -65,6 +65,20 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The session does not exist: it expired after an hour idle, was deleted, or the server garbage-collected it (HTTP 404 NOT_FOUND: 'Session not found: projects/.../sessions/...'). Create a new session and retry. */
+export class SessionNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SessionNotFound>()("SessionNotFound", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
+    [{ status: 404, message: { includes: "Session not found" } }],
+  ) {}
+
 /** A session in the Cloud Spanner Adapter API. */
 export interface AdapterSession {
   /** Identifier. The name of the session. This is always system-assigned. */
@@ -5823,6 +5837,7 @@ export type BeginTransactionProjectsInstancesDatabasesSessionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SessionNotFound
   | GcpOpError;
 /** Begins a new transaction. This step can often be skipped: Read, ExecuteSql and Commit can begin a new transaction as a side-effect. */
 export const beginTransactionProjectsInstancesDatabasesSessions: API.OperationMethod<
@@ -5833,7 +5848,14 @@ export const beginTransactionProjectsInstancesDatabasesSessions: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: BeginTransactionProjectsInstancesDatabasesSessionsRequest,
   output: Transaction,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SessionNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5983,6 +6005,7 @@ export type CommitProjectsInstancesDatabasesSessionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SessionNotFound
   | GcpOpError;
 /** Commits a transaction. The request includes the mutations to be applied to rows in the database. `Commit` might return an `ABORTED` error. This can occur at any time; commonly, the cause is conflicts with concurrent transactions. However, it can also happen for a variety of other reasons. If `Commit` returns `ABORTED`, the caller should retry the transaction from the beginning, reusing the same session. On very rare occasions, `Commit` might return `UNKNOWN`. This can happen, for example, if the client job experiences a 1+ hour networking failure. At that point, Cloud Spanner has lost track of the transaction outcome and we recommend that you perform another read from the database to see the state of things as they are now. */
 export const commitProjectsInstancesDatabasesSessions: API.OperationMethod<
@@ -5993,7 +6016,14 @@ export const commitProjectsInstancesDatabasesSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CommitProjectsInstancesDatabasesSessionsRequest,
   output: CommitResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SessionNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6323,6 +6353,7 @@ export type DeleteProjectsInstancesDatabasesSessionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SessionNotFound
   | GcpOpError;
 /** Ends a session, releasing server resources associated with it. This asynchronously triggers the cancellation of any operations that are running with this session. */
 export const deleteProjectsInstancesDatabasesSessions: API.OperationMethod<
@@ -6333,7 +6364,14 @@ export const deleteProjectsInstancesDatabasesSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsInstancesDatabasesSessionsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SessionNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6423,6 +6461,7 @@ export type ExecuteBatchDmlProjectsInstancesDatabasesSessionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SessionNotFound
   | GcpOpError;
 /** Executes a batch of SQL DML statements. This method allows many statements to be run with lower latency than submitting them sequentially with ExecuteSql. Statements are executed in sequential order. A request can succeed even if a statement fails. The ExecuteBatchDmlResponse.status field in the response provides information about the statement that failed. Clients must inspect this field to determine whether an error occurred. Execution stops after the first failed statement; the remaining statements are not executed. */
 export const executeBatchDmlProjectsInstancesDatabasesSessions: API.OperationMethod<
@@ -6433,7 +6472,14 @@ export const executeBatchDmlProjectsInstancesDatabasesSessions: API.OperationMet
 > = /*@__PURE__*/ API.make(() => ({
   input: ExecuteBatchDmlProjectsInstancesDatabasesSessionsRequest,
   output: ExecuteBatchDmlResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SessionNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6443,6 +6489,7 @@ export type ExecuteSqlProjectsInstancesDatabasesSessionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SessionNotFound
   | GcpOpError;
 /** Executes an SQL statement, returning all results in a single reply. This method can't be used to return a result set larger than 10 MiB; if the query yields more data than that, the query fails with a `FAILED_PRECONDITION` error. Operations inside read-write transactions might return `ABORTED`. If this occurs, the application should restart the transaction from the beginning. See Transaction for more details. Larger result sets can be fetched in streaming fashion by calling ExecuteStreamingSql instead. The query string can be SQL or [Graph Query Language (GQL)](https://cloud.google.com/spanner/docs/reference/standard-sql/graph-intro). */
 export const executeSqlProjectsInstancesDatabasesSessions: API.OperationMethod<
@@ -6453,7 +6500,14 @@ export const executeSqlProjectsInstancesDatabasesSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExecuteSqlProjectsInstancesDatabasesSessionsRequest,
   output: ResultSet,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SessionNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6463,6 +6517,7 @@ export type ExecuteStreamingSqlProjectsInstancesDatabasesSessionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SessionNotFound
   | GcpOpError;
 /** Like ExecuteSql, except returns the result set as a stream. Unlike ExecuteSql, there is no limit on the size of the returned result set. However, no individual row in the result set can exceed 100 MiB, and no column value can exceed 10 MiB. The query string can be SQL or [Graph Query Language (GQL)](https://cloud.google.com/spanner/docs/reference/standard-sql/graph-intro). */
 export const executeStreamingSqlProjectsInstancesDatabasesSessions: API.OperationMethod<
@@ -6473,7 +6528,14 @@ export const executeStreamingSqlProjectsInstancesDatabasesSessions: API.Operatio
 > = /*@__PURE__*/ API.make(() => ({
   input: ExecuteStreamingSqlProjectsInstancesDatabasesSessionsRequest,
   output: PartialResultSet,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SessionNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6735,6 +6797,7 @@ export const getProjectsInstancesDatabasesOperations: API.OperationMethod<
 export type GetProjectsInstancesDatabasesSessionsError =
   | NotFound
   | Forbidden
+  | SessionNotFound
   | GcpOpError;
 /** Gets a session. Returns `NOT_FOUND` if the session doesn't exist. This is mainly useful for determining whether a session is still alive. */
 export const getProjectsInstancesDatabasesSessions: API.OperationMethod<
@@ -6745,7 +6808,7 @@ export const getProjectsInstancesDatabasesSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsInstancesDatabasesSessionsRequest,
   output: Session,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, SessionNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -7278,6 +7341,7 @@ export type PartitionQueryProjectsInstancesDatabasesSessionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SessionNotFound
   | GcpOpError;
 /** Creates a set of partition tokens that can be used to execute a query operation in parallel. Each of the returned partition tokens can be used by ExecuteStreamingSql to specify a subset of the query result to read. The same session and read-only transaction must be used by the `PartitionQueryRequest` used to create the partition tokens and the `ExecuteSqlRequests` that use the partition tokens. Partition tokens become invalid when the session used to create them is deleted, is idle for too long, begins a new transaction, or becomes too old. When any of these happen, it isn't possible to resume the query, and the whole operation must be restarted from the beginning. */
 export const partitionQueryProjectsInstancesDatabasesSessions: API.OperationMethod<
@@ -7288,7 +7352,14 @@ export const partitionQueryProjectsInstancesDatabasesSessions: API.OperationMeth
 > = /*@__PURE__*/ API.make(() => ({
   input: PartitionQueryProjectsInstancesDatabasesSessionsRequest,
   output: PartitionResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SessionNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -7298,6 +7369,7 @@ export type PartitionReadProjectsInstancesDatabasesSessionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SessionNotFound
   | GcpOpError;
 /** Creates a set of partition tokens that can be used to execute a read operation in parallel. Each of the returned partition tokens can be used by StreamingRead to specify a subset of the read result to read. The same session and read-only transaction must be used by the `PartitionReadRequest` used to create the partition tokens and the `ReadRequests` that use the partition tokens. There are no ordering guarantees on rows returned among the returned partition tokens, or even within each individual `StreamingRead` call issued with a `partition_token`. Partition tokens become invalid when the session used to create them is deleted, is idle for too long, begins a new transaction, or becomes too old. When any of these happen, it isn't possible to resume the read, and the whole operation must be restarted from the beginning. */
 export const partitionReadProjectsInstancesDatabasesSessions: API.OperationMethod<
@@ -7308,7 +7380,14 @@ export const partitionReadProjectsInstancesDatabasesSessions: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: PartitionReadProjectsInstancesDatabasesSessionsRequest,
   output: PartitionResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SessionNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -7438,6 +7517,7 @@ export type ReadProjectsInstancesDatabasesSessionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SessionNotFound
   | GcpOpError;
 /** Reads rows from the database using key lookups and scans, as a simple key/value style alternative to ExecuteSql. This method can't be used to return a result set larger than 10 MiB; if the read matches more data than that, the read fails with a `FAILED_PRECONDITION` error. Reads inside read-write transactions might return `ABORTED`. If this occurs, the application should restart the transaction from the beginning. See Transaction for more details. Larger result sets can be yielded in streaming fashion by calling StreamingRead instead. */
 export const readProjectsInstancesDatabasesSessions: API.OperationMethod<
@@ -7448,7 +7528,14 @@ export const readProjectsInstancesDatabasesSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ReadProjectsInstancesDatabasesSessionsRequest,
   output: ResultSet,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SessionNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -7478,6 +7565,7 @@ export type RollbackProjectsInstancesDatabasesSessionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SessionNotFound
   | GcpOpError;
 /** Rolls back a transaction, releasing any locks it holds. It's a good idea to call this for any transaction that includes one or more Read or ExecuteSql requests and ultimately decides not to commit. `Rollback` returns `OK` if it successfully aborts the transaction, the transaction was already aborted, or the transaction isn't found. `Rollback` never returns `ABORTED`. */
 export const rollbackProjectsInstancesDatabasesSessions: API.OperationMethod<
@@ -7488,7 +7576,14 @@ export const rollbackProjectsInstancesDatabasesSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RollbackProjectsInstancesDatabasesSessionsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SessionNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -7578,6 +7673,7 @@ export type StreamingReadProjectsInstancesDatabasesSessionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SessionNotFound
   | GcpOpError;
 /** Like Read, except returns the result set as a stream. Unlike Read, there is no limit on the size of the returned result set. However, no individual row in the result set can exceed 100 MiB, and no column value can exceed 10 MiB. */
 export const streamingReadProjectsInstancesDatabasesSessions: API.OperationMethod<
@@ -7588,7 +7684,14 @@ export const streamingReadProjectsInstancesDatabasesSessions: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: StreamingReadProjectsInstancesDatabasesSessionsRequest,
   output: PartialResultSet,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SessionNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

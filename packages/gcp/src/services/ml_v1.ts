@@ -13,6 +13,28 @@ import * as Retry from "../retry.ts";
 
 export type { GcpOpError, GcpOpContext };
 
+/** Cloud AI Platform (ML Engine) no longer accepts new models or versions for this project; use Vertex AI (HTTP 400). */
+export class AiPlatformDeprecated
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<AiPlatformDeprecated>()(
+      "AiPlatformDeprecated",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withBadRequestError),
+    [
+      {
+        status: 400,
+        message: { includes: "Cloud AI Platform has been deprecated" },
+      },
+    ],
+  ) {}
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -3260,6 +3282,7 @@ export type CreateProjectsModelsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AiPlatformDeprecated
   | GcpOpError;
 /** Creates a model which will later contain one or more versions. You must add at least one version before you can request predictions from the model. Add versions by calling projects.models.versions.create. */
 export const createProjectsModels: API.OperationMethod<
@@ -3270,7 +3293,14 @@ export const createProjectsModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsModelsRequest,
   output: GoogleCloudMlV1__Model,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AiPlatformDeprecated,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3280,6 +3310,7 @@ export type CreateProjectsModelsVersionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AiPlatformDeprecated
   | GcpOpError;
 /** Creates a new version of a model from a trained TensorFlow model. If the version created in the cloud by this call is the first deployed version of the specified model, it will be made the default version of the model. When you add a version to a model that already has one or more versions, the default version does not automatically change. If you want a new version to be the default, you must call projects.models.versions.setDefault. */
 export const createProjectsModelsVersions: API.OperationMethod<
@@ -3290,7 +3321,14 @@ export const createProjectsModelsVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsModelsVersionsRequest,
   output: GoogleLongrunning__Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AiPlatformDeprecated,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

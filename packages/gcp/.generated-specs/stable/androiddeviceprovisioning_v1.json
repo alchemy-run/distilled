@@ -1679,6 +1679,9 @@
         },
         {
           "target": "com.gcp.androiddeviceprovisioning_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -1720,6 +1723,9 @@
         },
         {
           "target": "com.gcp.androiddeviceprovisioning_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -2025,6 +2031,9 @@
         },
         {
           "target": "com.gcp.androiddeviceprovisioning_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -2062,6 +2071,9 @@
         },
         {
           "target": "com.gcp.androiddeviceprovisioning_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -2105,6 +2117,9 @@
         },
         {
           "target": "com.gcp.androiddeviceprovisioning_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -2155,6 +2170,9 @@
         },
         {
           "target": "com.gcp.androiddeviceprovisioning_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -2212,6 +2230,9 @@
         },
         {
           "target": "com.gcp.androiddeviceprovisioning_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
         }
       ],
       "traits": {
@@ -2967,6 +2988,23 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
+      }
+    },
+    "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The credential lacks the zero-touch (androidworkzerotouchemm) OAuth scope (HTTP 403 'Request had insufficient authentication scopes.'). A Cloud Platform-scoped service account token cannot call the customer API; not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

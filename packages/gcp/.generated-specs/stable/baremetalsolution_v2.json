@@ -3380,6 +3380,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3421,6 +3424,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3458,6 +3464,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3548,6 +3557,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3585,6 +3597,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3635,6 +3650,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3692,6 +3710,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3749,6 +3770,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3786,6 +3810,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3836,6 +3863,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3894,6 +3924,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3935,6 +3968,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3986,6 +4022,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4027,6 +4066,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4077,6 +4119,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4127,6 +4172,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4170,6 +4218,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4227,6 +4278,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4264,6 +4318,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4322,6 +4379,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4376,6 +4436,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4426,6 +4489,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4463,6 +4529,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4513,6 +4582,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4570,6 +4642,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4620,6 +4695,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4670,6 +4748,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4720,6 +4801,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4770,6 +4854,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4820,6 +4907,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4878,6 +4968,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4932,6 +5025,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -4969,6 +5065,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5019,6 +5118,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5076,6 +5178,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5119,6 +5224,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5170,6 +5278,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5224,6 +5335,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5282,6 +5396,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5343,6 +5460,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5393,6 +5513,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5430,6 +5553,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5480,6 +5606,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5530,6 +5659,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5580,6 +5712,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5623,6 +5758,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5660,6 +5798,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5711,6 +5852,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5752,6 +5896,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5802,6 +5949,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5853,6 +6003,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5908,6 +6061,9 @@
         },
         {
           "target": "com.gcp.baremetalsolution_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.baremetalsolution_v2#ServiceDisabled"
         }
       ],
       "traits": {
@@ -5920,6 +6076,23 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
+      }
+    },
+    "com.gcp.baremetalsolution_v2#ServiceDisabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The Bare Metal Solution API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "has not been used in project"
+            }
+          }
+        ]
       }
     }
   }

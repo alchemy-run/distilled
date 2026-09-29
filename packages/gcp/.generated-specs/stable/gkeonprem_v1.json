@@ -6930,6 +6930,9 @@
         },
         {
           "target": "com.gcp.gkeonprem_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.gkeonprem_v1#AdminClusterUnreachable"
         }
       ],
       "traits": {
@@ -9219,6 +9222,9 @@
         },
         {
           "target": "com.gcp.gkeonprem_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.gkeonprem_v1#AdminClusterUnreachable"
         }
       ],
       "traits": {
@@ -10294,6 +10300,29 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service."
+      }
+    },
+    "com.gcp.gkeonprem_v1#AdminClusterUnreachable": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The admin cluster fleet membership cannot be reached (HTTP 400 'Invalid resource state for \"…/memberships/…\": failed connecting to the cluster's control plane.' for VMware, 'could not fetch bare metal cluster version.' for bare metal): it does not exist or its Connect agent is offline. Not retryable until the admin cluster is registered and connected.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "failed connecting to the cluster's control plane"
+            }
+          },
+          {
+            "status": 400,
+            "message": {
+              "includes": "could not fetch bare metal cluster version"
+            }
+          }
+        ]
       }
     }
   }

@@ -1,0 +1,103 @@
+{
+  "description": "Type the API Management API-disabled answer (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: 'API Management API has not been used in project N before or it is disabled.'). Observed live 2026-09-29 on getProjectsLocationsObservationJobs/ObservationSources against a missing resource; it surfaced as the generic Forbidden, so callers could not tell an unactivated service from a missing permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The API Management API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED: 'API Management API has not been used in project N before or it is disabled.'). Not retryable until the service is enabled.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#GetProjectsLocationsObservationJobs/errors/-",
+      "value": {
+        "target": "com.gcp.apim_v1alpha#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#DisableProjectsLocationsObservationJobs/errors/-",
+      "value": {
+        "target": "com.gcp.apim_v1alpha#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#EnableProjectsLocationsObservationJobs/errors/-",
+      "value": {
+        "target": "com.gcp.apim_v1alpha#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#ListProjectsLocationsObservationJobs/errors/-",
+      "value": {
+        "target": "com.gcp.apim_v1alpha#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#CreateProjectsLocationsObservationJobs/errors/-",
+      "value": {
+        "target": "com.gcp.apim_v1alpha#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#DeleteProjectsLocationsObservationJobs/errors/-",
+      "value": {
+        "target": "com.gcp.apim_v1alpha#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#ListProjectsLocationsObservationSources/errors/-",
+      "value": {
+        "target": "com.gcp.apim_v1alpha#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#GetProjectsLocationsObservationSources/errors/-",
+      "value": {
+        "target": "com.gcp.apim_v1alpha#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#CreateProjectsLocationsObservationSources/errors/-",
+      "value": {
+        "target": "com.gcp.apim_v1alpha#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#DeleteProjectsLocationsObservationSources/errors/-",
+      "value": {
+        "target": "com.gcp.apim_v1alpha#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#GetProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.apim_v1alpha#ServiceDisabled"
+      }
+    }
+  ]
+}

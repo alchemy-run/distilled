@@ -39,6 +39,28 @@ export class Conflict
     [{ status: 409 }],
   ) {}
 
+/** The access token lacks the Data Manager OAuth scope (`https://www.googleapis.com/auth/datamanager`) (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). A `cloud-platform` token is not enough. Not retryable. */
+export class DataManagerScopeInsufficient
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<DataManagerScopeInsufficient>()(
+      "DataManagerScopeInsufficient",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -65,14 +87,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type ProductAccountProductEnum =
-  | "PRODUCT_UNSPECIFIED"
-  | "GOOGLE_ADS"
-  | "DISPLAY_VIDEO_PARTNER"
-  | "DISPLAY_VIDEO_ADVERTISER"
-  | "DATA_PARTNER";
-export const ProductAccountProductEnum = S.String;
-
 export type ProductAccountAccountTypeEnum =
   | "ACCOUNT_TYPE_UNSPECIFIED"
   | "GOOGLE_ADS"
@@ -84,41 +98,55 @@ export type ProductAccountAccountTypeEnum =
   | "FLOODLIGHT_CONFIG";
 export const ProductAccountAccountTypeEnum = S.String;
 
+export type ProductAccountProductEnum =
+  | "PRODUCT_UNSPECIFIED"
+  | "GOOGLE_ADS"
+  | "DISPLAY_VIDEO_PARTNER"
+  | "DISPLAY_VIDEO_ADVERTISER"
+  | "DATA_PARTNER";
+export const ProductAccountProductEnum = S.String;
+
 /** Represents a specific account. */
 export interface ProductAccount {
-  /** Deprecated. Use `account_type` instead. */
-  product?: ProductAccountProductEnum | (string & {});
   /** Required. The type of the account. For example, `GOOGLE_ADS`. Either `account_type` or the deprecated `product` is required. If both are set, the values must match. */
   accountType?: ProductAccountAccountTypeEnum | (string & {});
   /** Required. The ID of the account. For example, your Google Ads account ID. */
   accountId?: string;
+  /** Deprecated. Use `account_type` instead. */
+  product?: ProductAccountProductEnum | (string & {});
 }
 export const ProductAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    product: S.optional(ProductAccountProductEnum),
     accountType: S.optional(ProductAccountAccountTypeEnum),
     accountId: S.optional(S.String),
+    product: S.optional(ProductAccountProductEnum),
   }),
 ).annotate({ identifier: "ProductAccount" }) as any as S.Schema<ProductAccount>;
 
 /** Represents a customer account in the partner's system. */
 export interface PartnerCustomerAccount {
-  /** Optional. The type of the account. Can be used to distinguish between advertiser accounts and business level accounts, for example. */
-  accountType?: string;
-  /** Optional. The name of the account. */
-  accountName?: string;
   /** Required. The identifier of the customer account in the partner's ID space. */
   accountId?: string;
+  /** Optional. The name of the account. */
+  accountName?: string;
+  /** Optional. The type of the account. Can be used to distinguish between advertiser accounts and business level accounts, for example. */
+  accountType?: string;
 }
 export const PartnerCustomerAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accountType: S.optional(S.String),
-    accountName: S.optional(S.String),
     accountId: S.optional(S.String),
+    accountName: S.optional(S.String),
+    accountType: S.optional(S.String),
   }),
 ).annotate({
   identifier: "PartnerCustomerAccount",
 }) as any as S.Schema<PartnerCustomerAccount>;
+
+export type PartnerLinkFeatureSetEnum =
+  | "FEATURE_SET_UNSPECIFIED"
+  | "FEATURE_SET_AUDIENCE_AND_EVENT_MANAGEMENT"
+  | "FEATURE_SET_AD_EVENT_MANAGEMENT";
+export const PartnerLinkFeatureSetEnum = S.String;
 
 export type PartnerCustomerAccountList = Array<PartnerCustomerAccount>;
 export const PartnerCustomerAccountList = /*@__PURE__*/ S.Array(
@@ -138,38 +166,32 @@ export const PartnerLinkMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "PartnerLinkMetadata",
 }) as any as S.Schema<PartnerLinkMetadata>;
 
-export type PartnerLinkFeatureSetEnum =
-  | "FEATURE_SET_UNSPECIFIED"
-  | "FEATURE_SET_AUDIENCE_AND_EVENT_MANAGEMENT"
-  | "FEATURE_SET_AD_EVENT_MANAGEMENT";
-export const PartnerLinkFeatureSetEnum = S.String;
-
 /** A partner link between an owning account and a partner account. */
 export interface PartnerLink {
-  /** Required. The partner account granted access by the owning account. */
-  partnerAccount?: ProductAccount;
-  /** Identifier. The name of the partner link. Format: accountTypes/{account_type}/accounts/{account}/partnerLinks/{partner_link} */
-  name?: string;
   /** Required. The owning account granting access to the partner account. */
   owningAccount?: ProductAccount;
   /** Optional. The customer account in the partner system. This is required for partner links with the FEATURE_SET_AD_EVENT_MANAGEMENT feature set. */
   partnerCustomerAccount?: PartnerCustomerAccount;
-  /** Optional. Metadata associated with the partner link. This is optional and only accepted for partner links with the FEATURE_SET_AD_EVENT_MANAGEMENT. */
-  partnerLinkMetadata?: PartnerLinkMetadata;
-  /** Optional. Immutable. The set of features supported for the partner link. If not specified, the system behavior defaults to FEATURE_SET_AUDIENCE_AND_EVENT_MANAGEMENT. */
-  featureSet?: PartnerLinkFeatureSetEnum | (string & {});
+  /** Identifier. The name of the partner link. Format: accountTypes/{account_type}/accounts/{account}/partnerLinks/{partner_link} */
+  name?: string;
   /** Output only. The partner link ID. */
   partnerLinkId?: string;
+  /** Optional. Immutable. The set of features supported for the partner link. If not specified, the system behavior defaults to FEATURE_SET_AUDIENCE_AND_EVENT_MANAGEMENT. */
+  featureSet?: PartnerLinkFeatureSetEnum | (string & {});
+  /** Required. The partner account granted access by the owning account. */
+  partnerAccount?: ProductAccount;
+  /** Optional. Metadata associated with the partner link. This is optional and only accepted for partner links with the FEATURE_SET_AD_EVENT_MANAGEMENT. */
+  partnerLinkMetadata?: PartnerLinkMetadata;
 }
 export const PartnerLink = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    partnerAccount: S.optional(ProductAccount),
-    name: S.optional(S.String),
     owningAccount: S.optional(ProductAccount),
     partnerCustomerAccount: S.optional(PartnerCustomerAccount),
-    partnerLinkMetadata: S.optional(PartnerLinkMetadata),
-    featureSet: S.optional(PartnerLinkFeatureSetEnum),
+    name: S.optional(S.String),
     partnerLinkId: S.optional(S.String),
+    featureSet: S.optional(PartnerLinkFeatureSetEnum),
+    partnerAccount: S.optional(ProductAccount),
+    partnerLinkMetadata: S.optional(PartnerLinkMetadata),
   }),
 ).annotate({ identifier: "PartnerLink" }) as any as S.Schema<PartnerLink>;
 
@@ -195,6 +217,37 @@ export const CreateAccountTypesAccountsPartnerLinksRequest =
     identifier: "CreateAccountTypesAccountsPartnerLinksRequest",
   }) as any as S.Schema<CreateAccountTypesAccountsPartnerLinksRequest>;
 
+export type UserListDirectLicenseStatusEnum =
+  | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
+  | "USER_LIST_LICENSE_STATUS_ENABLED"
+  | "USER_LIST_LICENSE_STATUS_DISABLED";
+export const UserListDirectLicenseStatusEnum = S.String;
+
+/** Metrics related to a user list license. */
+export interface UserListLicenseMetrics {
+  /** Output only. The end date (inclusive) of the metrics in the format YYYYMMDD. For example, 20260102 represents January 2, 2026. If `start_date` is used in the filter, `end_date` is also required. If neither `start_date` nor `end_date` are included in the filter, the UserListLicenseMetrics fields will not be populated in the response. */
+  endDate?: string;
+  /** Output only. The number of clicks for the user list license. */
+  clickCount?: string;
+  /** Output only. The start date (inclusive) of the metrics in the format YYYYMMDD. For example, 20260102 represents January 2, 2026. If `end_date` is used in the filter, `start_date` is also required. If neither `start_date` nor `end_date` are included in the filter, the UserListLicenseMetrics fields will not be populated in the response. */
+  startDate?: string;
+  /** Output only. The number of impressions for the user list license. */
+  impressionCount?: string;
+  /** Output only. The revenue for the user list license in USD micros. */
+  revenueUsdMicros?: string;
+}
+export const UserListLicenseMetrics = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endDate: S.optional(S.String),
+    clickCount: S.optional(S.String),
+    startDate: S.optional(S.String),
+    impressionCount: S.optional(S.String),
+    revenueUsdMicros: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UserListLicenseMetrics",
+}) as any as S.Schema<UserListLicenseMetrics>;
+
 export type UserListDirectLicenseClientAccountTypeEnum =
   | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_UNKNOWN"
   | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_GOOGLE_ADS"
@@ -202,12 +255,6 @@ export type UserListDirectLicenseClientAccountTypeEnum =
   | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_DISPLAY_VIDEO_ADVERTISER"
   | "USER_LIST_LICENSE_CLIENT_ACCOUNT_TYPE_GOOGLE_AD_MANAGER_AUDIENCE_LINK";
 export const UserListDirectLicenseClientAccountTypeEnum = S.String;
-
-export type UserListDirectLicenseStatusEnum =
-  | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
-  | "USER_LIST_LICENSE_STATUS_ENABLED"
-  | "USER_LIST_LICENSE_STATUS_DISABLED";
-export const UserListDirectLicenseStatusEnum = S.String;
 
 export type UserListLicensePricingCostTypeEnum =
   | "USER_LIST_PRICING_COST_TYPE_UNSPECIFIED"
@@ -227,67 +274,42 @@ export const UserListLicensePricingBuyerApprovalStateEnum = S.String;
 export interface UserListLicensePricing {
   /** Output only. The ID of this pricing. */
   pricingId?: string;
-  /** Optional. The maximum CPM a commerce audience can be charged when the MEDIA_SHARE cost type is used. The value is in micro units (10^-6) and in the currency specified by the currency_code field. For example, 2000000 means $2 if `currency_code` is `USD`. This is only relevant when cost_type is MEDIA_SHARE. When cost_type is not MEDIA_SHARE, and this field is set, a MAX_COST_NOT_ALLOWED error will be returned. If not set or set to`0`, there is no cap. */
-  maxCostMicros?: string;
-  /** Optional. The currency in which cost and max_cost is specified. Must be a three-letter currency code defined in ISO 4217. */
-  currencyCode?: string;
-  /** Optional. The cost associated with the model, in micro units (10^-6), in the currency specified by the currency_code field. For example, 2000000 means $2 if `currency_code` is `USD`. */
-  costMicros?: string;
   /** Optional. End time of the pricing. */
   endTime?: string;
-  /** Immutable. The cost type of this pricing. Can be set only in the `create` operation. Can't be updated for an existing license. */
-  costType?: UserListLicensePricingCostTypeEnum | (string & {});
   /** Output only. Start time of the pricing. */
   startTime?: string;
+  /** Optional. The currency in which cost and max_cost is specified. Must be a three-letter currency code defined in ISO 4217. */
+  currencyCode?: string;
+  /** Output only. Whether this pricing is active. */
+  pricingActive?: boolean;
+  /** Optional. The cost associated with the model, in micro units (10^-6), in the currency specified by the currency_code field. For example, 2000000 means $2 if `currency_code` is `USD`. */
+  costMicros?: string;
+  /** Immutable. The cost type of this pricing. Can be set only in the `create` operation. Can't be updated for an existing license. */
+  costType?: UserListLicensePricingCostTypeEnum | (string & {});
   /** Output only. The buyer approval state of this pricing. This field is read-only. */
   buyerApprovalState?:
     | UserListLicensePricingBuyerApprovalStateEnum
     | (string & {});
-  /** Output only. Whether this pricing is active. */
-  pricingActive?: boolean;
+  /** Optional. The maximum CPM a commerce audience can be charged when the MEDIA_SHARE cost type is used. The value is in micro units (10^-6) and in the currency specified by the currency_code field. For example, 2000000 means $2 if `currency_code` is `USD`. This is only relevant when cost_type is MEDIA_SHARE. When cost_type is not MEDIA_SHARE, and this field is set, a MAX_COST_NOT_ALLOWED error will be returned. If not set or set to`0`, there is no cap. */
+  maxCostMicros?: string;
 }
 export const UserListLicensePricing = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pricingId: S.optional(S.String),
-    maxCostMicros: S.optional(S.String),
-    currencyCode: S.optional(S.String),
-    costMicros: S.optional(S.String),
     endTime: S.optional(S.String),
-    costType: S.optional(UserListLicensePricingCostTypeEnum),
     startTime: S.optional(S.String),
+    currencyCode: S.optional(S.String),
+    pricingActive: S.optional(S.Boolean),
+    costMicros: S.optional(S.String),
+    costType: S.optional(UserListLicensePricingCostTypeEnum),
     buyerApprovalState: S.optional(
       UserListLicensePricingBuyerApprovalStateEnum,
     ),
-    pricingActive: S.optional(S.Boolean),
+    maxCostMicros: S.optional(S.String),
   }),
 ).annotate({
   identifier: "UserListLicensePricing",
 }) as any as S.Schema<UserListLicensePricing>;
-
-/** Metrics related to a user list license. */
-export interface UserListLicenseMetrics {
-  /** Output only. The end date (inclusive) of the metrics in the format YYYYMMDD. For example, 20260102 represents January 2, 2026. If `start_date` is used in the filter, `end_date` is also required. If neither `start_date` nor `end_date` are included in the filter, the UserListLicenseMetrics fields will not be populated in the response. */
-  endDate?: string;
-  /** Output only. The revenue for the user list license in USD micros. */
-  revenueUsdMicros?: string;
-  /** Output only. The number of impressions for the user list license. */
-  impressionCount?: string;
-  /** Output only. The number of clicks for the user list license. */
-  clickCount?: string;
-  /** Output only. The start date (inclusive) of the metrics in the format YYYYMMDD. For example, 20260102 represents January 2, 2026. If `end_date` is used in the filter, `start_date` is also required. If neither `start_date` nor `end_date` are included in the filter, the UserListLicenseMetrics fields will not be populated in the response. */
-  startDate?: string;
-}
-export const UserListLicenseMetrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    endDate: S.optional(S.String),
-    revenueUsdMicros: S.optional(S.String),
-    impressionCount: S.optional(S.String),
-    clickCount: S.optional(S.String),
-    startDate: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UserListLicenseMetrics",
-}) as any as S.Schema<UserListLicenseMetrics>;
 
 export type UserListLicensePricingList = Array<UserListLicensePricing>;
 export const UserListLicensePricingList = /*@__PURE__*/ S.Array(
@@ -296,41 +318,41 @@ export const UserListLicensePricingList = /*@__PURE__*/ S.Array(
 
 /** A user list direct license. This feature is only available to data partners. */
 export interface UserListDirectLicense {
-  /** Output only. Name of client customer which the user list is being licensed to. This field is read-only. */
-  clientAccountDisplayName?: string;
+  /** Immutable. ID of the user list being licensed. */
+  userListId?: string;
+  /** Optional. Status of UserListDirectLicense - ENABLED or DISABLED. */
+  status?: UserListDirectLicenseStatusEnum | (string & {});
+  /** Output only. Metrics related to this license This field is read-only and only populated if the start and end dates are set in the ListUserListDirectLicenses call */
+  metrics?: UserListLicenseMetrics;
   /** Immutable. Account type of client customer which the user list is being licensed to. */
   clientAccountType?:
     | UserListDirectLicenseClientAccountTypeEnum
     | (string & {});
-  /** Optional. Status of UserListDirectLicense - ENABLED or DISABLED. */
-  status?: UserListDirectLicenseStatusEnum | (string & {});
-  /** Optional. UserListDirectLicense pricing. */
-  pricing?: UserListLicensePricing;
-  /** Identifier. The resource name of the user list direct license. */
-  name?: string;
-  /** Output only. Name of the user list being licensed. This field is read-only. */
-  userListDisplayName?: string;
-  /** Output only. Metrics related to this license This field is read-only and only populated if the start and end dates are set in the ListUserListDirectLicenses call */
-  metrics?: UserListLicenseMetrics;
-  /** Immutable. ID of client customer which the user list is being licensed to. */
-  clientAccountId?: string;
-  /** Immutable. ID of the user list being licensed. */
-  userListId?: string;
   /** Output only. Pricing history of this user list license. This field is read-only. */
   historicalPricings?: UserListLicensePricingList;
+  /** Output only. Name of client customer which the user list is being licensed to. This field is read-only. */
+  clientAccountDisplayName?: string;
+  /** Optional. UserListDirectLicense pricing. */
+  pricing?: UserListLicensePricing;
+  /** Output only. Name of the user list being licensed. This field is read-only. */
+  userListDisplayName?: string;
+  /** Identifier. The resource name of the user list direct license. */
+  name?: string;
+  /** Immutable. ID of client customer which the user list is being licensed to. */
+  clientAccountId?: string;
 }
 export const UserListDirectLicense = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    clientAccountDisplayName: S.optional(S.String),
-    clientAccountType: S.optional(UserListDirectLicenseClientAccountTypeEnum),
-    status: S.optional(UserListDirectLicenseStatusEnum),
-    pricing: S.optional(UserListLicensePricing),
-    name: S.optional(S.String),
-    userListDisplayName: S.optional(S.String),
-    metrics: S.optional(UserListLicenseMetrics),
-    clientAccountId: S.optional(S.String),
     userListId: S.optional(S.String),
+    status: S.optional(UserListDirectLicenseStatusEnum),
+    metrics: S.optional(UserListLicenseMetrics),
+    clientAccountType: S.optional(UserListDirectLicenseClientAccountTypeEnum),
     historicalPricings: S.optional(UserListLicensePricingList),
+    clientAccountDisplayName: S.optional(S.String),
+    pricing: S.optional(UserListLicensePricing),
+    userListDisplayName: S.optional(S.String),
+    name: S.optional(S.String),
+    clientAccountId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "UserListDirectLicense",
@@ -358,6 +380,12 @@ export const CreateAccountTypesAccountsUserListDirectLicensesRequest =
     identifier: "CreateAccountTypesAccountsUserListDirectLicensesRequest",
   }) as any as S.Schema<CreateAccountTypesAccountsUserListDirectLicensesRequest>;
 
+export type UserListGlobalLicenseStatusEnum =
+  | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
+  | "USER_LIST_LICENSE_STATUS_ENABLED"
+  | "USER_LIST_LICENSE_STATUS_DISABLED";
+export const UserListGlobalLicenseStatusEnum = S.String;
+
 export type UserListGlobalLicenseLicenseTypeEnum =
   | "USER_LIST_GLOBAL_LICENSE_TYPE_UNSPECIFIED"
   | "USER_LIST_GLOBAL_LICENSE_TYPE_RESELLER"
@@ -365,41 +393,35 @@ export type UserListGlobalLicenseLicenseTypeEnum =
   | "USER_LIST_GLOBAL_LICENSE_TYPE_DATA_MART_BUY_SIDE";
 export const UserListGlobalLicenseLicenseTypeEnum = S.String;
 
-export type UserListGlobalLicenseStatusEnum =
-  | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
-  | "USER_LIST_LICENSE_STATUS_ENABLED"
-  | "USER_LIST_LICENSE_STATUS_DISABLED";
-export const UserListGlobalLicenseStatusEnum = S.String;
-
 /** A user list global license. This feature is only available to data partners. */
 export interface UserListGlobalLicense {
-  /** Immutable. Product type of client customer which the user list is being licensed to. */
-  licenseType?: UserListGlobalLicenseLicenseTypeEnum | (string & {});
-  /** Output only. Metrics related to this license This field is read-only and only populated if the start and end dates are set in the ListUserListGlobalLicenses call */
-  metrics?: UserListLicenseMetrics;
   /** Optional. Status of UserListGlobalLicense - ENABLED or DISABLED. */
   status?: UserListGlobalLicenseStatusEnum | (string & {});
-  /** Output only. Name of the user list being licensed. This field is read-only. */
-  userListDisplayName?: string;
-  /** Identifier. The resource name of the user list global license. */
-  name?: string;
-  /** Optional. UserListGlobalLicense pricing. */
-  pricing?: UserListLicensePricing;
+  /** Immutable. Product type of client customer which the user list is being licensed to. */
+  licenseType?: UserListGlobalLicenseLicenseTypeEnum | (string & {});
   /** Output only. Pricing history of this user list license. This field is read-only. */
   historicalPricings?: UserListLicensePricingList;
+  /** Output only. Name of the user list being licensed. This field is read-only. */
+  userListDisplayName?: string;
+  /** Optional. UserListGlobalLicense pricing. */
+  pricing?: UserListLicensePricing;
   /** Immutable. ID of the user list being licensed. */
   userListId?: string;
+  /** Identifier. The resource name of the user list global license. */
+  name?: string;
+  /** Output only. Metrics related to this license This field is read-only and only populated if the start and end dates are set in the ListUserListGlobalLicenses call */
+  metrics?: UserListLicenseMetrics;
 }
 export const UserListGlobalLicense = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    licenseType: S.optional(UserListGlobalLicenseLicenseTypeEnum),
-    metrics: S.optional(UserListLicenseMetrics),
     status: S.optional(UserListGlobalLicenseStatusEnum),
-    userListDisplayName: S.optional(S.String),
-    name: S.optional(S.String),
-    pricing: S.optional(UserListLicensePricing),
+    licenseType: S.optional(UserListGlobalLicenseLicenseTypeEnum),
     historicalPricings: S.optional(UserListLicensePricingList),
+    userListDisplayName: S.optional(S.String),
+    pricing: S.optional(UserListLicensePricing),
     userListId: S.optional(S.String),
+    name: S.optional(S.String),
+    metrics: S.optional(UserListLicenseMetrics),
   }),
 ).annotate({
   identifier: "UserListGlobalLicense",
@@ -427,28 +449,65 @@ export const CreateAccountTypesAccountsUserListGlobalLicensesRequest =
     identifier: "CreateAccountTypesAccountsUserListGlobalLicensesRequest",
   }) as any as S.Schema<CreateAccountTypesAccountsUserListGlobalLicensesRequest>;
 
-export type PseudonymousIdInfoSyncStatusEnum =
-  | "SYNC_STATUS_UNSPECIFIED"
-  | "CREATED"
-  | "READY_FOR_USE"
-  | "FAILED";
-export const PseudonymousIdInfoSyncStatusEnum = S.String;
+export type UserListClosingReasonEnum = "CLOSING_REASON_UNSPECIFIED" | "UNUSED";
+export const UserListClosingReasonEnum = S.String;
 
-/** Additional information when `PSEUDONYMOUS_ID` is one of the `upload_key_types`. */
-export interface PseudonymousIdInfo {
-  /** Optional. Immutable. The number of billable records (e.g. uploaded or matched). */
-  billableRecordCount?: string;
-  /** Output only. Sync status of the user list. */
-  syncStatus?: PseudonymousIdInfoSyncStatusEnum | (string & {});
+export type UserListAccessReasonEnum =
+  | "ACCESS_REASON_UNSPECIFIED"
+  | "OWNED"
+  | "SHARED"
+  | "LICENSED"
+  | "SUBSCRIBED"
+  | "AFFILIATED";
+export const UserListAccessReasonEnum = S.String;
+
+export type UserListMembershipStatusEnum =
+  | "MEMBERSHIP_STATUS_UNSPECIFIED"
+  | "OPEN"
+  | "CLOSED";
+export const UserListMembershipStatusEnum = S.String;
+
+/** Estimated number of members in this user list in different target networks. */
+export interface SizeInfo {
+  /** Output only. Estimated number of members in this user list in the google.com domain. These are the members available for targeting in Search campaigns. */
+  searchNetworkMembersCount?: string;
+  /** Output only. Estimated number of members in this user list on Gmail. */
+  gmailMembersCount?: string;
+  /** Output only. Estimated number of members in this user list on YouTube. */
+  youtubeMembersCount?: string;
+  /** Output only. Estimated number of members in this user list, on the Google Display Network. */
+  displayNetworkMembersCount?: string;
 }
-export const PseudonymousIdInfo = /*@__PURE__*/ S.suspend(() =>
+export const SizeInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    billableRecordCount: S.optional(S.String),
-    syncStatus: S.optional(PseudonymousIdInfoSyncStatusEnum),
+    searchNetworkMembersCount: S.optional(S.String),
+    gmailMembersCount: S.optional(S.String),
+    youtubeMembersCount: S.optional(S.String),
+    displayNetworkMembersCount: S.optional(S.String),
+  }),
+).annotate({ identifier: "SizeInfo" }) as any as S.Schema<SizeInfo>;
+
+/** Eligibility information for different target networks. */
+export interface TargetNetworkInfo {
+  /** Optional. Indicates if this user list is eligible for Google Search Network. */
+  eligibleForSearch?: boolean;
+  /** Output only. Indicates this user list is eligible for Google Display Network. */
+  eligibleForDisplay?: boolean;
+}
+export const TargetNetworkInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eligibleForSearch: S.optional(S.Boolean),
+    eligibleForDisplay: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "PseudonymousIdInfo",
-}) as any as S.Schema<PseudonymousIdInfo>;
+  identifier: "TargetNetworkInfo",
+}) as any as S.Schema<TargetNetworkInfo>;
+
+export type UserListAccountAccessStatusEnum =
+  | "ACCESS_STATUS_UNSPECIFIED"
+  | "ENABLED"
+  | "DISABLED";
+export const UserListAccountAccessStatusEnum = S.String;
 
 export type IngestedUserListInfoUploadKeyTypesItemEnum =
   | "UPLOAD_KEY_TYPE_UNSPECIFIED"
@@ -466,29 +525,6 @@ export const IngestedUserListInfoUploadKeyTypesItemEnumList =
   /*@__PURE__*/ S.Array(
     IngestedUserListInfoUploadKeyTypesItemEnum,
   ) as any as S.Schema<IngestedUserListInfoUploadKeyTypesItemEnumList>;
-
-/** Additional information when `PAIR_ID` is one of the `upload_key_types`. This feature is only available to data partners. */
-export interface PairIdInfo {
-  /** Required. This field denotes the percentage of membership match of this user list with the corresponding publisher's first party data. Must be between 0 and 100 inclusive. */
-  matchRatePercentage?: number;
-  /** Optional. The count of the advertiser's first party data records that have been uploaded to a clean room provider. This does not signify the size of a PAIR user list. */
-  advertiserIdentifierCount?: string;
-  /** Required. Immutable. Identifies the publisher that the Publisher Advertiser Identity Reconciliation user list is reconciled with. This field is provided by the cleanroom provider and is only unique in the scope of that cleanroom. This cannot be used as a global identifier across multiple cleanrooms. */
-  publisherId?: string;
-  /** Required. Immutable. Identifies a unique advertiser to publisher relationship with one clean room provider or across multiple clean room providers. */
-  cleanRoomIdentifier?: string;
-  /** Required. Descriptive name of the publisher to be displayed in the UI for a better targeting experience. */
-  publisherName?: string;
-}
-export const PairIdInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    matchRatePercentage: S.optional(S.Number),
-    advertiserIdentifierCount: S.optional(S.String),
-    publisherId: S.optional(S.String),
-    cleanRoomIdentifier: S.optional(S.String),
-    publisherName: S.optional(S.String),
-  }),
-).annotate({ identifier: "PairIdInfo" }) as any as S.Schema<PairIdInfo>;
 
 export type ContactIdInfoDataSourceTypeEnum =
   | "DATA_SOURCE_TYPE_UNSPECIFIED"
@@ -528,20 +564,43 @@ export const MobileIdInfoKeySpaceEnum = S.String;
 
 /** Additional information when `MOBILE_ID` is one of the `upload_key_types`. */
 export interface MobileIdInfo {
-  /** Required. Immutable. A string that uniquely identifies a mobile application from which the data was collected. */
-  appId?: string;
   /** Optional. Immutable. Source of the upload data. */
   dataSourceType?: MobileIdInfoDataSourceTypeEnum | (string & {});
   /** Required. Immutable. The key space of mobile IDs. */
   keySpace?: MobileIdInfoKeySpaceEnum | (string & {});
+  /** Required. Immutable. A string that uniquely identifies a mobile application from which the data was collected. */
+  appId?: string;
 }
 export const MobileIdInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
     dataSourceType: S.optional(MobileIdInfoDataSourceTypeEnum),
     keySpace: S.optional(MobileIdInfoKeySpaceEnum),
+    appId: S.optional(S.String),
   }),
 ).annotate({ identifier: "MobileIdInfo" }) as any as S.Schema<MobileIdInfo>;
+
+/** Additional information when `PAIR_ID` is one of the `upload_key_types`. This feature is only available to data partners. */
+export interface PairIdInfo {
+  /** Required. Descriptive name of the publisher to be displayed in the UI for a better targeting experience. */
+  publisherName?: string;
+  /** Required. This field denotes the percentage of membership match of this user list with the corresponding publisher's first party data. Must be between 0 and 100 inclusive. */
+  matchRatePercentage?: number;
+  /** Required. Immutable. Identifies the publisher that the Publisher Advertiser Identity Reconciliation user list is reconciled with. This field is provided by the cleanroom provider and is only unique in the scope of that cleanroom. This cannot be used as a global identifier across multiple cleanrooms. */
+  publisherId?: string;
+  /** Required. Immutable. Identifies a unique advertiser to publisher relationship with one clean room provider or across multiple clean room providers. */
+  cleanRoomIdentifier?: string;
+  /** Optional. The count of the advertiser's first party data records that have been uploaded to a clean room provider. This does not signify the size of a PAIR user list. */
+  advertiserIdentifierCount?: string;
+}
+export const PairIdInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    publisherName: S.optional(S.String),
+    matchRatePercentage: S.optional(S.Number),
+    publisherId: S.optional(S.String),
+    cleanRoomIdentifier: S.optional(S.String),
+    advertiserIdentifierCount: S.optional(S.String),
+  }),
+).annotate({ identifier: "PairIdInfo" }) as any as S.Schema<PairIdInfo>;
 
 export type PartnerAudienceInfoPartnerAudienceSourceEnum =
   | "PARTNER_AUDIENCE_SOURCE_UNSPECIFIED"
@@ -589,160 +648,123 @@ export const UserIdInfo = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "UserIdInfo" }) as any as S.Schema<UserIdInfo>;
 
+export type PseudonymousIdInfoSyncStatusEnum =
+  | "SYNC_STATUS_UNSPECIFIED"
+  | "CREATED"
+  | "READY_FOR_USE"
+  | "FAILED";
+export const PseudonymousIdInfoSyncStatusEnum = S.String;
+
+/** Additional information when `PSEUDONYMOUS_ID` is one of the `upload_key_types`. */
+export interface PseudonymousIdInfo {
+  /** Output only. Sync status of the user list. */
+  syncStatus?: PseudonymousIdInfoSyncStatusEnum | (string & {});
+  /** Optional. Immutable. The number of billable records (e.g. uploaded or matched). */
+  billableRecordCount?: string;
+}
+export const PseudonymousIdInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    syncStatus: S.optional(PseudonymousIdInfoSyncStatusEnum),
+    billableRecordCount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PseudonymousIdInfo",
+}) as any as S.Schema<PseudonymousIdInfo>;
+
 /** Represents a user list that is populated by user provided data. */
 export interface IngestedUserListInfo {
-  /** Optional. Additional information for `PSEUDONYMOUS_ID` is one of the `upload_key_types`. */
-  pseudonymousIdInfo?: PseudonymousIdInfo;
   /** Required. Immutable. Upload key types of this user list. */
   uploadKeyTypes?: IngestedUserListInfoUploadKeyTypesItemEnumList;
-  /** Optional. Additional information when `PAIR_ID` is one of the `upload_key_types`. This feature is only available to data partners. */
-  pairIdInfo?: PairIdInfo;
   /** Optional. Additional information when `CONTACT_ID` is one of the `upload_key_types`. */
   contactIdInfo?: ContactIdInfo;
   /** Optional. Additional information when `MOBILE_ID` is one of the `upload_key_types`. */
   mobileIdInfo?: MobileIdInfo;
+  /** Optional. Additional information when `PAIR_ID` is one of the `upload_key_types`. This feature is only available to data partners. */
+  pairIdInfo?: PairIdInfo;
   /** Optional. Additional information for partner audiences. This feature is only available to data partners. */
   partnerAudienceInfo?: PartnerAudienceInfo;
   /** Optional. Additional information when `USER_ID` is one of the `upload_key_types`. */
   userIdInfo?: UserIdInfo;
+  /** Optional. Additional information for `PSEUDONYMOUS_ID` is one of the `upload_key_types`. */
+  pseudonymousIdInfo?: PseudonymousIdInfo;
 }
 export const IngestedUserListInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pseudonymousIdInfo: S.optional(PseudonymousIdInfo),
     uploadKeyTypes: S.optional(IngestedUserListInfoUploadKeyTypesItemEnumList),
-    pairIdInfo: S.optional(PairIdInfo),
     contactIdInfo: S.optional(ContactIdInfo),
     mobileIdInfo: S.optional(MobileIdInfo),
+    pairIdInfo: S.optional(PairIdInfo),
     partnerAudienceInfo: S.optional(PartnerAudienceInfo),
     userIdInfo: S.optional(UserIdInfo),
+    pseudonymousIdInfo: S.optional(PseudonymousIdInfo),
   }),
 ).annotate({
   identifier: "IngestedUserListInfo",
 }) as any as S.Schema<IngestedUserListInfo>;
 
-/** Estimated number of members in this user list in different target networks. */
-export interface SizeInfo {
-  /** Output only. Estimated number of members in this user list, on the Google Display Network. */
-  displayNetworkMembersCount?: string;
-  /** Output only. Estimated number of members in this user list on Gmail. */
-  gmailMembersCount?: string;
-  /** Output only. Estimated number of members in this user list in the google.com domain. These are the members available for targeting in Search campaigns. */
-  searchNetworkMembersCount?: string;
-  /** Output only. Estimated number of members in this user list on YouTube. */
-  youtubeMembersCount?: string;
-}
-export const SizeInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    displayNetworkMembersCount: S.optional(S.String),
-    gmailMembersCount: S.optional(S.String),
-    searchNetworkMembersCount: S.optional(S.String),
-    youtubeMembersCount: S.optional(S.String),
-  }),
-).annotate({ identifier: "SizeInfo" }) as any as S.Schema<SizeInfo>;
-
-export type UserListClosingReasonEnum = "CLOSING_REASON_UNSPECIFIED" | "UNUSED";
-export const UserListClosingReasonEnum = S.String;
-
-/** Eligibility information for different target networks. */
-export interface TargetNetworkInfo {
-  /** Optional. Indicates if this user list is eligible for Google Search Network. */
-  eligibleForSearch?: boolean;
-  /** Output only. Indicates this user list is eligible for Google Display Network. */
-  eligibleForDisplay?: boolean;
-}
-export const TargetNetworkInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eligibleForSearch: S.optional(S.Boolean),
-    eligibleForDisplay: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "TargetNetworkInfo",
-}) as any as S.Schema<TargetNetworkInfo>;
-
-export type UserListAccountAccessStatusEnum =
-  | "ACCESS_STATUS_UNSPECIFIED"
-  | "ENABLED"
-  | "DISABLED";
-export const UserListAccountAccessStatusEnum = S.String;
-
-export type UserListMembershipStatusEnum =
-  | "MEMBERSHIP_STATUS_UNSPECIFIED"
-  | "OPEN"
-  | "CLOSED";
-export const UserListMembershipStatusEnum = S.String;
-
-export type UserListAccessReasonEnum =
-  | "ACCESS_REASON_UNSPECIFIED"
-  | "OWNED"
-  | "SHARED"
-  | "LICENSED"
-  | "SUBSCRIBED"
-  | "AFFILIATED";
-export const UserListAccessReasonEnum = S.String;
-
 /** A user list resource. */
 export interface UserList {
-  /** Identifier. The resource name of the user list. Format: accountTypes/{account_type}/accounts/{account}/userLists/{user_list} */
-  name?: string;
-  /** Optional. An ID from external system. It is used by user list sellers to correlate IDs on their systems. */
-  integrationCode?: string;
-  /** Output only. The unique ID of the user list. */
-  id?: string;
-  /** Optional. Represents a user list that is populated by user ingested data. */
-  ingestedUserListInfo?: IngestedUserListInfo;
-  /** Optional. A description of the user list. */
-  description?: string;
-  /** Output only. Estimated number of members in this user list in different target networks. */
-  sizeInfo?: SizeInfo;
-  /** Output only. An option that indicates if a user may edit a list. */
-  readOnly?: boolean;
-  /** Output only. The reason why this user list membership status is closed. */
-  closingReason?: UserListClosingReasonEnum | (string & {});
-  /** Optional. Eligibility information for different target networks. */
-  targetNetworkInfo?: TargetNetworkInfo;
-  /** Required. The display name of the user list. */
-  displayName?: string;
-  /** Optional. Indicates if this share is still enabled. When a user list is shared with the account this field is set to `ENABLED`. Later the user list owner can decide to revoke the share and make it `DISABLED`. */
-  accountAccessStatus?: UserListAccountAccessStatusEnum | (string & {});
-  /** Optional. Membership status of this user list. */
-  membershipStatus?: UserListMembershipStatusEnum | (string & {});
-  /** Output only. The reason this account has been granted access to the list. */
-  accessReason?: UserListAccessReasonEnum | (string & {});
   /** Optional. The duration a user remains in the user list. Valid durations are exact multiples of 24 hours (86400 seconds). Providing a value that is not an exact multiple of 24 hours will result in an INVALID_ARGUMENT error. */
   membershipDuration?: string;
+  /** Optional. A description of the user list. */
+  description?: string;
+  /** Output only. The reason why this user list membership status is closed. */
+  closingReason?: UserListClosingReasonEnum | (string & {});
+  /** Optional. An ID from external system. It is used by user list sellers to correlate IDs on their systems. */
+  integrationCode?: string;
+  /** Output only. An option that indicates if a user may edit a list. */
+  readOnly?: boolean;
+  /** Output only. The reason this account has been granted access to the list. */
+  accessReason?: UserListAccessReasonEnum | (string & {});
+  /** Optional. Membership status of this user list. */
+  membershipStatus?: UserListMembershipStatusEnum | (string & {});
+  /** Output only. Estimated number of members in this user list in different target networks. */
+  sizeInfo?: SizeInfo;
+  /** Optional. Eligibility information for different target networks. */
+  targetNetworkInfo?: TargetNetworkInfo;
+  /** Optional. Indicates if this share is still enabled. When a user list is shared with the account this field is set to `ENABLED`. Later the user list owner can decide to revoke the share and make it `DISABLED`. */
+  accountAccessStatus?: UserListAccountAccessStatusEnum | (string & {});
+  /** Output only. The unique ID of the user list. */
+  id?: string;
+  /** Identifier. The resource name of the user list. Format: accountTypes/{account_type}/accounts/{account}/userLists/{user_list} */
+  name?: string;
+  /** Required. The display name of the user list. */
+  displayName?: string;
+  /** Optional. Represents a user list that is populated by user ingested data. */
+  ingestedUserListInfo?: IngestedUserListInfo;
 }
 export const UserList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    integrationCode: S.optional(S.String),
-    id: S.optional(S.String),
-    ingestedUserListInfo: S.optional(IngestedUserListInfo),
-    description: S.optional(S.String),
-    sizeInfo: S.optional(SizeInfo),
-    readOnly: S.optional(S.Boolean),
-    closingReason: S.optional(UserListClosingReasonEnum),
-    targetNetworkInfo: S.optional(TargetNetworkInfo),
-    displayName: S.optional(S.String),
-    accountAccessStatus: S.optional(UserListAccountAccessStatusEnum),
-    membershipStatus: S.optional(UserListMembershipStatusEnum),
-    accessReason: S.optional(UserListAccessReasonEnum),
     membershipDuration: S.optional(S.String),
+    description: S.optional(S.String),
+    closingReason: S.optional(UserListClosingReasonEnum),
+    integrationCode: S.optional(S.String),
+    readOnly: S.optional(S.Boolean),
+    accessReason: S.optional(UserListAccessReasonEnum),
+    membershipStatus: S.optional(UserListMembershipStatusEnum),
+    sizeInfo: S.optional(SizeInfo),
+    targetNetworkInfo: S.optional(TargetNetworkInfo),
+    accountAccessStatus: S.optional(UserListAccountAccessStatusEnum),
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
+    ingestedUserListInfo: S.optional(IngestedUserListInfo),
   }),
 ).annotate({ identifier: "UserList" }) as any as S.Schema<UserList>;
 
 export interface CreateAccountTypesAccountsUserListsRequest {
-  /** Required. The parent account where this user list will be created. Format: accountTypes/{account_type}/accounts/{account} */
-  parent: string;
   /** Optional. If true, the request is validated but not executed. */
   validateOnly?: boolean;
+  /** Required. The parent account where this user list will be created. Format: accountTypes/{account_type}/accounts/{account} */
+  parent: string;
   /** Request body */
   body?: UserList;
 }
 export const CreateAccountTypesAccountsUserListsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(UserList.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -781,16 +803,16 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 }) as any as S.Schema<Empty>;
 
 export interface DeleteAccountTypesAccountsUserListsRequest {
-  /** Required. The name of the user list to delete. Format: accountTypes/{account_type}/accounts/{account}/userLists/{user_list} */
-  name: string;
   /** Optional. If true, the request is validated but not executed. */
   validateOnly?: boolean;
+  /** Required. The name of the user list to delete. Format: accountTypes/{account_type}/accounts/{account}/userLists/{user_list} */
+  name: string;
 }
 export const DeleteAccountTypesAccountsUserListsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -820,15 +842,15 @@ export const Location = /*@__PURE__*/ S.suspend(() =>
 
 /** Baseline criteria against which insights are compared. */
 export interface Baseline {
-  /** The baseline location of the request. Baseline location is an OR-list of the requested regions. */
-  baselineLocation?: Location;
   /** If set to true, the service will try to automatically detect the baseline location for insights. */
   locationAutoDetectionEnabled?: boolean;
+  /** The baseline location of the request. Baseline location is an OR-list of the requested regions. */
+  baselineLocation?: Location;
 }
 export const Baseline = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    baselineLocation: S.optional(Location),
     locationAutoDetectionEnabled: S.optional(S.Boolean),
+    baselineLocation: S.optional(Location),
   }),
 ).annotate({ identifier: "Baseline" }) as any as S.Schema<Baseline>;
 
@@ -870,13 +892,6 @@ export const GetAccountTypesAccountsInsightsRequest = /*@__PURE__*/ S.suspend(
   identifier: "GetAccountTypesAccountsInsightsRequest",
 }) as any as S.Schema<GetAccountTypesAccountsInsightsRequest>;
 
-export type MarketingDataInsightsAttributeGenderEnum =
-  | "GENDER_UNSPECIFIED"
-  | "GENDER_UNKNOWN"
-  | "GENDER_MALE"
-  | "GENDER_FEMALE";
-export const MarketingDataInsightsAttributeGenderEnum = S.String;
-
 export type MarketingDataInsightsAttributeAgeRangeEnum =
   | "AGE_RANGE_UNSPECIFIED"
   | "AGE_RANGE_UNKNOWN"
@@ -888,23 +903,30 @@ export type MarketingDataInsightsAttributeAgeRangeEnum =
   | "AGE_RANGE_65_UP";
 export const MarketingDataInsightsAttributeAgeRangeEnum = S.String;
 
+export type MarketingDataInsightsAttributeGenderEnum =
+  | "GENDER_UNSPECIFIED"
+  | "GENDER_UNKNOWN"
+  | "GENDER_MALE"
+  | "GENDER_FEMALE";
+export const MarketingDataInsightsAttributeGenderEnum = S.String;
+
 /** Insights for a collection of related attributes of the same dimension. */
 export interface MarketingDataInsightsAttribute {
-  /** The user interest ID. */
-  userInterestId?: string;
-  /** Gender of the audience for which the lift is provided. */
-  gender?: MarketingDataInsightsAttributeGenderEnum;
-  /** Measure of lift that the audience has for the attribute value as compared to the baseline. Range [0-1]. */
-  lift?: number;
   /** Age range of the audience for which the lift is provided. */
   ageRange?: MarketingDataInsightsAttributeAgeRangeEnum;
+  /** Measure of lift that the audience has for the attribute value as compared to the baseline. Range [0-1]. */
+  lift?: number;
+  /** Gender of the audience for which the lift is provided. */
+  gender?: MarketingDataInsightsAttributeGenderEnum;
+  /** The user interest ID. */
+  userInterestId?: string;
 }
 export const MarketingDataInsightsAttribute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userInterestId: S.optional(S.String),
-    gender: S.optional(MarketingDataInsightsAttributeGenderEnum),
-    lift: S.optional(S.Number),
     ageRange: S.optional(MarketingDataInsightsAttributeAgeRangeEnum),
+    lift: S.optional(S.Number),
+    gender: S.optional(MarketingDataInsightsAttributeGenderEnum),
+    userInterestId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "MarketingDataInsightsAttribute",
@@ -1034,6 +1056,29 @@ export const GetRequestStatusRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetRequestStatusRequest",
 }) as any as S.Schema<GetRequestStatusRequest>;
 
+/** The Google product you're sending data to. For example, a Google Ads account. */
+export interface Destination {
+  /** Optional. ID for this `Destination` resource, unique within the request. Use to reference this `Destination` in the IngestEventsRequest and IngestAudienceMembersRequest. */
+  reference?: string;
+  /** Optional. The object within the product account to ingest into. For example, a Google Ads audience ID, a Display & Video 360 audience ID or a Google Ads conversion action ID. This field is optional for Google Ad Manager event ingestion and User ingestion. Required for all other use cases. */
+  productDestinationId?: string;
+  /** Required. The account to send the data to or remove the data from. */
+  operatingAccount?: ProductAccount;
+  /** Optional. An account that the calling user's `login_account` has access to, through an established account link. For example, a data partner's `login_account` might have access to a client's `linked_account`. The partner might use this field to send data from the `linked_account` to another `operating_account`. */
+  linkedAccount?: ProductAccount;
+  /** Optional. The account used to make this API call. To add or remove data from the `operating_account`, this `login_account` must have write access to the `operating_account`. For example, a manager account of the `operating_account`, or an account with an established link to the `operating_account`. */
+  loginAccount?: ProductAccount;
+}
+export const Destination = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reference: S.optional(S.String),
+    productDestinationId: S.optional(S.String),
+    operatingAccount: S.optional(ProductAccount),
+    linkedAccount: S.optional(ProductAccount),
+    loginAccount: S.optional(ProductAccount),
+  }),
+).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
+
 export type WarningCountReasonEnum =
   | "PROCESSING_WARNING_REASON_UNSPECIFIED"
   | "PROCESSING_WARNING_REASON_KEK_PERMISSION_DENIED"
@@ -1077,21 +1122,37 @@ export const WarningInfo = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "WarningInfo" }) as any as S.Schema<WarningInfo>;
 
-/** The status of the partner provided id data removal from the destination. */
-export interface RemovePartnerProvidedIdDataStatus {
-  /** The total count of partner provided ids sent in the removal request. Includes all partner provided ids in the request, regardless of whether they were successfully removed or not. */
-  partnerProvidedIdCount?: string;
+/** The status of the user id data removal from the destination. */
+export interface RemoveUserIdDataStatus {
+  /** The total count of audience members sent in the removal request. Includes all audience members in the request, regardless of whether they were successfully removed or not. */
+  recordCount?: string;
+  /** The total count of user ids sent in the removal request. Includes all user ids in the request, regardless of whether they were successfully removed or not. */
+  userIdCount?: string;
+}
+export const RemoveUserIdDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recordCount: S.optional(S.String),
+    userIdCount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RemoveUserIdDataStatus",
+}) as any as S.Schema<RemoveUserIdDataStatus>;
+
+/** The status of the google user id data removal from the destination. */
+export interface RemoveGoogleUserIdDataStatus {
+  /** The total count of google user ids sent in the removal request. Includes all google user ids in the request, regardless of whether they were successfully removed or not. */
+  googleUserIdCount?: string;
   /** The total count of audience members sent in the removal request. Includes all audience members in the request, regardless of whether they were successfully removed or not. */
   recordCount?: string;
 }
-export const RemovePartnerProvidedIdDataStatus = /*@__PURE__*/ S.suspend(() =>
+export const RemoveGoogleUserIdDataStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    partnerProvidedIdCount: S.optional(S.String),
+    googleUserIdCount: S.optional(S.String),
     recordCount: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "RemovePartnerProvidedIdDataStatus",
-}) as any as S.Schema<RemovePartnerProvidedIdDataStatus>;
+  identifier: "RemoveGoogleUserIdDataStatus",
+}) as any as S.Schema<RemoveGoogleUserIdDataStatus>;
 
 /** The status of the mobile data removal from the destination. */
 export interface RemoveMobileDataStatus {
@@ -1109,21 +1170,37 @@ export const RemoveMobileDataStatus = /*@__PURE__*/ S.suspend(() =>
   identifier: "RemoveMobileDataStatus",
 }) as any as S.Schema<RemoveMobileDataStatus>;
 
-/** The status of the user id data removal from the destination. */
-export interface RemoveUserIdDataStatus {
+/** The status of the user data removal from the destination. */
+export interface RemoveUserDataStatus {
   /** The total count of audience members sent in the removal request. Includes all audience members in the request, regardless of whether they were successfully removed or not. */
   recordCount?: string;
-  /** The total count of user ids sent in the removal request. Includes all user ids in the request, regardless of whether they were successfully removed or not. */
-  userIdCount?: string;
+  /** The total count of user identifiers sent in the removal request. Includes all user identifiers in the request, regardless of whether they were successfully removed or not. */
+  userIdentifierCount?: string;
 }
-export const RemoveUserIdDataStatus = /*@__PURE__*/ S.suspend(() =>
+export const RemoveUserDataStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recordCount: S.optional(S.String),
-    userIdCount: S.optional(S.String),
+    userIdentifierCount: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "RemoveUserIdDataStatus",
-}) as any as S.Schema<RemoveUserIdDataStatus>;
+  identifier: "RemoveUserDataStatus",
+}) as any as S.Schema<RemoveUserDataStatus>;
+
+/** The status of the partner provided id data removal from the destination. */
+export interface RemovePartnerProvidedIdDataStatus {
+  /** The total count of partner provided ids sent in the removal request. Includes all partner provided ids in the request, regardless of whether they were successfully removed or not. */
+  partnerProvidedIdCount?: string;
+  /** The total count of audience members sent in the removal request. Includes all audience members in the request, regardless of whether they were successfully removed or not. */
+  recordCount?: string;
+}
+export const RemovePartnerProvidedIdDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    partnerProvidedIdCount: S.optional(S.String),
+    recordCount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RemovePartnerProvidedIdDataStatus",
+}) as any as S.Schema<RemovePartnerProvidedIdDataStatus>;
 
 export type DataTypeCountTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -1135,15 +1212,15 @@ export const DataTypeCountTypeEnum = S.String;
 
 /** The count for a specific data type. */
 export interface DataTypeCount {
-  /** The count for this data type. */
-  count?: string;
   /** The type of data. */
   type?: DataTypeCountTypeEnum;
+  /** The count for this data type. */
+  count?: string;
 }
 export const DataTypeCount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    count: S.optional(S.String),
     type: S.optional(DataTypeCountTypeEnum),
+    count: S.optional(S.String),
   }),
 ).annotate({ identifier: "DataTypeCount" }) as any as S.Schema<DataTypeCount>;
 
@@ -1154,35 +1231,19 @@ export const DataTypeCountList = /*@__PURE__*/ S.Array(
 
 /** The status of the composite data removal from the destination. */
 export interface RemoveCompositeDataStatus {
-  /** The total count of audience members sent in the removal request. Includes all audience members in the request, regardless of whether they were successfully removed or not. */
-  recordCount?: string;
   /** The total count of data types sent in the removal request, broken down by data type. Includes all data types in the request, regardless of whether they were successfully removed or not. */
   dataTypeCounts?: DataTypeCountList;
+  /** The total count of audience members sent in the removal request. Includes all audience members in the request, regardless of whether they were successfully removed or not. */
+  recordCount?: string;
 }
 export const RemoveCompositeDataStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    recordCount: S.optional(S.String),
     dataTypeCounts: S.optional(DataTypeCountList),
+    recordCount: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RemoveCompositeDataStatus",
 }) as any as S.Schema<RemoveCompositeDataStatus>;
-
-/** The status of the user data removal from the destination. */
-export interface RemoveUserDataStatus {
-  /** The total count of user identifiers sent in the removal request. Includes all user identifiers in the request, regardless of whether they were successfully removed or not. */
-  userIdentifierCount?: string;
-  /** The total count of audience members sent in the removal request. Includes all audience members in the request, regardless of whether they were successfully removed or not. */
-  recordCount?: string;
-}
-export const RemoveUserDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    userIdentifierCount: S.optional(S.String),
-    recordCount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RemoveUserDataStatus",
-}) as any as S.Schema<RemoveUserDataStatus>;
 
 /** The status of the ppid data removal from the destination. */
 export interface RemovePpidDataStatus {
@@ -1216,65 +1277,49 @@ export const RemovePairDataStatus = /*@__PURE__*/ S.suspend(() =>
   identifier: "RemovePairDataStatus",
 }) as any as S.Schema<RemovePairDataStatus>;
 
-/** The status of the google user id data removal from the destination. */
-export interface RemoveGoogleUserIdDataStatus {
-  /** The total count of google user ids sent in the removal request. Includes all google user ids in the request, regardless of whether they were successfully removed or not. */
-  googleUserIdCount?: string;
-  /** The total count of audience members sent in the removal request. Includes all audience members in the request, regardless of whether they were successfully removed or not. */
-  recordCount?: string;
-}
-export const RemoveGoogleUserIdDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    googleUserIdCount: S.optional(S.String),
-    recordCount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RemoveGoogleUserIdDataStatus",
-}) as any as S.Schema<RemoveGoogleUserIdDataStatus>;
-
 /** The status of the remove audience members request. */
 export interface RemoveAudienceMembersStatus {
-  /** The status of the partner provided id data removal from the destination. */
-  partnerProvidedIdDataRemovalStatus?: RemovePartnerProvidedIdDataStatus;
-  /** The status of the mobile data removal from the destination. */
-  mobileDataRemovalStatus?: RemoveMobileDataStatus;
   /** The status of the user id data removal from the destination. */
   userIdDataRemovalStatus?: RemoveUserIdDataStatus;
-  /** The status of the composite data removal from the destination. */
-  compositeDataRemovalStatus?: RemoveCompositeDataStatus;
+  /** The status of the google user id data removal from the destination. */
+  googleUserIdDataRemovalStatus?: RemoveGoogleUserIdDataStatus;
+  /** The status of the mobile data removal from the destination. */
+  mobileDataRemovalStatus?: RemoveMobileDataStatus;
   /** The status of the user data removal from the destination. */
   userDataRemovalStatus?: RemoveUserDataStatus;
+  /** The status of the partner provided id data removal from the destination. */
+  partnerProvidedIdDataRemovalStatus?: RemovePartnerProvidedIdDataStatus;
+  /** The status of the composite data removal from the destination. */
+  compositeDataRemovalStatus?: RemoveCompositeDataStatus;
   /** The status of the ppid data removal from the destination. */
   ppidDataRemovalStatus?: RemovePpidDataStatus;
   /** The status of the pair data removal from the destination. */
   pairDataRemovalStatus?: RemovePairDataStatus;
-  /** The status of the google user id data removal from the destination. */
-  googleUserIdDataRemovalStatus?: RemoveGoogleUserIdDataStatus;
 }
 export const RemoveAudienceMembersStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    userIdDataRemovalStatus: S.optional(RemoveUserIdDataStatus),
+    googleUserIdDataRemovalStatus: S.optional(RemoveGoogleUserIdDataStatus),
+    mobileDataRemovalStatus: S.optional(RemoveMobileDataStatus),
+    userDataRemovalStatus: S.optional(RemoveUserDataStatus),
     partnerProvidedIdDataRemovalStatus: S.optional(
       RemovePartnerProvidedIdDataStatus,
     ),
-    mobileDataRemovalStatus: S.optional(RemoveMobileDataStatus),
-    userIdDataRemovalStatus: S.optional(RemoveUserIdDataStatus),
     compositeDataRemovalStatus: S.optional(RemoveCompositeDataStatus),
-    userDataRemovalStatus: S.optional(RemoveUserDataStatus),
     ppidDataRemovalStatus: S.optional(RemovePpidDataStatus),
     pairDataRemovalStatus: S.optional(RemovePairDataStatus),
-    googleUserIdDataRemovalStatus: S.optional(RemoveGoogleUserIdDataStatus),
   }),
 ).annotate({
   identifier: "RemoveAudienceMembersStatus",
 }) as any as S.Schema<RemoveAudienceMembersStatus>;
 
-export type RequestStatusPerDestinationRequestStatusEnum =
-  | "REQUEST_STATUS_UNKNOWN"
-  | "SUCCESS"
-  | "PROCESSING"
-  | "FAILED"
-  | "PARTIAL_SUCCESS";
-export const RequestStatusPerDestinationRequestStatusEnum = S.String;
+/** The status of the remove all audience members request. */
+export interface RemoveAllAudienceMembersStatus {}
+export const RemoveAllAudienceMembersStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "RemoveAllAudienceMembersStatus",
+}) as any as S.Schema<RemoveAllAudienceMembersStatus>;
 
 /** The status of the events ingestion to the destination. */
 export interface IngestEventsStatus {
@@ -1289,36 +1334,215 @@ export const IngestEventsStatus = /*@__PURE__*/ S.suspend(() =>
   identifier: "IngestEventsStatus",
 }) as any as S.Schema<IngestEventsStatus>;
 
-/** The status of the remove all audience members request. */
-export interface RemoveAllAudienceMembersStatus {}
-export const RemoveAllAudienceMembersStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "RemoveAllAudienceMembersStatus",
-}) as any as S.Schema<RemoveAllAudienceMembersStatus>;
+export type RequestStatusPerDestinationRequestStatusEnum =
+  | "REQUEST_STATUS_UNKNOWN"
+  | "SUCCESS"
+  | "PROCESSING"
+  | "FAILED"
+  | "PARTIAL_SUCCESS";
+export const RequestStatusPerDestinationRequestStatusEnum = S.String;
 
-/** The Google product you're sending data to. For example, a Google Ads account. */
-export interface Destination {
-  /** Optional. The object within the product account to ingest into. For example, a Google Ads audience ID, a Display & Video 360 audience ID or a Google Ads conversion action ID. This field is optional for Google Ad Manager event ingestion and User ingestion. Required for all other use cases. */
-  productDestinationId?: string;
-  /** Optional. ID for this `Destination` resource, unique within the request. Use to reference this `Destination` in the IngestEventsRequest and IngestAudienceMembersRequest. */
-  reference?: string;
-  /** Required. The account to send the data to or remove the data from. */
-  operatingAccount?: ProductAccount;
-  /** Optional. An account that the calling user's `login_account` has access to, through an established account link. For example, a data partner's `login_account` might have access to a client's `linked_account`. The partner might use this field to send data from the `linked_account` to another `operating_account`. */
-  linkedAccount?: ProductAccount;
-  /** Optional. The account used to make this API call. To add or remove data from the `operating_account`, this `login_account` must have write access to the `operating_account`. For example, a manager account of the `operating_account`, or an account with an established link to the `operating_account`. */
-  loginAccount?: ProductAccount;
+/** The status of the mobile data ingestion to the destination containing stats related to the ingestion. */
+export interface IngestMobileDataStatus {
+  /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
+  recordCount?: string;
+  /** The total count of mobile ids sent in the upload request for the destination. Includes all mobile ids in the request, regardless of whether they were successfully ingested or not. */
+  mobileIdCount?: string;
 }
-export const Destination = /*@__PURE__*/ S.suspend(() =>
+export const IngestMobileDataStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    productDestinationId: S.optional(S.String),
-    reference: S.optional(S.String),
-    operatingAccount: S.optional(ProductAccount),
-    linkedAccount: S.optional(ProductAccount),
-    loginAccount: S.optional(ProductAccount),
+    recordCount: S.optional(S.String),
+    mobileIdCount: S.optional(S.String),
   }),
-).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
+).annotate({
+  identifier: "IngestMobileDataStatus",
+}) as any as S.Schema<IngestMobileDataStatus>;
+
+/** The status of the user id data ingestion to the destination containing stats related to the ingestion. */
+export interface IngestUserIdDataStatus {
+  /** The total count of user ids sent in the upload request for the destination. Includes all user ids in the request, regardless of whether they were successfully ingested or not. */
+  userIdCount?: string;
+  /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
+  recordCount?: string;
+}
+export const IngestUserIdDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    userIdCount: S.optional(S.String),
+    recordCount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "IngestUserIdDataStatus",
+}) as any as S.Schema<IngestUserIdDataStatus>;
+
+/** The status of the google user id data ingestion to the destination containing stats related to the ingestion. */
+export interface IngestGoogleUserIdDataStatus {
+  /** The total count of google user ids sent in the upload request for the destination. Includes all google user ids in the request, regardless of whether they were successfully ingested or not. */
+  googleUserIdCount?: string;
+  /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
+  recordCount?: string;
+}
+export const IngestGoogleUserIdDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    googleUserIdCount: S.optional(S.String),
+    recordCount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "IngestGoogleUserIdDataStatus",
+}) as any as S.Schema<IngestGoogleUserIdDataStatus>;
+
+export type IngestUserDataStatusUploadMatchRateRangeEnum =
+  | "MATCH_RATE_RANGE_UNKNOWN"
+  | "MATCH_RATE_RANGE_NOT_ELIGIBLE"
+  | "MATCH_RATE_RANGE_LESS_THAN_20"
+  | "MATCH_RATE_RANGE_20_TO_30"
+  | "MATCH_RATE_RANGE_31_TO_40"
+  | "MATCH_RATE_RANGE_41_TO_50"
+  | "MATCH_RATE_RANGE_51_TO_60"
+  | "MATCH_RATE_RANGE_61_TO_70"
+  | "MATCH_RATE_RANGE_71_TO_80"
+  | "MATCH_RATE_RANGE_81_TO_90"
+  | "MATCH_RATE_RANGE_91_TO_100";
+export const IngestUserDataStatusUploadMatchRateRangeEnum = S.String;
+
+/** The status of the user data ingestion to the destination containing stats related to the ingestion. */
+export interface IngestUserDataStatus {
+  /** The total count of user identifiers sent in the upload request for the destination. Includes all user identifiers in the request, regardless of whether they were successfully ingested or not. */
+  userIdentifierCount?: string;
+  /** The match rate range of the upload. */
+  uploadMatchRateRange?: IngestUserDataStatusUploadMatchRateRangeEnum;
+  /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
+  recordCount?: string;
+}
+export const IngestUserDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    userIdentifierCount: S.optional(S.String),
+    uploadMatchRateRange: S.optional(
+      IngestUserDataStatusUploadMatchRateRangeEnum,
+    ),
+    recordCount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "IngestUserDataStatus",
+}) as any as S.Schema<IngestUserDataStatus>;
+
+/** The status of the pair data ingestion to the destination containing stats related to the ingestion. */
+export interface IngestPairDataStatus {
+  /** The total count of pair ids sent in the upload request for the destination. Includes all pair ids in the request, regardless of whether they were successfully ingested or not. */
+  pairIdCount?: string;
+  /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
+  recordCount?: string;
+}
+export const IngestPairDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pairIdCount: S.optional(S.String),
+    recordCount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "IngestPairDataStatus",
+}) as any as S.Schema<IngestPairDataStatus>;
+
+export type IngestCompositeDataStatusUploadMatchRateRangeEnum =
+  | "MATCH_RATE_RANGE_UNKNOWN"
+  | "MATCH_RATE_RANGE_NOT_ELIGIBLE"
+  | "MATCH_RATE_RANGE_LESS_THAN_20"
+  | "MATCH_RATE_RANGE_20_TO_30"
+  | "MATCH_RATE_RANGE_31_TO_40"
+  | "MATCH_RATE_RANGE_41_TO_50"
+  | "MATCH_RATE_RANGE_51_TO_60"
+  | "MATCH_RATE_RANGE_61_TO_70"
+  | "MATCH_RATE_RANGE_71_TO_80"
+  | "MATCH_RATE_RANGE_81_TO_90"
+  | "MATCH_RATE_RANGE_91_TO_100";
+export const IngestCompositeDataStatusUploadMatchRateRangeEnum = S.String;
+
+/** The status of the composite data ingestion to the destination containing stats related to the ingestion. */
+export interface IngestCompositeDataStatus {
+  /** The match rate range of the upload. */
+  uploadMatchRateRange?: IngestCompositeDataStatusUploadMatchRateRangeEnum;
+  /** The total count of data types sent in the upload request for the destination, broken down by data type. Includes all data types in the request, regardless of whether they were successfully ingested or not. */
+  dataTypeCounts?: DataTypeCountList;
+  /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
+  recordCount?: string;
+}
+export const IngestCompositeDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uploadMatchRateRange: S.optional(
+      IngestCompositeDataStatusUploadMatchRateRangeEnum,
+    ),
+    dataTypeCounts: S.optional(DataTypeCountList),
+    recordCount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "IngestCompositeDataStatus",
+}) as any as S.Schema<IngestCompositeDataStatus>;
+
+/** The status of the partner provided id data ingestion to the destination containing stats related to the ingestion. */
+export interface IngestPartnerProvidedIdDataStatus {
+  /** The total count of partner provided ids sent in the upload request for the destination. Includes all partner provided ids in the request, regardless of whether they were successfully ingested or not. */
+  partnerProvidedIdCount?: string;
+  /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
+  recordCount?: string;
+}
+export const IngestPartnerProvidedIdDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    partnerProvidedIdCount: S.optional(S.String),
+    recordCount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "IngestPartnerProvidedIdDataStatus",
+}) as any as S.Schema<IngestPartnerProvidedIdDataStatus>;
+
+/** The status of the ppid data ingestion to the destination containing stats related to the ingestion. */
+export interface IngestPpidDataStatus {
+  /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
+  recordCount?: string;
+  /** The total count of ppids sent in the upload request for the destination. Includes all ppids in the request, regardless of whether they were successfully ingested or not. */
+  ppidCount?: string;
+}
+export const IngestPpidDataStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recordCount: S.optional(S.String),
+    ppidCount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "IngestPpidDataStatus",
+}) as any as S.Schema<IngestPpidDataStatus>;
+
+/** The status of the ingest audience members request. */
+export interface IngestAudienceMembersStatus {
+  /** The status of the mobile data ingestion to the destination. */
+  mobileDataIngestionStatus?: IngestMobileDataStatus;
+  /** The status of the user id data ingestion to the destination. */
+  userIdDataIngestionStatus?: IngestUserIdDataStatus;
+  /** The status of the google user id data ingestion to the destination. */
+  googleUserIdDataIngestionStatus?: IngestGoogleUserIdDataStatus;
+  /** The status of the user data ingestion to the destination. */
+  userDataIngestionStatus?: IngestUserDataStatus;
+  /** The status of the pair data ingestion to the destination. */
+  pairDataIngestionStatus?: IngestPairDataStatus;
+  /** The status of the composite data ingestion to the destination. */
+  compositeDataIngestionStatus?: IngestCompositeDataStatus;
+  /** The status of the partner provided id data ingestion to the destination. */
+  partnerProvidedIdDataIngestionStatus?: IngestPartnerProvidedIdDataStatus;
+  /** The status of the ppid data ingestion to the destination. */
+  ppidDataIngestionStatus?: IngestPpidDataStatus;
+}
+export const IngestAudienceMembersStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mobileDataIngestionStatus: S.optional(IngestMobileDataStatus),
+    userIdDataIngestionStatus: S.optional(IngestUserIdDataStatus),
+    googleUserIdDataIngestionStatus: S.optional(IngestGoogleUserIdDataStatus),
+    userDataIngestionStatus: S.optional(IngestUserDataStatus),
+    pairDataIngestionStatus: S.optional(IngestPairDataStatus),
+    compositeDataIngestionStatus: S.optional(IngestCompositeDataStatus),
+    partnerProvidedIdDataIngestionStatus: S.optional(
+      IngestPartnerProvidedIdDataStatus,
+    ),
+    ppidDataIngestionStatus: S.optional(IngestPpidDataStatus),
+  }),
+).annotate({
+  identifier: "IngestAudienceMembersStatus",
+}) as any as S.Schema<IngestAudienceMembersStatus>;
 
 export type ErrorCountReasonEnum =
   | "PROCESSING_ERROR_REASON_UNSPECIFIED"
@@ -1398,237 +1622,35 @@ export const ErrorInfo = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ErrorInfo" }) as any as S.Schema<ErrorInfo>;
 
-/** The status of the ppid data ingestion to the destination containing stats related to the ingestion. */
-export interface IngestPpidDataStatus {
-  /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
-  recordCount?: string;
-  /** The total count of ppids sent in the upload request for the destination. Includes all ppids in the request, regardless of whether they were successfully ingested or not. */
-  ppidCount?: string;
-}
-export const IngestPpidDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordCount: S.optional(S.String),
-    ppidCount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IngestPpidDataStatus",
-}) as any as S.Schema<IngestPpidDataStatus>;
-
-/** The status of the mobile data ingestion to the destination containing stats related to the ingestion. */
-export interface IngestMobileDataStatus {
-  /** The total count of mobile ids sent in the upload request for the destination. Includes all mobile ids in the request, regardless of whether they were successfully ingested or not. */
-  mobileIdCount?: string;
-  /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
-  recordCount?: string;
-}
-export const IngestMobileDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mobileIdCount: S.optional(S.String),
-    recordCount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IngestMobileDataStatus",
-}) as any as S.Schema<IngestMobileDataStatus>;
-
-/** The status of the google user id data ingestion to the destination containing stats related to the ingestion. */
-export interface IngestGoogleUserIdDataStatus {
-  /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
-  recordCount?: string;
-  /** The total count of google user ids sent in the upload request for the destination. Includes all google user ids in the request, regardless of whether they were successfully ingested or not. */
-  googleUserIdCount?: string;
-}
-export const IngestGoogleUserIdDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordCount: S.optional(S.String),
-    googleUserIdCount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IngestGoogleUserIdDataStatus",
-}) as any as S.Schema<IngestGoogleUserIdDataStatus>;
-
-export type IngestUserDataStatusUploadMatchRateRangeEnum =
-  | "MATCH_RATE_RANGE_UNKNOWN"
-  | "MATCH_RATE_RANGE_NOT_ELIGIBLE"
-  | "MATCH_RATE_RANGE_LESS_THAN_20"
-  | "MATCH_RATE_RANGE_20_TO_30"
-  | "MATCH_RATE_RANGE_31_TO_40"
-  | "MATCH_RATE_RANGE_41_TO_50"
-  | "MATCH_RATE_RANGE_51_TO_60"
-  | "MATCH_RATE_RANGE_61_TO_70"
-  | "MATCH_RATE_RANGE_71_TO_80"
-  | "MATCH_RATE_RANGE_81_TO_90"
-  | "MATCH_RATE_RANGE_91_TO_100";
-export const IngestUserDataStatusUploadMatchRateRangeEnum = S.String;
-
-/** The status of the user data ingestion to the destination containing stats related to the ingestion. */
-export interface IngestUserDataStatus {
-  /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
-  recordCount?: string;
-  /** The match rate range of the upload. */
-  uploadMatchRateRange?: IngestUserDataStatusUploadMatchRateRangeEnum;
-  /** The total count of user identifiers sent in the upload request for the destination. Includes all user identifiers in the request, regardless of whether they were successfully ingested or not. */
-  userIdentifierCount?: string;
-}
-export const IngestUserDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordCount: S.optional(S.String),
-    uploadMatchRateRange: S.optional(
-      IngestUserDataStatusUploadMatchRateRangeEnum,
-    ),
-    userIdentifierCount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IngestUserDataStatus",
-}) as any as S.Schema<IngestUserDataStatus>;
-
-/** The status of the user id data ingestion to the destination containing stats related to the ingestion. */
-export interface IngestUserIdDataStatus {
-  /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
-  recordCount?: string;
-  /** The total count of user ids sent in the upload request for the destination. Includes all user ids in the request, regardless of whether they were successfully ingested or not. */
-  userIdCount?: string;
-}
-export const IngestUserIdDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordCount: S.optional(S.String),
-    userIdCount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IngestUserIdDataStatus",
-}) as any as S.Schema<IngestUserIdDataStatus>;
-
-export type IngestCompositeDataStatusUploadMatchRateRangeEnum =
-  | "MATCH_RATE_RANGE_UNKNOWN"
-  | "MATCH_RATE_RANGE_NOT_ELIGIBLE"
-  | "MATCH_RATE_RANGE_LESS_THAN_20"
-  | "MATCH_RATE_RANGE_20_TO_30"
-  | "MATCH_RATE_RANGE_31_TO_40"
-  | "MATCH_RATE_RANGE_41_TO_50"
-  | "MATCH_RATE_RANGE_51_TO_60"
-  | "MATCH_RATE_RANGE_61_TO_70"
-  | "MATCH_RATE_RANGE_71_TO_80"
-  | "MATCH_RATE_RANGE_81_TO_90"
-  | "MATCH_RATE_RANGE_91_TO_100";
-export const IngestCompositeDataStatusUploadMatchRateRangeEnum = S.String;
-
-/** The status of the composite data ingestion to the destination containing stats related to the ingestion. */
-export interface IngestCompositeDataStatus {
-  /** The total count of data types sent in the upload request for the destination, broken down by data type. Includes all data types in the request, regardless of whether they were successfully ingested or not. */
-  dataTypeCounts?: DataTypeCountList;
-  /** The match rate range of the upload. */
-  uploadMatchRateRange?: IngestCompositeDataStatusUploadMatchRateRangeEnum;
-  /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
-  recordCount?: string;
-}
-export const IngestCompositeDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataTypeCounts: S.optional(DataTypeCountList),
-    uploadMatchRateRange: S.optional(
-      IngestCompositeDataStatusUploadMatchRateRangeEnum,
-    ),
-    recordCount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IngestCompositeDataStatus",
-}) as any as S.Schema<IngestCompositeDataStatus>;
-
-/** The status of the pair data ingestion to the destination containing stats related to the ingestion. */
-export interface IngestPairDataStatus {
-  /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
-  recordCount?: string;
-  /** The total count of pair ids sent in the upload request for the destination. Includes all pair ids in the request, regardless of whether they were successfully ingested or not. */
-  pairIdCount?: string;
-}
-export const IngestPairDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordCount: S.optional(S.String),
-    pairIdCount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IngestPairDataStatus",
-}) as any as S.Schema<IngestPairDataStatus>;
-
-/** The status of the partner provided id data ingestion to the destination containing stats related to the ingestion. */
-export interface IngestPartnerProvidedIdDataStatus {
-  /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
-  recordCount?: string;
-  /** The total count of partner provided ids sent in the upload request for the destination. Includes all partner provided ids in the request, regardless of whether they were successfully ingested or not. */
-  partnerProvidedIdCount?: string;
-}
-export const IngestPartnerProvidedIdDataStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordCount: S.optional(S.String),
-    partnerProvidedIdCount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IngestPartnerProvidedIdDataStatus",
-}) as any as S.Schema<IngestPartnerProvidedIdDataStatus>;
-
-/** The status of the ingest audience members request. */
-export interface IngestAudienceMembersStatus {
-  /** The status of the ppid data ingestion to the destination. */
-  ppidDataIngestionStatus?: IngestPpidDataStatus;
-  /** The status of the mobile data ingestion to the destination. */
-  mobileDataIngestionStatus?: IngestMobileDataStatus;
-  /** The status of the google user id data ingestion to the destination. */
-  googleUserIdDataIngestionStatus?: IngestGoogleUserIdDataStatus;
-  /** The status of the user data ingestion to the destination. */
-  userDataIngestionStatus?: IngestUserDataStatus;
-  /** The status of the user id data ingestion to the destination. */
-  userIdDataIngestionStatus?: IngestUserIdDataStatus;
-  /** The status of the composite data ingestion to the destination. */
-  compositeDataIngestionStatus?: IngestCompositeDataStatus;
-  /** The status of the pair data ingestion to the destination. */
-  pairDataIngestionStatus?: IngestPairDataStatus;
-  /** The status of the partner provided id data ingestion to the destination. */
-  partnerProvidedIdDataIngestionStatus?: IngestPartnerProvidedIdDataStatus;
-}
-export const IngestAudienceMembersStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ppidDataIngestionStatus: S.optional(IngestPpidDataStatus),
-    mobileDataIngestionStatus: S.optional(IngestMobileDataStatus),
-    googleUserIdDataIngestionStatus: S.optional(IngestGoogleUserIdDataStatus),
-    userDataIngestionStatus: S.optional(IngestUserDataStatus),
-    userIdDataIngestionStatus: S.optional(IngestUserIdDataStatus),
-    compositeDataIngestionStatus: S.optional(IngestCompositeDataStatus),
-    pairDataIngestionStatus: S.optional(IngestPairDataStatus),
-    partnerProvidedIdDataIngestionStatus: S.optional(
-      IngestPartnerProvidedIdDataStatus,
-    ),
-  }),
-).annotate({
-  identifier: "IngestAudienceMembersStatus",
-}) as any as S.Schema<IngestAudienceMembersStatus>;
-
 /** A request status per destination. */
 export interface RequestStatusPerDestination {
+  /** A destination within a DM API request. */
+  destination?: Destination;
   /** A warning info containing the warning reason and warning counts related to the upload. This field isn't populated while the request has `request_status` of `PROCESSING`. */
   warningInfo?: WarningInfo;
   /** The status of the remove audience members request. */
   audienceMembersRemovalStatus?: RemoveAudienceMembersStatus;
-  /** The request status of the destination. */
-  requestStatus?: RequestStatusPerDestinationRequestStatusEnum;
-  /** The status of the ingest events request. */
-  eventsIngestionStatus?: IngestEventsStatus;
   /** The status of the remove all audience members request. */
   removeAllAudienceMembersStatus?: RemoveAllAudienceMembersStatus;
-  /** A destination within a DM API request. */
-  destination?: Destination;
-  /** An error info error containing the error reason and error counts related to the upload. Only populated if the `request_status` is `FAILED` or `PARTIAL_SUCCESS`. This field isn't populated while the request has `request_status` of `PROCESSING`. */
-  errorInfo?: ErrorInfo;
+  /** The status of the ingest events request. */
+  eventsIngestionStatus?: IngestEventsStatus;
+  /** The request status of the destination. */
+  requestStatus?: RequestStatusPerDestinationRequestStatusEnum;
   /** The status of the ingest audience members request. */
   audienceMembersIngestionStatus?: IngestAudienceMembersStatus;
+  /** An error info error containing the error reason and error counts related to the upload. Only populated if the `request_status` is `FAILED` or `PARTIAL_SUCCESS`. This field isn't populated while the request has `request_status` of `PROCESSING`. */
+  errorInfo?: ErrorInfo;
 }
 export const RequestStatusPerDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    destination: S.optional(Destination),
     warningInfo: S.optional(WarningInfo),
     audienceMembersRemovalStatus: S.optional(RemoveAudienceMembersStatus),
-    requestStatus: S.optional(RequestStatusPerDestinationRequestStatusEnum),
-    eventsIngestionStatus: S.optional(IngestEventsStatus),
     removeAllAudienceMembersStatus: S.optional(RemoveAllAudienceMembersStatus),
-    destination: S.optional(Destination),
-    errorInfo: S.optional(ErrorInfo),
+    eventsIngestionStatus: S.optional(IngestEventsStatus),
+    requestStatus: S.optional(RequestStatusPerDestinationRequestStatusEnum),
     audienceMembersIngestionStatus: S.optional(IngestAudienceMembersStatus),
+    errorInfo: S.optional(ErrorInfo),
   }),
 ).annotate({
   identifier: "RequestStatusPerDestination",
@@ -1653,127 +1675,32 @@ export const GetRequestStatusResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetRequestStatusResponse",
 }) as any as S.Schema<GetRequestStatusResponse>;
 
-export type AwsWrappedKeyInfoKeyTypeEnum =
-  | "KEY_TYPE_UNSPECIFIED"
-  | "XCHACHA20_POLY1305";
-export const AwsWrappedKeyInfoKeyTypeEnum = S.String;
-
-/** A data encryption key wrapped by an AWS KMS key. */
-export interface AwsWrappedKeyInfo {
-  /** Required. The URI of the AWS KMS key used to decrypt the DEK. Should be in the format of `arn:{partition}:kms:{region}:{account_id}:key/{key_id}` or `aws-kms://arn:{partition}:kms:{region}:{account_id}:key/{key_id}` */
-  kekUri?: string;
-  /** Required. The Amazon Resource Name of the IAM Role to assume for KMS decryption access. Should be in the format of `arn:{partition}:iam::{account_id}:role/{role_name}` */
-  roleArn?: string;
-  /** Required. The type of algorithm used to encrypt the data. */
-  keyType?: AwsWrappedKeyInfoKeyTypeEnum | (string & {});
-  /** Required. The base64 encoded encrypted data encryption key. */
-  encryptedDek?: string;
-}
-export const AwsWrappedKeyInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kekUri: S.optional(S.String),
-    roleArn: S.optional(S.String),
-    keyType: S.optional(AwsWrappedKeyInfoKeyTypeEnum),
-    encryptedDek: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AwsWrappedKeyInfo",
-}) as any as S.Schema<AwsWrappedKeyInfo>;
-
-/** Information about the coordinator key. */
-export interface CoordinatorKeyInfo {
-  /** Required. The ID of the chosen coordinator key. */
-  keyId?: string;
-}
-export const CoordinatorKeyInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    keyId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CoordinatorKeyInfo",
-}) as any as S.Schema<CoordinatorKeyInfo>;
-
-export type GcpWrappedKeyInfoKeyTypeEnum =
-  | "KEY_TYPE_UNSPECIFIED"
-  | "XCHACHA20_POLY1305";
-export const GcpWrappedKeyInfoKeyTypeEnum = S.String;
-
-/** Information about the Google Cloud Platform wrapped key. */
-export interface GcpWrappedKeyInfo {
-  /** Required. Google Cloud Platform [Cloud Key Management Service resource ID](//cloud.google.com/kms/docs/getting-resource-ids). Should be in the format of `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{key}` or `gcp-kms://projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{key}` */
-  kekUri?: string;
-  /** Required. The base64 encoded encrypted data encryption key. */
-  encryptedDek?: string;
-  /** Required. The type of algorithm used to encrypt the data. */
-  keyType?: GcpWrappedKeyInfoKeyTypeEnum | (string & {});
-  /** Required. The [Workload Identity](//cloud.google.com/iam/docs/workload-identity-federation) pool provider required to use KEK. */
-  wipProvider?: string;
-}
-export const GcpWrappedKeyInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kekUri: S.optional(S.String),
-    encryptedDek: S.optional(S.String),
-    keyType: S.optional(GcpWrappedKeyInfoKeyTypeEnum),
-    wipProvider: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GcpWrappedKeyInfo",
-}) as any as S.Schema<GcpWrappedKeyInfo>;
-
-/** Encryption information for the data being ingested. */
-export interface EncryptionInfo {
-  /** Amazon Web Services wrapped key information. */
-  awsWrappedKeyInfo?: AwsWrappedKeyInfo;
-  /** Key information for the chosen coordinator key. This is not supported for the IngestEvents, IngestAudienceMembers, and RemoveAudienceMembers methods. */
-  coordinatorKeyInfo?: CoordinatorKeyInfo;
-  /** Google Cloud Platform wrapped key information. */
-  gcpWrappedKeyInfo?: GcpWrappedKeyInfo;
-}
-export const EncryptionInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    awsWrappedKeyInfo: S.optional(AwsWrappedKeyInfo),
-    coordinatorKeyInfo: S.optional(CoordinatorKeyInfo),
-    gcpWrappedKeyInfo: S.optional(GcpWrappedKeyInfo),
-  }),
-).annotate({ identifier: "EncryptionInfo" }) as any as S.Schema<EncryptionInfo>;
-
-export type AdEventAdTypeEnum =
-  | "AD_TYPE_UNSPECIFIED"
-  | "AD_TYPE_DISPLAY"
-  | "AD_TYPE_TEXT"
-  | "AD_TYPE_IMAGE"
-  | "AD_TYPE_RICH_MEDIA"
-  | "AD_TYPE_HTML"
-  | "AD_TYPE_AUDIO"
-  | "AD_TYPE_VIDEO";
-export const AdEventAdTypeEnum = S.String;
-
 /** Address information for the user. */
 export interface AddressInfo {
-  /** Optional. The city of the user's address. Used only for Google Analytics. The value should be normalized as such: - Remove symbol characters - Convert to lowercase - Remove leading and trailing whitespace */
-  city?: string;
-  /** Required. Given (first) name of the user, all lowercase, with no punctuation, no leading or trailing whitespace, and hashed as SHA-256. */
-  givenName?: string;
   /** Required. The postal code of the user's address. */
   postalCode?: string;
   /** Optional. The administrative area (state/province) of the user's address. Used only for Google Analytics. The value should be normalized as such: - Remove symbol characters - Convert to lowercase - Remove leading and trailing whitespace */
   administrativeArea?: string;
   /** Required. Family (last) name of the user, all lowercase, with no punctuation, no leading or trailing whitespace, and hashed as SHA-256. */
   familyName?: string;
+  /** Required. Given (first) name of the user, all lowercase, with no punctuation, no leading or trailing whitespace, and hashed as SHA-256. */
+  givenName?: string;
   /** Required. The 2-letter region code in ISO-3166-1 alpha-2 of the user's address. */
   regionCode?: string;
   /** Optional. The street and number of the user's address. Used only for Google Analytics. This field is hashed and possibly encrypted. Normalize the value before hashing: - Remove symbol characters - Convert to lowercase - Remove leading and trailing whitespace */
   addressLine?: string;
+  /** Optional. The city of the user's address. Used only for Google Analytics. The value should be normalized as such: - Remove symbol characters - Convert to lowercase - Remove leading and trailing whitespace */
+  city?: string;
 }
 export const AddressInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    city: S.optional(S.String),
-    givenName: S.optional(S.String),
     postalCode: S.optional(S.String),
     administrativeArea: S.optional(S.String),
     familyName: S.optional(S.String),
+    givenName: S.optional(S.String),
     regionCode: S.optional(S.String),
     addressLine: S.optional(S.String),
+    city: S.optional(S.String),
   }),
 ).annotate({ identifier: "AddressInfo" }) as any as S.Schema<AddressInfo>;
 
@@ -1781,16 +1708,16 @@ export const AddressInfo = /*@__PURE__*/ S.suspend(() =>
 export interface UserIdentifier {
   /** The known components of a user's address. Holds a grouping of identifiers that are matched all at once. */
   address?: AddressInfo;
-  /** Hashed email address using SHA-256 hash function after normalization. */
-  emailAddress?: string;
   /** Hashed phone number using SHA-256 hash function after normalization (E164 standard). */
   phoneNumber?: string;
+  /** Hashed email address using SHA-256 hash function after normalization. */
+  emailAddress?: string;
 }
 export const UserIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     address: S.optional(AddressInfo),
-    emailAddress: S.optional(S.String),
     phoneNumber: S.optional(S.String),
+    emailAddress: S.optional(S.String),
   }),
 ).annotate({ identifier: "UserIdentifier" }) as any as S.Schema<UserIdentifier>;
 
@@ -1809,160 +1736,6 @@ export const UserData = /*@__PURE__*/ S.suspend(() =>
     userIdentifiers: S.optional(UserIdentifierList),
   }),
 ).annotate({ identifier: "UserData" }) as any as S.Schema<UserData>;
-
-export type AdEventTargetingTypeEnum =
-  | "TARGETING_TYPE_UNSPECIFIED"
-  | "TARGETING_TYPE_AUDIENCE"
-  | "TARGETING_TYPE_CONTEXTUAL"
-  | "TARGETING_TYPE_DEMOGRAPHIC"
-  | "TARGETING_TYPE_DEVICE"
-  | "TARGETING_TYPE_GEO"
-  | "TARGETING_TYPE_INTEREST"
-  | "TARGETING_TYPE_PURCHASE_INTENT"
-  | "TARGETING_TYPE_REMARKETING";
-export const AdEventTargetingTypeEnum = S.String;
-
-export type ViewabilityInfoViewTypeEnum =
-  | "VIEW_TYPE_UNSPECIFIED"
-  | "VIEW_TYPE_MRC_VIEWED"
-  | "VIEW_TYPE_MRC_RENDERED";
-export const ViewabilityInfoViewTypeEnum = S.String;
-
-export type ViewabilityInfoMediaQuartileEnum =
-  | "MEDIA_QUARTILE_UNSPECIFIED"
-  | "MEDIA_QUARTILE_START"
-  | "MEDIA_QUARTILE_FIRST_QUARTILE"
-  | "MEDIA_QUARTILE_MIDPOINT"
-  | "MEDIA_QUARTILE_THIRD_QUARTILE"
-  | "MEDIA_QUARTILE_COMPLETE";
-export const ViewabilityInfoMediaQuartileEnum = S.String;
-
-/** Details of the viewability of the ad served. */
-export interface ViewabilityInfo {
-  /** Optional. The duration of the ad media. */
-  mediaDuration?: string;
-  /** Required. The type of the event. */
-  viewType?: ViewabilityInfoViewTypeEnum | (string & {});
-  /** Optional. The duration of playback of the ad media, regardless of whether it was viewable or not. */
-  playbackDuration?: string;
-  /** Optional. The numerical percent (0-100) of the pixels that were viewable. */
-  viewablePercent?: number;
-  /** Optional. Whether the ad media was skippable or not. */
-  mediaSkippable?: boolean;
-  /** Optional. The amount of time the ad was viewable for. */
-  viewableDuration?: string;
-  /** Optional. The amount of the media that was played as discrete quartiles. */
-  mediaQuartile?: ViewabilityInfoMediaQuartileEnum | (string & {});
-  /** Optional. The numerical percent (0-100) of the volume of the media playback. */
-  mediaVolumePercent?: number;
-}
-export const ViewabilityInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mediaDuration: S.optional(S.String),
-    viewType: S.optional(ViewabilityInfoViewTypeEnum),
-    playbackDuration: S.optional(S.String),
-    viewablePercent: S.optional(S.Number),
-    mediaSkippable: S.optional(S.Boolean),
-    viewableDuration: S.optional(S.String),
-    mediaQuartile: S.optional(ViewabilityInfoMediaQuartileEnum),
-    mediaVolumePercent: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ViewabilityInfo",
-}) as any as S.Schema<ViewabilityInfo>;
-
-export type AdEventEventTypeEnum =
-  | "EVENT_TYPE_UNSPECIFIED"
-  | "EVENT_TYPE_VIEW"
-  | "EVENT_TYPE_CLICK";
-export const AdEventEventTypeEnum = S.String;
-
-export type AdEventPlatformTypeEnum =
-  | "PLATFORM_TYPE_UNSPECIFIED"
-  | "PLATFORM_TYPE_MOBILE"
-  | "PLATFORM_TYPE_DESKTOP"
-  | "PLATFORM_TYPE_CTV"
-  | "PLATFORM_TYPE_PHONE"
-  | "PLATFORM_TYPE_TABLET";
-export const AdEventPlatformTypeEnum = S.String;
-
-export type AdEventEventSubtypeEnum =
-  | "EVENT_SUBTYPE_UNSPECIFIED"
-  | "EVENT_SUBTYPE_IMPRESSION"
-  | "EVENT_SUBTYPE_ENGAGED_VIEW"
-  | "EVENT_SUBTYPE_ONSITE_CLICK"
-  | "EVENT_SUBTYPE_OUTBOUND_CLICK";
-export const AdEventEventSubtypeEnum = S.String;
-
-export type AdEventAttributionHintEnum =
-  | "ATTRIBUTION_HINT_UNSPECIFIED"
-  | "ATTRIBUTION_HINT_CONVERTED"
-  | "ATTRIBUTION_HINT_NOT_CONVERTED";
-export const AdEventAttributionHintEnum = S.String;
-
-/** Information about the device being used (if any) when the event happened. */
-export interface DeviceInfo {
-  /** Optional. The category of device. For example, “desktop”, “tablet”, “mobile”, “smart TV”. */
-  category?: string;
-  /** Optional. The IP address of the device for the given context. Required when used in an AdEvent. */
-  ipAddress?: string;
-  /** Optional. The user-agent string of the device for the given context. */
-  userAgent?: string;
-  /** Optional. The version of the browser. */
-  browserVersion?: string;
-  /** Optional. The brand or type of the browser. */
-  browser?: string;
-  /** Optional. The width of the screen in pixels. */
-  screenWidth?: number;
-  /** Optional. The model of the device. */
-  model?: string;
-  /** Optional. The height of the screen in pixels. */
-  screenHeight?: number;
-  /** Optional. The language the device uses in ISO 639-1 format. */
-  languageCode?: string;
-  /** Optional. The version of the operating system or platform. */
-  operatingSystemVersion?: string;
-  /** Optional. The brand of the device. */
-  brand?: string;
-  /** Optional. The operating system or platform of the device. */
-  operatingSystem?: string;
-}
-export const DeviceInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    category: S.optional(S.String),
-    ipAddress: S.optional(S.String),
-    userAgent: S.optional(S.String),
-    browserVersion: S.optional(S.String),
-    browser: S.optional(S.String),
-    screenWidth: S.optional(S.Number),
-    model: S.optional(S.String),
-    screenHeight: S.optional(S.Number),
-    languageCode: S.optional(S.String),
-    operatingSystemVersion: S.optional(S.String),
-    brand: S.optional(S.String),
-    operatingSystem: S.optional(S.String),
-  }),
-).annotate({ identifier: "DeviceInfo" }) as any as S.Schema<DeviceInfo>;
-
-export type AdEventAdPlacementEnum =
-  | "AD_PLACEMENT_UNSPECIFIED"
-  | "AD_PLACEMENT_DISCOVER"
-  | "AD_PLACEMENT_FEED"
-  | "AD_PLACEMENT_FOOTER"
-  | "AD_PLACEMENT_HEADER"
-  | "AD_PLACEMENT_HOME"
-  | "AD_PLACEMENT_IN_CONTENT"
-  | "AD_PLACEMENT_PROMOTED"
-  | "AD_PLACEMENT_SEARCH"
-  | "AD_PLACEMENT_STORY";
-export const AdEventAdPlacementEnum = S.String;
-
-export type AdEventPlatformEnum =
-  | "PLATFORM_UNSPECIFIED"
-  | "PLATFORM_IOS"
-  | "PLATFORM_ANDROID"
-  | "PLATFORM_WEB";
-export const AdEventPlatformEnum = S.String;
 
 export type AdEventAdFormatEnum =
   | "AD_FORMAT_UNSPECIFIED"
@@ -1986,110 +1759,275 @@ export type AdEventAdFormatEnum =
   | "AD_FORMAT_VIDEO";
 export const AdEventAdFormatEnum = S.String;
 
+/** Information about the device being used (if any) when the event happened. */
+export interface DeviceInfo {
+  /** Optional. The category of device. For example, “desktop”, “tablet”, “mobile”, “smart TV”. */
+  category?: string;
+  /** Optional. The brand or type of the browser. */
+  browser?: string;
+  /** Optional. The height of the screen in pixels. */
+  screenHeight?: number;
+  /** Optional. The version of the browser. */
+  browserVersion?: string;
+  /** Optional. The brand of the device. */
+  brand?: string;
+  /** Optional. The width of the screen in pixels. */
+  screenWidth?: number;
+  /** Optional. The user-agent string of the device for the given context. */
+  userAgent?: string;
+  /** Optional. The version of the operating system or platform. */
+  operatingSystemVersion?: string;
+  /** Optional. The operating system or platform of the device. */
+  operatingSystem?: string;
+  /** Optional. The model of the device. */
+  model?: string;
+  /** Optional. The IP address of the device for the given context. Required when used in an AdEvent. */
+  ipAddress?: string;
+  /** Optional. The language the device uses in ISO 639-1 format. */
+  languageCode?: string;
+}
+export const DeviceInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(S.String),
+    browser: S.optional(S.String),
+    screenHeight: S.optional(S.Number),
+    browserVersion: S.optional(S.String),
+    brand: S.optional(S.String),
+    screenWidth: S.optional(S.Number),
+    userAgent: S.optional(S.String),
+    operatingSystemVersion: S.optional(S.String),
+    operatingSystem: S.optional(S.String),
+    model: S.optional(S.String),
+    ipAddress: S.optional(S.String),
+    languageCode: S.optional(S.String),
+  }),
+).annotate({ identifier: "DeviceInfo" }) as any as S.Schema<DeviceInfo>;
+
+export type AdEventAdTypeEnum =
+  | "AD_TYPE_UNSPECIFIED"
+  | "AD_TYPE_DISPLAY"
+  | "AD_TYPE_TEXT"
+  | "AD_TYPE_IMAGE"
+  | "AD_TYPE_RICH_MEDIA"
+  | "AD_TYPE_HTML"
+  | "AD_TYPE_AUDIO"
+  | "AD_TYPE_VIDEO";
+export const AdEventAdTypeEnum = S.String;
+
+export type AdEventPlatformTypeEnum =
+  | "PLATFORM_TYPE_UNSPECIFIED"
+  | "PLATFORM_TYPE_MOBILE"
+  | "PLATFORM_TYPE_DESKTOP"
+  | "PLATFORM_TYPE_CTV"
+  | "PLATFORM_TYPE_PHONE"
+  | "PLATFORM_TYPE_TABLET";
+export const AdEventPlatformTypeEnum = S.String;
+
+export type AdEventAttributionHintEnum =
+  | "ATTRIBUTION_HINT_UNSPECIFIED"
+  | "ATTRIBUTION_HINT_CONVERTED"
+  | "ATTRIBUTION_HINT_NOT_CONVERTED";
+export const AdEventAttributionHintEnum = S.String;
+
+export type AdEventEventSubtypeEnum =
+  | "EVENT_SUBTYPE_UNSPECIFIED"
+  | "EVENT_SUBTYPE_IMPRESSION"
+  | "EVENT_SUBTYPE_ENGAGED_VIEW"
+  | "EVENT_SUBTYPE_ONSITE_CLICK"
+  | "EVENT_SUBTYPE_OUTBOUND_CLICK";
+export const AdEventEventSubtypeEnum = S.String;
+
+export type ViewabilityInfoMediaQuartileEnum =
+  | "MEDIA_QUARTILE_UNSPECIFIED"
+  | "MEDIA_QUARTILE_START"
+  | "MEDIA_QUARTILE_FIRST_QUARTILE"
+  | "MEDIA_QUARTILE_MIDPOINT"
+  | "MEDIA_QUARTILE_THIRD_QUARTILE"
+  | "MEDIA_QUARTILE_COMPLETE";
+export const ViewabilityInfoMediaQuartileEnum = S.String;
+
+export type ViewabilityInfoViewTypeEnum =
+  | "VIEW_TYPE_UNSPECIFIED"
+  | "VIEW_TYPE_MRC_VIEWED"
+  | "VIEW_TYPE_MRC_RENDERED";
+export const ViewabilityInfoViewTypeEnum = S.String;
+
+/** Details of the viewability of the ad served. */
+export interface ViewabilityInfo {
+  /** Optional. The amount of the media that was played as discrete quartiles. */
+  mediaQuartile?: ViewabilityInfoMediaQuartileEnum | (string & {});
+  /** Optional. The duration of the ad media. */
+  mediaDuration?: string;
+  /** Optional. Whether the ad media was skippable or not. */
+  mediaSkippable?: boolean;
+  /** Required. The type of the event. */
+  viewType?: ViewabilityInfoViewTypeEnum | (string & {});
+  /** Optional. The duration of playback of the ad media, regardless of whether it was viewable or not. */
+  playbackDuration?: string;
+  /** Optional. The numerical percent (0-100) of the pixels that were viewable. */
+  viewablePercent?: number;
+  /** Optional. The numerical percent (0-100) of the volume of the media playback. */
+  mediaVolumePercent?: number;
+  /** Optional. The amount of time the ad was viewable for. */
+  viewableDuration?: string;
+}
+export const ViewabilityInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mediaQuartile: S.optional(ViewabilityInfoMediaQuartileEnum),
+    mediaDuration: S.optional(S.String),
+    mediaSkippable: S.optional(S.Boolean),
+    viewType: S.optional(ViewabilityInfoViewTypeEnum),
+    playbackDuration: S.optional(S.String),
+    viewablePercent: S.optional(S.Number),
+    mediaVolumePercent: S.optional(S.Number),
+    viewableDuration: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ViewabilityInfo",
+}) as any as S.Schema<ViewabilityInfo>;
+
+export type AdEventPlatformEnum =
+  | "PLATFORM_UNSPECIFIED"
+  | "PLATFORM_IOS"
+  | "PLATFORM_ANDROID"
+  | "PLATFORM_WEB";
+export const AdEventPlatformEnum = S.String;
+
+export type AdEventTargetingTypeEnum =
+  | "TARGETING_TYPE_UNSPECIFIED"
+  | "TARGETING_TYPE_AUDIENCE"
+  | "TARGETING_TYPE_CONTEXTUAL"
+  | "TARGETING_TYPE_DEMOGRAPHIC"
+  | "TARGETING_TYPE_DEVICE"
+  | "TARGETING_TYPE_GEO"
+  | "TARGETING_TYPE_INTEREST"
+  | "TARGETING_TYPE_PURCHASE_INTENT"
+  | "TARGETING_TYPE_REMARKETING";
+export const AdEventTargetingTypeEnum = S.String;
+
+export type AdEventAdPlacementEnum =
+  | "AD_PLACEMENT_UNSPECIFIED"
+  | "AD_PLACEMENT_DISCOVER"
+  | "AD_PLACEMENT_FEED"
+  | "AD_PLACEMENT_FOOTER"
+  | "AD_PLACEMENT_HEADER"
+  | "AD_PLACEMENT_HOME"
+  | "AD_PLACEMENT_IN_CONTENT"
+  | "AD_PLACEMENT_PROMOTED"
+  | "AD_PLACEMENT_SEARCH"
+  | "AD_PLACEMENT_STORY";
+export const AdEventAdPlacementEnum = S.String;
+
+export type AdEventEventTypeEnum =
+  | "EVENT_TYPE_UNSPECIFIED"
+  | "EVENT_TYPE_VIEW"
+  | "EVENT_TYPE_CLICK";
+export const AdEventEventTypeEnum = S.String;
+
 /** An ad event. */
 export interface AdEvent {
   /** String value for event subtype. */
   eventSubtypeString?: string;
-  /** Enum value for ad type. */
-  adType?: AdEventAdTypeEnum | (string & {});
-  /** Optional. The ID of the associated ad within the group. */
-  adId?: string;
+  /** Required. The platform source of the ad, akin to the Google Analytics source. */
+  source?: string;
+  /** Optional. The ID of the associated ad group. */
+  adGroupId?: string;
+  /** Required. The ID of the associated campaign. */
+  campaignId?: string;
   /** Optional. Multiple pieces of user-provided data, representing the user the event is associated with. It is possible to provide multiple instances of the same type of data (e.g. email address). The more data provided, the more likely a match will be found. */
   userData?: UserData;
   /** Optional. An ID created and managed by the caller that uniquely identifies this event. Required if you want to deduplicate ad events that are included in multiple requests. Otherwise, this field is optional. */
   eventId?: string;
-  /** Required. The time the event occurred. */
-  timestamp?: string;
-  /** String value for ad placement. */
-  adPlacementString?: string;
-  /** Enum value for targeting type. */
-  targetingType?: AdEventTargetingTypeEnum | (string & {});
-  /** Optional. The height of the ad in pixels. */
-  adHeight?: number;
-  /** Optional. Represents if the row is allowed to be used for measurement purposes, as governed by applicable privacy laws within regional jurisdiction. */
-  measurementAllowed?: boolean;
-  /** Required. Details of the viewability of the ad served. */
-  viewabilityInfo?: ViewabilityInfo;
-  /** String value for ad format. */
-  adFormatString?: string;
-  /** Optional. The ISO 3166-2 country plus subdivision. */
-  regionCode?: string;
-  /** Required. The medium of the ad, akin to the Google Analytics medium. */
-  medium?: string;
-  /** Required. The type of the event. */
-  eventType?: AdEventEventTypeEnum | (string & {});
-  /** Required. The ID of the advertiser for the ad event. This must match the ID sent in the linking flow. */
-  advertiserId?: string;
-  /** Enum value for platform type. */
-  platformType?: AdEventPlatformTypeEnum | (string & {});
-  /** Enum value for event subtype. */
-  eventSubtype?: AdEventEventSubtypeEnum | (string & {});
-  /** Optional. The partner-assumed attribution status for this ad event. This acts only as a signal for how the partner assumed attribution played out, and does not force an end result in final reports. */
-  attributionHint?: AdEventAttributionHintEnum | (string & {});
-  /** Optional. The ID of the associated ad group. */
-  adGroupId?: string;
-  /** Optional. The width of the ad in pixels. */
-  adWidth?: number;
-  /** String value for targeting type. */
-  targetingTypeString?: string;
-  /** Required. Information gathered about the device being used when the ad event happened. */
-  deviceInfo?: DeviceInfo;
-  /** String value for ad type. */
-  adTypeString?: string;
-  /** Enum value for ad placement. */
-  adPlacement?: AdEventAdPlacementEnum | (string & {});
   /** Optional. The device ID of the device that the ad was served to. */
   mobileDeviceId?: string;
-  /** Enum value for platform. */
-  platform?: AdEventPlatformEnum | (string & {});
   /** Enum value for ad format. */
   adFormat?: AdEventAdFormatEnum | (string & {});
-  /** Required. The name of the associated campaign. */
-  campaignName?: string;
-  /** String value for platform type. */
-  platformTypeString?: string;
+  /** Required. The ID of the advertiser for the ad event. This must match the ID sent in the linking flow. */
+  advertiserId?: string;
+  /** Optional. The height of the ad in pixels. */
+  adHeight?: number;
+  /** Required. Information gathered about the device being used when the ad event happened. */
+  deviceInfo?: DeviceInfo;
+  /** Required. The medium of the ad, akin to the Google Analytics medium. */
+  medium?: string;
+  /** Required. The time the event occurred. */
+  timestamp?: string;
+  /** Enum value for ad type. */
+  adType?: AdEventAdTypeEnum | (string & {});
+  /** Optional. Represents if the row is allowed to be used for measurement purposes, as governed by applicable privacy laws within regional jurisdiction. */
+  measurementAllowed?: boolean;
+  /** Enum value for platform type. */
+  platformType?: AdEventPlatformTypeEnum | (string & {});
   /** String value for platform. */
   platformString?: string;
-  /** Required. The platform source of the ad, akin to the Google Analytics source. */
-  source?: string;
-  /** Required. The ID of the associated campaign. */
-  campaignId?: string;
+  /** Optional. The partner-assumed attribution status for this ad event. This acts only as a signal for how the partner assumed attribution played out, and does not force an end result in final reports. */
+  attributionHint?: AdEventAttributionHintEnum | (string & {});
+  /** String value for ad type. */
+  adTypeString?: string;
+  /** String value for targeting type. */
+  targetingTypeString?: string;
+  /** Optional. The ID of the associated ad within the group. */
+  adId?: string;
+  /** Optional. The ISO 3166-2 country plus subdivision. */
+  regionCode?: string;
+  /** String value for platform type. */
+  platformTypeString?: string;
+  /** Enum value for event subtype. */
+  eventSubtype?: AdEventEventSubtypeEnum | (string & {});
+  /** Required. Details of the viewability of the ad served. */
+  viewabilityInfo?: ViewabilityInfo;
+  /** String value for ad placement. */
+  adPlacementString?: string;
+  /** Enum value for platform. */
+  platform?: AdEventPlatformEnum | (string & {});
+  /** String value for ad format. */
+  adFormatString?: string;
+  /** Enum value for targeting type. */
+  targetingType?: AdEventTargetingTypeEnum | (string & {});
+  /** Optional. The width of the ad in pixels. */
+  adWidth?: number;
+  /** Enum value for ad placement. */
+  adPlacement?: AdEventAdPlacementEnum | (string & {});
+  /** Required. The name of the associated campaign. */
+  campaignName?: string;
+  /** Required. The type of the event. */
+  eventType?: AdEventEventTypeEnum | (string & {});
 }
 export const AdEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     eventSubtypeString: S.optional(S.String),
-    adType: S.optional(AdEventAdTypeEnum),
-    adId: S.optional(S.String),
+    source: S.optional(S.String),
+    adGroupId: S.optional(S.String),
+    campaignId: S.optional(S.String),
     userData: S.optional(UserData),
     eventId: S.optional(S.String),
-    timestamp: S.optional(S.String),
-    adPlacementString: S.optional(S.String),
-    targetingType: S.optional(AdEventTargetingTypeEnum),
-    adHeight: S.optional(S.Number),
-    measurementAllowed: S.optional(S.Boolean),
-    viewabilityInfo: S.optional(ViewabilityInfo),
-    adFormatString: S.optional(S.String),
-    regionCode: S.optional(S.String),
-    medium: S.optional(S.String),
-    eventType: S.optional(AdEventEventTypeEnum),
-    advertiserId: S.optional(S.String),
-    platformType: S.optional(AdEventPlatformTypeEnum),
-    eventSubtype: S.optional(AdEventEventSubtypeEnum),
-    attributionHint: S.optional(AdEventAttributionHintEnum),
-    adGroupId: S.optional(S.String),
-    adWidth: S.optional(S.Number),
-    targetingTypeString: S.optional(S.String),
-    deviceInfo: S.optional(DeviceInfo),
-    adTypeString: S.optional(S.String),
-    adPlacement: S.optional(AdEventAdPlacementEnum),
     mobileDeviceId: S.optional(S.String),
-    platform: S.optional(AdEventPlatformEnum),
     adFormat: S.optional(AdEventAdFormatEnum),
-    campaignName: S.optional(S.String),
-    platformTypeString: S.optional(S.String),
+    advertiserId: S.optional(S.String),
+    adHeight: S.optional(S.Number),
+    deviceInfo: S.optional(DeviceInfo),
+    medium: S.optional(S.String),
+    timestamp: S.optional(S.String),
+    adType: S.optional(AdEventAdTypeEnum),
+    measurementAllowed: S.optional(S.Boolean),
+    platformType: S.optional(AdEventPlatformTypeEnum),
     platformString: S.optional(S.String),
-    source: S.optional(S.String),
-    campaignId: S.optional(S.String),
+    attributionHint: S.optional(AdEventAttributionHintEnum),
+    adTypeString: S.optional(S.String),
+    targetingTypeString: S.optional(S.String),
+    adId: S.optional(S.String),
+    regionCode: S.optional(S.String),
+    platformTypeString: S.optional(S.String),
+    eventSubtype: S.optional(AdEventEventSubtypeEnum),
+    viewabilityInfo: S.optional(ViewabilityInfo),
+    adPlacementString: S.optional(S.String),
+    platform: S.optional(AdEventPlatformEnum),
+    adFormatString: S.optional(S.String),
+    targetingType: S.optional(AdEventTargetingTypeEnum),
+    adWidth: S.optional(S.Number),
+    adPlacement: S.optional(AdEventAdPlacementEnum),
+    campaignName: S.optional(S.String),
+    eventType: S.optional(AdEventEventTypeEnum),
   }),
 ).annotate({ identifier: "AdEvent" }) as any as S.Schema<AdEvent>;
 
@@ -2098,20 +2036,104 @@ export const AdEventList = /*@__PURE__*/ S.Array(
   AdEvent,
 ) as any as S.Schema<AdEventList>;
 
+export type GcpWrappedKeyInfoKeyTypeEnum =
+  | "KEY_TYPE_UNSPECIFIED"
+  | "XCHACHA20_POLY1305";
+export const GcpWrappedKeyInfoKeyTypeEnum = S.String;
+
+/** Information about the Google Cloud Platform wrapped key. */
+export interface GcpWrappedKeyInfo {
+  /** Required. The [Workload Identity](//cloud.google.com/iam/docs/workload-identity-federation) pool provider required to use KEK. */
+  wipProvider?: string;
+  /** Required. The base64 encoded encrypted data encryption key. */
+  encryptedDek?: string;
+  /** Required. Google Cloud Platform [Cloud Key Management Service resource ID](//cloud.google.com/kms/docs/getting-resource-ids). Should be in the format of `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{key}` or `gcp-kms://projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{key}` */
+  kekUri?: string;
+  /** Required. The type of algorithm used to encrypt the data. */
+  keyType?: GcpWrappedKeyInfoKeyTypeEnum | (string & {});
+}
+export const GcpWrappedKeyInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    wipProvider: S.optional(S.String),
+    encryptedDek: S.optional(S.String),
+    kekUri: S.optional(S.String),
+    keyType: S.optional(GcpWrappedKeyInfoKeyTypeEnum),
+  }),
+).annotate({
+  identifier: "GcpWrappedKeyInfo",
+}) as any as S.Schema<GcpWrappedKeyInfo>;
+
+export type AwsWrappedKeyInfoKeyTypeEnum =
+  | "KEY_TYPE_UNSPECIFIED"
+  | "XCHACHA20_POLY1305";
+export const AwsWrappedKeyInfoKeyTypeEnum = S.String;
+
+/** A data encryption key wrapped by an AWS KMS key. */
+export interface AwsWrappedKeyInfo {
+  /** Required. The URI of the AWS KMS key used to decrypt the DEK. Should be in the format of `arn:{partition}:kms:{region}:{account_id}:key/{key_id}` or `aws-kms://arn:{partition}:kms:{region}:{account_id}:key/{key_id}` */
+  kekUri?: string;
+  /** Required. The type of algorithm used to encrypt the data. */
+  keyType?: AwsWrappedKeyInfoKeyTypeEnum | (string & {});
+  /** Required. The base64 encoded encrypted data encryption key. */
+  encryptedDek?: string;
+  /** Required. The Amazon Resource Name of the IAM Role to assume for KMS decryption access. Should be in the format of `arn:{partition}:iam::{account_id}:role/{role_name}` */
+  roleArn?: string;
+}
+export const AwsWrappedKeyInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kekUri: S.optional(S.String),
+    keyType: S.optional(AwsWrappedKeyInfoKeyTypeEnum),
+    encryptedDek: S.optional(S.String),
+    roleArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AwsWrappedKeyInfo",
+}) as any as S.Schema<AwsWrappedKeyInfo>;
+
+/** Information about the coordinator key. */
+export interface CoordinatorKeyInfo {
+  /** Required. The ID of the chosen coordinator key. */
+  keyId?: string;
+}
+export const CoordinatorKeyInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    keyId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CoordinatorKeyInfo",
+}) as any as S.Schema<CoordinatorKeyInfo>;
+
+/** Encryption information for the data being ingested. */
+export interface EncryptionInfo {
+  /** Google Cloud Platform wrapped key information. */
+  gcpWrappedKeyInfo?: GcpWrappedKeyInfo;
+  /** Amazon Web Services wrapped key information. */
+  awsWrappedKeyInfo?: AwsWrappedKeyInfo;
+  /** Key information for the chosen coordinator key. This is not supported for the IngestEvents, IngestAudienceMembers, and RemoveAudienceMembers methods. */
+  coordinatorKeyInfo?: CoordinatorKeyInfo;
+}
+export const EncryptionInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gcpWrappedKeyInfo: S.optional(GcpWrappedKeyInfo),
+    awsWrappedKeyInfo: S.optional(AwsWrappedKeyInfo),
+    coordinatorKeyInfo: S.optional(CoordinatorKeyInfo),
+  }),
+).annotate({ identifier: "EncryptionInfo" }) as any as S.Schema<EncryptionInfo>;
+
 /** Request to upload ad events. */
 export interface IngestAdEventsRequest {
-  /** Required. Information about encryption keys which are used to encrypt the data. */
-  encryptionInfo?: EncryptionInfo;
-  /** Required. Required (at least 1). A list of ad events. */
-  adEvents?: AdEventList;
   /** Optional. If true, the request is validated, but not executed. */
   validateOnly?: boolean;
+  /** Required. Required (at least 1). A list of ad events. */
+  adEvents?: AdEventList;
+  /** Required. Information about encryption keys which are used to encrypt the data. */
+  encryptionInfo?: EncryptionInfo;
 }
 export const IngestAdEventsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    encryptionInfo: S.optional(EncryptionInfo),
-    adEvents: S.optional(AdEventList),
     validateOnly: S.optional(S.Boolean),
+    adEvents: S.optional(AdEventList),
+    encryptionInfo: S.optional(EncryptionInfo),
   }),
 ).annotate({
   identifier: "IngestAdEventsRequest",
@@ -2143,11 +2165,36 @@ export const IngestAdEventsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "IngestAdEventsResponse",
 }) as any as S.Schema<IngestAdEventsResponse>;
 
-export type IngestAudienceMembersRequestEncodingEnum =
-  | "ENCODING_UNSPECIFIED"
-  | "HEX"
-  | "BASE64";
-export const IngestAudienceMembersRequestEncodingEnum = S.String;
+export type ConsentAdPersonalizationEnum =
+  | "CONSENT_STATUS_UNSPECIFIED"
+  | "CONSENT_GRANTED"
+  | "CONSENT_DENIED";
+export const ConsentAdPersonalizationEnum = S.String;
+
+export type ConsentAdUserDataEnum =
+  | "CONSENT_STATUS_UNSPECIFIED"
+  | "CONSENT_GRANTED"
+  | "CONSENT_DENIED";
+export const ConsentAdUserDataEnum = S.String;
+
+/** [Digital Markets Act (DMA)](//digital-markets-act.ec.europa.eu/index_en) consent settings for the user. */
+export interface Consent {
+  /** Optional. Represents if the user consents to ad personalization. */
+  adPersonalization?: ConsentAdPersonalizationEnum | (string & {});
+  /** Optional. Represents if the user consents to ad user data. */
+  adUserData?: ConsentAdUserDataEnum | (string & {});
+}
+export const Consent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    adPersonalization: S.optional(ConsentAdPersonalizationEnum),
+    adUserData: S.optional(ConsentAdUserDataEnum),
+  }),
+).annotate({ identifier: "Consent" }) as any as S.Schema<Consent>;
+
+export type DestinationList = Array<Destination>;
+export const DestinationList = /*@__PURE__*/ S.Array(
+  Destination,
+) as any as S.Schema<DestinationList>;
 
 export type TermsOfServiceCustomerMatchTermsOfServiceStatusEnum =
   | "TERMS_OF_SERVICE_STATUS_UNSPECIFIED"
@@ -2170,36 +2217,11 @@ export const TermsOfService = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "TermsOfService" }) as any as S.Schema<TermsOfService>;
 
-export type DestinationList = Array<Destination>;
-export const DestinationList = /*@__PURE__*/ S.Array(
-  Destination,
-) as any as S.Schema<DestinationList>;
-
-export type ConsentAdUserDataEnum =
-  | "CONSENT_STATUS_UNSPECIFIED"
-  | "CONSENT_GRANTED"
-  | "CONSENT_DENIED";
-export const ConsentAdUserDataEnum = S.String;
-
-export type ConsentAdPersonalizationEnum =
-  | "CONSENT_STATUS_UNSPECIFIED"
-  | "CONSENT_GRANTED"
-  | "CONSENT_DENIED";
-export const ConsentAdPersonalizationEnum = S.String;
-
-/** [Digital Markets Act (DMA)](//digital-markets-act.ec.europa.eu/index_en) consent settings for the user. */
-export interface Consent {
-  /** Optional. Represents if the user consents to ad user data. */
-  adUserData?: ConsentAdUserDataEnum | (string & {});
-  /** Optional. Represents if the user consents to ad personalization. */
-  adPersonalization?: ConsentAdPersonalizationEnum | (string & {});
-}
-export const Consent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    adUserData: S.optional(ConsentAdUserDataEnum),
-    adPersonalization: S.optional(ConsentAdPersonalizationEnum),
-  }),
-).annotate({ identifier: "Consent" }) as any as S.Schema<Consent>;
+export type IngestAudienceMembersRequestEncodingEnum =
+  | "ENCODING_UNSPECIFIED"
+  | "HEX"
+  | "BASE64";
+export const IngestAudienceMembersRequestEncodingEnum = S.String;
 
 /** Publisher provided identifiers data holding the ppids. At least one ppid is required. This feature is only available to data partners. */
 export interface PpidData {
@@ -2212,31 +2234,20 @@ export const PpidData = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "PpidData" }) as any as S.Schema<PpidData>;
 
-/** Mobile IDs for the audience. At least one mobile ID is required. */
-export interface MobileData {
-  /** Required. The list of mobile device IDs (Android advertising ID, iOS IDFA for Customer Match user lists and Android advertising ID, iOS IDFA, Xbox or Microsoft ID, Amazon Fire TV ID, Roku ID, Generic Device ID for basic user lists). At most 10 `mobileIds` can be provided in a single AudienceMember. */
-  mobileIds?: StringList;
-}
-export const MobileData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mobileIds: S.optional(StringList),
-  }),
-).annotate({ identifier: "MobileData" }) as any as S.Schema<MobileData>;
-
 /** IP address information for a user. We recommend including observe_start_time and observe_end_time to help improve Customer Match match rates. */
 export interface IpData {
+  /** Optional. First recorded interaction time from this IP address in a session. */
+  observeStartTime?: string;
   /** Required. IP address captured at the time of customer interaction. Accepts standard string formats for both IPv4 and IPv6. */
   ipAddress?: string;
   /** Optional. Last recorded interaction time from this IP address in a session. */
   observeEndTime?: string;
-  /** Optional. First recorded interaction time from this IP address in a session. */
-  observeStartTime?: string;
 }
 export const IpData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    observeStartTime: S.optional(S.String),
     ipAddress: S.optional(S.String),
     observeEndTime: S.optional(S.String),
-    observeStartTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "IpData" }) as any as S.Schema<IpData>;
 
@@ -2247,17 +2258,30 @@ export const IpDataList = /*@__PURE__*/ S.Array(
 
 /** Composite data holding identifiers and associated data for a user. At least one of `user_data` or `ip_data` is required. */
 export interface CompositeData {
-  /** Optional. User-provided data that identifies the user. */
-  userData?: UserData;
   /** Optional. IP address data representing customer interaction used to build the audience. */
   ipData?: IpDataList;
+  /** Optional. User-provided data that identifies the user. */
+  userData?: UserData;
 }
 export const CompositeData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userData: S.optional(UserData),
     ipData: S.optional(IpDataList),
+    userData: S.optional(UserData),
   }),
 ).annotate({ identifier: "CompositeData" }) as any as S.Schema<CompositeData>;
+
+/** Partner-provided data holding the partner-provided identifiers. At least one partner-provided identifier is required. */
+export interface PartnerProvidedIdData {
+  /** Required. The list of partner-provided identifiers. */
+  partnerProvidedIds?: StringList;
+}
+export const PartnerProvidedIdData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    partnerProvidedIds: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "PartnerProvidedIdData",
+}) as any as S.Schema<PartnerProvidedIdData>;
 
 /** [PAIR](//support.google.com/admanager/answer/15067908) IDs for the audience. At least one PAIR ID is required. This feature is only available to data partners. */
 export interface PairData {
@@ -2283,6 +2307,17 @@ export const GoogleUserIdData = /*@__PURE__*/ S.suspend(() =>
   identifier: "GoogleUserIdData",
 }) as any as S.Schema<GoogleUserIdData>;
 
+/** Mobile IDs for the audience. At least one mobile ID is required. */
+export interface MobileData {
+  /** Required. The list of mobile device IDs (Android advertising ID, iOS IDFA for Customer Match user lists and Android advertising ID, iOS IDFA, Xbox or Microsoft ID, Amazon Fire TV ID, Roku ID, Generic Device ID for basic user lists). At most 10 `mobileIds` can be provided in a single AudienceMember. */
+  mobileIds?: StringList;
+}
+export const MobileData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mobileIds: S.optional(StringList),
+  }),
+).annotate({ identifier: "MobileData" }) as any as S.Schema<MobileData>;
+
 /** User id data holding the user id. */
 export interface UserIdData {
   /** Required. A unique identifier for a user, as defined by the advertiser. */
@@ -2294,54 +2329,41 @@ export const UserIdData = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "UserIdData" }) as any as S.Schema<UserIdData>;
 
-/** Partner-provided data holding the partner-provided identifiers. At least one partner-provided identifier is required. */
-export interface PartnerProvidedIdData {
-  /** Required. The list of partner-provided identifiers. */
-  partnerProvidedIds?: StringList;
-}
-export const PartnerProvidedIdData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    partnerProvidedIds: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "PartnerProvidedIdData",
-}) as any as S.Schema<PartnerProvidedIdData>;
-
 /** The audience member to be operated on. */
 export interface AudienceMember {
-  /** User-provided data that identifies the user. */
-  userData?: UserData;
   /** Data related to publisher provided identifiers. This feature is only available to data partners. */
   ppidData?: PpidData;
   /** Optional. Defines which Destination to send the audience member to. */
   destinationReferences?: StringList;
-  /** Data identifying the user's mobile devices. */
-  mobileData?: MobileData;
   /** Group of multiple identifier types. */
   compositeData?: CompositeData;
+  /** User-provided data that identifies the user. */
+  userData?: UserData;
+  /** Optional. The consent setting for the user. */
+  consent?: Consent;
+  /** Partner-provided identifiers. */
+  partnerProvidedIdData?: PartnerProvidedIdData;
   /** [Publisher Advertiser Identity Reconciliation (PAIR) IDs](//support.google.com/admanager/answer/15067908). This feature is only available to data partners. */
   pairData?: PairData;
   /** Encrypted Google User IDs. */
   googleUserIdData?: GoogleUserIdData;
+  /** Data identifying the user's mobile devices. */
+  mobileData?: MobileData;
   /** Data related to unique identifiers for a user, as defined by the advertiser. */
   userIdData?: UserIdData;
-  /** Partner-provided identifiers. */
-  partnerProvidedIdData?: PartnerProvidedIdData;
-  /** Optional. The consent setting for the user. */
-  consent?: Consent;
 }
 export const AudienceMember = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userData: S.optional(UserData),
     ppidData: S.optional(PpidData),
     destinationReferences: S.optional(StringList),
-    mobileData: S.optional(MobileData),
     compositeData: S.optional(CompositeData),
+    userData: S.optional(UserData),
+    consent: S.optional(Consent),
+    partnerProvidedIdData: S.optional(PartnerProvidedIdData),
     pairData: S.optional(PairData),
     googleUserIdData: S.optional(GoogleUserIdData),
+    mobileData: S.optional(MobileData),
     userIdData: S.optional(UserIdData),
-    partnerProvidedIdData: S.optional(PartnerProvidedIdData),
-    consent: S.optional(Consent),
   }),
 ).annotate({ identifier: "AudienceMember" }) as any as S.Schema<AudienceMember>;
 
@@ -2352,30 +2374,30 @@ export const AudienceMemberList = /*@__PURE__*/ S.Array(
 
 /** Request to upload audience members to the provided destinations. Returns an IngestAudienceMembersResponse. */
 export interface IngestAudienceMembersRequest {
-  /** Optional. Required for UserData uploads. The encoding type of the user identifiers. For hashed user identifiers, this is the encoding type of the hashed string. For encrypted hashed user identifiers, this is the encoding type of the outer encrypted string, but not necessarily the inner hashed string, meaning the inner hashed string could be encoded in a different way than the outer encrypted string. For non `UserData` uploads, this field is ignored. */
-  encoding?: IngestAudienceMembersRequestEncodingEnum | (string & {});
-  /** Optional. The terms of service that the user has accepted/rejected. */
-  termsOfService?: TermsOfService;
-  /** Required. The list of destinations to send the audience members to. */
-  destinations?: DestinationList;
   /** Optional. Request-level consent to apply to all users in the request. User-level consent overrides request-level consent, and can be specified in each AudienceMember. */
   consent?: Consent;
+  /** Required. The list of destinations to send the audience members to. */
+  destinations?: DestinationList;
   /** Optional. Encryption information for UserData uploads. If not set, it's assumed that uploaded identifying information is hashed but not encrypted. For non `UserData` uploads, this field is ignored. */
   encryptionInfo?: EncryptionInfo;
-  /** Optional. For testing purposes. If `true`, the request is validated but not executed. Only errors are returned, not results. */
-  validateOnly?: boolean;
+  /** Optional. The terms of service that the user has accepted/rejected. */
+  termsOfService?: TermsOfService;
+  /** Optional. Required for UserData uploads. The encoding type of the user identifiers. For hashed user identifiers, this is the encoding type of the hashed string. For encrypted hashed user identifiers, this is the encoding type of the outer encrypted string, but not necessarily the inner hashed string, meaning the inner hashed string could be encoded in a different way than the outer encrypted string. For non `UserData` uploads, this field is ignored. */
+  encoding?: IngestAudienceMembersRequestEncodingEnum | (string & {});
   /** Required. The list of users to send to the specified destinations. At most 10000 AudienceMember resources can be sent in a single request. */
   audienceMembers?: AudienceMemberList;
+  /** Optional. For testing purposes. If `true`, the request is validated but not executed. Only errors are returned, not results. */
+  validateOnly?: boolean;
 }
 export const IngestAudienceMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    encoding: S.optional(IngestAudienceMembersRequestEncodingEnum),
-    termsOfService: S.optional(TermsOfService),
-    destinations: S.optional(DestinationList),
     consent: S.optional(Consent),
+    destinations: S.optional(DestinationList),
     encryptionInfo: S.optional(EncryptionInfo),
-    validateOnly: S.optional(S.Boolean),
+    termsOfService: S.optional(TermsOfService),
+    encoding: S.optional(IngestAudienceMembersRequestEncodingEnum),
     audienceMembers: S.optional(AudienceMemberList),
+    validateOnly: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "IngestAudienceMembersRequest",
@@ -2441,66 +2463,124 @@ export const FieldWarningList = /*@__PURE__*/ S.Array(
 
 /** Response from the IngestAudienceMembersRequest. */
 export interface IngestAudienceMembersResponse {
-  /** The auto-generated ID of the request. */
-  requestId?: string;
   /** Detailed row-level warnings with field paths. */
   fieldWarnings?: FieldWarningList;
+  /** The auto-generated ID of the request. */
+  requestId?: string;
 }
 export const IngestAudienceMembersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String),
     fieldWarnings: S.optional(FieldWarningList),
+    requestId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "IngestAudienceMembersResponse",
 }) as any as S.Schema<IngestAudienceMembersResponse>;
 
-export type IngestEventsRequestEncodingEnum =
-  | "ENCODING_UNSPECIFIED"
-  | "HEX"
-  | "BASE64";
-export const IngestEventsRequestEncodingEnum = S.String;
+export type UserPropertiesCustomerValueBucketEnum =
+  | "CUSTOMER_VALUE_BUCKET_UNSPECIFIED"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH";
+export const UserPropertiesCustomerValueBucketEnum = S.String;
 
-/** Custom variable for ads conversions. */
-export interface CustomVariable {
-  /** Optional. Reference string used to determine which of the Event.destination_references the custom variable should be sent to. If empty, the Event.destination_references will be used. */
-  destinationReferences?: StringList;
-  /** Optional. The value to store for the custom variable. */
+export type UserPropertiesCustomerTypeEnum =
+  | "CUSTOMER_TYPE_UNSPECIFIED"
+  | "NEW"
+  | "RETURNING"
+  | "REENGAGED";
+export const UserPropertiesCustomerTypeEnum = S.String;
+
+/** A bucket of any additional [user properties](https://developers.google.com/analytics/devguides/collection/protocol/ga4/user-properties) for the user associated with this event. */
+export interface UserProperty {
+  /** Required. The name of the user property to use. */
+  propertyName?: string;
+  /** Required. The string representation of the value of the user property to use. */
   value?: string;
-  /** Optional. The name of the custom variable to set. If the variable is not found for the given destination, it will be ignored. */
-  variable?: string;
 }
-export const CustomVariable = /*@__PURE__*/ S.suspend(() =>
+export const UserProperty = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    destinationReferences: S.optional(StringList),
+    propertyName: S.optional(S.String),
     value: S.optional(S.String),
-    variable: S.optional(S.String),
   }),
-).annotate({ identifier: "CustomVariable" }) as any as S.Schema<CustomVariable>;
+).annotate({ identifier: "UserProperty" }) as any as S.Schema<UserProperty>;
 
-export type CustomVariableList = Array<CustomVariable>;
-export const CustomVariableList = /*@__PURE__*/ S.Array(
-  CustomVariable,
-) as any as S.Schema<CustomVariableList>;
+export type UserPropertyList = Array<UserProperty>;
+export const UserPropertyList = /*@__PURE__*/ S.Array(
+  UserProperty,
+) as any as S.Schema<UserPropertyList>;
 
-/** Event parameter for GA4 events. */
-export interface EventParameter {
+/** Advertiser-assessed information about the user at the time that the event happened. See https://support.google.com/google-ads/answer/14007601 for more details. */
+export interface UserProperties {
+  /** Optional. The advertiser-assessed value of the customer. */
+  customerValueBucket?: UserPropertiesCustomerValueBucketEnum | (string & {});
+  /** Optional. Type of the customer associated with the event. */
+  customerType?: UserPropertiesCustomerTypeEnum | (string & {});
+  /** Optional. A bucket of any additional [user properties](https://developers.google.com/analytics/devguides/collection/protocol/ga4/user-properties) for the user associated with this event. */
+  additionalUserProperties?: UserPropertyList;
+}
+export const UserProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    customerValueBucket: S.optional(UserPropertiesCustomerValueBucketEnum),
+    customerType: S.optional(UserPropertiesCustomerTypeEnum),
+    additionalUserProperties: S.optional(UserPropertyList),
+  }),
+).annotate({ identifier: "UserProperties" }) as any as S.Schema<UserProperties>;
+
+/** The location where the event occurred. */
+export interface EventLocation {
+  /** Optional. The subcontinent code in UN M49 format where the event occurred. */
+  subcontinentCode?: string;
+  /** Optional. The name of the city where the event occurred. */
+  city?: string;
+  /** Optional. The ISO 3166-2 subdivision code where the event occurred. */
+  subdivisionCode?: string;
+  /** Optional. The 2-letter CLDR region code of the user's address. */
+  regionCode?: string;
+  /** Optional. The continent code in UN M49 format where the event occurred. */
+  continentCode?: string;
+  /** Optional. Required for Store Sales. The identifier to represent a physical store where the event happened. */
+  storeId?: string;
+}
+export const EventLocation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subcontinentCode: S.optional(S.String),
+    city: S.optional(S.String),
+    subdivisionCode: S.optional(S.String),
+    regionCode: S.optional(S.String),
+    continentCode: S.optional(S.String),
+    storeId: S.optional(S.String),
+  }),
+).annotate({ identifier: "EventLocation" }) as any as S.Schema<EventLocation>;
+
+export type EventEventSourceEnum =
+  | "EVENT_SOURCE_UNSPECIFIED"
+  | "WEB"
+  | "APP"
+  | "IN_STORE"
+  | "PHONE"
+  | "MESSAGE"
+  | "OTHER";
+export const EventEventSourceEnum = S.String;
+
+/** A bucket of any [event parameters related to an item](https://developers.google.com/analytics/devguides/collection/protocol/ga4/reference/events) to be included within the event that were not already specified using other structured fields. */
+export interface ItemParameter {
   /** Required. The name of the parameter to use. */
   parameterName?: string;
   /** Required. The string representation of the value of the parameter to set. */
   value?: string;
 }
-export const EventParameter = /*@__PURE__*/ S.suspend(() =>
+export const ItemParameter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parameterName: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({ identifier: "EventParameter" }) as any as S.Schema<EventParameter>;
+).annotate({ identifier: "ItemParameter" }) as any as S.Schema<ItemParameter>;
 
-export type EventParameterList = Array<EventParameter>;
-export const EventParameterList = /*@__PURE__*/ S.Array(
-  EventParameter,
-) as any as S.Schema<EventParameterList>;
+export type ItemParameterList = Array<ItemParameter>;
+export const ItemParameterList = /*@__PURE__*/ S.Array(
+  ItemParameter,
+) as any as S.Schema<ItemParameterList>;
 
 /** Item-level custom variable for ads conversions. */
 export interface ItemCustomVariable {
@@ -2526,50 +2606,41 @@ export const ItemCustomVariableList = /*@__PURE__*/ S.Array(
   ItemCustomVariable,
 ) as any as S.Schema<ItemCustomVariableList>;
 
-/** A bucket of any [event parameters related to an item](https://developers.google.com/analytics/devguides/collection/protocol/ga4/reference/events) to be included within the event that were not already specified using other structured fields. */
-export type ItemParameter = EventParameter;
-export const ItemParameter = EventParameter;
-
-export type ItemParameterList = Array<EventParameter>;
-export const ItemParameterList = /*@__PURE__*/ S.Array(
-  EventParameter,
-) as any as S.Schema<ItemParameterList>;
-
 /** Represents an item in the cart associated with the event. */
 export interface Item {
-  /** Optional. The unit price excluding tax, shipping, and any transaction level discounts. */
-  unitPrice?: number;
-  /** Optional. The language code in ISO 639-1 associated with the Merchant Center feed where your items are uploaded. */
-  merchantFeedLanguageCode?: string;
-  /** Optional. A unique identifier to reference the item. */
-  itemId?: string;
-  /** Optional. Additional key/value pair information to send to the conversion containers (conversion action or Floodlight activity), when tracking per-item conversions. */
-  customVariables?: ItemCustomVariableList;
-  /** Optional. The product ID within the Merchant Center account. */
-  merchantProductId?: string;
-  /** Optional. The number of this item associated with the event. */
-  quantity?: string;
-  /** Optional. The Merchant Center ID associated with the item. For Store Sales events this will override the value set at the cart level. This field is ignored for other events. */
-  merchantId?: string;
-  /** Optional. The feed label of the Merchant Center feed. If countries are still being used, the 2-letter country code in ISO-3166-1 alpha-2 can be used instead. For Store Sales events this will override the value set at the cart level. This field is ignored for other events. */
-  merchantFeedLabel?: string;
   /** Optional. A bucket of any [event parameters related to an item](https://developers.google.com/analytics/devguides/collection/protocol/ga4/reference/events) to be included within the event that were not already specified using other structured fields. */
   additionalItemParameters?: ItemParameterList;
+  /** Optional. The language code in ISO 639-1 associated with the Merchant Center feed where your items are uploaded. */
+  merchantFeedLanguageCode?: string;
+  /** Optional. The product ID within the Merchant Center account. */
+  merchantProductId?: string;
+  /** Optional. The feed label of the Merchant Center feed. If countries are still being used, the 2-letter country code in ISO-3166-1 alpha-2 can be used instead. For Store Sales events this will override the value set at the cart level. This field is ignored for other events. */
+  merchantFeedLabel?: string;
+  /** Optional. A unique identifier to reference the item. */
+  itemId?: string;
   /** Optional. The conversion value associated with this item within the event, for cases where the conversion value is different for each item. */
   conversionValue?: number;
+  /** Optional. The number of this item associated with the event. */
+  quantity?: string;
+  /** Optional. The unit price excluding tax, shipping, and any transaction level discounts. */
+  unitPrice?: number;
+  /** Optional. The Merchant Center ID associated with the item. For Store Sales events this will override the value set at the cart level. This field is ignored for other events. */
+  merchantId?: string;
+  /** Optional. Additional key/value pair information to send to the conversion containers (conversion action or Floodlight activity), when tracking per-item conversions. */
+  customVariables?: ItemCustomVariableList;
 }
 export const Item = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unitPrice: S.optional(S.Number),
-    merchantFeedLanguageCode: S.optional(S.String),
-    itemId: S.optional(S.String),
-    customVariables: S.optional(ItemCustomVariableList),
-    merchantProductId: S.optional(S.String),
-    quantity: S.optional(S.String),
-    merchantId: S.optional(S.String),
-    merchantFeedLabel: S.optional(S.String),
     additionalItemParameters: S.optional(ItemParameterList),
+    merchantFeedLanguageCode: S.optional(S.String),
+    merchantProductId: S.optional(S.String),
+    merchantFeedLabel: S.optional(S.String),
+    itemId: S.optional(S.String),
     conversionValue: S.optional(S.Number),
+    quantity: S.optional(S.String),
+    unitPrice: S.optional(S.Number),
+    merchantId: S.optional(S.String),
+    customVariables: S.optional(ItemCustomVariableList),
   }),
 ).annotate({ identifier: "Item" }) as any as S.Schema<Item>;
 
@@ -2580,105 +2651,38 @@ export const ItemList = /*@__PURE__*/ S.Array(
 
 /** The cart data associated with the event. */
 export interface CartData {
-  /** Optional. The Merchant Center ID associated with the items. */
-  merchantId?: string;
   /** Optional. The Merchant Center feed label associated with the feed of the items. */
   merchantFeedLabel?: string;
+  /** Optional. The Merchant Center ID associated with the items. */
+  merchantId?: string;
   /** Optional. The list of items associated with the event. */
   items?: ItemList;
-  /** Optional. The language code in ISO 639-1 associated with the Merchant Center feed of the items.where your items are uploaded. */
-  merchantFeedLanguageCode?: string;
   /** Optional. The list of coupon codes that were applied to the cart. Cart-level and item-level coupon codes are independent. If the event is for a Google Analytics destination, only provide a single coupon code. Google Analytics ignores additional coupon codes. */
   couponCodes?: StringList;
+  /** Optional. The language code in ISO 639-1 associated with the Merchant Center feed of the items.where your items are uploaded. */
+  merchantFeedLanguageCode?: string;
   /** Optional. The sum of all discounts associated with the transaction. */
   transactionDiscount?: number;
 }
 export const CartData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantId: S.optional(S.String),
     merchantFeedLabel: S.optional(S.String),
+    merchantId: S.optional(S.String),
     items: S.optional(ItemList),
-    merchantFeedLanguageCode: S.optional(S.String),
     couponCodes: S.optional(StringList),
+    merchantFeedLanguageCode: S.optional(S.String),
     transactionDiscount: S.optional(S.Number),
   }),
 ).annotate({ identifier: "CartData" }) as any as S.Schema<CartData>;
 
-export type UserPropertiesCustomerValueBucketEnum =
-  | "CUSTOMER_VALUE_BUCKET_UNSPECIFIED"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH";
-export const UserPropertiesCustomerValueBucketEnum = S.String;
+/** Custom variable for ads conversions. */
+export type CustomVariable = ItemCustomVariable;
+export const CustomVariable = ItemCustomVariable;
 
-/** A bucket of any additional [user properties](https://developers.google.com/analytics/devguides/collection/protocol/ga4/user-properties) for the user associated with this event. */
-export interface UserProperty {
-  /** Required. The string representation of the value of the user property to use. */
-  value?: string;
-  /** Required. The name of the user property to use. */
-  propertyName?: string;
-}
-export const UserProperty = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.String),
-    propertyName: S.optional(S.String),
-  }),
-).annotate({ identifier: "UserProperty" }) as any as S.Schema<UserProperty>;
-
-export type UserPropertyList = Array<UserProperty>;
-export const UserPropertyList = /*@__PURE__*/ S.Array(
-  UserProperty,
-) as any as S.Schema<UserPropertyList>;
-
-export type UserPropertiesCustomerTypeEnum =
-  | "CUSTOMER_TYPE_UNSPECIFIED"
-  | "NEW"
-  | "RETURNING"
-  | "REENGAGED";
-export const UserPropertiesCustomerTypeEnum = S.String;
-
-/** Advertiser-assessed information about the user at the time that the event happened. See https://support.google.com/google-ads/answer/14007601 for more details. */
-export interface UserProperties {
-  /** Optional. The advertiser-assessed value of the customer. */
-  customerValueBucket?: UserPropertiesCustomerValueBucketEnum | (string & {});
-  /** Optional. A bucket of any additional [user properties](https://developers.google.com/analytics/devguides/collection/protocol/ga4/user-properties) for the user associated with this event. */
-  additionalUserProperties?: UserPropertyList;
-  /** Optional. Type of the customer associated with the event. */
-  customerType?: UserPropertiesCustomerTypeEnum | (string & {});
-}
-export const UserProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    customerValueBucket: S.optional(UserPropertiesCustomerValueBucketEnum),
-    additionalUserProperties: S.optional(UserPropertyList),
-    customerType: S.optional(UserPropertiesCustomerTypeEnum),
-  }),
-).annotate({ identifier: "UserProperties" }) as any as S.Schema<UserProperties>;
-
-/** The location where the event occurred. */
-export interface EventLocation {
-  /** Optional. The subcontinent code in UN M49 format where the event occurred. */
-  subcontinentCode?: string;
-  /** Optional. The continent code in UN M49 format where the event occurred. */
-  continentCode?: string;
-  /** Optional. The 2-letter CLDR region code of the user's address. */
-  regionCode?: string;
-  /** Optional. The ISO 3166-2 subdivision code where the event occurred. */
-  subdivisionCode?: string;
-  /** Optional. The name of the city where the event occurred. */
-  city?: string;
-  /** Optional. Required for Store Sales. The identifier to represent a physical store where the event happened. */
-  storeId?: string;
-}
-export const EventLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subcontinentCode: S.optional(S.String),
-    continentCode: S.optional(S.String),
-    regionCode: S.optional(S.String),
-    subdivisionCode: S.optional(S.String),
-    city: S.optional(S.String),
-    storeId: S.optional(S.String),
-  }),
-).annotate({ identifier: "EventLocation" }) as any as S.Schema<EventLocation>;
+export type CustomVariableList = Array<ItemCustomVariable>;
+export const CustomVariableList = /*@__PURE__*/ S.Array(
+  ItemCustomVariable,
+) as any as S.Schema<CustomVariableList>;
 
 export type EncryptedUserIdSourceEnum =
   | "ENCRYPTION_SOURCE_UNSPECIFIED"
@@ -2702,17 +2706,17 @@ export interface EncryptedUserId {
   encryptedId?: string;
   /** Required. Describes whether the encrypted cookie was received from ad serving (the %m macro) or from Data Transfer. */
   source?: EncryptedUserIdSourceEnum | (string & {});
-  /** Required. The encryption entity type. This should match the encryption configuration for ad serving or Data Transfer. */
-  entityType?: EncryptedUserIdEntityTypeEnum | (string & {});
   /** Required. The encryption entity ID. This should match the encryption configuration for ad serving or Data Transfer. */
   entityId?: string;
+  /** Required. The encryption entity type. This should match the encryption configuration for ad serving or Data Transfer. */
+  entityType?: EncryptedUserIdEntityTypeEnum | (string & {});
 }
 export const EncryptedUserId = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     encryptedId: S.optional(S.String),
     source: S.optional(EncryptedUserIdSourceEnum),
-    entityType: S.optional(EncryptedUserIdEntityTypeEnum),
     entityId: S.optional(S.String),
+    entityType: S.optional(EncryptedUserIdEntityTypeEnum),
   }),
 ).annotate({
   identifier: "EncryptedUserId",
@@ -2725,51 +2729,41 @@ export const EncryptedUserIdList = /*@__PURE__*/ S.Array(
 
 /** Identifiers and other information used to match the conversion event with other online activity (such as ad clicks). */
 export interface AdIdentifiers {
-  /** Optional. The click identifier for clicks associated with app events and originating from iOS devices starting with iOS14. */
-  gbraid?: string;
+  /** Optional. The Google click ID (gclid) associated with this event. */
+  gclid?: string;
   /** Optional. The mobile identifier for advertisers. This would be IDFA on iOS, AdID on Android, or other platforms’ identifiers for advertisers. */
   mobileDeviceId?: string;
-  /** Optional. The click identifier for clicks associated with web events and originating from iOS devices starting with iOS14. */
-  wbraid?: string;
-  /** Optional. The match ID field used to join this event with a previous event. */
-  matchId?: string;
+  /** Optional. The impression ID associated with this event. */
+  impressionId?: string;
   /** Optional. The display click ID associated with this event. */
   dclid?: string;
   /** Optional. Any number of encrypted user IDs. */
   encryptedUserIds?: EncryptedUserIdList;
+  /** Optional. The click identifier for clicks associated with app events and originating from iOS devices starting with iOS14. */
+  gbraid?: string;
   /** Optional. Session attributes for event attribution and modeling. */
   sessionAttributes?: string;
-  /** Optional. The Google click ID (gclid) associated with this event. */
-  gclid?: string;
-  /** Optional. The impression ID associated with this event. */
-  impressionId?: string;
   /** Optional. Information gathered about the device being used (if any) at the time of landing onto the advertiser’s site after interacting with the ad. */
   landingPageDeviceInfo?: DeviceInfo;
+  /** Optional. The click identifier for clicks associated with web events and originating from iOS devices starting with iOS14. */
+  wbraid?: string;
+  /** Optional. The match ID field used to join this event with a previous event. */
+  matchId?: string;
 }
 export const AdIdentifiers = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    gbraid: S.optional(S.String),
+    gclid: S.optional(S.String),
     mobileDeviceId: S.optional(S.String),
-    wbraid: S.optional(S.String),
-    matchId: S.optional(S.String),
+    impressionId: S.optional(S.String),
     dclid: S.optional(S.String),
     encryptedUserIds: S.optional(EncryptedUserIdList),
+    gbraid: S.optional(S.String),
     sessionAttributes: S.optional(S.String),
-    gclid: S.optional(S.String),
-    impressionId: S.optional(S.String),
     landingPageDeviceInfo: S.optional(DeviceInfo),
+    wbraid: S.optional(S.String),
+    matchId: S.optional(S.String),
   }),
 ).annotate({ identifier: "AdIdentifiers" }) as any as S.Schema<AdIdentifiers>;
-
-export type EventEventSourceEnum =
-  | "EVENT_SOURCE_UNSPECIFIED"
-  | "WEB"
-  | "APP"
-  | "IN_STORE"
-  | "PHONE"
-  | "MESSAGE"
-  | "OTHER";
-export const EventEventSourceEnum = S.String;
 
 /** Experimental field representing unofficial fields. */
 export interface ExperimentalField {
@@ -2792,80 +2786,89 @@ export const ExperimentalFieldList = /*@__PURE__*/ S.Array(
   ExperimentalField,
 ) as any as S.Schema<ExperimentalFieldList>;
 
+/** Event parameter for GA4 events. */
+export type EventParameter = ItemParameter;
+export const EventParameter = ItemParameter;
+
+export type EventParameterList = Array<ItemParameter>;
+export const EventParameterList = /*@__PURE__*/ S.Array(
+  ItemParameter,
+) as any as S.Schema<EventParameterList>;
+
 /** An event representing a user interaction with an advertiser's website or app. */
 export interface Event {
-  /** Optional. Additional key/value pair information to send to the conversion containers (conversion action or FL activity). */
-  customVariables?: CustomVariableList;
-  /** Optional. A unique identifier for the user instance of an app client for this GA4 app stream. */
-  appInstanceId?: string;
-  /** Optional. Pieces of user provided data, representing the user the event is associated with. */
-  userData?: UserData;
-  /** Optional. Information gathered about the device being used (if any) when the event happened. */
-  eventDeviceInfo?: DeviceInfo;
-  /** Optional. The currency code associated with all monetary values within this event. */
-  currency?: string;
-  /** Optional. A unique identifier for the user instance of a web client for this GA4 web stream. */
-  clientId?: string;
   /** Optional. Reference string used to determine the destination. If empty, the event will be sent to all destinations in the request. */
   destinationReferences?: StringList;
-  /** Optional. A unique identifier for a user, as defined by the advertiser. */
-  userId?: string;
-  /** Optional. A bucket of any [event parameters](https://developers.google.com/analytics/devguides/collection/protocol/ga4/reference/events) to be included within the event that were not already specified using other structured fields. */
-  additionalEventParameters?: EventParameterList;
-  /** Optional. The last time the event was updated. */
-  lastUpdatedTimestamp?: string;
+  /** Optional. A unique identifier for the user instance of an app client for this GA4 app stream. */
+  appInstanceId?: string;
+  /** Optional. The currency code associated with all monetary values within this event. */
+  currency?: string;
+  /** Optional. Information gathered about the device being used (if any) when the event happened. */
+  eventDeviceInfo?: DeviceInfo;
   /** Optional. The conversion value associated with the event, for value-based conversions. */
   conversionValue?: number;
-  /** Optional. Information about the transaction and items associated with the event. */
-  cartData?: CartData;
+  /** Optional. A unique identifier for the user instance of a web client for this GA4 web stream. */
+  clientId?: string;
   /** Optional. Advertiser-assessed information about the user at the time that the event happened. */
   userProperties?: UserProperties;
-  /** Optional. The unique identifier for this event. Required for events sent as an additional data source for tag conversions. */
-  transactionId?: string;
-  /** Required. The time the event occurred. */
-  eventTimestamp?: string;
   /** Optional. Information gathered about the location of the user when this event occurred. */
   eventLocation?: EventLocation;
-  /** Optional. Information about whether the associated user has provided different types of consent. */
-  consent?: Consent;
-  /** Optional. Identifiers and other information used to match the conversion event with other online activity (such as ad clicks). */
-  adIdentifiers?: AdIdentifiers;
-  /** Optional. The name of the event. Required for GA4 events. */
-  eventName?: string;
-  /** Optional. Signal for where the event happened (web, app, in-store, etc.). */
-  eventSource?: EventEventSourceEnum | (string & {});
-  /** Optional. A list of key/value pairs for experimental fields that may eventually be promoted to be part of the API. */
-  experimentalFields?: ExperimentalFieldList;
-  /** Optional. The conversion quantity associated with the event, for counting-based conversions. */
-  conversionCount?: number;
   /** Optional. The same type of data provided in user_data, but explicitly flagged as being provided as owned by a third-party and not first-party advertiser data. */
   thirdPartyUserData?: UserData;
+  /** Optional. Signal for where the event happened (web, app, in-store, etc.). */
+  eventSource?: EventEventSourceEnum | (string & {});
+  /** Optional. Information about the transaction and items associated with the event. */
+  cartData?: CartData;
+  /** Optional. A unique identifier for a user, as defined by the advertiser. */
+  userId?: string;
+  /** Optional. Pieces of user provided data, representing the user the event is associated with. */
+  userData?: UserData;
+  /** Optional. The unique identifier for this event. Required for events sent as an additional data source for tag conversions. */
+  transactionId?: string;
+  /** Optional. The last time the event was updated. */
+  lastUpdatedTimestamp?: string;
+  /** Optional. Additional key/value pair information to send to the conversion containers (conversion action or FL activity). */
+  customVariables?: CustomVariableList;
+  /** Optional. The name of the event. Required for GA4 events. */
+  eventName?: string;
+  /** Optional. The conversion quantity associated with the event, for counting-based conversions. */
+  conversionCount?: number;
+  /** Optional. Identifiers and other information used to match the conversion event with other online activity (such as ad clicks). */
+  adIdentifiers?: AdIdentifiers;
+  /** Optional. Information about whether the associated user has provided different types of consent. */
+  consent?: Consent;
+  /** Optional. A list of key/value pairs for experimental fields that may eventually be promoted to be part of the API. */
+  experimentalFields?: ExperimentalFieldList;
+  /** Required. The time the event occurred. */
+  eventTimestamp?: string;
+  /** Optional. A bucket of any [event parameters](https://developers.google.com/analytics/devguides/collection/protocol/ga4/reference/events) to be included within the event that were not already specified using other structured fields. */
+  additionalEventParameters?: EventParameterList;
 }
 export const Event = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customVariables: S.optional(CustomVariableList),
-    appInstanceId: S.optional(S.String),
-    userData: S.optional(UserData),
-    eventDeviceInfo: S.optional(DeviceInfo),
-    currency: S.optional(S.String),
-    clientId: S.optional(S.String),
     destinationReferences: S.optional(StringList),
-    userId: S.optional(S.String),
-    additionalEventParameters: S.optional(EventParameterList),
-    lastUpdatedTimestamp: S.optional(S.String),
+    appInstanceId: S.optional(S.String),
+    currency: S.optional(S.String),
+    eventDeviceInfo: S.optional(DeviceInfo),
     conversionValue: S.optional(S.Number),
-    cartData: S.optional(CartData),
+    clientId: S.optional(S.String),
     userProperties: S.optional(UserProperties),
-    transactionId: S.optional(S.String),
-    eventTimestamp: S.optional(S.String),
     eventLocation: S.optional(EventLocation),
-    consent: S.optional(Consent),
-    adIdentifiers: S.optional(AdIdentifiers),
-    eventName: S.optional(S.String),
-    eventSource: S.optional(EventEventSourceEnum),
-    experimentalFields: S.optional(ExperimentalFieldList),
-    conversionCount: S.optional(S.Number),
     thirdPartyUserData: S.optional(UserData),
+    eventSource: S.optional(EventEventSourceEnum),
+    cartData: S.optional(CartData),
+    userId: S.optional(S.String),
+    userData: S.optional(UserData),
+    transactionId: S.optional(S.String),
+    lastUpdatedTimestamp: S.optional(S.String),
+    customVariables: S.optional(CustomVariableList),
+    eventName: S.optional(S.String),
+    conversionCount: S.optional(S.Number),
+    adIdentifiers: S.optional(AdIdentifiers),
+    consent: S.optional(Consent),
+    experimentalFields: S.optional(ExperimentalFieldList),
+    eventTimestamp: S.optional(S.String),
+    additionalEventParameters: S.optional(EventParameterList),
   }),
 ).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
 
@@ -2874,29 +2877,35 @@ export const EventList = /*@__PURE__*/ S.Array(
   Event,
 ) as any as S.Schema<EventList>;
 
+export type IngestEventsRequestEncodingEnum =
+  | "ENCODING_UNSPECIFIED"
+  | "HEX"
+  | "BASE64";
+export const IngestEventsRequestEncodingEnum = S.String;
+
 /** Request to upload audience members to the provided destinations. Returns an IngestEventsResponse. */
 export interface IngestEventsRequest {
-  /** Required. The list of destinations to send the events to. */
-  destinations?: DestinationList;
-  /** Optional. Required for UserData uploads. The encoding type of the user identifiers. For hashed user identifiers, this is the encoding type of the hashed string. For encrypted hashed user identifiers, this is the encoding type of the outer encrypted string, but not necessarily the inner hashed string, meaning the inner hashed string could be encoded in a different way than the outer encrypted string. For non `UserData` uploads, this field is ignored. */
-  encoding?: IngestEventsRequestEncodingEnum | (string & {});
   /** Optional. Request-level consent to apply to all users in the request. User-level consent overrides request-level consent, and can be specified in each Event. */
   consent?: Consent;
   /** Required. The list of events to send to the specified destinations. At most 2000 Event resources can be sent in a single request. */
   events?: EventList;
-  /** Optional. For testing purposes. If `true`, the request is validated but not executed. Only errors are returned, not results. */
-  validateOnly?: boolean;
   /** Optional. Encryption information for UserData uploads. If not set, it's assumed that uploaded identifying information is hashed but not encrypted. For non `UserData` uploads, this field is ignored. */
   encryptionInfo?: EncryptionInfo;
+  /** Optional. For testing purposes. If `true`, the request is validated but not executed. Only errors are returned, not results. */
+  validateOnly?: boolean;
+  /** Optional. Required for UserData uploads. The encoding type of the user identifiers. For hashed user identifiers, this is the encoding type of the hashed string. For encrypted hashed user identifiers, this is the encoding type of the outer encrypted string, but not necessarily the inner hashed string, meaning the inner hashed string could be encoded in a different way than the outer encrypted string. For non `UserData` uploads, this field is ignored. */
+  encoding?: IngestEventsRequestEncodingEnum | (string & {});
+  /** Required. The list of destinations to send the events to. */
+  destinations?: DestinationList;
 }
 export const IngestEventsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    destinations: S.optional(DestinationList),
-    encoding: S.optional(IngestEventsRequestEncodingEnum),
     consent: S.optional(Consent),
     events: S.optional(EventList),
-    validateOnly: S.optional(S.Boolean),
     encryptionInfo: S.optional(EncryptionInfo),
+    validateOnly: S.optional(S.Boolean),
+    encoding: S.optional(IngestEventsRequestEncodingEnum),
+    destinations: S.optional(DestinationList),
   }),
 ).annotate({
   identifier: "IngestEventsRequest",
@@ -2988,20 +2997,20 @@ export const ListUserListDirectLicensesResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListAccountTypesAccountsUserListGlobalLicensesRequest {
   /** Optional. The maximum number of licenses to return. The service may return fewer than this value. If unspecified, at most 50 licenses will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
-  /** Optional. A page token, received from a previous `ListUserListGlobalLicense` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUserListDirectLicense` must match the call that provided the page token. */
-  pageToken?: string;
   /** Required. The account whose licenses are being queried. Should be in the format accountTypes/{ACCOUNT_TYPE}/accounts/{ACCOUNT_ID} */
   parent: string;
   /** Optional. A [filter string](https://google.aip.dev/160) to apply to the list request. All fields need to be on the left hand side of each condition (for example: `user_list_id = 123`). Fields must be specified using either all [camel case](https://en.wikipedia.org/wiki/Camel_case) or all [snake case](https://en.wikipedia.org/wiki/Snake_case). Don't use a combination of camel case and snake case. **Supported Operations:** - `AND` - `=` - `!=` - `>` - `>=` - `<` - `<=` **Supported Functions:** - `IN(field, value1, value2, ...)`: returns true if the field matches any of the values. Example: `IN(user_list_id, 123, 456)` **Unsupported Fields:** - `name` (use get method instead) - `historical_pricings` and all its subfields - `pricing.start_time` - `pricing.end_time` */
   filter?: string;
+  /** Optional. A page token, received from a previous `ListUserListGlobalLicense` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUserListDirectLicense` must match the call that provided the page token. */
+  pageToken?: string;
 }
 export const ListAccountTypesAccountsUserListGlobalLicensesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3086,44 +3095,44 @@ export const UserListGlobalLicenseCustomerInfoStatusEnum = S.String;
 
 /** Information about a customer of a user list global license. This will automatically be created by the system when a customer purchases a global license. */
 export interface UserListGlobalLicenseCustomerInfo {
-  /** Output only. Product type of client customer which the user list is being licensed to. */
-  licenseType?: UserListGlobalLicenseCustomerInfoLicenseTypeEnum;
-  /** Output only. ID of client customer which the user list is being licensed to. */
-  clientAccountId?: string;
-  /** Output only. Product type of client customer which the user list is being licensed to. */
-  clientAccountType?: UserListGlobalLicenseCustomerInfoClientAccountTypeEnum;
   /** Output only. Name of the user list being licensed. */
   userListDisplayName?: string;
-  /** Identifier. The resource name of the user list global license customer. */
-  name?: string;
-  /** Output only. Pricing history of this user list license. */
-  historicalPricings?: UserListLicensePricingList;
   /** Output only. UserListDirectLicense pricing. */
   pricing?: UserListLicensePricing;
-  /** Output only. ID of the user list being licensed. */
-  userListId?: string;
-  /** Output only. Status of UserListDirectLicense - ENABLED or DISABLED. */
-  status?: UserListGlobalLicenseCustomerInfoStatusEnum;
-  /** Output only. Metrics related to this license This field is only populated if the start and end dates are set in the ListUserListGlobalLicenseCustomerInfos call. */
-  metrics?: UserListLicenseMetrics;
+  /** Output only. ID of client customer which the user list is being licensed to. */
+  clientAccountId?: string;
   /** Output only. Name of client customer which the user list is being licensed to. */
   clientAccountDisplayName?: string;
+  /** Identifier. The resource name of the user list global license customer. */
+  name?: string;
+  /** Output only. ID of the user list being licensed. */
+  userListId?: string;
+  /** Output only. Pricing history of this user list license. */
+  historicalPricings?: UserListLicensePricingList;
+  /** Output only. Metrics related to this license This field is only populated if the start and end dates are set in the ListUserListGlobalLicenseCustomerInfos call. */
+  metrics?: UserListLicenseMetrics;
+  /** Output only. Product type of client customer which the user list is being licensed to. */
+  licenseType?: UserListGlobalLicenseCustomerInfoLicenseTypeEnum;
+  /** Output only. Product type of client customer which the user list is being licensed to. */
+  clientAccountType?: UserListGlobalLicenseCustomerInfoClientAccountTypeEnum;
+  /** Output only. Status of UserListDirectLicense - ENABLED or DISABLED. */
+  status?: UserListGlobalLicenseCustomerInfoStatusEnum;
 }
 export const UserListGlobalLicenseCustomerInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    licenseType: S.optional(UserListGlobalLicenseCustomerInfoLicenseTypeEnum),
+    userListDisplayName: S.optional(S.String),
+    pricing: S.optional(UserListLicensePricing),
     clientAccountId: S.optional(S.String),
+    clientAccountDisplayName: S.optional(S.String),
+    name: S.optional(S.String),
+    userListId: S.optional(S.String),
+    historicalPricings: S.optional(UserListLicensePricingList),
+    metrics: S.optional(UserListLicenseMetrics),
+    licenseType: S.optional(UserListGlobalLicenseCustomerInfoLicenseTypeEnum),
     clientAccountType: S.optional(
       UserListGlobalLicenseCustomerInfoClientAccountTypeEnum,
     ),
-    userListDisplayName: S.optional(S.String),
-    name: S.optional(S.String),
-    historicalPricings: S.optional(UserListLicensePricingList),
-    pricing: S.optional(UserListLicensePricing),
-    userListId: S.optional(S.String),
     status: S.optional(UserListGlobalLicenseCustomerInfoStatusEnum),
-    metrics: S.optional(UserListLicenseMetrics),
-    clientAccountDisplayName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "UserListGlobalLicenseCustomerInfo",
@@ -3204,18 +3213,18 @@ export const ListUserListsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListUserListsResponse>;
 
 export interface PatchAccountTypesAccountsUserListDirectLicensesRequest {
-  /** Identifier. The resource name of the user list direct license. */
-  name: string;
   /** Optional. The list of fields to update. The special character `*` is not supported and an `INVALID_UPDATE_MASK` error will be thrown if used. */
   updateMask?: string;
+  /** Identifier. The resource name of the user list direct license. */
+  name: string;
   /** Request body */
   body?: UserListDirectLicense;
 }
 export const PatchAccountTypesAccountsUserListDirectLicensesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(UserListDirectLicense.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -3254,21 +3263,21 @@ export const PatchAccountTypesAccountsUserListGlobalLicensesRequest =
   }) as any as S.Schema<PatchAccountTypesAccountsUserListGlobalLicensesRequest>;
 
 export interface PatchAccountTypesAccountsUserListsRequest {
+  /** Identifier. The resource name of the user list. Format: accountTypes/{account_type}/accounts/{account}/userLists/{user_list} */
+  name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string;
   /** Optional. If true, the request is validated but not executed. */
   validateOnly?: boolean;
-  /** Identifier. The resource name of the user list. Format: accountTypes/{account_type}/accounts/{account}/userLists/{user_list} */
-  name: string;
   /** Request body */
   body?: UserList;
 }
 export const PatchAccountTypesAccountsUserListsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
       validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
       body: S.optional(UserList.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -3283,18 +3292,18 @@ export const PatchAccountTypesAccountsUserListsRequest =
 
 /** Request to remove all users from an audience in the provided destinations. Returns a RemoveAllAudienceMembersResponse. */
 export interface RemoveAllAudienceMembersRequest {
-  /** Required. The list of destinations to remove the users from. */
-  destinations?: DestinationList;
   /** Optional. The remove as of time. If set, only audience members last added before this time will be removed. If not set, it defaults to current time. The remove as of time must not be in the future. */
   removeAsOfTime?: string;
   /** Optional. For testing purposes. If `true`, the request is validated but not executed. Only errors are returned, not results. */
   validateOnly?: boolean;
+  /** Required. The list of destinations to remove the users from. */
+  destinations?: DestinationList;
 }
 export const RemoveAllAudienceMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    destinations: S.optional(DestinationList),
     removeAsOfTime: S.optional(S.String),
     validateOnly: S.optional(S.Boolean),
+    destinations: S.optional(DestinationList),
   }),
 ).annotate({
   identifier: "RemoveAllAudienceMembersRequest",
@@ -3339,24 +3348,24 @@ export const RemoveAudienceMembersRequestEncodingEnum = S.String;
 
 /** Request to remove users from an audience in the provided destinations. Returns a RemoveAudienceMembersResponse. */
 export interface RemoveAudienceMembersRequest {
-  /** Optional. For testing purposes. If `true`, the request is validated but not executed. Only errors are returned, not results. */
-  validateOnly?: boolean;
-  /** Optional. Required for UserData uploads. The encoding type of the user identifiers. Applies to only the outer encoding for encrypted user identifiers. For non `UserData` uploads, this field is ignored. */
-  encoding?: RemoveAudienceMembersRequestEncodingEnum | (string & {});
-  /** Optional. Encryption information for UserData uploads. If not set, it's assumed that uploaded identifying information is hashed but not encrypted. For non `UserData` uploads, this field is ignored. */
-  encryptionInfo?: EncryptionInfo;
   /** Required. The list of users to remove. */
   audienceMembers?: AudienceMemberList;
+  /** Optional. Required for UserData uploads. The encoding type of the user identifiers. Applies to only the outer encoding for encrypted user identifiers. For non `UserData` uploads, this field is ignored. */
+  encoding?: RemoveAudienceMembersRequestEncodingEnum | (string & {});
+  /** Optional. For testing purposes. If `true`, the request is validated but not executed. Only errors are returned, not results. */
+  validateOnly?: boolean;
   /** Required. The list of destinations to remove the users from. */
   destinations?: DestinationList;
+  /** Optional. Encryption information for UserData uploads. If not set, it's assumed that uploaded identifying information is hashed but not encrypted. For non `UserData` uploads, this field is ignored. */
+  encryptionInfo?: EncryptionInfo;
 }
 export const RemoveAudienceMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean),
-    encoding: S.optional(RemoveAudienceMembersRequestEncodingEnum),
-    encryptionInfo: S.optional(EncryptionInfo),
     audienceMembers: S.optional(AudienceMemberList),
+    encoding: S.optional(RemoveAudienceMembersRequestEncodingEnum),
+    validateOnly: S.optional(S.Boolean),
     destinations: S.optional(DestinationList),
+    encryptionInfo: S.optional(EncryptionInfo),
   }),
 ).annotate({
   identifier: "RemoveAudienceMembersRequest",
@@ -3394,22 +3403,22 @@ export const RemoveAudienceMembersResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RemoveAudienceMembersResponse>;
 
 export interface SearchAccountTypesAccountsPartnerLinksRequest {
-  /** The maximum number of partner links to return. The service may return fewer than this value. If unspecified, at most 50 partner links will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
   /** Required. Account to search for partner links. If no `filter` is specified, all partner links where this account is either the `owning_account` or `partner_account` are returned. Format: `accountTypes/{account_type}/accounts/{account}` */
   parent: string;
   /** Optional. A [filter string](https://google.aip.dev/160). All fields need to be on the left hand side of each condition (for example: `partner_link_id = 123456789`). Fields must be specified using either all [camel case](https://en.wikipedia.org/wiki/Camel_case) or all [snake case](https://en.wikipedia.org/wiki/Snake_case). Don't use a combination of camel case and snake case. Supported operations: - `AND` - `=` - `!=` Supported fields: - `partner_link_id` - `owning_account.account_type` - `owning_account.account_id` - `partner_account.account_type` - `partner_account.account_id` - `feature_set` For partner links with the FEATURE_SET_AD_EVENT_MANAGEMENT feature set, the following fields are also supported: - `partner_customer_account.account_id` - `partner_link_metadata.implicit_accounts.account_id` Example: `owning_account.account_type = "GOOGLE_ADS" AND partner_account.account_id = 987654321` */
   filter?: string;
   /** A page token, received from a previous `SearchPartnerLinks` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `SearchPartnerLinks` must match the call that provided the page token. */
   pageToken?: string;
+  /** The maximum number of partner links to return. The service may return fewer than this value. If unspecified, at most 50 partner links will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
+  pageSize?: number;
 }
 export const SearchAccountTypesAccountsPartnerLinksRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       filter: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3428,15 +3437,15 @@ export const PartnerLinkList = /*@__PURE__*/ S.Array(
 
 /** Response from the SearchPartnerLinksRequest. */
 export interface SearchPartnerLinksResponse {
-  /** The partner links for the given account. */
-  partnerLinks?: PartnerLinkList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** The partner links for the given account. */
+  partnerLinks?: PartnerLinkList;
 }
 export const SearchPartnerLinksResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    partnerLinks: S.optional(PartnerLinkList),
     nextPageToken: S.optional(S.String),
+    partnerLinks: S.optional(PartnerLinkList),
   }),
 ).annotate({
   identifier: "SearchPartnerLinksResponse",
@@ -3507,6 +3516,7 @@ export type CreateAccountTypesAccountsUserListsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | DataManagerScopeInsufficient
   | GcpOpError;
 /** Creates a UserList. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export const createAccountTypesAccountsUserLists: API.OperationMethod<
@@ -3517,7 +3527,14 @@ export const createAccountTypesAccountsUserLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountTypesAccountsUserListsRequest,
   output: UserList,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    DataManagerScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3547,6 +3564,7 @@ export type DeleteAccountTypesAccountsUserListsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | DataManagerScopeInsufficient
   | GcpOpError;
 /** Deletes a UserList. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export const deleteAccountTypesAccountsUserLists: API.OperationMethod<
@@ -3557,7 +3575,14 @@ export const deleteAccountTypesAccountsUserLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountTypesAccountsUserListsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    DataManagerScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3621,6 +3646,7 @@ export const getAccountTypesAccountsUserListGlobalLicenses: API.OperationMethod<
 export type GetAccountTypesAccountsUserListsError =
   | NotFound
   | Forbidden
+  | DataManagerScopeInsufficient
   | GcpOpError;
 /** Gets a UserList. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export const getAccountTypesAccountsUserLists: API.OperationMethod<
@@ -3631,7 +3657,7 @@ export const getAccountTypesAccountsUserLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountTypesAccountsUserListsRequest,
   output: UserList,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, DataManagerScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3784,6 +3810,7 @@ export const listAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicense
 export type ListAccountTypesAccountsUserListsError =
   | NotFound
   | Forbidden
+  | DataManagerScopeInsufficient
   | GcpOpError;
 /** Lists UserLists. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export const listAccountTypesAccountsUserLists: API.PaginatedOperationMethod<
@@ -3795,7 +3822,7 @@ export const listAccountTypesAccountsUserLists: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountTypesAccountsUserListsRequest,
   output: ListUserListsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, DataManagerScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3849,6 +3876,7 @@ export type PatchAccountTypesAccountsUserListsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | DataManagerScopeInsufficient
   | GcpOpError;
 /** Updates a UserList. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export const patchAccountTypesAccountsUserLists: API.OperationMethod<
@@ -3859,7 +3887,14 @@ export const patchAccountTypesAccountsUserLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchAccountTypesAccountsUserListsRequest,
   output: UserList,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    DataManagerScopeInsufficient,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

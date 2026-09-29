@@ -52,6 +52,28 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The credential lacks the https://www.googleapis.com/auth/androidenterprise OAuth scope (HTTP 403 'Request had insufficient authentication scopes.'). A Cloud Platform-scoped service account token cannot call the EMM API; not retryable. */
+export class InsufficientAuthenticationScopes
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InsufficientAuthenticationScopes>()(
+      "InsufficientAuthenticationScopes",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -4283,6 +4305,7 @@ export type DeleteStorelayoutclustersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Deletes a cluster. */
 export const deleteStorelayoutclusters: API.OperationMethod<
@@ -4293,7 +4316,14 @@ export const deleteStorelayoutclusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteStorelayoutclustersRequest,
   output: DeleteStorelayoutclustersResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4303,6 +4333,7 @@ export type DeleteStorelayoutpagesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Deletes a store page. */
 export const deleteStorelayoutpages: API.OperationMethod<
@@ -4313,7 +4344,14 @@ export const deleteStorelayoutpages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteStorelayoutpagesRequest,
   output: DeleteStorelayoutpagesResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4343,6 +4381,7 @@ export type DeleteWebappsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Deletes an existing web app. */
 export const deleteWebapps: API.OperationMethod<
@@ -4353,7 +4392,14 @@ export const deleteWebapps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteWebappsRequest,
   output: DeleteWebappsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4529,7 +4575,11 @@ export const getDevices: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetEnterprisesError = NotFound | Forbidden | GcpOpError;
+export type GetEnterprisesError =
+  | NotFound
+  | Forbidden
+  | InsufficientAuthenticationScopes
+  | GcpOpError;
 /** Retrieves the name and domain of an enterprise. */
 export const getEnterprises: API.OperationMethod<
   GetEnterprisesRequest,
@@ -4539,7 +4589,12 @@ export const getEnterprises: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEnterprisesRequest,
   output: Enterprise,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4703,7 +4758,11 @@ export const getStateDevices: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetStorelayoutclustersError = NotFound | Forbidden | GcpOpError;
+export type GetStorelayoutclustersError =
+  | NotFound
+  | Forbidden
+  | InsufficientAuthenticationScopes
+  | GcpOpError;
 /** Retrieves details of a cluster. */
 export const getStorelayoutclusters: API.OperationMethod<
   GetStorelayoutclustersRequest,
@@ -4713,7 +4772,12 @@ export const getStorelayoutclusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetStorelayoutclustersRequest,
   output: StoreCluster,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4733,7 +4797,11 @@ export const getStoreLayoutEnterprises: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetStorelayoutpagesError = NotFound | Forbidden | GcpOpError;
+export type GetStorelayoutpagesError =
+  | NotFound
+  | Forbidden
+  | InsufficientAuthenticationScopes
+  | GcpOpError;
 /** Retrieves details of a store page. */
 export const getStorelayoutpages: API.OperationMethod<
   GetStorelayoutpagesRequest,
@@ -4743,7 +4811,12 @@ export const getStorelayoutpages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetStorelayoutpagesRequest,
   output: StorePage,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4763,7 +4836,11 @@ export const getUsers: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetWebappsError = NotFound | Forbidden | GcpOpError;
+export type GetWebappsError =
+  | NotFound
+  | Forbidden
+  | InsufficientAuthenticationScopes
+  | GcpOpError;
 /** Gets an existing web app. */
 export const getWebapps: API.OperationMethod<
   GetWebappsRequest,
@@ -4773,7 +4850,12 @@ export const getWebapps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetWebappsRequest,
   output: WebApp,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4803,6 +4885,7 @@ export type InsertStorelayoutclustersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Inserts a new cluster in a page. */
 export const insertStorelayoutclusters: API.OperationMethod<
@@ -4813,7 +4896,14 @@ export const insertStorelayoutclusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: InsertStorelayoutclustersRequest,
   output: StoreCluster,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4823,6 +4913,7 @@ export type InsertStorelayoutpagesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Inserts a new store page. */
 export const insertStorelayoutpages: API.OperationMethod<
@@ -4833,7 +4924,14 @@ export const insertStorelayoutpages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: InsertStorelayoutpagesRequest,
   output: StorePage,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4863,6 +4961,7 @@ export type InsertWebappsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Creates a new web app for the enterprise. */
 export const insertWebapps: API.OperationMethod<
@@ -4873,7 +4972,14 @@ export const insertWebapps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: InsertWebappsRequest,
   output: WebApp,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4893,7 +4999,11 @@ export const listDevices: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListEnterprisesError = NotFound | Forbidden | GcpOpError;
+export type ListEnterprisesError =
+  | NotFound
+  | Forbidden
+  | InsufficientAuthenticationScopes
+  | GcpOpError;
 /** Looks up an enterprise by domain name. This is only supported for enterprises created via the Google-initiated creation flow. Lookup of the id is not needed for enterprises created via the EMM-initiated flow since the EMM learns the enterprise ID in the callback specified in the Enterprises.generateSignupUrl call. */
 export const listEnterprises: API.OperationMethod<
   ListEnterprisesRequest,
@@ -4903,7 +5013,12 @@ export const listEnterprises: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListEnterprisesRequest,
   output: EnterprisesListResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5052,7 +5167,11 @@ export const listServiceaccountkeys: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListStorelayoutclustersError = NotFound | Forbidden | GcpOpError;
+export type ListStorelayoutclustersError =
+  | NotFound
+  | Forbidden
+  | InsufficientAuthenticationScopes
+  | GcpOpError;
 /** Retrieves the details of all clusters on the specified page. */
 export const listStorelayoutclusters: API.OperationMethod<
   ListStorelayoutclustersRequest,
@@ -5062,12 +5181,21 @@ export const listStorelayoutclusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListStorelayoutclustersRequest,
   output: StoreLayoutClustersListResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListStorelayoutpagesError = NotFound | Forbidden | GcpOpError;
+export type ListStorelayoutpagesError =
+  | NotFound
+  | Forbidden
+  | InsufficientAuthenticationScopes
+  | GcpOpError;
 /** Retrieves the details of all pages in the store. */
 export const listStorelayoutpages: API.OperationMethod<
   ListStorelayoutpagesRequest,
@@ -5077,7 +5205,12 @@ export const listStorelayoutpages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListStorelayoutpagesRequest,
   output: StoreLayoutPagesListResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5097,7 +5230,11 @@ export const listUsers: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListWebappsError = NotFound | Forbidden | GcpOpError;
+export type ListWebappsError =
+  | NotFound
+  | Forbidden
+  | InsufficientAuthenticationScopes
+  | GcpOpError;
 /** Retrieves the details of all web apps for a given enterprise. */
 export const listWebapps: API.OperationMethod<
   ListWebappsRequest,
@@ -5107,7 +5244,12 @@ export const listWebapps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListWebappsRequest,
   output: WebAppsListResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5397,6 +5539,7 @@ export type UpdateStorelayoutclustersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Updates a cluster. */
 export const updateStorelayoutclusters: API.OperationMethod<
@@ -5407,7 +5550,14 @@ export const updateStorelayoutclusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateStorelayoutclustersRequest,
   output: StoreCluster,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5417,6 +5567,7 @@ export type UpdateStorelayoutpagesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Updates the content of a store page. */
 export const updateStorelayoutpages: API.OperationMethod<
@@ -5427,7 +5578,14 @@ export const updateStorelayoutpages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateStorelayoutpagesRequest,
   output: StorePage,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5457,6 +5615,7 @@ export type UpdateWebappsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Updates an existing web app. */
 export const updateWebapps: API.OperationMethod<
@@ -5467,7 +5626,14 @@ export const updateWebapps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateWebappsRequest,
   output: WebApp,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

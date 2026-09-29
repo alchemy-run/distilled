@@ -52,6 +52,25 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT). */
+export class InsufficientScopes
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InsufficientScopes>()("InsufficientScopes", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -2026,6 +2045,7 @@ export type CreateAccountsAdclientsAdunitsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates an ad unit. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. Note that ad units can only be created for ad clients with an "AFC" product code. For more info see the [AdClient resource](/adsense/management/reference/rest/v2/accounts.adclients). For now, this method can only be used to create `DISPLAY` ad units. See: https://support.google.com/adsense/answer/9183566 */
 export const createAccountsAdclientsAdunits: API.OperationMethod<
@@ -2036,7 +2056,14 @@ export const createAccountsAdclientsAdunits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsAdclientsAdunitsRequest,
   output: AdUnit,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2046,6 +2073,7 @@ export type CreateAccountsAdclientsCustomchannelsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
 export const createAccountsAdclientsCustomchannels: API.OperationMethod<
@@ -2056,7 +2084,14 @@ export const createAccountsAdclientsCustomchannels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsAdclientsCustomchannelsRequest,
   output: CustomChannel,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2066,6 +2101,7 @@ export type DeleteAccountsAdclientsCustomchannelsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
 export const deleteAccountsAdclientsCustomchannels: API.OperationMethod<
@@ -2076,12 +2112,23 @@ export const deleteAccountsAdclientsCustomchannels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountsAdclientsCustomchannelsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GenerateAccountsReportsError = NotFound | Forbidden | GcpOpError;
+export type GenerateAccountsReportsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Generates an ad hoc report. */
 export const generateAccountsReports: API.OperationMethod<
   GenerateAccountsReportsRequest,
@@ -2091,7 +2138,7 @@ export const generateAccountsReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GenerateAccountsReportsRequest,
   output: ReportResult,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2099,6 +2146,7 @@ export const generateAccountsReports: API.OperationMethod<
 export type GenerateAccountsReportsSavedError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Generates a saved report. */
 export const generateAccountsReportsSaved: API.OperationMethod<
@@ -2109,12 +2157,16 @@ export const generateAccountsReportsSaved: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GenerateAccountsReportsSavedRequest,
   output: ReportResult,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GenerateCsvAccountsReportsError = NotFound | Forbidden | GcpOpError;
+export type GenerateCsvAccountsReportsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Generates a csv formatted ad hoc report. */
 export const generateCsvAccountsReports: API.OperationMethod<
   GenerateCsvAccountsReportsRequest,
@@ -2124,7 +2176,7 @@ export const generateCsvAccountsReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GenerateCsvAccountsReportsRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2132,6 +2184,7 @@ export const generateCsvAccountsReports: API.OperationMethod<
 export type GenerateCsvAccountsReportsSavedError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Generates a csv formatted saved report. */
 export const generateCsvAccountsReportsSaved: API.OperationMethod<
@@ -2142,12 +2195,16 @@ export const generateCsvAccountsReportsSaved: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GenerateCsvAccountsReportsSavedRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAccountsError = NotFound | Forbidden | GcpOpError;
+export type GetAccountsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets information about the selected AdSense account. */
 export const getAccounts: API.OperationMethod<
   GetAccountsRequest,
@@ -2157,12 +2214,16 @@ export const getAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsRequest,
   output: Account,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAccountsAdclientsError = NotFound | Forbidden | GcpOpError;
+export type GetAccountsAdclientsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets the ad client from the given resource name. */
 export const getAccountsAdclients: API.OperationMethod<
   GetAccountsAdclientsRequest,
@@ -2172,7 +2233,7 @@ export const getAccountsAdclients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsAdclientsRequest,
   output: AdClient,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2180,6 +2241,7 @@ export const getAccountsAdclients: API.OperationMethod<
 export type GetAccountsAdclientsAdunitsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets an ad unit from a specified account and ad client. */
 export const getAccountsAdclientsAdunits: API.OperationMethod<
@@ -2190,7 +2252,7 @@ export const getAccountsAdclientsAdunits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsAdclientsAdunitsRequest,
   output: AdUnit,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2198,6 +2260,7 @@ export const getAccountsAdclientsAdunits: API.OperationMethod<
 export type GetAccountsAdclientsCustomchannelsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets information about the selected custom channel. */
 export const getAccountsAdclientsCustomchannels: API.OperationMethod<
@@ -2208,7 +2271,7 @@ export const getAccountsAdclientsCustomchannels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsAdclientsCustomchannelsRequest,
   output: CustomChannel,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2216,6 +2279,7 @@ export const getAccountsAdclientsCustomchannels: API.OperationMethod<
 export type GetAccountsAdclientsUrlchannelsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets information about the selected url channel. */
 export const getAccountsAdclientsUrlchannels: API.OperationMethod<
@@ -2226,12 +2290,16 @@ export const getAccountsAdclientsUrlchannels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsAdclientsUrlchannelsRequest,
   output: UrlChannel,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAccountsPolicyIssuesError = NotFound | Forbidden | GcpOpError;
+export type GetAccountsPolicyIssuesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets information about the selected policy issue. */
 export const getAccountsPolicyIssues: API.OperationMethod<
   GetAccountsPolicyIssuesRequest,
@@ -2241,12 +2309,16 @@ export const getAccountsPolicyIssues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsPolicyIssuesRequest,
   output: PolicyIssue,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAccountsSitesError = NotFound | Forbidden | GcpOpError;
+export type GetAccountsSitesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets information about the selected site. */
 export const getAccountsSites: API.OperationMethod<
   GetAccountsSitesRequest,
@@ -2256,7 +2328,7 @@ export const getAccountsSites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsSitesRequest,
   output: Site,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2264,6 +2336,7 @@ export const getAccountsSites: API.OperationMethod<
 export type GetAdBlockingRecoveryTagAccountsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets the ad blocking recovery tag of an account. */
 export const getAdBlockingRecoveryTagAccounts: API.OperationMethod<
@@ -2274,12 +2347,16 @@ export const getAdBlockingRecoveryTagAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAdBlockingRecoveryTagAccountsRequest,
   output: AdBlockingRecoveryTag,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAdcodeAccountsAdclientsError = NotFound | Forbidden | GcpOpError;
+export type GetAdcodeAccountsAdclientsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets the AdSense code for a given ad client. This returns what was previously known as the 'auto ad code'. This is only supported for ad clients with a product_code of AFC. For more information, see [About the AdSense code](https://support.google.com/adsense/answer/9274634). */
 export const getAdcodeAccountsAdclients: API.OperationMethod<
   GetAdcodeAccountsAdclientsRequest,
@@ -2289,7 +2366,7 @@ export const getAdcodeAccountsAdclients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAdcodeAccountsAdclientsRequest,
   output: AdClientAdCode,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2297,6 +2374,7 @@ export const getAdcodeAccountsAdclients: API.OperationMethod<
 export type GetAdcodeAccountsAdclientsAdunitsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets the ad unit code for a given ad unit. For more information, see [About the AdSense code](https://support.google.com/adsense/answer/9274634) and [Where to place the ad code in your HTML](https://support.google.com/adsense/answer/9190028). */
 export const getAdcodeAccountsAdclientsAdunits: API.OperationMethod<
@@ -2307,12 +2385,16 @@ export const getAdcodeAccountsAdclientsAdunits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAdcodeAccountsAdclientsAdunitsRequest,
   output: AdUnitAdCode,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetSavedAccountsReportsError = NotFound | Forbidden | GcpOpError;
+export type GetSavedAccountsReportsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets the saved report from the given resource name. */
 export const getSavedAccountsReports: API.OperationMethod<
   GetSavedAccountsReportsRequest,
@@ -2322,12 +2404,16 @@ export const getSavedAccountsReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSavedAccountsReportsRequest,
   output: SavedReport,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListAccountsError = NotFound | Forbidden | GcpOpError;
+export type ListAccountsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists all accounts available to this user. */
 export const listAccounts: API.PaginatedOperationMethod<
   ListAccountsRequest,
@@ -2338,7 +2424,7 @@ export const listAccounts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2347,7 +2433,11 @@ export const listAccounts: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAccountsAdclientsError = NotFound | Forbidden | GcpOpError;
+export type ListAccountsAdclientsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists all the ad clients available in an account. */
 export const listAccountsAdclients: API.PaginatedOperationMethod<
   ListAccountsAdclientsRequest,
@@ -2358,7 +2448,7 @@ export const listAccountsAdclients: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAdclientsRequest,
   output: ListAdClientsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2370,6 +2460,7 @@ export const listAccountsAdclients: API.PaginatedOperationMethod<
 export type ListAccountsAdclientsAdunitsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all ad units under a specified account and ad client. */
 export const listAccountsAdclientsAdunits: API.PaginatedOperationMethod<
@@ -2381,7 +2472,7 @@ export const listAccountsAdclientsAdunits: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAdclientsAdunitsRequest,
   output: ListAdUnitsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2393,6 +2484,7 @@ export const listAccountsAdclientsAdunits: API.PaginatedOperationMethod<
 export type ListAccountsAdclientsCustomchannelsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all the custom channels available in an ad client. */
 export const listAccountsAdclientsCustomchannels: API.PaginatedOperationMethod<
@@ -2404,7 +2496,7 @@ export const listAccountsAdclientsCustomchannels: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAdclientsCustomchannelsRequest,
   output: ListCustomChannelsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2416,6 +2508,7 @@ export const listAccountsAdclientsCustomchannels: API.PaginatedOperationMethod<
 export type ListAccountsAdclientsUrlchannelsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists active url channels. */
 export const listAccountsAdclientsUrlchannels: API.PaginatedOperationMethod<
@@ -2427,7 +2520,7 @@ export const listAccountsAdclientsUrlchannels: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAdclientsUrlchannelsRequest,
   output: ListUrlChannelsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2436,7 +2529,11 @@ export const listAccountsAdclientsUrlchannels: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAccountsAlertsError = NotFound | Forbidden | GcpOpError;
+export type ListAccountsAlertsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists all the alerts available in an account. */
 export const listAccountsAlerts: API.OperationMethod<
   ListAccountsAlertsRequest,
@@ -2446,12 +2543,16 @@ export const listAccountsAlerts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListAccountsAlertsRequest,
   output: ListAlertsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListAccountsPaymentsError = NotFound | Forbidden | GcpOpError;
+export type ListAccountsPaymentsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists all the payments available for an account. */
 export const listAccountsPayments: API.OperationMethod<
   ListAccountsPaymentsRequest,
@@ -2461,12 +2562,16 @@ export const listAccountsPayments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListAccountsPaymentsRequest,
   output: ListPaymentsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListAccountsPolicyIssuesError = NotFound | Forbidden | GcpOpError;
+export type ListAccountsPolicyIssuesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists all the policy issues where the specified account is involved, both directly and through any AFP child accounts. */
 export const listAccountsPolicyIssues: API.PaginatedOperationMethod<
   ListAccountsPolicyIssuesRequest,
@@ -2477,7 +2582,7 @@ export const listAccountsPolicyIssues: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsPolicyIssuesRequest,
   output: ListPolicyIssuesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2486,7 +2591,11 @@ export const listAccountsPolicyIssues: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAccountsReportsSavedError = NotFound | Forbidden | GcpOpError;
+export type ListAccountsReportsSavedError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists saved reports. */
 export const listAccountsReportsSaved: API.PaginatedOperationMethod<
   ListAccountsReportsSavedRequest,
@@ -2497,7 +2606,7 @@ export const listAccountsReportsSaved: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsReportsSavedRequest,
   output: ListSavedReportsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2506,7 +2615,11 @@ export const listAccountsReportsSaved: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAccountsSitesError = NotFound | Forbidden | GcpOpError;
+export type ListAccountsSitesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists all the sites available in an account. */
 export const listAccountsSites: API.PaginatedOperationMethod<
   ListAccountsSitesRequest,
@@ -2517,7 +2630,7 @@ export const listAccountsSites: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsSitesRequest,
   output: ListSitesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2526,7 +2639,11 @@ export const listAccountsSites: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListChildAccountsAccountsError = NotFound | Forbidden | GcpOpError;
+export type ListChildAccountsAccountsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists all accounts directly managed by the given AdSense account. */
 export const listChildAccountsAccounts: API.PaginatedOperationMethod<
   ListChildAccountsAccountsRequest,
@@ -2537,7 +2654,7 @@ export const listChildAccountsAccounts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListChildAccountsAccountsRequest,
   output: ListChildAccountsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2549,6 +2666,7 @@ export const listChildAccountsAccounts: API.PaginatedOperationMethod<
 export type ListLinkedAdUnitsAccountsAdclientsCustomchannelsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all the ad units available for a custom channel. */
 export const listLinkedAdUnitsAccountsAdclientsCustomchannels: API.PaginatedOperationMethod<
@@ -2560,7 +2678,7 @@ export const listLinkedAdUnitsAccountsAdclientsCustomchannels: API.PaginatedOper
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest,
   output: ListLinkedAdUnitsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2572,6 +2690,7 @@ export const listLinkedAdUnitsAccountsAdclientsCustomchannels: API.PaginatedOper
 export type ListLinkedCustomChannelsAccountsAdclientsAdunitsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all the custom channels available for an ad unit. */
 export const listLinkedCustomChannelsAccountsAdclientsAdunits: API.PaginatedOperationMethod<
@@ -2583,7 +2702,7 @@ export const listLinkedCustomChannelsAccountsAdclientsAdunits: API.PaginatedOper
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest,
   output: ListLinkedCustomChannelsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2597,6 +2716,7 @@ export type PatchAccountsAdclientsAdunitsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates an ad unit. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. For now, this method can only be used to update `DISPLAY` ad units. See: https://support.google.com/adsense/answer/9183566 */
 export const patchAccountsAdclientsAdunits: API.OperationMethod<
@@ -2607,7 +2727,14 @@ export const patchAccountsAdclientsAdunits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchAccountsAdclientsAdunitsRequest,
   output: AdUnit,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2617,6 +2744,7 @@ export type PatchAccountsAdclientsCustomchannelsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
 export const patchAccountsAdclientsCustomchannels: API.OperationMethod<
@@ -2627,7 +2755,14 @@ export const patchAccountsAdclientsCustomchannels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchAccountsAdclientsCustomchannelsRequest,
   output: CustomChannel,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

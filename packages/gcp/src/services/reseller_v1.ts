@@ -52,6 +52,25 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT). */
+export class InsufficientScopes
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InsufficientScopes>()("InsufficientScopes", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -801,6 +820,7 @@ export type ActivateSubscriptionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Activates a subscription previously suspended by the reseller. If you did not suspend the customer subscription and it is suspended for any other reason, such as for abuse or a pending ToS acceptance, this call will not reactivate the customer subscription. */
 export const activateSubscriptions: API.OperationMethod<
@@ -811,7 +831,14 @@ export const activateSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ActivateSubscriptionsRequest,
   output: Subscription,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -821,6 +848,7 @@ export type ChangePlanSubscriptionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a subscription plan. Use this method to update a plan for a 30-day trial or a flexible plan subscription to an annual commitment plan with monthly or yearly payments. How a plan is updated differs depending on the plan and the products. For more information, see the description in [manage subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_subscriptions#update_subscription_plan). */
 export const changePlanSubscriptions: API.OperationMethod<
@@ -831,7 +859,14 @@ export const changePlanSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ChangePlanSubscriptionsRequest,
   output: Subscription,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -841,6 +876,7 @@ export type ChangeRenewalSettingsSubscriptionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a user license's renewal settings. This is applicable for accounts with annual commitment plans only. For more information, see the description in [manage subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_subscriptions#update_renewal). */
 export const changeRenewalSettingsSubscriptions: API.OperationMethod<
@@ -851,7 +887,14 @@ export const changeRenewalSettingsSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ChangeRenewalSettingsSubscriptionsRequest,
   output: Subscription,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -861,6 +904,7 @@ export type ChangeSeatsSubscriptionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a subscription's user license settings. For more information about updating an annual commitment plan or a flexible plan subscription’s licenses, see [Manage Subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_subscriptions#update_subscription_seat). */
 export const changeSeatsSubscriptions: API.OperationMethod<
@@ -871,7 +915,14 @@ export const changeSeatsSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ChangeSeatsSubscriptionsRequest,
   output: Subscription,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -881,6 +932,7 @@ export type DeleteSubscriptionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Cancels, suspends, or transfers a subscription to direct. */
 export const deleteSubscriptions: API.OperationMethod<
@@ -891,12 +943,23 @@ export const deleteSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteSubscriptionsRequest,
   output: DeleteSubscriptionsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetCustomersError = NotFound | Forbidden | GcpOpError;
+export type GetCustomersError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a customer account. Use this operation to see a customer account already in your reseller management, or to see the minimal account information for an existing customer that you do not manage. For more information about the API response for existing customers, see [retrieving a customer account](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_customers#get_customer). */
 export const getCustomers: API.OperationMethod<
   GetCustomersRequest,
@@ -906,12 +969,16 @@ export const getCustomers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCustomersRequest,
   output: Customer,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetSubscriptionsError = NotFound | Forbidden | GcpOpError;
+export type GetSubscriptionsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a specific subscription. The `subscriptionId` can be found using the [Retrieve all reseller subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_subscriptions#get_all_subscriptions) method. For more information about retrieving a specific subscription, see the information descrived in [manage subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_subscriptions#get_subscription). */
 export const getSubscriptions: API.OperationMethod<
   GetSubscriptionsRequest,
@@ -921,7 +988,7 @@ export const getSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSubscriptionsRequest,
   output: Subscription,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -929,6 +996,7 @@ export const getSubscriptions: API.OperationMethod<
 export type GetwatchdetailsResellernotifyError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Returns all the details of the watch corresponding to the reseller. */
 export const getwatchdetailsResellernotify: API.OperationMethod<
@@ -939,7 +1007,7 @@ export const getwatchdetailsResellernotify: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetwatchdetailsResellernotifyRequest,
   output: ResellernotifyGetwatchdetailsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -949,6 +1017,7 @@ export type InsertCustomersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Orders a new customer's account. Before ordering a new customer account, establish whether the customer account already exists using the [`customers.get`](https://developers.google.com/workspace/admin/reseller/v1/reference/customers/get) If the customer account exists as a direct Google account or as a resold customer account from another reseller, use the `customerAuthToken\` as described in [order a resold account for an existing customer](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_customers#create_existing_customer). For more information about ordering a new customer account, see [order a new customer account](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_customers#create_customer). After creating a new customer account, you must provision a user as an administrator. The customer's administrator is required to sign in to the Admin console and sign the G Suite via Reseller agreement to activate the account. Resellers are prohibited from signing the G Suite via Reseller agreement on the customer's behalf. For more information, see [order a new customer account](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_customers#tos). */
 export const insertCustomers: API.OperationMethod<
@@ -959,7 +1028,14 @@ export const insertCustomers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: InsertCustomersRequest,
   output: Customer,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -969,6 +1045,7 @@ export type InsertSubscriptionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates or transfer a subscription. Create a subscription for a customer's account that you ordered using the [Order a new customer account](https://developers.google.com/workspace/admin/reseller/v1/reference/customers/insert.html) method. For more information about creating a subscription for different payment plans, see [manage subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_subscriptions#create_subscription).\ If you did not order the customer's account using the customer insert method, use the customer's `customerAuthToken` when creating a subscription for that customer. If transferring a G Suite subscription with an associated Google Drive or Google Vault subscription, use the [batch operation](https://developers.google.com/workspace/admin/reseller/v1/how-tos/batch.html) to transfer all of these subscriptions. For more information, see how to [transfer subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_subscriptions#transfer_a_subscription). */
 export const insertSubscriptions: API.OperationMethod<
@@ -979,12 +1056,23 @@ export const insertSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: InsertSubscriptionsRequest,
   output: Subscription,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListSubscriptionsError = NotFound | Forbidden | GcpOpError;
+export type ListSubscriptionsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists of subscriptions managed by the reseller. The list can be all subscriptions, all of a customer's subscriptions, or all of a customer's transferable subscriptions. Optionally, this method can filter the response by a `customerNamePrefix`. For more information, see [manage subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_subscriptions). */
 export const listSubscriptions: API.PaginatedOperationMethod<
   ListSubscriptionsRequest,
@@ -995,7 +1083,7 @@ export const listSubscriptions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSubscriptionsRequest,
   output: Subscriptions,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -1009,6 +1097,7 @@ export type PatchCustomersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a customer account's settings. This method supports patch semantics. You cannot update `customerType` via the Reseller API, but a `"team"` customer can verify their domain and become `customerType = "domain"`. For more information, see [Verify your domain to unlock Essentials features](https://support.google.com/a/answer/9122284). */
 export const patchCustomers: API.OperationMethod<
@@ -1019,7 +1108,14 @@ export const patchCustomers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchCustomersRequest,
   output: Customer,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1029,6 +1125,7 @@ export type RegisterResellernotifyError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Registers a Reseller for receiving notifications. */
 export const registerResellernotify: API.OperationMethod<
@@ -1039,7 +1136,14 @@ export const registerResellernotify: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RegisterResellernotifyRequest,
   output: ResellernotifyResource,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1049,6 +1153,7 @@ export type StartPaidServiceSubscriptionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Immediately move a 30-day free trial subscription to a paid service subscription. This method is only applicable if a payment plan has already been set up for the 30-day trial subscription. For more information, see [manage subscriptions](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_subscriptions#paid_service). */
 export const startPaidServiceSubscriptions: API.OperationMethod<
@@ -1059,7 +1164,14 @@ export const startPaidServiceSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartPaidServiceSubscriptionsRequest,
   output: Subscription,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1069,6 +1181,7 @@ export type SuspendSubscriptionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Suspends an active subscription. You can use this method to suspend a paid subscription that is currently in the `ACTIVE` state. * For `FLEXIBLE` subscriptions, billing is paused. * For `ANNUAL_MONTHLY_PAY` or `ANNUAL_YEARLY_PAY` subscriptions: * Suspending the subscription does not change the renewal date that was originally committed to. * A suspended subscription does not renew. If you activate the subscription after the original renewal date, a new annual subscription will be created, starting on the day of activation. We strongly encourage you to suspend subscriptions only for short periods of time as suspensions over 60 days may result in the subscription being cancelled. */
 export const suspendSubscriptions: API.OperationMethod<
@@ -1079,7 +1192,14 @@ export const suspendSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SuspendSubscriptionsRequest,
   output: Subscription,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1089,6 +1209,7 @@ export type UnregisterResellernotifyError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Unregisters a Reseller for receiving notifications. */
 export const unregisterResellernotify: API.OperationMethod<
@@ -1099,7 +1220,14 @@ export const unregisterResellernotify: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UnregisterResellernotifyRequest,
   output: ResellernotifyResource,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1109,6 +1237,7 @@ export type UpdateCustomersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a customer account's settings. You cannot update `customerType` via the Reseller API, but a `"team"` customer can verify their domain and become `customerType = "domain"`. For more information, see [update a customer's settings](https://developers.google.com/workspace/admin/reseller/v1/how-tos/manage_customers#update_customer). */
 export const updateCustomers: API.OperationMethod<
@@ -1119,7 +1248,14 @@ export const updateCustomers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateCustomersRequest,
   output: Customer,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

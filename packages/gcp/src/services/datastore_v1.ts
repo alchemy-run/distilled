@@ -161,11 +161,14 @@ export interface AllocateIdsProjectsRequest {
   projectId: string;
   /** Request body */
   body?: AllocateIdsRequest;
+  /** Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header'). */
+  requestParams?: string;
 }
 export const AllocateIdsProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
     body: S.optional(AllocateIdsRequest.pipe(T.HttpBody())),
+    requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -252,11 +255,14 @@ export interface BeginTransactionProjectsRequest {
   projectId: string;
   /** Request body */
   body?: BeginTransactionRequest;
+  /** Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header'). */
+  requestParams?: string;
 }
 export const BeginTransactionProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
     body: S.optional(BeginTransactionRequest.pipe(T.HttpBody())),
+    requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -544,11 +550,14 @@ export interface CommitProjectsRequest {
   projectId: string;
   /** Request body */
   body?: CommitRequest;
+  /** Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header'). */
+  requestParams?: string;
 }
 export const CommitProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
     body: S.optional(CommitRequest.pipe(T.HttpBody())),
+    requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1099,11 +1108,14 @@ export interface LookupProjectsRequest {
   projectId: string;
   /** Request body */
   body?: LookupRequest;
+  /** Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header'). */
+  requestParams?: string;
 }
 export const LookupProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
     body: S.optional(LookupRequest.pipe(T.HttpBody())),
+    requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1190,11 +1202,14 @@ export interface ReserveIdsProjectsRequest {
   projectId: string;
   /** Request body */
   body?: ReserveIdsRequest;
+  /** Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header'). */
+  requestParams?: string;
 }
 export const ReserveIdsProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
     body: S.optional(ReserveIdsRequest.pipe(T.HttpBody())),
+    requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1238,11 +1253,14 @@ export interface RollbackProjectsRequest {
   projectId: string;
   /** Request body */
   body?: RollbackRequest;
+  /** Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header'). */
+  requestParams?: string;
 }
 export const RollbackProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
     body: S.optional(RollbackRequest.pipe(T.HttpBody())),
+    requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1639,11 +1657,14 @@ export interface RunAggregationQueryProjectsRequest {
   projectId: string;
   /** Request body */
   body?: RunAggregationQueryRequest;
+  /** Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header'). */
+  requestParams?: string;
 }
 export const RunAggregationQueryProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
     body: S.optional(RunAggregationQueryRequest.pipe(T.HttpBody())),
+    requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1806,11 +1827,14 @@ export interface RunQueryProjectsRequest {
   projectId: string;
   /** Request body */
   body?: RunQueryRequest;
+  /** Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header'). */
+  requestParams?: string;
 }
 export const RunQueryProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
     body: S.optional(RunQueryRequest.pipe(T.HttpBody())),
+    requestParams: S.optional(S.String.pipe(T.Header("x-goog-request-params"))),
   }).pipe(
     T.Http({
       method: "POST",

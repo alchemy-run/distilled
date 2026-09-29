@@ -52,6 +52,25 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT). */
+export class InsufficientScopes
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InsufficientScopes>()("InsufficientScopes", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -2556,6 +2575,7 @@ export type ActivateBiddersPretargetingConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Activates a pretargeting configuration. */
 export const activateBiddersPretargetingConfigs: API.OperationMethod<
@@ -2566,7 +2586,14 @@ export const activateBiddersPretargetingConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ActivateBiddersPretargetingConfigsRequest,
   output: PretargetingConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2576,6 +2603,7 @@ export type AddTargetedAppsBiddersPretargetingConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Adds targeted apps to the pretargeting configuration. */
 export const addTargetedAppsBiddersPretargetingConfigs: API.OperationMethod<
@@ -2586,7 +2614,14 @@ export const addTargetedAppsBiddersPretargetingConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddTargetedAppsBiddersPretargetingConfigsRequest,
   output: PretargetingConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2596,6 +2631,7 @@ export type AddTargetedPublishersBiddersPretargetingConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Adds targeted publishers to the pretargeting config. */
 export const addTargetedPublishersBiddersPretargetingConfigs: API.OperationMethod<
@@ -2606,7 +2642,14 @@ export const addTargetedPublishersBiddersPretargetingConfigs: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: AddTargetedPublishersBiddersPretargetingConfigsRequest,
   output: PretargetingConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2616,6 +2659,7 @@ export type AddTargetedSitesBiddersPretargetingConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Adds targeted sites to the pretargeting configuration. */
 export const addTargetedSitesBiddersPretargetingConfigs: API.OperationMethod<
@@ -2626,7 +2670,14 @@ export const addTargetedSitesBiddersPretargetingConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddTargetedSitesBiddersPretargetingConfigsRequest,
   output: PretargetingConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2636,6 +2687,7 @@ export type BatchApproveBiddersPublisherConnectionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Batch approves multiple publisher connections. */
 export const batchApproveBiddersPublisherConnections: API.OperationMethod<
@@ -2646,7 +2698,14 @@ export const batchApproveBiddersPublisherConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchApproveBiddersPublisherConnectionsRequest,
   output: BatchApprovePublisherConnectionsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2656,6 +2715,7 @@ export type BatchRejectBiddersPublisherConnectionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Batch rejects multiple publisher connections. */
 export const batchRejectBiddersPublisherConnections: API.OperationMethod<
@@ -2666,7 +2726,14 @@ export const batchRejectBiddersPublisherConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchRejectBiddersPublisherConnectionsRequest,
   output: BatchRejectPublisherConnectionsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2676,6 +2743,7 @@ export type CloseBuyersUserListsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Changes the status of a user list to CLOSED. This prevents new users from being added to the user list. */
 export const closeBuyersUserLists: API.OperationMethod<
@@ -2686,7 +2754,14 @@ export const closeBuyersUserLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CloseBuyersUserListsRequest,
   output: UserList,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2696,6 +2771,7 @@ export type CreateBiddersPretargetingConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a pretargeting configuration. A pretargeting configuration's state (PretargetingConfig.state) is active upon creation, and it will start to affect traffic shortly after. A bidder may create a maximum of 10 pretargeting configurations. Attempts to exceed this maximum results in a 400 bad request error. */
 export const createBiddersPretargetingConfigs: API.OperationMethod<
@@ -2706,7 +2782,14 @@ export const createBiddersPretargetingConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBiddersPretargetingConfigsRequest,
   output: PretargetingConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2716,6 +2799,7 @@ export type CreateBuyersCreativesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a creative. */
 export const createBuyersCreatives: API.OperationMethod<
@@ -2726,7 +2810,14 @@ export const createBuyersCreatives: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBuyersCreativesRequest,
   output: Creative,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2736,6 +2827,7 @@ export type CreateBuyersUserListsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a new user list. */
 export const createBuyersUserLists: API.OperationMethod<
@@ -2746,7 +2838,14 @@ export const createBuyersUserLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBuyersUserListsRequest,
   output: UserList,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2756,6 +2855,7 @@ export type DeleteBiddersPretargetingConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a pretargeting configuration. */
 export const deleteBiddersPretargetingConfigs: API.OperationMethod<
@@ -2766,12 +2866,23 @@ export const deleteBiddersPretargetingConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteBiddersPretargetingConfigsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBiddersError = NotFound | Forbidden | GcpOpError;
+export type GetBiddersError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a bidder account by its name. */
 export const getBidders: API.OperationMethod<
   GetBiddersRequest,
@@ -2781,12 +2892,16 @@ export const getBidders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBiddersRequest,
   output: Bidder,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBiddersEndpointsError = NotFound | Forbidden | GcpOpError;
+export type GetBiddersEndpointsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a bidder endpoint by its name. */
 export const getBiddersEndpoints: API.OperationMethod<
   GetBiddersEndpointsRequest,
@@ -2796,7 +2911,7 @@ export const getBiddersEndpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBiddersEndpointsRequest,
   output: Endpoint,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2804,6 +2919,7 @@ export const getBiddersEndpoints: API.OperationMethod<
 export type GetBiddersPretargetingConfigsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a pretargeting configuration. */
 export const getBiddersPretargetingConfigs: API.OperationMethod<
@@ -2814,7 +2930,7 @@ export const getBiddersPretargetingConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBiddersPretargetingConfigsRequest,
   output: PretargetingConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2822,6 +2938,7 @@ export const getBiddersPretargetingConfigs: API.OperationMethod<
 export type GetBiddersPublisherConnectionsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a publisher connection. */
 export const getBiddersPublisherConnections: API.OperationMethod<
@@ -2832,12 +2949,16 @@ export const getBiddersPublisherConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBiddersPublisherConnectionsRequest,
   output: PublisherConnection,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBuyersError = NotFound | Forbidden | GcpOpError;
+export type GetBuyersError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a buyer account by its name. */
 export const getBuyers: API.OperationMethod<
   GetBuyersRequest,
@@ -2847,12 +2968,16 @@ export const getBuyers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBuyersRequest,
   output: Buyer,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBuyersCreativesError = NotFound | Forbidden | GcpOpError;
+export type GetBuyersCreativesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a creative. */
 export const getBuyersCreatives: API.OperationMethod<
   GetBuyersCreativesRequest,
@@ -2862,12 +2987,16 @@ export const getBuyersCreatives: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBuyersCreativesRequest,
   output: Creative,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBuyersUserListsError = NotFound | Forbidden | GcpOpError;
+export type GetBuyersUserListsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a user list by its name. */
 export const getBuyersUserLists: API.OperationMethod<
   GetBuyersUserListsRequest,
@@ -2877,12 +3006,16 @@ export const getBuyersUserLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBuyersUserListsRequest,
   output: UserList,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetRemarketingTagBuyersError = NotFound | Forbidden | GcpOpError;
+export type GetRemarketingTagBuyersError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** This has been sunset as of October 2023, and will return an error response if called. For more information, see the release notes: https://developers.google.com/authorized-buyers/apis/relnotes#real-time-bidding-api Gets remarketing tag for a buyer. A remarketing tag is a piece of JavaScript code that can be placed on a web page. When a user visits a page containing a remarketing tag, Google adds the user to a user list. */
 export const getRemarketingTagBuyers: API.OperationMethod<
   GetRemarketingTagBuyersRequest,
@@ -2892,7 +3025,7 @@ export const getRemarketingTagBuyers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRemarketingTagBuyersRequest,
   output: GetRemarketingTagResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2900,6 +3033,7 @@ export const getRemarketingTagBuyers: API.OperationMethod<
 export type GetRemarketingTagBuyersUserListsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** This has been sunset as of October 2023, and will return an error response if called. For more information, see the release notes: https://developers.google.com/authorized-buyers/apis/relnotes#real-time-bidding-api Gets remarketing tag for a buyer. A remarketing tag is a piece of JavaScript code that can be placed on a web page. When a user visits a page containing a remarketing tag, Google adds the user to a user list. */
 export const getRemarketingTagBuyersUserLists: API.OperationMethod<
@@ -2910,12 +3044,16 @@ export const getRemarketingTagBuyersUserLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRemarketingTagBuyersUserListsRequest,
   output: GetRemarketingTagResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListBiddersError = NotFound | Forbidden | GcpOpError;
+export type ListBiddersError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists all the bidder accounts that belong to the caller. */
 export const listBidders: API.PaginatedOperationMethod<
   ListBiddersRequest,
@@ -2926,7 +3064,7 @@ export const listBidders: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersRequest,
   output: ListBiddersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2935,7 +3073,11 @@ export const listBidders: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListBiddersCreativesError = NotFound | Forbidden | GcpOpError;
+export type ListBiddersCreativesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists creatives as they are at the time of the initial request. This call may take multiple hours to complete. For large, paginated requests, this method returns a snapshot of creatives at the time of request for the first page. `lastStatusUpdate` and `creativeServingDecision` may be outdated for creatives on sequential pages. We recommend [Google Cloud Pub/Sub](//cloud.google.com/pubsub/docs/overview) to view the latest status. */
 export const listBiddersCreatives: API.PaginatedOperationMethod<
   ListBiddersCreativesRequest,
@@ -2946,7 +3088,7 @@ export const listBiddersCreatives: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersCreativesRequest,
   output: ListCreativesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2955,7 +3097,11 @@ export const listBiddersCreatives: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListBiddersEndpointsError = NotFound | Forbidden | GcpOpError;
+export type ListBiddersEndpointsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists all the bidder's endpoints. */
 export const listBiddersEndpoints: API.PaginatedOperationMethod<
   ListBiddersEndpointsRequest,
@@ -2966,7 +3112,7 @@ export const listBiddersEndpoints: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersEndpointsRequest,
   output: ListEndpointsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -2978,6 +3124,7 @@ export const listBiddersEndpoints: API.PaginatedOperationMethod<
 export type ListBiddersPretargetingConfigsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all pretargeting configurations for a single bidder. */
 export const listBiddersPretargetingConfigs: API.PaginatedOperationMethod<
@@ -2989,7 +3136,7 @@ export const listBiddersPretargetingConfigs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersPretargetingConfigsRequest,
   output: ListPretargetingConfigsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3001,6 +3148,7 @@ export const listBiddersPretargetingConfigs: API.PaginatedOperationMethod<
 export type ListBiddersPublisherConnectionsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists publisher connections for a given bidder. */
 export const listBiddersPublisherConnections: API.PaginatedOperationMethod<
@@ -3012,7 +3160,7 @@ export const listBiddersPublisherConnections: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersPublisherConnectionsRequest,
   output: ListPublisherConnectionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3021,7 +3169,11 @@ export const listBiddersPublisherConnections: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListBuyersError = NotFound | Forbidden | GcpOpError;
+export type ListBuyersError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists all buyer account information the calling buyer user or service account is permissioned to manage. */
 export const listBuyers: API.PaginatedOperationMethod<
   ListBuyersRequest,
@@ -3032,7 +3184,7 @@ export const listBuyers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersRequest,
   output: ListBuyersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3041,7 +3193,11 @@ export const listBuyers: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListBuyersCreativesError = NotFound | Forbidden | GcpOpError;
+export type ListBuyersCreativesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists creatives as they are at the time of the initial request. This call may take multiple hours to complete. For large, paginated requests, this method returns a snapshot of creatives at the time of request for the first page. `lastStatusUpdate` and `creativeServingDecision` may be outdated for creatives on sequential pages. We recommend [Google Cloud Pub/Sub](//cloud.google.com/pubsub/docs/overview) to view the latest status. */
 export const listBuyersCreatives: API.PaginatedOperationMethod<
   ListBuyersCreativesRequest,
@@ -3052,7 +3208,7 @@ export const listBuyersCreatives: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersCreativesRequest,
   output: ListCreativesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3061,7 +3217,11 @@ export const listBuyersCreatives: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListBuyersUserListsError = NotFound | Forbidden | GcpOpError;
+export type ListBuyersUserListsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists the user lists visible to the current user. */
 export const listBuyersUserLists: API.PaginatedOperationMethod<
   ListBuyersUserListsRequest,
@@ -3072,7 +3232,7 @@ export const listBuyersUserLists: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersUserListsRequest,
   output: ListUserListsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3086,6 +3246,7 @@ export type OpenBuyersUserListsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Changes the status of a user list to OPEN. This allows new users to be added to the user list. */
 export const openBuyersUserLists: API.OperationMethod<
@@ -3096,7 +3257,14 @@ export const openBuyersUserLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: OpenBuyersUserListsRequest,
   output: UserList,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3106,6 +3274,7 @@ export type PatchBiddersEndpointsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a bidder's endpoint. */
 export const patchBiddersEndpoints: API.OperationMethod<
@@ -3116,7 +3285,14 @@ export const patchBiddersEndpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchBiddersEndpointsRequest,
   output: Endpoint,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3126,6 +3302,7 @@ export type PatchBiddersPretargetingConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a pretargeting configuration. */
 export const patchBiddersPretargetingConfigs: API.OperationMethod<
@@ -3136,7 +3313,14 @@ export const patchBiddersPretargetingConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchBiddersPretargetingConfigsRequest,
   output: PretargetingConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3146,6 +3330,7 @@ export type PatchBuyersCreativesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a creative. */
 export const patchBuyersCreatives: API.OperationMethod<
@@ -3156,7 +3341,14 @@ export const patchBuyersCreatives: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchBuyersCreativesRequest,
   output: Creative,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3166,6 +3358,7 @@ export type RemoveTargetedAppsBiddersPretargetingConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Removes targeted apps from the pretargeting configuration. */
 export const removeTargetedAppsBiddersPretargetingConfigs: API.OperationMethod<
@@ -3176,7 +3369,14 @@ export const removeTargetedAppsBiddersPretargetingConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveTargetedAppsBiddersPretargetingConfigsRequest,
   output: PretargetingConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3186,6 +3386,7 @@ export type RemoveTargetedPublishersBiddersPretargetingConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Removes targeted publishers from the pretargeting config. */
 export const removeTargetedPublishersBiddersPretargetingConfigs: API.OperationMethod<
@@ -3196,7 +3397,14 @@ export const removeTargetedPublishersBiddersPretargetingConfigs: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveTargetedPublishersBiddersPretargetingConfigsRequest,
   output: PretargetingConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3206,6 +3414,7 @@ export type RemoveTargetedSitesBiddersPretargetingConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Removes targeted sites from the pretargeting configuration. */
 export const removeTargetedSitesBiddersPretargetingConfigs: API.OperationMethod<
@@ -3216,7 +3425,14 @@ export const removeTargetedSitesBiddersPretargetingConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveTargetedSitesBiddersPretargetingConfigsRequest,
   output: PretargetingConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3226,6 +3442,7 @@ export type SuspendBiddersPretargetingConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Suspends a pretargeting configuration. */
 export const suspendBiddersPretargetingConfigs: API.OperationMethod<
@@ -3236,7 +3453,14 @@ export const suspendBiddersPretargetingConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SuspendBiddersPretargetingConfigsRequest,
   output: PretargetingConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3246,6 +3470,7 @@ export type UpdateBuyersUserListsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates the given user list. Only user lists with URLRestrictions can be updated. */
 export const updateBuyersUserLists: API.OperationMethod<
@@ -3256,7 +3481,14 @@ export const updateBuyersUserLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateBuyersUserListsRequest,
   output: UserList,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3266,6 +3498,7 @@ export type WatchBiddersCreativesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Watches all creatives pertaining to a bidder. It is sufficient to invoke this endpoint once per bidder. A Pub/Sub topic will be created and notifications will be pushed to the topic when any of the bidder's creatives change status. All of the bidder's service accounts will have access to read from the topic. Subsequent invocations of this method will return the existing Pub/Sub configuration. */
 export const watchBiddersCreatives: API.OperationMethod<
@@ -3276,7 +3509,14 @@ export const watchBiddersCreatives: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: WatchBiddersCreativesRequest,
   output: WatchCreativesResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

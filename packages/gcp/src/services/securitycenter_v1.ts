@@ -65,6 +65,20 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The Security Command Center API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED). */
+export class ServiceDisabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ServiceDisabled>()("ServiceDisabled", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [{ status: 403, message: { includes: "has not been used in project" } }],
+  ) {}
+
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(
   S.String,
@@ -8394,6 +8408,7 @@ export type BatchCreateOrganizationsResourceValueConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const batchCreateOrganizationsResourceValueConfigs: API.OperationMethod<
   BatchCreateOrganizationsResourceValueConfigsRequest,
@@ -8403,7 +8418,14 @@ export const batchCreateOrganizationsResourceValueConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchCreateOrganizationsResourceValueConfigsRequest,
   output: BatchCreateResourceValueConfigsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8413,6 +8435,7 @@ export type BulkMuteFoldersFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const bulkMuteFoldersFindings: API.OperationMethod<
   BulkMuteFoldersFindingsRequest,
@@ -8422,7 +8445,14 @@ export const bulkMuteFoldersFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BulkMuteFoldersFindingsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8432,6 +8462,7 @@ export type BulkMuteOrganizationsFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const bulkMuteOrganizationsFindings: API.OperationMethod<
   BulkMuteOrganizationsFindingsRequest,
@@ -8441,7 +8472,14 @@ export const bulkMuteOrganizationsFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BulkMuteOrganizationsFindingsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8451,6 +8489,7 @@ export type BulkMuteProjectsFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const bulkMuteProjectsFindings: API.OperationMethod<
   BulkMuteProjectsFindingsRequest,
@@ -8460,7 +8499,14 @@ export const bulkMuteProjectsFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BulkMuteProjectsFindingsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8470,6 +8516,7 @@ export type CancelOrganizationsOperationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const cancelOrganizationsOperations: API.OperationMethod<
   CancelOrganizationsOperationsRequest,
@@ -8479,7 +8526,14 @@ export const cancelOrganizationsOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelOrganizationsOperationsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8489,6 +8543,7 @@ export type CreateFoldersBigQueryExportsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createFoldersBigQueryExports: API.OperationMethod<
   CreateFoldersBigQueryExportsRequest,
@@ -8498,7 +8553,14 @@ export const createFoldersBigQueryExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateFoldersBigQueryExportsRequest,
   output: GoogleCloudSecuritycenterV1BigQueryExport,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8508,6 +8570,7 @@ export type CreateFoldersEventThreatDetectionSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createFoldersEventThreatDetectionSettingsCustomModules: API.OperationMethod<
   CreateFoldersEventThreatDetectionSettingsCustomModulesRequest,
@@ -8517,7 +8580,14 @@ export const createFoldersEventThreatDetectionSettingsCustomModules: API.Operati
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateFoldersEventThreatDetectionSettingsCustomModulesRequest,
   output: EventThreatDetectionCustomModule,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8527,6 +8597,7 @@ export type CreateFoldersMuteConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createFoldersMuteConfigs: API.OperationMethod<
   CreateFoldersMuteConfigsRequest,
@@ -8536,7 +8607,14 @@ export const createFoldersMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateFoldersMuteConfigsRequest,
   output: GoogleCloudSecuritycenterV1MuteConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8546,6 +8624,7 @@ export type CreateFoldersNotificationConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createFoldersNotificationConfigs: API.OperationMethod<
   CreateFoldersNotificationConfigsRequest,
@@ -8555,7 +8634,14 @@ export const createFoldersNotificationConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateFoldersNotificationConfigsRequest,
   output: NotificationConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8565,6 +8651,7 @@ export type CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createFoldersSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<
   CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -8574,7 +8661,14 @@ export const createFoldersSecurityHealthAnalyticsSettingsCustomModules: API.Oper
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8584,6 +8678,7 @@ export type CreateOrganizationsBigQueryExportsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createOrganizationsBigQueryExports: API.OperationMethod<
   CreateOrganizationsBigQueryExportsRequest,
@@ -8593,7 +8688,14 @@ export const createOrganizationsBigQueryExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsBigQueryExportsRequest,
   output: GoogleCloudSecuritycenterV1BigQueryExport,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8603,6 +8705,7 @@ export type CreateOrganizationsEventThreatDetectionSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createOrganizationsEventThreatDetectionSettingsCustomModules: API.OperationMethod<
   CreateOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
@@ -8612,7 +8715,14 @@ export const createOrganizationsEventThreatDetectionSettingsCustomModules: API.O
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
   output: EventThreatDetectionCustomModule,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8622,6 +8732,7 @@ export type CreateOrganizationsMuteConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createOrganizationsMuteConfigs: API.OperationMethod<
   CreateOrganizationsMuteConfigsRequest,
@@ -8631,7 +8742,14 @@ export const createOrganizationsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsMuteConfigsRequest,
   output: GoogleCloudSecuritycenterV1MuteConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8641,6 +8759,7 @@ export type CreateOrganizationsNotificationConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createOrganizationsNotificationConfigs: API.OperationMethod<
   CreateOrganizationsNotificationConfigsRequest,
@@ -8650,7 +8769,14 @@ export const createOrganizationsNotificationConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsNotificationConfigsRequest,
   output: NotificationConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8660,6 +8786,7 @@ export type CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<
   CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -8669,7 +8796,14 @@ export const createOrganizationsSecurityHealthAnalyticsSettingsCustomModules: AP
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8679,6 +8813,7 @@ export type CreateOrganizationsSourcesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createOrganizationsSources: API.OperationMethod<
   CreateOrganizationsSourcesRequest,
@@ -8688,7 +8823,14 @@ export const createOrganizationsSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsSourcesRequest,
   output: Source,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8698,6 +8840,7 @@ export type CreateOrganizationsSourcesFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createOrganizationsSourcesFindings: API.OperationMethod<
   CreateOrganizationsSourcesFindingsRequest,
@@ -8707,7 +8850,14 @@ export const createOrganizationsSourcesFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationsSourcesFindingsRequest,
   output: Finding,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8717,6 +8867,7 @@ export type CreateProjectsBigQueryExportsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createProjectsBigQueryExports: API.OperationMethod<
   CreateProjectsBigQueryExportsRequest,
@@ -8726,7 +8877,14 @@ export const createProjectsBigQueryExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsBigQueryExportsRequest,
   output: GoogleCloudSecuritycenterV1BigQueryExport,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8736,6 +8894,7 @@ export type CreateProjectsEventThreatDetectionSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createProjectsEventThreatDetectionSettingsCustomModules: API.OperationMethod<
   CreateProjectsEventThreatDetectionSettingsCustomModulesRequest,
@@ -8745,7 +8904,14 @@ export const createProjectsEventThreatDetectionSettingsCustomModules: API.Operat
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsEventThreatDetectionSettingsCustomModulesRequest,
   output: EventThreatDetectionCustomModule,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8755,6 +8921,7 @@ export type CreateProjectsMuteConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createProjectsMuteConfigs: API.OperationMethod<
   CreateProjectsMuteConfigsRequest,
@@ -8764,7 +8931,14 @@ export const createProjectsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsMuteConfigsRequest,
   output: GoogleCloudSecuritycenterV1MuteConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8774,6 +8948,7 @@ export type CreateProjectsNotificationConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createProjectsNotificationConfigs: API.OperationMethod<
   CreateProjectsNotificationConfigsRequest,
@@ -8783,7 +8958,14 @@ export const createProjectsNotificationConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsNotificationConfigsRequest,
   output: NotificationConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8793,6 +8975,7 @@ export type CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const createProjectsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<
   CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -8802,7 +8985,14 @@ export const createProjectsSecurityHealthAnalyticsSettingsCustomModules: API.Ope
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8812,6 +9002,7 @@ export type DeleteFoldersBigQueryExportsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteFoldersBigQueryExports: API.OperationMethod<
   DeleteFoldersBigQueryExportsRequest,
@@ -8821,7 +9012,14 @@ export const deleteFoldersBigQueryExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteFoldersBigQueryExportsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8831,6 +9029,7 @@ export type DeleteFoldersEventThreatDetectionSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteFoldersEventThreatDetectionSettingsCustomModules: API.OperationMethod<
   DeleteFoldersEventThreatDetectionSettingsCustomModulesRequest,
@@ -8840,7 +9039,14 @@ export const deleteFoldersEventThreatDetectionSettingsCustomModules: API.Operati
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteFoldersEventThreatDetectionSettingsCustomModulesRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8850,6 +9056,7 @@ export type DeleteFoldersLocationsMuteConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteFoldersLocationsMuteConfigs: API.OperationMethod<
   DeleteFoldersLocationsMuteConfigsRequest,
@@ -8859,7 +9066,14 @@ export const deleteFoldersLocationsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteFoldersLocationsMuteConfigsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8869,6 +9083,7 @@ export type DeleteFoldersMuteConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteFoldersMuteConfigs: API.OperationMethod<
   DeleteFoldersMuteConfigsRequest,
@@ -8878,7 +9093,14 @@ export const deleteFoldersMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteFoldersMuteConfigsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8888,6 +9110,7 @@ export type DeleteFoldersNotificationConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteFoldersNotificationConfigs: API.OperationMethod<
   DeleteFoldersNotificationConfigsRequest,
@@ -8897,7 +9120,14 @@ export const deleteFoldersNotificationConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteFoldersNotificationConfigsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8907,6 +9137,7 @@ export type DeleteFoldersSecurityHealthAnalyticsSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteFoldersSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<
   DeleteFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -8916,7 +9147,14 @@ export const deleteFoldersSecurityHealthAnalyticsSettingsCustomModules: API.Oper
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8926,6 +9164,7 @@ export type DeleteOrganizationsBigQueryExportsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteOrganizationsBigQueryExports: API.OperationMethod<
   DeleteOrganizationsBigQueryExportsRequest,
@@ -8935,7 +9174,14 @@ export const deleteOrganizationsBigQueryExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsBigQueryExportsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8945,6 +9191,7 @@ export type DeleteOrganizationsEventThreatDetectionSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteOrganizationsEventThreatDetectionSettingsCustomModules: API.OperationMethod<
   DeleteOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
@@ -8954,7 +9201,14 @@ export const deleteOrganizationsEventThreatDetectionSettingsCustomModules: API.O
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8964,6 +9218,7 @@ export type DeleteOrganizationsLocationsMuteConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteOrganizationsLocationsMuteConfigs: API.OperationMethod<
   DeleteOrganizationsLocationsMuteConfigsRequest,
@@ -8973,7 +9228,14 @@ export const deleteOrganizationsLocationsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsLocationsMuteConfigsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8983,6 +9245,7 @@ export type DeleteOrganizationsMuteConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteOrganizationsMuteConfigs: API.OperationMethod<
   DeleteOrganizationsMuteConfigsRequest,
@@ -8992,7 +9255,14 @@ export const deleteOrganizationsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsMuteConfigsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9002,6 +9272,7 @@ export type DeleteOrganizationsNotificationConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteOrganizationsNotificationConfigs: API.OperationMethod<
   DeleteOrganizationsNotificationConfigsRequest,
@@ -9011,7 +9282,14 @@ export const deleteOrganizationsNotificationConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsNotificationConfigsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9021,6 +9299,7 @@ export type DeleteOrganizationsOperationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteOrganizationsOperations: API.OperationMethod<
   DeleteOrganizationsOperationsRequest,
@@ -9030,7 +9309,14 @@ export const deleteOrganizationsOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsOperationsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9040,6 +9326,7 @@ export type DeleteOrganizationsResourceValueConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteOrganizationsResourceValueConfigs: API.OperationMethod<
   DeleteOrganizationsResourceValueConfigsRequest,
@@ -9049,7 +9336,14 @@ export const deleteOrganizationsResourceValueConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsResourceValueConfigsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9059,6 +9353,7 @@ export type DeleteOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<
   DeleteOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -9068,7 +9363,14 @@ export const deleteOrganizationsSecurityHealthAnalyticsSettingsCustomModules: AP
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9078,6 +9380,7 @@ export type DeleteProjectsBigQueryExportsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteProjectsBigQueryExports: API.OperationMethod<
   DeleteProjectsBigQueryExportsRequest,
@@ -9087,7 +9390,14 @@ export const deleteProjectsBigQueryExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsBigQueryExportsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9097,6 +9407,7 @@ export type DeleteProjectsEventThreatDetectionSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteProjectsEventThreatDetectionSettingsCustomModules: API.OperationMethod<
   DeleteProjectsEventThreatDetectionSettingsCustomModulesRequest,
@@ -9106,7 +9417,14 @@ export const deleteProjectsEventThreatDetectionSettingsCustomModules: API.Operat
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsEventThreatDetectionSettingsCustomModulesRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9116,6 +9434,7 @@ export type DeleteProjectsLocationsMuteConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteProjectsLocationsMuteConfigs: API.OperationMethod<
   DeleteProjectsLocationsMuteConfigsRequest,
@@ -9125,7 +9444,14 @@ export const deleteProjectsLocationsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsMuteConfigsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9135,6 +9461,7 @@ export type DeleteProjectsMuteConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteProjectsMuteConfigs: API.OperationMethod<
   DeleteProjectsMuteConfigsRequest,
@@ -9144,7 +9471,14 @@ export const deleteProjectsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsMuteConfigsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9154,6 +9488,7 @@ export type DeleteProjectsNotificationConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteProjectsNotificationConfigs: API.OperationMethod<
   DeleteProjectsNotificationConfigsRequest,
@@ -9163,7 +9498,14 @@ export const deleteProjectsNotificationConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsNotificationConfigsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9173,6 +9515,7 @@ export type DeleteProjectsSecurityHealthAnalyticsSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const deleteProjectsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<
   DeleteProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -9182,12 +9525,23 @@ export const deleteProjectsSecurityHealthAnalyticsSettingsCustomModules: API.Ope
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetFoldersBigQueryExportsError = NotFound | Forbidden | GcpOpError;
+export type GetFoldersBigQueryExportsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 export const getFoldersBigQueryExports: API.OperationMethod<
   GetFoldersBigQueryExportsRequest,
   GoogleCloudSecuritycenterV1BigQueryExport,
@@ -9196,7 +9550,7 @@ export const getFoldersBigQueryExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetFoldersBigQueryExportsRequest,
   output: GoogleCloudSecuritycenterV1BigQueryExport,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9204,6 +9558,7 @@ export const getFoldersBigQueryExports: API.OperationMethod<
 export type GetFoldersEventThreatDetectionSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getFoldersEventThreatDetectionSettingsCustomModules: API.OperationMethod<
   GetFoldersEventThreatDetectionSettingsCustomModulesRequest,
@@ -9213,7 +9568,7 @@ export const getFoldersEventThreatDetectionSettingsCustomModules: API.OperationM
 > = /*@__PURE__*/ API.make(() => ({
   input: GetFoldersEventThreatDetectionSettingsCustomModulesRequest,
   output: EventThreatDetectionCustomModule,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9221,6 +9576,7 @@ export const getFoldersEventThreatDetectionSettingsCustomModules: API.OperationM
 export type GetFoldersEventThreatDetectionSettingsEffectiveCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getFoldersEventThreatDetectionSettingsEffectiveCustomModules: API.OperationMethod<
   GetFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest,
@@ -9230,7 +9586,7 @@ export const getFoldersEventThreatDetectionSettingsEffectiveCustomModules: API.O
 > = /*@__PURE__*/ API.make(() => ({
   input: GetFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest,
   output: EffectiveEventThreatDetectionCustomModule,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9238,6 +9594,7 @@ export const getFoldersEventThreatDetectionSettingsEffectiveCustomModules: API.O
 export type GetFoldersLocationsMuteConfigsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getFoldersLocationsMuteConfigs: API.OperationMethod<
   GetFoldersLocationsMuteConfigsRequest,
@@ -9247,12 +9604,16 @@ export const getFoldersLocationsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetFoldersLocationsMuteConfigsRequest,
   output: GoogleCloudSecuritycenterV1MuteConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetFoldersMuteConfigsError = NotFound | Forbidden | GcpOpError;
+export type GetFoldersMuteConfigsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 export const getFoldersMuteConfigs: API.OperationMethod<
   GetFoldersMuteConfigsRequest,
   GoogleCloudSecuritycenterV1MuteConfig,
@@ -9261,7 +9622,7 @@ export const getFoldersMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetFoldersMuteConfigsRequest,
   output: GoogleCloudSecuritycenterV1MuteConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9269,6 +9630,7 @@ export const getFoldersMuteConfigs: API.OperationMethod<
 export type GetFoldersNotificationConfigsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getFoldersNotificationConfigs: API.OperationMethod<
   GetFoldersNotificationConfigsRequest,
@@ -9278,7 +9640,7 @@ export const getFoldersNotificationConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetFoldersNotificationConfigsRequest,
   output: NotificationConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9286,6 +9648,7 @@ export const getFoldersNotificationConfigs: API.OperationMethod<
 export type GetFoldersSecurityHealthAnalyticsSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getFoldersSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<
   GetFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -9295,7 +9658,7 @@ export const getFoldersSecurityHealthAnalyticsSettingsCustomModules: API.Operati
 > = /*@__PURE__*/ API.make(() => ({
   input: GetFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9303,6 +9666,7 @@ export const getFoldersSecurityHealthAnalyticsSettingsCustomModules: API.Operati
 export type GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModules: API.OperationMethod<
   GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
@@ -9313,7 +9677,7 @@ export const getFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModules: AP
   input: GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
   output:
     GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9323,6 +9687,7 @@ export type GetIamPolicyOrganizationsSourcesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const getIamPolicyOrganizationsSources: API.OperationMethod<
   GetIamPolicyOrganizationsSourcesRequest,
@@ -9332,7 +9697,14 @@ export const getIamPolicyOrganizationsSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetIamPolicyOrganizationsSourcesRequest,
   output: Policy,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9340,6 +9712,7 @@ export const getIamPolicyOrganizationsSources: API.OperationMethod<
 export type GetOrganizationsBigQueryExportsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getOrganizationsBigQueryExports: API.OperationMethod<
   GetOrganizationsBigQueryExportsRequest,
@@ -9349,7 +9722,7 @@ export const getOrganizationsBigQueryExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsBigQueryExportsRequest,
   output: GoogleCloudSecuritycenterV1BigQueryExport,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9357,6 +9730,7 @@ export const getOrganizationsBigQueryExports: API.OperationMethod<
 export type GetOrganizationSettingsOrganizationsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getOrganizationSettingsOrganizations: API.OperationMethod<
   GetOrganizationSettingsOrganizationsRequest,
@@ -9366,7 +9740,7 @@ export const getOrganizationSettingsOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationSettingsOrganizationsRequest,
   output: OrganizationSettings,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9374,6 +9748,7 @@ export const getOrganizationSettingsOrganizations: API.OperationMethod<
 export type GetOrganizationsEventThreatDetectionSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getOrganizationsEventThreatDetectionSettingsCustomModules: API.OperationMethod<
   GetOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
@@ -9383,7 +9758,7 @@ export const getOrganizationsEventThreatDetectionSettingsCustomModules: API.Oper
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
   output: EventThreatDetectionCustomModule,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9391,6 +9766,7 @@ export const getOrganizationsEventThreatDetectionSettingsCustomModules: API.Oper
 export type GetOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getOrganizationsEventThreatDetectionSettingsEffectiveCustomModules: API.OperationMethod<
   GetOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesRequest,
@@ -9401,7 +9777,7 @@ export const getOrganizationsEventThreatDetectionSettingsEffectiveCustomModules:
   input:
     GetOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesRequest,
   output: EffectiveEventThreatDetectionCustomModule,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9409,6 +9785,7 @@ export const getOrganizationsEventThreatDetectionSettingsEffectiveCustomModules:
 export type GetOrganizationsLocationsMuteConfigsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getOrganizationsLocationsMuteConfigs: API.OperationMethod<
   GetOrganizationsLocationsMuteConfigsRequest,
@@ -9418,7 +9795,7 @@ export const getOrganizationsLocationsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsLocationsMuteConfigsRequest,
   output: GoogleCloudSecuritycenterV1MuteConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9426,6 +9803,7 @@ export const getOrganizationsLocationsMuteConfigs: API.OperationMethod<
 export type GetOrganizationsMuteConfigsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getOrganizationsMuteConfigs: API.OperationMethod<
   GetOrganizationsMuteConfigsRequest,
@@ -9435,7 +9813,7 @@ export const getOrganizationsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsMuteConfigsRequest,
   output: GoogleCloudSecuritycenterV1MuteConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9443,6 +9821,7 @@ export const getOrganizationsMuteConfigs: API.OperationMethod<
 export type GetOrganizationsNotificationConfigsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getOrganizationsNotificationConfigs: API.OperationMethod<
   GetOrganizationsNotificationConfigsRequest,
@@ -9452,12 +9831,16 @@ export const getOrganizationsNotificationConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsNotificationConfigsRequest,
   output: NotificationConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationsOperationsError = NotFound | Forbidden | GcpOpError;
+export type GetOrganizationsOperationsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 export const getOrganizationsOperations: API.OperationMethod<
   GetOrganizationsOperationsRequest,
   Operation,
@@ -9466,7 +9849,7 @@ export const getOrganizationsOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsOperationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9474,6 +9857,7 @@ export const getOrganizationsOperations: API.OperationMethod<
 export type GetOrganizationsResourceValueConfigsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getOrganizationsResourceValueConfigs: API.OperationMethod<
   GetOrganizationsResourceValueConfigsRequest,
@@ -9483,7 +9867,7 @@ export const getOrganizationsResourceValueConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsResourceValueConfigsRequest,
   output: GoogleCloudSecuritycenterV1ResourceValueConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9491,6 +9875,7 @@ export const getOrganizationsResourceValueConfigs: API.OperationMethod<
 export type GetOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<
   GetOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -9500,7 +9885,7 @@ export const getOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.O
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9508,6 +9893,7 @@ export const getOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.O
 export type GetOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModules: API.OperationMethod<
   GetOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
@@ -9519,7 +9905,7 @@ export const getOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModul
     GetOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
   output:
     GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9527,6 +9913,7 @@ export const getOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModul
 export type GetOrganizationsSimulationsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getOrganizationsSimulations: API.OperationMethod<
   GetOrganizationsSimulationsRequest,
@@ -9536,7 +9923,7 @@ export const getOrganizationsSimulations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsSimulationsRequest,
   output: Simulation,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9544,6 +9931,7 @@ export const getOrganizationsSimulations: API.OperationMethod<
 export type GetOrganizationsSimulationsValuedResourcesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getOrganizationsSimulationsValuedResources: API.OperationMethod<
   GetOrganizationsSimulationsValuedResourcesRequest,
@@ -9553,12 +9941,16 @@ export const getOrganizationsSimulationsValuedResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsSimulationsValuedResourcesRequest,
   output: ValuedResource,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationsSourcesError = NotFound | Forbidden | GcpOpError;
+export type GetOrganizationsSourcesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 export const getOrganizationsSources: API.OperationMethod<
   GetOrganizationsSourcesRequest,
   Source,
@@ -9567,12 +9959,16 @@ export const getOrganizationsSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationsSourcesRequest,
   output: Source,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetProjectsBigQueryExportsError = NotFound | Forbidden | GcpOpError;
+export type GetProjectsBigQueryExportsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 export const getProjectsBigQueryExports: API.OperationMethod<
   GetProjectsBigQueryExportsRequest,
   GoogleCloudSecuritycenterV1BigQueryExport,
@@ -9581,7 +9977,7 @@ export const getProjectsBigQueryExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsBigQueryExportsRequest,
   output: GoogleCloudSecuritycenterV1BigQueryExport,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9589,6 +9985,7 @@ export const getProjectsBigQueryExports: API.OperationMethod<
 export type GetProjectsEventThreatDetectionSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getProjectsEventThreatDetectionSettingsCustomModules: API.OperationMethod<
   GetProjectsEventThreatDetectionSettingsCustomModulesRequest,
@@ -9598,7 +9995,7 @@ export const getProjectsEventThreatDetectionSettingsCustomModules: API.Operation
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsEventThreatDetectionSettingsCustomModulesRequest,
   output: EventThreatDetectionCustomModule,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9606,6 +10003,7 @@ export const getProjectsEventThreatDetectionSettingsCustomModules: API.Operation
 export type GetProjectsEventThreatDetectionSettingsEffectiveCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getProjectsEventThreatDetectionSettingsEffectiveCustomModules: API.OperationMethod<
   GetProjectsEventThreatDetectionSettingsEffectiveCustomModulesRequest,
@@ -9615,7 +10013,7 @@ export const getProjectsEventThreatDetectionSettingsEffectiveCustomModules: API.
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsEventThreatDetectionSettingsEffectiveCustomModulesRequest,
   output: EffectiveEventThreatDetectionCustomModule,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9623,6 +10021,7 @@ export const getProjectsEventThreatDetectionSettingsEffectiveCustomModules: API.
 export type GetProjectsLocationsMuteConfigsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getProjectsLocationsMuteConfigs: API.OperationMethod<
   GetProjectsLocationsMuteConfigsRequest,
@@ -9632,12 +10031,16 @@ export const getProjectsLocationsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsMuteConfigsRequest,
   output: GoogleCloudSecuritycenterV1MuteConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetProjectsMuteConfigsError = NotFound | Forbidden | GcpOpError;
+export type GetProjectsMuteConfigsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 export const getProjectsMuteConfigs: API.OperationMethod<
   GetProjectsMuteConfigsRequest,
   GoogleCloudSecuritycenterV1MuteConfig,
@@ -9646,7 +10049,7 @@ export const getProjectsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsMuteConfigsRequest,
   output: GoogleCloudSecuritycenterV1MuteConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9654,6 +10057,7 @@ export const getProjectsMuteConfigs: API.OperationMethod<
 export type GetProjectsNotificationConfigsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getProjectsNotificationConfigs: API.OperationMethod<
   GetProjectsNotificationConfigsRequest,
@@ -9663,7 +10067,7 @@ export const getProjectsNotificationConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsNotificationConfigsRequest,
   output: NotificationConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9671,6 +10075,7 @@ export const getProjectsNotificationConfigs: API.OperationMethod<
 export type GetProjectsSecurityHealthAnalyticsSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getProjectsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<
   GetProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -9680,7 +10085,7 @@ export const getProjectsSecurityHealthAnalyticsSettingsCustomModules: API.Operat
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9688,6 +10093,7 @@ export const getProjectsSecurityHealthAnalyticsSettingsCustomModules: API.Operat
 export type GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const getProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules: API.OperationMethod<
   GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
@@ -9699,7 +10105,7 @@ export const getProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules: A
     GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
   output:
     GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9709,6 +10115,7 @@ export type GroupFoldersAssetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const groupFoldersAssets: API.OperationMethod<
   GroupFoldersAssetsRequest,
@@ -9718,7 +10125,14 @@ export const groupFoldersAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GroupFoldersAssetsRequest,
   output: GroupAssetsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9728,6 +10142,7 @@ export type GroupFoldersSourcesFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const groupFoldersSourcesFindings: API.OperationMethod<
   GroupFoldersSourcesFindingsRequest,
@@ -9737,7 +10152,14 @@ export const groupFoldersSourcesFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GroupFoldersSourcesFindingsRequest,
   output: GroupFindingsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9747,6 +10169,7 @@ export type GroupOrganizationsAssetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const groupOrganizationsAssets: API.OperationMethod<
   GroupOrganizationsAssetsRequest,
@@ -9756,7 +10179,14 @@ export const groupOrganizationsAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GroupOrganizationsAssetsRequest,
   output: GroupAssetsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9766,6 +10196,7 @@ export type GroupOrganizationsSourcesFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const groupOrganizationsSourcesFindings: API.OperationMethod<
   GroupOrganizationsSourcesFindingsRequest,
@@ -9775,7 +10206,14 @@ export const groupOrganizationsSourcesFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GroupOrganizationsSourcesFindingsRequest,
   output: GroupFindingsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9785,6 +10223,7 @@ export type GroupProjectsAssetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const groupProjectsAssets: API.OperationMethod<
   GroupProjectsAssetsRequest,
@@ -9794,7 +10233,14 @@ export const groupProjectsAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GroupProjectsAssetsRequest,
   output: GroupAssetsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9804,6 +10250,7 @@ export type GroupProjectsSourcesFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const groupProjectsSourcesFindings: API.OperationMethod<
   GroupProjectsSourcesFindingsRequest,
@@ -9813,7 +10260,14 @@ export const groupProjectsSourcesFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GroupProjectsSourcesFindingsRequest,
   output: GroupFindingsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9821,6 +10275,7 @@ export const groupProjectsSourcesFindings: API.OperationMethod<
 export type ListDescendantFoldersEventThreatDetectionSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listDescendantFoldersEventThreatDetectionSettingsCustomModules: API.PaginatedOperationMethod<
   ListDescendantFoldersEventThreatDetectionSettingsCustomModulesRequest,
@@ -9831,7 +10286,7 @@ export const listDescendantFoldersEventThreatDetectionSettingsCustomModules: API
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDescendantFoldersEventThreatDetectionSettingsCustomModulesRequest,
   output: ListDescendantEventThreatDetectionCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9843,6 +10298,7 @@ export const listDescendantFoldersEventThreatDetectionSettingsCustomModules: API
 export type ListDescendantFoldersSecurityHealthAnalyticsSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listDescendantFoldersSecurityHealthAnalyticsSettingsCustomModules: API.PaginatedOperationMethod<
   ListDescendantFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -9854,7 +10310,7 @@ export const listDescendantFoldersSecurityHealthAnalyticsSettingsCustomModules: 
   input:
     ListDescendantFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: ListDescendantSecurityHealthAnalyticsCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9866,6 +10322,7 @@ export const listDescendantFoldersSecurityHealthAnalyticsSettingsCustomModules: 
 export type ListDescendantOrganizationsEventThreatDetectionSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listDescendantOrganizationsEventThreatDetectionSettingsCustomModules: API.PaginatedOperationMethod<
   ListDescendantOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
@@ -9877,7 +10334,7 @@ export const listDescendantOrganizationsEventThreatDetectionSettingsCustomModule
   input:
     ListDescendantOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
   output: ListDescendantEventThreatDetectionCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9889,6 +10346,7 @@ export const listDescendantOrganizationsEventThreatDetectionSettingsCustomModule
 export type ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.PaginatedOperationMethod<
   ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -9900,7 +10358,7 @@ export const listDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomMod
   input:
     ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: ListDescendantSecurityHealthAnalyticsCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9912,6 +10370,7 @@ export const listDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomMod
 export type ListDescendantProjectsEventThreatDetectionSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listDescendantProjectsEventThreatDetectionSettingsCustomModules: API.PaginatedOperationMethod<
   ListDescendantProjectsEventThreatDetectionSettingsCustomModulesRequest,
@@ -9922,7 +10381,7 @@ export const listDescendantProjectsEventThreatDetectionSettingsCustomModules: AP
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDescendantProjectsEventThreatDetectionSettingsCustomModulesRequest,
   output: ListDescendantEventThreatDetectionCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9934,6 +10393,7 @@ export const listDescendantProjectsEventThreatDetectionSettingsCustomModules: AP
 export type ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listDescendantProjectsSecurityHealthAnalyticsSettingsCustomModules: API.PaginatedOperationMethod<
   ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -9945,7 +10405,7 @@ export const listDescendantProjectsSecurityHealthAnalyticsSettingsCustomModules:
   input:
     ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: ListDescendantSecurityHealthAnalyticsCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9954,7 +10414,11 @@ export const listDescendantProjectsSecurityHealthAnalyticsSettingsCustomModules:
   } as const,
 })) as any;
 
-export type ListFoldersAssetsError = NotFound | Forbidden | GcpOpError;
+export type ListFoldersAssetsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 export const listFoldersAssets: API.PaginatedOperationMethod<
   ListFoldersAssetsRequest,
   ListAssetsResponse,
@@ -9964,7 +10428,7 @@ export const listFoldersAssets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFoldersAssetsRequest,
   output: ListAssetsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9973,7 +10437,11 @@ export const listFoldersAssets: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListFoldersBigQueryExportsError = NotFound | Forbidden | GcpOpError;
+export type ListFoldersBigQueryExportsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 export const listFoldersBigQueryExports: API.PaginatedOperationMethod<
   ListFoldersBigQueryExportsRequest,
   ListBigQueryExportsResponse,
@@ -9983,7 +10451,7 @@ export const listFoldersBigQueryExports: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFoldersBigQueryExportsRequest,
   output: ListBigQueryExportsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -9995,6 +10463,7 @@ export const listFoldersBigQueryExports: API.PaginatedOperationMethod<
 export type ListFoldersEventThreatDetectionSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listFoldersEventThreatDetectionSettingsCustomModules: API.PaginatedOperationMethod<
   ListFoldersEventThreatDetectionSettingsCustomModulesRequest,
@@ -10005,7 +10474,7 @@ export const listFoldersEventThreatDetectionSettingsCustomModules: API.Paginated
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFoldersEventThreatDetectionSettingsCustomModulesRequest,
   output: ListEventThreatDetectionCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10017,6 +10486,7 @@ export const listFoldersEventThreatDetectionSettingsCustomModules: API.Paginated
 export type ListFoldersEventThreatDetectionSettingsEffectiveCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listFoldersEventThreatDetectionSettingsEffectiveCustomModules: API.PaginatedOperationMethod<
   ListFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest,
@@ -10027,7 +10497,7 @@ export const listFoldersEventThreatDetectionSettingsEffectiveCustomModules: API.
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest,
   output: ListEffectiveEventThreatDetectionCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10036,7 +10506,11 @@ export const listFoldersEventThreatDetectionSettingsEffectiveCustomModules: API.
   } as const,
 })) as any;
 
-export type ListFoldersMuteConfigsError = NotFound | Forbidden | GcpOpError;
+export type ListFoldersMuteConfigsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 export const listFoldersMuteConfigs: API.PaginatedOperationMethod<
   ListFoldersMuteConfigsRequest,
   ListMuteConfigsResponse,
@@ -10046,7 +10520,7 @@ export const listFoldersMuteConfigs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFoldersMuteConfigsRequest,
   output: ListMuteConfigsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10058,6 +10532,7 @@ export const listFoldersMuteConfigs: API.PaginatedOperationMethod<
 export type ListFoldersNotificationConfigsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listFoldersNotificationConfigs: API.PaginatedOperationMethod<
   ListFoldersNotificationConfigsRequest,
@@ -10068,7 +10543,7 @@ export const listFoldersNotificationConfigs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFoldersNotificationConfigsRequest,
   output: ListNotificationConfigsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10080,6 +10555,7 @@ export const listFoldersNotificationConfigs: API.PaginatedOperationMethod<
 export type ListFoldersSecurityHealthAnalyticsSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listFoldersSecurityHealthAnalyticsSettingsCustomModules: API.PaginatedOperationMethod<
   ListFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -10090,7 +10566,7 @@ export const listFoldersSecurityHealthAnalyticsSettingsCustomModules: API.Pagina
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: ListSecurityHealthAnalyticsCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10102,6 +10578,7 @@ export const listFoldersSecurityHealthAnalyticsSettingsCustomModules: API.Pagina
 export type ListFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModules: API.PaginatedOperationMethod<
   ListFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
@@ -10113,7 +10590,7 @@ export const listFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModules: A
   input:
     ListFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
   output: ListEffectiveSecurityHealthAnalyticsCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10122,7 +10599,11 @@ export const listFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModules: A
   } as const,
 })) as any;
 
-export type ListFoldersSourcesError = NotFound | Forbidden | GcpOpError;
+export type ListFoldersSourcesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 export const listFoldersSources: API.PaginatedOperationMethod<
   ListFoldersSourcesRequest,
   ListSourcesResponse,
@@ -10132,7 +10613,7 @@ export const listFoldersSources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFoldersSourcesRequest,
   output: ListSourcesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10141,7 +10622,11 @@ export const listFoldersSources: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListFoldersSourcesFindingsError = NotFound | Forbidden | GcpOpError;
+export type ListFoldersSourcesFindingsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 export const listFoldersSourcesFindings: API.PaginatedOperationMethod<
   ListFoldersSourcesFindingsRequest,
   ListFindingsResponse,
@@ -10151,7 +10636,7 @@ export const listFoldersSourcesFindings: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFoldersSourcesFindingsRequest,
   output: ListFindingsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10160,7 +10645,11 @@ export const listFoldersSourcesFindings: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListOrganizationsAssetsError = NotFound | Forbidden | GcpOpError;
+export type ListOrganizationsAssetsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 export const listOrganizationsAssets: API.PaginatedOperationMethod<
   ListOrganizationsAssetsRequest,
   ListAssetsResponse,
@@ -10170,7 +10659,7 @@ export const listOrganizationsAssets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsAssetsRequest,
   output: ListAssetsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10182,6 +10671,7 @@ export const listOrganizationsAssets: API.PaginatedOperationMethod<
 export type ListOrganizationsAttackPathsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsAttackPaths: API.PaginatedOperationMethod<
   ListOrganizationsAttackPathsRequest,
@@ -10192,7 +10682,7 @@ export const listOrganizationsAttackPaths: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsAttackPathsRequest,
   output: ListAttackPathsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10204,6 +10694,7 @@ export const listOrganizationsAttackPaths: API.PaginatedOperationMethod<
 export type ListOrganizationsBigQueryExportsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsBigQueryExports: API.PaginatedOperationMethod<
   ListOrganizationsBigQueryExportsRequest,
@@ -10214,7 +10705,7 @@ export const listOrganizationsBigQueryExports: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsBigQueryExportsRequest,
   output: ListBigQueryExportsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10226,6 +10717,7 @@ export const listOrganizationsBigQueryExports: API.PaginatedOperationMethod<
 export type ListOrganizationsEventThreatDetectionSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsEventThreatDetectionSettingsCustomModules: API.PaginatedOperationMethod<
   ListOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
@@ -10236,7 +10728,7 @@ export const listOrganizationsEventThreatDetectionSettingsCustomModules: API.Pag
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
   output: ListEventThreatDetectionCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10248,6 +10740,7 @@ export const listOrganizationsEventThreatDetectionSettingsCustomModules: API.Pag
 export type ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsEventThreatDetectionSettingsEffectiveCustomModules: API.PaginatedOperationMethod<
   ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesRequest,
@@ -10259,7 +10752,7 @@ export const listOrganizationsEventThreatDetectionSettingsEffectiveCustomModules
   input:
     ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesRequest,
   output: ListEffectiveEventThreatDetectionCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10271,6 +10764,7 @@ export const listOrganizationsEventThreatDetectionSettingsEffectiveCustomModules
 export type ListOrganizationsMuteConfigsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsMuteConfigs: API.PaginatedOperationMethod<
   ListOrganizationsMuteConfigsRequest,
@@ -10281,7 +10775,7 @@ export const listOrganizationsMuteConfigs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsMuteConfigsRequest,
   output: ListMuteConfigsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10293,6 +10787,7 @@ export const listOrganizationsMuteConfigs: API.PaginatedOperationMethod<
 export type ListOrganizationsNotificationConfigsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsNotificationConfigs: API.PaginatedOperationMethod<
   ListOrganizationsNotificationConfigsRequest,
@@ -10303,7 +10798,7 @@ export const listOrganizationsNotificationConfigs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsNotificationConfigsRequest,
   output: ListNotificationConfigsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10315,6 +10810,7 @@ export const listOrganizationsNotificationConfigs: API.PaginatedOperationMethod<
 export type ListOrganizationsOperationsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsOperations: API.PaginatedOperationMethod<
   ListOrganizationsOperationsRequest,
@@ -10325,7 +10821,7 @@ export const listOrganizationsOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsOperationsRequest,
   output: ListOperationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10337,6 +10833,7 @@ export const listOrganizationsOperations: API.PaginatedOperationMethod<
 export type ListOrganizationsResourceValueConfigsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsResourceValueConfigs: API.PaginatedOperationMethod<
   ListOrganizationsResourceValueConfigsRequest,
@@ -10347,7 +10844,7 @@ export const listOrganizationsResourceValueConfigs: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsResourceValueConfigsRequest,
   output: ListResourceValueConfigsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10359,6 +10856,7 @@ export const listOrganizationsResourceValueConfigs: API.PaginatedOperationMethod
 export type ListOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.PaginatedOperationMethod<
   ListOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -10369,7 +10867,7 @@ export const listOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: ListSecurityHealthAnalyticsCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10381,6 +10879,7 @@ export const listOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.
 export type ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModules: API.PaginatedOperationMethod<
   ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
@@ -10392,7 +10891,7 @@ export const listOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModu
   input:
     ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
   output: ListEffectiveSecurityHealthAnalyticsCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10404,6 +10903,7 @@ export const listOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModu
 export type ListOrganizationsSimulationsAttackExposureResultsAttackPathsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsSimulationsAttackExposureResultsAttackPaths: API.PaginatedOperationMethod<
   ListOrganizationsSimulationsAttackExposureResultsAttackPathsRequest,
@@ -10414,7 +10914,7 @@ export const listOrganizationsSimulationsAttackExposureResultsAttackPaths: API.P
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsSimulationsAttackExposureResultsAttackPathsRequest,
   output: ListAttackPathsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10426,6 +10926,7 @@ export const listOrganizationsSimulationsAttackExposureResultsAttackPaths: API.P
 export type ListOrganizationsSimulationsAttackExposureResultsValuedResourcesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsSimulationsAttackExposureResultsValuedResources: API.PaginatedOperationMethod<
   ListOrganizationsSimulationsAttackExposureResultsValuedResourcesRequest,
@@ -10437,7 +10938,7 @@ export const listOrganizationsSimulationsAttackExposureResultsValuedResources: A
   input:
     ListOrganizationsSimulationsAttackExposureResultsValuedResourcesRequest,
   output: ListValuedResourcesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10449,6 +10950,7 @@ export const listOrganizationsSimulationsAttackExposureResultsValuedResources: A
 export type ListOrganizationsSimulationsAttackPathsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsSimulationsAttackPaths: API.PaginatedOperationMethod<
   ListOrganizationsSimulationsAttackPathsRequest,
@@ -10459,7 +10961,7 @@ export const listOrganizationsSimulationsAttackPaths: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsSimulationsAttackPathsRequest,
   output: ListAttackPathsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10471,6 +10973,7 @@ export const listOrganizationsSimulationsAttackPaths: API.PaginatedOperationMeth
 export type ListOrganizationsSimulationsValuedResourcesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsSimulationsValuedResources: API.PaginatedOperationMethod<
   ListOrganizationsSimulationsValuedResourcesRequest,
@@ -10481,7 +10984,7 @@ export const listOrganizationsSimulationsValuedResources: API.PaginatedOperation
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsSimulationsValuedResourcesRequest,
   output: ListValuedResourcesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10493,6 +10996,7 @@ export const listOrganizationsSimulationsValuedResources: API.PaginatedOperation
 export type ListOrganizationsSimulationsValuedResourcesAttackPathsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsSimulationsValuedResourcesAttackPaths: API.PaginatedOperationMethod<
   ListOrganizationsSimulationsValuedResourcesAttackPathsRequest,
@@ -10503,7 +11007,7 @@ export const listOrganizationsSimulationsValuedResourcesAttackPaths: API.Paginat
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsSimulationsValuedResourcesAttackPathsRequest,
   output: ListAttackPathsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10512,7 +11016,11 @@ export const listOrganizationsSimulationsValuedResourcesAttackPaths: API.Paginat
   } as const,
 })) as any;
 
-export type ListOrganizationsSourcesError = NotFound | Forbidden | GcpOpError;
+export type ListOrganizationsSourcesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 export const listOrganizationsSources: API.PaginatedOperationMethod<
   ListOrganizationsSourcesRequest,
   ListSourcesResponse,
@@ -10522,7 +11030,7 @@ export const listOrganizationsSources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsSourcesRequest,
   output: ListSourcesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10534,6 +11042,7 @@ export const listOrganizationsSources: API.PaginatedOperationMethod<
 export type ListOrganizationsSourcesFindingsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsSourcesFindings: API.PaginatedOperationMethod<
   ListOrganizationsSourcesFindingsRequest,
@@ -10544,7 +11053,7 @@ export const listOrganizationsSourcesFindings: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsSourcesFindingsRequest,
   output: ListFindingsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10556,6 +11065,7 @@ export const listOrganizationsSourcesFindings: API.PaginatedOperationMethod<
 export type ListOrganizationsValuedResourcesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listOrganizationsValuedResources: API.PaginatedOperationMethod<
   ListOrganizationsValuedResourcesRequest,
@@ -10566,7 +11076,7 @@ export const listOrganizationsValuedResources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsValuedResourcesRequest,
   output: ListValuedResourcesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10575,7 +11085,11 @@ export const listOrganizationsValuedResources: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListProjectsAssetsError = NotFound | Forbidden | GcpOpError;
+export type ListProjectsAssetsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 export const listProjectsAssets: API.PaginatedOperationMethod<
   ListProjectsAssetsRequest,
   ListAssetsResponse,
@@ -10585,7 +11099,7 @@ export const listProjectsAssets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsAssetsRequest,
   output: ListAssetsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10597,6 +11111,7 @@ export const listProjectsAssets: API.PaginatedOperationMethod<
 export type ListProjectsBigQueryExportsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listProjectsBigQueryExports: API.PaginatedOperationMethod<
   ListProjectsBigQueryExportsRequest,
@@ -10607,7 +11122,7 @@ export const listProjectsBigQueryExports: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsBigQueryExportsRequest,
   output: ListBigQueryExportsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10619,6 +11134,7 @@ export const listProjectsBigQueryExports: API.PaginatedOperationMethod<
 export type ListProjectsEventThreatDetectionSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listProjectsEventThreatDetectionSettingsCustomModules: API.PaginatedOperationMethod<
   ListProjectsEventThreatDetectionSettingsCustomModulesRequest,
@@ -10629,7 +11145,7 @@ export const listProjectsEventThreatDetectionSettingsCustomModules: API.Paginate
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsEventThreatDetectionSettingsCustomModulesRequest,
   output: ListEventThreatDetectionCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10641,6 +11157,7 @@ export const listProjectsEventThreatDetectionSettingsCustomModules: API.Paginate
 export type ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listProjectsEventThreatDetectionSettingsEffectiveCustomModules: API.PaginatedOperationMethod<
   ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesRequest,
@@ -10651,7 +11168,7 @@ export const listProjectsEventThreatDetectionSettingsEffectiveCustomModules: API
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesRequest,
   output: ListEffectiveEventThreatDetectionCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10660,7 +11177,11 @@ export const listProjectsEventThreatDetectionSettingsEffectiveCustomModules: API
   } as const,
 })) as any;
 
-export type ListProjectsMuteConfigsError = NotFound | Forbidden | GcpOpError;
+export type ListProjectsMuteConfigsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 export const listProjectsMuteConfigs: API.PaginatedOperationMethod<
   ListProjectsMuteConfigsRequest,
   ListMuteConfigsResponse,
@@ -10670,7 +11191,7 @@ export const listProjectsMuteConfigs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsMuteConfigsRequest,
   output: ListMuteConfigsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10682,6 +11203,7 @@ export const listProjectsMuteConfigs: API.PaginatedOperationMethod<
 export type ListProjectsNotificationConfigsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listProjectsNotificationConfigs: API.PaginatedOperationMethod<
   ListProjectsNotificationConfigsRequest,
@@ -10692,7 +11214,7 @@ export const listProjectsNotificationConfigs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsNotificationConfigsRequest,
   output: ListNotificationConfigsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10704,6 +11226,7 @@ export const listProjectsNotificationConfigs: API.PaginatedOperationMethod<
 export type ListProjectsSecurityHealthAnalyticsSettingsCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listProjectsSecurityHealthAnalyticsSettingsCustomModules: API.PaginatedOperationMethod<
   ListProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -10714,7 +11237,7 @@ export const listProjectsSecurityHealthAnalyticsSettingsCustomModules: API.Pagin
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: ListSecurityHealthAnalyticsCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10726,6 +11249,7 @@ export const listProjectsSecurityHealthAnalyticsSettingsCustomModules: API.Pagin
 export type ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules: API.PaginatedOperationMethod<
   ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
@@ -10737,7 +11261,7 @@ export const listProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules: 
   input:
     ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
   output: ListEffectiveSecurityHealthAnalyticsCustomModulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10746,7 +11270,11 @@ export const listProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules: 
   } as const,
 })) as any;
 
-export type ListProjectsSourcesError = NotFound | Forbidden | GcpOpError;
+export type ListProjectsSourcesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 export const listProjectsSources: API.PaginatedOperationMethod<
   ListProjectsSourcesRequest,
   ListSourcesResponse,
@@ -10756,7 +11284,7 @@ export const listProjectsSources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsSourcesRequest,
   output: ListSourcesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10768,6 +11296,7 @@ export const listProjectsSources: API.PaginatedOperationMethod<
 export type ListProjectsSourcesFindingsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 export const listProjectsSourcesFindings: API.PaginatedOperationMethod<
   ListProjectsSourcesFindingsRequest,
@@ -10778,7 +11307,7 @@ export const listProjectsSourcesFindings: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsSourcesFindingsRequest,
   output: ListFindingsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -10792,6 +11321,7 @@ export type PatchFoldersBigQueryExportsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchFoldersBigQueryExports: API.OperationMethod<
   PatchFoldersBigQueryExportsRequest,
@@ -10801,7 +11331,14 @@ export const patchFoldersBigQueryExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchFoldersBigQueryExportsRequest,
   output: GoogleCloudSecuritycenterV1BigQueryExport,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10811,6 +11348,7 @@ export type PatchFoldersEventThreatDetectionSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchFoldersEventThreatDetectionSettingsCustomModules: API.OperationMethod<
   PatchFoldersEventThreatDetectionSettingsCustomModulesRequest,
@@ -10820,7 +11358,14 @@ export const patchFoldersEventThreatDetectionSettingsCustomModules: API.Operatio
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchFoldersEventThreatDetectionSettingsCustomModulesRequest,
   output: EventThreatDetectionCustomModule,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10830,6 +11375,7 @@ export type PatchFoldersLocationsMuteConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchFoldersLocationsMuteConfigs: API.OperationMethod<
   PatchFoldersLocationsMuteConfigsRequest,
@@ -10839,7 +11385,14 @@ export const patchFoldersLocationsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchFoldersLocationsMuteConfigsRequest,
   output: GoogleCloudSecuritycenterV1MuteConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10849,6 +11402,7 @@ export type PatchFoldersMuteConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchFoldersMuteConfigs: API.OperationMethod<
   PatchFoldersMuteConfigsRequest,
@@ -10858,7 +11412,14 @@ export const patchFoldersMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchFoldersMuteConfigsRequest,
   output: GoogleCloudSecuritycenterV1MuteConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10868,6 +11429,7 @@ export type PatchFoldersNotificationConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchFoldersNotificationConfigs: API.OperationMethod<
   PatchFoldersNotificationConfigsRequest,
@@ -10877,7 +11439,14 @@ export const patchFoldersNotificationConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchFoldersNotificationConfigsRequest,
   output: NotificationConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10887,6 +11456,7 @@ export type PatchFoldersSecurityHealthAnalyticsSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchFoldersSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<
   PatchFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -10896,7 +11466,14 @@ export const patchFoldersSecurityHealthAnalyticsSettingsCustomModules: API.Opera
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10906,6 +11483,7 @@ export type PatchFoldersSourcesFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchFoldersSourcesFindings: API.OperationMethod<
   PatchFoldersSourcesFindingsRequest,
@@ -10915,7 +11493,14 @@ export const patchFoldersSourcesFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchFoldersSourcesFindingsRequest,
   output: Finding,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10925,6 +11510,7 @@ export type PatchFoldersSourcesFindingsExternalSystemsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchFoldersSourcesFindingsExternalSystems: API.OperationMethod<
   PatchFoldersSourcesFindingsExternalSystemsRequest,
@@ -10934,7 +11520,14 @@ export const patchFoldersSourcesFindingsExternalSystems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchFoldersSourcesFindingsExternalSystemsRequest,
   output: GoogleCloudSecuritycenterV1ExternalSystem,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10944,6 +11537,7 @@ export type PatchOrganizationsBigQueryExportsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchOrganizationsBigQueryExports: API.OperationMethod<
   PatchOrganizationsBigQueryExportsRequest,
@@ -10953,7 +11547,14 @@ export const patchOrganizationsBigQueryExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsBigQueryExportsRequest,
   output: GoogleCloudSecuritycenterV1BigQueryExport,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10963,6 +11564,7 @@ export type PatchOrganizationsEventThreatDetectionSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchOrganizationsEventThreatDetectionSettingsCustomModules: API.OperationMethod<
   PatchOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
@@ -10972,7 +11574,14 @@ export const patchOrganizationsEventThreatDetectionSettingsCustomModules: API.Op
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
   output: EventThreatDetectionCustomModule,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10982,6 +11591,7 @@ export type PatchOrganizationsLocationsMuteConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchOrganizationsLocationsMuteConfigs: API.OperationMethod<
   PatchOrganizationsLocationsMuteConfigsRequest,
@@ -10991,7 +11601,14 @@ export const patchOrganizationsLocationsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsLocationsMuteConfigsRequest,
   output: GoogleCloudSecuritycenterV1MuteConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11001,6 +11618,7 @@ export type PatchOrganizationsMuteConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchOrganizationsMuteConfigs: API.OperationMethod<
   PatchOrganizationsMuteConfigsRequest,
@@ -11010,7 +11628,14 @@ export const patchOrganizationsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsMuteConfigsRequest,
   output: GoogleCloudSecuritycenterV1MuteConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11020,6 +11645,7 @@ export type PatchOrganizationsNotificationConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchOrganizationsNotificationConfigs: API.OperationMethod<
   PatchOrganizationsNotificationConfigsRequest,
@@ -11029,7 +11655,14 @@ export const patchOrganizationsNotificationConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsNotificationConfigsRequest,
   output: NotificationConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11039,6 +11672,7 @@ export type PatchOrganizationsResourceValueConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchOrganizationsResourceValueConfigs: API.OperationMethod<
   PatchOrganizationsResourceValueConfigsRequest,
@@ -11048,7 +11682,14 @@ export const patchOrganizationsResourceValueConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsResourceValueConfigsRequest,
   output: GoogleCloudSecuritycenterV1ResourceValueConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11058,6 +11699,7 @@ export type PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError 
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<
   PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -11067,7 +11709,14 @@ export const patchOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11077,6 +11726,7 @@ export type PatchOrganizationsSourcesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchOrganizationsSources: API.OperationMethod<
   PatchOrganizationsSourcesRequest,
@@ -11086,7 +11736,14 @@ export const patchOrganizationsSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsSourcesRequest,
   output: Source,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11096,6 +11753,7 @@ export type PatchOrganizationsSourcesFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchOrganizationsSourcesFindings: API.OperationMethod<
   PatchOrganizationsSourcesFindingsRequest,
@@ -11105,7 +11763,14 @@ export const patchOrganizationsSourcesFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsSourcesFindingsRequest,
   output: Finding,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11115,6 +11780,7 @@ export type PatchOrganizationsSourcesFindingsExternalSystemsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchOrganizationsSourcesFindingsExternalSystems: API.OperationMethod<
   PatchOrganizationsSourcesFindingsExternalSystemsRequest,
@@ -11124,7 +11790,14 @@ export const patchOrganizationsSourcesFindingsExternalSystems: API.OperationMeth
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchOrganizationsSourcesFindingsExternalSystemsRequest,
   output: GoogleCloudSecuritycenterV1ExternalSystem,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11134,6 +11807,7 @@ export type PatchProjectsBigQueryExportsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchProjectsBigQueryExports: API.OperationMethod<
   PatchProjectsBigQueryExportsRequest,
@@ -11143,7 +11817,14 @@ export const patchProjectsBigQueryExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsBigQueryExportsRequest,
   output: GoogleCloudSecuritycenterV1BigQueryExport,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11153,6 +11834,7 @@ export type PatchProjectsEventThreatDetectionSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchProjectsEventThreatDetectionSettingsCustomModules: API.OperationMethod<
   PatchProjectsEventThreatDetectionSettingsCustomModulesRequest,
@@ -11162,7 +11844,14 @@ export const patchProjectsEventThreatDetectionSettingsCustomModules: API.Operati
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsEventThreatDetectionSettingsCustomModulesRequest,
   output: EventThreatDetectionCustomModule,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11172,6 +11861,7 @@ export type PatchProjectsLocationsMuteConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchProjectsLocationsMuteConfigs: API.OperationMethod<
   PatchProjectsLocationsMuteConfigsRequest,
@@ -11181,7 +11871,14 @@ export const patchProjectsLocationsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsMuteConfigsRequest,
   output: GoogleCloudSecuritycenterV1MuteConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11191,6 +11888,7 @@ export type PatchProjectsMuteConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchProjectsMuteConfigs: API.OperationMethod<
   PatchProjectsMuteConfigsRequest,
@@ -11200,7 +11898,14 @@ export const patchProjectsMuteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsMuteConfigsRequest,
   output: GoogleCloudSecuritycenterV1MuteConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11210,6 +11915,7 @@ export type PatchProjectsNotificationConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchProjectsNotificationConfigs: API.OperationMethod<
   PatchProjectsNotificationConfigsRequest,
@@ -11219,7 +11925,14 @@ export const patchProjectsNotificationConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsNotificationConfigsRequest,
   output: NotificationConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11229,6 +11942,7 @@ export type PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchProjectsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<
   PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -11238,7 +11952,14 @@ export const patchProjectsSecurityHealthAnalyticsSettingsCustomModules: API.Oper
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11248,6 +11969,7 @@ export type PatchProjectsSourcesFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchProjectsSourcesFindings: API.OperationMethod<
   PatchProjectsSourcesFindingsRequest,
@@ -11257,7 +11979,14 @@ export const patchProjectsSourcesFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsSourcesFindingsRequest,
   output: Finding,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11267,6 +11996,7 @@ export type PatchProjectsSourcesFindingsExternalSystemsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const patchProjectsSourcesFindingsExternalSystems: API.OperationMethod<
   PatchProjectsSourcesFindingsExternalSystemsRequest,
@@ -11276,7 +12006,14 @@ export const patchProjectsSourcesFindingsExternalSystems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsSourcesFindingsExternalSystemsRequest,
   output: GoogleCloudSecuritycenterV1ExternalSystem,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11286,6 +12023,7 @@ export type RunDiscoveryOrganizationsAssetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const runDiscoveryOrganizationsAssets: API.OperationMethod<
   RunDiscoveryOrganizationsAssetsRequest,
@@ -11295,7 +12033,14 @@ export const runDiscoveryOrganizationsAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RunDiscoveryOrganizationsAssetsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11305,6 +12050,7 @@ export type SetIamPolicyOrganizationsSourcesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const setIamPolicyOrganizationsSources: API.OperationMethod<
   SetIamPolicyOrganizationsSourcesRequest,
@@ -11314,7 +12060,14 @@ export const setIamPolicyOrganizationsSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetIamPolicyOrganizationsSourcesRequest,
   output: Policy,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11324,6 +12077,7 @@ export type SetMuteFoldersSourcesFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const setMuteFoldersSourcesFindings: API.OperationMethod<
   SetMuteFoldersSourcesFindingsRequest,
@@ -11333,7 +12087,14 @@ export const setMuteFoldersSourcesFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetMuteFoldersSourcesFindingsRequest,
   output: Finding,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11343,6 +12104,7 @@ export type SetMuteOrganizationsSourcesFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const setMuteOrganizationsSourcesFindings: API.OperationMethod<
   SetMuteOrganizationsSourcesFindingsRequest,
@@ -11352,7 +12114,14 @@ export const setMuteOrganizationsSourcesFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetMuteOrganizationsSourcesFindingsRequest,
   output: Finding,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11362,6 +12131,7 @@ export type SetMuteProjectsSourcesFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const setMuteProjectsSourcesFindings: API.OperationMethod<
   SetMuteProjectsSourcesFindingsRequest,
@@ -11371,7 +12141,14 @@ export const setMuteProjectsSourcesFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetMuteProjectsSourcesFindingsRequest,
   output: Finding,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11381,6 +12158,7 @@ export type SetStateFoldersSourcesFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const setStateFoldersSourcesFindings: API.OperationMethod<
   SetStateFoldersSourcesFindingsRequest,
@@ -11390,7 +12168,14 @@ export const setStateFoldersSourcesFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetStateFoldersSourcesFindingsRequest,
   output: Finding,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11400,6 +12185,7 @@ export type SetStateOrganizationsSourcesFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const setStateOrganizationsSourcesFindings: API.OperationMethod<
   SetStateOrganizationsSourcesFindingsRequest,
@@ -11409,7 +12195,14 @@ export const setStateOrganizationsSourcesFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetStateOrganizationsSourcesFindingsRequest,
   output: Finding,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11419,6 +12212,7 @@ export type SetStateProjectsSourcesFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const setStateProjectsSourcesFindings: API.OperationMethod<
   SetStateProjectsSourcesFindingsRequest,
@@ -11428,7 +12222,14 @@ export const setStateProjectsSourcesFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetStateProjectsSourcesFindingsRequest,
   output: Finding,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11438,6 +12239,7 @@ export type SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const simulateFoldersSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<
   SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -11447,7 +12249,14 @@ export const simulateFoldersSecurityHealthAnalyticsSettingsCustomModules: API.Op
 > = /*@__PURE__*/ API.make(() => ({
   input: SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: SimulateSecurityHealthAnalyticsCustomModuleResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11457,6 +12266,7 @@ export type SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesErr
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const simulateOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<
   SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -11467,7 +12277,14 @@ export const simulateOrganizationsSecurityHealthAnalyticsSettingsCustomModules: 
   input:
     SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: SimulateSecurityHealthAnalyticsCustomModuleResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11477,6 +12294,7 @@ export type SimulateProjectsSecurityHealthAnalyticsSettingsCustomModulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const simulateProjectsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<
   SimulateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
@@ -11486,7 +12304,14 @@ export const simulateProjectsSecurityHealthAnalyticsSettingsCustomModules: API.O
 > = /*@__PURE__*/ API.make(() => ({
   input: SimulateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: SimulateSecurityHealthAnalyticsCustomModuleResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11496,6 +12321,7 @@ export type TestIamPermissionsOrganizationsSourcesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const testIamPermissionsOrganizationsSources: API.OperationMethod<
   TestIamPermissionsOrganizationsSourcesRequest,
@@ -11505,7 +12331,14 @@ export const testIamPermissionsOrganizationsSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TestIamPermissionsOrganizationsSourcesRequest,
   output: TestIamPermissionsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11515,6 +12348,7 @@ export type UpdateOrganizationSettingsOrganizationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const updateOrganizationSettingsOrganizations: API.OperationMethod<
   UpdateOrganizationSettingsOrganizationsRequest,
@@ -11524,7 +12358,14 @@ export const updateOrganizationSettingsOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationSettingsOrganizationsRequest,
   output: OrganizationSettings,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11534,6 +12375,7 @@ export type UpdateSecurityMarksFoldersAssetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const updateSecurityMarksFoldersAssets: API.OperationMethod<
   UpdateSecurityMarksFoldersAssetsRequest,
@@ -11543,7 +12385,14 @@ export const updateSecurityMarksFoldersAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSecurityMarksFoldersAssetsRequest,
   output: SecurityMarks,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11553,6 +12402,7 @@ export type UpdateSecurityMarksFoldersSourcesFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const updateSecurityMarksFoldersSourcesFindings: API.OperationMethod<
   UpdateSecurityMarksFoldersSourcesFindingsRequest,
@@ -11562,7 +12412,14 @@ export const updateSecurityMarksFoldersSourcesFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSecurityMarksFoldersSourcesFindingsRequest,
   output: SecurityMarks,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11572,6 +12429,7 @@ export type UpdateSecurityMarksOrganizationsAssetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const updateSecurityMarksOrganizationsAssets: API.OperationMethod<
   UpdateSecurityMarksOrganizationsAssetsRequest,
@@ -11581,7 +12439,14 @@ export const updateSecurityMarksOrganizationsAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSecurityMarksOrganizationsAssetsRequest,
   output: SecurityMarks,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11591,6 +12456,7 @@ export type UpdateSecurityMarksOrganizationsSourcesFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const updateSecurityMarksOrganizationsSourcesFindings: API.OperationMethod<
   UpdateSecurityMarksOrganizationsSourcesFindingsRequest,
@@ -11600,7 +12466,14 @@ export const updateSecurityMarksOrganizationsSourcesFindings: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSecurityMarksOrganizationsSourcesFindingsRequest,
   output: SecurityMarks,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11610,6 +12483,7 @@ export type UpdateSecurityMarksProjectsAssetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const updateSecurityMarksProjectsAssets: API.OperationMethod<
   UpdateSecurityMarksProjectsAssetsRequest,
@@ -11619,7 +12493,14 @@ export const updateSecurityMarksProjectsAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSecurityMarksProjectsAssetsRequest,
   output: SecurityMarks,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11629,6 +12510,7 @@ export type UpdateSecurityMarksProjectsSourcesFindingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const updateSecurityMarksProjectsSourcesFindings: API.OperationMethod<
   UpdateSecurityMarksProjectsSourcesFindingsRequest,
@@ -11638,7 +12520,14 @@ export const updateSecurityMarksProjectsSourcesFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSecurityMarksProjectsSourcesFindingsRequest,
   output: SecurityMarks,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11648,6 +12537,7 @@ export type ValidateCustomModuleFoldersEventThreatDetectionSettingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const validateCustomModuleFoldersEventThreatDetectionSettings: API.OperationMethod<
   ValidateCustomModuleFoldersEventThreatDetectionSettingsRequest,
@@ -11657,7 +12547,14 @@ export const validateCustomModuleFoldersEventThreatDetectionSettings: API.Operat
 > = /*@__PURE__*/ API.make(() => ({
   input: ValidateCustomModuleFoldersEventThreatDetectionSettingsRequest,
   output: ValidateEventThreatDetectionCustomModuleResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11667,6 +12564,7 @@ export type ValidateCustomModuleOrganizationsEventThreatDetectionSettingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const validateCustomModuleOrganizationsEventThreatDetectionSettings: API.OperationMethod<
   ValidateCustomModuleOrganizationsEventThreatDetectionSettingsRequest,
@@ -11676,7 +12574,14 @@ export const validateCustomModuleOrganizationsEventThreatDetectionSettings: API.
 > = /*@__PURE__*/ API.make(() => ({
   input: ValidateCustomModuleOrganizationsEventThreatDetectionSettingsRequest,
   output: ValidateEventThreatDetectionCustomModuleResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -11686,6 +12591,7 @@ export type ValidateCustomModuleProjectsEventThreatDetectionSettingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 export const validateCustomModuleProjectsEventThreatDetectionSettings: API.OperationMethod<
   ValidateCustomModuleProjectsEventThreatDetectionSettingsRequest,
@@ -11695,7 +12601,14 @@ export const validateCustomModuleProjectsEventThreatDetectionSettings: API.Opera
 > = /*@__PURE__*/ API.make(() => ({
   input: ValidateCustomModuleProjectsEventThreatDetectionSettingsRequest,
   output: ValidateEventThreatDetectionCustomModuleResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

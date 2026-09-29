@@ -1,0 +1,47 @@
+{
+  "description": "Type the 400 INVALID_ARGUMENT Product Search returns on create for projects that were not onboarded before Product Search closed to new projects (\"Product Search doesn't onboard new projects. For image search, please use Vision Warehouse\"). It surfaced as a generic BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#ProductSearchNotOnboarded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The project was not onboarded to Product Search before it closed to new projects (HTTP 400 INVALID_ARGUMENT: \"Product Search doesn't onboard new projects.\"). Not retryable; use Vision Warehouse or an onboarded project.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Product Search doesn't onboard new projects"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#CreateProjectsLocationsProducts/errors/-",
+      "value": {
+        "target": "com.gcp.vision_v1#ProductSearchNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#CreateProjectsLocationsProductSets/errors/-",
+      "value": {
+        "target": "com.gcp.vision_v1#ProductSearchNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vision_v1#CreateProjectsLocationsProductsReferenceImages/errors/-",
+      "value": {
+        "target": "com.gcp.vision_v1#ProductSearchNotOnboarded"
+      }
+    }
+  ]
+}

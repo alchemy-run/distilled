@@ -52,6 +52,28 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The credential lacks the zero-touch (androidworkzerotouchemm) OAuth scope (HTTP 403 'Request had insufficient authentication scopes.'). A Cloud Platform-scoped service account token cannot call the customer API; not retryable. */
+export class InsufficientAuthenticationScopes
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InsufficientAuthenticationScopes>()(
+      "InsufficientAuthenticationScopes",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -1576,6 +1598,7 @@ export type CreateCustomersConfigurationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Creates a new configuration. Once created, a customer can apply the configuration to devices. */
 export const createCustomersConfigurations: API.OperationMethod<
@@ -1586,7 +1609,14 @@ export const createCustomersConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateCustomersConfigurationsRequest,
   output: Configuration,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1616,6 +1646,7 @@ export type DeleteCustomersConfigurationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Deletes an unused configuration. The API call fails if the customer has devices with the configuration applied. */
 export const deleteCustomersConfigurations: API.OperationMethod<
@@ -1626,7 +1657,14 @@ export const deleteCustomersConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteCustomersConfigurationsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1671,7 +1709,11 @@ export const findByOwnerPartnersDevices: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetCustomersConfigurationsError = NotFound | Forbidden | GcpOpError;
+export type GetCustomersConfigurationsError =
+  | NotFound
+  | Forbidden
+  | InsufficientAuthenticationScopes
+  | GcpOpError;
 /** Gets the details of a configuration. */
 export const getCustomersConfigurations: API.OperationMethod<
   GetCustomersConfigurationsRequest,
@@ -1681,7 +1723,12 @@ export const getCustomersConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCustomersConfigurationsRequest,
   output: Configuration,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1751,7 +1798,11 @@ export const getSimLockStatePartnersDevices: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListCustomersError = NotFound | Forbidden | GcpOpError;
+export type ListCustomersError =
+  | NotFound
+  | Forbidden
+  | InsufficientAuthenticationScopes
+  | GcpOpError;
 /** Lists the user's customer accounts. */
 export const listCustomers: API.PaginatedOperationMethod<
   ListCustomersRequest,
@@ -1762,7 +1813,12 @@ export const listCustomers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersRequest,
   output: CustomerListCustomersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -1774,6 +1830,7 @@ export const listCustomers: API.PaginatedOperationMethod<
 export type ListCustomersConfigurationsError =
   | NotFound
   | Forbidden
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Lists a customer's configurations. */
 export const listCustomersConfigurations: API.OperationMethod<
@@ -1784,7 +1841,12 @@ export const listCustomersConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListCustomersConfigurationsRequest,
   output: CustomerListConfigurationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1809,7 +1871,11 @@ export const listCustomersDevices: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListCustomersDpcsError = NotFound | Forbidden | GcpOpError;
+export type ListCustomersDpcsError =
+  | NotFound
+  | Forbidden
+  | InsufficientAuthenticationScopes
+  | GcpOpError;
 /** Lists the DPCs (device policy controllers) that support zero-touch enrollment. */
 export const listCustomersDpcs: API.OperationMethod<
   ListCustomersDpcsRequest,
@@ -1819,7 +1885,12 @@ export const listCustomersDpcs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListCustomersDpcsRequest,
   output: CustomerListDpcsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1912,6 +1983,7 @@ export type PatchCustomersConfigurationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Updates a configuration's field values. */
 export const patchCustomersConfigurations: API.OperationMethod<
@@ -1922,7 +1994,14 @@ export const patchCustomersConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchCustomersConfigurationsRequest,
   output: Configuration,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

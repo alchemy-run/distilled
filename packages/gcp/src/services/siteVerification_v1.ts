@@ -52,6 +52,28 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The credential lacks the https://www.googleapis.com/auth/siteverification OAuth scope (HTTP 403 'Request had insufficient authentication scopes.'). A Cloud Platform-scoped service account token cannot call the Site Verification API; not retryable. */
+export class InsufficientAuthenticationScopes
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InsufficientAuthenticationScopes>()(
+      "InsufficientAuthenticationScopes",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -315,6 +337,7 @@ export type DeleteWebResourceError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Relinquish ownership of a website or domain. */
 export const deleteWebResource: API.OperationMethod<
@@ -325,7 +348,14 @@ export const deleteWebResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteWebResourceRequest,
   output: DeleteWebResourceResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -335,6 +365,7 @@ export type GetTokenWebResourceError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Get a verification token for placing on a website or domain. */
 export const getTokenWebResource: API.OperationMethod<
@@ -345,12 +376,23 @@ export const getTokenWebResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTokenWebResourceRequest,
   output: SiteVerificationWebResourceGettokenResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetWebResourceError = NotFound | Forbidden | GcpOpError;
+export type GetWebResourceError =
+  | NotFound
+  | Forbidden
+  | InsufficientAuthenticationScopes
+  | GcpOpError;
 /** Get the most current data for a website or domain. */
 export const getWebResource: API.OperationMethod<
   GetWebResourceRequest,
@@ -360,7 +402,12 @@ export const getWebResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetWebResourceRequest,
   output: SiteVerificationWebResourceResource,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -370,6 +417,7 @@ export type InsertWebResourceError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Attempt verification of a website or domain. */
 export const insertWebResource: API.OperationMethod<
@@ -380,12 +428,23 @@ export const insertWebResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: InsertWebResourceRequest,
   output: SiteVerificationWebResourceResource,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListWebResourceError = NotFound | Forbidden | GcpOpError;
+export type ListWebResourceError =
+  | NotFound
+  | Forbidden
+  | InsufficientAuthenticationScopes
+  | GcpOpError;
 /** Get the list of your verified websites and domains. */
 export const listWebResource: API.OperationMethod<
   ListWebResourceRequest,
@@ -395,7 +454,12 @@ export const listWebResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListWebResourceRequest,
   output: SiteVerificationWebResourceListResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -405,6 +469,7 @@ export type PatchWebResourceError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Modify the list of owners for your website or domain. This method supports patch semantics. */
 export const patchWebResource: API.OperationMethod<
@@ -415,7 +480,14 @@ export const patchWebResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchWebResourceRequest,
   output: SiteVerificationWebResourceResource,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -425,6 +497,7 @@ export type UpdateWebResourceError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientAuthenticationScopes
   | GcpOpError;
 /** Modify the list of owners for your website or domain. */
 export const updateWebResource: API.OperationMethod<
@@ -435,7 +508,14 @@ export const updateWebResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateWebResourceRequest,
   output: SiteVerificationWebResourceResource,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientAuthenticationScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

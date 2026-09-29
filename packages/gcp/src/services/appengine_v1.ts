@@ -65,6 +65,20 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The App Engine Admin API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED). */
+export class ServiceDisabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ServiceDisabled>()("ServiceDisabled", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [{ status: 403, message: { includes: "has not been used in project" } }],
+  ) {}
+
 export type FirewallRuleActionEnum = "UNSPECIFIED_ACTION" | "ALLOW" | "DENY";
 export const FirewallRuleActionEnum = S.String;
 
@@ -3549,6 +3563,7 @@ export type BatchUpdateAppsFirewallIngressRulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Replaces the entire firewall ruleset in one bulk operation. This overrides and replaces the rules of an existing firewall with the new rules.If the final rule does not match traffic with the '*' wildcard IP range, then an "allow all" rule is explicitly added to the end of the list. */
 export const batchUpdateAppsFirewallIngressRules: API.OperationMethod<
@@ -3559,7 +3574,14 @@ export const batchUpdateAppsFirewallIngressRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchUpdateAppsFirewallIngressRulesRequest,
   output: BatchUpdateIngressRulesResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3569,6 +3591,7 @@ export type CreateAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates an App Engine application for a Google Cloud Platform project. Required fields: id - The ID of the target Cloud Platform project. location - The region (https://cloud.google.com/appengine/docs/locations) where you want the App Engine application located.For more information about App Engine applications, see Managing Projects, Applications, and Billing (https://cloud.google.com/appengine/docs/standard/python/console/). */
 export const createApps: API.OperationMethod<
@@ -3579,7 +3602,14 @@ export const createApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAppsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3589,6 +3619,7 @@ export type CreateAppsAuthorizedCertificatesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Uploads the specified SSL certificate. */
 export const createAppsAuthorizedCertificates: API.OperationMethod<
@@ -3599,7 +3630,14 @@ export const createAppsAuthorizedCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAppsAuthorizedCertificatesRequest,
   output: AuthorizedCertificate,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3609,6 +3647,7 @@ export type CreateAppsDomainMappingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Maps a domain to an application. A user must be authorized to administer a domain in order to map it to an application. For a list of available authorized domains, see AuthorizedDomains.ListAuthorizedDomains. */
 export const createAppsDomainMappings: API.OperationMethod<
@@ -3619,7 +3658,14 @@ export const createAppsDomainMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAppsDomainMappingsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3629,6 +3675,7 @@ export type CreateAppsFirewallIngressRulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Creates a firewall rule for the application. */
 export const createAppsFirewallIngressRules: API.OperationMethod<
@@ -3639,7 +3686,14 @@ export const createAppsFirewallIngressRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAppsFirewallIngressRulesRequest,
   output: FirewallRule,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3649,6 +3703,7 @@ export type CreateAppsServicesVersionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deploys code and resource files to a new version. */
 export const createAppsServicesVersions: API.OperationMethod<
@@ -3659,7 +3714,14 @@ export const createAppsServicesVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAppsServicesVersionsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3669,6 +3731,7 @@ export type CreateProjectsLocationsApplicationsAuthorizedCertificatesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Uploads the specified SSL certificate. */
 export const createProjectsLocationsApplicationsAuthorizedCertificates: API.OperationMethod<
@@ -3679,7 +3742,14 @@ export const createProjectsLocationsApplicationsAuthorizedCertificates: API.Oper
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsApplicationsAuthorizedCertificatesRequest,
   output: AuthorizedCertificate,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3689,6 +3759,7 @@ export type CreateProjectsLocationsApplicationsDomainMappingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Maps a domain to an application. A user must be authorized to administer a domain in order to map it to an application. For a list of available authorized domains, see AuthorizedDomains.ListAuthorizedDomains. */
 export const createProjectsLocationsApplicationsDomainMappings: API.OperationMethod<
@@ -3699,7 +3770,14 @@ export const createProjectsLocationsApplicationsDomainMappings: API.OperationMet
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsApplicationsDomainMappingsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3709,6 +3787,7 @@ export type DebugAppsServicesVersionsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Enables debugging on a VM instance. This allows you to use the SSH command to connect to the virtual machine where the instance lives. While in "debug mode", the instance continues to serve live traffic. You should delete the instance when you are done debugging and then allow the system to take over and determine if another instance should be started.Only applicable for instances in App Engine flexible environment. */
 export const debugAppsServicesVersionsInstances: API.OperationMethod<
@@ -3719,7 +3798,14 @@ export const debugAppsServicesVersionsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DebugAppsServicesVersionsInstancesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3729,6 +3815,7 @@ export type DebugProjectsLocationsApplicationsServicesVersionsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Enables debugging on a VM instance. This allows you to use the SSH command to connect to the virtual machine where the instance lives. While in "debug mode", the instance continues to serve live traffic. You should delete the instance when you are done debugging and then allow the system to take over and determine if another instance should be started.Only applicable for instances in App Engine flexible environment. */
 export const debugProjectsLocationsApplicationsServicesVersionsInstances: API.OperationMethod<
@@ -3739,7 +3826,14 @@ export const debugProjectsLocationsApplicationsServicesVersionsInstances: API.Op
 > = /*@__PURE__*/ API.make(() => ({
   input: DebugProjectsLocationsApplicationsServicesVersionsInstancesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3749,6 +3843,7 @@ export type DeleteAppsAuthorizedCertificatesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes the specified SSL certificate. */
 export const deleteAppsAuthorizedCertificates: API.OperationMethod<
@@ -3759,7 +3854,14 @@ export const deleteAppsAuthorizedCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAppsAuthorizedCertificatesRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3769,6 +3871,7 @@ export type DeleteAppsDomainMappingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes the specified domain mapping. A user must be authorized to administer the associated domain in order to delete a DomainMapping resource. */
 export const deleteAppsDomainMappings: API.OperationMethod<
@@ -3779,7 +3882,14 @@ export const deleteAppsDomainMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAppsDomainMappingsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3789,6 +3899,7 @@ export type DeleteAppsFirewallIngressRulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes the specified firewall rule. */
 export const deleteAppsFirewallIngressRules: API.OperationMethod<
@@ -3799,7 +3910,14 @@ export const deleteAppsFirewallIngressRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAppsFirewallIngressRulesRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3809,6 +3927,7 @@ export type DeleteAppsServicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes the specified service and all enclosed versions. */
 export const deleteAppsServices: API.OperationMethod<
@@ -3819,7 +3938,14 @@ export const deleteAppsServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAppsServicesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3829,6 +3955,7 @@ export type DeleteAppsServicesVersionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes an existing Version resource. */
 export const deleteAppsServicesVersions: API.OperationMethod<
@@ -3839,7 +3966,14 @@ export const deleteAppsServicesVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAppsServicesVersionsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3849,6 +3983,7 @@ export type DeleteAppsServicesVersionsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Stops a running instance.The instance might be automatically recreated based on the scaling settings of the version. For more information, see "How Instances are Managed" (standard environment (https://cloud.google.com/appengine/docs/standard/python/how-instances-are-managed) | flexible environment (https://cloud.google.com/appengine/docs/flexible/python/how-instances-are-managed)).To ensure that instances are not re-created and avoid getting billed, you can stop all instances within the target version by changing the serving status of the version to STOPPED with the apps.services.versions.patch (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions/patch) method. */
 export const deleteAppsServicesVersionsInstances: API.OperationMethod<
@@ -3859,7 +3994,14 @@ export const deleteAppsServicesVersionsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAppsServicesVersionsInstancesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3869,6 +4011,7 @@ export type DeleteProjectsLocationsApplicationsAuthorizedCertificatesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes the specified SSL certificate. */
 export const deleteProjectsLocationsApplicationsAuthorizedCertificates: API.OperationMethod<
@@ -3879,7 +4022,14 @@ export const deleteProjectsLocationsApplicationsAuthorizedCertificates: API.Oper
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsApplicationsAuthorizedCertificatesRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3889,6 +4039,7 @@ export type DeleteProjectsLocationsApplicationsDomainMappingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes the specified domain mapping. A user must be authorized to administer the associated domain in order to delete a DomainMapping resource. */
 export const deleteProjectsLocationsApplicationsDomainMappings: API.OperationMethod<
@@ -3899,7 +4050,14 @@ export const deleteProjectsLocationsApplicationsDomainMappings: API.OperationMet
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsApplicationsDomainMappingsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3909,6 +4067,7 @@ export type DeleteProjectsLocationsApplicationsServicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes the specified service and all enclosed versions. */
 export const deleteProjectsLocationsApplicationsServices: API.OperationMethod<
@@ -3919,7 +4078,14 @@ export const deleteProjectsLocationsApplicationsServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsApplicationsServicesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3929,6 +4095,7 @@ export type DeleteProjectsLocationsApplicationsServicesVersionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes an existing Version resource. */
 export const deleteProjectsLocationsApplicationsServicesVersions: API.OperationMethod<
@@ -3939,7 +4106,14 @@ export const deleteProjectsLocationsApplicationsServicesVersions: API.OperationM
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsApplicationsServicesVersionsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3949,6 +4123,7 @@ export type DeleteProjectsLocationsApplicationsServicesVersionsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Stops a running instance.The instance might be automatically recreated based on the scaling settings of the version. For more information, see "How Instances are Managed" (standard environment (https://cloud.google.com/appengine/docs/standard/python/how-instances-are-managed) | flexible environment (https://cloud.google.com/appengine/docs/flexible/python/how-instances-are-managed)).To ensure that instances are not re-created and avoid getting billed, you can stop all instances within the target version by changing the serving status of the version to STOPPED with the apps.services.versions.patch (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions/patch) method. */
 export const deleteProjectsLocationsApplicationsServicesVersionsInstances: API.OperationMethod<
@@ -3959,7 +4134,14 @@ export const deleteProjectsLocationsApplicationsServicesVersionsInstances: API.O
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsApplicationsServicesVersionsInstancesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3969,6 +4151,7 @@ export type ExportAppImageAppsServicesVersionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Exports a user image to Artifact Registry. */
 export const exportAppImageAppsServicesVersions: API.OperationMethod<
@@ -3979,7 +4162,14 @@ export const exportAppImageAppsServicesVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExportAppImageAppsServicesVersionsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3989,6 +4179,7 @@ export type ExportAppImageProjectsLocationsApplicationsServicesVersionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Exports a user image to Artifact Registry. */
 export const exportAppImageProjectsLocationsApplicationsServicesVersions: API.OperationMethod<
@@ -3999,12 +4190,19 @@ export const exportAppImageProjectsLocationsApplicationsServicesVersions: API.Op
 > = /*@__PURE__*/ API.make(() => ({
   input: ExportAppImageProjectsLocationsApplicationsServicesVersionsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAppsError = NotFound | Forbidden | GcpOpError;
+export type GetAppsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
 /** Gets information about an application. */
 export const getApps: API.OperationMethod<
   GetAppsRequest,
@@ -4014,7 +4212,7 @@ export const getApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAppsRequest,
   output: Application,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4022,6 +4220,7 @@ export const getApps: API.OperationMethod<
 export type GetAppsAuthorizedCertificatesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets the specified SSL certificate. */
 export const getAppsAuthorizedCertificates: API.OperationMethod<
@@ -4032,12 +4231,16 @@ export const getAppsAuthorizedCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAppsAuthorizedCertificatesRequest,
   output: AuthorizedCertificate,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAppsDomainMappingsError = NotFound | Forbidden | GcpOpError;
+export type GetAppsDomainMappingsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Gets the specified domain mapping. */
 export const getAppsDomainMappings: API.OperationMethod<
   GetAppsDomainMappingsRequest,
@@ -4047,7 +4250,7 @@ export const getAppsDomainMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAppsDomainMappingsRequest,
   output: DomainMapping,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4055,6 +4258,7 @@ export const getAppsDomainMappings: API.OperationMethod<
 export type GetAppsFirewallIngressRulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets the specified firewall rule. */
 export const getAppsFirewallIngressRules: API.OperationMethod<
@@ -4065,12 +4269,16 @@ export const getAppsFirewallIngressRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAppsFirewallIngressRulesRequest,
   output: FirewallRule,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAppsLocationsError = NotFound | Forbidden | GcpOpError;
+export type GetAppsLocationsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Gets information about a location. */
 export const getAppsLocations: API.OperationMethod<
   GetAppsLocationsRequest,
@@ -4080,12 +4288,16 @@ export const getAppsLocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAppsLocationsRequest,
   output: Location,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAppsOperationsError = NotFound | Forbidden | GcpOpError;
+export type GetAppsOperationsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getAppsOperations: API.OperationMethod<
   GetAppsOperationsRequest,
@@ -4095,12 +4307,16 @@ export const getAppsOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAppsOperationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAppsServicesError = NotFound | Forbidden | GcpOpError;
+export type GetAppsServicesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Gets the current configuration of the specified service. */
 export const getAppsServices: API.OperationMethod<
   GetAppsServicesRequest,
@@ -4110,12 +4326,16 @@ export const getAppsServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAppsServicesRequest,
   output: Service,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAppsServicesVersionsError = NotFound | Forbidden | GcpOpError;
+export type GetAppsServicesVersionsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Gets the specified Version resource. By default, only a BASIC_VIEW will be returned. Specify the FULL_VIEW parameter to get the full resource. */
 export const getAppsServicesVersions: API.OperationMethod<
   GetAppsServicesVersionsRequest,
@@ -4125,7 +4345,7 @@ export const getAppsServicesVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAppsServicesVersionsRequest,
   output: Version,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4133,6 +4353,7 @@ export const getAppsServicesVersions: API.OperationMethod<
 export type GetAppsServicesVersionsInstancesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets instance information. */
 export const getAppsServicesVersionsInstances: API.OperationMethod<
@@ -4143,7 +4364,7 @@ export const getAppsServicesVersionsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAppsServicesVersionsInstancesRequest,
   output: Instance,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4151,6 +4372,7 @@ export const getAppsServicesVersionsInstances: API.OperationMethod<
 export type GetProjectsLocationsApplicationsAuthorizedCertificatesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets the specified SSL certificate. */
 export const getProjectsLocationsApplicationsAuthorizedCertificates: API.OperationMethod<
@@ -4161,7 +4383,7 @@ export const getProjectsLocationsApplicationsAuthorizedCertificates: API.Operati
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsApplicationsAuthorizedCertificatesRequest,
   output: AuthorizedCertificate,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4169,6 +4391,7 @@ export const getProjectsLocationsApplicationsAuthorizedCertificates: API.Operati
 export type GetProjectsLocationsApplicationsDomainMappingsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Gets the specified domain mapping. */
 export const getProjectsLocationsApplicationsDomainMappings: API.OperationMethod<
@@ -4179,7 +4402,7 @@ export const getProjectsLocationsApplicationsDomainMappings: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsApplicationsDomainMappingsRequest,
   output: DomainMapping,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4187,6 +4410,7 @@ export const getProjectsLocationsApplicationsDomainMappings: API.OperationMethod
 export type ListAppsAuthorizedCertificatesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all SSL certificates the user is authorized to administer. */
 export const listAppsAuthorizedCertificates: API.PaginatedOperationMethod<
@@ -4198,7 +4422,7 @@ export const listAppsAuthorizedCertificates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAppsAuthorizedCertificatesRequest,
   output: ListAuthorizedCertificatesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4207,7 +4431,11 @@ export const listAppsAuthorizedCertificates: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAppsAuthorizedDomainsError = NotFound | Forbidden | GcpOpError;
+export type ListAppsAuthorizedDomainsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists all domains the user is authorized to administer. */
 export const listAppsAuthorizedDomains: API.PaginatedOperationMethod<
   ListAppsAuthorizedDomainsRequest,
@@ -4218,7 +4446,7 @@ export const listAppsAuthorizedDomains: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAppsAuthorizedDomainsRequest,
   output: ListAuthorizedDomainsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4227,7 +4455,11 @@ export const listAppsAuthorizedDomains: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAppsDomainMappingsError = NotFound | Forbidden | GcpOpError;
+export type ListAppsDomainMappingsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists the domain mappings on an application. */
 export const listAppsDomainMappings: API.PaginatedOperationMethod<
   ListAppsDomainMappingsRequest,
@@ -4238,7 +4470,7 @@ export const listAppsDomainMappings: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAppsDomainMappingsRequest,
   output: ListDomainMappingsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4250,6 +4482,7 @@ export const listAppsDomainMappings: API.PaginatedOperationMethod<
 export type ListAppsFirewallIngressRulesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists the firewall rules of an application. */
 export const listAppsFirewallIngressRules: API.PaginatedOperationMethod<
@@ -4261,7 +4494,7 @@ export const listAppsFirewallIngressRules: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAppsFirewallIngressRulesRequest,
   output: ListIngressRulesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4270,7 +4503,11 @@ export const listAppsFirewallIngressRules: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAppsLocationsError = NotFound | Forbidden | GcpOpError;
+export type ListAppsLocationsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists information about the supported locations for this service.This method lists locations based on the resource scope provided in the ListLocationsRequest.name field: Global locations: If name is empty, the method lists the public locations available to all projects. Project-specific locations: If name follows the format projects/{project}, the method lists locations visible to that specific project. This includes public, private, or other project-specific locations enabled for the project.For gRPC and client library implementations, the resource name is passed as the name field. For direct service calls, the resource name is incorporated into the request path based on the specific service implementation and version. */
 export const listAppsLocations: API.PaginatedOperationMethod<
   ListAppsLocationsRequest,
@@ -4281,7 +4518,7 @@ export const listAppsLocations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAppsLocationsRequest,
   output: ListLocationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4290,7 +4527,11 @@ export const listAppsLocations: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAppsOperationsError = NotFound | Forbidden | GcpOpError;
+export type ListAppsOperationsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
 export const listAppsOperations: API.PaginatedOperationMethod<
   ListAppsOperationsRequest,
@@ -4301,7 +4542,7 @@ export const listAppsOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAppsOperationsRequest,
   output: ListOperationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4310,7 +4551,11 @@ export const listAppsOperations: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAppsServicesError = NotFound | Forbidden | GcpOpError;
+export type ListAppsServicesError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists all the services in the application. */
 export const listAppsServices: API.PaginatedOperationMethod<
   ListAppsServicesRequest,
@@ -4321,7 +4566,7 @@ export const listAppsServices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAppsServicesRequest,
   output: ListServicesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4330,7 +4575,11 @@ export const listAppsServices: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAppsServicesVersionsError = NotFound | Forbidden | GcpOpError;
+export type ListAppsServicesVersionsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists the versions of a service. */
 export const listAppsServicesVersions: API.PaginatedOperationMethod<
   ListAppsServicesVersionsRequest,
@@ -4341,7 +4590,7 @@ export const listAppsServicesVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAppsServicesVersionsRequest,
   output: ListVersionsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4353,6 +4602,7 @@ export const listAppsServicesVersions: API.PaginatedOperationMethod<
 export type ListAppsServicesVersionsInstancesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists the instances of a version.Tip: To aggregate details about instances over time, see the Stackdriver Monitoring API (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.timeSeries/list). */
 export const listAppsServicesVersionsInstances: API.PaginatedOperationMethod<
@@ -4364,7 +4614,7 @@ export const listAppsServicesVersionsInstances: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAppsServicesVersionsInstancesRequest,
   output: ListInstancesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4376,6 +4626,7 @@ export const listAppsServicesVersionsInstances: API.PaginatedOperationMethod<
 export type ListProjectsLocationsApplicationsAuthorizedCertificatesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all SSL certificates the user is authorized to administer. */
 export const listProjectsLocationsApplicationsAuthorizedCertificates: API.PaginatedOperationMethod<
@@ -4387,7 +4638,7 @@ export const listProjectsLocationsApplicationsAuthorizedCertificates: API.Pagina
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsApplicationsAuthorizedCertificatesRequest,
   output: ListAuthorizedCertificatesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4399,6 +4650,7 @@ export const listProjectsLocationsApplicationsAuthorizedCertificates: API.Pagina
 export type ListProjectsLocationsApplicationsAuthorizedDomainsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists all domains the user is authorized to administer. */
 export const listProjectsLocationsApplicationsAuthorizedDomains: API.PaginatedOperationMethod<
@@ -4410,7 +4662,7 @@ export const listProjectsLocationsApplicationsAuthorizedDomains: API.PaginatedOp
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsApplicationsAuthorizedDomainsRequest,
   output: ListAuthorizedDomainsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4422,6 +4674,7 @@ export const listProjectsLocationsApplicationsAuthorizedDomains: API.PaginatedOp
 export type ListProjectsLocationsApplicationsDomainMappingsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists the domain mappings on an application. */
 export const listProjectsLocationsApplicationsDomainMappings: API.PaginatedOperationMethod<
@@ -4433,7 +4686,7 @@ export const listProjectsLocationsApplicationsDomainMappings: API.PaginatedOpera
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsApplicationsDomainMappingsRequest,
   output: ListDomainMappingsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -4442,7 +4695,11 @@ export const listProjectsLocationsApplicationsDomainMappings: API.PaginatedOpera
   } as const,
 })) as any;
 
-export type ListRuntimesAppsError = NotFound | Forbidden | GcpOpError;
+export type ListRuntimesAppsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists all the available runtimes for the application. */
 export const listRuntimesApps: API.OperationMethod<
   ListRuntimesAppsRequest,
@@ -4452,7 +4709,7 @@ export const listRuntimesApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListRuntimesAppsRequest,
   output: ListRuntimesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4462,6 +4719,7 @@ export type PatchAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the specified Application resource. You can update the following fields: auth_domain - Google authentication domain for controlling user access to the application. default_cookie_expiration - Cookie expiration policy for the application. iap - Identity-Aware Proxy properties for the application. */
 export const patchApps: API.OperationMethod<
@@ -4472,7 +4730,14 @@ export const patchApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchAppsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4482,6 +4747,7 @@ export type PatchAppsAuthorizedCertificatesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the specified SSL certificate. To renew a certificate and maintain its existing domain mappings, update certificate_data with a new certificate. The new certificate must be applicable to the same domains as the original certificate. The certificate display_name may also be updated. */
 export const patchAppsAuthorizedCertificates: API.OperationMethod<
@@ -4492,7 +4758,14 @@ export const patchAppsAuthorizedCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchAppsAuthorizedCertificatesRequest,
   output: AuthorizedCertificate,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4502,6 +4775,7 @@ export type PatchAppsDomainMappingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the specified domain mapping. To map an SSL certificate to a domain mapping, update certificate_id to point to an AuthorizedCertificate resource. A user must be authorized to administer the associated domain in order to update a DomainMapping resource. */
 export const patchAppsDomainMappings: API.OperationMethod<
@@ -4512,7 +4786,14 @@ export const patchAppsDomainMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchAppsDomainMappingsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4522,6 +4803,7 @@ export type PatchAppsFirewallIngressRulesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the specified firewall rule. */
 export const patchAppsFirewallIngressRules: API.OperationMethod<
@@ -4532,7 +4814,14 @@ export const patchAppsFirewallIngressRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchAppsFirewallIngressRulesRequest,
   output: FirewallRule,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4542,6 +4831,7 @@ export type PatchAppsServicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the configuration of the specified service. */
 export const patchAppsServices: API.OperationMethod<
@@ -4552,7 +4842,14 @@ export const patchAppsServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchAppsServicesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4562,6 +4859,7 @@ export type PatchAppsServicesVersionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the specified Version resource. You can specify the following fields depending on the App Engine environment and type of scaling that the version resource uses:Standard environment instance_class (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.instance_class)automatic scaling in the standard environment: automatic_scaling.min_idle_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.max_idle_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automaticScaling.standard_scheduler_settings.max_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.min_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.target_cpu_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.target_throughput_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings)basic scaling or manual scaling in the standard environment: serving_status (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.serving_status) manual_scaling.instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#manualscaling)Flexible environment serving_status (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.serving_status)automatic scaling in the flexible environment: automatic_scaling.min_total_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.max_total_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.cool_down_period_sec (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.cpu_utilization.target_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling)manual scaling in the flexible environment: manual_scaling.instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#manualscaling) */
 export const patchAppsServicesVersions: API.OperationMethod<
@@ -4572,7 +4870,14 @@ export const patchAppsServicesVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchAppsServicesVersionsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4582,6 +4887,7 @@ export type PatchProjectsLocationsApplicationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the specified Application resource. You can update the following fields: auth_domain - Google authentication domain for controlling user access to the application. default_cookie_expiration - Cookie expiration policy for the application. iap - Identity-Aware Proxy properties for the application. */
 export const patchProjectsLocationsApplications: API.OperationMethod<
@@ -4592,7 +4898,14 @@ export const patchProjectsLocationsApplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsApplicationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4602,6 +4915,7 @@ export type PatchProjectsLocationsApplicationsAuthorizedCertificatesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the specified SSL certificate. To renew a certificate and maintain its existing domain mappings, update certificate_data with a new certificate. The new certificate must be applicable to the same domains as the original certificate. The certificate display_name may also be updated. */
 export const patchProjectsLocationsApplicationsAuthorizedCertificates: API.OperationMethod<
@@ -4612,7 +4926,14 @@ export const patchProjectsLocationsApplicationsAuthorizedCertificates: API.Opera
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsApplicationsAuthorizedCertificatesRequest,
   output: AuthorizedCertificate,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4622,6 +4943,7 @@ export type PatchProjectsLocationsApplicationsDomainMappingsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the specified domain mapping. To map an SSL certificate to a domain mapping, update certificate_id to point to an AuthorizedCertificate resource. A user must be authorized to administer the associated domain in order to update a DomainMapping resource. */
 export const patchProjectsLocationsApplicationsDomainMappings: API.OperationMethod<
@@ -4632,7 +4954,14 @@ export const patchProjectsLocationsApplicationsDomainMappings: API.OperationMeth
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsApplicationsDomainMappingsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4642,6 +4971,7 @@ export type PatchProjectsLocationsApplicationsServicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the configuration of the specified service. */
 export const patchProjectsLocationsApplicationsServices: API.OperationMethod<
@@ -4652,7 +4982,14 @@ export const patchProjectsLocationsApplicationsServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsApplicationsServicesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4662,6 +4999,7 @@ export type PatchProjectsLocationsApplicationsServicesVersionsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Updates the specified Version resource. You can specify the following fields depending on the App Engine environment and type of scaling that the version resource uses:Standard environment instance_class (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.instance_class)automatic scaling in the standard environment: automatic_scaling.min_idle_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.max_idle_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automaticScaling.standard_scheduler_settings.max_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.min_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.target_cpu_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.target_throughput_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings)basic scaling or manual scaling in the standard environment: serving_status (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.serving_status) manual_scaling.instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#manualscaling)Flexible environment serving_status (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.serving_status)automatic scaling in the flexible environment: automatic_scaling.min_total_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.max_total_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.cool_down_period_sec (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.cpu_utilization.target_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling)manual scaling in the flexible environment: manual_scaling.instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#manualscaling) */
 export const patchProjectsLocationsApplicationsServicesVersions: API.OperationMethod<
@@ -4672,7 +5010,14 @@ export const patchProjectsLocationsApplicationsServicesVersions: API.OperationMe
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsApplicationsServicesVersionsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4682,6 +5027,7 @@ export type RepairAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Recreates the required App Engine features for the specified App Engine application, for example a Cloud Storage bucket or App Engine service account. Use this method if you receive an error message about a missing feature, for example, Error retrieving the App Engine service account. If you have deleted your App Engine service account, this will not be able to recreate it. Instead, you should attempt to use the IAM undelete API if possible at https://cloud.google.com/iam/reference/rest/v1/projects.serviceAccounts/undelete?apix_params=%7B"name"%3A"projects%2F-%2FserviceAccounts%2Funique_id"%2C"resource"%3A%7B%7D%7D . If the deletion was recent, the numeric ID can be found in the Cloud Console Activity Log. */
 export const repairApps: API.OperationMethod<
@@ -4692,7 +5038,14 @@ export const repairApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RepairAppsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

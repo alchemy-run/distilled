@@ -1,0 +1,768 @@
+{
+  "description": "Type the OAuth-scope rejection (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). This API needs a product-specific OAuth scope that a cloud-platform token does not carry; it surfaced as the generic Forbidden, indistinguishable from a missing IAM permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#InsufficientScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#BulkUpdateAccountsContainersWorkspaces/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#CombineAccountsContainers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#CreateAccountsContainers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#CreateAccountsContainersEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#CreateAccountsContainersWorkspaces/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#CreateAccountsContainersWorkspacesBuilt_in_variables/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#CreateAccountsContainersWorkspacesClients/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#CreateAccountsContainersWorkspacesFolders/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#CreateAccountsContainersWorkspacesGtag_config/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#CreateAccountsContainersWorkspacesTags/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#CreateAccountsContainersWorkspacesTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#CreateAccountsContainersWorkspacesTransformations/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#CreateAccountsContainersWorkspacesTriggers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#CreateAccountsContainersWorkspacesVariables/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#CreateAccountsContainersWorkspacesZones/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#CreateAccountsUser_permissions/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#CreateVersionAccountsContainersWorkspaces/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#DeleteAccountsContainers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#DeleteAccountsContainersEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#DeleteAccountsContainersVersions/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#DeleteAccountsContainersWorkspaces/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#DeleteAccountsContainersWorkspacesBuilt_in_variables/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#DeleteAccountsContainersWorkspacesClients/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#DeleteAccountsContainersWorkspacesFolders/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#DeleteAccountsContainersWorkspacesGtag_config/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#DeleteAccountsContainersWorkspacesTags/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#DeleteAccountsContainersWorkspacesTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#DeleteAccountsContainersWorkspacesTransformations/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#DeleteAccountsContainersWorkspacesTriggers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#DeleteAccountsContainersWorkspacesVariables/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#DeleteAccountsContainersWorkspacesZones/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#DeleteAccountsUser_permissions/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#EntitiesAccountsContainersWorkspacesFolders/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetAccountsContainers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetAccountsContainersDestinations/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetAccountsContainersEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetAccountsContainersVersions/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetAccountsContainersWorkspaces/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetAccountsContainersWorkspacesClients/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetAccountsContainersWorkspacesFolders/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetAccountsContainersWorkspacesGtag_config/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetAccountsContainersWorkspacesTags/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetAccountsContainersWorkspacesTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetAccountsContainersWorkspacesTransformations/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetAccountsContainersWorkspacesTriggers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetAccountsContainersWorkspacesVariables/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetAccountsContainersWorkspacesZones/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetAccountsUser_permissions/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#GetStatusAccountsContainersWorkspaces/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ImportFromGalleryAccountsContainersWorkspacesTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#LatestAccountsContainersVersion_headers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#LinkAccountsContainersDestinations/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccountsContainers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccountsContainersDestinations/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccountsContainersEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccountsContainersVersion_headers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccountsContainersWorkspaces/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccountsContainersWorkspacesBuilt_in_variables/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccountsContainersWorkspacesClients/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccountsContainersWorkspacesFolders/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccountsContainersWorkspacesGtag_config/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccountsContainersWorkspacesTags/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccountsContainersWorkspacesTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccountsContainersWorkspacesTransformations/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccountsContainersWorkspacesTriggers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccountsContainersWorkspacesVariables/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccountsContainersWorkspacesZones/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ListAccountsUser_permissions/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#LiveAccountsContainersVersions/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#LookupAccountsContainers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#MoveEntitiesToFolderAccountsContainersWorkspacesFolders/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#MoveTagIdAccountsContainers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#PreviewQuickAccountsContainersWorkspaces/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#PublishAccountsContainersVersions/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#ReauthorizeAccountsContainersEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#Resolve_conflictAccountsContainersWorkspaces/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#RevertAccountsContainersWorkspacesBuilt_in_variables/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#RevertAccountsContainersWorkspacesClients/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#RevertAccountsContainersWorkspacesFolders/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#RevertAccountsContainersWorkspacesTags/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#RevertAccountsContainersWorkspacesTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#RevertAccountsContainersWorkspacesTransformations/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#RevertAccountsContainersWorkspacesTriggers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#RevertAccountsContainersWorkspacesVariables/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#RevertAccountsContainersWorkspacesZones/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#Set_latestAccountsContainersVersions/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#SnippetAccountsContainers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#SyncAccountsContainersWorkspaces/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#UndeleteAccountsContainersVersions/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#UpdateAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#UpdateAccountsContainers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#UpdateAccountsContainersEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#UpdateAccountsContainersVersions/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#UpdateAccountsContainersWorkspaces/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#UpdateAccountsContainersWorkspacesClients/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#UpdateAccountsContainersWorkspacesFolders/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#UpdateAccountsContainersWorkspacesGtag_config/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#UpdateAccountsContainersWorkspacesTags/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#UpdateAccountsContainersWorkspacesTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#UpdateAccountsContainersWorkspacesTransformations/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#UpdateAccountsContainersWorkspacesTriggers/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#UpdateAccountsContainersWorkspacesVariables/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#UpdateAccountsContainersWorkspacesZones/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tagmanager_v2#UpdateAccountsUser_permissions/errors/-",
+      "value": {
+        "target": "com.gcp.tagmanager_v2#InsufficientScopes"
+      }
+    }
+  ]
+}

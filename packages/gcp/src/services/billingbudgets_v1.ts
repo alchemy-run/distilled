@@ -26,6 +26,25 @@ export class BadRequest
     [{ status: 400 }],
   ) {}
 
+/** The budget does not exist (or is outside the caller's billing scope). The Budget API answers HTTP 403 'The caller does not have permission' for a missing budget id instead of 404. */
+export class BudgetNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<BudgetNotFound>()("BudgetNotFound", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "The caller does not have permission" },
+      },
+    ],
+  ) {}
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -485,6 +504,7 @@ export type DeleteBillingAccountsBudgetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | BudgetNotFound
   | GcpOpError;
 /** Deletes a budget. Returns successfully if already deleted. */
 export const deleteBillingAccountsBudgets: API.OperationMethod<
@@ -495,12 +515,23 @@ export const deleteBillingAccountsBudgets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteBillingAccountsBudgetsRequest,
   output: GoogleProtobufEmpty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    BudgetNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBillingAccountsBudgetsError = NotFound | Forbidden | GcpOpError;
+export type GetBillingAccountsBudgetsError =
+  | NotFound
+  | Forbidden
+  | BudgetNotFound
+  | GcpOpError;
 /** Returns a budget. WARNING: There are some fields exposed on the Google Cloud Console that aren't available on this API. When reading from the API, you will not see these fields in the return value, though they may have been set in the Cloud Console. */
 export const getBillingAccountsBudgets: API.OperationMethod<
   GetBillingAccountsBudgetsRequest,
@@ -510,7 +541,7 @@ export const getBillingAccountsBudgets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBillingAccountsBudgetsRequest,
   output: GoogleCloudBillingBudgetsV1Budget,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, BudgetNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -540,6 +571,7 @@ export type PatchBillingAccountsBudgetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | BudgetNotFound
   | GcpOpError;
 /** Updates a budget and returns the updated budget. WARNING: There are some fields exposed on the Google Cloud Console that aren't available on this API. Budget fields that are not exposed in this API will not be changed by this method. */
 export const patchBillingAccountsBudgets: API.OperationMethod<
@@ -550,7 +582,14 @@ export const patchBillingAccountsBudgets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchBillingAccountsBudgetsRequest,
   output: GoogleCloudBillingBudgetsV1Budget,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    BudgetNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

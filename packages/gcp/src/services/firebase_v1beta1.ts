@@ -13,6 +13,25 @@ import * as Retry from "../retry.ts";
 
 export type { GcpOpError, GcpOpContext };
 
+/** The Android app does not exist. Firebase answers HTTP 403 'The caller does not have permission' for a missing app id instead of 404. */
+export class AndroidAppNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<AndroidAppNotFound>()("AndroidAppNotFound", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "The caller does not have permission" },
+      },
+    ],
+  ) {}
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1974,7 +1993,11 @@ export const getProjects: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetProjectsAndroidAppsError = NotFound | Forbidden | GcpOpError;
+export type GetProjectsAndroidAppsError =
+  | NotFound
+  | Forbidden
+  | AndroidAppNotFound
+  | GcpOpError;
 /** Gets the specified AndroidApp. */
 export const getProjectsAndroidApps: API.OperationMethod<
   GetProjectsAndroidAppsRequest,
@@ -1984,7 +2007,7 @@ export const getProjectsAndroidApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsAndroidAppsRequest,
   output: AndroidApp,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, AndroidAppNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2182,6 +2205,7 @@ export type PatchProjectsAndroidAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AndroidAppNotFound
   | GcpOpError;
 /** Updates the attributes of the specified AndroidApp. */
 export const patchProjectsAndroidApps: API.OperationMethod<
@@ -2192,7 +2216,14 @@ export const patchProjectsAndroidApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsAndroidAppsRequest,
   output: AndroidApp,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AndroidAppNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2262,6 +2293,7 @@ export type RemoveProjectsAndroidAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | AndroidAppNotFound
   | GcpOpError;
 /** Removes the specified AndroidApp from the FirebaseProject. */
 export const removeProjectsAndroidApps: API.OperationMethod<
@@ -2272,7 +2304,14 @@ export const removeProjectsAndroidApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveProjectsAndroidAppsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    AndroidAppNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

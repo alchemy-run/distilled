@@ -52,6 +52,25 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT). */
+export class InsufficientScopes
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InsufficientScopes>()("InsufficientScopes", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -4937,6 +4956,7 @@ export type AcceptAccountsProposalsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Mark the proposal as accepted at the given revision number. If the number does not match the server's revision number an `ABORTED` error message will be returned. This call updates the proposal_state from `PROPOSED` to `BUYER_ACCEPTED`, or from `SELLER_ACCEPTED` to `FINALIZED`. Upon calling this endpoint, the buyer implicitly agrees to the terms and conditions optionally set within the proposal by the publisher. */
 export const acceptAccountsProposals: API.OperationMethod<
@@ -4947,7 +4967,14 @@ export const acceptAccountsProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AcceptAccountsProposalsRequest,
   output: Proposal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4957,6 +4984,7 @@ export type AddAccountsCreativesDealAssociationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Associate an existing deal with a creative. */
 export const addAccountsCreativesDealAssociations: API.OperationMethod<
@@ -4967,7 +4995,14 @@ export const addAccountsCreativesDealAssociations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddAccountsCreativesDealAssociationsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4977,6 +5012,7 @@ export type AddNoteAccountsProposalsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Create a new note and attach it to the proposal. The note is assigned a unique ID by the server. The proposal revision number will not increase when associated with a new note. */
 export const addNoteAccountsProposals: API.OperationMethod<
@@ -4987,7 +5023,14 @@ export const addNoteAccountsProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddNoteAccountsProposalsRequest,
   output: Note,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4997,6 +5040,7 @@ export type CancelNegotiationAccountsProposalsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Cancel an ongoing negotiation on a proposal. This does not cancel or end serving for the deals if the proposal has been finalized, but only cancels a negotiation unilaterally. */
 export const cancelNegotiationAccountsProposals: API.OperationMethod<
@@ -5007,7 +5051,14 @@ export const cancelNegotiationAccountsProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelNegotiationAccountsProposalsRequest,
   output: Proposal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5017,6 +5068,7 @@ export type CompleteSetupAccountsProposalsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** You can opt-in to manually update proposals to indicate that setup is complete. By default, proposal setup is automatically completed after their deals are finalized. Contact your Technical Account Manager to opt in. Buyers can call this method when the proposal has been finalized, and all the required creatives have been uploaded using the Creatives API. This call updates the `is_setup_completed` field on the deals in the proposal, and notifies the seller. The server then advances the revision number of the most recent proposal. To mark an individual deal as ready to serve, call `buyers.finalizedDeals.setReadyToServe` in the Marketplace API. */
 export const completeSetupAccountsProposals: API.OperationMethod<
@@ -5027,7 +5079,14 @@ export const completeSetupAccountsProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CompleteSetupAccountsProposalsRequest,
   output: Proposal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5037,6 +5096,7 @@ export type CreateAccountsClientsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a new client buyer. */
 export const createAccountsClients: API.OperationMethod<
@@ -5047,7 +5107,14 @@ export const createAccountsClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsClientsRequest,
   output: Client,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5057,6 +5124,7 @@ export type CreateAccountsClientsInvitationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates and sends out an email invitation to access an Ad Exchange client buyer account. */
 export const createAccountsClientsInvitations: API.OperationMethod<
@@ -5067,7 +5135,14 @@ export const createAccountsClientsInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsClientsInvitationsRequest,
   output: ClientUserInvitation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5077,6 +5152,7 @@ export type CreateAccountsCreativesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a creative. */
 export const createAccountsCreatives: API.OperationMethod<
@@ -5087,7 +5163,14 @@ export const createAccountsCreatives: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsCreativesRequest,
   output: Creative,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5097,6 +5180,7 @@ export type CreateAccountsProposalsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Create the given proposal. Each created proposal and any deals it contains are assigned a unique ID by the server. */
 export const createAccountsProposals: API.OperationMethod<
@@ -5107,7 +5191,14 @@ export const createAccountsProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccountsProposalsRequest,
   output: Proposal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5117,6 +5208,7 @@ export type CreateBiddersAccountsFilterSetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates the specified filter set for the account with the given account ID. */
 export const createBiddersAccountsFilterSets: API.OperationMethod<
@@ -5127,7 +5219,14 @@ export const createBiddersAccountsFilterSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBiddersAccountsFilterSetsRequest,
   output: FilterSet,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5137,6 +5236,7 @@ export type CreateBiddersFilterSetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates the specified filter set for the account with the given account ID. */
 export const createBiddersFilterSets: API.OperationMethod<
@@ -5147,7 +5247,14 @@ export const createBiddersFilterSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBiddersFilterSetsRequest,
   output: FilterSet,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5157,6 +5264,7 @@ export type CreateBuyersFilterSetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates the specified filter set for the account with the given account ID. */
 export const createBuyersFilterSets: API.OperationMethod<
@@ -5167,7 +5275,14 @@ export const createBuyersFilterSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBuyersFilterSetsRequest,
   output: FilterSet,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5177,6 +5292,7 @@ export type DeleteBiddersAccountsFilterSetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes the requested filter set from the account with the given account ID. */
 export const deleteBiddersAccountsFilterSets: API.OperationMethod<
@@ -5187,7 +5303,14 @@ export const deleteBiddersAccountsFilterSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteBiddersAccountsFilterSetsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5197,6 +5320,7 @@ export type DeleteBiddersFilterSetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes the requested filter set from the account with the given account ID. */
 export const deleteBiddersFilterSets: API.OperationMethod<
@@ -5207,7 +5331,14 @@ export const deleteBiddersFilterSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteBiddersFilterSetsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5217,6 +5348,7 @@ export type DeleteBuyersFilterSetsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes the requested filter set from the account with the given account ID. */
 export const deleteBuyersFilterSets: API.OperationMethod<
@@ -5227,12 +5359,23 @@ export const deleteBuyersFilterSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteBuyersFilterSetsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAccountsClientsError = NotFound | Forbidden | GcpOpError;
+export type GetAccountsClientsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a client buyer with a given client account ID. */
 export const getAccountsClients: API.OperationMethod<
   GetAccountsClientsRequest,
@@ -5242,7 +5385,7 @@ export const getAccountsClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsClientsRequest,
   output: Client,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5250,6 +5393,7 @@ export const getAccountsClients: API.OperationMethod<
 export type GetAccountsClientsInvitationsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Retrieves an existing client user invitation. */
 export const getAccountsClientsInvitations: API.OperationMethod<
@@ -5260,12 +5404,16 @@ export const getAccountsClientsInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsClientsInvitationsRequest,
   output: ClientUserInvitation,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAccountsClientsUsersError = NotFound | Forbidden | GcpOpError;
+export type GetAccountsClientsUsersError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Retrieves an existing client user. */
 export const getAccountsClientsUsers: API.OperationMethod<
   GetAccountsClientsUsersRequest,
@@ -5275,12 +5423,16 @@ export const getAccountsClientsUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsClientsUsersRequest,
   output: ClientUser,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAccountsCreativesError = NotFound | Forbidden | GcpOpError;
+export type GetAccountsCreativesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a creative. */
 export const getAccountsCreatives: API.OperationMethod<
   GetAccountsCreativesRequest,
@@ -5290,12 +5442,16 @@ export const getAccountsCreatives: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsCreativesRequest,
   output: Creative,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAccountsProductsError = NotFound | Forbidden | GcpOpError;
+export type GetAccountsProductsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets the requested product by ID. */
 export const getAccountsProducts: API.OperationMethod<
   GetAccountsProductsRequest,
@@ -5305,12 +5461,16 @@ export const getAccountsProducts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsProductsRequest,
   output: Product,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAccountsProposalsError = NotFound | Forbidden | GcpOpError;
+export type GetAccountsProposalsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a proposal given its ID. The proposal is returned at its head revision. */
 export const getAccountsProposals: API.OperationMethod<
   GetAccountsProposalsRequest,
@@ -5320,7 +5480,7 @@ export const getAccountsProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsProposalsRequest,
   output: Proposal,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5328,6 +5488,7 @@ export const getAccountsProposals: API.OperationMethod<
 export type GetAccountsPublisherProfilesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets the requested publisher profile by id. */
 export const getAccountsPublisherProfiles: API.OperationMethod<
@@ -5338,7 +5499,7 @@ export const getAccountsPublisherProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAccountsPublisherProfilesRequest,
   output: PublisherProfile,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -5346,6 +5507,7 @@ export const getAccountsPublisherProfiles: API.OperationMethod<
 export type GetBiddersAccountsFilterSetsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Retrieves the requested filter set for the account with the given account ID. */
 export const getBiddersAccountsFilterSets: API.OperationMethod<
@@ -5356,12 +5518,16 @@ export const getBiddersAccountsFilterSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBiddersAccountsFilterSetsRequest,
   output: FilterSet,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBiddersFilterSetsError = NotFound | Forbidden | GcpOpError;
+export type GetBiddersFilterSetsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Retrieves the requested filter set for the account with the given account ID. */
 export const getBiddersFilterSets: API.OperationMethod<
   GetBiddersFilterSetsRequest,
@@ -5371,12 +5537,16 @@ export const getBiddersFilterSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBiddersFilterSetsRequest,
   output: FilterSet,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBuyersFilterSetsError = NotFound | Forbidden | GcpOpError;
+export type GetBuyersFilterSetsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Retrieves the requested filter set for the account with the given account ID. */
 export const getBuyersFilterSets: API.OperationMethod<
   GetBuyersFilterSetsRequest,
@@ -5386,12 +5556,16 @@ export const getBuyersFilterSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBuyersFilterSetsRequest,
   output: FilterSet,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListAccountsClientsError = NotFound | Forbidden | GcpOpError;
+export type ListAccountsClientsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists all the clients for the current sponsor buyer. */
 export const listAccountsClients: API.PaginatedOperationMethod<
   ListAccountsClientsRequest,
@@ -5402,7 +5576,7 @@ export const listAccountsClients: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsClientsRequest,
   output: ListClientsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5414,6 +5588,7 @@ export const listAccountsClients: API.PaginatedOperationMethod<
 export type ListAccountsClientsInvitationsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all the client users invitations for a client with a given account ID. */
 export const listAccountsClientsInvitations: API.PaginatedOperationMethod<
@@ -5425,7 +5600,7 @@ export const listAccountsClientsInvitations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsClientsInvitationsRequest,
   output: ListClientUserInvitationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5434,7 +5609,11 @@ export const listAccountsClientsInvitations: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAccountsClientsUsersError = NotFound | Forbidden | GcpOpError;
+export type ListAccountsClientsUsersError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists all the known client users for a specified sponsor buyer account ID. */
 export const listAccountsClientsUsers: API.PaginatedOperationMethod<
   ListAccountsClientsUsersRequest,
@@ -5445,7 +5624,7 @@ export const listAccountsClientsUsers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsClientsUsersRequest,
   output: ListClientUsersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5454,7 +5633,11 @@ export const listAccountsClientsUsers: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAccountsCreativesError = NotFound | Forbidden | GcpOpError;
+export type ListAccountsCreativesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists creatives. */
 export const listAccountsCreatives: API.PaginatedOperationMethod<
   ListAccountsCreativesRequest,
@@ -5465,7 +5648,7 @@ export const listAccountsCreatives: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsCreativesRequest,
   output: ListCreativesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5477,6 +5660,7 @@ export const listAccountsCreatives: API.PaginatedOperationMethod<
 export type ListAccountsCreativesDealAssociationsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all creative-deal associations. */
 export const listAccountsCreativesDealAssociations: API.PaginatedOperationMethod<
@@ -5488,7 +5672,7 @@ export const listAccountsCreativesDealAssociations: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsCreativesDealAssociationsRequest,
   output: ListDealAssociationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5500,6 +5684,7 @@ export const listAccountsCreativesDealAssociations: API.PaginatedOperationMethod
 export type ListAccountsFinalizedProposalsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List finalized proposals, regardless if a proposal is being renegotiated. A filter expression (PQL query) may be specified to filter the results. The notes will not be returned. */
 export const listAccountsFinalizedProposals: API.PaginatedOperationMethod<
@@ -5511,7 +5696,7 @@ export const listAccountsFinalizedProposals: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsFinalizedProposalsRequest,
   output: ListProposalsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5520,7 +5705,11 @@ export const listAccountsFinalizedProposals: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAccountsProductsError = NotFound | Forbidden | GcpOpError;
+export type ListAccountsProductsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** List all products visible to the buyer (optionally filtered by the specified PQL query). */
 export const listAccountsProducts: API.PaginatedOperationMethod<
   ListAccountsProductsRequest,
@@ -5531,7 +5720,7 @@ export const listAccountsProducts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsProductsRequest,
   output: ListProductsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5540,7 +5729,11 @@ export const listAccountsProducts: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAccountsProposalsError = NotFound | Forbidden | GcpOpError;
+export type ListAccountsProposalsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** List proposals. A filter expression (PQL query) may be specified to filter the results. To retrieve all finalized proposals, regardless if a proposal is being renegotiated, see the FinalizedProposals resource. Note that Bidder/ChildSeat relationships differ from the usual behavior. A Bidder account can only see its child seats' proposals by specifying the ChildSeat's accountId in the request path. */
 export const listAccountsProposals: API.PaginatedOperationMethod<
   ListAccountsProposalsRequest,
@@ -5551,7 +5744,7 @@ export const listAccountsProposals: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsProposalsRequest,
   output: ListProposalsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5563,6 +5756,7 @@ export const listAccountsProposals: API.PaginatedOperationMethod<
 export type ListAccountsPublisherProfilesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all publisher profiles visible to the buyer */
 export const listAccountsPublisherProfiles: API.PaginatedOperationMethod<
@@ -5574,7 +5768,7 @@ export const listAccountsPublisherProfiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsPublisherProfilesRequest,
   output: ListPublisherProfilesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5586,6 +5780,7 @@ export const listAccountsPublisherProfiles: API.PaginatedOperationMethod<
 export type ListBiddersAccountsFilterSetsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all filter sets for the account with the given account ID. */
 export const listBiddersAccountsFilterSets: API.PaginatedOperationMethod<
@@ -5597,7 +5792,7 @@ export const listBiddersAccountsFilterSets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsRequest,
   output: ListFilterSetsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5609,6 +5804,7 @@ export const listBiddersAccountsFilterSets: API.PaginatedOperationMethod<
 export type ListBiddersAccountsFilterSetsBidMetricsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all metrics that are measured in terms of number of bids. */
 export const listBiddersAccountsFilterSetsBidMetrics: API.PaginatedOperationMethod<
@@ -5620,7 +5816,7 @@ export const listBiddersAccountsFilterSetsBidMetrics: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsBidMetricsRequest,
   output: ListBidMetricsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5632,6 +5828,7 @@ export const listBiddersAccountsFilterSetsBidMetrics: API.PaginatedOperationMeth
 export type ListBiddersAccountsFilterSetsBidResponseErrorsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all errors that occurred in bid responses, with the number of bid responses affected for each reason. */
 export const listBiddersAccountsFilterSetsBidResponseErrors: API.PaginatedOperationMethod<
@@ -5643,7 +5840,7 @@ export const listBiddersAccountsFilterSetsBidResponseErrors: API.PaginatedOperat
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsBidResponseErrorsRequest,
   output: ListBidResponseErrorsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5655,6 +5852,7 @@ export const listBiddersAccountsFilterSetsBidResponseErrors: API.PaginatedOperat
 export type ListBiddersAccountsFilterSetsBidResponsesWithoutBidsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all reasons for which bid responses were considered to have no applicable bids, with the number of bid responses affected for each reason. */
 export const listBiddersAccountsFilterSetsBidResponsesWithoutBids: API.PaginatedOperationMethod<
@@ -5666,7 +5864,7 @@ export const listBiddersAccountsFilterSetsBidResponsesWithoutBids: API.Paginated
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsBidResponsesWithoutBidsRequest,
   output: ListBidResponsesWithoutBidsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5678,6 +5876,7 @@ export const listBiddersAccountsFilterSetsBidResponsesWithoutBids: API.Paginated
 export type ListBiddersAccountsFilterSetsFilteredBidRequestsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all reasons that caused a bid request not to be sent for an impression, with the number of bid requests not sent for each reason. */
 export const listBiddersAccountsFilterSetsFilteredBidRequests: API.PaginatedOperationMethod<
@@ -5689,7 +5888,7 @@ export const listBiddersAccountsFilterSetsFilteredBidRequests: API.PaginatedOper
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsFilteredBidRequestsRequest,
   output: ListFilteredBidRequestsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5701,6 +5900,7 @@ export const listBiddersAccountsFilterSetsFilteredBidRequests: API.PaginatedOper
 export type ListBiddersAccountsFilterSetsFilteredBidsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all reasons for which bids were filtered, with the number of bids filtered for each reason. */
 export const listBiddersAccountsFilterSetsFilteredBids: API.PaginatedOperationMethod<
@@ -5712,7 +5912,7 @@ export const listBiddersAccountsFilterSetsFilteredBids: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsFilteredBidsRequest,
   output: ListFilteredBidsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5724,6 +5924,7 @@ export const listBiddersAccountsFilterSetsFilteredBids: API.PaginatedOperationMe
 export type ListBiddersAccountsFilterSetsFilteredBidsCreativesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all creatives associated with a specific reason for which bids were filtered, with the number of bids filtered for each creative. */
 export const listBiddersAccountsFilterSetsFilteredBidsCreatives: API.PaginatedOperationMethod<
@@ -5735,7 +5936,7 @@ export const listBiddersAccountsFilterSetsFilteredBidsCreatives: API.PaginatedOp
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsFilteredBidsCreativesRequest,
   output: ListCreativeStatusBreakdownByCreativeResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5747,6 +5948,7 @@ export const listBiddersAccountsFilterSetsFilteredBidsCreatives: API.PaginatedOp
 export type ListBiddersAccountsFilterSetsFilteredBidsDetailsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all details associated with a specific reason for which bids were filtered, with the number of bids filtered for each detail. */
 export const listBiddersAccountsFilterSetsFilteredBidsDetails: API.PaginatedOperationMethod<
@@ -5758,7 +5960,7 @@ export const listBiddersAccountsFilterSetsFilteredBidsDetails: API.PaginatedOper
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsFilteredBidsDetailsRequest,
   output: ListCreativeStatusBreakdownByDetailResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5770,6 +5972,7 @@ export const listBiddersAccountsFilterSetsFilteredBidsDetails: API.PaginatedOper
 export type ListBiddersAccountsFilterSetsImpressionMetricsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all metrics that are measured in terms of number of impressions. */
 export const listBiddersAccountsFilterSetsImpressionMetrics: API.PaginatedOperationMethod<
@@ -5781,7 +5984,7 @@ export const listBiddersAccountsFilterSetsImpressionMetrics: API.PaginatedOperat
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsImpressionMetricsRequest,
   output: ListImpressionMetricsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5793,6 +5996,7 @@ export const listBiddersAccountsFilterSetsImpressionMetrics: API.PaginatedOperat
 export type ListBiddersAccountsFilterSetsLosingBidsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all reasons for which bids lost in the auction, with the number of bids that lost for each reason. */
 export const listBiddersAccountsFilterSetsLosingBids: API.PaginatedOperationMethod<
@@ -5804,7 +6008,7 @@ export const listBiddersAccountsFilterSetsLosingBids: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsLosingBidsRequest,
   output: ListLosingBidsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5816,6 +6020,7 @@ export const listBiddersAccountsFilterSetsLosingBids: API.PaginatedOperationMeth
 export type ListBiddersAccountsFilterSetsNonBillableWinningBidsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all reasons for which winning bids were not billable, with the number of bids not billed for each reason. */
 export const listBiddersAccountsFilterSetsNonBillableWinningBids: API.PaginatedOperationMethod<
@@ -5827,7 +6032,7 @@ export const listBiddersAccountsFilterSetsNonBillableWinningBids: API.PaginatedO
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsNonBillableWinningBidsRequest,
   output: ListNonBillableWinningBidsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5836,7 +6041,11 @@ export const listBiddersAccountsFilterSetsNonBillableWinningBids: API.PaginatedO
   } as const,
 })) as any;
 
-export type ListBiddersFilterSetsError = NotFound | Forbidden | GcpOpError;
+export type ListBiddersFilterSetsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists all filter sets for the account with the given account ID. */
 export const listBiddersFilterSets: API.PaginatedOperationMethod<
   ListBiddersFilterSetsRequest,
@@ -5847,7 +6056,7 @@ export const listBiddersFilterSets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsRequest,
   output: ListFilterSetsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5859,6 +6068,7 @@ export const listBiddersFilterSets: API.PaginatedOperationMethod<
 export type ListBiddersFilterSetsBidMetricsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all metrics that are measured in terms of number of bids. */
 export const listBiddersFilterSetsBidMetrics: API.PaginatedOperationMethod<
@@ -5870,7 +6080,7 @@ export const listBiddersFilterSetsBidMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsBidMetricsRequest,
   output: ListBidMetricsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5882,6 +6092,7 @@ export const listBiddersFilterSetsBidMetrics: API.PaginatedOperationMethod<
 export type ListBiddersFilterSetsBidResponseErrorsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all errors that occurred in bid responses, with the number of bid responses affected for each reason. */
 export const listBiddersFilterSetsBidResponseErrors: API.PaginatedOperationMethod<
@@ -5893,7 +6104,7 @@ export const listBiddersFilterSetsBidResponseErrors: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsBidResponseErrorsRequest,
   output: ListBidResponseErrorsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5905,6 +6116,7 @@ export const listBiddersFilterSetsBidResponseErrors: API.PaginatedOperationMetho
 export type ListBiddersFilterSetsBidResponsesWithoutBidsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all reasons for which bid responses were considered to have no applicable bids, with the number of bid responses affected for each reason. */
 export const listBiddersFilterSetsBidResponsesWithoutBids: API.PaginatedOperationMethod<
@@ -5916,7 +6128,7 @@ export const listBiddersFilterSetsBidResponsesWithoutBids: API.PaginatedOperatio
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsBidResponsesWithoutBidsRequest,
   output: ListBidResponsesWithoutBidsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5928,6 +6140,7 @@ export const listBiddersFilterSetsBidResponsesWithoutBids: API.PaginatedOperatio
 export type ListBiddersFilterSetsFilteredBidRequestsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all reasons that caused a bid request not to be sent for an impression, with the number of bid requests not sent for each reason. */
 export const listBiddersFilterSetsFilteredBidRequests: API.PaginatedOperationMethod<
@@ -5939,7 +6152,7 @@ export const listBiddersFilterSetsFilteredBidRequests: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsFilteredBidRequestsRequest,
   output: ListFilteredBidRequestsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5951,6 +6164,7 @@ export const listBiddersFilterSetsFilteredBidRequests: API.PaginatedOperationMet
 export type ListBiddersFilterSetsFilteredBidsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all reasons for which bids were filtered, with the number of bids filtered for each reason. */
 export const listBiddersFilterSetsFilteredBids: API.PaginatedOperationMethod<
@@ -5962,7 +6176,7 @@ export const listBiddersFilterSetsFilteredBids: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsFilteredBidsRequest,
   output: ListFilteredBidsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5974,6 +6188,7 @@ export const listBiddersFilterSetsFilteredBids: API.PaginatedOperationMethod<
 export type ListBiddersFilterSetsFilteredBidsCreativesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all creatives associated with a specific reason for which bids were filtered, with the number of bids filtered for each creative. */
 export const listBiddersFilterSetsFilteredBidsCreatives: API.PaginatedOperationMethod<
@@ -5985,7 +6200,7 @@ export const listBiddersFilterSetsFilteredBidsCreatives: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsFilteredBidsCreativesRequest,
   output: ListCreativeStatusBreakdownByCreativeResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -5997,6 +6212,7 @@ export const listBiddersFilterSetsFilteredBidsCreatives: API.PaginatedOperationM
 export type ListBiddersFilterSetsFilteredBidsDetailsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all details associated with a specific reason for which bids were filtered, with the number of bids filtered for each detail. */
 export const listBiddersFilterSetsFilteredBidsDetails: API.PaginatedOperationMethod<
@@ -6008,7 +6224,7 @@ export const listBiddersFilterSetsFilteredBidsDetails: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsFilteredBidsDetailsRequest,
   output: ListCreativeStatusBreakdownByDetailResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6020,6 +6236,7 @@ export const listBiddersFilterSetsFilteredBidsDetails: API.PaginatedOperationMet
 export type ListBiddersFilterSetsImpressionMetricsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all metrics that are measured in terms of number of impressions. */
 export const listBiddersFilterSetsImpressionMetrics: API.PaginatedOperationMethod<
@@ -6031,7 +6248,7 @@ export const listBiddersFilterSetsImpressionMetrics: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsImpressionMetricsRequest,
   output: ListImpressionMetricsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6043,6 +6260,7 @@ export const listBiddersFilterSetsImpressionMetrics: API.PaginatedOperationMetho
 export type ListBiddersFilterSetsLosingBidsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all reasons for which bids lost in the auction, with the number of bids that lost for each reason. */
 export const listBiddersFilterSetsLosingBids: API.PaginatedOperationMethod<
@@ -6054,7 +6272,7 @@ export const listBiddersFilterSetsLosingBids: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsLosingBidsRequest,
   output: ListLosingBidsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6066,6 +6284,7 @@ export const listBiddersFilterSetsLosingBids: API.PaginatedOperationMethod<
 export type ListBiddersFilterSetsNonBillableWinningBidsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all reasons for which winning bids were not billable, with the number of bids not billed for each reason. */
 export const listBiddersFilterSetsNonBillableWinningBids: API.PaginatedOperationMethod<
@@ -6077,7 +6296,7 @@ export const listBiddersFilterSetsNonBillableWinningBids: API.PaginatedOperation
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsNonBillableWinningBidsRequest,
   output: ListNonBillableWinningBidsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6086,7 +6305,11 @@ export const listBiddersFilterSetsNonBillableWinningBids: API.PaginatedOperation
   } as const,
 })) as any;
 
-export type ListBuyersFilterSetsError = NotFound | Forbidden | GcpOpError;
+export type ListBuyersFilterSetsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists all filter sets for the account with the given account ID. */
 export const listBuyersFilterSets: API.PaginatedOperationMethod<
   ListBuyersFilterSetsRequest,
@@ -6097,7 +6320,7 @@ export const listBuyersFilterSets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsRequest,
   output: ListFilterSetsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6109,6 +6332,7 @@ export const listBuyersFilterSets: API.PaginatedOperationMethod<
 export type ListBuyersFilterSetsBidMetricsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all metrics that are measured in terms of number of bids. */
 export const listBuyersFilterSetsBidMetrics: API.PaginatedOperationMethod<
@@ -6120,7 +6344,7 @@ export const listBuyersFilterSetsBidMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsBidMetricsRequest,
   output: ListBidMetricsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6132,6 +6356,7 @@ export const listBuyersFilterSetsBidMetrics: API.PaginatedOperationMethod<
 export type ListBuyersFilterSetsBidResponseErrorsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all errors that occurred in bid responses, with the number of bid responses affected for each reason. */
 export const listBuyersFilterSetsBidResponseErrors: API.PaginatedOperationMethod<
@@ -6143,7 +6368,7 @@ export const listBuyersFilterSetsBidResponseErrors: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsBidResponseErrorsRequest,
   output: ListBidResponseErrorsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6155,6 +6380,7 @@ export const listBuyersFilterSetsBidResponseErrors: API.PaginatedOperationMethod
 export type ListBuyersFilterSetsBidResponsesWithoutBidsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all reasons for which bid responses were considered to have no applicable bids, with the number of bid responses affected for each reason. */
 export const listBuyersFilterSetsBidResponsesWithoutBids: API.PaginatedOperationMethod<
@@ -6166,7 +6392,7 @@ export const listBuyersFilterSetsBidResponsesWithoutBids: API.PaginatedOperation
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsBidResponsesWithoutBidsRequest,
   output: ListBidResponsesWithoutBidsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6178,6 +6404,7 @@ export const listBuyersFilterSetsBidResponsesWithoutBids: API.PaginatedOperation
 export type ListBuyersFilterSetsFilteredBidRequestsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all reasons that caused a bid request not to be sent for an impression, with the number of bid requests not sent for each reason. */
 export const listBuyersFilterSetsFilteredBidRequests: API.PaginatedOperationMethod<
@@ -6189,7 +6416,7 @@ export const listBuyersFilterSetsFilteredBidRequests: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsFilteredBidRequestsRequest,
   output: ListFilteredBidRequestsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6201,6 +6428,7 @@ export const listBuyersFilterSetsFilteredBidRequests: API.PaginatedOperationMeth
 export type ListBuyersFilterSetsFilteredBidsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all reasons for which bids were filtered, with the number of bids filtered for each reason. */
 export const listBuyersFilterSetsFilteredBids: API.PaginatedOperationMethod<
@@ -6212,7 +6440,7 @@ export const listBuyersFilterSetsFilteredBids: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsFilteredBidsRequest,
   output: ListFilteredBidsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6224,6 +6452,7 @@ export const listBuyersFilterSetsFilteredBids: API.PaginatedOperationMethod<
 export type ListBuyersFilterSetsFilteredBidsCreativesError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all creatives associated with a specific reason for which bids were filtered, with the number of bids filtered for each creative. */
 export const listBuyersFilterSetsFilteredBidsCreatives: API.PaginatedOperationMethod<
@@ -6235,7 +6464,7 @@ export const listBuyersFilterSetsFilteredBidsCreatives: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsFilteredBidsCreativesRequest,
   output: ListCreativeStatusBreakdownByCreativeResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6247,6 +6476,7 @@ export const listBuyersFilterSetsFilteredBidsCreatives: API.PaginatedOperationMe
 export type ListBuyersFilterSetsFilteredBidsDetailsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all details associated with a specific reason for which bids were filtered, with the number of bids filtered for each detail. */
 export const listBuyersFilterSetsFilteredBidsDetails: API.PaginatedOperationMethod<
@@ -6258,7 +6488,7 @@ export const listBuyersFilterSetsFilteredBidsDetails: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsFilteredBidsDetailsRequest,
   output: ListCreativeStatusBreakdownByDetailResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6270,6 +6500,7 @@ export const listBuyersFilterSetsFilteredBidsDetails: API.PaginatedOperationMeth
 export type ListBuyersFilterSetsImpressionMetricsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists all metrics that are measured in terms of number of impressions. */
 export const listBuyersFilterSetsImpressionMetrics: API.PaginatedOperationMethod<
@@ -6281,7 +6512,7 @@ export const listBuyersFilterSetsImpressionMetrics: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsImpressionMetricsRequest,
   output: ListImpressionMetricsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6293,6 +6524,7 @@ export const listBuyersFilterSetsImpressionMetrics: API.PaginatedOperationMethod
 export type ListBuyersFilterSetsLosingBidsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all reasons for which bids lost in the auction, with the number of bids that lost for each reason. */
 export const listBuyersFilterSetsLosingBids: API.PaginatedOperationMethod<
@@ -6304,7 +6536,7 @@ export const listBuyersFilterSetsLosingBids: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsLosingBidsRequest,
   output: ListLosingBidsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6316,6 +6548,7 @@ export const listBuyersFilterSetsLosingBids: API.PaginatedOperationMethod<
 export type ListBuyersFilterSetsNonBillableWinningBidsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** List all reasons for which winning bids were not billable, with the number of bids not billed for each reason. */
 export const listBuyersFilterSetsNonBillableWinningBids: API.PaginatedOperationMethod<
@@ -6327,7 +6560,7 @@ export const listBuyersFilterSetsNonBillableWinningBids: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsNonBillableWinningBidsRequest,
   output: ListNonBillableWinningBidsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6341,6 +6574,7 @@ export type PauseAccountsFinalizedProposalsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Update given deals to pause serving. This method will set the `DealServingMetadata.DealPauseStatus.has_buyer_paused` bit to true for all listed deals in the request. Currently, this method only applies to PG and PD deals. For PA deals, call accounts.proposals.pause endpoint. It is a no-op to pause already-paused deals. It is an error to call PauseProposalDeals for deals which are not part of the proposal of proposal_id or which are not finalized or renegotiating. */
 export const pauseAccountsFinalizedProposals: API.OperationMethod<
@@ -6351,7 +6585,14 @@ export const pauseAccountsFinalizedProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PauseAccountsFinalizedProposalsRequest,
   output: Proposal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6361,6 +6602,7 @@ export type PauseAccountsProposalsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Update the given proposal to pause serving. This method will set the `DealServingMetadata.DealPauseStatus.has_buyer_paused` bit to true for all deals in the proposal. It is a no-op to pause an already-paused proposal. It is an error to call PauseProposal for a proposal that is not finalized or renegotiating. */
 export const pauseAccountsProposals: API.OperationMethod<
@@ -6371,7 +6613,14 @@ export const pauseAccountsProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PauseAccountsProposalsRequest,
   output: Proposal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6381,6 +6630,7 @@ export type RemoveAccountsCreativesDealAssociationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Remove the association between a deal and a creative. */
 export const removeAccountsCreativesDealAssociations: API.OperationMethod<
@@ -6391,7 +6641,14 @@ export const removeAccountsCreativesDealAssociations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveAccountsCreativesDealAssociationsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6401,6 +6658,7 @@ export type ResumeAccountsFinalizedProposalsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Update given deals to resume serving. This method will set the `DealServingMetadata.DealPauseStatus.has_buyer_paused` bit to false for all listed deals in the request. Currently, this method only applies to PG and PD deals. For PA deals, call accounts.proposals.resume endpoint. It is a no-op to resume running deals or deals paused by the other party. It is an error to call ResumeProposalDeals for deals which are not part of the proposal of proposal_id or which are not finalized or renegotiating. */
 export const resumeAccountsFinalizedProposals: API.OperationMethod<
@@ -6411,7 +6669,14 @@ export const resumeAccountsFinalizedProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ResumeAccountsFinalizedProposalsRequest,
   output: Proposal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6421,6 +6686,7 @@ export type ResumeAccountsProposalsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Update the given proposal to resume serving. This method will set the `DealServingMetadata.DealPauseStatus.has_buyer_paused` bit to false for all deals in the proposal. Note that if the `has_seller_paused` bit is also set, serving will not resume until the seller also resumes. It is a no-op to resume an already-running proposal. It is an error to call ResumeProposal for a proposal that is not finalized or renegotiating. */
 export const resumeAccountsProposals: API.OperationMethod<
@@ -6431,7 +6697,14 @@ export const resumeAccountsProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ResumeAccountsProposalsRequest,
   output: Proposal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6441,6 +6714,7 @@ export type StopWatchingAccountsCreativesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Stops watching a creative. Will stop push notifications being sent to the topics when the creative changes status. */
 export const stopWatchingAccountsCreatives: API.OperationMethod<
@@ -6451,7 +6725,14 @@ export const stopWatchingAccountsCreatives: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopWatchingAccountsCreativesRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6461,6 +6742,7 @@ export type UpdateAccountsClientsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates an existing client buyer. */
 export const updateAccountsClients: API.OperationMethod<
@@ -6471,7 +6753,14 @@ export const updateAccountsClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsClientsRequest,
   output: Client,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6481,6 +6770,7 @@ export type UpdateAccountsClientsUsersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates an existing client user. Only the user status can be changed on update. */
 export const updateAccountsClientsUsers: API.OperationMethod<
@@ -6491,7 +6781,14 @@ export const updateAccountsClientsUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsClientsUsersRequest,
   output: ClientUser,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6501,6 +6798,7 @@ export type UpdateAccountsCreativesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a creative. */
 export const updateAccountsCreatives: API.OperationMethod<
@@ -6511,7 +6809,14 @@ export const updateAccountsCreatives: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsCreativesRequest,
   output: Creative,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6521,6 +6826,7 @@ export type UpdateAccountsProposalsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Update the given proposal at the client known revision number. If the server revision has advanced since the passed-in `proposal.proposal_revision`, an `ABORTED` error message will be returned. Only the buyer-modifiable fields of the proposal will be updated. Note that the deals in the proposal will be updated to match the passed-in copy. If a passed-in deal does not have a `deal_id`, the server will assign a new unique ID and create the deal. If passed-in deal has a `deal_id`, it will be updated to match the passed-in copy. Any existing deals not present in the passed-in proposal will be deleted. It is an error to pass in a deal with a `deal_id` not present at head. */
 export const updateAccountsProposals: API.OperationMethod<
@@ -6531,7 +6837,14 @@ export const updateAccountsProposals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountsProposalsRequest,
   output: Proposal,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6541,6 +6854,7 @@ export type WatchAccountsCreativesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Watches a creative. Will result in push notifications being sent to the topic when the creative changes status. */
 export const watchAccountsCreatives: API.OperationMethod<
@@ -6551,7 +6865,14 @@ export const watchAccountsCreatives: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: WatchAccountsCreativesRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

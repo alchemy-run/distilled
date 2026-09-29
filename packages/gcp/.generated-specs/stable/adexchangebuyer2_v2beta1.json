@@ -5941,6 +5941,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5990,6 +5993,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6066,6 +6072,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6124,6 +6133,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6182,6 +6194,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6240,6 +6255,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6298,6 +6316,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6356,6 +6377,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6414,6 +6438,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6502,6 +6529,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6551,6 +6581,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6609,6 +6642,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6659,6 +6695,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6717,6 +6756,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6766,6 +6808,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6824,6 +6869,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6877,6 +6925,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6935,6 +6986,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -6994,6 +7048,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7064,6 +7121,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7117,6 +7177,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7176,6 +7239,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7268,6 +7334,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7330,6 +7399,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7388,6 +7460,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7446,6 +7521,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7491,6 +7569,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7565,6 +7646,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7623,6 +7707,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7685,6 +7772,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7743,6 +7833,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7801,6 +7894,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7859,6 +7955,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7925,6 +8024,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -7980,6 +8082,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8029,6 +8134,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8086,6 +8194,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8129,6 +8240,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8166,6 +8280,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8217,6 +8334,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8272,6 +8392,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8327,6 +8450,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8382,6 +8508,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8437,6 +8566,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8492,6 +8624,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8555,6 +8690,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8618,6 +8756,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8673,6 +8814,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8728,6 +8872,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8783,6 +8930,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8830,6 +8980,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8867,6 +9020,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8924,6 +9080,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -8975,6 +9134,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9030,6 +9192,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9085,6 +9250,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9140,6 +9308,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9195,6 +9366,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9250,6 +9424,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9305,6 +9482,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9360,6 +9540,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9423,6 +9606,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9486,6 +9672,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9541,6 +9730,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9582,6 +9774,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9625,6 +9820,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9676,6 +9874,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9737,6 +9938,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Conflict"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9788,6 +9992,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9843,6 +10050,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9898,6 +10108,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -9961,6 +10174,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10024,6 +10240,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10079,6 +10298,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10134,6 +10356,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10189,6 +10414,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10244,6 +10472,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10299,6 +10530,9 @@
         },
         {
           "target": "com.gcp.adexchangebuyer2_v2beta1#Forbidden"
+        },
+        {
+          "target": "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes"
         }
       ],
       "traits": {
@@ -10311,6 +10545,23 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
+      }
+    },
+    "com.gcp.adexchangebuyer2_v2beta1#InsufficientScopes": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

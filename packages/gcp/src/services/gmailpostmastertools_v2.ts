@@ -52,6 +52,25 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT). */
+export class InsufficientScopes
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InsufficientScopes>()("InsufficientScopes", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -1065,6 +1084,7 @@ export type BatchQueryDomainStatsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Executes a batch of QueryDomainStats requests for multiple domains. Returns PERMISSION_DENIED if you don't have permission to access DomainStats for any of the requested domains. */
 export const batchQueryDomainStats: API.OperationMethod<
@@ -1075,7 +1095,14 @@ export const batchQueryDomainStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchQueryDomainStatsRequest_,
   output: BatchQueryDomainStatsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1085,6 +1112,7 @@ export type CreateDomainsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** [Developer Preview](https://developers.google.com/workspace/preview): Adds a domain to the user's account. Returns INVALID_ARGUMENT if a domain is not provided. Returns ALREADY_EXISTS if the domain is already registered by the user. */
 export const createDomains: API.OperationMethod<
@@ -1095,7 +1123,14 @@ export const createDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateDomainsRequest,
   output: Domain,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1105,6 +1140,7 @@ export type CreateDomainsUsersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** [Developer Preview](https://developers.google.com/workspace/preview): Creates a user, who has access to a domain. Returns INVALID_ARGUMENT if a user is not provided. */
 export const createDomainsUsers: API.OperationMethod<
@@ -1115,7 +1151,14 @@ export const createDomainsUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateDomainsUsersRequest,
   output: User,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1125,6 +1168,7 @@ export type DeleteDomainsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** [Developer Preview](https://developers.google.com/workspace/preview): Deletes a domain from the user's account. Returns NOT_FOUND if the domain is not registered by the user. */
 export const deleteDomains: API.OperationMethod<
@@ -1135,7 +1179,14 @@ export const deleteDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDomainsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1145,6 +1196,7 @@ export type DeleteDomainsUsersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** [Developer Preview](https://developers.google.com/workspace/preview): Deletes a user from a domain. Returns NOT_FOUND if the user does not exist. */
 export const deleteDomainsUsers: API.OperationMethod<
@@ -1155,12 +1207,23 @@ export const deleteDomainsUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDomainsUsersRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetComplianceStatusDomainsError = NotFound | Forbidden | GcpOpError;
+export type GetComplianceStatusDomainsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Retrieves the compliance status for a given domain. Returns PERMISSION_DENIED if you don't have permission to access compliance status for the domain. */
 export const getComplianceStatusDomains: API.OperationMethod<
   GetComplianceStatusDomainsRequest,
@@ -1170,12 +1233,16 @@ export const getComplianceStatusDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetComplianceStatusDomainsRequest,
   output: DomainComplianceStatus,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetDomainsError = NotFound | Forbidden | GcpOpError;
+export type GetDomainsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Retrieves detailed information about a domain registered by you. Returns NOT_FOUND if the domain is not registered by you. Domain represents the metadata of a domain that has been registered within the system and linked to a user. */
 export const getDomains: API.OperationMethod<
   GetDomainsRequest,
@@ -1185,12 +1252,16 @@ export const getDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDomainsRequest,
   output: Domain,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetDomainsUsersError = NotFound | Forbidden | GcpOpError;
+export type GetDomainsUsersError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** [Developer Preview](https://developers.google.com/workspace/preview): Retrieves detailed information about a user that has access to a domain. Returns NOT_FOUND if the user does not exist. */
 export const getDomainsUsers: API.OperationMethod<
   GetDomainsUsersRequest,
@@ -1200,7 +1271,7 @@ export const getDomainsUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDomainsUsersRequest,
   output: User,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1208,6 +1279,7 @@ export const getDomainsUsers: API.OperationMethod<
 export type GetVerificationTokenDomainsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** [Developer Preview](https://developers.google.com/workspace/preview): Gets a verification token used for verifying a user's ownership over a domain. */
 export const getVerificationTokenDomains: API.OperationMethod<
@@ -1218,12 +1290,16 @@ export const getVerificationTokenDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetVerificationTokenDomainsRequest,
   output: DomainVerificationToken,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListDomainsError = NotFound | Forbidden | GcpOpError;
+export type ListDomainsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Retrieves a list of all domains registered by you, along with their corresponding metadata. The order of domains in the response is unspecified and non-deterministic. Newly registered domains will not necessarily be added to the end of this list. */
 export const listDomains: API.PaginatedOperationMethod<
   ListDomainsRequest,
@@ -1234,7 +1310,7 @@ export const listDomains: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDomainsRequest,
   output: ListDomainsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -1243,7 +1319,11 @@ export const listDomains: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListDomainsUsersError = NotFound | Forbidden | GcpOpError;
+export type ListDomainsUsersError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** [Developer Preview](https://developers.google.com/workspace/preview): Lists the users that have access to a domain. */
 export const listDomainsUsers: API.PaginatedOperationMethod<
   ListDomainsUsersRequest,
@@ -1254,7 +1334,7 @@ export const listDomainsUsers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDomainsUsersRequest,
   output: ListUsersResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -1268,6 +1348,7 @@ export type PatchDomainsUsersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** [Developer Preview](https://developers.google.com/workspace/preview): Updates a user for a domain. Only Owners and Admins can execute this RPC, only a user's domain permission will be allowed to be updated. Returns NOT_FOUND if the user does not exist. Returns INVALID_ARGUMENT if a permission is not provided or is PERMISSION_UNSPECIFIED, NONE, or OWNER. */
 export const patchDomainsUsers: API.OperationMethod<
@@ -1278,7 +1359,14 @@ export const patchDomainsUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchDomainsUsersRequest,
   output: User,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1288,6 +1376,7 @@ export type QueryDomainsDomainStatsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Retrieves a list of domain statistics for a given domain and time period. Returns statistics only for dates where data is available. Returns PERMISSION_DENIED if you don't have permission to access DomainStats for the domain. */
 export const queryDomainsDomainStats: API.OperationMethod<
@@ -1298,7 +1387,14 @@ export const queryDomainsDomainStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: QueryDomainsDomainStatsRequest,
   output: QueryDomainStatsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -1308,6 +1404,7 @@ export type VerifyDomainsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** [Developer Preview](https://developers.google.com/workspace/preview): Verifies a user's ownership of a domain at the DNS level. Note that this is distinct from checking if the user has OWNER status within IRDB. */
 export const verifyDomains: API.OperationMethod<
@@ -1318,7 +1415,14 @@ export const verifyDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: VerifyDomainsRequest,
   output: VerifyDomainResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

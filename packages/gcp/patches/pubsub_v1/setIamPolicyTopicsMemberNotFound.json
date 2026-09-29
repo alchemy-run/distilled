@@ -1,0 +1,29 @@
+{
+  "description": "Type topics.setIamPolicy's HTTP 400 INVALID_ARGUMENT for a member service account that does not exist yet ('Service account service-N@gs-project-accounts.iam.gserviceaccount.com does not exist.'). Freshly provisioned Google service agents take a few seconds to become grantable; the generic BadRequest forced callers to match on the message.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#IamMemberNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "A policy member (service account) does not exist (HTTP 400 INVALID_ARGUMENT). Retryable while a just-created service agent propagates.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": { "matches": "^Service account .+ does not exist\\.?$" }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#SetIamPolicyProjectsTopics/errors/-",
+      "value": { "target": "com.gcp.pubsub_v1#IamMemberNotFound" }
+    }
+  ]
+}

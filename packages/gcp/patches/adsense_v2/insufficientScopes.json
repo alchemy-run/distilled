@@ -1,0 +1,257 @@
+{
+  "description": "Type the OAuth-scope rejection (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). This API needs a product-specific OAuth scope that a cloud-platform token does not carry; it surfaced as the generic Forbidden, indistinguishable from a missing IAM permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#InsufficientScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#CreateAccountsAdclientsAdunits/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#CreateAccountsAdclientsCustomchannels/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#DeleteAccountsAdclientsCustomchannels/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#GenerateAccountsReports/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#GenerateAccountsReportsSaved/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#GenerateCsvAccountsReports/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#GenerateCsvAccountsReportsSaved/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#GetAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#GetAccountsAdclients/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#GetAccountsAdclientsAdunits/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#GetAccountsAdclientsCustomchannels/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#GetAccountsAdclientsUrlchannels/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#GetAccountsPolicyIssues/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#GetAccountsSites/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#GetAdBlockingRecoveryTagAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#GetAdcodeAccountsAdclients/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#GetAdcodeAccountsAdclientsAdunits/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#GetSavedAccountsReports/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#ListAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#ListAccountsAdclients/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#ListAccountsAdclientsAdunits/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#ListAccountsAdclientsCustomchannels/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#ListAccountsAdclientsUrlchannels/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#ListAccountsAlerts/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#ListAccountsPayments/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#ListAccountsPolicyIssues/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#ListAccountsReportsSaved/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#ListAccountsSites/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#ListChildAccountsAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#ListLinkedAdUnitsAccountsAdclientsCustomchannels/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#ListLinkedCustomChannelsAccountsAdclientsAdunits/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#PatchAccountsAdclientsAdunits/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsense_v2#PatchAccountsAdclientsCustomchannels/errors/-",
+      "value": {
+        "target": "com.gcp.adsense_v2#InsufficientScopes"
+      }
+    }
+  ]
+}

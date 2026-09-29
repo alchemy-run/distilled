@@ -65,6 +65,28 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The `users/{user}` in the request is not the authenticated identity (HTTP 403: 'End user credentials must match the user specified in the request.'). Service accounts cannot use `users/me`; name the account email instead. */
+export class UserCredentialMismatch
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<UserCredentialMismatch>()(
+      "UserCredentialMismatch",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "credentials must match the user specified" },
+      },
+    ],
+  ) {}
+
 /** The SSH public key information associated with a Google account. */
 export interface SshPublicKey {
   /** An expiration time in microseconds since epoch. */
@@ -437,6 +459,7 @@ export type CreateUsersSshPublicKeysError =
   | Forbidden
   | BadRequest
   | Conflict
+  | UserCredentialMismatch
   | GcpOpError;
 /** Create an SSH public key */
 export const createUsersSshPublicKeys: API.OperationMethod<
@@ -447,7 +470,14 @@ export const createUsersSshPublicKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateUsersSshPublicKeysRequest,
   output: SshPublicKey,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    UserCredentialMismatch,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -457,6 +487,7 @@ export type DeleteUsersProjectsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | UserCredentialMismatch
   | GcpOpError;
 /** Deletes a POSIX account. */
 export const deleteUsersProjects: API.OperationMethod<
@@ -467,7 +498,14 @@ export const deleteUsersProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteUsersProjectsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    UserCredentialMismatch,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -477,6 +515,7 @@ export type DeleteUsersSshPublicKeysError =
   | Forbidden
   | BadRequest
   | Conflict
+  | UserCredentialMismatch
   | GcpOpError;
 /** Deletes an SSH public key. */
 export const deleteUsersSshPublicKeys: API.OperationMethod<
@@ -487,12 +526,23 @@ export const deleteUsersSshPublicKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteUsersSshPublicKeysRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    UserCredentialMismatch,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetLoginProfileUsersError = NotFound | Forbidden | GcpOpError;
+export type GetLoginProfileUsersError =
+  | NotFound
+  | Forbidden
+  | UserCredentialMismatch
+  | GcpOpError;
 /** Retrieves the profile information used for logging in to a virtual machine on Google Compute Engine. */
 export const getLoginProfileUsers: API.OperationMethod<
   GetLoginProfileUsersRequest,
@@ -502,12 +552,16 @@ export const getLoginProfileUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetLoginProfileUsersRequest,
   output: LoginProfile,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, UserCredentialMismatch, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetUsersSshPublicKeysError = NotFound | Forbidden | GcpOpError;
+export type GetUsersSshPublicKeysError =
+  | NotFound
+  | Forbidden
+  | UserCredentialMismatch
+  | GcpOpError;
 /** Retrieves an SSH public key. */
 export const getUsersSshPublicKeys: API.OperationMethod<
   GetUsersSshPublicKeysRequest,
@@ -517,7 +571,7 @@ export const getUsersSshPublicKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetUsersSshPublicKeysRequest,
   output: SshPublicKey,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, UserCredentialMismatch, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -527,6 +581,7 @@ export type ImportSshPublicKeyUsersError =
   | Forbidden
   | BadRequest
   | Conflict
+  | UserCredentialMismatch
   | GcpOpError;
 /** Adds an SSH public key and returns the profile information. Default POSIX account information is set when no username and UID exist as part of the login profile. */
 export const importSshPublicKeyUsers: API.OperationMethod<
@@ -537,7 +592,14 @@ export const importSshPublicKeyUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ImportSshPublicKeyUsersRequest,
   output: ImportSshPublicKeyResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    UserCredentialMismatch,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -547,6 +609,7 @@ export type PatchUsersSshPublicKeysError =
   | Forbidden
   | BadRequest
   | Conflict
+  | UserCredentialMismatch
   | GcpOpError;
 /** Updates an SSH public key and returns the profile information. This method supports patch semantics. */
 export const patchUsersSshPublicKeys: API.OperationMethod<
@@ -557,7 +620,14 @@ export const patchUsersSshPublicKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchUsersSshPublicKeysRequest,
   output: SshPublicKey,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    UserCredentialMismatch,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -567,6 +637,7 @@ export type ProvisionPosixAccountUsersProjectsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | UserCredentialMismatch
   | GcpOpError;
 /** Adds a POSIX account and returns the profile information. Default POSIX account information is set when no username and UID exist as part of the login profile. */
 export const provisionPosixAccountUsersProjects: API.OperationMethod<
@@ -577,7 +648,14 @@ export const provisionPosixAccountUsersProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ProvisionPosixAccountUsersProjectsRequest,
   output: PosixAccount,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    UserCredentialMismatch,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -587,6 +665,7 @@ export type SignSshPublicKeyProjectsLocationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | UserCredentialMismatch
   | GcpOpError;
 /** Signs an SSH public key for a user to authenticate to a virtual machine on Google Compute Engine. */
 export const signSshPublicKeyProjectsLocations: API.OperationMethod<
@@ -597,7 +676,14 @@ export const signSshPublicKeyProjectsLocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SignSshPublicKeyProjectsLocationsRequest,
   output: SignSshPublicKeyResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    UserCredentialMismatch,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

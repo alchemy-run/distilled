@@ -52,6 +52,25 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+/** The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT). */
+export class InsufficientScopes
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InsufficientScopes>()("InsufficientScopes", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "insufficient authentication scopes" },
+      },
+    ],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -6035,6 +6054,7 @@ export type CancelEnterprisesDevicesOperationsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export const cancelEnterprisesDevicesOperations: API.OperationMethod<
@@ -6045,7 +6065,14 @@ export const cancelEnterprisesDevicesOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelEnterprisesDevicesOperationsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6055,6 +6082,7 @@ export type CreateEnterprisesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates an enterprise. This is the last step in the enterprise signup flow. See also: SigninDetail */
 export const createEnterprises: API.OperationMethod<
@@ -6065,7 +6093,14 @@ export const createEnterprises: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateEnterprisesRequest,
   output: Enterprise,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6075,6 +6110,7 @@ export type CreateEnterprisesEnrollmentTokensError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates an enrollment token for a given enterprise. It's up to the caller's responsibility to manage the lifecycle of newly created tokens and deleting them when they're not intended to be used anymore. */
 export const createEnterprisesEnrollmentTokens: API.OperationMethod<
@@ -6085,7 +6121,14 @@ export const createEnterprisesEnrollmentTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateEnterprisesEnrollmentTokensRequest,
   output: EnrollmentToken,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6095,6 +6138,7 @@ export type CreateEnterprisesMigrationTokensError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a migration token, to migrate an existing device from being managed by the EMM's Device Policy Controller (DPC) to being managed by the Android Management API. See the guide (https://developers.google.com/android/management/dpc-migration) for more details. */
 export const createEnterprisesMigrationTokens: API.OperationMethod<
@@ -6105,7 +6149,14 @@ export const createEnterprisesMigrationTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateEnterprisesMigrationTokensRequest,
   output: MigrationToken,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6115,6 +6166,7 @@ export type CreateEnterprisesWebAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a web app. */
 export const createEnterprisesWebApps: API.OperationMethod<
@@ -6125,7 +6177,14 @@ export const createEnterprisesWebApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateEnterprisesWebAppsRequest,
   output: WebApp,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6135,6 +6194,7 @@ export type CreateEnterprisesWebTokensError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates a web token to access an embeddable managed Google Play web UI for a given enterprise. */
 export const createEnterprisesWebTokens: API.OperationMethod<
@@ -6145,7 +6205,14 @@ export const createEnterprisesWebTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateEnterprisesWebTokensRequest,
   output: WebToken,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6155,6 +6222,7 @@ export type CreateSignupUrlsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Creates an enterprise signup URL. */
 export const createSignupUrls: API.OperationMethod<
@@ -6165,7 +6233,14 @@ export const createSignupUrls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSignupUrlsRequest,
   output: SignupUrl,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6175,6 +6250,7 @@ export type DeleteEnterprisesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Permanently deletes an enterprise and all accounts and data associated with it. Warning: this will result in a cascaded deletion of all AM API devices associated with the deleted enterprise. Only available for EMM-managed enterprises. */
 export const deleteEnterprises: API.OperationMethod<
@@ -6185,7 +6261,14 @@ export const deleteEnterprises: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteEnterprisesRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6195,6 +6278,7 @@ export type DeleteEnterprisesDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a device. This operation attempts to wipe the device but this is not guaranteed to succeed if the device is offline for an extended period. Deleted devices do not show up in enterprises.devices.list calls and a 404 is returned from enterprises.devices.get. */
 export const deleteEnterprisesDevices: API.OperationMethod<
@@ -6205,7 +6289,14 @@ export const deleteEnterprisesDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteEnterprisesDevicesRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6215,6 +6306,7 @@ export type DeleteEnterprisesEnrollmentTokensError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes an enrollment token. This operation invalidates the token, preventing its future use. */
 export const deleteEnterprisesEnrollmentTokens: API.OperationMethod<
@@ -6225,7 +6317,14 @@ export const deleteEnterprisesEnrollmentTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteEnterprisesEnrollmentTokensRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6235,6 +6334,7 @@ export type DeleteEnterprisesPoliciesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a policy. This operation is only permitted if no devices are currently referencing the policy. */
 export const deleteEnterprisesPolicies: API.OperationMethod<
@@ -6245,7 +6345,14 @@ export const deleteEnterprisesPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteEnterprisesPoliciesRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6255,6 +6362,7 @@ export type DeleteEnterprisesWebAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Deletes a web app. */
 export const deleteEnterprisesWebApps: API.OperationMethod<
@@ -6265,7 +6373,14 @@ export const deleteEnterprisesWebApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteEnterprisesWebAppsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6275,6 +6390,7 @@ export type GenerateEnterpriseUpgradeUrlEnterprisesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Generates an enterprise upgrade URL to upgrade an existing managed Google Play Accounts enterprise to a managed Google domain. See the guide (https://developers.google.com/android/management/upgrade-an-enterprise) for more details. */
 export const generateEnterpriseUpgradeUrlEnterprises: API.OperationMethod<
@@ -6285,12 +6401,23 @@ export const generateEnterpriseUpgradeUrlEnterprises: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GenerateEnterpriseUpgradeUrlEnterprisesRequest,
   output: GenerateEnterpriseUpgradeUrlResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetEnterprisesError = NotFound | Forbidden | GcpOpError;
+export type GetEnterprisesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets an enterprise. */
 export const getEnterprises: API.OperationMethod<
   GetEnterprisesRequest,
@@ -6300,12 +6427,16 @@ export const getEnterprises: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEnterprisesRequest,
   output: Enterprise,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetEnterprisesApplicationsError = NotFound | Forbidden | GcpOpError;
+export type GetEnterprisesApplicationsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets info about an application. */
 export const getEnterprisesApplications: API.OperationMethod<
   GetEnterprisesApplicationsRequest,
@@ -6315,12 +6446,16 @@ export const getEnterprisesApplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEnterprisesApplicationsRequest,
   output: Application,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetEnterprisesDevicesError = NotFound | Forbidden | GcpOpError;
+export type GetEnterprisesDevicesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a device. Deleted devices will respond with a 404 error. */
 export const getEnterprisesDevices: API.OperationMethod<
   GetEnterprisesDevicesRequest,
@@ -6330,7 +6465,7 @@ export const getEnterprisesDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEnterprisesDevicesRequest,
   output: Device,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6338,6 +6473,7 @@ export const getEnterprisesDevices: API.OperationMethod<
 export type GetEnterprisesDevicesOperationsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getEnterprisesDevicesOperations: API.OperationMethod<
@@ -6348,7 +6484,7 @@ export const getEnterprisesDevicesOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEnterprisesDevicesOperationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6356,6 +6492,7 @@ export const getEnterprisesDevicesOperations: API.OperationMethod<
 export type GetEnterprisesEnrollmentTokensError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets an active, unexpired enrollment token. A partial view of the enrollment token is returned. Only the following fields are populated: name, expirationTimestamp, allowPersonalUsage, value, qrCode. This method is meant to help manage active enrollment tokens lifecycle. For security reasons, it's recommended to delete active enrollment tokens as soon as they're not intended to be used anymore. */
 export const getEnterprisesEnrollmentTokens: API.OperationMethod<
@@ -6366,7 +6503,7 @@ export const getEnterprisesEnrollmentTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEnterprisesEnrollmentTokensRequest,
   output: EnrollmentToken,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6374,6 +6511,7 @@ export const getEnterprisesEnrollmentTokens: API.OperationMethod<
 export type GetEnterprisesMigrationTokensError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Gets a migration token. */
 export const getEnterprisesMigrationTokens: API.OperationMethod<
@@ -6384,12 +6522,16 @@ export const getEnterprisesMigrationTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEnterprisesMigrationTokensRequest,
   output: MigrationToken,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetEnterprisesPoliciesError = NotFound | Forbidden | GcpOpError;
+export type GetEnterprisesPoliciesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a policy. */
 export const getEnterprisesPolicies: API.OperationMethod<
   GetEnterprisesPoliciesRequest,
@@ -6399,12 +6541,16 @@ export const getEnterprisesPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEnterprisesPoliciesRequest,
   output: Policy,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetEnterprisesWebAppsError = NotFound | Forbidden | GcpOpError;
+export type GetEnterprisesWebAppsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Gets a web app. */
 export const getEnterprisesWebApps: API.OperationMethod<
   GetEnterprisesWebAppsRequest,
@@ -6414,12 +6560,16 @@ export const getEnterprisesWebApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEnterprisesWebAppsRequest,
   output: WebApp,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetProvisioningInfoError = NotFound | Forbidden | GcpOpError;
+export type GetProvisioningInfoError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Get the device provisioning information by the identifier provided in the sign-in url. */
 export const getProvisioningInfo: API.OperationMethod<
   GetProvisioningInfoRequest,
@@ -6429,7 +6579,7 @@ export const getProvisioningInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProvisioningInfoRequest,
   output: ProvisioningInfo,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6439,6 +6589,7 @@ export type IssueCommandEnterprisesDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Issues a command to a device. The Operation resource returned contains a Command in its metadata field. Use the get operation method to get the status of the command. */
 export const issueCommandEnterprisesDevices: API.OperationMethod<
@@ -6449,12 +6600,23 @@ export const issueCommandEnterprisesDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: IssueCommandEnterprisesDevicesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListEnterprisesError = NotFound | Forbidden | GcpOpError;
+export type ListEnterprisesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists EMM-managed enterprises. Only BASIC fields are returned. */
 export const listEnterprises: API.PaginatedOperationMethod<
   ListEnterprisesRequest,
@@ -6465,7 +6627,7 @@ export const listEnterprises: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEnterprisesRequest,
   output: ListEnterprisesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6474,7 +6636,11 @@ export const listEnterprises: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListEnterprisesDevicesError = NotFound | Forbidden | GcpOpError;
+export type ListEnterprisesDevicesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists devices for a given enterprise. Deleted devices are not returned in the response. */
 export const listEnterprisesDevices: API.PaginatedOperationMethod<
   ListEnterprisesDevicesRequest,
@@ -6485,7 +6651,7 @@ export const listEnterprisesDevices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEnterprisesDevicesRequest,
   output: ListDevicesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6497,6 +6663,7 @@ export const listEnterprisesDevices: API.PaginatedOperationMethod<
 export type ListEnterprisesDevicesOperationsError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
 export const listEnterprisesDevicesOperations: API.PaginatedOperationMethod<
@@ -6508,7 +6675,7 @@ export const listEnterprisesDevicesOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEnterprisesDevicesOperationsRequest,
   output: ListOperationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6520,6 +6687,7 @@ export const listEnterprisesDevicesOperations: API.PaginatedOperationMethod<
 export type ListEnterprisesEnrollmentTokensError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists active, unexpired enrollment tokens for a given enterprise. The list items contain only a partial view of EnrollmentToken object. Only the following fields are populated: name, expirationTimestamp, allowPersonalUsage, value, qrCode. This method is meant to help manage active enrollment tokens lifecycle. For security reasons, it's recommended to delete active enrollment tokens as soon as they're not intended to be used anymore. */
 export const listEnterprisesEnrollmentTokens: API.PaginatedOperationMethod<
@@ -6531,7 +6699,7 @@ export const listEnterprisesEnrollmentTokens: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEnterprisesEnrollmentTokensRequest,
   output: ListEnrollmentTokensResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6543,6 +6711,7 @@ export const listEnterprisesEnrollmentTokens: API.PaginatedOperationMethod<
 export type ListEnterprisesMigrationTokensError =
   | NotFound
   | Forbidden
+  | InsufficientScopes
   | GcpOpError;
 /** Lists migration tokens. */
 export const listEnterprisesMigrationTokens: API.PaginatedOperationMethod<
@@ -6554,7 +6723,7 @@ export const listEnterprisesMigrationTokens: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEnterprisesMigrationTokensRequest,
   output: ListMigrationTokensResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6563,7 +6732,11 @@ export const listEnterprisesMigrationTokens: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListEnterprisesPoliciesError = NotFound | Forbidden | GcpOpError;
+export type ListEnterprisesPoliciesError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists policies for a given enterprise. */
 export const listEnterprisesPolicies: API.PaginatedOperationMethod<
   ListEnterprisesPoliciesRequest,
@@ -6574,7 +6747,7 @@ export const listEnterprisesPolicies: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEnterprisesPoliciesRequest,
   output: ListPoliciesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6583,7 +6756,11 @@ export const listEnterprisesPolicies: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListEnterprisesWebAppsError = NotFound | Forbidden | GcpOpError;
+export type ListEnterprisesWebAppsError =
+  | NotFound
+  | Forbidden
+  | InsufficientScopes
+  | GcpOpError;
 /** Lists web apps for a given enterprise. */
 export const listEnterprisesWebApps: API.PaginatedOperationMethod<
   ListEnterprisesWebAppsRequest,
@@ -6594,7 +6771,7 @@ export const listEnterprisesWebApps: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEnterprisesWebAppsRequest,
   output: ListWebAppsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -6608,6 +6785,7 @@ export type ModifyPolicyApplicationsEnterprisesPoliciesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates or creates applications in a policy. */
 export const modifyPolicyApplicationsEnterprisesPolicies: API.OperationMethod<
@@ -6618,7 +6796,14 @@ export const modifyPolicyApplicationsEnterprisesPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyPolicyApplicationsEnterprisesPoliciesRequest,
   output: ModifyPolicyApplicationsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6628,6 +6813,7 @@ export type PatchEnterprisesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates an enterprise. See also: SigninDetail */
 export const patchEnterprises: API.OperationMethod<
@@ -6638,7 +6824,14 @@ export const patchEnterprises: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchEnterprisesRequest,
   output: Enterprise,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6648,6 +6841,7 @@ export type PatchEnterprisesDevicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a device. */
 export const patchEnterprisesDevices: API.OperationMethod<
@@ -6658,7 +6852,14 @@ export const patchEnterprisesDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchEnterprisesDevicesRequest,
   output: Device,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6668,6 +6869,7 @@ export type PatchEnterprisesPoliciesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates or creates a policy. */
 export const patchEnterprisesPolicies: API.OperationMethod<
@@ -6678,7 +6880,14 @@ export const patchEnterprisesPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchEnterprisesPoliciesRequest,
   output: Policy,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6688,6 +6897,7 @@ export type PatchEnterprisesWebAppsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Updates a web app. */
 export const patchEnterprisesWebApps: API.OperationMethod<
@@ -6698,7 +6908,14 @@ export const patchEnterprisesWebApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchEnterprisesWebAppsRequest,
   output: WebApp,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -6708,6 +6925,7 @@ export type RemovePolicyApplicationsEnterprisesPoliciesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | InsufficientScopes
   | GcpOpError;
 /** Removes applications in a policy. */
 export const removePolicyApplicationsEnterprisesPolicies: API.OperationMethod<
@@ -6718,7 +6936,14 @@ export const removePolicyApplicationsEnterprisesPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemovePolicyApplicationsEnterprisesPoliciesRequest,
   output: RemovePolicyApplicationsResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    InsufficientScopes,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

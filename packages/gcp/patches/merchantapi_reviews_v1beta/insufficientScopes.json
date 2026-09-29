@@ -1,0 +1,82 @@
+{
+  "description": "Type the missing-OAuth-scope rejection. It surfaced as a plain Forbidden.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.merchantapi_reviews_v1beta#InsufficientScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The OAuth token lacks the scope the API requires (HTTP 403 PERMISSION_DENIED: \"Request had insufficient authentication scopes.\"). Service-account tokens with only cloud-platform scope hit this.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.merchantapi_reviews_v1beta#DeleteAccountsMerchantReviews/errors/-",
+      "value": {
+        "target": "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.merchantapi_reviews_v1beta#DeleteAccountsProductReviews/errors/-",
+      "value": {
+        "target": "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.merchantapi_reviews_v1beta#GetAccountsMerchantReviews/errors/-",
+      "value": {
+        "target": "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.merchantapi_reviews_v1beta#GetAccountsProductReviews/errors/-",
+      "value": {
+        "target": "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.merchantapi_reviews_v1beta#InsertAccountsMerchantReviews/errors/-",
+      "value": {
+        "target": "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.merchantapi_reviews_v1beta#InsertAccountsProductReviews/errors/-",
+      "value": {
+        "target": "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.merchantapi_reviews_v1beta#ListAccountsMerchantReviews/errors/-",
+      "value": {
+        "target": "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.merchantapi_reviews_v1beta#ListAccountsProductReviews/errors/-",
+      "value": {
+        "target": "com.gcp.merchantapi_reviews_v1beta#InsufficientScopes"
+      }
+    }
+  ]
+}

@@ -65,6 +65,20 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The Bare Metal Solution API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED). */
+export class ServiceDisabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ServiceDisabled>()("ServiceDisabled", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withAuthError),
+    [{ status: 403, message: { includes: "has not been used in project" } }],
+  ) {}
+
 export type StringMap = { [key: string]: string | undefined };
 export const StringMap = /*@__PURE__*/ S.Record(
   S.String,
@@ -2937,6 +2951,7 @@ export type CreateProjectsLocationsNfsSharesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Create an NFS share. */
 export const createProjectsLocationsNfsShares: API.OperationMethod<
@@ -2947,7 +2962,14 @@ export const createProjectsLocationsNfsShares: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsNfsSharesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2957,6 +2979,7 @@ export type CreateProjectsLocationsProvisioningConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Create new ProvisioningConfig. */
 export const createProjectsLocationsProvisioningConfigs: API.OperationMethod<
@@ -2967,7 +2990,14 @@ export const createProjectsLocationsProvisioningConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsProvisioningConfigsRequest,
   output: ProvisioningConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2977,6 +3007,7 @@ export type CreateProjectsLocationsSshKeysError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Register a public SSH key in the specified project for use with the interactive serial console feature. */
 export const createProjectsLocationsSshKeys: API.OperationMethod<
@@ -2987,7 +3018,14 @@ export const createProjectsLocationsSshKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsSshKeysRequest,
   output: SSHKey,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -2997,6 +3035,7 @@ export type CreateProjectsLocationsVolumesSnapshotsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Takes a snapshot of a boot volume. Returns INVALID_ARGUMENT if called for a non-boot volume. */
 export const createProjectsLocationsVolumesSnapshots: API.OperationMethod<
@@ -3007,7 +3046,14 @@ export const createProjectsLocationsVolumesSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsVolumesSnapshotsRequest,
   output: VolumeSnapshot,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3017,6 +3063,7 @@ export type DeleteProjectsLocationsNfsSharesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Delete an NFS share. The underlying volume is automatically deleted. */
 export const deleteProjectsLocationsNfsShares: API.OperationMethod<
@@ -3027,7 +3074,14 @@ export const deleteProjectsLocationsNfsShares: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsNfsSharesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3037,6 +3091,7 @@ export type DeleteProjectsLocationsSshKeysError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a public SSH key registered in the specified project. */
 export const deleteProjectsLocationsSshKeys: API.OperationMethod<
@@ -3047,7 +3102,14 @@ export const deleteProjectsLocationsSshKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsSshKeysRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3057,6 +3119,7 @@ export type DeleteProjectsLocationsVolumesSnapshotsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Deletes a volume snapshot. Returns INVALID_ARGUMENT if called for a non-boot volume. */
 export const deleteProjectsLocationsVolumesSnapshots: API.OperationMethod<
@@ -3067,7 +3130,14 @@ export const deleteProjectsLocationsVolumesSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsVolumesSnapshotsRequest,
   output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3077,6 +3147,7 @@ export type DetachLunProjectsLocationsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Detach LUN from Instance. */
 export const detachLunProjectsLocationsInstances: API.OperationMethod<
@@ -3087,7 +3158,14 @@ export const detachLunProjectsLocationsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DetachLunProjectsLocationsInstancesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3097,6 +3175,7 @@ export type DisableHyperthreadingProjectsLocationsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Perform disable hyperthreading operation on a single server. */
 export const disableHyperthreadingProjectsLocationsInstances: API.OperationMethod<
@@ -3107,7 +3186,14 @@ export const disableHyperthreadingProjectsLocationsInstances: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: DisableHyperthreadingProjectsLocationsInstancesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3117,6 +3203,7 @@ export type DisableInteractiveSerialConsoleProjectsLocationsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Disable the interactive serial console feature on an instance. */
 export const disableInteractiveSerialConsoleProjectsLocationsInstances: API.OperationMethod<
@@ -3127,7 +3214,14 @@ export const disableInteractiveSerialConsoleProjectsLocationsInstances: API.Oper
 > = /*@__PURE__*/ API.make(() => ({
   input: DisableInteractiveSerialConsoleProjectsLocationsInstancesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3137,6 +3231,7 @@ export type EnableHyperthreadingProjectsLocationsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Perform enable hyperthreading operation on a single server. */
 export const enableHyperthreadingProjectsLocationsInstances: API.OperationMethod<
@@ -3147,7 +3242,14 @@ export const enableHyperthreadingProjectsLocationsInstances: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: EnableHyperthreadingProjectsLocationsInstancesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3157,6 +3259,7 @@ export type EnableInteractiveSerialConsoleProjectsLocationsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Enable the interactive serial console feature on an instance. */
 export const enableInteractiveSerialConsoleProjectsLocationsInstances: API.OperationMethod<
@@ -3167,7 +3270,14 @@ export const enableInteractiveSerialConsoleProjectsLocationsInstances: API.Opera
 > = /*@__PURE__*/ API.make(() => ({
   input: EnableInteractiveSerialConsoleProjectsLocationsInstancesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3177,6 +3287,7 @@ export type EvictProjectsLocationsVolumesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Skips volume's cooloff and deletes it now. Volume must be in cooloff state. */
 export const evictProjectsLocationsVolumes: API.OperationMethod<
@@ -3187,7 +3298,14 @@ export const evictProjectsLocationsVolumes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: EvictProjectsLocationsVolumesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3197,6 +3315,7 @@ export type EvictProjectsLocationsVolumesLunsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Skips lun's cooloff and deletes it now. Lun must be in cooloff state. */
 export const evictProjectsLocationsVolumesLuns: API.OperationMethod<
@@ -3207,12 +3326,23 @@ export const evictProjectsLocationsVolumesLuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: EvictProjectsLocationsVolumesLunsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
+export type GetProjectsLocationsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsRequest,
@@ -3222,7 +3352,7 @@ export const getProjectsLocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: Location,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3230,6 +3360,7 @@ export const getProjectsLocations: API.OperationMethod<
 export type GetProjectsLocationsInstancesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Get details about a single server. */
 export const getProjectsLocationsInstances: API.OperationMethod<
@@ -3240,7 +3371,7 @@ export const getProjectsLocationsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsInstancesRequest,
   output: Instance,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3248,6 +3379,7 @@ export const getProjectsLocationsInstances: API.OperationMethod<
 export type GetProjectsLocationsNetworksError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Get details of a single network. */
 export const getProjectsLocationsNetworks: API.OperationMethod<
@@ -3258,7 +3390,7 @@ export const getProjectsLocationsNetworks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsNetworksRequest,
   output: Network,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3266,6 +3398,7 @@ export const getProjectsLocationsNetworks: API.OperationMethod<
 export type GetProjectsLocationsNfsSharesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Get details of a single NFS share. */
 export const getProjectsLocationsNfsShares: API.OperationMethod<
@@ -3276,7 +3409,7 @@ export const getProjectsLocationsNfsShares: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsNfsSharesRequest,
   output: NfsShare,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3284,6 +3417,7 @@ export const getProjectsLocationsNfsShares: API.OperationMethod<
 export type GetProjectsLocationsOperationsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Get details about an operation. */
 export const getProjectsLocationsOperations: API.OperationMethod<
@@ -3294,7 +3428,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3302,6 +3436,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
 export type GetProjectsLocationsOsImagesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Get details of a single OS image. */
 export const getProjectsLocationsOsImages: API.OperationMethod<
@@ -3312,7 +3447,7 @@ export const getProjectsLocationsOsImages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsOsImagesRequest,
   output: OSImage,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3320,6 +3455,7 @@ export const getProjectsLocationsOsImages: API.OperationMethod<
 export type GetProjectsLocationsProvisioningConfigsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Get ProvisioningConfig by name. */
 export const getProjectsLocationsProvisioningConfigs: API.OperationMethod<
@@ -3330,7 +3466,7 @@ export const getProjectsLocationsProvisioningConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsProvisioningConfigsRequest,
   output: ProvisioningConfig,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3338,6 +3474,7 @@ export const getProjectsLocationsProvisioningConfigs: API.OperationMethod<
 export type GetProjectsLocationsVolumesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Get details of a single storage volume. */
 export const getProjectsLocationsVolumes: API.OperationMethod<
@@ -3348,7 +3485,7 @@ export const getProjectsLocationsVolumes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsVolumesRequest,
   output: Volume,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3356,6 +3493,7 @@ export const getProjectsLocationsVolumes: API.OperationMethod<
 export type GetProjectsLocationsVolumesLunsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Get details of a single storage logical unit number(LUN). */
 export const getProjectsLocationsVolumesLuns: API.OperationMethod<
@@ -3366,7 +3504,7 @@ export const getProjectsLocationsVolumesLuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsVolumesLunsRequest,
   output: Lun,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3374,6 +3512,7 @@ export const getProjectsLocationsVolumesLuns: API.OperationMethod<
 export type GetProjectsLocationsVolumesSnapshotsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Returns the specified snapshot resource. Returns INVALID_ARGUMENT if called for a non-boot volume. */
 export const getProjectsLocationsVolumesSnapshots: API.OperationMethod<
@@ -3384,7 +3523,7 @@ export const getProjectsLocationsVolumesSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsVolumesSnapshotsRequest,
   output: VolumeSnapshot,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3392,6 +3531,7 @@ export const getProjectsLocationsVolumesSnapshots: API.OperationMethod<
 export type ListNetworkUsageProjectsLocationsNetworksError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** List all Networks (and used IPs for each Network) in the vendor account associated with the specified project. */
 export const listNetworkUsageProjectsLocationsNetworks: API.OperationMethod<
@@ -3402,12 +3542,16 @@ export const listNetworkUsageProjectsLocationsNetworks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListNetworkUsageProjectsLocationsNetworksRequest,
   output: ListNetworkUsageResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
+export type ListProjectsLocationsError =
+  | NotFound
+  | Forbidden
+  | ServiceDisabled
+  | GcpOpError;
 /** Lists information about the supported locations for this service. This method lists locations based on the resource scope provided in the ListLocationsRequest.name field: * **Global locations**: If `name` is empty, the method lists the public locations available to all projects. * **Project-specific locations**: If `name` follows the format `projects/{project}`, the method lists locations visible to that specific project. This includes public, private, or other project-specific locations enabled for the project. For gRPC and client library implementations, the resource name is passed as the `name` field. For direct service calls, the resource name is incorporated into the request path based on the specific service implementation and version. */
 export const listProjectsLocations: API.PaginatedOperationMethod<
   ListProjectsLocationsRequest,
@@ -3418,7 +3562,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListLocationsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3430,6 +3574,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
 export type ListProjectsLocationsInstancesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** List servers in a given project and location. */
 export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
@@ -3441,7 +3586,7 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesRequest,
   output: ListInstancesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3453,6 +3598,7 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
 export type ListProjectsLocationsNetworksError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** List network in a given project and location. */
 export const listProjectsLocationsNetworks: API.PaginatedOperationMethod<
@@ -3464,7 +3610,7 @@ export const listProjectsLocationsNetworks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsNetworksRequest,
   output: ListNetworksResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3476,6 +3622,7 @@ export const listProjectsLocationsNetworks: API.PaginatedOperationMethod<
 export type ListProjectsLocationsNfsSharesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** List NFS shares. */
 export const listProjectsLocationsNfsShares: API.PaginatedOperationMethod<
@@ -3487,7 +3634,7 @@ export const listProjectsLocationsNfsShares: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsNfsSharesRequest,
   output: ListNfsSharesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3499,6 +3646,7 @@ export const listProjectsLocationsNfsShares: API.PaginatedOperationMethod<
 export type ListProjectsLocationsOsImagesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Retrieves the list of OS images which are currently approved. */
 export const listProjectsLocationsOsImages: API.PaginatedOperationMethod<
@@ -3510,7 +3658,7 @@ export const listProjectsLocationsOsImages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsOsImagesRequest,
   output: ListOSImagesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3522,6 +3670,7 @@ export const listProjectsLocationsOsImages: API.PaginatedOperationMethod<
 export type ListProjectsLocationsProvisioningQuotasError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** List the budget details to provision resources on a given project. */
 export const listProjectsLocationsProvisioningQuotas: API.PaginatedOperationMethod<
@@ -3533,7 +3682,7 @@ export const listProjectsLocationsProvisioningQuotas: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsProvisioningQuotasRequest,
   output: ListProvisioningQuotasResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3545,6 +3694,7 @@ export const listProjectsLocationsProvisioningQuotas: API.PaginatedOperationMeth
 export type ListProjectsLocationsSshKeysError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Lists the public SSH keys registered for the specified project. These SSH keys are used only for the interactive serial console feature. */
 export const listProjectsLocationsSshKeys: API.PaginatedOperationMethod<
@@ -3556,7 +3706,7 @@ export const listProjectsLocationsSshKeys: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsSshKeysRequest,
   output: ListSSHKeysResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3568,6 +3718,7 @@ export const listProjectsLocationsSshKeys: API.PaginatedOperationMethod<
 export type ListProjectsLocationsVolumesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** List storage volumes in a given project and location. */
 export const listProjectsLocationsVolumes: API.PaginatedOperationMethod<
@@ -3579,7 +3730,7 @@ export const listProjectsLocationsVolumes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsVolumesRequest,
   output: ListVolumesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3591,6 +3742,7 @@ export const listProjectsLocationsVolumes: API.PaginatedOperationMethod<
 export type ListProjectsLocationsVolumesLunsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** List storage volume luns for given storage volume. */
 export const listProjectsLocationsVolumesLuns: API.PaginatedOperationMethod<
@@ -3602,7 +3754,7 @@ export const listProjectsLocationsVolumesLuns: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsVolumesLunsRequest,
   output: ListLunsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3614,6 +3766,7 @@ export const listProjectsLocationsVolumesLuns: API.PaginatedOperationMethod<
 export type ListProjectsLocationsVolumesSnapshotsError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Retrieves the list of snapshots for the specified volume. Returns a response with an empty list of snapshots if called for a non-boot volume. */
 export const listProjectsLocationsVolumesSnapshots: API.PaginatedOperationMethod<
@@ -3625,7 +3778,7 @@ export const listProjectsLocationsVolumesSnapshots: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsVolumesSnapshotsRequest,
   output: ListVolumeSnapshotsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   pagination: {
@@ -3637,6 +3790,7 @@ export const listProjectsLocationsVolumesSnapshots: API.PaginatedOperationMethod
 export type LoadAuthInfoProjectsLocationsInstancesError =
   | NotFound
   | Forbidden
+  | ServiceDisabled
   | GcpOpError;
 /** Load auth info for a server. */
 export const loadAuthInfoProjectsLocationsInstances: API.OperationMethod<
@@ -3647,7 +3801,7 @@ export const loadAuthInfoProjectsLocationsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: LoadAuthInfoProjectsLocationsInstancesRequest,
   output: LoadInstanceAuthInfoResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3657,6 +3811,7 @@ export type PatchProjectsLocationsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Update details of a single server. */
 export const patchProjectsLocationsInstances: API.OperationMethod<
@@ -3667,7 +3822,14 @@ export const patchProjectsLocationsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsInstancesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3677,6 +3839,7 @@ export type PatchProjectsLocationsNetworksError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Update details of a single network. */
 export const patchProjectsLocationsNetworks: API.OperationMethod<
@@ -3687,7 +3850,14 @@ export const patchProjectsLocationsNetworks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsNetworksRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3697,6 +3867,7 @@ export type PatchProjectsLocationsNfsSharesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Update details of a single NFS share. */
 export const patchProjectsLocationsNfsShares: API.OperationMethod<
@@ -3707,7 +3878,14 @@ export const patchProjectsLocationsNfsShares: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsNfsSharesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3717,6 +3895,7 @@ export type PatchProjectsLocationsProvisioningConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Update existing ProvisioningConfig. */
 export const patchProjectsLocationsProvisioningConfigs: API.OperationMethod<
@@ -3727,7 +3906,14 @@ export const patchProjectsLocationsProvisioningConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsProvisioningConfigsRequest,
   output: ProvisioningConfig,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3737,6 +3923,7 @@ export type PatchProjectsLocationsVolumesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Update details of a single storage volume. */
 export const patchProjectsLocationsVolumes: API.OperationMethod<
@@ -3747,7 +3934,14 @@ export const patchProjectsLocationsVolumes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsVolumesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3757,6 +3951,7 @@ export type ReimageProjectsLocationsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Perform reimage operation on a single server. */
 export const reimageProjectsLocationsInstances: API.OperationMethod<
@@ -3767,7 +3962,14 @@ export const reimageProjectsLocationsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ReimageProjectsLocationsInstancesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3777,6 +3979,7 @@ export type RenameProjectsLocationsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** RenameInstance sets a new name for an instance. Use with caution, previous names become immediately invalidated. */
 export const renameProjectsLocationsInstances: API.OperationMethod<
@@ -3787,7 +3990,14 @@ export const renameProjectsLocationsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RenameProjectsLocationsInstancesRequest,
   output: Instance,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3797,6 +4007,7 @@ export type RenameProjectsLocationsNetworksError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** RenameNetwork sets a new name for a network. Use with caution, previous names become immediately invalidated. */
 export const renameProjectsLocationsNetworks: API.OperationMethod<
@@ -3807,7 +4018,14 @@ export const renameProjectsLocationsNetworks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RenameProjectsLocationsNetworksRequest,
   output: Network,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3817,6 +4035,7 @@ export type RenameProjectsLocationsNfsSharesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** RenameNfsShare sets a new name for an nfsshare. Use with caution, previous names become immediately invalidated. */
 export const renameProjectsLocationsNfsShares: API.OperationMethod<
@@ -3827,7 +4046,14 @@ export const renameProjectsLocationsNfsShares: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RenameProjectsLocationsNfsSharesRequest,
   output: NfsShare,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3837,6 +4063,7 @@ export type RenameProjectsLocationsVolumesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** RenameVolume sets a new name for a volume. Use with caution, previous names become immediately invalidated. */
 export const renameProjectsLocationsVolumes: API.OperationMethod<
@@ -3847,7 +4074,14 @@ export const renameProjectsLocationsVolumes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RenameProjectsLocationsVolumesRequest,
   output: Volume,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3857,6 +4091,7 @@ export type ResetProjectsLocationsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Perform an ungraceful, hard reset on a server. Equivalent to shutting the power off and then turning it back on. */
 export const resetProjectsLocationsInstances: API.OperationMethod<
@@ -3867,7 +4102,14 @@ export const resetProjectsLocationsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ResetProjectsLocationsInstancesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3877,6 +4119,7 @@ export type ResizeProjectsLocationsVolumesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Emergency Volume resize. */
 export const resizeProjectsLocationsVolumes: API.OperationMethod<
@@ -3887,7 +4130,14 @@ export const resizeProjectsLocationsVolumes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ResizeProjectsLocationsVolumesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3897,6 +4147,7 @@ export type RestoreVolumeSnapshotProjectsLocationsVolumesSnapshotsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Uses the specified snapshot to restore its parent volume. Returns INVALID_ARGUMENT if called for a non-boot volume. */
 export const restoreVolumeSnapshotProjectsLocationsVolumesSnapshots: API.OperationMethod<
@@ -3907,7 +4158,14 @@ export const restoreVolumeSnapshotProjectsLocationsVolumesSnapshots: API.Operati
 > = /*@__PURE__*/ API.make(() => ({
   input: RestoreVolumeSnapshotProjectsLocationsVolumesSnapshotsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3917,6 +4175,7 @@ export type StartProjectsLocationsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Starts a server that was shutdown. */
 export const startProjectsLocationsInstances: API.OperationMethod<
@@ -3927,7 +4186,14 @@ export const startProjectsLocationsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartProjectsLocationsInstancesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3937,6 +4203,7 @@ export type StopProjectsLocationsInstancesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Stop a running server. */
 export const stopProjectsLocationsInstances: API.OperationMethod<
@@ -3947,7 +4214,14 @@ export const stopProjectsLocationsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopProjectsLocationsInstancesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -3957,6 +4231,7 @@ export type SubmitProjectsLocationsProvisioningConfigsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ServiceDisabled
   | GcpOpError;
 /** Submit a provisioning configuration for a given project. */
 export const submitProjectsLocationsProvisioningConfigs: API.OperationMethod<
@@ -3967,7 +4242,14 @@ export const submitProjectsLocationsProvisioningConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SubmitProjectsLocationsProvisioningConfigsRequest,
   output: SubmitProvisioningConfigResponse,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ServiceDisabled,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
