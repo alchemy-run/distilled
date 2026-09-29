@@ -8,6 +8,23 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.gcp.compute_v1#ResourceNotReady": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The resource has an operation in flight and cannot be modified yet (HTTP 400 resourceNotReady: \"The resource '…' is not ready\"). Retryable after a few seconds.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "' is not ready"
+            }
+          }
+        ]
+      }
+    },
     "com.gcp.compute_v1#ReservationBlocksListResponse": {
       "type": "structure",
       "members": {
@@ -111852,6 +111869,9 @@
         },
         {
           "target": "com.gcp.compute_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.compute_v1#ResourceNotReady"
         }
       ],
       "traits": {
@@ -165080,6 +165100,9 @@
         },
         {
           "target": "com.gcp.compute_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.compute_v1#ResourceNotReady"
         }
       ],
       "traits": {

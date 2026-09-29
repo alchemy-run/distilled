@@ -157,6 +157,20 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The resource has an operation in flight and cannot be modified yet (HTTP 400 resourceNotReady: "The resource '…' is not ready"). Retryable after a few seconds. */
+export class ResourceNotReady
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ResourceNotReady>()("ResourceNotReady", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
+    [{ status: 400, message: { includes: "' is not ready" } }],
+  ) {}
+
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(
   S.String,
@@ -78812,6 +78826,7 @@ export type DeleteRegionBackendServicesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ResourceNotReady
   | GcpOpError;
 /** Deletes the specified regional BackendService resource. */
 export const deleteRegionBackendServices: API.OperationMethod<
@@ -78822,7 +78837,14 @@ export const deleteRegionBackendServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteRegionBackendServicesRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ResourceNotReady,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -79592,6 +79614,7 @@ export type DeleteSubnetworksError =
   | Forbidden
   | BadRequest
   | Conflict
+  | ResourceNotReady
   | GcpOpError;
 /** Deletes the specified subnetwork. */
 export const deleteSubnetworks: API.OperationMethod<
@@ -79602,7 +79625,14 @@ export const deleteSubnetworks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteSubnetworksRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    ResourceNotReady,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

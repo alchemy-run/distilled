@@ -11179,6 +11179,9 @@
         },
         {
           "target": "com.gcp.alloydb_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.alloydb_v1#ClusterNotReadyForBackup"
         }
       ],
       "traits": {
@@ -11417,6 +11420,23 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Deletes a single Backup."
+      }
+    },
+    "com.gcp.alloydb_v1#ClusterNotReadyForBackup": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The cluster has no instance yet, or its instance was created too recently, to take a backup (HTTP 400 FAILED_PRECONDITION). Retrying after a few minutes succeeds.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "isn't ready for backups yet"
+            }
+          }
+        ]
       }
     }
   }

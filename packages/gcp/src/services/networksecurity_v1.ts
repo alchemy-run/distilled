@@ -65,6 +65,25 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The SAC realm is not attached to a partner (SSE vendor) realm yet (HTTP 400: 'sac_realm must be attached to a partner realm'). Pair the realm with the partner first; not retryable. */
+export class SacRealmNotPaired
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SacRealmNotPaired>()("SacRealmNotPaired", {
+      code: S.optional(S.Number),
+      message: S.String,
+      status: S.optional(S.String),
+      reason: S.optional(S.String),
+      domain: S.optional(S.String),
+      details: S.optional(S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
+    [
+      {
+        status: 400,
+        message: { includes: "must be attached to a partner realm" },
+      },
+    ],
+  ) {}
+
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(
   S.String,
@@ -8219,6 +8238,7 @@ export type CreateProjectsLocationsSacAttachmentsError =
   | Forbidden
   | BadRequest
   | Conflict
+  | SacRealmNotPaired
   | GcpOpError;
 /** Creates a new SACAttachment in a given project and location. */
 export const createProjectsLocationsSacAttachments: API.OperationMethod<
@@ -8229,7 +8249,14 @@ export const createProjectsLocationsSacAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsSacAttachmentsRequest,
   output: Operation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    SacRealmNotPaired,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
