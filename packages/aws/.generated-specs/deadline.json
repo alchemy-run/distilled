@@ -25455,6 +25455,9 @@
         },
         {
           "target": "com.amazonaws.deadline#ValidationException"
+        },
+        {
+          "target": "com.amazonaws.deadline#ConflictException"
         }
       ],
       "traits": {

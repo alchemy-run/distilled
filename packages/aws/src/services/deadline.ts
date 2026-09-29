@@ -13030,6 +13030,7 @@ export type UpdateQueueError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
   | CommonErrors;
 /**
  * Updates a queue.
@@ -13048,6 +13049,7 @@ export const updateQueue: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
   ],
   protocol: AwsProtocol,
   retry: Retry,

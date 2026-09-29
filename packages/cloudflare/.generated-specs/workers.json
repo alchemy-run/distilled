@@ -68659,6 +68659,28 @@
         "smithy.api#documentation": "Create an edge-preview session scoped to a zone (undocumented endpoint)."
       }
     },
+    "com.cloudflare.workers#PreviewAlreadyExists": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 409,
+            "message": {
+              "includes": "already exists"
+            }
+          }
+        ]
+      }
+    },
     "com.cloudflare.workers#PreviewNotFound": {
       "type": "structure",
       "members": {
@@ -68890,6 +68912,9 @@
       "errors": [
         {
           "target": "com.cloudflare.workers#WorkerNotFound"
+        },
+        {
+          "target": "com.cloudflare.workers#PreviewAlreadyExists"
         }
       ],
       "traits": {

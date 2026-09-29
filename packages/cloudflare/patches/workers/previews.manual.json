@@ -3,6 +3,23 @@
   "patches": [
     {
       "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PreviewAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": { "target": "smithy.api#Integer" },
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            { "status": 409, "message": { "includes": "already exists" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
       "path": "/metadata/keyDictionary/previewId",
       "value": "preview_id"
     },
@@ -241,7 +258,10 @@
         "type": "operation",
         "input": { "target": "com.cloudflare.workers#CreatePreviewRequest" },
         "output": { "target": "com.cloudflare.workers#PreviewResource" },
-        "errors": [{ "target": "com.cloudflare.workers#WorkerNotFound" }],
+        "errors": [
+          { "target": "com.cloudflare.workers#WorkerNotFound" },
+          { "target": "com.cloudflare.workers#PreviewAlreadyExists" }
+        ],
         "traits": {
           "smithy.api#http": {
             "method": "POST",
