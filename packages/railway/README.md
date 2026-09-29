@@ -78,6 +78,29 @@ const created = Query.fn(() => {
 });
 ```
 
+## Errors
+
+Every root declares the typed errors it can return, so `Query.fn`'s error
+channel is the union of the roots your plan reads. Handle them with
+`Effect.catchTag`:
+
+```ts
+const deleteProxy = Query.fn((id: string) => Railway.tcpProxyDelete({ id }));
+
+const program = deleteProxy("proxy-id").pipe(
+  // tcpProxyDelete declares RailwayOperationInProgress and RailwayNotFound
+  Effect.catchTag("RailwayNotFound", () => Effect.succeed(true)),
+);
+```
+
+Each GraphQL error is classified against the root its `path` points at
+(path-less errors against the global errors such as `RailwayRateLimited`).
+An error no matcher recognizes is `UnknownGraphQLError`; a response whose
+errors carry different tags fails with `GraphQLFailure`, and failures that
+never produce a GraphQL body are `GraphQLTransportError`. Queries retry
+retryable errors up to 5 times; mutations never retry. The declarations
+live in [`patches/graphql/`](patches/graphql/README.md).
+
 ## Generate
 
 ```sh

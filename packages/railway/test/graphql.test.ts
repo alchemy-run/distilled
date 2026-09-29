@@ -3,35 +3,69 @@ import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Result from "effect/Result";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
 import {
-  GqlError,
   GqlTransport,
   type CompiledOperation,
+  type GraphQLResponse,
+  type RawGraphQLError,
 } from "@distilled.cloud/core/graphql";
 import { Query } from "@distilled.cloud/core/query";
-import { Railway } from "@distilled.cloud/railway";
+import {
+  CredentialsFromToken,
+  GraphQLFailure,
+  GraphQLLive,
+  GraphQLTransportError,
+  Railway,
+  UnknownGraphQLError,
+} from "@distilled.cloud/railway";
 
-const harness = (data: unknown, errors?: Array<{ message: string }>) => {
+/** Answers each request with the next response; the last one repeats. */
+const sequence = (...responses: GraphQLResponse[]) => {
   const requests: CompiledOperation[] = [];
   const layer = Layer.succeed(GqlTransport, {
     execute: (request) =>
-      Effect.gen(function* () {
+      Effect.sync(() => {
         requests.push(request);
-        if (errors && errors.length > 0) {
-          return yield* Effect.fail(
-            new GqlError(errors.map((error) => error.message).join("; ")),
-          );
-        }
-        return { data };
+        return responses[Math.min(requests.length, responses.length) - 1]!;
       }),
   });
   return { layer, requests };
 };
 
-const run = <A>(
-  effect: Effect.Effect<A, unknown, GqlTransport>,
+const harness = (data: unknown, errors?: RawGraphQLError[]) =>
+  sequence({ data, errors });
+
+const run = <A, E>(
+  effect: Effect.Effect<A, E, GqlTransport>,
   layer: Layer.Layer<GqlTransport>,
 ) => Effect.runPromise(effect.pipe(Effect.provide(layer)));
+
+const failure = async <A, E>(
+  effect: Effect.Effect<A, E, GqlTransport>,
+  layer: Layer.Layer<GqlTransport>,
+): Promise<E> => {
+  const result = await Effect.runPromise(
+    Effect.result(effect.pipe(Effect.provide(layer))),
+  );
+  if (Result.isSuccess(result)) throw new Error("expected a failure");
+  return result.failure;
+};
+
+const internal = (
+  message: string,
+  path?: ReadonlyArray<string | number>,
+): RawGraphQLError => ({
+  message,
+  ...(path ? { path } : {}),
+  extensions: { code: "INTERNAL_SERVER_ERROR" },
+});
+
+const getProject = Query.fn((id: string) => {
+  const project = Railway.project({ id });
+  return { id: project.id };
+});
 
 describe("Railway Query SDK", () => {
   test("me() selects only fields the plan reads, one POST", async () => {
@@ -135,20 +169,150 @@ describe("Railway Query SDK", () => {
     ]);
   });
 
-  test("GraphQL errors surface as GqlError", async () => {
-    const { layer } = harness(undefined, [{ message: "Project not found" }]);
-    const result = await Effect.runPromise(
-      Effect.result(
-        Query.fn(() => {
-          const project = Railway.project({ id: "missing" });
-          return { id: project.id };
-        })().pipe(Effect.provide(layer)),
+  test("a declared root error is a typed tag", async () => {
+    const { layer } = harness(null, [
+      internal("Project not found", ["project"]),
+    ]);
+    const error = await failure(getProject("missing"), layer);
+    expect(error._tag).toBe("RailwayNotFound");
+    expect(error.message).toBe("Project not found");
+    expect(error).toMatchObject({
+      code: "INTERNAL_SERVER_ERROR",
+      path: ["project"],
+    });
+
+    const recovered = await run(
+      getProject("missing").pipe(
+        Effect.catchTag("RailwayNotFound", () => Effect.succeed(undefined)),
+      ),
+      layer,
+    );
+    expect(recovered).toBeUndefined();
+  });
+
+  test("errors are scoped to the root the path points at", async () => {
+    const message =
+      "Cannot delete TCP proxy: an operation is already in progress";
+    const tcpProxyDelete = Query.fn(() =>
+      Railway.tcpProxyDelete({ id: "proxy" }),
+    );
+    const projectDelete = Query.fn(() =>
+      Railway.projectDelete({ id: "project" }),
+    );
+    const onProxy = await failure(
+      tcpProxyDelete(),
+      harness(null, [internal(message, ["tcpProxyDelete"])]).layer,
+    );
+    expect(onProxy._tag).toBe("RailwayOperationInProgress");
+    // projectDelete does not declare it; the global code matcher applies.
+    const onProject = await failure(
+      projectDelete(),
+      harness(null, [internal(message, ["projectDelete"])]).layer,
+    );
+    expect(onProject._tag).toBe("RailwayInternalError");
+  });
+
+  test("path-less errors match only global errors", async () => {
+    const { layer } = harness(null, [
+      { message: "Problem processing request" },
+    ]);
+    const error = await failure(getProject("p"), layer);
+    expect(error._tag).toBe("RailwayRequestProcessingError");
+  });
+
+  test("unmatched errors are UnknownGraphQLError with the root", async () => {
+    const { layer } = harness(null, [
+      { message: "something new", path: ["project"] },
+    ]);
+    const error = await failure(getProject("p"), layer);
+    expect(error).toBeInstanceOf(UnknownGraphQLError);
+    expect(error).toMatchObject({ coordinate: "project" });
+  });
+
+  test("errors with different tags fail together", async () => {
+    const { layer } = harness({ project: null, project_0: null }, [
+      internal("Project not found", ["project"]),
+      {
+        message: "nope",
+        path: ["project_0"],
+        extensions: { code: "FORBIDDEN" },
+      },
+    ]);
+    const error = await failure(
+      Query.fn(() => ({
+        a: Railway.project({ id: "a" }).id,
+        b: Railway.project({ id: "b" }).id,
+      }))(),
+      layer,
+    );
+    expect(error).toBeInstanceOf(GraphQLFailure);
+    expect((error as GraphQLFailure).errors.map((issue) => issue._tag)).toEqual(
+      ["RailwayNotFound", "RailwayForbidden"],
+    );
+  });
+
+  test("queries retry retryable errors; mutations do not", async () => {
+    const limited: GraphQLResponse = {
+      data: null,
+      errors: [{ message: "slow down", extensions: { code: "RATE_LIMITED" } }],
+    };
+    const query = sequence(limited, { data: { project: { id: "p" } } });
+    expect(await run(getProject("p"), query.layer)).toEqual({ id: "p" });
+    expect(query.requests).toHaveLength(2);
+
+    const mutation = sequence(limited, {
+      data: { projectCreate: { id: "p" } },
+    });
+    const error = await failure(
+      Query.fn(() => ({
+        id: Railway.projectCreate({ input: { name: "example" } }).id,
+      }))(),
+      mutation.layer,
+    );
+    expect(error._tag).toBe("RailwayRateLimited");
+    expect(mutation.requests).toHaveLength(1);
+  });
+
+  test("GraphQLLive passes GraphQL errors through and types HTTP failures", async () => {
+    const respond = (status: number, body: string) =>
+      Layer.succeed(
+        HttpClient.HttpClient,
+        HttpClient.make((request) =>
+          Effect.succeed(
+            HttpClientResponse.fromWeb(
+              request,
+              new Response(body, {
+                status,
+                headers: { "retry-after": "3" },
+              }),
+            ),
+          ),
+        ),
+      );
+    const live = (status: number, body: string) =>
+      GraphQLLive.pipe(
+        Layer.provideMerge(respond(status, body)),
+        Layer.provideMerge(CredentialsFromToken({ token: "t" })),
+      );
+    const createProject = Query.fn(() => ({
+      id: Railway.projectCreate({ input: { name: "example" } }).id,
+    }));
+
+    const graphql = await failure(
+      createProject(),
+      live(
+        200,
+        JSON.stringify({
+          data: null,
+          errors: [internal("Project not found", ["projectCreate"])],
+        }),
       ),
     );
-    expect(Result.isFailure(result)).toBe(true);
-    if (Result.isFailure(result)) {
-      expect(result.failure).toBeInstanceOf(GqlError);
-      expect((result.failure as GqlError).message).toBe("Project not found");
-    }
+    expect(graphql._tag).toBe("RailwayNotFound");
+    expect(graphql).toMatchObject({ status: 200, retryAfter: 3 });
+
+    const http = await failure(createProject(), live(502, "<html>"));
+    expect(http).toBeInstanceOf(GraphQLTransportError);
+    expect(http).toMatchObject({ status: 502, retryAfter: 3 });
   });
 });

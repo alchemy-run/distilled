@@ -41,20 +41,157 @@
  * ── Transport ──────────────────────────────────────────────────────────────
  * {@link GqlTransport.execute} posts `{ query, variables, operationName }`.
  * The Effect it returns may require Credentials / HttpClient; those leak
- * into `Query.fn`'s requirements. Compile failures are {@link GqlError}.
+ * into `Query.fn`'s requirements. It returns the parsed `data` and raw
+ * `errors`; `Query.fn` classifies the errors (see "Errors" below). Compile
+ * failures are {@link GqlError} defects.
  *
  * Generated SDKs export *roots* (`Railway.me`, `Railway.project`).
  * Combinators live in `@distilled.cloud/core/query`.
  */
 import * as Context from "effect/Context";
+import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
+import * as Schedule from "effect/Schedule";
+import * as S from "effect/Schema";
 
 export const QuerySymbol = Symbol.for("@distilled.cloud/graphql/Query");
 const inspect = Symbol.for("nodejs.util.inspect.custom");
 
+/** A plan that cannot be compiled (a programming error, raised as a defect). */
 export class GqlError {
   readonly _tag = "GqlError" as const;
   constructor(readonly message: string) {}
+}
+
+// ── Errors ──────────────────────────────────────────────────────────────────
+//
+// Every entry of a GraphQL `errors` array becomes one typed issue. Generated
+// SDKs declare tagged error classes plus the matchers that recognize them,
+// scoped to the root fields that can return them (or global). `Query.fn`
+// classifies each entry against the roots its path points at, so the error
+// channel is the union of the errors declared by the roots the plan reads.
+
+/** Fields every classified GraphQL error carries. */
+export const errorFields = {
+  message: S.String,
+  code: S.optional(S.String),
+  path: S.optional(S.Array(S.Union([S.String, S.Number]))),
+  locations: S.optional(
+    S.Array(S.Struct({ line: S.Number, column: S.Number })),
+  ),
+  extensions: S.optional(S.Unknown),
+  traceId: S.optional(S.String),
+  status: S.optional(S.Number),
+  /** Server retry hint in seconds. */
+  retryAfter: S.optional(S.Number),
+};
+
+/** The shape shared by every classified GraphQL error. */
+export interface GraphQLIssue {
+  readonly _tag: string;
+  readonly message: string;
+  readonly code?: string;
+  readonly path?: ReadonlyArray<string | number>;
+  readonly locations?: ReadonlyArray<{
+    readonly line: number;
+    readonly column: number;
+  }>;
+  readonly extensions?: unknown;
+  readonly traceId?: string;
+  readonly status?: number;
+  readonly retryAfter?: number;
+}
+
+export type GraphQLIssueProps = Omit<GraphQLIssue, "_tag">;
+
+/** A GraphQL error no declared matcher recognizes. */
+export class UnknownGraphQLError extends S.TaggedError<UnknownGraphQLError>()(
+  "UnknownGraphQLError",
+  {
+    ...errorFields,
+    /** Root field the error path points at, when the path is known. */
+    coordinate: S.optional(S.String),
+  },
+) {}
+
+/** One response carried errors with different tags; none is hidden. */
+export class GraphQLFailure<
+  E extends GraphQLIssue = GraphQLIssue,
+> extends Data.TaggedError("GraphQLFailure")<{
+  readonly errors: readonly [E, ...E[]];
+  readonly data: unknown;
+  readonly status?: number;
+}> {
+  get message(): string {
+    return this.errors
+      .map(
+        (e) =>
+          `${e._tag}${e.path?.length ? ` at ${e.path.join(".")}` : ""}: ${e.message}`,
+      )
+      .join("; ");
+  }
+}
+
+/** The request never produced a GraphQL response (network, HTTP, non-JSON). */
+export class GraphQLTransportError extends Data.TaggedError(
+  "GraphQLTransportError",
+)<{
+  readonly message: string;
+  readonly status?: number;
+  /** Server retry hint in seconds. */
+  readonly retryAfter?: number;
+  readonly cause?: unknown;
+}> {}
+
+/** Recognizes a raw GraphQL error. Every present property must match. */
+export interface ErrorMatcher {
+  readonly code?: string;
+  readonly message?: string;
+  readonly messageIncludes?: string;
+}
+
+/** Runtime description of one generated error class. */
+export interface ErrorSpec<E extends GraphQLIssue = GraphQLIssue> {
+  readonly tag: E["_tag"];
+  readonly make: (props: GraphQLIssueProps) => E;
+  readonly matchers: ReadonlyArray<ErrorMatcher>;
+  /** Queries failing only with retryable errors are retried. */
+  readonly retryable: boolean;
+  /** Applies to every root, including errors that carry no path. */
+  readonly global: boolean;
+}
+
+export const errorSpec = <E extends GraphQLIssue>(
+  make: new (props: GraphQLIssueProps) => E,
+  tag: E["_tag"],
+  matchers: ReadonlyArray<ErrorMatcher>,
+  options: { readonly retryable?: boolean; readonly global?: boolean } = {},
+): ErrorSpec<E> => ({
+  tag,
+  make: (props) => new make(props),
+  matchers,
+  retryable: options.retryable ?? false,
+  global: options.global ?? false,
+});
+
+/** An entry of a GraphQL response's `errors` array, as sent on the wire. */
+export interface RawGraphQLError {
+  readonly message: string;
+  readonly path?: ReadonlyArray<string | number>;
+  readonly locations?: ReadonlyArray<{
+    readonly line: number;
+    readonly column: number;
+  }>;
+  readonly extensions?: Record<string, unknown>;
+  readonly [key: string]: unknown;
+}
+
+/** What a transport returns once it has a GraphQL response body. */
+export interface GraphQLResponse {
+  readonly data?: unknown;
+  readonly errors?: ReadonlyArray<RawGraphQLError>;
+  readonly status?: number;
+  readonly headers?: Readonly<Record<string, string | undefined>>;
 }
 
 export type ArgMeta = Record<string, string>;
@@ -157,7 +294,7 @@ export class GqlTransport extends Context.Service<
   {
     readonly execute: (
       req: CompiledOperation,
-    ) => Effect.Effect<{ readonly data: unknown }, unknown, any>;
+    ) => Effect.Effect<GraphQLResponse, GraphQLTransportError, any>;
   }
 >()("@distilled.cloud/graphql/Transport") {}
 
@@ -166,27 +303,29 @@ const log = (..._args: Array<unknown>): void => {};
 /**
  * GraphQL fields copied onto a Query so `user.name` type-checks.
  * `Query<User>` contains `projects: Query<Project[]>`, which contains
- * `owner: Query<User>` again — TypeScript allows that cycle on a type
- * alias as long as we do not add a second type parameter.
+ * `owner: Query<User>` again — TypeScript leaves the cycle lazy. Fields
+ * inherit the errors of the root they were read from.
  */
-type QueryFields<Value> = [Value] extends [ReadonlyArray<infer Item>]
+type QueryFields<Value, Error> = [Value] extends [ReadonlyArray<infer Item>]
   ? {
-      readonly [Field in keyof Item]: Query<Item[Field]>;
+      readonly [Field in keyof Item]: Query<Item[Field], Error>;
     } & {
-      (args: Record<string, unknown>): Query<Value>;
+      (args: Record<string, unknown>): Query<Value, Error>;
     }
   : [Value] extends [object]
-    ? { readonly [Field in keyof Value]: Query<Value[Field]> }
+    ? { readonly [Field in keyof Value]: Query<Value[Field], Error> }
     : {};
 
 /**
- * A lazy GraphQL selection. `Value` is the plain data after `Query.fn` runs.
+ * A lazy GraphQL selection. `Value` is the plain data after `Query.fn` runs;
+ * `Error` is the union of typed errors the roots it reads can return.
  */
-export type Query<Value> = QueryNode<Value> & QueryFields<Value>;
+export type Query<Value, Error = never> = QueryNode<Value, Error> &
+  QueryFields<Value, Error>;
 
 /** Strip Query/Effect wrappers from a returned plan down to plain data. */
 export type UnwrapPlan<Plan> =
-  Plan extends QueryNode<infer Value>
+  Plan extends QueryNode<infer Value, any>
     ? Value
     : Plan extends Effect.Effect<infer Success, any, any>
       ? Success
@@ -195,6 +334,25 @@ export type UnwrapPlan<Plan> =
         : Plan extends object
           ? { readonly [Key in keyof Plan]: UnwrapPlan<Plan[Key]> }
           : Plan;
+
+/** Typed errors of every Query and Effect in a returned plan. */
+export type PlanError<Plan> =
+  Plan extends QueryNode<any, infer Error>
+    ? Error
+    : Plan extends Effect.Effect<any, infer Error, any>
+      ? Error
+      : Plan extends ReadonlyArray<infer Element>
+        ? PlanError<Element>
+        : Plan extends object
+          ? { readonly [Key in keyof Plan]: PlanError<Plan[Key]> }[keyof Plan]
+          : never;
+
+/** Failures of evaluating a plan whose roots declare `Error`. */
+export type QueryError<Error> =
+  | Error
+  | GraphQLFailure<Extract<Error, GraphQLIssue> | UnknownGraphQLError>
+  | UnknownGraphQLError
+  | GraphQLTransportError;
 
 type Expr =
   | RootExpr
@@ -215,6 +373,8 @@ type RootExpr = {
   readonly type: TypeRef;
   /** Relay connection: paint `edges { node }`, extract an array of nodes. */
   readonly connection?: boolean;
+  /** Errors this root field can return, including global errors. */
+  readonly errors: ReadonlyArray<ErrorSpec>;
 };
 
 type PropExpr = {
@@ -265,11 +425,12 @@ type LiteralExpr = {
   readonly type: TypeRef;
 };
 
-export class QueryNode<out Value = unknown> {
+export class QueryNode<out Value = unknown, out Error = never> {
   readonly [QuerySymbol] = QuerySymbol;
   declare readonly valueType: Value;
+  declare readonly errorType: Error;
   constructor(readonly expr: Expr) {
-    return proxy(this) as QueryNode<Value>;
+    return proxy(this) as QueryNode<Value, Error>;
   }
   pipe<Self>(this: Self): Self;
   pipe<Self, Out1>(this: Self, step1: (_: Self) => Out1): Out1;
@@ -345,8 +506,8 @@ export const isQuery = (value: unknown): value is Query<unknown> =>
   value !== null &&
   QuerySymbol in value;
 
-const make = <Value>(expr: Expr): Query<Value> =>
-  new QueryNode<Value>(expr) as unknown as Query<Value>;
+const make = <Value, Error = never>(expr: Expr): Query<Value, Error> =>
+  new QueryNode<Value, Error>(expr) as unknown as Query<Value, Error>;
 
 const itemQuery = (list: QueryNode): QueryNode =>
   new QueryNode({
@@ -355,7 +516,7 @@ const itemQuery = (list: QueryNode): QueryNode =>
     type: unwrapList(list.expr.type),
   });
 
-function proxy(self: QueryNode): Query<unknown> {
+function proxy(self: QueryNode<unknown, unknown>): Query<unknown> {
   const callable = Object.assign(function (bag?: Record<string, unknown>) {
     return bag == null ? self : applyBag(self, bag);
   }, self);
@@ -387,10 +548,10 @@ function proxy(self: QueryNode): Query<unknown> {
   }) as unknown as Query<unknown>;
 }
 
-const applyBag = <Value>(
-  self: QueryNode<Value>,
+const applyBag = <Value, Error>(
+  self: QueryNode<Value, Error>,
   bag: Record<string, unknown>,
-): Query<Value> => {
+): Query<Value, Error> => {
   const argTypes =
     self.expr._tag === "Prop"
       ? self.expr.field.argTypes
@@ -402,27 +563,28 @@ const applyBag = <Value>(
     if (argTypes && argName in argTypes) args[argName] = argValue;
   }
   if (self.expr._tag === "Prop") {
-    return make<Value>({
+    return make<Value, Error>({
       ...self.expr,
       args: { ...self.expr.args, ...args },
     });
   }
   if (self.expr._tag === "Root") {
-    return make<Value>({
+    return make<Value, Error>({
       ...self.expr,
       args: { ...self.expr.args, ...args },
     });
   }
-  return self as unknown as Query<Value>;
+  return self as unknown as Query<Value, Error>;
 };
 
-export const root = <Value>(
+export const root = <Value, Error = never>(
   op: "query" | "mutation",
   field: string,
   meta: TypeMeta,
   args?: Record<string, unknown>,
   argTypes?: ArgMeta,
-): Query<Value> =>
+  errors: ReadonlyArray<ErrorSpec> = [],
+): Query<Value, Error> =>
   make({
     _tag: "Root",
     op,
@@ -430,15 +592,17 @@ export const root = <Value>(
     args,
     argTypes,
     type: objectRef(meta),
+    errors,
   });
 
-export const rootList = <Item>(
+export const rootList = <Item, Error = never>(
   op: "query" | "mutation",
   field: string,
   meta: TypeMeta,
   args?: Record<string, unknown>,
   argTypes?: ArgMeta,
-): Query<ReadonlyArray<Item>> =>
+  errors: ReadonlyArray<ErrorSpec> = [],
+): Query<ReadonlyArray<Item>, Error> =>
   make({
     _tag: "Root",
     op,
@@ -446,16 +610,18 @@ export const rootList = <Item>(
     args,
     argTypes,
     type: listRef(objectRef(meta)),
+    errors,
   });
 
 /** Root Relay connection: typed as `Query<Item[]>`, document uses `edges { node }`. */
-export const rootConnection = <Item>(
+export const rootConnection = <Item, Error = never>(
   op: "query" | "mutation",
   field: string,
   meta: TypeMeta,
   args?: Record<string, unknown>,
   argTypes?: ArgMeta,
-): Query<ReadonlyArray<Item>> =>
+  errors: ReadonlyArray<ErrorSpec> = [],
+): Query<ReadonlyArray<Item>, Error> =>
   make({
     _tag: "Root",
     op,
@@ -464,16 +630,18 @@ export const rootConnection = <Item>(
     argTypes,
     type: listRef(objectRef(meta)),
     connection: true,
+    errors,
   });
 
 /** Root field whose GraphQL type is a scalar, enum, or list of those. */
-export const rootLeaf = <Value>(
+export const rootLeaf = <Value, Error = never>(
   op: "query" | "mutation",
   field: string,
   list: boolean,
   args?: Record<string, unknown>,
   argTypes?: ArgMeta,
-): Query<Value> =>
+  errors: ReadonlyArray<ErrorSpec> = [],
+): Query<Value, Error> =>
   make({
     _tag: "Root",
     op,
@@ -481,6 +649,7 @@ export const rootLeaf = <Value>(
     args,
     argTypes,
     type: list ? listRef({ tag: "scalar" }) : { tag: "scalar" },
+    errors,
   });
 
 const printExpr = (expr: Expr): string => {
@@ -529,7 +698,14 @@ type Forest = {
   varI: number;
   aliasI: number;
   rootAlias: WeakMap<object, string>;
+  /** Response key of each root → the root field and its declared errors. */
+  rootErrors: Map<string, RootErrors>;
 };
+
+interface RootErrors {
+  readonly field: string;
+  readonly errors: ReadonlyArray<ErrorSpec>;
+}
 
 const bindArgs = (
   forest: Forest,
@@ -609,10 +785,15 @@ const paintAbs = (forest: Forest, expr: Expr): Path => {
       const node = ensureChild(forest, forest.roots, expr.field, {
         args: expr.args,
         argTypes: expr.argTypes,
+        // Leaf roots (`projectDelete: Boolean!`) take no sub-selection.
+        isScalar:
+          expr.type.tag === "scalar" ||
+          (expr.type.tag === "list" && expr.type.of.tag === "scalar"),
         isList: expr.type.tag === "list" && !expr.connection,
       });
       const key = node.alias ?? node.field;
       forest.rootAlias.set(expr, key);
+      forest.rootErrors.set(key, { field: expr.field, errors: expr.errors });
       return expr.connection ? [key, ...paintConnection(forest, node)] : [key];
     }
     case "Prop": {
@@ -833,6 +1014,7 @@ const emptyForest = (): Forest => ({
   varI: 0,
   aliasI: 0,
   rootAlias: new WeakMap(),
+  rootErrors: new Map(),
 });
 
 const emit = (forest: Forest): Compiled => {
@@ -852,11 +1034,13 @@ const emit = (forest: Forest): Compiled => {
     kind,
     tree: forest.roots,
     rootAlias: forest.rootAlias,
+    rootErrors: forest.rootErrors,
   };
 };
 
 type Compiled = CompiledOperation & {
   readonly rootAlias: WeakMap<object, string>;
+  readonly rootErrors: ReadonlyMap<string, RootErrors>;
 };
 
 const nodesFromConnection = (value: unknown): unknown => {
@@ -1029,7 +1213,7 @@ const interpretPlan = (
  */
 const evaluatePlan = <Plan>(
   plan: Plan,
-): Effect.Effect<UnwrapPlan<Plan>, unknown, GqlTransport> =>
+): Effect.Effect<UnwrapPlan<Plan>, QueryError<PlanError<Plan>>, GqlTransport> =>
   Effect.gen(function* () {
     const forest = emptyForest();
     visitPlan(plan, forest);
@@ -1038,13 +1222,158 @@ const evaluatePlan = <Plan>(
     if (forest.roots.children.size > 0) {
       const compiled = emit(forest);
       log("document\n" + compiled.document);
-      const transport = yield* GqlTransport;
-      const result = yield* transport.execute(compiled);
-      data = result.data;
+      data = yield* execute(compiled);
       rootAlias = compiled.rootAlias;
     }
     return (yield* interpretPlan(plan, data, rootAlias)) as UnwrapPlan<Plan>;
-  }) as Effect.Effect<UnwrapPlan<Plan>, unknown, GqlTransport>;
+  }) as Effect.Effect<
+    UnwrapPlan<Plan>,
+    QueryError<PlanError<Plan>>,
+    GqlTransport
+  >;
+
+/**
+ * POST one compiled document and fail with its classified errors. Queries
+ * are retried (bounded) while every failure is retryable; mutations never
+ * are, since an error can follow a side effect that already happened.
+ */
+const execute = (
+  compiled: Compiled,
+): Effect.Effect<unknown, ExecuteError, GqlTransport> => {
+  const once = Effect.gen(function* () {
+    const transport = yield* GqlTransport;
+    const response = yield* transport.execute(compiled);
+    const raw = response.errors ?? [];
+    if (raw.length === 0) return response.data;
+    const issues = raw.map((error) => classify(compiled, error, response));
+    const [first, ...rest] = issues as [GraphQLIssue, ...GraphQLIssue[]];
+    return yield* Effect.fail(
+      rest.every((issue) => issue._tag === first._tag)
+        ? first
+        : new GraphQLFailure({
+            errors: [first, ...rest],
+            data: response.data,
+            status: response.status,
+          }),
+    );
+  });
+  return compiled.kind === "query"
+    ? once.pipe(
+        Effect.retry({
+          while: (error) => isRetryable(compiled, error),
+          times: 5,
+          schedule: Schedule.exponential("200 millis"),
+        }),
+      )
+    : once;
+};
+
+type ExecuteError = GraphQLIssue | GraphQLFailure | GraphQLTransportError;
+
+const isRetryable = (compiled: Compiled, error: ExecuteError): boolean => {
+  if (error instanceof GraphQLTransportError) {
+    return (
+      error.status === undefined || error.status === 429 || error.status >= 500
+    );
+  }
+  const retryable = new Set(
+    [...compiled.rootErrors.values()].flatMap((root) =>
+      root.errors.filter((spec) => spec.retryable).map((spec) => spec.tag),
+    ),
+  );
+  return error instanceof GraphQLFailure
+    ? error.errors.every((issue) => retryable.has(issue._tag))
+    : retryable.has(error._tag);
+};
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
+/**
+ * Pick the most specific matcher among the errors the root at `path[0]`
+ * declares (or the global errors for a path-less error). A tie between
+ * different tags is ambiguous and stays {@link UnknownGraphQLError}.
+ */
+const classify = (
+  compiled: Compiled,
+  raw: RawGraphQLError,
+  response: GraphQLResponse,
+): GraphQLIssue => {
+  const path = Array.isArray(raw.path) ? raw.path : undefined;
+  const root =
+    typeof path?.[0] === "string"
+      ? compiled.rootErrors.get(path[0])
+      : undefined;
+  const candidates = root
+    ? root.errors
+    : uniqueByTag(
+        [...compiled.rootErrors.values()].flatMap((entry) =>
+          entry.errors.filter((spec) => spec.global),
+        ),
+      );
+  const extensions = isRecord(raw.extensions) ? raw.extensions : {};
+  const code =
+    typeof extensions.code === "string"
+      ? extensions.code
+      : typeof extensions.errorCode === "string"
+        ? extensions.errorCode
+        : undefined;
+  const message = typeof raw.message === "string" ? raw.message : "";
+  const retryHeader = response.headers?.["retry-after"];
+  const props: GraphQLIssueProps = {
+    message,
+    code,
+    path,
+    locations: raw.locations,
+    extensions: raw.extensions,
+    traceId:
+      typeof extensions.traceId === "string"
+        ? extensions.traceId
+        : typeof raw.traceId === "string"
+          ? raw.traceId
+          : undefined,
+    status: response.status,
+    retryAfter:
+      retryHeader && /^\d+(\.\d+)?$/.test(retryHeader)
+        ? Number(retryHeader)
+        : undefined,
+  };
+  const matches = candidates.flatMap((spec) =>
+    spec.matchers
+      .filter(
+        (matcher) =>
+          (matcher.code === undefined || matcher.code === code) &&
+          (matcher.message === undefined || matcher.message === message) &&
+          (matcher.messageIncludes === undefined ||
+            message.includes(matcher.messageIncludes)),
+      )
+      .map((matcher) => ({
+        spec,
+        score:
+          (matcher.code ? 1 : 0) +
+          (matcher.message ? 4 : 0) +
+          (matcher.messageIncludes ? 2 : 0),
+      })),
+  );
+  matches.sort((a, b) => b.score - a.score);
+  const best = matches[0];
+  if (
+    best &&
+    !matches.some(
+      (match) => match.score === best.score && match.spec.tag !== best.spec.tag,
+    )
+  ) {
+    return best.spec.make(props);
+  }
+  return new UnknownGraphQLError({
+    ...props,
+    coordinate: root?.field,
+  });
+};
+
+const uniqueByTag = (specs: ReadonlyArray<ErrorSpec>): ErrorSpec[] => [
+  ...new Map(specs.map((spec) => [spec.tag, spec])).values(),
+];
 
 /** `Query.of` / pure. */
 export const ofQuery = <Value>(value: Value): Query<Value> =>
@@ -1065,13 +1394,13 @@ const filterImpl = (
   });
 };
 
-export function filterQuery<Item>(
-  predicate: (item: Query<Item>) => Query<boolean>,
-): (source: QueryNode<readonly Item[]>) => Query<readonly Item[]>;
-export function filterQuery<Item>(
-  source: QueryNode<readonly Item[]>,
-  predicate: (item: Query<Item>) => Query<boolean>,
-): Query<readonly Item[]>;
+export function filterQuery<Item, Error = never>(
+  predicate: (item: Query<Item>) => QueryNode<boolean, any>,
+): (source: QueryNode<readonly Item[], Error>) => Query<readonly Item[], Error>;
+export function filterQuery<Item, Error = never>(
+  source: QueryNode<readonly Item[], Error>,
+  predicate: (item: Query<Item>) => QueryNode<boolean, any>,
+): Query<readonly Item[], Error>;
 export function filterQuery(sourceOrPredicate: any, predicate?: any): any {
   if (predicate === undefined) {
     return (source: QueryNode) => filterImpl(source, sourceOrPredicate);
@@ -1103,20 +1432,22 @@ const mapImpl = (
   });
 };
 
-export function mapQuery<Item, Mapped>(
+export function mapQuery<Item, Mapped, Error = never>(
   mapFn: (item: Query<Item>) => Mapped,
-): (source: QueryNode<readonly Item[]>) => Query<readonly UnwrapPlan<Mapped>[]>;
-export function mapQuery<Value, Mapped>(
+): (
+  source: QueryNode<readonly Item[], Error>,
+) => Query<readonly UnwrapPlan<Mapped>[], Error>;
+export function mapQuery<Value, Mapped, Error = never>(
   mapFn: (value: Value) => Mapped,
-): (source: QueryNode<Value>) => Query<Mapped>;
-export function mapQuery<Item, Mapped>(
-  source: QueryNode<readonly Item[]>,
+): (source: QueryNode<Value, Error>) => Query<Mapped, Error>;
+export function mapQuery<Item, Mapped, Error = never>(
+  source: QueryNode<readonly Item[], Error>,
   mapFn: (item: Query<Item>) => Mapped,
-): Query<readonly UnwrapPlan<Mapped>[]>;
-export function mapQuery<Value, Mapped>(
-  source: QueryNode<Value>,
+): Query<readonly UnwrapPlan<Mapped>[], Error>;
+export function mapQuery<Value, Mapped, Error = never>(
+  source: QueryNode<Value, Error>,
   mapFn: (value: Value) => Mapped,
-): Query<Mapped>;
+): Query<Mapped, Error>;
 export function mapQuery(sourceOrMapFn: any, mapFn?: any): any {
   if (mapFn === undefined) {
     return (source: QueryNode) => mapImpl(source, sourceOrMapFn);
@@ -1137,17 +1468,31 @@ const flatMapImpl = (
   });
 };
 
-export function flatMapQuery<Value, Result, Error, Requirements>(
+export function flatMapQuery<
+  Value,
+  Result,
+  Error,
+  Requirements,
+  SourceError = never,
+>(
   flatMapFn: (
     value: Value,
-  ) => Effect.Effect<Result, Error, Requirements> | Query<Result>,
-): (source: QueryNode<Value>) => Query<Result>;
-export function flatMapQuery<Value, Result, Error, Requirements>(
-  source: QueryNode<Value>,
+  ) => Effect.Effect<Result, Error, Requirements> | QueryNode<Result, Error>,
+): (
+  source: QueryNode<Value, SourceError>,
+) => Query<Result, SourceError | Error>;
+export function flatMapQuery<
+  Value,
+  Result,
+  Error,
+  Requirements,
+  SourceError = never,
+>(
+  source: QueryNode<Value, SourceError>,
   flatMapFn: (
     value: Value,
-  ) => Effect.Effect<Result, Error, Requirements> | Query<Result>,
-): Query<Result>;
+  ) => Effect.Effect<Result, Error, Requirements> | QueryNode<Result, Error>,
+): Query<Result, SourceError | Error>;
 export function flatMapQuery(sourceOrFlatMapFn: any, flatMapFn?: any): any {
   if (flatMapFn === undefined) {
     return (source: QueryNode) => flatMapImpl(source, sourceOrFlatMapFn);
@@ -1165,7 +1510,11 @@ export const queryFn =
     build: (...args: Arguments) => Plan,
   ): ((
     ...args: Arguments
-  ) => Effect.Effect<UnwrapPlan<Plan>, unknown, GqlTransport>) =>
+  ) => Effect.Effect<
+    UnwrapPlan<Plan>,
+    QueryError<PlanError<Plan>>,
+    GqlTransport
+  >) =>
   (...args) => {
     const plan = build(...args);
     return evaluatePlan(plan);

@@ -1,5 +1,10 @@
 /** Compile-only: Query.fn unwraps Query/Effect fields on the returned plan. */
-import type { Query, UnwrapPlan } from "./query.ts";
+import type { PlanError, Query, QueryError, UnwrapPlan } from "./query.ts";
+import type {
+  GraphQLFailure,
+  GraphQLTransportError,
+  UnknownGraphQLError,
+} from "./graphql.ts";
 import type * as Effect from "effect/Effect";
 
 type Plan = {
@@ -21,3 +26,45 @@ type _Projects = Assert<
   Equal<Unwrapped["projects"], ReadonlyArray<{ name: string; stars: number }>>
 >;
 type _Flag = Assert<Equal<Unwrapped["flag"], boolean>>;
+
+// ── Errors ──────────────────────────────────────────────────────────────────
+declare class NotFound {
+  readonly _tag: "NotFound";
+  readonly message: string;
+}
+declare class RateLimited {
+  readonly _tag: "RateLimited";
+  readonly message: string;
+}
+declare const project: Query<
+  { name: string; services: ReadonlyArray<{ name: string }> },
+  NotFound | RateLimited
+>;
+declare const me: Query<{ email: string }, RateLimited>;
+declare const lookup: Effect.Effect<number, "lookup-failed">;
+
+type ErrorPlan = {
+  readonly name: typeof project.name;
+  readonly services: Query<ReadonlyArray<string>, NotFound>;
+  readonly email: typeof me.email;
+  readonly lookup: typeof lookup;
+};
+
+type _FieldsKeepRootErrors = Assert<
+  Equal<(typeof project.name)["errorType"], NotFound | RateLimited>
+>;
+type _PlanError = Assert<
+  Equal<PlanError<ErrorPlan>, NotFound | RateLimited | "lookup-failed">
+>;
+type _NoErrors = Assert<Equal<PlanError<{ literal: 1 }>, never>>;
+type _QueryError = Assert<
+  Equal<
+    Exclude<
+      QueryError<NotFound>,
+      | GraphQLFailure<NotFound | UnknownGraphQLError>
+      | UnknownGraphQLError
+      | GraphQLTransportError
+    >,
+    NotFound
+  >
+>;

@@ -114,15 +114,75 @@ describe("GraphQL Query SDK generator", () => {
       'export const Project: TypeMeta = { name: "Project", fields: {} };',
     );
     expect(output).toContain("export const Railway = {");
-    expect(output).toContain('root("query", "me", User)');
+    expect(output).toContain(
+      'root("query", "me", User, undefined, undefined, globalErrors)',
+    );
     expect(output).toContain('root("query", "project", Project');
     expect(output).toContain('rootConnection("query", "projects", Project');
-    expect(output).toContain("Query<ReadonlyArray<Project>>");
+    expect(output).toContain(
+      "Query<ReadonlyArray<Project>, RailwayGlobalError>",
+    );
     expect(output).toContain(
       'connectionField("projects", Project, { first: "Int" })',
     );
     expect(output).toContain('root("mutation", "projectCreate", Project');
     expect(output).toContain('from "@distilled.cloud/core/graphql"');
+    expect(() =>
+      new Bun.Transpiler({ loader: "ts" }).transformSync(output),
+    ).not.toThrow();
+  });
+
+  test("emits error classes and scopes them to roots", () => {
+    const model = convertGraphQLClient(fixture);
+    for (const operation of [
+      {
+        op: "add" as const,
+        path: "/errors/RailwayNotFound",
+        value: {
+          description: "Missing.",
+          category: "notFound",
+          matchers: [{ code: "NOT_FOUND" }],
+        },
+      },
+      {
+        op: "add" as const,
+        path: "/errors/RailwayRateLimited",
+        value: {
+          category: "throttling",
+          retryable: true,
+          matchers: [{ code: "RATE_LIMITED" }],
+        },
+      },
+      {
+        op: "add" as const,
+        path: "/globalErrors/-",
+        value: "RailwayRateLimited",
+      },
+      {
+        op: "add" as const,
+        path: "/types/Query/fields/project/errors/-",
+        value: "RailwayNotFound",
+      },
+    ])
+      applyOperation(model, operation);
+    const output = generateGraphQLClient(model, options);
+    expect(output).toContain(
+      'export class RailwayNotFound extends S.TaggedError<RailwayNotFound>()("RailwayNotFound", errorFields).pipe(Category.withNotFoundError) {}',
+    );
+    expect(output).toContain(
+      "Category.withThrottlingError, Category.withRetryable({ throttling: true })",
+    );
+    expect(output).toContain(
+      'errorSpec(RailwayRateLimited, "RailwayRateLimited", [{"code":"RATE_LIMITED"}], { retryable: true, global: true })',
+    );
+    expect(output).toContain(
+      "export type RailwayGlobalError = RailwayRateLimited;",
+    );
+    expect(output).toContain(
+      "Query<Project, RailwayNotFound | RailwayGlobalError>",
+    );
+    expect(output).toContain("[RailwayNotFoundSpec, ...globalErrors]");
+    expect(output).toContain("Query<User, RailwayGlobalError>");
     expect(() =>
       new Bun.Transpiler({ loader: "ts" }).transformSync(output),
     ).not.toThrow();

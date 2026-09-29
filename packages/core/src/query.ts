@@ -23,8 +23,8 @@ import {
   type Query as QueryType,
 } from "./graphql.ts";
 
-export type Query<Value> = QueryType<Value>;
-export type { UnwrapPlan } from "./graphql.ts";
+export type Query<Value, Error = never> = QueryType<Value, Error>;
+export type { PlanError, QueryError, UnwrapPlan } from "./graphql.ts";
 
 export const Query = {
   fn: queryFn,
