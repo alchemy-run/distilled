@@ -1,0 +1,9 @@
+{
+  "description": "Query.relay returns the Query root itself (Relay's refetch-the-root hook). The generator emits no type metadata for root operation types, so a field returning one would reference a value that does not exist. Every field it exposes is already a generated root, so removing it loses nothing.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/types/Query/fields/relay"
+    }
+  ]
+}

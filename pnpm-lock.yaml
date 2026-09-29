@@ -747,6 +747,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 26.2.0
+      graphql:
+        specifier: 16.11.0
+        version: 16.11.0
 
   packages/google-workspace:
     dependencies:

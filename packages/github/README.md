@@ -93,3 +93,51 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 ## Auth
 
 Required: `GH_TOKEN`, `GITHUB_TOKEN`. Optional: `GITHUB_API_URL`, `GITHUB_USER_AGENT`. Sent as `Authorization: Bearer`.
+
+## GraphQL
+
+`@distilled.cloud/github/GraphQL` exposes GitHub's GraphQL API as lazy Query
+lenses, for what the REST description does not cover — enterprise policy
+settings, an enterprise's SAML identity provider, and every other
+GraphQL-only field or mutation. It authenticates with the same `Credentials`
+as the REST services. Combinators live in `@distilled.cloud/core/query`.
+
+```ts
+import { Effect, Layer } from "effect";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
+import { Query } from "@distilled.cloud/core/query";
+import { CredentialsFromEnv } from "@distilled.cloud/github";
+import { GitHubGraphQL, GraphQLLive } from "@distilled.cloud/github/GraphQL";
+
+const policies = Query.fn((slug: string) => {
+  const enterprise = GitHubGraphQL.enterprise({ slug });
+  return {
+    id: enterprise.id,
+    membersCanCreateRepositories:
+      enterprise.ownerInfo.membersCanCreateRepositoriesSetting,
+  };
+});
+
+policies("acme").pipe(
+  Effect.provide(
+    Layer.mergeAll(GraphQLLive, CredentialsFromEnv, FetchHttpClient.layer),
+  ),
+  Effect.runPromise,
+);
+```
+
+Mutations run in their own `Query.fn`. Every root carries the graph-wide
+errors declared in [`patches/graphql/`](patches/graphql/00-errors.json):
+`GitHubNotFound`, `GitHubForbidden`, `GitHubInsufficientScopes`,
+`GitHubRateLimited` (retried) and `GitHubValidationError`.
+
+The schema is `specs/schema.docs.graphql` in the mirror — the SDL GitHub
+publishes for its docs, which needs no token to fetch. Regenerate with:
+
+```bash
+bun scripts/convert-graphql.ts
+bun scripts/generate-graphql.ts
+pnpm exec oxfmt src/graphql.ts
+```
+
+Never edit `src/graphql.ts` by hand; patch the model in `patches/graphql/`.
