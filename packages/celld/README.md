@@ -6,7 +6,7 @@ Effect SDK generated from a source-derived Smithy description of Celld v0.6.0.
 import { getNodeState } from "@distilled.cloud/celld/node";
 import * as Endpoint from "@distilled.cloud/celld/Endpoint";
 import * as Effect from "effect/Effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 
 const state = await Effect.runPromise(
   getNodeState({}).pipe(

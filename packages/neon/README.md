@@ -7,7 +7,7 @@ import * as Neon from "@distilled.cloud/neon";
 import { CredentialsFromEnv } from "@distilled.cloud/neon/Credentials";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 
 const projects = Neon.listProjects({ limit: 20 }).pipe(
   Effect.provide(Layer.mergeAll(CredentialsFromEnv, FetchHttpClient.layer)),

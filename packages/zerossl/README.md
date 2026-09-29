@@ -7,7 +7,7 @@ save this as `example.ts`, and run `bun example.ts`:
 ```ts
 import * as ZeroSsl from "@distilled.cloud/zerossl";
 import * as Effect from "effect/Effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 
 const eab = await Effect.runPromise(
   ZeroSsl.zerossl.generateEabCredentials({}).pipe(

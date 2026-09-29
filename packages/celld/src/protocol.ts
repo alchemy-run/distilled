@@ -3,8 +3,8 @@ import type { API_ERRORS } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 import type * as Layer from "effect/Layer";
 import * as Predicate from "effect/Predicate";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import { Endpoint, endpoint } from "./endpoint.ts";
 import { CelldParseError, UnknownCelldError } from "./errors.ts";
 

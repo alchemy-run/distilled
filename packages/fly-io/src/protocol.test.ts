@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
+import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import { credentials } from "./credentials.ts";
 import { BadRequest, FlyIoParseError, UnknownFlyIoError } from "./errors.ts";

@@ -12,7 +12,7 @@ npm install @distilled.cloud/launchdarkly effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as LaunchDarkly from "@distilled.cloud/launchdarkly";
 
 const program = Effect.gen(function* () {

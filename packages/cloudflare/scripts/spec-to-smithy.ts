@@ -43,8 +43,8 @@ import { BunRuntime, BunServices } from "@effect/platform-bun";
 import { Console, Effect } from "effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
-import { Flag } from "effect/unstable/cli";
-import { Command } from "effect/unstable/cli";
+import { Flag } from "effect/cli";
+import { Command } from "effect/cli";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { dedupeScopeTwins } from "./dedupe-scope-twins.ts";
 

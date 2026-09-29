@@ -1,5 +1,5 @@
 import * as S from "effect/Schema";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import * as Category from "./category.ts";
 import type * as Credentials from "./credentials-service.ts";
 import type * as SigV4 from "./sigv4.ts";

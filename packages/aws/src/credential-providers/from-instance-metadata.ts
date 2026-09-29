@@ -4,7 +4,7 @@
 import type { AwsCredentialIdentity } from "@smithy/types";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
-import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import { createLazyProvider } from "../credentials-service.ts";
 import {
   type CredentialSource,

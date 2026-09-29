@@ -4,7 +4,7 @@
  */
 import type { AwsCredentialIdentity } from "@smithy/types";
 import * as Effect from "effect/Effect";
-import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import {
   type CredentialSource,
   CredentialSourceError,

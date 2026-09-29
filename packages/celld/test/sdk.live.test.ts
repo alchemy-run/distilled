@@ -4,7 +4,7 @@ import { buildRequest } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
 import * as Result from "effect/Result";
 import type * as Schema from "effect/Schema";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Endpoint from "../src/endpoint.ts";
 import * as Node from "../src/services/node.ts";
 import * as Runtime from "../src/services/runtime.ts";

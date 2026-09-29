@@ -12,7 +12,7 @@
  * them. Anything tied to Cloudflare's response envelope lives here.
  */
 import { makeAnnotation } from "@distilled.cloud/core/trait";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Stream from "effect/Stream";
 
 export {

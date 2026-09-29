@@ -27,10 +27,10 @@
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as AST from "effect/SchemaAST";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
+import type * as HttpClientRequest from "effect/http/HttpClientRequest";
+import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
 import {

@@ -2475,7 +2475,7 @@ export const awsSpec = (
       // Sensitive schemas import directly from sensitive.ts to avoid the
       // traits.ts↔protocol circular dependency.
       const imports = [
-        'import * as HttpClient from "effect/unstable/http/HttpClient";',
+        'import * as HttpClient from "effect/http/HttpClient";',
         "__EFFECT_IMPORT__",
         "__REDACTED_IMPORT__",
         'import * as S from "@distilled.cloud/core/schema";',

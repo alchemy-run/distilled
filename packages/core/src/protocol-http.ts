@@ -9,8 +9,8 @@
  * {@link matchTypedError}).
  */
 import type * as AST from "effect/SchemaAST";
-import * as HttpBody from "effect/unstable/http/HttpBody";
-import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
+import * as HttpBody from "effect/http/HttpBody";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import {
   bodySymbol,
   deepQuerySymbol,

@@ -5,7 +5,7 @@ lenses. Combinators live in `@distilled.cloud/core/query`.
 
 ```ts
 import * as Effect from "effect/Effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import { Query } from "@distilled.cloud/core/query";
 import {
   CredentialsFromEnv,

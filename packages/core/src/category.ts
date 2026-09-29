@@ -20,7 +20,7 @@
  */
 import * as Effect from "effect/Effect";
 import * as Predicate from "effect/Predicate";
-import * as HttpClientError from "effect/unstable/http/HttpClientError";
+import * as HttpClientError from "effect/http/HttpClientError";
 
 // ============================================================================
 // Error Category Constants
