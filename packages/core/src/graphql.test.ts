@@ -5,6 +5,7 @@ import {
   GqlTransport,
   connectionField,
   listField,
+  objectField,
   root,
   rootConnection,
   scalarField,
@@ -148,5 +149,52 @@ describe("Query.fn", () => {
     })();
     const result = await Effect.runPromise(program.pipe(Effect.provide(layer)));
     expect(result).toEqual({ name: "engine", services: ["web", "db"] });
+  });
+  test("Query.map on an object selects its fields and keeps null", async () => {
+    const Deployment: TypeMeta = { name: "Deployment", fields: {} };
+    Object.assign(Deployment.fields, {
+      id: scalarField("id"),
+      status: scalarField("status"),
+    });
+    const Service: TypeMeta = { name: "Service", fields: {} };
+    Object.assign(Service.fields, {
+      name: scalarField("name"),
+      latestDeployment: objectField("latestDeployment", Deployment),
+    });
+    const documents: string[] = [];
+    const respond = (latestDeployment: unknown) =>
+      Layer.succeed(GqlTransport, {
+        execute: (request) =>
+          Effect.sync(() => {
+            documents.push(request.document);
+            return {
+              data: { service: { name: "web", latestDeployment } },
+            };
+          }),
+      });
+    const program = Query.fn(() => {
+      const service = root<{
+        name: string;
+        latestDeployment: { id: string; status: string } | null;
+      }>("query", "service", Service);
+      return {
+        name: service.name,
+        deployment: service.latestDeployment.pipe(
+          Query.map((deployment) => ({
+            id: deployment.id,
+            status: deployment.status,
+          })),
+        ),
+      };
+    })();
+    expect(
+      await Effect.runPromise(
+        program.pipe(Effect.provide(respond({ id: "d1", status: "SUCCESS" }))),
+      ),
+    ).toEqual({ name: "web", deployment: { id: "d1", status: "SUCCESS" } });
+    expect(documents[0]).toMatch(/latestDeployment \{\s+id\s+status/);
+    expect(
+      await Effect.runPromise(program.pipe(Effect.provide(respond(null)))),
+    ).toEqual({ name: "web", deployment: null });
   });
 });

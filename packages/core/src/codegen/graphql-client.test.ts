@@ -130,6 +130,7 @@ describe("GraphQL Query SDK generator", () => {
     expect(output).toContain("readonly name: string | null;");
     expect(output).toContain("readonly email: string;");
     expect(output).toContain("Query<Project | null, RailwayGlobalError>");
+    expect(output).toContain("args?: { readonly first?: number | null }");
     expect(output).toContain('from "@distilled.cloud/core/graphql"');
     expect(() =>
       new Bun.Transpiler({ loader: "ts" }).transformSync(output),

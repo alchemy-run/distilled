@@ -427,6 +427,8 @@ type MapItemsExpr = {
   readonly _tag: "MapItems";
   readonly parent: Expr;
   readonly mapped: unknown;
+  /** Map one object (`null` stays `null`) instead of every list item. */
+  readonly single?: boolean;
   readonly type: TypeRef;
 };
 
@@ -1171,6 +1173,11 @@ const interpretExpr = (
     }
     case "MapItems": {
       const list = interpretExpr(expr.parent, data, rootAlias, item);
+      if (expr.single) {
+        return list == null
+          ? null
+          : interpretValueSync(expr.mapped, data, rootAlias, list);
+      }
       const arr = Array.isArray(list) ? list : [];
       return arr.map((row) =>
         interpretValueSync(expr.mapped, data, rootAlias, row),
@@ -1435,10 +1442,46 @@ export function filterQuery(sourceOrPredicate: any, predicate?: any): any {
   return filterImpl(sourceOrPredicate, predicate);
 }
 
+/**
+ * What `Query.map`'s callback receives: a Query per item for lists, a Query
+ * for an object (so its fields get selected), the plain value for scalars.
+ */
+type MapInput<Value> = [NonNullable<Value>] extends [ReadonlyArray<infer Item>]
+  ? Query<Item>
+  : [NonNullable<Value>] extends [object]
+    ? Query<NonNullable<Value>>
+    : Value;
+
+/** An object mapped through a `null` value stays `null`. */
+type MapOutput<Value, Mapped> = [NonNullable<Value>] extends [
+  ReadonlyArray<unknown>,
+]
+  ? ReadonlyArray<UnwrapPlan<Mapped>>
+  : [NonNullable<Value>] extends [object]
+    ? UnwrapPlan<Mapped> | Nullish<Value>
+    : Mapped;
+
 const mapImpl = (
   source: QueryNode,
   mapFn: (value: any) => unknown,
 ): Query<unknown> => {
+  if (source.expr.type.tag === "object") {
+    const mapped = mapFn(
+      new QueryNode({
+        _tag: "Item",
+        list: source.expr,
+        type: source.expr.type,
+      }),
+    );
+    log("map object", printExpr(source.expr));
+    return make({
+      _tag: "MapItems",
+      parent: source.expr,
+      mapped,
+      single: true,
+      type: { tag: "scalar" },
+    });
+  }
   if (source.expr.type.tag === "list") {
     const proto = itemQuery(source);
     const mapped = mapFn(proto);
@@ -1459,22 +1502,13 @@ const mapImpl = (
   });
 };
 
-export function mapQuery<Item, Mapped, Error = never>(
-  mapFn: (item: Query<Item>) => Mapped,
-): (
-  source: QueryNode<readonly Item[] | null, Error>,
-) => Query<readonly UnwrapPlan<Mapped>[], Error>;
 export function mapQuery<Value, Mapped, Error = never>(
-  mapFn: (value: Value) => Mapped,
-): (source: QueryNode<Value, Error>) => Query<Mapped, Error>;
-export function mapQuery<Item, Mapped, Error = never>(
-  source: QueryNode<readonly Item[] | null, Error>,
-  mapFn: (item: Query<Item>) => Mapped,
-): Query<readonly UnwrapPlan<Mapped>[], Error>;
+  mapFn: (value: NoInfer<MapInput<Value>>) => Mapped,
+): (source: QueryNode<Value, Error>) => Query<MapOutput<Value, Mapped>, Error>;
 export function mapQuery<Value, Mapped, Error = never>(
   source: QueryNode<Value, Error>,
-  mapFn: (value: Value) => Mapped,
-): Query<Mapped, Error>;
+  mapFn: (value: NoInfer<MapInput<Value>>) => Mapped,
+): Query<MapOutput<Value, Mapped>, Error>;
 export function mapQuery(sourceOrMapFn: any, mapFn?: any): any {
   if (mapFn === undefined) {
     return (source: QueryNode) => mapImpl(source, sourceOrMapFn);

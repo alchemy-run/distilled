@@ -1,5 +1,6 @@
 /** Compile-only: Query.fn unwraps Query/Effect fields on the returned plan. */
 import type { PlanError, Query, QueryError, UnwrapPlan } from "./query.ts";
+import { mapQuery } from "./graphql.ts";
 import type {
   itemsQuery,
   GraphQLFailure,
@@ -93,3 +94,21 @@ declare const nullable: Query<{
 type _NullParent = Assert<
   Equal<UnwrapPlan<typeof nullable.owner.name>, string | null>
 >;
+
+// ── Query.map on objects ────────────────────────────────────────────────────
+declare const service: Query<{
+  name: string;
+  stars: number;
+  latestDeployment: { id: string; status: string } | null;
+  tags: ReadonlyArray<{ label: string }>;
+}>;
+const deployment = service.latestDeployment.pipe(
+  mapQuery((d) => ({ id: d.id, status: d.status })),
+);
+type _ObjectMap = Assert<
+  Equal<UnwrapPlan<typeof deployment>, { id: string; status: string } | null>
+>;
+const popular = service.stars.pipe(mapQuery((stars) => stars > 5));
+type _ScalarMap = Assert<Equal<UnwrapPlan<typeof popular>, boolean>>;
+const labels = service.tags.pipe(mapQuery((tag) => tag.label));
+type _ListMap = Assert<Equal<UnwrapPlan<typeof labels>, ReadonlyArray<string>>>;

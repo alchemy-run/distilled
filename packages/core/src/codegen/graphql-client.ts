@@ -276,10 +276,15 @@ export const generateGraphQLClient = (
     }
     return nodeName;
   };
+  /** Input type: nullable GraphQL inputs (no `!`) accept `null`. */
   const tsArg = (ref: string): string => {
-    const { name, list } = peelRef(ref);
-    const inner = tsNamed(name);
-    return list ? `ReadonlyArray<${inner}>` : inner;
+    const nonNull = ref.endsWith("!");
+    const inner = nonNull ? ref.slice(0, -1) : ref;
+    const ts =
+      inner.startsWith("[") && inner.endsWith("]")
+        ? `ReadonlyArray<${tsArg(inner.slice(1, -1))}>`
+        : tsNamed(inner);
+    return nonNull ? ts : `${ts} | null`;
   };
   /** Response type: nullable GraphQL types (no `!`) include `null`. */
   const tsOutput = (ref: string): string => {
