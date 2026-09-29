@@ -31,6 +31,8 @@
  * - `Query.filter` — predicate is `Query<Item> => Query<boolean>`; the
  *   boolean Query is walked for fields, then run per row after the POST.
  * - `Query.flatMap` — after extract, run `(value) => Effect | Query`.
+ * - `Query.pages` / `Query.items` — a Stream over every page / node of a
+ *   Relay connection, one POST per page (see "Pagination").
  *
  * ── Types ──────────────────────────────────────────────────────────────────
  * `Query<Value>` is `QueryNode<Value>` plus the GraphQL fields of `Value`,
@@ -51,8 +53,10 @@
 import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
+import * as Option from "effect/Option";
 import * as Schedule from "effect/Schedule";
 import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 
 export const QuerySymbol = Symbol.for("@distilled.cloud/graphql/Query");
 const inspect = Symbol.for("nodejs.util.inspect.custom");
@@ -141,6 +145,14 @@ export class GraphQLTransportError extends Data.TaggedError(
   /** Server retry hint in seconds. */
   readonly retryAfter?: number;
   readonly cause?: unknown;
+}> {}
+
+/** A paginated connection reported more pages without a new cursor. */
+export class GraphQLPaginationError extends Data.TaggedError(
+  "GraphQLPaginationError",
+)<{
+  readonly message: string;
+  readonly cursor: string | null;
 }> {}
 
 /** Recognizes a raw GraphQL error. Every present property must match. */
@@ -1519,3 +1531,167 @@ export const queryFn =
     const plan = build(...args);
     return evaluatePlan(plan);
   };
+
+// ── Pagination ──────────────────────────────────────────────────────────────
+//
+// A connection lens hides `edges`/`pageInfo`. `Query.pages` re-evaluates the
+// query once per page: it sets the connection's `after` argument, paints
+// `pageInfo { hasNextPage endCursor }` next to `edges`, and stops when
+// `hasNextPage` is false.
+
+/** The connection a paged query reads, below any list-level Map/Filter. */
+const connectionOf = (expr: Expr): RootExpr | PropExpr => {
+  const base = graphqlBase(expr);
+  const isConnection =
+    (base._tag === "Root" && base.connection === true) ||
+    (base._tag === "Prop" && base.field.kind === "connection");
+  if (!isConnection || inItem(base)) {
+    throw new GqlError(
+      `Query.pages needs a Relay connection, got ${printExpr(base)}`,
+    );
+  }
+  const argTypes = base._tag === "Root" ? base.argTypes : base.field.argTypes;
+  if (!argTypes || !("after" in argTypes)) {
+    throw new GqlError(`${printExpr(base)} takes no "after" cursor`);
+  }
+  return base as RootExpr | PropExpr;
+};
+
+/** Rebuild `expr` with the connection's `after` argument set. */
+const withCursor = (
+  expr: Expr,
+  connection: Expr,
+  after: string | undefined,
+): Expr => {
+  if (expr === connection) {
+    const current = expr as RootExpr | PropExpr;
+    return { ...current, args: { ...current.args, after } } as Expr;
+  }
+  switch (expr._tag) {
+    case "MapItems":
+    case "Filter":
+    case "MapValue":
+    case "FlatMap":
+      return { ...expr, parent: withCursor(expr.parent, connection, after) };
+    default:
+      throw new GqlError(`withCursor: ${expr._tag}`);
+  }
+};
+
+const readPath = (data: unknown, path: Path): unknown => {
+  let current = data;
+  for (const segment of path) {
+    if (current == null) return undefined;
+    if (Array.isArray(current)) {
+      throw new GqlError("Query.pages cannot page a connection inside a list");
+    }
+    current = (current as Record<string, unknown>)[segment];
+  }
+  return current;
+};
+
+interface PageState {
+  readonly after: string | undefined;
+  readonly seen: ReadonlySet<string>;
+}
+
+const fetchPage = <Item>(
+  query: QueryNode<ReadonlyArray<Item>, unknown>,
+  connection: RootExpr | PropExpr,
+  state: PageState,
+) =>
+  Effect.gen(function* () {
+    const pageExpr = withCursor(query.expr, connection, state.after);
+    const forest = emptyForest();
+    visitExpr(forest, pageExpr);
+    const nodePath = paintAbs(
+      forest,
+      withCursor(connection, connection, state.after),
+    );
+    const connectionPath = nodePath.slice(0, -2);
+    const pageInfo = ensureChild(
+      forest,
+      selAt(forest.roots, connectionPath),
+      "pageInfo",
+      {},
+    );
+    ensureChild(forest, pageInfo, "hasNextPage", { isScalar: true });
+    ensureChild(forest, pageInfo, "endCursor", { isScalar: true });
+    const compiled = emit(forest);
+    log("page\n" + compiled.document);
+    const data = yield* execute(compiled);
+    const items = (yield* interpretPlan(
+      make(pageExpr),
+      data,
+      compiled.rootAlias,
+    )) as ReadonlyArray<Item> | null | undefined;
+    const info = readPath(data, [...connectionPath, "pageInfo"]) as
+      | { hasNextPage?: boolean; endCursor?: string | null }
+      | null
+      | undefined;
+    const cursor = info?.endCursor ?? null;
+    if (info?.hasNextPage !== true) {
+      return [items ?? [], Option.none<PageState>()] as const;
+    }
+    if (cursor === null || cursor === state.after || state.seen.has(cursor)) {
+      return yield* new GraphQLPaginationError({
+        message: `${printExpr(connection)} returned a non-advancing cursor`,
+        cursor,
+      });
+    }
+    return [
+      items ?? [],
+      Option.some({ after: cursor, seen: new Set([...state.seen, cursor]) }),
+    ] as const;
+  });
+
+/**
+ * Every page of a Relay connection, one request per page. `query` is a
+ * connection lens (root or nested under objects), optionally mapped or
+ * filtered: `Query.pages(Railway.project({ id }).services({ first: 50 }))`.
+ * Starts from the query's own `after` argument, if any.
+ */
+export const pagesQuery = <Item, Error>(
+  query: QueryNode<ReadonlyArray<Item>, Error>,
+): Stream.Stream<
+  ReadonlyArray<Item>,
+  QueryError<Error> | GraphQLPaginationError,
+  GqlTransport
+> =>
+  Stream.unwrap(
+    Effect.sync(() => {
+      const connection = connectionOf(query.expr);
+      const after = connection.args?.after;
+      return Stream.paginate<
+        PageState,
+        ReadonlyArray<Item>,
+        QueryError<Error> | GraphQLPaginationError,
+        GqlTransport
+      >(
+        {
+          after: typeof after === "string" ? after : undefined,
+          seen: new Set(),
+        },
+        (state) =>
+          fetchPage(query, connection, state).pipe(
+            Effect.map(([items, next]) => [[items], next] as const),
+          ) as Effect.Effect<
+            readonly [
+              ReadonlyArray<ReadonlyArray<Item>>,
+              Option.Option<PageState>,
+            ],
+            QueryError<Error> | GraphQLPaginationError,
+            GqlTransport
+          >,
+      );
+    }),
+  );
+
+/** Every node of a Relay connection, across all pages. */
+export const itemsQuery = <Item, Error>(
+  query: QueryNode<ReadonlyArray<Item>, Error>,
+): Stream.Stream<
+  Item,
+  QueryError<Error> | GraphQLPaginationError,
+  GqlTransport
+> => pagesQuery(query).pipe(Stream.flatMap(Stream.fromIterable));

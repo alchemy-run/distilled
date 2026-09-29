@@ -78,6 +78,34 @@ const created = Query.fn(() => {
 });
 ```
 
+## Pagination
+
+Connections read as lists of nodes. `Query.items` and `Query.pages` turn
+one into a `Stream` that follows `pageInfo.endCursor` until
+`hasNextPage` is false, one request per page:
+
+```ts
+import * as Stream from "effect/Stream";
+
+const services = Query.items(
+  Railway.project({ id: "your-project-id" })
+    .services({ first: 50 })
+    .pipe(Query.map((service) => ({ id: service.id, name: service.name }))),
+);
+
+const all = await Effect.runPromise(
+  Stream.runCollect(services).pipe(
+    Effect.provide(GraphQLLive),
+    Effect.provide(CredentialsFromEnv),
+    Effect.provide(FetchHttpClient.layer),
+  ),
+);
+```
+
+The connection may be a root (`Railway.projects`) or nested under objects
+(`project.services`). A page that reports more results without a new cursor
+fails with `GraphQLPaginationError`.
+
 ## Errors
 
 Every root declares the typed errors it can return, so `Query.fn`'s error

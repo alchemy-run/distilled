@@ -1,11 +1,13 @@
 /** Compile-only: Query.fn unwraps Query/Effect fields on the returned plan. */
 import type { PlanError, Query, QueryError, UnwrapPlan } from "./query.ts";
 import type {
+  itemsQuery,
   GraphQLFailure,
   GraphQLTransportError,
   UnknownGraphQLError,
 } from "./graphql.ts";
 import type * as Effect from "effect/Effect";
+import type * as Stream from "effect/Stream";
 
 type Plan = {
   readonly email: Query<string>;
@@ -68,3 +70,18 @@ type _QueryError = Assert<
     NotFound
   >
 >;
+
+// ── Pagination ──────────────────────────────────────────────────────────────
+declare const services: Query<ReadonlyArray<{ name: string }>, NotFound>;
+type PagedItems = ReturnType<typeof itemsQuery<{ name: string }, NotFound>>;
+type _ItemsValue = Assert<Equal<Stream.Success<PagedItems>, { name: string }>>;
+type _ItemsError = Assert<
+  Equal<
+    Extract<
+      Stream.Error<PagedItems>,
+      { _tag: "NotFound" | "GraphQLPaginationError" }
+    >["_tag"],
+    "NotFound" | "GraphQLPaginationError"
+  >
+>;
+export type _Services = typeof services;

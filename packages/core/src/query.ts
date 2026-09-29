@@ -17,8 +17,10 @@
 import {
   filterQuery,
   flatMapQuery,
+  itemsQuery,
   mapQuery,
   ofQuery,
+  pagesQuery,
   queryFn,
   type Query as QueryType,
 } from "./graphql.ts";
@@ -32,4 +34,6 @@ export const Query = {
   map: mapQuery,
   flatMap: flatMapQuery,
   of: ofQuery,
+  pages: pagesQuery,
+  items: itemsQuery,
 };

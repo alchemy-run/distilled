@@ -3,6 +3,7 @@ import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Result from "effect/Result";
+import * as Stream from "effect/Stream";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
 import {
@@ -16,6 +17,7 @@ import {
   CredentialsFromToken,
   GraphQLFailure,
   GraphQLLive,
+  GraphQLPaginationError,
   GraphQLTransportError,
   Railway,
   UnknownGraphQLError,
@@ -314,5 +316,99 @@ describe("Railway Query SDK", () => {
     const http = await failure(createProject(), live(502, "<html>"));
     expect(http).toBeInstanceOf(GraphQLTransportError);
     expect(http).toMatchObject({ status: 502, retryAfter: 3 });
+  });
+  describe("pagination", () => {
+    const page = (
+      nodes: ReadonlyArray<object>,
+      hasNextPage: boolean,
+      endCursor: string | null,
+    ) => ({
+      edges: nodes.map((node) => ({ node })),
+      pageInfo: { hasNextPage, endCursor },
+    });
+
+    test("Query.items walks a root connection until hasNextPage is false", async () => {
+      const { layer, requests } = sequence(
+        {
+          data: { projects: page([{ name: "a" }, { name: "b" }], true, "c1") },
+        },
+        { data: { projects: page([{ name: "c" }], false, "c2") } },
+      );
+      const names = await run(
+        Stream.runCollect(
+          Query.items(
+            Railway.projects({ first: 2 }).pipe(
+              Query.map((project) => project.name),
+            ),
+          ),
+        ),
+        layer,
+      );
+      expect([...names]).toEqual(["a", "b", "c"]);
+      expect(requests).toHaveLength(2);
+      expect(requests[0]!.document).toContain("pageInfo");
+      expect(requests[0]!.document).toContain("hasNextPage");
+      expect(Object.values(requests[0]!.variables)).toEqual([2]);
+      expect(Object.values(requests[1]!.variables)).toContain("c1");
+    });
+
+    test("Query.pages pages a connection nested under a root", async () => {
+      const { layer, requests } = sequence(
+        {
+          data: {
+            project: { services: page([{ id: "s1" }], true, "c1") },
+          },
+        },
+        {
+          data: {
+            project: { services: page([{ id: "s2" }], false, null) },
+          },
+        },
+      );
+      const pages = await run(
+        Stream.runCollect(
+          Query.pages(
+            Railway.project({ id: "p" })
+              .services({ first: 1 })
+              .pipe(Query.map((service) => service.id)),
+          ),
+        ),
+        layer,
+      );
+      expect([...pages]).toEqual([["s1"], ["s2"]]);
+      expect(requests[1]!.document).toMatch(/services\(.*after/);
+    });
+
+    test("a repeated cursor fails instead of looping", async () => {
+      const { layer } = sequence({
+        data: { projects: page([{ name: "a" }], true, "same") },
+      });
+      const error = await failure(
+        Stream.runCollect(
+          Query.items(
+            Railway.projects({ first: 1 }).pipe(Query.map((p) => p.name)),
+          ),
+        ),
+        layer,
+      );
+      expect(error).toBeInstanceOf(GraphQLPaginationError);
+    });
+
+    test("page errors keep the root's typed errors", async () => {
+      const { layer } = harness(null, [
+        internal("Project not found", ["project"]),
+      ]);
+      const recovered = await run(
+        Stream.runCollect(
+          Query.items(
+            Railway.project({ id: "gone" })
+              .services({ first: 10 })
+              .pipe(Query.map((service) => service.id)),
+          ).pipe(Stream.catchTag("RailwayNotFound", () => Stream.empty)),
+        ),
+        layer,
+      );
+      expect([...recovered]).toEqual([]);
+    });
   });
 });

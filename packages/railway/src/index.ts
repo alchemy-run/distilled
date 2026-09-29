@@ -31,6 +31,7 @@ export {
   GqlError,
   GqlTransport,
   GraphQLFailure,
+  GraphQLPaginationError,
   GraphQLTransportError,
   UnknownGraphQLError,
   type GraphQLIssue,
