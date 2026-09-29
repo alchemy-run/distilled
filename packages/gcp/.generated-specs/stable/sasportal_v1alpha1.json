@@ -856,7 +856,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Request for [ProvisionDeployment]. [spectrum.sas.portal.v1alpha1.Provisioning.ProvisionDeployment]. GCP Project, Organization Info, and caller’s GAIA ID should be retrieved from the RPC handler, and used as inputs to create a new SAS organization (if not exists) and a new SAS deployment."
+        "smithy.api#documentation": "Request for [ProvisionDeployment]. [spectrum.sas.portal.v1alpha1.Provisioning.ProvisionDeployment]. GCP Project, Organization Info, and caller\u2019s GAIA ID should be retrieved from the RPC handler, and used as inputs to create a new SAS organization (if not exists) and a new SAS deployment."
       }
     },
     "com.gcp.sasportal_v1alpha1#SasPortalDeviceConfig": {

@@ -338,7 +338,7 @@
         "amount": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. The amount of unpaid or paid earnings, as a formatted string, including the currency. E.g. \"¥1,235 JPY\", \"$1,234.57\", \"£87.65\"."
+            "smithy.api#documentation": "Output only. The amount of unpaid or paid earnings, as a formatted string, including the currency. E.g. \"\u00a51,235 JPY\", \"$1,234.57\", \"\u00a387.65\"."
           }
         },
         "name": {

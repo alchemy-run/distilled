@@ -1790,7 +1790,7 @@
         "rows": {
           "target": "com.gcp.apigee_v1#DocumentList",
           "traits": {
-            "smithy.api#documentation": "Rows of query result. Each row is a JSON object. Example: {sum(message_count): 1, developer_app: \"(not set)\",…}"
+            "smithy.api#documentation": "Rows of query result. Each row is a JSON object. Example: {sum(message_count): 1, developer_app: \"(not set)\",\u2026}"
           }
         },
         "state": {
@@ -8579,7 +8579,7 @@
         "mcpServerConfigDataLocation": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. Cloud Storage URI to the McpServerConfigData blob in the Apigee tenant project bucket. The sidecar fetches this URI using Cloud Storage, and deserializes the. protojson blob to McpServerConfigData. Treat this as an opaque URI — its format may change. Example: gs://{apigee-tp-bucket}/apigee-mcp-config-{org}-{revision_id}.json"
+            "smithy.api#documentation": "Output only. Cloud Storage URI to the McpServerConfigData blob in the Apigee tenant project bucket. The sidecar fetches this URI using Cloud Storage, and deserializes the. protojson blob to McpServerConfigData. Treat this as an opaque URI \u2014 its format may change. Example: gs://{apigee-tp-bucket}/apigee-mcp-config-{org}-{revision_id}.json"
           }
         },
         "revisionId": {
@@ -13855,7 +13855,7 @@
         "rows": {
           "target": "com.gcp.apigee_v1#DocumentList",
           "traits": {
-            "smithy.api#documentation": "Rows of security report result. Each row is a JSON object. Example: {sum(message_count): 1, developer_app: \"(not set)\",…}"
+            "smithy.api#documentation": "Rows of security report result. Each row is a JSON object. Example: {sum(message_count): 1, developer_app: \"(not set)\",\u2026}"
           }
         },
         "state": {
@@ -24071,7 +24071,7 @@
         "securityActionId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. The ID to use for the SecurityAction, which will become the final component of the action's resource name. This value should be 0-61 characters, and valid format is (^[a-z]([a-z0-9-]{​0,61}[a-z0-9])?$).",
+            "smithy.api#documentation": "Required. The ID to use for the SecurityAction, which will become the final component of the action's resource name. This value should be 0-61 characters, and valid format is (^[a-z]([a-z0-9-]{\u200b0,61}[a-z0-9])?$).",
             "smithy.api#httpQuery": "securityActionId"
           }
         },

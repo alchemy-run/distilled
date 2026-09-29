@@ -14,7 +14,9 @@
           "com.gcp.protocols#errorMatchers": [
             {
               "status": 400,
-              "message": { "matches": "^Service account .+ does not exist\\.?$" }
+              "message": {
+                "matches": "^Service account .+ does not exist\\.?$"
+              }
             }
           ]
         }

@@ -13,7 +13,9 @@
           "com.gcp.protocols#errorMatchers": [
             {
               "status": 412,
-              "message": { "includes": "not eligible for using the Future Reservations feature" }
+              "message": {
+                "includes": "not eligible for using the Future Reservations feature"
+              }
             }
           ]
         }

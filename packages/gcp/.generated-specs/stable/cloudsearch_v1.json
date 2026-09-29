@@ -4188,7 +4188,7 @@
         "ftePermille": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Full-time equivalent (in ‰) (e.g. 800 for a person who's working 80%)."
+            "smithy.api#documentation": "Full-time equivalent (in \u2030) (e.g. 800 for a person who's working 80%)."
           }
         },
         "photoUrl": {
@@ -4218,7 +4218,7 @@
         "totalFteCount": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The sum of all profile owner's reports and their own full-time-equivalents in ‰ (e.g. 1800 if one report is working 80% and profile owner 100%)."
+            "smithy.api#documentation": "The sum of all profile owner's reports and their own full-time-equivalents in \u2030 (e.g. 1800 if one report is working 80% and profile owner 100%)."
           }
         },
         "keywords": {

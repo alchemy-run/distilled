@@ -366,7 +366,7 @@
         "sortingCode": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like \"CEDEX\", optionally followed by a number (for example, \"CEDEX 7\"), or just a number alone, representing the \"sector code\" (Jamaica), \"delivery area indicator\" (Malawi) or \"post office indicator\" (Côte d'Ivoire)."
+            "smithy.api#documentation": "Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like \"CEDEX\", optionally followed by a number (for example, \"CEDEX 7\"), or just a number alone, representing the \"sector code\" (Jamaica), \"delivery area indicator\" (Malawi) or \"post office indicator\" (C\u00f4te d'Ivoire)."
           }
         },
         "organization": {

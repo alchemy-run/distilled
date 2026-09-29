@@ -154,7 +154,7 @@
         "data": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optionally, a machine-readable value to be read by the EMM. For example, setting values that the admin can choose to query against in the EMM console (e.g. “notify me if the battery_warning data < 10”)."
+            "smithy.api#documentation": "Optionally, a machine-readable value to be read by the EMM. For example, setting values that the admin can choose to query against in the EMM console (e.g. \u201cnotify me if the battery_warning data < 10\u201d)."
           }
         },
         "message": {
@@ -368,7 +368,7 @@
         "trackId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The unmodifiable unique track identifier, taken from the releaseTrackId in the URL of the Play Console page that displays the app’s track information."
+            "smithy.api#documentation": "The unmodifiable unique track identifier, taken from the releaseTrackId in the URL of the Play Console page that displays the app\u2019s track information."
           }
         },
         "trackAlias": {
@@ -821,7 +821,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Validates whether Android’s built-in cryptographic library (BoringSSL) is valid. Should always succeed on device boot, if it fails, the device should be considered untrusted."
+        "smithy.api#documentation": "Validates whether Android\u2019s built-in cryptographic library (BoringSSL) is valid. Should always succeed on device boot, if it fails, the device should be considered untrusted."
       }
     },
     "com.gcp.androidmanagement_v1#PerAppResult": {
@@ -2589,7 +2589,7 @@
         "commonCriteriaModeInfo": {
           "target": "com.gcp.androidmanagement_v1#CommonCriteriaModeInfo",
           "traits": {
-            "smithy.api#documentation": "Information about Common Criteria Mode—security standards defined in the Common Criteria for Information Technology Security Evaluation (https://www.commoncriteriaportal.org/) (CC).This information is only available if statusReportingSettings.commonCriteriaModeEnabled is true in the device's policy the device is company-owned."
+            "smithy.api#documentation": "Information about Common Criteria Mode\u2014security standards defined in the Common Criteria for Information Technology Security Evaluation (https://www.commoncriteriaportal.org/) (CC).This information is only available if statusReportingSettings.commonCriteriaModeEnabled is true in the device's policy the device is company-owned."
           }
         },
         "ownership": {
@@ -2643,7 +2643,7 @@
         "policyName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The name of the policy applied to the device, in the form enterprises/{enterpriseId}/policies/{policyId}. If not specified, the policy_name for the device's user is applied. This field can be modified by a patch request. You can specify only the policyId when calling enterprises.devices.patch, as long as the policyId doesn’t contain any slashes. The rest of the policy name is inferred."
+            "smithy.api#documentation": "The name of the policy applied to the device, in the form enterprises/{enterpriseId}/policies/{policyId}. If not specified, the policy_name for the device's user is applied. This field can be modified by a patch request. You can specify only the policyId when calling enterprises.devices.patch, as long as the policyId doesn\u2019t contain any slashes. The rest of the policy name is inferred."
           }
         },
         "state": {
@@ -3124,7 +3124,7 @@
         "policyName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The name of the policy initially applied to the enrolled device, in the form enterprises/{enterpriseId}/policies/{policyId}. If not specified, the policy_name for the device’s user is applied. If user_name is also not specified, enterprises/{enterpriseId}/policies/default is applied by default. When updating this field, you can specify only the policyId as long as the policyId doesn’t contain any slashes. The rest of the policy name will be inferred."
+            "smithy.api#documentation": "The name of the policy initially applied to the enrolled device, in the form enterprises/{enterpriseId}/policies/{policyId}. If not specified, the policy_name for the device\u2019s user is applied. If user_name is also not specified, enterprises/{enterpriseId}/policies/default is applied by default. When updating this field, you can specify only the policyId as long as the policyId doesn\u2019t contain any slashes. The rest of the policy name will be inferred."
           }
         },
         "expirationTimestamp": {
@@ -3490,7 +3490,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "A shell command was issued over ADB via “adb shell command”."
+        "smithy.api#documentation": "A shell command was issued over ADB via \u201cadb shell command\u201d."
       }
     },
     "com.gcp.androidmanagement_v1#EidInfo": {
@@ -4472,7 +4472,7 @@
       "type": "structure",
       "members": {},
       "traits": {
-        "smithy.api#documentation": "An ADB interactive shell was opened via “adb shell”. Intentionally empty."
+        "smithy.api#documentation": "An ADB interactive shell was opened via \u201cadb shell\u201d. Intentionally empty."
       }
     },
     "com.gcp.androidmanagement_v1#WipeAction": {
@@ -4705,7 +4705,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Information about Common Criteria Mode—security standards defined in the Common Criteria for Information Technology Security Evaluation (https://www.commoncriteriaportal.org/) (CC).This information is only available if statusReportingSettings.commonCriteriaModeEnabled is true in the device's policy."
+        "smithy.api#documentation": "Information about Common Criteria Mode\u2014security standards defined in the Common Criteria for Information Technology Security Evaluation (https://www.commoncriteriaportal.org/) (CC).This information is only available if statusReportingSettings.commonCriteriaModeEnabled is true in the device's policy."
       }
     },
     "com.gcp.androidmanagement_v1#CommonCriteriaModeInfoPolicySignatureVerificationStatusEnum": {
@@ -5226,7 +5226,7 @@
         "adbShellCommandEvent": {
           "target": "com.gcp.androidmanagement_v1#AdbShellCommandEvent",
           "traits": {
-            "smithy.api#documentation": "A shell command was issued over ADB via “adb shell command”. Part of SECURITY_LOGS."
+            "smithy.api#documentation": "A shell command was issued over ADB via \u201cadb shell command\u201d. Part of SECURITY_LOGS."
           }
         },
         "logBufferSizeCriticalEvent": {
@@ -5358,7 +5358,7 @@
         "adbShellInteractiveEvent": {
           "target": "com.gcp.androidmanagement_v1#AdbShellInteractiveEvent",
           "traits": {
-            "smithy.api#documentation": "An ADB interactive shell was opened via “adb shell”. Part of SECURITY_LOGS."
+            "smithy.api#documentation": "An ADB interactive shell was opened via \u201cadb shell\u201d. Part of SECURITY_LOGS."
           }
         },
         "keyIntegrityViolationEvent": {
@@ -5400,7 +5400,7 @@
         "cryptoSelfTestCompletedEvent": {
           "target": "com.gcp.androidmanagement_v1#CryptoSelfTestCompletedEvent",
           "traits": {
-            "smithy.api#documentation": "Validates whether Android’s built-in cryptographic library (BoringSSL) is valid. Should always succeed on device boot, if it fails, the device should be considered untrusted. Part of SECURITY_LOGS."
+            "smithy.api#documentation": "Validates whether Android\u2019s built-in cryptographic library (BoringSSL) is valid. Should always succeed on device boot, if it fails, the device should be considered untrusted. Part of SECURITY_LOGS."
           }
         },
         "lostModeLocationEvent": {
@@ -6325,7 +6325,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "A system freeze period. When a device’s clock is within the freeze period, all incoming system updates (including security patches) are blocked and won’t be installed.When the device is outside any set freeze periods, the normal policy behavior (automatic, windowed, or postponed) applies.Leap years are ignored in freeze period calculations, in particular: If Feb. 29th is set as the start or end date of a freeze period, the freeze period will start or end on Feb. 28th instead. When a device’s system clock reads Feb. 29th, it’s treated as Feb. 28th. When calculating the number of days in a freeze period or the time between two freeze periods, Feb. 29th is ignored and not counted as a day.Note: For Freeze Periods to take effect, SystemUpdateType cannot be specified as SYSTEM_UPDATE_TYPE_UNSPECIFIED, because freeze periods require a defined policy to be specified."
+        "smithy.api#documentation": "A system freeze period. When a device\u2019s clock is within the freeze period, all incoming system updates (including security patches) are blocked and won\u2019t be installed.When the device is outside any set freeze periods, the normal policy behavior (automatic, windowed, or postponed) applies.Leap years are ignored in freeze period calculations, in particular: If Feb. 29th is set as the start or end date of a freeze period, the freeze period will start or end on Feb. 28th instead. When a device\u2019s system clock reads Feb. 29th, it\u2019s treated as Feb. 28th. When calculating the number of days in a freeze period or the time between two freeze periods, Feb. 29th is ignored and not counted as a day.Note: For Freeze Periods to take effect, SystemUpdateType cannot be specified as SYSTEM_UPDATE_TYPE_UNSPECIFIED, because freeze periods require a defined policy to be specified."
       }
     },
     "com.gcp.androidmanagement_v1#KeyDestructionEvent": {
@@ -6776,7 +6776,7 @@
         "commonCriteriaMode": {
           "target": "com.gcp.androidmanagement_v1#AdvancedSecurityOverridesCommonCriteriaModeEnum",
           "traits": {
-            "smithy.api#documentation": "Controls Common Criteria Mode—security standards defined in the Common Criteria for Information Technology Security Evaluation (https://www.commoncriteriaportal.org/) (CC). Enabling Common Criteria Mode increases certain security components on a device, see CommonCriteriaMode for details.Warning: Common Criteria Mode enforces a strict security model typically only required for IT products used in national security systems and other highly sensitive organizations. Standard device use may be affected. Only enabled if required. If Common Criteria Mode is turned off after being enabled previously, all user-configured Wi-Fi networks may be lost and any enterprise-configured Wi-Fi networks that require user input may need to be reconfigured."
+            "smithy.api#documentation": "Controls Common Criteria Mode\u2014security standards defined in the Common Criteria for Information Technology Security Evaluation (https://www.commoncriteriaportal.org/) (CC). Enabling Common Criteria Mode increases certain security components on a device, see CommonCriteriaMode for details.Warning: Common Criteria Mode enforces a strict security model typically only required for IT products used in national security systems and other highly sensitive organizations. Standard device use may be affected. Only enabled if required. If Common Criteria Mode is turned off after being enabled previously, all user-configured Wi-Fi networks may be lost and any enterprise-configured Wi-Fi networks that require user input may need to be reconfigured."
           }
         },
         "personalAppsThatCanReadWorkNotifications": {
@@ -8379,7 +8379,7 @@
         "enabledFeatures": {
           "target": "com.gcp.androidmanagement_v1#WebTokenEnabledFeaturesItemEnumList",
           "traits": {
-            "smithy.api#documentation": "The features to enable. Use this if you want to control exactly which feature(s) will be activated; leave empty to allow all features.Restrictions / things to note: - If no features are listed here, all features are enabled — this is the default behavior where you give access to all features to your admins. - This must not contain any FEATURE_UNSPECIFIED values. - Repeated values are ignored "
+            "smithy.api#documentation": "The features to enable. Use this if you want to control exactly which feature(s) will be activated; leave empty to allow all features.Restrictions / things to note: - If no features are listed here, all features are enabled \u2014 this is the default behavior where you give access to all features to your admins. - This must not contain any FEATURE_UNSPECIFIED values. - Repeated values are ignored "
           }
         }
       },
@@ -8469,7 +8469,7 @@
         "device": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "If present, the name of the device in the form ‘enterprises/{enterpriseId}/devices/{deviceId}’"
+            "smithy.api#documentation": "If present, the name of the device in the form \u2018enterprises/{enterpriseId}/devices/{deviceId}\u2019"
           }
         },
         "retrievalTime": {
@@ -8487,7 +8487,7 @@
         "user": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "If present, the resource name of the user that owns this device in the form ‘enterprises/{enterpriseId}/users/{userId}’."
+            "smithy.api#documentation": "If present, the resource name of the user that owns this device in the form \u2018enterprises/{enterpriseId}/users/{userId}\u2019."
           }
         }
       },
@@ -10101,7 +10101,7 @@
         "connectedWorkAndPersonalApp": {
           "target": "com.gcp.androidmanagement_v1#ApplicationPolicyConnectedWorkAndPersonalAppEnum",
           "traits": {
-            "smithy.api#documentation": "Controls whether the app can communicate with itself across a device’s work and personal profiles, subject to user consent."
+            "smithy.api#documentation": "Controls whether the app can communicate with itself across a device\u2019s work and personal profiles, subject to user consent."
           }
         },
         "signingKeyCerts": {
@@ -10149,7 +10149,7 @@
         "accessibleTrackIds": {
           "target": "com.gcp.androidmanagement_v1#StringList",
           "traits": {
-            "smithy.api#documentation": "List of the app’s track IDs that a device belonging to the enterprise can access. If the list contains multiple track IDs, devices receive the latest version among all accessible tracks. If the list contains no track IDs, devices only have access to the app’s production track. More details about each track are available in AppTrackInfo."
+            "smithy.api#documentation": "List of the app\u2019s track IDs that a device belonging to the enterprise can access. If the list contains multiple track IDs, devices receive the latest version among all accessible tracks. If the list contains no track IDs, devices only have access to the app\u2019s production track. More details about each track are available in AppTrackInfo."
           }
         },
         "minimumVersionCode": {

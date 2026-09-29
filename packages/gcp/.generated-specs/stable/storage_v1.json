@@ -9656,7 +9656,7 @@
       "traits": {
         "smithy.api#error": "client",
         "smithy.api#httpError": 412,
-        "smithy.api#documentation": "The policy's etag no longer matches the bucket's current IAM policy — another writer changed it concurrently (HTTP 412). Re-read the policy and retry.",
+        "smithy.api#documentation": "The policy's etag no longer matches the bucket's current IAM policy \u2014 another writer changed it concurrently (HTTP 412). Re-read the policy and retry.",
         "com.gcp.protocols#errorMatchers": [
           {
             "status": 412

@@ -10308,7 +10308,7 @@
       "traits": {
         "smithy.api#error": "client",
         "smithy.api#httpError": 400,
-        "smithy.api#documentation": "The admin cluster fleet membership cannot be reached (HTTP 400 'Invalid resource state for \"…/memberships/…\": failed connecting to the cluster's control plane.' for VMware, 'could not fetch bare metal cluster version.' for bare metal): it does not exist or its Connect agent is offline. Not retryable until the admin cluster is registered and connected.",
+        "smithy.api#documentation": "The admin cluster fleet membership cannot be reached (HTTP 400 'Invalid resource state for \"\u2026/memberships/\u2026\": failed connecting to the cluster's control plane.' for VMware, 'could not fetch bare metal cluster version.' for bare metal): it does not exist or its Connect agent is offline. Not retryable until the admin cluster is registered and connected.",
         "com.gcp.protocols#errorMatchers": [
           {
             "status": 400,

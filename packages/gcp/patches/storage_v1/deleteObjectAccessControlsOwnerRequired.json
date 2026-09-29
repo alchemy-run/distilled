@@ -14,7 +14,9 @@
           "com.gcp.protocols#errorMatchers": [
             {
               "status": 403,
-              "message": { "includes": "owner of the resource is required to have OWNER access" }
+              "message": {
+                "includes": "owner of the resource is required to have OWNER access"
+              }
             }
           ]
         }

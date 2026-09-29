@@ -8275,7 +8275,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "A revision of a QaScorecard. Modifying published scorecard fields would invalidate existing scorecard results — the questions may have changed, or the score weighting will make existing scores impossible to understand. So changes must create a new revision, rather than modifying the existing resource."
+        "smithy.api#documentation": "A revision of a QaScorecard. Modifying published scorecard fields would invalidate existing scorecard results \u2014 the questions may have changed, or the score weighting will make existing scores impossible to understand. So changes must create a new revision, rather than modifying the existing resource."
       }
     },
     "com.gcp.contactcenterinsights_v1#GoogleCloudContactcenterinsightsV1QaScorecardRevisionStateEnum": {
