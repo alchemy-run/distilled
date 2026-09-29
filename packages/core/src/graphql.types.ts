@@ -85,3 +85,11 @@ type _ItemsError = Assert<
   >
 >;
 export type _Services = typeof services;
+
+// ── Nullability ─────────────────────────────────────────────────────────────
+declare const nullable: Query<{
+  owner: { name: string; tags: ReadonlyArray<string> | null } | null;
+}>;
+type _NullParent = Assert<
+  Equal<UnwrapPlan<typeof nullable.owner.name>, string | null>
+>;

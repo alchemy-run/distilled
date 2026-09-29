@@ -276,16 +276,24 @@ export const generateGraphQLClient = (
     }
     return nodeName;
   };
-  const tsOutput = (ref: string): string => {
+  const tsArg = (ref: string): string => {
     const { name, list } = peelRef(ref);
-    if (!list) {
-      const node = connectionNode(name);
-      if (node) return `ReadonlyArray<${tsNamed(node)}>`;
-    }
     const inner = tsNamed(name);
     return list ? `ReadonlyArray<${inner}>` : inner;
   };
-  const tsArg = (ref: string): string => tsOutput(ref);
+  /** Response type: nullable GraphQL types (no `!`) include `null`. */
+  const tsOutput = (ref: string): string => {
+    const nonNull = ref.endsWith("!");
+    const inner = nonNull ? ref.slice(0, -1) : ref;
+    let ts: string;
+    if (inner.startsWith("[") && inner.endsWith("]")) {
+      ts = `ReadonlyArray<${tsOutput(inner.slice(1, -1))}>`;
+    } else {
+      const node = connectionNode(inner);
+      ts = node ? `ReadonlyArray<${tsNamed(node)}>` : tsNamed(inner);
+    }
+    return nonNull ? ts : `${ts} | null`;
+  };
   const isObjectLike = (name: string): boolean => {
     const kind = model.types[name]?.kind;
     return kind === "OBJECT" || kind === "INTERFACE";
@@ -349,9 +357,7 @@ export const generateGraphQLClient = (
     const errors = rootErrors(field);
     const { name, list } = peelRef(field.type);
     const node = !list ? connectionNode(name) : undefined;
-    const resultTs = node
-      ? `ReadonlyArray<${tsNamed(node)}>`
-      : tsOutput(field.type);
+    const resultTs = tsOutput(field.type);
     const argEntries = Object.entries(field.args);
     const argTypes =
       argEntries.length > 0

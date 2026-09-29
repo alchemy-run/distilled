@@ -126,6 +126,10 @@ describe("GraphQL Query SDK generator", () => {
       'connectionField("projects", Project, { first: "Int" })',
     );
     expect(output).toContain('root("mutation", "projectCreate", Project');
+    // Nullable GraphQL types include null; non-null ones do not.
+    expect(output).toContain("readonly name: string | null;");
+    expect(output).toContain("readonly email: string;");
+    expect(output).toContain("Query<Project | null, RailwayGlobalError>");
     expect(output).toContain('from "@distilled.cloud/core/graphql"');
     expect(() =>
       new Bun.Transpiler({ loader: "ts" }).transformSync(output),
