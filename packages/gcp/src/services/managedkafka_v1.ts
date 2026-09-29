@@ -79,6 +79,28 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** A parent schema registry or context in the path does not exist (HTTP 400). */
+export class SchemaRegistryPathNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SchemaRegistryPathNotFound>()(
+      "SchemaRegistryPathNotFound",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withBadRequestError),
+    [
+      {
+        status: 400,
+        message: { includes: "Path is invalid due to missing resources" },
+      },
+    ],
+  ) {}
+
 /** The region has no Managed Kafka cluster, so its Schema Registry service (and every registry in it) is unavailable (HTTP 400 FAILED_PRECONDITION). */
 export class SchemaRegistryRequiresCluster
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -3992,6 +4014,7 @@ export type DeleteProjectsLocationsSchemaRegistriesContextsSubjectsError =
   | BadRequest
   | Conflict
   | SchemaRegistryRequiresCluster
+  | SchemaRegistryPathNotFound
   | GcpOpError;
 /** Delete a subject. The response will be an array of versions of the deleted subject. */
 export const deleteProjectsLocationsSchemaRegistriesContextsSubjects: API.OperationMethod<
@@ -4008,6 +4031,7 @@ export const deleteProjectsLocationsSchemaRegistriesContextsSubjects: API.Operat
     BadRequest,
     Conflict,
     SchemaRegistryRequiresCluster,
+    SchemaRegistryPathNotFound,
     UnknownGCPError,
   ],
   protocol: GcpProtocol,
@@ -4020,6 +4044,7 @@ export type DeleteProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError
   | BadRequest
   | Conflict
   | SchemaRegistryRequiresCluster
+  | SchemaRegistryPathNotFound
   | GcpOpError;
 /** Delete a version of a subject. The response will be the deleted version id. */
 export const deleteProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.OperationMethod<
@@ -4036,6 +4061,7 @@ export const deleteProjectsLocationsSchemaRegistriesContextsSubjectsVersions: AP
     BadRequest,
     Conflict,
     SchemaRegistryRequiresCluster,
+    SchemaRegistryPathNotFound,
     UnknownGCPError,
   ],
   protocol: GcpProtocol,
@@ -4076,6 +4102,7 @@ export type DeleteProjectsLocationsSchemaRegistriesSubjectsError =
   | BadRequest
   | Conflict
   | SchemaRegistryRequiresCluster
+  | SchemaRegistryPathNotFound
   | GcpOpError;
 /** Delete a subject. The response will be an array of versions of the deleted subject. */
 export const deleteProjectsLocationsSchemaRegistriesSubjects: API.OperationMethod<
@@ -4092,6 +4119,7 @@ export const deleteProjectsLocationsSchemaRegistriesSubjects: API.OperationMetho
     BadRequest,
     Conflict,
     SchemaRegistryRequiresCluster,
+    SchemaRegistryPathNotFound,
     UnknownGCPError,
   ],
   protocol: GcpProtocol,
@@ -4104,6 +4132,7 @@ export type DeleteProjectsLocationsSchemaRegistriesSubjectsVersionsError =
   | BadRequest
   | Conflict
   | SchemaRegistryRequiresCluster
+  | SchemaRegistryPathNotFound
   | GcpOpError;
 /** Delete a version of a subject. The response will be the deleted version id. */
 export const deleteProjectsLocationsSchemaRegistriesSubjectsVersions: API.OperationMethod<
@@ -4120,6 +4149,7 @@ export const deleteProjectsLocationsSchemaRegistriesSubjectsVersions: API.Operat
     BadRequest,
     Conflict,
     SchemaRegistryRequiresCluster,
+    SchemaRegistryPathNotFound,
     UnknownGCPError,
   ],
   protocol: GcpProtocol,
@@ -4386,6 +4416,7 @@ export type GetProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError =
   | NotFound
   | Forbidden
   | SchemaRegistryRequiresCluster
+  | SchemaRegistryPathNotFound
   | GcpOpError;
 /** Get a versioned schema (schema with subject/version) of a subject. */
 export const getProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.OperationMethod<
@@ -4396,7 +4427,13 @@ export const getProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.O
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest,
   output: SchemaVersion,
-  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    SchemaRegistryRequiresCluster,
+    SchemaRegistryPathNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -4443,6 +4480,7 @@ export type GetProjectsLocationsSchemaRegistriesSubjectsVersionsError =
   | NotFound
   | Forbidden
   | SchemaRegistryRequiresCluster
+  | SchemaRegistryPathNotFound
   | GcpOpError;
 /** Get a versioned schema (schema with subject/version) of a subject. */
 export const getProjectsLocationsSchemaRegistriesSubjectsVersions: API.OperationMethod<
@@ -4453,7 +4491,13 @@ export const getProjectsLocationsSchemaRegistriesSubjectsVersions: API.Operation
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesSubjectsVersionsRequest,
   output: SchemaVersion,
-  errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
+  errors: [
+    NotFound,
+    Forbidden,
+    SchemaRegistryRequiresCluster,
+    SchemaRegistryPathNotFound,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

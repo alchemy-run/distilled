@@ -4534,6 +4534,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryPathNotFound"
         }
       ],
       "traits": {
@@ -4740,6 +4743,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryPathNotFound"
         }
       ],
       "traits": {
@@ -4787,6 +4793,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryPathNotFound"
         }
       ],
       "traits": {
@@ -5061,6 +5070,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryPathNotFound"
         }
       ],
       "traits": {
@@ -5214,6 +5226,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryPathNotFound"
         }
       ],
       "traits": {
@@ -5314,6 +5329,9 @@
         },
         {
           "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+        },
+        {
+          "target": "com.gcp.managedkafka_v1#SchemaRegistryPathNotFound"
         }
       ],
       "traits": {
@@ -6799,6 +6817,23 @@
             "status": 400,
             "message": {
               "includes": "is required to access the Schema Registry service"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.managedkafka_v1#SchemaRegistryPathNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "A parent schema registry or context in the path does not exist (HTTP 400).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "Path is invalid due to missing resources"
             }
           }
         ]
