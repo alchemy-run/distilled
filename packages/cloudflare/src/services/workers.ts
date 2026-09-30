@@ -2771,7 +2771,7 @@ export const BetaWorkersVersionsCreateRequestContainersItem =
     S.Struct({
       className: S.String.pipe(T.Body("class_name")),
       name: S.optional(S.String),
-      images: S.optional(ContainerImageMap),
+      images: S.optional(ContainerImageMap.pipe(T.KeyDictionary({}))),
     }),
   ).annotate({
     identifier: "BetaWorkersVersionsCreateRequestContainersItem",
@@ -4994,7 +4994,7 @@ export const BetaWorkersVersionsCreateResponseContainersItem =
     S.Struct({
       className: S.String.pipe(T.Body("class_name")),
       name: S.optional(S.NullOr(S.String)),
-      images: S.optional(S.NullOr(ContainerImageMap)),
+      images: S.optional(S.NullOr(ContainerImageMap).pipe(T.KeyDictionary({}))),
     }),
   ).annotate({
     identifier: "BetaWorkersVersionsCreateResponseContainersItem",
@@ -8096,7 +8096,7 @@ export const CreatePreviewDeploymentMetadataContainer = /*@__PURE__*/ S.suspend(
     S.Struct({
       className: S.String.pipe(T.Body("class_name")),
       name: S.optional(S.String),
-      images: S.optional(ContainerImageMap),
+      images: S.optional(ContainerImageMap.pipe(T.KeyDictionary({}))),
     }),
 ).annotate({
   identifier: "CreatePreviewDeploymentMetadataContainer",
@@ -12056,6 +12056,7 @@ export interface ScriptsVersionsCreateResponseResourcesScriptRuntime {
   migrationTag?: string | null;
   /** Usage model for the Worker invocations. */
   usageModel?: ScriptsVersionsCreateResponseResourcesScriptRuntimeUsageModel | null;
+  containers?: BetaWorkersVersionsCreateResponseContainersList | null;
 }
 export const ScriptsVersionsCreateResponseResourcesScriptRuntime =
   /*@__PURE__*/ S.suspend(() =>
@@ -12081,6 +12082,9 @@ export const ScriptsVersionsCreateResponseResourcesScriptRuntime =
         S.NullOr(
           ScriptsVersionsCreateResponseResourcesScriptRuntimeUsageModel,
         ).pipe(T.Body("usage_model")),
+      ),
+      containers: S.optional(
+        S.NullOr(BetaWorkersVersionsCreateResponseContainersList),
       ),
     }),
   ).annotate({
@@ -21449,6 +21453,7 @@ export interface ScriptsVersionsGetResponseResourcesScriptRuntime {
   migrationTag?: string | null;
   /** Usage model for the Worker invocations. */
   usageModel?: ScriptsVersionsGetResponseResourcesScriptRuntimeUsageModel | null;
+  containers?: BetaWorkersVersionsGetResponseContainersList | null;
 }
 export const ScriptsVersionsGetResponseResourcesScriptRuntime =
   /*@__PURE__*/ S.suspend(() =>
@@ -21474,6 +21479,9 @@ export const ScriptsVersionsGetResponseResourcesScriptRuntime =
         S.NullOr(
           ScriptsVersionsGetResponseResourcesScriptRuntimeUsageModel,
         ).pipe(T.Body("usage_model")),
+      ),
+      containers: S.optional(
+        S.NullOr(BetaWorkersVersionsGetResponseContainersList),
       ),
     }),
   ).annotate({

@@ -387,7 +387,12 @@
             "traits": { "smithy.api#required": {} }
           },
           "name": { "target": "smithy.api#String" },
-          "images": { "target": "com.cloudflare.workers#ContainerImageMap" }
+          "images": {
+            "target": "com.cloudflare.workers#ContainerImageMap",
+            "traits": {
+              "com.cloudflare.protocols#keyDictionary": {}
+            }
+          }
         }
       }
     },

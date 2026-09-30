@@ -13,6 +13,16 @@ import * as Retry from "../retry.ts";
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+/** The image preparation request is invalid. */
+export class BadRequest
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 400 }],
+  ) {}
+
 export class ContainerApplicationNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ContainerApplicationNotFound>()(
@@ -28,19 +38,6 @@ export class ContainerApplicationNotFound
     ],
   ) {}
 
-/** Container image preparation is not enabled or permitted for this account. */
-export class ContainerImagePreparationForbidden
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<ContainerImagePreparationForbidden>()(
-      "ContainerImagePreparationForbidden",
-      {
-        code: S.Number,
-        message: S.String,
-      },
-    ).pipe(C.withAuthError),
-    [{ status: 403 }],
-  ) {}
-
 /** The image is invalid or does not exist in this account. */
 export class ContainerImagePreparationInvalidImage
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -51,7 +48,21 @@ export class ContainerImagePreparationInvalidImage
         message: S.String,
       },
     ).pipe(C.withBadRequestError),
-    [{ status: 400 }],
+    [
+      {
+        status: 400,
+        code: 1000,
+        message: {
+          includes:
+            "image must be digest-pinned and hosted in a supported managed registry",
+        },
+      },
+      {
+        status: 400,
+        code: 1000,
+        message: { includes: "image does not exist in this account" },
+      },
+    ],
   ) {}
 
 export class DurableObjectAlreadyHasApplication
@@ -103,6 +114,16 @@ export class DurableObjectNotContainerEnabled
         message: { includes: "DURABLE_OBJECT_NOT_CONTAINER_ENABLED" },
       },
     ],
+  ) {}
+
+/** The image preparation request is forbidden. */
+export class Forbidden
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withAuthError),
+    [{ status: 403 }],
   ) {}
 
 export class InvalidRoute
@@ -235,6 +256,39 @@ export const CreateContainerApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateContainerApplicationRequest",
 }) as any as S.Schema<CreateContainerApplicationRequest>;
 
+/** Configuration for connecting to a container over SSH with Wrangler. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/WranglerSSHConfig.ts (2026-09-30). */
+export interface WranglerSSHConfiguration {
+  enabled: boolean;
+  port?: number | null;
+}
+export const WranglerSSHConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    port: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({
+  identifier: "WranglerSSHConfiguration",
+}) as any as S.Schema<WranglerSSHConfiguration>;
+
+/** An SSH public key provided by the user. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/UserSSHPublicKey.ts (2026-09-30). */
+export interface UserSSHPublicKey {
+  name?: string | null;
+  publicKey: string;
+}
+export const UserSSHPublicKey = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.NullOr(S.String)),
+    publicKey: S.String.pipe(T.Body("public_key")),
+  }),
+).annotate({
+  identifier: "UserSSHPublicKey",
+}) as any as S.Schema<UserSSHPublicKey>;
+
+export type UserSSHPublicKeyList = Array<UserSSHPublicKey>;
+export const UserSSHPublicKeyList = /*@__PURE__*/ S.Array(
+  UserSSHPublicKey,
+) as any as S.Schema<UserSSHPublicKeyList>;
+
 export interface ContainerApplicationConfiguration {
   image?: string | null;
   instanceType?: string | null;
@@ -253,8 +307,8 @@ export interface ContainerApplicationConfiguration {
   checks?: DocumentList | null;
   dns?: unknown | null;
   sshPublicKeyIds?: StringList | null;
-  wranglerSsh?: unknown | null;
-  authorizedKeys?: DocumentList | null;
+  wranglerSsh?: WranglerSSHConfiguration | null;
+  authorizedKeys?: UserSSHPublicKeyList | null;
   experimentalFlags?: StringList | null;
 }
 export const ContainerApplicationConfiguration = /*@__PURE__*/ S.suspend(() =>
@@ -280,9 +334,11 @@ export const ContainerApplicationConfiguration = /*@__PURE__*/ S.suspend(() =>
     sshPublicKeyIds: S.optional(
       S.NullOr(StringList).pipe(T.Body("ssh_public_key_ids")),
     ),
-    wranglerSsh: S.optional(S.NullOr(S.Unknown).pipe(T.Body("wrangler_ssh"))),
+    wranglerSsh: S.optional(
+      S.NullOr(WranglerSSHConfiguration).pipe(T.Body("wrangler_ssh")),
+    ),
     authorizedKeys: S.optional(
-      S.NullOr(DocumentList).pipe(T.Body("authorized_keys")),
+      S.NullOr(UserSSHPublicKeyList).pipe(T.Body("authorized_keys")),
     ),
     experimentalFlags: S.optional(
       S.NullOr(StringList).pipe(T.Body("experimental_flags")),
@@ -453,14 +509,18 @@ export type DurableObjectSchedulingPolicy = "durable_object";
 export const DurableObjectSchedulingPolicy = S.String;
 
 export interface DurableObjectContainerConfiguration {
-  wranglerSsh?: unknown;
-  authorizedKeys?: DocumentList;
+  wranglerSsh?: WranglerSSHConfiguration;
+  authorizedKeys?: UserSSHPublicKeyList;
   experimentalFlags?: StringList;
 }
 export const DurableObjectContainerConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    wranglerSsh: S.optional(S.Unknown.pipe(T.Body("wrangler_ssh"))),
-    authorizedKeys: S.optional(DocumentList.pipe(T.Body("authorized_keys"))),
+    wranglerSsh: S.optional(
+      WranglerSSHConfiguration.pipe(T.Body("wrangler_ssh")),
+    ),
+    authorizedKeys: S.optional(
+      UserSSHPublicKeyList.pipe(T.Body("authorized_keys")),
+    ),
     experimentalFlags: S.optional(
       StringList.pipe(T.Body("experimental_flags")),
     ),
@@ -866,7 +926,8 @@ export const listContainerApplications: API.OperationMethod<
 
 export type PrepareContainerImageError =
   | ContainerImagePreparationInvalidImage
-  | ContainerImagePreparationForbidden
+  | BadRequest
+  | Forbidden
   | CloudflareOpError;
 /** Prepare a digest-pinned image in the Cloudflare managed registry. Repeat while status is pending. Source: cloudflare/workers-sdk packages/containers-shared/src/client/services/ContainerImagePreparationsService.ts (2026-09-30). */
 export const prepareContainerImage: API.OperationMethod<
@@ -879,7 +940,8 @@ export const prepareContainerImage: API.OperationMethod<
   output: PrepareContainerImageResponse,
   errors: [
     ContainerImagePreparationInvalidImage,
-    ContainerImagePreparationForbidden,
+    BadRequest,
+    Forbidden,
     CloudflareRateLimited,
     CloudflareError,
   ],
