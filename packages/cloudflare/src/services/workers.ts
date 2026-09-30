@@ -2754,14 +2754,24 @@ export const BetaWorkersVersionsCreateRequestCompatibilityFlagsList =
     S.String,
   ) as any as S.Schema<BetaWorkersVersionsCreateRequestCompatibilityFlagsList>;
 
+export type ContainerImageMap = { [key: string]: string | undefined };
+export const ContainerImageMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<ContainerImageMap>;
+
 export interface BetaWorkersVersionsCreateRequestContainersItem {
   /** Select which Durable Object class should get this container attached. */
   className: string;
+  name?: string;
+  images?: ContainerImageMap;
 }
 export const BetaWorkersVersionsCreateRequestContainersItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       className: S.String.pipe(T.Body("class_name")),
+      name: S.optional(S.String),
+      images: S.optional(ContainerImageMap),
     }),
   ).annotate({
     identifier: "BetaWorkersVersionsCreateRequestContainersItem",
@@ -4973,16 +4983,28 @@ export const BetaWorkersVersionsCreateResponseCompatibilityFlagsList =
     S.String,
   ) as any as S.Schema<BetaWorkersVersionsCreateResponseCompatibilityFlagsList>;
 
-export type BetaWorkersVersionsCreateResponseContainersItem =
-  BetaWorkersVersionsCreateRequestContainersItem;
+export interface BetaWorkersVersionsCreateResponseContainersItem {
+  /** Select which Durable Object class should get this container attached. */
+  className: string;
+  name?: string | null;
+  images?: ContainerImageMap | null;
+}
 export const BetaWorkersVersionsCreateResponseContainersItem =
-  BetaWorkersVersionsCreateRequestContainersItem;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      className: S.String.pipe(T.Body("class_name")),
+      name: S.optional(S.NullOr(S.String)),
+      images: S.optional(S.NullOr(ContainerImageMap)),
+    }),
+  ).annotate({
+    identifier: "BetaWorkersVersionsCreateResponseContainersItem",
+  }) as any as S.Schema<BetaWorkersVersionsCreateResponseContainersItem>;
 
 export type BetaWorkersVersionsCreateResponseContainersList =
-  Array<BetaWorkersVersionsCreateRequestContainersItem>;
+  Array<BetaWorkersVersionsCreateResponseContainersItem>;
 export const BetaWorkersVersionsCreateResponseContainersList =
   /*@__PURE__*/ S.Array(
-    BetaWorkersVersionsCreateRequestContainersItem,
+    BetaWorkersVersionsCreateResponseContainersItem,
   ) as any as S.Schema<BetaWorkersVersionsCreateResponseContainersList>;
 
 export type BetaWorkersVersionsCreateResponseExportsWorkerType = "worker";
@@ -8066,11 +8088,15 @@ export const CreatePreviewDeploymentMetadataCompatibilityFlagsList =
 
 export interface CreatePreviewDeploymentMetadataContainer {
   className: string;
+  name?: string;
+  images?: ContainerImageMap;
 }
 export const CreatePreviewDeploymentMetadataContainer = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       className: S.String.pipe(T.Body("class_name")),
+      name: S.optional(S.String),
+      images: S.optional(ContainerImageMap),
     }),
 ).annotate({
   identifier: "CreatePreviewDeploymentMetadataContainer",
@@ -14619,15 +14645,15 @@ export const BetaWorkersVersionsGetResponseCompatibilityFlagsList =
   ) as any as S.Schema<BetaWorkersVersionsGetResponseCompatibilityFlagsList>;
 
 export type BetaWorkersVersionsGetResponseContainersItem =
-  BetaWorkersVersionsCreateRequestContainersItem;
+  BetaWorkersVersionsCreateResponseContainersItem;
 export const BetaWorkersVersionsGetResponseContainersItem =
-  BetaWorkersVersionsCreateRequestContainersItem;
+  BetaWorkersVersionsCreateResponseContainersItem;
 
 export type BetaWorkersVersionsGetResponseContainersList =
-  Array<BetaWorkersVersionsCreateRequestContainersItem>;
+  Array<BetaWorkersVersionsCreateResponseContainersItem>;
 export const BetaWorkersVersionsGetResponseContainersList =
   /*@__PURE__*/ S.Array(
-    BetaWorkersVersionsCreateRequestContainersItem,
+    BetaWorkersVersionsCreateResponseContainersItem,
   ) as any as S.Schema<BetaWorkersVersionsGetResponseContainersList>;
 
 export type BetaWorkersVersionsGetResponseExportsWorkerType = "worker";
@@ -23643,15 +23669,15 @@ export const BetaWorkersVersionsListResultItemCompatibilityFlagsList =
   ) as any as S.Schema<BetaWorkersVersionsListResultItemCompatibilityFlagsList>;
 
 export type BetaWorkersVersionsListResultItemContainersItem =
-  BetaWorkersVersionsCreateRequestContainersItem;
+  BetaWorkersVersionsCreateResponseContainersItem;
 export const BetaWorkersVersionsListResultItemContainersItem =
-  BetaWorkersVersionsCreateRequestContainersItem;
+  BetaWorkersVersionsCreateResponseContainersItem;
 
 export type BetaWorkersVersionsListResultItemContainersList =
-  Array<BetaWorkersVersionsCreateRequestContainersItem>;
+  Array<BetaWorkersVersionsCreateResponseContainersItem>;
 export const BetaWorkersVersionsListResultItemContainersList =
   /*@__PURE__*/ S.Array(
-    BetaWorkersVersionsCreateRequestContainersItem,
+    BetaWorkersVersionsCreateResponseContainersItem,
   ) as any as S.Schema<BetaWorkersVersionsListResultItemContainersList>;
 
 export type BetaWorkersVersionsListResultItemExportsWorkerType = "worker";
