@@ -1,0 +1,74 @@
+{
+  "description": "Durable Object-managed containers carry the application name and a map of named, prepared image references in Worker metadata. Preserve these fields on uploads and version responses. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/deploy-helpers/src/deploy/helpers/durable-object-container-applications.ts (2026-09-30).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ContainerImageMap",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#BetaWorkersVersionsCreateRequestContainersItem/members/name",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#BetaWorkersVersionsCreateRequestContainersItem/members/images",
+      "value": {
+        "target": "com.cloudflare.workers#ContainerImageMap"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#BetaWorkersVersionsCreateResponseContainersItem/members/name",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#BetaWorkersVersionsCreateResponseContainersItem/members/images",
+      "value": {
+        "target": "com.cloudflare.workers#ContainerImageMap"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#BetaWorkersVersionsGetResponseContainersItem/members/name",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#BetaWorkersVersionsGetResponseContainersItem/members/images",
+      "value": {
+        "target": "com.cloudflare.workers#ContainerImageMap"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#BetaWorkersVersionsListResultItemContainersItem/members/name",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#BetaWorkersVersionsListResultItemContainersItem/members/images",
+      "value": {
+        "target": "com.cloudflare.workers#ContainerImageMap"
+      }
+    }
+  ]
+}

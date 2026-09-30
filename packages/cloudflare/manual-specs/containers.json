@@ -431,7 +431,7 @@
           "target": "smithy.api#Integer"
         },
         "configuration": {
-          "target": "com.cloudflare.containers#ContainerConfiguration"
+          "target": "com.cloudflare.containers#ContainerApplicationConfiguration"
         },
         "instances": {
           "target": "smithy.api#Integer"
@@ -444,6 +444,9 @@
         },
         "affinities": {
           "target": "smithy.api#Document"
+        },
+        "observability": {
+          "target": "com.cloudflare.containers#ContainerApplicationObservability"
         }
       },
       "traits": {
@@ -831,10 +834,7 @@
           }
         },
         "max_instances": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#Integer"
         },
         "constraints": {
           "target": "smithy.api#Document"
@@ -843,7 +843,7 @@
           "target": "smithy.api#Document"
         },
         "configuration": {
-          "target": "com.cloudflare.containers#ContainerConfiguration",
+          "target": "com.cloudflare.containers#ContainerApplicationConfiguration",
           "traits": {
             "smithy.api#required": {}
           }
@@ -862,6 +862,9 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "observability": {
+          "target": "com.cloudflare.containers#ContainerApplicationObservability"
         }
       }
     },
@@ -869,6 +872,350 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.containers#ContainerApplicationItem"
+      }
+    },
+    "com.cloudflare.containers#ContainerApplicationConfiguration": {
+      "type": "structure",
+      "members": {
+        "image": {
+          "target": "smithy.api#String"
+        },
+        "instance_type": {
+          "target": "smithy.api#String"
+        },
+        "vcpu": {
+          "target": "smithy.api#Double"
+        },
+        "memory": {
+          "target": "smithy.api#String"
+        },
+        "memory_mib": {
+          "target": "smithy.api#Double"
+        },
+        "disk": {
+          "target": "smithy.api#Document"
+        },
+        "environment_variables": {
+          "target": "com.cloudflare.containers#EnvironmentVariableList"
+        },
+        "secrets": {
+          "target": "com.cloudflare.containers#DocumentList"
+        },
+        "labels": {
+          "target": "com.cloudflare.containers#DocumentList"
+        },
+        "ports": {
+          "target": "com.cloudflare.containers#DocumentList"
+        },
+        "network": {
+          "target": "smithy.api#Document"
+        },
+        "command": {
+          "target": "com.cloudflare.containers#StringList"
+        },
+        "entrypoint": {
+          "target": "com.cloudflare.containers#StringList"
+        },
+        "observability": {
+          "target": "smithy.api#Document"
+        },
+        "checks": {
+          "target": "com.cloudflare.containers#DocumentList"
+        },
+        "dns": {
+          "target": "smithy.api#Document"
+        },
+        "ssh_public_key_ids": {
+          "target": "com.cloudflare.containers#StringList"
+        },
+        "wrangler_ssh": {
+          "target": "smithy.api#Document"
+        },
+        "authorized_keys": {
+          "target": "com.cloudflare.containers#DocumentList"
+        },
+        "experimental_flags": {
+          "target": "com.cloudflare.containers#StringList"
+        }
+      }
+    },
+    "com.cloudflare.containers#ContainerApplicationLogs": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.cloudflare.containers#ContainerApplicationObservability": {
+      "type": "structure",
+      "members": {
+        "logs": {
+          "target": "com.cloudflare.containers#ContainerApplicationLogs"
+        }
+      }
+    },
+    "com.cloudflare.containers#DurableObjectContainerConfiguration": {
+      "type": "structure",
+      "members": {
+        "wrangler_ssh": {
+          "target": "smithy.api#Document"
+        },
+        "authorized_keys": {
+          "target": "com.cloudflare.containers#DocumentList"
+        },
+        "experimental_flags": {
+          "target": "com.cloudflare.containers#StringList"
+        }
+      }
+    },
+    "com.cloudflare.containers#DurableObjectSchedulingPolicy": {
+      "type": "enum",
+      "members": {
+        "DURABLE_OBJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "durable_object"
+          }
+        }
+      }
+    },
+    "com.cloudflare.containers#CreateDurableObjectContainerApplicationRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "scheduling_policy": {
+          "target": "com.cloudflare.containers#DurableObjectSchedulingPolicy",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "durable_objects": {
+          "target": "com.cloudflare.containers#DurableObjectsRef",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "configuration": {
+          "target": "com.cloudflare.containers#DurableObjectContainerConfiguration"
+        },
+        "observability": {
+          "target": "com.cloudflare.containers#ContainerApplicationObservability"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.containers#CreateDurableObjectContainerApplicationResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.containers#ContainerApplicationItem",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.containers#CreateDurableObjectContainerApplication": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.containers#CreateDurableObjectContainerApplicationRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.containers#CreateDurableObjectContainerApplicationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.containers#InvalidRoute"
+        },
+        {
+          "target": "com.cloudflare.containers#DurableObjectAlreadyHasApplication"
+        },
+        {
+          "target": "com.cloudflare.containers#DurableObjectNotContainerEnabled"
+        },
+        {
+          "target": "com.cloudflare.containers#DurableObjectCheckError"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/containers/applications",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a Durable Object-managed application. Requires an existing SQLite Durable Object namespace; the application ID is the namespace ID. Source: cloudflare/workers-sdk packages/deploy-helpers/src/deploy/helpers/durable-object-container-applications.ts (2026-09-30)."
+      }
+    },
+    "com.cloudflare.containers#PrepareContainerImageRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "image": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.containers#ContainerImagePreparationStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      }
+    },
+    "com.cloudflare.containers#ContainerImagePreparation": {
+      "type": "structure",
+      "members": {
+        "image": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.cloudflare.containers#ContainerImagePreparationStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "artifact_digest": {
+          "target": "smithy.api#String"
+        },
+        "reason": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.containers#PrepareContainerImageResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.containers#ContainerImagePreparation",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.containers#ContainerImagePreparationInvalidImage": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The image is invalid or does not exist in this account.",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.cloudflare.containers#ContainerImagePreparationForbidden": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "Container image preparation is not enabled or permitted for this account.",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.cloudflare.containers#PrepareContainerImage": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.containers#PrepareContainerImageRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.containers#PrepareContainerImageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.containers#ContainerImagePreparationInvalidImage"
+        },
+        {
+          "target": "com.cloudflare.containers#ContainerImagePreparationForbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/containers/image-preparations",
+          "code": 200
+        },
+        "smithy.api#documentation": "Prepare a digest-pinned image in the Cloudflare managed registry. Repeat while status is pending. Source: cloudflare/workers-sdk packages/containers-shared/src/client/services/ContainerImagePreparationsService.ts (2026-09-30)."
       }
     }
   }
