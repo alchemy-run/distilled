@@ -280,6 +280,68 @@ export class InvalidScope extends Schema.TaggedError<InvalidScope>()(
 ).pipe(Category.withBadRequestError) {}
 
 // ---------------------------------------------------------------------------
+// Resource-provider errors (Microsoft.Authorization, Microsoft.Storage, ARM)
+// ---------------------------------------------------------------------------
+
+/**
+ * Returned when a role assignment does not exist.
+ * Azure error code: `RoleAssignmentNotFound`
+ */
+export class RoleAssignmentNotFound extends Schema.TaggedError<RoleAssignmentNotFound>()(
+  "RoleAssignmentNotFound",
+  AzureErrorFields,
+).pipe(Category.withNotFoundError) {}
+
+/**
+ * Returned when the same principal already holds the same role at the same
+ * scope under a different role-assignment name.
+ * Azure error code: `RoleAssignmentExists`
+ */
+export class RoleAssignmentExists extends Schema.TaggedError<RoleAssignmentExists>()(
+  "RoleAssignmentExists",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Returned when a role assignment names a principal Microsoft Entra ID has
+ * not replicated yet (common right after creating a managed identity).
+ * Azure error code: `PrincipalNotFound`
+ */
+export class PrincipalNotFound extends Schema.TaggedError<PrincipalNotFound>()(
+  "PrincipalNotFound",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned when a blob container does not exist.
+ * Azure error code: `ContainerNotFound`
+ */
+export class ContainerNotFound extends Schema.TaggedError<ContainerNotFound>()(
+  "ContainerNotFound",
+  AzureErrorFields,
+).pipe(Category.withNotFoundError) {}
+
+/**
+ * Returned when a storage account name is already used, in this or another
+ * subscription (names are globally unique).
+ * Azure error code: `StorageAccountAlreadyTaken` or `StorageAccountAlreadyExists`
+ */
+export class StorageAccountAlreadyTaken extends Schema.TaggedError<StorageAccountAlreadyTaken>()(
+  "StorageAccountAlreadyTaken",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Returned when creating or updating a resource in a resource group that is
+ * being deleted.
+ * Azure error code: `ResourceGroupBeingDeleted`
+ */
+export class ResourceGroupBeingDeleted extends Schema.TaggedError<ResourceGroupBeingDeleted>()(
+  "ResourceGroupBeingDeleted",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+// ---------------------------------------------------------------------------
 // Azure error code → typed error class mapping
 // ---------------------------------------------------------------------------
 
@@ -334,6 +396,15 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     LocationNotAvailableForResourceType: LocationNotAvailable,
     InvalidResourceScope: InvalidScope,
     ScopeNotValid: InvalidScope,
+
+    // Resource providers
+    RoleAssignmentNotFound: RoleAssignmentNotFound,
+    RoleAssignmentExists: RoleAssignmentExists,
+    PrincipalNotFound: PrincipalNotFound,
+    ContainerNotFound: ContainerNotFound,
+    StorageAccountAlreadyTaken: StorageAccountAlreadyTaken,
+    StorageAccountAlreadyExists: StorageAccountAlreadyTaken,
+    ResourceGroupBeingDeleted: ResourceGroupBeingDeleted,
   };
 
 // ---------------------------------------------------------------------------
@@ -383,4 +454,10 @@ export type AzureApiError =
   | QuotaExceeded
   | RequestRateLimitExceeded
   | LocationNotAvailable
-  | InvalidScope;
+  | InvalidScope
+  | RoleAssignmentNotFound
+  | RoleAssignmentExists
+  | PrincipalNotFound
+  | ContainerNotFound
+  | StorageAccountAlreadyTaken
+  | ResourceGroupBeingDeleted;
