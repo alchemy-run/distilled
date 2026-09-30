@@ -9331,7 +9331,10 @@
           "target": "smithy.api#String"
         },
         "images": {
-          "target": "com.cloudflare.workers#ContainerImageMap"
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
+          }
         }
       }
     },
@@ -12351,7 +12354,10 @@
           "target": "smithy.api#String"
         },
         "images": {
-          "target": "com.cloudflare.workers#ContainerImageMap"
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
+          }
         }
       }
     },
@@ -16061,7 +16067,10 @@
           "target": "smithy.api#String"
         },
         "images": {
-          "target": "com.cloudflare.workers#ContainerImageMap"
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
+          }
         }
       }
     },
@@ -19760,7 +19769,10 @@
           "target": "smithy.api#String"
         },
         "images": {
-          "target": "com.cloudflare.workers#ContainerImageMap"
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
+          }
         }
       }
     },
@@ -62273,6 +62285,9 @@
           "traits": {
             "smithy.api#documentation": "Usage model for the Worker invocations."
           }
+        },
+        "containers": {
+          "target": "com.cloudflare.workers#BetaWorkersVersionsCreateResponseContainersList"
         }
       }
     },
@@ -63605,6 +63620,9 @@
           "traits": {
             "smithy.api#documentation": "Usage model for the Worker invocations."
           }
+        },
+        "containers": {
+          "target": "com.cloudflare.workers#BetaWorkersVersionsGetResponseContainersList"
         }
       }
     },
@@ -74084,7 +74102,10 @@
           "target": "smithy.api#String"
         },
         "images": {
-          "target": "com.cloudflare.workers#ContainerImageMap"
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
+          }
         }
       }
     },
@@ -74800,7 +74821,10 @@
           "target": "smithy.api#String"
         },
         "images": {
-          "target": "com.cloudflare.workers#ContainerImageMap"
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
+          }
         }
       }
     },
@@ -77259,7 +77283,10 @@
           "target": "smithy.api#String"
         },
         "images": {
-          "target": "com.cloudflare.workers#ContainerImageMap"
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
+          }
         }
       }
     },

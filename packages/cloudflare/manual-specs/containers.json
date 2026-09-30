@@ -1,7 +1,8 @@
 {
   "smithy": "2.0",
   "metadata": {
-    "note": "Hand-authored: the Containers API is not documented in the Cloudflare API reference (developers.cloudflare.com/api has no containers resource), so spec-to-smithy cannot derive it from docs. Routes and shapes transcribed from the live API / distilled SDK. Delete this file if/when the docs gain a containers resource."
+    "note": "Hand-authored: the Containers API is not documented in the Cloudflare API reference (developers.cloudflare.com/api has no containers resource), so spec-to-smithy cannot derive it from docs. Routes and shapes transcribed from the live API / distilled SDK. Delete this file if/when the docs gain a containers resource.",
+    "imagePreparationErrors": "Live API on 2026-09-30: POST /accounts/{account_id}/containers/image-preparations rejects an unpinned image with HTTP 400, code 1000, message {\"error\":\"image must be digest-pinned and hosted in a supported managed registry\"}; a nonexistent managed digest returns HTTP 400, code 1000, message {\"error\":\"image does not exist in this account\"}. A missing image field instead returns HTTP 400, code 1602, VALIDATE_INPUT. Match both status/code and the image-specific message, leaving other 400s as BadRequest. Cloudflare's ContainerImagePreparationsService documents HTTP 403 but provides no code to distinguish entitlement from authorization, so it remains Forbidden. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/services/ContainerImagePreparationsService.ts (2026-09-30)."
   },
   "shapes": {
     "com.cloudflare.containers#InvalidRoute": {
@@ -929,10 +930,10 @@
           "target": "com.cloudflare.containers#StringList"
         },
         "wrangler_ssh": {
-          "target": "smithy.api#Document"
+          "target": "com.cloudflare.containers#WranglerSSHConfiguration"
         },
         "authorized_keys": {
-          "target": "com.cloudflare.containers#DocumentList"
+          "target": "com.cloudflare.containers#UserSSHPublicKeyList"
         },
         "experimental_flags": {
           "target": "com.cloudflare.containers#StringList"
@@ -955,14 +956,54 @@
         }
       }
     },
+    "com.cloudflare.containers#WranglerSSHConfiguration": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration for connecting to a container over SSH with Wrangler. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/WranglerSSHConfig.ts (2026-09-30)."
+      }
+    },
+    "com.cloudflare.containers#UserSSHPublicKey": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "public_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An SSH public key provided by the user. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/UserSSHPublicKey.ts (2026-09-30)."
+      }
+    },
+    "com.cloudflare.containers#UserSSHPublicKeyList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.containers#UserSSHPublicKey"
+      }
+    },
     "com.cloudflare.containers#DurableObjectContainerConfiguration": {
       "type": "structure",
       "members": {
         "wrangler_ssh": {
-          "target": "smithy.api#Document"
+          "target": "com.cloudflare.containers#WranglerSSHConfiguration"
         },
         "authorized_keys": {
-          "target": "com.cloudflare.containers#DocumentList"
+          "target": "com.cloudflare.containers#UserSSHPublicKeyList"
         },
         "experimental_flags": {
           "target": "com.cloudflare.containers#StringList"
@@ -1164,12 +1205,47 @@
         "smithy.api#documentation": "The image is invalid or does not exist in this account.",
         "com.cloudflare.protocols#errorMatchers": [
           {
+            "status": 400,
+            "code": 1000,
+            "message": {
+              "includes": "image must be digest-pinned and hosted in a supported managed registry"
+            }
+          },
+          {
+            "status": 400,
+            "code": 1000,
+            "message": {
+              "includes": "image does not exist in this account"
+            }
+          }
+        ]
+      }
+    },
+    "com.cloudflare.containers#BadRequest": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The image preparation request is invalid.",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
             "status": 400
           }
         ]
       }
     },
-    "com.cloudflare.containers#ContainerImagePreparationForbidden": {
+    "com.cloudflare.containers#Forbidden": {
       "type": "structure",
       "members": {
         "code": {
@@ -1185,7 +1261,7 @@
       "traits": {
         "smithy.api#error": "client",
         "smithy.api#httpError": 403,
-        "smithy.api#documentation": "Container image preparation is not enabled or permitted for this account.",
+        "smithy.api#documentation": "The image preparation request is forbidden.",
         "com.cloudflare.protocols#errorMatchers": [
           {
             "status": 403
@@ -1206,7 +1282,10 @@
           "target": "com.cloudflare.containers#ContainerImagePreparationInvalidImage"
         },
         {
-          "target": "com.cloudflare.containers#ContainerImagePreparationForbidden"
+          "target": "com.cloudflare.containers#BadRequest"
+        },
+        {
+          "target": "com.cloudflare.containers#Forbidden"
         }
       ],
       "traits": {
