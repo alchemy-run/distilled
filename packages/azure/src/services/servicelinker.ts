@@ -770,7 +770,7 @@ export const CreateLinkerDryrunRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.ServiceLinker/dryruns/{dryrunName}",
+      uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/dryruns/{dryrunName}",
       code: 200,
       apiVersion: "2024-04-01",
     }),
@@ -886,7 +886,7 @@ export const DeleteLinkerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
+      uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
       code: 200,
       apiVersion: "2024-04-01",
     }),
@@ -915,7 +915,7 @@ export const DeleteLinkerDryrunRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.ServiceLinker/dryruns/{dryrunName}",
+      uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/dryruns/{dryrunName}",
       code: 200,
       apiVersion: "2024-04-01",
     }),
@@ -1132,7 +1132,7 @@ export const GenerateLinkerConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}/generateConfigurations",
+      uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/linkers/{linkerName}/generateConfigurations",
       code: 200,
       apiVersion: "2024-04-01",
     }),
@@ -1258,7 +1258,7 @@ export const GetLinkerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
+      uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
       code: 200,
       apiVersion: "2024-04-01",
     }),
@@ -1304,7 +1304,7 @@ export const GetLinkerDryrunRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ServiceLinker/dryruns/{dryrunName}",
+      uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/dryruns/{dryrunName}",
       code: 200,
       apiVersion: "2024-04-01",
     }),
@@ -1353,7 +1353,7 @@ export const LinkerCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
+      uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
       code: 200,
       apiVersion: "2024-04-01",
     }),
@@ -1644,7 +1644,7 @@ export const ListLinkerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers",
+      uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/linkers",
       code: 200,
       apiVersion: "2024-04-01",
     }),
@@ -1666,7 +1666,7 @@ export const ListLinkerConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}/listConfigurations",
+      uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/linkers/{linkerName}/listConfigurations",
       code: 200,
       apiVersion: "2024-04-01",
     }),
@@ -1685,7 +1685,7 @@ export const ListLinkerDaprConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ServiceLinker/daprConfigurations",
+      uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/daprConfigurations",
       code: 200,
       apiVersion: "2024-04-01",
     }),
@@ -1755,7 +1755,7 @@ export const ListLinkerDryrunRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ServiceLinker/dryruns",
+      uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/dryruns",
       code: 200,
       apiVersion: "2024-04-01",
     }),
@@ -1978,7 +1978,7 @@ export const UpdateLinkerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
+      uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
       code: 200,
       apiVersion: "2024-04-01",
     }),
@@ -2027,7 +2027,7 @@ export const UpdateLinkerDryrunRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.ServiceLinker/dryruns/{dryrunName}",
+      uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/dryruns/{dryrunName}",
       code: 200,
       apiVersion: "2024-04-01",
     }),
@@ -2187,7 +2187,7 @@ export const ValidateLinkerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}/validateLinker",
+      uri: "/{resourceUri+}/providers/Microsoft.ServiceLinker/linkers/{linkerName}/validateLinker",
       code: 200,
       apiVersion: "2024-04-01",
     }),

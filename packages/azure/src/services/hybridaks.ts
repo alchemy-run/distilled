@@ -163,7 +163,7 @@ export const AgentPoolCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -382,7 +382,7 @@ export const DeleteAgentPoolRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -408,7 +408,7 @@ export const DeleteHybridIdentityMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -434,7 +434,7 @@ export const DeleteKubernetesVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/kubernetesVersions/default",
+      uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/kubernetesVersions/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -461,7 +461,7 @@ export const DeleteProvisionedClusterInstanceRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "DELETE",
-        uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default",
+        uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default",
         code: 200,
         apiVersion: "2024-01-01",
       }),
@@ -519,7 +519,7 @@ export const DeleteVMSkusRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/skus/default",
+      uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/skus/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -548,7 +548,7 @@ export const GetAgentPoolRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -602,7 +602,7 @@ export const GetHybridIdentityMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -663,7 +663,7 @@ export const GetKubernetesVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/kubernetesVersions/default",
+      uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/kubernetesVersions/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -814,7 +814,7 @@ export const GetProvisionedClusterInstanceRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default",
+        uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default",
         code: 200,
         apiVersion: "2024-01-01",
       }),
@@ -1369,7 +1369,7 @@ export const GetProvisionedClusterInstanceUpgradeProfileRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/upgradeProfiles/default",
+        uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/upgradeProfiles/default",
         code: 200,
         apiVersion: "2024-01-01",
       }),
@@ -1729,7 +1729,7 @@ export const GetVMSkusRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/skus/default",
+      uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/skus/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -1841,7 +1841,7 @@ export const ListAgentPoolByProvisionedClusterRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools",
+        uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools",
         code: 200,
         apiVersion: "2024-01-01",
       }),
@@ -1914,7 +1914,7 @@ export const ListHybridIdentityMetadataByClusterRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata",
+        uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata",
         code: 200,
         apiVersion: "2024-01-01",
       }),
@@ -1980,7 +1980,7 @@ export const ListKubernetesVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/kubernetesVersions",
+      uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/kubernetesVersions",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -2156,7 +2156,7 @@ export const ListProvisionedClusterInstanceAdminKubeconfigRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/listAdminKubeconfig",
+        uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/listAdminKubeconfig",
         code: 200,
         apiVersion: "2024-01-01",
       }),
@@ -2250,7 +2250,7 @@ export const ListProvisionedClusterInstancesRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances",
+        uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances",
         code: 200,
         apiVersion: "2024-01-01",
       }),
@@ -2315,7 +2315,7 @@ export const ListProvisionedClusterInstanceUserKubeconfigRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/listUserKubeconfig",
+        uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/listUserKubeconfig",
         code: 200,
         apiVersion: "2024-01-01",
       }),
@@ -2454,7 +2454,7 @@ export const ListVMSkusRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/skus",
+      uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/skus",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -2754,7 +2754,7 @@ export const ProvisionedClusterInstancesCreateOrUpdateRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default",
+        uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default",
         code: 200,
         apiVersion: "2024-01-01",
       }),
@@ -2819,7 +2819,7 @@ export const PutHybridIdentityMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -2864,7 +2864,7 @@ export const PutKubernetesVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/kubernetesVersions/default",
+      uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/kubernetesVersions/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -2933,7 +2933,7 @@ export const PutVMSkusRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/skus/default",
+      uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/skus/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),

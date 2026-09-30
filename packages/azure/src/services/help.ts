@@ -29,7 +29,7 @@ export const CheckDiagnosticNameAvailabilityRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{scope}/providers/Microsoft.Help/checkNameAvailability",
+        uri: "/{scope+}/providers/Microsoft.Help/checkNameAvailability",
         code: 200,
         apiVersion: "2023-06-01",
       }),
@@ -137,7 +137,7 @@ export const CreateDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Help/diagnostics/{diagnosticsResourceName}",
+      uri: "/{scope+}/providers/Microsoft.Help/diagnostics/{diagnosticsResourceName}",
       code: 200,
       apiVersion: "2023-06-01",
     }),
@@ -369,7 +369,7 @@ export const GetDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Help/diagnostics/{diagnosticsResourceName}",
+      uri: "/{scope+}/providers/Microsoft.Help/diagnostics/{diagnosticsResourceName}",
       code: 200,
       apiVersion: "2023-06-01",
     }),
@@ -418,7 +418,7 @@ export const ListDiscoverySolutionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Help/discoverySolutions",
+      uri: "/{scope+}/providers/Microsoft.Help/discoverySolutions",
       code: 200,
       apiVersion: "2023-06-01",
     }),

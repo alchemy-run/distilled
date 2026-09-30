@@ -1826,7 +1826,7 @@ export const CreateDeploymentSafeguardRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.ContainerService/deploymentSafeguards/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ContainerService/deploymentSafeguards/default",
       code: 200,
       apiVersion: "2025-07-01",
     }),
@@ -2234,7 +2234,7 @@ export const DeleteDeploymentSafeguardRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.ContainerService/deploymentSafeguards/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ContainerService/deploymentSafeguards/default",
       code: 200,
       apiVersion: "2025-07-01",
     }),
@@ -4182,7 +4182,7 @@ export const GetDeploymentSafeguardRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ContainerService/deploymentSafeguards/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ContainerService/deploymentSafeguards/default",
       code: 200,
       apiVersion: "2025-07-01",
     }),
@@ -9442,7 +9442,7 @@ export const ListDeploymentSafeguardsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ContainerService/deploymentSafeguards",
+      uri: "/{resourceUri+}/providers/Microsoft.ContainerService/deploymentSafeguards",
       code: 200,
       apiVersion: "2025-07-01",
     }),

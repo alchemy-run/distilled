@@ -50,7 +50,7 @@ export const CreateHybridUseBenefitRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
+      uri: "/{scope+}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
       code: 200,
       apiVersion: "2019-12-01",
     }),
@@ -122,7 +122,7 @@ export const DeleteHybridUseBenefitRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
+      uri: "/{scope+}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
       code: 200,
       apiVersion: "2019-12-01",
     }),
@@ -151,7 +151,7 @@ export const GetHybridUseBenefitRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
+      uri: "/{scope+}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
       code: 200,
       apiVersion: "2019-12-01",
     }),
@@ -200,7 +200,7 @@ export const ListHybridUseBenefitRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits",
+      uri: "/{scope+}/providers/Microsoft.SoftwarePlan/hybridUseBenefits",
       code: 200,
       apiVersion: "2019-12-01",
     }),
@@ -272,7 +272,7 @@ export const ListHybridUseBenefitRevisionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}/revisions",
+      uri: "/{scope+}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}/revisions",
       code: 200,
       apiVersion: "2019-12-01",
     }),
@@ -291,7 +291,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.SoftwarePlan/operations",
+      uri: "/{scope+}/providers/Microsoft.SoftwarePlan/operations",
       code: 200,
       apiVersion: "2019-12-01",
     }),
@@ -406,7 +406,7 @@ export const UpdateHybridUseBenefitRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
+      uri: "/{scope+}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
       code: 200,
       apiVersion: "2019-12-01",
     }),

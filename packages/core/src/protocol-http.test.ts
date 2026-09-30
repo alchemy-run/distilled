@@ -103,6 +103,34 @@ describe("URI label encoding", () => {
   });
 });
 
+describe("greedy labels", () => {
+  const ScopedInput = S.Struct({
+    scope: S.String.pipe(T.Label()),
+    name: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/{scope+}/providers/Things/{name}" }));
+
+  const urlOf = (input: unknown) =>
+    buildRequest({
+      input,
+      inputAst: ScopedInput.ast,
+      baseUrl: "https://example.test",
+    }).url;
+
+  test("keeps slashes and drops the leading slash of the value", () => {
+    expect(
+      urlOf({ scope: "/subscriptions/abc/resourceGroups/my rg", name: "a/b" }),
+    ).toBe(
+      "https://example.test/subscriptions/abc/resourceGroups/my%20rg/providers/Things/a%2Fb",
+    );
+  });
+
+  test("accepts a value without a leading slash", () => {
+    expect(urlOf({ scope: "subscriptions/abc", name: "x" })).toBe(
+      "https://example.test/subscriptions/abc/providers/Things/x",
+    );
+  });
+});
+
 describe("multipart binary parts", () => {
   const schema = S.Struct({ zip: S.Unknown, environment: S.String }).pipe(
     T.Http({ method: "POST", uri: "/deployments", contentType: "multipart" }),

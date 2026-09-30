@@ -4010,7 +4010,7 @@ export const ListBackupInstancesExtensionRoutingRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceId}/providers/Microsoft.DataProtection/backupInstances",
+        uri: "/{resourceId+}/providers/Microsoft.DataProtection/backupInstances",
         code: 200,
         apiVersion: "2026-06-01",
       }),

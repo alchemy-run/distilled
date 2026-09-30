@@ -48,7 +48,7 @@ export const BgpPeersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -169,7 +169,7 @@ export const DeleteBgpPeerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -198,7 +198,7 @@ export const DeleteLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -227,7 +227,7 @@ export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/services/{serviceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/services/{serviceName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -256,7 +256,7 @@ export const DeleteStorageClassRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -285,7 +285,7 @@ export const GetBgpPeerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -331,7 +331,7 @@ export const GetLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -427,7 +427,7 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/services/{serviceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/services/{serviceName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -489,7 +489,7 @@ export const GetStorageClassRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -642,7 +642,7 @@ export const ListBgpPeersRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/bgpPeers",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -706,7 +706,7 @@ export const ListLoadBalancersRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/loadBalancers",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -858,7 +858,7 @@ export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/services",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/services",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -924,7 +924,7 @@ export const ListStorageClassRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/storageClasses",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -1041,7 +1041,7 @@ export const LoadBalancersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -1098,7 +1098,7 @@ export const ServicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/services/{serviceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/services/{serviceName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -1211,7 +1211,7 @@ export const StorageClassCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -1370,7 +1370,7 @@ export const UpdateStorageClassRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),

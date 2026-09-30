@@ -9840,7 +9840,7 @@ export const DeleteEc2InstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.AwsConnector/ec2Instances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.AwsConnector/ec2Instances/default",
       code: 200,
       apiVersion: "2024-12-01",
     }),
@@ -10507,7 +10507,7 @@ export const DeleteEksClusterRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.AwsConnector/eksClusters/default",
+      uri: "/{resourceUri+}/providers/Microsoft.AwsConnector/eksClusters/default",
       code: 200,
       apiVersion: "2024-12-01",
     }),
@@ -16907,7 +16907,7 @@ export const Ec2InstancesCreateOrReplaceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.AwsConnector/ec2Instances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.AwsConnector/ec2Instances/default",
       code: 200,
       apiVersion: "2024-12-01",
     }),
@@ -24590,7 +24590,7 @@ export const EksClustersCreateOrReplaceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.AwsConnector/eksClusters/default",
+      uri: "/{resourceUri+}/providers/Microsoft.AwsConnector/eksClusters/default",
       code: 200,
       apiVersion: "2024-12-01",
     }),
@@ -29761,7 +29761,7 @@ export const GetEc2InstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.AwsConnector/ec2Instances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.AwsConnector/ec2Instances/default",
       code: 200,
       apiVersion: "2024-12-01",
     }),
@@ -31076,7 +31076,7 @@ export const GetEksClusterRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.AwsConnector/eksClusters/default",
+      uri: "/{resourceUri+}/providers/Microsoft.AwsConnector/eksClusters/default",
       code: 200,
       apiVersion: "2024-12-01",
     }),
@@ -51648,7 +51648,7 @@ export const ListEc2InstancesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.AwsConnector/ec2Instances",
+      uri: "/{resourceUri+}/providers/Microsoft.AwsConnector/ec2Instances",
       code: 200,
       apiVersion: "2024-12-01",
     }),
@@ -53734,7 +53734,7 @@ export const ListEksClustersRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.AwsConnector/eksClusters",
+      uri: "/{resourceUri+}/providers/Microsoft.AwsConnector/eksClusters",
       code: 200,
       apiVersion: "2024-12-01",
     }),
@@ -65733,7 +65733,7 @@ export const StartEc2InstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.AwsConnector/ec2Instances/default/start",
+      uri: "/{resourceUri+}/providers/Microsoft.AwsConnector/ec2Instances/default/start",
       code: 200,
       apiVersion: "2024-12-01",
     }),
@@ -65844,7 +65844,7 @@ export const StopEc2InstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.AwsConnector/ec2Instances/default/stop",
+      uri: "/{resourceUri+}/providers/Microsoft.AwsConnector/ec2Instances/default/stop",
       code: 200,
       apiVersion: "2024-12-01",
     }),

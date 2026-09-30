@@ -48,7 +48,7 @@ export const DataScannersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scopeId}/providers/Microsoft.Security/dataScanners/{scannerName}",
+      uri: "/{scopeId+}/providers/Microsoft.Security/dataScanners/{scannerName}",
       code: 200,
       apiVersion: "2026-08-01",
     }),
@@ -158,7 +158,7 @@ export const DeleteDataScannerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scopeId}/providers/Microsoft.Security/dataScanners/{scannerName}",
+      uri: "/{scopeId+}/providers/Microsoft.Security/dataScanners/{scannerName}",
       code: 200,
       apiVersion: "2026-08-01",
     }),
@@ -187,7 +187,7 @@ export const GetDataScannerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scopeId}/providers/Microsoft.Security/dataScanners/{scannerName}",
+      uri: "/{scopeId+}/providers/Microsoft.Security/dataScanners/{scannerName}",
       code: 200,
       apiVersion: "2026-08-01",
     }),
@@ -239,7 +239,7 @@ export const ListDataScannersRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scopeId}/providers/Microsoft.Security/dataScanners",
+      uri: "/{scopeId+}/providers/Microsoft.Security/dataScanners",
       code: 200,
       apiVersion: "2026-08-01",
     }),

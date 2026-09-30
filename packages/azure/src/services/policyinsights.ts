@@ -92,7 +92,7 @@ export const AttestationsCreateOrUpdateAtResourceRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{resourceId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+        uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
         code: 200,
         apiVersion: "2024-10-01",
       }),
@@ -512,7 +512,7 @@ export const CancelRemediationAtResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -1069,7 +1069,7 @@ export const DeleteAttestationAtResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -1222,7 +1222,7 @@ export const DeleteRemediationAtResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -1367,7 +1367,7 @@ export const GetAttestationAtResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -1649,7 +1649,7 @@ export const GetRemediationAtResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -1796,7 +1796,7 @@ export const ListAttestationForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/attestations",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/attestations",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -2195,7 +2195,7 @@ export const ListComponentPolicyStateQueryResultsForResourceRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceId}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
+        uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
         code: 200,
         apiVersion: "2024-10-01",
       }),
@@ -2968,7 +2968,7 @@ export const ListPolicyEventQueryResultsForResourceRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceId}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+        uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
         code: 200,
         apiVersion: "2024-10-01",
       }),
@@ -3810,7 +3810,7 @@ export const ListPolicyStateQueryResultsForResourceRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+        uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
         code: 200,
         apiVersion: "2024-10-01",
       }),
@@ -4252,7 +4252,7 @@ export const ListRemediationDeploymentsAtResourceRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/listDeployments",
+        uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/listDeployments",
         code: 200,
         apiVersion: "2024-10-01",
       }),
@@ -4416,7 +4416,7 @@ export const ListRemediationForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/remediations",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -4897,7 +4897,7 @@ export const PolicyStatesSummarizeForResourceRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+        uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
         code: 200,
         apiVersion: "2024-10-01",
       }),
@@ -5238,7 +5238,7 @@ export const RemediationsCreateOrUpdateAtResourceRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+        uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
         code: 200,
         apiVersion: "2024-10-01",
       }),

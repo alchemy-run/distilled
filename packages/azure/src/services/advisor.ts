@@ -302,7 +302,7 @@ export const CreateSuppressionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
+      uri: "/{resourceUri+}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
       code: 200,
       apiVersion: "2025-01-01",
     }),
@@ -370,7 +370,7 @@ export const DeleteSuppressionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
+      uri: "/{resourceUri+}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
       code: 200,
       apiVersion: "2025-01-01",
     }),
@@ -545,7 +545,7 @@ export const GetRecommendationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}",
+      uri: "/{resourceUri+}/providers/Microsoft.Advisor/recommendations/{recommendationId}",
       code: 200,
       apiVersion: "2025-01-01",
     }),
@@ -909,7 +909,7 @@ export const GetSuppressionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
+      uri: "/{resourceUri+}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
       code: 200,
       apiVersion: "2025-01-01",
     }),

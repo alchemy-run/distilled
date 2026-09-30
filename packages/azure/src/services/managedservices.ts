@@ -25,7 +25,7 @@ export const DeleteRegistrationAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -54,7 +54,7 @@ export const DeleteRegistrationDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -84,7 +84,7 @@ export const GetMarketplaceRegistrationDefinitionRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{scope}/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions/{marketplaceIdentifier}",
+        uri: "/{scope+}/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions/{marketplaceIdentifier}",
         code: 200,
         apiVersion: "2022-10-01",
       }),
@@ -325,7 +325,7 @@ export const GetRegistrationAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -620,7 +620,7 @@ export const GetRegistrationDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -790,7 +790,7 @@ export const ListMarketplaceRegistrationDefinitionsRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{scope}/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions",
+        uri: "/{scope+}/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions",
         code: 200,
         apiVersion: "2022-10-01",
       }),
@@ -921,7 +921,7 @@ export const ListOperationsWithScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/operations",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/operations",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -948,7 +948,7 @@ export const ListRegistrationAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/registrationAssignments",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationAssignments",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -992,7 +992,7 @@ export const ListRegistrationDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationDefinitions",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -1054,7 +1054,7 @@ export const RegistrationAssignmentsCreateOrUpdateRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{scope}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}",
+        uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}",
         code: 200,
         apiVersion: "2022-10-01",
       }),
@@ -1127,7 +1127,7 @@ export const RegistrationDefinitionsCreateOrUpdateRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}",
+        uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}",
         code: 200,
         apiVersion: "2022-10-01",
       }),

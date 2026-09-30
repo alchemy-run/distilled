@@ -919,7 +919,7 @@ export const ApplicationsCreateOrUpdateByIdRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{applicationId}",
+        uri: "/{applicationId+}",
         code: 200,
         apiVersion: "2019-07-01",
       }),
@@ -1055,7 +1055,7 @@ export const CancelDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -1800,7 +1800,7 @@ export const CreatePolicyAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
       code: 200,
       apiVersion: "2026-07-01",
     }),
@@ -2092,7 +2092,7 @@ export const DeleteApplicationByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{applicationId}",
+      uri: "/{applicationId+}",
       code: 200,
       apiVersion: "2019-07-01",
     }),
@@ -2214,7 +2214,7 @@ export const DeleteDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -3026,7 +3026,7 @@ export const DeleteManagementLockByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Authorization/locks/{lockName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/locks/{lockName}",
       code: 200,
       apiVersion: "2020-05-01",
     }),
@@ -3055,7 +3055,7 @@ export const DeletePolicyAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
       code: 200,
       apiVersion: "2026-07-01",
     }),
@@ -3419,7 +3419,7 @@ export const DeleteResourceByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceId}",
+      uri: "/{resourceId+}",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -3477,7 +3477,7 @@ export const DeleteResourceLinkRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{linkId}",
+      uri: "/{linkId+}",
       code: 200,
       apiVersion: "2016-09-01",
     }),
@@ -3596,7 +3596,7 @@ export const DeleteTagAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Resources/tags/default",
+      uri: "/{scope+}/providers/Microsoft.Resources/tags/default",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -4936,7 +4936,7 @@ export const DeploymentsCreateOrUpdateAtScopeRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}",
+        uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -7984,7 +7984,7 @@ export const ExportDeploymentTemplateAtScopeRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate",
+        uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -8224,7 +8224,7 @@ export const GetApplicationByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{applicationId}",
+      uri: "/{applicationId+}",
       code: 200,
       apiVersion: "2019-07-01",
     }),
@@ -8508,7 +8508,7 @@ export const GetDataBoundaryScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Resources/dataBoundaries/{default}",
+      uri: "/{scope+}/providers/Microsoft.Resources/dataBoundaries/{default}",
       code: 200,
       apiVersion: "2024-08-01",
     }),
@@ -9042,7 +9042,7 @@ export const GetDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -9419,7 +9419,7 @@ export const GetDeploymentOperationAtScopeRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}",
+        uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -10497,7 +10497,7 @@ export const GetManagementLockByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/locks/{lockName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/locks/{lockName}",
       code: 200,
       apiVersion: "2020-05-01",
     }),
@@ -10522,7 +10522,7 @@ export const GetPolicyAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
       code: 200,
       apiVersion: "2026-07-01",
     }),
@@ -11909,7 +11909,7 @@ export const GetResourceByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceId}",
+      uri: "/{resourceId+}",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -12062,7 +12062,7 @@ export const GetResourceLinkRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{linkId}",
+      uri: "/{linkId+}",
       code: 200,
       apiVersion: "2016-09-01",
     }),
@@ -12465,7 +12465,7 @@ export const GetTagAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Resources/tags/default",
+      uri: "/{scope+}/providers/Microsoft.Resources/tags/default",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -13722,7 +13722,7 @@ export const ListDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -13874,7 +13874,7 @@ export const ListDeploymentOperationAtScopeRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations",
+        uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}/operations",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -14602,7 +14602,7 @@ export const ListManagementLockByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/locks",
+      uri: "/{scope+}/providers/Microsoft.Authorization/locks",
       code: 200,
       apiVersion: "2020-05-01",
     }),
@@ -15857,7 +15857,7 @@ export const ListResourceLinkAtSourceScopeRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{scope}/providers/Microsoft.Resources/links",
+        uri: "/{scope+}/providers/Microsoft.Resources/links",
         code: 200,
         apiVersion: "2016-09-01",
       }),
@@ -17013,7 +17013,7 @@ export const ManagementLocksCreateOrUpdateByScopeRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{scope}/providers/Microsoft.Authorization/locks/{lockName}",
+        uri: "/{scope+}/providers/Microsoft.Authorization/locks/{lockName}",
         code: 200,
         apiVersion: "2020-05-01",
       }),
@@ -18470,7 +18470,7 @@ export const ResourceLinksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{linkId}",
+      uri: "/{linkId+}",
       code: 200,
       apiVersion: "2016-09-01",
     }),
@@ -18683,7 +18683,7 @@ export const ResourcesCreateOrUpdateByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceId}",
+      uri: "/{resourceId+}",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -19024,7 +19024,7 @@ export const TagsCreateOrUpdateAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Resources/tags/default",
+      uri: "/{scope+}/providers/Microsoft.Resources/tags/default",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -19599,7 +19599,7 @@ export const UpdateApplicationByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{applicationId}",
+      uri: "/{applicationId+}",
       code: 200,
       apiVersion: "2019-07-01",
     }),
@@ -19869,7 +19869,7 @@ export const UpdatePolicyAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
       code: 200,
       apiVersion: "2026-07-01",
     }),
@@ -20080,7 +20080,7 @@ export const UpdateResourceByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceId}",
+      uri: "/{resourceId+}",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -20251,7 +20251,7 @@ export const UpdateTagAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{scope}/providers/Microsoft.Resources/tags/default",
+      uri: "/{scope+}/providers/Microsoft.Resources/tags/default",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -20686,7 +20686,7 @@ export const ValidateDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/validate",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}/validate",
       code: 200,
       apiVersion: "2026-06-01",
     }),

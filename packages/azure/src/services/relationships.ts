@@ -26,7 +26,7 @@ export const DeleteDependencyOfRelationshipRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "DELETE",
-        uri: "/{resourceUri}/providers/Microsoft.Relationships/dependencyOf/{name}",
+        uri: "/{resourceUri+}/providers/Microsoft.Relationships/dependencyOf/{name}",
         code: 200,
         apiVersion: "2026-08-01",
       }),
@@ -85,7 +85,7 @@ export const DeleteServiceGroupMemberRelationshipRequest =
     }).pipe(
       T.Http({
         method: "DELETE",
-        uri: "/{resourceUri}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
+        uri: "/{resourceUri+}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
         code: 200,
         apiVersion: "2026-08-01",
       }),
@@ -306,7 +306,7 @@ export const DependencyOfRelationshipsCreateOrUpdateRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{resourceUri}/providers/Microsoft.Relationships/dependencyOf/{name}",
+        uri: "/{resourceUri+}/providers/Microsoft.Relationships/dependencyOf/{name}",
         code: 200,
         apiVersion: "2026-08-01",
       }),
@@ -353,7 +353,7 @@ export const GetDependencyOfRelationshipRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Relationships/dependencyOf/{name}",
+      uri: "/{resourceUri+}/providers/Microsoft.Relationships/dependencyOf/{name}",
       code: 200,
       apiVersion: "2026-08-01",
     }),
@@ -448,7 +448,7 @@ export const GetServiceGroupMemberRelationshipRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
+        uri: "/{resourceUri+}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
         code: 200,
         apiVersion: "2026-08-01",
       }),
@@ -647,7 +647,7 @@ export const ListDependencyOfRelationshipByParentRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Relationships/dependencyOf",
+        uri: "/{resourceUri+}/providers/Microsoft.Relationships/dependencyOf",
         code: 200,
         apiVersion: "2026-08-01",
       }),
@@ -824,7 +824,7 @@ export const ListServiceGroupMemberRelationshipByParentRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Relationships/serviceGroupMember",
+        uri: "/{resourceUri+}/providers/Microsoft.Relationships/serviceGroupMember",
         code: 200,
         apiVersion: "2026-08-01",
       }),
@@ -917,7 +917,7 @@ export const ServiceGroupMemberRelationshipsCreateOrUpdateRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{resourceUri}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
+        uri: "/{resourceUri+}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
         code: 200,
         apiVersion: "2026-08-01",
       }),

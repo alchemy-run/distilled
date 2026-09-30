@@ -783,7 +783,7 @@ export const ConfigurationReferencesCreateOrUpdateRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
         code: 200,
         apiVersion: "2025-08-01",
       }),
@@ -1604,7 +1604,7 @@ export const DeleteConfigurationReferenceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
       code: 200,
       apiVersion: "2025-08-01",
     }),
@@ -2021,7 +2021,7 @@ export const DeleteSchemaReferenceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
       code: 200,
       apiVersion: "2026-03-01",
     }),
@@ -3836,7 +3836,7 @@ export const GetConfigurationReferenceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
       code: 200,
       apiVersion: "2025-08-01",
     }),
@@ -4463,7 +4463,7 @@ export const GetHierarchyConfigurationMetadatasRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}",
         code: 200,
         apiVersion: "2026-03-01",
       }),
@@ -4531,7 +4531,7 @@ export const GetHierarchyConfigurationMetadataVersionRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}/versions/{hierarchyConfigurationMetadataVersionName}",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}/versions/{hierarchyConfigurationMetadataVersionName}",
         code: 200,
         apiVersion: "2026-03-01",
       }),
@@ -5081,7 +5081,7 @@ export const GetJobRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/jobs/{jobName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/jobs/{jobName}",
       code: 200,
       apiVersion: "2026-03-01",
     }),
@@ -5469,7 +5469,7 @@ export const GetSchemaReferenceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
       code: 200,
       apiVersion: "2026-03-01",
     }),
@@ -5967,7 +5967,7 @@ export const GetSolutionMetadatasRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}",
       code: 200,
       apiVersion: "2026-03-01",
     }),
@@ -6038,7 +6038,7 @@ export const GetSolutionMetadataVersionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}/versions/{solutionMetadataVersionName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}/versions/{solutionMetadataVersionName}",
       code: 200,
       apiVersion: "2026-03-01",
     }),
@@ -7858,7 +7858,7 @@ export const ListConfigurationReferencesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/configurationReferences",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/configurationReferences",
       code: 200,
       apiVersion: "2025-08-01",
     }),
@@ -8766,7 +8766,7 @@ export const ListHierarchyConfigurationMetadatasByParentRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas",
         code: 200,
         apiVersion: "2026-03-01",
       }),
@@ -8839,7 +8839,7 @@ export const ListHierarchyConfigurationMetadataVersionByParentRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}/versions",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}/versions",
         code: 200,
         apiVersion: "2026-03-01",
       }),
@@ -9157,7 +9157,7 @@ export const ListJobByTargetRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/jobs",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/jobs",
       code: 200,
       apiVersion: "2026-03-01",
     }),
@@ -9413,7 +9413,7 @@ export const ListSchemaReferenceByResourceGroupRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/schemaReferences",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/schemaReferences",
         code: 200,
         apiVersion: "2026-03-01",
       }),
@@ -9786,7 +9786,7 @@ export const ListSolutionMetadatasByParentRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/solutionMetadatas",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/solutionMetadatas",
         code: 200,
         apiVersion: "2026-03-01",
       }),
@@ -9856,7 +9856,7 @@ export const ListSolutionMetadataVersionByParentRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}/versions",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}/versions",
         code: 200,
         apiVersion: "2026-03-01",
       }),
@@ -10836,7 +10836,7 @@ export const SchemaReferencesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
         code: 200,
         apiVersion: "2026-03-01",
       }),
@@ -12453,7 +12453,7 @@ export const UpdateConfigurationReferenceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
       code: 200,
       apiVersion: "2025-08-01",
     }),
@@ -13412,7 +13412,7 @@ export const UpdateSchemaReferenceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
       code: 200,
       apiVersion: "2026-03-01",
     }),

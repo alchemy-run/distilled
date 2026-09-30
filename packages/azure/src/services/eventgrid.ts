@@ -1619,7 +1619,7 @@ export const DeleteEventSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
       code: 200,
       apiVersion: "2025-02-15",
     }),
@@ -3289,7 +3289,7 @@ export const EventSubscriptionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
+        uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
         code: 200,
         apiVersion: "2025-02-15",
       }),
@@ -4404,7 +4404,7 @@ export const GetEventSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
       code: 200,
       apiVersion: "2025-02-15",
     }),
@@ -4501,7 +4501,7 @@ export const GetEventSubscriptionDeliveryAttributesRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
+        uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
         code: 200,
         apiVersion: "2025-02-15",
       }),
@@ -4523,7 +4523,7 @@ export const GetEventSubscriptionFullUrlRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}/getFullUrl",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}/getFullUrl",
       code: 200,
       apiVersion: "2025-02-15",
     }),
@@ -4542,7 +4542,7 @@ export const GetExtensionTopicRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.EventGrid/extensionTopics/default",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/extensionTopics/default",
       code: 200,
       apiVersion: "2025-02-15",
     }),
@@ -14316,7 +14316,7 @@ export const UpdateEventSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
       code: 200,
       apiVersion: "2025-02-15",
     }),

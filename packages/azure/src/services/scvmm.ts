@@ -470,7 +470,7 @@ export const CreateGuestAgentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
       code: 200,
       apiVersion: "2025-03-13",
     }),
@@ -661,7 +661,7 @@ export const CreateVirtualMachineInstanceCheckpointRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/createCheckpoint",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/createCheckpoint",
         code: 200,
         apiVersion: "2025-03-13",
       }),
@@ -756,7 +756,7 @@ export const DeleteGuestAgentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
       code: 200,
       apiVersion: "2025-03-13",
     }),
@@ -823,7 +823,7 @@ export const DeleteVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
       code: 200,
       apiVersion: "2025-03-13",
     }),
@@ -853,7 +853,7 @@ export const DeleteVirtualMachineInstanceCheckpointRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/deleteCheckpoint",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/deleteCheckpoint",
         code: 200,
         apiVersion: "2025-03-13",
       }),
@@ -1115,7 +1115,7 @@ export const GetGuestAgentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
       code: 200,
       apiVersion: "2025-03-13",
     }),
@@ -1213,7 +1213,7 @@ export const GetVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
       code: 200,
       apiVersion: "2025-03-13",
     }),
@@ -1891,7 +1891,7 @@ export const GetVmInstanceHybridIdentityMetadatasRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata/default",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata/default",
         code: 200,
         apiVersion: "2025-03-13",
       }),
@@ -2277,7 +2277,7 @@ export const ListGuestAgentByVirtualMachineInstanceRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents",
         code: 200,
         apiVersion: "2025-03-13",
       }),
@@ -2502,7 +2502,7 @@ export const ListVirtualMachineInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances",
       code: 200,
       apiVersion: "2025-03-13",
     }),
@@ -2786,7 +2786,7 @@ export const ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstanceReques
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata",
         code: 200,
         apiVersion: "2025-03-13",
       }),
@@ -2959,7 +2959,7 @@ export const RestartVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/restart",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/restart",
         code: 200,
         apiVersion: "2025-03-13",
       }),
@@ -2989,7 +2989,7 @@ export const RestoreVirtualMachineInstanceCheckpointRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/restoreCheckpoint",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/restoreCheckpoint",
         code: 200,
         apiVersion: "2025-03-13",
       }),
@@ -3014,7 +3014,7 @@ export const StartVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/start",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/start",
       code: 200,
       apiVersion: "2025-03-13",
     }),
@@ -3043,7 +3043,7 @@ export const StopVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/stop",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/stop",
       code: 200,
       apiVersion: "2025-03-13",
     }),
@@ -3407,7 +3407,7 @@ export const UpdateVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
       code: 200,
       apiVersion: "2025-03-13",
     }),
@@ -3900,7 +3900,7 @@ export const VirtualMachineInstancesCreateOrUpdateRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
         code: 200,
         apiVersion: "2025-03-13",
       }),

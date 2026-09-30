@@ -2424,7 +2424,7 @@ export const CreateGuestAgentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -2629,7 +2629,7 @@ export const DeleteEdgeDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}",
       code: 200,
       apiVersion: "2026-10-01",
     }),
@@ -2661,7 +2661,7 @@ export const DeleteEdgeDeviceJobRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs/{jobsName}",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs/{jobsName}",
       code: 200,
       apiVersion: "2026-10-01",
     }),
@@ -3078,7 +3078,7 @@ export const DeleteGuestAgentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -3405,7 +3405,7 @@ export const DeleteVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -4633,7 +4633,7 @@ export const EdgeDeviceJobsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs/{jobsName}",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs/{jobsName}",
       code: 200,
       apiVersion: "2026-10-01",
     }),
@@ -4687,7 +4687,7 @@ export const EdgeDevicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}",
       code: 200,
       apiVersion: "2026-10-01",
     }),
@@ -8753,7 +8753,7 @@ export const GetEdgeDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}",
       code: 200,
       apiVersion: "2026-10-01",
     }),
@@ -8802,7 +8802,7 @@ export const GetEdgeDeviceJobRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs/{jobsName}",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs/{jobsName}",
       code: 200,
       apiVersion: "2026-10-01",
     }),
@@ -9869,7 +9869,7 @@ export const GetGuestAgentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -9912,7 +9912,7 @@ export const GetHybridIdentityMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/hybridIdentityMetadata/default",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/hybridIdentityMetadata/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -12360,7 +12360,7 @@ export const GetVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -13433,7 +13433,7 @@ export const ListEdgeDeviceJobByEdgeDeviceRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs",
+        uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs",
         code: 200,
         apiVersion: "2026-10-01",
       }),
@@ -13497,7 +13497,7 @@ export const ListEdgeDevicesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/edgeDevices",
       code: 200,
       apiVersion: "2026-10-01",
     }),
@@ -14550,7 +14550,7 @@ export const ListGuestAgentsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -14612,7 +14612,7 @@ export const ListHybridIdentityMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/hybridIdentityMetadata",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/hybridIdentityMetadata",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -15918,7 +15918,7 @@ export const ListVirtualMachineInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -17086,7 +17086,7 @@ export const RestartVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/restart",
+        uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/restart",
         code: 200,
         apiVersion: "2024-01-01",
       }),
@@ -17275,7 +17275,7 @@ export const StartVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/start",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/start",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -17355,7 +17355,7 @@ export const StopVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/stop",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/stop",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -19020,7 +19020,7 @@ export const UpdateVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -19166,7 +19166,7 @@ export const ValidateEdgeDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/validate",
+      uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/validate",
       code: 200,
       apiVersion: "2026-10-01",
     }),
@@ -19765,7 +19765,7 @@ export const VirtualMachineInstancesCreateOrUpdateRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default",
+        uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default",
         code: 200,
         apiVersion: "2024-01-01",
       }),

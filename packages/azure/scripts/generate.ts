@@ -88,6 +88,21 @@ const azureSpec: SdkSpec = {
       : code,
 };
 
+/**
+ * A label that is the whole leading path segment (`/{scope}/providers/…`,
+ * `/{resourceUri}/…`, `/{roleAssignmentId}`) carries a full ARM id such as
+ * `/subscriptions/{id}/resourceGroups/{rg}` — the specs mark these
+ * `x-ms-skip-url-encoding`. Rewrite them to greedy `{name+}` labels so the
+ * request builder keeps their `/` separators.
+ */
+const markScopeLabelsGreedy = (model: any): void => {
+  for (const shape of Object.values<any>(model.shapes ?? {})) {
+    const http = shape?.traits?.["smithy.api#http"];
+    if (typeof http?.uri !== "string") continue;
+    http.uri = http.uri.replace(/^\/\{([A-Za-z0-9_]+)\}(?=\/|$)/, "/{$1+}");
+  }
+};
+
 runGeneratorCli({
   description: "Generate the Azure Effect SDK from the Smithy models",
   root: `${import.meta.dir}/..`,
@@ -95,5 +110,6 @@ runGeneratorCli({
   // exist; all correction logic lives in convert.ts's ref-resolution and
   // merging preprocessing).
   patchesDir: false,
+  transformModel: markScopeLabelsGreedy,
   spec: () => azureSpec,
 });

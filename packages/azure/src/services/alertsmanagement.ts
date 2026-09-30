@@ -270,7 +270,7 @@ export const AlertsChangeStateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.AlertsManagement/alerts/{alertId}/changestate",
+      uri: "/{scope+}/providers/Microsoft.AlertsManagement/alerts/{alertId}/changestate",
       code: 200,
       apiVersion: "2019-03-01",
     }),
@@ -686,7 +686,7 @@ export const GetAlertAllRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.AlertsManagement/alerts",
+      uri: "/{scope+}/providers/Microsoft.AlertsManagement/alerts",
       code: 200,
       apiVersion: "2019-03-01",
     }),
@@ -747,7 +747,7 @@ export const GetAlertByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.AlertsManagement/alerts/{alertId}",
+      uri: "/{scope+}/providers/Microsoft.AlertsManagement/alerts/{alertId}",
       code: 200,
       apiVersion: "2019-03-01",
     }),
@@ -789,7 +789,7 @@ export const GetAlertHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.AlertsManagement/alerts/{alertId}/history",
+      uri: "/{scope+}/providers/Microsoft.AlertsManagement/alerts/{alertId}/history",
       code: 200,
       apiVersion: "2019-03-01",
     }),
@@ -1040,7 +1040,7 @@ export const GetAlertSummaryRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.AlertsManagement/alertsSummary",
+      uri: "/{scope+}/providers/Microsoft.AlertsManagement/alertsSummary",
       code: 200,
       apiVersion: "2019-03-01",
     }),
