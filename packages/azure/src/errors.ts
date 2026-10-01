@@ -343,6 +343,16 @@ export class PendingTransactionAlreadyExists extends Schema.TaggedError<PendingT
 ).pipe(Category.withConflictError) {}
 
 /**
+ * Returned when another operation (e.g. a geo-replication conversion) holds
+ * exclusive access to a storage account; retry once it finishes.
+ * Azure error code: `StorageAccountOperationInProgress`
+ */
+export class StorageAccountOperationInProgress extends Schema.TaggedError<StorageAccountOperationInProgress>()(
+  "StorageAccountOperationInProgress",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
  * Returned when creating or updating a resource in a resource group that is
  * being deleted.
  * Azure error code: `ResourceGroupBeingDeleted`
@@ -417,6 +427,7 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     StorageAccountAlreadyExists: StorageAccountAlreadyTaken,
     ResourceGroupBeingDeleted: ResourceGroupBeingDeleted,
     PendingTransactionAlreadyExists: PendingTransactionAlreadyExists,
+    StorageAccountOperationInProgress: StorageAccountOperationInProgress,
   };
 
 // ---------------------------------------------------------------------------
@@ -473,4 +484,5 @@ export type AzureApiError =
   | ContainerNotFound
   | StorageAccountAlreadyTaken
   | ResourceGroupBeingDeleted
-  | PendingTransactionAlreadyExists;
+  | PendingTransactionAlreadyExists
+  | StorageAccountOperationInProgress;
