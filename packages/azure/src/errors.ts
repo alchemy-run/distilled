@@ -332,6 +332,17 @@ export class StorageAccountAlreadyTaken extends Schema.TaggedError<StorageAccoun
 ).pipe(Category.withConflictError) {}
 
 /**
+ * Returned when a storage account still has a background geo-replication
+ * change in flight (e.g. right after a `Standard_LRS` → `Standard_GRS` SKU
+ * change) and cannot be updated or deleted until it finishes.
+ * Azure error code: `PendingTransactionAlreadyExists`
+ */
+export class PendingTransactionAlreadyExists extends Schema.TaggedError<PendingTransactionAlreadyExists>()(
+  "PendingTransactionAlreadyExists",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
  * Returned when creating or updating a resource in a resource group that is
  * being deleted.
  * Azure error code: `ResourceGroupBeingDeleted`
@@ -405,6 +416,7 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     StorageAccountAlreadyTaken: StorageAccountAlreadyTaken,
     StorageAccountAlreadyExists: StorageAccountAlreadyTaken,
     ResourceGroupBeingDeleted: ResourceGroupBeingDeleted,
+    PendingTransactionAlreadyExists: PendingTransactionAlreadyExists,
   };
 
 // ---------------------------------------------------------------------------
@@ -460,4 +472,5 @@ export type AzureApiError =
   | PrincipalNotFound
   | ContainerNotFound
   | StorageAccountAlreadyTaken
-  | ResourceGroupBeingDeleted;
+  | ResourceGroupBeingDeleted
+  | PendingTransactionAlreadyExists;
