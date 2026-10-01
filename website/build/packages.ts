@@ -139,7 +139,15 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
   ],
   [
     "Messaging & support",
-    ["slack", "discord", "resend", "intercom", "zendesk", "customerio"],
+    [
+      "slack",
+      "discord",
+      "resend",
+      "intercom",
+      "zendesk",
+      "customerio",
+      "mailchimp",
+    ],
   ],
   [
     "Developer tools",
@@ -214,6 +222,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   growthbook: "feature flags",
   resend: "email",
   customerio: "email messaging",
+  mailchimp: "email marketing newsletter audiences",
   intercom: "support chat",
   zendesk: "support tickets",
   temporal: "workflows",
