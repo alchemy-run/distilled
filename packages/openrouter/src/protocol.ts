@@ -47,9 +47,10 @@ export type OpenRouterOpContext = Credentials | HttpClient.HttpClient;
 
 /**
  * OpenRouter error bodies: `{ error: { code, message, metadata? } }`. `code`
- * is numeric (the HTTP status), so it is stringified for the envelope.
- * Responses without an `error` object (an HTML page from the edge) fall
- * through to the protocol's `HTTP <status>` default.
+ * is numeric (the HTTP status) and passes through as a number: the generated
+ * per-operation classes declare `code: number`, and the protocol only hands
+ * them a numeric code. Responses without an `error` object (an HTML page from
+ * the edge) fall through to the protocol's `HTTP <status>` default.
  */
 const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   if (body === null || typeof body !== "object") return undefined;
@@ -60,7 +61,7 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return {
     code:
       typeof e.code === "string" || typeof e.code === "number"
-        ? String(e.code)
+        ? e.code
         : undefined,
     message: typeof e.message === "string" ? e.message : undefined,
   };

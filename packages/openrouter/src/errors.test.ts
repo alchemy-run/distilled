@@ -37,6 +37,28 @@ describe("OpenRouter error mapping", () => {
     expect(error).toBeInstanceOf(Ops.PaymentRequired);
   });
 
+  test("a declared 400 carries OpenRouter's numeric code and message", async () => {
+    const error = await fail(
+      Ops.createAudioTranscriptions({
+        model: "nvidia/parakeet-tdt-0.6b-v3",
+        input_audio: { url: "https://example.com/a.mp3" },
+        diarize: true,
+      }),
+      400,
+      {
+        error: {
+          code: 400,
+          message: "The selected model does not support diarize.",
+        },
+      },
+    );
+    expect(error).toBeInstanceOf(Ops.BadRequest);
+    expect(error).toMatchObject({
+      code: 400,
+      message: "The selected model does not support diarize.",
+    });
+  });
+
   test("402 on an operation that does not declare it falls back to the status map", async () => {
     const error = await fail(Ops.getCredits({}), 402, outOfCredit);
     expect(error).toBeInstanceOf(Errors.PaymentRequired);

@@ -13,7 +13,7 @@ npm install @distilled.cloud/openrouter effect
 
 ## Quick start
 
-Transcribe a recording with speaker labels:
+Transcribe a recording with word-level timestamps:
 
 ```ts
 import { Effect, Layer } from "effect";
@@ -22,13 +22,13 @@ import * as OpenRouter from "@distilled.cloud/openrouter";
 
 const program = Effect.gen(function* () {
   const transcript = yield* OpenRouter.createAudioTranscriptions({
-    model: "meta/muse-voice-transcribe-1.0",
+    model: "nvidia/parakeet-tdt-0.6b-v3",
     input_audio: { url: "https://example.com/meeting.mp3" },
-    diarize: true,
     response_format: "verbose_json",
+    timestamp_granularities: ["word"],
   });
   for (const w of transcript.words ?? []) {
-    console.log(`[${w.speaker_label ?? w.speaker}] ${w.word}`);
+    console.log(`${w.start.toFixed(2)}s ${w.word}`);
   }
   return transcript.text;
 });
@@ -41,6 +41,10 @@ const Live = Layer.mergeAll(
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```
+
+The request also takes `diarize: true` for speaker labels on `words`, which
+needs `response_format: "verbose_json"`. Which models accept it is up to
+OpenRouter's providers; one that cannot answers `BadRequest`.
 
 Every operation sits on the package root: `OpenRouter.getModels`,
 `OpenRouter.sendChatCompletionRequest`, `OpenRouter.createEmbeddings`,
