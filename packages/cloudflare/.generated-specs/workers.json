@@ -71162,6 +71162,14 @@
         }
       }
     },
+    "com.cloudflare.workers#PutScriptObservabilityIssues": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
     "com.cloudflare.workers#PutScriptMetadataObservability": {
       "type": "structure",
       "members": {
@@ -71185,6 +71193,12 @@
         },
         "traces": {
           "target": "com.cloudflare.workers#PutScriptObservabilityTraces",
+          "traits": {
+            "com.cloudflare.protocols#nullable": {}
+          }
+        },
+        "issues": {
+          "target": "com.cloudflare.workers#PutScriptObservabilityIssues",
           "traits": {
             "com.cloudflare.protocols#nullable": {}
           }

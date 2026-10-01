@@ -12488,11 +12488,24 @@ export const PutDispatchNamespaceScriptObservabilityTraces =
     identifier: "PutDispatchNamespaceScriptObservabilityTraces",
   }) as any as S.Schema<PutDispatchNamespaceScriptObservabilityTraces>;
 
+export interface PutDispatchNamespaceScriptObservabilityIssues {
+  enabled?: boolean;
+}
+export const PutDispatchNamespaceScriptObservabilityIssues =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      enabled: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "PutDispatchNamespaceScriptObservabilityIssues",
+  }) as any as S.Schema<PutDispatchNamespaceScriptObservabilityIssues>;
+
 export interface PutDispatchNamespaceScriptMetadataObservability {
   enabled: boolean;
   headSamplingRate?: number | null;
   logs?: PutDispatchNamespaceScriptObservabilityLogs | null;
   traces?: PutDispatchNamespaceScriptObservabilityTraces | null;
+  issues?: PutDispatchNamespaceScriptObservabilityIssues | null;
 }
 export const PutDispatchNamespaceScriptMetadataObservability =
   /*@__PURE__*/ S.suspend(() =>
@@ -12504,6 +12517,9 @@ export const PutDispatchNamespaceScriptMetadataObservability =
       logs: S.optional(S.NullOr(PutDispatchNamespaceScriptObservabilityLogs)),
       traces: S.optional(
         S.NullOr(PutDispatchNamespaceScriptObservabilityTraces),
+      ),
+      issues: S.optional(
+        S.NullOr(PutDispatchNamespaceScriptObservabilityIssues),
       ),
     }),
   ).annotate({
