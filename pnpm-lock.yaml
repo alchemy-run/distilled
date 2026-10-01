@@ -1166,6 +1166,25 @@ importers:
         specifier: 'catalog:'
         version: 26.2.0
 
+  packages/openrouter:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.0.0-rc.118
+    devDependencies:
+      '@effect/platform-bun':
+        specifier: 'catalog:'
+        version: 4.0.0-rc.118(effect@4.0.0-rc.118)
+      '@types/bun':
+        specifier: 'catalog:'
+        version: 1.3.14
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.2.0
+
   packages/ovh:
     dependencies:
       '@distilled.cloud/core':

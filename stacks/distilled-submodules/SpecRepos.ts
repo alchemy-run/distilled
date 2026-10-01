@@ -98,6 +98,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "okta" },
   { package: "onepassword" },
   { package: "opencode" },
+  { package: "openrouter" },
   { package: "ovh" },
   { package: "paypal" },
   { package: "plaid" },

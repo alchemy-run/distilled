@@ -465,6 +465,12 @@
       "path": "./packages/opencode/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/openrouter/tsconfig.json"
+    },
+    {
+      "path": "./packages/openrouter/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/growthbook/tsconfig.json"
     },
     {

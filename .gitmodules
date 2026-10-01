@@ -408,3 +408,8 @@
 	url = https://github.com/distilled-mirror/spec-mirror-boat-dev.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/openrouter/specs/spec-mirror-openrouter"]
+	path = packages/openrouter/specs/spec-mirror-openrouter
+	url = https://github.com/distilled-mirror/spec-mirror-openrouter.git
+	ignore = dirty
+	shallow = true
