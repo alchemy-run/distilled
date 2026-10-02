@@ -391,6 +391,32 @@ export const AddGuildMemberRoleResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "AddGuildMemberRoleResponse",
 }) as any as S.Schema<AddGuildMemberRoleResponse>;
 
+export interface AddInviteTargetUserRequest {
+  code: string;
+  user_id: string;
+}
+export const AddInviteTargetUserRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.String.pipe(T.Label()),
+    user_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/invites/{code}/target-users/{user_id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "AddInviteTargetUserRequest",
+}) as any as S.Schema<AddInviteTargetUserRequest>;
+
+export interface AddInviteTargetUserResponse {}
+export const AddInviteTargetUserResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "AddInviteTargetUserResponse",
+}) as any as S.Schema<AddInviteTargetUserResponse>;
+
 export type AddLobbyMemberRequestMetadataMap = {
   [key: string]: string | undefined;
 };
@@ -605,6 +631,39 @@ export const BotPartnerSdkUnmergeProvisionalAccountResponse =
     identifier: "BotPartnerSdkUnmergeProvisionalAccountResponse",
   }) as any as S.Schema<BotPartnerSdkUnmergeProvisionalAccountResponse>;
 
+/** The IDs of the users to target. */
+export type BulkAddInviteTargetUsersRequestUserIdsList = Array<string>;
+export const BulkAddInviteTargetUsersRequestUserIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<BulkAddInviteTargetUsersRequestUserIdsList>;
+
+export interface BulkAddInviteTargetUsersRequest {
+  code: string;
+  /** The IDs of the users to target. */
+  user_ids: BulkAddInviteTargetUsersRequestUserIdsList;
+}
+export const BulkAddInviteTargetUsersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.String.pipe(T.Label()),
+    user_ids: BulkAddInviteTargetUsersRequestUserIdsList,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/invites/{code}/target-users/bulk-add",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "BulkAddInviteTargetUsersRequest",
+}) as any as S.Schema<BulkAddInviteTargetUsersRequest>;
+
+export interface BulkAddInviteTargetUsersResponse {}
+export const BulkAddInviteTargetUsersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "BulkAddInviteTargetUsersResponse",
+}) as any as S.Schema<BulkAddInviteTargetUsersResponse>;
+
 export type BulkBanUsersFromGuildRequestUserIdsList = Array<string>;
 export const BulkBanUsersFromGuildRequestUserIdsList = /*@__PURE__*/ S.Array(
   S.String,
@@ -680,6 +739,40 @@ export const BulkDeleteMessagesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BulkDeleteMessagesResponse",
 }) as any as S.Schema<BulkDeleteMessagesResponse>;
+
+/** The IDs of the users to stop targeting. */
+export type BulkRemoveInviteTargetUsersRequestUserIdsList = Array<string>;
+export const BulkRemoveInviteTargetUsersRequestUserIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BulkRemoveInviteTargetUsersRequestUserIdsList>;
+
+export interface BulkRemoveInviteTargetUsersRequest {
+  code: string;
+  /** The IDs of the users to stop targeting. */
+  user_ids: BulkRemoveInviteTargetUsersRequestUserIdsList;
+}
+export const BulkRemoveInviteTargetUsersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.String.pipe(T.Label()),
+    user_ids: BulkRemoveInviteTargetUsersRequestUserIdsList,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/invites/{code}/target-users/bulk-delete",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "BulkRemoveInviteTargetUsersRequest",
+}) as any as S.Schema<BulkRemoveInviteTargetUsersRequest>;
+
+export interface BulkRemoveInviteTargetUsersResponse {}
+export const BulkRemoveInviteTargetUsersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "BulkRemoveInviteTargetUsersResponse",
+}) as any as S.Schema<BulkRemoveInviteTargetUsersResponse>;
 
 export type ApplicationCommandUpdateRequestNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -4572,6 +4665,19 @@ export const CreateGuildInviteRequestRoleIds = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([[], []]),
 );
 
+export type CreateGuildInviteRequestTargetUserIdsCase1List = Array<string>;
+export const CreateGuildInviteRequestTargetUserIdsCase1List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateGuildInviteRequestTargetUserIdsCase1List>;
+
+/** The IDs of the users to target with this invite. */
+export type CreateGuildInviteRequestTargetUserIds =
+  | string
+  | CreateGuildInviteRequestTargetUserIdsCase1List;
+export const CreateGuildInviteRequestTargetUserIds =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
+
 export interface CreateGuildInviteRequest {
   max_age?: number | null;
   temporary?: boolean | null;
@@ -4581,6 +4687,8 @@ export interface CreateGuildInviteRequest {
   target_application_id?: string | null;
   target_type?: InviteTargetTypes | (number & {}) | null;
   role_ids?: CreateGuildInviteRequestRoleIds | null;
+  /** The IDs of the users to target with this invite. */
+  target_user_ids?: CreateGuildInviteRequestTargetUserIds | null;
 }
 export const CreateGuildInviteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4592,6 +4700,9 @@ export const CreateGuildInviteRequest = /*@__PURE__*/ S.suspend(() =>
     target_application_id: S.optional(S.NullOr(S.String)),
     target_type: S.optional(S.NullOr(InviteTargetTypes)),
     role_ids: S.optional(S.NullOr(CreateGuildInviteRequestRoleIds)),
+    target_user_ids: S.optional(
+      S.NullOr(CreateGuildInviteRequestTargetUserIds),
+    ),
   }),
 ).annotate({
   identifier: "CreateGuildInviteRequest",
@@ -4612,6 +4723,7 @@ export const CreateChannelInviteRequestBody = /*@__PURE__*/ S.Unknown.pipe(
       "target_application_id",
       "target_type",
       "role_ids",
+      "target_user_ids",
     ],
   ]),
 );
@@ -4664,6 +4776,7 @@ export interface InviteChannelResponse {
   type: ChannelTypes;
   name: string | null;
   icon?: string;
+  nsfw?: boolean;
   recipients?: InviteChannelResponseRecipientsList;
 }
 export const InviteChannelResponse = /*@__PURE__*/ S.suspend(() =>
@@ -4672,6 +4785,7 @@ export const InviteChannelResponse = /*@__PURE__*/ S.suspend(() =>
     type: ChannelTypes,
     name: S.NullOr(S.String),
     icon: S.optional(S.String),
+    nsfw: S.optional(S.Boolean),
     recipients: S.optional(InviteChannelResponseRecipientsList),
   }),
 ).annotate({
@@ -5201,24 +5315,6 @@ export const ScheduledEventResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ScheduledEventResponse",
 }) as any as S.Schema<ScheduledEventResponse>;
 
-export type GuildLivelinessResponseMsgActivityBinsList = Array<number>;
-export const GuildLivelinessResponseMsgActivityBinsList = /*@__PURE__*/ S.Array(
-  S.Number,
-) as any as S.Schema<GuildLivelinessResponseMsgActivityBinsList>;
-
-export interface GuildLivelinessResponse {
-  msg_activity_bins: GuildLivelinessResponseMsgActivityBinsList;
-  last_updated_ts?: string | null;
-}
-export const GuildLivelinessResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    msg_activity_bins: GuildLivelinessResponseMsgActivityBinsList,
-    last_updated_ts: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "GuildLivelinessResponse",
-}) as any as S.Schema<GuildLivelinessResponse>;
-
 export interface InviteGuildRoleResponse {
   id: string;
   name: string;
@@ -5267,7 +5363,6 @@ export interface GuildInviteResponse {
   guild_scheduled_event?: ScheduledEventResponse;
   target_channel_id?: string;
   target_message_id?: string;
-  liveliness?: GuildLivelinessResponse | null;
   uses?: number;
   max_uses?: number;
   temporary?: boolean;
@@ -5295,7 +5390,6 @@ export const GuildInviteResponse = /*@__PURE__*/ S.suspend(() =>
     guild_scheduled_event: S.optional(ScheduledEventResponse),
     target_channel_id: S.optional(S.String),
     target_message_id: S.optional(S.String),
-    liveliness: S.optional(S.NullOr(GuildLivelinessResponse)),
     uses: S.optional(S.Number),
     max_uses: S.optional(S.Number),
     temporary: S.optional(S.Boolean),
@@ -5356,7 +5450,6 @@ export const CreateChannelInviteResponseBody = /*@__PURE__*/ S.Unknown.pipe(
       "guild_scheduled_event",
       "target_channel_id",
       "target_message_id",
-      "liveliness",
       "uses",
       "max_uses",
       "temporary",
@@ -7944,7 +8037,6 @@ export interface MessageAttachmentRequest {
   waveform?: string | null;
   title?: string | null;
   is_spoiler?: boolean | null;
-  is_remix?: boolean | null;
 }
 export const MessageAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7955,7 +8047,6 @@ export const MessageAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
     waveform: S.optional(S.NullOr(S.String)),
     title: S.optional(S.NullOr(S.String)),
     is_spoiler: S.optional(S.NullOr(S.Boolean)),
-    is_remix: S.optional(S.NullOr(S.Boolean)),
   }),
 ).annotate({
   identifier: "MessageAttachmentRequest",
@@ -17163,7 +17254,6 @@ export const InviteResolveResponseBody = /*@__PURE__*/ S.Unknown.pipe(
       "guild_scheduled_event",
       "target_channel_id",
       "target_message_id",
-      "liveliness",
       "uses",
       "max_uses",
       "temporary",
@@ -17538,7 +17628,6 @@ export const ListChannelInvitesResponseBodyItem = /*@__PURE__*/ S.Unknown.pipe(
       "guild_scheduled_event",
       "target_channel_id",
       "target_message_id",
-      "liveliness",
       "uses",
       "max_uses",
       "temporary",
@@ -18620,7 +18709,6 @@ export const ListGuildInvitesResponseBodyItem = /*@__PURE__*/ S.Unknown.pipe(
       "guild_scheduled_event",
       "target_channel_id",
       "target_message_id",
-      "liveliness",
       "uses",
       "max_uses",
       "temporary",
@@ -19227,6 +19315,7 @@ export interface ListMyGuildsRequest {
   before?: string;
   after?: string;
   limit?: number;
+  shard?: number;
   with_counts?: boolean;
 }
 export const ListMyGuildsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -19234,6 +19323,7 @@ export const ListMyGuildsRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
+    shard: S.optional(S.Number.pipe(T.Query())),
     with_counts: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/users/@me/guilds", code: 200 })),
 ).annotate({
@@ -19767,6 +19857,32 @@ export const GuildOnboardingResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GuildOnboardingResponse",
 }) as any as S.Schema<GuildOnboardingResponse>;
 
+export interface RemoveInviteTargetUserRequest {
+  code: string;
+  user_id: string;
+}
+export const RemoveInviteTargetUserRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.String.pipe(T.Label()),
+    user_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/invites/{code}/target-users/{user_id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "RemoveInviteTargetUserRequest",
+}) as any as S.Schema<RemoveInviteTargetUserRequest>;
+
+export interface RemoveInviteTargetUserResponse {}
+export const RemoveInviteTargetUserResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "RemoveInviteTargetUserResponse",
+}) as any as S.Schema<RemoveInviteTargetUserResponse>;
+
 export interface RevokeInviteRequest {
   code: string;
 }
@@ -19826,7 +19942,6 @@ export const RevokeInviteResponseBody = /*@__PURE__*/ S.Unknown.pipe(
       "guild_scheduled_event",
       "target_channel_id",
       "target_message_id",
-      "liveliness",
       "uses",
       "max_uses",
       "temporary",
@@ -23674,6 +23789,21 @@ export const addGuildMemberRole: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type AddInviteTargetUserError = DiscordOpError;
+/** Add a target user to an existing invite. */
+export const addInviteTargetUser: API.OperationMethod<
+  AddInviteTargetUserRequest,
+  AddInviteTargetUserResponse,
+  AddInviteTargetUserError,
+  DiscordOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AddInviteTargetUserRequest,
+  output: AddInviteTargetUserResponse,
+  errors: [UnknownDiscordError],
+  protocol: DiscordProtocol,
+  retry: Retry.Retry,
+}));
+
 export type AddLobbyMemberError = DiscordOpError;
 export const addLobbyMember: API.OperationMethod<
   AddLobbyMemberRequest,
@@ -23758,6 +23888,21 @@ export const botPartnerSdkUnmergeProvisionalAccount: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type BulkAddInviteTargetUsersError = DiscordOpError;
+/** Add multiple target users to an existing invite. */
+export const bulkAddInviteTargetUsers: API.OperationMethod<
+  BulkAddInviteTargetUsersRequest,
+  BulkAddInviteTargetUsersResponse,
+  BulkAddInviteTargetUsersError,
+  DiscordOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BulkAddInviteTargetUsersRequest,
+  output: BulkAddInviteTargetUsersResponse,
+  errors: [UnknownDiscordError],
+  protocol: DiscordProtocol,
+  retry: Retry.Retry,
+}));
+
 export type BulkBanUsersFromGuildError = DiscordOpError;
 export const bulkBanUsersFromGuild: API.OperationMethod<
   BulkBanUsersFromGuildRequest,
@@ -23781,6 +23926,21 @@ export const bulkDeleteMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BulkDeleteMessagesRequest,
   output: BulkDeleteMessagesResponse,
+  errors: [UnknownDiscordError],
+  protocol: DiscordProtocol,
+  retry: Retry.Retry,
+}));
+
+export type BulkRemoveInviteTargetUsersError = DiscordOpError;
+/** Remove multiple target users from an existing invite. */
+export const bulkRemoveInviteTargetUsers: API.OperationMethod<
+  BulkRemoveInviteTargetUsersRequest,
+  BulkRemoveInviteTargetUsersResponse,
+  BulkRemoveInviteTargetUsersError,
+  DiscordOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BulkRemoveInviteTargetUsersRequest,
+  output: BulkRemoveInviteTargetUsersResponse,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -26382,6 +26542,21 @@ export const putGuildsOnboarding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutGuildsOnboardingRequest,
   output: GuildOnboardingResponse,
+  errors: [UnknownDiscordError],
+  protocol: DiscordProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RemoveInviteTargetUserError = DiscordOpError;
+/** Remove a target user from an existing invite. */
+export const removeInviteTargetUser: API.OperationMethod<
+  RemoveInviteTargetUserRequest,
+  RemoveInviteTargetUserResponse,
+  RemoveInviteTargetUserError,
+  DiscordOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RemoveInviteTargetUserRequest,
+  output: RemoveInviteTargetUserResponse,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
