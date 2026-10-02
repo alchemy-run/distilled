@@ -10435,8 +10435,8 @@ export const PaginatedLineItemDataItemResource =
 export interface PaginatedLineItemDataItem {
   /** The ID for the line item */
   id: string;
-  /** The total for the line item */
-  subtotal: number;
+  /** The total for the line item, as a stringified decimal to preserve precision */
+  subtotal: string;
   /** The description for the line item */
   description: string;
   /** The name of the billable item */
@@ -10452,7 +10452,7 @@ export interface PaginatedLineItemDataItem {
 export const PaginatedLineItemDataItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
-    subtotal: S.Number,
+    subtotal: S.String,
     description: S.String,
     metric_name: S.String,
     cloudflare_billed: S.Boolean,

@@ -54193,9 +54193,9 @@
           }
         },
         "subtotal": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The total for the line item",
+            "smithy.api#documentation": "The total for the line item, as a stringified decimal to preserve precision",
             "smithy.api#required": {}
           }
         },
