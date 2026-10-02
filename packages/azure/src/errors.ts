@@ -138,7 +138,8 @@ export class LinkedAuthorizationFailed extends Schema.TaggedError<LinkedAuthoriz
 
 /**
  * Returned when a request parameter is invalid.
- * Azure error code: `InvalidParameter`
+ * Azure error code: `InvalidParameter`, `InvalidParameterValue` or
+ * `ParameterOutOfRange`
  */
 export class InvalidParameter extends Schema.TaggedError<InvalidParameter>()(
   "InvalidParameter",
@@ -263,7 +264,8 @@ export class RequestRateLimitExceeded extends Schema.TaggedError<RequestRateLimi
 
 /**
  * Returned when the requested location is not available for the resource type.
- * Azure error code: `LocationNotAvailableForResourceType`
+ * Azure error code: `LocationNotAvailableForResourceType` or
+ * `LocationNotAvailableForResourceGroup`
  */
 export class LocationNotAvailable extends Schema.TaggedError<LocationNotAvailable>()(
   "LocationNotAvailable",
@@ -305,6 +307,7 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     // Bad request / validation
     InvalidParameter: InvalidParameter,
     InvalidParameterValue: InvalidParameter,
+    ParameterOutOfRange: InvalidParameter,
     InvalidResourceType: InvalidResourceType,
     InvalidResourceName: InvalidResourceName,
     InvalidResourceNameFormat: InvalidResourceName,
@@ -332,6 +335,7 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
 
     // Location / scope
     LocationNotAvailableForResourceType: LocationNotAvailable,
+    LocationNotAvailableForResourceGroup: LocationNotAvailable,
     InvalidResourceScope: InvalidScope,
     ScopeNotValid: InvalidScope,
   };
