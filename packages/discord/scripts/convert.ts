@@ -14,10 +14,11 @@
  *
  * Notes on the Discord spec:
  *   • Every operation declares exactly two failure responses — `429` and the
- *     `4XX` catch-all — so there is nothing per-status to type. Hence
- *     `statusToErrorClass: {}`: failures are dispatched by DiscordProtocol
- *     from the `{ code, message, errors }` envelope plus core's shared HTTP
- *     status map.
+ *     `4XX` catch-all — so the spec alone types nothing per status. Observed
+ *     statuses are declared per operation in `patches/discord/` and lifted by
+ *     the converter's default status→class map; everything else is dispatched
+ *     by DiscordProtocol from the `{ code, message, errors }` envelope plus
+ *     core's shared HTTP status map.
  *   • Request bodies are JSON, `multipart/form-data` (attachment uploads)
  *     and `application/x-www-form-urlencoded` (the OAuth2 token endpoints);
  *     the converter stamps `com.distilled.openapi#contentType` for the
@@ -100,9 +101,6 @@ await runOpenApiConvert({
   options: {
     namespace: "com.discord.api",
     serviceName: "Discord",
-    // Discord types failures as `4XX`/`429` only — no per-status response
-    // schemas to lift into typed error classes.
-    statusToErrorClass: {},
     skipDeprecated: true,
   },
 });
