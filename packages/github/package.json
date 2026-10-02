@@ -33,6 +33,12 @@
       "worker": "./src/errors.ts",
       "default": "./lib/errors.js"
     },
+    "./GraphQL": {
+      "types": "./lib/github-graphql.d.ts",
+      "bun": "./src/github-graphql.ts",
+      "worker": "./src/github-graphql.ts",
+      "default": "./lib/github-graphql.js"
+    },
     "./Protocol": {
       "types": "./lib/protocol.d.ts",
       "bun": "./src/protocol.ts",
@@ -60,8 +66,8 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "convert": "bun scripts/convert.ts",
-    "generate": "bun scripts/generate.ts",
+    "convert": "bun scripts/convert.ts && bun scripts/convert-graphql.ts",
+    "generate": "bun scripts/generate.ts && bun scripts/generate-graphql.ts",
     "typecheck": "tsc -p tsconfig.json",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-github",
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-github"
@@ -70,9 +76,10 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@effect/platform-bun": "catalog:",
     "@types/bun": "catalog:",
     "@types/node": "catalog:",
-    "@effect/platform-bun": "catalog:"
+    "graphql": "16.11.0"
   },
   "peerDependencies": {
     "effect": "catalog:"

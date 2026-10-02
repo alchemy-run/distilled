@@ -1,0 +1,67 @@
+{
+  "description": "Graph-wide GitHub GraphQL error contracts. GitHub reports an error's kind in a top-level `type`, which src/graphql-transport.ts copies into `extensions.code`; document validation failures already carry `extensions.code`. Observed live on 2026-09-29: repository(owner, name) and enterprise(slug) for a missing resource returned type NOT_FOUND at the root's path; a mutation needing admin:enterprise with a token lacking it returned type INSUFFICIENT_SCOPES with no path; document validation failures returned extensions.code undefinedField (unknown field), argumentLiteralsIncompatible (wrongly typed literal), missingRequiredArguments and variableMismatch. FORBIDDEN and RATE_LIMITED are the documented types for an inaccessible resource and an exhausted GraphQL point budget. NOT_FOUND is global because every lookup by id, login, slug or name resolves it the same way.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/errors/GitHubNotFound",
+      "value": {
+        "description": "The id, login, slug or name did not resolve to a resource the token can see.",
+        "category": "notFound",
+        "matchers": [{ "code": "NOT_FOUND" }]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/GitHubForbidden",
+      "value": {
+        "description": "The token can see the resource but may not perform the operation.",
+        "category": "auth",
+        "matchers": [{ "code": "FORBIDDEN" }]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/GitHubInsufficientScopes",
+      "value": {
+        "description": "The token lacks an OAuth scope the selected field requires.",
+        "category": "auth",
+        "matchers": [{ "code": "INSUFFICIENT_SCOPES" }]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/GitHubRateLimited",
+      "value": {
+        "description": "The GraphQL point budget for the current window is exhausted.",
+        "category": "throttling",
+        "retryable": true,
+        "matchers": [{ "code": "RATE_LIMITED" }]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/GitHubValidationError",
+      "value": {
+        "description": "The document or its arguments failed GraphQL validation.",
+        "category": "badRequest",
+        "matchers": [
+          { "code": "undefinedField" },
+          { "code": "argumentLiteralsIncompatible" },
+          { "code": "missingRequiredArguments" },
+          { "code": "variableMismatch" }
+        ]
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/globalErrors",
+      "value": [
+        "GitHubNotFound",
+        "GitHubForbidden",
+        "GitHubInsufficientScopes",
+        "GitHubRateLimited",
+        "GitHubValidationError"
+      ]
+    }
+  ]
+}

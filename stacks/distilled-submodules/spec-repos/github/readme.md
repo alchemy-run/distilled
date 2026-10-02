@@ -1,12 +1,14 @@
 # spec-mirror-github
 
-A git mirror of GitHub's [REST API description](https://github.com/github/rest-api-description), reduced to exactly the file the
-[`@distilled.cloud/github`](https://github.com/alchemy-run/distilled) generator reads:
+A git mirror of GitHub's [REST API description](https://github.com/github/rest-api-description) and
+[GraphQL schema](https://github.com/github/docs/tree/main/src/graphql/data/fpt), reduced to exactly the
+files the [`@distilled.cloud/github`](https://github.com/alchemy-run/distilled) generators read:
 
-- `specs/api.github.com.json` — `descriptions/api.github.com/api.github.com.json`
+- `specs/api.github.com.json` — `github/rest-api-description:descriptions/api.github.com/api.github.com.json`
+- `specs/schema.docs.graphql` — `github/docs:src/graphql/data/fpt/schema.docs.graphql`
 
-Nothing else from `github/rest-api-description` is mirrored, so this repository stays small
-enough to use as a git submodule — the upstream repository is never cloned.
+Nothing else from either repository is mirrored, so this repository stays small enough to use as a
+git submodule — the upstream repositories are never cloned.
 
 The mirror is updated every 24 hours by
 [`.github/workflows/update-specs.yml`](./.github/workflows/update-specs.yml).
