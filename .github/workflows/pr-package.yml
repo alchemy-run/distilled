@@ -58,6 +58,7 @@ jobs:
               { "dir": "packages/github",          "name": "@distilled.cloud/github",          "group": "Distilled" },
               { "dir": "packages/hetzner",         "name": "@distilled.cloud/hetzner",         "group": "Distilled" },
               { "dir": "packages/kubernetes",      "name": "@distilled.cloud/kubernetes",      "group": "Distilled" },
+              { "dir": "packages/linear",          "name": "@distilled.cloud/linear",          "group": "Distilled" },
               { "dir": "packages/mongodb-atlas",   "name": "@distilled.cloud/mongodb-atlas",   "group": "Distilled" },
               { "dir": "packages/neon",            "name": "@distilled.cloud/neon",            "group": "Distilled" },
               { "dir": "packages/planetscale",     "name": "@distilled.cloud/planetscale",     "group": "Distilled" },
