@@ -322,6 +322,33 @@ export class ContainerNotFound extends Schema.TaggedError<ContainerNotFound>()(
 ).pipe(Category.withNotFoundError) {}
 
 /**
+ * Returned when an Azure Files share does not exist.
+ * Azure error code: `ShareNotFound`
+ */
+export class ShareNotFound extends Schema.TaggedError<ShareNotFound>()(
+  "ShareNotFound",
+  AzureErrorFields,
+).pipe(Category.withNotFoundError) {}
+
+/**
+ * Returned when a storage queue does not exist.
+ * Azure error code: `QueueNotFound`
+ */
+export class QueueNotFound extends Schema.TaggedError<QueueNotFound>()(
+  "QueueNotFound",
+  AzureErrorFields,
+).pipe(Category.withNotFoundError) {}
+
+/**
+ * Returned when a storage account has no lifecycle management policy.
+ * Azure error code: `ManagementPolicyNotFound`
+ */
+export class ManagementPolicyNotFound extends Schema.TaggedError<ManagementPolicyNotFound>()(
+  "ManagementPolicyNotFound",
+  AzureErrorFields,
+).pipe(Category.withNotFoundError) {}
+
+/**
  * Returned when a storage account name is already used, in this or another
  * subscription (names are globally unique).
  * Azure error code: `StorageAccountAlreadyTaken` or `StorageAccountAlreadyExists`
@@ -353,6 +380,16 @@ export class StorageAccountOperationInProgress extends Schema.TaggedError<Storag
 ).pipe(Category.withConflictError) {}
 
 /**
+ * Returned when an Azure SQL elastic job agent is still processing another
+ * request (e.g. its creation); retry once it finishes.
+ * Azure error code: `ElasticJobAgentIsBusy`
+ */
+export class ElasticJobAgentIsBusy extends Schema.TaggedError<ElasticJobAgentIsBusy>()(
+  "ElasticJobAgentIsBusy",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
  * Returned when creating or updating a resource in a resource group that is
  * being deleted.
  * Azure error code: `ResourceGroupBeingDeleted`
@@ -361,6 +398,98 @@ export class ResourceGroupBeingDeleted extends Schema.TaggedError<ResourceGroupB
   "ResourceGroupBeingDeleted",
   AzureErrorFields,
 ).pipe(Category.withConflictError) {}
+
+// ---------------------------------------------------------------------------
+// Microsoft.Network
+// ---------------------------------------------------------------------------
+
+/**
+ * Returned when the Network resource provider is still applying another
+ * write to the same resource (VNet, NSG, load balancer, ...); retry.
+ * Azure error codes: `AnotherOperationInProgress`, `RetryableError`
+ */
+export class NetworkOperationInProgress extends Schema.TaggedError<NetworkOperationInProgress>()(
+  "NetworkOperationInProgress",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Returned when deleting or updating a subnet that still has IP
+ * configurations (NICs, private endpoints) or service links in it.
+ * Azure error codes: `InUseSubnetCannotBeDeleted`, `InUseSubnetCannotBeUpdated`
+ */
+export class SubnetInUse extends Schema.TaggedError<SubnetInUse>()(
+  "SubnetInUse",
+  AzureErrorFields,
+).pipe(Category.withDependencyViolationError) {}
+
+/**
+ * Returned when deleting a network security group still associated with a
+ * subnet or network interface.
+ * Azure error code: `InUseNetworkSecurityGroupCannotBeDeleted`
+ */
+export class NetworkSecurityGroupInUse extends Schema.TaggedError<NetworkSecurityGroupInUse>()(
+  "NetworkSecurityGroupInUse",
+  AzureErrorFields,
+).pipe(Category.withDependencyViolationError) {}
+
+/**
+ * Returned when deleting a route table still associated with a subnet.
+ * Azure error code: `InUseRouteTableCannotBeDeleted`
+ */
+export class RouteTableInUse extends Schema.TaggedError<RouteTableInUse>()(
+  "RouteTableInUse",
+  AzureErrorFields,
+).pipe(Category.withDependencyViolationError) {}
+
+/**
+ * Returned when deleting a public IP address still referenced by a NIC,
+ * load balancer, or NAT gateway.
+ * Azure error code: `PublicIPAddressCannotBeDeleted`
+ */
+export class PublicIPAddressInUse extends Schema.TaggedError<PublicIPAddressInUse>()(
+  "PublicIPAddressInUse",
+  AzureErrorFields,
+).pipe(Category.withDependencyViolationError) {}
+
+/**
+ * Returned when deleting a NAT gateway still associated with a subnet.
+ * Azure error code: `InUseNatGatewayCannotBeDeleted`
+ */
+export class NatGatewayInUse extends Schema.TaggedError<NatGatewayInUse>()(
+  "NatGatewayInUse",
+  AzureErrorFields,
+).pipe(Category.withDependencyViolationError) {}
+
+/**
+ * Returned when deleting a network interface attached to a virtual machine.
+ * Azure error code: `NicInUse`
+ */
+export class NetworkInterfaceInUse extends Schema.TaggedError<NetworkInterfaceInUse>()(
+  "NetworkInterfaceInUse",
+  AzureErrorFields,
+).pipe(Category.withDependencyViolationError) {}
+
+/**
+ * Returned when deleting a parent resource (e.g. a DNS Private Resolver)
+ * while nested child resources (e.g. its endpoints) still exist, including
+ * right after the children were deleted.
+ * Azure error code: `CannotDeleteResource`
+ */
+export class CannotDeleteResource extends Schema.TaggedError<CannotDeleteResource>()(
+  "CannotDeleteResource",
+  AzureErrorFields,
+).pipe(Category.withDependencyViolationError) {}
+
+/**
+ * Returned when an API Management service (e.g. a soft-deleted service
+ * under `locations/{location}/deletedservices`) does not exist.
+ * Azure error code: `ServiceNotFound`
+ */
+export class ApiManagementServiceNotFound extends Schema.TaggedError<ApiManagementServiceNotFound>()(
+  "ApiManagementServiceNotFound",
+  AzureErrorFields,
+).pipe(Category.withNotFoundError) {}
 
 // ---------------------------------------------------------------------------
 // Azure error code → typed error class mapping
@@ -423,12 +552,73 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     RoleAssignmentExists: RoleAssignmentExists,
     PrincipalNotFound: PrincipalNotFound,
     ContainerNotFound: ContainerNotFound,
+    ShareNotFound: ShareNotFound,
+    QueueNotFound: QueueNotFound,
+    ManagementPolicyNotFound: ManagementPolicyNotFound,
     StorageAccountAlreadyTaken: StorageAccountAlreadyTaken,
     StorageAccountAlreadyExists: StorageAccountAlreadyTaken,
     ResourceGroupBeingDeleted: ResourceGroupBeingDeleted,
     PendingTransactionAlreadyExists: PendingTransactionAlreadyExists,
     StorageAccountOperationInProgress: StorageAccountOperationInProgress,
+    ElasticJobAgentIsBusy: ElasticJobAgentIsBusy,
+    AnotherOperationInProgress: NetworkOperationInProgress,
+    RetryableError: NetworkOperationInProgress,
+    InUseSubnetCannotBeDeleted: SubnetInUse,
+    InUseSubnetCannotBeUpdated: SubnetInUse,
+    InUseNetworkSecurityGroupCannotBeDeleted: NetworkSecurityGroupInUse,
+    InUseRouteTableCannotBeDeleted: RouteTableInUse,
+    PublicIPAddressCannotBeDeleted: PublicIPAddressInUse,
+    InUseNatGatewayCannotBeDeleted: NatGatewayInUse,
+    NicInUse: NetworkInterfaceInUse,
+    CannotDeleteResource: CannotDeleteResource,
+    ServiceNotFound: ApiManagementServiceNotFound,
   };
+
+/**
+ * Returned when Microsoft.Web throttles App Service plan creation for the
+ * subscription (a per-subscription create budget); retry after a delay.
+ * Microsoft.Web error code: `429` with "App Service Plan Create operation
+ * is throttled".
+ */
+export class AppServicePlanCreateThrottled extends Schema.TaggedError<AppServicePlanCreateThrottled>()(
+  "AppServicePlanCreateThrottled",
+  AzureErrorFields,
+).pipe(Category.withThrottlingError) {}
+
+/**
+ * Errors whose ARM `code` is too generic to type on its own (e.g.
+ * Microsoft.Web reports exhausted SKU quota as `Unauthorized`). Checked
+ * before {@link AZURE_ERROR_CODE_MAP}; the first matcher whose code (if
+ * set) and message substring match wins.
+ */
+export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
+  readonly code?: string;
+  readonly includes: string;
+  readonly error: new (props: any) => unknown;
+}> = [
+  // Microsoft.Web: "Operation cannot be completed without additional quota.
+  // Current Limit (F1 VMs): 0" — the plan SKU has no quota in the region.
+  {
+    code: "Unauthorized",
+    includes: "without additional quota",
+    error: QuotaExceeded,
+  },
+  {
+    code: "429",
+    includes: "App Service Plan Create operation is throttled",
+    error: AppServicePlanCreateThrottled,
+  },
+];
+
+export const matchAzureErrorMessage = (arm: {
+  readonly code?: string;
+  readonly message?: string;
+}) =>
+  AZURE_ERROR_MESSAGE_MATCHERS.find(
+    (matcher) =>
+      (matcher.code === undefined || matcher.code === arm.code) &&
+      arm.message?.includes(matcher.includes) === true,
+  )?.error;
 
 // ---------------------------------------------------------------------------
 // Catch-all error classes
@@ -482,7 +672,21 @@ export type AzureApiError =
   | RoleAssignmentExists
   | PrincipalNotFound
   | ContainerNotFound
+  | ShareNotFound
+  | QueueNotFound
+  | ManagementPolicyNotFound
   | StorageAccountAlreadyTaken
   | ResourceGroupBeingDeleted
   | PendingTransactionAlreadyExists
-  | StorageAccountOperationInProgress;
+  | StorageAccountOperationInProgress
+  | ElasticJobAgentIsBusy
+  | NetworkOperationInProgress
+  | SubnetInUse
+  | NetworkSecurityGroupInUse
+  | RouteTableInUse
+  | PublicIPAddressInUse
+  | NatGatewayInUse
+  | NetworkInterfaceInUse
+  | CannotDeleteResource
+  | ApiManagementServiceNotFound
+  | AppServicePlanCreateThrottled;
