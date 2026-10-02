@@ -8149,6 +8149,11 @@
       "output": {
         "target": "com.discord.api#GetChannelResponse"
       },
+      "errors": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -20128,6 +20133,11 @@
       "output": {
         "target": "com.discord.api#GuildWithCountsResponse"
       },
+      "errors": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -39998,6 +40008,19 @@
           "uri": "/webhooks/{webhook_id}/{webhook_token}/slack",
           "code": 200
         }
+      }
+    },
+    "com.discord.api#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     },
     "com.discord.api#Discord": {

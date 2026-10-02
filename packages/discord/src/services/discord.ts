@@ -2,6 +2,7 @@
 import * as S from "@distilled.cloud/core/schema";
 import * as Redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as C from "@distilled.cloud/core/category";
 import * as T from "../traits.ts";
 import {
   DiscordProtocol,
@@ -12,6 +13,15 @@ import { UnknownDiscordError } from "../errors.ts";
 import * as Retry from "../retry.ts";
 
 export type { DiscordOpError, DiscordOpContext };
+
+export class NotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 404 }],
+  ) {}
 
 export interface AddGroupDmUserRequest {
   channel_id: string;
@@ -25154,7 +25164,7 @@ export const getBotGateway: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetChannelError = DiscordOpError;
+export type GetChannelError = NotFound | DiscordOpError;
 export const getChannel: API.OperationMethod<
   GetChannelRequest,
   GetChannelResponse,
@@ -25163,7 +25173,7 @@ export const getChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetChannelRequest,
   output: GetChannelResponse,
-  errors: [UnknownDiscordError],
+  errors: [NotFound, UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
 }));
@@ -25224,7 +25234,7 @@ export const getGateway: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetGuildError = DiscordOpError;
+export type GetGuildError = NotFound | DiscordOpError;
 export const getGuild: API.OperationMethod<
   GetGuildRequest,
   GuildWithCountsResponse,
@@ -25233,7 +25243,7 @@ export const getGuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetGuildRequest,
   output: GuildWithCountsResponse,
-  errors: [UnknownDiscordError],
+  errors: [NotFound, UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
 }));
