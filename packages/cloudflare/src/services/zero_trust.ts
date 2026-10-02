@@ -468,7 +468,6 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   serverAlias: "server_alias",
   serverDescription: "server_description",
   serverId: "server_id",
-  serviceAuth_401Redirect: "service_auth_401_redirect",
   serviceModeV2: "service_mode_v2",
   serviceToken: "service_token",
   serviceTokenId: "service_token_id",
@@ -14612,6 +14611,10 @@ export interface AccessApplicationsCreateResultSaaSApplication {
   tags?: AccessApplicationsCreateResultSaaSApplicationTagsList | null;
   /** The application type. */
   type?: AccessApplicationsCreateResultSaaSApplicationType | null;
+  /** The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`. */
+  domain?: string | null;
+  /** The amount of time that tokens issued for this application will be valid. */
+  sessionDuration?: string | null;
 }
 export const AccessApplicationsCreateResultSaaSApplication =
   /*@__PURE__*/ S.suspend(() =>
@@ -14654,6 +14657,10 @@ export const AccessApplicationsCreateResultSaaSApplication =
       ),
       type: S.optional(
         S.NullOr(AccessApplicationsCreateResultSaaSApplicationType),
+      ),
+      domain: S.optional(S.NullOr(S.String)),
+      sessionDuration: S.optional(
+        S.NullOr(S.String).pipe(T.Body("session_duration")),
       ),
     }),
   ).annotate({
@@ -35074,6 +35081,8 @@ export const AccessApplicationsCreateResult = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "tags",
       "type",
+      "domain",
+      "sessionDuration",
     ],
     [
       "domain",
@@ -43028,11 +43037,15 @@ export const AccessPoliciesCreateRequestConnectionRulesRdp =
 export interface AccessPoliciesCreateRequestConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesCreateRequestConnectionRulesRdp;
+  ssh?: AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSsh;
 }
 export const AccessPoliciesCreateRequestConnectionRules =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rdp: S.optional(AccessPoliciesCreateRequestConnectionRulesRdp),
+      ssh: S.optional(
+        AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSsh,
+      ),
     }),
   ).annotate({
     identifier: "AccessPoliciesCreateRequestConnectionRules",
@@ -43240,14 +43253,36 @@ export const AccessPoliciesCreateResponseConnectionRulesRdp =
     identifier: "AccessPoliciesCreateResponseConnectionRulesRdp",
   }) as any as S.Schema<AccessPoliciesCreateResponseConnectionRulesRdp>;
 
+export interface AccessPoliciesResponseConnectionRulesSsh {
+  usernames?: AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSshUsernamesList | null;
+  allowEmailAlias?: boolean | null;
+}
+export const AccessPoliciesResponseConnectionRulesSsh = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      usernames: S.optional(
+        S.NullOr(
+          AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSshUsernamesList,
+        ),
+      ),
+      allowEmailAlias: S.optional(
+        S.NullOr(S.Boolean).pipe(T.Body("allow_email_alias")),
+      ),
+    }),
+).annotate({
+  identifier: "AccessPoliciesResponseConnectionRulesSsh",
+}) as any as S.Schema<AccessPoliciesResponseConnectionRulesSsh>;
+
 export interface AccessPoliciesCreateResponseConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesCreateResponseConnectionRulesRdp | null;
+  ssh?: AccessPoliciesResponseConnectionRulesSsh | null;
 }
 export const AccessPoliciesCreateResponseConnectionRules =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rdp: S.optional(S.NullOr(AccessPoliciesCreateResponseConnectionRulesRdp)),
+      ssh: S.optional(S.NullOr(AccessPoliciesResponseConnectionRulesSsh)),
     }),
   ).annotate({
     identifier: "AccessPoliciesCreateResponseConnectionRules",
@@ -70091,6 +70126,10 @@ export interface AccessApplicationsGetResultSaaSApplication {
   tags?: AccessApplicationsGetResultSaaSApplicationTagsList | null;
   /** The application type. */
   type?: AccessApplicationsGetResultSaaSApplicationType | null;
+  /** The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`. */
+  domain?: string | null;
+  /** The amount of time that tokens issued for this application will be valid. */
+  sessionDuration?: string | null;
 }
 export const AccessApplicationsGetResultSaaSApplication =
   /*@__PURE__*/ S.suspend(() =>
@@ -70133,6 +70172,10 @@ export const AccessApplicationsGetResultSaaSApplication =
       ),
       type: S.optional(
         S.NullOr(AccessApplicationsGetResultSaaSApplicationType),
+      ),
+      domain: S.optional(S.NullOr(S.String)),
+      sessionDuration: S.optional(
+        S.NullOr(S.String).pipe(T.Body("session_duration")),
       ),
     }),
   ).annotate({
@@ -90508,6 +90551,8 @@ export const AccessApplicationsGetResult = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "tags",
       "type",
+      "domain",
+      "sessionDuration",
     ],
     [
       "domain",
@@ -95159,11 +95204,13 @@ export const AccessPoliciesGetResponseConnectionRulesRdp =
 export interface AccessPoliciesGetResponseConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesGetResponseConnectionRulesRdp | null;
+  ssh?: AccessPoliciesResponseConnectionRulesSsh | null;
 }
 export const AccessPoliciesGetResponseConnectionRules = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rdp: S.optional(S.NullOr(AccessPoliciesGetResponseConnectionRulesRdp)),
+      ssh: S.optional(S.NullOr(AccessPoliciesResponseConnectionRulesSsh)),
     }),
 ).annotate({
   identifier: "AccessPoliciesGetResponseConnectionRules",
@@ -126701,6 +126748,10 @@ export interface AccessApplicationsListResultItemSaaSApplication {
   tags?: AccessApplicationsListResultItemSaaSApplicationTagsList | null;
   /** The application type. */
   type?: AccessApplicationsListResultItemSaaSApplicationType | null;
+  /** The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`. */
+  domain?: string | null;
+  /** The amount of time that tokens issued for this application will be valid. */
+  sessionDuration?: string | null;
 }
 export const AccessApplicationsListResultItemSaaSApplication =
   /*@__PURE__*/ S.suspend(() =>
@@ -126743,6 +126794,10 @@ export const AccessApplicationsListResultItemSaaSApplication =
       ),
       type: S.optional(
         S.NullOr(AccessApplicationsListResultItemSaaSApplicationType),
+      ),
+      domain: S.optional(S.NullOr(S.String)),
+      sessionDuration: S.optional(
+        S.NullOr(S.String).pipe(T.Body("session_duration")),
       ),
     }),
   ).annotate({
@@ -147154,6 +147209,8 @@ export const AccessApplicationsListResultItem = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "tags",
       "type",
+      "domain",
+      "sessionDuration",
     ],
     [
       "domain",
@@ -149870,11 +149927,13 @@ export const AccessPoliciesListResultItemConnectionRulesRdp =
 export interface AccessPoliciesListResultItemConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesListResultItemConnectionRulesRdp | null;
+  ssh?: AccessPoliciesResponseConnectionRulesSsh | null;
 }
 export const AccessPoliciesListResultItemConnectionRules =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rdp: S.optional(S.NullOr(AccessPoliciesListResultItemConnectionRulesRdp)),
+      ssh: S.optional(S.NullOr(AccessPoliciesResponseConnectionRulesSsh)),
     }),
   ).annotate({
     identifier: "AccessPoliciesListResultItemConnectionRules",
@@ -189828,6 +189887,10 @@ export interface AccessApplicationsUpdateResultSaaSApplication {
   tags?: AccessApplicationsUpdateResultSaaSApplicationTagsList | null;
   /** The application type. */
   type?: AccessApplicationsUpdateResultSaaSApplicationType | null;
+  /** The SSO endpoint of the application, e.g. `<team>.cloudflareaccess.com/cdn-cgi/access/sso/saml/<aud>`. */
+  domain?: string | null;
+  /** The amount of time that tokens issued for this application will be valid. */
+  sessionDuration?: string | null;
 }
 export const AccessApplicationsUpdateResultSaaSApplication =
   /*@__PURE__*/ S.suspend(() =>
@@ -189870,6 +189933,10 @@ export const AccessApplicationsUpdateResultSaaSApplication =
       ),
       type: S.optional(
         S.NullOr(AccessApplicationsUpdateResultSaaSApplicationType),
+      ),
+      domain: S.optional(S.NullOr(S.String)),
+      sessionDuration: S.optional(
+        S.NullOr(S.String).pipe(T.Body("session_duration")),
       ),
     }),
   ).annotate({
@@ -210267,6 +210334,8 @@ export const AccessApplicationsUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
       "scimConfig",
       "tags",
       "type",
+      "domain",
+      "sessionDuration",
     ],
     [
       "domain",
@@ -217173,11 +217242,15 @@ export const AccessPoliciesUpdateRequestConnectionRulesRdp =
 export interface AccessPoliciesUpdateRequestConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesUpdateRequestConnectionRulesRdp;
+  ssh?: AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSsh;
 }
 export const AccessPoliciesUpdateRequestConnectionRules =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rdp: S.optional(AccessPoliciesUpdateRequestConnectionRulesRdp),
+      ssh: S.optional(
+        AccessApplicationsCreateRequestPoliciesInfrastructureApplicationItemConnectionRulesSsh,
+      ),
     }),
   ).annotate({
     identifier: "AccessPoliciesUpdateRequestConnectionRules",
@@ -217391,11 +217464,13 @@ export const AccessPoliciesUpdateResponseConnectionRulesRdp =
 export interface AccessPoliciesUpdateResponseConnectionRules {
   /** The RDP-specific rules that define clipboard behavior for RDP connections. */
   rdp?: AccessPoliciesUpdateResponseConnectionRulesRdp | null;
+  ssh?: AccessPoliciesResponseConnectionRulesSsh | null;
 }
 export const AccessPoliciesUpdateResponseConnectionRules =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rdp: S.optional(S.NullOr(AccessPoliciesUpdateResponseConnectionRulesRdp)),
+      ssh: S.optional(S.NullOr(AccessPoliciesResponseConnectionRulesSsh)),
     }),
   ).annotate({
     identifier: "AccessPoliciesUpdateResponseConnectionRules",
