@@ -1,0 +1,47 @@
+{
+  "description": "The spec models the ARM OneDeploy extension PUT without a body, but Microsoft.Web requires `{ properties: { packageUri, type, ... } }` naming the package to deploy (the shape Bicep's `sites/extensions/onedeploy` sends).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.web#OneDeployProperties",
+      "value": {
+        "type": "structure",
+        "members": {
+          "packageUri": {
+            "target": "smithy.api#String",
+            "traits": { "smithy.api#documentation": "URL (typically a SAS URL) of the package to deploy." }
+          },
+          "type": {
+            "target": "smithy.api#String",
+            "traits": { "smithy.api#documentation": "Package type, e.g. `zip`." }
+          },
+          "path": {
+            "target": "smithy.api#String",
+            "traits": { "smithy.api#documentation": "Target path of the package on the app." }
+          },
+          "remoteBuild": {
+            "target": "smithy.api#Boolean",
+            "traits": { "smithy.api#documentation": "Whether the platform builds the package." }
+          },
+          "restart": {
+            "target": "smithy.api#Boolean",
+            "traits": { "smithy.api#documentation": "Whether the app restarts after the deployment." }
+          },
+          "clean": {
+            "target": "smithy.api#Boolean",
+            "traits": { "smithy.api#documentation": "Whether files not in the package are removed." }
+          }
+        },
+        "traits": { "smithy.api#documentation": "OneDeploy request." }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.web#WebAppsCreateOneDeployOperationRequest/members/properties",
+      "value": {
+        "target": "com.azure.web#OneDeployProperties",
+        "traits": { "smithy.api#documentation": "The package to deploy." }
+      }
+    }
+  ]
+}

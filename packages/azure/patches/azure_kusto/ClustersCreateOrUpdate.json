@@ -1,0 +1,21 @@
+{
+  "description": "ClustersCreateOrUpdate / UpdateCluster are long-running; the 202 response may carry an empty body, so `location` and `sku` are not required on those responses.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.azure_kusto#ClustersCreateOrUpdateResponse/members/location/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.azure_kusto#ClustersCreateOrUpdateResponse/members/sku/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.azure_kusto#UpdateClusterResponse/members/location/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.azure_kusto#UpdateClusterResponse/members/sku/traits/smithy.api#required"
+    }
+  ]
+}

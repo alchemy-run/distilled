@@ -16,10 +16,16 @@ export type { AzureOpError, AzureOpContext };
 export interface AssessmentScopeParameters {
   /** Gets or sets the server group id. */
   serverGroupId?: string;
+  /** Scope type, e.g. `ServerGroupId` or `AzureResourceGraphQuery`. */
+  scopeType?: string;
+  /** Azure Resource Graph query selecting the assessed resources. */
+  azureResourceGraphQuery?: string;
 }
 export const AssessmentScopeParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serverGroupId: S.optional(S.String),
+    scopeType: S.optional(S.String),
+    azureResourceGraphQuery: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AssessmentScopeParameters",
@@ -28,10 +34,6 @@ export const AssessmentScopeParameters = /*@__PURE__*/ S.suspend(() =>
 /** Environment Type for Azure. */
 export type AzureEnvironmentType = "Unknown" | "DevTest" | "Production";
 export const AzureEnvironmentType = S.String;
-
-/** Licensing Program for Azure. */
-export type LicensingProgram = "Default" | "EA";
-export const LicensingProgram = S.String;
 
 /** Currency for Azure. */
 export type AzureCurrency =
@@ -62,10 +64,6 @@ export type AzureCurrency =
   | "AUD"
   | "CNY";
 export const AzureCurrency = S.String;
-
-/** Assessment Sizing Criteria. */
-export type AssessmentSizingCriterion = "PerformanceBased" | "AsOnPremises";
-export const AssessmentSizingCriterion = S.String;
 
 /** Time Range for Performance Data. */
 export type TimeRange = "Day" | "Week" | "Month" | "Custom";
@@ -113,6 +111,18 @@ export type AzureVmCategory =
   | "Isolated";
 export const AzureVmCategory = S.String;
 
+/** Consolidation Type. */
+export type ConsolidationType = "Full" | "AsOnSource";
+export const ConsolidationType = S.String;
+
+/** Pricing Tier for Azure. */
+export type PricingTier = "Standard" | "Free";
+export const PricingTier = S.String;
+
+/** Assessment Sizing Criteria. */
+export type AssessmentSizingCriterion = "PerformanceBased" | "AsOnPremises";
+export const AssessmentSizingCriterion = S.String;
+
 /** Savings Options for Azure. */
 export type SavingsOptions =
   | "None"
@@ -122,13 +132,41 @@ export type SavingsOptions =
   | "ThreeYearsReserved";
 export const SavingsOptions = S.String;
 
-/** Consolidation Type. */
-export type ConsolidationType = "Full" | "AsOnSource";
-export const ConsolidationType = S.String;
+/** AKS assessment savings settings. */
+export interface AKSAssessmentSavingsSettings {
+  /** Savings options (reserved instances or savings plans). */
+  savingsOptions?: SavingsOptions | (string & {});
+  /** Azure offer code, e.g. `MSAZR0003P` (pay-as-you-go). */
+  azureOfferCode?: string;
+}
+export const AKSAssessmentSavingsSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    savingsOptions: S.optional(SavingsOptions),
+    azureOfferCode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AKSAssessmentSavingsSettings",
+}) as any as S.Schema<AKSAssessmentSavingsSettings>;
 
-/** Pricing Tier for Azure. */
-export type PricingTier = "Standard" | "Free";
-export const PricingTier = S.String;
+/** Licensing Program for Azure. */
+export type LicensingProgram = "Default" | "EA";
+export const LicensingProgram = S.String;
+
+/** AKS assessment billing settings. */
+export interface AKSAssessmentBillingSettings {
+  /** Licensing program (`Default` or `EA`). */
+  licensingProgram?: LicensingProgram | (string & {});
+  /** Subscription the prices are computed for. */
+  subscriptionId?: string;
+}
+export const AKSAssessmentBillingSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    licensingProgram: S.optional(LicensingProgram),
+    subscriptionId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AKSAssessmentBillingSettings",
+}) as any as S.Schema<AKSAssessmentBillingSettings>;
 
 /** Data model of AKS Assessment Settings. */
 export interface AKSAssessmentSettings {
@@ -136,41 +174,41 @@ export interface AKSAssessmentSettings {
   azureLocation: string;
   /** Gets or sets environment type. */
   environmentType: AzureEnvironmentType | (string & {});
-  /** Gets or sets licensing program. */
-  licensingProgram: LicensingProgram | (string & {});
   /** Gets or sets currency. */
   currency: AzureCurrency | (string & {});
   /** Gets or sets discount percentage. */
   discountPercentage?: number;
-  /** Gets or sets sizing criteria. */
-  sizingCriteria: AssessmentSizingCriterion | (string & {});
   /** Gets or sets performance data settings. */
   performanceData?: PerfDataSettings;
   /** Gets or sets scaling factor. */
   scalingFactor?: number;
   /** Gets or sets azure VM category. */
   category: AzureVmCategory | (string & {});
-  /** Gets or sets savings options. */
-  savingsOptions: SavingsOptions | (string & {});
   /** Gets or sets consolidation type. */
   consolidation: ConsolidationType | (string & {});
   /** Gets or sets pricing tier. */
   pricingTier: PricingTier | (string & {});
+  /** Gets or sets sizing criteria. */
+  sizingCriterion: AssessmentSizingCriterion | (string & {});
+  /** Savings settings. */
+  savingsSettings?: AKSAssessmentSavingsSettings;
+  /** Billing settings. */
+  billingSettings?: AKSAssessmentBillingSettings;
 }
 export const AKSAssessmentSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     azureLocation: S.String,
     environmentType: AzureEnvironmentType,
-    licensingProgram: LicensingProgram,
     currency: AzureCurrency,
     discountPercentage: S.optional(S.Number),
-    sizingCriteria: AssessmentSizingCriterion,
     performanceData: S.optional(PerfDataSettings),
     scalingFactor: S.optional(S.Number),
     category: AzureVmCategory,
-    savingsOptions: SavingsOptions,
     consolidation: ConsolidationType,
     pricingTier: PricingTier,
+    sizingCriterion: AssessmentSizingCriterion,
+    savingsSettings: S.optional(AKSAssessmentSavingsSettings),
+    billingSettings: S.optional(AKSAssessmentBillingSettings),
   }),
 ).annotate({
   identifier: "AKSAssessmentSettings",
@@ -216,7 +254,7 @@ export const CreateAksAssessmentOperationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}",
       code: 200,
-      apiVersion: "2024-01-15",
+      apiVersion: "2024-03-03-preview",
     }),
   ),
 ).annotate({
@@ -3946,7 +3984,7 @@ export const CreateSolutionsControllerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/solutions/{solutionName}",
       code: 200,
-      apiVersion: "2023-01-01",
+      apiVersion: "2020-05-01",
     }),
   ),
 ).annotate({
@@ -5549,7 +5587,7 @@ export const DeleteAksAssessmentOperationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}",
       code: 200,
-      apiVersion: "2024-01-15",
+      apiVersion: "2024-03-03-preview",
     }),
   ),
 ).annotate({
@@ -6413,7 +6451,7 @@ export const DeleteSolutionsControllerSolutionRequest = /*@__PURE__*/ S.suspend(
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/solutions/{solutionName}",
         code: 200,
-        apiVersion: "2023-01-01",
+        apiVersion: "2020-05-01",
       }),
     ),
 ).annotate({
@@ -6948,7 +6986,7 @@ export const DownloadAksAssessmentOperationUrlRequest = /*@__PURE__*/ S.suspend(
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/downloadUrl",
         code: 200,
-        apiVersion: "2024-01-15",
+        apiVersion: "2024-03-03-preview",
       }),
     ),
 ).annotate({
@@ -7904,7 +7942,7 @@ export const GetAksAssessmentOperationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}",
       code: 200,
-      apiVersion: "2024-01-15",
+      apiVersion: "2024-03-03-preview",
     }),
   ),
 ).annotate({
@@ -7962,7 +8000,7 @@ export const GetAksClusterOperationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/clusters/{clusterName}",
       code: 200,
-      apiVersion: "2024-01-15",
+      apiVersion: "2024-03-03-preview",
     }),
   ),
 ).annotate({
@@ -8198,7 +8236,7 @@ export const GetAksSummaryOperationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/summaries/{summaryName}",
       code: 200,
-      apiVersion: "2024-01-15",
+      apiVersion: "2024-03-03-preview",
     }),
   ),
 ).annotate({
@@ -11047,7 +11085,7 @@ export const GetAssessedWebApplicationOperationRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/assessedWebApps/{assessedWorkload}",
         code: 200,
-        apiVersion: "2024-01-15",
+        apiVersion: "2024-03-03-preview",
       }),
     ),
   ).annotate({
@@ -18273,7 +18311,7 @@ export const GetSolutionsControllerSolutionRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/solutions/{solutionName}",
         code: 200,
-        apiVersion: "2023-01-01",
+        apiVersion: "2020-05-01",
       }),
     ),
 ).annotate({
@@ -22610,7 +22648,7 @@ export const ListAksAssessmentOperationByAssessmentProjectRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments",
         code: 200,
-        apiVersion: "2024-01-15",
+        apiVersion: "2024-03-03-preview",
       }),
     ),
   ).annotate({
@@ -22690,7 +22728,7 @@ export const ListAksClusterOperationByAksAssessmentRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/clusters",
         code: 200,
-        apiVersion: "2024-01-15",
+        apiVersion: "2024-03-03-preview",
       }),
     ),
   ).annotate({
@@ -22770,7 +22808,7 @@ export const ListAksCostDetailOperationByAksAssessmentRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/costDetails",
         code: 200,
-        apiVersion: "2024-01-15",
+        apiVersion: "2024-03-03-preview",
       }),
     ),
   ).annotate({
@@ -22924,7 +22962,7 @@ export const ListAksSummaryOperationByAksAssessmentRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/summaries",
         code: 200,
-        apiVersion: "2024-01-15",
+        apiVersion: "2024-03-03-preview",
       }),
     ),
   ).annotate({
@@ -23474,7 +23512,7 @@ export const ListAssessedWebApplicationOperationByAksAssessmentRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/assessedWebApps",
         code: 200,
-        apiVersion: "2024-01-15",
+        apiVersion: "2024-03-03-preview",
       }),
     ),
   ).annotate({
@@ -26475,7 +26513,7 @@ export const ListProjectBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Migrate/migrateProjects",
       code: 200,
-      apiVersion: "2023-01-01",
+      apiVersion: "2020-05-01",
     }),
   ),
 ).annotate({
@@ -26686,6 +26724,8 @@ export interface MigrateProject {
   type?: string;
   /** Metadata pertaining to creation and last modification of the resource. */
   systemData?: MigrateProjectSystemData;
+  /** Resource tags. */
+  tags?: CreateAssessmentProjectsOperationRequestTagsMap;
 }
 export const MigrateProject = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -26696,6 +26736,7 @@ export const MigrateProject = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     systemData: S.optional(MigrateProjectSystemData),
+    tags: S.optional(CreateAssessmentProjectsOperationRequestTagsMap),
   }),
 ).annotate({ identifier: "MigrateProject" }) as any as S.Schema<MigrateProject>;
 
@@ -26735,7 +26776,7 @@ export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects",
       code: 200,
-      apiVersion: "2023-01-01",
+      apiVersion: "2020-05-01",
     }),
   ),
 ).annotate({
@@ -27371,7 +27412,7 @@ export const ListSolutionsControllerSolutionsRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/solutions",
         code: 200,
-        apiVersion: "2023-01-01",
+        apiVersion: "2020-05-01",
       }),
     ),
 ).annotate({
@@ -29892,7 +29933,7 @@ export const MigrateProjectsControllerDeleteMigrateProjectRequest =
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}",
         code: 200,
-        apiVersion: "2023-01-01",
+        apiVersion: "2020-05-01",
       }),
     ),
   ).annotate({
@@ -29924,7 +29965,7 @@ export const MigrateProjectsControllerGetMigrateProjectRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}",
         code: 200,
-        apiVersion: "2023-01-01",
+        apiVersion: "2020-05-01",
       }),
     ),
   ).annotate({
@@ -29973,6 +30014,8 @@ export interface MigrateProjectsControllerPatchMigrateProjectRequest {
   eTag?: string;
   /** Azure location in which project is created. */
   location?: string;
+  /** Resource tags. */
+  tags?: CreateAssessmentProjectsOperationRequestTagsMap;
 }
 export const MigrateProjectsControllerPatchMigrateProjectRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -29983,12 +30026,13 @@ export const MigrateProjectsControllerPatchMigrateProjectRequest =
       properties: S.optional(MigrateProjectPropertiesInput),
       eTag: S.optional(S.String),
       location: S.optional(S.String),
+      tags: S.optional(CreateAssessmentProjectsOperationRequestTagsMap),
     }).pipe(
       T.Http({
         method: "PATCH",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}",
         code: 200,
-        apiVersion: "2023-01-01",
+        apiVersion: "2020-05-01",
       }),
     ),
   ).annotate({
@@ -30007,6 +30051,8 @@ export interface MigrateProjectsControllerPutMigrateProjectRequest {
   eTag?: string;
   /** Azure location in which project is created. */
   location?: string;
+  /** Resource tags. */
+  tags?: CreateAssessmentProjectsOperationRequestTagsMap;
 }
 export const MigrateProjectsControllerPutMigrateProjectRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -30017,12 +30063,13 @@ export const MigrateProjectsControllerPutMigrateProjectRequest =
       properties: S.optional(MigrateProjectPropertiesInput),
       eTag: S.optional(S.String),
       location: S.optional(S.String),
+      tags: S.optional(CreateAssessmentProjectsOperationRequestTagsMap),
     }).pipe(
       T.Http({
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}",
         code: 200,
-        apiVersion: "2023-01-01",
+        apiVersion: "2020-05-01",
       }),
     ),
   ).annotate({
@@ -32235,7 +32282,7 @@ export const UpdateSolutionsControllerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/solutions/{solutionName}",
       code: 200,
-      apiVersion: "2023-01-01",
+      apiVersion: "2020-05-01",
     }),
   ),
 ).annotate({

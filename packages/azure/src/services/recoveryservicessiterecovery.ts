@@ -268,19 +268,6 @@ export const CurrentScenarioDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "CurrentScenarioDetails",
 }) as any as S.Schema<CurrentScenarioDetails>;
 
-/** Replication provider specific settings. */
-export interface ReplicationProviderSpecificSettings {
-  /** Gets the Instance type. */
-  instanceType: string;
-}
-export const ReplicationProviderSpecificSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceType: S.String,
-  }),
-).annotate({
-  identifier: "ReplicationProviderSpecificSettings",
-}) as any as S.Schema<ReplicationProviderSpecificSettings>;
-
 /** Replication protected item custom data details. */
 export interface ReplicationProtectedItemProperties {
   /** The name. */
@@ -337,8 +324,8 @@ export interface ReplicationProtectedItemProperties {
   currentScenario?: CurrentScenarioDetails;
   /** The recovery point ARM Id to which the Vm was failed over. */
   failoverRecoveryPointId?: string;
-  /** The Replication provider custom settings. */
-  providerSpecificDetails?: ReplicationProviderSpecificSettings;
+  /** The Replication provider custom settings. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  providerSpecificDetails?: unknown;
   /** The recovery container Id. */
   recoveryContainerId?: string;
   /** The correlation Id for events associated with this protected item. */
@@ -377,7 +364,7 @@ export const ReplicationProtectedItemProperties = /*@__PURE__*/ S.suspend(() =>
     lastSuccessfulTestFailoverTime: S.optional(S.String),
     currentScenario: S.optional(CurrentScenarioDetails),
     failoverRecoveryPointId: S.optional(S.String),
-    providerSpecificDetails: S.optional(ReplicationProviderSpecificSettings),
+    providerSpecificDetails: S.optional(S.Unknown),
     recoveryContainerId: S.optional(S.String),
     eventCorrelationId: S.optional(S.String),
   }),
@@ -637,12 +624,6 @@ export const ReplicationProtectionClusterPropertiesClusterRegisteredNodesList =
     RegisteredClusterNodes,
   ) as any as S.Schema<ReplicationProtectionClusterPropertiesClusterRegisteredNodesList>;
 
-/** Replication cluster provider specific settings. */
-export type ReplicationClusterProviderSpecificSettings =
-  ReplicationProviderSpecificSettings;
-export const ReplicationClusterProviderSpecificSettings =
-  ReplicationProviderSpecificSettings;
-
 /** The allowed operations on the Replication protected item. */
 export type SharedDiskReplicationItemPropertiesAllowedOperationsList =
   Array<string>;
@@ -660,10 +641,18 @@ export const SharedDiskReplicationItemPropertiesHealthErrorsList =
   ) as any as S.Schema<SharedDiskReplicationItemPropertiesHealthErrorsList>;
 
 /** Replication provider specific settings. */
-export type SharedDiskReplicationProviderSpecificSettings =
-  ReplicationProviderSpecificSettings;
+export interface SharedDiskReplicationProviderSpecificSettings {
+  /** Gets the Instance type. */
+  instanceType: string;
+}
 export const SharedDiskReplicationProviderSpecificSettings =
-  ReplicationProviderSpecificSettings;
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      instanceType: S.String,
+    }),
+  ).annotate({
+    identifier: "SharedDiskReplicationProviderSpecificSettings",
+  }) as any as S.Schema<SharedDiskReplicationProviderSpecificSettings>;
 
 /** Shared Disk Replication item custom data details. */
 export interface SharedDiskReplicationItemProperties {
@@ -682,7 +671,7 @@ export interface SharedDiskReplicationItemProperties {
   /** The current scenario. */
   currentScenario?: CurrentScenarioDetails;
   /** The Replication provider custom settings. */
-  sharedDiskProviderSpecificDetails?: ReplicationProviderSpecificSettings;
+  sharedDiskProviderSpecificDetails?: SharedDiskReplicationProviderSpecificSettings;
 }
 export const SharedDiskReplicationItemProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -698,7 +687,7 @@ export const SharedDiskReplicationItemProperties = /*@__PURE__*/ S.suspend(() =>
     ),
     currentScenario: S.optional(CurrentScenarioDetails),
     sharedDiskProviderSpecificDetails: S.optional(
-      ReplicationProviderSpecificSettings,
+      SharedDiskReplicationProviderSpecificSettings,
     ),
   }),
 ).annotate({
@@ -761,8 +750,8 @@ export interface ReplicationProtectionClusterProperties {
   areAllClusterNodesRegistered?: boolean;
   /** The registered node details. */
   clusterRegisteredNodes?: ReplicationProtectionClusterPropertiesClusterRegisteredNodesList;
-  /** The Replication cluster provider custom settings. */
-  providerSpecificDetails?: ReplicationProviderSpecificSettings;
+  /** The Replication cluster provider custom settings. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  providerSpecificDetails?: unknown;
   /** The shared disk properties. */
   sharedDiskProperties?: SharedDiskReplicationItemProperties;
   /** The Policy Id. */
@@ -808,7 +797,7 @@ export const ReplicationProtectionClusterProperties = /*@__PURE__*/ S.suspend(
       clusterRegisteredNodes: S.optional(
         ReplicationProtectionClusterPropertiesClusterRegisteredNodesList,
       ),
-      providerSpecificDetails: S.optional(ReplicationProviderSpecificSettings),
+      providerSpecificDetails: S.optional(S.Unknown),
       sharedDiskProperties: S.optional(SharedDiskReplicationItemProperties),
       policyId: S.optional(S.String),
     }),
@@ -1323,19 +1312,6 @@ export const RecoveryPlanActionFailoverDirectionsList = /*@__PURE__*/ S.Array(
   PossibleOperationsDirections,
 ) as any as S.Schema<RecoveryPlanActionFailoverDirectionsList>;
 
-/** Recovery plan action custom details. */
-export interface RecoveryPlanActionDetails {
-  /** Gets the type of action details (see RecoveryPlanActionDetailsTypes enum for possible values). */
-  instanceType: string;
-}
-export const RecoveryPlanActionDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceType: S.String,
-  }),
-).annotate({
-  identifier: "RecoveryPlanActionDetails",
-}) as any as S.Schema<RecoveryPlanActionDetails>;
-
 /** Recovery plan action details. */
 export interface RecoveryPlanAction {
   /** The action name. */
@@ -1344,15 +1320,15 @@ export interface RecoveryPlanAction {
   failoverTypes: RecoveryPlanActionFailoverTypesList;
   /** The list of failover directions. */
   failoverDirections: RecoveryPlanActionFailoverDirectionsList;
-  /** The custom details. */
-  customDetails: RecoveryPlanActionDetails;
+  /** The custom details. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  customDetails: unknown;
 }
 export const RecoveryPlanAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     actionName: S.String,
     failoverTypes: RecoveryPlanActionFailoverTypesList,
     failoverDirections: RecoveryPlanActionFailoverDirectionsList,
-    customDetails: RecoveryPlanActionDetails,
+    customDetails: S.Unknown,
   }),
 ).annotate({
   identifier: "RecoveryPlanAction",
@@ -1400,20 +1376,6 @@ export const RecoveryPlanPropertiesGroupsList = /*@__PURE__*/ S.Array(
   RecoveryPlanGroup,
 ) as any as S.Schema<RecoveryPlanPropertiesGroupsList>;
 
-/** Recovery plan provider specific details. */
-export type RecoveryPlanProviderSpecificDetails =
-  ReplicationProviderSpecificSettings;
-export const RecoveryPlanProviderSpecificDetails =
-  ReplicationProviderSpecificSettings;
-
-/** The provider id and provider specific details. */
-export type RecoveryPlanPropertiesProviderSpecificDetailsList =
-  Array<ReplicationProviderSpecificSettings>;
-export const RecoveryPlanPropertiesProviderSpecificDetailsList =
-  /*@__PURE__*/ S.Array(
-    ReplicationProviderSpecificSettings,
-  ) as any as S.Schema<RecoveryPlanPropertiesProviderSpecificDetailsList>;
-
 /** Recovery plan properties. */
 export interface RecoveryPlanProperties {
   /** The friendly name. */
@@ -1446,8 +1408,8 @@ export interface RecoveryPlanProperties {
   currentScenarioStatusDescription?: string;
   /** The recovery plan groups. */
   groups?: RecoveryPlanPropertiesGroupsList;
-  /** The provider id and provider specific details. */
-  providerSpecificDetails?: RecoveryPlanPropertiesProviderSpecificDetailsList;
+  /** The provider id and provider specific details. Polymorphic on `instanceType` (list of provider-specific objects, e.g. `[{ instanceType: "A2A", ... }]`). */
+  providerSpecificDetails?: unknown;
 }
 export const RecoveryPlanProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1468,9 +1430,7 @@ export const RecoveryPlanProperties = /*@__PURE__*/ S.suspend(() =>
     currentScenarioStatus: S.optional(S.String),
     currentScenarioStatusDescription: S.optional(S.String),
     groups: S.optional(RecoveryPlanPropertiesGroupsList),
-    providerSpecificDetails: S.optional(
-      RecoveryPlanPropertiesProviderSpecificDetailsList,
-    ),
+    providerSpecificDetails: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "RecoveryPlanProperties",
@@ -1552,19 +1512,6 @@ export const EncryptionDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "EncryptionDetails",
 }) as any as S.Schema<EncryptionDetails>;
 
-/** Fabric specific details. */
-export interface FabricSpecificDetails {
-  /** Gets the class type. Overridden in derived classes. */
-  instanceType: string;
-}
-export const FabricSpecificDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceType: S.String,
-  }),
-).annotate({
-  identifier: "FabricSpecificDetails",
-}) as any as S.Schema<FabricSpecificDetails>;
-
 /** Fabric health error details. */
 export type FabricPropertiesHealthErrorDetailsList = Array<HealthError>;
 export const FabricPropertiesHealthErrorDetailsList = /*@__PURE__*/ S.Array(
@@ -1583,8 +1530,8 @@ export interface FabricProperties {
   internalIdentifier?: string;
   /** BCDR state of the fabric. */
   bcdrState?: string;
-  /** Fabric specific settings. */
-  customDetails?: FabricSpecificDetails;
+  /** Fabric specific settings. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  customDetails?: unknown;
   /** Fabric health error details. */
   healthErrorDetails?: FabricPropertiesHealthErrorDetailsList;
   /** Health of fabric. */
@@ -1597,7 +1544,7 @@ export const FabricProperties = /*@__PURE__*/ S.suspend(() =>
     rolloverEncryptionDetails: S.optional(EncryptionDetails),
     internalIdentifier: S.optional(S.String),
     bcdrState: S.optional(S.String),
-    customDetails: S.optional(FabricSpecificDetails),
+    customDetails: S.optional(S.Unknown),
     healthErrorDetails: S.optional(FabricPropertiesHealthErrorDetailsList),
     health: S.optional(S.String),
   }),
@@ -1927,27 +1874,14 @@ export const CreateReplicationAlertSettingsResponse = /*@__PURE__*/ S.suspend(
   identifier: "CreateReplicationAlertSettingsResponse",
 }) as any as S.Schema<CreateReplicationAlertSettingsResponse>;
 
-/** Fabric provider specific settings. */
-export interface FabricSpecificCreationInput {
-  /** Gets the class type. */
-  instanceType: string;
-}
-export const FabricSpecificCreationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceType: S.String,
-  }),
-).annotate({
-  identifier: "FabricSpecificCreationInput",
-}) as any as S.Schema<FabricSpecificCreationInput>;
-
 /** Properties of site details provided during the time of site creation. */
 export interface FabricCreationInputProperties {
-  /** Fabric provider specific creation input. */
-  customDetails?: FabricSpecificCreationInput;
+  /** Fabric provider specific creation input. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  customDetails?: unknown;
 }
 export const FabricCreationInputProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customDetails: S.optional(FabricSpecificCreationInput),
+    customDetails: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "FabricCreationInputProperties",
@@ -2294,34 +2228,20 @@ export const CreateReplicationMigrationItemResponse = /*@__PURE__*/ S.suspend(
   identifier: "CreateReplicationMigrationItemResponse",
 }) as any as S.Schema<CreateReplicationMigrationItemResponse>;
 
-/** Input details specific to fabrics during Network Mapping. */
-export interface FabricSpecificCreateNetworkMappingInput {
-  /** The instance type. */
-  instanceType: string;
-}
-export const FabricSpecificCreateNetworkMappingInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      instanceType: S.String,
-    }),
-).annotate({
-  identifier: "FabricSpecificCreateNetworkMappingInput",
-}) as any as S.Schema<FabricSpecificCreateNetworkMappingInput>;
-
 /** Common input details for network mapping operation. */
 export interface CreateNetworkMappingInputProperties {
   /** Recovery fabric Name. */
   recoveryFabricName?: string;
   /** Recovery network Id. */
   recoveryNetworkId: string;
-  /** Fabric specific input properties. */
-  fabricSpecificDetails?: FabricSpecificCreateNetworkMappingInput;
+  /** Fabric specific input properties. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  fabricSpecificDetails?: unknown;
 }
 export const CreateNetworkMappingInputProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recoveryFabricName: S.optional(S.String),
     recoveryNetworkId: S.String,
-    fabricSpecificDetails: S.optional(FabricSpecificCreateNetworkMappingInput),
+    fabricSpecificDetails: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "CreateNetworkMappingInputProperties",
@@ -2365,12 +2285,6 @@ export const CreateReplicationNetworkMappingRequest = /*@__PURE__*/ S.suspend(
   identifier: "CreateReplicationNetworkMappingRequest",
 }) as any as S.Schema<CreateReplicationNetworkMappingRequest>;
 
-/** Network Mapping fabric specific settings. */
-export type NetworkMappingFabricSpecificSettings =
-  ReplicationProviderSpecificSettings;
-export const NetworkMappingFabricSpecificSettings =
-  ReplicationProviderSpecificSettings;
-
 /** Network Mapping Properties. */
 export interface NetworkMappingProperties {
   /** The pairing state for network mapping. */
@@ -2389,8 +2303,8 @@ export interface NetworkMappingProperties {
   recoveryFabricArmId?: string;
   /** The recovery fabric friendly name. */
   recoveryFabricFriendlyName?: string;
-  /** The fabric specific settings. */
-  fabricSpecificSettings?: ReplicationProviderSpecificSettings;
+  /** The fabric specific settings. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  fabricSpecificSettings?: unknown;
 }
 export const NetworkMappingProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2402,7 +2316,7 @@ export const NetworkMappingProperties = /*@__PURE__*/ S.suspend(() =>
     recoveryNetworkId: S.optional(S.String),
     recoveryFabricArmId: S.optional(S.String),
     recoveryFabricFriendlyName: S.optional(S.String),
-    fabricSpecificSettings: S.optional(ReplicationProviderSpecificSettings),
+    fabricSpecificSettings: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "NetworkMappingProperties",
@@ -2436,18 +2350,14 @@ export const CreateReplicationNetworkMappingResponse = /*@__PURE__*/ S.suspend(
   identifier: "CreateReplicationNetworkMappingResponse",
 }) as any as S.Schema<CreateReplicationNetworkMappingResponse>;
 
-/** Base class for provider specific input. */
-export type PolicyProviderSpecificInput = AddDisksProviderSpecificInput;
-export const PolicyProviderSpecificInput = AddDisksProviderSpecificInput;
-
 /** Policy creation properties. */
 export interface CreatePolicyInputProperties {
-  /** The ReplicationProviderSettings. */
-  providerSpecificInput?: AddDisksProviderSpecificInput;
+  /** The ReplicationProviderSettings. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  providerSpecificInput?: unknown;
 }
 export const CreatePolicyInputProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    providerSpecificInput: S.optional(AddDisksProviderSpecificInput),
+    providerSpecificInput: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "CreatePolicyInputProperties",
@@ -2484,21 +2394,17 @@ export const CreateReplicationPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateReplicationPolicyRequest",
 }) as any as S.Schema<CreateReplicationPolicyRequest>;
 
-/** Base class for Provider specific details for policies. */
-export type PolicyProviderSpecificDetails = FabricSpecificDetails;
-export const PolicyProviderSpecificDetails = FabricSpecificDetails;
-
 /** Protection profile custom data details. */
 export interface PolicyProperties {
   /** The FriendlyName. */
   friendlyName?: string;
-  /** The ReplicationChannelSetting. */
-  providerSpecificDetails?: FabricSpecificDetails;
+  /** The ReplicationChannelSetting. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  providerSpecificDetails?: unknown;
 }
 export const PolicyProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     friendlyName: S.optional(S.String),
-    providerSpecificDetails: S.optional(FabricSpecificDetails),
+    providerSpecificDetails: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "PolicyProperties",
@@ -2531,26 +2437,20 @@ export const CreateReplicationPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateReplicationPolicyResponse",
 }) as any as S.Schema<CreateReplicationPolicyResponse>;
 
-/** Enable protection provider specific input. */
-export type EnableProtectionProviderSpecificInput =
-  AddDisksProviderSpecificInput;
-export const EnableProtectionProviderSpecificInput =
-  AddDisksProviderSpecificInput;
-
 /** Enable protection input properties. */
 export interface EnableProtectionInputProperties {
   /** The Policy Id. */
   policyId?: string;
   /** The protectable item Id. */
   protectableItemId?: string;
-  /** The ReplicationProviderInput. For HyperVReplicaAzure provider, it will be AzureEnableProtectionInput object. For San provider, it will be SanEnableProtectionInput object. For HyperVReplicaAzure provider, it can be null. */
-  providerSpecificDetails?: AddDisksProviderSpecificInput;
+  /** The ReplicationProviderInput. For HyperVReplicaAzure provider, it will be AzureEnableProtectionInput object. For San provider, it will be SanEnableProtectionInput object. For HyperVReplicaAzure provider, it can be null. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  providerSpecificDetails?: unknown;
 }
 export const EnableProtectionInputProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policyId: S.optional(S.String),
     protectableItemId: S.optional(S.String),
-    providerSpecificDetails: S.optional(AddDisksProviderSpecificInput),
+    providerSpecificDetails: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "EnableProtectionInputProperties",
@@ -2716,8 +2616,8 @@ export interface ReplicationProtectionClusterPropertiesInput {
   areAllClusterNodesRegistered?: boolean;
   /** The registered node details. */
   clusterRegisteredNodes?: ReplicationProtectionClusterPropertiesInputClusterRegisteredNodesList;
-  /** The Replication cluster provider custom settings. */
-  providerSpecificDetails?: ReplicationProviderSpecificSettings;
+  /** The Replication cluster provider custom settings. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  providerSpecificDetails?: unknown;
   /** The shared disk properties. */
   sharedDiskProperties?: SharedDiskReplicationItemProperties;
   /** The Policy Id. */
@@ -2762,7 +2662,7 @@ export const ReplicationProtectionClusterPropertiesInput =
       clusterRegisteredNodes: S.optional(
         ReplicationProtectionClusterPropertiesInputClusterRegisteredNodesList,
       ),
-      providerSpecificDetails: S.optional(ReplicationProviderSpecificSettings),
+      providerSpecificDetails: S.optional(S.Unknown),
       sharedDiskProperties: S.optional(SharedDiskReplicationItemProperties),
       policyId: S.optional(S.String),
     }),
@@ -2833,31 +2733,15 @@ export const CreateReplicationProtectionClusterResponse =
     identifier: "CreateReplicationProtectionClusterResponse",
   }) as any as S.Schema<CreateReplicationProtectionClusterResponse>;
 
-/** Provider specific input for container creation operation. */
-export type ReplicationProviderSpecificContainerCreationInput =
-  AddDisksProviderSpecificInput;
-export const ReplicationProviderSpecificContainerCreationInput =
-  AddDisksProviderSpecificInput;
-
-/** Provider specific inputs for container creation. */
-export type CreateProtectionContainerInputPropertiesProviderSpecificInputList =
-  Array<AddDisksProviderSpecificInput>;
-export const CreateProtectionContainerInputPropertiesProviderSpecificInputList =
-  /*@__PURE__*/ S.Array(
-    AddDisksProviderSpecificInput,
-  ) as any as S.Schema<CreateProtectionContainerInputPropertiesProviderSpecificInputList>;
-
 /** Create protection container input properties. */
 export interface CreateProtectionContainerInputProperties {
-  /** Provider specific inputs for container creation. */
-  providerSpecificInput?: CreateProtectionContainerInputPropertiesProviderSpecificInputList;
+  /** Provider specific inputs for container creation. Polymorphic on `instanceType` (list of provider-specific objects, e.g. `[{ instanceType: "A2A", ... }]`). */
+  providerSpecificInput?: unknown;
 }
 export const CreateProtectionContainerInputProperties = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      providerSpecificInput: S.optional(
-        CreateProtectionContainerInputPropertiesProviderSpecificInputList,
-      ),
+      providerSpecificInput: S.optional(S.Unknown),
     }),
 ).annotate({
   identifier: "CreateProtectionContainerInputProperties",
@@ -2898,20 +2782,6 @@ export const CreateReplicationProtectionContainerRequest =
     identifier: "CreateReplicationProtectionContainerRequest",
   }) as any as S.Schema<CreateReplicationProtectionContainerRequest>;
 
-/** Base class for fabric specific details of container. */
-export interface ProtectionContainerFabricSpecificDetails {
-  /** Gets the class type. Overridden in derived classes. */
-  instanceType?: string;
-}
-export const ProtectionContainerFabricSpecificDetails = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      instanceType: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "ProtectionContainerFabricSpecificDetails",
-}) as any as S.Schema<ProtectionContainerFabricSpecificDetails>;
-
 /** Protection profile custom data details. */
 export interface ProtectionContainerProperties {
   /** Fabric friendly name. */
@@ -2926,8 +2796,8 @@ export interface ProtectionContainerProperties {
   pairingStatus?: string;
   /** The role of this cloud. */
   role?: string;
-  /** Fabric specific details. */
-  fabricSpecificDetails?: ProtectionContainerFabricSpecificDetails;
+  /** Fabric specific details. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  fabricSpecificDetails?: unknown;
 }
 export const ProtectionContainerProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2937,7 +2807,7 @@ export const ProtectionContainerProperties = /*@__PURE__*/ S.suspend(() =>
     protectedItemCount: S.optional(S.Number),
     pairingStatus: S.optional(S.String),
     role: S.optional(S.String),
-    fabricSpecificDetails: S.optional(ProtectionContainerFabricSpecificDetails),
+    fabricSpecificDetails: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "ProtectionContainerProperties",
@@ -2971,27 +2841,21 @@ export const CreateReplicationProtectionContainerResponse =
     identifier: "CreateReplicationProtectionContainerResponse",
   }) as any as S.Schema<CreateReplicationProtectionContainerResponse>;
 
-/** Provider specific input for pairing operations. */
-export type ReplicationProviderSpecificContainerMappingInput =
-  AddDisksProviderSpecificInput;
-export const ReplicationProviderSpecificContainerMappingInput =
-  AddDisksProviderSpecificInput;
-
 /** Configure pairing input properties. */
 export interface CreateProtectionContainerMappingInputProperties {
   /** The target unique protection container name. */
   targetProtectionContainerId?: string;
   /** Applicable policy. */
   policyId?: string;
-  /** Provider specific input for pairing. */
-  providerSpecificInput?: AddDisksProviderSpecificInput;
+  /** Provider specific input for pairing. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  providerSpecificInput?: unknown;
 }
 export const CreateProtectionContainerMappingInputProperties =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       targetProtectionContainerId: S.optional(S.String),
       policyId: S.optional(S.String),
-      providerSpecificInput: S.optional(AddDisksProviderSpecificInput),
+      providerSpecificInput: S.optional(S.Unknown),
     }),
   ).annotate({
     identifier: "CreateProtectionContainerMappingInputProperties",
@@ -3035,12 +2899,6 @@ export const CreateReplicationProtectionContainerMappingRequest =
     identifier: "CreateReplicationProtectionContainerMappingRequest",
   }) as any as S.Schema<CreateReplicationProtectionContainerMappingRequest>;
 
-/** Container mapping provider specific details. */
-export type ProtectionContainerMappingProviderSpecificDetails =
-  FabricSpecificDetails;
-export const ProtectionContainerMappingProviderSpecificDetails =
-  FabricSpecificDetails;
-
 /** Health error. */
 export type ProtectionContainerMappingPropertiesHealthErrorDetailsList =
   Array<HealthError>;
@@ -3055,8 +2913,8 @@ export interface ProtectionContainerMappingProperties {
   targetProtectionContainerId?: string;
   /** Friendly name of paired container. */
   targetProtectionContainerFriendlyName?: string;
-  /** Provider specific provider details. */
-  providerSpecificDetails?: FabricSpecificDetails;
+  /** Provider specific provider details. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  providerSpecificDetails?: unknown;
   /** Health of pairing. */
   health?: string;
   /** Health error. */
@@ -3079,7 +2937,7 @@ export const ProtectionContainerMappingProperties = /*@__PURE__*/ S.suspend(
     S.Struct({
       targetProtectionContainerId: S.optional(S.String),
       targetProtectionContainerFriendlyName: S.optional(S.String),
-      providerSpecificDetails: S.optional(FabricSpecificDetails),
+      providerSpecificDetails: S.optional(S.Unknown),
       health: S.optional(S.String),
       healthErrorDetails: S.optional(
         ProtectionContainerMappingPropertiesHealthErrorDetailsList,
@@ -3176,9 +3034,9 @@ export const CreateReplicationProtectionIntentRequest = /*@__PURE__*/ S.suspend(
 
 /** Replication provider specific settings. */
 export type ReplicationProtectionIntentProviderSpecificSettings =
-  ReplicationProviderSpecificSettings;
+  SharedDiskReplicationProviderSpecificSettings;
 export const ReplicationProtectionIntentProviderSpecificSettings =
-  ReplicationProviderSpecificSettings;
+  SharedDiskReplicationProviderSpecificSettings;
 
 /** Replication protection intent custom data details. */
 export interface ReplicationProtectionIntentProperties {
@@ -3193,7 +3051,7 @@ export interface ReplicationProtectionIntentProperties {
   /** The creation time in UTC. */
   creationTimeUTC?: string;
   /** The Replication provider custom settings. */
-  providerSpecificDetails?: ReplicationProviderSpecificSettings;
+  providerSpecificDetails?: SharedDiskReplicationProviderSpecificSettings;
 }
 export const ReplicationProtectionIntentProperties = /*@__PURE__*/ S.suspend(
   () =>
@@ -3203,7 +3061,9 @@ export const ReplicationProtectionIntentProperties = /*@__PURE__*/ S.suspend(
       jobState: S.optional(S.String),
       isActive: S.optional(S.Boolean),
       creationTimeUTC: S.optional(S.String),
-      providerSpecificDetails: S.optional(ReplicationProviderSpecificSettings),
+      providerSpecificDetails: S.optional(
+        SharedDiskReplicationProviderSpecificSettings,
+      ),
     }),
 ).annotate({
   identifier: "ReplicationProtectionIntentProperties",
@@ -3252,20 +3112,6 @@ export const CreateRecoveryPlanInputPropertiesGroupsList =
     RecoveryPlanGroup,
   ) as any as S.Schema<CreateRecoveryPlanInputPropertiesGroupsList>;
 
-/** Recovery plan provider specific input base class. */
-export type RecoveryPlanProviderSpecificInput =
-  ReplicationProviderSpecificSettings;
-export const RecoveryPlanProviderSpecificInput =
-  ReplicationProviderSpecificSettings;
-
-/** The provider specific input. */
-export type CreateRecoveryPlanInputPropertiesProviderSpecificInputList =
-  Array<ReplicationProviderSpecificSettings>;
-export const CreateRecoveryPlanInputPropertiesProviderSpecificInputList =
-  /*@__PURE__*/ S.Array(
-    ReplicationProviderSpecificSettings,
-  ) as any as S.Schema<CreateRecoveryPlanInputPropertiesProviderSpecificInputList>;
-
 /** Recovery plan creation properties. */
 export interface CreateRecoveryPlanInputProperties {
   /** The primary fabric Id. */
@@ -3276,8 +3122,8 @@ export interface CreateRecoveryPlanInputProperties {
   failoverDeploymentModel?: FailoverDeploymentModel | (string & {});
   /** The recovery plan groups. */
   groups: CreateRecoveryPlanInputPropertiesGroupsList;
-  /** The provider specific input. */
-  providerSpecificInput?: CreateRecoveryPlanInputPropertiesProviderSpecificInputList;
+  /** The provider specific input. Polymorphic on `instanceType` (list of provider-specific objects, e.g. `[{ instanceType: "A2A", ... }]`). */
+  providerSpecificInput?: unknown;
 }
 export const CreateRecoveryPlanInputProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3285,9 +3131,7 @@ export const CreateRecoveryPlanInputProperties = /*@__PURE__*/ S.suspend(() =>
     recoveryFabricId: S.String,
     failoverDeploymentModel: S.optional(FailoverDeploymentModel),
     groups: CreateRecoveryPlanInputPropertiesGroupsList,
-    providerSpecificInput: S.optional(
-      CreateRecoveryPlanInputPropertiesProviderSpecificInputList,
-    ),
+    providerSpecificInput: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "CreateRecoveryPlanInputProperties",
@@ -4092,23 +3936,17 @@ export const DeleteReplicationPolicyResponse = /*@__PURE__*/ S.suspend(() =>
 export type DisableProtectionReason = "NotSpecified" | "MigrationComplete";
 export const DisableProtectionReason = S.String;
 
-/** Disable protection provider specific input. */
-export type DisableProtectionProviderSpecificInput =
-  AddDisksProviderSpecificInput;
-export const DisableProtectionProviderSpecificInput =
-  AddDisksProviderSpecificInput;
-
 /** Disable protection input properties. */
 export interface DisableProtectionInputProperties {
   /** Disable protection reason. It can have values NotSpecified/MigrationComplete. */
   disableProtectionReason?: DisableProtectionReason | (string & {});
-  /** Replication provider specific input. */
-  replicationProviderInput?: AddDisksProviderSpecificInput;
+  /** Replication provider specific input. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  replicationProviderInput?: unknown;
 }
 export const DisableProtectionInputProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     disableProtectionReason: S.optional(DisableProtectionReason),
-    replicationProviderInput: S.optional(AddDisksProviderSpecificInput),
+    replicationProviderInput: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "DisableProtectionInputProperties",
@@ -4197,31 +4035,15 @@ export const DeleteReplicationProtectionContainerResponse =
     identifier: "DeleteReplicationProtectionContainerResponse",
   }) as any as S.Schema<DeleteReplicationProtectionContainerResponse>;
 
-/** Provider specific input for unpairing operations. */
-export interface ReplicationProviderContainerUnmappingInput {
-  /** The class type. */
-  instanceType?: string;
-}
-export const ReplicationProviderContainerUnmappingInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      instanceType: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ReplicationProviderContainerUnmappingInput",
-  }) as any as S.Schema<ReplicationProviderContainerUnmappingInput>;
-
 /** Unpairing input properties. */
 export interface RemoveProtectionContainerMappingInputProperties {
-  /** Provider specific input for unpairing. */
-  providerSpecificInput?: ReplicationProviderContainerUnmappingInput;
+  /** Provider specific input for unpairing. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  providerSpecificInput?: unknown;
 }
 export const RemoveProtectionContainerMappingInputProperties =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      providerSpecificInput: S.optional(
-        ReplicationProviderContainerUnmappingInput,
-      ),
+      providerSpecificInput: S.optional(S.Unknown),
     }),
   ).annotate({
     identifier: "RemoveProtectionContainerMappingInputProperties",
@@ -4969,12 +4791,21 @@ export const GetReplicationEventRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetReplicationEventRequest>;
 
 /** Model class for provider specific details for an event. */
-export type EventProviderSpecificDetails = FabricSpecificDetails;
-export const EventProviderSpecificDetails = FabricSpecificDetails;
+export interface EventProviderSpecificDetails {
+  /** Gets the class type. Overridden in derived classes. */
+  instanceType: string;
+}
+export const EventProviderSpecificDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    instanceType: S.String,
+  }),
+).annotate({
+  identifier: "EventProviderSpecificDetails",
+}) as any as S.Schema<EventProviderSpecificDetails>;
 
 /** Model class for event specific details for an event. */
-export type EventSpecificDetails = FabricSpecificDetails;
-export const EventSpecificDetails = FabricSpecificDetails;
+export type EventSpecificDetails = EventProviderSpecificDetails;
+export const EventSpecificDetails = EventProviderSpecificDetails;
 
 /** The list of errors / warnings capturing details associated with the issue(s). */
 export type EventPropertiesHealthErrorsList = Array<HealthError>;
@@ -5001,9 +4832,9 @@ export interface EventProperties {
   /** The ARM ID of the fabric. */
   fabricId?: string;
   /** The provider specific settings. */
-  providerSpecificDetails?: FabricSpecificDetails;
+  providerSpecificDetails?: EventProviderSpecificDetails;
   /** The event specific settings. */
-  eventSpecificDetails?: FabricSpecificDetails;
+  eventSpecificDetails?: EventProviderSpecificDetails;
   /** The list of errors / warnings capturing details associated with the issue(s). */
   healthErrors?: EventPropertiesHealthErrorsList;
 }
@@ -5017,8 +4848,8 @@ export const EventProperties = /*@__PURE__*/ S.suspend(() =>
     severity: S.optional(S.String),
     timeOfOccurrence: S.optional(S.String),
     fabricId: S.optional(S.String),
-    providerSpecificDetails: S.optional(FabricSpecificDetails),
-    eventSpecificDetails: S.optional(FabricSpecificDetails),
+    providerSpecificDetails: S.optional(EventProviderSpecificDetails),
+    eventSpecificDetails: S.optional(EventProviderSpecificDetails),
     healthErrors: S.optional(EventPropertiesHealthErrorsList),
   }),
 ).annotate({
@@ -5585,8 +5416,8 @@ export const ProtectableItemPropertiesSupportedReplicationProvidersList =
   ) as any as S.Schema<ProtectableItemPropertiesSupportedReplicationProvidersList>;
 
 /** Replication provider specific settings. */
-export type ConfigurationSettings = FabricSpecificDetails;
-export const ConfigurationSettings = FabricSpecificDetails;
+export type ConfigurationSettings = EventProviderSpecificDetails;
+export const ConfigurationSettings = EventProviderSpecificDetails;
 
 /** Replication protected item custom data details. */
 export interface ProtectableItemProperties {
@@ -5603,7 +5434,7 @@ export interface ProtectableItemProperties {
   /** The list of replication providers supported for the protectable item. */
   supportedReplicationProviders?: ProtectableItemPropertiesSupportedReplicationProvidersList;
   /** The Replication provider custom settings. */
-  customDetails?: FabricSpecificDetails;
+  customDetails?: EventProviderSpecificDetails;
 }
 export const ProtectableItemProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5617,7 +5448,7 @@ export const ProtectableItemProperties = /*@__PURE__*/ S.suspend(() =>
     supportedReplicationProviders: S.optional(
       ProtectableItemPropertiesSupportedReplicationProvidersList,
     ),
-    customDetails: S.optional(FabricSpecificDetails),
+    customDetails: S.optional(EventProviderSpecificDetails),
   }),
 ).annotate({
   identifier: "ProtectableItemProperties",
@@ -7109,17 +6940,17 @@ export const ListReplicationAppliancesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListReplicationAppliancesRequest>;
 
 /** Appliance specific details. */
-export type ApplianceSpecificDetails = FabricSpecificDetails;
-export const ApplianceSpecificDetails = FabricSpecificDetails;
+export type ApplianceSpecificDetails = EventProviderSpecificDetails;
+export const ApplianceSpecificDetails = EventProviderSpecificDetails;
 
 /** Replication appliance properties. */
 export interface ReplicationApplianceProperties {
   /** Provider specific settings. */
-  providerSpecificDetails?: FabricSpecificDetails;
+  providerSpecificDetails?: EventProviderSpecificDetails;
 }
 export const ReplicationApplianceProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    providerSpecificDetails: S.optional(FabricSpecificDetails),
+    providerSpecificDetails: S.optional(EventProviderSpecificDetails),
   }),
 ).annotate({
   identifier: "ReplicationApplianceProperties",
@@ -11123,22 +10954,24 @@ export const ReplicationProtectionContainersDiscoverProtectableItemResponse =
 
 /** Provider specific switch cluster protection input. */
 export type SwitchClusterProtectionProviderSpecificInput =
-  ReplicationProviderSpecificSettings;
+  SharedDiskReplicationProviderSpecificSettings;
 export const SwitchClusterProtectionProviderSpecificInput =
-  ReplicationProviderSpecificSettings;
+  SharedDiskReplicationProviderSpecificSettings;
 
 /** Switch cluster protection input properties. */
 export interface SwitchClusterProtectionInputProperties {
   /** The unique replication protection cluster name. */
   replicationProtectionClusterName?: string;
   /** Provider specific switch protection input. */
-  providerSpecificDetails?: ReplicationProviderSpecificSettings;
+  providerSpecificDetails?: SharedDiskReplicationProviderSpecificSettings;
 }
 export const SwitchClusterProtectionInputProperties = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       replicationProtectionClusterName: S.optional(S.String),
-      providerSpecificDetails: S.optional(ReplicationProviderSpecificSettings),
+      providerSpecificDetails: S.optional(
+        SharedDiskReplicationProviderSpecificSettings,
+      ),
     }),
 ).annotate({
   identifier: "SwitchClusterProtectionInputProperties",
@@ -11210,21 +11043,23 @@ export const ReplicationProtectionContainersSwitchClusterProtectionResponse =
 
 /** Provider specific switch protection input. */
 export type SwitchProtectionProviderSpecificInput =
-  ReplicationProviderSpecificSettings;
+  SharedDiskReplicationProviderSpecificSettings;
 export const SwitchProtectionProviderSpecificInput =
-  ReplicationProviderSpecificSettings;
+  SharedDiskReplicationProviderSpecificSettings;
 
 /** Switch protection input properties. */
 export interface SwitchProtectionInputProperties {
   /** The unique replication protected item name. */
   replicationProtectedItemName?: string;
   /** Provider specific switch protection input. */
-  providerSpecificDetails?: ReplicationProviderSpecificSettings;
+  providerSpecificDetails?: SharedDiskReplicationProviderSpecificSettings;
 }
 export const SwitchProtectionInputProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     replicationProtectedItemName: S.optional(S.String),
-    providerSpecificDetails: S.optional(ReplicationProviderSpecificSettings),
+    providerSpecificDetails: S.optional(
+      SharedDiskReplicationProviderSpecificSettings,
+    ),
   }),
 ).annotate({
   identifier: "SwitchProtectionInputProperties",
@@ -12335,26 +12170,20 @@ export const UpdateReplicationMigrationItemResponse = /*@__PURE__*/ S.suspend(
   identifier: "UpdateReplicationMigrationItemResponse",
 }) as any as S.Schema<UpdateReplicationMigrationItemResponse>;
 
-/** Input details specific to fabrics during Network Mapping. */
-export type FabricSpecificUpdateNetworkMappingInput =
-  FabricSpecificCreateNetworkMappingInput;
-export const FabricSpecificUpdateNetworkMappingInput =
-  FabricSpecificCreateNetworkMappingInput;
-
 /** Common input details for network mapping operation. */
 export interface UpdateNetworkMappingInputProperties {
   /** Recovery fabric name. */
   recoveryFabricName?: string;
   /** Recovery network Id. */
   recoveryNetworkId?: string;
-  /** Fabrics specific input network Id. */
-  fabricSpecificDetails?: FabricSpecificCreateNetworkMappingInput;
+  /** Fabrics specific input network Id. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  fabricSpecificDetails?: unknown;
 }
 export const UpdateNetworkMappingInputProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recoveryFabricName: S.optional(S.String),
     recoveryNetworkId: S.optional(S.String),
-    fabricSpecificDetails: S.optional(FabricSpecificCreateNetworkMappingInput),
+    fabricSpecificDetails: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "UpdateNetworkMappingInputProperties",
@@ -12428,12 +12257,12 @@ export const UpdateReplicationNetworkMappingResponse = /*@__PURE__*/ S.suspend(
 
 /** Policy update properties. */
 export interface UpdatePolicyInputProperties {
-  /** The ReplicationProviderSettings. */
-  replicationProviderSettings?: AddDisksProviderSpecificInput;
+  /** The ReplicationProviderSettings. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  replicationProviderSettings?: unknown;
 }
 export const UpdatePolicyInputProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    replicationProviderSettings: S.optional(AddDisksProviderSpecificInput),
+    replicationProviderSettings: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "UpdatePolicyInputProperties",
@@ -12615,12 +12444,6 @@ export const UpdateReplicationProtectedItemInputPropertiesVmNicsList =
 export type LicenseType = "NotSpecified" | "NoLicenseType" | "WindowsServer";
 export const LicenseType = S.String;
 
-/** Update replication protected item provider specific input. */
-export type UpdateReplicationProtectedItemProviderInput =
-  AddDisksProviderSpecificInput;
-export const UpdateReplicationProtectedItemProviderInput =
-  AddDisksProviderSpecificInput;
-
 /** Update protected item input properties. */
 export interface UpdateReplicationProtectedItemInputProperties {
   /** Target Azure VM name given by the user. */
@@ -12641,8 +12464,8 @@ export interface UpdateReplicationProtectedItemInputProperties {
   licenseType?: LicenseType | (string & {});
   /** The target availability set Id. */
   recoveryAvailabilitySetId?: string;
-  /** The provider specific input to update replication protected item. */
-  providerSpecificDetails?: AddDisksProviderSpecificInput;
+  /** The provider specific input to update replication protected item. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  providerSpecificDetails?: unknown;
 }
 export const UpdateReplicationProtectedItemInputProperties =
   /*@__PURE__*/ S.suspend(() =>
@@ -12658,7 +12481,7 @@ export const UpdateReplicationProtectedItemInputProperties =
       ),
       licenseType: S.optional(LicenseType),
       recoveryAvailabilitySetId: S.optional(S.String),
-      providerSpecificDetails: S.optional(AddDisksProviderSpecificInput),
+      providerSpecificDetails: S.optional(S.Unknown),
     }),
   ).annotate({
     identifier: "UpdateReplicationProtectedItemInputProperties",
@@ -12891,21 +12714,15 @@ export const UpdateReplicationProtectedItemMobilityServiceResponse =
     identifier: "UpdateReplicationProtectedItemMobilityServiceResponse",
   }) as any as S.Schema<UpdateReplicationProtectedItemMobilityServiceResponse>;
 
-/** Provider specific input for update pairing operations. */
-export type ReplicationProviderSpecificUpdateContainerMappingInput =
-  AddDisksProviderSpecificInput;
-export const ReplicationProviderSpecificUpdateContainerMappingInput =
-  AddDisksProviderSpecificInput;
-
 /** Container pairing update input. */
 export interface UpdateProtectionContainerMappingInputProperties {
-  /** Provider specific input for updating protection container mapping. */
-  providerSpecificInput?: AddDisksProviderSpecificInput;
+  /** Provider specific input for updating protection container mapping. Polymorphic on `instanceType` (e.g. `{ instanceType: "A2A", ... }`). */
+  providerSpecificInput?: unknown;
 }
 export const UpdateProtectionContainerMappingInputProperties =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      providerSpecificInput: S.optional(AddDisksProviderSpecificInput),
+      providerSpecificInput: S.optional(S.Unknown),
     }),
   ).annotate({
     identifier: "UpdateProtectionContainerMappingInputProperties",

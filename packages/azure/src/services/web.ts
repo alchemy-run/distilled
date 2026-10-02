@@ -46718,6 +46718,34 @@ export const WebAppsCreateMSDeployOperationSlotResponse =
     identifier: "WebAppsCreateMSDeployOperationSlotResponse",
   }) as any as S.Schema<WebAppsCreateMSDeployOperationSlotResponse>;
 
+/** OneDeploy request. */
+export interface OneDeployProperties {
+  /** URL (typically a SAS URL) of the package to deploy. */
+  packageUri?: string;
+  /** Package type, e.g. `zip`. */
+  type?: string;
+  /** Target path of the package on the app. */
+  path?: string;
+  /** Whether the platform builds the package. */
+  remoteBuild?: boolean;
+  /** Whether the app restarts after the deployment. */
+  restart?: boolean;
+  /** Whether files not in the package are removed. */
+  clean?: boolean;
+}
+export const OneDeployProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    packageUri: S.optional(S.String),
+    type: S.optional(S.String),
+    path: S.optional(S.String),
+    remoteBuild: S.optional(S.Boolean),
+    restart: S.optional(S.Boolean),
+    clean: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "OneDeployProperties",
+}) as any as S.Schema<OneDeployProperties>;
+
 export interface WebAppsCreateOneDeployOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -46725,6 +46753,8 @@ export interface WebAppsCreateOneDeployOperationRequest {
   resourceGroupName: string;
   /** Name of the app. */
   name: string;
+  /** The package to deploy. */
+  properties?: OneDeployProperties;
 }
 export const WebAppsCreateOneDeployOperationRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -46732,6 +46762,7 @@ export const WebAppsCreateOneDeployOperationRequest = /*@__PURE__*/ S.suspend(
       subscriptionId: S.String.pipe(T.Label()),
       resourceGroupName: S.String.pipe(T.Label()),
       name: S.String.pipe(T.Label()),
+      properties: S.optional(OneDeployProperties),
     }).pipe(
       T.Http({
         method: "PUT",
@@ -47246,6 +47277,22 @@ export const WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotResponse =
     identifier: "WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotResponse",
   }) as any as S.Schema<WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotResponse>;
 
+/** Function key to create or update. */
+export interface FunctionSecretProperties {
+  /** Key name */
+  name?: string;
+  /** Key value; omit it to have Azure generate one. */
+  value?: string;
+}
+export const FunctionSecretProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    value: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "FunctionSecretProperties",
+}) as any as S.Schema<FunctionSecretProperties>;
+
 export interface WebAppsCreateOrUpdateFunctionSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -47254,8 +47301,8 @@ export interface WebAppsCreateOrUpdateFunctionSecretRequest {
   name: string;
   functionName: string;
   keyName: string;
-  /** Key value */
-  value?: string;
+  /** The key to create or update. */
+  properties?: FunctionSecretProperties;
 }
 export const WebAppsCreateOrUpdateFunctionSecretRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -47265,7 +47312,7 @@ export const WebAppsCreateOrUpdateFunctionSecretRequest =
       name: S.String.pipe(T.Label()),
       functionName: S.String.pipe(T.Label()),
       keyName: S.String.pipe(T.Label()),
-      value: S.optional(S.String),
+      properties: S.optional(FunctionSecretProperties),
     }).pipe(
       T.Http({
         method: "PUT",
@@ -47301,8 +47348,8 @@ export interface WebAppsCreateOrUpdateFunctionSecretSlotRequest {
   slot: string;
   functionName: string;
   keyName: string;
-  /** Key value */
-  value?: string;
+  /** The key to create or update. */
+  properties?: FunctionSecretProperties;
 }
 export const WebAppsCreateOrUpdateFunctionSecretSlotRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -47313,7 +47360,7 @@ export const WebAppsCreateOrUpdateFunctionSecretSlotRequest =
       slot: S.String.pipe(T.Label()),
       functionName: S.String.pipe(T.Label()),
       keyName: S.String.pipe(T.Label()),
-      value: S.optional(S.String),
+      properties: S.optional(FunctionSecretProperties),
     }).pipe(
       T.Http({
         method: "PUT",
@@ -47490,20 +47537,8 @@ export const WebAppsCreateOrUpdateHostNameBindingSlotResponse =
   }) as any as S.Schema<WebAppsCreateOrUpdateHostNameBindingSlotResponse>;
 
 /** Host key to create or update. */
-export interface HostSecretProperties {
-  /** Key name */
-  name?: string;
-  /** Key value; omit it to have Azure generate one. */
-  value?: string;
-}
-export const HostSecretProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    value: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "HostSecretProperties",
-}) as any as S.Schema<HostSecretProperties>;
+export type HostSecretProperties = FunctionSecretProperties;
+export const HostSecretProperties = FunctionSecretProperties;
 
 export interface WebAppsCreateOrUpdateHostSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -47517,7 +47552,7 @@ export interface WebAppsCreateOrUpdateHostSecretRequest {
   /** The name of the key. */
   keyName: string;
   /** The key to create or update. */
-  properties?: HostSecretProperties;
+  properties?: FunctionSecretProperties;
 }
 export const WebAppsCreateOrUpdateHostSecretRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -47527,7 +47562,7 @@ export const WebAppsCreateOrUpdateHostSecretRequest = /*@__PURE__*/ S.suspend(
       name: S.String.pipe(T.Label()),
       keyType: S.String.pipe(T.Label()),
       keyName: S.String.pipe(T.Label()),
-      properties: S.optional(HostSecretProperties),
+      properties: S.optional(FunctionSecretProperties),
     }).pipe(
       T.Http({
         method: "PUT",
@@ -47554,7 +47589,7 @@ export interface WebAppsCreateOrUpdateHostSecretSlotRequest {
   /** The name of the key. */
   keyName: string;
   /** The key to create or update. */
-  properties?: HostSecretProperties;
+  properties?: FunctionSecretProperties;
 }
 export const WebAppsCreateOrUpdateHostSecretSlotRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -47565,7 +47600,7 @@ export const WebAppsCreateOrUpdateHostSecretSlotRequest =
       slot: S.String.pipe(T.Label()),
       keyType: S.String.pipe(T.Label()),
       keyName: S.String.pipe(T.Label()),
-      properties: S.optional(HostSecretProperties),
+      properties: S.optional(FunctionSecretProperties),
     }).pipe(
       T.Http({
         method: "PUT",

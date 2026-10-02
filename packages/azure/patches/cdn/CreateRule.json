@@ -1,0 +1,25 @@
+{
+  "description": "DeliveryRuleCondition and DeliveryRuleAction are polymorphic on `name`; the converted model keeps only `name`, so S.Struct strips the `parameters` payload on encode and decode and ARM rejects every rule. Add `parameters` as an untyped document.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cdn#DeliveryRuleCondition/members/parameters",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Condition parameters (polymorphic on `name`, discriminated by `parameters.typeName`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cdn#DeliveryRuleAction/members/parameters",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Action parameters (polymorphic on `name`, discriminated by `parameters.typeName`)."
+        }
+      }
+    }
+  ]
+}

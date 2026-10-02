@@ -1,0 +1,35 @@
+{
+  "description": "Trigger is polymorphic on `kind`; the converted model keeps only the base members, so S.Struct strips the kind-specific `properties` bag on encode and decode. Add it as an untyped document.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datashare#CreateTriggerRequest/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datashare#CreateTriggerResponse/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datashare#GetTriggerResponse/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`."
+        }
+      }
+    }
+  ]
+}

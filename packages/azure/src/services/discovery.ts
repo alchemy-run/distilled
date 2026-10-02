@@ -1752,10 +1752,19 @@ export const StorageStoreType = S.String;
 export interface StorageStore {
   /** The storage store kind. */
   kind: StorageStoreType | (string & {});
+  /** AzureStorageBlob: the associated Azure Storage account ID. */
+  storageAccountId?: string;
+  /** AzureNetAppFiles: the associated Azure NetApp Files volume ID. */
+  netAppVolumeId?: string;
+  /** Protocol used to mount the store: `NFS` or `BlobfuseCaching` (blob only). */
+  mountProtocol?: string;
 }
 export const StorageStore = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: StorageStoreType,
+    storageAccountId: S.optional(S.String),
+    netAppVolumeId: S.optional(S.String),
+    mountProtocol: S.optional(S.String),
   }),
 ).annotate({ identifier: "StorageStore" }) as any as S.Schema<StorageStore>;
 

@@ -189,27 +189,14 @@ export const CreateFabricRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
 ) as any as S.Schema<CreateFabricRequestTagsMap>;
 
-/** Fabric model custom properties. */
-export interface FabricModelCustomProperties {
-  /** Discriminator property for FabricModelCustomProperties. */
-  instanceType: string;
-}
-export const FabricModelCustomProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceType: S.String,
-  }),
-).annotate({
-  identifier: "FabricModelCustomProperties",
-}) as any as S.Schema<FabricModelCustomProperties>;
-
 /** Fabric model properties. */
 export interface FabricModelPropertiesInput {
-  /** Fabric model custom properties. */
-  customProperties: FabricModelCustomProperties;
+  /** Fabric model custom properties. Polymorphic on `instanceType` (HyperVMigrate, VMwareMigrate, AzStackHCI). */
+  customProperties: unknown;
 }
 export const FabricModelPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customProperties: FabricModelCustomProperties,
+    customProperties: S.Unknown,
   }),
 ).annotate({
   identifier: "FabricModelPropertiesInput",
@@ -388,8 +375,8 @@ export interface FabricModelProperties {
   health?: HealthStatus;
   /** Gets or sets the list of health errors. */
   healthErrors?: FabricModelPropertiesHealthErrorsList;
-  /** Fabric model custom properties. */
-  customProperties: FabricModelCustomProperties;
+  /** Fabric model custom properties. Polymorphic on `instanceType` (HyperVMigrate, VMwareMigrate, AzStackHCI). */
+  customProperties: unknown;
 }
 export const FabricModelProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -398,7 +385,7 @@ export const FabricModelProperties = /*@__PURE__*/ S.suspend(() =>
     serviceResourceId: S.optional(S.String),
     health: S.optional(HealthStatus),
     healthErrors: S.optional(FabricModelPropertiesHealthErrorsList),
-    customProperties: FabricModelCustomProperties,
+    customProperties: S.Unknown,
   }),
 ).annotate({
   identifier: "FabricModelProperties",
@@ -457,19 +444,6 @@ export const IdentityModel = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "IdentityModel" }) as any as S.Schema<IdentityModel>;
 
-/** Fabric agent model custom properties. */
-export interface FabricAgentModelCustomProperties {
-  /** Discriminator property for FabricAgentModelCustomProperties. */
-  instanceType: string;
-}
-export const FabricAgentModelCustomProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceType: S.String,
-  }),
-).annotate({
-  identifier: "FabricAgentModelCustomProperties",
-}) as any as S.Schema<FabricAgentModelCustomProperties>;
-
 /** Fabric agent model properties. */
 export interface FabricAgentModelPropertiesInput {
   /** Gets or sets the machine Id where fabric agent is running. */
@@ -480,8 +454,8 @@ export interface FabricAgentModelPropertiesInput {
   authenticationIdentity: IdentityModel;
   /** Identity model. */
   resourceAccessIdentity: IdentityModel;
-  /** Fabric agent model custom properties. */
-  customProperties: FabricAgentModelCustomProperties;
+  /** Fabric agent model custom properties. Polymorphic on `instanceType` (VMware). */
+  customProperties: unknown;
 }
 export const FabricAgentModelPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -489,7 +463,7 @@ export const FabricAgentModelPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     machineName: S.String,
     authenticationIdentity: IdentityModel,
     resourceAccessIdentity: IdentityModel,
-    customProperties: FabricAgentModelCustomProperties,
+    customProperties: S.Unknown,
   }),
 ).annotate({
   identifier: "FabricAgentModelPropertiesInput",
@@ -555,8 +529,8 @@ export interface FabricAgentModelProperties {
   provisioningState?: ProvisioningState;
   /** Gets or sets the list of health errors. */
   healthErrors?: FabricAgentModelPropertiesHealthErrorsList;
-  /** Fabric agent model custom properties. */
-  customProperties: FabricAgentModelCustomProperties;
+  /** Fabric agent model custom properties. Polymorphic on `instanceType` (VMware). */
+  customProperties: unknown;
 }
 export const FabricAgentModelProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -570,7 +544,7 @@ export const FabricAgentModelProperties = /*@__PURE__*/ S.suspend(() =>
     versionNumber: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState),
     healthErrors: S.optional(FabricAgentModelPropertiesHealthErrorsList),
-    customProperties: FabricAgentModelCustomProperties,
+    customProperties: S.Unknown,
   }),
 ).annotate({
   identifier: "FabricAgentModelProperties",
@@ -600,27 +574,14 @@ export const CreateFabricAgentResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateFabricAgentResponse",
 }) as any as S.Schema<CreateFabricAgentResponse>;
 
-/** Policy model custom properties. */
-export interface PolicyModelCustomProperties {
-  /** Discriminator property for PolicyModelCustomProperties. */
-  instanceType: string;
-}
-export const PolicyModelCustomProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceType: S.String,
-  }),
-).annotate({
-  identifier: "PolicyModelCustomProperties",
-}) as any as S.Schema<PolicyModelCustomProperties>;
-
 /** Policy model properties. */
 export interface PolicyModelPropertiesInput {
-  /** Policy model custom properties. */
-  customProperties: PolicyModelCustomProperties;
+  /** Policy model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
+  customProperties: unknown;
 }
 export const PolicyModelPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customProperties: PolicyModelCustomProperties,
+    customProperties: S.Unknown,
   }),
 ).annotate({
   identifier: "PolicyModelPropertiesInput",
@@ -661,13 +622,13 @@ export const CreatePolicyRequest = /*@__PURE__*/ S.suspend(() =>
 export interface PolicyModelProperties {
   /** Gets or sets the provisioning state of the policy. */
   provisioningState?: ProvisioningState;
-  /** Policy model custom properties. */
-  customProperties: PolicyModelCustomProperties;
+  /** Policy model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
+  customProperties: unknown;
 }
 export const PolicyModelProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     provisioningState: S.optional(ProvisioningState),
-    customProperties: PolicyModelCustomProperties,
+    customProperties: S.Unknown,
   }),
 ).annotate({
   identifier: "PolicyModelProperties",
@@ -697,33 +658,20 @@ export const CreatePolicyResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreatePolicyResponse",
 }) as any as S.Schema<CreatePolicyResponse>;
 
-/** Protected item model custom properties. */
-export interface ProtectedItemModelCustomProperties {
-  /** Discriminator property for ProtectedItemModelCustomProperties. */
-  instanceType: string;
-}
-export const ProtectedItemModelCustomProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceType: S.String,
-  }),
-).annotate({
-  identifier: "ProtectedItemModelCustomProperties",
-}) as any as S.Schema<ProtectedItemModelCustomProperties>;
-
 /** Protected item model properties. */
 export interface ProtectedItemModelPropertiesInput {
   /** Gets or sets the policy name. */
   policyName: string;
   /** Gets or sets the replication extension name. */
   replicationExtensionName: string;
-  /** Protected item model custom properties. */
-  customProperties: ProtectedItemModelCustomProperties;
+  /** Protected item model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
+  customProperties: unknown;
 }
 export const ProtectedItemModelPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policyName: S.String,
     replicationExtensionName: S.String,
-    customProperties: ProtectedItemModelCustomProperties,
+    customProperties: S.Unknown,
   }),
 ).annotate({
   identifier: "ProtectedItemModelPropertiesInput",
@@ -941,8 +889,8 @@ export interface ProtectedItemModelProperties {
   replicationHealth?: HealthStatus;
   /** Gets or sets the list of health errors. */
   healthErrors?: ProtectedItemModelPropertiesHealthErrorsList;
-  /** Protected item model custom properties. */
-  customProperties: ProtectedItemModelCustomProperties;
+  /** Protected item model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
+  customProperties: unknown;
 }
 export const ProtectedItemModelProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -974,7 +922,7 @@ export const ProtectedItemModelProperties = /*@__PURE__*/ S.suspend(() =>
     lastTestFailoverJob: S.optional(ProtectedItemJobProperties),
     replicationHealth: S.optional(HealthStatus),
     healthErrors: S.optional(ProtectedItemModelPropertiesHealthErrorsList),
-    customProperties: ProtectedItemModelCustomProperties,
+    customProperties: S.Unknown,
   }),
 ).annotate({
   identifier: "ProtectedItemModelProperties",
@@ -1004,29 +952,15 @@ export const CreateProtectedItemResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateProtectedItemResponse",
 }) as any as S.Schema<CreateProtectedItemResponse>;
 
-/** Replication extension model custom properties. */
-export interface ReplicationExtensionModelCustomProperties {
-  /** Discriminator property for ReplicationExtensionModelCustomProperties. */
-  instanceType: string;
-}
-export const ReplicationExtensionModelCustomProperties =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      instanceType: S.String,
-    }),
-  ).annotate({
-    identifier: "ReplicationExtensionModelCustomProperties",
-  }) as any as S.Schema<ReplicationExtensionModelCustomProperties>;
-
 /** Replication extension model properties. */
 export interface ReplicationExtensionModelPropertiesInput {
-  /** Replication extension model custom properties. */
-  customProperties: ReplicationExtensionModelCustomProperties;
+  /** Replication extension model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
+  customProperties: unknown;
 }
 export const ReplicationExtensionModelPropertiesInput = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      customProperties: ReplicationExtensionModelCustomProperties,
+      customProperties: S.Unknown,
     }),
 ).annotate({
   identifier: "ReplicationExtensionModelPropertiesInput",
@@ -1067,13 +1001,13 @@ export const CreateReplicationExtensionRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ReplicationExtensionModelProperties {
   /** Gets or sets the provisioning state of the replication extension. */
   provisioningState?: ProvisioningState;
-  /** Replication extension model custom properties. */
-  customProperties: ReplicationExtensionModelCustomProperties;
+  /** Replication extension model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
+  customProperties: unknown;
 }
 export const ReplicationExtensionModelProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     provisioningState: S.optional(ProvisioningState),
-    customProperties: ReplicationExtensionModelCustomProperties,
+    customProperties: S.Unknown,
   }),
 ).annotate({
   identifier: "ReplicationExtensionModelProperties",
@@ -4209,28 +4143,14 @@ export const UpdatePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "UpdatePrivateEndpointConnectionResponse",
 }) as any as S.Schema<UpdatePrivateEndpointConnectionResponse>;
 
-/** Protected item model custom properties. */
-export interface ProtectedItemModelCustomPropertiesUpdate {
-  /** Discriminator property for ProtectedItemModelCustomPropertiesUpdate. */
-  instanceType: string;
-}
-export const ProtectedItemModelCustomPropertiesUpdate = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      instanceType: S.String,
-    }),
-).annotate({
-  identifier: "ProtectedItemModelCustomPropertiesUpdate",
-}) as any as S.Schema<ProtectedItemModelCustomPropertiesUpdate>;
-
 /** Protected item model properties update. */
 export interface ProtectedItemModelPropertiesUpdate {
-  /** Protected item model custom properties update. */
-  customProperties?: ProtectedItemModelCustomPropertiesUpdate;
+  /** Protected item model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
+  customProperties?: unknown;
 }
 export const ProtectedItemModelPropertiesUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customProperties: S.optional(ProtectedItemModelCustomPropertiesUpdate),
+    customProperties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "ProtectedItemModelPropertiesUpdate",

@@ -96,6 +96,17 @@ export class AuthorizationFailed extends Schema.TaggedError<AuthorizationFailed>
 ).pipe(Category.withAuthError) {}
 
 /**
+ * Returned by Microsoft.DeviceRegistry when a schema registry's managed
+ * identity lacks a storage data role (e.g. `Storage Blob Data Contributor`)
+ * on its blob container, or the role assignment has not propagated yet.
+ * Azure error code: `AuthorizationPermissionMismatch`
+ */
+export class SchemaRegistryStorageAccessDenied extends Schema.TaggedError<SchemaRegistryStorageAccessDenied>()(
+  "SchemaRegistryStorageAccessDenied",
+  AzureAuthErrorFields,
+).pipe(Category.withAuthError) {}
+
+/**
  * Returned when the bearer token is invalid, expired, or missing required claims.
  * Azure error code: `InvalidAuthenticationToken`
  */
@@ -539,6 +550,18 @@ export class CannotDeleteResource extends Schema.TaggedError<CannotDeleteResourc
 ).pipe(Category.withDependencyViolationError) {}
 
 /**
+ * Returned by Microsoft.NetApp when the subscription may not create NetApp
+ * accounts in the region (e.g. free-trial subscriptions, or regions closed
+ * to new Azure NetApp Files customers). Azure error code:
+ * `ResourceRestriction` (HTTP 409, "Creation of 'netAppAccounts' has been
+ * restricted in this region").
+ */
+export class NetAppCreationRestricted extends Schema.TaggedError<NetAppCreationRestricted>()(
+  "NetAppCreationRestricted",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
  * Returned when an operation needs a subscription preview feature that is
  * not registered (e.g. Azure Virtual Network Manager security user rules:
  * "The subscription: X is not registered for feature: AllowAVNMPreviewJuly2022").
@@ -579,6 +602,39 @@ export class ApiManagementServiceTransitioning extends Schema.TaggedError<ApiMan
 ).pipe(Category.withConflictError) {}
 
 /**
+ * Returned by Microsoft.SecurityInsights alert rule action operations
+ * (`alertRules/{id}/actions`): HTTP 400 "Rules Actions API has been
+ * deprecated and is no longer available" (matched by message). Use an
+ * automation rule with a `RunPlaybook` action instead.
+ */
+export class SentinelRuleActionsDeprecated extends Schema.TaggedError<SentinelRuleActionsDeprecated>()(
+  "SentinelRuleActionsDeprecated",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.SecurityInsights source control (repositories)
+ * operations when the repository credentials are rejected: HTTP 400
+ * "Unauthorized access due to bad credentials. Please make sure to have a
+ * valid PAT token." (matched by message).
+ */
+export class SentinelRepositoryAccessDenied extends Schema.TaggedError<SentinelRepositoryAccessDenied>()(
+  "SentinelRepositoryAccessDenied",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.SecurityInsights when creating ML analytics
+ * (anomaly) settings in a workspace or region where Sentinel anomalies are
+ * not enabled. HTTP 404 "Anomalies are not supported for workspace ... and
+ * hence anomaly analytics settings cannot be created" (matched by message).
+ */
+export class SentinelAnomaliesNotSupported extends Schema.TaggedError<SentinelAnomaliesNotSupported>()(
+  "SentinelAnomaliesNotSupported",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Returned by Microsoft.EventHub application-group operations on a Basic or
  * Standard namespace: application groups exist only on Premium and
  * Dedicated tiers. Azure error code: `ApplicationGroupInvalidSku` (PUT);
@@ -587,6 +643,19 @@ export class ApiManagementServiceTransitioning extends Schema.TaggedError<ApiMan
  */
 export class EventHubApplicationGroupNotSupported extends Schema.TaggedError<EventHubApplicationGroupNotSupported>()(
   "EventHubApplicationGroupNotSupported",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.DesktopVirtualization when a scaling plan references
+ * a host pool the Azure Virtual Desktop service principal cannot access (it
+ * lacks the "Desktop Virtualization Power On Off Contributor" role). HTTP
+ * 400 `BadRequest` "...please make sure that you have given the Azure
+ * Virtual Desktop service permissions to access your resource" (matched by
+ * message).
+ */
+export class AvdServicePrincipalAccessDenied extends Schema.TaggedError<AvdServicePrincipalAccessDenied>()(
+  "AvdServicePrincipalAccessDenied",
   AzureErrorFields,
 ).pipe(Category.withBadRequestError) {}
 
@@ -733,6 +802,7 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     InvalidAuthenticationTokenAudience: InvalidAuthenticationTokenAudience,
     InvalidAuthenticationTokenTenant: InvalidAuthenticationTokenTenant,
     LinkedAuthorizationFailed: LinkedAuthorizationFailed,
+    AuthorizationPermissionMismatch: SchemaRegistryStorageAccessDenied,
 
     // Bad request / validation
     InvalidParameter: InvalidParameter,
@@ -797,6 +867,7 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     InUseNatGatewayCannotBeDeleted: NatGatewayInUse,
     NicInUse: NetworkInterfaceInUse,
     CannotDeleteResource: CannotDeleteResource,
+    ResourceRestriction: NetAppCreationRestricted,
     ServiceNotFound: ApiManagementServiceNotFound,
     ApplicationGroupInvalidSku: EventHubApplicationGroupNotSupported,
     RequestConflict: CognitiveServicesRequestConflict,
@@ -914,6 +985,19 @@ export class AzureLocalArcMachineRequired extends Schema.TaggedError<AzureLocalA
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Microsoft.HybridNetwork (Azure Operator Service Manager) when
+ * a write arrives while the previous asynchronous operation on the same
+ * resource is still running (GET may already report `Succeeded`). Azure
+ * returns HTTP 409 `InvalidResourceOperation` with "Another 'PUT'
+ * operation ... is active/in-progress" or "... is being provisioned with
+ * state" (matched by message); retry until it settles.
+ */
+export class HybridNetworkOperationInProgress extends Schema.TaggedError<HybridNetworkOperationInProgress>()(
+  "HybridNetworkOperationInProgress",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
  * Returned by Microsoft.Sql when a write to a server/database setting
  * (security alert policy, auditing, threat protection, ...) arrives while
  * the previous asynchronous write is still running. Azure returns HTTP 409
@@ -993,6 +1077,48 @@ export class EdgeContextCapabilityMissing extends Schema.TaggedError<EdgeContext
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Microsoft.Migrate when an assessment is created in a group
+ * whose machines do not support that assessment type (an empty group
+ * supports none). HTTP 400 "Assessment Type: ... is not supported in this
+ * group." without an error code (matched by message).
+ */
+export class MigrateAssessmentTypeNotSupported extends Schema.TaggedError<MigrateAssessmentTypeNotSupported>()(
+  "MigrateAssessmentTypeNotSupported",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.OffAzure for a vCenter that does not exist in a
+ * VMware site: HTTP 400 "VCenter name '...' is invalid." without an error
+ * code (matched by message).
+ */
+export class MigrateVcenterNotFound extends Schema.TaggedError<MigrateVcenterNotFound>()(
+  "MigrateVcenterNotFound",
+  AzureErrorFields,
+).pipe(Category.withNotFoundError) {}
+
+/**
+ * Returned by Microsoft.OffAzure when a vCenter, Hyper-V host, or cluster
+ * names a run-as account the site's appliance has not registered: HTTP 400
+ * "Run as account Id '...' is invalid." (matched by message).
+ */
+export class MigrateRunAsAccountInvalid extends Schema.TaggedError<MigrateRunAsAccountInvalid>()(
+  "MigrateRunAsAccountInvalid",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Cdn when an Azure Front Door Standard/Premium
+ * profile is created on a Free Trial or Azure for Students subscription.
+ * Azure returns HTTP 400 "Free Trial and Student account is forbidden for
+ * Azure Frontdoor resources." without an error code (matched by message).
+ */
+export class FrontDoorFreeTrialForbidden extends Schema.TaggedError<FrontDoorFreeTrialForbidden>()(
+  "FrontDoorFreeTrialForbidden",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Errors whose ARM `code` is too generic to type on its own (e.g.
  * Microsoft.Web reports exhausted SKU quota as `Unauthorized`). Checked
  * before {@link AZURE_ERROR_CODE_MAP}; the first matcher whose code (if
@@ -1006,6 +1132,18 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "is transitioning at this time",
     error: ApiManagementServiceTransitioning,
+  },
+  {
+    includes: "Anomalies are not supported for workspace",
+    error: SentinelAnomaliesNotSupported,
+  },
+  {
+    includes: "Rules Actions API has been deprecated",
+    error: SentinelRuleActionsDeprecated,
+  },
+  {
+    includes: "Unauthorized access due to bad credentials",
+    error: SentinelRepositoryAccessDenied,
   },
   // Microsoft.Web: "Operation cannot be completed without additional quota.
   // Current Limit (F1 VMs): 0" — the plan SKU has no quota in the region.
@@ -1052,6 +1190,10 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "Application Group available only for Dedicated and Premium",
     error: EventHubApplicationGroupNotSupported,
+  },
+  {
+    includes: "given the Azure Virtual Desktop service permissions",
+    error: AvdServicePrincipalAccessDenied,
   },
   {
     includes: "Only one account is allowed for your subscription per Region",
@@ -1101,6 +1243,16 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     error: SqlOperationInProgress,
   },
   {
+    code: "InvalidResourceOperation",
+    includes: "is active/in-progress",
+    error: HybridNetworkOperationInProgress,
+  },
+  {
+    code: "InvalidResourceOperation",
+    includes: "is being provisioned with state",
+    error: HybridNetworkOperationInProgress,
+  },
+  {
     includes: "An invalid value was given for the server key name",
     error: SqlServerKeyNameInvalid,
   },
@@ -1143,6 +1295,22 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "Operations on Agent Space are not allowed for tenant",
     error: AgentSpaceNotAllowed,
+  },
+  {
+    includes: "Free Trial and Student account is forbidden for Azure Frontdoor",
+    error: FrontDoorFreeTrialForbidden,
+  },
+  {
+    includes: "is not supported in this group",
+    error: MigrateAssessmentTypeNotSupported,
+  },
+  {
+    includes: "VCenter name '",
+    error: MigrateVcenterNotFound,
+  },
+  {
+    includes: "Run as account Id '",
+    error: MigrateRunAsAccountInvalid,
   },
   // Microsoft.AzureStackHCI (Arc VM instances): "The custom location '...'
   // does not exist or returned an invalid response."
@@ -1202,6 +1370,7 @@ export type AzureApiError =
   | ResourceGroupNotFound
   | SubscriptionNotFound
   | AuthorizationFailed
+  | SchemaRegistryStorageAccessDenied
   | InvalidAuthenticationToken
   | InvalidAuthenticationTokenAudience
   | InvalidAuthenticationTokenTenant
@@ -1246,6 +1415,7 @@ export type AzureApiError =
   | NatGatewayInUse
   | NetworkInterfaceInUse
   | CannotDeleteResource
+  | NetAppCreationRestricted
   | SubscriptionFeatureNotRegistered
   | NetworkFeatureNotSupported
   | ApiManagementServiceNotFound
@@ -1254,6 +1424,10 @@ export type AzureApiError =
   | HostNameVerificationFailed
   | WebAppSlotsNotSupported
   | EventHubApplicationGroupNotSupported
+  | SentinelAnomaliesNotSupported
+  | SentinelRuleActionsDeprecated
+  | SentinelRepositoryAccessDenied
+  | AvdServicePrincipalAccessDenied
   | AutomationAccountRegionLimit
   | AutomationLocationNotAllowed
   | AutomationSourceControlTokenInvalid
@@ -1273,7 +1447,12 @@ export type AzureApiError =
   | EdgeContextAlreadyExists
   | EdgeContextCapabilityMissing
   | AgentSpaceNotAllowed
+  | FrontDoorFreeTrialForbidden
+  | MigrateAssessmentTypeNotSupported
+  | MigrateVcenterNotFound
+  | MigrateRunAsAccountInvalid
   | AzureLocalArcMachineRequired
   | SqlOperationInProgress
+  | HybridNetworkOperationInProgress
   | SqlServerKeyNameInvalid
   | LinkedStorageAccountFaulted;
