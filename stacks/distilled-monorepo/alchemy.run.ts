@@ -67,7 +67,7 @@ const NAME = "distilled";
  * The GitHub org the spec mirrors live in, published to Actions so
  * `stacks/distilled-submodules` can be retargeted without a code change.
  */
-const ReposOwner = Config.string("DISTILLED_REPOS_OWNER").pipe(
+const ReposOwner = Config.String("DISTILLED_REPOS_OWNER").pipe(
   Config.withDefault("distilled-mirror"),
 );
 
@@ -77,7 +77,7 @@ const ReposOwner = Config.string("DISTILLED_REPOS_OWNER").pipe(
  * the deploying profile's own token, which is correct when that profile was
  * signed in as the org.
  */
-const ReposPat = Config.redacted("DISTILLED_REPOS_PAT").pipe(Config.option);
+const ReposPat = Config.Redacted("DISTILLED_REPOS_PAT").pipe(Config.option);
 
 /**
  * Numeric id of the `alchemy-version-bot` GitHub App, whose installation
@@ -85,7 +85,7 @@ const ReposPat = Config.redacted("DISTILLED_REPOS_PAT").pipe(Config.option);
  * information (`GET /apps/alchemy-version-bot`), and a secret only because
  * `actions/create-github-app-token` reads it next to the private key.
  */
-const BotAppId = Config.string("ALCHEMY_VERSION_BOT_ID").pipe(
+const BotAppId = Config.String("ALCHEMY_VERSION_BOT_ID").pipe(
   Config.withDefault("3107227"),
 );
 
@@ -119,7 +119,7 @@ const EXTERNAL_SECRETS = [
 type ExternalSecretName = (typeof EXTERNAL_SECRETS)[number];
 
 const ExternalSecrets = Effect.forEach(EXTERNAL_SECRETS, (name) =>
-  Config.redacted(name).pipe(
+  Config.Redacted(name).pipe(
     Config.option,
     Effect.map((value) => [name, value] as const),
   ),
